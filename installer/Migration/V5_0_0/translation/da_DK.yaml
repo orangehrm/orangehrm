@@ -68,7 +68,7 @@ translations:
     - { target: 'Medarbejder Journal', unitId: employee_records, group: general }
     - { target: 'Medarbejder Rapporter', unitId: employee_reports, group: general }
     - { target: 'Medarbejder Timesedler', unitId: employee_timesheets, group: general }
-    - { target: Beskæftigelsesstatus, unitId: employment_status, group: admin }
+    - { target: Beskæftigelsesstatus, unitId: employment_status, group: general }
     - { target: Aktiveret, unitId: enabled, group: general }
     - { target: Slutdato, unitId: end_date, group: general }
     - { target: Selvbetjening, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: Rapporteringsmetoder, unitId: reporting_methods, group: pim }
     - { target: Rapporter, unitId: reports, group: general }
     - { target: Påkrævet, unitId: required, group: general }
-    - { target: Nulstil, unitId: reset, group: admin }
+    - { target: Nulstil, unitId: reset, group: general }
     - { target: 'Routing Number', unitId: routing_number, group: pim }
     - { target: Løn, unitId: salary, group: general }
     - { target: 'Løn Komponent', unitId: salary_component, group: pim }
@@ -442,7 +442,7 @@ translations:
     - { target: 'Rediger Lad Type', unitId: edit_leave_type, group: leave }
     - { target: 'Stempel ind', unitId: punch_in, group: attendance }
     - { target: 'Stempel ind note', unitId: punch_in_note, group: attendance }
-    - { target: 'Stempel ud', unitId: punch_out, group: time }
+    - { target: 'Stempel ud', unitId: punch_out, group: attendance }
     - { target: 'Stempel ud Note', unitId: punch_out_note, group: attendance }
     - { target: 'Overlappende Records fundet', unitId: overlapping_records_found, group: attendance }
     - { target: Tidszone, unitId: timezone, group: attendance }
@@ -453,3 +453,5 @@ translations:
     - { target: 'Medarbejder kan redigere / slette egne fremmødekontrol', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
     - { target: 'Supervisor kan tilføje / redigere / slette fremmødekontrol af underordnede', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: 'Min deltagelseregistrering', unitId: my_attendance_records, group: attendance }
+    - { target: 'Slettet succesfuldt', unitId: successfully_deleted, group: general }
+    - { target: Tiden for 'Stempel ud' bør være højere end tidspunkt for Stempel ind, unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

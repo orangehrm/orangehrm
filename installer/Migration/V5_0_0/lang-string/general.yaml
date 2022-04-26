@@ -255,9 +255,6 @@ langStrings:
     value: 'Job Title'
     unitId: job_title
   -
-    value: 'Employment Status'
-    unitId: employment_status
-  -
     value: 'Sub Unit'
     unitId: sub_unit
   -
@@ -275,9 +272,6 @@ langStrings:
   -
     value: 'Email'
     unitId: email
-  -
-    value: 'Address'
-    unitId: address
   -
     value: 'Expiry Date'
     unitId: expiry_date
@@ -837,7 +831,7 @@ langStrings:
     value: 'Cannot be deleted'
     unitId: cannot_be_deleted
   -
-    value: 'Successfully deleted'
+    value: 'Successfully Deleted'
     unitId: successfully_deleted
   -
     value: 'Total'

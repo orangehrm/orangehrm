@@ -60,7 +60,7 @@
                 <oxd-grid-item class="--offset-row-2">
                   <oxd-input-field
                     v-model="attendance.punchIn.userTime"
-                    :label="$t('attendance.time')"
+                    :label="$t('general.time')"
                     :rules="rules.punchIn.userTime"
                     type="time"
                     :placeholder="$t('attendance.hh_mm')"
@@ -112,7 +112,7 @@
                 <oxd-grid-item class="--offset-row-2">
                   <oxd-input-field
                     v-model="attendance.punchOut.userTime"
-                    :label="$t('attendance.time')"
+                    :label="$t('general.time')"
                     :rules="rules.punchOut.userTime"
                     type="time"
                     :placeholder="$t('attendance.hh_mm')"

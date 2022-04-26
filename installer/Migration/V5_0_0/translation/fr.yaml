@@ -68,7 +68,7 @@ translations:
     - { target: 'Dossiers de l''employé', unitId: employee_records, group: general }
     - { target: 'Rapports de l''employé', unitId: employee_reports, group: general }
     - { target: 'Feuilles de Temps de l''Employé', unitId: employee_timesheets, group: general }
-    - { target: 'Statut Emploi', unitId: employment_status, group: admin }
+    - { target: 'Statut Emploi', unitId: employment_status, group: general }
     - { target: Actif, unitId: enabled, group: general }
     - { target: 'Date de fin', unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Méthodologies de Reporting', unitId: reporting_methods, group: pim }
     - { target: Rapports, unitId: reports, group: general }
     - { target: Requis, unitId: required, group: general }
-    - { target: Réinitialiser, unitId: reset, group: admin }
+    - { target: Réinitialiser, unitId: reset, group: general }
     - { target: 'Numéro d''acheminement', unitId: routing_number, group: pim }
     - { target: Salaire, unitId: salary, group: general }
     - { target: 'Élément de Salaire', unitId: salary_component, group: pim }
@@ -500,7 +500,7 @@ translations:
     - { target: 'Souhaitez-vous vraiment continuer?', unitId: bulk_leave_action_confirm_message_two, group: leave }
     - { target: 'Pointage d''arrivée', unitId: punch_in, group: attendance }
     - { target: 'Note au Pointage d''arrivée', unitId: punch_in_note, group: attendance }
-    - { target: 'Pointer au départ', unitId: punch_out, group: time }
+    - { target: 'Pointer au départ', unitId: punch_out, group: attendance }
     - { target: 'Note de départ', unitId: punch_out_note, group: attendance }
     - { target: 'Trouvé Dossiers qui se Chevauchent', unitId: overlapping_records_found, group: attendance }
     - { target: 'Fuseau horaire', unitId: timezone, group: attendance }
@@ -516,3 +516,5 @@ translations:
     - { target: 'Autorisations de congés', unitId: leave_entitlements, group: leave }
     - { target: Buzz, unitId: buzz, group: general }
     - { target: Réussite, unitId: success, group: general }
+    - { target: 'Suppression réussie', unitId: successfully_deleted, group: general }
+    - { target: "L'Heure du Pointage de Départ Devrait Être Supérieure à Celle du Pointage d'Arrivée", unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

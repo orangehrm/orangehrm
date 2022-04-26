@@ -68,7 +68,7 @@ translations:
     - { target: 'Nhân viên hồ sơ', unitId: employee_records, group: general }
     - { target: 'Nhân viên báo cáo', unitId: employee_reports, group: general }
     - { target: 'Nhân viên timesheets', unitId: employee_timesheets, group: general }
-    - { target: 'Công Việc', unitId: employment_status, group: admin }
+    - { target: 'Công Việc', unitId: employment_status, group: general }
     - { target: Bật, unitId: enabled, group: general }
     - { target: 'Ngày kết thúc', unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Báo cáo Phương pháp', unitId: reporting_methods, group: pim }
     - { target: 'Báo cáo', unitId: reports, group: general }
     - { target: 'Yêu cầu', unitId: required, group: general }
-    - { target: 'Thiết lập lại', unitId: reset, group: admin }
+    - { target: 'Thiết lập lại', unitId: reset, group: general }
     - { target: 'Định tuyến Số', unitId: routing_number, group: pim }
     - { target: 'Mức lương', unitId: salary, group: general }
     - { target: 'Lương Hợp phần', unitId: salary_component, group: pim }
@@ -442,7 +442,7 @@ translations:
     - { target: 'Chỉnh sửa lại Loại', unitId: edit_leave_type, group: leave }
     - { target: 'Cú đấm Trong', unitId: punch_in, group: attendance }
     - { target: 'Cú đấm Trong chú giải', unitId: punch_in_note, group: attendance }
-    - { target: 'Đấm Out', unitId: punch_out, group: time }
+    - { target: 'Đấm Out', unitId: punch_out, group: attendance }
     - { target: 'Đấm Out Lưu ý', unitId: punch_out_note, group: attendance }
     - { target: 'Ghi chồng lên nhau được tìm thấy', unitId: overlapping_records_found, group: attendance }
     - { target: 'Múi giờ', unitId: timezone, group: attendance }
@@ -453,3 +453,5 @@ translations:
     - { target: 'Nhân viên có thể chỉnh sửa / xóa hồ sơ tham dự của', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
     - { target: 'Giám sát có thể thêm / sửa / xóa các bản ghi sự tham gia của cấp dưới', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: 'Hồ sơ tham dự của tôi', unitId: my_attendance_records, group: attendance }
+    - { target: 'Thành công Đã bị xóa', unitId: successfully_deleted, group: general }
+    - { target: 'Đấm ra thời gian nên là cao hơn cú đấm trong thời gian', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

@@ -69,13 +69,13 @@
                 <oxd-input-field
                   v-model="holiday.recurring"
                   type="radio"
-                  :option-label="$t('leave.yes')"
+                  :option-label="$t('general.yes')"
                   :value="true"
                 />
                 <oxd-input-field
                   v-model="holiday.recurring"
                   type="radio"
-                  :option-label="$t('leave.no')"
+                  :option-label="$t('general.no')"
                   :value="false"
                 />
               </oxd-input-group>

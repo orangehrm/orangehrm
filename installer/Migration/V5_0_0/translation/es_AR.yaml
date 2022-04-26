@@ -68,7 +68,7 @@ translations:
     - { target: 'Los registros de los empleados', unitId: employee_records, group: general }
     - { target: 'Informes de los empleados', unitId: employee_reports, group: general }
     - { target: 'Los partes de horas de empleados', unitId: employee_timesheets, group: general }
-    - { target: 'Estado de Empleo', unitId: employment_status, group: admin }
+    - { target: 'Estado de Empleo', unitId: employment_status, group: general }
     - { target: Habilitado, unitId: enabled, group: general }
     - { target: 'Fecha de finalización', unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Los métodos de notificación', unitId: reporting_methods, group: pim }
     - { target: Informes, unitId: reports, group: general }
     - { target: Necesario, unitId: required, group: general }
-    - { target: Reajustar, unitId: reset, group: admin }
+    - { target: Reajustar, unitId: reset, group: general }
     - { target: 'Número de ruta', unitId: routing_number, group: pim }
     - { target: Sueldo, unitId: salary, group: general }
     - { target: 'Salario de componentes', unitId: salary_component, group: pim }
@@ -442,7 +442,7 @@ translations:
     - { target: 'Editar Deja Tipo', unitId: edit_leave_type, group: leave }
     - { target: 'Punch In', unitId: punch_in, group: attendance }
     - { target: 'Punch In Nota', unitId: punch_in_note, group: attendance }
-    - { target: 'Punch Out', unitId: punch_out, group: time }
+    - { target: 'Punch Out', unitId: punch_out, group: attendance }
     - { target: 'Punch Out Nota', unitId: punch_out_note, group: attendance }
     - { target: 'La superposición de registros encontrados', unitId: overlapping_records_found, group: attendance }
     - { target: 'Zona horaria', unitId: timezone, group: attendance }
@@ -453,3 +453,5 @@ translations:
     - { target: 'Empleado puede editar / borrar los registros propios de asistencia', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
     - { target: 'Supervisor puede añadir / editar / borrar los registros de asistencia de sus subordinados', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: 'Mis Registros de asistencia', unitId: my_attendance_records, group: attendance }
+    - { target: 'Se ha eliminado correctamente', unitId: successfully_deleted, group: general }
+    - { target: 'Perfore tiempo debe ser mayor de perforación en el tiempo', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

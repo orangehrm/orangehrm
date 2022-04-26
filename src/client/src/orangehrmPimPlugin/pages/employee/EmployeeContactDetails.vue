@@ -27,7 +27,7 @@
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-text class="orangehrm-sub-title" tag="h6">{{
-          $t('general.address')
+          $t('admin.address')
         }}</oxd-text>
         <oxd-divider />
         <oxd-form-row>

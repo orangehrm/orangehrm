@@ -68,7 +68,7 @@ translations:
     - { target: 'Galmeewwan Hojjettootaa', unitId: employee_records, group: general }
     - { target: 'Gabaasawwan Hojjettootaa', unitId: employee_reports, group: general }
     - { target: 'Gabatee Yeroo Hojjettootaa', unitId: employee_timesheets, group: general }
-    - { target: 'Haala Qaxarrii', unitId: employment_status, group: admin }
+    - { target: 'Haala Qaxarrii', unitId: employment_status, group: general }
     - { target: 'Ka''aa', unitId: enabled, group: general }
     - { target: 'Guyyaa Xummuraa', unitId: end_date, group: general }
     - { target: HOT, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Maloota Gabaasaa', unitId: reporting_methods, group: pim }
     - { target: Gabaasawwan, unitId: reports, group: general }
     - { target: Barbaachisaadha, unitId: required, group: general }
-    - { target: Haqi, unitId: reset, group: admin }
+    - { target: Haqi, unitId: reset, group: general }
     - { target: 'Lakkoofsa Ajajjuu', unitId: routing_number, group: pim }
     - { target: Miindaa, unitId: salary, group: general }
     - { target: 'Qabiyyee Miindaa', unitId: salary_component, group: pim }
@@ -441,7 +441,7 @@ translations:
     - { target: 'Akaakuu Boqonnaa Gulaali', unitId: edit_leave_type, group: leave }
     - { target: Seeni, unitId: punch_in, group: attendance }
     - { target: 'Seenuukeef yaada barreessi', unitId: punch_in_note, group: attendance }
-    - { target: Bahi, unitId: punch_out, group: time }
+    - { target: Bahi, unitId: punch_out, group: attendance }
     - { target: 'Bahuukeef yaada barreessi', unitId: punch_out_note, group: attendance }
     - { target: 'Galmeewwan irradeddeebi''aniiru', unitId: overlapping_records_found, group: attendance }
     - { target: 'Argamsa Yeroo', unitId: timezone, group: attendance }
@@ -452,3 +452,5 @@ translations:
     - { target: 'Hojjetaan/ttuun Galmeewwan to''annaa yeroo dhuunfaa isaa gulaaluu/balleessuu ni dandaha', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
     - { target: 'Hogganaan Gabatee yeroo hojjettoota isaa gulaaluu/balleessuu ni dandaha', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: 'Galmeewwan To''annaa Yeroo Kiyyaa', unitId: my_attendance_records, group: attendance }
+    - { target: 'Sirriitti Balleeffameera', unitId: successfully_deleted, group: general }
+    - { target: 'Yeroon bahinsaa yeroo seensaa dursuu qaba', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

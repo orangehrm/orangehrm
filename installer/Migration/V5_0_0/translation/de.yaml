@@ -68,7 +68,7 @@ translations:
     - { target: Mitarbeiter-Datensätze, unitId: employee_records, group: general }
     - { target: Mitarbeiter-Berichte, unitId: employee_reports, group: general }
     - { target: Mitarbeiter-Zeiterfassung, unitId: employee_timesheets, group: general }
-    - { target: Erwerbsstatus, unitId: employment_status, group: admin }
+    - { target: Erwerbsstatus, unitId: employment_status, group: general }
     - { target: Aktiviert, unitId: enabled, group: general }
     - { target: Enddatum, unitId: end_date, group: general }
     - { target: 'Standard Mitarbeiter', unitId: ess, group: general }
@@ -160,7 +160,7 @@ translations:
     - { target: Berichtsmethoden, unitId: reporting_methods, group: pim }
     - { target: Berichte, unitId: reports, group: general }
     - { target: Erforderlich, unitId: required, group: general }
-    - { target: Zurücksetzen, unitId: reset, group: admin }
+    - { target: Zurücksetzen, unitId: reset, group: general }
     - { target: BLZ/BIC-SWIFT, unitId: routing_number, group: pim }
     - { target: Gehalt, unitId: salary, group: general }
     - { target: Gehaltsbestandteil, unitId: salary_component, group: pim }
@@ -499,7 +499,7 @@ translations:
     - { target: 'Sind Sie sicher, dass Sie fortfahren wollen?', unitId: bulk_leave_action_confirm_message_two, group: leave }
     - { target: 'Start Arbeitszeit', unitId: punch_in, group: attendance }
     - { target: 'Start Arbeitszeit - Notiz', unitId: punch_in_note, group: attendance }
-    - { target: Ausstempeln, unitId: punch_out, group: time }
+    - { target: Ausstempeln, unitId: punch_out, group: attendance }
     - { target: Ausstempelnotiz, unitId: punch_out_note, group: attendance }
     - { target: 'Überlappende Aufzeichnungen gefunden', unitId: overlapping_records_found, group: attendance }
     - { target: Zeitzone, unitId: timezone, group: attendance }
@@ -515,3 +515,5 @@ translations:
     - { target: Abwesenheitsansprüche, unitId: leave_entitlements, group: leave }
     - { target: Buzz, unitId: buzz, group: general }
     - { target: Erfolg, unitId: success, group: general }
+    - { target: 'Gelöscht', unitId: successfully_deleted, group: general }
+    - { target: 'Die Ausstempelzeit sollte nach der Einstempelzeit liegen', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

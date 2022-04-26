@@ -96,12 +96,6 @@ langStrings:
     value: 'Work'
     unitId: work
   -
-    value: 'Work Email'
-    unitId: work_email
-  -
-    value: 'Other Email'
-    unitId: other_email
-  -
     value: 'Assigned Dependents'
     unitId: assigned_dependents
   -
@@ -168,9 +162,6 @@ langStrings:
     value: 'Subscription Renewal Date'
     unitId: subscription_renewal_date
   -
-    value: 'Personal Details'
-    unitId: personal_details
-  -
     value: 'Other Id'
     unitId: other_id
   -
@@ -218,9 +209,6 @@ langStrings:
   -
     value: 'Direct Deposit Amount'
     unitId: direct_deposit_amount
-  -
-    value: 'Tax Exemptions'
-    unitId: tax_exemptions
   -
     value: 'Federal Income Tax'
     unitId: federal_income_tax

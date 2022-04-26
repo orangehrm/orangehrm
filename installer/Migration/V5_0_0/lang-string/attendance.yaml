@@ -24,9 +24,6 @@ langStrings:
     value: 'Punch In'
     unitId: punch_in
   -
-    value: 'Time'
-    unitId: time
-  -
     value: 'HH:MM'
     unitId: hh_mm
   -

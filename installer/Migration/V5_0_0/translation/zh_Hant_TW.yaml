@@ -68,7 +68,7 @@ translations:
     - { target: 員工記錄, unitId: employee_records, group: general }
     - { target: 員工報表, unitId: employee_reports, group: general }
     - { target: 員工時間表, unitId: employee_timesheets, group: general }
-    - { target: 雇用狀態, unitId: employment_status, group: admin }
+    - { target: 雇用狀態, unitId: employment_status, group: general }
     - { target: 啟用, unitId: enabled, group: general }
     - { target: 結束日期, unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 報告方法, unitId: reporting_methods, group: pim }
     - { target: 報表, unitId: reports, group: general }
     - { target: 需要, unitId: required, group: general }
-    - { target: 重新設置, unitId: reset, group: admin }
+    - { target: 重新設置, unitId: reset, group: general }
     - { target: 路由號碼, unitId: routing_number, group: pim }
     - { target: 薪水, unitId: salary, group: general }
     - { target: 薪酬部分, unitId: salary_component, group: pim }
@@ -500,7 +500,7 @@ translations:
     - { target: 您確定要繼續嗎？, unitId: bulk_leave_action_confirm_message_two, group: leave }
     - { target: 打卡進, unitId: punch_in, group: attendance }
     - { target: 打卡進注釋, unitId: punch_in_note, group: attendance }
-    - { target: 打卡出, unitId: punch_out, group: time }
+    - { target: 打卡出, unitId: punch_out, group: attendance }
     - { target: 打卡出注釋, unitId: punch_out_note, group: attendance }
     - { target: 發現重疊記錄, unitId: overlapping_records_found, group: attendance }
     - { target: 時區, unitId: timezone, group: attendance }
@@ -516,3 +516,5 @@ translations:
     - { target: 休假權利, unitId: leave_entitlements, group: leave }
     - { target: 激動, unitId: buzz, group: general }
     - { target: 成功, unitId: success, group: general }
+    - { target: 已成功删除, unitId: successfully_deleted, group: general }
+    - { target: 打卡出的時間應該晚於打卡進的時間, unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

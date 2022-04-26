@@ -99,9 +99,6 @@ langStrings:
     value: 'Edit Customer'
     unitId: edit_customer
   -
-    value: 'Projects'
-    unitId: projects
-  -
     value: 'Customer Name'
     unitId: customer_name
   -

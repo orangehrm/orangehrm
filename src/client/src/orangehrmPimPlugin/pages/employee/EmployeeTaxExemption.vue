@@ -22,7 +22,7 @@
   <edit-employee-layout :employee-id="empNumber" screen="tax">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('pim.tax_exemptions') }}
+        {{ $t('general.tax_exemptions') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">

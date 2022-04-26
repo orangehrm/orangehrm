@@ -67,7 +67,7 @@ translations:
     - { target: 従業員レコード, unitId: employee_records, group: general }
     - { target: 従業員レポート, unitId: employee_reports, group: general }
     - { target: 従業員のタイムシート, unitId: employee_timesheets, group: general }
-    - { target: 雇用状況, unitId: employment_status, group: admin }
+    - { target: 雇用状況, unitId: employment_status, group: general }
     - { target: 使用可能, unitId: enabled, group: general }
     - { target: 終了日, unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -160,7 +160,7 @@ translations:
     - { target: 報告方法, unitId: reporting_methods, group: pim }
     - { target: レポート, unitId: reports, group: general }
     - { target: 必須, unitId: required, group: general }
-    - { target: リセット, unitId: reset, group: admin }
+    - { target: リセット, unitId: reset, group: general }
     - { target: ルーティング番号, unitId: routing_number, group: pim }
     - { target: 給与, unitId: salary, group: general }
     - { target: 給与のコンポーネント, unitId: salary_component, group: pim }
@@ -437,7 +437,7 @@ translations:
     - { target: タイプを残す編集, unitId: edit_leave_type, group: leave }
     - { target: パンチイン, unitId: punch_in, group: attendance }
     - { target: ノートでパンチ, unitId: punch_in_note, group: attendance }
-    - { target: 打ち抜く, unitId: punch_out, group: time }
+    - { target: 打ち抜く, unitId: punch_out, group: attendance }
     - { target: （注）パンチアウト, unitId: punch_out_note, group: attendance }
     - { target: 重複レコードが見つかりました, unitId: overlapping_records_found, group: attendance }
     - { target: タイムゾーン, unitId: timezone, group: attendance }
@@ -448,3 +448,5 @@ translations:
     - { target: 従業員は、自分の出席レコードを編集/削除できます。, unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
     - { target: スーパーバイザーを追加/編集/部下の出席の記録を削除することができます, unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: 私の出席記録, unitId: my_attendance_records, group: attendance }
+    - { target: 正常に削除されました, unitId: successfully_deleted, group: general }
+    - { target: パンチアウトの時間は、時間的にパンチより大きくなければなりません, unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

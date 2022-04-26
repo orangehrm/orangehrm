@@ -68,7 +68,7 @@ translations:
     - { target: 'Dossiers du salarié', unitId: employee_records, group: general }
     - { target: 'Rapports du salarié', unitId: employee_reports, group: general }
     - { target: 'Emploi du temps du salarié', unitId: employee_timesheets, group: general }
-    - { target: 'Situation d''emploi', unitId: employment_status, group: admin }
+    - { target: 'Situation d''emploi', unitId: employment_status, group: general }
     - { target: Activé, unitId: enabled, group: general }
     - { target: 'Date de fin', unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Rapports sur la méthode', unitId: reporting_methods, group: pim }
     - { target: Rapports, unitId: reports, group: general }
     - { target: Requis, unitId: required, group: general }
-    - { target: 'Remettre à zéro', unitId: reset, group: admin }
+    - { target: 'Remettre à zéro', unitId: reset, group: general }
     - { target: 'Numéro d''acheminement', unitId: routing_number, group: pim }
     - { target: Salaire, unitId: salary, group: general }
     - { target: 'Composante Salaire', unitId: salary_component, group: pim }
@@ -442,7 +442,7 @@ translations:
     - { target: 'Modifier Type d''absence', unitId: edit_leave_type, group: leave }
     - { target: 'Pointer ', unitId: punch_in, group: attendance }
     - { target: 'Note sur l''arrivée', unitId: punch_in_note, group: attendance }
-    - { target: Pointer, unitId: punch_out, group: time }
+    - { target: Pointer, unitId: punch_out, group: attendance }
     - { target: 'Note sur le départ', unitId: punch_out_note, group: attendance }
     - { target: 'Documents qui se chevauchent trouvés', unitId: overlapping_records_found, group: attendance }
     - { target: 'Fuseau horaire', unitId: timezone, group: attendance }
@@ -454,3 +454,5 @@ translations:
     - { target: 'Le superviseur peut ajouter / modifier / supprimer les enregistrements de présence de ses subordonnés', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: 'Mes dossiers de présence', unitId: my_attendance_records, group: attendance }
     - { target: Répertoire, unitId: directory, group: general }
+    - { target: 'Supprimé avec succès', unitId: successfully_deleted, group: general }
+    - { target: 'Pointage sortie doit être supérieur à pointage arrivée en temps', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }

@@ -68,7 +68,7 @@ translations:
     - { target: 'Наети Records', unitId: employee_records, group: general }
     - { target: 'Наети Доклади', unitId: employee_reports, group: general }
     - { target: 'Наети работа на', unitId: employee_timesheets, group: general }
-    - { target: 'Статус в заетостта', unitId: employment_status, group: admin }
+    - { target: 'Статус в заетостта', unitId: employment_status, group: general }
     - { target: Разрешено, unitId: enabled, group: general }
     - { target: 'Крайна дата', unitId: end_date, group: general }
     - { target: ЕСС, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Методи за докладване', unitId: reporting_methods, group: pim }
     - { target: Доклади, unitId: reports, group: general }
     - { target: Задължително, unitId: required, group: general }
-    - { target: Проучване, unitId: reset, group: admin }
+    - { target: Проучване, unitId: reset, group: general }
     - { target: 'Маршрутен номер', unitId: routing_number, group: pim }
     - { target: Заплата, unitId: salary, group: general }
     - { target: 'Заплата Компонент', unitId: salary_component, group: pim }
@@ -441,7 +441,7 @@ translations:
     - { target: 'Редактиране Оставете Вид', unitId: edit_leave_type, group: leave }
     - { target: 'Удар в', unitId: punch_in, group: attendance }
     - { target: 'Punch в бележка', unitId: punch_in_note, group: attendance }
-    - { target: Пробийте, unitId: punch_out, group: time }
+    - { target: Пробийте, unitId: punch_out, group: attendance }
     - { target: 'Пробийте Забележка', unitId: punch_out_note, group: attendance }
     - { target: 'Припокриващи се Records са открити', unitId: overlapping_records_found, group: attendance }
     - { target: 'Часовата зона', unitId: timezone, group: attendance }
@@ -452,3 +452,5 @@ translations:
     - { target: 'Служител може да редактира / изтривате собствените записи посещаемост', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
     - { target: 'Надзорен орган могат да добавят / редактиране / изтриване на записи на посещаемост на подчинените', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: 'Присъствието ми записи', unitId: my_attendance_records, group: attendance }
+    - { target: 'Добавен успешно', unitId: successfully_deleted, group: general }
+    - { target: 'Удар време трябва да бъде по-висока, отколкото Punch във времето', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
