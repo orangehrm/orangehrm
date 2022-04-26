@@ -35,7 +35,7 @@ class DataRegistrationService
     private function getHttpClient(): Client
     {
         if (!isset($this->apiClient)) {
-            $this->apiClient = new Client(['base_uri' => Config::REGISTRATION_BETA_URL]);
+            $this->apiClient = new Client(['base_uri' => Config::REGISTRATION_URL]);
         }
         return $this->apiClient;
     }
@@ -61,6 +61,7 @@ class DataRegistrationService
             }
             return false;
         } catch (Exception $exception) {
+            dump($exception);
             Logger::getLogger()->error($exception->getMessage());
             Logger::getLogger()->error($exception->getTraceAsString());
             return false;

@@ -26,7 +26,7 @@ use OrangeHRM\Installer\Util\Service\DataRegistrationService;
 use OrangeHRM\Installer\Util\StateContainer;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 
-class InitialDataRegistrationAPI extends AbstractInstallerRestController
+class UpgraderDataRegistrationAPI extends AbstractInstallerRestController
 {
     private DataRegistrationService $dataRegistrationService;
     private DataRegistrationUtility $dataRegistrationUtility;
@@ -44,9 +44,8 @@ class InitialDataRegistrationAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
-        $this->dataRegistrationUtility->setInitialRegistrationDataBody(
-            DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED
-        );
+        $registrationType = $this->getRegistrationType();
+        $this->dataRegistrationUtility->setInitialRegistrationDataBody($registrationType);
         $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody();
         $result = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
 
@@ -57,7 +56,7 @@ class InitialDataRegistrationAPI extends AbstractInstallerRestController
             );
         } elseif ($this->systemConfiguration->isRegistrationEventQueueAvailable()) {
             $this->systemConfiguration->setRegistrationEventQueue(
-                DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
+                $registrationType,
                 DataRegistrationUtility::PUBLISHED,
                 json_encode($initialRegistrationDataBody)
             );
@@ -75,5 +74,13 @@ class InitialDataRegistrationAPI extends AbstractInstallerRestController
             'status' => $response->getStatusCode(),
             'message' => $message
         ];
+    }
+
+    /**
+     * @return int
+     */
+    protected function getRegistrationType(): int
+    {
+        return DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED;
     }
 }
