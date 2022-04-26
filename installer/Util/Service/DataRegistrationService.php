@@ -61,7 +61,6 @@ class DataRegistrationService
             }
             return false;
         } catch (Exception $exception) {
-            dump($exception);
             Logger::getLogger()->error($exception->getMessage());
             Logger::getLogger()->error($exception->getTraceAsString());
             return false;
