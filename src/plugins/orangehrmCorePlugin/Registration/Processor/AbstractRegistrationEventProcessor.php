@@ -21,7 +21,6 @@
 namespace OrangeHRM\Core\Registration\Processor;
 
 use DateTime;
-use Exception;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\OrganizationService;
 use OrangeHRM\Config\Config;
@@ -34,6 +33,7 @@ use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\RegistrationEventQueue;
 use OrangeHRM\Pim\Dao\EmployeeDao;
+use Throwable;
 
 abstract class AbstractRegistrationEventProcessor
 {
@@ -137,12 +137,9 @@ abstract class AbstractRegistrationEventProcessor
     public function getRegistrationEventGeneralData(): array
     {
         $registrationData = [];
-        if (Config::PRODUCT_MODE != Config::MODE_PROD) {
-            return $registrationData;
-        }
         try {
-            $adminUsers = $this->getUserDao()->getEmployeesByUserRole('Admin');
-            $adminEmployee = $adminUsers[0];
+            $adminUser = $this->getUserDao()->getDefaultAdminUser();
+            $adminEmployee = $adminUser->getEmployee();
             $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage()
                 ? $this->getConfigService()->getAdminLocalizationDefaultLanguage()
                 : 'Not captured';
@@ -179,7 +176,9 @@ abstract class AbstractRegistrationEventProcessor
                 'instance_identifier' => $instanceIdentifier,
                 'system_details' => $systemDetails
             ];
-        } catch (Exception $ex) {
+        } catch (Throwable $e) {
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             return $registrationData;
         }
     }
