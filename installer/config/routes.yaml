@@ -68,6 +68,11 @@ installer_confirmation:
   controller: OrangeHRM\Installer\Controller\Installer\ConfirmationController::handle
   methods: [ GET ]
 
+installer_complete:
+  path: /installer/complete
+  controller: OrangeHRM\Installer\Controller\Installer\InstallerCompleteController::handle
+  methods: [ GET ]
+
 #####################################
 #        APIs - Upgrader
 #####################################
