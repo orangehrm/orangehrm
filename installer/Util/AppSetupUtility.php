@@ -322,7 +322,11 @@ class AppSetupUtility
                 $instanceIdentifier,
                 $instanceIdentifierChecksum
                 ) = $this->getInstanceUniqueIdentifyingData();
-            $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER, $instanceIdentifier);
+
+            $this->getConfigHelper()->setConfigValue(
+                SystemConfiguration::INSTANCE_IDENTIFIER,
+                $instanceIdentifier
+            );
             $this->getConfigHelper()->setConfigValue(
                 SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
                 $instanceIdentifierChecksum

@@ -138,8 +138,9 @@ class DataRegistrationUtility
             $adminContactNumber,
             $adminUserName,
             $instanceIdentifier
-            ) = is_null($uniqueIdentifier) ? $this->getInitialRegistrationData(
-        ) : $this->getInstallerInitialRegistrationData();
+            ) = is_null($uniqueIdentifier) ?
+            $this->getInitialRegistrationData() :
+            $this->getInstallerInitialRegistrationData();
 
         $this->initialRegistrationDataBody = [
             'username' => $adminUserName,
