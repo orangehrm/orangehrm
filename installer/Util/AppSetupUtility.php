@@ -300,13 +300,34 @@ class AppSetupUtility
 
     public function insertInstanceIdentifierAndChecksum(): void
     {
-        $instanceIdentifierData = $this->getInstanceIdentifierData();
+        $instanceIdentifierData = StateContainer::getInstance()->getInstanceIdentifierData();
 
-        $instanceIdentifier = $this->getSystemConfiguration()->createInstanceIdentifier(...$instanceIdentifierData);
-        $instanceIdentifierChecksum = $this->getSystemConfiguration()->createInstanceIdentifierChecksum(...$instanceIdentifierData);
+        $this->getConfigHelper()->setConfigValue(
+            SystemConfiguration::INSTANCE_IDENTIFIER,
+            $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER]
+        );
+        $this->getConfigHelper()->setConfigValue(
+            SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
+            $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER_CHECKSUM]
+        );
+    }
 
-        $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER, $instanceIdentifier);
-        $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum);
+    /**
+     * @return string
+     */
+    public function getInstanceIdentifier(): string
+    {
+        return $this->getSystemConfiguration()
+            ->createInstanceIdentifier(...$this->getInstanceIdentifierData());
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstanceIdentifierChecksum(): string
+    {
+        return $this->getSystemConfiguration()
+            ->createInstanceIdentifierChecksum(...$this->getInstanceIdentifierData());
     }
 
     /**

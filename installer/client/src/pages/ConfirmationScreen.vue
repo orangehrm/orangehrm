@@ -122,7 +122,14 @@ export default {
   },
   methods: {
     onSubmit() {
-      navigate('/installer/process');
+      this.http
+        .request({
+          method: 'POST',
+          url: '/installer/api/send-data/installer-start',
+        })
+        .then(() => {
+          navigate('/installer/process');
+        });
     },
     navigateUrl() {
       navigate('/installer/admin-user-creation');

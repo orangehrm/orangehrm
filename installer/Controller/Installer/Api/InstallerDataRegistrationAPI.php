@@ -19,11 +19,57 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\Upgrader\Api\UpgraderDataRegistrationAPI;
+use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\DataRegistrationUtility;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class InstallerDataRegistrationAPI extends UpgraderDataRegistrationAPI
 {
+    private ?AppSetupUtility $appSetupUtility = null;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->appSetupUtility = new AppSetupUtility();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function handlePost(Request $request): array
+    {
+        $instanceIdentifier = $this->appSetupUtility->getInstanceIdentifier();
+        $instanceIdentifierChecksum = $this->appSetupUtility->getInstanceIdentifierChecksum();
+        StateContainer::getInstance()->storeInstanceIdentifierData($instanceIdentifier, $instanceIdentifierChecksum);
+
+        $registrationType = $this->getRegistrationType();
+        $this->dataRegistrationUtility->setInitialRegistrationDataBody($registrationType, $instanceIdentifier);
+        $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody();
+
+        $result = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
+        if (!$result) {
+            StateContainer::getInstance()->setAttribute(
+                DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT,
+                false
+            );
+        } else {
+            StateContainer::getInstance()->setAttribute(
+                DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY,
+                $initialRegistrationDataBody
+            );
+        }
+
+        $response = $this->getResponse();
+        $message = $result ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
+
+        return [
+            'status' => $response->getStatusCode(),
+            'message' => $message
+        ];
+    }
+
     /**
      * @inheritDoc
      */

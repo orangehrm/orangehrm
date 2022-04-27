@@ -33,15 +33,14 @@ use OrangeHRM\ORM\Doctrine;
 
 class ConfigFileAPI extends AbstractInstallerRestController
 {
-    private DataRegistrationUtility $dataRegistrationUtility;
-    private SystemConfiguration $systemConfiguration;
+    protected DataRegistrationUtility $dataRegistrationUtility;
+    protected SystemConfiguration $systemConfiguration;
 
     public function __construct()
     {
         $this->dataRegistrationUtility = new DataRegistrationUtility();
         $this->systemConfiguration = new SystemConfiguration();
     }
-
 
     /**
      * @inheritDoc
