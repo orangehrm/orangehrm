@@ -854,3 +854,15 @@ langStrings:
   -
     value: 'More'
     unitId: more
+  -
+    value: 'Should be greater than lower bound'
+    unitId: should_be_greater_than_lower_bound
+  -
+    value: 'Less Than'
+    unitId: less_than
+  -
+    value: 'Greater Than'
+    unitId: greater_than
+  -
+    value: 'Range'
+    unitId: range

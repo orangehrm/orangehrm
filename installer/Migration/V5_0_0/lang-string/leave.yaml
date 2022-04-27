@@ -316,3 +316,15 @@ langStrings:
   -
     value: 'Leave requested for'
     unitId: requested_for
+  -
+    value: 'All Days'
+    unitId: all_days
+  -
+    value: 'Start Day Only'
+    unitId: start_day_only
+  -
+    value: 'End Day Only'
+    unitId: end_day_only
+  -
+    value: 'Start and End Day'
+    unitId: start_and_end_day

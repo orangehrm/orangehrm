@@ -56,6 +56,7 @@
 <script>
 import {ref} from 'vue';
 import {required, max, digitsOnly} from '@ohrm/core/util/validation/rules';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
 
 export default {
   name: 'ReportCriterionRange',
@@ -79,10 +80,11 @@ export default {
   },
   emits: ['update:valueX', 'update:valueY', 'update:operator'],
   setup(props) {
+    const translate = translatorFactory();
     const operators = ref([
-      {id: 'lt', label: 'Less Than'},
-      {id: 'gt', label: 'Greater Than'},
-      {id: 'between', label: 'Range'},
+      {id: 'lt', label: translate('general.less_than')},
+      {id: 'gt', label: translate('general.greater_than')},
+      {id: 'between', label: translate('general.range')},
     ]);
 
     const rules = {
@@ -95,7 +97,7 @@ export default {
         v => {
           return (
             parseInt(v) < parseInt(props.valueY) ||
-            this.$t('general.should_be_less_than_upper_bound')
+            translate('general.should_be_less_than_upper_bound')
           );
         },
       ],
@@ -106,7 +108,7 @@ export default {
         v => {
           return (
             parseInt(v) > parseInt(props.valueX) ||
-            'Should be greater than lower bound'
+            translate('general.should_be_greater_than_lower_bound')
           );
         },
       ],
