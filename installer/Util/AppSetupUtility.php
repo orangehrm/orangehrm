@@ -144,7 +144,7 @@ class AppSetupUtility
      */
     public function isExistingDatabaseEmpty(): bool
     {
-        return !(Connection::getConnection()->createSchemaManager()->listTables() > 0);
+        return !(count(Connection::getConnection()->createSchemaManager()->listTables()) > 0);
     }
 
     /**
@@ -416,5 +416,11 @@ class AppSetupUtility
             Connection::getConnection()->createSchemaManager()->dropTable($table);
         }
         Connection::getConnection()->executeStatement('SET FOREIGN_KEY_CHECKS=1;');
+    }
+
+    public function dropDatabase(): void
+    {
+        $dbName = StateContainer::getInstance()->getDbInfo()[StateContainer::DB_NAME];
+        Connection::getConnection()->createSchemaManager()->dropDatabase($dbName);
     }
 }
