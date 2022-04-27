@@ -166,9 +166,10 @@ class SystemConfig
                     $allowedConfigs['min'],
                     $allowedConfigs['max']
                 );
+                $this->interruptContinue = true;
                 return [
                     'message' => $message,
-                    'status' => self::ACCEPTABLE
+                    'status' => self::BLOCKER
                 ];
             }
         } else {
