@@ -91,14 +91,6 @@ export default {
       userConsent: false,
     };
   },
-  // beforeMount() {
-  //   this.isLoading = true;
-  //   this.http.getAll().then((response) => {
-  //     const {data} = response.data;
-  //     this.licence = data;
-  //     this.isLoading = false;
-  //   });
-  // },
   methods: {
     onClickBack() {
       navigate('/welcome');
