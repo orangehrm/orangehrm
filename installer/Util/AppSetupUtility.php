@@ -335,27 +335,27 @@ class AppSetupUtility
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getInstanceIdentifier(): string
+    public function getInstanceUniqueIdentifyingData(): array
     {
-        return $this->getSystemConfiguration()
-            ->createInstanceIdentifier(...$this->getInstanceIdentifierData());
-    }
+        $instanceIdentifierData = $this->getInstanceIdentifierData();
 
-    /**
-     * @return string
-     */
-    public function getInstanceIdentifierChecksum(): string
-    {
-        return $this->getSystemConfiguration()
-            ->createInstanceIdentifierChecksum(...$this->getInstanceIdentifierData());
+        $instanceIdentifier = $this->getSystemConfiguration()
+            ->createInstanceIdentifier(...$instanceIdentifierData);
+        $instanceIdentifierChecksum = $this->getSystemConfiguration()
+            ->createInstanceIdentifierChecksum(...$instanceIdentifierData);
+
+        return [
+            $instanceIdentifier,
+            $instanceIdentifierChecksum
+        ];
     }
 
     /**
      * @return array
      */
-    private function getInstanceIdentifierData(): array
+    public function getInstanceIdentifierData(): array
     {
         $adminUserData = StateContainer::getInstance()->getAdminUserData();
         $instanceData = StateContainer::getInstance()->getInstanceData();

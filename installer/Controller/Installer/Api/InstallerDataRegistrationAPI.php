@@ -40,8 +40,10 @@ class InstallerDataRegistrationAPI extends UpgraderDataRegistrationAPI
      */
     protected function handlePost(Request $request): array
     {
-        $instanceIdentifier = $this->appSetupUtility->getInstanceIdentifier();
-        $instanceIdentifierChecksum = $this->appSetupUtility->getInstanceIdentifierChecksum();
+        list(
+            $instanceIdentifier,
+            $instanceIdentifierChecksum
+            ) = $this->appSetupUtility->getInstanceUniqueIdentifyingData();
         StateContainer::getInstance()->storeInstanceIdentifierData($instanceIdentifier, $instanceIdentifierChecksum);
 
         $registrationType = $this->getRegistrationType();
