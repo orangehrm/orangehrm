@@ -136,7 +136,12 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'level', slot: 'title', title: 'Level', style: {flex: 1}},
+        {
+          name: 'level',
+          slot: 'title',
+          title: this.$t('general.level'),
+          style: {flex: 1},
+        },
         {
           name: 'year',
           title: this.$t('general.year'),

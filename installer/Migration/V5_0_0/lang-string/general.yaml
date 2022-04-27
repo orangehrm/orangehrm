@@ -354,9 +354,6 @@ langStrings:
     value: 'Middle name'
     unitId: middle_name
   -
-    value: 'Last name'
-    unitId: last_name
-  -
     value: 'Employee Full Name'
     unitId: employee_full_name
   -
@@ -851,3 +848,9 @@ langStrings:
   -
     value: 'Delete Selected'
     unitId: delete_selected
+  -
+    value: 'Corporate Branding'
+    unitId: corporate_branding
+  -
+    value: 'More'
+    unitId: more
