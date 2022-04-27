@@ -94,8 +94,8 @@ export default {
     return {
       isLoading: false,
       configuration: {
-        language: '',
-        dateFormat: '',
+        language: null,
+        dateFormat: null,
       },
       errors: [],
     };
