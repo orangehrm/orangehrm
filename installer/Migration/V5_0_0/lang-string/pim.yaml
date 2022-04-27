@@ -57,7 +57,7 @@ langStrings:
     value: 'Multiple import files may be required'
     unitId: multiple_import_files_may_be_required
   -
-    value: 'Sample CSV file:'
+    value: 'Sample CSV file'
     unitId: sample_csv_file
   -
     value: 'Number of Records Imported: '
