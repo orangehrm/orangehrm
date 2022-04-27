@@ -754,6 +754,9 @@ class SystemConfig
         ];
     }
 
+    /**
+     * @return string
+     */
     public function getExtensionsOkMessage(): string
     {
         return Messages::OK_MESSAGE . " (Version " . $this->getPhpVersion() . ")";
