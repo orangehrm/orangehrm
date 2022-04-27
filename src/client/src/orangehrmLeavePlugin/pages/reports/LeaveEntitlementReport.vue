@@ -64,6 +64,7 @@
                   :empty-text="$t('leave.no_leave_types_defined')"
                   :eligible-only="false"
                   :show-empty-selector="false"
+                  :rules="rules.leaveType"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
@@ -195,6 +196,7 @@ export default {
     const rules = ref({
       employee: [required],
       leavePeriod: [required],
+      leaveType: [required],
     });
 
     const serializedFilters = computed(() => {
