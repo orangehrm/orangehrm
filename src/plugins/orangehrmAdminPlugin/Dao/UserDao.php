@@ -393,4 +393,12 @@ class UserDao extends BaseDao
         }
         return null;
     }
+
+    /**
+     * @return User|null
+     */
+    public function getDefaultAdminUser(): ?User
+    {
+        return $this->getRepository(User::class)->findOneBy(['createdBy' => null]);
+    }
 }

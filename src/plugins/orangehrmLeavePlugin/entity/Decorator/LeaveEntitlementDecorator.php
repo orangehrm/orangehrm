@@ -127,9 +127,9 @@ class LeaveEntitlementDecorator
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCreditedDate(): string
+    public function getCreditedDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getCreditedDate());
     }

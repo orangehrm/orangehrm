@@ -124,6 +124,23 @@ export default function useLeaveValidators(http: APIService) {
       }
     }
 
+    // Validation to prevent fromTime & toTime being sent with incorrect duration.type
+    if (
+      payload.duration?.type !== 'specify_time' &&
+      (payload.duration?.fromTime || payload.duration?.toTime)
+    ) {
+      payload.duration.fromTime = undefined;
+      payload.duration.toTime = undefined;
+    }
+
+    if (
+      payload.endDuration?.type !== 'specify_time' &&
+      (payload.endDuration?.fromTime || payload.endDuration?.toTime)
+    ) {
+      payload.endDuration.fromTime = undefined;
+      payload.endDuration.toTime = undefined;
+    }
+
     return payload;
   };
 

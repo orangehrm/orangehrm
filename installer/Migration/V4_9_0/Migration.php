@@ -37,33 +37,62 @@ class Migration extends AbstractMigration
                 ->addColumn('variables', Types::TEXT, ['Notnull' => false])
                 ->setPrimaryKey(['theme_id'])
                 ->create();
-        }
-        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
-        $this->insertMenuItems('Corporate Branding', 'Add Theme', 1, 2, 700, '', 1);
-        $this->insertTheme(1, 'default', '{"primaryColor":"#f28b38","secondaryColor":"#f3f3f3","buttonSuccessColor":"#56ac40","buttonCancelColor":"#848484"}');
-        $this->getSchemaHelper()->addColumn('ohrm_theme', 'social_media_icons', Types::TEXT, [
-            'Notnull' => true,
-            'Default' => 'inline',
-        ]);
-        $this->getSchemaHelper()->addColumn('ohrm_theme', 'login_banner', Types::BLOB);
 
-        $this->createQueryBuilder()
-            ->insert('ohrm_i18n_group')
-            ->values(
-                [
-                    'name' => ':name',
-                    'title' => ':title',
-                ]
-            )
-            ->setParameter('name', 'branding')
-            ->setParameter('title', 'Corporate Branding')
-            ->executeQuery();
+            $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
+
+            $adminMenuId = $this->createQueryBuilder()
+                ->select('menu_item.id')
+                ->from('ohrm_menu_item', 'menu_item')
+                ->where('menu_item.menu_title = :menuTitle')
+                ->setParameter('menuTitle', 'Admin')
+                ->andWhere('level = :level')
+                ->setParameter('level', 1)
+                ->executeQuery()
+                ->fetchOne();
+            $this->insertMenuItems('Corporate Branding', 'Add Theme', $adminMenuId, 2, 700, '', 1);
+        }
+
+        $this->insertTheme(
+            'default',
+            '{"primaryColor":"#f28b38","secondaryColor":"#f3f3f3","buttonSuccessColor":"#56ac40","buttonCancelColor":"#848484"}'
+        );
+
+        if (!$this->getSchemaHelper()->columnExists('ohrm_theme', 'social_media_icons')) {
+            $this->getSchemaHelper()->addColumn('ohrm_theme', 'social_media_icons', Types::TEXT, [
+                'Notnull' => true,
+                'Default' => 'inline',
+            ]);
+        }
+
+        if (!$this->getSchemaHelper()->columnExists('ohrm_theme', 'login_banner')) {
+            $this->getSchemaHelper()->addColumn('ohrm_theme', 'login_banner', Types::BLOB);
+        }
 
         $this->createQueryBuilder()
             ->delete('ohrm_marketplace_addon')
             ->andWhere('ohrm_marketplace_addon.plugin_name = :pluginName')
             ->setParameter('pluginName', 'orangehrmCorporateBrandingPlugin')
             ->executeQuery();
+
+        $brandingGroupId = $this->createQueryBuilder()
+            ->select('i18nGroup.id')
+            ->from('ohrm_i18n_group', 'i18nGroup')
+            ->where('i18nGroup.name = :name')
+            ->setParameter('name', 'branding')
+            ->fetchOne();
+        if ($brandingGroupId === false) {
+            $this->createQueryBuilder()
+                ->insert('ohrm_i18n_group')
+                ->values(
+                    [
+                        'name' => ':name',
+                        'title' => ':title',
+                    ]
+                )
+                ->setParameter('name', 'branding')
+                ->setParameter('title', 'Corporate Branding')
+                ->executeQuery();
+        }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_registration_event_queue'])) {
             $this->getSchemaHelper()->createTable('ohrm_registration_event_queue')
@@ -88,22 +117,21 @@ class Migration extends AbstractMigration
 
     /**
      * @param string $menuItem
-     * @param int $screenId
+     * @param string $screenName
      * @param int $parentId
      * @param int $level
      * @param int $order_hint
      * @param string $urlExtras
      * @param int $status
-     * @return void
      */
     private function insertMenuItems(
         string $menuItem,
         string $screenName,
-        int    $parentId,
-        int    $level,
-        int    $order_hint,
+        int $parentId,
+        int $level,
+        int $order_hint,
         string $urlExtras,
-        int    $status
+        int $status
     ): void {
         $screenId = $this->getConnection()->createQueryBuilder()
             ->select('screen.id')
@@ -137,25 +165,31 @@ class Migration extends AbstractMigration
     }
 
     /**
-     * @param int $themeId
      * @param string $themeName
      * @param string $variables
      * @return void
      */
-    private function insertTheme(int $themeId, string $themeName, string $variables): void
+    private function insertTheme(string $themeName, string $variables): void
     {
-        $this->createQueryBuilder()
-            ->insert('ohrm_theme')
-            ->values(
-                [
-                    'theme_id' => ':themeId',
-                    'theme_name' => ':themeName',
-                    'variables' => ':variables'
-                ]
-            )
-            ->setParameter('themeId', $themeId)
-            ->setParameter('themeName', $themeName)
-            ->setParameter('variables', $variables)
-            ->executeQuery();
+        $themeId = $this->createQueryBuilder()
+            ->select('theme.theme_id')
+            ->from('ohrm_theme', 'theme')
+            ->where('theme.theme_name = :name')
+            ->setParameter('name', $themeName)
+            ->fetchOne();
+
+        if ($themeId === false) {
+            $this->createQueryBuilder()
+                ->insert('ohrm_theme')
+                ->values(
+                    [
+                        'theme_name' => ':themeName',
+                        'variables' => ':variables'
+                    ]
+                )
+                ->setParameter('themeName', $themeName)
+                ->setParameter('variables', $variables)
+                ->executeQuery();
+        }
     }
 }

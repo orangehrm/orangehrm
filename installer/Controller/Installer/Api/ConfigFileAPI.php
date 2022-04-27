@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Controller\Installer\Api;
 
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Util\DataRegistrationUtility;
 use OrangeHRM\Installer\Util\StateContainer;
 
 class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigFileAPI
@@ -40,7 +41,16 @@ class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigF
                 new UserCredential($dbUser, $dbPassword),
                 $dbInfo[StateContainer::DB_NAME]
             );
+            $this->sendRegistrationData();
         }
         return parent::handlePost($request);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getRegistrationType(): int
+    {
+        return DataRegistrationUtility::REGISTRATION_TYPE_INSTALLER_STARTED;
     }
 }

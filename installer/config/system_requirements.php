@@ -17,30 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Framework;
-use OrangeHRM\Framework\Http\RedirectResponse;
-use OrangeHRM\Framework\Http\Request;
-use Symfony\Component\ErrorHandler\Debug;
+return [
+    'phpversion' => [
+        'min' => '7.4',
+        'max' => '8.1',
+        'excludeRange' => [],
+    ],
 
-require realpath(__DIR__ . '/../src/vendor/autoload.php');
+    'mysqlversion' => [
+        'min' => '5.5',
+        'max' => '5.7',
+        'excludeRange' => [],
+    ],
 
-$env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = 'prod';
-$debug = (bool)($_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = ('prod' !== $env));
+    'mariadbversion' => [
+        'min' => '5.5',
+        'max' => '10.7',
+        'excludeRange' => [],
+    ],
 
-if ($debug) {
-    umask(0000);
-    Debug::enable();
-}
-
-$kernel = new Framework($env, $debug);
-$request = Request::createFromGlobals();
-
-if (Config::isInstalled()) {
-    $response = $kernel->handleRequest($request);
-} else {
-    $response = new RedirectResponse('./../');
-}
-
-$response->send();
-$kernel->terminate($request, $response);
+    'webserver' => ['Apache', 'nginx', 'IIS'],
+];

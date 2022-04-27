@@ -218,4 +218,15 @@ class SchemaHelper
         $pdo = $this->getWrappedConnection();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
+
+    /**
+     * @param string $tableName
+     * @param string $column
+     * @return bool
+     */
+    public function columnExists(string $tableName, string $column): bool
+    {
+        $table = $this->getSchemaManager()->listTableDetails($tableName);
+        return $table->hasColumn($column);
+    }
 }

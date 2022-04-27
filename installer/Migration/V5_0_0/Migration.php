@@ -202,6 +202,14 @@ class Migration extends AbstractMigration
             $this->getTranslationHelper()->addTranslations($langCode);
         }
 
+        $this->createQueryBuilder()
+            ->update('ohrm_project ', 'project')
+            ->set('project.description', ':description')
+            ->where('project.description = :emptyString')
+            ->setParameter('description', null)
+            ->setParameter('emptyString', "")
+            ->executeQuery();
+
         $oAuthClientScreenId = $this->getDataGroupHelper()->getScreenIdByModuleAndUrl(
             $this->getDataGroupHelper()->getModuleIdByName('admin'),
             'registerOAuthClient'
@@ -224,6 +232,32 @@ class Migration extends AbstractMigration
             ->setParameter('create', true, ParameterType::BOOLEAN)
             ->setParameter('update', true, ParameterType::BOOLEAN)
             ->setParameter('delete', true, ParameterType::BOOLEAN)
+            ->executeQuery();
+
+        $q = $this->createQueryBuilder();
+        $q->select('customFields.extra_data', 'customFields.field_num')
+            ->from('hs_hr_custom_fields ', 'customFields')
+            ->where('customFields.type = :type')
+            ->setParameter('type', 1);
+        $results = $q->executeQuery()
+            ->fetchAllAssociative();
+        foreach ($results as $result) {
+            $this->createQueryBuilder()
+                ->update('hs_hr_custom_fields ', 'customFields')
+                ->set('customFields.extra_data', ':newExtraData')
+                ->where('customFields.field_num = :fieldNum')
+                ->setParameter('newExtraData', str_replace(', ', ',', $result['extra_data']))
+                ->setParameter('fieldNum', $result['field_num'])
+                ->executeQuery();
+        }
+
+        $q = $this->createQueryBuilder();
+        $q->update('hs_hr_employee ', 'employee')
+            ->set('employee.emp_firstname ', ':firstName')
+            ->set('employee.emp_lastname ', ':lastName')
+            ->andWhere($q->expr()->isNotNull('employee.purged_at'))
+            ->setParameter('firstName', 'Purged')
+            ->setParameter('lastName', 'Employee')
             ->executeQuery();
     }
 

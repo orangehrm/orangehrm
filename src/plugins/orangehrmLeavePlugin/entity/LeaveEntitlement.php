@@ -98,7 +98,7 @@ class LeaveEntitlement
      *
      * @ORM\Column(name="credited_date", type="datetime")
      */
-    private DateTime $creditedDate;
+    private ?DateTime $creditedDate;
 
     /**
      * @var string
@@ -255,17 +255,17 @@ class LeaveEntitlement
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getCreditedDate(): DateTime
+    public function getCreditedDate(): ?DateTime
     {
         return $this->creditedDate;
     }
 
     /**
-     * @param DateTime $creditedDate
+     * @param DateTime|null $creditedDate
      */
-    public function setCreditedDate(DateTime $creditedDate): void
+    public function setCreditedDate(?DateTime $creditedDate): void
     {
         $this->creditedDate = $creditedDate;
     }

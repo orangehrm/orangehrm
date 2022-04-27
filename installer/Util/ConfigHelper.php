@@ -24,11 +24,24 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 
 class ConfigHelper
 {
+    private ?Connection $connection;
+
+    /**
+     * @param Connection|null $connection
+     */
+    public function __construct(?Connection $connection = null)
+    {
+        $this->connection = $connection;
+    }
+
     /**
      * @return Connection
      */
     protected function getConnection(): Connection
     {
+        if ($this->connection instanceof Connection) {
+            return $this->connection;
+        }
         return \OrangeHRM\Installer\Util\Connection::getConnection();
     }
 
