@@ -19,33 +19,11 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\Upgrader\Api\UpgraderDataRegistrationAPI;
 use OrangeHRM\Installer\Util\DataRegistrationUtility;
-use OrangeHRM\Installer\Util\StateContainer;
 
-class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigFileAPI
+class InstallerDataRegistrationAPI extends UpgraderDataRegistrationAPI
 {
-    /**
-     * @inheritDoc
-     */
-    protected function handlePost(Request $request): array
-    {
-        if (StateContainer::getInstance()->isSetDbInfo()) {
-            $dbInfo = StateContainer::getInstance()->getDbInfo();
-            $dbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? $dbInfo[StateContainer::DB_USER];
-            $dbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD] ?? $dbInfo[StateContainer::DB_PASSWORD];
-            StateContainer::getInstance()->storeDbInfo(
-                $dbInfo[StateContainer::DB_HOST],
-                $dbInfo[StateContainer::DB_PORT],
-                new UserCredential($dbUser, $dbPassword),
-                $dbInfo[StateContainer::DB_NAME]
-            );
-            $this->sendRegistrationData();
-        }
-        return parent::handlePost($request);
-    }
-
     /**
      * @inheritDoc
      */

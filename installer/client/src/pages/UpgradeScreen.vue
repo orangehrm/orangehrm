@@ -23,7 +23,11 @@
       Upgrading OrangeHRM
     </oxd-text>
     <br />
-    <oxd-text tag="p" class="orangehrm-installer-page-content">
+    <oxd-text
+      v-if="!taskFailed"
+      tag="p"
+      class="orangehrm-installer-page-content"
+    >
       This may take some time. Please do not close the window till progress
       becomes 100%
     </oxd-text>
