@@ -39,6 +39,6 @@ class InstallerCompleteController extends AbstractInstallerVueController
             new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
         );
         $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::INSTALLATION_COMPLETE_SCREEN, true);
+        StateContainer::getInstance()->setCurrentScreen(self::INSTALLATION_COMPLETE_SCREEN);
     }
 }
