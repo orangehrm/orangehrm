@@ -139,8 +139,6 @@ export default {
     });
     const translate = translatorFactory();
 
-    const translate = translatorFactory();
-
     const rules = {
       fromDate: [
         validDateFormat(),
