@@ -383,7 +383,7 @@ class SystemConfig
         $timeSpan = "($gcMaxLifeTimeMinutes minutes and $gcMaxLifeTimeSeconds seconds)";
         if ($gcMaxLifeTimeMinutes > 15) {
             return [
-                'message' => self::getExtensionsOkMessage(),
+                'message' => $this->getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         } elseif ($gcMaxLifeTimeMinutes > 2) {
@@ -415,7 +415,7 @@ class SystemConfig
             ];
         } else {
             return [
-                'message' => self::getExtensionsOkMessage(),
+                'message' => $this->getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         }
@@ -430,7 +430,7 @@ class SystemConfig
         $hardLimit = 9;
         $softLimit = 16;
         $maxMemory = null;
-        $message = self::getExtensionsOkMessage();
+        $message = $this->getExtensionsOkMessage();
         $status = self::PASSED;
 
         $result = $this->checkPhpMemory($hardLimit, $softLimit, $maxMemory);
@@ -453,7 +453,7 @@ class SystemConfig
     {
         if (extension_loaded('curl')) {
             return [
-                'message' => self::getExtensionsOkMessage(),
+                'message' => $this->getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         } else {
@@ -473,7 +473,7 @@ class SystemConfig
     {
         if (extension_loaded('SimpleXML') && extension_loaded('libxml') && extension_loaded('xml')) {
             return [
-                'message' => self::getExtensionsOkMessage(),
+                'message' => $this->getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         } else {
@@ -493,7 +493,7 @@ class SystemConfig
     {
         if (extension_loaded('zip')) {
             return [
-                'message' => self::getExtensionsOkMessage(),
+                'message' => $this->getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         } else {
@@ -757,7 +757,7 @@ class SystemConfig
     /**
      * @return string
      */
-    public function getExtensionsOkMessage(): string
+    private function getExtensionsOkMessage(): string
     {
         return Messages::OK_MESSAGE . " (Version " . $this->getPhpVersion() . ")";
     }
