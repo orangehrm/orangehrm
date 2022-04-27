@@ -298,18 +298,36 @@ class AppSetupUtility
             ->executeQuery();
     }
 
+    /**
+     * When installing via the application installer, it will get the
+     * unique identifiers from the session.
+     * When installing via the legacy installer, it will create new
+     * unique identifiers since no unique identifiers stored in the session.
+     */
     public function insertInstanceIdentifierAndChecksum(): void
     {
         $instanceIdentifierData = StateContainer::getInstance()->getInstanceIdentifierData();
 
-        $this->getConfigHelper()->setConfigValue(
-            SystemConfiguration::INSTANCE_IDENTIFIER,
-            $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER]
-        );
-        $this->getConfigHelper()->setConfigValue(
-            SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
-            $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER_CHECKSUM]
-        );
+        if (!is_null($instanceIdentifierData)) {
+            $this->getConfigHelper()->setConfigValue(
+                SystemConfiguration::INSTANCE_IDENTIFIER,
+                $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER]
+            );
+            $this->getConfigHelper()->setConfigValue(
+                SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
+                $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER_CHECKSUM]
+            );
+        } else {
+            list(
+                $instanceIdentifier,
+                $instanceIdentifierChecksum
+                ) = $this->getInstanceUniqueIdentifyingData();
+            $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER, $instanceIdentifier);
+            $this->getConfigHelper()->setConfigValue(
+                SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
+                $instanceIdentifierChecksum
+            );
+        }
     }
 
     /**

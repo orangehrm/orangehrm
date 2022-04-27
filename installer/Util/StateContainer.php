@@ -341,13 +341,16 @@ class StateContainer
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getInstanceIdentifierData(): array
+    public function getInstanceIdentifierData(): ?array
     {
-        return [
-            self::INSTANCE_IDENTIFIER => $this->getSession()->get(self::INSTANCE_IDENTIFIER),
-            self::INSTANCE_IDENTIFIER_CHECKSUM => $this->getSession()->get(self::INSTANCE_IDENTIFIER_CHECKSUM)
-        ];
+        if ($this->getSession()->has(self::INSTANCE_IDENTIFIER)) {
+            return [
+                self::INSTANCE_IDENTIFIER => $this->getSession()->get(self::INSTANCE_IDENTIFIER),
+                self::INSTANCE_IDENTIFIER_CHECKSUM => $this->getSession()->get(self::INSTANCE_IDENTIFIER_CHECKSUM)
+            ];
+        }
+        return null;
     }
 }
