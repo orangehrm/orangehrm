@@ -26,6 +26,7 @@ use InvalidArgumentException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
+use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class AppSetupUtility
@@ -63,6 +64,7 @@ class AppSetupUtility
     public const INSTALLATION_DB_TYPE_EXISTING = 'existing';
 
     private ?ConfigHelper $configHelper = null;
+    private ?SystemConfiguration $systemConfiguration = null;
 
     /**
      * @return ConfigHelper
@@ -73,6 +75,14 @@ class AppSetupUtility
             $this->configHelper = new ConfigHelper();
         }
         return $this->configHelper;
+    }
+
+    protected function getSystemConfiguration(): SystemConfiguration
+    {
+        if (!$this->systemConfiguration instanceof SystemConfiguration) {
+            $this->systemConfiguration = new SystemConfiguration();
+        }
+        return $this->systemConfiguration;
     }
 
     /**
@@ -178,6 +188,7 @@ class AppSetupUtility
         $this->setDefaultLanguage();
         $this->insertAdminEmployee();
         $this->insertAdminUser();
+        $this->insertInstanceIdentifierAndChecksum();
     }
 
     protected function insertCsrfKey(): void
@@ -285,6 +296,37 @@ class AppSetupUtility
             ->setParameter('id', 1)
             ->setParameter('table', 'hs_hr_employee')
             ->executeQuery();
+    }
+
+    public function insertInstanceIdentifierAndChecksum(): void
+    {
+        $instanceIdentifierData = $this->getInstanceIdentifierData();
+
+        $instanceIdentifier = $this->getSystemConfiguration()->createInstanceIdentifier(...$instanceIdentifierData);
+        $instanceIdentifierChecksum = $this->getSystemConfiguration()->createInstanceIdentifierChecksum(...$instanceIdentifierData);
+
+        $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER, $instanceIdentifier);
+        $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum);
+    }
+
+    /**
+     * @return array
+     */
+    private function getInstanceIdentifierData(): array
+    {
+        $adminUserData = StateContainer::getInstance()->getAdminUserData();
+        $instanceData = StateContainer::getInstance()->getInstanceData();
+        $dateTime = new DateTime();
+        return [
+            $instanceData[StateContainer::INSTANCE_ORG_NAME],
+            $adminUserData[StateContainer::ADMIN_EMAIL],
+            $adminUserData[StateContainer::ADMIN_FIRST_NAME],
+            $adminUserData[StateContainer::ADMIN_LAST_NAME],
+            $_SERVER['HTTP_HOST'] ?? null,
+            $instanceData[StateContainer::INSTANCE_COUNTRY_CODE] ?? null,
+            Config::PRODUCT_VERSION,
+            $dateTime->getTimestamp()
+        ];
     }
 
     public function createDBUser(): void
