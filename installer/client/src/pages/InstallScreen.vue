@@ -97,7 +97,7 @@ export default {
     } = useInstaller(new APIService(window.appGlobal.baseUrl, ''));
 
     const tasks = ref([
-      {name: 'Database Creation', state: 1, task: createDatabase},
+      {name: 'Database Creation', state: 0, task: createDatabase},
       {name: 'Create Database Tables', state: 0, task: runMigrations},
       {
         name: 'Fill default data into the database',
@@ -118,6 +118,7 @@ export default {
       start();
       for (let index = 0; index < tasks.value.length; index++) {
         try {
+          tasks.value[index].state = 1;
           await tasks.value[index].task();
           tasks.value[index].state = 2;
         } catch (error) {

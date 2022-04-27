@@ -18,8 +18,11 @@
 
 import {APIService} from '@/core/util/services/api.service';
 import {AxiosResponse} from 'axios';
+import useUpgrader from './useUpgrader';
 
 export default function useInstaller(http: APIService) {
+  const {getVersionList, versionGenerator} = useUpgrader(http);
+
   const createDatabase = (): Promise<AxiosResponse> => {
     return http.request({
       method: 'POST',
@@ -34,14 +37,26 @@ export default function useInstaller(http: APIService) {
     });
   };
 
-  const runMigrations = (): Promise<AxiosResponse> => {
-    return http.request({
-      method: 'POST',
-      url: 'installer/api/installation/migration',
-      data: {
-        version: '5.0',
-      },
-    });
+  const runMigrations = async (): Promise<void> => {
+    const doMigration = (version: string): Promise<AxiosResponse> => {
+      return http.request({
+        method: 'POST',
+        url: 'installer/api/installation/migration',
+        data: {
+          version,
+        },
+      });
+    };
+
+    let versions = [];
+    let currentVersion = null;
+    const versionResponse = await getVersionList(false);
+    versions = ['3.0', ...versionResponse.data];
+    currentVersion = Array.isArray(versions) ? versions[0] : null;
+    if (!currentVersion) throw new Error('version not detected');
+    for (const nextVersion of versionGenerator(versions, currentVersion)) {
+      await doMigration(nextVersion);
+    }
   };
 
   const createInstance = (): Promise<AxiosResponse> => {

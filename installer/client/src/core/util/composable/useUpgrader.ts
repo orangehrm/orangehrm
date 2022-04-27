@@ -99,5 +99,6 @@ export default function useUpgrader(http: APIService) {
     migrateToVersion,
     runAllMigrations,
     createConfigFiles,
+    versionGenerator,
   };
 }
