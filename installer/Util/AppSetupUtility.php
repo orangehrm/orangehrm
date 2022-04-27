@@ -356,11 +356,11 @@ class AppSetupUtility
         string $grantHost
     ) {
         $conn = Connection::getConnection();
-        $dbName = $conn->quote($dbName);
+        $dbName = $conn->quoteIdentifier($dbName);
         $ohrmDbUser = $conn->quote($ohrmDbUser);
         $queryIdentifiedBy = empty($ohrmDbPassword) ? '' : "IDENTIFIED BY " . $conn->quote($ohrmDbPassword);
-        return "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE" .
-            "ON $dbName.* TO '$ohrmDbUser'@'$grantHost' $queryIdentifiedBy;";
+        return "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE " .
+            "ON $dbName.* TO $ohrmDbUser@'$grantHost' $queryIdentifiedBy;";
     }
 
     public function writeConfFile(): void
