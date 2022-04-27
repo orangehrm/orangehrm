@@ -171,17 +171,20 @@ class AppSetupUtility
         );
     }
 
-    public function insertCsrfKey()
-    {
-        // TODO:: Develop with installer
-    }
-
     public function insertSystemConfiguration(): void
     {
+        $this->insertCsrfKey();
         $this->insertOrganizationInfo();
         $this->setDefaultLanguage();
         $this->insertAdminEmployee();
         $this->insertAdminUser();
+    }
+
+    protected function insertCsrfKey(): void
+    {
+        $bytes = random_bytes(64); // 512/8
+        $csrfSecret = rtrim(strtr(base64_encode($bytes), '+/', '-_'), '=');
+        $this->getConfigHelper()->setConfigValue('csrf_secret', $csrfSecret);
     }
 
     protected function insertOrganizationInfo(): void
@@ -269,11 +272,19 @@ class AppSetupUtility
             ->setParameter('hashedPassword', $hashedPassword)
             ->setParameter('created', new DateTime(), Types::DATETIME_MUTABLE)
             ->executeQuery();
+
+        $this->updateUniqueIdForAdminEmployeeInsertion();
     }
 
-    public function initUniqueIDs()
+    private function updateUniqueIdForAdminEmployeeInsertion(): void
     {
-        // TODO:: Develop with installer
+        Connection::getConnection()->createQueryBuilder()
+            ->update('hs_hr_unique_id', 'uniqueId')
+            ->set('uniqueId.last_id', ':id')
+            ->where('uniqueId.table_name = :table')
+            ->setParameter('id', 1)
+            ->setParameter('table', 'hs_hr_employee')
+            ->executeQuery();
     }
 
     public function createDBUser(): void
