@@ -8,6 +8,8 @@
       You have successfully upgraded to OrangeHRM Starter version
       {{ productversion }}.
     </oxd-text>
+    <br />
+    <br />
     <oxd-button
       class="orangehrm-upgrader-complete-button"
       display-type="secondary"
@@ -42,7 +44,6 @@ export default {
   color: $oxd-interface-gray-darken-1-color;
 }
 .orangehrm-upgrader-complete-button {
-  margin-top: 1rem;
   margin-right: auto;
 }
 </style>
