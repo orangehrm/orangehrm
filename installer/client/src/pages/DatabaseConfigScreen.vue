@@ -86,6 +86,9 @@
         <oxd-grid-item class="--offset-row-3">
           <oxd-input-field
             v-model="database.dbUser"
+            v-tooltip="
+              'Privileged Database User should have the rights to create databases, create tables, insert data into table, alter table structure and to create database users.'
+            "
             label="Privileged Database Username"
             :rules="rules.dbUser"
             required
@@ -103,6 +106,9 @@
         <oxd-input-field
           :key="disableOHRMDBfield"
           v-model="database.ohrmDbUser"
+          v-tooltip="
+            'OrangeHRM database user should have the rights to insert data into table, update data in a table, delete data in a table.'
+          "
           label="OrangeHRM Database Username"
           :rules="rules.ohrmDbUser"
           :disabled="disableOHRMDBfield"
@@ -152,11 +158,15 @@ import {required, validRange} from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation.ts';
 import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
+import tooltipDirective from '@/core/util/directives/tooltip';
 
 export default {
   name: 'DatabaseConfigScreen',
   components: {
     'oxd-radio-input': RadioInput,
+  },
+  directives: {
+    tooltip: tooltipDirective,
   },
   setup() {
     const http = new APIService(
@@ -240,7 +250,7 @@ export default {
         });
     },
     navigateUrl() {
-      navigate('/welcome');
+      navigate('/installer/licence-acceptance');
     },
   },
 };

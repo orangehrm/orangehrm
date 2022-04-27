@@ -67,6 +67,7 @@ import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
 } from '@ohrm/core/util/validation/rules';
+import usei18n from '@/core/util/composable/usei18n';
 
 export default {
   name: 'ReportCriterionDateRange',
@@ -90,6 +91,7 @@ export default {
   },
   emits: ['update:valueX', 'update:valueY', 'update:operator'],
   setup(props) {
+    const {$t} = usei18n();
     const operators = ref([
       {id: 'lt', label: 'Joined before'},
       {id: 'gt', label: 'Joined after'},
@@ -104,7 +106,7 @@ export default {
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
           () => props.valueY,
-          this.$t('general.from_date_should_be_before_to_date'),
+          $t('general.from_date_should_be_before_to_date'),
         ),
       ],
       valueY: [
@@ -112,7 +114,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => props.valueX,
-          this.$t('general.to_date_should_be_after_from_date'),
+          $t('general.to_date_should_be_after_from_date'),
         ),
       ],
     };

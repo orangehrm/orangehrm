@@ -17,24 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Installer;
+namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\StateContainer;
 
-class SystemCheckController extends AbstractInstallerVueController
+class CleanUpInstallAPI extends AbstractInstallerRestController
 {
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    protected function handlePost(Request $request): array
     {
-        $component = new Component('system-check-screen');
-        $component->addProp(new Prop('installer', Prop::TYPE_BOOLEAN, true));
-        $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::SYSTEM_CHECK_SCREEN);
+        $appSetupUtility = new AppSetupUtility();
+
+        if (StateContainer::getInstance()->getDbType() === AppSetupUtility::INSTALLATION_DB_TYPE_NEW) {
+            $appSetupUtility->dropDatabase();
+        } else {
+            $appSetupUtility->cleanUpInstallOnFailure();
+        }
+
+        return [];
     }
 }

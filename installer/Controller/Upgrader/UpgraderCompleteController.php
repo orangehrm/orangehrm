@@ -19,7 +19,10 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader;
 
+use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
 use OrangeHRM\Installer\Util\StateContainer;
@@ -32,6 +35,9 @@ class UpgraderCompleteController extends AbstractInstallerVueController
     public function preRender(Request $request): void
     {
         $component = new Component('upgrader-complete-screen');
+        $component->addProp(
+            new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
+        );
         $this->setComponent($component);
         StateContainer::getInstance()->setCurrentScreen(self::UPGRADER_COMPLETE_SCREEN, true);
     }

@@ -287,7 +287,7 @@ class SystemConfiguration
      * @param int $currentTimestamp
      * @return string
      */
-    private function createInstanceIdentifier(
+    public function createInstanceIdentifier(
         string $organizationName,
         string $email,
         string $adminFirstName,
@@ -322,7 +322,7 @@ class SystemConfiguration
      * @param string $ohrmVersion
      * @return string
      */
-    private function createInstanceIdentifierChecksum(
+    public function createInstanceIdentifierChecksum(
         string $organizationName,
         string $email,
         string $adminFirstName,
