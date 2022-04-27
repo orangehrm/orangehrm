@@ -46,11 +46,11 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="configuration.dateFormat"
                 :label="$t('admin.date_format')"
                 type="select"
                 :show-empty-selector="false"
                 :disabled="true"
-                :placeholder="$t('general.date_format')"
                 :options="dateFormatList"
               />
             </oxd-grid-item>
@@ -109,7 +109,7 @@ export default {
           item => item.id === data.language,
         );
         this.configuration.dateFormat = this.dateFormatList.find(
-          item => item.id === data.dateFormat,
+          item => item.id === 'Y-m-d',
         );
       })
       .finally(() => {
