@@ -108,14 +108,16 @@ export default {
   },
   methods: {
     toggleModal() {
+      if (this.selected === 'install') {
+        navigate('/installer/database-config');
+        return;
+      }
       this.showModal = !this.showModal;
     },
     closeModel(isAccept) {
       if (!isAccept) return this.toggleModal();
       if (this.selected === 'upgrade') {
         navigate('/upgrader/database-config');
-      } else {
-        navigate('/installer/database-config');
       }
     },
   },

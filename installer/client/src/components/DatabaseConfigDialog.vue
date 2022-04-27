@@ -13,7 +13,7 @@
         tag="p"
         class="orangehrm-database-config-dialog-content orangehrm-database-config--title"
       >
-        Following modules or add-on are not supported by OrangeHRM Starter
+        Following modules or add-ons are not supported by OrangeHRM Starter
         version 5.0. You may continue to upgrade your system to version 5.0, but
         please note that any data used in these modules will be inaccessible.
       </oxd-text>
@@ -69,24 +69,34 @@ export default {
       ],
       items: [
         {
-          module: '-Recruitment Module',
-          addon: '-Corporate Branding',
-          other: '-Dashboard',
+          module: '- Recruitment Module',
+          addon: '- Corporate Branding',
+          other: '- Dashboard',
         },
         {
-          module: '-Performance Module',
-          addon: '-LDAP',
-          other: '-Marketplace',
+          module: '- Performance Module',
+          addon: '- LDAP',
+          other: '- Marketplace',
         },
         {
-          module: '-Buzz',
-          addon: '-Claim',
-          other: '-Custom Language Packages',
+          module: '- Buzz',
+          addon: '- Claim',
+          other: '- Custom Language Packages',
         },
         {
-          module: '-Directory',
-          addon: '-Toggl',
-          other: '-Encrypted Data',
+          module: '- Directory',
+          addon: '- Toggl',
+          other: '- Custom Date Formats',
+        },
+        {
+          module: '',
+          addon: '',
+          other: '- Encrypted Data',
+        },
+        {
+          module: '',
+          addon: '',
+          other: '- Mobile App',
         },
       ],
     };

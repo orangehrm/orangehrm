@@ -55,6 +55,7 @@
           v-model="database.dbPort"
           label="Database Host Port"
           :rules="rules.dbPort"
+          required
         />
       </oxd-grid-item>
       <oxd-grid-item class="--offset-row-2">
