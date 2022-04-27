@@ -21,14 +21,10 @@ namespace OrangeHRM\Installer\Util;
 
 class Messages
 {
-    public const PHP_OK_MESSAGE = "PHP Version - Ok";
+    public const MYSQL_CLIENT_RECOMMEND_MESSAGE = "ver 5.5.x or later recommended";
+    public const MYSQL_CLIENT_FAIL_MESSAGE = "MySQL support not available in PHP settings";
 
-    public const MYSQL_CLIENT_OK_MESSAGE = "MySQL Client - Ok";
-    public const MYSQL_CLIENT_RECOMMEND_MESSAGE = "MySQL Client - ver 5.5.x or later recommended";
-    public const MYSQL_CLIENT_FAIL_MESSAGE = "MySQL Client - MySQL support not available in PHP settings";
-
-    public const MYSQL_SERVER_OK_MESSAGE = "MySQL Server - Ok";
-    public const MYSQL_SERVER_FAIL_MESSAGE = "MySQL Server - Not Available";
+    public const MYSQL_SERVER_FAIL_MESSAGE = "Not Available";
 
     public const MAXIMUM_SESSION_IDLE_OK_MESSAGE = "Good";
     public const MAXIMUM_SESSION_IDLE_SHORT_MESSAGE = "Short";
@@ -38,6 +34,8 @@ class Messages
 
     public const STATUS_OK = 'OK';
 
+    public const DEFAULT = 'Default';
+    public const AVAILABLE = 'Available';
     public const DISABLED = 'Disabled';
     public const ENABLED = 'Enabled';
 

@@ -82,7 +82,7 @@ class SystemConfig
             $allowedPHPConfigs['max']
         )) {
             return [
-                'message' => Messages::PHP_OK_MESSAGE . " (ver " . $currentPHPVersion . ")",
+                'message' => Messages::STATUS_OK . " (ver " . $currentPHPVersion . ")",
                 'status' => self::PASSED
             ];
         } else {
@@ -121,7 +121,7 @@ class SystemConfig
                 ];
             } else {
                 return [
-                    'message' => Messages::MYSQL_CLIENT_OK_MESSAGE,
+                    'message' => Messages::STATUS_OK,
                     'status' => self::PASSED
                 ];
             }
@@ -153,7 +153,7 @@ class SystemConfig
                 $allowedConfigs['max']
             )) {
                 return [
-                    'message' => Messages::MYSQL_SERVER_OK_MESSAGE . " ($serverVersion)",
+                    'message' => Messages::STATUS_OK . " ($serverVersion)",
                     'status' => self::PASSED
                 ];
             } else {
@@ -201,29 +201,29 @@ class SystemConfig
                 if ($innoDBEngine['Support'] === self::STATE_DISABLED) {
                     $this->interruptContinue = true;
                     return [
-                        'message' => "MySQL InnoDB Support - Disabled!",
+                        'message' => Messages::DISABLED,
                         'status' => self::BLOCKER
                     ];
                 } elseif ($innoDBEngine['Support'] === self::STATE_DEFAULT) {
                     return [
-                        'message' => "MySQL InnoDB Support - Default",
+                        'message' => Messages::DEFAULT,
                         'status' => self::PASSED
                     ];
                 } elseif ($innoDBEngine['Support'] === self::STATE_YES) {
                     return [
-                        'message' => "MySQL InnoDB Support - Enabled",
+                        'message' => Messages::ENABLED,
                         'status' => self::PASSED
                     ];
                 } elseif ($innoDBEngine['Support'] === self::STATE_NO) {
                     $this->interruptContinue = true;
                     return [
-                        'message' => "MySQL InnoDB Support - available!",
+                        'message' => Messages::AVAILABLE,
                         'status' => self::BLOCKER
                     ];
                 } else {
                     $this->interruptContinue = true;
                     return [
-                        'message' => "MySQL InnoDB Support - Unknown Error!",
+                        'message' => "Unknown Error!",
                         'status' => self::BLOCKER
                     ];
                 }
@@ -231,7 +231,7 @@ class SystemConfig
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => "MySQL InnoDB Support - Cannot connect to the database",
+                'message' => "Cannot connect to the database",
                 'status' => self::BLOCKER
             ];
         }
@@ -433,7 +433,7 @@ class SystemConfig
                 break;
         }
         return [
-            'message' => "Memory allocated for PHP script - ${message}",
+            'message' => $message,
             'status' => $status
         ];
     }
