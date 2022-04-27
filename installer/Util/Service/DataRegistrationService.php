@@ -27,17 +27,17 @@ use OrangeHRM\Installer\Util\Logger;
 
 class DataRegistrationService
 {
-    private ?Client $apiClient = null;
+    private ?Client $httpClient = null;
 
     /**
      * @return Client
      */
     private function getHttpClient(): Client
     {
-        if (!isset($this->apiClient)) {
-            $this->apiClient = new Client(['base_uri' => Config::REGISTRATION_BETA_URL]);
+        if (!isset($this->httpClient)) {
+            $this->httpClient = new Client(['base_uri' => Config::REGISTRATION_URL]);
         }
-        return $this->apiClient;
+        return $this->httpClient;
     }
 
     /**

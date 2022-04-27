@@ -20,6 +20,8 @@
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
@@ -60,9 +62,23 @@ class ConfigFileAPI extends AbstractInstallerRestController
         $appSetupUtility = new AppSetupUtility();
         $appSetupUtility->writeConfFile();
 
+        $this->sendRegistrationData();
+
+        return [
+            'success' => Doctrine::getEntityManager()->getConnection() instanceof Connection,
+        ];
+    }
+
+    /**
+     * @throws Exception
+     * @throws GuzzleException
+     */
+    protected function sendRegistrationData(): void
+    {
+        $registrationType = $this->getRegistrationType();
         if (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY)) {
             $this->systemConfiguration->setRegistrationEventQueue(
-                DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
+                $registrationType,
                 DataRegistrationUtility::PUBLISHED,
                 json_encode(
                     StateContainer::getInstance()->getAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY)
@@ -70,16 +86,18 @@ class ConfigFileAPI extends AbstractInstallerRestController
             );
             StateContainer::getInstance()->removeAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY);
         } elseif (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT)) {
-            $this->dataRegistrationUtility->sendRegistrationDataOnFailure(
-                DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED
-            );
+            $this->dataRegistrationUtility->sendRegistrationDataOnFailure($registrationType);
         }
         //else initial registration data successfully sent at the beginning.
 
         $this->dataRegistrationUtility->sendRegistrationDataOnSuccess();
+    }
 
-        return [
-            'success' => Doctrine::getEntityManager()->getConnection() instanceof Connection,
-        ];
+    /**
+     * @return int
+     */
+    protected function getRegistrationType(): int
+    {
+        return DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED;
     }
 }

@@ -28,6 +28,7 @@ use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 
 class DataRegistrationUtility
 {
+    public const REGISTRATION_TYPE_INSTALLER_STARTED = 0;
     public const REGISTRATION_TYPE_UPGRADER_STARTED = 4;
     public const REGISTRATION_TYPE_SUCCESS = 3;
 
