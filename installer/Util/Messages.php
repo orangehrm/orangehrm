@@ -21,19 +21,48 @@ namespace OrangeHRM\Installer\Util;
 
 class Messages
 {
+    public const PHP_OK_MESSAGE = "PHP Version - Ok";
+
+    public const MYSQL_CLIENT_OK_MESSAGE = "MySQL Client - Ok";
     public const MYSQL_CLIENT_RECOMMEND_MESSAGE = "MySQL Client - ver 5.5.x or later recommended";
     public const MYSQL_CLIENT_FAIL_MESSAGE = "MySQL Client - MySQL support not available in PHP settings";
+
+    public const MYSQL_SERVER_OK_MESSAGE = "MySQL Server - Ok";
     public const MYSQL_SERVER_FAIL_MESSAGE = "MySQL Server - Not Available";
-    public const OK_MESSAGE = "OK";
 
-    public const WRITEABLE = "Writeable";
-    public const NON_WRITEABLE = "Not Writeable";
+    public const WEB_SERVER_OK_MESSAGE = "OK";
 
-    public const MAXIMUM_SESSION_IDLE_SHORT_MESSAGE = "Maximum Session Idle Time before Timeout - Short";
-    public const MAXIMUM_SESSION_IDLE_TOO_SHORT_MESSAGE = "Maximum Session Idle Time before Timeout - Too Short";
+    public const WRITABLE_LIB_CONF_OK_MESSAGE = "Write Permissions for lib/confs/ - Writeable";
+    public const WRITABLE_LIB_CONF_FAIL_MESSAGE = "Write Permissions for lib/confs/ - Not Writeable";
 
+    public const WRITEABLE_SRC_CONFIG_OK_MESSAGE = "Write Permissions for - src/config - Writeable";
+    public const WRITEABLE_SRC_CONFIG_FAIL_MESSAGE = "Write Permissions for - src/config - Not Writeable";
+
+    public const WRITEABLE_SRC_CACHE_OK_MESSAGE = "Write Permissions for src/cache - Writeable";
+    public const WRITEABLE_SRC_CACHE_FAIL_MESSAGE = "Write Permissions for src/cache - Not Writeable";
+
+    public const WRITEABLE_SRC_LOG_OK_MESSAGE = "Write Permissions for src/log - Writeable";
+    public const WRITEABLE_SRC_LOG_FAIL_MESSAGE = "Write Permissions for src/log - Not Writeable";
+
+    public const MAXIMUM_SESSION_IDLE_OK_MESSAGE = "Good";
+    public const MAXIMUM_SESSION_IDLE_SHORT_MESSAGE = "Short";
+    public const MAXIMUM_SESSION_IDLE_TOO_SHORT_MESSAGE = "Too Short";
+
+    public const REGISTER_GLOBALS_OFF_OK_MESSAGE = "Ok";
     public const REGISTER_GLOBALS_OFF_FAIL_MESSAGE = "On. Should be off";
-    public const CURL_STATUS_DISABLE_MESSAGE = "cURL status - Disabled. This is required to run OrangeHRM";
-    public const SIMPLE_XML_STATUS_DISABLE_MESSAGE = "SimpleXML status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
-    public const ZIP_STATUS_DISABLE_MESSAGE = "ZIP status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
+
+    public const CURL_STATUS_DISABLE_MESSAGE = "Disabled";
+    public const CURL_STATUS_OK_MESSAGE = "Enabled";
+
+    public const SIMPLE_XML_STATUS_DISABLE_MESSAGE = "Disabled";
+    public const SIMPLE_XML_STATUS_OK_MESSAGE = "Enabled";
+
+    public const ZIP_STATUS_DISABLE_MESSAGE = "Disabled";
+    public const ZIP_STATUS_OK_MESSAGE = "Enabled";
+
+    public const DISABLED='Disabled';
+    public const ENABLED='Enabled';
+
+    public const WRITEABLE='Writeable';
+    public const NOT_WRITEABLE='Not Writeable';
 }
