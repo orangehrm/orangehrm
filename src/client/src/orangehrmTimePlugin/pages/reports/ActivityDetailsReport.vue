@@ -117,6 +117,7 @@ import ReportsTable from '@/core/components/table/ReportsTable';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   project: null,
@@ -160,6 +161,7 @@ export default {
   },
 
   setup(props) {
+    const {$t} = usei18n();
     const filters = ref({
       ...defaultFilters,
       fromDate: props.fromDate,
@@ -176,7 +178,7 @@ export default {
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
-          this.$t('attendance.from_date_should_be_before_to_date'),
+          $t('attendance.from_date_should_be_before_to_date'),
           {allowSameDate: true},
         ),
       ],
@@ -184,7 +186,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          this.$t('attendance.to_date_should_be_after_from_date'),
+          $t('attendance.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],

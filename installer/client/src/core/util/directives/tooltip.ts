@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,24 +16,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Installer;
+import {Directive, DirectiveBinding, h, render} from 'vue';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
-use OrangeHRM\Installer\Util\StateContainer;
-
-class SystemCheckController extends AbstractInstallerVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('system-check-screen');
-        $component->addProp(new Prop('installer', Prop::TYPE_BOOLEAN, true));
-        $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::SYSTEM_CHECK_SCREEN);
-    }
-}
+const tooltipDirective: Directive = {
+  beforeMount(el: HTMLElement, binding: DirectiveBinding<string>) {
+    if (!el || el.children.length === 0) return;
+    const {value} = binding;
+    const node = h(Icon, {
+      name: 'info-circle-fill',
+      title: value,
+      style: {
+        marginLeft: '5px',
+        cursor: 'pointer',
+      },
+    });
+    render(node, el.children[0]);
+  },
+};
+export default tooltipDirective;

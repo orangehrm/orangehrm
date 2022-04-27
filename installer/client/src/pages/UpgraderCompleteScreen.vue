@@ -5,8 +5,11 @@
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
-      You have successfully upgraded to OrangeHRM Starter version 5.0.
+      You have successfully upgraded to OrangeHRM Starter version
+      {{ productversion }}.
     </oxd-text>
+    <br />
+    <br />
     <oxd-button
       class="orangehrm-upgrader-complete-button"
       display-type="secondary"
@@ -20,6 +23,12 @@
 import {navigate} from '@/core/util/helper/navigation.ts';
 export default {
   name: 'UpgraderCompleteScreen',
+  props: {
+    productversion: {
+      type: String,
+      required: true,
+    },
+  },
   methods: {
     launch() {
       navigate('/');
@@ -35,7 +44,6 @@ export default {
   color: $oxd-interface-gray-darken-1-color;
 }
 .orangehrm-upgrader-complete-button {
-  margin-top: 1rem;
   margin-right: auto;
 }
 </style>

@@ -23,7 +23,12 @@ import CurrentVersionScreen from '@/pages/CurrentVersionScreen.vue';
 import UpgraderCompleteScreen from '@/pages/UpgraderCompleteScreen.vue';
 import UpgradeScreen from '@/pages/UpgradeScreen.vue';
 import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
-import AdminUserCreation from '@/pages/AdminUserCreation.vue';
+import AdminUserCreationScreen from '@/pages/AdminUserCreationScreen.vue';
+import LicenceAcceptanceScreen from '@/pages/LicenceAcceptanceScreen.vue';
+import InstanceCreationScreen from '@/pages/InstanceCreationScreen.vue';
+import ConfirmationScreen from '@/pages/ConfirmationScreen.vue';
+import InstallerCompleteScreen from '@/pages/InstallerCompleteScreen.vue';
+import InstallScreen from '@/pages/InstallScreen.vue';
 
 export default {
   'welcome-screen': WelcomeScreen,
@@ -33,5 +38,10 @@ export default {
   'upgrader-complete-screen': UpgraderCompleteScreen,
   'upgrade-process-screen': UpgradeScreen,
   'database-config-screen': DatabaseConfigScreen,
-  'admin-user-creation': AdminUserCreation,
+  'admin-user-creation-screen': AdminUserCreationScreen,
+  'licence-acceptance-screen': LicenceAcceptanceScreen,
+  'instance-creation-screen': InstanceCreationScreen,
+  'confirmation-screen': ConfirmationScreen,
+  'installer-complete-screen': InstallerCompleteScreen,
+  'install-process-screen': InstallScreen,
 };

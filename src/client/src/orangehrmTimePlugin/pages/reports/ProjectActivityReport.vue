@@ -22,7 +22,7 @@
   <reports-table
     module="time"
     name="project"
-    :prefetch="project"
+    :prefetch="project !== null"
     :filters="serializedFilters"
     :column-count="2"
   >

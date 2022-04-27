@@ -65,10 +65,16 @@ export default {
   components: {
     'flex-table': FlexTable,
   },
-  setup() {
+  props: {
+    installer: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'upgrader/api/system-check',
+      `${props.installer ? 'installer' : 'upgrader'}/api/system-check`,
     );
     return {
       http,
@@ -99,10 +105,18 @@ export default {
         });
     },
     navigateUrl() {
-      navigate('/upgrader/database-config');
+      navigate(
+        this.installer
+          ? '/installer/database-config'
+          : '/upgrader/database-config',
+      );
     },
     goToScreen() {
-      navigate('/upgrader/current-version');
+      navigate(
+        this.installer
+          ? '/installer/instance-creation'
+          : '/upgrader/current-version',
+      );
     },
     reCheck() {
       this.fetchData();

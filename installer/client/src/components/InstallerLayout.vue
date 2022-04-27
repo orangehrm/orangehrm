@@ -27,9 +27,9 @@
       <div class="orangehrm-installer-footer">
         <a
           v-show="currentStep === 0"
-          href="../guide"
           target="_blank"
           class="orangehrm-installer-guide"
+          href="https://starterhelp.orangehrm.com/hc/en-us/articles/5295915003666-OrangeHRM-Starter-Installation-Guide"
         >
           <oxd-icon
             type="svg"

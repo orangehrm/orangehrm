@@ -109,16 +109,13 @@ export default {
   methods: {
     toggleModal() {
       if (this.selected === 'install') {
-        navigate('/installer/database-config');
-        return;
+        return navigate('/installer/licence-acceptance');
       }
       this.showModal = !this.showModal;
     },
     closeModel(isAccept) {
-      if (!isAccept) return this.toggleModal();
-      if (this.selected === 'upgrade') {
-        navigate('/upgrader/database-config');
-      }
+      if (!isAccept || this.selected !== 'upgrade') return this.toggleModal();
+      navigate('/upgrader/database-config');
     },
   },
 };

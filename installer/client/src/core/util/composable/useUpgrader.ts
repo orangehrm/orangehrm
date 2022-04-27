@@ -19,7 +19,7 @@
 import {APIService} from '@/core/util/services/api.service';
 import {AxiosResponse} from 'axios';
 
-export default function useMigrations(http: APIService) {
+export default function useUpgrader(http: APIService) {
   const getVersionList = (
     excludeLatest = true,
   ): Promise<AxiosResponse<string[]>> => {
@@ -36,6 +36,13 @@ export default function useMigrations(http: APIService) {
     return http.request({
       method: 'GET',
       url: 'upgrader/api/current-version',
+    });
+  };
+
+  const createConfigFiles = (): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'POST',
+      url: 'upgrader/api/config-file',
     });
   };
 
@@ -91,5 +98,7 @@ export default function useMigrations(http: APIService) {
     getCurrentVersion,
     migrateToVersion,
     runAllMigrations,
+    createConfigFiles,
+    versionGenerator,
   };
 }

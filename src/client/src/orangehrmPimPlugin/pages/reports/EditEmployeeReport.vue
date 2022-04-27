@@ -183,7 +183,7 @@ export default {
       required: true,
     },
     reportId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },

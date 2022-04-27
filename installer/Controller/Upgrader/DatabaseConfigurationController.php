@@ -33,6 +33,6 @@ class DatabaseConfigurationController extends AbstractInstallerVueController
     {
         $component = new Component('database-info-screen');
         $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::DB_INFO_SCREEN, true);
+        StateContainer::getInstance()->setCurrentScreen(self::DATABASE_INFO_SCREEN, true);
     }
 }

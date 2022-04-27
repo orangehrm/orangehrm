@@ -121,6 +121,7 @@ import {
 } from '@/core/util/validation/rules';
 import {checkPassword} from '@/core/util/helper/password';
 import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@/core/util/helper/navigation';
 
 export default {
   name: 'AdminUserCreation',
@@ -186,11 +187,11 @@ export default {
           password: this.adminUser.password,
         })
         .then(() => {
-          // TODO navigate to confirmation page
+          navigate('/installer/confirmation');
         });
     },
     navigateUrl() {
-      // TODO navigate to instance creation page
+      navigate('/installer/instance-creation');
     },
   },
 };

@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,24 +16,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Installer;
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
-use OrangeHRM\Installer\Util\StateContainer;
+export default function usei18n() {
+  const translate = translatorFactory();
 
-class SystemCheckController extends AbstractInstallerVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('system-check-screen');
-        $component->addProp(new Prop('installer', Prop::TYPE_BOOLEAN, true));
-        $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::SYSTEM_CHECK_SCREEN);
-    }
+  return {
+    $t: translate,
+  };
 }

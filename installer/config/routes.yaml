@@ -43,9 +43,34 @@ installer_system_check:
   controller: OrangeHRM\Installer\Controller\Installer\SystemCheckController::handle
   methods: [ GET ]
 
+installer_instance_creation:
+  path: /installer/instance-creation
+  controller: OrangeHRM\Installer\Controller\Installer\InstanceCreationController::handle
+  methods: [ GET ]
+
 installer_admin_user_creation:
   path: /installer/admin-user-creation
   controller: OrangeHRM\Installer\Controller\Installer\AdminUserCreationController::handle
+  methods: [ GET ]
+
+installer_licence_acceptance:
+  path: /installer/licence-acceptance
+  controller: OrangeHRM\Installer\Controller\Installer\LicenceAcceptanceController::handle
+  methods: [ GET ]
+
+installer_process:
+  path: /installer/process
+  controller: OrangeHRM\Installer\Controller\Installer\InstallerController::handle
+  methods: [ GET ]
+
+installer_confirmation:
+  path: /installer/confirmation
+  controller: OrangeHRM\Installer\Controller\Installer\ConfirmationController::handle
+  methods: [ GET ]
+
+installer_complete:
+  path: /installer/complete
+  controller: OrangeHRM\Installer\Controller\Installer\InstallerCompleteController::handle
   methods: [ GET ]
 
 #####################################
@@ -159,4 +184,9 @@ api_installer_write_config:
 api_installer_start_registration:
   path: /installer/api/send-data/installer-start
   controller: OrangeHRM\Installer\Controller\Installer\Api\InstallerDataRegistrationAPI::handle
+  methods: [ POST ]
+
+api_installer_clean_up_install:
+  path: /installer/api/clean-up-install
+  controller: OrangeHRM\Installer\Controller\Installer\Api\CleanUpInstallAPI::handle
   methods: [ POST ]
