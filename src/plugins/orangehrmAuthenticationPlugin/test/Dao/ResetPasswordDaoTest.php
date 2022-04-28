@@ -59,10 +59,15 @@ class ResetPasswordDaoTest extends KernelTestCase
         $this->assertEquals('haran@orangehrm.live.com', $resetPassword->getResetEmail());
         $this->assertEquals('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q', $resetPassword->getResetCode());
     }
-
     public function testGetResetPasswordLogByResetCode(): void
     {
         $resetCode=$this->resetPasswordDao->getResetPasswordLogByResetCode('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
         $this->assertEquals('haran@orangehrm.live.com', $resetCode->getResetEmail());
+    }
+
+    public function testUpdateResetPasswordValid(): void
+    {
+        $count = $this->resetPasswordDao->updateResetPasswordValid('haran@orangehrm.live.com', 0);
+        $this->assertGreaterThan(0, $count);
     }
 }

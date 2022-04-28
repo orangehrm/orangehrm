@@ -305,8 +305,6 @@ class ResetPasswordService
         if ($this->validateUser($user) instanceof User) {
             $hashPassword = $this->getUserService()->hashPassword($credential->getPassword());
             $isUpdate = $this->getUserService()->getSystemUserDao()->updatePassword($user->getId(), $hashPassword);
-//            var_dump($isUpdate);
-//            die();
             if ($isUpdate) {
                 return $this->getResetPasswordDao()->updateResetPasswordValid($user->getEmployee()->getWorkEmail(), 0);
             }

@@ -46,6 +46,7 @@ class ResetPasswordTest extends EntityTestCase
         $resetPassword->setResetCode('reset');
         $resetPassword->setResetRequestDate($this->getDateTimeHelper()->getNow());
         $resetPassword->setResetEmail('reset@gmail.com');
+        $resetPassword->setValid(1);
         $this->persist($resetPassword);
 
         /** @var ResetPasswordRequest $resetPassword */
@@ -53,5 +54,6 @@ class ResetPasswordTest extends EntityTestCase
         $this->assertEquals(1, $resetPassword->getId());
         $this->assertEquals('reset', $resetPassword->getResetCode());
         $this->assertEquals('reset@gmail.com', $resetPassword->getResetEmail());
+        $this->assertEquals(1, $resetPassword->getValid());
     }
 }
