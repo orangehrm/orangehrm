@@ -245,7 +245,6 @@ export default {
           }),
         })
         .then(() => {
-          debugger;
           navigate('/installer/system-check');
         })
         .catch(({response}) => {
