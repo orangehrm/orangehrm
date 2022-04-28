@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Controller;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 
@@ -30,6 +31,11 @@ class HomeController extends AbstractInstallerController
      */
     protected function execute(Request $request): RedirectResponse
     {
+        if (Config::isInstalled()) {
+            $url = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
+            return new RedirectResponse(str_replace('/installer/index.php', '/web/index.php', $url));
+        }
+
         return $this->redirect('/welcome');
     }
 }

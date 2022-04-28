@@ -156,6 +156,11 @@ api_installer_admin_user:
   controller: OrangeHRM\Installer\Controller\Installer\Api\AdminUserAPI::handle
   methods: [ GET, POST ]
 
+api_installer_versions:
+  path: /installer/api/versions
+  controller: OrangeHRM\Installer\Controller\Installer\Api\VersionAPI::handle
+  methods: [ GET ]
+
 api_installer_database:
   path: /installer/api/installation/database
   controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabaseAPI::handle

@@ -17,9 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-$logFilePath = dirname(__FILE__) . '/../../symfony/log/orangehrm.log';
+$logFilePath = realpath(__DIR__ . '/../../src/log') . DIRECTORY_SEPARATOR . 'orangehrm.log';
 
 ini_set('log_errors', 'On');
 ini_set('error_log', $logFilePath);
-
-?>
