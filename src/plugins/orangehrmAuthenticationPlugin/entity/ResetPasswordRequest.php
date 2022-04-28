@@ -59,6 +59,13 @@ class ResetPasswordRequest
     private string $resetCode;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="valid", type="boolean")
+     */
+    private bool $valid;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -120,5 +127,21 @@ class ResetPasswordRequest
     public function setResetCode(string $resetCode): void
     {
         $this->resetCode = $resetCode;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getValid(): bool
+    {
+        return $this->valid;
+    }
+
+    /**
+     * @param bool $valid
+     */
+    public function setValid(bool $valid): void
+    {
+        $this->valid = $valid;
     }
 }

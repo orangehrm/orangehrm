@@ -254,6 +254,10 @@ class ResetPasswordService
                     $this->getLogger()->error('reset code was old one & not valid');
                     return null;
                 }
+                if (!$resetPassword->getValid()) {
+                    $this->getLogger()->error('Password reset code expired');
+                    return null;
+                }
                 $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
                 if ($expDay > 0) {
                     $this->getLogger()->error('Password reset code expired');
@@ -281,6 +285,7 @@ class ResetPasswordService
         $date = $this->getDateTimeHelper()->getNow();
         $resetPassword->setResetRequestDate($date);
         $resetPassword->setResetCode($resetCode);
+        $resetPassword->setValid(1);
         $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode, $user->getUserName());
         if (!$emailSent) {
             $this->getLogger()->error('Password reset email could not be sent.');
@@ -299,7 +304,12 @@ class ResetPasswordService
         $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($credential->getUsername());
         if ($this->validateUser($user) instanceof User) {
             $hashPassword = $this->getUserService()->hashPassword($credential->getPassword());
-            return $this->getUserService()->getSystemUserDao()->updatePassword($user->getId(), $hashPassword);
+            $isUpdate = $this->getUserService()->getSystemUserDao()->updatePassword($user->getId(), $hashPassword);
+//            var_dump($isUpdate);
+//            die();
+            if ($isUpdate) {
+                return $this->getResetPasswordDao()->updateResetPasswordValid($user->getEmployee()->getWorkEmail(), 0);
+            }
         }
         return false;
     }
