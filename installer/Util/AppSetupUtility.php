@@ -355,7 +355,7 @@ class AppSetupUtility
     /**
      * @return array
      */
-    public function getInstanceIdentifierData(): array
+    private function getInstanceIdentifierData(): array
     {
         $adminUserData = StateContainer::getInstance()->getAdminUserData();
         $instanceData = StateContainer::getInstance()->getInstanceData();
