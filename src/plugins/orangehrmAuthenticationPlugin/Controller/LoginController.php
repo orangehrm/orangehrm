@@ -75,9 +75,6 @@ class LoginController extends AbstractVueController implements PublicControllerI
         );
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
-
-        // TODO:: optimize this
-        $this->getEventDispatcher()->dispatch(new RegistrationEvent(), RegistrationEvent::INSTALL_SUCCESS_EVENT_NAME);
     }
 
     /**
