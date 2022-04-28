@@ -19,15 +19,20 @@
 import {APIService} from '@/core/util/services/api.service';
 import {AxiosResponse} from 'axios';
 import useUpgrader from './useUpgrader';
+import useDiagnostics from './useDiagnostics';
 
 export default function useInstaller(http: APIService) {
   const {getVersionList, versionGenerator} = useUpgrader(http);
+  const {notifyInstallerStart} = useDiagnostics(http);
 
-  const createDatabase = (): Promise<AxiosResponse> => {
-    return http.request({
-      method: 'POST',
-      url: '/installer/api/installation/database',
-    });
+  const createDatabase = (): Promise<AxiosResponse[]> => {
+    return Promise.all([
+      notifyInstallerStart(),
+      http.request({
+        method: 'POST',
+        url: '/installer/api/installation/database',
+      }),
+    ]);
   };
 
   const createDatabaseUser = (): Promise<AxiosResponse> => {
