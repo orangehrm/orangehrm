@@ -40,5 +40,6 @@ class InstallerCompleteController extends AbstractInstallerVueController
         );
         $this->setComponent($component);
         StateContainer::getInstance()->setCurrentScreen(self::INSTALLATION_COMPLETE_SCREEN);
+        StateContainer::getInstance()->clean();
     }
 }

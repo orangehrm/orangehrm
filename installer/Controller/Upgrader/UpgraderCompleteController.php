@@ -40,5 +40,6 @@ class UpgraderCompleteController extends AbstractInstallerVueController
         );
         $this->setComponent($component);
         StateContainer::getInstance()->setCurrentScreen(self::UPGRADER_COMPLETE_SCREEN, true);
+        StateContainer::getInstance()->clean();
     }
 }

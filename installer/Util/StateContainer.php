@@ -353,4 +353,12 @@ class StateContainer
         }
         return null;
     }
+
+    public function clean(): void
+    {
+        $currentScreen = $this->getCurrentScreen();
+        $isUpgrader = $this->isUpgrader();
+        $this->getSession()->invalidate();
+        $this->setCurrentScreen($currentScreen, $isUpgrader);
+    }
 }
