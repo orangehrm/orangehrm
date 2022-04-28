@@ -206,7 +206,7 @@ export default {
         },
         {
           name: 'duration',
-          title: this.$t('leave.duration_hours'),
+          title: this.$t('attendance.duration_hours'),
           style: {flex: 1},
         },
         {name: 'status', title: this.$t('general.status'), style: {flex: 1}},

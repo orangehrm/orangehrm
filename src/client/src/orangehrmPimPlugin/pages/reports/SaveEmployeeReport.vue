@@ -33,7 +33,7 @@
               <oxd-input-field
                 v-model="report.name"
                 :label="$t('general.report_name')"
-                placeholder="Type here..."
+                :placeholder="$t('general.type_here_message')"
                 :rules="rules.name"
                 required
               />

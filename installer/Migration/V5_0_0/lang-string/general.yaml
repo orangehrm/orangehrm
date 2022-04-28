@@ -228,7 +228,7 @@ langStrings:
     value: 'Browse'
     unitId: browse
   -
-    value: 'Accepts up to 1MB'
+    value: 'Accepts upto 1 MB'
     unitId: accepts_up_to_1mb
   -
     value: 'Upload'
@@ -255,9 +255,6 @@ langStrings:
     value: 'Job Title'
     unitId: job_title
   -
-    value: 'Employment Status'
-    unitId: employment_status
-  -
     value: 'Sub Unit'
     unitId: sub_unit
   -
@@ -275,9 +272,6 @@ langStrings:
   -
     value: 'Email'
     unitId: email
-  -
-    value: 'Address'
-    unitId: address
   -
     value: 'Expiry Date'
     unitId: expiry_date
@@ -359,9 +353,6 @@ langStrings:
   -
     value: 'Middle name'
     unitId: middle_name
-  -
-    value: 'Last name'
-    unitId: last_name
   -
     value: 'Employee Full Name'
     unitId: employee_full_name
@@ -735,12 +726,6 @@ langStrings:
     value: 'Other Email'
     unitId: other_email
   -
-    value: 'Administrator Access'
-    unitId: admin_access
-  -
-    value: 'You have requested to access a critical Administrator function in OrangeHRM and are required to validate your credentials below'
-    unitId: admin_access_note
-  -
     value: 'Company Name'
     unitId: company_name
   -
@@ -792,9 +777,6 @@ langStrings:
     value: 'Bad Request'
     unitId: bad_request
   -
-    value: 'Accepts upto 1 MB'
-    unitId: file_upload_notice
-  -
     value: 'Personal Details'
     unitId: personal_details
   -
@@ -837,7 +819,7 @@ langStrings:
     value: 'Cannot be deleted'
     unitId: cannot_be_deleted
   -
-    value: 'Successfully deleted'
+    value: 'Successfully Deleted'
     unitId: successfully_deleted
   -
     value: 'Total'
@@ -863,3 +845,24 @@ langStrings:
   -
     value: 'Unexpected Error!'
     unitId: unexpected_error
+  -
+    value: 'Delete Selected'
+    unitId: delete_selected
+  -
+    value: 'Corporate Branding'
+    unitId: corporate_branding
+  -
+    value: 'More'
+    unitId: more
+  -
+    value: 'Should be greater than lower bound'
+    unitId: should_be_greater_than_lower_bound
+  -
+    value: 'Less Than'
+    unitId: less_than
+  -
+    value: 'Greater Than'
+    unitId: greater_than
+  -
+    value: 'Range'
+    unitId: range

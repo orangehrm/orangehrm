@@ -31,7 +31,7 @@
             <oxd-input-field
               v-model="comment"
               type="textarea"
-              placeholder="Type here"
+              :placeholder="$t('general.type_here_message')"
               :rules="rules.comment"
               :label="$t('general.comment')"
             />

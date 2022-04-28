@@ -68,7 +68,7 @@ translations:
     - { target: 'Karyawan Rekaman', unitId: employee_records, group: general }
     - { target: 'Karyawan Laporan', unitId: employee_reports, group: general }
     - { target: 'Karyawan Timesheets', unitId: employee_timesheets, group: general }
-    - { target: 'Status Pekerjaan', unitId: employment_status, group: admin }
+    - { target: 'Status Pekerjaan', unitId: employment_status, group: general }
     - { target: Diaktifkan, unitId: enabled, group: general }
     - { target: 'Tanggal Akhir', unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Metode Pelaporan', unitId: reporting_methods, group: pim }
     - { target: Laporan, unitId: reports, group: general }
     - { target: Wajib, unitId: required, group: general }
-    - { target: Reset, unitId: reset, group: admin }
+    - { target: Reset, unitId: reset, group: general }
     - { target: 'Nomor Routing', unitId: routing_number, group: pim }
     - { target: Gaji, unitId: salary, group: general }
     - { target: 'Gaji Komponen', unitId: salary_component, group: pim }
@@ -442,7 +442,7 @@ translations:
     - { target: 'Edit Tinggalkan Jenis', unitId: edit_leave_type, group: leave }
     - { target: 'Masuk (Hadir)', unitId: punch_in, group: attendance }
     - { target: 'Catatan Hadir', unitId: punch_in_note, group: attendance }
-    - { target: 'Keluar (Pulang)', unitId: punch_out, group: time }
+    - { target: 'Keluar (Pulang)', unitId: punch_out, group: attendance }
     - { target: 'Catatan Keluar ', unitId: punch_out_note, group: attendance }
     - { target: 'Catatan Tumpang Tindih Ditemukan', unitId: overlapping_records_found, group: attendance }
     - { target: 'Zona Waktu', unitId: timezone, group: attendance }
@@ -453,3 +453,12 @@ translations:
     - { target: 'Karyawan dapat menyunting / menghapus catatan kehadirannya sendiri', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
     - { target: 'Pengawas (supervisor) dapat menambahkan / menyunting / menghapus catatan kehadiran dari bawahannya', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: 'Rekaman Kehadiran Saya ', unitId: my_attendance_records, group: attendance }
+    - { target: 'Berhasil Dihapus', unitId: successfully_deleted, group: general }
+    - { target: 'Jam Keluar harus lebih besar dari jam Masuk', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Nama Pengguna', unitId: username, group: auth }
+    - { target: 'Kata sandi', unitId: password, group: auth }
+    - { target: 'Tidak Ditemukan Rekaman', unitId: no_records_found, group: general }
+    - { target: 'Kartu Absen (Timesheet) Dikirim', unitId: timesheet_submitted, group: time }
+    - { target: Nama tengah, unitId: middle_name, group: general }
+    - { target: Nama depan, unitId: first_name, group: general }
+    - { target: Nama keluarga, unitId: last_name, group: general }

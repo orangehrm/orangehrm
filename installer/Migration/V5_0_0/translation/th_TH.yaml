@@ -68,7 +68,7 @@ translations:
     - { target: ประวัติพนักงาน, unitId: employee_records, group: general }
     - { target: รายงานของพนักงาน, unitId: employee_reports, group: general }
     - { target: 'Timesheets ของพนักงาน', unitId: employee_timesheets, group: general }
-    - { target: สถานะการจ้างงาน, unitId: employment_status, group: admin }
+    - { target: สถานะการจ้างงาน, unitId: employment_status, group: general }
     - { target: ที่เปิดใช้งาน, unitId: enabled, group: general }
     - { target: วันที่สิ้นสุด, unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: วิธีการรายงาน, unitId: reporting_methods, group: pim }
     - { target: รายงาน, unitId: reports, group: general }
     - { target: จำเป็นต้องมี, unitId: required, group: general }
-    - { target: รีเซ็ต, unitId: reset, group: admin }
+    - { target: รีเซ็ต, unitId: reset, group: general }
     - { target: หมายเลขเส้นทาง, unitId: routing_number, group: pim }
     - { target: เงินเดือน, unitId: salary, group: general }
     - { target: ชิ้นส่วนเงินเดือน, unitId: salary_component, group: pim }
@@ -442,7 +442,7 @@ translations:
     - { target: แก้ไขประเภทการลา, unitId: edit_leave_type, group: leave }
     - { target: เข้างาน/ตอกบัตรเข้า, unitId: punch_in, group: attendance }
     - { target: หมายเหตุการเข้างาน/ตอกบัตรเข้า, unitId: punch_in_note, group: attendance }
-    - { target: ออกงาน/ตอกบัตรออก, unitId: punch_out, group: time }
+    - { target: ออกงาน/ตอกบัตรออก, unitId: punch_out, group: attendance }
     - { target: หมายเหตุการออกงาน/ตอกบัตรออก, unitId: punch_out_note, group: attendance }
     - { target: พบการบันทึกที่ซ้ำซ้อนกัน, unitId: overlapping_records_found, group: attendance }
     - { target: โซน, unitId: timezone, group: attendance }
@@ -453,3 +453,12 @@ translations:
     - { target: 'พนักงานสามารถแก้ไข / ลบบันทึกเวลาการทำงานของตัวเองได้', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
     - { target: 'หัวหน้างานสามารถเพิ่ม / แก้ไข /  ลบบันทึกเวลาการทำงานของผู้ใต้บังคับบัญชาได้', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
     - { target: บันทึกเวลาการทำงานของฉัน, unitId: my_attendance_records, group: attendance }
+    - { target: 'ลบเรียบร้อยแล้ว', unitId: successfully_deleted, group: general }
+    - { target: 'เวลาของการตอกบัตรออกควรควรจะสูงกว่าเวลาของการตอกบัตรเข้า', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: ชื่อผู้ใช้, unitId: username, group: auth }
+    - { target: รหัสผ่าน, unitId: password, group: auth }
+    - { target: ไม่พบการบันทึก, unitId: no_records_found, group: general }
+    - { target: ส่ง Timesheet แล้ว, unitId: timesheet_submitted, group: time }
+    - { target: ชื่อกลาง, unitId: middle_name, group: general }
+    - { target: ชื่อแรก, unitId: first_name, group: general }
+    - { target: นามสกุล, unitId: last_name, group: general }

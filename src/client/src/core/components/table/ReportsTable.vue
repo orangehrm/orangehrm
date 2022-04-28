@@ -30,7 +30,7 @@
       >
         <template #pagination>
           <oxd-text class="oxd-text--count" tag="span">
-            {{ itemCountText }}
+            {{ $t('general.n_records_found', {count: total}) }}
           </oxd-text>
           <oxd-pagination
             v-if="showPaginator"
@@ -197,6 +197,7 @@ export default {
     props.prefetch && onBeforeMount(generateReport());
 
     return {
+      total,
       pages,
       items,
       headers,

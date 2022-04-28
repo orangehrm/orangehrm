@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter :filter-title="$t('time.projects')">
+    <oxd-table-filter :filter-title="$t('general.projects')">
       <oxd-form @submitValid="filterItems" @reset="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">

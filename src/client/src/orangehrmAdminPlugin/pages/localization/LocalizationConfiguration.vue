@@ -50,6 +50,7 @@
                 :label="$t('admin.date_format')"
                 type="select"
                 :show-empty-selector="false"
+                :disabled="true"
                 :options="dateFormatList"
               />
             </oxd-grid-item>
@@ -93,8 +94,8 @@ export default {
     return {
       isLoading: false,
       configuration: {
-        language: '',
-        dateFormat: '',
+        language: null,
+        dateFormat: null,
       },
       errors: [],
     };
@@ -108,7 +109,7 @@ export default {
           item => item.id === data.language,
         );
         this.configuration.dateFormat = this.dateFormatList.find(
-          item => item.id === data.dateFormat,
+          item => item.id === 'Y-m-d',
         );
       })
       .finally(() => {

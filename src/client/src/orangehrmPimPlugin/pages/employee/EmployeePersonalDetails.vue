@@ -22,7 +22,7 @@
   <edit-employee-layout :employee-id="empNumber" screen="personal">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('pim.personal_details') }}
+        {{ $t('general.personal_details') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">

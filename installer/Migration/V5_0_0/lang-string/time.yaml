@@ -9,8 +9,8 @@ langStrings:
     value: 'Activity Name'
     unitId: activity_name
   -
-    value: 'Not Allowed to Delete Project Activities Which Have Time Logged Against Them'
-    unitId: not_allowed_to_delete_project_activities_which_have_time_logged_against_them
+    value: 'Not Allowed to Delete Project Activities Which Have Time Logged Against'
+    unitId: not_allowed_to_delete_project_activities_which_have_time_logged_against
   -
     value: 'Add Customer'
     unitId: add_customer
@@ -99,9 +99,6 @@ langStrings:
     value: 'Edit Customer'
     unitId: edit_customer
   -
-    value: 'Projects'
-    unitId: projects
-  -
     value: 'Customer Name'
     unitId: customer_name
   -
@@ -149,9 +146,6 @@ langStrings:
   -
     value: 'Edit Timesheet for'
     unitId: edit_timesheet_for
-  -
-    value: 'Punch Out'
-    unitId: punch_out
   -
     value: 'Add Project'
     unitId: add_project

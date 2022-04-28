@@ -228,7 +228,7 @@ export default {
         return this.$toast.error({
           title: this.$t('general.error'),
           message: this.$t(
-            'time.not_allowed_to_delete_project_activities_which_have_time_logged_against_them',
+            'time.not_allowed_to_delete_project_activities_which_have_time_logged_against',
           ),
         });
       }

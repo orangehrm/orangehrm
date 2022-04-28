@@ -68,7 +68,7 @@ translations:
     - { target: 'Registros de empleados', unitId: employee_records, group: general }
     - { target: 'Reportes de empleados', unitId: employee_reports, group: general }
     - { target: 'Hojas de asistencia de los empleados', unitId: employee_timesheets, group: general }
-    - { target: 'Estado del Empleado', unitId: employment_status, group: admin }
+    - { target: 'Estado del Empleado', unitId: employment_status, group: general }
     - { target: Habilitado, unitId: enabled, group: general }
     - { target: 'Fecha de finalización', unitId: end_date, group: general }
     - { target: 'Autogestión del Empleado', unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Métodos de reporte', unitId: reporting_methods, group: pim }
     - { target: Reportes, unitId: reports, group: general }
     - { target: Obligatorio, unitId: required, group: general }
-    - { target: Reiniciar, unitId: reset, group: admin }
+    - { target: Reiniciar, unitId: reset, group: general }
     - { target: 'Número de ruta', unitId: routing_number, group: pim }
     - { target: 'Salario/ Sueldo', unitId: salary, group: general }
     - { target: 'Componente Salarial', unitId: salary_component, group: pim }
@@ -500,7 +500,7 @@ translations:
     - { target: '¿Está seguro de continuar?', unitId: bulk_leave_action_confirm_message_two, group: leave }
     - { target: 'Marcar Entrada / Fichar', unitId: punch_in, group: attendance }
     - { target: 'Comentario sobre el Ingreso', unitId: punch_in_note, group: attendance }
-    - { target: 'Marcar Salida / Fichar', unitId: punch_out, group: time }
+    - { target: 'Marcar Salida / Fichar', unitId: punch_out, group: attendance }
     - { target: 'Comentario sobre el Egreso', unitId: punch_out_note, group: attendance }
     - { target: 'Superposición de registros encontrados', unitId: overlapping_records_found, group: attendance }
     - { target: 'Zona horaria', unitId: timezone, group: attendance }
@@ -516,3 +516,13 @@ translations:
     - { target: 'Solicitud a permiso', unitId: leave_entitlements, group: leave }
     - { target: Buzz, unitId: buzz, group: general }
     - { target: Exito, unitId: success, group: general }
+    - { target: 'Se ha eliminado correctamente', unitId: successfully_deleted, group: general }
+    - { target: 'La hora de salida debe ser mayor que la hora de entrada', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: '¿Olvidó su contraseña', unitId: forgot_password, group: auth }
+    - { target: 'Nombre de usuario', unitId: username, group: auth }
+    - { target: Contraseña, unitId: password, group: auth }
+    - { target: No se encontraron registros, unitId: no_records_found, group: general }
+    - { target: Reporte de asistencia enviado, unitId: timesheet_submitted, group: time }
+    - { target: Segundo Nombre, unitId: middle_name, group: general }
+    - { target: Primer Nombre, unitId: first_name, group: general }
+    - { target: Apellido del empleado, unitId: last_name, group: general }

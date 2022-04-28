@@ -27,7 +27,7 @@
           {{ $t('general.n_records_selected', {count: selected}) }}
         </oxd-text>
         <oxd-button
-          label="Delete Selected"
+          :label="$t('general.delete_selected')"
           icon-name="trash-fill"
           display-type="label-danger"
           class="orangehrm-horizontal-margin"

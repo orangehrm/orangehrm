@@ -24,9 +24,6 @@ langStrings:
     value: 'Punch In'
     unitId: punch_in
   -
-    value: 'Time'
-    unitId: time
-  -
     value: 'HH:MM'
     unitId: hh_mm
   -
@@ -47,9 +44,6 @@ langStrings:
   -
     value: 'Employee Attendance Records'
     unitId: employee_attendance_records
-  -
-    value: 'Total Duration (Hours)'
-    unitId: total_hours
   -
     value: 'My Attendance Records'
     unitId: my_attendance_records

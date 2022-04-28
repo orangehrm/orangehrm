@@ -69,7 +69,7 @@
         <oxd-grid-item class="--offset-row-2">
           <oxd-input-field
             v-model="attendanceRecord.time"
-            :label="$t('attendance.time')"
+            :label="$t('general.time')"
             :disabled="!isEditable"
             :rules="rules.time"
             type="time"

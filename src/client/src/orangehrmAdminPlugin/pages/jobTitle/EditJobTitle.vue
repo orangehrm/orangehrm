@@ -58,7 +58,7 @@
                 :file="jobTitle.oldSpecification"
                 :rules="rules.specification"
                 :url="`admin/viewJobSpecification/attachId`"
-                :hint="$t('general.file_upload_notice')"
+                :hint="$t('general.accepts_up_to_1mb')"
               />
             </oxd-form-row>
 

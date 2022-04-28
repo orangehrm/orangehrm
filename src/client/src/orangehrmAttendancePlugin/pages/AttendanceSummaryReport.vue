@@ -107,7 +107,7 @@ import ReportsTable from '@/core/components/table/ReportsTable';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
-import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   employee: null,
@@ -137,15 +137,14 @@ export default {
     const filters = ref({
       ...defaultFilters,
     });
-
-    const translate = translatorFactory();
+    const {$t} = usei18n();
 
     const rules = {
       fromDate: [
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
-          translate('general.from_date_should_be_before_to_date'),
+          $t('general.from_date_should_be_before_to_date'),
           {allowSameDate: true},
         ),
       ],
@@ -153,7 +152,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          translate('general.to_date_should_be_after_from_date'),
+          $t('general.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],

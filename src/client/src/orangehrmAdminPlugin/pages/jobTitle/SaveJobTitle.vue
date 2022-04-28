@@ -58,7 +58,7 @@
                 :rules="rules.specification"
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
-                {{ $t('general.file_upload_notice') }}
+                {{ $t('general.accepts_up_to_1mb') }}
               </oxd-text>
             </oxd-form-row>
 

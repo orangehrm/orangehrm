@@ -57,7 +57,7 @@ langStrings:
     value: 'Multiple import files may be required'
     unitId: multiple_import_files_may_be_required
   -
-    value: 'Sample CSV file:'
+    value: 'Sample CSV file'
     unitId: sample_csv_file
   -
     value: 'Number of Records Imported: '
@@ -95,12 +95,6 @@ langStrings:
   -
     value: 'Work'
     unitId: work
-  -
-    value: 'Work Email'
-    unitId: work_email
-  -
-    value: 'Other Email'
-    unitId: other_email
   -
     value: 'Assigned Dependents'
     unitId: assigned_dependents
@@ -168,9 +162,6 @@ langStrings:
     value: 'Subscription Renewal Date'
     unitId: subscription_renewal_date
   -
-    value: 'Personal Details'
-    unitId: personal_details
-  -
     value: 'Other Id'
     unitId: other_id
   -
@@ -218,9 +209,6 @@ langStrings:
   -
     value: 'Direct Deposit Amount'
     unitId: direct_deposit_amount
-  -
-    value: 'Tax Exemptions'
-    unitId: tax_exemptions
   -
     value: 'Federal Income Tax'
     unitId: federal_income_tax
@@ -515,3 +503,12 @@ langStrings:
   -
     value: 'Work Email and Other Email cannot be the same'
     unitId: work_email_and_other_email_cannot_be_the_same
+  -
+    value: 'Joined before'
+    unitId: joined_before
+  -
+    value: 'Joined after'
+    unitId: joined_after
+  -
+    value: 'Joined in between'
+    unitId: joined_in_between

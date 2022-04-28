@@ -136,16 +136,13 @@ class ReportGeneratorService
                     $displayFieldGroup = $displayField->getDisplayFieldGroup();
 
                     if (in_array($displayField->getDisplayFieldGroup()->getId(), $selectedDisplayGroupIds)) {
-                        $groupName = $displayFieldGroup->getName();
+                        $groupName = $this->getI18NHelper()->transBySource($displayFieldGroup->getName());
                         $headerData->incrementGroupCount();
                         $headerData->incrementGroupedColumnCount();
                     } else {
                         $groupName = null;
                     }
                     $headerGroup = new StackedColumn([$column]);
-                    if ($groupName != null) {
-                        $headerGroup->setName($this->getI18NHelper()->transBySource($groupName));
-                    }
                     $headerGroup->setName($groupName);
                     $headerGroups[$displayField->getDisplayFieldGroup()->getId()] = $headerGroup;
                 } else {

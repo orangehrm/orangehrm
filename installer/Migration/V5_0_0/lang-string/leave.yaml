@@ -6,12 +6,6 @@ langStrings:
     value: 'Repeats Annually'
     unitId: repeats_annually
   -
-    value: 'Yes'
-    unitId: yes
-  -
-    value: 'No'
-    unitId: no
-  -
     value: 'Edit Holiday'
     unitId: edit_holiday
   -
@@ -323,5 +317,14 @@ langStrings:
     value: 'Leave requested for'
     unitId: requested_for
   -
-    value: 'Duration (Hours)'
-    unitId: duration_hours
+    value: 'All Days'
+    unitId: all_days
+  -
+    value: 'Start Day Only'
+    unitId: start_day_only
+  -
+    value: 'End Day Only'
+    unitId: end_day_only
+  -
+    value: 'Start and End Day'
+    unitId: start_and_end_day

@@ -68,7 +68,7 @@ translations:
     - { target: 'Medewerker bestanden', unitId: employee_records, group: general }
     - { target: 'Medewerkers rapportages', unitId: employee_reports, group: general }
     - { target: 'Medewerker urenlijsten', unitId: employee_timesheets, group: general }
-    - { target: Contractvorm, unitId: employment_status, group: admin }
+    - { target: Contractvorm, unitId: employment_status, group: general }
     - { target: Ingeschakeld, unitId: enabled, group: general }
     - { target: Einddatum, unitId: end_date, group: general }
     - { target: ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'Rapportage methoden', unitId: reporting_methods, group: pim }
     - { target: Rapportages, unitId: reports, group: general }
     - { target: Verplicht, unitId: required, group: general }
-    - { target: Wissen, unitId: reset, group: admin }
+    - { target: Wissen, unitId: reset, group: general }
     - { target: 'IBAN nummer', unitId: routing_number, group: pim }
     - { target: Salaris, unitId: salary, group: general }
     - { target: Salariscomponent, unitId: salary_component, group: pim }
@@ -500,7 +500,7 @@ translations:
     - { target: 'Weet u zeker dat u door wilt gaan?', unitId: bulk_leave_action_confirm_message_two, group: leave }
     - { target: Aanmelden, unitId: punch_in, group: attendance }
     - { target: 'Aanmeld notitie', unitId: punch_in_note, group: attendance }
-    - { target: Afmelden, unitId: punch_out, group: time }
+    - { target: Afmelden, unitId: punch_out, group: attendance }
     - { target: 'Afmeld notitie', unitId: punch_out_note, group: attendance }
     - { target: 'Overlappende gegevens gevonden', unitId: overlapping_records_found, group: attendance }
     - { target: Tijdzone, unitId: timezone, group: attendance }
@@ -513,3 +513,13 @@ translations:
     - { target: 'Mijn aanwezigheidsgegevens', unitId: my_attendance_records, group: attendance }
     - { target: Inloggen, unitId: login, group: auth }
     - { target: Verlofrechten, unitId: leave_entitlements, group: leave }
+    - { target: Verwijderen geslaagd, unitId: successfully_deleted, group: general }
+    - { target: 'Afmeldtijd moet later zijn dan de aanmeldtijd', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Wachtwoord vergeten', unitId: forgot_password, group: auth }
+    - { target: Gebruikersnaam, unitId: username, group: auth }
+    - { target: Wachtwoord, unitId: password, group: auth }
+    - { target: Geen gegevens gevonden, unitId: no_records_found, group: general }
+    - { target: Urenlijst ingediend, unitId: timesheet_submitted, group: time }
+    - { target: Tussenvoegsel, unitId: middle_name, group: general }
+    - { target: Voornaam, unitId: first_name, group: general }
+    - { target: Achternaam, unitId: last_name, group: general }

@@ -157,29 +157,32 @@ class LangStringHelper
             $groupName
         );
         foreach ($langStringArray as $langString) {
-            $langStringId = $this->getLangStringIdByValueAndGroup($langString->getValue(), $langString->getGroupId());
+            $langStringId = $this->getLangStringIdByValueAndGroup($langString->getValue());
             if (is_null($langStringId)) {
                 $this->saveLangString($langString);
             } else {
-                $this->updateLangString($langStringId, $langString->getUnitId());
+                $this->updateLangString($langStringId, $langString);
             }
         }
     }
 
     /**
      * @param string $langStringValue
-     * @param int $groupId
+     * @param int|null $groupId
      * @return int|null
      */
-    public function getLangStringIdByValueAndGroup(string $langStringValue, int $groupId): ?int
+    public function getLangStringIdByValueAndGroup(string $langStringValue, ?int $groupId = null): ?int
     {
         $q = $this->createQueryBuilder()
             ->select('langString.id')
             ->from('ohrm_i18n_lang_string', 'langString')
             ->where('langString.value = :source')
-            ->andWhere('langString.group_id = :module')
-            ->setParameter('source', $langStringValue)
-            ->setParameter('module', $groupId);
+            ->setParameter('source', $langStringValue);
+        if (!is_null($groupId)) {
+            $q->andWhere('langString.group_id = :module')
+                ->setParameter('module', $groupId);
+        }
+
         if (false != $result = $q->executeQuery()->fetchOne()) {
             return $result;
         }
@@ -231,17 +234,19 @@ class LangStringHelper
 
     /**
      * @param int $langStringId
-     * @param string $unitId
+     * @param LangString $langString
      * @return void
      */
-    private function updateLangString(int $langStringId, string $unitId): void
+    private function updateLangString(int $langStringId, LangString $langString): void
     {
         // TODO:: have to look into `version` and `note`
         $this->createQueryBuilder()
             ->update('ohrm_i18n_lang_string')
             ->set('ohrm_i18n_lang_string.unit_id', ':key')
+            ->set('ohrm_i18n_lang_string.group_id', ':groupId')
             ->where('ohrm_i18n_lang_string.id = :id')
-            ->setParameter('key', $unitId)
+            ->setParameter('key', $langString->getUnitId())
+            ->setParameter('groupId', $langString->getGroupId())
             ->setParameter('id', $langStringId)
             ->executeQuery();
     }

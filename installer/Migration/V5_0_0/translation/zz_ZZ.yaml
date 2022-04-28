@@ -68,7 +68,7 @@ translations:
     - { target: 'FR_Employee Records', unitId: employee_records, group: general }
     - { target: 'FR_Employee Reports', unitId: employee_reports, group: general }
     - { target: 'FR_Employee Timesheets', unitId: employee_timesheets, group: general }
-    - { target: 'FR_Employment Status', unitId: employment_status, group: admin }
+    - { target: 'FR_Employment Status', unitId: employment_status, group: general }
     - { target: FR_Enabled, unitId: enabled, group: general }
     - { target: 'FR_End Date', unitId: end_date, group: general }
     - { target: FR_ESS, unitId: ess, group: general }
@@ -161,7 +161,7 @@ translations:
     - { target: 'FR_Reporting Methods', unitId: reporting_methods, group: pim }
     - { target: FR_Reports, unitId: reports, group: general }
     - { target: FR_Required, unitId: required, group: general }
-    - { target: FR_Reset, unitId: reset, group: admin }
+    - { target: FR_Reset, unitId: reset, group: general }
     - { target: 'FR_Routing Number', unitId: routing_number, group: pim }
     - { target: FR_Salary, unitId: salary, group: general }
     - { target: 'FR_Salary Component', unitId: salary_component, group: pim }
@@ -502,7 +502,7 @@ translations:
     - { target: 'FR_Are you sure you want to continue?', unitId: bulk_leave_action_confirm_message_two, group: leave }
     - { target: 'FR_Punch In', unitId: punch_in, group: attendance }
     - { target: 'FR_Punch In Note', unitId: punch_in_note, group: attendance }
-    - { target: 'FR_Punch Out', unitId: punch_out, group: time }
+    - { target: 'FR_Punch Out', unitId: punch_out, group: attendance }
     - { target: 'FR_Punch Out Note', unitId: punch_out_note, group: attendance }
     - { target: 'FR_Overlapping Records Found', unitId: overlapping_records_found, group: attendance }
     - { target: FR_Timezone, unitId: timezone, group: attendance }
