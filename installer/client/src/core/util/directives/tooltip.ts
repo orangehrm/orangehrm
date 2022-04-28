@@ -27,7 +27,7 @@ const tooltipDirective: Directive = {
       name: 'info-circle-fill',
       title: value,
       style: {
-        marginLeft: '5px',
+        marginLeft: 'auto',
         cursor: 'pointer',
       },
     });

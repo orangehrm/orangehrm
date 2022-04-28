@@ -74,16 +74,24 @@
           required
         />
       </oxd-grid-item>
+      <oxd-grid-item
+        v-if="isNewDB"
+        class="--offset-row-2 orangehrm-database-info-check"
+      >
+        <oxd-input-field
+          v-model="database.useSameDbUserForOrangeHRM"
+          label="&nbsp;"
+          type="checkbox"
+          option-label="Use the same Database User for OrangeHRM"
+        />
+      </oxd-grid-item>
+    </oxd-grid>
+    <oxd-grid
+      :cols="4"
+      class="orangehrm-full-width-grid orangehrm-database-info-user"
+    >
       <template v-if="isNewDB">
-        <oxd-grid-item class="--offset-row-2 orangehrm-database-info-check">
-          <oxd-input-field
-            v-model="database.useSameDbUserForOrangeHRM"
-            label="&nbsp;"
-            type="checkbox"
-            option-label="Use the same Database User for OrangeHRM"
-          />
-        </oxd-grid-item>
-        <oxd-grid-item class="--offset-row-3">
+        <oxd-grid-item>
           <oxd-input-field
             v-model="database.dbUser"
             v-tooltip="
@@ -94,7 +102,7 @@
             required
           />
         </oxd-grid-item>
-        <oxd-grid-item class="--offset-row-3">
+        <oxd-grid-item>
           <oxd-input-field
             v-model="database.dbPassword"
             label="Privileged Database User Password"
@@ -102,7 +110,7 @@
           />
         </oxd-grid-item>
       </template>
-      <oxd-grid-item class="--offset-row-3">
+      <oxd-grid-item>
         <oxd-input-field
           :key="disableOHRMDBfield"
           v-model="database.ohrmDbUser"
@@ -115,7 +123,7 @@
           :required="!disableOHRMDBfield"
         />
       </oxd-grid-item>
-      <oxd-grid-item class="--offset-row-3">
+      <oxd-grid-item>
         <oxd-input-field
           v-model="database.ohrmDbPassword"
           :disabled="disableOHRMDBfield"
@@ -261,6 +269,8 @@ export default {
 </script>
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 ::v-deep(.oxd-checkbox-wrapper span) {
   flex-shrink: 0;
 }
@@ -275,12 +285,20 @@ export default {
 .orangehrm-database-info-check {
   display: flex;
   align-items: center;
-  grid-column: 3 / full;
+  @include oxd-respond-to('lg') {
+    grid-column: 3 / full;
+  }
 }
 .orangehrm-database-info-port {
   width: 50%;
+  white-space: nowrap;
 }
 .orangehrm-database-info-error {
   color: $oxd-feedback-danger-color;
+}
+::v-deep(.orangehrm-database-info-user .oxd-label) {
+  @include oxd-respond-to('lg') {
+    width: 70%;
+  }
 }
 </style>
