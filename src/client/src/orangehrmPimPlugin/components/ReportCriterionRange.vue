@@ -56,7 +56,7 @@
 <script>
 import {ref} from 'vue';
 import {required, max, digitsOnly} from '@ohrm/core/util/validation/rules';
-import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+import usei18n from '@/core/util/composable/usei18n';
 
 export default {
   name: 'ReportCriterionRange',
@@ -80,11 +80,11 @@ export default {
   },
   emits: ['update:valueX', 'update:valueY', 'update:operator'],
   setup(props) {
-    const translate = translatorFactory();
+    const {$t} = usei18n();
     const operators = ref([
-      {id: 'lt', label: translate('general.less_than')},
-      {id: 'gt', label: translate('general.greater_than')},
-      {id: 'between', label: translate('general.range')},
+      {id: 'lt', label: $t('general.less_than')},
+      {id: 'gt', label: $t('general.greater_than')},
+      {id: 'between', label: $t('general.range')},
     ]);
 
     const rules = {
@@ -97,7 +97,7 @@ export default {
         v => {
           return (
             parseInt(v) < parseInt(props.valueY) ||
-            translate('general.should_be_less_than_upper_bound')
+            $t('general.should_be_less_than_upper_bound')
           );
         },
       ],
@@ -108,7 +108,7 @@ export default {
         v => {
           return (
             parseInt(v) > parseInt(props.valueX) ||
-            translate('general.should_be_greater_than_lower_bound')
+            $t('general.should_be_greater_than_lower_bound')
           );
         },
       ],
