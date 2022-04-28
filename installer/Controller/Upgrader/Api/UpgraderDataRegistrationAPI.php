@@ -28,8 +28,8 @@ use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 
 class UpgraderDataRegistrationAPI extends AbstractInstallerRestController
 {
-    private DataRegistrationService $dataRegistrationService;
-    private DataRegistrationUtility $dataRegistrationUtility;
+    protected DataRegistrationService $dataRegistrationService;
+    protected DataRegistrationUtility $dataRegistrationUtility;
     private SystemConfiguration $systemConfiguration;
 
     public function __construct()
