@@ -41,7 +41,7 @@ $request = Request::createFromGlobals();
 if (Config::isInstalled()) {
     $response = $kernel->handleRequest($request);
 } else {
-    $response = new RedirectResponse('./../');
+    $response = new RedirectResponse(str_replace('/web/index.php', '', $request->getBaseUrl()));
 }
 
 $response->send();

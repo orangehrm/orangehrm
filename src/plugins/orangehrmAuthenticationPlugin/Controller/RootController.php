@@ -17,24 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller;
+namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Framework\Http\Request;
 
-class HomeController extends AbstractInstallerController
+class RootController extends AbstractController implements PublicControllerInterface
 {
     /**
-     * @param Request $request
-     * @return RedirectResponse
+     * @inheritDoc
      */
-    protected function execute(Request $request): RedirectResponse
+    public function handle(Request $request)
     {
-        if (Config::isInstalled()) {
-            return new RedirectResponse(str_replace('/installer/index.php', '/web/index.php', $request->getBaseUrl()));
-        }
-
-        return $this->redirect('/welcome');
+        return $this->redirect('auth/login');
     }
 }

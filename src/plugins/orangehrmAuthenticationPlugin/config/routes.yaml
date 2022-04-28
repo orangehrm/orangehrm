@@ -1,6 +1,6 @@
 root:
   path: /
-  controller: OrangeHRM\Authentication\Controller\LoginController::handle
+  controller: OrangeHRM\Authentication\Controller\RootController::handle
   methods: [ GET ]
 
 auth_login:

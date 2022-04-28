@@ -77,7 +77,7 @@ abstract class AbstractInstallerController
      */
     public function handle(Request $request)
     {
-        $ignoredPaths = ['/upgrader/complete', '/installer/complete'];
+        $ignoredPaths = ['/upgrader/complete', '/installer/complete', '/'];
         if (Config::isInstalled() && !in_array($request->getPathInfo(), $ignoredPaths)) {
             $this->getResponse()->setStatusCode(Response::HTTP_BAD_GATEWAY);
             return $this->getResponse();
