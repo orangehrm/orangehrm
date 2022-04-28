@@ -59,14 +59,22 @@
       <oxd-button display-type="secondary" label="Next" @click="onClickNext" />
     </oxd-form-actions>
 
-    <oxd-text v-else tag="p" class="orangehrm-installer-page-content--center">
+    <oxd-text
+      v-else
+      tag="p"
+      :class="{
+        'orangehrm-installer-page-content': true,
+        '--center': true,
+        '--error': taskFailed,
+      }"
+    >
       {{ progressNotice }}
     </oxd-text>
   </div>
 </template>
 
 <script>
-import {onBeforeMount, ref} from 'vue';
+import {onBeforeMount, ref, computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import InstallerTasks from '@/components/InstallerTasks.vue';
 import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
@@ -82,14 +90,14 @@ export default {
     'installer-tasks': InstallerTasks,
   },
   setup() {
+    const errorText = ref(null);
     const {progress, start, stop, end} = useProgress();
-    useBeforeUnload(progress);
 
     const {runAllMigrations, createConfigFiles} = useUpgrader(
       new APIService(window.appGlobal.baseUrl, ''),
     );
     const tasks = ref([
-      {name: 'Applying database changes', state: 1, task: runAllMigrations},
+      {name: 'Applying database changes', state: 0, task: runAllMigrations},
       {name: 'Creating configuration files', state: 0, task: createConfigFiles},
     ]);
 
@@ -97,11 +105,13 @@ export default {
       start();
       for (let index = 0; index < tasks.value.length; index++) {
         try {
+          tasks.value[index].state = 1;
           await tasks.value[index].task();
           tasks.value[index].state = 2;
         } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error(error);
+          if (error?.message) {
+            errorText.value = error?.message;
+          }
           tasks.value[index].state = 3;
           stop();
           break;
@@ -110,31 +120,44 @@ export default {
       }
     });
 
+    const onClickNext = () => {
+      navigate('/upgrader/complete');
+    };
+
+    const progressText = computed(() => {
+      return `${Math.floor(progress.value)}%`;
+    });
+
+    const taskFailed = computed(() => {
+      return tasks.value.findIndex((task) => task.state === 3) > -1;
+    });
+
+    const progressNotice = computed(() => {
+      if (!taskFailed.value) return 'Please Wait. Upgrading in Progress';
+      return `${
+        errorText.value ? errorText.value : 'Upgrading has failed'
+      }. For more details check the error log in /src/log/installer.log file`;
+    });
+
+    const progressType = computed(() => {
+      return !taskFailed.value ? 'secondary' : 'error';
+    });
+
+    const overrideUnload = computed(() => {
+      return taskFailed.value || progress.value === 100;
+    });
+
+    useBeforeUnload(overrideUnload);
+
     return {
       tasks,
       progress,
+      taskFailed,
+      progressText,
+      progressType,
+      progressNotice,
+      onClickNext,
     };
-  },
-  computed: {
-    progressText() {
-      return `${Math.floor(this.progress)}%`;
-    },
-    taskFailed() {
-      return this.tasks.findIndex((task) => task.state === 3) > -1;
-    },
-    progressNotice() {
-      return !this.taskFailed
-        ? 'Please Wait. Upgrading in Progress'
-        : 'One or more tasks has failed, Please restore database and try again.';
-    },
-    progressType() {
-      return !this.taskFailed ? 'secondary' : 'error';
-    },
-  },
-  methods: {
-    onClickNext() {
-      navigate('/upgrader/complete');
-    },
   },
 };
 </script>
@@ -142,7 +165,7 @@ export default {
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style scoped lang="scss">
 .orangehrm-installer-page-content {
-  &--center {
+  &.--center {
     text-align: center;
   }
   &.--progress {
