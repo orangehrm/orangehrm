@@ -301,10 +301,10 @@ class AppSetupUtility
     /**
      * When installing via the application installer, it will get the
      * unique identifiers from the session.
-     * When installing via the legacy installer, it will create new
+     * When installing via the CLI installer, it will create new
      * unique identifiers since no unique identifiers stored in the session.
      */
-    public function insertInstanceIdentifierAndChecksum(): void
+    protected function insertInstanceIdentifierAndChecksum(): void
     {
         $instanceIdentifierData = StateContainer::getInstance()->getInstanceIdentifierData();
 
