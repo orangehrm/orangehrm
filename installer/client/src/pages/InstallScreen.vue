@@ -98,14 +98,18 @@ export default {
 
     const tasks = ref([
       {name: 'Database Creation', state: 0, task: createDatabase},
-      {name: 'Create Database Tables', state: 0, task: runMigrations},
+      {name: 'Applying database changes', state: 0, task: runMigrations},
       {
-        name: 'Fill default data into the database',
+        name: 'Instance and Admin user creation',
         state: 0,
         task: createInstance,
       },
-      {name: 'Create Default User', state: 0, task: createDatabaseUser},
-      {name: 'Write Configuration file', state: 0, task: createConfigFiles},
+      {
+        name: 'Create OrangeHRM database user',
+        state: 0,
+        task: createDatabaseUser,
+      },
+      {name: 'Creating configuration files', state: 0, task: createConfigFiles},
     ]);
 
     const onClickCleanup = () => {
