@@ -25,7 +25,6 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
-use OrangeHRM\Installer\Util\Messages;
 use OrangeHRM\Installer\Util\StateContainer;
 
 class DatabaseConfigAPI extends AbstractInstallerRestController
@@ -76,16 +75,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
 
             $connection = $appSetupUtility->connectToDatabaseServer();
             if ($connection instanceof Exception) {
-                $errormessage = $connection->getMessage();
-                $errorCode = $connection->getCode();
-
-                if ($errorCode === Messages::ERROR_CODE_INVALID_HOST_PORT) {
-                    $message = "The MySQL server isn't running on `$dbHost:$dbPort`. " . Messages::ERROR_MESSAGE_INVALID_HOST_PORT;
-                } elseif ($errorCode === Messages::ERROR_CODE_ACCESS_DENIED) {
-                    $message = Messages::ERROR_MESSAGE_ACCESS_DENIED;
-                } else {
-                    $message = $errormessage . ' ' . Messages::ERROR_MESSAGE_REFER_LOG_FOR_MORE;
-                }
+                $message = $appSetupUtility->getNewDBConnectionErrorMessage($connection, $dbHost, $dbPort);
                 $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
                 return [
                     'error' => [
@@ -125,12 +115,14 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         );
         StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING);
 
-        if (!$appSetupUtility->connectToDatabase()) {
+        $connection = $appSetupUtility->connectToDatabase();
+        if ($connection instanceof Exception) {
+            $message = $appSetupUtility->getExistingDBConnectionErrorMessage($connection, $dbHost, $dbPort);
             $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
             return [
                 'error' => [
                     'status' => $this->getResponse()->getStatusCode(),
-                    'message' => 'Failed to Connect: Check Database Details'
+                    'message' => $message
                 ]
             ];
         } elseif (!$appSetupUtility->isExistingDatabaseEmpty()) {

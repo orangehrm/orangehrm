@@ -49,8 +49,4 @@ class Messages
                 Please check whether MySQL server configuration as well as firewall and port blocking services are enabled.";
 
     public const ERROR_MESSAGE_REFER_LOG_FOR_MORE = 'For more details, please refer to the error log in src/log/installer.log file';
-
-    public const ERROR_CODE_ACCESS_DENIED = 1045;
-    public const ERROR_CODE_INVALID_HOST_PORT = 2002;
-    public const ERROR_CODE_DATABASE_NOT_EXISTS = 1049;
 }
