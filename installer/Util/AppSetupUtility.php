@@ -37,6 +37,7 @@ class AppSetupUtility
         '4.1' => \OrangeHRM\Installer\Migration\V4_1\Migration::class,
         '4.1.1' => \OrangeHRM\Installer\Migration\V4_1_1\Migration::class,
         '4.1.2' => \OrangeHRM\Installer\Migration\V4_1_2\Migration::class,
+        '4.1.2.1' => \OrangeHRM\Installer\Migration\V4_1_2_1\Migration::class,
         '4.2' => \OrangeHRM\Installer\Migration\V4_2\Migration::class,
         '4.2.0.1' => \OrangeHRM\Installer\Migration\V4_2_0_1\Migration::class,
         '4.3' => \OrangeHRM\Installer\Migration\V4_3\Migration::class,
