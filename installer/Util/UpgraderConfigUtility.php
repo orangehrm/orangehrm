@@ -25,16 +25,18 @@ use Exception;
 class UpgraderConfigUtility
 {
     /**
-     * @return bool
+     * @return bool|Exception
      */
-    public function checkDatabaseConnection(): bool
+    public function checkDatabaseConnection()
     {
         try {
             $connection = $this->getConnection();
             $connection->connect();
             return true;
         } catch (Exception $exception) {
-            return false;
+            Logger::getLogger()->error($exception->getMessage());
+            Logger::getLogger()->error($exception->getTraceAsString());
+            return $exception;
         }
     }
 

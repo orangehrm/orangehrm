@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
+use Doctrine\DBAL\Exception;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\Messages;
 use OrangeHRM\Installer\Util\StateContainer;
 use OrangeHRM\Installer\Util\SystemConfig;
 use OrangeHRM\Installer\Util\UpgraderConfigUtility;
@@ -70,13 +72,25 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         }
 
         $connection = $upgraderConfigUtility->checkDatabaseConnection();
-        if (!$connection) {
+        if ($connection instanceof Exception) {
+            $errorMessage = $connection->getMessage();
+            $errorCode = $connection->getCode();
+
+            if ($errorCode === Messages::ERROR_CODE_INVALID_HOST_PORT) {
+                $message = "The MySQL server isn't running on `$dbHost:$dbPort`. " . Messages::ERROR_MESSAGE_INVALID_HOST_PORT;
+            } elseif ($errorCode === Messages::ERROR_CODE_ACCESS_DENIED) {
+                $message = Messages::ERROR_MESSAGE_ACCESS_DENIED;
+            } elseif ($errorCode === Messages::ERROR_CODE_DATABASE_NOT_EXISTS) {
+                $message = 'Database Not Exist';
+            } else {
+                $message = $errorMessage . ' ' . Messages::ERROR_MESSAGE_REFER_LOG_FOR_MORE;
+            }
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return
                 [
                     'error' => [
                         'status' => $response->getStatusCode(),
-                        'message' => 'Failed to Connect: Check Database Details'
+                        'message' => $message
                     ]
                 ];
         } elseif ($upgraderConfigUtility->checkDatabaseStatus()) {

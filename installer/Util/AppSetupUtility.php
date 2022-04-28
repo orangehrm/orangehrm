@@ -100,9 +100,9 @@ class AppSetupUtility
 
     /**
      * Trying to connect database server without selecting a database
-     * @return bool
+     * @return bool|Exception
      */
-    public function connectToDatabaseServer(): bool
+    public function connectToDatabaseServer()
     {
         try {
             DatabaseServerConnection::getConnection()->connect();
@@ -110,7 +110,7 @@ class AppSetupUtility
         } catch (Exception $e) {
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());
-            return false;
+            return $e;
         }
     }
 
