@@ -137,6 +137,25 @@ class AppSetupUtility
     }
 
     /**
+     * @param string $dbUser
+     * @return bool
+     */
+    public function isDatabaseUserExist(string $dbUser): bool
+    {
+        try {
+            $dbUser = DatabaseServerConnection::getConnection()->quote($dbUser);
+            $result = DatabaseServerConnection::getConnection()->executeQuery(
+                "SELECT USER FROM mysql.user WHERE USER = $dbUser"
+            );
+            return $result->rowCount() > 0;
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
      * Trying to connect existing database
      * @return bool|Exception
      */

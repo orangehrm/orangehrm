@@ -239,8 +239,13 @@ export default {
             ohrmDbPassword: undefined,
             useSameDbUserForOrangeHRM: undefined,
           }),
+          ...(payload.useSameDbUserForOrangeHRM && {
+            ohrmDbUser: undefined,
+            ohrmDbPassword: undefined,
+          }),
         })
         .then(() => {
+          debugger;
           navigate('/installer/system-check');
         })
         .catch(({response}) => {
