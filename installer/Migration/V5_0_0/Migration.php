@@ -473,7 +473,7 @@ class Migration extends AbstractMigration
             ->setParameter('status', false, ParameterType::BOOLEAN);
         $qb->where('menuItem.menu_title = :menuTitle')
             ->where($qb->expr()->in('menuItem.menu_title', ':menuTitles'))
-            ->setParameter('menuTitles', ['Claim'], Connection::PARAM_STR_ARRAY)
+            ->setParameter('menuTitles', ['Claim', 'LDAP Configuration'], Connection::PARAM_STR_ARRAY)
             ->executeQuery();
     }
 }
