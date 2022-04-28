@@ -6,7 +6,6 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
-
     /**
      * @inheritDoc
      */
