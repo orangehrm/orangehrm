@@ -61,9 +61,9 @@ class ResetPasswordRequest
     /**
      * @var bool
      *
-     * @ORM\Column(name="valid", type="boolean")
+     * @ORM\Column(name="expired", type="boolean")
      */
-    private bool $valid;
+    private bool $expired;
 
     /**
      * @return int
@@ -132,16 +132,17 @@ class ResetPasswordRequest
     /**
      * @return bool
      */
-    public function getValid(): bool
+    public function getExpired(): bool
     {
-        return $this->valid;
+        return $this->expired;
     }
 
     /**
-     * @param bool $valid
+     * @param bool $expired
      */
-    public function setValid(bool $valid): void
+    public function setExpired(bool $expired): void
     {
-        $this->valid = $valid;
+        $this->expired = $expired;
     }
+
 }

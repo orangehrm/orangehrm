@@ -55,7 +55,6 @@ class Migration extends AbstractMigration
         $this->getSchemaManager()->dropTable('ohrm_data_group_screen');
 
         $this->addTimezoneColumnsToAttendanceRecord();
-        $this->addValidColumnToRequestResetPassword();
 
         $qb = $this->createQueryBuilder()
             ->update('ohrm_screen', 'screen')
@@ -335,20 +334,6 @@ class Migration extends AbstractMigration
             ->andWhere('menuItem.parent_id = :parentId')
             ->setParameter('parentId', $parentMenuItemId)
             ->executeQuery();
-    }
-
-
-    /**
-     * @return void
-     */
-    private function addValidColumnToRequestResetPassword(): void
-    {
-        $this->getSchemaHelper()->addColumn(
-            'ohrm_reset_password',
-            'valid',
-            Types::SMALLINT,
-            ['Length' => 1, 'Default' => 1, 'Notnull' => true]
-        );
     }
 
     /**

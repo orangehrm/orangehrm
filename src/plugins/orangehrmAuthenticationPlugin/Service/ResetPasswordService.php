@@ -254,7 +254,7 @@ class ResetPasswordService
                     $this->getLogger()->error('reset code was old one & not valid');
                     return null;
                 }
-                if (!$resetPassword->getValid()) {
+                if (!$resetPassword->getExpired()) {
                     $this->getLogger()->error('Password reset code expired');
                     return null;
                 }
@@ -285,7 +285,7 @@ class ResetPasswordService
         $date = $this->getDateTimeHelper()->getNow();
         $resetPassword->setResetRequestDate($date);
         $resetPassword->setResetCode($resetCode);
-        $resetPassword->setValid(1);
+        $resetPassword->setExpired(1);
         $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode, $user->getUserName());
         if (!$emailSent) {
             $this->getLogger()->error('Password reset email could not be sent.');
