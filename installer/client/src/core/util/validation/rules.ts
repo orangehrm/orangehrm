@@ -108,3 +108,11 @@ export const shouldNotLessThanCharLength = function (charLength: number) {
     );
   };
 };
+
+export const shouldNotContainSpecialChars = (message?: string) => {
+  const resolvedMessage =
+    message ?? 'Allows alphanumeric characters and only _';
+  return function (value: string): boolean | string {
+    return !value || /^[a-zA-Z0-9_]*$/.test(value) || resolvedMessage;
+  };
+};

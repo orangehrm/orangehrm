@@ -162,7 +162,12 @@
 </template>
 
 <script>
-import {required, validRange} from '@/core/util/validation/rules';
+import {
+  required,
+  validRange,
+  shouldNotExceedCharLength,
+  shouldNotContainSpecialChars,
+} from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation.ts';
 import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
@@ -190,7 +195,13 @@ export default {
       rules: {
         dbHost: [required],
         dbPort: [required, validRange(5, 0, 65535)],
-        dbName: [required],
+        dbName: [
+          required,
+          shouldNotExceedCharLength(64),
+          shouldNotContainSpecialChars(
+            'Database name should not contain special characters',
+          ),
+        ],
         dbUser: [required],
         ohrmDbUser: [(value) => this.disableOHRMDBfield || required(value)],
       },
