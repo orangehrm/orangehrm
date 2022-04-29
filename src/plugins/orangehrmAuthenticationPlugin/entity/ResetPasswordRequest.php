@@ -144,5 +144,4 @@ class ResetPasswordRequest
     {
         $this->expired = $expired;
     }
-
 }
