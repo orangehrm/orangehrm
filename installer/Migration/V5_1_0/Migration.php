@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Installer\Migration\V5_1_0;
+
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
