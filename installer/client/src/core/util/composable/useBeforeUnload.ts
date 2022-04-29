@@ -18,10 +18,10 @@
 
 import {onMounted, onUnmounted, Ref} from 'vue';
 
-export default function useBeforeUnload(progress: Ref<number>) {
-  let registed = false;
+export default function useBeforeUnload(override: Ref<boolean>) {
+  let registered = false;
   const triggerUnload = (event: Event) => {
-    if (progress.value < 100) {
+    if (!override.value) {
       event.preventDefault();
       event.returnValue = true;
       return event;
@@ -29,8 +29,8 @@ export default function useBeforeUnload(progress: Ref<number>) {
   };
 
   const registerUnloadEvent = () => {
-    !registed && window.addEventListener('beforeunload', triggerUnload);
-    registed = true;
+    !registered && window.addEventListener('beforeunload', triggerUnload);
+    registered = true;
   };
 
   onMounted(() => {

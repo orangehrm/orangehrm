@@ -89,7 +89,10 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {required} from '@/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
 
 export default {
@@ -116,7 +119,7 @@ export default {
       languageList: [],
       timezoneList: [],
       rules: {
-        organizationName: [required],
+        organizationName: [required, shouldNotExceedCharLength(100)],
         countryCode: [required],
       },
     };

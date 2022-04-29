@@ -149,7 +149,7 @@ export default {
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
-        email: [required, validEmailFormat],
+        email: [required, shouldNotExceedCharLength(50), validEmailFormat],
         contact: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         username: [
           required,
