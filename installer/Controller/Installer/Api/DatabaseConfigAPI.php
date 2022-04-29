@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
+use Doctrine\DBAL\Exception;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
@@ -72,12 +73,14 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
             );
             StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_NEW);
 
-            if (!$appSetupUtility->connectToDatabaseServer()) {
+            $connection = $appSetupUtility->connectToDatabaseServer();
+            if ($connection instanceof Exception) {
+                $message = $appSetupUtility->getNewDBConnectionErrorMessage($connection, $dbHost, $dbPort);
                 $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
                 return [
                     'error' => [
                         'status' => $this->getResponse()->getStatusCode(),
-                        'message' => 'Failed to Connect: Check Database Details'
+                        'message' => $message
                     ]
                 ];
             } elseif ($appSetupUtility->isDatabaseExist($dbName)) {
@@ -112,12 +115,14 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         );
         StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING);
 
-        if (!$appSetupUtility->connectToDatabase()) {
+        $connection = $appSetupUtility->connectToDatabase();
+        if ($connection instanceof Exception) {
+            $message = $appSetupUtility->getExistingDBConnectionErrorMessage($connection, $dbHost, $dbPort);
             $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
             return [
                 'error' => [
                     'status' => $this->getResponse()->getStatusCode(),
-                    'message' => 'Failed to Connect: Check Database Details'
+                    'message' => $message
                 ]
             ];
         } elseif (!$appSetupUtility->isExistingDatabaseEmpty()) {
