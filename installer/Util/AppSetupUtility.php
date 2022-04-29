@@ -57,6 +57,8 @@ class AppSetupUtility
         '5.0' => [
             \OrangeHRM\Installer\Migration\V5_0_0_beta\Migration::class,
             \OrangeHRM\Installer\Migration\V5_0_0\Migration::class,
+        ],
+        '5.1' => [
             \OrangeHRM\Installer\Migration\V5_1_0\Migration::class,
         ],
     ];
@@ -304,10 +306,16 @@ class AppSetupUtility
         $instanceIdentifierData = $this->getInstanceIdentifierData();
 
         $instanceIdentifier = $this->getSystemConfiguration()->createInstanceIdentifier(...$instanceIdentifierData);
-        $instanceIdentifierChecksum = $this->getSystemConfiguration()->createInstanceIdentifierChecksum(...$instanceIdentifierData);
+        $instanceIdentifierChecksum = $this->getSystemConfiguration()->createInstanceIdentifierChecksum(
+            ...
+            $instanceIdentifierData
+        );
 
         $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER, $instanceIdentifier);
-        $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum);
+        $this->getConfigHelper()->setConfigValue(
+            SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
+            $instanceIdentifierChecksum
+        );
     }
 
     /**
