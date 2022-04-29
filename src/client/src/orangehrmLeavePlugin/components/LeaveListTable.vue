@@ -408,15 +408,18 @@ export default {
 
       row.actions.map(item => {
         if (item.action === 'APPROVE') {
+          approve.props.label = this.$t('general.approve');
           approve.props.onClick = () => this.onLeaveAction(row.id, 'APPROVE');
           cellConfig.approve = approve;
         }
         if (item.action === 'REJECT') {
+          reject.props.label = this.$t('general.reject');
           reject.props.onClick = () => this.onLeaveAction(row.id, 'REJECT');
           cellConfig.reject = reject;
         }
         if (item.action === 'CANCEL') {
           if (this.myLeaveList) {
+            cancel.props.label = this.$t('general.cancel');
             cancel.props.onClick = () => this.onLeaveAction(row.id, 'CANCEL');
             cellConfig.reject = cancel;
           } else {
