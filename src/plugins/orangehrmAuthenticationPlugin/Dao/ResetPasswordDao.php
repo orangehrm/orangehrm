@@ -70,10 +70,10 @@ class ResetPasswordDao extends BaseDao
     {
         $q = $this->createQueryBuilder(ResetPasswordRequest::class, 'r');
         $q->update()
-                ->set('r.valid', ':value')
-                ->setParameter('value', $value)
-                ->andWhere('r.resetEmail = :email')
-                ->setParameter('email', $email);
+            ->set('r.expired', ':value')
+            ->setParameter('value', $value)
+            ->andWhere('r.resetEmail = :email')
+            ->setParameter('email', $email);
         $result = $q->getQuery()->execute();
         return $result > 0;
     }
