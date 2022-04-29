@@ -34,7 +34,9 @@ class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigF
         if (StateContainer::getInstance()->isSetDbInfo()) {
             $dbInfo = StateContainer::getInstance()->getDbInfo();
             $dbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? $dbInfo[StateContainer::DB_USER];
-            $dbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD] ?? $dbInfo[StateContainer::DB_PASSWORD];
+            $dbPassword = isset($dbInfo[StateContainer::ORANGEHRM_DB_USER])
+                ? $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD]
+                : $dbInfo[StateContainer::DB_PASSWORD];
             StateContainer::getInstance()->storeDbInfo(
                 $dbInfo[StateContainer::DB_HOST],
                 $dbInfo[StateContainer::DB_PORT],
