@@ -1,5 +1,3 @@
-## Apache 2.2
-
 <FilesMatch "(\.(php))$">
     Deny from all
 </FilesMatch>
@@ -7,12 +5,21 @@
     Allow from all
 </Files>
 
+<IfModule mod_rewrite.c>
+  RewriteEngine On
 
-## Apache 2.4
+  # we check if the .html version is here (caching)
+  RewriteRule ^$ index.html [QSA]
+  RewriteRule ^([^.]+)$ $1.html [QSA]
+  RewriteCond %{REQUEST_FILENAME} !-f
 
-#<FilesMatch "(\.(php))$">
-#    Require all denied
-#</FilesMatch>
-#<Files index.php>
-#    Require all granted
-#</Files>
+  # no, so we redirect to our front web controller
+  RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+<ifModule mod_headers.c>
+    # security
+    Header set X-Content-Type-Options nosniff
+    Header set X-XSS-Protection "1; mode=block"
+
+</IfModule>

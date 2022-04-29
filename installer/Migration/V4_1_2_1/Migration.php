@@ -17,29 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader;
+namespace OrangeHRM\Installer\Migration\V4_1_2_1;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Helper\VueControllerHelper;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
-use OrangeHRM\Installer\Util\StateContainer;
+use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
-class UpgraderCompleteController extends AbstractInstallerVueController
+class Migration extends AbstractMigration
 {
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function up(): void
     {
-        $component = new Component('upgrader-complete-screen');
-        $component->addProp(
-            new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
-        );
-        $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::UPGRADER_COMPLETE_SCREEN, true);
-        StateContainer::getInstance()->clean();
+        // no db changes in this version
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '4.1.2.1';
     }
 }

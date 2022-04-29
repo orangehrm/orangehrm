@@ -20,18 +20,8 @@
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
 
-$installed = true;
-
-define('ROOT_PATH', dirname(__FILE__));
-
-if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    $installed = false;
-}
-
-if (!$installed) {
+if (!realpath(__DIR__ . '/lib/confs/Conf.php')) {
     header('Location: ./installer/index.php');
-    exit();
+} else {
+    header("Location: ./web/index.php/auth/login");
 }
-
-header("Location: ./web/index.php/auth/login");
-exit();

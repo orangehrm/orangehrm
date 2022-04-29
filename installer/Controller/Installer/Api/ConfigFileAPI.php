@@ -41,7 +41,6 @@ class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigF
                 new UserCredential($dbUser, $dbPassword),
                 $dbInfo[StateContainer::DB_NAME]
             );
-            $this->sendRegistrationData();
         }
         return parent::handlePost($request);
     }

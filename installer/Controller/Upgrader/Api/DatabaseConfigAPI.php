@@ -19,16 +19,20 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
+use Doctrine\DBAL\Exception;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\StateContainer;
 use OrangeHRM\Installer\Util\SystemConfig;
 use OrangeHRM\Installer\Util\UpgraderConfigUtility;
 
 class DatabaseConfigAPI extends AbstractInstallerRestController
 {
+    private ?AppSetupUtility $appSetupUtility = null;
+
     /**
      * @inheritDoc
      */
@@ -70,13 +74,15 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         }
 
         $connection = $upgraderConfigUtility->checkDatabaseConnection();
-        if (!$connection) {
+        if ($connection instanceof Exception) {
+            $message = $this->getAppSetupUtility()
+                ->getExistingDBConnectionErrorMessage($connection, $dbHost, $dbPort);
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return
                 [
                     'error' => [
                         'status' => $response->getStatusCode(),
-                        'message' => 'Failed to Connect: Check Database Details'
+                        'message' => $message
                     ]
                 ];
         } elseif ($upgraderConfigUtility->checkDatabaseStatus()) {
@@ -116,5 +122,16 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
             'meta' => []
 
         ];
+    }
+
+    /**
+     * @return AppSetupUtility
+     */
+    private function getAppSetupUtility(): AppSetupUtility
+    {
+        if (is_null($this->appSetupUtility)) {
+            $this->appSetupUtility = new AppSetupUtility();
+        }
+        return $this->appSetupUtility;
     }
 }

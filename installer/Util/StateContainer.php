@@ -54,6 +54,9 @@ class StateContainer
     public const ADMIN_PASSWORD = 'password';
     public const ADMIN_CONTACT = 'contact';
 
+    public const INSTANCE_IDENTIFIER = 'instanceIdentifier';
+    public const INSTANCE_IDENTIFIER_CHECKSUM = 'instanceIdentifierChecksum';
+
     /**
      * @var null|self
      */
@@ -323,5 +326,39 @@ class StateContainer
             self::ADMIN_PASSWORD => $this->getSession()->get(self::ADMIN_PASSWORD),
             self::ADMIN_CONTACT => $this->getSession()->get(self::ADMIN_CONTACT),
         ];
+    }
+
+    /**
+     * @param string $instanceIdentifier
+     * @param string $instanceIdentifierChecksum
+     */
+    public function storeInstanceIdentifierData(
+        string $instanceIdentifier,
+        string $instanceIdentifierChecksum
+    ): void {
+        $this->getSession()->set(self::INSTANCE_IDENTIFIER, $instanceIdentifier);
+        $this->getSession()->set(self::INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getInstanceIdentifierData(): ?array
+    {
+        if ($this->getSession()->has(self::INSTANCE_IDENTIFIER)) {
+            return [
+                self::INSTANCE_IDENTIFIER => $this->getSession()->get(self::INSTANCE_IDENTIFIER),
+                self::INSTANCE_IDENTIFIER_CHECKSUM => $this->getSession()->get(self::INSTANCE_IDENTIFIER_CHECKSUM)
+            ];
+        }
+        return null;
+    }
+
+    public function clean(): void
+    {
+        $currentScreen = $this->getCurrentScreen();
+        $isUpgrader = $this->isUpgrader();
+        $this->getSession()->invalidate();
+        $this->setCurrentScreen($currentScreen, $isUpgrader);
     }
 }

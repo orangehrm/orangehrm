@@ -45,7 +45,11 @@
     <oxd-text
       v-show="progress < 100"
       tag="p"
-      class="orangehrm-installer-page-content--center"
+      :class="{
+        'orangehrm-installer-page-content': true,
+        '--center': true,
+        '--error': taskFailed,
+      }"
     >
       {{ progressNotice }}
     </oxd-text>
@@ -68,7 +72,7 @@
 </template>
 
 <script>
-import {onBeforeMount, ref} from 'vue';
+import {onBeforeMount, ref, computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import InstallerTasks from '@/components/InstallerTasks.vue';
 import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
@@ -84,8 +88,8 @@ export default {
     'installer-tasks': InstallerTasks,
   },
   setup() {
+    const errorText = ref(null);
     const {progress, start, stop, end} = useProgress();
-    useBeforeUnload(progress);
 
     const {
       runCleanup,
@@ -98,15 +102,23 @@ export default {
 
     const tasks = ref([
       {name: 'Database Creation', state: 0, task: createDatabase},
-      {name: 'Create Database Tables', state: 0, task: runMigrations},
+      {name: 'Applying database changes', state: 0, task: runMigrations},
       {
-        name: 'Fill default data into the database',
+        name: 'Instance and Admin user creation',
         state: 0,
         task: createInstance,
       },
-      {name: 'Create Default User', state: 0, task: createDatabaseUser},
-      {name: 'Write Configuration file', state: 0, task: createConfigFiles},
+      {
+        name: 'Create OrangeHRM database user',
+        state: 0,
+        task: createDatabaseUser,
+      },
+      {name: 'Creating configuration files', state: 0, task: createConfigFiles},
     ]);
+
+    const onClickNext = () => {
+      navigate('/installer/complete');
+    };
 
     const onClickCleanup = () => {
       runCleanup().then(() => {
@@ -122,8 +134,9 @@ export default {
           await tasks.value[index].task();
           tasks.value[index].state = 2;
         } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error(error);
+          if (error?.message) {
+            errorText.value = error?.message;
+          }
           tasks.value[index].state = 3;
           stop();
           break;
@@ -132,32 +145,41 @@ export default {
       }
     });
 
+    const progressText = computed(() => {
+      return `${Math.floor(progress.value)}%`;
+    });
+
+    const taskFailed = computed(() => {
+      return tasks.value.findIndex((task) => task.state === 3) > -1;
+    });
+
+    const progressNotice = computed(() => {
+      if (!taskFailed.value) return 'Please Wait. Installation in Progress';
+      return `${
+        errorText.value ? errorText.value : 'Installation has failed'
+      }. For more details check the error log in /src/log/installer.log file`;
+    });
+
+    const progressType = computed(() => {
+      return !taskFailed.value ? 'secondary' : 'error';
+    });
+
+    const overrideUnload = computed(() => {
+      return taskFailed.value || progress.value === 100;
+    });
+
+    useBeforeUnload(overrideUnload);
+
     return {
       tasks,
       progress,
+      taskFailed,
+      progressType,
+      progressText,
+      progressNotice,
       onClickCleanup,
+      onClickNext,
     };
-  },
-  computed: {
-    progressText() {
-      return `${Math.floor(this.progress)}%`;
-    },
-    taskFailed() {
-      return this.tasks.findIndex((task) => task.state === 3) > -1;
-    },
-    progressNotice() {
-      return !this.taskFailed
-        ? 'Please Wait. Installation in Progress'
-        : 'One or more tasks has failed, Please clean up installation and try again.';
-    },
-    progressType() {
-      return !this.taskFailed ? 'secondary' : 'error';
-    },
-  },
-  methods: {
-    onClickNext() {
-      navigate('/installer/complete');
-    },
   },
 };
 </script>
@@ -165,7 +187,7 @@ export default {
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style scoped lang="scss">
 .orangehrm-installer-page-content {
-  &--center {
+  &.--center {
     text-align: center;
   }
   &.--progress {

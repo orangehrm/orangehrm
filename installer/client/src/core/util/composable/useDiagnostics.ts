@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,29 +16,26 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader;
+import {APIService} from '@/core/util/services/api.service';
+import {AxiosResponse} from 'axios';
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Helper\VueControllerHelper;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
-use OrangeHRM\Installer\Util\StateContainer;
+export default function useDiagnostics(http: APIService) {
+  const notifyInstallerStart = (): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'POST',
+      url: '/installer/api/send-data/installer-start',
+    });
+  };
 
-class UpgraderCompleteController extends AbstractInstallerVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('upgrader-complete-screen');
-        $component->addProp(
-            new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
-        );
-        $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::UPGRADER_COMPLETE_SCREEN, true);
-        StateContainer::getInstance()->clean();
-    }
+  const notifyUpgraderStart = (): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'POST',
+      url: '/installer/api/send-data/upgrader-start',
+    });
+  };
+
+  return {
+    notifyUpgraderStart,
+    notifyInstallerStart,
+  };
 }

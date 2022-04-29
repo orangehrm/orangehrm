@@ -99,10 +99,12 @@ export default {
       })
       .then((response) => {
         const {version} = response.data;
-        this.version = {
-          id: version,
-          label: version,
-        };
+        if (version) {
+          this.version = {
+            id: version,
+            label: version,
+          };
+        }
         this.isLoading = false;
       });
   },

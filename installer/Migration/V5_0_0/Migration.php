@@ -281,6 +281,23 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->cleanUniqueIdTable();
+
+        $q = $this->createQueryBuilder()
+            ->select('filter_field.filter_field_id')
+            ->from('ohrm_filter_field', 'filter_field')
+            ->where('filter_field.name = :filterField')
+            ->setParameter('filterField', 'include');
+
+        $filterFieldId = $q->executeQuery()->fetchOne();
+        $this->createQueryBuilder()
+            ->update('ohrm_selected_filter_field', 'selected_filter_field')
+            ->set('selected_filter_field.filter_field_order', ':newFilterFieldOrder')
+            ->where('selected_filter_field.filter_field_order = :filterFieldOrder ')
+            ->andWhere('selected_filter_field.filter_field_id = :filterFieldId')
+            ->setParameter('newFilterFieldOrder', 1)
+            ->setParameter('filterFieldOrder', 0)
+            ->setParameter('filterFieldId', $filterFieldId)
+            ->executeQuery();
     }
 
     /**
@@ -358,6 +375,8 @@ class Migration extends AbstractMigration
             $attendanceHelper->updatePunchInTimezoneOffset($offset, $timezone);
             $attendanceHelper->updatePunchOutTimezoneOffset($offset, $timezone);
         }
+
+        $this->hideAddonMenuItems();
     }
 
     /**
@@ -460,6 +479,18 @@ class Migration extends AbstractMigration
             ->delete('hs_hr_unique_id')
             ->andWhere('table_name != :table')
             ->setParameter('table', 'hs_hr_employee')
+            ->executeQuery();
+    }
+
+    private function hideAddonMenuItems(): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menuItem')
+            ->set('menuItem.status', ':status')
+            ->setParameter('status', false, ParameterType::BOOLEAN);
+        $qb->where('menuItem.menu_title = :menuTitle')
+            ->where($qb->expr()->in('menuItem.menu_title', ':menuTitles'))
+            ->setParameter('menuTitles', ['Claim', 'LDAP Configuration'], Connection::PARAM_STR_ARRAY)
             ->executeQuery();
     }
 }

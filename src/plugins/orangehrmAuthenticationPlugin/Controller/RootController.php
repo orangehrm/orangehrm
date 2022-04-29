@@ -17,29 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader;
+namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Helper\VueControllerHelper;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
-use OrangeHRM\Installer\Util\StateContainer;
 
-class UpgraderCompleteController extends AbstractInstallerVueController
+class RootController extends AbstractController implements PublicControllerInterface
 {
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function handle(Request $request)
     {
-        $component = new Component('upgrader-complete-screen');
-        $component->addProp(
-            new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
-        );
-        $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::UPGRADER_COMPLETE_SCREEN, true);
-        StateContainer::getInstance()->clean();
+        return $this->redirect('auth/login');
     }
 }

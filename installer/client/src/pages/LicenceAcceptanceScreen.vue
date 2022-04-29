@@ -53,7 +53,6 @@
     </oxd-form-row>
 
     <oxd-form-actions class="orangehrm-installer-page-action">
-      <required-text />
       <oxd-button display-type="ghost" label="Back" @click="onClickBack" />
       <oxd-button
         :disabled="!userConsent"

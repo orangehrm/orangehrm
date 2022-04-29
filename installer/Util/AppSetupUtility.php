@@ -37,6 +37,7 @@ class AppSetupUtility
         '4.1' => \OrangeHRM\Installer\Migration\V4_1\Migration::class,
         '4.1.1' => \OrangeHRM\Installer\Migration\V4_1_1\Migration::class,
         '4.1.2' => \OrangeHRM\Installer\Migration\V4_1_2\Migration::class,
+        '4.1.2.1' => \OrangeHRM\Installer\Migration\V4_1_2_1\Migration::class,
         '4.2' => \OrangeHRM\Installer\Migration\V4_2\Migration::class,
         '4.2.0.1' => \OrangeHRM\Installer\Migration\V4_2_0_1\Migration::class,
         '4.3' => \OrangeHRM\Installer\Migration\V4_3\Migration::class,
@@ -65,6 +66,10 @@ class AppSetupUtility
 
     public const INSTALLATION_DB_TYPE_NEW = 'new';
     public const INSTALLATION_DB_TYPE_EXISTING = 'existing';
+
+    public const ERROR_CODE_ACCESS_DENIED = 1045;
+    public const ERROR_CODE_INVALID_HOST_PORT = 2002;
+    public const ERROR_CODE_DATABASE_NOT_EXISTS = 1049;
 
     private ?ConfigHelper $configHelper = null;
     private ?SystemConfiguration $systemConfiguration = null;
@@ -103,9 +108,9 @@ class AppSetupUtility
 
     /**
      * Trying to connect database server without selecting a database
-     * @return bool
+     * @return bool|Exception
      */
-    public function connectToDatabaseServer(): bool
+    public function connectToDatabaseServer()
     {
         try {
             DatabaseServerConnection::getConnection()->connect();
@@ -113,7 +118,7 @@ class AppSetupUtility
         } catch (Exception $e) {
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());
-            return false;
+            return $e;
         }
     }
 
@@ -136,10 +141,29 @@ class AppSetupUtility
     }
 
     /**
-     * Trying to connect existing database
+     * @param string $dbUser
      * @return bool
      */
-    public function connectToDatabase(): bool
+    public function isDatabaseUserExist(string $dbUser): bool
+    {
+        try {
+            $dbUser = DatabaseServerConnection::getConnection()->quote($dbUser);
+            $result = DatabaseServerConnection::getConnection()->executeQuery(
+                "SELECT USER FROM mysql.user WHERE USER = $dbUser"
+            );
+            return $result->rowCount() > 0;
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
+     * Trying to connect existing database
+     * @return bool|Exception
+     */
+    public function connectToDatabase()
     {
         try {
             Connection::getConnection()->connect();
@@ -147,7 +171,7 @@ class AppSetupUtility
         } catch (Exception $e) {
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());
-            return false;
+            return $e;
         }
     }
 
@@ -301,21 +325,58 @@ class AppSetupUtility
             ->executeQuery();
     }
 
-    public function insertInstanceIdentifierAndChecksum(): void
+    /**
+     * When installing via the application installer, it will get the
+     * unique identifiers from the session.
+     * When installing via the CLI installer, it will create new
+     * unique identifiers since no unique identifiers stored in the session.
+     */
+    protected function insertInstanceIdentifierAndChecksum(): void
+    {
+        $instanceIdentifierData = StateContainer::getInstance()->getInstanceIdentifierData();
+
+        if (!is_null($instanceIdentifierData)) {
+            $this->getConfigHelper()->setConfigValue(
+                SystemConfiguration::INSTANCE_IDENTIFIER,
+                $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER]
+            );
+            $this->getConfigHelper()->setConfigValue(
+                SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
+                $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER_CHECKSUM]
+            );
+        } else {
+            list(
+                $instanceIdentifier,
+                $instanceIdentifierChecksum
+                ) = $this->getInstanceUniqueIdentifyingData();
+
+            $this->getConfigHelper()->setConfigValue(
+                SystemConfiguration::INSTANCE_IDENTIFIER,
+                $instanceIdentifier
+            );
+            $this->getConfigHelper()->setConfigValue(
+                SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
+                $instanceIdentifierChecksum
+            );
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getInstanceUniqueIdentifyingData(): array
     {
         $instanceIdentifierData = $this->getInstanceIdentifierData();
 
-        $instanceIdentifier = $this->getSystemConfiguration()->createInstanceIdentifier(...$instanceIdentifierData);
-        $instanceIdentifierChecksum = $this->getSystemConfiguration()->createInstanceIdentifierChecksum(
-            ...
-            $instanceIdentifierData
-        );
+        $instanceIdentifier = $this->getSystemConfiguration()
+            ->createInstanceIdentifier(...$instanceIdentifierData);
+        $instanceIdentifierChecksum = $this->getSystemConfiguration()
+            ->createInstanceIdentifierChecksum(...$instanceIdentifierData);
 
-        $this->getConfigHelper()->setConfigValue(SystemConfiguration::INSTANCE_IDENTIFIER, $instanceIdentifier);
-        $this->getConfigHelper()->setConfigValue(
-            SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
+        return [
+            $instanceIdentifier,
             $instanceIdentifierChecksum
-        );
+        ];
     }
 
     /**
@@ -484,5 +545,57 @@ class AppSetupUtility
     {
         $dbName = StateContainer::getInstance()->getDbInfo()[StateContainer::DB_NAME];
         Connection::getConnection()->createSchemaManager()->dropDatabase($dbName);
+    }
+
+    /**
+     * get possible errors based on DBAL exception when connecting to server with database
+     * @param \Doctrine\DBAL\Exception $exception
+     * @param string $dbHost
+     * @param string $dbPort
+     * @return string
+     */
+    public function getExistingDBConnectionErrorMessage(
+        \Doctrine\DBAL\Exception $exception,
+        string $dbHost,
+        string $dbPort
+    ): string {
+        $errorMessage = $exception->getMessage();
+        $errorCode = $exception->getCode();
+
+        if ($errorCode === self::ERROR_CODE_INVALID_HOST_PORT) {
+            $message = "The MySQL server isn't running on `$dbHost:$dbPort`. " . Messages::ERROR_MESSAGE_INVALID_HOST_PORT;
+        } elseif ($errorCode === self::ERROR_CODE_ACCESS_DENIED) {
+            $message = Messages::ERROR_MESSAGE_ACCESS_DENIED;
+        } elseif ($errorCode === self::ERROR_CODE_DATABASE_NOT_EXISTS) {
+            $message = 'Database Not Exist';
+        } else {
+            $message = $errorMessage . ' ' . Messages::ERROR_MESSAGE_REFER_LOG_FOR_MORE;
+        }
+        return $message;
+    }
+
+    /**
+     * get possible errors based on DBAL exception when connecting to server without database
+     * @param \Doctrine\DBAL\Exception $exception
+     * @param string $dbHost
+     * @param string $dbPort
+     * @return string
+     */
+    public function getNewDBConnectionErrorMessage(
+        \Doctrine\DBAL\Exception $exception,
+        string $dbHost,
+        string $dbPort
+    ): string {
+        $errormessage = $exception->getMessage();
+        $errorCode = $exception->getCode();
+
+        if ($errorCode === self::ERROR_CODE_INVALID_HOST_PORT) {
+            $message = "The MySQL server isn't running on `$dbHost:$dbPort`. " . Messages::ERROR_MESSAGE_INVALID_HOST_PORT;
+        } elseif ($errorCode === self::ERROR_CODE_ACCESS_DENIED) {
+            $message = Messages::ERROR_MESSAGE_ACCESS_DENIED;
+        } else {
+            $message = $errormessage . ' ' . Messages::ERROR_MESSAGE_REFER_LOG_FOR_MORE;
+        }
+        return $message;
     }
 }

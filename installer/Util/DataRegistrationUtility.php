@@ -98,10 +98,35 @@ class DataRegistrationUtility
     }
 
     /**
+     * @return array
+     */
+    private function getInstallerInitialRegistrationData(): array
+    {
+        $adminUserData = StateContainer::getInstance()->getAdminUserData();
+        $instanceData = StateContainer::getInstance()->getInstanceData();
+        $instanceIdentifierData = StateContainer::getInstance()->getInstanceIdentifierData();
+
+        return [
+            $instanceData[StateContainer::INSTANCE_ORG_NAME],
+            $instanceData[StateContainer::INSTANCE_COUNTRY_CODE],
+            $instanceData[StateContainer::INSTANCE_LANG_CODE] ?? SystemConfiguration::DEFAULT_LANGUAGE,
+            $adminUserData[StateContainer::ADMIN_FIRST_NAME],
+            $adminUserData[StateContainer::ADMIN_LAST_NAME],
+            $adminUserData[StateContainer::ADMIN_EMAIL],
+            $adminUserData[StateContainer::ADMIN_CONTACT],
+            $adminUserData[StateContainer::ADMIN_USERNAME],
+            $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER]
+        ];
+    }
+
+    /**
+     * If the uniqueIdentifier is null, that means the method is for upgrader and data is fetched from the database
+     * else the method is for installer and data is fetched from the session
      * @param string $type
+     * @param string|null $uniqueIdentifier
      * @throws \Doctrine\DBAL\Exception
      */
-    public function setInitialRegistrationDataBody(string $type): void
+    public function setInitialRegistrationDataBody(string $type, string $uniqueIdentifier = null): void
     {
         list(
             $organizationName,
@@ -113,7 +138,9 @@ class DataRegistrationUtility
             $adminContactNumber,
             $adminUserName,
             $instanceIdentifier
-            ) = $this->getInitialRegistrationData();
+            ) = is_null($uniqueIdentifier) ?
+            $this->getInitialRegistrationData() :
+            $this->getInstallerInitialRegistrationData();
 
         $this->initialRegistrationDataBody = [
             'username' => $adminUserName,
@@ -144,11 +171,12 @@ class DataRegistrationUtility
      */
     public function getSuccessRegistrationDataBody(): array
     {
-        return[
+        return [
             'instance_identifier' => $this->systemConfiguration->getInstanceIdentifier(),
             'type' => self::REGISTRATION_TYPE_SUCCESS
         ];
     }
+
     /**
      * @param string $adminFirstName
      * @param string $adminLastName

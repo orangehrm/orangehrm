@@ -17,29 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader;
+namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Helper\VueControllerHelper;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
-use OrangeHRM\Installer\Util\StateContainer;
 
-class UpgraderCompleteController extends AbstractInstallerVueController
+class VersionAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\VersionAPI
 {
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    protected function handleGet(Request $request): array
     {
-        $component = new Component('upgrader-complete-screen');
-        $component->addProp(
-            new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
-        );
-        $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::UPGRADER_COMPLETE_SCREEN, true);
-        StateContainer::getInstance()->clean();
+        $request->query->set('excludeLatest', $request->query->getBoolean('excludeLatest', false));
+        return parent::handleGet($request);
     }
 }
