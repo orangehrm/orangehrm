@@ -146,13 +146,13 @@ translations:
     - { target: Gehaltsgruppe, unitId: pay_grade, group: general }
     - { target: Gehaltsgruppen, unitId: pay_grades, group: admin }
     - { target: 'Persönliche Daten', unitId: personal, group: pim }
-    - { target: Personendatenmanagement, unitId: pim, group: general }
+    - { target: Personendaten Management, unitId: pim, group: general }
     - { target: Projektzeitraum, unitId: project_date_range, group: time }
     - { target: Projekt-Info, unitId: project_info, group: general }
     - { target: Projektberichte, unitId: project_reports, group: general }
     - { target: Projekte, unitId: projects, group: general }
     - { target: 'Start Arbeitszeit/Ende Arbeitszeit', unitId: punch_in_out, group: general }
-    - { target: Bewerbermanagement, unitId: recruitment, group: general }
+    - { target: Bewerber Management, unitId: recruitment, group: general }
     - { target: Verwandtschaftsstatus, unitId: relationship, group: pim }
     - { target: 'Aktuelle /-s ersetzen', unitId: replace_current, group: general }
     - { target: Berichtsname, unitId: report_name, group: general }
@@ -416,7 +416,7 @@ translations:
     - { target: 'Notfallkontaktdaten bearbeiten', unitId: edit_emergency_contact, group: pim }
     - { target: 'Benachrichtigungsmethode bearbeiten', unitId: edit_reporting_method, group: pim }
     - { target: 'Kündigungsgrund bearbeiten', unitId: edit_termination_reason, group: pim }
-    - { target: Mitarbeiterinformationen, unitId: employee_information, group: pim }
+    - { target: Mitarbeiter Informationen, unitId: employee_information, group: pim }
     - { target: 'Mögliche Optionen werden mit Kommata getrennt', unitId: enter_allowed_options_separated_by_commas, group: pim }
     - { target: Ausnahmen, unitId: exemptions, group: pim }
     - { target: Bundesertragssteuer, unitId: federal_income_tax, group: pim }
