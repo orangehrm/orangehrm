@@ -1,3 +1,40 @@
+New & Changed Features for OrangeHRM ver 5.0
+    New Feature
+    -----------
+    - Supports Admin, PIM, Leave, Time, Attendance and Maintenance modules.
+    - Technology stack upgrade (Symfony 5.x, Doctrine 2.x, Vue 3, REST APIs & SaaS)
+    - New UI/UX in compliance with the Orange eXperience Design (OXD) Standards
+    - PHP 7.4 to 8.1 Support.
+    - Convenient web installer and upgrader to get started seamlessly
+    - Supported Environments
+        - PHP - 7.4 to 8.1
+        - MariaDB - 5.5 to  10.7
+        - MySQL - 5.5 to 5.7
+
+    Known Issues
+    ------------
+    Following modules and add-ons are not supported in  OrangeHRM Starter version 5.0
+
+    Modules
+         - Recruitment
+         - Performance
+         - Buzz
+         - Directory
+
+    Add-Ons
+         - LDAP
+         - Claim add-on
+         - Toggl add-on
+
+    Other features
+         - Corporate Branding
+         - Dashboard
+         - Marketplace
+         - Custom Language Packages
+         - Custom Date localizations (except YYYY-MM-DD)
+         - OrangeHRM Starter mobile app
+         - Social media authentication
+
 New & Changed Features for OrangeHRM ver 5.0-beta
     New Feature
     -----------
