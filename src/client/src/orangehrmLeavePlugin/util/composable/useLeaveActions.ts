@@ -39,7 +39,6 @@ const approve: LeaveAction = {
     label: 'Approve',
     displayType: 'label-success',
     size: 'medium',
-    style: {'margin-left': 'auto'},
     onClick: null,
   },
 };
@@ -50,7 +49,6 @@ const reject: LeaveAction = {
     label: 'Reject',
     displayType: 'label-danger',
     size: 'medium',
-    style: {'margin-left': 'auto'},
     onClick: null,
   },
 };
@@ -61,7 +59,6 @@ const cancel: LeaveAction = {
     label: 'Cancel',
     displayType: 'label-warn',
     size: 'medium',
-    style: {'margin-left': 'auto'},
     onClick: null,
   },
 };
