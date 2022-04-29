@@ -281,6 +281,23 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->cleanUniqueIdTable();
+
+        $q = $this->createQueryBuilder()
+            ->select('filter_field.filter_field_id')
+            ->from('ohrm_filter_field', 'filter_field')
+            ->where('filter_field.name = :filterField')
+            ->setParameter('filterField', 'include');
+
+        $filterFieldId = $q->executeQuery()->fetchOne();
+        $this->createQueryBuilder()
+            ->update('ohrm_selected_filter_field', 'selected_filter_field')
+            ->set('selected_filter_field.filter_field_order', ':newFilterFieldOrder')
+            ->where('selected_filter_field.filter_field_order = :filterFieldOrder ')
+            ->andWhere('selected_filter_field.filter_field_id = :filterFieldId')
+            ->setParameter('newFilterFieldOrder', 1)
+            ->setParameter('filterFieldOrder', 0)
+            ->setParameter('filterFieldId', $filterFieldId)
+            ->executeQuery();
     }
 
     /**
