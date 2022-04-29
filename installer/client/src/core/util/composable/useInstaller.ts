@@ -22,8 +22,18 @@ import useUpgrader from './useUpgrader';
 import useDiagnostics from './useDiagnostics';
 
 export default function useInstaller(http: APIService) {
-  const {getVersionList, versionGenerator} = useUpgrader(http);
+  const {versionGenerator} = useUpgrader(http);
   const {notifyInstallerStart} = useDiagnostics(http);
+
+  const getVersionList = (
+    excludeLatest = false,
+  ): Promise<AxiosResponse<string[]>> => {
+    return http.request({
+      method: 'GET',
+      url: 'installer/api/versions',
+      params: {excludeLatest},
+    });
+  };
 
   const createDatabase = (): Promise<AxiosResponse[]> => {
     return Promise.all([
@@ -53,11 +63,9 @@ export default function useInstaller(http: APIService) {
       });
     };
 
-    let versions = [];
-    let currentVersion = null;
-    const versionResponse = await getVersionList(false);
-    versions = ['3.0', ...versionResponse.data];
-    currentVersion = Array.isArray(versions) ? versions[0] : null;
+    const versionResponse = await getVersionList();
+    const versions = ['0.0', ...versionResponse.data];
+    const currentVersion = Array.isArray(versions) ? versions[0] : null;
     if (!currentVersion) throw new Error('version not detected');
     for (const nextVersion of versionGenerator(versions, currentVersion)) {
       await doMigration(nextVersion);

@@ -375,6 +375,8 @@ class Migration extends AbstractMigration
             $attendanceHelper->updatePunchInTimezoneOffset($offset, $timezone);
             $attendanceHelper->updatePunchOutTimezoneOffset($offset, $timezone);
         }
+
+        $this->hideAddonMenuItems();
     }
 
     /**
@@ -477,6 +479,18 @@ class Migration extends AbstractMigration
             ->delete('hs_hr_unique_id')
             ->andWhere('table_name != :table')
             ->setParameter('table', 'hs_hr_employee')
+            ->executeQuery();
+    }
+
+    private function hideAddonMenuItems(): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menuItem')
+            ->set('menuItem.status', ':status')
+            ->setParameter('status', false, ParameterType::BOOLEAN);
+        $qb->where('menuItem.menu_title = :menuTitle')
+            ->where($qb->expr()->in('menuItem.menu_title', ':menuTitles'))
+            ->setParameter('menuTitles', ['Claim', 'LDAP Configuration'], Connection::PARAM_STR_ARRAY)
             ->executeQuery();
     }
 }

@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+include_once('./../lib/confs/log_settings.php');
+
 use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\RedirectResponse;
@@ -39,7 +41,7 @@ $request = Request::createFromGlobals();
 if (Config::isInstalled()) {
     $response = $kernel->handleRequest($request);
 } else {
-    $response = new RedirectResponse('./../');
+    $response = new RedirectResponse(str_replace('/web/index.php', '', $request->getBaseUrl()));
 }
 
 $response->send();

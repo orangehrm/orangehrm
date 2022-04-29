@@ -91,6 +91,14 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                         'message' => 'Database Already Exist'
                     ]
                 ];
+            } elseif (!$useSameDbUserForOrangeHRM && $appSetupUtility->isDatabaseUserExist($ohrmDbUser)) {
+                $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
+                return [
+                    'error' => [
+                        'status' => $this->getResponse()->getStatusCode(),
+                        'message' => "Database User `$ohrmDbUser` Already Exist. Please Use Another Username for `OrangeHRM Database Username`."
+                    ]
+                ];
             } else {
                 return [
                     'data' => [
@@ -161,7 +169,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                 'dbUser' => $dbInfo[StateContainer::DB_USER],
                 'dbType' => StateContainer::getInstance()->getDbType(),
                 'useSameDbUserForOrangeHRM' => $useSameDbUserForOrangeHRM,
-                'ohrmDbUser' => $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? null,
+                'ohrmDbUser' => $useSameDbUserForOrangeHRM ? null : ($dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? null),
             ],
             'meta' => []
         ];
