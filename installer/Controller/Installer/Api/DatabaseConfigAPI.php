@@ -107,7 +107,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                         'dbUser' => $dbUser,
                         'dbName' => $dbName,
                         'useSameDbUserForOrangeHRM' => $useSameDbUserForOrangeHRM,
-                        'ohrmDbUser' => $ohrmDbUser,
+                        'ohrmDbUser' => $useSameDbUserForOrangeHRM ? null : ($dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? null),
                     ],
                     'meta' => []
                 ];
