@@ -28,6 +28,7 @@ use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use Symfony\Component\Filesystem\Filesystem;
 
 class AppSetupUtility
 {
@@ -446,10 +447,8 @@ class AppSetupUtility
             $dbInfo[StateContainer::DB_PASSWORD]
         ];
 
-        file_put_contents(
-            Config::get(Config::CONF_FILE_PATH),
-            str_replace($search, $replace, $template)
-        );
+        $fs = new Filesystem();
+        $fs->dumpFile(Config::get(Config::CONF_FILE_PATH), str_replace($search, $replace, $template));
     }
 
     /**

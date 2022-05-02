@@ -147,12 +147,12 @@ class StateContainer
         $this->clearDbInfo();
         $this->getSession()->set(self::DB_NAME, $dbName);
         $this->getSession()->set(self::DB_USER, $dbUserCredential->getUsername());
-        $this->getSession()->set(self::DB_PASSWORD, $dbUserCredential->getPassword());
+        $this->getSession()->set(self::DB_PASSWORD, $dbUserCredential->getPassword() ?? '');
         $this->getSession()->set(self::DB_HOST, $dbHost);
         $this->getSession()->set(self::DB_PORT, $dbPort);
         if ($ohrmDbUserCredential instanceof UserCredential) {
             $this->getSession()->set(self::ORANGEHRM_DB_USER, $ohrmDbUserCredential->getUsername());
-            $this->getSession()->set(self::ORANGEHRM_DB_PASSWORD, $ohrmDbUserCredential->getPassword());
+            $this->getSession()->set(self::ORANGEHRM_DB_PASSWORD, $ohrmDbUserCredential->getPassword() ?? '');
         }
         $this->getSession()->set(self::IS_SET_DB_INFO, true);
     }
