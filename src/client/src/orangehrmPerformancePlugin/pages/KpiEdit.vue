@@ -205,4 +205,4 @@ export default {
 };
 </script>
 
-<style src="kpi.scss" lang="scss" scoped></style>
+<style src="./kpi.scss" lang="scss" scoped></style>
