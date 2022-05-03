@@ -23,6 +23,7 @@ use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
+use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
@@ -54,6 +55,7 @@ class VueControllerHelper
     public const PRODUCT_NAME = 'productName';
     public const PERMISSIONS = 'permissions';
     public const BREADCRUMB = 'breadcrumb';
+    public const DATE_FORMAT = 'dateFormat';
 
     /**
      * @var Request|null
@@ -77,6 +79,8 @@ class VueControllerHelper
      * @var ScreenPermissionService|null
      */
     protected ?ScreenPermissionService $screenPermissionService = null;
+
+    private ?ConfigDao $configDao = null;
 
     public function __construct()
     {
@@ -139,6 +143,7 @@ class VueControllerHelper
                 self::PRODUCT_VERSION => Config::PRODUCT_VERSION,
                 self::PRODUCT_NAME => Config::PRODUCT_NAME,
                 self::BREADCRUMB => $this->getBreadcrumb(),
+                self::DATE_FORMAT => $this->getDateFormat()
             ]
         );
         return $this->context->all();
@@ -251,12 +256,45 @@ class VueControllerHelper
             //TODO needed to fix for add screens
             $breadcrumb['level'] = $menuItem->getLevel() == 3 ? $menuItem->getParent()->getMenuTitle() : null;
             if (!is_null($breadcrumb['level'])) {
-                $breadcrumb['level'] =$this->getI18NHelper()->transBySource($breadcrumb['level']);
+                $breadcrumb['level'] = $this->getI18NHelper()->transBySource($breadcrumb['level']);
             }
         }
         if ($breadcrumb['moduleName']) {
-            $breadcrumb['moduleName'] =$this->getI18NHelper()->transBySource($breadcrumb['moduleName']);
+            $breadcrumb['moduleName'] = $this->getI18NHelper()->transBySource($breadcrumb['moduleName']);
         }
         return $breadcrumb;
+    }
+
+    /**
+     * @return array
+     */
+    private function getDateFormat(): array
+    {
+        $dateFormat = $this->getConfigDao()->getValue('admin.localization.default_date_format');
+        switch ($dateFormat) {
+            case 'd-m-Y':
+                $label = 'dd-mm-yyyy';
+                break;
+            case 'm-d-Y':
+                $label = 'mm-dd-yyyy';
+                break;
+            default:
+                $label = 'yyyy-mm-dd';
+        }
+        return [
+            'id' => $dateFormat,
+            'label' => $label
+        ];
+    }
+
+    /**
+     * @return ConfigDao
+     */
+    private function getConfigDao(): ConfigDao
+    {
+        if (is_null($this->configDao)) {
+            $this->configDao = new ConfigDao();
+        }
+        return $this->configDao;
     }
 }
