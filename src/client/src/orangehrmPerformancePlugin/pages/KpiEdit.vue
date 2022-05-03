@@ -124,7 +124,7 @@ export default {
   },
   props: {
     kpiId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },

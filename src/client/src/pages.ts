@@ -71,11 +71,7 @@ import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
 import MaintenancePages from '@/orangehrmMaintenancePlugin';
-import MyTracker from '@/orangehrmPerformancePlugin/pages/MyTracker.vue';
-import EmployeeTrackers from '@/orangehrmPerformancePlugin/pages/EmployeeTrackers.vue';
-import KpiSearch from '@/orangehrmPerformancePlugin/pages/KpiSearch.vue';
-import KpiSave from '@/orangehrmPerformancePlugin/pages/KpiSave.vue';
-import KpiEdit from '@/orangehrmPerformancePlugin/pages/KpiEdit.vue';
+import PerformancePages from '@/orangehrmPerformancePlugin';
 
 export default {
   'job-title-list': JobTitle,
@@ -134,9 +130,5 @@ export default {
   ...TimePages,
   ...AttendancePages,
   ...MaintenancePages,
-  'my-tracker': MyTracker,
-  'employee-trackers': EmployeeTrackers,
-  'kpi-search': KpiSearch,
-  'kpi-save': KpiSave,
-  'kpi-edit': KpiEdit,
+  ...PerformancePages,
 };

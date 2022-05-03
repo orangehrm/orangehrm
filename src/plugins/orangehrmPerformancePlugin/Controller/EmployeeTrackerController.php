@@ -23,7 +23,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class PerformanceController extends AbstractVueController
+class EmployeeTrackerController extends AbstractVueController
 {
     /**
      * @inheritDoc
