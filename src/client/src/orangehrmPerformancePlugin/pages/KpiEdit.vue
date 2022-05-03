@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text class="orangehrm-main-title">
-        Add Key Performance Indicator
+        Edit Key Performance Indicator
       </oxd-text>
       <oxd-divider />
 
@@ -122,6 +122,12 @@ export default {
     'oxd-switch-input': SwitchInput,
     'jobtitle-dropdown': JobtitleDropdown,
   },
+  props: {
+    kpiId: {
+      type: String,
+      required: true,
+    },
+  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -158,6 +164,22 @@ export default {
       },
     };
   },
+  created() {
+    this.isLoading = true;
+    this.http
+      .get(this.kpiId)
+      .then(response => {
+        const {data} = response.data;
+        this.kpi.title = data.title;
+        this.kpi.jobTitle = {id: data.jobTitle.id, label: data.jobTitle.name};
+        this.kpi.minRating = data.minRating;
+        this.kpi.maxRating = data.maxRating;
+        this.kpi.isDefault = data.isDefault;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
   methods: {
     onCancel() {
       navigate('/performance/searchKpi');
@@ -165,7 +187,7 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({
+        .update(this.kpiId, {
           title: this.kpi.title,
           jobTitleId: this.kpi.jobTitle.id,
           minRating: this.kpi.minRating,
@@ -173,7 +195,7 @@ export default {
           isDefault: this.kpi.isDefault,
         })
         .then(() => {
-          return this.$toast.saveSuccess();
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();
@@ -183,4 +205,4 @@ export default {
 };
 </script>
 
-<style src="./kpi.scss" lang="scss" scoped></style>
+<style src="kpi.scss" lang="scss" scoped></style>
