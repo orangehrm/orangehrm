@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="autocomplete"
-    :label="'Candidate Name'"
+    :label="$t('recruitment.candidate_name')"
     :clear="false"
     :create-options="loadCandidates"
   >
@@ -80,8 +80,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.past-employee-tag {
-  margin-left: auto;
-}
-</style>
+

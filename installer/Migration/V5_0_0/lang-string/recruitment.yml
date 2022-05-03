@@ -1,0 +1,58 @@
+langStrings:
+  -
+    value: 'Vacancy'
+    unitId: vacancy
+  -
+    value: 'Hiring Manager'
+    unitId: hiring_manager
+  -
+    value: 'Hiring Manager'
+    unitId: hiring_manager
+  -
+    value: 'Candidate Name'
+    unitId: 'candidate_name'
+  -
+    value: 'Keywords'
+    unitId: keywords
+  -
+    value: 'Date of Application'
+    unitId: date_of_application
+  -
+    value: 'Method of Application'
+    unitId: method_of_application
+  -
+    value: 'Enter comma se'
+    unitId: enter_comma_se
+  -
+    value: 'Candidate'
+    unitId: candidate
+  -
+    value: 'Application initiated'
+    unitId: application_initiated
+  -
+    value: 'Shortlisted'
+    unitId: shortlisted
+  -
+    value: 'Interview Scheduled'
+    unitId: interview_scheduled
+  -
+    value: 'Interview Passed'
+    unitId: interview_passed
+  -
+    value: 'Interview Failed'
+    unitId: interview_failed
+  -
+    value: 'Job Offered'
+    unitId: job_offered
+  -
+    value: 'offered Declined'
+    unitId: offered_declined
+  -
+    value: 'Manual'
+    unitId: manual
+  -
+    value: 'Online'
+    unitId: online
+  -
+    value: 'Contact Number'
+    unitId: contact_number

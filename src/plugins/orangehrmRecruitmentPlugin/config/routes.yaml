@@ -3,6 +3,11 @@ view_recruitment_candidates:
   controller: OrangeHRM\Recruitment\Controller\ViewCandidateController::handle
   methods: [ GET ]
 
+save_recruitment_candidates:
+  path: /recruitment/addCandidate
+  controller: OrangeHRM\Recruitment\Controller\SaveCandidateController::handle
+  methods: [ GET ]
+
 recruitment_module_under_development: # remove this
   path: /recruitment/{screen}
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle

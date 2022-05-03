@@ -19,7 +19,7 @@
               <oxd-input-field
                 v-model="filters.status"
                 type="select"
-                :label="'Status'"
+                :label="$t('general.status')"
                 :options="statuses"
               />
             </oxd-grid-item>
@@ -33,23 +33,23 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.keywords"
-                :label="'Keywords'"
-                placeholder="Enter comma se"
+                :label="$t('recruitment.keywords')"
+                :placeholder="$t('recruitment.enter_comma_se')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.dateFrom"
                 type="date"
-                :label="'Date of Application'"
-                placeholder="From"
+                :label="$t('recruitment.date_of_application')"
+                :placeholder="$t('general.from')"
               />
             </oxd-grid-item>
             <oxd-grid-item class="orangehrm-candidate-page-date">
               <oxd-input-field
                 v-model="filters.dateTo"
                 type="date"
-                placeholder="To"
+                :placeholder="$t('general.to')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -59,7 +59,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.application"
-                :label="'Method of Application'"
+                :label="$t('recruitment.method_of_application')"
                 type="select"
                 :options="applications"
               />
@@ -239,20 +239,20 @@ export default {
       headers: [
         {
           name: 'vacancy',
-          title: 'Vacancy',
+          title: this.$t('recruitment.vacancy'),
           sortField: 'v.vacancy',
           style: {flex: 1},
         },
         {
           name: 'candidate',
-          title: 'Candidate',
+          title: this.$t('recruitment.candidate'),
           sortField: 'c.candidate',
           style: {flex: 1},
         },
         {
           name: 'manager',
           slot: 'title',
-          title: 'Hiring Manager',
+          title: this.$t('recruitment.hiring_manager'),
           sortField: 'h.manager',
           style: {flex: 1},
         },
@@ -276,7 +276,13 @@ export default {
                 name: 'trash',
               },
             },
-            edit: {
+            download: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'download',
+              },
+            },
+            view: {
               onClick: this.onClickEdit,
               props: {
                 name: 'pencil-fill',
@@ -288,55 +294,51 @@ export default {
       statuses: [
         {
           id: 1,
-          label: 'Application initiated',
+          label: this.$t('recruitment.application_initiated'),
         },
         {
           id: 2,
-          label: 'Shortlisted',
+          label: this.$t('recruitment.shortlisted'),
         },
         {
           id: 3,
-          label: 'Interview Scheduled',
+          label: this.$t('recruitment.interview_scheduled'),
         },
         {
           id: 4,
-          label: 'Interview Passed',
+          label: this.$t('recruitment.interview_passed'),
         },
         {
           id: 5,
-          label: 'Interview Failed',
+          label: this.$t('recruitment.interview_failed'),
         },
         {
           id: 6,
-          label: 'Job Offered',
+          label: this.$t('recruitment.job_offered'),
         },
         {
           id: 7,
-          label: 'offered Declined',
-        },
-        {
-          id: 7,
-          label: 'offered Declined',
+          label: this.$t('recruitment.offered_declined'),
         },
       ],
       applications: [
         {
           id: 1,
-          label: 'Manual',
+          label: this.$t('recruitment.manual'),
         },
         {
           id: 2,
-          label: 'Online',
+          label: this.$t('recruitment.online'),
         },
       ],
     };
   },
   methods: {
     onClickAdd() {
-      navigate('/admin/saveCandidate');
+      navigate('/recruitment/addCandidate');
     },
     onClickEdit(item) {
-      navigate('/admin/saveCandidate/{id}', {id: item.id});
+      navigate('/recruitment/addCandidate/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <oxd-input-field type="select" label="Hiring Manager" :options="options" />
+  <oxd-input-field
+    type="select"
+    :label="$t('recruitment.hiring_manager')"
+    :options="options"
+  />
 </template>
 
 <script>

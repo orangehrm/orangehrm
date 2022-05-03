@@ -37,6 +37,7 @@ import RequiredText from '@ohrm/components/labels/RequiredText.vue';
 import Layout from '@ohrm/components/layout/Layout.vue';
 import DateInput from '@ohrm/components/inputs/DateInput.vue';
 import TimeInput from '@ohrm/components/inputs/TimeInput.vue';
+import FileUploadInput from "@/core/components/inputs/FileUploadInput.vue";
 
 export default {
   install: (app: App) => {
@@ -60,5 +61,6 @@ export default {
     app.component('RequiredText', RequiredText);
     app.component('DateInput', DateInput);
     app.component('TimeInput', TimeInput);
+    app.component('OxdFileInput',FileUploadInput)
   },
 };
