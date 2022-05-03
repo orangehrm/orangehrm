@@ -23,11 +23,11 @@ use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
-use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
@@ -39,6 +39,7 @@ class VueControllerHelper
     use UserServiceTrait;
     use MenuServiceTrait;
     use I18NHelperTrait;
+    use ConfigServiceTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -56,6 +57,18 @@ class VueControllerHelper
     public const PERMISSIONS = 'permissions';
     public const BREADCRUMB = 'breadcrumb';
     public const DATE_FORMAT = 'dateFormat';
+
+    public const DATE_FORMAT_MAP = [
+        'Y-m-d' => 'yyyy-mm-dd',
+        'd-m-Y' => 'dd-mm-yyyy',
+        'm-d-Y' => 'mm-dd-yyyy',
+        'Y/m/d' => 'yyyy/mm/dd',
+        'd/m/Y' => 'dd/mm/yyyy',
+        'm/d/Y' => 'mm/dd/yyyy',
+        'Y.m.d' => 'yyyy.mm.dd',
+        'd.m.Y' => 'dd.mm.yyyy',
+        'm.d.Y' => 'mm.dd.yyyy'
+    ];
 
     /**
      * @var Request|null
@@ -79,8 +92,6 @@ class VueControllerHelper
      * @var ScreenPermissionService|null
      */
     protected ?ScreenPermissionService $screenPermissionService = null;
-
-    private ?ConfigDao $configDao = null;
 
     public function __construct()
     {
@@ -270,31 +281,10 @@ class VueControllerHelper
      */
     private function getDateFormat(): array
     {
-        $dateFormat = $this->getConfigDao()->getValue('admin.localization.default_date_format');
-        switch ($dateFormat) {
-            case 'd-m-Y':
-                $label = 'dd-mm-yyyy';
-                break;
-            case 'm-d-Y':
-                $label = 'mm-dd-yyyy';
-                break;
-            default:
-                $label = 'yyyy-mm-dd';
-        }
+        $dateFormat = $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
         return [
             'id' => $dateFormat,
-            'label' => $label
+            'label' => self::DATE_FORMAT_MAP[$dateFormat]
         ];
-    }
-
-    /**
-     * @return ConfigDao
-     */
-    private function getConfigDao(): ConfigDao
-    {
-        if (is_null($this->configDao)) {
-            $this->configDao = new ConfigDao();
-        }
-        return $this->configDao;
     }
 }
