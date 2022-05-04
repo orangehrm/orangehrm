@@ -33,7 +33,6 @@
       <oxd-form-row>
         <date-input
           v-model="date"
-          placeholder="yyyy-mm-dd"
           :label="$t('time.select_a_day_to_create_timesheet')"
           :rules="rules.date"
           required

@@ -21,9 +21,10 @@
 <template>
   <oxd-input-field
     type="date"
-    placeholder="yyyy-mm-dd"
+    :placeholder="userDateFormat"
     :day-attributes="attributes"
     :events="events"
+    :display-format="jsDateFormat"
     @selectYear="onSelectYear"
   />
 </template>
@@ -37,6 +38,7 @@ import {
   formatDate,
   parseDate,
 } from '@ohrm/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 export default {
   name: 'DateInput',
@@ -46,6 +48,7 @@ export default {
       events: [],
     });
     const http = new APIService(window.appGlobal.baseUrl, '');
+    const {jsDateFormat, userDateFormat} = useDateFormat();
 
     const fetchWorkWeek = async () => {
       http
@@ -107,6 +110,8 @@ export default {
     onBeforeMount(onSelectYear({year: new Date().getFullYear()}));
 
     return {
+      jsDateFormat,
+      userDateFormat,
       ...toRefs(state),
       onSelectYear,
     };

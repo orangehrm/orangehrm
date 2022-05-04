@@ -53,14 +53,12 @@
 
         <!-- Date Selector -->
         <oxd-grid-item class="--offset-row-2">
-          <oxd-input-field
+          <date-input
             :key="attendanceRecord.time"
             v-model="attendanceRecord.date"
             :label="$t('general.date')"
             :rules="rules.date"
             :disabled="!isEditable"
-            type="date"
-            :placeholder="$t('general.date_format')"
             required
           />
         </oxd-grid-item>

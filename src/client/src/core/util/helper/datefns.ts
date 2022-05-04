@@ -127,7 +127,7 @@ const freshDate = () => {
   return new Date(new Date().setHours(0, 0, 0, 0));
 };
 
-const parseDate = (value: string, dateFormat: string): Date | null => {
+const parseDate = (value: string, dateFormat = 'yyyy-MM-dd'): Date | null => {
   try {
     const parsed = parse(value, dateFormat, freshDate());
     return !isNaN(parsed.valueOf()) ? parsed : null;
