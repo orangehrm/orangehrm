@@ -1,1 +1,38 @@
-translations: {  }
+translations:
+    - { target: 'Tháng Tư', unitId: april, group: general }
+    - { target: 'Tháng tám', unitId: august, group: general }
+    - { target: 'Tháng mười hai', unitId: december, group: general }
+    - { target: 'Tháng Hai', unitId: february, group: general }
+    - { target: 'Thứ Sáu', unitId: friday, group: general }
+    - { target: 'Tháng một', unitId: january, group: general }
+    - { target: 'Tháng Bảy', unitId: july, group: general }
+    - { target: 'Tháng Sáu', unitId: june, group: general }
+    - { target: March, unitId: march, group: general }
+    - { target: May, unitId: may, group: general }
+    - { target: 'Thứ hai', unitId: monday, group: general }
+    - { target: 'Tháng mười một', unitId: november, group: general }
+    - { target: 'Tháng Mười', unitId: october, group: general }
+    - { target: 'Thứ bảy', unitId: saturday, group: general }
+    - { target: 'Tháng Chín', unitId: september, group: general }
+    - { target: 'Chủ Nhật', unitId: sunday, group: general }
+    - { target: 'Thứ năm', unitId: thursday, group: general }
+    - { target: 'Thứ ba', unitId: tuesday, group: general }
+    - { target: 'Thứ tư', unitId: wednesday, group: general }
+    - { target: 'Thứ 6', unitId: fri, group: general }
+    - { target: 'Thứ 2', unitId: mon, group: general }
+    - { target: 'Thứ 7', unitId: sat, group: general }
+    - { target: CN, unitId: sun, group: general }
+    - { target: 'Thứ 5', unitId: thu, group: general }
+    - { target: 'Thứ 3', unitId: tue, group: general }
+    - { target: 'Thứ 4', unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }
