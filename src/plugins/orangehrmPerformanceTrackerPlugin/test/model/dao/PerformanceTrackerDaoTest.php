@@ -56,7 +56,7 @@ class PerformanceTrackerDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetPerformanceTrackList(){
         $parameters['limit'] = null;
         $result = $this->performanceTrackerDao->getPerformanceTrackList($parameters);
-        $this->assertEquals(2, count($result));
+        $this->assertEquals(3, count($result));
     }
     
     public function testGetPerformanceReviewersIdListByTrackId1(){

@@ -17,29 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Performance\Traits\Service;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+use Exception;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Performance\Service\PerformanceTrackerService;
+
+trait PerformanceTrackerServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return PerformanceTrackerService
+     * @throws Exception
      */
-    public function initialize(Request $request): void
+    protected function getPerformanceTrackerService(): PerformanceTrackerService
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
+        return $this->getContainer()->get(Services::PERFORMANCE_TRACKER_SERVICE);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,29 +18,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
+namespace OrangeHRM\Tests\Performance\Service;
+
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class PerformanceTrackerServiceTest extends KernelTestCase
 {
-    use ServiceContainerTrait;
+    protected $fixture;
+    private PerformanceTrackerService $performanceTrackerService;
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    public function testGetPerformanceTrackerDao()
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
+        $result = $this->performanceTrackerService->getPerformanceTrackerDao();
+        $this->assertTrue($result instanceof PerformanceTrackerDao);
+    }
+
+    protected function setUp(): void
+    {
+        $this->performanceTrackerService = new PerformanceTrackerService();
     }
 }
