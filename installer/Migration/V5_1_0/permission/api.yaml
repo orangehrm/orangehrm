@@ -13,3 +13,27 @@ apiv2_performance_kpi:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_performance_tracker:
+  description: 'API-v2 Performance - Tracker'
+  api: OrangeHRM\Performance\Api\PerformanceTrackerAPI
+  module: performance
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_performance_tracker-reviewers:
+  description: 'API-v2 Performance - TrackerReviewers'
+  api: OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI
+  module: performance
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }

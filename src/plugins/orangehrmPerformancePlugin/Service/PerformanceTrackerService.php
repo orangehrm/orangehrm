@@ -17,29 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Performance\Service;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+
+class PerformanceTrackerService
 {
-    use ServiceContainerTrait;
+    use NormalizerServiceTrait;
 
     /**
-     * @inheritDoc
+     * @var PerformanceTrackerDao|null
      */
-    public function initialize(Request $request): void
+    private ?PerformanceTrackerDao $performanceTrackerDao = null;
+
+    /**
+     * @return PerformanceTrackerDao
+     */
+    public function getPerformanceTrackerDao(): PerformanceTrackerDao
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
+        if (!($this->performanceTrackerDao instanceof PerformanceTrackerDao)) {
+            $this->performanceTrackerDao = new PerformanceTrackerDao();
+        }
+        return $this->performanceTrackerDao;
     }
 }

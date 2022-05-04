@@ -17,29 +17,42 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Performance\Dto;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Dto\FilterParams;
+
+class PerformanceTrackerSearchFilterParams extends FilterParams
 {
-    use ServiceContainerTrait;
+    public const ALLOWED_SORT_FIELDS = [
+        'performanceTracker.trackerName',
+        'performanceTracker.addedDate',
+        'employee.empNumber', 'employee.lastName',
+        'performanceTracker.modifiedDate'
+    ];
 
     /**
-     * @inheritDoc
+     * @var int|null
      */
-    public function initialize(Request $request): void
+    protected ?int $empNumber = null;
+
+    public function __construct()
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
+        $this->setSortField('performanceTracker.modifiedDate');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEmpNumber(): ?int
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param int|null $empNumber
+     */
+    public function setEmpNumber(?int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
     }
 }
