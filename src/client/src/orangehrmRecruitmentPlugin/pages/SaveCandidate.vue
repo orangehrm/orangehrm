@@ -174,6 +174,7 @@ export default {
   },
   methods: {
     onSave() {
+      this.isLoading = true;
       this.http.create({data: this.candidate}).then(() => {
         this.isLoading = false;
       });

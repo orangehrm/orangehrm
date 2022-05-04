@@ -153,6 +153,7 @@ import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDrop
 import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
 import CandidateAutocomplete from '@/orangehrmRecruitmentPlugin/components/CandidateAutocomplete';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import usei18n from '@/core/util/composable/usei18n';
 const defaultFilters = {
   jobTitle: null,
   vacancy: null,
@@ -187,15 +188,46 @@ export default {
     },
   },
   setup(props) {
+    const {$t} = usei18n();
+    const statuses = [
+      {
+        id: 1,
+        label: $t('recruitment.application_initiated'),
+      },
+      {
+        id: 2,
+        label: $t('recruitment.shortlisted'),
+      },
+      {
+        id: 3,
+        label: $t('recruitment.interview_scheduled'),
+      },
+      {
+        id: 4,
+        label: $t('recruitment.interview_passed'),
+      },
+      {
+        id: 5,
+        label: $t('recruitment.interview_failed'),
+      },
+      {
+        id: 6,
+        label: $t('recruitment.job_offered'),
+      },
+      {
+        id: 7,
+        label: $t('recruitment.offered_declined'),
+      },
+    ];
     const userdataNormalizer = data => {
       return data.map(item => {
         const selectable = props.unselectableIds.findIndex(id => id == item.id);
         return {
           id: item.id,
-          vacancy: item.vacancy,
-          candidate: item.candidate,
-          manager: item.hiringManager,
-          status: item.status,
+          vacancy: item.vacancy?.jobTitle,
+          candidate: `${item.candidate.firstName} ${item.candidate.middleName} ${item.candidate.lastName}`,
+          manager: `${item.hiringManager.firstName} ${item.hiringManager.middleName} ${item.hiringManager.lastName}`,
+          status: statuses.find(({id}) => id === item.status.id)?.label,
           isSelectable: selectable === -1,
         };
       });
@@ -253,6 +285,7 @@ export default {
       items: response,
       filters,
       sortDefinition,
+      statuses,
     };
   },
   data() {
@@ -305,42 +338,12 @@ export default {
               },
             },
             view: {
-              onClick: this.onClickEdit,
+              onClick: this.onDownload,
               props: {
                 name: 'menu-recruitment',
               },
             },
           },
-        },
-      ],
-      statuses: [
-        {
-          id: 1,
-          label: this.$t('recruitment.application_initiated'),
-        },
-        {
-          id: 2,
-          label: this.$t('recruitment.shortlisted'),
-        },
-        {
-          id: 3,
-          label: this.$t('recruitment.interview_scheduled'),
-        },
-        {
-          id: 4,
-          label: this.$t('recruitment.interview_passed'),
-        },
-        {
-          id: 5,
-          label: this.$t('recruitment.interview_failed'),
-        },
-        {
-          id: 6,
-          label: this.$t('recruitment.job_offered'),
-        },
-        {
-          id: 7,
-          label: this.$t('recruitment.offered_declined'),
         },
       ],
       applications: [
@@ -368,7 +371,7 @@ export default {
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          // this.deleteItems(ids);
+          this.deleteItems(ids);
         }
       });
     },
@@ -379,24 +382,27 @@ export default {
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          // this.deleteItems([item.id]);
+          this.deleteItems([item.id]);
         }
       });
     },
+    onDownload(item) {
+      navigate('/recruitment/viewCandidate/{id}', {id: item.id});
+    },
     deleteItems(items) {
       if (items instanceof Array) {
-        // this.isLoading = true;
-        // this.http
-        //   .deleteAll({
-        //     ids: items,
-        //   })
-        //   .then(() => {
-        //     return this.$toast.deleteSuccess();
-        //   })
-        //   .then(() => {
-        //     this.isLoading = false;
-        //     this.resetDataTable();
-        //   });
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
       }
     },
     async resetDataTable() {
