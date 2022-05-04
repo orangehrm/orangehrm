@@ -57,7 +57,7 @@ class TranslationGenerateTool
     private function createYml(array $translationArray, string $language): void
     {
         $yaml = Yaml::dump($translationArray, 2, 4);
-        $filename = 'installer/Migration/V5_0_0/translation/' . $language . '.yaml';
+        $filename = 'installer/Migration/V5_1_0/translation/' . $language . '.yaml';
         file_put_contents($filename, $yaml);
     }
 
@@ -78,12 +78,14 @@ class TranslationGenerateTool
         $groups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
         $langStrings = [];
         foreach ($groups as $group) {
-            $filepath2 = 'installer/Migration/V5_0_0/lang-string/' . $group . '.yaml';
+            $filepath2 = 'installer/Migration/V5_1_0/lang-string/' . $group . '.yaml';
             $yml2 = Yaml::parseFile($filepath2);
             $langStrings = array_shift($yml2);
-            foreach ($langStrings as $langString) {
-                if ($transUnit->getSource() === $langString['value']) {
-                    return $translation = ['target' => $transUnit->getTarget(), 'unitId' => $langString['unitId'], 'group' => $group];
+            if(! is_null($langStrings)){
+                foreach ($langStrings as $langString) {
+                    if ($transUnit->getSource() === $langString['value']) {
+                        return $translation = ['target' => $transUnit->getTarget(), 'unitId' => $langString['unitId'], 'group' => $group];
+                    }
                 }
             }
         }

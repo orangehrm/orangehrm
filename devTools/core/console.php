@@ -43,6 +43,7 @@ use OrangeHRM\DevTools\Command\PHPFixCodingStandards;
 use OrangeHRM\DevTools\Command\ReInstall;
 use OrangeHRM\DevTools\Command\ResetInstallation;
 use OrangeHRM\DevTools\Command\TranslationCreate;
+use OrangeHRM\DevTools\Command\AddLangStrings;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
@@ -58,6 +59,7 @@ $application->add(new TranslationCreate());
 $application->add(new AddTestTranslationCommand());
 $application->add(new ResetInstallation());
 $application->add(new ReInstall());
+$application->add(new AddLangStrings());
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
