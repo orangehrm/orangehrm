@@ -278,4 +278,18 @@ final class Services
      * @see \OrangeHRM\I18N\Service\I18NHelper
      */
     public const I18N_HELPER = 'i18n.i18n_helper';
+
+    ///////////////////////////////////////////////////////////////
+    /// Recruitment plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Recruitment\Service\VacancyService
+     */
+    public const VACANCY_SERVICE = 'recruitment.vacancy_service';
+
+    /**
+     * @see \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+     */
+    public const RECRUITMENT_ATTACHMENT_SERVICE = 'recruitment.recruitment_attachment_service';
 }

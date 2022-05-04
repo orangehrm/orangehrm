@@ -1,4 +1,57 @@
-recruitment_module_under_development: # remove this
-  path: /recruitment/{screen}
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+apiv2_recruitment_vacancy:
+  path: /api/v2/recruitment/vacancies/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\VacancyAPI
+    _key: id
+
+apiv2_recruitment_vacancies:
+  path: /api/v2/recruitment/vacancies
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\VacancyAPI
+
+apiv2_recruitment_vacancy_attachment_vacancyId:
+  path: /api/v2/recruitment/vacancy/attachments/{vacancyId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
+    _key: vacancyId
+
+apiv2_recruitment_vacancy_attachments:
+  path: /api/v2/recruitment/vacancy/attachments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
+
+##########################
+#        Files
+##########################
+
+recruitment_attachment:
+  path: /recruitment/viewVacancyAttachment/attachId/{attachId}
+  controller: OrangeHRM\Recruitment\Controller\File\VacancyAttachment::handle
+  methods: [ GET ]
+
+##########################
+#        Screens
+##########################
+
+recruitment_view_job_vacancy:
+  path: /recruitment/viewJobVacancy
+  controller: OrangeHRM\Recruitment\Controller\ViewJobVacancyController::handle
+  methods: [ GET ]
+
+recruitment_add_job_vacancy:
+  path: /recruitment/addJobVacancy
+  controller: OrangeHRM\Recruitment\Controller\AddJobVacancyController::handle
+  methods: [ GET ]
+
+recruitment_edit_job_vacancy:
+  path: /recruitment/addJobVacancy/{id}
+  controller: OrangeHRM\Recruitment\Controller\EditJobVacancyController::handle
   methods: [ GET ]
