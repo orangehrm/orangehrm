@@ -24,6 +24,10 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
+    protected ?LangStringHelper $langStringHelper = null;
+
+    protected ?TranslationHelper $translationHelper = null;
+
     public function up(): void
     {
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
@@ -37,10 +41,62 @@ class Migration extends AbstractMigration
             ['onCascade' => 'DELETE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_kpi', $kpiForeignKeyConstraint);
+
+        $groups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+        }
+
+        $langCodes = [
+            'bg_BG',
+            'da_DK',
+            'de',
+            'en_US',
+            'es',
+            'es_AR',
+            'es_BZ',
+            'es_CR',
+            'es_ES',
+            'fr',
+            'fr_FR',
+            'id_ID',
+            'ja_JP',
+            'nl',
+            'om_ET',
+            'th_TH',
+            'vi_VN',
+            'zh_Hans_CN',
+            'zh_Hant_TW'
+        ];
+        foreach ($langCodes as $langCode) {
+            $this->getTranslationHelper()->addTranslations($langCode);
+        }
     }
 
     public function getVersion(): string
     {
         return '5.1.0';
+    }
+
+    /**
+     * @return LangStringHelper
+     */
+    public function getLangStringHelper(): LangStringHelper
+    {
+        if (is_null($this->langStringHelper)) {
+            $this->langStringHelper = new LangStringHelper($this->getConnection());
+        }
+        return $this->langStringHelper;
+    }
+
+    /**
+     * @return TranslationHelper
+     */
+    public function getTranslationHelper(): TranslationHelper
+    {
+        if (is_null($this->translationHelper)) {
+            $this->translationHelper = new TranslationHelper($this->getConnection());
+        }
+        return $this->translationHelper;
     }
 }
