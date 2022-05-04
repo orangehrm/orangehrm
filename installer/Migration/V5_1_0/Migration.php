@@ -43,18 +43,18 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_kpi', $kpiForeignKeyConstraint);
 
-//        $groups = ['recruitment'];
-//        foreach ($groups as $group) {
-//            $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
-//            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
-//        }
+        $groups = ['recruitment'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+        }
 
-//        $langCodes = [
-//            'en_US',
-//        ];
-//        foreach ($langCodes as $langCode) {
-//            $this->getTranslationHelper()->addTranslations($langCode);
-//        }
+        $langCodes = [
+            'en_US',
+        ];
+        foreach ($langCodes as $langCode) {
+            $this->getTranslationHelper()->addTranslations($langCode);
+        }
     }
 
     /**
