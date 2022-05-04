@@ -42,8 +42,8 @@ class Migration extends AbstractMigration
         $this->getSchemaHelper()->addColumn(
             'ohrm_reset_password',
             'expired',
-            Types::SMALLINT,
-            ['Length' => 1, 'Default' => 1, 'Notnull' => true]
+            Types::BOOLEAN,
+            [ 'Default' => true, 'Notnull' => true]
         );
     }
 }
