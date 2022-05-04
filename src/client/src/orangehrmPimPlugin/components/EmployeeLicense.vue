@@ -69,18 +69,8 @@ import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHe
 import SaveLicense from '@/orangehrmPimPlugin/components/SaveLicense';
 import EditLicense from '@/orangehrmPimPlugin/components/EditLicense';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-
-const licenseNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.license.id,
-      type: item.license.name,
-      licenseNo: item.licenseNo,
-      issuedDate: item.issuedDate,
-      expiryDate: item.expiryDate,
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
   name: 'EmployeeLicense',
@@ -104,8 +94,21 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.employeeId}/licenses`,
     );
+    const {jsDateFormat} = useDateFormat();
 
     const licenceEndpoint = `api/v2/pim/employees/${props.employeeId}/licenses/allowed?limit=0`;
+
+    const licenseNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.license.id,
+          type: item.license.name,
+          licenseNo: item.licenseNo,
+          issuedDate: formatDate(parseDate(item.issuedDate), jsDateFormat),
+          expiryDate: formatDate(parseDate(item.expiryDate), jsDateFormat),
+        };
+      });
+    };
 
     const {
       showPaginator,

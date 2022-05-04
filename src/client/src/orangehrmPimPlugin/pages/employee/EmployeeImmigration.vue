@@ -75,20 +75,8 @@ import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayo
 import SaveImmigration from '@/orangehrmPimPlugin/components/SaveImmigration';
 import EditImmigration from '@/orangehrmPimPlugin/components/EditImmigration';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-
-const immigrationNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      type: item.type == 1 ? 'Passport' : 'VISA',
-      number: item.number,
-      countryCode: item.country.code,
-      countryName: item.country.name,
-      issuedDate: item.issuedDate,
-      expiryDate: item.expiryDate,
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
   components: {
@@ -115,6 +103,21 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.empNumber}/immigrations`,
     );
+    const {jsDateFormat} = useDateFormat();
+
+    const immigrationNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          type: item.type == 1 ? 'Passport' : 'VISA',
+          number: item.number,
+          countryCode: item.country.code,
+          countryName: item.country.name,
+          issuedDate: formatDate(parseDate(item.issuedDate), jsDateFormat),
+          expiryDate: formatDate(parseDate(item.expiryDate), jsDateFormat),
+        };
+      });
+    };
 
     const {
       showPaginator,

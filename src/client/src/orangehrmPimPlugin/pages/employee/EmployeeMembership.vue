@@ -79,22 +79,8 @@ import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayo
 import SaveMembership from '@/orangehrmPimPlugin/components/SaveMembership';
 import EditMembership from '@/orangehrmPimPlugin/components/EditMembership';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-
-const membershipNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      membershipId: item.membership.id,
-      membershipName: item.membership.name,
-      subscriptionPaidBy: item.subscriptionPaidBy,
-      subscriptionFee: item.subscriptionFee,
-      subscriptionTypeId: item.currencyType.id,
-      subscriptionCurrencyName: item.currencyType.name,
-      subscriptionCommenceDate: item.subscriptionCommenceDate,
-      subscriptionRenewalDate: item.subscriptionRenewalDate,
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
   components: {
@@ -129,6 +115,29 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.empNumber}/memberships`,
     );
+    const {jsDateFormat} = useDateFormat();
+
+    const membershipNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          membershipId: item.membership.id,
+          membershipName: item.membership.name,
+          subscriptionPaidBy: item.subscriptionPaidBy,
+          subscriptionFee: item.subscriptionFee,
+          subscriptionTypeId: item.currencyType.id,
+          subscriptionCurrencyName: item.currencyType.name,
+          subscriptionCommenceDate: formatDate(
+            parseDate(item.subscriptionCommenceDate),
+            jsDateFormat,
+          ),
+          subscriptionRenewalDate: formatDate(
+            parseDate(item.subscriptionRenewalDate),
+            jsDateFormat,
+          ),
+        };
+      });
+    };
 
     const {
       showPaginator,

@@ -79,15 +79,8 @@ import SaveAttachment from '@/orangehrmPimPlugin/components/SaveAttachment';
 import EditAttachment from '@/orangehrmPimPlugin/components/EditAttachment';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
-
-const attachmentDataNormalizer = data => {
-  return data.map(item => {
-    return {
-      ...item,
-      size: convertFilesizeToString(item.size, 2),
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {parseDate, formatDate} from '@/core/util/helper/datefns';
 
 export default {
   name: 'ProfileAttachments',
@@ -116,6 +109,17 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.employeeId}/screen/${props.screen}/attachments`,
     );
+    const {jsDateFormat} = useDateFormat();
+
+    const attachmentDataNormalizer = data => {
+      return data.map(item => {
+        return {
+          ...item,
+          attachedDate: formatDate(parseDate(item.attachedDate), jsDateFormat),
+          size: convertFilesizeToString(item.size, 2),
+        };
+      });
+    };
 
     const {
       showPaginator,
