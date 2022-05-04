@@ -111,18 +111,8 @@ import {
   validDateFormat,
 } from '@/core/util/validation/rules';
 import {yearRange} from '@ohrm/core/util/helper/year-range';
-
-const dataNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      name: item.name,
-      date: item.date,
-      recurring: item.recurring ? 'Yes' : 'No',
-      length: item.lengthName,
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
   components: {
@@ -147,6 +137,19 @@ export default {
         toDate: filters.value.toDate,
       };
     });
+
+    const {jsDateFormat} = useDateFormat();
+    const dataNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          name: item.name,
+          date: formatDate(parseDate(item.date), jsDateFormat),
+          recurring: item.recurring ? 'Yes' : 'No',
+          length: item.lengthName,
+        };
+      });
+    };
 
     const http = new APIService(
       window.appGlobal.baseUrl,

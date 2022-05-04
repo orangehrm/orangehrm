@@ -44,6 +44,9 @@
 </template>
 
 <script>
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+
 export default {
   name: 'LeaveConflict',
   props: {
@@ -55,6 +58,13 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  setup() {
+    const {jsDateFormat} = useDateFormat();
+
+    return {
+      jsDateFormat,
+    };
   },
   data() {
     return {
@@ -99,7 +109,7 @@ export default {
     items() {
       return this.data.map(item => {
         return {
-          date: item.date,
+          date: formatDate(parseDate(item.date), this.jsDateFormat),
           hours: parseFloat(item.lengthHours).toFixed(2),
           type: item.leaveType?.name,
           status: item.status?.name,

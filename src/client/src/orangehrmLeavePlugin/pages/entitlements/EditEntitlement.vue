@@ -94,6 +94,8 @@ import {required, max} from '@/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 const leaveEntitlementModel = {
   employee: null,
@@ -127,8 +129,10 @@ export default {
     http.setIgnorePath(
       'api/v2/leave/leave-entitlements/[0-9]+/validation/entitlements',
     );
+    const {jsDateFormat} = useDateFormat();
     return {
       http,
+      jsDateFormat,
     };
   },
 
@@ -162,9 +166,17 @@ export default {
       .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
       .then(({data}) => {
         this.leavePeriods = data.data.map(item => {
+          const startDate = formatDate(
+            parseDate(item.startDate),
+            this.jsDateFormat,
+          );
+          const endDate = formatDate(
+            parseDate(item.endDate),
+            this.jsDateFormat,
+          );
           return {
             id: `${item.startDate}_${item.endDate}`,
-            label: `${item.startDate} - ${item.endDate}`,
+            label: `${startDate} - ${endDate}`,
             startDate: item.startDate,
             endDate: item.endDate,
           };

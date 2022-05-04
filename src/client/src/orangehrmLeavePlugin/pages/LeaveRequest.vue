@@ -105,38 +105,9 @@ import {truncate} from '@ohrm/core/util/helper/truncate';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
-
-const leaveRequestNormalizer = data => {
-  return data.map(item => {
-    let leaveDatePeriod = '';
-    const duration = item.dates.durationType?.type;
-
-    if (item.dates.fromDate) {
-      leaveDatePeriod = item.dates.fromDate;
-    }
-    if (item.dates.startTime && item.dates.endTime) {
-      leaveDatePeriod += ` (${item.dates.startTime} - ${item.dates.endTime})`;
-    }
-    if (duration === 'half_day_morning' || duration === 'half_day_afternoon') {
-      leaveDatePeriod += ' Half Day';
-    }
-
-    return {
-      id: item.id,
-      date: leaveDatePeriod,
-      leaveType:
-        item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
-      leaveBalance: item.leaveBalance?.balance.balance
-        ? parseFloat(item.leaveBalance.balance.balance).toFixed(2)
-        : undefined,
-      duration: parseFloat(item.lengthHours).toFixed(2),
-      status: item.leaveStatus?.name,
-      comment: truncate(item.lastComment?.comment),
-      actions: item.allowedActions,
-      canComment: !(item.leaveStatus?.id === 5 || item.leaveStatus?.id === 4),
-    };
-  });
-};
+import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
   name: 'LeaveViewRequest',
@@ -163,6 +134,52 @@ export default {
     );
 
     const {leaveActions, processLeaveAction} = useLeaveActions(http);
+    const {$t} = usei18n();
+    const {jsDateFormat} = useDateFormat();
+
+    const leaveRequestNormalizer = data => {
+      return data.map(item => {
+        let leaveDatePeriod = '';
+        const duration = item.dates.durationType?.type;
+
+        if (item.dates.fromDate) {
+          leaveDatePeriod = formatDate(
+            parseDate(item.dates.fromDate),
+            jsDateFormat,
+          );
+        }
+        if (item.dates.startTime && item.dates.endTime) {
+          leaveDatePeriod += ` (${item.dates.startTime} - ${item.dates.endTime})`;
+        }
+        if (
+          duration === 'half_day_morning' ||
+          duration === 'half_day_afternoon'
+        ) {
+          leaveDatePeriod += ` ${$t('leave.half_day')}`;
+        }
+
+        const leaveTypeName = item.leaveType?.name;
+        if (item.leaveType?.deleted) {
+          leaveTypeName + ` (${$t('general.deleted')})`;
+        }
+
+        return {
+          id: item.id,
+          date: leaveDatePeriod,
+          leaveType: leaveTypeName,
+          leaveBalance: item.leaveBalance?.balance.balance
+            ? parseFloat(item.leaveBalance.balance.balance).toFixed(2)
+            : undefined,
+          duration: parseFloat(item.lengthHours).toFixed(2),
+          status: item.leaveStatus?.name,
+          comment: truncate(item.lastComment?.comment),
+          actions: item.allowedActions,
+          canComment: !(
+            item.leaveStatus?.id === 5 || item.leaveStatus?.id === 4
+          ),
+        };
+      });
+    };
 
     const {
       showPaginator,
@@ -187,6 +204,7 @@ export default {
       response,
       leaveActions,
       processLeaveAction,
+      jsDateFormat,
     };
   },
 
@@ -241,8 +259,14 @@ export default {
       return '';
     },
     leavePeriod() {
-      const startDate = this.response?.meta?.startDate;
-      const endDate = this.response?.meta?.endDate;
+      const startDate = formatDate(
+        parseDate(this.response?.meta?.startDate),
+        this.jsDateFormat,
+      );
+      const endDate = formatDate(
+        parseDate(this.response?.meta?.endDate),
+        this.jsDateFormat,
+      );
       return startDate === endDate ? startDate : `${startDate} - ${endDate}`;
     },
   },

@@ -72,22 +72,9 @@ import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-
-const entitlementNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      leaveType:
-        item.leaveType.name +
-        `${item.leaveType.deleted ? this.$t('general.deleted') : ''}`,
-      entitlementType: item.entitlementType.name,
-      fromDate: item.fromDate,
-      toDate: item.toDate,
-      days: item.entitlement,
-      isSelectable: item.deletable,
-    };
-  });
-};
+import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
   name: 'LeaveEntitlementTable',
@@ -144,6 +131,25 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/leave-entitlements',
     );
+    const {$t} = usei18n();
+    const {jsDateFormat} = useDateFormat();
+
+    const entitlementNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          leaveType:
+            item.leaveType.name +
+            `${item.leaveType.deleted ? $t('general.deleted') : ''}`,
+          entitlementType: item.entitlementType.name,
+          fromDate: formatDate(parseDate(item.fromDate), jsDateFormat),
+          toDate: formatDate(parseDate(item.toDate), jsDateFormat),
+          days: item.entitlement,
+          isSelectable: item.deletable,
+        };
+      });
+    };
+
     const {
       showPaginator,
       currentPage,

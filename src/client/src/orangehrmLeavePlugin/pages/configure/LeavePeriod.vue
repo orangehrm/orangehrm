@@ -95,7 +95,8 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import {reloadPage} from '@ohrm/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
 import {enGB} from 'date-fns/locale';
-import {addDays, formatDate} from '@/core/util/helper/datefns';
+import {addDays, formatDate, parseDate} from '@/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const leavePeriodModel = {
   startMonth: null,
@@ -116,8 +117,10 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/leave/leave-period',
     );
+    const {jsDateFormat} = useDateFormat();
     return {
       http,
+      jsDateFormat,
     };
   },
 
@@ -244,11 +247,17 @@ export default {
     defineLeavePeriod(meta) {
       if (meta.leavePeriodDefined === true) {
         this.leavePeriodDefined = meta.leavePeriodDefined;
-        this.leavePeriod.currentPeriod = `
-            ${meta.currentLeavePeriod.startDate}
-            ${this.$t('general.to').toLowerCase()}
-            ${meta.currentLeavePeriod.endDate}
-          `;
+        const startDate = formatDate(
+          parseDate(meta.currentLeavePeriod.startDate),
+          this.jsDateFormat,
+        );
+        const endDate = formatDate(
+          parseDate(meta.currentLeavePeriod.endDate),
+          this.jsDateFormat,
+        );
+        this.leavePeriod.currentPeriod = `${startDate} ${this.$t(
+          'general.to',
+        ).toLowerCase()} ${endDate}`;
       } else {
         this.leavePeriodDefined = false;
       }

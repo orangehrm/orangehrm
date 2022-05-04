@@ -29,6 +29,9 @@
 <script>
 import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+
 export default {
   name: 'LeavePeriodDropdown',
   setup() {
@@ -37,15 +40,19 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/leave-periods',
     );
+    const {jsDateFormat} = useDateFormat();
 
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
         options.value = data.data.map(item => {
+          const startDate = formatDate(parseDate(item.startDate), jsDateFormat);
+          const endDate = formatDate(parseDate(item.endDate), jsDateFormat);
+
           return {
             id: `${item.startDate}_${item.endDate}`,
-            label: `${item.startDate} - ${item.endDate}`,
-            startDate: item.startDate,
-            endDate: item.endDate,
+            label: `${startDate} - ${endDate}`,
+            startDate: startDate,
+            endDate: endDate,
           };
         });
       });
