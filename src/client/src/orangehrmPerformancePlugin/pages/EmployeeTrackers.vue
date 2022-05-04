@@ -93,6 +93,8 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const defaultFilters = {
   empName: null,
@@ -133,6 +135,18 @@ export default {
       'https://5875ebe4-9692-48a9-90dc-b79dac993a70.mock.pstmn.io',
       '/api/v2/Performance/EmployeeTrackers',
     );
+    const {jsDateFormat} = useDateFormat();
+
+    const trackerNormalizer = data => {
+      return data.map(item => {
+        return {
+          ...item,
+          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat),
+          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat),
+        };
+      });
+    };
+
     const {
       showPaginator,
       currentPage,
@@ -144,6 +158,7 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilter,
+      normalizer: trackerNormalizer,
     });
 
     onSort(execQuery);
