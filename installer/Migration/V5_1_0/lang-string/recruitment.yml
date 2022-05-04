@@ -6,11 +6,8 @@ langStrings:
     value: 'Hiring Manager'
     unitId: hiring_manager
   -
-    value: 'Hiring Manager'
-    unitId: hiring_manager
-  -
     value: 'Candidate Name'
-    unitId: 'candidate_name'
+    unitId: candidate_name
   -
     value: 'Keywords'
     unitId: keywords

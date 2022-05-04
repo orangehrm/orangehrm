@@ -24,11 +24,16 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
+    protected ?TranslationHelper $translationHelper = null;
+    protected ?LangStringHelper $langStringHelper = null;
+
     public function up(): void
     {
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
 
-        $this->getConnection()->executeStatement('ALTER TABLE ohrm_kpi CHANGE job_title_code job_title_code INT(13) NOT NULL');
+        $this->getConnection()->executeStatement(
+            'ALTER TABLE ohrm_kpi CHANGE job_title_code job_title_code INT(13) NOT NULL'
+        );
         $kpiForeignKeyConstraint = new ForeignKeyConstraint(
             ['job_title_code'],
             'ohrm_job_title',
@@ -37,6 +42,41 @@ class Migration extends AbstractMigration
             ['onCascade' => 'DELETE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_kpi', $kpiForeignKeyConstraint);
+
+//        $groups = ['recruitment'];
+//        foreach ($groups as $group) {
+//            $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
+//            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+//        }
+
+//        $langCodes = [
+//            'en_US',
+//        ];
+//        foreach ($langCodes as $langCode) {
+//            $this->getTranslationHelper()->addTranslations($langCode);
+//        }
+    }
+
+    /**
+     * @return LangStringHelper
+     */
+    public function getLangStringHelper(): LangStringHelper
+    {
+        if (is_null($this->langStringHelper)) {
+            $this->langStringHelper = new LangStringHelper($this->getConnection());
+        }
+        return $this->langStringHelper;
+    }
+
+    /**
+     * @return TranslationHelper
+     */
+    public function getTranslationHelper(): TranslationHelper
+    {
+        if (is_null($this->translationHelper)) {
+            $this->translationHelper = new TranslationHelper($this->getConnection());
+        }
+        return $this->translationHelper;
     }
 
     public function getVersion(): string
