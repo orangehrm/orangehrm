@@ -25,6 +25,9 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
+    /**
+     * @inheritDoc
+     */
     public function up(): void
     {
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
@@ -55,6 +58,9 @@ class Migration extends AbstractMigration
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getVersion(): string
     {
         return '5.1.0';
