@@ -24,6 +24,7 @@ import {APIService} from '@/core/util/services/api.service';
 import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default function useTimesheet(
   http: APIService,
@@ -39,6 +40,7 @@ export default function useTimesheet(
   const {noRecordsFound, success} = useToast();
   const {$t} = usei18n();
   const {jsDateFormat} = useDateFormat();
+  const {locale} = useLocale();
   state.date = date ? date : formatDate(freshDate(), 'yyyy-MM-dd');
 
   const loadTimesheet = (date: string | null): void => {
@@ -208,9 +210,9 @@ export default function useTimesheet(
     const endDate = parseDate(state.timesheet?.endDate || '');
     if (!startDate || !endDate) return null;
 
-    return `${formatDate(startDate, jsDateFormat)} ${$t(
+    return `${formatDate(startDate, jsDateFormat, {locale})} ${$t(
       'general.to',
-    ).toLowerCase()} ${formatDate(endDate, jsDateFormat)}`;
+    ).toLowerCase()} ${formatDate(endDate, jsDateFormat, {locale})}`;
   });
 
   return {

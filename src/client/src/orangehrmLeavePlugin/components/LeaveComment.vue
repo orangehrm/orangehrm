@@ -53,6 +53,7 @@
 import {computed} from 'vue';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
 export default {
@@ -77,8 +78,10 @@ export default {
     });
 
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
     const commentDate = computed(() => {
-      return formatDate(parseDate(props.data?.date), jsDateFormat);
+      return formatDate(parseDate(props.data?.date), jsDateFormat, {locale});
     });
 
     return {

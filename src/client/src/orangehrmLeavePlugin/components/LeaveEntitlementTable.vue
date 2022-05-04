@@ -75,6 +75,7 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'LeaveEntitlementTable',
@@ -133,6 +134,7 @@ export default {
     );
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const entitlementNormalizer = data => {
       return data.map(item => {
@@ -142,8 +144,10 @@ export default {
             item.leaveType.name +
             `${item.leaveType.deleted ? $t('general.deleted') : ''}`,
           entitlementType: item.entitlementType.name,
-          fromDate: formatDate(parseDate(item.fromDate), jsDateFormat),
-          toDate: formatDate(parseDate(item.toDate), jsDateFormat),
+          fromDate: formatDate(parseDate(item.fromDate), jsDateFormat, {
+            locale,
+          }),
+          toDate: formatDate(parseDate(item.toDate), jsDateFormat, {locale}),
           days: item.entitlement,
           isSelectable: item.deletable,
         };

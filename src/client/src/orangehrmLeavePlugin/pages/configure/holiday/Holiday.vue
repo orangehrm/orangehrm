@@ -113,6 +113,7 @@ import {
 import {yearRange} from '@ohrm/core/util/helper/year-range';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   components: {
@@ -139,12 +140,13 @@ export default {
     });
 
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
     const dataNormalizer = data => {
       return data.map(item => {
         return {
           id: item.id,
           name: item.name,
-          date: formatDate(parseDate(item.date), jsDateFormat),
+          date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
           recurring: item.recurring ? 'Yes' : 'No',
           length: item.lengthName,
         };

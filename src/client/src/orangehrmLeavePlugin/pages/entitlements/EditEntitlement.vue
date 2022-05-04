@@ -96,6 +96,7 @@ import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdo
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 const leaveEntitlementModel = {
   employee: null,
@@ -130,9 +131,11 @@ export default {
       'api/v2/leave/leave-entitlements/[0-9]+/validation/entitlements',
     );
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
     return {
       http,
       jsDateFormat,
+      locale,
     };
   },
 
@@ -169,10 +172,12 @@ export default {
           const startDate = formatDate(
             parseDate(item.startDate),
             this.jsDateFormat,
+            {locale: this.locale},
           );
           const endDate = formatDate(
             parseDate(item.endDate),
             this.jsDateFormat,
+            {locale: this.locale},
           );
           return {
             id: `${item.startDate}_${item.endDate}`,

@@ -81,6 +81,7 @@ import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHe
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {parseDate, formatDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'ProfileAttachments',
@@ -110,12 +111,15 @@ export default {
       `api/v2/pim/employees/${props.employeeId}/screen/${props.screen}/attachments`,
     );
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const attachmentDataNormalizer = data => {
       return data.map(item => {
         return {
           ...item,
-          attachedDate: formatDate(parseDate(item.attachedDate), jsDateFormat),
+          attachedDate: formatDate(parseDate(item.attachedDate), jsDateFormat, {
+            locale,
+          }),
           size: convertFilesizeToString(item.size, 2),
         };
       });

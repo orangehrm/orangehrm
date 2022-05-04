@@ -80,6 +80,7 @@ import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
 import useTimesheetAPIs from '@/orangehrmTimePlugin/util/composable/useTimesheetAPIs';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   components: {
@@ -114,6 +115,7 @@ export default {
       updateTimesheetEntries,
     } = useTimesheetAPIs(http);
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const loadTimesheet = () => {
       state.isLoading = true;
@@ -224,6 +226,7 @@ export default {
       onClickCancel,
       ...toRefs(state),
       jsDateFormat,
+      locale,
     };
   },
 
@@ -244,10 +247,12 @@ export default {
       const startDate = formatDate(
         parseDate(this.timesheet.startDate),
         this.jsDateFormat,
+        {locale: this.locale},
       );
       const endDate = formatDate(
         parseDate(this.timesheet.endDate),
         this.jsDateFormat,
+        {locale: this.locale},
       );
       return `${startDate} - ${endDate}`;
     },

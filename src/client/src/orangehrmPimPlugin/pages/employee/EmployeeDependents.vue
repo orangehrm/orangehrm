@@ -75,6 +75,7 @@ import EditDependent from '@/orangehrmPimPlugin/components/EditDependent';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   components: {
@@ -102,13 +103,16 @@ export default {
       `api/v2/pim/employees/${props.empNumber}/dependents`,
     );
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const dependentNormalizer = data => {
       return data.map(item => {
         return {
           id: item.id,
           name: item.name,
-          dateOfBirth: formatDate(parseDate(item.dateOfBirth), jsDateFormat),
+          dateOfBirth: formatDate(parseDate(item.dateOfBirth), jsDateFormat, {
+            locale,
+          }),
           relationship:
             item.relationshipType == 'other' ? item.relationship : 'Child',
         };

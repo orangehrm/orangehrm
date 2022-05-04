@@ -54,6 +54,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 const defaultSortOrder = {
   trackers: 'DEFAULT',
@@ -79,13 +80,16 @@ export default {
       '/api/v2/leave/myTracker',
     );
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const trackerNormalizer = data => {
       return data.map(item => {
         return {
           ...item,
-          date: formatDate(parseDate(item.date), jsDateFormat),
-          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat),
+          date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
+          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
+            locale,
+          }),
         };
       });
     };

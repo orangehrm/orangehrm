@@ -52,6 +52,7 @@ import {APIService} from '@/core/util/services/api.service';
 import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'TimesheetActions',
@@ -70,6 +71,7 @@ export default {
     );
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const actionsNormalizer = data => {
       return data.map(item => {
@@ -90,7 +92,7 @@ export default {
         return {
           id: item.id,
           action: item.action?.label,
-          date: formatDate(parseDate(item.date), jsDateFormat),
+          date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
           comment: item.comment,
           performedBy: performedEmployee,
         };

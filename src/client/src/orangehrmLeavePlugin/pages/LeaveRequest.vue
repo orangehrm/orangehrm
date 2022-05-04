@@ -108,6 +108,7 @@ import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsM
 import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'LeaveViewRequest',
@@ -136,6 +137,7 @@ export default {
     const {leaveActions, processLeaveAction} = useLeaveActions(http);
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const leaveRequestNormalizer = data => {
       return data.map(item => {
@@ -146,6 +148,7 @@ export default {
           leaveDatePeriod = formatDate(
             parseDate(item.dates.fromDate),
             jsDateFormat,
+            {locale},
           );
         }
         if (item.dates.startTime && item.dates.endTime) {
@@ -205,6 +208,7 @@ export default {
       leaveActions,
       processLeaveAction,
       jsDateFormat,
+      locale,
     };
   },
 
@@ -262,10 +266,12 @@ export default {
       const startDate = formatDate(
         parseDate(this.response?.meta?.startDate),
         this.jsDateFormat,
+        {locale: this.locale},
       );
       const endDate = formatDate(
         parseDate(this.response?.meta?.endDate),
         this.jsDateFormat,
+        {locale: this.locale},
       );
       return startDate === endDate ? startDate : `${startDate} - ${endDate}`;
     },

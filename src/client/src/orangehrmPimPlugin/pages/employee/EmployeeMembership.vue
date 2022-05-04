@@ -81,6 +81,7 @@ import EditMembership from '@/orangehrmPimPlugin/components/EditMembership';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   components: {
@@ -116,6 +117,7 @@ export default {
       `api/v2/pim/employees/${props.empNumber}/memberships`,
     );
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const membershipNormalizer = data => {
       return data.map(item => {
@@ -130,10 +132,12 @@ export default {
           subscriptionCommenceDate: formatDate(
             parseDate(item.subscriptionCommenceDate),
             jsDateFormat,
+            {locale},
           ),
           subscriptionRenewalDate: formatDate(
             parseDate(item.subscriptionRenewalDate),
             jsDateFormat,
+            {locale},
           ),
         };
       });

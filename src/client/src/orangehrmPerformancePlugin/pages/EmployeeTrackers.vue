@@ -95,6 +95,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 const defaultFilters = {
   empName: null,
@@ -136,13 +137,18 @@ export default {
       '/api/v2/Performance/EmployeeTrackers',
     );
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const trackerNormalizer = data => {
       return data.map(item => {
         return {
           ...item,
-          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat),
-          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat),
+          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
+            locale,
+          }),
+          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {
+            locale,
+          }),
         };
       });
     };

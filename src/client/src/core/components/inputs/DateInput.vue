@@ -25,6 +25,7 @@
     :day-attributes="attributes"
     :events="events"
     :display-format="jsDateFormat"
+    :locale="locale"
     @selectYear="onSelectYear"
   />
 </template>
@@ -39,6 +40,7 @@ import {
   parseDate,
 } from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'DateInput',
@@ -49,6 +51,7 @@ export default {
     });
     const http = new APIService(window.appGlobal.baseUrl, '');
     const {jsDateFormat, userDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const fetchWorkWeek = async () => {
       http
@@ -114,6 +117,7 @@ export default {
       userDateFormat,
       ...toRefs(state),
       onSelectYear,
+      locale,
     };
   },
 };

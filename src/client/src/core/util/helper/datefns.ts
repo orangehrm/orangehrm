@@ -127,18 +127,26 @@ const freshDate = () => {
   return new Date(new Date().setHours(0, 0, 0, 0));
 };
 
-const parseDate = (value: string, dateFormat = 'yyyy-MM-dd'): Date | null => {
+const parseDate = (
+  value: string,
+  dateFormat = 'yyyy-MM-dd',
+  options = {},
+): Date | null => {
   try {
-    const parsed = parse(value, dateFormat, freshDate());
+    const parsed = parse(value, dateFormat, freshDate(), options);
     return !isNaN(parsed.valueOf()) ? parsed : null;
   } catch (error) {
     return null;
   }
 };
 
-const formatDate = (value: Date, dateFormat: string): string | null => {
+const formatDate = (
+  value: Date,
+  dateFormat: string,
+  options = {},
+): string | null => {
   try {
-    return format(value, dateFormat);
+    return format(value, dateFormat, options);
   } catch (error) {
     return null;
   }

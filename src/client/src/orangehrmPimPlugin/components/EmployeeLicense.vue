@@ -71,6 +71,7 @@ import EditLicense from '@/orangehrmPimPlugin/components/EditLicense';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'EmployeeLicense',
@@ -95,6 +96,7 @@ export default {
       `api/v2/pim/employees/${props.employeeId}/licenses`,
     );
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const licenceEndpoint = `api/v2/pim/employees/${props.employeeId}/licenses/allowed?limit=0`;
 
@@ -104,8 +106,12 @@ export default {
           id: item.license.id,
           type: item.license.name,
           licenseNo: item.licenseNo,
-          issuedDate: formatDate(parseDate(item.issuedDate), jsDateFormat),
-          expiryDate: formatDate(parseDate(item.expiryDate), jsDateFormat),
+          issuedDate: formatDate(parseDate(item.issuedDate), jsDateFormat, {
+            locale,
+          }),
+          expiryDate: formatDate(parseDate(item.expiryDate), jsDateFormat, {
+            locale,
+          }),
         };
       });
     };

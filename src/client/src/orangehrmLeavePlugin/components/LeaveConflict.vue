@@ -46,6 +46,7 @@
 <script>
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'LeaveConflict',
@@ -61,8 +62,10 @@ export default {
   },
   setup() {
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     return {
+      locale,
       jsDateFormat,
     };
   },
@@ -109,7 +112,9 @@ export default {
     items() {
       return this.data.map(item => {
         return {
-          date: formatDate(parseDate(item.date), this.jsDateFormat),
+          date: formatDate(parseDate(item.date), this.jsDateFormat, {
+            locale: this.locale,
+          }),
           hours: parseFloat(item.lengthHours).toFixed(2),
           type: item.leaveType?.name,
           status: item.status?.name,

@@ -84,6 +84,7 @@ import LeaveListTableHeader from '@/orangehrmLeavePlugin/components/LeaveListTab
 import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 const defaultFilters = {
   employee: null,
@@ -158,6 +159,7 @@ export default {
     const checkedItems = ref([]);
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const rules = {
       fromDate: [required],
@@ -209,12 +211,14 @@ export default {
           leaveDatePeriod = formatDate(
             parseDate(item.dates.fromDate),
             jsDateFormat,
+            {locale},
           );
         }
         if (item.dates.toDate) {
           leaveDatePeriod += ` to ${formatDate(
             parseDate(item.dates.toDate),
             jsDateFormat,
+            {locale},
           )}`;
         }
         if (item.dates.startTime && item.dates.endTime) {
@@ -242,10 +246,12 @@ export default {
                 const startDate = formatDate(
                   parseDate(period.startDate),
                   jsDateFormat,
+                  {locale},
                 );
                 const endDate = formatDate(
                   parseDate(period.endDate),
                   jsDateFormat,
+                  {locale},
                 );
                 return `${_balance} (${startDate} - ${endDate})`;
               })

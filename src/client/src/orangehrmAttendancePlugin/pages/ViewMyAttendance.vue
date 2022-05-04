@@ -93,6 +93,7 @@ import RecordCell from '@/orangehrmAttendancePlugin/components/RecordCell.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {getStandardTimezone} from '@/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   components: {
@@ -129,6 +130,7 @@ export default {
       'api/v2/attendance/records',
     );
     const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const attendanceRecordNormalizer = data => {
       return data.map(item => {
@@ -136,10 +138,12 @@ export default {
         const punchInDate = formatDate(
           parseDate(punchIn?.userDate),
           jsDateFormat,
+          {locale},
         );
         const punchOutDate = formatDate(
           parseDate(punchOut?.userDate),
           jsDateFormat,
+          {locale},
         );
 
         return {
