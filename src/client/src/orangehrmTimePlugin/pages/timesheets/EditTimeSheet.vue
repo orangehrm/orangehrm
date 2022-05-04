@@ -78,6 +78,8 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
 import useTimesheetAPIs from '@/orangehrmTimePlugin/util/composable/useTimesheetAPIs';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
   components: {
@@ -111,6 +113,7 @@ export default {
       fetchTimesheetEntries,
       updateTimesheetEntries,
     } = useTimesheetAPIs(http);
+    const {jsDateFormat} = useDateFormat();
 
     const loadTimesheet = () => {
       state.isLoading = true;
@@ -220,6 +223,7 @@ export default {
       onClickReset,
       onClickCancel,
       ...toRefs(state),
+      jsDateFormat,
     };
   },
 
@@ -236,9 +240,16 @@ export default {
       return '';
     },
     timesheetDateRange() {
-      return this.timesheet
-        ? `${this.timesheet.startDate} - ${this.timesheet.endDate}`
-        : '';
+      if (!this.timesheet) return '';
+      const startDate = formatDate(
+        parseDate(this.timesheet.startDate),
+        this.jsDateFormat,
+      );
+      const endDate = formatDate(
+        parseDate(this.timesheet.endDate),
+        this.jsDateFormat,
+      );
+      return `${startDate} - ${endDate}`;
     },
   },
 };
