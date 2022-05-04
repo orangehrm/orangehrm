@@ -39,7 +39,7 @@ class Config
     public const MODE_TEST = 'test';
 
     public const PRODUCT_NAME = 'OrangeHRM OS';
-    public const PRODUCT_VERSION = '5.0';
+    public const PRODUCT_VERSION = '5.1';
     public const PRODUCT_MODE = self::MODE_DEV;
     public const REGISTRATION_URL = 'https://ospenguin.orangehrm.com';
 

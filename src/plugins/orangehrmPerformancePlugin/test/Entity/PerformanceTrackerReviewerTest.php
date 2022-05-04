@@ -32,7 +32,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class PerformanceTrackerReviewerTest extends EntityTestCase
 {
-
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([Employee::class]);
@@ -68,6 +67,4 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
         $result = $this->getRepository(PerformanceTrackerReviewer::class)->find(1);
         $this->assertEquals(1, $result->getPerformanceTracker()->getId());
     }
-
-
 }

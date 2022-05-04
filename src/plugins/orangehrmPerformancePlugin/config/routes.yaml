@@ -1,4 +1,42 @@
-performance_module_under_development: # remove this
-  path: /performance/{screen}
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+apiv2_performance_kpi:
+  path: /api/v2/performance/kpi/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\KpiAPI
+
+apiv2_performance_kpis:
+  path: /api/v2/performance/kpi
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\KpiAPI
+
+##########################
+#        Screens
+##########################
+
+performance_my_trackers:
+  path: /performance/viewMyPerformanceTrackerList
+  controller: OrangeHRM\Performance\Controller\MyTrackerController::handle
+  methods: [ GET ]
+
+performance_employee_tracker:
+  path: /performance/viewEmployeePerformanceTrackerList
+  controller: OrangeHRM\Performance\Controller\EmployeeTrackerController::handle
+  methods: [ GET ]
+
+performance_kpi_search:
+  path: /performance/searchKpi
+  controller: OrangeHRM\Performance\Controller\KpiSearchController::handle
+  methods: [ GET ]
+
+performance_kpi_save:
+  path: /performance/saveKpi
+  controller: OrangeHRM\Performance\Controller\KpiSaveController::handle
+  methods: [ GET ]
+
+performance_kpi_edit:
+  path: /performance/saveKpi/{id}
+  controller: OrangeHRM\Performance\Controller\KpiSaveController::handle
   methods: [ GET ]

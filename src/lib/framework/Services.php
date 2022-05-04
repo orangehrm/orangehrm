@@ -292,4 +292,13 @@ final class Services
      * @see \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
      */
     public const RECRUITMENT_ATTACHMENT_SERVICE = 'recruitment.recruitment_attachment_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Performance plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Performance\Service\KpiService
+     */
+    public const KPI_SERVICE = 'performance.kpi_service';
 }
