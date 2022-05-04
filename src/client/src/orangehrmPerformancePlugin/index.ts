@@ -21,6 +21,9 @@ import EmployeeTrackers from './pages/EmployeeTrackers.vue';
 import KpiEdit from './pages/KpiEdit.vue';
 import KpiSave from './pages/KpiSave.vue';
 import KpiSearch from './pages/KpiSearch.vue';
+import PerformanceTrackerList from '@/orangehrmPerformancePlugin/pages/PerformanceTrackers.vue';
+import SavePerformanceTracker from '@/orangehrmPerformancePlugin/pages/SavePerformanceTracker.vue';
+import EditPerformanceTracker from '@/orangehrmPerformancePlugin/pages/EditPerformanceTracker.vue';
 
 export default {
   'my-tracker': MyTracker,
@@ -28,4 +31,7 @@ export default {
   'kpi-search': KpiSearch,
   'kpi-save': KpiSave,
   'kpi-edit': KpiEdit,
+  'performance-tracker-list': PerformanceTrackerList,
+  'performance-tracker-save': SavePerformanceTracker,
+  'performance-tracker-edit': EditPerformanceTracker,
 };
