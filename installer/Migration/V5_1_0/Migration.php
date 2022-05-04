@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Migration\V5_1_0;
 
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
@@ -26,12 +27,19 @@ class Migration extends AbstractMigration
 {
     public function up(): void
     {
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->addValidColumnToRequestResetPassword();
-    }
-
-    public function getVersion(): string
-    {
-        return '5.1.0';
+        $this->getConnection()->executeStatement(
+            'ALTER TABLE ohrm_kpi CHANGE job_title_code job_title_code INT(13) NOT NULL'
+        );
+        $kpiForeignKeyConstraint = new ForeignKeyConstraint(
+            ['job_title_code'],
+            'ohrm_job_title',
+            ['id'],
+            'ohrm_kpi_for_job_title_id',
+            ['onCascade' => 'DELETE']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_kpi', $kpiForeignKeyConstraint);
     }
 
     /**
@@ -43,7 +51,12 @@ class Migration extends AbstractMigration
             'ohrm_reset_password',
             'expired',
             Types::BOOLEAN,
-            [ 'Default' => true, 'Notnull' => true]
+            ['Default' => true, 'Notnull' => true]
         );
+    }
+
+    public function getVersion(): string
+    {
+        return '5.1.0';
     }
 }

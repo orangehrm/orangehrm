@@ -32,6 +32,7 @@
         update-password-url="{{ baseUrl }}/pim/updatePassword"
         :permissions="{{ (permissions ? permissions : []) | json_encode() }}"
         :breadcrumb="{{ breadcrumb | json_encode() }}"
+        :date-format="{{ dateFormat | json_encode() }}"
     >
       <{{ componentName }}
       {% for prop in componentProps %}

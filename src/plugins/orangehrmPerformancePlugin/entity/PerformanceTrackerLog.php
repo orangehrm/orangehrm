@@ -276,6 +276,4 @@ class PerformanceTrackerLog
     {
         $this->user = $user;
     }
-
-
 }

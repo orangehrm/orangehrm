@@ -81,5 +81,11 @@
     <testsuite name="I18N">
       <directory>src/plugins/orangehrmI18NPlugin/test/Service</directory>
     </testsuite>
+    <testsuite name="Performance">
+      <directory>src/plugins/orangehrmPerformancePlugin/test/Service</directory>
+      <directory>src/plugins/orangehrmPerformancePlugin/test/Dao</directory>
+      <directory>src/plugins/orangehrmPerformancePlugin/test/Api</directory>
+      <directory>src/plugins/orangehrmPerformancePlugin/test/Entity</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
