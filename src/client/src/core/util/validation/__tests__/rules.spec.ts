@@ -26,6 +26,8 @@ import {
   startDateShouldBeBeforeEndDate,
   startTimeShouldBeBeforeEndTime,
   minValueShouldBeLowerThanMaxValue,
+  maxValueShouldBeGreaterThanMinValue,
+  numberShouldBeBetweenMinandMaxValue,
   digitsOnly,
   digitsOnlyWithDecimalPoint,
 } from '../rules';
@@ -491,31 +493,80 @@ describe('core/util/validation/rules::startTimeShouldBeBeforeEndTime', () => {
   });
 });
 
-describe('core/util/validation/rules::minValueShouldBeLowerThanMaxValue', () => {
-  test('minValueShouldBeLowerThanMaxValue:: should not allow minimum value to be greater than maximum value', () => {
-    const result = minValueShouldBeLowerThanMaxValue(
+describe('core/util/validation/rules::maxValueShouldBeGreaterThanMinValue', () => {
+  test('maxValueShouldBeGreaterThanMinValue:: should not allow minimum value to be greater than maximum value', () => {
+    const result = maxValueShouldBeGreaterThanMinValue(
       '100',
       'Should be higher than Minimum Salary',
     )('1');
     expect(result).toEqual('Should be higher than Minimum Salary');
   });
 
-  test('minValueShouldBeLowerThanMaxValue:: should allow minimum value to be lower than maximum value', () => {
-    const result = minValueShouldBeLowerThanMaxValue(
+  test('maxValueShouldBeGreaterThanMinValue:: should allow minimum value to be lower than maximum value', () => {
+    const result = maxValueShouldBeGreaterThanMinValue(
       '100',
       'Should be higher than Minimum Salary',
     )('101');
     expect(result).toEqual(true);
   });
 
-  test('minValueShouldBeLowerThanMaxValue:: should allow minimum and maximum value as zero', () => {
+  test('maxValueShouldBeGreaterThanMinValue:: should allow minimum and maximum value as zero', () => {
+    const result = maxValueShouldBeGreaterThanMinValue('0', undefined)('0');
+    expect(result).toEqual(true);
+  });
+
+  test('maxValueShouldBeGreaterThanMinValue:: should allow minimum and maximum value as empty string literal', () => {
+    const result = maxValueShouldBeGreaterThanMinValue('', undefined)('');
+    expect(result).toEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::minValueShouldBeLowerThanMaxValue', () => {
+  test('minValueShouldBeLowerThanMaxValue:: should not allow minimum value to be greater than maximum value', () => {
+    const result = minValueShouldBeLowerThanMaxValue(
+      '10',
+      'Should be lower than Maximum Rating',
+    )('100');
+    expect(result).toEqual('Should be lower than Maximum Rating');
+  });
+
+  test('minValueShouldBeLowerThanMaxValue:: should allow minimum value to be lower than maximum value', () => {
+    const result = minValueShouldBeLowerThanMaxValue(
+      '100',
+      'Should be lower than Maximum Rating',
+    )('10');
+    expect(result).toEqual(true);
+  });
+
+  test('minValueShouldBeLowerThanMaxValue:: should allow minimum and maximum value to be zero', () => {
     const result = minValueShouldBeLowerThanMaxValue('0', undefined)('0');
     expect(result).toEqual(true);
   });
 
-  test('minValueShouldBeLowerThanMaxValue:: should allow minimum and maximum value as empty string literal', () => {
+  test('minValueShouldBeLowerThanMaxValue:: should allow minimum and maximum value to be an empty string literal', () => {
     const result = minValueShouldBeLowerThanMaxValue('', undefined)('');
     expect(result).toEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::numberShouldBeBetweenMinandMaxValue', () => {
+  test('numberShouldBeBetweenMinandMaxValue:: should not allow number to be out of the given range', () => {
+    const result = numberShouldBeBetweenMinandMaxValue(0, 100)('101');
+    expect(result).toEqual('Should be a number between 0-100');
+  });
+
+  test('numberShouldBeBetweenMinandMaxValue:: should allow number to be between 0 and 100', () => {
+    const result = numberShouldBeBetweenMinandMaxValue(0, 100)('10');
+    expect(result).toEqual(true);
+  });
+
+  test('numberShouldBeBetweenMinandMaxValue:: should display custom message', () => {
+    const result = numberShouldBeBetweenMinandMaxValue(
+      0,
+      10,
+      'Rating should be between 0 and 10',
+    )('11');
+    expect(result).toEqual('Rating should be between 0 and 10');
   });
 });
 

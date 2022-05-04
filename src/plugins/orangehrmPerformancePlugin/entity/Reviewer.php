@@ -22,7 +22,6 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Iterable_;
 
 /**
  * @ORM\Table(name="ohrm_reviewer")
