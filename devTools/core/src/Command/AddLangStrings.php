@@ -4,7 +4,6 @@ namespace OrangeHRM\DevTools\Command;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\DevTools\Command\Util\AddLanguageStrings;
-use OrangeHRM\DevTools\Command\Util\TranslationTestTool;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

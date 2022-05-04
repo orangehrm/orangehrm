@@ -81,7 +81,7 @@ class TranslationGenerateTool
             $filepath2 = 'installer/Migration/V5_1_0/lang-string/' . $group . '.yaml';
             $yml2 = Yaml::parseFile($filepath2);
             $langStrings = array_shift($yml2);
-            if(! is_null($langStrings)){
+            if (! is_null($langStrings)) {
                 foreach ($langStrings as $langString) {
                     if ($transUnit->getSource() === $langString['value']) {
                         return $translation = ['target' => $transUnit->getTarget(), 'unitId' => $langString['unitId'], 'group' => $group];
