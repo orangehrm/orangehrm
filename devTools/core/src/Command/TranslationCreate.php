@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\DevTools\Command;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\DevTools\Command\Util\TranslationGenerateTool;
 use OrangeHRM\Installer\Migration\V5_0_0\TranslationHelper;
 use Symfony\Component\Console\Command\Command;
@@ -27,6 +28,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TranslationCreate extends Command
 {
+    use EntityManagerHelperTrait;
+
     protected static $defaultName = 'add-translations';
     protected static $defaultDescription = 'Creates the translaltion yml files using the xml files.';
 
@@ -42,7 +45,7 @@ class TranslationCreate extends Command
     {
         $this->translationGenerator = new TranslationGenerateTool();
 
-        $this->translationHelper = new TranslationHelper();
+        $this->translationHelper = new TranslationHelper($this->getEntityManager()->getConnection());
     }
 
     /**
