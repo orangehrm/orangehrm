@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <oxd-input-field type="select" :label="$t('recruitment.vacancy')" :options="options" />
+  <oxd-input-field
+    type="select"
+    :label="$t('recruitment.vacancy')"
+    :options="options"
+  />
 </template>
 
 <script>
@@ -30,8 +34,8 @@ export default {
   setup() {
     const options = ref([]);
     const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/recruitment/vacancies',
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'recruitment/api/vacancy',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {

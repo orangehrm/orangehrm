@@ -1,7 +1,26 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
 <template>
   <div class="orangehrm-candidate-page">
-    <oxd-table-filter filter-title="Candidates">
-      <oxd-form>
+    <oxd-table-filter :filter-title="$t('recruitment.candidates')">
+      <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -119,6 +138,7 @@
         />
       </div>
     </div>
+    <delete-confirmation ref="deleteDialog"></delete-confirmation>
   </div>
 </template>
 
@@ -132,6 +152,7 @@ import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
 import CandidateAutocomplete from '@/orangehrmRecruitmentPlugin/components/CandidateAutocomplete';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 const defaultFilters = {
   jobTitle: null,
   vacancy: null,
@@ -157,6 +178,7 @@ export default {
     HiringManagerDropdown,
     VacancyDropdown,
     JobtitleDropdown,
+    'delete-confirmation': DeleteConfirmationDialog,
   },
   props: {
     unselectableIds: {
@@ -200,7 +222,7 @@ export default {
 
     const http = new APIService(
       'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      'recruitment/api/candidateDetails',
+      'recruitment/api/candidate',
     );
 
     const {
@@ -285,7 +307,7 @@ export default {
             view: {
               onClick: this.onClickEdit,
               props: {
-                name: 'pencil-fill',
+                name: 'menu-recruitment',
               },
             },
           },
@@ -344,22 +366,22 @@ export default {
       const ids = this.checkedItems.map(index => {
         return this.items?.data[index].id;
       });
-      // this.$refs.deleteDialog.showDialog().then(confirmation => {
-      //   if (confirmation === 'ok') {
-      //     this.deleteItems(ids);
-      //   }
-      // });
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          // this.deleteItems(ids);
+        }
+      });
     },
     onClickDelete(item) {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
-      // if (isSelectable > -1) {
-      //   return this.$toast.cannotDelete();
-      // }
-      // this.$refs.deleteDialog.showDialog().then(confirmation => {
-      //   if (confirmation === 'ok') {
-      //     this.deleteItems([item.id]);
-      //   }
-      // });
+      if (isSelectable > -1) {
+        return this.$toast.cannotDelete();
+      }
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          // this.deleteItems([item.id]);
+        }
+      });
     },
     deleteItems(items) {
       if (items instanceof Array) {

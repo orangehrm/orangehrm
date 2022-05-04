@@ -35,8 +35,8 @@ export default {
   setup() {
     const options = ref([]);
     const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/recruitment/hiringManager',
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'recruitment/api/hiringManager',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {

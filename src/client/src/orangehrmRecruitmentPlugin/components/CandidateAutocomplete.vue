@@ -42,11 +42,14 @@ export default {
     },
     apiPath: {
       type: String,
-      default: 'api/v2/recruitment/candidates',
+      default: 'api/v2/recruitment/candidateDetails',
     },
   },
-  setup(props) {
-    const http = new APIService(window.appGlobal.baseUrl, props.apiPath);
+  setup() {
+    const http = new APIService(
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'recruitment/api/candidateDetails',
+    );
     return {
       http,
     };
@@ -79,5 +82,3 @@ export default {
   },
 };
 </script>
-
-
