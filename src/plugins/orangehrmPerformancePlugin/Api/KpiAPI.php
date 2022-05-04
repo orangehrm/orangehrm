@@ -168,7 +168,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_DEFAULT_KPI
-            ) ? 1 : null
+            )
         );
     }
 

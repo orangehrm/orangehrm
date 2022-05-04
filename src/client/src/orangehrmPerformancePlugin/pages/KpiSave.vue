@@ -103,7 +103,7 @@ import {
   shouldNotExceedCharLength,
   minValueShouldBeLowerThanMaxValue,
   maxValueShouldBeGreaterThanMinValue,
-  numberShouldBeBetweenMinandMaxValue,
+  numberShouldBeBetweenMinAndMaxValue,
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown.vue';
@@ -125,7 +125,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/performance/kpi',
+      'api/v2/performance/kpis',
     );
 
     return {
@@ -141,7 +141,7 @@ export default {
         jobTitle: [required],
         minRating: [
           required,
-          numberShouldBeBetweenMinandMaxValue(0, 100),
+          numberShouldBeBetweenMinAndMaxValue(0, 100),
           minValueShouldBeLowerThanMaxValue(
             () => this.kpi.maxRating,
             'Minimum Rating should be less than Maximum Rating',
@@ -149,7 +149,7 @@ export default {
         ],
         maxRating: [
           required,
-          numberShouldBeBetweenMinandMaxValue(0, 100),
+          numberShouldBeBetweenMinAndMaxValue(0, 100),
           maxValueShouldBeGreaterThanMinValue(
             () => this.kpi.minRating,
             'Maximum Rating should be greater than Minimum Rating',

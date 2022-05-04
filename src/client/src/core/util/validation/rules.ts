@@ -478,7 +478,6 @@ export const maxValueShouldBeGreaterThanMinValue = (
  * @param {string | function} maxValue
  * @param {string|undefined} message
  */
-
 export const minValueShouldBeLowerThanMaxValue = (
   maxValue: string | Function,
   message?: string,
@@ -502,8 +501,7 @@ export const minValueShouldBeLowerThanMaxValue = (
  * @param {number} maxValue
  * @param {string|undefined} message
  */
-
-export const numberShouldBeBetweenMinandMaxValue = (
+export const numberShouldBeBetweenMinAndMaxValue = (
   minValue: number,
   maxValue: number,
   message?: string,
