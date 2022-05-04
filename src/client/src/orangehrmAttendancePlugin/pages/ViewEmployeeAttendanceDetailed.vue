@@ -108,26 +108,13 @@ import {required} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
+import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import RecordCell from '@/orangehrmAttendancePlugin/components/RecordCell.vue';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {yearRange} from '@/core/util/helper/year-range';
 import {getStandardTimezone} from '@/core/util/helper/datefns';
-
-const attendanceRecordNormalizer = data => {
-  return data.map(item => {
-    const {punchIn, punchOut} = item;
-    return {
-      id: item.id,
-      punchIn: punchIn,
-      punchOut: punchOut,
-      punchInNote: punchIn.note,
-      punchOutNote: punchOut.note,
-      duration: item.duration,
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 export default {
   components: {
@@ -177,6 +164,37 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/attendance/employees/${props.employee.empNumber}/records`,
     );
+    const {jsDateFormat} = useDateFormat();
+
+    const attendanceRecordNormalizer = data => {
+      return data.map(item => {
+        const {punchIn, punchOut} = item;
+        const punchInDate = formatDate(
+          parseDate(punchIn?.userDate),
+          jsDateFormat,
+        );
+        const punchOutDate = formatDate(
+          parseDate(punchOut?.userDate),
+          jsDateFormat,
+        );
+
+        return {
+          id: item.id,
+          punchIn: {
+            ...punchIn,
+            userDate: punchInDate,
+          },
+          punchOut: {
+            ...punchOut,
+            userDate: punchOutDate,
+          },
+          punchInNote: punchIn.note,
+          punchOutNote: punchOut.note,
+          duration: item.duration,
+        };
+      });
+    };
+
     const {
       total,
       pages,
