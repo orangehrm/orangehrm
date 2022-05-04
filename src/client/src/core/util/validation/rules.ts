@@ -441,7 +441,7 @@ export const shouldNotLessThanCharLength = function(charLength: number) {
  * @param {string | function} minValue
  * @param {string|undefined} message
  */
-export const minValueShouldBeLowerThanMaxValue = (
+export const maxValueShouldBeGreaterThanMinValue = (
   minValue: string | Function,
   message?: string,
 ) => {
@@ -457,5 +457,53 @@ export const minValueShouldBeLowerThanMaxValue = (
     if (resolvedMinValue === '' || value === '') return true;
     if (resolvedMinValue === '0' || value === '0') return true;
     return parseFloat(resolvedMinValue) < parseFloat(value) || resolvedMessage;
+  };
+};
+
+/**
+ * @param {string | function} maxValue
+ * @param {string|undefined} message
+ */
+
+export const minValueShouldBeLowerThanMaxValue = (
+  maxValue: string | Function,
+  message?: string,
+) => {
+  return (value: string): boolean | string => {
+    const resolvedMaxValue =
+      typeof maxValue === 'function' ? maxValue() : maxValue;
+    const resolvedMessage =
+      typeof message === 'string'
+        ? message
+        : 'Should be lower than Maximum value';
+    if (resolvedMaxValue === null || value === null) return true;
+    if (resolvedMaxValue === undefined || value === undefined) return true;
+    if (resolvedMaxValue === '' || value === '0') return true;
+    return parseFloat(resolvedMaxValue) > parseFloat(value) || resolvedMessage;
+  };
+};
+
+/**
+ * @param {number} minValue
+ * @param {number} maxValue
+ * @param {string|undefined} message
+ */
+
+export const numberShouldBeBetweenMinandMaxValue = (
+  minValue: number,
+  maxValue: number,
+  message?: string,
+) => {
+  return (value: string): boolean | string => {
+    const resolvedMessage =
+      typeof message === 'string'
+        ? message
+        : `Should be a number between ${minValue}-${maxValue}`;
+    return (
+      (digitsOnly(value) === true &&
+        parseFloat(value) >= minValue &&
+        parseFloat(value) <= maxValue) ||
+      resolvedMessage
+    );
   };
 };

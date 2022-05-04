@@ -27,6 +27,7 @@ use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
@@ -38,6 +39,7 @@ class VueControllerHelper
     use UserServiceTrait;
     use MenuServiceTrait;
     use I18NHelperTrait;
+    use ConfigServiceTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -54,6 +56,19 @@ class VueControllerHelper
     public const PRODUCT_NAME = 'productName';
     public const PERMISSIONS = 'permissions';
     public const BREADCRUMB = 'breadcrumb';
+    public const DATE_FORMAT = 'dateFormat';
+
+    public const DATE_FORMAT_MAP = [
+        'Y-m-d' => 'yyyy-mm-dd',
+        'd-m-Y' => 'dd-mm-yyyy',
+        'm-d-Y' => 'mm-dd-yyyy',
+        'Y/m/d' => 'yyyy/mm/dd',
+        'd/m/Y' => 'dd/mm/yyyy',
+        'm/d/Y' => 'mm/dd/yyyy',
+        'Y.m.d' => 'yyyy.mm.dd',
+        'd.m.Y' => 'dd.mm.yyyy',
+        'm.d.Y' => 'mm.dd.yyyy'
+    ];
 
     /**
      * @var Request|null
@@ -139,6 +154,7 @@ class VueControllerHelper
                 self::PRODUCT_VERSION => Config::PRODUCT_VERSION,
                 self::PRODUCT_NAME => Config::PRODUCT_NAME,
                 self::BREADCRUMB => $this->getBreadcrumb(),
+                self::DATE_FORMAT => $this->getDateFormat()
             ]
         );
         return $this->context->all();
@@ -251,12 +267,24 @@ class VueControllerHelper
             //TODO needed to fix for add screens
             $breadcrumb['level'] = $menuItem->getLevel() == 3 ? $menuItem->getParent()->getMenuTitle() : null;
             if (!is_null($breadcrumb['level'])) {
-                $breadcrumb['level'] =$this->getI18NHelper()->transBySource($breadcrumb['level']);
+                $breadcrumb['level'] = $this->getI18NHelper()->transBySource($breadcrumb['level']);
             }
         }
         if ($breadcrumb['moduleName']) {
-            $breadcrumb['moduleName'] =$this->getI18NHelper()->transBySource($breadcrumb['moduleName']);
+            $breadcrumb['moduleName'] = $this->getI18NHelper()->transBySource($breadcrumb['moduleName']);
         }
         return $breadcrumb;
+    }
+
+    /**
+     * @return array
+     */
+    private function getDateFormat(): array
+    {
+        $dateFormat = $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
+        return [
+            'id' => $dateFormat,
+            'label' => self::DATE_FORMAT_MAP[$dateFormat]
+        ];
     }
 }

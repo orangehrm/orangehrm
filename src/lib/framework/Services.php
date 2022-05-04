@@ -278,4 +278,13 @@ final class Services
      * @see \OrangeHRM\I18N\Service\I18NHelper
      */
     public const I18N_HELPER = 'i18n.i18n_helper';
+
+    ///////////////////////////////////////////////////////////////
+    /// Performance plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Performance\Service\KpiService
+     */
+    public const KPI_SERVICE = 'performance.kpi_service';
 }

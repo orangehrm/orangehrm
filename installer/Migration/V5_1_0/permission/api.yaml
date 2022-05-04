@@ -1,0 +1,15 @@
+##########################
+#        Performance
+##########################
+
+apiv2_performance_kpi:
+  description: 'API-v2 Performance - KPI'
+  api: OrangeHRM\Performance\Api\KpiAPI
+  module: performance
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
