@@ -51,6 +51,8 @@ jest.mock('@/core/plugins/i18n/translate', () => {
       'general.expected_email_address_format_not_matched':
         'Expected format: admin@example.com',
       'general.should_be_a_number': 'Should be a number',
+      'general.should_be_a_number_between_min_and_max':
+        'Should be a number between 0-100',
     };
     return mockStrings[langString];
   };
