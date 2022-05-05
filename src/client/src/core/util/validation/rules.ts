@@ -488,7 +488,7 @@ export const minValueShouldBeLowerThanMaxValue = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : 'Should be lower than Maximum value';
+        : translate('general.should_be_lower_than_maximum_value');
     if (resolvedMaxValue === null || value === null) return true;
     if (resolvedMaxValue === undefined || value === undefined) return true;
     if (resolvedMaxValue === '' || value === '0') return true;
@@ -510,7 +510,10 @@ export const numberShouldBeBetweenMinAndMaxValue = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : `Should be a number between ${minValue}-${maxValue}`;
+        : translate('general.should_be_a_number_between_min_and_max', {
+            min: minValue,
+            max: maxValue,
+          });
     return (
       (digitsOnly(value) === true &&
         parseFloat(value) >= minValue &&
