@@ -33,7 +33,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\Recruitment\Api\Model\VacancyAttachmentModel;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
@@ -58,11 +57,17 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
 
     public const VACANCY_ATTACHMENT_REPLACE_CURRENT = 'replaceCurrent';
 
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
@@ -70,8 +75,6 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointResult
-     * @throws NormalizeException
      */
     public function create(): EndpointResult
     {
@@ -127,6 +130,9 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         $vacancyAttachment->setFileContent($base64Attachment->getContent());
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -185,6 +191,9 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
@@ -203,8 +212,6 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointResult
-     * @throws DaoException
      */
     public function getOne(): EndpointResult
     {
@@ -235,6 +242,9 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -242,6 +252,9 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_ID);
@@ -263,6 +276,9 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(VacancyAttachmentModel::class, $vacancyAttachment);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(

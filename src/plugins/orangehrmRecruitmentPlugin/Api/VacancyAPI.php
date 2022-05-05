@@ -20,31 +20,30 @@
 namespace OrangeHRM\Recruitment\Api;
 
 
-use DateTime;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Vacancy;
-use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Recruitment\Api\Model\VacancyModel;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
-use OrangeHRM\Recruitment\Service\VacancyService;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class VacancyAPI extends Endpoint implements CrudEndpoint
 {
+    use VacancyServiceTrait;
+    use DateTimeHelperTrait;
+
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_VACANCY_ID = 'vacancyId';
     public const FILTER_HIRING_MANAGER_ID = 'hiringManagerId';
@@ -65,27 +64,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_STATUS_MAX_LENGTH = 4;
 
     /**
-     * @var null|VacancyService
-     */
-    protected ?VacancyService $vacancyService = null;
-
-    /**
-     * @return VacancyService
-     */
-    protected function getVacancyService(): VacancyService
-    {
-        if (is_null($this->vacancyService)) {
-            $this->vacancyService = new VacancyService();
-        }
-        return $this->vacancyService;
-    }
-
-    /**
      * @inheritDoc
-     * @return EndpointResourceResult
-     * @throws DaoException
-     * @throws RecordNotFoundException
-     * @throws NormalizeException
      */
     public function getOne(): EndpointResourceResult
     {
@@ -93,7 +72,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-        $vacancy = $this->getVacancyService()->getVacancyById($id);
+        $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
         return new EndpointResourceResult(VacancyModel::class, $vacancy);
     }
@@ -108,7 +87,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -139,7 +117,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_STATUS
             )
         );
-        $vacancies = $this->getVacancyService()->getAllVacancies($vacancyParamHolder);
+        $vacancies = $this->getVacancyService()->getVacancyDao()->getVacancies($vacancyParamHolder);
         $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancyParamHolder);
         return new EndpointCollectionResult(
             VacancyModel::class,
@@ -154,23 +132,30 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-//            $this->getValidationDecorator()->notRequiredParamRule(
-//                new ParamRule(self::FILTER_VACANCY_ID)
-//            ),
-//            $this->getValidationDecorator()->notRequiredParamRule(
-//                new ParamRule(self::FILTER_HIRING_MANAGER_ID)
-//            ),
-//            $this->getValidationDecorator()->notRequiredParamRule(
-//                new ParamRule(self::FILTER_JOB_TITLE_ID)
-//            ),
-//            $this->getValidationDecorator()->notRequiredParamRule(
-//                new ParamRule(self::FILTER_STATUS)
-//            ),
-            new ParamRule(self::FILTER_VACANCY_ID),
-            new ParamRule(self::FILTER_HIRING_MANAGER_ID),
-            new ParamRule(self::FILTER_JOB_TITLE_ID),
-            new ParamRule(self::FILTER_STATUS),
-
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_VACANCY_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_HIRING_MANAGER_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_JOB_TITLE_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_STATUS,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
             ...$this->getSortingAndPaginationParamsRules(VacancySearchFilterParams::ALLOWED_SORT_FIELDS)
 
         );
@@ -178,20 +163,18 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
      */
     public function create(): EndpointResult
     {
         $vacancy = new Vacancy();
         $this->setVacancy($vacancy);
-
         $vacancy = $this->getVacancyService()->saveJobVacancy($vacancy);
 
         return new EndpointResourceResult(VacancyModel::class, $vacancy);
     }
 
     /**
-     * @param  Vacancy  $vacancy
+     * @param Vacancy $vacancy
      */
     private function setVacancy(Vacancy $vacancy): void
     {
@@ -219,12 +202,10 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_IS_PUBLISHED
             )
         );
-        $vacancy->setDefinedTime(
-            new DateTime()
-        );
-        $vacancy->setUpdatedTime(
-            new DateTime()
-        );
+        $vacancy->setDefinedTime($this->getDateTimeHelper()->getNow());
+
+        $vacancy->setUpdatedTime($this->getDateTimeHelper()->getNow());
+
         $vacancy->setStatus(
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_BODY,
@@ -319,15 +300,14 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
      */
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $vacancy = $this->getVacancyService()->getVacancyById($id);
+        $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
         $this->setVacancy($vacancy);
-        $this->getVacancyService()->saveJobVacancy($vacancy);
+        $this->getVacancyService()->getVacancyDao()->saveJobVacancy($vacancy);
         return new EndpointResourceResult(VacancyModel::class, $vacancy);
     }
 
@@ -337,7 +317,10 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -348,7 +331,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getVacancyService()->deleteVacancies($ids);
+        $this->getVacancyService()->getVacancyDao()->deleteVacancies($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -358,8 +341,10 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            ),
         );
     }
-
 }
