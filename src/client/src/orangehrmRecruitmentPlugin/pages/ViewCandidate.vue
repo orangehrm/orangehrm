@@ -402,6 +402,10 @@ export default {
           .then(() => {
             this.isLoading = false;
             this.resetDataTable();
+          })
+          .catch(() => {
+            this.isLoading = false;
+            this.resetDataTable();
           });
       }
     },

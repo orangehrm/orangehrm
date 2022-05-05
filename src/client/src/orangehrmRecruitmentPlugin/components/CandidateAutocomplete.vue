@@ -25,16 +25,8 @@
     :clear="false"
     :create-options="loadCandidates"
   >
-    <template #afterSelected="{data}">
-      <template v-if="data.isPastEmployee">
-        {{ $t('general.past_employee') }}
-      </template>
-    </template>
     <template #option="{data}">
       <span>{{ data.label }}</span>
-      <div v-if="data.isPastEmployee" class="past-employee-tag">
-        {{ $t('general.past_employee') }}
-      </div>
     </template>
   </oxd-input-field>
 </template>
