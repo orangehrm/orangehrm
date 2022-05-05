@@ -21,6 +21,7 @@ namespace OrangeHRM\Performance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 
@@ -30,7 +31,7 @@ class EmployeeTrackerDao extends BaseDao
      * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
      * @return PerformanceTracker[]
      */
-    public function getEmployeeTrackerList(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): array
+    public function getEmployeeTrackerListForAdmin(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): array
     {
         $qb = $this->getEmployeeTrackerQueryBuilderWrapper($employeeTrackerSearchFilterParams)->getQueryBuilder();
         return $qb->getQuery()->execute();
@@ -40,9 +41,51 @@ class EmployeeTrackerDao extends BaseDao
      * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
      * @return int
      */
-    public function getEmployeeTrackerCount(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): int
+    public function getEmployeeTrackerCountForAdmin(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): int
     {
         $qb = $this->getEmployeeTrackerQueryBuilderWrapper($employeeTrackerSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($qb)->count();
+    }
+
+    /**
+     * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
+     * @param int $empNumber
+     * @return PerformanceTracker[]
+     */
+    public function getEmployeeTrackerListForESS(
+        EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams,
+        int $empNumber
+    ): array {
+        $qb = $this->getEmployeeTrackerQueryBuilderWrapper($employeeTrackerSearchFilterParams)->getQueryBuilder();
+
+        $trackerIds = $this->getTrackerIdsByReviewerId($empNumber);
+        if (empty($trackerIds)) {
+            return [];
+        }
+        $qb->andWhere($qb->expr()->in('tracker.id', ':trackerIds'))
+            ->setParameter('trackerIds', $trackerIds);
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
+     * @param int $empNumber
+     * @return int
+     */
+    public function getEmployeeTrackerCountForESS(
+        EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams,
+        int $empNumber
+    ): int {
+        $qb = $this->getEmployeeTrackerQueryBuilderWrapper($employeeTrackerSearchFilterParams)->getQueryBuilder();
+
+        $trackerIds = $this->getTrackerIdsByReviewerId($empNumber);
+        if (empty($trackerIds)) {
+            return 0;
+        }
+        $qb->andWhere($qb->expr()->in('tracker.id', ':trackerIds'))
+            ->setParameter('trackerIds', $trackerIds);
+
         return $this->getPaginator($qb)->count();
     }
 
@@ -69,11 +112,28 @@ class EmployeeTrackerDao extends BaseDao
             $qb->andWhere($qb->expr()->isNotNull('employee.employeeTerminationRecord'));
         }
 
-        // TODO filter results for ESS reviewers
-
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
         $this->setSortingAndPaginationParams($qb, $employeeTrackerSearchFilterParams);
 
         return $this->getQueryBuilderWrapper($qb);
+    }
+
+    /**
+     * @param int $reviewerId
+     * @return array
+     * TODO move to Tracker Reviewer Dao
+     */
+    public function getTrackerIdsByReviewerId(int $reviewerId): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceTrackerReviewer::class, 'trackerReviewer');
+        $qb->leftJoin('trackerReviewer.performanceTracker', 'tracker');
+        $qb->andWhere($qb->expr()->eq('trackerReviewer.reviewer', ':empNumber'))
+            ->setParameter('empNumber', $reviewerId);
+
+        $trackerReviewList = $qb->getQuery()->execute();
+
+        return array_map(function ($item) {
+            return $item->getPerformanceTracker()->getId();
+        }, $trackerReviewList);
     }
 }

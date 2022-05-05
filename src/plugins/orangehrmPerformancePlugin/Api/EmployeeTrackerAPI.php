@@ -57,10 +57,8 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
         $this->setSortingAndPaginationParams($employeeTrackerSearchFilterParams);
 
         $employeeTrackerList = $this->getEmployeeTrackerService()
-            ->getEmployeeTrackerDao()
             ->getEmployeeTrackerList($employeeTrackerSearchFilterParams);
         $employeeTrackerCount = $this->getEmployeeTrackerService()
-            ->getEmployeeTrackerDao()
             ->getEmployeeTrackerCount($employeeTrackerSearchFilterParams);
 
         return new EndpointCollectionResult(
@@ -91,6 +89,9 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
         );
     }
 
+    /**
+     * @return EmployeeTrackerSearchFilterParams
+     */
     protected function getEmployeeTrackerSearchFilterParams(): EmployeeTrackerSearchFilterParams
     {
         $employeeTrackerSearchFilterParams = new EmployeeTrackerSearchFilterParams();

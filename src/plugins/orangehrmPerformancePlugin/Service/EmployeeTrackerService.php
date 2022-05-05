@@ -19,10 +19,15 @@
 
 namespace OrangeHRM\Performance\Service;
 
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Performance\Dao\EmployeeTrackerDao;
+use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 
 class EmployeeTrackerService
 {
+    use AuthUserTrait;
+
     private ?EmployeeTrackerDao $employeeTrackerDao = null;
 
     /**
@@ -34,5 +39,31 @@ class EmployeeTrackerService
             $this->employeeTrackerDao = new EmployeeTrackerDao();
         }
         return $this->employeeTrackerDao;
+    }
+
+    /**
+     * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
+     * @return PerformanceTracker[]
+     */
+    public function getEmployeeTrackerList(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): array
+    {
+        if ($this->getAuthUser()->getUserRoleId() !== 1) {
+            $empNumber = $this->getAuthUser()->getEmpNumber();
+            return $this->getEmployeeTrackerDao()->getEmployeeTrackerListForESS($employeeTrackerSearchFilterParams, $empNumber);
+        }
+        return $this->getEmployeeTrackerDao()->getEmployeeTrackerListForAdmin($employeeTrackerSearchFilterParams);
+    }
+
+    /**
+     * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
+     * @return int
+     */
+    public function getEmployeeTrackerCount(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): int
+    {
+        if ($this->getAuthUser()->getUserRoleId() !== 1) {
+            $empNumber = $this->getAuthUser()->getEmpNumber();
+            return $this->getEmployeeTrackerDao()->getEmployeeTrackerCountForESS($employeeTrackerSearchFilterParams, $empNumber);
+        }
+        return $this->getEmployeeTrackerDao()->getEmployeeTrackerCountForAdmin($employeeTrackerSearchFilterParams);
     }
 }
