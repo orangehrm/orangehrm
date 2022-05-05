@@ -26,6 +26,3 @@ langStrings:
   -
     value: 'Tracker'
     unitId: tracker
-  -
-    value: 'Tracker'
-    unitId: reviewers
