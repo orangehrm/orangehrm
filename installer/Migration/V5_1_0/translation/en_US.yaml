@@ -66,6 +66,19 @@ translations:
     - { target: 'Mark Interview Failed', unitId: mark_interview_failed, group: recruitment }
     - { target: 'Mark Interview Passed', unitId: mark_interview_passed, group: recruitment }
     - { target: 'Hire', unitId: hire, group: recruitment }
-
-
-
+    - { target: 'Key Performance Indicators for Job Title', unitId: key_performance_indicators_for_job_title, group: performance }
+    - { target: 'Key Performance Indicator', unitId: key_performance_indicator, group: performance }
+    - { target: 'Min Rate', unitId: min_rate, group: performance }
+    - { target: 'Max Rate', unitId: max_rate, group: performance }
+    - { target: 'Is Default', unitId: is_default, group: performance }
+    - { target: 'Add Key Performance Indicator', unitId: add_key_performance_indicator, group: performance }
+    - { target: 'Edit Key Performance Indicator', unitId: edit_key_performance_indicator, group: performance }
+    - { target: 'Minimum Rating', unitId: minimum_rating, group: performance }
+    - { target: 'Maximum Rating', unitId: maximum_rating, group: performance }
+    - { target: 'Make Default Scale', unitId: make_default_scale, group: performance }
+    - { target: 'Minimum Rating should be less than Maximum Rating', unitId: minimum_rating_should_be_less_than_maximum_rating, group: performance }
+    - { target: 'Maximum Rating should be greater than Minimum Rating', unitId: maximum_rating_should_be_greater_than_minimum_rating, group: performance }
+    - { target: 'Employee Performance Trackers', unitId: employee_performance_trackers, group: performance }
+    - { target: 'Trackers', unitId: trackers, group: performance }
+    - { target: 'Added Date', unitId: added_date, group: performance }
+    - { target: 'Modified Date', unitId: modified_date, group: performance }

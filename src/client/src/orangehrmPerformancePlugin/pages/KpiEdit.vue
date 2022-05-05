@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text class="orangehrm-main-title">
-        Edit Key Performance Indicator
+        {{ $t('performance.edit_key_performance_indicator') }}
       </oxd-text>
       <oxd-divider />
 
@@ -32,7 +32,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="kpi.title"
-                label="Key Performance Indicator"
+                :label="$t('performance.key_performance_indicator')"
                 required
                 :rules="rules.title"
                 autcomplete="off"
@@ -52,7 +52,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model.number="kpi.minRating"
-                label="Minimum Rating"
+                :label="$t('performance.minimum_rating')"
                 required
                 autcomplete="off"
                 :rules="rules.minRating"
@@ -61,7 +61,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model.number="kpi.maxRating"
-                label="Maximum Rating"
+                :label="$t('performance.maximum_rating')"
                 required
                 autcomplete="off"
                 :rules="rules.maxRating"
@@ -70,7 +70,7 @@
             <oxd-grid-item>
               <div class="orangehrm-module-field-row">
                 <oxd-text tag="p" class="orangehrm-module-field-label">
-                  Make Default Scale
+                  {{ $t('performance.make_default_scale') }}
                 </oxd-text>
                 <oxd-switch-input v-model="kpi.isDefault" />
               </div>
@@ -85,7 +85,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -150,7 +150,9 @@ export default {
           numberShouldBeBetweenMinAndMaxValue(0, 100),
           minValueShouldBeLowerThanMaxValue(
             () => this.kpi.maxRating,
-            'Minimum Rating should be less than Maximum Rating',
+            this.$t(
+              'performance.minimum_rating_should_be_less_than_maximum_rating',
+            ),
           ),
         ],
         maxRating: [
@@ -158,7 +160,9 @@ export default {
           numberShouldBeBetweenMinAndMaxValue(0, 100),
           maxValueShouldBeGreaterThanMinValue(
             () => this.kpi.minRating,
-            'Maximum Rating should be greater than Minimum Rating',
+            this.$t(
+              'performance.maximum_rating_should_be_greater_than_minimum_rating',
+            ),
           ),
         ],
       },

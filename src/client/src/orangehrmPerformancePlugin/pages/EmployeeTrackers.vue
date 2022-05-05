@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Employee Performance Trackers">
+    <oxd-table-filter
+      :filter-title="$t('performance.employee_performance_trackers')"
+    >
       <oxd-form @submitValid="filterItems" @reset="resetDataTable">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -37,7 +39,7 @@
               <oxd-input-field
                 v-model="filters.includeEmployees"
                 type="select"
-                label="Include"
+                :label="$t('pim.include')"
                 :clear="false"
                 :options="includeOpts"
                 :show-empty-selector="false"
@@ -47,11 +49,15 @@
         </oxd-form-row>
         <oxd-divider />
         <oxd-form-actions>
-          <oxd-button display-type="ghost" label="Reset" type="reset" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.reset')"
+            type="reset"
+          />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"
-            label="Search"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -190,31 +196,31 @@ export default {
         {
           name: 'empName',
           slot: 'title',
-          title: 'Employee Name',
+          title: this.$t('general.employee_name'),
           sortField: 'empName',
           style: {flex: 2},
         },
         {
           name: 'trackers',
-          title: 'Trackers',
+          title: this.$t('performance.trackers'),
           sortField: 'trackers',
           style: {flex: 2},
         },
         {
           name: 'modifiedDate',
-          title: 'Modified Date',
+          title: this.$t('performance.modified_date'),
           sortField: 'modifiedDate',
           style: {flex: 1},
         },
         {
           name: 'addedDate',
-          title: 'Added Date',
+          title: this.$t('performance.added_date'),
           sortField: 'addedDate',
           style: {flex: 1},
         },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action ',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
@@ -224,7 +230,7 @@ export default {
               component: 'oxd-button',
               props: {
                 name: 'view',
-                label: 'View',
+                label: this.$t('general.view'),
                 class: 'orangehrm-left-space',
                 displayType: 'ghost',
               },
@@ -233,9 +239,21 @@ export default {
         },
       ],
       includeOpts: [
-        {id: 1, param: 'onlyCurrent', label: 'Current Employees Only'},
-        {id: 2, param: 'currentAndPast', label: 'Current and Past Employees'},
-        {id: 3, param: 'onlyPast', label: 'Past Employees Only'},
+        {
+          id: 1,
+          param: 'onlyCurrent',
+          label: this.$t('general.current_employees_only'),
+        },
+        {
+          id: 2,
+          param: 'currentAndPast',
+          label: this.$t('general.current_and_past_employees'),
+        },
+        {
+          id: 3,
+          param: 'onlyPast',
+          label: this.$t('general.past_employees_only'),
+        },
       ],
     };
   },
