@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text class="orangehrm-main-title" tag="h6">
-        Add Performance Tracker
+        {{ $t('performance.add_performance_tracker') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -32,7 +32,7 @@
               <oxd-input-field
                 v-model="tracker.name"
                 :rules="rules.tracker"
-                label="Tracker Name"
+                :label="$t('performance.tracker_name')"
                 required
               />
             </oxd-grid-item>
@@ -52,7 +52,6 @@
                 v-model="tracker.reviewers"
                 :rules="rules.reviewers"
                 :exclude-employee="tracker.employee"
-                label="Reviewers"
                 required
               />
             </oxd-grid-item>
@@ -63,7 +62,7 @@
           <required-text />
           <oxd-button
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             type="button"
             @click="onCancel"
           />
@@ -122,7 +121,9 @@ export default {
             if (valid == -1) {
               return true;
             }
-            return 'Employee cannot be someone added as a reviewer';
+            return this.$t(
+              'performance.employee_cannot_be_someone_added_as_a_reviewer',
+            );
           },
         ],
         reviewers: [required],

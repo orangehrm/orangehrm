@@ -1,0 +1,31 @@
+langStrings:
+  -
+    value: 'Reviewers'
+    unitId: reviewers
+  -
+    value: 'Tracker Name'
+    unitId: tracker_name
+  -
+    value: 'Edit Performance Tracker'
+    unitId: edit_performance_tracker
+  -
+    value: 'Add Performance Tracker'
+    unitId: add_performance_tracker
+  -
+    value: 'Employee cannot be someone added as a reviewer'
+    unitId: employee_cannot_be_someone_added_as_a_reviewer
+  -
+    value: 'Performance Trackers'
+    unitId: performance_trackers
+  -
+    value: 'Modified Date'
+    unitId: modified_date
+  -
+    value: 'Added Date'
+    unitId: added_date
+  -
+    value: 'Tracker'
+    unitId: tracker
+  -
+    value: 'Tracker'
+    unitId: reviewers
