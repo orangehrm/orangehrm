@@ -12,6 +12,13 @@ apiv2_performance_kpis:
   defaults:
     _api: OrangeHRM\Performance\Api\KpiAPI
 
+apiv2_performance_employee_trackers:
+  path: /api/v2/performance/employee-trackers
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET]
+  defaults:
+    _api: OrangeHRM\Performance\Api\EmployeeTrackerAPI
+
 ##########################
 #        Screens
 ##########################

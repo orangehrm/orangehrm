@@ -102,6 +102,7 @@ import useSort from '@ohrm/core/util/composable/useSort';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   empName: null,
@@ -113,16 +114,39 @@ const defaultFilters = {
 };
 
 const defaultSortOrder = {
-  empName: 'DEFAULT',
-  trackers: 'DEFAULT',
-  modifiedDate: 'DESC',
-  addedDate: 'DEFAULT',
+  'employee.firstName': 'DEFAULT',
+  'tracker.trackerName': 'DEFAULT',
+  'tracker.modifiedDate': 'DESC',
+  'tracker.addedDate': 'DEFAULT',
 };
 export default {
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
   },
   setup() {
+    const {$t} = usei18n();
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+    const employeeTrackerNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          title: item.title,
+          empName: `${item.employee?.firstName} ${item.employee?.lastName} ${
+            item.employee?.terminationId
+              ? ` ${$t('general.past_employee')}`
+              : ''
+          }`,
+          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
+            locale,
+          }),
+          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {
+            locale,
+          }),
+        };
+      });
+    };
+
     const filters = ref({...defaultFilters});
 
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
@@ -139,25 +163,9 @@ export default {
     });
 
     const http = new APIService(
-      'https://5875ebe4-9692-48a9-90dc-b79dac993a70.mock.pstmn.io',
-      '/api/v2/Performance/EmployeeTrackers',
+      window.appGlobal.baseUrl,
+      '/api/v2/performance/employee-trackers',
     );
-    const {jsDateFormat} = useDateFormat();
-    const {locale} = useLocale();
-
-    const trackerNormalizer = data => {
-      return data.map(item => {
-        return {
-          ...item,
-          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
-            locale,
-          }),
-          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {
-            locale,
-          }),
-        };
-      });
-    };
 
     const {
       showPaginator,
@@ -170,7 +178,7 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilter,
-      normalizer: trackerNormalizer,
+      normalizer: employeeTrackerNormalizer,
     });
 
     onSort(execQuery);
@@ -197,25 +205,25 @@ export default {
           name: 'empName',
           slot: 'title',
           title: this.$t('general.employee_name'),
-          sortField: 'empName',
+          sortField: 'employee.firstName',
           style: {flex: 2},
         },
         {
-          name: 'trackers',
+          name: 'title',
           title: this.$t('performance.trackers'),
-          sortField: 'trackers',
+          sortField: 'tracker.trackerName',
           style: {flex: 2},
         },
         {
           name: 'modifiedDate',
           title: this.$t('performance.modified_date'),
-          sortField: 'modifiedDate',
+          sortField: 'tracker.modifiedDate',
           style: {flex: 1},
         },
         {
           name: 'addedDate',
           title: this.$t('performance.added_date'),
-          sortField: 'addedDate',
+          sortField: 'tracker.addedDate',
           style: {flex: 1},
         },
         {

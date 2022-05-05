@@ -1,0 +1,9 @@
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "DS","emp_firstname": "Devi" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Perera","emp_firstname": "Sharuka" }
+  - { "emp_number": 3,"employee_id": "0004","emp_lastname": "Gamage","emp_firstname": "Chenuka" }
+
+PerformanceTracker:
+  - { "id": 1,"emp_number": 2,"tracker_name": "Tracker 1","added_date": "2022-05-03 22:45:06","added_by": 1,"status": 1,"modified_date": "2022-05-03 22:55:42" }
+  - { "id": 2,"emp_number": 3,"tracker_name": "Tracker 2","added_date": "2022-05-05 17:28:39","added_by": 1,"status": 1,"modified_date": null }
+  - { "id": 3,"emp_number": 1,"tracker_name": "Tracker 3","added_date": "2022-05-05 18:49:49","added_by": 1,"status": 1,"modified_date": "2022-05-05 18:49:59" }
