@@ -57,8 +57,5 @@ langStrings:
     value: 'Content to keep data'
     unitId: content_to_keep_data
   -
-    value: 'Candidates'
-    unitId: candidates
-  -
     value: 'Resume'
     unitId: resume

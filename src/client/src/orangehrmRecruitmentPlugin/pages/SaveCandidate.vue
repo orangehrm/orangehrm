@@ -20,9 +20,9 @@
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{
-        $t('recruitment.add_candidate')
-      }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title"
+        >{{ $t('recruitment.add_candidate') }}
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -91,9 +91,12 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <date-input
+              <oxd-input-field
                 v-model="candidate.application"
                 :label="$t('recruitment.date_of_application')"
+                :rules="dateRules"
+                type="date"
+                :placeholder="$t('general.date_format')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -139,7 +142,9 @@
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import {
   maxFileSize,
+  shouldBeCurrentOrPreviousDate,
   shouldNotExceedCharLength,
+  validDateFormat,
   validFileTypes,
   validPhoneNumberFormat,
 } from '@/core/util/validation/rules';
@@ -147,16 +152,23 @@ import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDrop
 import SubmitButton from '@/core/components/buttons/SubmitButton';
 import {required, validEmailFormat} from '@/core/util/validation/rules';
 import {APIService} from '@ohrm/core/util/services/api.service';
+
 export default {
   name: 'SaveCandidate',
-  components: {SubmitButton, VacancyDropdown, FullNameInput},
+  components: {
+    'submit-button': SubmitButton,
+    'vacancy-dropdown': VacancyDropdown,
+    'full-name-input': FullNameInput,
+  },
   setup() {
     const http = new APIService(
       'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
       'recruitment/api/candidate',
     );
+    const dateRules = [validDateFormat(), shouldBeCurrentOrPreviousDate()];
     return {
       http,
+      dateRules,
     };
   },
   data() {
@@ -208,6 +220,7 @@ export default {
   &-full-width {
     grid-column: 1 / span 2;
   }
+
   &-grid-checkbox {
     .oxd-input-group {
       flex-direction: row-reverse;

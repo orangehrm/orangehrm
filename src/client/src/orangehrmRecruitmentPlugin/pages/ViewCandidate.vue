@@ -19,7 +19,7 @@
  -->
 <template>
   <div class="orangehrm-candidate-page">
-    <oxd-table-filter :filter-title="$t('recruitment.candidates')">
+    <oxd-table-filter :filter-title="$t('general.candidates')">
       <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
@@ -61,17 +61,19 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="filters.dateFrom"
+                v-model="filters.fromDate"
                 type="date"
                 :label="$t('recruitment.date_of_application')"
                 :placeholder="$t('general.from')"
+                :rules="rules.fromDate"
               />
             </oxd-grid-item>
             <oxd-grid-item class="orangehrm-candidate-page-date">
               <oxd-input-field
-                v-model="filters.dateTo"
+                v-model="filters.toDate"
                 type="date"
                 :placeholder="$t('general.to')"
+                :rules="rules.toDate"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -157,6 +159,11 @@ import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/Hirin
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import usei18n from '@/core/util/composable/usei18n';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import {
+  endDateShouldBeAfterStartDate,
+  startDateShouldBeBeforeEndDate,
+  validDateFormat,
+} from '@/core/util/validation/rules';
 const defaultFilters = {
   jobTitle: null,
   vacancy: null,
@@ -165,8 +172,8 @@ const defaultFilters = {
   keywords: null,
   application: null,
   candidate: '',
-  fromDate: '',
-  dateTo: '',
+  fromDate: null,
+  toDate: null,
 };
 const defaultSortOrder = {
   'v.vacancy': 'ASC',
@@ -180,19 +187,15 @@ export default {
   name: 'ViewCandidate',
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
-    EmployeeAutocomplete,
-    HiringManagerDropdown,
-    VacancyDropdown,
-    JobtitleDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
+    'hiring-manager-dropdown': HiringManagerDropdown,
+    'vacancy-dropdown': VacancyDropdown,
+    'jobtitle-dropdown': JobtitleDropdown,
   },
-  props: {
-    unselectableIds: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  setup(props) {
+
+  setup() {
     const {$t} = usei18n();
+
     const statuses = [
       {
         id: 1,
@@ -225,7 +228,6 @@ export default {
     ];
     const candidateDataNormalizer = data => {
       return data.map(item => {
-        const selectable = props.unselectableIds.findIndex(id => id == item.id);
         return {
           id: item.id,
           vacancy: item.vacancy?.jobTitle,
@@ -233,11 +235,28 @@ export default {
           manager: `${item.hiringManager.firstName} ${item.hiringManager.middleName} ${item.hiringManager.lastName}`,
           fromDate: item.fromDate,
           status: statuses.find(({id}) => id === item.status.id)?.label,
-          isSelectable: selectable === -1,
         };
       });
     };
     const filters = ref({...defaultFilters});
+    const rules = {
+      fromDate: [
+        validDateFormat(),
+        startDateShouldBeBeforeEndDate(
+          () => filters.value.toDate,
+          $t('general.from_date_should_be_before_to_date'),
+          {allowSameDate: true},
+        ),
+      ],
+      toDate: [
+        validDateFormat(),
+        endDateShouldBeAfterStartDate(
+          () => filters.value.fromDate,
+          $t('general.to_date_should_be_after_from_date'),
+          {allowSameDate: true},
+        ),
+      ],
+    };
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
@@ -291,6 +310,7 @@ export default {
       filters,
       sortDefinition,
       statuses,
+      rules,
     };
   },
   data() {
