@@ -59,3 +59,9 @@ langStrings:
   -
     value: 'Resume'
     unitId: resume
+  -
+    value: 'Add Candidate'
+    unitId: add_candidate
+  -
+    value: 'Should be the current date or a previous date'
+    unitId: should_be_current_date_previous_date

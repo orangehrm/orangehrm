@@ -1,0 +1,18 @@
+translations:
+    - { target: '欠員', unitId: vacancy, group: recruitment }
+    - { target: 'マネージャーを雇う', unitId: hiring_manager, group: recruitment }
+    - { target: '候補者名', unitId: candidate_name, group: recruitment }
+    - { target: 'キーワード', unitId: keywords, group: recruitment }
+    - { target: '出願日', unitId: date_of_application, group: recruitment }
+    - { target: '適用法', unitId: method_of_application, group: recruitment }
+    - { target: 'カンマで区切られた単語を入力して下さい', unitId: enter_comma_se, group: recruitment }
+    - { target: '候補者', unitId: candidate, group: recruitment }
+    - { target: '最終選考', unitId: shortlisted, group: recruitment }
+    - { target: 'インタビューのスケジュール', unitId: interview_scheduled, group: recruitment }
+    - { target: 'インタビューでは、渡された', unitId: interview_passed, group: recruitment }
+    - { target: '面接に失敗しました', unitId: interview_failed, group: recruitment }
+    - { target: 'ジョブが提供され', unitId: job_offered, group: recruitment }
+    - { target: 'マニュアル', unitId: manual, group: recruitment }
+    - { target: 'オンライン', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: '再開する', unitId: resume, group: recruitment }

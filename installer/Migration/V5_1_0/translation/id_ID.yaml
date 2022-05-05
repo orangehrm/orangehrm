@@ -1,0 +1,18 @@
+translations:
+    - { target: 'Lowongan', unitId: vacancy, group: recruitment }
+    - { target: 'Mempekerjakan Manajer', unitId: hiring_manager, group: recruitment }
+    - { target: 'Calon Nama', unitId: candidate_name, group: recruitment }
+    - { target: 'Kata kunci', unitId: keywords, group: recruitment }
+    - { target: 'Tanggal Aplikasi', unitId: date_of_application, group: recruitment }
+    - { target: 'Metode Aplikasi', unitId: method_of_application, group: recruitment }
+    - { target: 'Masukkan kata-kata yang dipisahkan koma', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Calon', unitId: candidate, group: recruitment }
+    - { target: 'Terpilih', unitId: shortlisted, group: recruitment }
+    - { target: 'Wawancara Terjadwal', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Wawancara Lulus', unitId: interview_passed, group: recruitment }
+    - { target: 'Wawancara Gagal', unitId: interview_failed, group: recruitment }
+    - { target: 'Job Ditawarkan', unitId: job_offered, group: recruitment }
+    - { target: 'Pedoman', unitId: manual, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Resume', unitId: resume, group: recruitment }

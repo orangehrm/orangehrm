@@ -77,10 +77,13 @@ export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
 
 export const shouldBeCurrentOrPreviousDate = function() {
   return function(value: string): boolean | string {
+    if (!value) return true;
     const dateFormat = 'yyyy-MM-dd';
     const currentDate = formatDate(new Date(), dateFormat) || '';
     const isValid = diffInDays(value, currentDate, dateFormat);
-    return isValid > 0 ? true : 'Should be the current date or a previous date';
+    return isValid > 0
+      ? true
+      : translate('recruitment.should_be_current_date_previous_date');
   };
 };
 

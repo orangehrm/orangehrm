@@ -1,0 +1,18 @@
+translations:
+    - { target: 'Iddoo Hojii Banaa', unitId: vacancy, group: recruitment }
+    - { target: 'Hogganaan Qaxaru', unitId: hiring_manager, group: recruitment }
+    - { target: 'Maqaa Dorgomaa', unitId: candidate_name, group: recruitment }
+    - { target: 'Jechabeekamtuu', unitId: keywords, group: recruitment }
+    - { target: 'Guyyaa Itti Iyyate', unitId: date_of_application, group: recruitment }
+    - { target: 'Akkaata Iyyannoo', unitId: method_of_application, group: recruitment }
+    - { target: 'Jechoota koomaan Adda baasii galchi', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Dorgomaa', unitId: candidate, group: recruitment }
+    - { target: 'Calalameera', unitId: shortlisted, group: recruitment }
+    - { target: 'Gaaffiifi Deebiin Saganteeffameera', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Darbe', unitId: interview_passed, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Kufe', unitId: interview_failed, group: recruitment }
+    - { target: 'Hojiif Affeerameera', unitId: job_offered, group: recruitment }
+    - { target: 'Maanuwaalii', unitId: manual, group: recruitment }
+    - { target: 'Sarararra', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Ragaa Barumsaa', unitId: resume, group: recruitment }

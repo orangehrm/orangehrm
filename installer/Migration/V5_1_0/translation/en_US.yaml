@@ -13,10 +13,7 @@ translations:
     - { target: 'Interview Failed', unitId: interview_failed, group: recruitment }
     - { target: 'Job Offered', unitId: job_offered, group: recruitment }
     - { target: 'Manual', unitId: manual, group: recruitment }
-    - { target: 'online', unitId: online, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
     - { target: 'Contact Number', unitId: contact_number, group: recruitment }
-    - { target: 'Candidates', unitId: candidates, group: recruitment }
     - { target: 'Resume', unitId: resume, group: recruitment }
-    #  - { target: application_initiated, unitId: application_initiated, group: recruitment }
-    #  - { target: Отдаване под наем мениджър, unitId: offered_declined, group: recruitment }
-    #  - { target: Отдаване под наем мениджър, unitId: content_to_keep_data, group: recruitment }
+

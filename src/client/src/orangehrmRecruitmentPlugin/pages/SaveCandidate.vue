@@ -94,7 +94,7 @@
               <oxd-input-field
                 v-model="candidate.application"
                 :label="$t('recruitment.date_of_application')"
-                :rules="dateRules"
+                :rules="rules.applyDate"
                 type="date"
                 :placeholder="$t('general.date_format')"
               />
@@ -165,10 +165,8 @@ export default {
       'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
       'recruitment/api/candidate',
     );
-    const dateRules = [validDateFormat(), shouldBeCurrentOrPreviousDate()];
     return {
       http,
-      dateRules,
     };
   },
   data() {
@@ -200,6 +198,7 @@ export default {
           maxFileSize(1024 * 1024),
           validFileTypes(this.allowedFileTypes),
         ],
+        applyDate: [validDateFormat(), shouldBeCurrentOrPreviousDate()],
       },
     };
   },

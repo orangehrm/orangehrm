@@ -1,0 +1,18 @@
+translations:
+    - { target: 'Vacature', unitId: vacancy, group: recruitment }
+    - { target: 'Personeelsmanager', unitId: hiring_manager, group: recruitment }
+    - { target: 'Naam kandidaat', unitId: candidate_name, group: recruitment }
+    - { target: 'Sleutelwoorden', unitId: keywords, group: recruitment }
+    - { target: 'Sollicitatiedatum', unitId: date_of_application, group: recruitment }
+    - { target: 'Wijze van solliciteren', unitId: method_of_application, group: recruitment }
+    - { target: 'Woorden invoeren en scheiden met een komma', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Kandidaat', unitId: candidate, group: recruitment }
+    - { target: 'Shortlisted', unitId: shortlisted, group: recruitment }
+    - { target: 'Interview gepland', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Interview geslaagd', unitId: interview_passed, group: recruitment }
+    - { target: 'Interview gefaald', unitId: interview_failed, group: recruitment }
+    - { target: 'Functie aangeboden', unitId: job_offered, group: recruitment }
+    - { target: 'Handmatig', unitId: manual, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'CV', unitId: resume, group: recruitment }
