@@ -47,7 +47,10 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <candidate-autocomplete v-model="filters.candidate" />
+              <employee-autocomplete
+                v-model="filters.candidate"
+                :label="$t('recruitment.candidate_name')"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -151,9 +154,9 @@ import {APIService} from '@/core/util/services/api.service';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
-import CandidateAutocomplete from '@/orangehrmRecruitmentPlugin/components/CandidateAutocomplete';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import usei18n from '@/core/util/composable/usei18n';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 const defaultFilters = {
   jobTitle: null,
   vacancy: null,
@@ -162,24 +165,25 @@ const defaultFilters = {
   keywords: null,
   application: null,
   candidate: '',
-  dateFrom: '',
+  fromDate: '',
   dateTo: '',
 };
 const defaultSortOrder = {
   'v.vacancy': 'ASC',
   'c.candidate': 'ASC',
   'h.manager': 'ASC',
+  'd.fromDate': 'ASC',
   's.status': 'DEFAULT',
 };
 
 export default {
   name: 'ViewCandidate',
   components: {
-    CandidateAutocomplete,
+    'delete-confirmation': DeleteConfirmationDialog,
+    EmployeeAutocomplete,
     HiringManagerDropdown,
     VacancyDropdown,
     JobtitleDropdown,
-    'delete-confirmation': DeleteConfirmationDialog,
   },
   props: {
     unselectableIds: {
@@ -219,7 +223,7 @@ export default {
         label: $t('recruitment.offered_declined'),
       },
     ];
-    const userdataNormalizer = data => {
+    const candidateDataNormalizer = data => {
       return data.map(item => {
         const selectable = props.unselectableIds.findIndex(id => id == item.id);
         return {
@@ -227,6 +231,7 @@ export default {
           vacancy: item.vacancy?.jobTitle,
           candidate: `${item.candidate.firstName} ${item.candidate.middleName} ${item.candidate.lastName}`,
           manager: `${item.hiringManager.firstName} ${item.hiringManager.middleName} ${item.hiringManager.lastName}`,
+          fromDate: item.fromDate,
           status: statuses.find(({id}) => id === item.status.id)?.label,
           isSelectable: selectable === -1,
         };
@@ -268,7 +273,7 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilters,
-      normalizer: userdataNormalizer,
+      normalizer: candidateDataNormalizer,
     });
 
     onSort(execQuery);
@@ -312,6 +317,13 @@ export default {
           style: {flex: 1},
         },
         {
+          name: 'fromDate',
+          slot: 'title',
+          title: this.$t('recruitment.date_of_application'),
+          sortField: 'd.fromDate',
+          style: {flex: 1},
+        },
+        {
           name: 'status',
           title: this.$t('general.status'),
           sortField: 'u.status',
@@ -340,7 +352,7 @@ export default {
             view: {
               onClick: this.onDownload,
               props: {
-                name: 'menu-recruitment',
+                name: 'eye',
               },
             },
           },
@@ -363,7 +375,7 @@ export default {
       navigate('/recruitment/addCandidate');
     },
     onClickEdit(item) {
-      navigate('/recruitment/addCandidate/{id}', {id: item.id});
+      navigate('/recruitment/editCandidate/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

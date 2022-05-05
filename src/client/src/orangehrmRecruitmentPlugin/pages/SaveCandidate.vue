@@ -20,6 +20,10 @@
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('recruitment.add_candidate')
+      }}</oxd-text>
+      <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
@@ -29,6 +33,7 @@
                 v-model:middle-name="candidate.middleName"
                 v-model:last-name="candidate.lastName"
                 :rules="rules"
+                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -56,6 +61,7 @@
                 v-model="candidate.contactNumber"
                 :label="$t('recruitment.contact_number')"
                 :placeholder="$t('general.type_here')"
+                :rules="rules.contactNumber"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -79,16 +85,15 @@
             <oxd-grid-item class="orangehrm-save-candidate-page-full-width">
               <oxd-input-field
                 v-model="candidate.keywords"
-                :label="$t('general.keywords')"
+                :label="$t('recruitment.keywords')"
                 :placeholder="$t('general.type_here')"
+                :rules="rules.keywords"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
+              <date-input
                 v-model="candidate.application"
                 :label="$t('recruitment.date_of_application')"
-                type="date"
-                :placeholder="$t('general.type_here')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -101,6 +106,7 @@
                 :label="$t('general.notes')"
                 type="textarea"
                 :placeholder="$t('general.type_here')"
+                :rules="rules.notes"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -131,11 +137,15 @@
 
 <script>
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
-import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
+import {
+  maxFileSize,
+  shouldNotExceedCharLength,
+  validFileTypes,
+  validPhoneNumberFormat,
+} from '@/core/util/validation/rules';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 import SubmitButton from '@/core/components/buttons/SubmitButton';
 import {required, validEmailFormat} from '@/core/util/validation/rules';
-
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
   name: 'SaveCandidate',
@@ -168,7 +178,16 @@ export default {
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
-        email: [required, validEmailFormat],
+        middleName: [shouldNotExceedCharLength(30)],
+        email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
+        contactNumber: [validPhoneNumberFormat, shouldNotExceedCharLength(25)],
+        notes: [shouldNotExceedCharLength(250)],
+        keywords: [shouldNotExceedCharLength(250)],
+        resume: [
+          required,
+          maxFileSize(1024 * 1024),
+          validFileTypes(this.allowedFileTypes),
+        ],
       },
     };
   },
@@ -177,6 +196,7 @@ export default {
       this.isLoading = true;
       this.http.create({data: this.candidate}).then(() => {
         this.isLoading = false;
+        return this.$toast.saveSuccess();
       });
     },
   },
