@@ -20,7 +20,7 @@
 
 <template>
   <employee-autocomplete
-    label="Reviewers"
+    :label="$t('performance.reviewers')"
     :multiple="true"
     :clear="false"
     :create-options="loadEmployees"

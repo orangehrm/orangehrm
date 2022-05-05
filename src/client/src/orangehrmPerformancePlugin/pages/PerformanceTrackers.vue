@@ -19,7 +19,7 @@
  -->
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Performance Trackers">
+    <oxd-table-filter :filter-title="$t('performance.performance_trackers')">
       <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
@@ -37,13 +37,13 @@
         <oxd-form-actions>
           <oxd-button
             display-type="ghost"
-            label="Reset"
+            :label="$t('general.reset')"
             @click="onClickReset"
           />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"
-            label="Search"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -55,7 +55,7 @@
         <oxd-button
           display-type="secondary"
           icon-name="plus"
-          label="Add"
+          :label="$t('general.add')"
           @click="onClickAdd"
         />
       </div>
@@ -192,33 +192,33 @@ export default {
       headers: [
         {
           name: 'empName',
-          title: 'Employee',
+          title: this.$t('general.employee'),
           slot: 'title',
           sortField: 'employee.lastName',
           style: {flex: 1},
         },
         {
           name: 'tracker',
-          title: 'Tracker',
+          title: this.$t('performance.tracker'),
           style: {flex: 1},
           sortField: 'performanceTracker.trackerName',
         },
         {
           name: 'addDate',
-          title: 'Added Date',
+          title: this.$t('performance.added_date'),
           sortField: 'performanceTracker.addedDate',
           style: {flex: 1},
         },
         {
           name: 'matureDate',
-          title: 'Modified Date',
+          title: this.$t('performance.modified_date'),
           sortField: 'performanceTracker.modifiedDate',
           style: {flex: 1},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
