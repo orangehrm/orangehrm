@@ -23,7 +23,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('performance.my_performance_trackers_list') }}
+          {{ $t('performance.my_performance_trackers') }}
         </oxd-text>
       </div>
       <table-header :selected="0" :total="total" :loading="isLoading">
@@ -65,7 +65,7 @@ const trackerNormalizer = data => {
 };
 
 const defaultSortOrder = {
-  'performanceTracker.trackers': 'DEFAULT',
+  'performanceTracker.trackerName': 'DEFAULT',
   'performanceTracker.addedDate': 'DEFAULT',
   'performanceTracker.modifiedDate': 'DESC',
 };
@@ -125,21 +125,21 @@ export default {
           name: 'tracker',
           slot: 'title',
           title: this.$t('performance.tracker'),
-          sortField: 'trackers',
+          sortField: 'performanceTracker.trackerName',
           style: {flex: '30%'},
         },
         {
           name: 'addDate',
           slot: 'title',
           title: this.$t('performance.added_date'),
-          sortField: 'date',
+          sortField: 'performanceTracker.addedDate',
           style: {flex: 1},
         },
         {
           name: 'modifiedDate',
           slot: 'title',
           title: this.$t('performance.modified_date'),
-          sortField: 'modifiedDate',
+          sortField: 'performanceTracker.modifiedDate',
           style: {flex: 1},
         },
         {
