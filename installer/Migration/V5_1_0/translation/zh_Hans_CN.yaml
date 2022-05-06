@@ -39,4 +39,5 @@ translations:
     - { target: 性能追踪器, unitId: performance_trackers, group: performance }
     - { target: 已添加日期, unitId: added_date, group: performance }
     - { target: 已修改日期, unitId: modified_date, group: performance }
+    - { target: 我的绩效跟踪器列表, unitId: my_performance_trackers, group: performance }
     - { target: 跟踪器名称, unitId: tracker_name, group: performance }

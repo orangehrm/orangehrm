@@ -39,4 +39,5 @@ translations:
     - { target: 'Gestionnaires de Performance', unitId: performance_trackers, group: performance }
     - { target: 'Date ajoutée', unitId: added_date, group: performance }
     - { target: 'Date modifiée', unitId: modified_date, group: performance }
+    - { target: 'Ma liste de gestionnaires de performance', unitId: my_performance_trackers, group: performance }
     - { target: 'Nom du gestionnaire', unitId: tracker_name, group: performance }

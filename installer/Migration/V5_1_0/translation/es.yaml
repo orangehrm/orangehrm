@@ -39,4 +39,5 @@ translations:
     - { target: 'Rastreadores de desempeño', unitId: performance_trackers, group: performance }
     - { target: 'Fecha Agregada', unitId: added_date, group: performance }
     - { target: 'Fecha Modificada', unitId: modified_date, group: performance }
+    - { target: 'Mi lista de búsqueda de Desempeño', unitId: my_performance_trackers, group: performance }
     - { target: 'Nombre de Búsqueda', unitId: tracker_name, group: performance }

@@ -40,5 +40,6 @@ translations:
     - { target: 'Add Performance Tracker', unitId: add_performance_tracker, group: performance }
     - { target: 'Added Date', unitId: added_date, group: performance }
     - { target: 'Modified Date', unitId: modified_date, group: performance }
+    - { target: 'My Performance Trackers', unitId: my_performance_trackers, group: performance }
     - { target: Tracker, unitId: tracker, group: performance }
     - { target: 'Tracker Name', unitId: tracker_name, group: performance }

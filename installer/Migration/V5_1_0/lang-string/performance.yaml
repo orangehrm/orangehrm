@@ -27,5 +27,5 @@ langStrings:
     value: 'Tracker'
     unitId: tracker
   -
-    value: 'My Performance Trackers List'
-    unitId: my_performance_trackers_list
+    value: 'My Performance Trackers'
+    unitId: my_performance_trackers

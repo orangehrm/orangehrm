@@ -38,4 +38,5 @@ translations:
     - { target: Dec, unitId: dec, group: general }
     - { target: 'Datum toegevoegd', unitId: added_date, group: performance }
     - { target: 'Datum gemodificeerd', unitId: modified_date, group: performance }
+    - { target: 'Mijn prestatie trackers lijst', unitId: my_performance_trackers, group: performance }
     - { target: 'Naam tracker', unitId: tracker_name, group: performance }
