@@ -20,17 +20,33 @@
 namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+
 
 class SaveCandidateController extends AbstractVueController
 {
+    protected ?ConfigService $configService = null;
+
+    public function getConfigService(): ConfigService
+    {
+        if (!$this->configService instanceof ConfigService) {
+            $this->configService = new ConfigService();
+        }
+        return $this->configService;
+    }
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('save-candidate');
+        $component->addProp(
+            new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes())
+        );
         $this->setComponent($component);
     }
 }

@@ -131,7 +131,11 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" :label="$t('general.cancel')" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -153,6 +157,7 @@ import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDrop
 import SubmitButton from '@/core/components/buttons/SubmitButton';
 import {required, validEmailFormat} from '@/core/util/validation/rules';
 import {APIService} from '@ohrm/core/util/services/api.service';
+import {navigate} from '@/core/util/helper/navigation';
 
 export default {
   name: 'SaveCandidate',
@@ -165,35 +170,12 @@ export default {
     //TODO
     allowedFileTypes: {
       type: Array,
-      default: () => [
-        'text/plain',
-        'text/rtf',
-        'text/csv',
-        'application/csv',
-        'application/rtf',
-        'application/pdf',
-        'application/msword',
-        'application/vnd.ms-excel',
-        'application/vnd.ms-powerpoint',
-        'application/vnd.oasis.opendocument.text',
-        'application/vnd.oasis.opendocument.spreadsheet',
-        'application/vnd.oasis.opendocument.presentation',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-        'image/x-png',
-        'image/gif',
-        'image/jpeg',
-        'image/jpg',
-        'image/pjpeg',
-        'image/png',
-      ],
+      required: true,
     },
   },
   setup() {
     const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
       'recruitment/api/candidate',
     );
     return {
@@ -209,7 +191,7 @@ export default {
         lastName: '',
         email: '',
         contactNumber: '',
-        resume: '',
+        resume: null,
         vacancy: null,
         keywords: '',
         application: '',
@@ -225,7 +207,6 @@ export default {
         notes: [shouldNotExceedCharLength(250)],
         keywords: [shouldNotExceedCharLength(250)],
         resume: [
-          required,
           maxFileSize(1024 * 1024),
           validFileTypes(this.allowedFileTypes),
         ],
@@ -236,10 +217,18 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http.create({data: this.candidate}).then(() => {
-        this.isLoading = false;
-        return this.$toast.saveSuccess();
-      });
+      this.http
+        .create({data: this.candidate})
+        .then(() => {
+          this.isLoading = false;
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          navigate('/recruitment/viewCandidates');
+        });
+    },
+    onCancel() {
+      navigate('/recruitment/viewCandidates');
     },
   },
 };

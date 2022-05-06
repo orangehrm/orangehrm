@@ -20,37 +20,67 @@
 
 <template>
   <oxd-input-field
-    type="select"
-    :label="$t('recruitment.hiring_manager')"
-    :options="options"
-  />
+    type="autocomplete"
+    :label="$t('recruitment.candidate_name')"
+    :clear="false"
+    :create-options="loadCandidates"
+  >
+    <template #option="{data}">
+      <span>{{ data.label }}</span>
+    </template>
+  </oxd-input-field>
 </template>
 
 <script>
-import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
-
 export default {
-  name: 'HiringManagerDropdown',
+  name: 'CandidateAutocomplete',
+  props: {
+    params: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   setup() {
-    const options = ref([]);
     const http = new APIService(
       'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
-      'recruitment/api/hiringManager',
+      'recruitment/api/candidateDetails',
     );
-    onBeforeMount(() => {
-      http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
-          return {
-            id: item.id,
-            label: item.name,
-          };
-        });
-      });
-    });
     return {
-      options,
+      http,
     };
+  },
+  methods: {
+    async loadCandidates(serachParam) {
+      return new Promise(resolve => {
+        if (serachParam.trim()) {
+          this.http
+            .getAll({
+              nameOrId: serachParam.trim(),
+              ...this.params,
+            })
+            .then(({data}) => {
+              resolve(
+                data.data.map(candidate => {
+                  return {
+                    id: candidate.id,
+                    label: `${candidate.firstName} ${candidate.middleName} ${candidate.lastName}`,
+                    _candidate: candidate,
+                  };
+                }),
+              );
+            });
+        } else {
+          resolve([]);
+        }
+      });
+    },
   },
 };
 </script>
+
+<style scoped>
+.past-employee-tag {
+  margin-left: auto;
+}
+</style>

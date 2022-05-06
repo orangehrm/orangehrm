@@ -47,10 +47,7 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-autocomplete
-                v-model="filters.candidate"
-                :label="$t('recruitment.candidate_name')"
-              />
+              <candidate-autocomplete v-model="filters.candidate" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -158,12 +155,13 @@ import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDrop
 import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import usei18n from '@/core/util/composable/usei18n';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+
 import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
   validDateFormat,
 } from '@/core/util/validation/rules';
+import CandidateAutocomplete from '@/orangehrmRecruitmentPlugin/components/CandidateAutocomplete';
 const defaultFilters = {
   jobTitle: null,
   vacancy: null,
@@ -176,18 +174,19 @@ const defaultFilters = {
   toDate: null,
 };
 const defaultSortOrder = {
-  'v.vacancy': 'ASC',
-  'c.candidate': 'ASC',
-  'h.manager': 'ASC',
-  'd.fromDate': 'ASC',
+  'v.vacancy': 'DEFAULT',
+  'c.candidate': 'DEFAULT',
+  'h.manager': 'DEFAULT',
+  'd.fromDate': 'DESC',
   's.status': 'DEFAULT',
 };
 
 export default {
   name: 'ViewCandidate',
   components: {
+    CandidateAutocomplete,
     'delete-confirmation': DeleteConfirmationDialog,
-    'employee-autocomplete': EmployeeAutocomplete,
+    'candidate-autocomplete': CandidateAutocomplete,
     'hiring-manager-dropdown': HiringManagerDropdown,
     'vacancy-dropdown': VacancyDropdown,
     'jobtitle-dropdown': JobtitleDropdown,
@@ -268,8 +267,8 @@ export default {
         keywords: filters.value.keywords?.id,
         application: filters.value.application?.id,
         candidate: filters.value.candidate?.id,
-        dateFrom: filters.value.dateFrom,
-        dateTo: filters.value.dateTo,
+        dateFrom: filters.value.fromDate,
+        dateTo: filters.value.toDate,
         status: filters.value.status,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
@@ -277,7 +276,7 @@ export default {
     });
 
     const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
       'recruitment/api/candidate',
     );
 
@@ -325,20 +324,19 @@ export default {
         },
         {
           name: 'candidate',
+          slot: 'title',
           title: this.$t('recruitment.candidate'),
           sortField: 'c.candidate',
           style: {flex: 1},
         },
         {
           name: 'manager',
-          slot: 'title',
           title: this.$t('recruitment.hiring_manager'),
           sortField: 'h.manager',
           style: {flex: 1},
         },
         {
           name: 'fromDate',
-          slot: 'title',
           title: this.$t('recruitment.date_of_application'),
           sortField: 'd.fromDate',
           style: {flex: 1},
@@ -408,10 +406,6 @@ export default {
       });
     },
     onClickDelete(item) {
-      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
-      if (isSelectable > -1) {
-        return this.$toast.cannotDelete();
-      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
