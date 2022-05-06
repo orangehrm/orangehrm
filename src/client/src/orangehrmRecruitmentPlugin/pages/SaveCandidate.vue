@@ -167,7 +167,6 @@ export default {
     'full-name-input': FullNameInput,
   },
   props: {
-    //TODO
     allowedFileTypes: {
       type: Array,
       required: true,

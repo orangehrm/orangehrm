@@ -345,7 +345,7 @@ export default {
         {
           name: 'status',
           title: this.$t('general.status'),
-          sortField: 'u.status',
+          sortField: 's.status',
           style: {flex: 1},
         },
         {
