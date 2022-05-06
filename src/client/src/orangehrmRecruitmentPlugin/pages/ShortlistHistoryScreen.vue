@@ -61,7 +61,7 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item class="orangehrm-save-candidate-page-full-width">
-              <oxd-input-field label="Notes" type="textarea" />
+              <oxd-input-field label="Notes" type="textarea" :rules="rules.notes"/>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -77,12 +77,42 @@
 </template>
 
 <script>
+import {shouldNotLessThanCharLength} from '@ohrm/core/util/validation/rules';
+import {APIService} from "@/core/util/services/api.service";
 export default {
   name: 'ShortlistHistoryScreen',
-  setup() {
+  setup(){
+    const http = new APIService(
+      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'recruitment/api/candidateHistory',
+    );
+    return {
+      http,
+    }
+  },
+  data() {
     return {
       isLoading: false,
+      rules: {
+        notes: [shouldNotLessThanCharLength(250)],
+      },
+      history:{
+        candidate:"",
+        vacancy:"",
+        hiringManager:"",
+        status:"",
+        performedAction:"",
+        performedBy:"",
+        performedDate:""
+      },
     };
+  },
+  beforeMount() {
+    this.http.getAll().then(({data:{data}}) => {
+      console.log(data);
+      const {firstName, lastName, middleName} = data.candidate;
+      history.candidate = `${firstName} ${middleName} ${lastName}`;
+    });
   },
   methods: {
     onSave() {
