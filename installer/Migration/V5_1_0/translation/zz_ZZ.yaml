@@ -16,3 +16,4 @@ translations:
     - { target: 'FR_Online', unitId: online, group: recruitment }
     - { target: 'FR_Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'FR_Resume', unitId: resume, group: recruitment }
+    - { target: 'FR_Add Candidate', unitId: add_candidate, group: recruitment }

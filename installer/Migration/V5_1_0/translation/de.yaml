@@ -17,3 +17,4 @@ translations:
     - { target: 'Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'Bewerber', unitId: candidates, group: recruitment }
     - { target: 'Wieder aufnehmen / Lebenslauf', unitId: resume, group: recruitment }
+    - { target: 'Bewerber hinzufügen', unitId: add_candidate, group: recruitment }

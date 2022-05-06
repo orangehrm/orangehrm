@@ -16,3 +16,4 @@ translations:
     - { target: 'Online', unitId: online, group: recruitment }
     - { target: 'Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'Resume', unitId: resume, group: recruitment }
+    - { target: 'Tambahkan Calon', unitId: add_candidate, group: recruitment }

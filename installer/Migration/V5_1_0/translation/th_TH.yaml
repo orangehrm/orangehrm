@@ -16,3 +16,4 @@ translations:
     - { target: 'ออนไลน์', unitId: online, group: recruitment }
     - { target: 'Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'ดำเนินการต่อ', unitId: resume, group: recruitment }
+    - { target: 'ดำเนินการต่อ', unitId: add_candidate, group: recruitment }

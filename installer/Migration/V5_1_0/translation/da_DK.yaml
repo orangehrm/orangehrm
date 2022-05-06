@@ -16,3 +16,4 @@ translations:
     - { target: 'online', unitId: online, group: recruitment }
     - { target: 'Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'Genoptag', unitId: resume, group: recruitment }
+    - { target: 'Tilføj kandidat', unitId: add_candidate, group: recruitment }

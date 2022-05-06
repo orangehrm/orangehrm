@@ -16,3 +16,4 @@ translations:
     - { target: 'En línea', unitId: online, group: recruitment }
     - { target: 'Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'Reanudar', unitId: resume, group: recruitment }
+    - { target: 'Añadir candidato', unitId: add_candidate, group: recruitment }

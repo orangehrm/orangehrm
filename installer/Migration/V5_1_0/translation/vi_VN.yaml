@@ -16,3 +16,4 @@ translations:
     - { target: 'Trực tuyến', unitId: online, group: recruitment }
     - { target: 'Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'Tiếp tục', unitId: resume, group: recruitment }
+    - { target: 'Thêm ứng cử viên', unitId: add_candidate, group: recruitment }

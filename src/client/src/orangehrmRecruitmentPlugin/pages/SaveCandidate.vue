@@ -75,6 +75,7 @@
                 :label="$t('recruitment.resume')"
                 :button-label="$t('general.browse')"
                 :placeholder="$t('general.no_file_chosen')"
+                :rules="rules.resume"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -159,6 +160,36 @@ export default {
     'submit-button': SubmitButton,
     'vacancy-dropdown': VacancyDropdown,
     'full-name-input': FullNameInput,
+  },
+  props: {
+    //TODO
+    allowedFileTypes: {
+      type: Array,
+      default: () => [
+        'text/plain',
+        'text/rtf',
+        'text/csv',
+        'application/csv',
+        'application/rtf',
+        'application/pdf',
+        'application/msword',
+        'application/vnd.ms-excel',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.oasis.opendocument.text',
+        'application/vnd.oasis.opendocument.spreadsheet',
+        'application/vnd.oasis.opendocument.presentation',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+        'image/x-png',
+        'image/gif',
+        'image/jpeg',
+        'image/jpg',
+        'image/pjpeg',
+        'image/png',
+      ],
+    },
   },
   setup() {
     const http = new APIService(

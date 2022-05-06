@@ -15,3 +15,4 @@ translations:
     - { target: 'Наръчник', unitId: manual, group: recruitment }
     - { target: 'Online', unitId: online, group: recruitment }
     - { target: 'Резюме', unitId: resume, group: recruitment }
+    - { target: 'Добави кандидат', unitId: add_candidate, group: recruitment }

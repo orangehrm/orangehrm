@@ -16,4 +16,5 @@ translations:
     - { target: '在线', unitId: online, group: recruitment }
     - { target: 'Contact Number', unitId: contact_number, group: recruitment }
     - { target: '恢复', unitId: resume, group: recruitment }
+    - { target: '添加候选人', unitId: add_candidate, group: recruitment }
 
