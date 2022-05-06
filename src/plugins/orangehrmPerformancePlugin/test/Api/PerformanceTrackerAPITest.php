@@ -2,7 +2,6 @@
 
 namespace OrangeHRM\Tests\Performance\Api;
 
-use Exception;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Api\PerformanceTrackerAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
@@ -13,7 +12,6 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
     /**
      * @dataProvider dataProviderForTestGetOne
      *
-     * @throws Exception
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
@@ -25,6 +23,9 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
         $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForTestGetOne(): array
     {
         return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'GetOne');
@@ -43,6 +44,9 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForTestGetAll(): array
     {
         return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'GetAll');
@@ -61,6 +65,9 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
         $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForTestCreate(): array
     {
         return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'Create');
@@ -79,6 +86,9 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForTestUpdate(): array
     {
         return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'Update');
@@ -97,6 +107,9 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
         $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForTestDelete(): array
     {
         return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'Delete');

@@ -97,19 +97,7 @@ import {APIService} from '@/core/util/services/api.service';
 import useSort from '@/core/util/composable/useSort';
 import usePaginate from '@/core/util/composable/usePaginate';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-
-const trackerNormalizer = data => {
-  return data.map(row => {
-    return {
-      id: row.id,
-      tracker: row.trackerName,
-      addDate: row.addedDate,
-      matureDate: row.modifiedDate,
-      empName: `${row.employee?.firstName} ${row.employee?.lastName}
-          ${row.employee?.terminationId ? ' (Past Employee)' : ''}`,
-    };
-  });
-};
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   empNumber: null,
@@ -137,6 +125,20 @@ export default {
   },
 
   setup() {
+    const {$t} = usei18n();
+    const trackerNormalizer = data => {
+      return data.map(row => {
+        return {
+          id: row.id,
+          tracker: row.trackerName,
+          addDate: row.addedDate,
+          modifiedDate: row.modifiedDate,
+          empName: `${row.employee?.firstName} ${row.employee?.lastName}
+          ${row.employee?.terminationId ? $t('general.past_employee') : ''}`,
+        };
+      });
+    };
+
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/performance/performance-trackers',
@@ -210,7 +212,7 @@ export default {
           style: {flex: 1},
         },
         {
-          name: 'matureDate',
+          name: 'modifiedDate',
           title: this.$t('performance.modified_date'),
           sortField: 'performanceTracker.modifiedDate',
           style: {flex: 1},
