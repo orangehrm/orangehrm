@@ -234,6 +234,7 @@ export default {
           manager: `${item.hiringManager.firstName} ${item.hiringManager.middleName} ${item.hiringManager.lastName}`,
           fromDate: item.fromDate,
           status: statuses.find(({id}) => id === item.status.id)?.label,
+          resume: item.resume,
         };
       });
     };
@@ -353,27 +354,7 @@ export default {
           title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            download: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'download',
-              },
-            },
-            view: {
-              onClick: this.onDownload,
-              props: {
-                name: 'eye',
-              },
-            },
-          },
+          cellRenderer: this.cellRenderer,
         },
       ],
       applications: [
@@ -389,11 +370,44 @@ export default {
     };
   },
   methods: {
+    cellRenderer(...[, , , row]) {
+      const cellConfig = {
+        delete: {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        },
+        view: {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'eye',
+          },
+        },
+      };
+
+      if (row.resume) {
+        cellConfig.download = {
+          onClick: this.onDownload,
+          props: {
+            name: 'download',
+          },
+        };
+      }
+      return {
+        props: {
+          header: {
+            cellConfig,
+          },
+        },
+      };
+    },
     onClickAdd() {
       navigate('/recruitment/addCandidate');
     },
     onClickEdit(item) {
-      navigate('/recruitment/editCandidate/{id}', {id: item.id});
+      navigate('/recruitment/viewCandidate/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -413,7 +427,7 @@ export default {
       });
     },
     onDownload(item) {
-      navigate('/recruitment/viewCandidate/{id}', {id: item.id});
+      navigate('/recruitment/download/{id}', {id: item.id});
     },
     deleteItems(items) {
       if (items instanceof Array) {
