@@ -27,13 +27,14 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-autocomplete
+              <employee-tracker-employee-autocomplete
                 v-model="filters.empName"
+                :api="api"
                 :params="{
                   includeEmployees: filters.includeEmployees.param,
                 }"
               >
-              </employee-autocomplete>
+              </employee-tracker-employee-autocomplete>
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -95,7 +96,6 @@
 
 <script>
 import {computed, ref} from 'vue';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
@@ -103,6 +103,7 @@ import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import usei18n from '@/core/util/composable/usei18n';
+import EmployeeTrackerEmployeeAutocomplete from '../components/EmployeeTrackerEmployeeAutocomplete';
 
 const defaultFilters = {
   empName: null,
@@ -121,7 +122,7 @@ const defaultSortOrder = {
 };
 export default {
   components: {
-    'employee-autocomplete': EmployeeAutocomplete,
+    'employee-tracker-employee-autocomplete': EmployeeTrackerEmployeeAutocomplete,
   },
   setup() {
     const {$t} = usei18n();
@@ -162,10 +163,8 @@ export default {
       };
     });
 
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/performance/employee-trackers',
-    );
+    const api = 'api/v2/performance/employee-trackers';
+    const http = new APIService(window.appGlobal.baseUrl, api);
 
     const {
       showPaginator,
@@ -191,6 +190,7 @@ export default {
       pageSize,
       isLoading,
       items: response,
+      api,
       http,
       execQuery,
       sortDefinition,

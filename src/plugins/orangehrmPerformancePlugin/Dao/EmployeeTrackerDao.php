@@ -112,6 +112,18 @@ class EmployeeTrackerDao extends BaseDao
             $qb->andWhere($qb->expr()->isNotNull('employee.employeeTerminationRecord'));
         }
 
+        if (!is_null($employeeTrackerSearchFilterParams->getNameOrId())) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('employee.firstName', ':nameOrId'),
+                    $qb->expr()->like('employee.lastName', ':nameOrId'),
+                    $qb->expr()->like('employee.middleName', ':nameOrId'),
+                    $qb->expr()->like('employee.employeeId', ':nameOrId'),
+                )
+            );
+            $qb->setParameter('nameOrId', '%' . $employeeTrackerSearchFilterParams->getNameOrId() . '%');
+        }
+
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
         $this->setSortingAndPaginationParams($qb, $employeeTrackerSearchFilterParams);
 
@@ -120,20 +132,42 @@ class EmployeeTrackerDao extends BaseDao
 
     /**
      * @param int $reviewerId
-     * @return array
+     * @return int[]
      * TODO move to Tracker Reviewer Dao
      */
     public function getTrackerIdsByReviewerId(int $reviewerId): array
     {
         $qb = $this->createQueryBuilder(PerformanceTrackerReviewer::class, 'trackerReviewer');
-        $qb->leftJoin('trackerReviewer.performanceTracker', 'tracker');
         $qb->andWhere($qb->expr()->eq('trackerReviewer.reviewer', ':empNumber'))
             ->setParameter('empNumber', $reviewerId);
 
         $trackerReviewList = $qb->getQuery()->execute();
 
-        return array_map(function ($item) {
-            return $item->getPerformanceTracker()->getId();
+        return array_map(function ($trackerReviewer) {
+            /** @var PerformanceTrackerReviewer $trackerReviewer */
+            return $trackerReviewer->getPerformanceTracker()->getId();
+        }, $trackerReviewList);
+    }
+
+    /**
+     * @param int $reviewerId
+     * @return int[]
+     * TODO move to Tracker Reviewer Dao
+     */
+    public function getEmployeeIdsByReviewerId(int $reviewerId): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceTrackerReviewer::class, 'trackerReviewer');
+        $qb->leftJoin('trackerReviewer.performanceTracker', 'tracker');
+        $qb->leftJoin('tracker.employee', 'employee');
+        $qb->andWhere($qb->expr()->eq('trackerReviewer.reviewer', ':empNumber'))
+            ->setParameter('empNumber', $reviewerId);
+        $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
+
+        $trackerReviewList = $qb->getQuery()->execute();
+
+        return array_map(function ($trackerReviewer) {
+            /** @var PerformanceTrackerReviewer $trackerReviewer */
+            return $trackerReviewer->getPerformanceTracker()->getEmployee()->getEmpNumber();
         }, $trackerReviewList);
     }
 }

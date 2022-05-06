@@ -41,6 +41,7 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
     ];
 
     private ?int $empNumber = null;
+    private ?string $nameOrId = null;
     private string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
 
     public function __construct()
@@ -79,5 +80,21 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
     public function setIncludeEmployees(?string $includeEmployees): void
     {
         $this->includeEmployees = $includeEmployees;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNameOrId(): ?string
+    {
+        return $this->nameOrId;
+    }
+
+    /**
+     * @param string|null $nameOrId
+     */
+    public function setNameOrId(?string $nameOrId): void
+    {
+        $this->nameOrId = $nameOrId;
     }
 }

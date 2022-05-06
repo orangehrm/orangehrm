@@ -97,4 +97,13 @@ class EmployeeTrackerDaoTest extends TestCase
         $result = $this->employeeTrackerDao->getTrackerIdsByReviewerId(3);
         $this->assertEmpty($result);
     }
+
+    public function testGetEmployeeIdsByReviewerId(): void
+    {
+        $result = $this->employeeTrackerDao->getEmployeeIdsByReviewerId(2);
+        $this->assertEquals([3, 1], $result);
+
+        $result = $this->employeeTrackerDao->getEmployeeIdsByReviewerId(3);
+        $this->assertEmpty($result);
+    }
 }

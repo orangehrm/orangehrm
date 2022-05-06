@@ -451,6 +451,74 @@ GetAll:
     meta:
       total: 1
 
+  'with invalid name or id':
+    userId: 1
+    query:
+      nameOrId: 'ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJA'
+    invalidOnly: ['nameOrId']
+
+  'with non existent name or id':
+    userId: 1
+    query:
+      nameOrId: 'ABCDEF'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with valid name for name or id':
+    userId: 1
+    query:
+      nameOrId: 'Dev'
+    data: [
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with valid id for name or id':
+    userId: 1
+    query:
+      nameOrId: '0002'
+    data: [
+      {
+        "id": 1,
+        "title": "Tracker Emp 2",
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": "2022-05-05"
+      }
+    ]
+    meta:
+      total: 1
+
+  'with valid employee name that has no tracker for name or id':
+    userId: 1
+    query:
+      nameOrId: 'Rajitha'
+    data: [ ]
+    meta:
+      total: 0
+
   # ESS Test Cases
   'without query params for ESS':
     userId: 2
@@ -525,12 +593,59 @@ GetAll:
     meta:
       total: 2
 
-  # TODO inaccessible emp numbers needs to be changed
   'with employee id query':
     userId: 2
     query:
       empNumber: 5
-    invalidOnly: ['empNumber']
+    data: [
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      }
+    ]
+    meta:
+      total: 1
+
+  'with valid name or id for ESS':
+    userId: 2
+    query:
+      nameOrId: 'Ani'
+    data: [
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      }
+    ]
+    meta:
+      total: 1
+
+  'with name of employee that has tracker but not assigned for review':
+    userId: 2
+    query:
+      nameOrId: 'Shar'
+    data: [ ]
+    meta:
+      total: 0
 
   'with user id that is not assigned as reviewer':
     userId: 3
