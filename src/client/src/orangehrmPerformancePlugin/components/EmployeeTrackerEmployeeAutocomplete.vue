@@ -21,12 +21,14 @@
 <template>
   <oxd-input-field
     type="autocomplete"
-    :label="$t('general.name')"
+    :label="$t('general.employee_name')"
     :clear="false"
     :create-options="loadEmployees"
   >
     <template #afterSelected="{data}">
-      <template v-if="data.isPastEmployee">(Past Employee)</template>
+      <template v-if="data.isPastEmployee">
+        {{ $t('general.past_employee') }}
+      </template>
     </template>
     <template #option="{data}">
       <span>{{ data.label }}</span>
@@ -36,7 +38,6 @@
     </template>
   </oxd-input-field>
 </template>
-
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
@@ -69,15 +70,18 @@ export default {
               ...this.params,
             })
             .then(({data}) => {
-              resolve(
-                data.data.map(tracker => {
-                  return {
-                    id: tracker.employee.empNumber,
-                    label: `${tracker.employee.firstName} ${tracker.employee.middleName} ${tracker.employee.lastName}`,
-                    isPastEmployee: !!tracker.employee.terminationId,
-                  };
-                }),
-              );
+              resolve([
+                ...new Map(
+                  data.data.map(tracker => [
+                    tracker.employee.empNumber,
+                    {
+                      id: tracker.employee.empNumber,
+                      label: `${tracker.employee.firstName} ${tracker.employee.middleName} ${tracker.employee.lastName}`,
+                      isPastEmployee: !!tracker.employee.terminationId,
+                    },
+                  ]),
+                ).values(),
+              ]);
             });
         } else {
           resolve([]);
@@ -87,3 +91,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.past-employee-tag {
+  margin-left: auto;
+}
+</style>
