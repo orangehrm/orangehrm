@@ -55,6 +55,7 @@ class EmployeeTrackerAPITest extends EndpointIntegrationTestCase
                     $testCaseParams->getUserId()
                 )->getEmployee()->getEmpNumber()
             );
+        // In the given fixtures, only user 1 is an Admin
         $authUser->method('getUserRoleId')
             ->willReturn(
                 $testCaseParams->getUserId() === 1 ?
@@ -64,7 +65,6 @@ class EmployeeTrackerAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $authUser]);
 
         $this->registerServices($testCaseParams);
-//        $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(EmployeeTrackerAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }

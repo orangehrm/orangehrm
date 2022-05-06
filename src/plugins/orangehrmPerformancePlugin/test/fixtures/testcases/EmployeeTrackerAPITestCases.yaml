@@ -1,4 +1,5 @@
 GetAll:
+  # Admin Test Cases
   'invalid filter params':
     userId: 1
     query:
@@ -329,14 +330,38 @@ GetAll:
 
   'invalid employee id for admin':
     userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       empNumber: 'abcd'
     invalidOnly: ['empNumber']
 
   'purged employee id for admin':
     userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       empNumber: 4
+    invalidOnly: ['empNumber']
+
+  'non existent employee id for admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 1000
     invalidOnly: ['empNumber']
 
   'valid employee id with tracker for admin':
@@ -367,3 +392,148 @@ GetAll:
     ]
     meta:
       total: 1
+
+  'with valid emp id that has no trackers for admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 6
+    data: [ ]
+    meta:
+      total: 0
+
+  'with valid terminated emp id for admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 3
+    data: [ ]
+    meta:
+      total: 0
+
+  'with valid terminated emp id and include employees only past for admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 3
+      includeEmployees: 'onlyPast'
+    data: [
+      {
+        "id": 3,
+        "title": "Tracker Emp 3",
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Chenuka",
+          "middleName": "",
+          "lastName": "Gamage",
+          "terminationId": 1
+        },
+        "addedDate": "2022-05-02",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 1
+
+  # ESS Test Cases
+  'without query params for ESS':
+    userId: 2
+    data: [
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      },
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 2
+
+  'with sort field tracker name ASC for ESS':
+    userId: 2
+    query:
+      sortField: 'tracker.trackerName'
+      sortOrder: 'ASC'
+    data: [
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      },
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      }
+    ]
+    meta:
+      total: 2
+
+  # TODO inaccessible emp numbers needs to be changed
+  'with employee id query':
+    userId: 2
+    query:
+      empNumber: 5
+    invalidOnly: ['empNumber']
+
+  'with user id that is not assigned as reviewer':
+    userId: 3
+    data: [ ]
+    meta:
+      total: 0

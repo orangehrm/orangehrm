@@ -28,6 +28,8 @@ class EmployeeTrackerService
 {
     use AuthUserTrait;
 
+    private const ADMIN_USER_ROLE_ID = 1;
+
     private ?EmployeeTrackerDao $employeeTrackerDao = null;
 
     /**
@@ -47,7 +49,7 @@ class EmployeeTrackerService
      */
     public function getEmployeeTrackerList(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): array
     {
-        if ($this->getAuthUser()->getUserRoleId() !== 1) {
+        if ($this->getAuthUser()->getUserRoleId() !== self::ADMIN_USER_ROLE_ID) {
             $empNumber = $this->getAuthUser()->getEmpNumber();
             return $this->getEmployeeTrackerDao()->getEmployeeTrackerListForESS($employeeTrackerSearchFilterParams, $empNumber);
         }
@@ -60,7 +62,7 @@ class EmployeeTrackerService
      */
     public function getEmployeeTrackerCount(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): int
     {
-        if ($this->getAuthUser()->getUserRoleId() !== 1) {
+        if ($this->getAuthUser()->getUserRoleId() !== self::ADMIN_USER_ROLE_ID) {
             $empNumber = $this->getAuthUser()->getEmpNumber();
             return $this->getEmployeeTrackerDao()->getEmployeeTrackerCountForESS($employeeTrackerSearchFilterParams, $empNumber);
         }
