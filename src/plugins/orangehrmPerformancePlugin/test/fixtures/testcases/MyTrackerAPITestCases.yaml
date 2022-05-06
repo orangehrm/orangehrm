@@ -1,0 +1,20 @@
+GetAll:
+  'Get all trackers with empNumber':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+    attributes: [ ]
+    data:
+      0:
+        id: 1
+        trackerName: 'test tracker name'
+        addedDate: '2011-12-12'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          terminationId: null
+    meta:
+      total: 1

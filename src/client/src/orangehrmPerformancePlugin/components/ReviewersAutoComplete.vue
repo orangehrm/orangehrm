@@ -86,8 +86,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.past-employee-tag {
-  margin-left: auto;
-}
-</style>

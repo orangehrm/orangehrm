@@ -47,6 +47,13 @@ apiv2_performance_reviewer_autocomplete:
   defaults:
     _api: OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI
 
+apiv2_performance_my_trackers:
+  path: /api/v2/leave/myTracker
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\MyTrackerAPI
+
 ##########################
 #        Screens
 ##########################
