@@ -30,7 +30,7 @@ class ShortlistCandidateController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('shortlist-history');
+        $component = new Component('shortlist-candidate');
         $this->setComponent($component);
     }
 }

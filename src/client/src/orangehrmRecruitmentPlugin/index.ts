@@ -22,4 +22,4 @@ import ShortlistHistoryScreen from './pages/ShortlistHistoryScreen.vue';
 export default {
   'shortlist-candidate': ShortlistCandidateScreen,
   'shortlist-history': ShortlistHistoryScreen,
-}
+};

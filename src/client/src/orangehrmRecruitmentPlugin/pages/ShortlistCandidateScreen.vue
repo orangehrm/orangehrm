@@ -28,27 +28,48 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field label="Candidate" disabled value="test" />
+              <oxd-input-field
+                label="Candidate"
+                disabled
+                :value="shortlist.candidate"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field label="Vacancy" disabled value="test" />
+              <oxd-input-field
+                label="Vacancy"
+                disabled
+                :value="shortlist.vacancy"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field label="Hiring Manager" disabled value="test" />
+              <oxd-input-field
+                label="Hiring Manager"
+                disabled
+                :value="shortlist.manager"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field label="Current Status" disabled value="test" />
+              <oxd-input-field
+                label="Current Status"
+                disabled
+                :value="shortlist.status"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item class="orangehrm-save-candidate-page-full-width">
-              <oxd-input-field label="notes" type="textarea" />
+              <oxd-input-field
+                v-model="shortlist.note"
+                label="notes"
+                type="textarea"
+                :rules="rules.note"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -64,16 +85,91 @@
 </template>
 
 <script>
+import {shouldNotLessThanCharLength} from '@ohrm/core/util/validation/rules';
+import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@/core/util/helper/navigation';
 export default {
   name: 'ShortlistCandidateScreen',
   setup() {
+    const http = new APIService(
+      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'recruitment/shortlistCandidate',
+    );
+    return {
+      http,
+    };
+  },
+  data() {
     return {
       isLoading: false,
+      rules: {
+        notes: [shouldNotLessThanCharLength(250)],
+      },
+      shortlist: {
+        candidate: '',
+        vacancy: '',
+        manager: '',
+        status: '',
+        note: '',
+      },
+      statuses: [
+        {
+          id: 1,
+          label: this.$t('recruitment.application_initiated'),
+        },
+        {
+          id: 2,
+          label: this.$t('recruitment.shortlisted'),
+        },
+        {
+          id: 3,
+          label: this.$t('recruitment.interview_scheduled'),
+        },
+        {
+          id: 4,
+          label: this.$t('recruitment.interview_passed'),
+        },
+        {
+          id: 5,
+          label: this.$t('recruitment.interview_failed'),
+        },
+        {
+          id: 6,
+          label: this.$t('recruitment.job_offered'),
+        },
+        {
+          id: 7,
+          label: this.$t('recruitment.offered_declined'),
+        },
+      ],
     };
+  },
+  beforeMount() {
+    this.isLoading = true;
+    this.http.getAll().then(({data: {data}}) => {
+      const {candidate, status, ...rest} = data;
+      const {firstName, lastName, middleName} = candidate;
+      const fullName = `${firstName} ${middleName} ${lastName}`;
+      this.shortlist = {
+        candidate: fullName,
+        status: this.statuses.find(({id}) => id === status)?.label,
+        ...rest,
+      };
+      this.isLoading = false;
+    });
   },
   methods: {
     onSave() {
-      console.log('sa');
+      this.isLoading = true;
+      this.http
+        .update(this.shortlist.id, {note: this.shortlist.note})
+        .then(() => {
+          this.isLoading = false;
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          navigate('/recruitment/viewCandidates');
+        });
     },
   },
 };
