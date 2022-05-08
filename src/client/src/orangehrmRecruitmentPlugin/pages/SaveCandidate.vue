@@ -87,7 +87,7 @@
               <oxd-input-field
                 v-model="candidate.keywords"
                 :label="$t('recruitment.keywords')"
-                :placeholder="$t('general.type_here')"
+                :placeholder="$t('recruitment.enter_comma_se')"
                 :rules="rules.keywords"
               />
             </oxd-grid-item>

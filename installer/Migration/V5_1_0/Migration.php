@@ -50,7 +50,25 @@ class Migration extends AbstractMigration
         }
 
         $langCodes = [
+            'bg_BG',
+            'da_DK',
+            'de',
             'en_US',
+            'es',
+            'es_AR',
+            'es_BZ',
+            'es_CR',
+            'es_ES',
+            'fr',
+            'fr_FR',
+            'id_ID',
+            'ja_JP',
+            'nl',
+            'om_ET',
+            'th_TH',
+            'vi_VN',
+            'zh_Hans_CN',
+            'zh_Hant_TW'
         ];
         foreach ($langCodes as $langCode) {
             $this->getTranslationHelper()->addTranslations($langCode);
