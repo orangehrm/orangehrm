@@ -21,15 +21,15 @@
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Shortlist Candidate
+        {{ $t('recruitment.shortlist') }} {{ $t('recruitment.candidate') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid ">
             <oxd-grid-item>
               <oxd-input-field
-                label="Candidate"
+                :label="$t('recruitment.shortlist_candidate')"
                 disabled
                 :value="shortlist.candidate"
               />
@@ -40,21 +40,21 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Vacancy"
+                :label="$t('recruitment.vacancy')"
                 disabled
                 :value="shortlist.vacancy"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Hiring Manager"
+                :label="$t('recruitment.hiring_manager')"
                 disabled
                 :value="shortlist.manager"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Current Status"
+                :label="$t('recruitment.current_status')"
                 disabled
                 :value="shortlist.status"
               />
@@ -63,10 +63,12 @@
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item class="orangehrm-save-candidate-page-full-width">
+            <oxd-grid-item
+              class="orangehrm-save-candidate-page --span-column-2"
+            >
               <oxd-input-field
                 v-model="shortlist.note"
-                label="notes"
+                :label="$t('general.notes')"
                 type="textarea"
               />
             </oxd-grid-item>
@@ -74,7 +76,11 @@
         </oxd-form-row>
         <oxd-divider />
         <oxd-form-actions>
-          <oxd-button display-type="ghost" :label="$t('general.back')" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.back')"
+            @click="onBack"
+          />
           <submit-button label="Shortlist" />
         </oxd-form-actions>
       </oxd-form>
@@ -147,6 +153,7 @@ export default {
       this.shortlist = {
         candidate: fullName,
         status: this.statuses.find(({id}) => id === status)?.label,
+        cid: candidate.id,
         ...rest,
       };
       this.isLoading = false;
@@ -164,13 +171,9 @@ export default {
           navigate('/recruitment/viewCandidates');
         });
     },
+    onBack() {
+      navigate(`/recruitment/addCandidate/${this.shortlist.cid}`);
+    },
   },
 };
 </script>
-<style scoped lang="scss">
-.orangehrm-save-candidate-page {
-  &-full-width {
-    grid-column: 1 / span 2;
-  }
-}
-</style>

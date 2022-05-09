@@ -1,0 +1,19 @@
+langStrings:
+  -
+    value: 'Shortlist Candidate'
+    unitId: shortlist_candidate
+  -
+    value: 'Current Status'
+    unitId: current_status
+  -
+    value: 'Performed Action'
+    unitId: performed_action
+  -
+    value: 'Performed By'
+    unitId: performed_by
+  -
+    value: 'Performed Date'
+    unitId: performed_date
+  -
+    value: 'View Action History'
+    unitId: view_action_history

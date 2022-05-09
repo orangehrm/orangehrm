@@ -21,7 +21,7 @@
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        View Action History
+        {{ $t('recruitment.view_action_history') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -29,7 +29,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Candidate"
+                :label="$t('recruitment.shortlist_candidate')"
                 disabled
                 :value="history.candidate"
               />
@@ -40,21 +40,21 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Vacancy"
+                :label="$t('recruitment.vacancy')"
                 disabled
                 :value="history.vacancy"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Hiring Manager"
+                :label="$t('recruitment.hiring_manager')"
                 disabled
                 :value="history.manager"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Current Status"
+                :label="$t('recruitment.current_status')"
                 disabled
                 :value="history.status"
               />
@@ -65,21 +65,21 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Performed Action"
+                :label="$t('recruitment.performed_action')"
                 disabled
                 :value="history.performedAction"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Performed By"
+                :label="$t('recruitment.performed_by')"
                 disabled
                 :value="history.performedBy"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="performed Date"
+                :label="$t('recruitment.performed_date')"
                 disabled
                 :value="history.performedDate"
               />
@@ -88,9 +88,11 @@
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item class="orangehrm-save-candidate-page-full-width">
+            <oxd-grid-item
+              class="orangehrm-save-candidate-page --span-column-2"
+            >
               <oxd-input-field
-                label="Notes"
+                :label="$t('general.notes')"
                 type="textarea"
                 :v-model="history.note"
               />
@@ -219,6 +221,7 @@ export default {
         status: this.statuses.find(({id}) => id === status)?.label,
         performedAction: this.actions.find(({id}) => id === performedAction)
           ?.label,
+        cid: candidate.id,
         ...rest,
       };
       this.isLoading = false;
@@ -237,15 +240,8 @@ export default {
         });
     },
     onBack() {
-      navigate('/recruitment/vacancy/2/action/1');
+      navigate(`/recruitment/addCandidate/${this.history.cid}`);
     },
   },
 };
 </script>
-<style scoped lang="scss">
-.orangehrm-save-candidate-page {
-  &-full-width {
-    grid-column: 1 / span 2;
-  }
-}
-</style>

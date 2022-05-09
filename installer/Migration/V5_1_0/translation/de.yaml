@@ -1,0 +1,7 @@
+translations:
+    - { target: 'In die engere Wahl nehmen', unitId: shortlist, group: recruitment }
+    - { target: 'Aktueller Status', unitId: current_status, group: recruitment }
+    - { target: 'Durchgeführte Aktion / Aktion wurde durchgeführt', unitId: performed_action, group: recruitment }
+    - { target: 'Ausgeführt durch', unitId: performed_by, group: recruitment }
+    - { target: 'Durchgeführtes Datum', unitId: performed_date, group: recruitment }
+    - { target: 'Aktionsverlauf ansehen', unitId: view_action_history, group: recruitment }

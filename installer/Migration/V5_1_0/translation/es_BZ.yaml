@@ -1,0 +1,8 @@
+translations:
+    - { target: 'Lisa de seleccionados', unitId: shortlist, group: recruitment }
+    - { target: 'Estado actual', unitId: current_status, group: recruitment }
+    - { target: 'Acción realizada', unitId: performed_action, group: recruitment }
+    - { target: 'Interpretada por', unitId: performed_by, group: recruitment }
+    - { target: 'Fecha de realización', unitId: performed_date, group: recruitment }
+    - { target: 'Ver el historial de Acción', unitId: view_action_history, group: recruitment }
+
