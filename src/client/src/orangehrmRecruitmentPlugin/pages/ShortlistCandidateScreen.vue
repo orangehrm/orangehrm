@@ -68,14 +68,12 @@
                 v-model="shortlist.note"
                 label="notes"
                 type="textarea"
-                :rules="rules.note"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-divider />
         <oxd-form-actions>
-          <required-text />
           <oxd-button display-type="ghost" :label="$t('general.back')" />
           <submit-button label="Shortlist" />
         </oxd-form-actions>
@@ -85,7 +83,6 @@
 </template>
 
 <script>
-import {shouldNotLessThanCharLength} from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
 export default {
@@ -102,9 +99,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      rules: {
-        notes: [shouldNotLessThanCharLength(250)],
-      },
       shortlist: {
         candidate: '',
         vacancy: '',

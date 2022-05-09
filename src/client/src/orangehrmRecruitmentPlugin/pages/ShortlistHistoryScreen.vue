@@ -92,7 +92,6 @@
               <oxd-input-field
                 label="Notes"
                 type="textarea"
-                :rules="rules.notes"
                 :v-model="history.note"
               />
             </oxd-grid-item>
@@ -100,13 +99,12 @@
         </oxd-form-row>
         <oxd-divider />
         <oxd-form-actions>
-          <required-text />
           <oxd-button
             display-type="ghost"
             :label="$t('general.back')"
             @click="onBack"
           />
-          <submit-button label="Shortlist" />
+          <submit-button :label="$t('general.save')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -114,7 +112,6 @@
 </template>
 
 <script>
-import {shouldNotLessThanCharLength} from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
 export default {
@@ -131,9 +128,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      rules: {
-        notes: [shouldNotLessThanCharLength(250)],
-      },
       history: {
         candidate: '',
         vacancy: '',
