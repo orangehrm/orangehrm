@@ -164,7 +164,6 @@ export default {
       this.http
         .update(this.shortlist.id, {note: this.shortlist.note})
         .then(() => {
-          this.isLoading = false;
           return this.$toast.updateSuccess();
         })
         .then(() => {

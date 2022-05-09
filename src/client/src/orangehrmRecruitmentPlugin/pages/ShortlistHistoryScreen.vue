@@ -101,7 +101,11 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" :label="$t('general.back')" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.back')"
+            @click="onBack"
+          />
           <submit-button label="Shortlist" />
         </oxd-form-actions>
       </oxd-form>
@@ -232,12 +236,14 @@ export default {
       this.http
         .update(this.history.id, {note: this.history.note})
         .then(() => {
-          this.isLoading = false;
           return this.$toast.updateSuccess();
         })
         .then(() => {
           navigate('/recruitment/viewCandidates');
         });
+    },
+    onBack() {
+      navigate('/recruitment/vacancy/2/action/1');
     },
   },
 };
