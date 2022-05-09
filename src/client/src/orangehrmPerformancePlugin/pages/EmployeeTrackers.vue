@@ -30,6 +30,7 @@
               <employee-tracker-employee-autocomplete
                 v-model="filters.empName"
                 :api="api"
+                :clear="false"
                 :params="{
                   includeEmployees: filters.includeEmployees.param,
                 }"
@@ -37,14 +38,9 @@
               </employee-tracker-employee-autocomplete>
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
+              <include-employee-dropdown
                 v-model="filters.includeEmployees"
-                type="select"
-                :label="$t('pim.include')"
-                :clear="false"
-                :options="includeOpts"
-                :show-empty-selector="false"
-              />
+              ></include-employee-dropdown>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -104,6 +100,7 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import usei18n from '@/core/util/composable/usei18n';
 import EmployeeTrackerEmployeeAutocomplete from '../components/EmployeeTrackerEmployeeAutocomplete';
+import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 
 const defaultFilters = {
   empName: null,
@@ -122,6 +119,7 @@ const defaultSortOrder = {
 };
 export default {
   components: {
+    'include-employee-dropdown': IncludeEmployeeDropdown,
     'employee-tracker-employee-autocomplete': EmployeeTrackerEmployeeAutocomplete,
   },
   setup() {
@@ -240,7 +238,7 @@ export default {
                 name: 'view',
                 label: this.$t('general.view'),
                 class: 'orangehrm-left-space',
-                displayType: 'ghost',
+                displayType: 'text',
               },
             },
           },
