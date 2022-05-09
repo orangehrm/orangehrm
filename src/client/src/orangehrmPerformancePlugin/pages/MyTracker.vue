@@ -130,14 +130,12 @@ export default {
         },
         {
           name: 'addDate',
-          slot: 'title',
           title: this.$t('performance.added_date'),
           sortField: 'performanceTracker.addedDate',
           style: {flex: 1},
         },
         {
           name: 'modifiedDate',
-          slot: 'title',
           title: this.$t('performance.modified_date'),
           sortField: 'performanceTracker.modifiedDate',
           style: {flex: 1},
@@ -155,7 +153,6 @@ export default {
               props: {
                 name: 'view',
                 label: this.$t('general.view'),
-                class: 'orangehrm-left-space',
                 displayType: 'text',
               },
             },
