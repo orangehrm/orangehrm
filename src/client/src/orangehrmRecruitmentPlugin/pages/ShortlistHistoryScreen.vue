@@ -29,7 +29,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                :label="$t('recruitment.shortlist_candidate')"
+                :label="$t('recruitment.candidate')"
                 disabled
                 :value="history.candidate"
               />

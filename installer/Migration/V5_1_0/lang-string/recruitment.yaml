@@ -1,7 +1,7 @@
 langStrings:
   -
-    value: 'Shortlist Candidate'
-    unitId: shortlist_candidate
+    value: 'Shortlist'
+    unitId: shortlist
   -
     value: 'Current Status'
     unitId: current_status
