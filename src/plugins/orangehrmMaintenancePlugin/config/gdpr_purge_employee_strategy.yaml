@@ -151,12 +151,6 @@ Entities:
         match_by:
           - { match: THIS IS A EXCEPTION }
 
-  PerformanceTracker:
-    PurgeStrategy:
-      Destroy:
-        match_by:
-          - { match: employee }
-
   PerformanceReview:
     PurgeStrategy:
       ReplaceWithValue:
@@ -188,6 +182,12 @@ Entities:
           - { match: employee,  join: performanceTracker }
         parameters:
           - { field: "comment", class: 'FormatWithEmptyString' }
+
+  PerformanceTracker:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }
 
   LeaveComment:
     PurgeStrategy:
