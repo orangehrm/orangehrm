@@ -140,6 +140,44 @@ export default {
         performedDate: '',
         note: '',
       },
+      actions: [
+        {
+          id: 1,
+          label: 'Shortlist',
+        },
+        {
+          id: 2,
+          label: 'Schedule Interview',
+        },
+        {
+          id: 3,
+          label: 'Mark Interview',
+        },
+        {
+          id: 4,
+          label: 'Passed',
+        },
+        {
+          id: 5,
+          label: 'Failed',
+        },
+        {
+          id: 6,
+          label: 'Offer Job',
+        },
+        {
+          id: 7,
+          label: 'Decline Offer',
+        },
+        {
+          id: 7,
+          label: 'Hire',
+        },
+        {
+          id: 8,
+          label: 'Reject',
+        },
+      ],
       statuses: [
         {
           id: 1,
@@ -175,12 +213,14 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
-      const {candidate, status, ...rest} = data;
+      const {candidate, status, performedAction, ...rest} = data;
       const {firstName, lastName, middleName} = candidate;
       const fullName = `${firstName} ${middleName} ${lastName}`;
       this.history = {
         candidate: fullName,
         status: this.statuses.find(({id}) => id === status)?.label,
+        performedAction: this.actions.find(({id}) => id === performedAction)
+          ?.label,
         ...rest,
       };
       this.isLoading = false;
