@@ -73,4 +73,32 @@ class EmployeeTrackerAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('EmployeeTrackerAPITestCases.yaml', 'GetAll');
     }
+
+    public function testCreate(): void
+    {
+        $api = new EmployeeTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new EmployeeTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new EmployeeTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new EmployeeTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
 }
