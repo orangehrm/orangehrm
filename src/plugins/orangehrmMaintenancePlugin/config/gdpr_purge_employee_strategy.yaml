@@ -151,6 +151,12 @@ Entities:
         match_by:
           - { match: THIS IS A EXCEPTION }
 
+  PerformanceTracker:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }
+
   PerformanceReview:
     PurgeStrategy:
       ReplaceWithValue:
