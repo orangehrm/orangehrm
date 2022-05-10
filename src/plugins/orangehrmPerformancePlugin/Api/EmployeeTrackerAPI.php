@@ -59,6 +59,9 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
         return $this->employeeTrackerService;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointResult
     {
         $employeeTrackerSearchFilterParams = $this->getEmployeeTrackerSearchFilterParams();
@@ -89,6 +92,9 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         $isAdmin = $this->getAuthUser()->getUserRoleId() === self::ADMIN_USER_ROLE_ID;
@@ -163,21 +169,33 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
         return $employeeTrackerSearchFilterParams;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
