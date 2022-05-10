@@ -48,7 +48,6 @@ class Migration extends AbstractMigration
 
         $groups = ['recruitment', 'performance'];
         foreach ($groups as $group) {
-            $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
