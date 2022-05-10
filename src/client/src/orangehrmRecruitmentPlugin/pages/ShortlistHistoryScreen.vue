@@ -213,12 +213,23 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
-      const {candidate, status, performedAction, ...rest} = data;
+      const {
+        candidate,
+        status,
+        performedAction,
+        vacancy,
+        manager,
+        ...rest
+      } = data;
       const {firstName, lastName, middleName} = candidate;
-      const fullName = `${firstName} ${middleName} ${lastName}`;
+      const fullName = `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
       this.history = {
-        candidate: fullName,
+        candidate: `${firstName} ${middleName} ${lastName}`,
         status: this.statuses.find(({id}) => id === status)?.label,
+        vacancy: vacancy.title,
+        manager:
+          (manager?.terminationId ? this.$t('general.past_employee') : '') +
+          fullName,
         performedAction: this.actions.find(({id}) => id === performedAction)
           ?.label,
         cid: candidate.id,

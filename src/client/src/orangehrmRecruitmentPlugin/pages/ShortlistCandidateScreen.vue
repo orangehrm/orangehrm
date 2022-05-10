@@ -147,11 +147,15 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
-      const {candidate, status, ...rest} = data;
+      const {candidate, status, vacancy, manager, ...rest} = data;
       const {firstName, lastName, middleName} = candidate;
-      const fullName = `${firstName} ${middleName} ${lastName}`;
+      const fullName = `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
       this.shortlist = {
-        candidate: fullName,
+        candidate: `${firstName} ${middleName} ${lastName}`,
+        vacancy: vacancy.title,
+        manager:
+          (manager?.terminationId ? this.$t('general.past_employee') : '') +
+          fullName,
         status: this.statuses.find(({id}) => id === status)?.label,
         cid: candidate.id,
         ...rest,
