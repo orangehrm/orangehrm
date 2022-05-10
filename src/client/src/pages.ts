@@ -72,6 +72,7 @@ import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
 import MaintenancePages from '@/orangehrmMaintenancePlugin';
 import PerformancePages from '@/orangehrmPerformancePlugin';
+import RecruitmentPages from '@/orangehrmRecruitmentPlugin';
 
 export default {
   'job-title-list': JobTitle,
@@ -131,4 +132,5 @@ export default {
   ...AttendancePages,
   ...MaintenancePages,
   ...PerformancePages,
+  ...RecruitmentPages,
 };

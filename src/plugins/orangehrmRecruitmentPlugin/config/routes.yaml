@@ -1,3 +1,13 @@
+candidate_schedule_interview:
+  path: /recruitment/jobInterview/vacancy/{vid}/action/{aid}
+  controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewController::handle
+  methods: [ GET ]
+
+candidate_schedule_interview_history:
+  path: /recruitment/jobInterview/history/{hid}/interviewer/{id}
+  controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewHistory::handle
+  methods: [ GET ]
+
 recruitment_module_under_development: # remove this
   path: /recruitment/{screen}
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle

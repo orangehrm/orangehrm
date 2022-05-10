@@ -1,0 +1,296 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+<template>
+  <div class="orangehrm-background-container orangehrm-save-candidate-page">
+    <div class="orangehrm-card-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('recruitment.schedule_interview') }}
+      </oxd-text>
+      <oxd-divider />
+      <oxd-form :loading="isLoading" @submitValid="onSave">
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                :label="$t('recruitment.candidate')"
+                disabled
+                :value="schedule.candidate"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                :label="$t('recruitment.vacancy')"
+                disabled
+                :value="schedule.vacancy"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                :label="$t('recruitment.hiring_manager')"
+                disabled
+                :value="schedule.hiringManager"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                :label="$t('recruitment.current_status')"
+                disabled
+                :value="schedule.status"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="schedule.title"
+                :label="$t('recruitment.interview_title')"
+                :placeholder="$t('general.type_for_hints')"
+                :rules="rules.title"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <project-admin-autocomplete
+                v-for="(interviewer, index) in interviewers"
+                :key="index"
+                v-model="interviewer.value"
+                :label="$t('recruitment.interviewer')"
+                :show-delete="index > 0"
+                :rules="index === 0 ? rules.interviewer : rules.interviewers"
+                include-employees="onlyCurrent"
+                required
+                @remove="onRemoveAdmin(index)"
+              />
+              <oxd-button
+                v-if="interviewers.length < 5"
+                icon-name="plus"
+                display-type="text"
+                :label="$t('general.add_another')"
+                @click="onAddAnother"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="schedule.date"
+                :label="$t('general.date')"
+                type="date"
+                :placeholder="$t('general.date_format')"
+                :rules="rules.date"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="schedule.time"
+                :label="$t('general.time')"
+                type="time"
+                :placeholder="$t('attendance.hh_mm')"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item
+              class="orangehrm-save-candidate-page --span-column-2"
+            >
+              <oxd-input-field
+                :label="$t('general.notes')"
+                type="textarea"
+                :placeholder="$t('general.type_for_hints')"
+                :v-model="schedule.note"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-divider />
+        <required-text></required-text>
+        <oxd-form-actions>
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.back')"
+            @click="onBack"
+          />
+          <submit-button :label="$t('general.save')" />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
+    <interview-attachments
+      :allowed-file-types="allowedFileTypes"
+    ></interview-attachments>
+  </div>
+</template>
+
+<script>
+import {APIService} from '@/core/util/services/api.service';
+import RequiredText from '@/core/components/labels/RequiredText';
+import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
+import {navigate} from '@/core/util/helper/navigation';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validDateFormat,
+} from '@ohrm/core/util/validation/rules';
+import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments';
+export default {
+  name: 'ScheduleInterview',
+  components: {
+    'interview-attachments': InterviewAttachments,
+    'required-text': RequiredText,
+    'project-admin-autocomplete': ProjectAdminAutocomplete,
+  },
+  props: {
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+  },
+  setup() {
+    const http = new APIService(
+      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'recruitment/scheduleInterview',
+    );
+    return {
+      http,
+    };
+  },
+  data() {
+    return {
+      isLoading: false,
+      schedule: {
+        candidate: null,
+        vacancy: null,
+        hiringManager: null,
+        status: null,
+        performedAction: null,
+        performedBy: null,
+        performedDate: null,
+        title: '',
+        interviewers: null,
+        date: null,
+        time: null,
+        notes: null,
+      },
+      statuses: [
+        {
+          id: 1,
+          label: this.$t('recruitment.application_initiated'),
+        },
+        {
+          id: 2,
+          label: this.$t('recruitment.shortlisted'),
+        },
+        {
+          id: 3,
+          label: this.$t('recruitment.interview_scheduled'),
+        },
+        {
+          id: 4,
+          label: this.$t('recruitment.interview_passed'),
+        },
+        {
+          id: 5,
+          label: this.$t('recruitment.interview_failed'),
+        },
+        {
+          id: 6,
+          label: this.$t('recruitment.job_offered'),
+        },
+        {
+          id: 7,
+          label: this.$t('recruitment.offered_declined'),
+        },
+      ],
+      rules: {
+        interviewer: [required],
+        interviewers: [
+          value => {
+            return this.interviewers.filter(
+              ({value: interviewer}) =>
+                interviewer && interviewer.id === value?.id,
+            ).length < 2
+              ? true
+              : this.$t('general.already_exists');
+          },
+        ],
+        date: [required, validDateFormat()],
+        title: [required, shouldNotExceedCharLength(100)],
+      },
+      interviewers: [{value: null}],
+      interviewerId: null,
+    };
+  },
+  beforeMount() {
+    this.http.getAll().then(({data: {data}}) => {
+      const {vacancy, candidate, manager, status, ...rest} = data;
+      this.schedule = {
+        cid: candidate.id,
+        hid: data.id,
+        candidate: `${candidate.firstName} ${candidate.middleName} ${candidate.lastName}`,
+        vacancy: vacancy.title,
+        hiringManager: `${manager.firstName} ${manager.middleName} ${manager.lastName}`,
+        status: this.statuses.find(({id}) => id === status)?.label,
+        ...rest,
+      };
+    });
+  },
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({})
+        .then(result => {
+          this.interviewerId = result.data?.data.id;
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          navigate(
+            `/recruitment/jobInterview/history/${this.schedule.hid}/interviewer/${this.interviewerId}`,
+          );
+        });
+    },
+    onBack() {
+      navigate(`/recruitment/addCandidate/${this.schedule.cid}`);
+    },
+    onAddAnother() {
+      this.interviewers.push({value: null});
+    },
+    onRemoveAdmin(index) {
+      this.interviewers.splice(index, 1);
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.orangehrm-project-admin-input {
+  align-items: center;
+}
+</style>
