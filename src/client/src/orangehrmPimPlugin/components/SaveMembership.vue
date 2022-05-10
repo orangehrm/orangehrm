@@ -64,8 +64,6 @@
             <date-input
               v-model="membership.subscriptionCommenceDate"
               :label="$t('pim.subscription_commence_date')"
-              type="date"
-              placeholder="yyyy-mm-dd"
               :rules="rules.subscriptionCommenceDate"
             />
           </oxd-grid-item>
@@ -73,9 +71,7 @@
             <date-input
               v-model="membership.subscriptionRenewalDate"
               :label="$t('pim.subscription_renewal_date')"
-              type="date"
               :years="yearArray"
-              placeholder="yyyy-mm-dd"
               :rules="rules.subscriptionRenewalDate"
             />
           </oxd-grid-item>

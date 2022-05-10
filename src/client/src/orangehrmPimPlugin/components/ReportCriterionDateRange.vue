@@ -34,26 +34,29 @@
   >
     <oxd-input-field
       type="date"
-      placeholder="yyyy-mm-dd"
       :rules="rules.valueX"
       :model-value="valueX"
+      :placeholder="userDateFormat"
+      :display-format="jsDateFormat"
       @update:modelValue="$emit('update:valueX', $event)"
     />
     <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
     <oxd-input-field
       type="date"
-      placeholder="yyyy-mm-dd"
       :rules="rules.valueY"
       :model-value="valueY"
+      :placeholder="userDateFormat"
+      :display-format="jsDateFormat"
       @update:modelValue="$emit('update:valueY', $event)"
     />
   </oxd-grid-item>
   <oxd-grid-item v-else-if="operator">
     <oxd-input-field
       type="date"
-      placeholder="yyyy-mm-dd"
       :rules="rules.valueXOnly"
       :model-value="valueX"
+      :placeholder="userDateFormat"
+      :display-format="jsDateFormat"
       @update:modelValue="$emit('update:valueX', $event)"
     />
   </oxd-grid-item>
@@ -68,6 +71,7 @@ import {
   startDateShouldBeBeforeEndDate,
 } from '@ohrm/core/util/validation/rules';
 import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 export default {
   name: 'ReportCriterionDateRange',
@@ -92,6 +96,7 @@ export default {
   emits: ['update:valueX', 'update:valueY', 'update:operator'],
   setup(props) {
     const {$t} = usei18n();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const operators = ref([
       {id: 'lt', label: 'Joined before'},
       {id: 'gt', label: 'Joined after'},
@@ -122,6 +127,8 @@ export default {
     return {
       rules,
       operators,
+      jsDateFormat,
+      userDateFormat,
     };
   },
 };
