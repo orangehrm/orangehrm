@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">

@@ -18,6 +18,7 @@
  */
 
 namespace OrangeHRM\Recruitment\Controller;
+
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Vue\Component;
