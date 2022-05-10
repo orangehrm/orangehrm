@@ -19,6 +19,13 @@ apiv2_performance_employee_trackers:
   defaults:
     _api: OrangeHRM\Performance\Api\EmployeeTrackerAPI
 
+apiv2_performance_review_list:
+  path: /api/v2/performance/review-lists
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
 ##########################
 #        Screens
 ##########################
@@ -46,4 +53,9 @@ performance_kpi_save:
 performance_kpi_edit:
   path: /performance/saveKpi/{id}
   controller: OrangeHRM\Performance\Controller\KpiSaveController::handle
+  methods: [ GET ]
+
+performance_review_list:
+  path: /performance/searchEvaluatePerformancReview #typo is present in 4.x URL
+  controller: OrangeHRM\Performance\Controller\ReviewListController::handle
   methods: [ GET ]

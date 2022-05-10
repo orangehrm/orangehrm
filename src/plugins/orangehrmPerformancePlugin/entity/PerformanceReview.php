@@ -22,13 +22,19 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\PerformanceReviewDecorator;
 
 /**
+ * @method PerformanceReviewDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_performance_review")
  * @ORM\Entity
  */
 class PerformanceReview
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
