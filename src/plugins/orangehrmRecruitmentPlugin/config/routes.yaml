@@ -1,22 +1,23 @@
 candidate_shortlist:
   path: /recruitment/vacancy/{vid}/action/{aid}
   controller: OrangeHRM\Recruitment\Controller\ShortlistCandidateController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 view_shortlist_history:
-  path: /recruitment/viewCandidates
+  path: /recruitment/VacancyStatus
   controller: OrangeHRM\Recruitment\Controller\ShortlistHistoryController::handle
+
 view_recruitment_candidates:
   path: /recruitment/viewCandidates
   controller: OrangeHRM\Recruitment\Controller\ViewCandidateController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 save_recruitment_candidates:
   path: /recruitment/addCandidate
   controller: OrangeHRM\Recruitment\Controller\SaveCandidateController::handle
-  methods: [GET]
+  methods: [ GET ]
 
 recruitment_module_under_development: # remove this
   path: /recruitment/{screen}
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
-  methods: [GET]
+  methods: [ GET ]

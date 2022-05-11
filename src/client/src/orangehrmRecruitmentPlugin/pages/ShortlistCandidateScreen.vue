@@ -140,7 +140,7 @@ export default {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/viewCandidates');
+          navigate('/recruitment/VacancyStatus');
         });
     },
     onBack() {
