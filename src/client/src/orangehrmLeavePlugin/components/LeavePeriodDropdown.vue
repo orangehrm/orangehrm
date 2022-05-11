@@ -29,6 +29,10 @@
 <script>
 import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
+
 export default {
   name: 'LeavePeriodDropdown',
   setup() {
@@ -37,15 +41,26 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/leave-periods',
     );
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
         options.value = data.data.map(item => {
+          const startDate = formatDate(
+            parseDate(item.startDate),
+            jsDateFormat,
+            {locale},
+          );
+          const endDate = formatDate(parseDate(item.endDate), jsDateFormat, {
+            locale,
+          });
+
           return {
             id: `${item.startDate}_${item.endDate}`,
-            label: `${item.startDate} - ${item.endDate}`,
-            startDate: item.startDate,
-            endDate: item.endDate,
+            label: `${startDate} - ${endDate}`,
+            startDate: startDate,
+            endDate: endDate,
           };
         });
       });
