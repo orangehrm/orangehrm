@@ -3,6 +3,8 @@
 namespace OrangeHRM\Performance\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -15,7 +17,7 @@ use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
 
-class MyReviewsAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements \OrangeHRM\Core\Api\V2\CrudEndpoint
+class MyReviewsAPI extends Endpoint implements CrudEndpoint
 {
     use AuthUserTrait;
     use PerformanceReviewServiceTrait;
@@ -51,11 +53,11 @@ class MyReviewsAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements \OrangeHRM
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(
+                new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
                 new Rule(Rules::POSITIVE)
             ),
-        ),
+            ),
             ...$this->getSortingAndPaginationParamsRules(PerformanceReviewSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
