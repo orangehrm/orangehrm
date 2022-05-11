@@ -73,18 +73,9 @@ import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayo
 import SaveDependent from '@/orangehrmPimPlugin/components/SaveDependent';
 import EditDependent from '@/orangehrmPimPlugin/components/EditDependent';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-
-const dependentNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      dateOfBirth: item.dateOfBirth,
-      name: item.name,
-      relationship:
-        item.relationshipType == 'other' ? item.relationship : 'Child',
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   components: {
@@ -111,6 +102,22 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.empNumber}/dependents`,
     );
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    const dependentNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          name: item.name,
+          dateOfBirth: formatDate(parseDate(item.dateOfBirth), jsDateFormat, {
+            locale,
+          }),
+          relationship:
+            item.relationshipType == 'other' ? item.relationship : 'Child',
+        };
+      });
+    };
 
     const {
       showPaginator,

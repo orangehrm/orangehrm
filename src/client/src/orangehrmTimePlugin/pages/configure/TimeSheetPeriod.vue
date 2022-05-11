@@ -52,9 +52,9 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {enGB} from 'date-fns/locale';
 import {required} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
+import useLocale from '@/core/util/composable/useLocale';
 
 const timeSheetPeriodModel = {
   startDay: null,
@@ -66,8 +66,10 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/time/time-sheet-period',
     );
+    const {locale} = useLocale();
     return {
       http,
+      locale,
     };
   },
   data() {
@@ -86,7 +88,7 @@ export default {
         .map((...[, index]) => {
           return {
             id: index === 0 ? 7 : index,
-            label: enGB.localize.day(index, {
+            label: this.locale.localize.day(index, {
               width: 'wide',
             }),
           };

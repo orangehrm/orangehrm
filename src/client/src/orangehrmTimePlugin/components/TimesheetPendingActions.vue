@@ -54,20 +54,10 @@
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-
-const actionsNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      startDate: item.startDate,
-      empNumber: item.employee.empNumber,
-      period: `${item.startDate} - ${item.endDate}`,
-      employee: `${item.employee?.firstName} ${item.employee?.lastName} ${
-        item.employee?.terminationId ? ' (Past Employee)' : ''
-      }`,
-    };
-  });
-};
+import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'TimesheetPendingActions',
@@ -77,6 +67,31 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/time/employees/timesheets/list',
     );
+    const {$t} = usei18n();
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    const actionsNormalizer = data => {
+      return data.map(item => {
+        const startDate = formatDate(parseDate(item.startDate), jsDateFormat, {
+          locale,
+        });
+        const endDate = formatDate(parseDate(item.endDate), jsDateFormat, {
+          locale,
+        });
+        const empName = `${item.employee?.firstName} ${item.employee?.middleName} ${item.employee?.lastName}`;
+        if (item.employee?.terminationId) {
+          empName + ` (${$t('general.past_employee')})`;
+        }
+        return {
+          id: item.id,
+          startDate: item.startDate,
+          empNumber: item.employee.empNumber,
+          period: `${startDate} - ${endDate}`,
+          employee: empName,
+        };
+      });
+    };
 
     const {
       showPaginator,

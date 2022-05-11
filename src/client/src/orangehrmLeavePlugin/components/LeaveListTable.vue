@@ -82,67 +82,9 @@ import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsM
 import LeaveBulkActionModal from '@/orangehrmLeavePlugin/components/LeaveBulkActionModal';
 import LeaveListTableHeader from '@/orangehrmLeavePlugin/components/LeaveListTableHeader';
 import usei18n from '@/core/util/composable/usei18n';
-
-const leavelistNormalizer = data => {
-  return data.map(item => {
-    let leaveDatePeriod,
-      leaveStatuses,
-      leaveBalances = '';
-    const duration = item.dates.durationType?.type;
-
-    if (item.dates.fromDate) {
-      leaveDatePeriod = item.dates.fromDate;
-    }
-    if (item.dates.toDate) {
-      leaveDatePeriod += ` to ${item.dates.toDate}`;
-    }
-    if (item.dates.startTime && item.dates.endTime) {
-      leaveDatePeriod += ` (${item.dates.startTime} - ${item.dates.endTime})`;
-    }
-    if (duration === 'half_day_morning' || duration === 'half_day_afternoon') {
-      leaveDatePeriod += ' Half Day';
-    }
-    if (Array.isArray(item.leaveBreakdown)) {
-      leaveStatuses = item.leaveBreakdown
-        .map(
-          status =>
-            `${status.name} (${parseFloat(status.lengthDays).toFixed(2)})`,
-        )
-        .join(', ');
-    }
-    if (Array.isArray(item.leaveBalances)) {
-      if (item.leaveBalances.length > 1) {
-        leaveBalances = item.leaveBalances
-          .map(
-            ({period, balance}) => `${parseFloat(balance.balance).toFixed(2)}
-         (${period.startDate} - ${period.endDate})`,
-          )
-          .join(', ');
-      } else {
-        const balance = item.leaveBalances[0]?.balance.balance;
-        leaveBalances = balance ? parseFloat(balance).toFixed(2) : '0.00';
-      }
-    }
-
-    const name = `${item.employee?.firstName} ${item.employee?.middleName} ${item.employee?.lastName}`;
-
-    return {
-      id: item.id,
-      empNumber: item.employee?.empNumber,
-      date: leaveDatePeriod,
-      employeeName: `${name} ${
-        item.employee?.terminationId ? ' (past_employee)' : ''
-      }`,
-      leaveType:
-        item.leaveType?.name + `${item.leaveType?.deleted ? 'deleted' : ''}`,
-      leaveBalance: leaveBalances,
-      days: parseFloat(item.noOfDays).toFixed(2),
-      status: leaveStatuses,
-      comment: truncate(item.lastComment?.comment),
-      actions: item.allowedActions,
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 const defaultFilters = {
   employee: null,
@@ -216,6 +158,8 @@ export default {
     });
     const checkedItems = ref([]);
     const {$t} = usei18n();
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     const rules = {
       fromDate: [required],
@@ -255,6 +199,93 @@ export default {
         props.myLeaveList ? 'leave-requests' : 'employees/leave-requests'
       }`,
     );
+
+    const leavelistNormalizer = data => {
+      return data.map(item => {
+        let leaveDatePeriod,
+          leaveStatuses,
+          leaveBalances = '';
+        const duration = item.dates.durationType?.type;
+
+        if (item.dates.fromDate) {
+          leaveDatePeriod = formatDate(
+            parseDate(item.dates.fromDate),
+            jsDateFormat,
+            {locale},
+          );
+        }
+        if (item.dates.toDate) {
+          leaveDatePeriod += ` to ${formatDate(
+            parseDate(item.dates.toDate),
+            jsDateFormat,
+            {locale},
+          )}`;
+        }
+        if (item.dates.startTime && item.dates.endTime) {
+          leaveDatePeriod += ` (${item.dates.startTime} - ${item.dates.endTime})`;
+        }
+        if (
+          duration === 'half_day_morning' ||
+          duration === 'half_day_afternoon'
+        ) {
+          leaveDatePeriod += ` ${$t('leave.half_day')}`;
+        }
+        if (Array.isArray(item.leaveBreakdown)) {
+          leaveStatuses = item.leaveBreakdown
+            .map(
+              status =>
+                `${status.name} (${parseFloat(status.lengthDays).toFixed(2)})`,
+            )
+            .join(', ');
+        }
+        if (Array.isArray(item.leaveBalances)) {
+          if (item.leaveBalances.length > 1) {
+            leaveBalances = item.leaveBalances
+              .map(({period, balance}) => {
+                const _balance = parseFloat(balance.balance).toFixed(2);
+                const startDate = formatDate(
+                  parseDate(period.startDate),
+                  jsDateFormat,
+                  {locale},
+                );
+                const endDate = formatDate(
+                  parseDate(period.endDate),
+                  jsDateFormat,
+                  {locale},
+                );
+                return `${_balance} (${startDate} - ${endDate})`;
+              })
+              .join(', ');
+          } else {
+            const balance = item.leaveBalances[0]?.balance.balance;
+            leaveBalances = balance ? parseFloat(balance).toFixed(2) : '0.00';
+          }
+        }
+
+        const empName = `${item.employee?.firstName} ${item.employee?.middleName} ${item.employee?.lastName}`;
+        const leaveTypeName = item.leaveType?.name;
+
+        if (item.employee?.terminationId) {
+          empName + ` (${$t('general.past_employee')})`;
+        }
+        if (item.leaveType?.deleted) {
+          leaveTypeName + ` (${$t('general.deleted')})`;
+        }
+
+        return {
+          id: item.id,
+          empNumber: item.employee?.empNumber,
+          date: leaveDatePeriod,
+          employeeName: empName,
+          leaveType: leaveTypeName,
+          leaveBalance: leaveBalances,
+          days: parseFloat(item.noOfDays).toFixed(2),
+          status: leaveStatuses,
+          comment: truncate(item.lastComment?.comment),
+          actions: item.allowedActions,
+        };
+      });
+    };
 
     const {
       leaveActions,

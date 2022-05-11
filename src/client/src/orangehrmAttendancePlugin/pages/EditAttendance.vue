@@ -47,12 +47,10 @@
                 </oxd-grid-item>
 
                 <oxd-grid-item class="--offset-row-2">
-                  <oxd-input-field
+                  <date-input
                     v-model="attendance.punchIn.userDate"
                     :label="$t('general.date')"
                     :rules="rules.punchIn.userDate"
-                    type="date"
-                    :placeholder="$t('general.date_format')"
                     required
                   />
                 </oxd-grid-item>
@@ -99,12 +97,10 @@
                 </oxd-grid-item>
 
                 <oxd-grid-item class="--offset-row-2">
-                  <oxd-input-field
+                  <date-input
                     v-model="attendance.punchOut.userDate"
                     :label="$t('general.date')"
                     :rules="rules.punchOut.userDate"
-                    type="date"
-                    :placeholder="$t('general.date_format')"
                     required
                   />
                 </oxd-grid-item>
