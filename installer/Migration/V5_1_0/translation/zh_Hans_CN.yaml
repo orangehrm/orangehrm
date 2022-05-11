@@ -1,4 +1,22 @@
 translations:
+    - { target: '空缺职位', unitId: vacancy, group: recruitment }
+    - { target: '招聘经理', unitId: hiring_manager, group: recruitment }
+    - { target: '候选人姓名', unitId: candidate_name, group: recruitment }
+    - { target: '关键词', unitId: keywords, group: recruitment }
+    - { target: '申请日期', unitId: date_of_application, group: recruitment }
+    - { target: '申请方法', unitId: method_of_application, group: recruitment }
+    - { target: '输入用逗号分隔的单词', unitId: enter_comma_se, group: recruitment }
+    - { target: '候选人', unitId: candidate, group: recruitment }
+    - { target: '入围', unitId: shortlisted, group: recruitment }
+    - { target: '面试已安排', unitId: interview_scheduled, group: recruitment }
+    - { target: '面试通过', unitId: interview_passed, group: recruitment }
+    - { target: '面试失败', unitId: interview_failed, group: recruitment }
+    - { target: '发出了工作邀请', unitId: job_offered, group: recruitment }
+    - { target: '手册', unitId: manual, group: recruitment }
+    - { target: '在线', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: '恢复', unitId: resume, group: recruitment }
+    - { target: '添加候选人', unitId: add_candidate, group: recruitment }
     - { target: 四月, unitId: april, group: general }
     - { target: 八月, unitId: august, group: general }
     - { target: 十二月, unitId: december, group: general }

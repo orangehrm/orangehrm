@@ -1,4 +1,22 @@
 translations:
+    - { target: 'Vacant', unitId: vacancy, group: recruitment }
+    - { target: 'Manager qui recrute', unitId: hiring_manager, group: recruitment }
+    - { target: 'Nom du candidat', unitId: candidate_name, group: recruitment }
+    - { target: 'Mots-clés', unitId: keywords, group: recruitment }
+    - { target: 'Date de la demande', unitId: date_of_application, group: recruitment }
+    - { target: 'Méthode de candidature', unitId: method_of_application, group: recruitment }
+    - { target: 'Entrez les mots séparés par des virgules', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Candidat', unitId: candidate, group: recruitment }
+    - { target: 'Mis dans la shortlist', unitId: shortlisted, group: recruitment }
+    - { target: 'Entretien prévu', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Entretien positif', unitId: interview_passed, group: recruitment }
+    - { target: 'Entretien négatif', unitId: interview_failed, group: recruitment }
+    - { target: 'Poste proposé', unitId: job_offered, group: recruitment }
+    - { target: 'Manuel', unitId: manual, group: recruitment }
+    - { target: 'En ligne', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Reprendre', unitId: resume, group: recruitment }
+    - { target: 'Reprendre', unitId: add_candidate, group: recruitment }
     - { target: Avril, unitId: april, group: general }
     - { target: Août, unitId: august, group: general }
     - { target: Décembre, unitId: december, group: general }
