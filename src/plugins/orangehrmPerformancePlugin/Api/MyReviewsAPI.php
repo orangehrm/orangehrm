@@ -54,9 +54,9 @@ class MyReviewsAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::POSITIVE)
-            ),
+                    CommonParams::PARAMETER_EMP_NUMBER,
+                    new Rule(Rules::POSITIVE)
+                ),
             ),
             ...$this->getSortingAndPaginationParamsRules(PerformanceReviewSearchFilterParams::ALLOWED_SORT_FIELDS)
         );

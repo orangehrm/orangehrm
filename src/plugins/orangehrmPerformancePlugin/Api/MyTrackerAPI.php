@@ -21,6 +21,9 @@ class MyTrackerAPI extends Endpoint implements CrudEndpoint
     use DateTimeHelperTrait;
     use PerformanceTrackerServiceTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointResult
     {
         $performanceTrackerSearchParamHolder = new PerformanceTrackerSearchFilterParams();
@@ -42,46 +45,73 @@ class MyTrackerAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(...$this->getSortingAndPaginationParamsRules(PerformanceTrackerSearchFilterParams::ALLOWED_SORT_FIELDS));
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOne(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
