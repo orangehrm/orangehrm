@@ -1,9 +1,26 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
  */
+
+namespace OrangeHRM\Performance\Service;
+
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 
 /**
  * Description of PerformanceReviewService
@@ -12,108 +29,18 @@
  */
 class PerformanceReviewService
 {
-    public $dao;
+    use NormalizerServiceTrait;
+
+    private ?PerformanceReviewDao $performanceReviewDao = null;
 
     /**
-     *
-     * @return PerformanceReviewDao
+     * @return PerformanceReviewDao|null
      */
-    public function getDao()
+    public function getPerformanceReviewDao(): ?PerformanceReviewDao
     {
-        if ($this->dao != null) {
-            return $this->dao;
-        } else {
-            return new PerformanceReviewDao();
+        if (! ($this->performanceReviewDao instanceof PerformanceReviewDao)) {
+            $this->performanceReviewDao = new PerformanceReviewDao();
         }
-    }
-
-    /**
-     *
-     * @param KpiDao $dao
-     */
-    public function setDao($dao)
-    {
-        $this->dao = $dao;
-    }
-
-    /**
-     *
-     * @param sfDoctrineRecord $review
-     * @return PerformanceReview
-     */
-    public function saveReview(sfDoctrineRecord $review)
-    {
-        return $this->getDao()->saveReview($review);
-    }
-
-    /**
-     *
-     * @param array $parameters
-     * @return Doctrine_Collection
-     */
-    public function searchReview($parameters, $order = null)
-    {
-        return $this->getDao()->searchReview($parameters, $order);
-    }
-
-    /**
-     *
-     * @return boolean
-     */
-    public function deleteReview($ids)
-    {
-        return $this->getDao()->deleteReview($ids);
-    }
-
-    /**
-     *
-     * @param integer $id
-     * @return type
-     */
-    public function deleteReviewersByReviewId($id)
-    {
-        return $this->getDao()->deleteReviewersByReviewId($id);
-    }
-
-    /**
-     *
-     * @param type $id
-     * @return type
-     */
-    public function getReviewRating($id = null)
-    {
-        $parameters ['id'] =  $id;
-        return $this->getDao()->searchRating($parameters);
-    }
-
-    /**
-     *
-     * @param type $id
-     * @return type
-     */
-    public function searchReviewRating($parameters)
-    {
-        return $this->getDao()->searchRating($parameters);
-    }
-
-    public function getReviwerEmployeeList($reviwerEmployeeId)
-    {
-        return $this->getDao()->getReviwerEmployeeList($reviwerEmployeeId);
-    }
-
-    public function getCountReviewList($parameters)
-    {
-        $reviewList = $this->getDao()->searchReview($parameters);
-        return count($reviewList);
-    }
-
-    public function getReviewById($id)
-    {
-        return $this->getDao()->getReviewById($id);
-    }
-
-    public function getReviewsByReviewerId($reviwerId)
-    {
-        return $this->getDao()->getReviewsByReviewerId($reviwerId);
+        return $this->performanceReviewDao;
     }
 }

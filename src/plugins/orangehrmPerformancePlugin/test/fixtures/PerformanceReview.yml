@@ -20,10 +20,10 @@ PerformanceReview:
   2: {id: 7, status_id: 1, employee_number: 2, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-05'}
   
 Reviewer:
-  0: {id: 1, review_id: 5, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: 'null', comment: 'Test Comment 1'}
+  0: {id: 1, review_id: 5, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 1'}
   1: {id: 2, review_id: 5, employee_number: 1, status: 3, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 2'}
   2: {id: 3, review_id: 6, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 3'}
-  3: {id: 4, review_id: 6, employee_number: 2, status: 1, reviewer_group_id: 2, completed_date: 'null', comment: 'Test Comment 4'}
+  3: {id: 4, review_id: 6, employee_number: 2, status: 1, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 4'}
   
 ReviewerRating:
   0: {id: 1, rating: '5.5', kpi_id: 2, review_id: 5, reviewer_id: 1 ,comment: 'Test comment 1'}

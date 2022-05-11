@@ -48,11 +48,18 @@ apiv2_performance_reviewer_autocomplete:
     _api: OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI
 
 apiv2_performance_my_trackers:
-  path: /api/v2/leave/myTracker
+  path: /api/v2/performance/myTracker
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Performance\Api\MyTrackerAPI
+
+apiv2_performance_my_reviews:
+  path: /api/v2/performance/myReview
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\MyReviewsAPI
 
 ##########################
 #        Screens
@@ -96,4 +103,9 @@ add_performance_tracker:
 edit_performance_tracker:
   path: /performance/savePerformanceTracker/{id}
   controller: OrangeHRM\Performance\Controller\SavePerformanceTrackerController::handle
+  methods: [ GET ]
+
+performance_my_reviews:
+  path: /performance/myPerformanceReview
+  controller: OrangeHRM\Performance\Controller\MyReviewController::handle
   methods: [ GET ]

@@ -20,7 +20,7 @@
 namespace OrangeHRM\Performance\Service;
 
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+    use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 
 class PerformanceTrackerReviewerService
 {

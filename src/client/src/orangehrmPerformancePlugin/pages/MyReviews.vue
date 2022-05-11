@@ -23,7 +23,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('performance.my_performance_trackers') }}
+          {{ $t('general.my_reviews') }}
         </oxd-text>
       </div>
       <table-header :selected="0" :total="total" :loading="isLoading">
@@ -48,29 +48,28 @@
   </div>
 </template>
 <script>
-import {computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
-import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
-import useDateFormat from '@/core/util/composable/useDateFormat';
-import useLocale from '@/core/util/composable/useLocale';
+import {computed} from 'vue';
 
 const trackerNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      tracker: item.trackerName,
-      addDate: item.addedDate,
-      modifiedDate: item.modifiedDate,
+      jobTitle: item.jobTitle.name,
+      department: item.department.name,
+      reviewPeriod: item.workPeriodStart + ' - ' + item.workPeriodEnd,
+      dueDate: item.dueDate,
+      status: item.status,
     };
   });
 };
 
 const defaultSortOrder = {
-  'performanceTracker.trackerName': 'DEFAULT',
-  'performanceTracker.addedDate': 'DEFAULT',
-  'performanceTracker.modifiedDate': 'DESC',
+  'performanceReview.statusId': 'ASC',
+  'performanceReview.dueDate': 'ASC',
+  'performanceReview.reviewPeriod': 'DEFAULT',
 };
 
 export default {
@@ -88,22 +87,8 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/myTracker',
+      '/api/v2/performance/myReview',
     );
-    const {jsDateFormat} = useDateFormat();
-    const {locale} = useLocale();
-
-    const trackerNormalizer = data => {
-      return data.map(item => {
-        return {
-          ...item,
-          date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
-          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
-            locale,
-          }),
-        };
-      });
-    };
 
     const {
       currentPage,
@@ -139,22 +124,32 @@ export default {
     return {
       headers: [
         {
-          name: 'tracker',
+          name: 'jobTitle',
           slot: 'title',
-          title: this.$t('performance.tracker'),
-          sortField: 'performanceTracker.trackerName',
-          style: {flex: '30%'},
-        },
-        {
-          name: 'addDate',
-          title: this.$t('performance.added_date'),
-          sortField: 'performanceTracker.addedDate',
+          title: this.$t('general.job_title'),
           style: {flex: 1},
         },
         {
-          name: 'modifiedDate',
-          title: this.$t('performance.modified_date'),
-          sortField: 'performanceTracker.modifiedDate',
+          name: 'department',
+          title: this.$t('general.department'),
+          style: {flex: 1},
+        },
+        {
+          name: 'reviewPeriod',
+          title: this.$t('performance.review_period'),
+          sortField: 'performanceReview.reviewPeriod',
+          style: {flex: 2},
+        },
+        {
+          name: 'dueDate',
+          title: this.$t('performance.due_date'),
+          sortField: 'performanceReview.dueDate',
+          style: {flex: 1},
+        },
+        {
+          name: 'status',
+          title: this.$t('general.status'),
+          sortField: 'performanceReview.statusId',
           style: {flex: 1},
         },
         {
