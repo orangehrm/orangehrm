@@ -173,7 +173,7 @@
         class="orangehrm-terminate-date"
         @click="openTerminateModal"
       >
-        {{ $t('pim.terminated_on') }}: {{ termination.date }}
+        {{ $t('pim.terminated_on') }}: {{ terminationDate }}
       </oxd-text>
     </div>
     <terminate-modal
@@ -201,6 +201,9 @@ import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@ohrm/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -273,9 +276,13 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.empNumber}/job-details`,
     );
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
 
     return {
       http,
+      jsDateFormat,
+      locale,
     };
   },
 
@@ -333,6 +340,13 @@ export default {
             : jobTitle.label,
         };
       });
+    },
+    terminationDate() {
+      return this.termination?.date
+        ? formatDate(parseDate(this.termination.date), this.jsDateFormat, {
+            locale: this.locale,
+          })
+        : null;
     },
   },
 

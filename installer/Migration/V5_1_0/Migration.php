@@ -24,8 +24,9 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
-    protected ?TranslationHelper $translationHelper = null;
     protected ?LangStringHelper $langStringHelper = null;
+
+    protected ?TranslationHelper $translationHelper = null;
 
     public function up(): void
     {
@@ -46,6 +47,11 @@ class Migration extends AbstractMigration
         $groups = ['recruitment'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+        }
+
+        $groups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
+        foreach ($groups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
@@ -75,6 +81,11 @@ class Migration extends AbstractMigration
         }
     }
 
+    public function getVersion(): string
+    {
+        return '5.1.0';
+    }
+
     /**
      * @return LangStringHelper
      */
@@ -95,10 +106,5 @@ class Migration extends AbstractMigration
             $this->translationHelper = new TranslationHelper($this->getConnection());
         }
         return $this->translationHelper;
-    }
-
-    public function getVersion(): string
-    {
-        return '5.1.0';
     }
 }

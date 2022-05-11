@@ -42,6 +42,7 @@
 import {provide, readonly, ref} from 'vue';
 import About from '@/core/pages/About.vue';
 import Layout from '@ohrm/oxd/core/components/Layout/Layout.vue';
+import {dateFormatKey} from '@/core/util/composable/useDateFormat';
 
 export default {
   components: {
@@ -66,10 +67,15 @@ export default {
       type: String,
       default: '#',
     },
+    dateFormat: {
+      type: Object,
+      default: null,
+    },
   },
   setup(props) {
     const showAboutModel = ref(false);
     provide('permissions', readonly(props.permissions));
+    provide(dateFormatKey, readonly(props.dateFormat));
 
     const openAboutModel = () => {
       showAboutModel.value = true;

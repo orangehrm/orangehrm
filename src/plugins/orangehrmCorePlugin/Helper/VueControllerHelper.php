@@ -62,12 +62,14 @@ class VueControllerHelper
         'Y-m-d' => 'yyyy-mm-dd',
         'd-m-Y' => 'dd-mm-yyyy',
         'm-d-Y' => 'mm-dd-yyyy',
+        'Y-d-m' => 'yyyy-dd-mm',
+        'm-Y-d' => 'mm-yyyy-dd',
+        'd-Y-m' => 'dd-yyyy-mm',
         'Y/m/d' => 'yyyy/mm/dd',
-        'd/m/Y' => 'dd/mm/yyyy',
-        'm/d/Y' => 'mm/dd/yyyy',
-        'Y.m.d' => 'yyyy.mm.dd',
-        'd.m.Y' => 'dd.mm.yyyy',
-        'm.d.Y' => 'mm.dd.yyyy'
+        'Y m d' => 'yyyy mm dd',
+        'Y-M-d' => 'yyyy-M-dd',
+        'l, d-M-Y' => 'DD, dd-M-yyyy',
+        'D, d M Y' => 'D, dd M yyyy'
     ];
 
     /**

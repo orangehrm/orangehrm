@@ -22,9 +22,9 @@ import useToast from '@/core/util/composable/useToast';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
-import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
-
-const translate = translatorFactory();
+import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default function useTimesheet(
   http: APIService,
@@ -38,6 +38,9 @@ export default function useTimesheet(
     fetchTimesheetEntries,
   } = useTimesheetAPIs(http);
   const {noRecordsFound, success} = useToast();
+  const {$t} = usei18n();
+  const {jsDateFormat} = useDateFormat();
+  const {locale} = useLocale();
   state.date = date ? date : formatDate(freshDate(), 'yyyy-MM-dd');
 
   const loadTimesheet = (date: string | null): void => {
@@ -99,8 +102,8 @@ export default function useTimesheet(
       state.isLoading = true;
       updateTimesheet(state.timesheetId, 'SUBMIT', null, empNumber).then(() => {
         success({
-          title: translate('general.success'),
-          message: translate('time.timesheet_submitted'),
+          title: $t('general.success'),
+          message: $t('time.timesheet_submitted'),
         });
         state.timesheetId = null;
         loadTimesheet(state.date);
@@ -113,8 +116,8 @@ export default function useTimesheet(
       state.isLoading = true;
       updateTimesheet(state.timesheetId, 'RESET', null, empNumber).then(() => {
         success({
-          title: translate('general.success'),
-          message: translate('time.timesheet_reset'),
+          title: $t('general.success'),
+          message: $t('time.timesheet_reset'),
         });
         state.timesheetId = null;
         loadTimesheet(state.date);
@@ -128,8 +131,8 @@ export default function useTimesheet(
       updateTimesheet(state.timesheetId, 'APPROVE', comment, empNumber).then(
         () => {
           success({
-            title: translate('general.success'),
-            message: translate('time.timesheet_approved'),
+            title: $t('general.success'),
+            message: $t('time.timesheet_approved'),
           });
           state.timesheetId = null;
           loadTimesheet(state.date);
@@ -144,8 +147,8 @@ export default function useTimesheet(
       updateTimesheet(state.timesheetId, 'REJECT', comment, empNumber).then(
         () => {
           success({
-            title: translate('general.success'),
-            message: translate('time.timesheet_rejected'),
+            title: $t('general.success'),
+            message: $t('time.timesheet_rejected'),
           });
           state.timesheetId = null;
           loadTimesheet(state.date);
@@ -166,8 +169,8 @@ export default function useTimesheet(
       })
       .then(() => {
         success({
-          title: translate('general.success'),
-          message: translate('time.timesheet_successfully_created'),
+          title: $t('general.success'),
+          message: $t('time.timesheet_successfully_created'),
         });
         loadTimesheet(state.date);
       });
@@ -203,9 +206,13 @@ export default function useTimesheet(
   });
 
   const timesheetPeriod = computed(() => {
-    return state.timesheet
-      ? `${state.timesheet.startDate} to ${state.timesheet.endDate}`
-      : null;
+    const startDate = parseDate(state.timesheet?.startDate || '');
+    const endDate = parseDate(state.timesheet?.endDate || '');
+    if (!startDate || !endDate) return null;
+
+    return `${formatDate(startDate, jsDateFormat, {locale})} ${$t(
+      'general.to',
+    ).toLowerCase()} ${formatDate(endDate, jsDateFormat, {locale})}`;
   });
 
   return {

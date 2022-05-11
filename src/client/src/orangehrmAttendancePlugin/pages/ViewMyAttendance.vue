@@ -88,24 +88,12 @@ import {required} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
+import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import RecordCell from '@/orangehrmAttendancePlugin/components/RecordCell.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {getStandardTimezone} from '@/core/util/helper/datefns';
-
-const attendanceRecordNormalizer = data => {
-  return data.map(item => {
-    const {punchIn, punchOut} = item;
-    return {
-      id: item.id,
-      punchIn: punchIn,
-      punchOut: punchOut,
-      punchInNote: punchIn.note,
-      punchOutNote: punchOut.note,
-      duration: item.duration,
-    };
-  });
-};
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   components: {
@@ -141,6 +129,40 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/attendance/records',
     );
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    const attendanceRecordNormalizer = data => {
+      return data.map(item => {
+        const {punchIn, punchOut} = item;
+        const punchInDate = formatDate(
+          parseDate(punchIn?.userDate),
+          jsDateFormat,
+          {locale},
+        );
+        const punchOutDate = formatDate(
+          parseDate(punchOut?.userDate),
+          jsDateFormat,
+          {locale},
+        );
+
+        return {
+          id: item.id,
+          punchIn: {
+            ...punchIn,
+            userDate: punchInDate,
+          },
+          punchOut: {
+            ...punchOut,
+            userDate: punchOutDate,
+          },
+          punchInNote: punchIn.note,
+          punchOutNote: punchOut.note,
+          duration: item.duration,
+        };
+      });
+    };
+
     const {
       total,
       pages,

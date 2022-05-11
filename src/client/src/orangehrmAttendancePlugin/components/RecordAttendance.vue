@@ -30,7 +30,7 @@
           >
             <oxd-input-group :label="$t('attendance.punched_in_time')">
               <oxd-text type="subtitle-2">
-                {{ attendanceRecord.previousRecord.userDate }} -
+                {{ previousAttendanceRecordDate }} -
                 {{ attendanceRecord.previousRecord.userTime }}
                 <oxd-text
                   tag="span"
@@ -53,14 +53,12 @@
 
         <!-- Date Selector -->
         <oxd-grid-item class="--offset-row-2">
-          <oxd-input-field
+          <date-input
             :key="attendanceRecord.time"
             v-model="attendanceRecord.date"
             :label="$t('general.date')"
             :rules="rules.date"
             :disabled="!isEditable"
-            type="date"
-            :placeholder="$t('general.date_format')"
             required
           />
         </oxd-grid-item>
@@ -130,6 +128,8 @@ import {reloadPage, navigate} from '@/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 const attendanceRecordModal = {
   date: null,
@@ -171,9 +171,12 @@ export default {
       ? `/api/v2/attendance/employees/${props.employeeId}/records`
       : '/api/v2/attendance/records';
     const http = new APIService(window.appGlobal.baseUrl, apiPath);
-
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
     return {
       http,
+      jsDateFormat,
+      locale,
     };
   },
   data() {
@@ -187,6 +190,16 @@ export default {
       },
       previousRecordTimezone: null,
     };
+  },
+  computed: {
+    previousAttendanceRecordDate() {
+      if (!this.attendanceRecord?.previousRecord) return null;
+      return formatDate(
+        parseDate(this.attendanceRecord.previousRecord.userDate),
+        this.jsDateFormat,
+        {locale: this.locale},
+      );
+    },
   },
   beforeMount() {
     this.isLoading = true;
