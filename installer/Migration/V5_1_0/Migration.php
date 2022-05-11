@@ -48,6 +48,11 @@ class Migration extends AbstractMigration
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
+        $groups = ['general'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+        }
+
         $langCodes = [
             'bg_BG',
             'da_DK',

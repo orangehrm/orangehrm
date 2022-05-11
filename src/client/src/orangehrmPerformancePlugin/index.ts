@@ -24,6 +24,7 @@ import KpiSearch from './pages/KpiSearch.vue';
 import PerformanceTrackerList from '@/orangehrmPerformancePlugin/pages/PerformanceTrackers.vue';
 import SavePerformanceTracker from '@/orangehrmPerformancePlugin/pages/SavePerformanceTracker.vue';
 import EditPerformanceTracker from '@/orangehrmPerformancePlugin/pages/EditPerformanceTracker.vue';
+import MyReviews from './pages/MyReviews.vue';
 
 export default {
   'my-tracker': MyTracker,
@@ -34,4 +35,5 @@ export default {
   'performance-tracker-list': PerformanceTrackerList,
   'performance-tracker-save': SavePerformanceTracker,
   'performance-tracker-edit': EditPerformanceTracker,
+  'my-reviews': MyReviews,
 };

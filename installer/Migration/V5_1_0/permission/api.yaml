@@ -50,3 +50,16 @@ apiv2_performance_my_trackers:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
+
+apiv2_performance_my_reviews:
+  description: 'API-v2 Performance - MyReviews'
+  api: OrangeHRM\Performance\Api\MyReviewsAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
