@@ -1,4 +1,21 @@
 translations:
+    - { target: 'Вакантно място', unitId: vacancy, group: recruitment }
+    - { target: 'Отдаване под наем мениджър', unitId: hiring_manager, group: recruitment }
+    - { target: 'Името на Кандидата', unitId: candidate_name, group: recruitment }
+    - { target: 'Ключови думи', unitId: keywords, group: recruitment }
+    - { target: 'Дата на прилагане', unitId: date_of_application, group: recruitment }
+    - { target: 'Метод на приложение', unitId: method_of_application, group: recruitment }
+    - { target: 'ОВъведете разделени със запетая думи', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Добави кандидат', unitId: candidate, group: recruitment }
+    - { target: 'В списъка', unitId: shortlisted, group: recruitment }
+    - { target: 'Интервю Планирана', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Интервю Приет', unitId: interview_passed, group: recruitment }
+    - { target: 'Интервю Неуспешно', unitId: interview_failed, group: recruitment }
+    - { target: 'Работа предлагам', unitId: job_offered, group: recruitment }
+    - { target: 'Наръчник', unitId: manual, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
+    - { target: 'Резюме', unitId: resume, group: recruitment }
+    - { target: 'Добави кандидат', unitId: add_candidate, group: recruitment }
     - { target: 'Кратък списък', unitId: shortlist, group: recruitment }
     - { target: 'Текущ статус', unitId: current_status, group: recruitment }
     - { target: 'Извършва действие', unitId: performed_action, group: recruitment }

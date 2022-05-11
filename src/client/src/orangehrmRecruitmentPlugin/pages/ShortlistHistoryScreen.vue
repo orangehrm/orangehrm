@@ -138,44 +138,6 @@ export default {
         note: '',
         statusId: '',
       },
-      actions: [
-        {
-          id: 1,
-          label: 'Shortlist',
-        },
-        {
-          id: 2,
-          label: 'Schedule Interview',
-        },
-        {
-          id: 3,
-          label: 'Mark Interview',
-        },
-        {
-          id: 4,
-          label: 'Passed',
-        },
-        {
-          id: 5,
-          label: 'Failed',
-        },
-        {
-          id: 6,
-          label: 'Offer Job',
-        },
-        {
-          id: 7,
-          label: 'Decline Offer',
-        },
-        {
-          id: 7,
-          label: 'Hire',
-        },
-        {
-          id: 8,
-          label: 'Reject',
-        },
-      ],
     };
   },
   beforeMount() {
@@ -190,8 +152,7 @@ export default {
         manager:
           (manager?.terminationId ? this.$t('general.past_employee') : '') +
           fullName,
-        performedAction: this.actions.find(({id}) => id === performedAction)
-          ?.label,
+        performedAction: performedAction.label,
         cid: candidate.id,
         ...rest,
       };
