@@ -53,4 +53,4 @@ translations:
     - { target: Sep, unitId: sep, group: general }
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
-    - { target: Dec, unitId: dec, group: general
+    - { target: Dec, unitId: dec, group: general }
