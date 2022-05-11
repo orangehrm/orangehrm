@@ -22,7 +22,7 @@ namespace OrangeHRM\Performance\Dto;
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
 
-class PerformanceReviewSearchFilterParams extends FilterParams
+class ReviewListSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['employee.firstName', 'performanceReview.workPeriodStart',  'performanceReview.dueDate', 'performanceReview.statusId'];
 

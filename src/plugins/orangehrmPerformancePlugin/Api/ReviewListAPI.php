@@ -31,10 +31,10 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
-use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
+use OrangeHRM\Performance\Dto\ReviewListSearchFilterParams;
 use OrangeHRM\Performance\Service\PerformanceReviewService;
 
-class PerformanceReviewAPI extends Endpoint implements CollectionEndpoint
+class ReviewListAPI extends Endpoint implements CollectionEndpoint
 {
     private ?PerformanceReviewService $performanceReviewService = null;
 
@@ -50,57 +50,57 @@ class PerformanceReviewAPI extends Endpoint implements CollectionEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
-        $this->setSortingAndPaginationParams($performanceReviewSearchFilterParams);
+        $reviewListSearchFilterParams = new ReviewListSearchFilterParams();
+        $this->setSortingAndPaginationParams($reviewListSearchFilterParams);
 
-        $performanceReviewSearchFilterParams->setEmpNumber(
+        $reviewListSearchFilterParams->setEmpNumber(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_EMP_NUMBER
             )
         );
-        $performanceReviewSearchFilterParams->setJobTitleId(
+        $reviewListSearchFilterParams->setJobTitleId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_JOB_TITLE_ID
             )
         );
-        $performanceReviewSearchFilterParams->setSubUnitId(
+        $reviewListSearchFilterParams->setSubUnitId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_SUB_UNIT_ID
             )
         );
-        $performanceReviewSearchFilterParams->setStatusId(
+        $reviewListSearchFilterParams->setStatusId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_STATUS_ID
             )
         );
-        $performanceReviewSearchFilterParams->setFromDate(
+        $reviewListSearchFilterParams->setFromDate(
             $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_FROM_DATE
             )
         );
-        $performanceReviewSearchFilterParams->setToDate(
+        $reviewListSearchFilterParams->setToDate(
             $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_TO_DATE
             )
         );
 
-        $performanceReviews = $this->getPerformanceReviewService()
+        $reviewList = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
-            ->getPerformanceReviewList($performanceReviewSearchFilterParams);
-        $performanceReviewCount = $this->getPerformanceReviewService()
+            ->getReviewList($reviewListSearchFilterParams);
+        $reviewListCount = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
-            ->getPerformanceReviewCount($performanceReviewSearchFilterParams);
+            ->getReviewListCount($reviewListSearchFilterParams);
 
         return new EndpointCollectionResult(
             PerformanceReviewModel::class,
-            $performanceReviews,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => $performanceReviewCount])
+            $reviewList,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $reviewListCount])
         );
     }
 
@@ -132,7 +132,7 @@ class PerformanceReviewAPI extends Endpoint implements CollectionEndpoint
                 new ParamRule(self::FILTER_TO_DATE, new Rule(Rules::API_DATE))
             ),
             ...$this->getSortingAndPaginationParamsRules(
-                PerformanceReviewSearchFilterParams::ALLOWED_SORT_FIELDS
+                ReviewListSearchFilterParams::ALLOWED_SORT_FIELDS
             )
         );
     }

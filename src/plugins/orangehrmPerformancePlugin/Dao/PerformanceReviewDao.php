@@ -24,37 +24,37 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\ORM\QueryBuilderWrapper;
-use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
+use OrangeHRM\Performance\Dto\ReviewListSearchFilterParams;
 
 class PerformanceReviewDao extends BaseDao
 {
     use AuthUserTrait;
 
     /**
-     * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
+     * @param ReviewListSearchFilterParams $reviewSearchFilterParams
      * @return PerformanceReview[]
      */
-    public function getPerformanceReviewList(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): array
+    public function getReviewList(ReviewListSearchFilterParams $reviewSearchFilterParams): array
     {
-        $qb = $this->getPerformanceReviewQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
+        $qb = $this->getReviewListQueryBuilderWrapper($reviewSearchFilterParams)->getQueryBuilder();
         return $qb->getQuery()->execute();
     }
 
     /**
-     * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
+     * @param ReviewListSearchFilterParams $reviewSearchFilterParams
      * @return int
      */
-    public function getPerformanceReviewCount(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): int
+    public function getReviewListCount(ReviewListSearchFilterParams $reviewSearchFilterParams): int
     {
-        $qb = $this->getPerformanceReviewQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
+        $qb = $this->getReviewListQueryBuilderWrapper($reviewSearchFilterParams)->getQueryBuilder();
         return $this->getPaginator($qb)->count();
     }
 
     /**
-     * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
+     * @param ReviewListSearchFilterParams $reviewSearchFilterParams
      * @return QueryBuilderWrapper
      */
-    private function getPerformanceReviewQueryBuilderWrapper(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): QueryBuilderWrapper
+    private function getReviewListQueryBuilderWrapper(ReviewListSearchFilterParams $reviewSearchFilterParams): QueryBuilderWrapper
     {
         $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
         $qb->leftJoin('performanceReview.employee', 'employee');
@@ -64,44 +64,44 @@ class PerformanceReviewDao extends BaseDao
                 $this->getReviewIdsBySupervisorId($this->getAuthUser()->getEmpNumber())
             );
 
-        if (!is_null($performanceReviewSearchFilterParams->getEmpNumber())) {
+        if (!is_null($reviewSearchFilterParams->getEmpNumber())) {
             $qb->andWhere($qb->expr()->eq('performanceReview.employee', ':empNumber'))
-                ->setParameter('empNumber', $performanceReviewSearchFilterParams->getEmpNumber());
+                ->setParameter('empNumber', $reviewSearchFilterParams->getEmpNumber());
         }
 
-        if (!is_null($performanceReviewSearchFilterParams->getStatusId())) {
+        if (!is_null($reviewSearchFilterParams->getStatusId())) {
             $qb->andWhere($qb->expr()->eq('performanceReview.statusId', ':statusId'))
-                ->setParameter('statusId', $performanceReviewSearchFilterParams->getStatusId());
+                ->setParameter('statusId', $reviewSearchFilterParams->getStatusId());
         } else {
             $qb->andWhere($qb->expr()->neq('performanceReview.statusId', ':statusId'))
                 ->setParameter('statusId', 1);
         }
 
-        if (!is_null($performanceReviewSearchFilterParams->getFromDate())) {
+        if (!is_null($reviewSearchFilterParams->getFromDate())) {
             $qb->andWhere($qb->expr()->gte('performanceReview.dueDate', ':fromDate'))
-                ->setParameter('fromDate', $performanceReviewSearchFilterParams->getFromDate());
+                ->setParameter('fromDate', $reviewSearchFilterParams->getFromDate());
         }
 
-        if (!is_null($performanceReviewSearchFilterParams->getToDate())) {
+        if (!is_null($reviewSearchFilterParams->getToDate())) {
             $qb->andWhere($qb->expr()->lte('performanceReview.dueDate', ':toDate'))
-                ->setParameter('toDate', $performanceReviewSearchFilterParams->getToDate());
+                ->setParameter('toDate', $reviewSearchFilterParams->getToDate());
         }
 
-        if (!is_null($performanceReviewSearchFilterParams->getJobTitleId())) {
+        if (!is_null($reviewSearchFilterParams->getJobTitleId())) {
             $qb->leftJoin('performanceReview.jobTitle', 'jobTitle');
             $qb->andWhere($qb->expr()->eq('jobTitle.id', ':jobTitleId'))
-                ->setParameter('jobTitleId', $performanceReviewSearchFilterParams->getJobTitleId());
+                ->setParameter('jobTitleId', $reviewSearchFilterParams->getJobTitleId());
         }
 
-        if (!is_null($performanceReviewSearchFilterParams->getSubUnitId())) {
+        if (!is_null($reviewSearchFilterParams->getSubUnitId())) {
             $qb->leftJoin('performanceReview.department', 'subUnit');
             $qb->andWhere($qb->expr()->eq('subUnit.id', ':subUnitId'))
-                ->setParameter('subUnitId', $performanceReviewSearchFilterParams->getSubUnitId());
+                ->setParameter('subUnitId', $reviewSearchFilterParams->getSubUnitId());
         }
 
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
 
-        $this->setSortingAndPaginationParams($qb, $performanceReviewSearchFilterParams);
+        $this->setSortingAndPaginationParams($qb, $reviewSearchFilterParams);
         $qb->addOrderBy('performanceReview.dueDate');
         $qb->addOrderBy('employee.firstName');
         return $this->getQueryBuilderWrapper($qb);

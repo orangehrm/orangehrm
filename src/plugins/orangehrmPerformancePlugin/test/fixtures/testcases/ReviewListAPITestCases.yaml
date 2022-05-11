@@ -1,0 +1,686 @@
+GetAll:
+  # User 1 - Supervisor to Emp 5
+  'without query params':
+    userId: 1
+    data: [
+      {
+        "id": 12,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 13,
+        "status": 3,
+        "workPeriodStart": "2022-04-01",
+        "workPeriodEnd": "2022-04-30",
+        "dueDate": "2022-04-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 14,
+        "status": 4,
+        "workPeriodStart": "2022-03-01",
+        "workPeriodEnd": "2022-03-31",
+        "dueDate": "2022-03-31",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      }
+    ]
+    meta:
+      total: 3
+
+  'with limit':
+    userId: 1
+    query:
+      limit: 2
+    data: [
+      {
+        "id": 12,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 13,
+        "status": 3,
+        "workPeriodStart": "2022-04-01",
+        "workPeriodEnd": "2022-04-30",
+        "dueDate": "2022-04-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      }
+    ]
+    meta:
+      total: 3
+
+  'with status id':
+    userId: 1
+    query:
+      statusId: 3
+    data: [
+      {
+        "id": 13,
+        "status": 3,
+        "workPeriodStart": "2022-04-01",
+        "workPeriodEnd": "2022-04-30",
+        "dueDate": "2022-04-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'with status id DESC':
+    userId: 1
+    query:
+      sortField: 'performanceReview.statusId'
+      sortOrder: 'DESC'
+    data: [
+      {
+        "id": 14,
+        "status": 4,
+        "workPeriodStart": "2022-03-01",
+        "workPeriodEnd": "2022-03-31",
+        "dueDate": "2022-03-31",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 13,
+        "status": 3,
+        "workPeriodStart": "2022-04-01",
+        "workPeriodEnd": "2022-04-30",
+        "dueDate": "2022-04-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 12,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      }
+    ]
+    meta:
+      total: 3
+
+  'with from date':
+    userId: 1
+    query:
+      fromDate: '2022-04-30'
+    data: [
+      {
+        "id": 12,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 13,
+        "status": 3,
+        "workPeriodStart": "2022-04-01",
+        "workPeriodEnd": "2022-04-30",
+        "dueDate": "2022-04-30",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  'with to date':
+    userId: 1
+    query:
+      toDate: '2022-03-31'
+    data: [
+      {
+        "id": 14,
+        "status": 4,
+        "workPeriodStart": "2022-03-01",
+        "workPeriodEnd": "2022-03-31",
+        "dueDate": "2022-03-31",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Rajitha",
+          "lastName": "Kumara",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 6,
+          "name": "Senior Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  # User 4 - Supervisor to Emp 2, 3, 4, 7
+  'without query params - user 4':
+    userId: 4
+    data: [
+      {
+        "id": 18,
+        "status": 2,
+        "workPeriodStart": "2022-05-01",
+        "workPeriodEnd": "2022-05-31",
+        "dueDate": "2022-05-31",
+        "employee": {
+          "empNumber": 3,
+          "firstName": "Chenuka",
+          "lastName": "Gamage",
+          "terminationId": 3
+        },
+        "jobTitle": {
+          "id": 2,
+          "name": "Business Analyst"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 25,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 7,
+          "firstName": "Devishke",
+          "lastName": "de Silva",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Intern"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        }
+      },
+      {
+        "id": 15,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 2,
+          "firstName": "Sharuka",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 22,
+        "status": 2,
+        "workPeriodStart": "2022-07-01",
+        "workPeriodEnd": "2022-07-31",
+        "dueDate": "2022-07-31",
+        "employee": {
+          "empNumber": 7,
+          "firstName": "Devishke",
+          "lastName": "de Silva",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Intern"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        }
+      },
+      {
+        "id": 17,
+        "status": 3,
+        "workPeriodStart": "2022-04-01",
+        "workPeriodEnd": "2022-04-30",
+        "dueDate": "2022-04-30",
+        "employee": {
+          "empNumber": 2,
+          "firstName": "Sharuka",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 24,
+        "status": 3,
+        "workPeriodStart": "2022-08-01",
+        "workPeriodEnd": "2022-08-31",
+        "dueDate": "2022-08-31",
+        "employee": {
+          "empNumber": 7,
+          "firstName": "Devishke",
+          "lastName": "de Silva",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Intern"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        }
+      },
+      {
+        "id": 19,
+        "status": 4,
+        "workPeriodStart": "2022-04-01",
+        "workPeriodEnd": "2022-04-30",
+        "dueDate": "2022-04-30",
+        "employee": {
+          "empNumber": 3,
+          "firstName": "Chenuka",
+          "lastName": "Gamage",
+          "terminationId": 3
+        },
+        "jobTitle": {
+          "id": 2,
+          "name": "Business Analyst"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 16,
+        "status": 4,
+        "workPeriodStart": "2022-05-01",
+        "workPeriodEnd": "2022-05-31",
+        "dueDate": "2022-05-31",
+        "employee": {
+          "empNumber": 2,
+          "firstName": "Sharuka",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 23,
+        "status": 4,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 7,
+          "firstName": "Devishke",
+          "lastName": "de Silva",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Intern"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        }
+      }
+    ]
+    meta:
+      total: 9
+
+  'with inaccessible emp number':
+    userId: 4
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 1
+    invalidOnly: [ 'empNumber' ]
+
+  'with valid emp number':
+    userId: 4
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+    data: [
+      {
+        "id": 15,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 2,
+          "firstName": "Sharuka",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 17,
+        "status": 3,
+        "workPeriodStart": "2022-04-01",
+        "workPeriodEnd": "2022-04-30",
+        "dueDate": "2022-04-30",
+        "employee": {
+          "empNumber": 2,
+          "firstName": "Sharuka",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      },
+      {
+        "id": 16,
+        "status": 4,
+        "workPeriodStart": "2022-05-01",
+        "workPeriodEnd": "2022-05-31",
+        "dueDate": "2022-05-31",
+        "employee": {
+          "empNumber": 2,
+          "firstName": "Sharuka",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 2,
+          "name": "Development"
+        }
+      }
+    ]
+    meta:
+      total: 3
+
+  'with subunit id':
+    userId: 4
+    query:
+      subUnitId: 3
+    data: [
+      {
+        "id": 25,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 7,
+          "firstName": "Devishke",
+          "lastName": "de Silva",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Intern"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        }
+      },
+      {
+        "id": 22,
+        "status": 2,
+        "workPeriodStart": "2022-07-01",
+        "workPeriodEnd": "2022-07-31",
+        "dueDate": "2022-07-31",
+        "employee": {
+          "empNumber": 7,
+          "firstName": "Devishke",
+          "lastName": "de Silva",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Intern"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        }
+      },
+      {
+        "id": 24,
+        "status": 3,
+        "workPeriodStart": "2022-08-01",
+        "workPeriodEnd": "2022-08-31",
+        "dueDate": "2022-08-31",
+        "employee": {
+          "empNumber": 7,
+          "firstName": "Devishke",
+          "lastName": "de Silva",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Intern"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        }
+      },
+      {
+        "id": 23,
+        "status": 4,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 7,
+          "firstName": "Devishke",
+          "lastName": "de Silva",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Intern"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        }
+      }
+    ]
+    meta:
+      total: 4
