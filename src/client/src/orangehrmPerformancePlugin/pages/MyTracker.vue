@@ -56,7 +56,6 @@ import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 
-
 const defaultSortOrder = {
   'performanceTracker.trackerName': 'DEFAULT',
   'performanceTracker.addedDate': 'DEFAULT',
@@ -88,7 +87,9 @@ export default {
         return {
           id: item.id,
           tracker: item.trackerName,
-          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {locale}),
+          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {
+            locale,
+          }),
           modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
             locale,
           }),
