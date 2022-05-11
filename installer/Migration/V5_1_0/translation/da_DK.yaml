@@ -1,4 +1,22 @@
 translations:
+    - { target: 'Stillingsopslag', unitId: vacancy, group: recruitment }
+    - { target: 'Hiring Manager', unitId: hiring_manager, group: recruitment }
+    - { target: 'Leje manager', unitId: candidate_name, group: recruitment }
+    - { target: 'Nøgleord', unitId: keywords, group: recruitment }
+    - { target: 'Date of Application', unitId: date_of_application, group: recruitment }
+    - { target: 'Dato for Anvendelse', unitId: method_of_application, group: recruitment }
+    - { target: 'Indtast kommaseparerede ord', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Tilføj kandidat', unitId: candidate, group: recruitment }
+    - { target: 'Nomineret', unitId: shortlisted, group: recruitment }
+    - { target: 'Interview Planlagt', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Interview Bestået', unitId: interview_passed, group: recruitment }
+    - { target: 'Interview mislykkedes', unitId: interview_failed, group: recruitment }
+    - { target: 'Job Tilbydes', unitId: job_offered, group: recruitment }
+    - { target: 'Manual', unitId: manual, group: recruitment }
+    - { target: 'online', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Genoptag', unitId: resume, group: recruitment }
+    - { target: 'Tilføj kandidat', unitId: add_candidate, group: recruitment }
     - { target: April, unitId: april, group: general }
     - { target: August, unitId: august, group: general }
     - { target: December, unitId: december, group: general }

@@ -30,6 +30,7 @@ import {
   numberShouldBeBetweenMinandMaxValue,
   digitsOnly,
   digitsOnlyWithDecimalPoint,
+  shouldBeCurrentOrPreviousDate,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -626,5 +627,20 @@ describe('core/util/validation/rules::digitsOnlyWithDecimalPoint', () => {
   test('digitsOnlyWithDecimalPoint:: with whole number', () => {
     const result = digitsOnlyWithDecimalPoint('10');
     expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::shouldBeCurrentOrPreviousDate', () => {
+  test('shouldBeCurrentOrPreviousDate::empty string', () => {
+    let result = shouldBeCurrentOrPreviousDate()('');
+    expect(result).toBeTruthy();
+
+    result = shouldBeCurrentOrPreviousDate()('');
+    expect(result).toBeTruthy();
+  });
+
+  test('shouldBeCurrentOrPreviousDate::valid', () => {
+    const result = shouldBeCurrentOrPreviousDate()('2022-01-29');
+    expect(result).toBeTruthy();
   });
 });
