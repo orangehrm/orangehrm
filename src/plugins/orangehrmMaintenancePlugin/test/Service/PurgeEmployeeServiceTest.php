@@ -387,8 +387,6 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertEquals('Comment by Emp 1', $preservedPerformanceTrackerLogs[0]->getComment());
         $this->assertEquals('Comment by Emp 1', $preservedPerformanceTrackerLogs[1]->getComment());
         $this->assertEquals('Comment by Emp 2', $preservedPerformanceTrackerLogs[2]->getComment());
-
-
     }
 
     public function testPurgeEmployeeDataWithTransactionException(): void
