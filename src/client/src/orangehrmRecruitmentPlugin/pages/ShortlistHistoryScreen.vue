@@ -53,7 +53,11 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <status-input :status-id="history.statusId" />
+              <oxd-input-field
+                :label="$t('recruitment.current_status')"
+                disabled
+                :value="history.status"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -112,10 +116,8 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
-import StatusInput from '@/orangehrmRecruitmentPlugin/components/StatusInput';
 export default {
   name: 'ShortlistHistoryScreen',
-  components: {'status-input': StatusInput},
   setup() {
     const http = new APIService(
       'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
@@ -136,14 +138,21 @@ export default {
         performedBy: '',
         performedDate: '',
         note: '',
-        statusId: '',
+        status: null,
       },
     };
   },
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
-      const {candidate, performedAction, vacancy, manager, ...rest} = data;
+      const {
+        candidate,
+        performedAction,
+        vacancy,
+        status,
+        manager,
+        ...rest
+      } = data;
       const {firstName, lastName, middleName} = candidate;
       const fullName = `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
       this.history = {
@@ -154,6 +163,7 @@ export default {
           fullName,
         performedAction: performedAction.label,
         cid: candidate.id,
+        status: status.label,
         ...rest,
       };
       this.isLoading = false;
