@@ -131,6 +131,7 @@ export default {
   ...TimePages,
   ...AttendancePages,
   ...MaintenancePages,
+  ...RecruitmentPages,
   ...PerformancePages,
   ...RecruitmentPages,
 };

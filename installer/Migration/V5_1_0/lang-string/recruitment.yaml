@@ -17,3 +17,70 @@ langStrings:
   -
     value: 'View Action History'
     unitId: view_action_history
+  -
+    value: 'Vacancy'
+    unitId: vacancy
+  -
+    value: 'Hiring Manager'
+    unitId: hiring_manager
+  -
+    value: 'Candidate Name'
+    unitId: candidate_name
+  -
+    value: 'Keywords'
+    unitId: keywords
+  -
+    value: 'Date of Application'
+    unitId: date_of_application
+  -
+    value: 'Method of Application'
+    unitId: method_of_application
+  -
+    value: 'Enter comma se'
+    unitId: enter_comma_se
+  -
+    value: 'Candidate'
+    unitId: candidate
+  -
+    value: 'Application initiated'
+    unitId: application_initiated
+  -
+    value: 'Shortlisted'
+    unitId: shortlisted
+  -
+    value: 'Interview Scheduled'
+    unitId: interview_scheduled
+  -
+    value: 'Interview Passed'
+    unitId: interview_passed
+  -
+    value: 'Interview Failed'
+    unitId: interview_failed
+  -
+    value: 'Job Offered'
+    unitId: job_offered
+  -
+    value: 'offered Declined'
+    unitId: offered_declined
+  -
+    value: 'Manual'
+    unitId: manual
+  -
+    value: 'Online'
+    unitId: online
+  -
+    value: 'Contact Number'
+    unitId: contact_number
+  -
+    value: 'Content to keep data'
+    unitId: content_to_keep_data
+  -
+    value: 'Resume'
+    unitId: resume
+  -
+    value: 'Add Candidate'
+    unitId: add_candidate
+  -
+    value: 'Should be the current date or a previous date'
+    unitId: should_be_current_date_previous_date
+

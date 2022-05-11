@@ -5,6 +5,24 @@ translations:
     - { target: 'Realizado por', unitId: performed_by, group: recruitment }
     - { target: 'Fecha de realización de la acción', unitId: performed_date, group: recruitment }
     - { target: 'Ver el historial de actividad', unitId: view_action_history, group: recruitment }
+    - { target: 'Vacante', unitId: vacancy, group: recruitment }
+    - { target: 'erente de contrataciones', unitId: hiring_manager, group: recruitment }
+    - { target: 'Nombre del postulante', unitId: candidate_name, group: recruitment }
+    - { target: 'Palabras clave', unitId: keywords, group: recruitment }
+    - { target: 'Fecha de la solicitud', unitId: date_of_application, group: recruitment }
+    - { target: 'Método de recepción de la solicitud', unitId: method_of_application, group: recruitment }
+    - { target: 'Introduzca las palabras separadas por comas', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Postulante', unitId: candidate, group: recruitment }
+    - { target: 'Preseleccionado', unitId: shortlisted, group: recruitment }
+    - { target: 'Entrevista programada', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Entrevista Exitosa', unitId: interview_passed, group: recruitment }
+    - { target: 'Entrevista no aprobada', unitId: interview_failed, group: recruitment }
+    - { target: 'Oferta de trabajo', unitId: job_offered, group: recruitment }
+    - { target: 'Manual', unitId: manual, group: recruitment }
+    - { target: 'En línea', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Currículum Vitae', unitId: resume, group: recruitment }
+    - { target: 'Agregar candidato', unitId: add_candidate, group: recruitment }
     - { target: Abril, unitId: april, group: general }
     - { target: Agosto, unitId: august, group: general }
     - { target: Diciembre, unitId: december, group: general }

@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,15 +16,41 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-import ShortlistCandidateScreen from './pages/ShortlistCandidateScreen.vue';
-import ShortlistHistoryScreen from './pages/ShortlistHistoryScreen.vue';
-import ViewCandidate from './pages/ViewCandidate.vue';
-import SaveCandidate from './pages/SaveCandidate.vue';
+<template>
+  <oxd-input-field
+    type="select"
+    :label="$t('recruitment.hiring_manager')"
+    :options="options"
+  />
+</template>
+
+<script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
-  'shortlist-candidate': ShortlistCandidateScreen,
-  'shortlist-history': ShortlistHistoryScreen,
-  'view-candidate': ViewCandidate,
-  'save-candidate': SaveCandidate,
+  name: 'HiringManagerDropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'recruitment/api/hiringManager',
+    );
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
 };
+</script>

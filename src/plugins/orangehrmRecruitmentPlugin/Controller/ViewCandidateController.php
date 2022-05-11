@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,14 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-import ShortlistCandidateScreen from './pages/ShortlistCandidateScreen.vue';
-import ShortlistHistoryScreen from './pages/ShortlistHistoryScreen.vue';
-import ViewCandidate from './pages/ViewCandidate.vue';
-import SaveCandidate from './pages/SaveCandidate.vue';
+namespace OrangeHRM\Recruitment\Controller;
 
-export default {
-  'shortlist-candidate': ShortlistCandidateScreen,
-  'shortlist-history': ShortlistHistoryScreen,
-  'view-candidate': ViewCandidate,
-  'save-candidate': SaveCandidate,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
+
+class ViewCandidateController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('view-candidate');
+        $this->setComponent($component);
+    }
+
+}
