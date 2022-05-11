@@ -47,3 +47,30 @@ langStrings:
   -
     value: 'Added Date'
     unitId: added_date
+  -
+    value: 'Review List'
+    unitId: review_list
+  -
+    value: 'Activated'
+    unitId: activated
+  -
+    value: 'In Progress'
+    unitId: in_progress
+  -
+    value: 'Completed'
+    unitId: completed
+  -
+    value: 'Department'
+    unitId: department
+  -
+    value: 'Review Period'
+    unitId: review_period
+  -
+    value: 'Due Date'
+    unitId: due_date
+  -
+    value: 'Evaluate'
+    unitId: evaluate
+  -
+    value: 'Review Status'
+    unitId: review_status

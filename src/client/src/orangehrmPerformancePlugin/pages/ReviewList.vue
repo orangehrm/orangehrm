@@ -19,7 +19,7 @@
  -->
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Review List">
+    <oxd-table-filter :filter-title="$t('performance.review_list')">
       <oxd-form @submitValid="filterItems" @reset="filterItems">
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -40,7 +40,7 @@
             <oxd-input-field
               v-model="filters.status"
               type="select"
-              label="Status"
+              :label="$t('general.status')"
               :clear="false"
               :options="statusOpts"
             />
@@ -166,10 +166,10 @@ export default {
           dueDate: reviewListDateFormat(item.dueDate),
           status:
             item.status === 2
-              ? 'Activated'
+              ? $t('performance.activated')
               : item.status === 3
-              ? 'In Progress'
-              : 'Completed',
+              ? $t('performance.in_progress')
+              : $t('performance.completed'),
         };
       });
     };
@@ -243,24 +243,24 @@ export default {
         },
         {
           name: 'department',
-          title: 'Department',
+          title: this.$t('performance.department'),
           style: {flex: 1},
         },
         {
           name: 'reviewPeriod',
-          title: 'Review Period',
+          title: this.$t('performance.review_period'),
           sortField: 'performanceReview.workPeriodStart',
           style: {flex: 1},
         },
         {
           name: 'dueDate',
-          title: 'Due Date',
+          title: this.$t('performance.due_date'),
           sortField: 'performanceReview.dueDate',
           style: {flex: 1},
         },
         {
           name: 'status',
-          title: 'Status',
+          title: this.$t('performance.review_status'),
           sortField: 'performanceReview.statusId',
           style: {flex: 1},
         },
@@ -300,7 +300,7 @@ export default {
           component: 'oxd-button',
           props: {
             name: 'evaluate',
-            label: 'Evaluate',
+            label: this.$t('performance.evaluate'),
             class: 'orangehrm-left-space',
             displayType: 'text',
             size: 'medium',

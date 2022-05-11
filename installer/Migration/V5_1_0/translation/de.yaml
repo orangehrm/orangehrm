@@ -79,3 +79,12 @@ translations:
     - { target: 'Leistungsbeurteiler', unitId: employee_performance_trackers, group: performance }
     - { target: 'hinzugefügt am', unitId: added_date, group: performance }
     - { target: 'bearbeitet am', unitId: modified_date, group: performance }
+    - { target: 'Bericht-Liste', unitId: review_list, group: performance }
+    - { target: 'Aktiviert', unitId: activated, group: performance }
+    - { target: 'In Bearbeitung', unitId: in_progress, group: performance }
+    - { target: 'Abgeschlossen', unitId: completed, group: performance }
+    - { target: 'Abteilung', unitId: department, group: performance }
+    - { target: 'Evaluationszeitraum', unitId: review_period, group: performance }
+    - { target: 'Fälligkeitsdatum', unitId: due_date, group: performance }
+    - { target: 'Evaluieren', unitId: evaluate, group: performance }
+    - { target: 'Bewertungsstatus', unitId: review_status, group: performance }

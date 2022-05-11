@@ -82,3 +82,12 @@ translations:
     - { target: 'Trackers', unitId: trackers, group: performance }
     - { target: 'Added Date', unitId: added_date, group: performance }
     - { target: 'Modified Date', unitId: modified_date, group: performance }
+    - { target: 'Review List', unitId: review_list, group: performance }
+    - { target: 'Activated', unitId: activated, group: performance }
+    - { target: 'In Progress', unitId: in_progress, group: performance }
+    - { target: 'Completed', unitId: completed, group: performance }
+    - { target: 'Department', unitId: department, group: performance }
+    - { target: 'Review Period', unitId: review_period, group: performance }
+    - { target: 'Due Date', unitId: due_date, group: performance }
+    - { target: 'Evaluate', unitId: evaluate, group: performance }
+    - { target: 'Review Status', unitId: review_status, group: performance }

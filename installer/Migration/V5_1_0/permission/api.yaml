@@ -29,7 +29,7 @@ apiv2_performance_employee_trackers:
 
 apiv2_performance_review_list:
   description: 'API-v2 Performance - Review List'
-  api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+  api: OrangeHRM\Performance\Api\ReviewListAPI
   module: performance
   allowed:
     read: true

@@ -78,3 +78,12 @@ translations:
     - { target: 'De maximale rating zou groter moeten zijn dan de minimale rating', unitId: maximum_rating_should_be_greater_than_minimum_rating, group: performance }
     - { target: 'Datum toegevoegd', unitId: added_date, group: performance }
     - { target: 'Datum gemodificeerd', unitId: modified_date, group: performance }
+    - { target: 'Beoordelingslijst', unitId: review_list, group: performance }
+    - { target: 'Geactiveerd', unitId: activated, group: performance }
+    - { target: 'Wordt uitgevoerd', unitId: in_progress, group: performance }
+    - { target: 'Voltooid', unitId: completed, group: performance }
+    - { target: 'Afdeling', unitId: department, group: performance }
+    - { target: 'Beoordelings periode', unitId: review_period, group: performance }
+    - { target: 'Verval datum', unitId: due_date, group: performance }
+    - { target: 'Evalueren', unitId: evaluate, group: performance }
+    - { target: 'Status beoordeling', unitId: review_status, group: performance }
