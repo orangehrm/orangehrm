@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
@@ -53,11 +54,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                :label="$t('recruitment.current_status')"
-                disabled
-                :value="shortlist.status"
-              />
+              <status-input :status-id="shortlist.statusId" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -91,11 +88,13 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
+import StatusInput from '@/orangehrmRecruitmentPlugin/components/StatusInput';
 export default {
   name: 'ShortlistCandidateScreen',
+  components: {'status-input': StatusInput},
   setup() {
     const http = new APIService(
-      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
       'recruitment/shortlistCandidate',
     );
     return {
@@ -109,45 +108,15 @@ export default {
         candidate: '',
         vacancy: '',
         manager: '',
-        status: '',
         note: '',
+        statusId: '',
       },
-      statuses: [
-        {
-          id: 1,
-          label: this.$t('recruitment.application_initiated'),
-        },
-        {
-          id: 2,
-          label: this.$t('recruitment.shortlisted'),
-        },
-        {
-          id: 3,
-          label: this.$t('recruitment.interview_scheduled'),
-        },
-        {
-          id: 4,
-          label: this.$t('recruitment.interview_passed'),
-        },
-        {
-          id: 5,
-          label: this.$t('recruitment.interview_failed'),
-        },
-        {
-          id: 6,
-          label: this.$t('recruitment.job_offered'),
-        },
-        {
-          id: 7,
-          label: this.$t('recruitment.offered_declined'),
-        },
-      ],
     };
   },
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
-      const {candidate, status, vacancy, manager, ...rest} = data;
+      const {candidate, vacancy, manager, ...rest} = data;
       const {firstName, lastName, middleName} = candidate;
       const fullName = `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
       this.shortlist = {
@@ -156,7 +125,6 @@ export default {
         manager:
           (manager?.terminationId ? this.$t('general.past_employee') : '') +
           fullName,
-        status: this.statuses.find(({id}) => id === status)?.label,
         cid: candidate.id,
         ...rest,
       };

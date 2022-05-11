@@ -53,11 +53,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                :label="$t('recruitment.current_status')"
-                disabled
-                :value="history.status"
-              />
+              <status-input :status-id="history.statusId" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -116,11 +112,13 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
+import StatusInput from '@/orangehrmRecruitmentPlugin/components/StatusInput';
 export default {
   name: 'ShortlistHistoryScreen',
+  components: {'status-input': StatusInput},
   setup() {
     const http = new APIService(
-      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
       'recruitment/candidateHistory',
     );
     return {
@@ -134,11 +132,11 @@ export default {
         candidate: '',
         vacancy: '',
         manager: '',
-        status: '',
         performedAction: '',
         performedBy: '',
         performedDate: '',
         note: '',
+        statusId: '',
       },
       actions: [
         {
@@ -178,54 +176,16 @@ export default {
           label: 'Reject',
         },
       ],
-      statuses: [
-        {
-          id: 1,
-          label: this.$t('recruitment.application_initiated'),
-        },
-        {
-          id: 2,
-          label: this.$t('recruitment.shortlisted'),
-        },
-        {
-          id: 3,
-          label: this.$t('recruitment.interview_scheduled'),
-        },
-        {
-          id: 4,
-          label: this.$t('recruitment.interview_passed'),
-        },
-        {
-          id: 5,
-          label: this.$t('recruitment.interview_failed'),
-        },
-        {
-          id: 6,
-          label: this.$t('recruitment.job_offered'),
-        },
-        {
-          id: 7,
-          label: this.$t('recruitment.offered_declined'),
-        },
-      ],
     };
   },
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
-      const {
-        candidate,
-        status,
-        performedAction,
-        vacancy,
-        manager,
-        ...rest
-      } = data;
+      const {candidate, performedAction, vacancy, manager, ...rest} = data;
       const {firstName, lastName, middleName} = candidate;
       const fullName = `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
       this.history = {
         candidate: `${firstName} ${middleName} ${lastName}`,
-        status: this.statuses.find(({id}) => id === status)?.label,
         vacancy: vacancy.title,
         manager:
           (manager?.terminationId ? this.$t('general.past_employee') : '') +
