@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\test\Service;
+namespace OrangeHRM\Tests\Performance\Service;
 
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Service\PerformanceReviewService;
