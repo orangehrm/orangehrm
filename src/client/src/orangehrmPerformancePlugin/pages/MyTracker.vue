@@ -56,16 +56,6 @@ import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 
-const trackerNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      tracker: item.trackerName,
-      addDate: item.addedDate,
-      modifiedDate: item.modifiedDate,
-    };
-  });
-};
 
 const defaultSortOrder = {
   'performanceTracker.trackerName': 'DEFAULT',
@@ -96,8 +86,9 @@ export default {
     const trackerNormalizer = data => {
       return data.map(item => {
         return {
-          ...item,
-          date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
+          id: item.id,
+          tracker: item.trackerName,
+          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {locale}),
           modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
             locale,
           }),

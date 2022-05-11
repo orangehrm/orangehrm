@@ -52,19 +52,9 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {computed} from 'vue';
-
-const trackerNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      jobTitle: item.jobTitle.name,
-      department: item.department.name,
-      reviewPeriod: item.workPeriodStart + ' - ' + item.workPeriodEnd,
-      dueDate: item.dueDate,
-      status: item.status,
-    };
-  });
-};
+import useDateFormat from "@/core/util/composable/useDateFormat";
+import useLocale from "@/core/util/composable/useLocale";
+import {formatDate, parseDate} from "@/core/util/helper/datefns";
 
 const defaultSortOrder = {
   'performanceReview.statusId': 'ASC',
@@ -89,6 +79,22 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/performance/myReview',
     );
+
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    const trackerNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          jobTitle: item.jobTitle.name,
+          department: item.department.name,
+          reviewPeriod: formatDate(parseDate(item.workPeriodStart), jsDateFormat, {locale}) + ' - ' + formatDate(parseDate(item.workPeriodEnd), jsDateFormat, {locale}),
+          dueDate: formatDate(parseDate(item.dueDate), jsDateFormat, {locale}),
+          status: item.status,
+        };
+      });
+    };
 
     const {
       currentPage,
