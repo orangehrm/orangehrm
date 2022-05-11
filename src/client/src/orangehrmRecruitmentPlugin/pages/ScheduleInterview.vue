@@ -68,7 +68,6 @@
               <oxd-input-field
                 v-model="schedule.title"
                 :label="$t('recruitment.interview_title')"
-                :placeholder="$t('general.type_for_hints')"
                 :rules="rules.title"
                 required
               />
@@ -86,7 +85,7 @@
                 :show-delete="index > 0"
                 :rules="index === 0 ? rules.interviewer : rules.interviewers"
                 include-employees="onlyCurrent"
-                required
+                :required="index === 0"
                 @remove="onRemoveAdmin(index)"
               />
               <oxd-button
@@ -98,22 +97,16 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
+              <date-input
                 v-model="schedule.date"
                 :label="$t('general.date')"
-                type="date"
                 :placeholder="$t('general.date_format')"
                 :rules="rules.date"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="schedule.time"
-                :label="$t('general.time')"
-                type="time"
-                :placeholder="$t('attendance.hh_mm')"
-              />
+              <time-input v-model="schedule.time" :label="$t('general.time')" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -123,10 +116,9 @@
               class="orangehrm-save-candidate-page --span-column-2"
             >
               <oxd-input-field
+                v-model="schedule.note"
                 :label="$t('general.notes')"
                 type="textarea"
-                :placeholder="$t('general.type_for_hints')"
-                :v-model="schedule.note"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -143,10 +135,10 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
-    <interview-attachments
-      :allowed-file-types="allowedFileTypes"
-    ></interview-attachments>
   </div>
+  <interview-attachments
+    :allowed-file-types="allowedFileTypes"
+  ></interview-attachments>
 </template>
 
 <script>
@@ -160,9 +152,13 @@ import {
   validDateFormat,
 } from '@ohrm/core/util/validation/rules';
 import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments';
+import TimeInput from '@/core/components/inputs/TimeInput';
+import DateInput from '@/core/components/inputs/DateInput';
 export default {
   name: 'ScheduleInterview',
   components: {
+    'date-input': DateInput,
+    'time-input': TimeInput,
     'interview-attachments': InterviewAttachments,
     'required-text': RequiredText,
     'project-admin-autocomplete': ProjectAdminAutocomplete,

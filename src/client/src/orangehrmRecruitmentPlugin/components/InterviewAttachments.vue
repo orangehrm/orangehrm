@@ -19,8 +19,7 @@
  -->
 
 <template>
-  <div class="orangehrm-attachment">
-    <oxd-divider />
+  <div class="orangehrm-attachment orangehrm-card-container">
     <save-attachment
       v-if="showSaveModal"
       :http="http"
@@ -236,3 +235,9 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.orangehrm-card-container {
+  padding: 1.2rem 0 !important;
+}
+</style>
