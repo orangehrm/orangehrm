@@ -26,7 +26,7 @@
             <employee-autocomplete
               v-model="filters.employee"
               :params="{
-                includeEmployees: 'onlyCurrent',
+                includeEmployees: 'currentAndPast',
               }"
             />
           </oxd-grid-item>
@@ -37,13 +37,7 @@
             <subunit-dropdown v-model="filters.subUnit" />
           </oxd-grid-item>
           <oxd-grid-item class="--offset-row-2">
-            <oxd-input-field
-              v-model="filters.status"
-              type="select"
-              :label="$t('general.status')"
-              :clear="false"
-              :options="statusOpts"
-            />
+            <review-status-dropdown v-model="filters.status" />
           </oxd-grid-item>
           <oxd-grid-item class="--offset-row-2">
             <date-input
@@ -113,6 +107,7 @@ import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
+import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
 import usei18n from '@/core/util/composable/usei18n';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
@@ -137,6 +132,7 @@ const defaultSortOrder = {
 export default {
   name: 'ReviewList',
   components: {
+    'review-status-dropdown': ReviewStatusDropdown,
     'subunit-dropdown': SubunitDropdown,
     'jobtitle-dropdown': JobtitleDropdown,
     'employee-autocomplete': EmployeeAutocomplete,
@@ -193,7 +189,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/performance/review-lists',
+      'api/v2/performance/reviews/list',
     );
 
     const {
@@ -273,11 +269,6 @@ export default {
           style: {flex: 1},
         },
       ],
-      statusOpts: [
-        {id: 1, statusId: 2, label: 'Activated'},
-        {id: 2, statusId: 3, label: 'In Progress'},
-        {id: 3, statusId: 4, label: 'Completed'},
-      ],
     };
   },
   methods: {
@@ -290,7 +281,6 @@ export default {
           props: {
             name: 'view',
             label: this.$t('general.view'),
-            class: 'orangehrm-left-space',
             displayType: 'text',
             size: 'medium',
           },
@@ -301,7 +291,6 @@ export default {
           props: {
             name: 'evaluate',
             label: this.$t('performance.evaluate'),
-            class: 'orangehrm-left-space',
             displayType: 'text',
             size: 'medium',
           },
