@@ -65,7 +65,7 @@ class ReviewListAPI extends Endpoint implements CollectionEndpoint
                 self::FILTER_JOB_TITLE_ID
             )
         );
-        $reviewListSearchFilterParams->setSubUnitId(
+        $reviewListSearchFilterParams->setSubunitId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_SUB_UNIT_ID

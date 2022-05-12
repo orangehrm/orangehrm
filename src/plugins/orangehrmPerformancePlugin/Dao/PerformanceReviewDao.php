@@ -93,10 +93,10 @@ class PerformanceReviewDao extends BaseDao
                 ->setParameter('jobTitleId', $reviewSearchFilterParams->getJobTitleId());
         }
 
-        if (!is_null($reviewSearchFilterParams->getSubUnitId())) {
+        if (!is_null($reviewSearchFilterParams->getSubunitId())) {
             $qb->leftJoin('performanceReview.department', 'subUnit');
-            $qb->andWhere($qb->expr()->eq('subUnit.id', ':subUnitId'))
-                ->setParameter('subUnitId', $reviewSearchFilterParams->getSubUnitId());
+            $qb->andWhere($qb->expr()->in('subUnit.id', ':subUnitId'))
+                ->setParameter('subUnitId', $reviewSearchFilterParams->getSubunitIdChain());
         }
 
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));

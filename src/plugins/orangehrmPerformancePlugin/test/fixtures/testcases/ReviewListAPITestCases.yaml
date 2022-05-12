@@ -594,6 +594,8 @@ GetAll:
 
   'with subunit id':
     userId: 4
+    services:
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
     query:
       subUnitId: 3
     data: [

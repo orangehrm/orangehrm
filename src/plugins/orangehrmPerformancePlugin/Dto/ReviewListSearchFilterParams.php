@@ -21,15 +21,18 @@ namespace OrangeHRM\Performance\Dto;
 
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
 class ReviewListSearchFilterParams extends FilterParams
 {
+    use SubunitIdChainTrait;
+
     public const ALLOWED_SORT_FIELDS = ['employee.firstName', 'performanceReview.workPeriodStart',  'performanceReview.dueDate', 'performanceReview.statusId'];
 
     protected ?int $empNumber = null;
     protected ?string $nameOrId = null;
     protected ?int $jobTitleId = null;
-    protected ?int $subUnitId = null;
+    protected ?int $subunitId = null;
     protected ?int $statusId = null;
     protected ?DateTime $fromDate = null;
     protected ?DateTime $toDate = null;
@@ -90,17 +93,17 @@ class ReviewListSearchFilterParams extends FilterParams
     /**
      * @return int|null
      */
-    public function getSubUnitId(): ?int
+    public function getSubunitId(): ?int
     {
-        return $this->subUnitId;
+        return $this->subunitId;
     }
 
     /**
-     * @param int|null $subUnitId
+     * @param int|null $subunitId
      */
-    public function setSubUnitId(?int $subUnitId): void
+    public function setSubunitId(?int $subunitId): void
     {
-        $this->subUnitId = $subUnitId;
+        $this->subunitId = $subunitId;
     }
 
     /**
