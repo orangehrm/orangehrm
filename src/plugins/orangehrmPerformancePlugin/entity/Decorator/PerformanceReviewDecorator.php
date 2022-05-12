@@ -36,6 +36,17 @@ class PerformanceReviewDecorator
         $this->performanceReview = $performanceReview;
     }
 
+    /**
+     * @return PerformanceReview
+     */
+    protected function getPerformanceReview(): PerformanceReview
+    {
+        return $this->performanceReview;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getWorkPeriodStart(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd(
@@ -43,6 +54,9 @@ class PerformanceReviewDecorator
         );
     }
 
+    /**
+     * @return string|null
+     */
     public function getWorkPeriodEnd(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd(
@@ -50,6 +64,9 @@ class PerformanceReviewDecorator
         );
     }
 
+    /**
+     * @return string|null
+     */
     public function getCompletedDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd(
@@ -57,18 +74,13 @@ class PerformanceReviewDecorator
         );
     }
 
+    /**
+     * @return string|null
+     */
     public function getDueDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd(
             $this->getPerformanceReview()->getDueDate()
         );
-    }
-
-    /**
-     * @return PerformanceReview
-     */
-    public function getPerformanceReview(): PerformanceReview
-    {
-        return $this->performanceReview;
     }
 }
