@@ -22,6 +22,7 @@ namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class CandidateShortlistActionController extends AbstractVueController
@@ -32,7 +33,9 @@ class CandidateShortlistActionController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('candidate-shortlist-action');
+        $component = new Component('application-initiated-action');
+        $component->addProp(new Prop('candidate-id',Prop::TYPE_NUMBER,1));
+        $component->addProp(new Prop('action',Prop::TYPE_OBJECT,['id'=>1, 'label'=>'Application initiated']));
         $this->setComponent($component);
     }
 }

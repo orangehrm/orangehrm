@@ -48,9 +48,9 @@
           <!-- timesheet activities -->
           <tr class="orangehrm-timesheet-table-body-row">
             <td
-              class="orangehrm-timesheet-table-header-cell"
               v-for="(text, index) in data"
               :key="index"
+              class="orangehrm-timesheet-table-header-cell"
             >
               {{ text }}
             </td>
@@ -75,6 +75,10 @@ export default {
   props: {
     data: {
       type: Array,
+      required: true,
+    },
+    status: {
+      type: String,
       required: true,
     },
   },

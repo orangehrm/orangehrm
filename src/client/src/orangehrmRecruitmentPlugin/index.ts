@@ -16,8 +16,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-import CandidateShortlistAction from './pages/CandidateShortlistAction.vue';
+import ApplicationInitiatedAction from './pages/ApplicationInitiatedAction.vue';
 
 export default {
-  'candidate-shortlist-action': CandidateShortlistAction,
+  'application-initiated-action': ApplicationInitiatedAction,
 };
