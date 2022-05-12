@@ -1,3 +1,8 @@
+candidate_shortlist_action:
+  path: /recruitment/addCandidate/{id}
+  controller: OrangeHRM\Recruitment\Controller\CandidateShortlistActionController::handle
+  methods: [ GET ]
+
 recruitment_module_under_development: # remove this
   path: /recruitment/{screen}
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
