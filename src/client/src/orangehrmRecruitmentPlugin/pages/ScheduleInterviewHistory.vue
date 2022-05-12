@@ -104,18 +104,19 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <project-admin-autocomplete
-                v-for="(interviewer, index) in interviewers"
+                v-for="(interviewer, index) in employees"
                 :key="index"
                 v-model="interviewer.value"
                 :label="$t('recruitment.interviewer')"
                 :show-delete="index > 0"
-                :rules="index === 0 ? rules.interviewer : rules.interviewers"
+                :rules="index === 0 ? rules.employee : rules.employees"
                 include-employees="onlyCurrent"
+                api-path="api/v2/pim/employees"
                 :required="index === 0"
                 @remove="onRemoveAdmin(index)"
               />
               <oxd-button
-                v-if="interviewers.length < 5"
+                v-if="employees.length < 5"
                 icon-name="plus"
                 display-type="text"
                 :label="$t('general.add_another')"
@@ -169,7 +170,6 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import RequiredText from '@/core/components/labels/RequiredText';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
 import {
   required,
@@ -182,7 +182,6 @@ export default {
   name: 'ScheduleInterviewHistory',
   components: {
     'interview-attachments': InterviewAttachments,
-    'required-text': RequiredText,
     'project-admin-autocomplete': ProjectAdminAutocomplete,
   },
   props: {
@@ -212,17 +211,17 @@ export default {
         performedBy: null,
         performedDate: null,
         title: '',
-        interviewers: null,
+        employees: null,
         date: null,
         time: null,
         notes: null,
       },
 
       rules: {
-        interviewer: [
+        employee: [
           required,
           value => {
-            return this.interviewers.filter(
+            return this.employees.filter(
               ({value: interviewer}) =>
                 interviewer && interviewer.id === value?.id,
             ).length < 2
@@ -230,9 +229,9 @@ export default {
               : this.$t('general.already_exists');
           },
         ],
-        interviewers: [
+        employees: [
           value => {
-            return this.interviewers.filter(
+            return this.employees.filter(
               ({value: interviewer}) =>
                 interviewer && interviewer.id === value?.id,
             ).length < 2
@@ -243,7 +242,7 @@ export default {
         date: [required, validDateFormat()],
         title: [required, shouldNotExceedCharLength(100)],
       },
-      interviewers: [{value: null}],
+      employees: [{value: null}],
     };
   },
   beforeMount() {
@@ -272,7 +271,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          interviewers: this.interviewers.map(({value}) => value.id),
+          employees: this.employees.map(({value}) => value?.id),
           ...this.schedule,
         })
         .then(() => {
@@ -284,10 +283,10 @@ export default {
       navigate(`/recruitment/addCandidate/${this.schedule.cid}`);
     },
     onAddAnother() {
-      this.interviewers.push({value: null});
+      this.employees.push({value: null});
     },
     onRemoveAdmin(index) {
-      this.interviewers.splice(index, 1);
+      this.employees.splice(index, 1);
     },
   },
 };
