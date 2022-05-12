@@ -20,7 +20,7 @@ langStrings:
   -
     value: 'Interview Title'
     unitId: interview_title
- -
+  -
     value: 'Vacancy'
     unitId: vacancy
   -
