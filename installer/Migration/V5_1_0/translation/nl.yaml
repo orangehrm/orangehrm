@@ -1,4 +1,10 @@
 translations:
+    - { target: 'Shortlist', unitId: shortlist, group: recruitment }
+    - { target: 'Huidige status', unitId: current_status, group: recruitment }
+    - { target: 'Uitgevoerde actie', unitId: performed_action, group: recruitment }
+    - { target: 'Uitgevoerd door', unitId: performed_by, group: recruitment }
+    - { target: 'Uitvoerdatum', unitId: performed_date, group: recruitment }
+    - { target: 'Toon actie geschiedenis', unitId: view_action_history, group: recruitment }
     - { target: 'Vacature', unitId: vacancy, group: recruitment }
     - { target: 'Personeelsmanager', unitId: hiring_manager, group: recruitment }
     - { target: 'Naam kandidaat', unitId: candidate_name, group: recruitment }
