@@ -1,4 +1,13 @@
 translations:
+    - { target: 'FR_View Action History', unitId: view_action_history, group: recruitment }
+    - { target: 'FR_Interview Title', unitId: interview_title, group: recruitment }
+    - { target: 'FR_Schedule Interview', unitId: schedule_interview, group: recruitment }
+    - { target: 'FR_Shortlist', unitId: shortlist, group: recruitment }
+    - { target: 'FR_Current Status', unitId: current_status, group: recruitment }
+    - { target: 'FR_Performed Action', unitId: performed_action, group: recruitment }
+    - { target: 'FR_Performed By', unitId: performed_by, group: recruitment }
+    - { target: 'FR_Performed Date', unitId: performed_date, group: recruitment }
+    - { target: 'FR_View Action History', unitId: view_action_history, group: recruitment }
     - { target: 'FR_Vacancy', unitId: vacancy, group: recruitment }
     - { target: 'FR_Hiring Manager', unitId: hiring_manager, group: recruitment }
     - { target: 'FR_Candidate Name', unitId: candidate_name, group: recruitment }
@@ -17,3 +26,4 @@ translations:
     - { target: 'FR_Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'FR_Resume', unitId: resume, group: recruitment }
     - { target: 'FR_Add Candidate', unitId: add_candidate, group: recruitment }
+

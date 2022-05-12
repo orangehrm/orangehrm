@@ -1,4 +1,13 @@
 translations:
+    - { target: 'Aktionsverlauf ansehen', unitId: view_action_history, group: recruitment }
+    - { target: 'Bewerbungsgesprächstitel', unitId: interview_title, group: recruitment }
+    - { target: 'Interview planen', unitId: schedule_interview, group: recruitment }
+    - { target: 'In die engere Wahl nehmen', unitId: shortlist, group: recruitment }
+    - { target: 'Aktueller Status', unitId: current_status, group: recruitment }
+    - { target: 'Durchgeführte Aktion / Aktion wurde durchgeführt', unitId: performed_action, group: recruitment }
+    - { target: 'Ausgeführt durch', unitId: performed_by, group: recruitment }
+    - { target: 'Durchgeführtes Datum', unitId: performed_date, group: recruitment }
+    - { target: 'Aktionsverlauf ansehen', unitId: view_action_history, group: recruitment }
     - { target: 'Stellenangebot', unitId: vacancy, group: recruitment }
     - { target: 'Personalmanager', unitId: hiring_manager, group: recruitment }
     - { target: 'Bewerbername', unitId: candidate_name, group: recruitment }

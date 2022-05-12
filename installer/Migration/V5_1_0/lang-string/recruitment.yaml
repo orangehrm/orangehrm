@@ -12,14 +12,23 @@ langStrings:
     value: 'Schedule Interview'
     unitId: schedule_interview
   -
+    value: 'Shortlist'
+    unitId: shortlist
+  -
+    value: 'Current Status'
+    unitId: current_status
+  -
+    value: 'Performed Action'
+    unitId: performed_action
+  -
+    value: 'Performed By'
+    unitId: performed_by
+  -
+    value: 'Performed Date'
+    unitId: performed_date
+  -
     value: 'View Action History'
     unitId: view_action_history
-  -
-    value: 'Interviewer'
-    unitId: interviewer
-  -
-    value: 'Interview Title'
-    unitId: interview_title
   -
     value: 'Vacancy'
     unitId: vacancy
@@ -86,3 +95,4 @@ langStrings:
   -
     value: 'Should be the current date or a previous date'
     unitId: should_be_current_date_previous_date
+

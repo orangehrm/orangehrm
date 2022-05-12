@@ -1,4 +1,13 @@
 translations:
+    - { target: 'Ver el historial de actividad', unitId: view_action_history, group: recruitment }
+    - { target: 'Título de la Entrevista', unitId: interview_title, group: recruitment }
+    - { target: 'Agendar Entrevista', unitId: schedule_interview, group: recruitment }
+    - { target: 'Preselección', unitId: shortlist, group: recruitment }
+    - { target: 'Estado actual', unitId: current_status, group: recruitment }
+    - { target: 'Acción realizada', unitId: performed_action, group: recruitment }
+    - { target: 'Realizado por', unitId: performed_by, group: recruitment }
+    - { target: 'Fecha de realización de la acción', unitId: performed_date, group: recruitment }
+    - { target: 'Ver el historial de actividad', unitId: view_action_history, group: recruitment }
     - { target: 'Vacante', unitId: vacancy, group: recruitment }
     - { target: 'erente de contrataciones', unitId: hiring_manager, group: recruitment }
     - { target: 'Nombre del postulante', unitId: candidate_name, group: recruitment }
