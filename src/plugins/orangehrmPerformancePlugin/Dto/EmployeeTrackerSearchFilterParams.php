@@ -40,7 +40,7 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
         self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
     ];
 
-    private ?int $empNumber = null;
+    private ?array $empNumbers = null;
     private ?string $nameOrId = null;
     private string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
 
@@ -51,19 +51,19 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
     }
 
     /**
-     * @return int|null
+     * @return array|null
      */
-    public function getEmpNumber(): ?int
+    public function getEmpNumbers(): ?array
     {
-        return $this->empNumber;
+        return $this->empNumbers;
     }
 
     /**
-     * @param int|null $empNumber
+     * @param array|null $empNumbers
      */
-    public function setEmpNumber(?int $empNumber): void
+    public function setEmpNumbers(?array $empNumbers): void
     {
-        $this->empNumber = $empNumber;
+        $this->empNumbers = $empNumbers;
     }
 
     /**

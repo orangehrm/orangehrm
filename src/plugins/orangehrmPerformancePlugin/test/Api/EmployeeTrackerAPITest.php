@@ -19,12 +19,10 @@
 
 namespace OrangeHRM\Tests\Performance\Api;
 
-use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Api\EmployeeTrackerAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Tests\Util\Mock\MockAuthUser;
 
 /**
  * @group Performance
@@ -32,37 +30,13 @@ use OrangeHRM\Tests\Util\Mock\MockAuthUser;
  */
 class EmployeeTrackerAPITest extends EndpointIntegrationTestCase
 {
-    private const ADMIN_USER_ROLE_ID = 1;
-    private const ESS_USER_ROLE_ID = 2;
-
     /**
      * @dataProvider dataProviderForTestGetAll
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
         $this->populateFixtures('EmployeeTrackerAPITest.yaml');
-
-        $authUser = $this->getMockBuilder(MockAuthUser::class)
-            ->onlyMethods(['getUserId', 'getEmpNumber', 'getUserRoleId'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $authUser->method('getUserId')
-            ->willReturn($testCaseParams->getUserId());
-        $authUser->method('getEmpNumber')
-            ->willReturn(
-                $this->getEntityReference(
-                    User::class,
-                    $testCaseParams->getUserId()
-                )->getEmployee()->getEmpNumber()
-            );
-        // In the given fixtures, only user 1 is an Admin
-        $authUser->method('getUserRoleId')
-            ->willReturn(
-                $testCaseParams->getUserId() === 1 ?
-                    self::ADMIN_USER_ROLE_ID :
-                    self::ESS_USER_ROLE_ID
-            );
-        $this->createKernelWithMockServices([Services::AUTH_USER => $authUser]);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(EmployeeTrackerAPI::class, $testCaseParams);

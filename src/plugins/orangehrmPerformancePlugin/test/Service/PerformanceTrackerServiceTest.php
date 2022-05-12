@@ -17,22 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Service;
+namespace OrangeHRM\Tests\Performance\Service;
 
-use OrangeHRM\Performance\Dao\EmployeeTrackerDao;
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
-class EmployeeTrackerService
+/**
+ * @group Performance
+ * @group Service
+ */
+class PerformanceTrackerServiceTest extends KernelTestCase
 {
-    private ?EmployeeTrackerDao $employeeTrackerDao = null;
+    private PerformanceTrackerService $employeeTrackerService;
 
-    /**
-     * @return EmployeeTrackerDao
-     */
-    public function getEmployeeTrackerDao(): EmployeeTrackerDao
+    protected function setUp(): void
     {
-        if (!$this->employeeTrackerDao instanceof EmployeeTrackerDao) {
-            $this->employeeTrackerDao = new EmployeeTrackerDao();
-        }
-        return $this->employeeTrackerDao;
+        $this->employeeTrackerService = new PerformanceTrackerService();
+    }
+
+    public function testGetPerformanceTrackerDao(): void
+    {
+        $result = $this->employeeTrackerService->getPerformanceTrackerDao();
+        $this->assertInstanceOf(PerformanceTrackerDao::class, $result);
     }
 }

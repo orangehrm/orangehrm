@@ -25,13 +25,13 @@ use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 
-class EmployeeTrackerDao extends BaseDao
+class PerformanceTrackerDao extends BaseDao
 {
     /**
      * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
      * @return PerformanceTracker[]
      */
-    public function getEmployeeTrackerListForAdmin(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): array
+    public function getEmployeeTrackerList(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): array
     {
         $qb = $this->getEmployeeTrackerQueryBuilderWrapper($employeeTrackerSearchFilterParams)->getQueryBuilder();
         return $qb->getQuery()->execute();
@@ -41,51 +41,9 @@ class EmployeeTrackerDao extends BaseDao
      * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
      * @return int
      */
-    public function getEmployeeTrackerCountForAdmin(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): int
+    public function getEmployeeTrackerCount(EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams): int
     {
         $qb = $this->getEmployeeTrackerQueryBuilderWrapper($employeeTrackerSearchFilterParams)->getQueryBuilder();
-        return $this->getPaginator($qb)->count();
-    }
-
-    /**
-     * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
-     * @param int $empNumber
-     * @return PerformanceTracker[]
-     */
-    public function getEmployeeTrackerListForESS(
-        EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams,
-        int $empNumber
-    ): array {
-        $qb = $this->getEmployeeTrackerQueryBuilderWrapper($employeeTrackerSearchFilterParams)->getQueryBuilder();
-
-        $trackerIds = $this->getTrackerIdsByReviewerId($empNumber);
-        if (empty($trackerIds)) {
-            return [];
-        }
-        $qb->andWhere($qb->expr()->in('tracker.id', ':trackerIds'))
-            ->setParameter('trackerIds', $trackerIds);
-
-        return $qb->getQuery()->execute();
-    }
-
-    /**
-     * @param EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams
-     * @param int $empNumber
-     * @return int
-     */
-    public function getEmployeeTrackerCountForESS(
-        EmployeeTrackerSearchFilterParams $employeeTrackerSearchFilterParams,
-        int $empNumber
-    ): int {
-        $qb = $this->getEmployeeTrackerQueryBuilderWrapper($employeeTrackerSearchFilterParams)->getQueryBuilder();
-
-        $trackerIds = $this->getTrackerIdsByReviewerId($empNumber);
-        if (empty($trackerIds)) {
-            return 0;
-        }
-        $qb->andWhere($qb->expr()->in('tracker.id', ':trackerIds'))
-            ->setParameter('trackerIds', $trackerIds);
-
         return $this->getPaginator($qb)->count();
     }
 
@@ -99,9 +57,9 @@ class EmployeeTrackerDao extends BaseDao
         $qb = $this->createQueryBuilder(PerformanceTracker::class, 'tracker');
         $qb->leftJoin('tracker.employee', 'employee');
 
-        if (!is_null($employeeTrackerSearchFilterParams->getEmpNumber())) {
-            $qb->andWhere($qb->expr()->eq('employee.empNumber', ':empNumber'))
-                ->setParameter('empNumber', $employeeTrackerSearchFilterParams->getEmpNumber());
+        if (!is_null($employeeTrackerSearchFilterParams->getEmpNumbers())) {
+            $qb->andWhere($qb->expr()->in('employee.empNumber', ':empNumbers'))
+                ->setParameter('empNumbers', $employeeTrackerSearchFilterParams->getEmpNumbers());
         }
 
         if ($employeeTrackerSearchFilterParams->getIncludeEmployees(

@@ -30,10 +30,11 @@ class IntArray extends AbstractRule
             return false;
         }
 
-        // This will return an array with all $i elements that have type 'integer'
-        $filteredArray = array_filter($input, function ($i) {
-            return gettype($i) === 'integer';
-        });
-        return (count($filteredArray) ===  count($input));
+        foreach ($input as $value) {
+            if (!is_int($value)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

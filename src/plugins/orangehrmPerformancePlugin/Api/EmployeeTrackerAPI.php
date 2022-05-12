@@ -30,31 +30,30 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\Performance\Api\Model\EmployeeTrackerModel;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
-use OrangeHRM\Performance\Service\EmployeeTrackerService;
+use OrangeHRM\Performance\Service\PerformanceTrackerService;
 
 class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
 {
-    use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
     public const FILTER_NAME_OR_ID = 'nameOrId';
 
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
 
-    private const ADMIN_USER_ROLE_ID = 1;
-
-    private ?EmployeeTrackerService $employeeTrackerService = null;
+    private ?PerformanceTrackerService $employeeTrackerService = null;
 
     /**
-     * @return EmployeeTrackerService
+     * @return PerformanceTrackerService
      */
-    public function getEmployeeTrackerService(): EmployeeTrackerService
+    public function getPerformanceTrackerService(): PerformanceTrackerService
     {
-        if (!$this->employeeTrackerService instanceof EmployeeTrackerService) {
-            $this->employeeTrackerService = new EmployeeTrackerService();
+        if (!$this->employeeTrackerService instanceof PerformanceTrackerService) {
+            $this->employeeTrackerService = new PerformanceTrackerService();
         }
         return $this->employeeTrackerService;
     }
@@ -67,23 +66,24 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
         $employeeTrackerSearchFilterParams = $this->getEmployeeTrackerSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeTrackerSearchFilterParams);
 
-        $isAdmin = $this->getAuthUser()->getUserRoleId() === self::ADMIN_USER_ROLE_ID;
-        if (!$isAdmin) {
-            $empNumber = $this->getAuthUser()->getEmpNumber();
-            $employeeTrackerList = $this->getEmployeeTrackerService()
-                ->getEmployeeTrackerDao()
-                ->getEmployeeTrackerListForESS($employeeTrackerSearchFilterParams, $empNumber);
-            $employeeTrackerCount = $this->getEmployeeTrackerService()
-                ->getEmployeeTrackerDao()
-                ->getEmployeeTrackerCountForESS($employeeTrackerSearchFilterParams, $empNumber);
+        $empNumber = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+
+        if (!is_null($empNumber)) {
+            $employeeTrackerSearchFilterParams->setEmpNumbers([$empNumber]);
         } else {
-            $employeeTrackerList = $this->getEmployeeTrackerService()
-                ->getEmployeeTrackerDao()
-                ->getEmployeeTrackerListForAdmin($employeeTrackerSearchFilterParams);
-            $employeeTrackerCount = $this->getEmployeeTrackerService()
-                ->getEmployeeTrackerDao()
-                ->getEmployeeTrackerCountForAdmin($employeeTrackerSearchFilterParams);
+            $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(PerformanceTrackerReviewer::class);
+            $employeeTrackerSearchFilterParams->setEmpNumbers($accessibleEmpNumbers);
         }
+
+        $employeeTrackerList = $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getEmployeeTrackerList($employeeTrackerSearchFilterParams);
+        $employeeTrackerCount = $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getEmployeeTrackerCount($employeeTrackerSearchFilterParams);
 
         return new EndpointCollectionResult(
             EmployeeTrackerModel::class,
@@ -97,29 +97,23 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        $isAdmin = $this->getAuthUser()->getUserRoleId() === self::ADMIN_USER_ROLE_ID;
-        $empNumberRule = $isAdmin ?
-            new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS) :
-            new Rule(Rules::CALLBACK, [
-                function ($empNumber) {
-                    if (!(is_numeric($empNumber) && $empNumber > 0)) {
-                        return false;
-                    }
-
-                    return in_array(
-                        $empNumber,
-                        $this->getEmployeeTrackerService()
-                        ->getEmployeeTrackerDao()
-                        ->getEmployeeIdsByReviewerId($this->getAuthUser()->getEmpNumber())
-                    );
-                }
-            ]);
-
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
-                    $empNumberRule
+                    new Rule(Rules::CALLBACK, [
+                        function ($empNumber) {
+                            if (!(is_numeric($empNumber) && $empNumber > 0)) {
+                                return false;
+                            }
+
+                            return in_array(
+                                $empNumber,
+                                $this->getUserRoleManager()
+                                    ->getAccessibleEntityIds(PerformanceTrackerReviewer::class)
+                            );
+                        }
+                    ])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -147,12 +141,6 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
     protected function getEmployeeTrackerSearchFilterParams(): EmployeeTrackerSearchFilterParams
     {
         $employeeTrackerSearchFilterParams = new EmployeeTrackerSearchFilterParams();
-        $employeeTrackerSearchFilterParams->setEmpNumber(
-            $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                CommonParams::PARAMETER_EMP_NUMBER
-            )
-        );
         $employeeTrackerSearchFilterParams->setNameOrId(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,

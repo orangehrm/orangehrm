@@ -161,7 +161,7 @@ export default {
       };
     });
 
-    const api = 'api/v2/performance/employee-trackers';
+    const api = 'api/v2/performance/employees/trackers';
     const http = new APIService(window.appGlobal.baseUrl, api);
 
     const {

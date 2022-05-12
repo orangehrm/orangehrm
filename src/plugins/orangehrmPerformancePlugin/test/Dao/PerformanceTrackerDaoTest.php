@@ -21,7 +21,7 @@ namespace OrangeHRM\Tests\Performance\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\PerformanceTracker;
-use OrangeHRM\Performance\Dao\EmployeeTrackerDao;
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -30,24 +30,24 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Performance
  * @group Dao
  */
-class EmployeeTrackerDaoTest extends TestCase
+class PerformanceTrackerDaoTest extends TestCase
 {
-    private EmployeeTrackerDao $employeeTrackerDao;
+    private PerformanceTrackerDao $employeeTrackerDao;
     protected string $fixture;
 
     protected function setUp(): void
     {
-        $this->employeeTrackerDao = new EmployeeTrackerDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/EmployeeTrackerDao.yaml';
+        $this->employeeTrackerDao = new PerformanceTrackerDao();
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceTrackerDao.yaml';
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetEmployeeTrackerListForAdmin(): void
+    public function testGetEmployeeTrackerList(): void
     {
         $trackers = TestDataService::loadObjectList(PerformanceTracker::class, $this->fixture, 'PerformanceTracker');
         $expectedTrackerList = [$trackers[2], $trackers[0], $trackers[1]];
         $employeeTrackerSearchFilterParams = new EmployeeTrackerSearchFilterParams();
-        $result = $this->employeeTrackerDao->getEmployeeTrackerListForAdmin($employeeTrackerSearchFilterParams);
+        $result = $this->employeeTrackerDao->getEmployeeTrackerList($employeeTrackerSearchFilterParams);
 
         $this->assertSameSize($expectedTrackerList, $result);
         for ($i = 0; $i <= 2; $i++) {
@@ -57,36 +57,13 @@ class EmployeeTrackerDaoTest extends TestCase
         }
     }
 
-    public function testGetEmployeeTrackerCountForAdmin(): void
+    public function testGetEmployeeTrackerCount(): void
     {
         $expectedTrackerList = TestDataService::loadObjectList(PerformanceTracker::class, $this->fixture, 'PerformanceTracker');
         $employeeTrackerSearchFilterParams = new EmployeeTrackerSearchFilterParams();
-        $result = $this->employeeTrackerDao->getEmployeeTrackerCountForAdmin($employeeTrackerSearchFilterParams);
+        $result = $this->employeeTrackerDao->getEmployeeTrackerCount($employeeTrackerSearchFilterParams);
 
         $this->assertEquals(count($expectedTrackerList), $result);
-    }
-
-    public function testGetEmployeeTrackerListForESS(): void
-    {
-        $trackers = TestDataService::loadObjectList(PerformanceTracker::class, $this->fixture, 'PerformanceTracker');
-        $expectedTrackerList = [$trackers[2], $trackers[1]];
-        $employeeTrackerSearchFilterParams = new EmployeeTrackerSearchFilterParams();
-        $result = $this->employeeTrackerDao->getEmployeeTrackerListForESS($employeeTrackerSearchFilterParams, 2);
-
-        $this->assertSameSize($expectedTrackerList, $result);
-        for ($i = 0; $i <= 1; $i++) {
-            $this->assertEquals($expectedTrackerList[$i]->getTrackerName(), $result[$i]->getTrackerName());
-            $this->assertEquals($expectedTrackerList[$i]->getAddedDate(), $result[$i]->getAddedDate());
-            $this->assertEquals($expectedTrackerList[$i]->getEmployee(), $result[$i]->getEmployee());
-        }
-    }
-
-    public function testGetEmployeeTrackerCountForESS(): void
-    {
-        $employeeTrackerSearchFilterParams = new EmployeeTrackerSearchFilterParams();
-        $result = $this->employeeTrackerDao->getEmployeeTrackerCountForESS($employeeTrackerSearchFilterParams, 2);
-
-        $this->assertEquals(2, $result);
     }
 
     public function testGetTrackerIdsByReviewerId(): void
