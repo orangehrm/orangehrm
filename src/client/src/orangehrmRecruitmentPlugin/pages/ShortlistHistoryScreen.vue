@@ -81,7 +81,7 @@
               <oxd-input-field
                 :label="$t('recruitment.performed_date')"
                 disabled
-                :value="history.performedDate"
+                :value="getPerformedDate"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -116,15 +116,24 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
+import useLocale from '@/core/util/composable/useLocale';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+
 export default {
   name: 'ShortlistHistoryScreen',
   setup() {
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
+
     const http = new APIService(
       'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
       'recruitment/candidateHistory',
     );
     return {
       http,
+      locale,
+      jsDateFormat,
     };
   },
   data() {
@@ -141,6 +150,15 @@ export default {
         status: null,
       },
     };
+  },
+  computed: {
+    getPerformedDate() {
+      return formatDate(
+        parseDate(this.history.performedDate),
+        this.jsDateFormat,
+        {locale: this.locale},
+      );
+    },
   },
   beforeMount() {
     this.isLoading = true;

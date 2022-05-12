@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
   <div class="orangehrm-candidate-page">
     <oxd-table-filter :filter-title="$t('general.candidates')">

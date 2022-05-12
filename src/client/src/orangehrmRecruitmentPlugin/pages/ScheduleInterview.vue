@@ -77,20 +77,21 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <project-admin-autocomplete
-                v-for="(interviewer, index) in employees"
+              <interviewer-autocomplete
+                v-for="(interviewer, index) in interviewers"
                 :key="index"
                 v-model="interviewer.value"
                 :label="$t('recruitment.interviewer')"
                 :show-delete="index > 0"
-                :rules="index === 0 ? rules.employee : rules.employees"
+                :rules="
+                  index === 0 ? rules.mainInterviewer : rules.subInterviewer
+                "
                 include-employees="onlyCurrent"
-                api-path="api/v2/pim/employees"
                 :required="index === 0"
                 @remove="onRemoveAdmin(index)"
               />
               <oxd-button
-                v-if="employees.length < 5"
+                v-if="interviewers.length < 5"
                 icon-name="plus"
                 display-type="text"
                 :label="$t('general.add_another')"
@@ -144,7 +145,6 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
 import {navigate} from '@/core/util/helper/navigation';
 import {
   required,
@@ -152,11 +152,13 @@ import {
   validDateFormat,
 } from '@ohrm/core/util/validation/rules';
 import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments';
+import InterviewerAutocomplete from '@/orangehrmRecruitmentPlugin/components/InterviewerAutocomplete';
+
 export default {
   name: 'ScheduleInterview',
   components: {
     'interview-attachments': InterviewAttachments,
-    'project-admin-autocomplete': ProjectAdminAutocomplete,
+    'interviewer-autocomplete': InterviewerAutocomplete,
   },
   props: {
     allowedFileTypes: {
@@ -169,10 +171,12 @@ export default {
       'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
       'recruitment/scheduleInterview',
     );
+
     return {
       http,
     };
   },
+
   data() {
     return {
       isLoading: false,
@@ -181,20 +185,18 @@ export default {
         vacancy: null,
         hiringManager: null,
         status: null,
-        performedAction: null,
-        performedBy: null,
-        performedDate: null,
         title: '',
-        employees: null,
+        interviewers: null,
         date: null,
         time: null,
         notes: null,
       },
+
       rules: {
-        employee: [
+        mainInterviewer: [
           required,
           value => {
-            return this.employees.filter(
+            return this.interviewers.filter(
               ({value: interviewer}) =>
                 interviewer && interviewer.id === value?.id,
             ).length < 2
@@ -202,9 +204,9 @@ export default {
               : this.$t('general.already_exists');
           },
         ],
-        employees: [
+        subInterviewer: [
           value => {
-            return this.employees.filter(
+            return this.interviewers.filter(
               ({value: interviewer}) =>
                 interviewer && interviewer.id === value?.id,
             ).length < 2
@@ -215,7 +217,7 @@ export default {
         date: [required, validDateFormat()],
         title: [required, shouldNotExceedCharLength(100)],
       },
-      employees: [{value: null}],
+      interviewers: [{value: null}],
       interviewerId: null,
     };
   },
@@ -238,7 +240,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          employees: this.employees.map(({value}) => value.id),
+          interviewers: this.interviewers.map(({value}) => value.id),
           ...this.schedule,
         })
         .then(result => {
@@ -255,10 +257,10 @@ export default {
       navigate(`/recruitment/addCandidate/${this.schedule.cid}`);
     },
     onAddAnother() {
-      this.employees.push({value: null});
+      this.interviewers.push({value: null});
     },
     onRemoveAdmin(index) {
-      this.employees.splice(index, 1);
+      this.interviewers.splice(index, 1);
     },
   },
 };
