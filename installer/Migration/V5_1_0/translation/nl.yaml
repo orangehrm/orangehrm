@@ -1,0 +1,57 @@
+translations:
+    - { target: 'Vacature', unitId: vacancy, group: recruitment }
+    - { target: 'Personeelsmanager', unitId: hiring_manager, group: recruitment }
+    - { target: 'Naam kandidaat', unitId: candidate_name, group: recruitment }
+    - { target: 'Sleutelwoorden', unitId: keywords, group: recruitment }
+    - { target: 'Sollicitatiedatum', unitId: date_of_application, group: recruitment }
+    - { target: 'Wijze van solliciteren', unitId: method_of_application, group: recruitment }
+    - { target: 'Woorden invoeren en scheiden met een komma', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Kandidaat', unitId: candidate, group: recruitment }
+    - { target: 'Shortlisted', unitId: shortlisted, group: recruitment }
+    - { target: 'Interview gepland', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Interview geslaagd', unitId: interview_passed, group: recruitment }
+    - { target: 'Interview gefaald', unitId: interview_failed, group: recruitment }
+    - { target: 'Functie aangeboden', unitId: job_offered, group: recruitment }
+    - { target: 'Handmatig', unitId: manual, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'CV', unitId: resume, group: recruitment }
+    - { target: 'Kandidaat toevoegen', unitId: add_candidate, group: recruitment }
+    - { target: april, unitId: april, group: general }
+    - { target: augustus, unitId: august, group: general }
+    - { target: december, unitId: december, group: general }
+    - { target: februari, unitId: february, group: general }
+    - { target: vrijdag, unitId: friday, group: general }
+    - { target: januari, unitId: january, group: general }
+    - { target: juli, unitId: july, group: general }
+    - { target: juni, unitId: june, group: general }
+    - { target: maart, unitId: march, group: general }
+    - { target: mei, unitId: may, group: general }
+    - { target: maandag, unitId: monday, group: general }
+    - { target: november, unitId: november, group: general }
+    - { target: oktober, unitId: october, group: general }
+    - { target: zaterdag, unitId: saturday, group: general }
+    - { target: september, unitId: september, group: general }
+    - { target: zondag, unitId: sunday, group: general }
+    - { target: donderdag, unitId: thursday, group: general }
+    - { target: dinsdag, unitId: tuesday, group: general }
+    - { target: woensdag, unitId: wednesday, group: general }
+    - { target: vrij, unitId: fri, group: general }
+    - { target: maan, unitId: mon, group: general }
+    - { target: zat, unitId: sat, group: general }
+    - { target: zon, unitId: sun, group: general }
+    - { target: don, unitId: thu, group: general }
+    - { target: din, unitId: tue, group: general }
+    - { target: woe, unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }
+

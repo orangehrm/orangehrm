@@ -1,0 +1,56 @@
+translations:
+    - { target: 'Stellenangebot', unitId: vacancy, group: recruitment }
+    - { target: 'Personalmanager', unitId: hiring_manager, group: recruitment }
+    - { target: 'Bewerbername', unitId: candidate_name, group: recruitment }
+    - { target: 'Schlüsselwörter', unitId: keywords, group: recruitment }
+    - { target: 'Bewerbungsdatum', unitId: date_of_application, group: recruitment }
+    - { target: 'Bewerbungsmethode', unitId: method_of_application, group: recruitment }
+    - { target: 'Geben Sie durch Kommata getrennte Wörter ein', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Bewerber', unitId: candidate, group: recruitment }
+    - { target: 'Shortlisted', unitId: shortlisted, group: recruitment }
+    - { target: 'Bewerbungsgespräch geplant', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Das Bewerbungsgespräch als bestanden markieren', unitId: interview_passed, group: recruitment }
+    - { target: 'Bewerbungsgespräch nicht bestanden', unitId: interview_failed, group: recruitment }
+    - { target: 'Job angeboten', unitId: job_offered, group: recruitment }
+    - { target: 'Manuell', unitId: manual, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Wieder aufnehmen / Lebenslauf', unitId: resume, group: recruitment }
+    - { target: 'Bewerber hinzufügen', unitId: add_candidate, group: recruitment }
+    - { target: April, unitId: april, group: general }
+    - { target: August, unitId: august, group: general }
+    - { target: Dezember, unitId: december, group: general }
+    - { target: Februar, unitId: february, group: general }
+    - { target: Freitag, unitId: friday, group: general }
+    - { target: Januar, unitId: january, group: general }
+    - { target: Juli, unitId: july, group: general }
+    - { target: Juni, unitId: june, group: general }
+    - { target: März, unitId: march, group: general }
+    - { target: Mai, unitId: may, group: general }
+    - { target: Montag, unitId: monday, group: general }
+    - { target: November, unitId: november, group: general }
+    - { target: Oktober, unitId: october, group: general }
+    - { target: Samstag, unitId: saturday, group: general }
+    - { target: September, unitId: september, group: general }
+    - { target: Sonntag, unitId: sunday, group: general }
+    - { target: Donnerstag, unitId: thursday, group: general }
+    - { target: Dienstag, unitId: tuesday, group: general }
+    - { target: Mittwoch, unitId: wednesday, group: general }
+    - { target: FR, unitId: fri, group: general }
+    - { target: MO, unitId: mon, group: general }
+    - { target: SA, unitId: sat, group: general }
+    - { target: SO, unitId: sun, group: general }
+    - { target: DO, unitId: thu, group: general }
+    - { target: DI, unitId: tue, group: general }
+    - { target: MI, unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }

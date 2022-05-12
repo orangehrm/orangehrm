@@ -41,7 +41,9 @@
         </oxd-text>
       </div>
       <div class="orangehrm-comment-timestamp">
-        <oxd-text type="subtitle-2">{{ data.date }} - {{ data.time }}</oxd-text>
+        <oxd-text type="subtitle-2">
+          {{ commentDate }} - {{ data.time }}
+        </oxd-text>
       </div>
     </div>
   </div>
@@ -49,6 +51,9 @@
 
 <script>
 import {computed} from 'vue';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
 export default {
@@ -72,9 +77,17 @@ export default {
       return employee && `${employee.firstName} ${employee.lastName}`;
     });
 
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    const commentDate = computed(() => {
+      return formatDate(parseDate(props.data?.date), jsDateFormat, {locale});
+    });
+
     return {
       imgSrc,
       fullName,
+      commentDate,
     };
   },
 };

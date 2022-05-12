@@ -1,0 +1,56 @@
+translations:
+    - { target: 'Vacante', unitId: vacancy, group: recruitment }
+    - { target: 'Gerente de contrataciones', unitId: hiring_manager, group: recruitment }
+    - { target: 'Nombre del postulante', unitId: candidate_name, group: recruitment }
+    - { target: 'Palabras clave', unitId: keywords, group: recruitment }
+    - { target: 'Fecha de la solicitud', unitId: date_of_application, group: recruitment }
+    - { target: 'Método de recepción de la solicitud', unitId: method_of_application, group: recruitment }
+    - { target: 'Introduzca las palabras separadas por comas', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Candidatos', unitId: candidate, group: recruitment }
+    - { target: 'Preseleccionado', unitId: shortlisted, group: recruitment }
+    - { target: 'Interview Scheduled', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Entrevista programada', unitId: interview_passed, group: recruitment }
+    - { target: 'Entrevista no aprobada', unitId: interview_failed, group: recruitment }
+    - { target: 'Oferta de trabajo', unitId: job_offered, group: recruitment }
+    - { target: 'Manual', unitId: manual, group: recruitment }
+    - { target: 'En línea', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Currículum Vitae', unitId: resume, group: recruitment }
+    - { target: 'Agregar candidato', unitId: add_candidate, group: recruitment }
+    - { target: Abril, unitId: april, group: general }
+    - { target: Agosto, unitId: august, group: general }
+    - { target: Diciembre, unitId: december, group: general }
+    - { target: Febrero, unitId: february, group: general }
+    - { target: Viernes, unitId: friday, group: general }
+    - { target: Enero, unitId: january, group: general }
+    - { target: Julio, unitId: july, group: general }
+    - { target: Junio, unitId: june, group: general }
+    - { target: Marzo, unitId: march, group: general }
+    - { target: Mayo, unitId: may, group: general }
+    - { target: Lunes, unitId: monday, group: general }
+    - { target: Noviembre, unitId: november, group: general }
+    - { target: Octubre, unitId: october, group: general }
+    - { target: Sábado, unitId: saturday, group: general }
+    - { target: Septiembre, unitId: september, group: general }
+    - { target: Domingo, unitId: sunday, group: general }
+    - { target: Jueves, unitId: thursday, group: general }
+    - { target: Martes, unitId: tuesday, group: general }
+    - { target: Miércoles, unitId: wednesday, group: general }
+    - { target: Vie, unitId: fri, group: general }
+    - { target: Lun, unitId: mon, group: general }
+    - { target: Sab, unitId: sat, group: general }
+    - { target: Dom, unitId: sun, group: general }
+    - { target: Jue, unitId: thu, group: general }
+    - { target: Mar, unitId: tue, group: general }
+    - { target: Mie, unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }

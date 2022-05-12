@@ -48,10 +48,13 @@
   </div>
 </template>
 <script>
+import {computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
-import {computed} from 'vue';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 
 const defaultSortOrder = {
   trackers: 'DEFAULT',
@@ -76,6 +79,20 @@ export default {
       'https://990db1a5-734a-4bd6-a39b-12f29fbedfc3.mock.pstmn.io',
       '/api/v2/leave/myTracker',
     );
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    const trackerNormalizer = data => {
+      return data.map(item => {
+        return {
+          ...item,
+          date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
+          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
+            locale,
+          }),
+        };
+      });
+    };
 
     const {
       currentPage,
@@ -88,6 +105,7 @@ export default {
       isLoading,
     } = usePaginate(http, {
       query: serializedFilter,
+      normalizer: trackerNormalizer,
     });
 
     onSort(execQuery);

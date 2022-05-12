@@ -1,0 +1,56 @@
+translations:
+    - { target: 'Vacancy', unitId: vacancy, group: recruitment }
+    - { target: 'Hiring Manager', unitId: hiring_manager, group: recruitment }
+    - { target: 'Candidate Name', unitId: candidate_name, group: recruitment }
+    - { target: 'Keywords', unitId: keywords, group: recruitment }
+    - { target: 'Date of Application', unitId: date_of_application, group: recruitment }
+    - { target: 'Method of Application', unitId: method_of_application, group: recruitment }
+    - { target: 'Enter comma separated words', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Candidate', unitId: candidate, group: recruitment }
+    - { target: 'Shortlisted', unitId: shortlisted, group: recruitment }
+    - { target: 'Interview Scheduled', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Interview Passed', unitId: interview_passed, group: recruitment }
+    - { target: 'Interview Failed', unitId: interview_failed, group: recruitment }
+    - { target: 'Job Offered', unitId: job_offered, group: recruitment }
+    - { target: 'Manual', unitId: manual, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Resume', unitId: resume, group: recruitment }
+    - { target: 'Add Candidate', unitId: add_candidate, group: recruitment }
+    - { target: April, unitId: april, group: general }
+    - { target: August, unitId: august, group: general }
+    - { target: December, unitId: december, group: general }
+    - { target: February, unitId: february, group: general }
+    - { target: Friday, unitId: friday, group: general }
+    - { target: January, unitId: january, group: general }
+    - { target: July, unitId: july, group: general }
+    - { target: June, unitId: june, group: general }
+    - { target: March, unitId: march, group: general }
+    - { target: May, unitId: may, group: general }
+    - { target: Monday, unitId: monday, group: general }
+    - { target: November, unitId: november, group: general }
+    - { target: October, unitId: october, group: general }
+    - { target: Saturday, unitId: saturday, group: general }
+    - { target: September, unitId: september, group: general }
+    - { target: Sunday, unitId: sunday, group: general }
+    - { target: Thursday, unitId: thursday, group: general }
+    - { target: Tuesday, unitId: tuesday, group: general }
+    - { target: Wednesday, unitId: wednesday, group: general }
+    - { target: Fri, unitId: fri, group: general }
+    - { target: Mon, unitId: mon, group: general }
+    - { target: Sat, unitId: sat, group: general }
+    - { target: Sun, unitId: sun, group: general }
+    - { target: Thu, unitId: thu, group: general }
+    - { target: Tue, unitId: tue, group: general }
+    - { target: Wed, unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }

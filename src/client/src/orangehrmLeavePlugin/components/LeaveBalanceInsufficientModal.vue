@@ -73,6 +73,9 @@
 
 <script>
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'LeaveBalanceInsufficientModal',
@@ -90,6 +93,15 @@ export default {
     },
   },
   emits: ['close'],
+  setup() {
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    return {
+      locale,
+      jsDateFormat,
+    };
+  },
   data() {
     return {
       headers: [
@@ -117,9 +129,25 @@ export default {
         const leavePeriods = this.data.map(item => item.period);
         return leavePeriods.flatMap((period, index) => {
           return this.data[index].leaves.map(leave => {
+            const startDate = formatDate(
+              parseDate(period.startDate),
+              this.jsDateFormat,
+              {locale: this.locale},
+            );
+            const endDate = formatDate(
+              parseDate(period.endDate),
+              this.jsDateFormat,
+              {locale: this.locale},
+            );
+            const leaveDate = formatDate(
+              parseDate(leave.date),
+              this.jsDateFormat,
+              {locale: this.locale},
+            );
+
             return {
-              period: `${period.startDate} - ${period.endDate}`,
-              date: leave.date,
+              period: `${startDate} - ${endDate}`,
+              date: leaveDate,
               balance: leave.status?.name || leave.balance.toFixed(2),
             };
           });

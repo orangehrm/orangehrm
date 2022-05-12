@@ -68,6 +68,9 @@ import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHe
 import SaveWorkExperience from '@/orangehrmPimPlugin/components/SaveWorkExperience';
 import EditWorkExperience from '@/orangehrmPimPlugin/components/EditWorkExperience';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'EmployeeWorkExperience',
@@ -91,6 +94,20 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.employeeId}/work-experiences`,
     );
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    const workExperienceNormalizer = data => {
+      return data.map(item => {
+        return {
+          ...item,
+          fromDate: formatDate(parseDate(item.fromDate), jsDateFormat, {
+            locale,
+          }),
+          toDate: formatDate(parseDate(item.toDate), jsDateFormat, {locale}),
+        };
+      });
+    };
 
     const {
       showPaginator,
@@ -101,7 +118,10 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {toastNoRecords: false});
+    } = usePaginate(http, {
+      toastNoRecords: false,
+      normalizer: workExperienceNormalizer,
+    });
     return {
       http,
       showPaginator,

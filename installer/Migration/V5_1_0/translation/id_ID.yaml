@@ -1,0 +1,56 @@
+translations:
+    - { target: 'Lowongan', unitId: vacancy, group: recruitment }
+    - { target: 'Mempekerjakan Manajer', unitId: hiring_manager, group: recruitment }
+    - { target: 'Calon Nama', unitId: candidate_name, group: recruitment }
+    - { target: 'Kata kunci', unitId: keywords, group: recruitment }
+    - { target: 'Tanggal Aplikasi', unitId: date_of_application, group: recruitment }
+    - { target: 'Metode Aplikasi', unitId: method_of_application, group: recruitment }
+    - { target: 'Masukkan kata-kata yang dipisahkan koma', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Calon', unitId: candidate, group: recruitment }
+    - { target: 'Terpilih', unitId: shortlisted, group: recruitment }
+    - { target: 'Wawancara Terjadwal', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Wawancara Lulus', unitId: interview_passed, group: recruitment }
+    - { target: 'Wawancara Gagal', unitId: interview_failed, group: recruitment }
+    - { target: 'Job Ditawarkan', unitId: job_offered, group: recruitment }
+    - { target: 'Pedoman', unitId: manual, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Resume', unitId: resume, group: recruitment }
+    - { target: 'Tambahkan Calon', unitId: add_candidate, group: recruitment }
+    - { target: April, unitId: april, group: general }
+    - { target: Agustus, unitId: august, group: general }
+    - { target: Desember, unitId: december, group: general }
+    - { target: Februari, unitId: february, group: general }
+    - { target: Jumat, unitId: friday, group: general }
+    - { target: Januari, unitId: january, group: general }
+    - { target: Juli, unitId: july, group: general }
+    - { target: Juni, unitId: june, group: general }
+    - { target: Maret, unitId: march, group: general }
+    - { target: Mei, unitId: may, group: general }
+    - { target: Senin, unitId: monday, group: general }
+    - { target: November, unitId: november, group: general }
+    - { target: Oktober, unitId: october, group: general }
+    - { target: Sabtu, unitId: saturday, group: general }
+    - { target: September, unitId: september, group: general }
+    - { target: Minggu, unitId: sunday, group: general }
+    - { target: Kamis, unitId: thursday, group: general }
+    - { target: Selasa, unitId: tuesday, group: general }
+    - { target: Rabu, unitId: wednesday, group: general }
+    - { target: Jumat, unitId: fri, group: general }
+    - { target: Senin, unitId: mon, group: general }
+    - { target: Sabtu, unitId: sat, group: general }
+    - { target: Minggu, unitId: sun, group: general }
+    - { target: Kamis, unitId: thu, group: general }
+    - { target: Selasa, unitId: tue, group: general }
+    - { target: Rabu, unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }

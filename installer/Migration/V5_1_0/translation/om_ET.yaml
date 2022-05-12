@@ -1,0 +1,56 @@
+translations:
+    - { target: 'Iddoo Hojii Banaa', unitId: vacancy, group: recruitment }
+    - { target: 'Hogganaan Qaxaru', unitId: hiring_manager, group: recruitment }
+    - { target: 'Maqaa Dorgomaa', unitId: candidate_name, group: recruitment }
+    - { target: 'Jechabeekamtuu', unitId: keywords, group: recruitment }
+    - { target: 'Guyyaa Itti Iyyate', unitId: date_of_application, group: recruitment }
+    - { target: 'Akkaata Iyyannoo', unitId: method_of_application, group: recruitment }
+    - { target: 'Jechoota koomaan Adda baasii galchi', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Dorgomaa', unitId: candidate, group: recruitment }
+    - { target: 'Calalameera', unitId: shortlisted, group: recruitment }
+    - { target: 'Gaaffiifi Deebiin Saganteeffameera', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Darbe', unitId: interview_passed, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Kufe', unitId: interview_failed, group: recruitment }
+    - { target: 'Hojiif Affeerameera', unitId: job_offered, group: recruitment }
+    - { target: 'Maanuwaalii', unitId: manual, group: recruitment }
+    - { target: 'Sarararra', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Ragaa Barumsaa', unitId: resume, group: recruitment }
+    - { target: 'Dorgomaa Dabali', unitId: add_candidate, group: recruitment }
+    - { target: Eebila, unitId: april, group: general }
+    - { target: Hagayya, unitId: august, group: general }
+    - { target: Mudde, unitId: december, group: general }
+    - { target: Guraandhala, unitId: february, group: general }
+    - { target: Jimaata, unitId: friday, group: general }
+    - { target: Amajji, unitId: january, group: general }
+    - { target: Adoolessa, unitId: july, group: general }
+    - { target: Waxabajji, unitId: june, group: general }
+    - { target: Bitootessa, unitId: march, group: general }
+    - { target: Caamsaa, unitId: may, group: general }
+    - { target: Wixata, unitId: monday, group: general }
+    - { target: Sadaasa, unitId: november, group: general }
+    - { target: Onkoloolessa, unitId: october, group: general }
+    - { target: Sanbata, unitId: saturday, group: general }
+    - { target: Fulbaana, unitId: september, group: general }
+    - { target: Dilbata, unitId: sunday, group: general }
+    - { target: Kamisa, unitId: thursday, group: general }
+    - { target: Kibxata, unitId: tuesday, group: general }
+    - { target: Roobii, unitId: wednesday, group: general }
+    - { target: Jim, unitId: fri, group: general }
+    - { target: Wix, unitId: mon, group: general }
+    - { target: San, unitId: sat, group: general }
+    - { target: Dil, unitId: sun, group: general }
+    - { target: Kam, unitId: thu, group: general }
+    - { target: Kib, unitId: tue, group: general }
+    - { target: Rob, unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }

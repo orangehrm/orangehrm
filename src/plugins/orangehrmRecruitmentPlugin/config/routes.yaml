@@ -6,6 +6,15 @@ candidate_schedule_interview:
 candidate_schedule_interview_history:
   path: /recruitment/jobInterview/history/{hid}/interviewer/{id}
   controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewHistory::handle
+
+view_recruitment_candidates:
+  path: /recruitment/viewCandidates
+  controller: OrangeHRM\Recruitment\Controller\ViewCandidateController::handle
+  methods: [ GET ]
+
+save_recruitment_candidates:
+  path: /recruitment/addCandidate
+  controller: OrangeHRM\Recruitment\Controller\SaveCandidateController::handle
   methods: [ GET ]
 
 recruitment_module_under_development: # remove this
