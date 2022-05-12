@@ -133,4 +133,5 @@ export default {
   ...MaintenancePages,
   ...RecruitmentPages,
   ...PerformancePages,
+  ...RecruitmentPages,
 };
