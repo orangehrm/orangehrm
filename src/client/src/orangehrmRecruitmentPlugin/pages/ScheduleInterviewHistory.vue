@@ -91,6 +91,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="schedule.title"
                 :label="$t('recruitment.interview_title')"
                 :placeholder="$t('general.type_for_hints')"
                 :rules="rules.title"
@@ -177,13 +178,9 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments';
 import {navigate} from '@/core/util/helper/navigation';
-import TimeInput from '@/core/components/inputs/TimeInput';
-import DateInput from '@/core/components/inputs/DateInput';
 export default {
   name: 'ScheduleInterviewHistory',
   components: {
-    'date-input': DateInput,
-    'time-input': TimeInput,
     'interview-attachments': InterviewAttachments,
     'required-text': RequiredText,
     'project-admin-autocomplete': ProjectAdminAutocomplete,
@@ -196,7 +193,7 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
       'recruitment/scheduleInterviewHistory',
     );
     return {
@@ -220,76 +217,19 @@ export default {
         time: null,
         notes: null,
       },
-      actions: [
-        {
-          id: 1,
-          label: 'Shortlist',
-        },
-        {
-          id: 2,
-          label: 'Schedule Interview',
-        },
-        {
-          id: 3,
-          label: 'Mark Interview',
-        },
-        {
-          id: 4,
-          label: 'Passed',
-        },
-        {
-          id: 5,
-          label: 'Failed',
-        },
-        {
-          id: 6,
-          label: 'Offer Job',
-        },
-        {
-          id: 7,
-          label: 'Decline Offer',
-        },
-        {
-          id: 7,
-          label: 'Hire',
-        },
-        {
-          id: 8,
-          label: 'Reject',
-        },
-      ],
-      statuses: [
-        {
-          id: 1,
-          label: this.$t('recruitment.application_initiated'),
-        },
-        {
-          id: 2,
-          label: this.$t('recruitment.shortlisted'),
-        },
-        {
-          id: 3,
-          label: this.$t('recruitment.interview_scheduled'),
-        },
-        {
-          id: 4,
-          label: this.$t('recruitment.interview_passed'),
-        },
-        {
-          id: 5,
-          label: this.$t('recruitment.interview_failed'),
-        },
-        {
-          id: 6,
-          label: this.$t('recruitment.job_offered'),
-        },
-        {
-          id: 7,
-          label: this.$t('recruitment.offered_declined'),
-        },
-      ],
+
       rules: {
-        interviewer: [required],
+        interviewer: [
+          required,
+          value => {
+            return this.interviewers.filter(
+              ({value: interviewer}) =>
+                interviewer && interviewer.id === value?.id,
+            ).length < 2
+              ? true
+              : this.$t('general.already_exists');
+          },
+        ],
         interviewers: [
           value => {
             return this.interviewers.filter(
@@ -321,9 +261,8 @@ export default {
         cid: candidate.id,
         vacancy: vacancy.title,
         hiringManager: `${manager.firstName} ${manager.middleName} ${manager.lastName}`,
-        status: this.statuses.find(({id}) => id === status)?.label,
-        performedAction: this.actions.find(({id}) => id === performedAction)
-          ?.label,
+        status: status.label,
+        performedAction: performedAction.label,
         ...rest,
       };
     });
@@ -331,10 +270,15 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http.create({}).then(() => {
-        this.isLoading = false;
-        return this.$toast.addSuccess();
-      });
+      this.http
+        .create({
+          interviewers: this.interviewers.map(({value}) => value.id),
+          ...this.schedule,
+        })
+        .then(() => {
+          this.isLoading = false;
+          return this.$toast.addSuccess();
+        });
     },
     onBack() {
       navigate(`/recruitment/addCandidate/${this.schedule.cid}`);

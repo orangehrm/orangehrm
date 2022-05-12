@@ -152,13 +152,9 @@ import {
   validDateFormat,
 } from '@ohrm/core/util/validation/rules';
 import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments';
-import TimeInput from '@/core/components/inputs/TimeInput';
-import DateInput from '@/core/components/inputs/DateInput';
 export default {
   name: 'ScheduleInterview',
   components: {
-    'date-input': DateInput,
-    'time-input': TimeInput,
     'interview-attachments': InterviewAttachments,
     'required-text': RequiredText,
     'project-admin-autocomplete': ProjectAdminAutocomplete,
@@ -171,7 +167,7 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
       'recruitment/scheduleInterview',
     );
     return {
@@ -195,38 +191,19 @@ export default {
         time: null,
         notes: null,
       },
-      statuses: [
-        {
-          id: 1,
-          label: this.$t('recruitment.application_initiated'),
-        },
-        {
-          id: 2,
-          label: this.$t('recruitment.shortlisted'),
-        },
-        {
-          id: 3,
-          label: this.$t('recruitment.interview_scheduled'),
-        },
-        {
-          id: 4,
-          label: this.$t('recruitment.interview_passed'),
-        },
-        {
-          id: 5,
-          label: this.$t('recruitment.interview_failed'),
-        },
-        {
-          id: 6,
-          label: this.$t('recruitment.job_offered'),
-        },
-        {
-          id: 7,
-          label: this.$t('recruitment.offered_declined'),
-        },
-      ],
+
       rules: {
-        interviewer: [required],
+        interviewer: [
+          required,
+          value => {
+            return this.interviewers.filter(
+              ({value: interviewer}) =>
+                interviewer && interviewer.id === value?.id,
+            ).length < 2
+              ? true
+              : this.$t('general.already_exists');
+          },
+        ],
         interviewers: [
           value => {
             return this.interviewers.filter(
@@ -253,7 +230,7 @@ export default {
         candidate: `${candidate.firstName} ${candidate.middleName} ${candidate.lastName}`,
         vacancy: vacancy.title,
         hiringManager: `${manager.firstName} ${manager.middleName} ${manager.lastName}`,
-        status: this.statuses.find(({id}) => id === status)?.label,
+        status: status.label,
         ...rest,
       };
     });
@@ -262,7 +239,10 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({})
+        .create({
+          interviewers: this.interviewers.map(({value}) => value.id),
+          ...this.schedule,
+        })
         .then(result => {
           this.interviewerId = result.data?.data.id;
           return this.$toast.saveSuccess();

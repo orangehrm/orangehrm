@@ -100,7 +100,7 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
       `recruitment/interviewAttachments/interviewer`,
     );
     const {
@@ -228,8 +228,8 @@ export default {
       this.showSaveModal = false;
       this.showEditModal = false;
     },
-    onClickDownload() {
-      const downUrl = `${window.appGlobal.baseUrl}/pim/viewAttachment/empNumber/`;
+    onClickDownload(item) {
+      const downUrl = `${window.appGlobal.baseUrl}/recruitment/resume/${item?.id}`;
       window.open(downUrl, '_blank');
     },
   },
