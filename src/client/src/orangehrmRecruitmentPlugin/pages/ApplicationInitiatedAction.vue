@@ -45,6 +45,7 @@
   </oxd-form>
   <candidate-profile
     :candidate-id="candidateId"
+    :allowed-file-types="allowedFileTypes"
     @getData="getData"
   ></candidate-profile>
   <history-table :candidate-id="candidateId"></history-table>
@@ -69,6 +70,10 @@ export default {
     },
     action: {
       type: Object,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: Array,
       required: true,
     },
   },

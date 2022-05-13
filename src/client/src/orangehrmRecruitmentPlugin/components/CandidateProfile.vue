@@ -151,6 +151,8 @@ import {
   validDateFormat,
   validPhoneNumberFormat,
   validEmailFormat,
+  maxFileSize,
+  validFileTypes,
 } from '@/core/util/validation/rules';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
@@ -167,6 +169,10 @@ export default {
   props: {
     candidateId: {
       type: Number,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: Array,
       required: true,
     },
   },
@@ -208,6 +214,10 @@ export default {
         contactNumber: [validPhoneNumberFormat, shouldNotExceedCharLength(25)],
         keywords: [shouldNotExceedCharLength(250)],
         applicationDate: [validDateFormat()],
+        resume: [
+          maxFileSize(1024 * 1024),
+          validFileTypes(this.allowedFileTypes),
+        ],
       },
     };
   },
