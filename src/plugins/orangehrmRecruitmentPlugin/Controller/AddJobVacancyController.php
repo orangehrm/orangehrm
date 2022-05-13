@@ -25,7 +25,6 @@ use OrangeHRM\Framework\Http\Request;
 
 class AddJobVacancyController extends AbstractVueController
 {
-
     public function preRender(Request $request): void
     {
         $component = new Component('add-job-vacancy');

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Recruitment\Api;
 
-
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -157,7 +156,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(VacancySearchFilterParams::ALLOWED_SORT_FIELDS)
-
         );
     }
 
@@ -232,7 +230,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -274,7 +271,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_DESCRIPTION,
                     new Rule(Rules::STRING_TYPE),
-
                 ),
                 true
             ),
@@ -283,7 +279,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_NUM_OF_POSITIONS,
                     new Rule(Rules::INT_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH])
-
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -291,7 +286,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_EMPLOYEE_ID,
                     new Rule(Rules::INT_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_HIRING_MANGER_ID_MAX_LENGTH])
-
                 ),
                 true
             ),

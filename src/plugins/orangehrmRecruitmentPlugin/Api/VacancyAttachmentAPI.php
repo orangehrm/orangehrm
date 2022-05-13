@@ -37,7 +37,6 @@ use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\Recruitment\Api\Model\VacancyAttachmentModel;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
-
 class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
 {
     use RecruitmentAttachmentServiceTrait;
@@ -148,7 +147,6 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
                 $this->getAttachmentRule()
             ),
             ...$this->getCommonBodyValidationRules(),
-
         );
     }
 

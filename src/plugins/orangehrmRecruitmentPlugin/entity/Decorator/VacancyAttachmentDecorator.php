@@ -58,7 +58,7 @@ class VacancyAttachmentDecorator
         }
         return $this->attachmentString;
     }
-    
+
     /**
      * @return VacancyAttachment
      */
@@ -70,9 +70,9 @@ class VacancyAttachmentDecorator
     /**
      * @param  int  $id
      */
-    public function setVacancyById(int $id):void{
+    public function setVacancyById(int $id): void
+    {
         $vacancy = $this->getReference(Vacancy::class, $id);
         $this->getVacancyAttachment()->setVacancy($vacancy);
     }
-
 }

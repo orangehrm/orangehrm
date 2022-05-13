@@ -34,5 +34,4 @@ trait RecruitmentAttachmentServiceTrait
     {
         return $this->getContainer()->get(Services::RECRUITMENT_ATTACHMENT_SERVICE);
     }
-
 }

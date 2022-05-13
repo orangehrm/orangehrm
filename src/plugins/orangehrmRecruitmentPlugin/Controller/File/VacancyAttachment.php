@@ -22,14 +22,11 @@ namespace OrangeHRM\Recruitment\Controller\File;
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
 class VacancyAttachment extends AbstractFileController
 {
-    /**
-     * @var RecruitmentAttachmentService|null
-     */
-    protected ?RecruitmentAttachmentService $attachmentService = null;
+    use RecruitmentAttachmentServiceTrait;
 
     public function handle(Request $request): Response
     {
@@ -37,8 +34,10 @@ class VacancyAttachment extends AbstractFileController
         $response = $this->getResponse();
 
         if ($attachId) {
-            $attachment = $this->getAttachmentService()->getRecruitmentAttachmentDao()->getVacancyAttachment($attachId);
-            if ($attachment instanceof \OrangeHRM\Entity\VacancyAttachment) {
+            $attachment = $this->getRecruitmentAttachmentService()->getRecruitmentAttachmentDao()->getVacancyAttachment(
+                $attachId
+            );
+            if ($attachment instanceof VacancyAttachment::class) {
                 $this->setCommonHeadersToResponse(
                     $attachment->getFileName(),
                     $attachment->getFileType(),
@@ -51,17 +50,4 @@ class VacancyAttachment extends AbstractFileController
         }
         return $this->handleBadRequest();
     }
-
-    /**
-     * @return RecruitmentAttachmentService
-     */
-    public function getAttachmentService(): RecruitmentAttachmentService
-    {
-        if (!$this->attachmentService instanceof RecruitmentAttachmentService) {
-            $this->attachmentService = new RecruitmentAttachmentService();
-        }
-        return $this->attachmentService;
-    }
-
-
 }

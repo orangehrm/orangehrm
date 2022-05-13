@@ -20,16 +20,12 @@
 
 namespace OrangeHRM\Recruitment\Dao;
 
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine_Query;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\ORM\Paginator;
 
@@ -39,7 +35,6 @@ use OrangeHRM\ORM\Paginator;
  */
 class VacancyDao extends BaseDao
 {
-
     /**
      * Retrieve hiring managers list
      * @returns array
@@ -207,7 +202,7 @@ class VacancyDao extends BaseDao
      * @param  VacancySearchFilterParams  $vacancySearchFilterParamHolder
      * @return Vacancy[]
      */
-    public function getVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder):array
+    public function getVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder): array
     {
         $qb=$this->getVacanciesPaginator($vacancySearchFilterParamHolder);
         return $qb->getQuery()->execute();
@@ -215,23 +210,22 @@ class VacancyDao extends BaseDao
 
     protected function getVacanciesPaginator(VacancySearchFilterParams $vacancySearchFilterParamHolder): Paginator
     {
-
             $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
-            $q->leftJoin('vacancy.jobTitle','jobTitle');
-            $q->leftJoin('vacancy.employee','employee');
+        $q->leftJoin('vacancy.jobTitle', 'jobTitle');
+        $q->leftJoin('vacancy.employee', 'employee');
 
-            $this->setSortingAndPaginationParams($q,$vacancySearchFilterParamHolder);
+        $this->setSortingAndPaginationParams($q, $vacancySearchFilterParamHolder);
 
-            if(!is_null($vacancySearchFilterParamHolder->getJobTitleId())){
+        if (!is_null($vacancySearchFilterParamHolder->getJobTitleId())) {
                 $q->andWhere('jobTitle.id = :jobTitleCode')->setParameter('jobTitleCode', $vacancySearchFilterParamHolder->getJobTitleId());
             }
-            if(!is_null($vacancySearchFilterParamHolder->getEmpNumber())){
+        if (!is_null($vacancySearchFilterParamHolder->getEmpNumber())) {
                 $q->andWhere('employee.empNumber  = :hiringManagerId')->setParameter('hiringManagerId', $vacancySearchFilterParamHolder->getEmpNumber());
             }
-            if(!is_null($vacancySearchFilterParamHolder->getVacancyId())){
+        if (!is_null($vacancySearchFilterParamHolder->getVacancyId())) {
                 $q->andWhere('vacancy.id = :vacancyId')->setParameter('vacancyId', $vacancySearchFilterParamHolder->getVacancyId());
             }
-            if(!is_null($vacancySearchFilterParamHolder->getStatus())){
+        if (!is_null($vacancySearchFilterParamHolder->getStatus())) {
                 $q->andWhere('vacancy.status = :status')->setParameter('status', $vacancySearchFilterParamHolder->getStatus());
             }
 
@@ -270,8 +264,6 @@ class VacancyDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
-
-
     }
 
     /**
@@ -389,10 +381,9 @@ class VacancyDao extends BaseDao
      * @param $vacancySearchFilterParamHolder
      * @return int
      */
-    public function searchVacanciesCount($vacancySearchFilterParamHolder) :int
+    public function searchVacanciesCount($vacancySearchFilterParamHolder): int
     {
         return $this->getVacanciesPaginator($vacancySearchFilterParamHolder)->count();
-
     }
 
     /**
@@ -443,5 +434,4 @@ class VacancyDao extends BaseDao
             throw new DaoException($e->getMessage());
         }
     }
-
 }

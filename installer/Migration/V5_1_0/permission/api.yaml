@@ -13,3 +13,32 @@ apiv2_performance_kpi:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+##########################
+#        Recruitment
+##########################
+
+apiv2_vacancy:
+  description: 'API-v2 Recruitment - Vacancy'
+  api: OrangeHRM\Recruitment\Api\VacancyAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
+
+apiv2_vacancy_attachment:
+  description: 'API-v2 Recruitment - Vacancy Attachment'
+  api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
+

@@ -218,5 +218,4 @@ class VacancyAttachment
     {
         $this->comment = $comment;
     }
-
 }

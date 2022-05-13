@@ -20,9 +20,9 @@
 namespace OrangeHRM\Entity;
 
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\VacancyDecorator;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @method VacancyDecorator getDecorator()
@@ -33,6 +33,7 @@ use OrangeHRM\Entity\Decorator\VacancyDecorator;
 class Vacancy
 {
     use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -97,7 +98,6 @@ class Vacancy
      * @ORM\Column(name="updated_time",type="datetime")
      */
     private DateTime $updatedTime;
-//
 
     /**
      * @return int
@@ -108,7 +108,7 @@ class Vacancy
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      */
     public function setId(int $id): void
     {
@@ -124,7 +124,7 @@ class Vacancy
     }
 
     /**
-     * @param  JobTitle  $jobTitle
+     * @param JobTitle $jobTitle
      */
     public function setJobTitle(JobTitle $jobTitle): void
     {
@@ -140,7 +140,7 @@ class Vacancy
     }
 
     /**
-     * @param  Employee|null  $employee
+     * @param Employee|null $employee
      */
     public function setEmployee(?Employee $employee): void
     {
@@ -157,7 +157,7 @@ class Vacancy
     }
 
     /**
-     * @param  string  $name
+     * @param string $name
      */
     public function setName(string $name): void
     {
@@ -173,7 +173,7 @@ class Vacancy
     }
 
     /**
-     * @param  string|null  $description
+     * @param string|null $description
      */
     public function setDescription(?string $description): void
     {
@@ -189,7 +189,7 @@ class Vacancy
     }
 
     /**
-     * @param  int|null  $numOfPositions
+     * @param int|null $numOfPositions
      */
     public function setNumOfPositions(?int $numOfPositions): void
     {
@@ -205,7 +205,7 @@ class Vacancy
     }
 
     /**
-     * @param  int  $status
+     * @param int $status
      */
     public function setStatus(int $status): void
     {
@@ -221,7 +221,7 @@ class Vacancy
     }
 
     /**
-     * @param  bool  $isPublished
+     * @param bool $isPublished
      */
     public function setIsPublished(bool $isPublished): void
     {
@@ -237,7 +237,7 @@ class Vacancy
     }
 
     /**
-     * @param  DateTime  $definedTime
+     * @param DateTime $definedTime
      */
     public function setDefinedTime(DateTime $definedTime): void
     {
@@ -253,7 +253,7 @@ class Vacancy
     }
 
     /**
-     * @param  DateTime  $updatedTime
+     * @param DateTime $updatedTime
      */
     public function setUpdatedTime(DateTime $updatedTime): void
     {
