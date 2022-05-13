@@ -25,6 +25,12 @@ import JobOfferedAction from './pages/JobOfferedAction.vue';
 import OfferDeclinedAction from './pages/OfferDeclinedAction.vue';
 import RejectAction from './pages/RejectAction.vue';
 import ShortlistAction from './pages/ShortlistAction.vue';
+import ShortlistCandidateScreen from './pages/ShortlistCandidateScreen.vue';
+import ShortlistHistoryScreen from './pages/ShortlistHistoryScreen.vue';
+import ScheduleInterview from './pages/ScheduleInterview.vue';
+import ScheduleInterviewHistory from './pages/ScheduleInterviewHistory.vue';
+import ViewCandidate from './pages/ViewCandidate.vue';
+import SaveCandidate from './pages/SaveCandidate.vue';
 
 export default {
   'application-initiated-action': ApplicationInitiatedAction,
@@ -36,4 +42,10 @@ export default {
   'reject-action': RejectAction,
   'shortlist-action': ShortlistAction,
   'offer-declined-action': OfferDeclinedAction,
+  'schedule-interview': ScheduleInterview,
+  'schedule-interview-history': ScheduleInterviewHistory,
+  'shortlist-candidate': ShortlistCandidateScreen,
+  'shortlist-history': ShortlistHistoryScreen,
+  'view-candidate': ViewCandidate,
+  'save-candidate': SaveCandidate,
 };

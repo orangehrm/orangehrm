@@ -1,5 +1,4 @@
-<?php
-
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,25 +16,41 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Recruitment\Controller;
+<template>
+  <oxd-input-field
+    type="select"
+    :label="$t('recruitment.hiring_manager')"
+    :options="options"
+  />
+</template>
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+<script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@ohrm/core/util/services/api.service';
 
-class CandidateShortlistActionController extends AbstractVueController
-{
-
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('reject-action');
-        $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, 1));
-        $component->addProp(new Prop('action', Prop::TYPE_OBJECT, ['id' => 1, 'label' => 'Application initiated']));
-        $this->setComponent($component);
-    }
-}
+export default {
+  name: 'HiringManagerDropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
+      'recruitment/api/hiringManager',
+    );
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
+};
+</script>

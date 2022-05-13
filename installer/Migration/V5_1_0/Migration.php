@@ -32,7 +32,9 @@ class Migration extends AbstractMigration
     {
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
 
-        $this->getConnection()->executeStatement('ALTER TABLE ohrm_kpi CHANGE job_title_code job_title_code INT(13) NOT NULL');
+        $this->getConnection()->executeStatement(
+            'ALTER TABLE ohrm_kpi CHANGE job_title_code job_title_code INT(13) NOT NULL'
+        );
         $kpiForeignKeyConstraint = new ForeignKeyConstraint(
             ['job_title_code'],
             'ohrm_job_title',
@@ -41,6 +43,12 @@ class Migration extends AbstractMigration
             ['onCascade' => 'DELETE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_kpi', $kpiForeignKeyConstraint);
+
+        $groups = ['recruitment'];
+        foreach ($groups as $group) {
+            $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
+            $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
+        }
 
         $groups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
         foreach ($groups as $group) {

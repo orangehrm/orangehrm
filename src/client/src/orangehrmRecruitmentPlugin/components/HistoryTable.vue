@@ -149,7 +149,7 @@ export default {
     },
     onClickEdit(item) {
       navigate(
-        `recruitment/jobInterview/history/${item.action.id}/interview/${item.action.interviewId}`,
+        `/recruitment/jobInterview/history/${item.action.id}/interviewer/${item.action.interviewId}`,
       );
     },
   },

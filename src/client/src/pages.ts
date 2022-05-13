@@ -71,6 +71,7 @@ import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
 import MaintenancePages from '@/orangehrmMaintenancePlugin';
+import RecruitmentPages from '@/orangehrmRecruitmentPlugin';
 import PerformancePages from '@/orangehrmPerformancePlugin';
 import RecruitmentPages from '@/orangehrmRecruitmentPlugin';
 
@@ -131,6 +132,7 @@ export default {
   ...TimePages,
   ...AttendancePages,
   ...MaintenancePages,
+  ...RecruitmentPages,
   ...PerformancePages,
   ...RecruitmentPages,
 };
