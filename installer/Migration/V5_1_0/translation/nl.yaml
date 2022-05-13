@@ -1,4 +1,7 @@
 translations:
+    - { target: 'Toon actie geschiedenis', unitId: view_action_history, group: recruitment }
+    - { target: 'Interview naam', unitId: interview_title, group: recruitment }
+    - { target: 'Interview plannen', unitId: schedule_interview, group: recruitment }
     - { target: 'Shortlist', unitId: shortlist, group: recruitment }
     - { target: 'Huidige status', unitId: current_status, group: recruitment }
     - { target: 'Uitgevoerde actie', unitId: performed_action, group: recruitment }

@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-input-field type="time" :step="15" />
+  <oxd-input-field type="time" :step="15" :placeholder="$t('general.hh_mm')" />
 </template>
 
 <script>

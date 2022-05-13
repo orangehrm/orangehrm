@@ -1,4 +1,7 @@
 translations:
+    - { target: 'Ver el historial de Acción', unitId: view_action_history, group: recruitment }
+    - { target: 'Título de Entrevista', unitId: interview_title, group: recruitment }
+    - { target: 'Programar entrevista', unitId: schedule_interview, group: recruitment }
     - { target: 'Lisa de seleccionados', unitId: shortlist, group: recruitment }
     - { target: 'Estado actual', unitId: current_status, group: recruitment }
     - { target: 'Acción realizada', unitId: performed_action, group: recruitment }

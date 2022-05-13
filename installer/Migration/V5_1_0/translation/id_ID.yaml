@@ -1,4 +1,7 @@
 translations:
+    - { target: 'Lihat Riwayat Aksi', unitId: view_action_history, group: recruitment }
+    - { target: 'Wawancara Judul', unitId: interview_title, group: recruitment }
+    - { target: 'Jadwal Wawancara', unitId: schedule_interview, group: recruitment }
     - { target: 'Daftar singkat', unitId: shortlist, group: recruitment }
     - { target: 'Status Sekarang', unitId: current_status, group: recruitment }
     - { target: 'Dilakukan Aksi', unitId: performed_action, group: recruitment }
