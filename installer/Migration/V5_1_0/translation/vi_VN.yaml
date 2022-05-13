@@ -63,3 +63,7 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Từ chối', unitId: reject, group: recruitment }
+    - { target: 'Đánh dấu phỏng vấn không thành công', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Đánh dấu phỏng vấn trôi qua', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Thuê', unitId: hire, group: recruitment }

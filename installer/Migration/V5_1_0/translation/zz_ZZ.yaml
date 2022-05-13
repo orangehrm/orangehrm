@@ -26,4 +26,7 @@ translations:
     - { target: 'FR_Contact Number', unitId: contact_number, group: recruitment }
     - { target: 'FR_Resume', unitId: resume, group: recruitment }
     - { target: 'FR_Add Candidate', unitId: add_candidate, group: recruitment }
-
+    - { target: 'FR_Reject', unitId: reject, group: recruitment }
+    - { target: 'FR_Mark Interview Failed', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'FR_Mark Interview Passed', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'FR_Hire', unitId: hire, group: recruitment }

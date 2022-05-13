@@ -63,3 +63,7 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: '拒絕', unitId: reject, group: recruitment }
+    - { target: '標記面試失敗', unitId: mark_interview_failed, group: recruitment }
+    - { target: '標記面試合格', unitId: mark_interview_passed, group: recruitment }
+    - { target: '聘請', unitId: hire, group: recruitment }

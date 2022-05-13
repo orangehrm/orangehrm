@@ -63,3 +63,7 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Ablehnen', unitId: reject, group: recruitment }
+    - { target: 'Das Bewerbungsgespräch als nicht bestanden markieren', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Das Bewerbungsgespräch als bestanden markieren', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Anstellen', unitId: hire, group: recruitment }
