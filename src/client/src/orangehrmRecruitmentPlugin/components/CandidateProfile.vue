@@ -53,7 +53,7 @@
               <file-upload-input
                 v-model:newFile="profile.newResume"
                 v-model:method="profile.method"
-                :label="'Resume'"
+                :label="$t('recruitment.resume')"
                 :button-label="$t('general.browse')"
                 :file="profile.oldResume"
                 :rules="rules.resume"
@@ -78,7 +78,7 @@
             <oxd-grid-item>
               <date-input
                 v-model="profile.applicationDate"
-                label="Date of Application"
+                :label="$t('recruitment.date_of_application')"
                 :rules="rules.applicationDate"
               />
             </oxd-grid-item>

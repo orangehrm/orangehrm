@@ -23,7 +23,7 @@
     <recruitment-status :data="data">
       <template #header-title>
         <oxd-text tag="h6" class="orangehrm-main-title">
-          Application Stage
+          {{ $t('recruitment.application_stage') }}
         </oxd-text>
       </template>
       <template #footer-title>
@@ -32,12 +32,12 @@
       <template #footer-options>
         <oxd-button
           display-type="ghost-danger"
-          :label="'Reject'"
+          :label="$t('recruitment.reject')"
           @click="onReject"
         />
         <oxd-button
           display-type="secondary"
-          :label="'Schedule Interview'"
+          :label="$t('recruitment.schedule_interview')"
           @click="onSchedule"
         />
       </template>

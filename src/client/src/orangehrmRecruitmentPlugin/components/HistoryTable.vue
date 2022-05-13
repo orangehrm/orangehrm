@@ -22,7 +22,7 @@
   <div class="orangehrm-paper-container">
     <div class="orangehrm-header-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Candidate History
+        {{ $t('recruitment.candidate') }} History
       </oxd-text>
     </div>
     <table-header
