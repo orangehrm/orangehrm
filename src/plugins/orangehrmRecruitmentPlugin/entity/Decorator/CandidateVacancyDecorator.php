@@ -17,34 +17,42 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Service\CandidateService;
-use OrangeHRM\Recruitment\Service\VacancyService;
-use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+namespace OrangeHRM\Entity\Decorator;
 
-class RecruitmentPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\Entity\Vacancy;
+
+class CandidateVacancyDecorator
 {
-    use ServiceContainerTrait;
+    use EntityManagerHelperTrait;
+
+    protected CandidateVacancy $candidateVacancy;
 
     /**
-     * @inheritDoc
+     * @param CandidateVacancy $candidateVacancy
      */
-    public function initialize(Request $request): void
+    public function __construct(CandidateVacancy $candidateVacancy)
     {
-        $this->getContainer()->register(
-            Services::VACANCY_SERVICE,
-            VacancyService::class
-        );
-        $this->getContainer()->register(
-            Services::RECRUITMENT_ATTACHMENT_SERVICE,
-            RecruitmentAttachmentService::class
-        );
-        $this->getContainer()->register(
-            Services::CANDIDATE_SERVICE,
-            CandidateService::class
-        );
+        $this->candidateVacancy = $candidateVacancy;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setVacancy(int $id): void
+    {
+        $vacancy = $this->getReference(Vacancy::class, $id);
+        $this->candidateVacancy->setVacancy($vacancy);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setCandidate(int $id): void
+    {
+        $candidate = $this->getReference(Candidate::class, $id);
+        $this->candidateVacancy->setCandidate($candidate);
     }
 }

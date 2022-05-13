@@ -293,6 +293,11 @@ final class Services
      */
     public const RECRUITMENT_ATTACHMENT_SERVICE = 'recruitment.recruitment_attachment_service';
 
+    /**
+     * @see \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+     */
+    public const CANDIDATE_SERVICE = 'recruitment.candidate_service';
+
     ///////////////////////////////////////////////////////////////
     /// Performance plugin services
     ///////////////////////////////////////////////////////////////

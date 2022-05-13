@@ -42,3 +42,17 @@ apiv2_vacancy_attachment:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
+apiv2_candidates:
+  description: 'API-v2 Recruitment - Candidates'
+  api: OrangeHRM\Recruitment\Api\CandidateAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Interviewer, permission: { read: true, create: true, update: true, delete: true, self: false } }
+

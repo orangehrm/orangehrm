@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,34 +18,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Service\CandidateService;
-use OrangeHRM\Recruitment\Service\VacancyService;
-use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+namespace OrangeHRM\Recruitment\Service;
 
-class RecruitmentPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Recruitment\Dao\CandidateDao;
+
+class CandidateService
 {
-    use ServiceContainerTrait;
+    protected ?CandidateDao $candidateDao = null;
 
     /**
-     * @inheritDoc
+     * Get Candidate Dao
+     * @return CandidateDao
      */
-    public function initialize(Request $request): void
+    public function getCandidateDao(): CandidateDao
     {
-        $this->getContainer()->register(
-            Services::VACANCY_SERVICE,
-            VacancyService::class
-        );
-        $this->getContainer()->register(
-            Services::RECRUITMENT_ATTACHMENT_SERVICE,
-            RecruitmentAttachmentService::class
-        );
-        $this->getContainer()->register(
-            Services::CANDIDATE_SERVICE,
-            CandidateService::class
-        );
+        if (is_null($this->candidateDao)) {
+            $this->candidateDao = new CandidateDao();
+        }
+        return $this->candidateDao;
     }
 }

@@ -28,6 +28,21 @@ apiv2_recruitment_vacancy_attachments:
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
 
+apiv2_recruitment_candidates:
+  path: /api/v2/recruitment/candidates
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateAPI
+
+apiv2_recruitment_candidate:
+  path: /api/v2/recruitment/candidates/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateAPI
+    _key: id
+
 ##########################
 #        Files
 ##########################

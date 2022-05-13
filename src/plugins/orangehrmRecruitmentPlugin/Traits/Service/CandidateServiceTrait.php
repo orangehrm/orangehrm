@@ -17,34 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Framework\Http\Request;
+namespace OrangeHRM\Recruitment\Traits\Service;
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Recruitment\Service\CandidateService;
-use OrangeHRM\Recruitment\Service\VacancyService;
-use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 
-class RecruitmentPluginConfiguration implements PluginConfigurationInterface
+trait CandidateServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return CandidateService
      */
-    public function initialize(Request $request): void
+    protected function getCandidateService(): CandidateService
     {
-        $this->getContainer()->register(
-            Services::VACANCY_SERVICE,
-            VacancyService::class
-        );
-        $this->getContainer()->register(
-            Services::RECRUITMENT_ATTACHMENT_SERVICE,
-            RecruitmentAttachmentService::class
-        );
-        $this->getContainer()->register(
-            Services::CANDIDATE_SERVICE,
-            CandidateService::class
-        );
+        return $this->getContainer()->get(Services::CANDIDATE_SERVICE);
     }
 }
