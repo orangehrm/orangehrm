@@ -21,11 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">{{
-          $t('admin.localization')
-        }}</oxd-text>
-      </div>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('admin.localization') }}
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -50,7 +48,6 @@
                 :label="$t('admin.date_format')"
                 type="select"
                 :show-empty-selector="false"
-                :disabled="true"
                 :options="dateFormatList"
               />
             </oxd-grid-item>
@@ -97,24 +94,22 @@ export default {
         language: null,
         dateFormat: null,
       },
-      errors: [],
     };
   },
-  created() {
+  beforeMount() {
     this.isLoading = true;
-    this.http.http
-      .get('api/v2/admin/localization')
-      .then(({data: {data}}) => {
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
         this.configuration.language = this.languageList.find(
           item => item.id === data.language,
         );
         this.configuration.dateFormat = this.dateFormatList.find(
-          item => item.id === 'Y-m-d',
+          item => item.id === data.dateFormat,
         );
       })
-      .finally(() => {
-        this.isLoading = false;
-      });
+      .finally(() => (this.isLoading = false));
   },
 
   methods: {
@@ -126,15 +121,10 @@ export default {
           dateFormat: this.configuration.dateFormat?.id,
         })
         .then(() => {
-          reloadPage();
-          this.$toast.updateSuccess();
-        });
+          return this.$toast.updateSuccess();
+        })
+        .then(() => reloadPage());
     },
   },
 };
 </script>
-<style lang="scss" scoped>
-.orangehrm-header-container {
-  padding: 0;
-}
-</style>

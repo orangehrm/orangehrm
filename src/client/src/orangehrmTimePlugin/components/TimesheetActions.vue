@@ -49,28 +49,10 @@
 <script>
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {APIService} from '@/core/util/services/api.service';
-
-const actionsNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      action: item.action?.label,
-      date: item.date,
-      comment: item.comment,
-      performedBy: `${
-        item.performedEmployee?.firstName
-          ? item.performedEmployee?.firstName
-          : 'Purged'
-      }
-      ${
-        item.performedEmployee?.lastName
-          ? item.performedEmployee?.lastName
-          : 'Employee'
-      }
-       ${item.performedEmployee.terminationId ? ' (Past Employee)' : ''}`,
-    };
-  });
-};
+import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'TimesheetActions',
@@ -87,6 +69,35 @@ export default {
       window.appGlobal.baseUrl,
       `/api/v2/time/timesheets/${props.timesheetId}/action-logs`,
     );
+    const {$t} = usei18n();
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    const actionsNormalizer = data => {
+      return data.map(item => {
+        let performedEmployee;
+        const firstName = item.performedEmployee?.firstName;
+        const lastName = item.performedEmployee?.lastName;
+
+        if (firstName && lastName) {
+          performedEmployee = `${firstName} ${lastName}`;
+        } else {
+          performedEmployee = $t('general.purged_employee');
+        }
+
+        if (item.performedEmployee?.terminationId) {
+          performedEmployee += ` (${$t('general.past_employee')})`;
+        }
+
+        return {
+          id: item.id,
+          action: item.action?.label,
+          date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
+          comment: item.comment,
+          performedBy: performedEmployee,
+        };
+      });
+    };
 
     const {
       showPaginator,

@@ -1,0 +1,112 @@
+langStrings:
+  -
+    value: 'January'
+    unitId: january
+  -
+    value: 'February'
+    unitId: february
+  -
+    value: 'March'
+    unitId: march
+  -
+    value: 'April'
+    unitId: april
+  -
+    value: 'May'
+    unitId: may
+  -
+    value: 'June'
+    unitId: june
+  -
+    value: 'July'
+    unitId: july
+  -
+    value: 'August'
+    unitId: august
+  -
+    value: 'September'
+    unitId: september
+  -
+    value: 'October'
+    unitId: october
+  -
+    value: 'November'
+    unitId: november
+  -
+    value: 'December'
+    unitId: december
+  -
+    value: 'Jan'
+    unitId: jan
+  -
+    value: 'Feb'
+    unitId: feb
+  -
+    value: 'Mar'
+    unitId: mar
+  -
+    value: 'Apr'
+    unitId: apr
+  -
+    value: 'Jun'
+    unitId: jun
+  -
+    value: 'Jul'
+    unitId: jul
+  -
+    value: 'Aug'
+    unitId: aug
+  -
+    value: 'Sep'
+    unitId: sep
+  -
+    value: 'Oct'
+    unitId: oct
+  -
+    value: 'Nov'
+    unitId: nov
+  -
+    value: 'Dec'
+    unitId: dec
+  -
+    value: 'Sunday'
+    unitId: sunday
+  -
+    value: 'Monday'
+    unitId: monday
+  -
+    value: 'Tuesday'
+    unitId: tuesday
+  -
+    value: 'Wednesday'
+    unitId: wednesday
+  -
+    value: 'Thursday'
+    unitId: thursday
+  -
+    value: 'Friday'
+    unitId: friday
+  -
+    value: 'Saturday'
+    unitId: saturday
+  -
+    value: 'Sun'
+    unitId: sun
+  -
+    value: 'Mon'
+    unitId: mon
+  -
+    value: 'Tue'
+    unitId: tue
+  -
+    value: 'Wed'
+    unitId: wed
+  -
+    value: 'Thu'
+    unitId: thu
+  -
+    value: 'Fri'
+    unitId: fri
+  -
+    value: 'Sat'
+    unitId: sat

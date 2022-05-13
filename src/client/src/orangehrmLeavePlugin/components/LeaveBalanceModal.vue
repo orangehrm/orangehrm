@@ -84,6 +84,9 @@
 
 <script>
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'LeaveBalanceModal',
@@ -101,6 +104,15 @@ export default {
     },
   },
   emits: ['close'],
+  setup() {
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
+    return {
+      locale,
+      jsDateFormat,
+    };
+  },
   data() {
     return {
       headers: [
@@ -136,7 +148,9 @@ export default {
       return [];
     },
     asAtDate() {
-      return this.data?.asAtDate;
+      return formatDate(parseDate(this.data?.asAtDate), this.jsDateFormat, {
+        locale: this.locale,
+      });
     },
     leaveType() {
       return this.meta?.leaveType?.name;

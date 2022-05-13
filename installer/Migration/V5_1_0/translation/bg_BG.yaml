@@ -1,0 +1,64 @@
+translations:
+    - { target: 'Преглед на История за действие', unitId: view_action_history, group: recruitment }
+    - { target: 'Интервю Заглавие', unitId: interview_title, group: recruitment }
+    - { target: 'График Интервю', unitId: schedule_interview, group: recruitment }
+    - { target: 'Вакантно място', unitId: vacancy, group: recruitment }
+    - { target: 'Отдаване под наем мениджър', unitId: hiring_manager, group: recruitment }
+    - { target: 'Името на Кандидата', unitId: candidate_name, group: recruitment }
+    - { target: 'Ключови думи', unitId: keywords, group: recruitment }
+    - { target: 'Дата на прилагане', unitId: date_of_application, group: recruitment }
+    - { target: 'Метод на приложение', unitId: method_of_application, group: recruitment }
+    - { target: 'ОВъведете разделени със запетая думи', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Добави кандидат', unitId: candidate, group: recruitment }
+    - { target: 'В списъка', unitId: shortlisted, group: recruitment }
+    - { target: 'Интервю Планирана', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Интервю Приет', unitId: interview_passed, group: recruitment }
+    - { target: 'Интервю Неуспешно', unitId: interview_failed, group: recruitment }
+    - { target: 'Работа предлагам', unitId: job_offered, group: recruitment }
+    - { target: 'Наръчник', unitId: manual, group: recruitment }
+    - { target: 'Online', unitId: online, group: recruitment }
+    - { target: 'Резюме', unitId: resume, group: recruitment }
+    - { target: 'Добави кандидат', unitId: add_candidate, group: recruitment }
+    - { target: 'Кратък списък', unitId: shortlist, group: recruitment }
+    - { target: 'Текущ статус', unitId: current_status, group: recruitment }
+    - { target: 'Извършва действие', unitId: performed_action, group: recruitment }
+    - { target: 'Извършва се от', unitId: performed_by, group: recruitment }
+    - { target: 'Извършва Дата', unitId: performed_date, group: recruitment }
+    - { target: 'Преглед на История за действие', unitId: view_action_history, group: recruitment }
+    - { target: Април, unitId: april, group: general }
+    - { target: Август, unitId: august, group: general }
+    - { target: Декември, unitId: december, group: general }
+    - { target: Февруари, unitId: february, group: general }
+    - { target: Петък, unitId: friday, group: general }
+    - { target: Януари, unitId: january, group: general }
+    - { target: Юли, unitId: july, group: general }
+    - { target: Юни, unitId: june, group: general }
+    - { target: Март, unitId: march, group: general }
+    - { target: Май, unitId: may, group: general }
+    - { target: Понеделник, unitId: monday, group: general }
+    - { target: Ноември, unitId: november, group: general }
+    - { target: Октомври, unitId: october, group: general }
+    - { target: Събота, unitId: saturday, group: general }
+    - { target: Септември, unitId: september, group: general }
+    - { target: Неделя, unitId: sunday, group: general }
+    - { target: Четвъртък, unitId: thursday, group: general }
+    - { target: Вторник, unitId: tuesday, group: general }
+    - { target: Сряда, unitId: wednesday, group: general }
+    - { target: Пт, unitId: fri, group: general }
+    - { target: Пн, unitId: mon, group: general }
+    - { target: Пет, unitId: sat, group: general }
+    - { target: Слънце, unitId: sun, group: general }
+    - { target: Чт, unitId: thu, group: general }
+    - { target: Вт, unitId: tue, group: general }
+    - { target: Омъжвам, unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }

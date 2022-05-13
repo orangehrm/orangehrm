@@ -1,0 +1,66 @@
+translations:
+    - { target: "Afficher l'historique d'action", unitId: view_action_history, group: recruitment }
+    - { target: "Titre de l'entretien", unitId: interview_title, group: recruitment }
+    - { target: 'Programmer entretien', unitId: schedule_interview, group: recruitment }
+    - { target: 'Pré-sélection', unitId: shortlist, group: recruitment }
+    - { target: 'Statut actuel', unitId: current_status, group: recruitment }
+    - { target: 'Action effectuée', unitId: performed_action, group: recruitment }
+    - { target: 'Edité par', unitId: performed_by, group: recruitment }
+    - { target: 'Date de réalisation', unitId: performed_date, group: recruitment }
+    - { target: "Afficher l'historique d'action", unitId: view_action_history, group: recruitment }
+    - { target: 'A pourvoir', unitId: vacancy, group: recruitment }
+    - { target: 'Responsable du Recrutement', unitId: hiring_manager, group: recruitment }
+    - { target: 'Nom du candidat', unitId: candidate_name, group: recruitment }
+    - { target: 'Mots-clés', unitId: keywords, group: recruitment }
+    - { target: 'Date de la soumission', unitId: date_of_application, group: recruitment }
+    - { target: 'Méthode de candidature', unitId: method_of_application, group: recruitment }
+    - { target: 'Entrez les mots séparés par des virgules', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Candidat', unitId: candidate, group: recruitment }
+    - { target: 'Pré-sélectionné', unitId: shortlisted, group: recruitment }
+    - { target: 'Entretien programmé', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Entretien positif', unitId: interview_passed, group: recruitment }
+    - { target: 'Entretien négatif', unitId: interview_failed, group: recruitment }
+    - { target: 'Poste proposé', unitId: job_offered, group: recruitment }
+    - { target: 'Manuel', unitId: manual, group: recruitment }
+    - { target: 'En ligne', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'CV', unitId: resume, group: recruitment }
+    - { target: 'Ajouter candidat', unitId: add_candidate, group: recruitment }
+    - { target: Avril, unitId: april, group: general }
+    - { target: Août, unitId: august, group: general }
+    - { target: Décembre, unitId: december, group: general }
+    - { target: Février, unitId: february, group: general }
+    - { target: Vendredi, unitId: friday, group: general }
+    - { target: Janvier, unitId: january, group: general }
+    - { target: Juillet, unitId: july, group: general }
+    - { target: Juin, unitId: june, group: general }
+    - { target: Mars, unitId: march, group: general }
+    - { target: Mai, unitId: may, group: general }
+    - { target: Lundi, unitId: monday, group: general }
+    - { target: Novembre, unitId: november, group: general }
+    - { target: Octobre, unitId: october, group: general }
+    - { target: Samedi, unitId: saturday, group: general }
+    - { target: Septembre, unitId: september, group: general }
+    - { target: Dimanche, unitId: sunday, group: general }
+    - { target: Jeudi, unitId: thursday, group: general }
+    - { target: Mardi, unitId: tuesday, group: general }
+    - { target: Mercredi, unitId: wednesday, group: general }
+    - { target: Ven., unitId: fri, group: general }
+    - { target: Lun., unitId: mon, group: general }
+    - { target: Sam., unitId: sat, group: general }
+    - { target: Dim., unitId: sun, group: general }
+    - { target: Jeu., unitId: thu, group: general }
+    - { target: Mar., unitId: tue, group: general }
+    - { target: Mer., unitId: wed, group: general }
+    - { target: Jan, unitId: jan, group: general }
+    - { target: Feb, unitId: feb, group: general }
+    - { target: Mar, unitId: mar, group: general }
+    - { target: Apr, unitId: apr, group: general }
+    - { target: Jun, unitId: jun, group: general }
+    - { target: Jul, unitId: jul, group: general }
+    - { target: Aug, unitId: aug, group: general }
+    - { target: Sep, unitId: sep, group: general }
+    - { target: Oct, unitId: oct, group: general }
+    - { target: Nov, unitId: nov, group: general }
+    - { target: Dec, unitId: dec, group: general }
+
