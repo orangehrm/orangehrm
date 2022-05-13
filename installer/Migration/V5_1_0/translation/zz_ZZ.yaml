@@ -1,4 +1,7 @@
 translations:
+    - { target: 'FR_View Action History', unitId: view_action_history, group: recruitment }
+    - { target: 'FR_Interview Title', unitId: interview_title, group: recruitment }
+    - { target: 'FR_Schedule Interview', unitId: schedule_interview, group: recruitment }
     - { target: 'FR_Shortlist', unitId: shortlist, group: recruitment }
     - { target: 'FR_Current Status', unitId: current_status, group: recruitment }
     - { target: 'FR_Performed Action', unitId: performed_action, group: recruitment }

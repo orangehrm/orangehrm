@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
@@ -31,7 +32,7 @@
               <oxd-input-field
                 :label="$t('recruitment.candidate')"
                 disabled
-                :value="history.candidate"
+                :value="schedule.candidate"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -42,21 +43,21 @@
               <oxd-input-field
                 :label="$t('recruitment.vacancy')"
                 disabled
-                :value="history.vacancy"
+                :value="schedule.vacancy"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 :label="$t('recruitment.hiring_manager')"
                 disabled
-                :value="history.manager"
+                :value="schedule.hiringManager"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 :label="$t('recruitment.current_status')"
                 disabled
-                :value="history.status"
+                :value="schedule.status"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -67,14 +68,14 @@
               <oxd-input-field
                 :label="$t('recruitment.performed_action')"
                 disabled
-                :value="history.performedAction"
+                :value="schedule.performedAction"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 :label="$t('recruitment.performed_by')"
                 disabled
-                :value="history.performedBy"
+                :value="schedule.performedBy"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -88,18 +89,70 @@
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="schedule.title"
+                :label="$t('recruitment.interview_title')"
+                :placeholder="$t('general.type_for_hints')"
+                :rules="rules.title"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <interviewer-autocomplete
+                v-for="(interviewer, index) in interviewers"
+                :key="index"
+                v-model="interviewer.value"
+                :label="$t('recruitment.interviewer')"
+                :show-delete="index > 0"
+                :rules="
+                  index === 0 ? rules.mainInterviewer : rules.subInterviewer
+                "
+                include-employees="onlyCurrent"
+                :required="index === 0"
+                @remove="onRemoveAdmin(index)"
+              />
+              <oxd-button
+                v-if="interviewers.length < 5"
+                icon-name="plus"
+                display-type="text"
+                :label="$t('general.add_another')"
+                @click="onAddAnother"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <date-input
+                v-model="schedule.date"
+                :label="$t('general.date')"
+                :placeholder="$t('general.date_format')"
+                :rules="rules.date"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <time-input v-model="schedule.time" :label="$t('general.time')" />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item
               class="orangehrm-save-candidate-page --span-column-2"
             >
               <oxd-input-field
+                v-model="schedule.note"
                 :label="$t('general.notes')"
                 type="textarea"
-                :v-model="history.note"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-divider />
+        <required-text></required-text>
         <oxd-form-actions>
           <oxd-button
             display-type="ghost"
@@ -111,24 +164,44 @@
       </oxd-form>
     </div>
   </div>
+  <interview-attachments
+    :allowed-file-types="allowedFileTypes"
+  ></interview-attachments>
 </template>
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
+import InterviewerAutocomplete from '@/orangehrmRecruitmentPlugin/components/InterviewerAutocomplete';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validDateFormat,
+} from '@ohrm/core/util/validation/rules';
+import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments';
 import {navigate} from '@/core/util/helper/navigation';
 import useLocale from '@/core/util/composable/useLocale';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
-  name: 'ShortlistHistoryScreen',
+  name: 'ScheduleInterviewHistory',
+  components: {
+    'interview-attachments': InterviewAttachments,
+    'interviewer-autocomplete': InterviewerAutocomplete,
+  },
+  props: {
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+  },
   setup() {
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
 
     const http = new APIService(
       'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
-      'recruitment/candidateHistory',
+      'recruitment/scheduleInterviewHistory',
     );
     return {
       http,
@@ -139,69 +212,107 @@ export default {
   data() {
     return {
       isLoading: false,
-      history: {
-        candidate: '',
-        vacancy: '',
-        manager: '',
-        performedAction: '',
-        performedBy: '',
-        performedDate: '',
-        note: '',
+      schedule: {
+        candidate: null,
+        vacancy: null,
+        hiringManager: null,
         status: null,
+        performedAction: null,
+        performedBy: null,
+        performedDate: null,
+        title: '',
+        interviewers: null,
+        date: null,
+        time: null,
+        notes: null,
       },
+
+      rules: {
+        mainInterviewer: [
+          required,
+          value => {
+            return this.interviewers.filter(
+              ({value: interviewer}) =>
+                interviewer && interviewer.id === value?.id,
+            ).length < 2
+              ? true
+              : this.$t('general.already_exists');
+          },
+        ],
+        subInterviewer: [
+          value => {
+            return this.interviewers.filter(
+              ({value: interviewer}) =>
+                interviewer && interviewer.id === value?.id,
+            ).length < 2
+              ? true
+              : this.$t('general.already_exists');
+          },
+        ],
+        date: [required, validDateFormat()],
+        title: [required, shouldNotExceedCharLength(100)],
+      },
+      interviewers: [{value: null}],
     };
   },
   computed: {
     getPerformedDate() {
       return formatDate(
-        parseDate(this.history.performedDate),
+        parseDate(this.schedule.performedDate),
         this.jsDateFormat,
         {locale: this.locale},
       );
     },
   },
   beforeMount() {
-    this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
       const {
-        candidate,
-        performedAction,
         vacancy,
-        status,
+        candidate,
         manager,
+        performedAction,
+        status,
         ...rest
       } = data;
-      const {firstName, lastName, middleName} = candidate;
-      const fullName = `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
-      this.history = {
-        candidate: `${firstName} ${middleName} ${lastName}`,
-        vacancy: vacancy.title,
-        manager:
-          (manager?.terminationId ? this.$t('general.past_employee') : '') +
-          fullName,
-        performedAction: performedAction.label,
+      this.schedule = {
+        candidate: `${candidate.firstName} ${candidate.middleName} ${candidate.lastName}`,
         cid: candidate.id,
+        vacancy: vacancy.title,
+        hiringManager: `${manager.firstName} ${manager.middleName} ${manager.lastName}`,
         status: status.label,
+        performedAction: performedAction.label,
         ...rest,
       };
-      this.isLoading = false;
     });
   },
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.history.id, {note: this.history.note})
-        .then(() => {
-          return this.$toast.updateSuccess();
+        .create({
+          interviewers: this.interviewers.map(({value}) => value.id),
+          ...this.schedule,
         })
         .then(() => {
-          navigate('/recruitment/viewCandidates');
+          this.isLoading = false;
+          return this.$toast.addSuccess();
         });
     },
     onBack() {
-      navigate(`/recruitment/addCandidate/${this.history.cid}`);
+      navigate(`/recruitment/addCandidate/${this.schedule.cid}`);
+    },
+    onAddAnother() {
+      this.interviewers.push({value: null});
+    },
+    onRemoveAdmin(index) {
+      this.interviewers.splice(index, 1);
     },
   },
 };
 </script>
+
+<style scoped lang="scss">
+.orangehrm-project-admin-input {
+  align-items: center;
+}
+</style>

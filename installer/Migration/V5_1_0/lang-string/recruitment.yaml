@@ -1,5 +1,17 @@
 langStrings:
   -
+    value: 'View Action History'
+    unitId: view_action_history
+  -
+    value: 'Interviewer'
+    unitId: interviewer
+  -
+    value: 'Interview Title'
+    unitId: interview_title
+  -
+    value: 'Schedule Interview'
+    unitId: schedule_interview
+  -
     value: 'Shortlist'
     unitId: shortlist
   -

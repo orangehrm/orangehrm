@@ -1,4 +1,10 @@
 translations:
+    - { target: "Ta'iiwwan Seenaa Mul'isi", unitId: view_action_history, group: recruitment }
+    - { target: 'Mata-Duree Gaaffifi Deebii', unitId: interview_title, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Saganteeffame', unitId: schedule_interview, group: recruitment }
+    - { target: 'Toon actie geschiedenis', unitId: view_action_history, group: recruitment }
+    - { target: 'Interview naam', unitId: interview_title, group: recruitment }
+    - { target: 'Interview plannen', unitId: schedule_interview, group: recruitment }
     - { target: 'Calallii', unitId: shortlist, group: recruitment }
     - { target: 'Haala amma irra jiru', unitId: current_status, group: recruitment }
     - { target: 'Gocha Raawwatame', unitId: performed_action, group: recruitment }

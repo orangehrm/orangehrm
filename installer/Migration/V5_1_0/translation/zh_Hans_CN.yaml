@@ -1,4 +1,7 @@
 translations:
+    - { target: '查看行动历史', unitId: view_action_history, group: recruitment }
+    - { target: '面试题目', unitId: interview_title, group: recruitment }
+    - { target: '安排面试', unitId: schedule_interview, group: recruitment }
     - { target: '最后的候选人名单', unitId: shortlist, group: recruitment }
     - { target: '现状', unitId: current_status, group: recruitment }
     - { target: '执行了动作', unitId: performed_action, group: recruitment }

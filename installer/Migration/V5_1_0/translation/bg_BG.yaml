@@ -1,4 +1,7 @@
 translations:
+    - { target: 'Преглед на История за действие', unitId: view_action_history, group: recruitment }
+    - { target: 'Интервю Заглавие', unitId: interview_title, group: recruitment }
+    - { target: 'График Интервю', unitId: schedule_interview, group: recruitment }
     - { target: 'Вакантно място', unitId: vacancy, group: recruitment }
     - { target: 'Отдаване под наем мениджър', unitId: hiring_manager, group: recruitment }
     - { target: 'Името на Кандидата', unitId: candidate_name, group: recruitment }
