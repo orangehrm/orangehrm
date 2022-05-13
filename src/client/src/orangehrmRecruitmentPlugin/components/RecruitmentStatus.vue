@@ -33,19 +33,18 @@
         <thead class="orangehrm-timesheet-table-header">
           <tr class="orangehrm-timesheet-table-header-row">
             <th class="orangehrm-timesheet-table-header-cell">
-              Name
+              {{ $t('general.name') }}
             </th>
             <th class="orangehrm-timesheet-table-header-cell">
-              Vacancy
+              {{ $t('recruitment.vacancy') }}
             </th>
             <th class="orangehrm-timesheet-table-header-cell">
-              Hiring Manager
+              {{ $t('recruitment.hiring_manager') }}
             </th>
           </tr>
         </thead>
 
         <tbody class="orangehrm-timesheet-table-body">
-          <!-- timesheet activities -->
           <tr class="orangehrm-timesheet-table-body-row">
             <td
               v-for="(text, index) in data"

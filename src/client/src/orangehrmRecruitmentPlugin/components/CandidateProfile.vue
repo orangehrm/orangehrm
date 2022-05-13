@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Candidate Profile
+        {{ $t('recruitment.candidate') }} {{ $t('recruitment.profile') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -42,7 +42,10 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <vacancy-dropdown v-model="profile.vacancy" label="job vacancy" />
+              <vacancy-dropdown
+                v-model="profile.vacancy"
+                :label="$t('recruitment.job_vacancy')"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>

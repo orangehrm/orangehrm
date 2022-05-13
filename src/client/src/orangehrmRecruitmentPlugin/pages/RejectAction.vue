@@ -27,7 +27,9 @@
         </oxd-text>
       </template>
       <template #footer-title>
-        <oxd-text type="subtitle-2"> Status: {{ action.label }} </oxd-text>
+        <oxd-text type="subtitle-2">
+          {{ $t('general.status') }}: {{ action.label }}
+        </oxd-text>
       </template>
     </recruitment-status>
   </oxd-form>
@@ -80,5 +82,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss"></style>

@@ -116,5 +116,18 @@ langStrings:
   -
     value: 'Hire'
     unitId: hire
+  -
+    value: 'Profile'
+    unitId: profile
+  -
+    value: 'job vacancy'
+    unitId: job_vacancy
+  -
+    value: 'History'
+    unitId: history
+  -
+    value: 'Hiring Manager'
+    unitId: hiring_manager
+
 
 
