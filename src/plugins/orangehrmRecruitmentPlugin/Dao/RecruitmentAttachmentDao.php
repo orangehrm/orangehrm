@@ -20,9 +20,7 @@
 
 namespace OrangeHRM\Recruitment\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\VacancyAttachment;
 

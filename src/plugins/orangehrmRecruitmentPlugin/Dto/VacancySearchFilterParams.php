@@ -53,7 +53,7 @@ class VacancySearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('vacancy.name',);
+        $this->setSortField('vacancy.name');
     }
 
 
@@ -120,5 +120,4 @@ class VacancySearchFilterParams extends FilterParams
     {
         $this->status = $status;
     }
-
 }

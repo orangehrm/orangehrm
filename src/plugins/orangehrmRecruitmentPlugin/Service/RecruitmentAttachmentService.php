@@ -16,117 +16,29 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 namespace OrangeHRM\Recruitment\Service;
-use OrangeHRM\Entity\VacancyAttachment;
+
 use OrangeHRM\Recruitment\Dao\RecruitmentAttachmentDao;
 
-class RecruitmentAttachmentService {
+class RecruitmentAttachmentService
+{
+    private RecruitmentAttachmentDao $recruitmentAttachmentDao;
 
-	private RecruitmentAttachmentDao $recruitmentAttachmentDao;
+    /**
+     * Get recruitmentAttachmentDao Dao
+     * @return recruitmentAttachmentDao
+     */
+    public function getRecruitmentAttachmentDao(): RecruitmentAttachmentDao
+    {
+        return $this->recruitmentAttachmentDao;
+    }
 
-	/**
-	 * Get recruitmentAttachmentDao Dao
-	 * @return recruitmentAttachmentDao
-	 */
-	public function getRecruitmentAttachmentDao(): RecruitmentAttachmentDao
-	{
-		return $this->recruitmentAttachmentDao;
-	}
-
-	/**
-	 * Set Candidate Dao
-	 * @param CandidateDao $candidateDao
-	 * @return void
-	 */
-	public function setRecruitmentAttachmentDao(RecruitmentAttachmentDao $recruitmentAttachmentDao) {
-		$this->recruitmentAttachmentDao = $recruitmentAttachmentDao;
-	}
-
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		$this->recruitmentAttachmentDao = new RecruitmentAttachmentDao();
-	}
-
-	/**
-	 * @param  VacancyAttachment  $vacancyAttachment
-	 * @return VacancyAttachment
-	 */
-	public function saveVacancyAttachment(VacancyAttachment $vacancyAttachment): VacancyAttachment
-	{
-		return $this->recruitmentAttachmentDao->saveVacancyAttachment($vacancyAttachment);
-	}
-
-	/**
-	 *
-	 * @param JobCandidateAttachment $resume
-	 * @return <type>
-	 */
-	public function saveCandidateAttachment(JobCandidateAttachment $attachment) {
-		return $this->recruitmentAttachmentDao->saveCandidateAttachment($attachment);
-	}
-
-	/**
-	 *
-	 * @param <type> $attachId
-	 * @return <type>
-	 */
-	public function getVacancyAttachment($attachId) {
-		return $this->recruitmentAttachmentDao->getVacancyAttachment($attachId);
-	}
-
-	/**
-	 *
-	 * @param <type> $attachId
-	 * @return <type>
-	 */
-	public function getCandidateAttachment($attachId) {
-		return $this->recruitmentAttachmentDao->getCandidateAttachment($attachId);
-	}
-
-	/**
-	 *
-	 * @param <type> $id
-	 * @param <type> $screen 
-	 */
-	public function getAttachment($id, $screen){
-
-		if($screen == JobCandidate::TYPE){
-			return $this->recruitmentAttachmentDao->getCandidateAttachment($id);
-		} elseif($screen == JobVacancy::TYPE){
-			return $this->recruitmentAttachmentDao->getVacancyAttachment($id);
-		} elseif($screen == JobInterview::TYPE){
-			return $this->recruitmentAttachmentDao->getInterviewAttachment($id);
-		} else return false;
-	}
-
-	/**
-	 *
-	 * @param <type> $id
-	 * @param <type> $screen
-	 */
-	public function getAttachments($id, $screen){
-		
-		if($screen == JobVacancy::TYPE){
-			return $this->recruitmentAttachmentDao->getVacancyAttachments($id);
-		} elseif($screen == JobInterview::TYPE){
-			return $this->recruitmentAttachmentDao->getInterviewAttachments($id);
-		} else return false;	
-	}
-
-	public function getNewAttachment($screen, $id){
-
-		if($screen == JobVacancy::TYPE){
-			$attachment = new JobVacancyAttachment();
-			$attachment->vacancyId = $id;
-		} elseif($screen == JobInterview::TYPE){
-			$attachment =  new JobInterviewAttachment();
-			$attachment->interviewId = $id;
-		}
-		return $attachment;
-	}
-
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        $this->recruitmentAttachmentDao = new RecruitmentAttachmentDao();
+    }
 }
-
-?>
