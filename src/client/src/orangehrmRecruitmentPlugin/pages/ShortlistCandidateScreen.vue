@@ -142,8 +142,8 @@ export default {
         .then(() => {
           return this.$toast.updateSuccess();
         })
-        .then(() => {
-          navigate('/recruitment/VacancyStatus');
+        .then(({data: {data}}) => {
+          navigate(`/recruitment/VacancyStatus/${data.id}`);
         });
     },
     onBack() {

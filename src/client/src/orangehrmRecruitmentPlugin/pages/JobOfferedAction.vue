@@ -82,11 +82,13 @@ export default {
       data: null,
       status: null,
       isLoading: true,
+      vacancyId: null,
     };
   },
   methods: {
     getData(data) {
-      this.data = data;
+      this.data = data.stage;
+      this.vacancyId = data.vacancyId;
       this.isLoading = false;
     },
     onReject() {

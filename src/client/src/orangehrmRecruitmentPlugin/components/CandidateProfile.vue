@@ -206,12 +206,16 @@ export default {
       this.profile.middleName = candidate.middleName;
       this.profile.lastName = candidate.lastName;
       this.profile.method = 'keepCurrent';
+      this.profile.vacancy = data.vacancy;
       this.profile = {
         ...this.profile,
         ...rest,
       };
       this.isLoading = false;
-      this.$emit('getData', [fullName, data.vacancy.label, managerName]);
+      this.$emit('getData', {
+        stage: [fullName, data.vacancy.label, managerName],
+        vacancyId: data.vacancy.id,
+      });
     });
   },
   methods: {

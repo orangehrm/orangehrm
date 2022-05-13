@@ -77,18 +77,22 @@ export default {
       data: null,
       status: null,
       isLoading: true,
+      vacancyId: null,
     };
   },
   methods: {
     getData(data) {
-      this.data = data;
+      this.data = data.stage;
+      this.vacancyId = data.vacancyId;
       this.isLoading = false;
     },
     onReject() {
       navigate('recruitment/vacancy/action');
     },
     onSchedule() {
-      navigate('recruitment/vacancy/action');
+      navigate(
+        `/recruitment/jobInterview/vacancy/${this.vacancyId}/action/${this.action.id}`,
+      );
     },
   },
 };

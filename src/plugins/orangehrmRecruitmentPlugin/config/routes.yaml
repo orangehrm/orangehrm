@@ -19,7 +19,7 @@ candidate_shortlist:
   methods: [ GET ]
 
 view_shortlist_history:
-  path: /recruitment/VacancyStatus
+  path: /recruitment/VacancyStatus/{hid}
   controller: OrangeHRM\Recruitment\Controller\ShortlistHistoryController::handle
   methods: [ GET ]
 
