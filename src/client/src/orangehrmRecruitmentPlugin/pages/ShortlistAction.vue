@@ -43,9 +43,6 @@
 </template>
 
 <script>
-import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
-import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
-import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
 import {navigate} from '@/core/util/helper/navigation';
 import CandidateProfileLayout from '@/orangehrmRecruitmentPlugin/components/CandidateProfileLayout';
 export default {
