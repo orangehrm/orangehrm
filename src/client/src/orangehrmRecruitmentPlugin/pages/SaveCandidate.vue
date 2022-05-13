@@ -174,7 +174,7 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
+      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
       'recruitment/api/candidate',
     );
     return {

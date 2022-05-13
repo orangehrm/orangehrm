@@ -34,7 +34,7 @@ export default {
   setup() {
     const options = ref([]);
     const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
       'recruitment/api/vacancy',
     );
     onBeforeMount(() => {

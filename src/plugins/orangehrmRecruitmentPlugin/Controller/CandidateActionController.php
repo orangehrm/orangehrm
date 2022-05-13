@@ -34,7 +34,7 @@ class CandidateActionController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $candidateId = $request->get('candidateId');
-        $component = new Component('application-initiated-action');
+        $component = new Component('interview-passed-action');
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));
         $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, 1));
         $component->addProp(new Prop('action', Prop::TYPE_OBJECT, ['id' => 1, 'label' => 'Application initiated']));
