@@ -23,11 +23,11 @@ namespace OrangeHRM\Recruitment\Dao;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\VacancyAttachment;
 
 class RecruitmentAttachmentDao extends BaseDao
 {
-
     /**
      * @param  VacancyAttachment  $vacancyAttachment
      * @return VacancyAttachment
@@ -39,18 +39,13 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
-     *
-     * @param  JobCandidateAttachment  $attachment
-     * @return <type>
+     * @param CandidateAttachment $candidateAttachment
+     * @return CandidateAttachment
      */
-    public function saveCandidateAttachment(JobCandidateAttachment $attachment)
+    public function saveCandidateAttachment(CandidateAttachment $candidateAttachment): CandidateAttachment
     {
-        try {
-            $attachment->save();
-            return true;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($candidateAttachment);
+        return $candidateAttachment;
     }
 
     /**
@@ -67,37 +62,28 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
-     *
-     * @param  <type>  $attachId
-     * @return <type>
+     * @param int $candidateId
+     * @return CandidateAttachment|null
      */
-    public function getInterviewAttachment($attachId)
+    public function getCandidateAttachmentByCandidateId(int $candidateId): ?CandidateAttachment
     {
-        try {
-            $q = Doctrine_Query:: create()
-                ->from('JobInterviewAttachment a')
-                ->where('a.id = ?', $attachId);
-            return $q->fetchOne();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $qb = $this->createQueryBuilder(CandidateAttachment::class, 'candidateAttachment');
+        $qb->where('candidateAttachment.candidate = :candidateId');
+        $qb->setParameter('candidateId', $candidateId);
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
-     *
-     * @param  <type>  $attachId
-     * @return <type>
+     * @param int $attachId
+     * @return CandidateAttachment|null
      */
-    public function getCandidateAttachment($attachId)
+    public function getCandidateAttachment(int $attachId): ?CandidateAttachment
     {
-        try {
-            $q = Doctrine_Query:: create()
-                ->from('JobCandidateAttachment a')
-                ->where('a.id = ?', $attachId);
-            return $q->fetchOne();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $attachment = $this->getRepository(CandidateAttachment::class)->find($attachId);
+        if ($attachment instanceof CandidateAttachment) {
+            return $attachment;
         }
+        return null;
     }
 
     /**
@@ -142,24 +128,16 @@ class RecruitmentAttachmentDao extends BaseDao
         return false;
     }
 
-
     /**
-     *
-     * @param  <type>  $interviewId
-     * @return <type>
+     * @param int $candidateId
+     * @return bool
      */
-    public function getInterviewAttachments($interviewId)
+    public function deleteCandidateAttachment(int $candidateId): bool
     {
-        try {
-            $q = Doctrine_Query:: create()
-                ->from('JobInterviewAttachment')
-                ->where('interview_id =?', $interviewId)
-                ->orderBy('fileName ASC');
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $qb = $this->createQueryBuilder(CandidateAttachment::class, 'candidateAttachment');
+        $qb->delete()
+            ->where('candidateAttachment.candidate = :candidateId')
+            ->setParameter('candidateId', $candidateId);
+        return $qb->getQuery()->execute() > 0;
     }
-
-
 }
