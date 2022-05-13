@@ -52,7 +52,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useLocale from '@/core/util/composable/useLocale';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
-
+import {navigate} from '@/core/util/helper/navigation';
 export default {
   name: 'HistoryTable',
   props: {
@@ -148,7 +148,9 @@ export default {
       };
     },
     onClickEdit(item) {
-      console.log('data', item);
+      navigate(
+        `recruitment/jobInterview/history/${item.action.id}/interview/${item.action.interviewId}`,
+      );
     },
   },
 };

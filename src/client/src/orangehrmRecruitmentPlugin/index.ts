@@ -17,7 +17,23 @@
  */
 
 import ApplicationInitiatedAction from './pages/ApplicationInitiatedAction.vue';
+import HiredAction from './pages/HiredAction.vue';
+import InterviewFailedAction from './pages/InterviewFailedAction.vue';
+import InterviewPassedAction from './pages/InterviewPassedAction.vue';
+import InterviewScheduleAction from './pages/InterviewScheduleAction.vue';
+import JobOfferedAction from './pages/JobOfferedAction.vue';
+import OfferDeclinedAction from './pages/OfferDeclinedAction.vue';
+import RejectAction from './pages/RejectAction.vue';
+import ShortlistAction from './pages/ShortlistAction.vue';
 
 export default {
   'application-initiated-action': ApplicationInitiatedAction,
+  'hired-action': HiredAction,
+  'interview-failed-action': InterviewFailedAction,
+  'interview-passed-action': InterviewPassedAction,
+  'interview-schedule-action': InterviewScheduleAction,
+  'job-offered-action': JobOfferedAction,
+  'reject-action': RejectAction,
+  'shortlist-action': ShortlistAction,
+  'offer-declined-action': OfferDeclinedAction,
 };

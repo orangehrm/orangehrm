@@ -57,7 +57,7 @@
                 :button-label="$t('general.browse')"
                 :file="profile.oldResume"
                 :rules="rules.resume"
-                :url="`admin/viewJobSpecification/attachId`"
+                url="recruitment/resume"
                 :hint="$t('general.accepts_up_to_1mb')"
               />
             </oxd-grid-item>
@@ -135,6 +135,7 @@ import {
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import DateInput from '@/core/components/inputs/DateInput';
+import {navigate} from '@/core/util/helper/navigation';
 export default {
   name: 'CandidateProfile',
   components: {
@@ -169,13 +170,13 @@ export default {
         lastName: '',
         email: '',
         contactNumber: '',
-        newResume: null,
         oldResume: '',
+        notes: '',
+        keywords: '',
+        newResume: null,
         vacancy: null,
         resume: null,
         method: 'keepCurrent',
-        notes: '',
-        keywords: '',
         applicationDate: null,
         keep: null,
       },
@@ -194,7 +195,7 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
-      const {resume, candidate, status, manager, ...rest} = data;
+      const {resume, candidate, manager, ...rest} = data;
       const managerName = manager.terminationId
         ? '(Past Employee)'
         : '' + `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
@@ -215,7 +216,15 @@ export default {
   },
   methods: {
     onSave() {
-      console.log('save');
+      this.isLoading = true;
+      this.http
+        .update(this.candidateId, this.profile)
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          navigate(`/recruitment/addCandidate/${this.candidateId}`);
+        });
     },
   },
 };

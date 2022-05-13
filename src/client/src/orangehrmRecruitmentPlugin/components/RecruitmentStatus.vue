@@ -77,10 +77,6 @@ export default {
       type: Array,
       required: true,
     },
-    status: {
-      type: String,
-      required: true,
-    },
   },
 };
 </script>

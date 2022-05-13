@@ -29,18 +29,6 @@
       <template #footer-title>
         <oxd-text type="subtitle-2"> Status: {{ action.label }} </oxd-text>
       </template>
-      <template #footer-options>
-        <oxd-button
-          display-type="ghost-danger"
-          :label="'Reject'"
-          @click="onReject"
-        />
-        <oxd-button
-          display-type="secondary"
-          :label="'Shortlist'"
-          @click="onShortlist"
-        />
-      </template>
     </recruitment-status>
   </oxd-form>
   <candidate-profile
@@ -54,9 +42,9 @@
 import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
 import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
 import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
-import {navigate} from '@/core/util/helper/navigation';
+
 export default {
-  name: 'ApplicationInitiatedAction',
+  name: 'HiredAction',
   components: {
     'history-table': HistoryTable,
     'candidate-profile': CandidateProfile,
@@ -83,12 +71,6 @@ export default {
     getData(data) {
       this.data = data;
       this.isLoading = false;
-    },
-    onReject() {
-      navigate('recruitment/vacancy/action');
-    },
-    onShortlist() {
-      navigate('recruitment/vacancy/action');
     },
   },
 };

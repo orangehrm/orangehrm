@@ -36,10 +36,11 @@
           @click="onReject"
         />
         <oxd-button
-          display-type="secondary"
-          :label="'Shortlist'"
-          @click="onShortlist"
+          display-type="ghost-danger"
+          :label="'Decline offer'"
+          @click="onDecline"
         />
+        <oxd-button display-type="secondary" :label="'Hire'" @click="onHire" />
       </template>
     </recruitment-status>
   </oxd-form>
@@ -56,7 +57,7 @@ import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateP
 import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
 import {navigate} from '@/core/util/helper/navigation';
 export default {
-  name: 'ApplicationInitiatedAction',
+  name: 'JobOfferedAction',
   components: {
     'history-table': HistoryTable,
     'candidate-profile': CandidateProfile,
@@ -87,7 +88,10 @@ export default {
     onReject() {
       navigate('recruitment/vacancy/action');
     },
-    onShortlist() {
+    onDecline() {
+      navigate('recruitment/vacancy/action');
+    },
+    onHire() {
       navigate('recruitment/vacancy/action');
     },
   },

@@ -36,9 +36,14 @@
           @click="onReject"
         />
         <oxd-button
+          display-type="ghost-success"
+          :label="'Schedule Interview'"
+          @click="onSchedule"
+        />
+        <oxd-button
           display-type="secondary"
-          :label="'Shortlist'"
-          @click="onShortlist"
+          :label="'Offer job'"
+          @click="onOffer"
         />
       </template>
     </recruitment-status>
@@ -56,7 +61,7 @@ import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateP
 import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
 import {navigate} from '@/core/util/helper/navigation';
 export default {
-  name: 'ApplicationInitiatedAction',
+  name: 'InterviewPassedAction',
   components: {
     'history-table': HistoryTable,
     'candidate-profile': CandidateProfile,
@@ -87,7 +92,10 @@ export default {
     onReject() {
       navigate('recruitment/vacancy/action');
     },
-    onShortlist() {
+    onSchedule() {
+      navigate('recruitment/vacancy/action');
+    },
+    onOffer() {
       navigate('recruitment/vacancy/action');
     },
   },

@@ -35,11 +35,6 @@
           :label="'Reject'"
           @click="onReject"
         />
-        <oxd-button
-          display-type="secondary"
-          :label="'Shortlist'"
-          @click="onShortlist"
-        />
       </template>
     </recruitment-status>
   </oxd-form>
@@ -56,7 +51,7 @@ import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateP
 import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
 import {navigate} from '@/core/util/helper/navigation';
 export default {
-  name: 'ApplicationInitiatedAction',
+  name: 'InterviewFailedAction',
   components: {
     'history-table': HistoryTable,
     'candidate-profile': CandidateProfile,
@@ -85,9 +80,6 @@ export default {
       this.isLoading = false;
     },
     onReject() {
-      navigate('recruitment/vacancy/action');
-    },
-    onShortlist() {
       navigate('recruitment/vacancy/action');
     },
   },
