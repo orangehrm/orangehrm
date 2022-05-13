@@ -81,7 +81,7 @@
                 :file="profile.oldResume"
                 :rules="rules.resume"
                 url="recruitment/resume"
-                :hint="$t('general.accepts_up_to_1mb')"
+                :hint="$t('general.accept_custom_format_file')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -174,10 +174,6 @@ export default {
       type: Number,
       required: true,
     },
-    allowedFileTypes: {
-      type: Array,
-      required: true,
-    },
   },
   emits: ['getData'],
   setup(props) {
@@ -193,6 +189,11 @@ export default {
   data() {
     return {
       isLoading: false,
+      allowedFileTypes: [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.ms-excel',
+      ],
       profile: {
         firstName: '',
         middleName: '',

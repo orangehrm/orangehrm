@@ -1,5 +1,5 @@
 database:
-  hostName: 127.0.0.1
+  hostName: mariadb104
   hostPort: 3306
   databaseName: orangehrm_mysql
   privilegedDatabaseUser: root
@@ -15,7 +15,7 @@ organization:
 
 admin:
   adminUserName: Admin
-  adminPassword: Ohrm@1423
+  adminPassword: Admin1243%
   adminEmployeeFirstName: OrangeHRM
   adminEmployeeLastName: Admin
   workEmail: admin@example.com

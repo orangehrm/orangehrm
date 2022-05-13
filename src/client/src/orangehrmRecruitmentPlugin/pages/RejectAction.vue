@@ -19,39 +19,39 @@
  -->
 
 <template>
-  <oxd-form :loading="isLoading">
-    <recruitment-status :data="data">
-      <template #header-title>
-        <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('recruitment.application_stage') }}
-        </oxd-text>
-      </template>
-      <template #footer-title>
-        <oxd-text type="subtitle-2">
+  <candidate-profile-layout :candidate-id="candidateId" :action="action">
+    <template #form-footer>
+      <div class="orangehrm-form-footer">
+        <oxd-text type="subtitle-2" class="orangehrm-status-title">
           {{ $t('general.status') }}: {{ action.label }}
         </oxd-text>
-      </template>
-    </recruitment-status>
-  </oxd-form>
-  <candidate-profile
-    :candidate-id="candidateId"
-    :allowed-file-types="allowedFileTypes"
-    @getData="getData"
-  ></candidate-profile>
-  <history-table :candidate-id="candidateId"></history-table>
+        <oxd-form-actions class="orangehrm-form-buttons">
+          <oxd-button
+            display-type="ghost-danger"
+            :label="$t('recruitment.reject')"
+            @click="onReject"
+          />
+          <oxd-button
+            display-type="secondary"
+            :label="$t('recruitment.shortlist')"
+            @click="onShortlist"
+          />
+        </oxd-form-actions>
+      </div>
+    </template>
+  </candidate-profile-layout>
 </template>
 
 <script>
 import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
 import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
 import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
+import CandidateProfileLayout from '@/orangehrmRecruitmentPlugin/components/CandidateProfileLayout';
 
 export default {
   name: 'RejectAction',
   components: {
-    'history-table': HistoryTable,
-    'candidate-profile': CandidateProfile,
-    'recruitment-status': RecruitmentStatus,
+    'candidate-profile-layout': CandidateProfileLayout,
   },
   props: {
     candidateId: {
@@ -60,10 +60,6 @@ export default {
     },
     action: {
       type: Object,
-      required: true,
-    },
-    allowedFileTypes: {
-      type: Array,
       required: true,
     },
   },
@@ -82,3 +78,4 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss" src="./candidate-profile.scss"></style>

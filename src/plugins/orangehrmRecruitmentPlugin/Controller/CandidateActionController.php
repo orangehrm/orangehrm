@@ -21,7 +21,6 @@
 namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -29,30 +28,16 @@ use OrangeHRM\Framework\Http\Request;
 class CandidateActionController extends AbstractVueController
 {
 
-    protected ?ConfigService $configService = null;
-
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
-
-
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $candidateId = $request->get('candidateId');
-        $component = new Component('interview-passed-action');
+        $component = new Component('offer-declined-action');
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));
         $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, 1));
         $component->addProp(new Prop('action', Prop::TYPE_OBJECT, ['id' => 1, 'label' => 'Application initiated']));
-        $component->addProp(
-            new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes())
-        );
         $this->setComponent($component);
     }
 }

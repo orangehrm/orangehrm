@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <div class="orangehrm-paper-container">
+  <div class="orangehrm-card-container">
     <div class="orangehrm-header-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('recruitment.candidate') }} {{ $t('recruitment.history') }}
@@ -94,6 +94,7 @@ export default {
       isLoading,
       execQuery,
     } = usePaginate(http, {normalizer: historyDataNormalizer});
+
     return {
       http,
       showPaginator,
@@ -155,3 +156,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.orangehrm-card-container {
+  padding: 1.2rem 0;
+}
+</style>

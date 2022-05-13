@@ -19,52 +19,36 @@
  -->
 
 <template>
-  <div class="orangehrm-paper-container">
-    <div class="orangehrm-timesheet-header">
-      <div class="orangehrm-timesheet-header--title">
-        <slot name="header-title"></slot>
-      </div>
-      <div class="orangehrm-timesheet-header--options">
-        <slot name="header-options"></slot>
-      </div>
-    </div>
-    <div class="orangehrm-timesheet-body">
-      <table class="orangehrm-timesheet-table">
-        <thead class="orangehrm-timesheet-table-header">
-          <tr class="orangehrm-timesheet-table-header-row">
-            <th class="orangehrm-timesheet-table-header-cell">
-              {{ $t('general.name') }}
-            </th>
-            <th class="orangehrm-timesheet-table-header-cell">
-              {{ $t('recruitment.vacancy') }}
-            </th>
-            <th class="orangehrm-timesheet-table-header-cell">
-              {{ $t('recruitment.hiring_manager') }}
-            </th>
-          </tr>
-        </thead>
-
-        <tbody class="orangehrm-timesheet-table-body">
-          <tr class="orangehrm-timesheet-table-body-row">
-            <td
-              v-for="(text, index) in data"
-              :key="index"
-              class="orangehrm-timesheet-table-header-cell"
-            >
-              {{ text }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="orangehrm-timesheet-footer">
-      <div class="orangehrm-timesheet-footer--title">
-        <slot name="footer-title"></slot>
-      </div>
-      <div class="orangehrm-timesheet-footer--options">
-        <slot name="footer-options"></slot>
-      </div>
-    </div>
+  <div class="orangehrm-card-container">
+    <slot name="header-title"></slot>
+    <oxd-divider />
+    <oxd-form-row>
+      <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('general.name')">
+            <oxd-text tag="p">
+              {{ data?.[0] }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('recruitment.vacancy')">
+            <oxd-text tag="p">
+              {{ data?.[1] }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('recruitment.hiring_manager')">
+            <oxd-text tag="p">
+              {{ data?.[2] }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+      </oxd-grid>
+    </oxd-form-row>
+    <oxd-divider />
+    <slot name="footer-options"></slot>
   </div>
 </template>
 
@@ -79,14 +63,3 @@ export default {
   },
 };
 </script>
-
-<style
-  src="@/orangehrmTimePlugin/components/timesheet.scss"
-  lang="scss"
-  scoped
-></style>
-<style scoped lang="scss">
-.orangehrm-timesheet-table-header-row {
-  border-bottom: none;
-}
-</style>
