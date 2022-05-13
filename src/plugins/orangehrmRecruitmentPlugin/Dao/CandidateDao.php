@@ -94,8 +94,8 @@ class CandidateDao extends BaseDao
                 ->setParameter('modeOfApplication', $candidateSearchFilterParams->getMethodOfApplication());
         }
         if (!is_null($candidateSearchFilterParams->getFromDate()) && !is_null(
-                $candidateSearchFilterParams->getToDate()
-            )) {
+            $candidateSearchFilterParams->getToDate()
+        )) {
             $qb->andWhere(
                 $qb->expr()->between(
                     'candidate.dateOfApplication',
