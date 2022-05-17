@@ -91,3 +91,7 @@ translations:
     - { target: 'Due Date', unitId: due_date, group: performance }
     - { target: 'Evaluate', unitId: evaluate, group: performance }
     - { target: 'Review Status', unitId: review_status, group: performance }
+    - { target: 'Reviewer', unitId: reviewer, group: performance }
+    - { target: 'Edit Details', unitId: edit_details, group: performance }
+    - { target: 'Manage Performance Reviews', unitId: manage_performance_reviews, group: performance }
+    - { target: 'Inactive', unitId: inactive, group: performance }

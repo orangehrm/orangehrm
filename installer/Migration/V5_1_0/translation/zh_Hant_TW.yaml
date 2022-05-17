@@ -88,3 +88,7 @@ translations:
     - { target: '截止日期', unitId: due_date, group: performance }
     - { target: '評估', unitId: evaluate, group: performance }
     - { target: '評論狀態', unitId: review_status, group: performance }
+    - { target: '評估員', unitId: reviewer, group: performance }
+    - { target: '編輯詳細資料', unitId: edit_details, group: performance }
+    - { target: '搜索績效評估', unitId: manage_performance_reviews, group: performance }
+    - { target: '未啓用', unitId: inactive, group: performance }

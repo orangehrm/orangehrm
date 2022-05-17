@@ -20,8 +20,6 @@
 namespace OrangeHRM\Performance\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
-use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -30,72 +28,46 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
-use OrangeHRM\Performance\Dto\ReviewListSearchFilterParams;
-use OrangeHRM\Performance\Service\PerformanceReviewService;
+use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
+use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
-class ReviewListAPI extends Endpoint implements CollectionEndpoint
+class ReviewListAPI extends PerformanceReviewAPI
 {
-    private ?PerformanceReviewService $performanceReviewService = null;
+    use PerformanceReviewServiceTrait;
+    use AuthUserTrait;
 
-    public const FILTER_EMP_NUMBER = 'empNumber';
-    public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_SUB_UNIT_ID = 'subUnitId';
-    public const FILTER_STATUS_ID = 'statusId';
-    public const FILTER_FROM_DATE = 'fromDate';
-    public const FILTER_TO_DATE = 'toDate';
 
     /**
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        $reviewListSearchFilterParams = new ReviewListSearchFilterParams();
-        $this->setSortingAndPaginationParams($reviewListSearchFilterParams);
+        $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
+        $this->setSortingAndPaginationParams($performanceReviewSearchFilterParams);
 
-        $reviewListSearchFilterParams->setEmpNumber(
-            $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_EMP_NUMBER
-            )
+        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
+
+        $performanceReviewSearchFilterParams->setSupervisorId(
+            $this->getAuthUser()->getEmpNumber()
         );
-        $reviewListSearchFilterParams->setJobTitleId(
-            $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_JOB_TITLE_ID
-            )
-        );
-        $reviewListSearchFilterParams->setSubunitId(
+
+        $performanceReviewSearchFilterParams->setSubunitId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_SUB_UNIT_ID
             )
         );
-        $reviewListSearchFilterParams->setStatusId(
-            $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_STATUS_ID
-            )
-        );
-        $reviewListSearchFilterParams->setFromDate(
-            $this->getRequestParams()->getDateTimeOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_FROM_DATE
-            )
-        );
-        $reviewListSearchFilterParams->setToDate(
-            $this->getRequestParams()->getDateTimeOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_TO_DATE
-            )
-        );
+        $this->getCommonBodyFilterParams($performanceReviewSearchFilterParams);
 
         $reviewList = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
-            ->getReviewList($reviewListSearchFilterParams);
+            ->getPerformanceReviewList($performanceReviewSearchFilterParams);
         $reviewListCount = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
-            ->getReviewListCount($reviewListSearchFilterParams);
+            ->getPerformanceReviewCount($performanceReviewSearchFilterParams);
 
         return new EndpointCollectionResult(
             PerformanceReviewModel::class,
@@ -111,28 +83,18 @@ class ReviewListAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_JOB_TITLE_ID, new Rule(Rules::POSITIVE))
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::FILTER_SUB_UNIT_ID, new Rule(Rules::POSITIVE))
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_STATUS_ID, new Rule(Rules::POSITIVE))
+                new ParamRule(
+                    self::FILTER_STATUS_ID,
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN, [PerformanceReviewSearchFilterParams::REVIEW_LIST_STATUSES])
+                )
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_FROM_DATE, new Rule(Rules::API_DATE))
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_TO_DATE, new Rule(Rules::API_DATE))
-            ),
+            ...$this->getCommonBodyFilterParamRules(),
             ...$this->getSortingAndPaginationParamsRules(
-                ReviewListSearchFilterParams::ALLOWED_SORT_FIELDS
+                PerformanceReviewSearchFilterParams::REVIEW_LIST_ALLOWED_SORT_FIELDS
             )
         );
     }
@@ -169,14 +131,13 @@ class ReviewListAPI extends Endpoint implements CollectionEndpoint
         throw $this->getNotImplementedException();
     }
 
-    /**
-     * @return PerformanceReviewService
-     */
-    private function getPerformanceReviewService(): PerformanceReviewService
+    public function update(): EndpointResult
     {
-        if (!$this->performanceReviewService instanceof PerformanceReviewService) {
-            $this->performanceReviewService = new PerformanceReviewService();
-        }
-        return $this->performanceReviewService;
+        throw $this->getNotImplementedException();
+    }
+
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
     }
 }

@@ -87,3 +87,7 @@ translations:
     - { target: 'Verval datum', unitId: due_date, group: performance }
     - { target: 'Evalueren', unitId: evaluate, group: performance }
     - { target: 'Status beoordeling', unitId: review_status, group: performance }
+    - { target: 'Beoordelaar', unitId: reviewer, group: performance }
+    - { target: 'Details wijzigen', unitId: edit_details, group: performance }
+    - { target: 'Zoek Beoordelingen', unitId: manage_performance_reviews, group: performance }
+    - { target: 'Inactief', unitId: inactive, group: performance }

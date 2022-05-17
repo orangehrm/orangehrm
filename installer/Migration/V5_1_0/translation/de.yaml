@@ -88,3 +88,7 @@ translations:
     - { target: 'Fälligkeitsdatum', unitId: due_date, group: performance }
     - { target: 'Evaluieren', unitId: evaluate, group: performance }
     - { target: 'Bewertungsstatus', unitId: review_status, group: performance }
+    - { target: 'Gutachter', unitId: reviewer, group: performance }
+    - { target: 'Details bearbeiten', unitId: edit_details, group: performance }
+    - { target: 'Leistungsevaluation suchen', unitId: manage_performance_reviews, group: performance }
+    - { target: 'Inaktiv', unitId: inactive, group: performance }

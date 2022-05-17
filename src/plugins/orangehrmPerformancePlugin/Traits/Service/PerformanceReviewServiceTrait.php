@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,20 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-import MyTracker from './pages/MyTracker.vue';
-import EmployeeTrackers from './pages/EmployeeTrackers.vue';
-import KpiEdit from './pages/KpiEdit.vue';
-import KpiSave from './pages/KpiSave.vue';
-import KpiSearch from './pages/KpiSearch.vue';
-import ReviewList from './pages/ReviewList.vue';
-import ReviewSearch from './pages/ReviewSearch.vue';
+namespace OrangeHRM\Performance\Traits\Service;
 
-export default {
-  'my-tracker': MyTracker,
-  'employee-trackers': EmployeeTrackers,
-  'kpi-search': KpiSearch,
-  'kpi-save': KpiSave,
-  'kpi-edit': KpiEdit,
-  'review-list': ReviewList,
-  'review-search': ReviewSearch,
-};
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Performance\Service\PerformanceReviewService;
+
+trait PerformanceReviewServiceTrait
+{
+    use ServiceContainerTrait;
+
+    /**
+     * @return PerformanceReviewService
+     */
+    protected function getPerformanceReviewService(): PerformanceReviewService
+    {
+        return $this->getContainer()->get(Services::PERFORMANCE_REVIEW_SERVICE);
+    }
+}

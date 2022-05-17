@@ -22,6 +22,7 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Performance\Service\PerformanceReviewService;
 
 class PerformancePluginConfiguration implements PluginConfigurationInterface
 {
@@ -35,6 +36,10 @@ class PerformancePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(
             Services::KPI_SERVICE,
             KpiService::class
+        );
+        $this->getContainer()->register(
+            Services::PERFORMANCE_REVIEW_SERVICE,
+            PerformanceReviewService::class
         );
     }
 }

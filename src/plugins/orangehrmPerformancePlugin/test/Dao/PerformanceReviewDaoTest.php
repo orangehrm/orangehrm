@@ -24,7 +24,7 @@ use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
-use OrangeHRM\Performance\Dto\ReviewListSearchFilterParams;
+use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\Mock\MockAuthUser;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -60,13 +60,15 @@ class PerformanceReviewDaoTest extends KernelTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $authUser]);
     }
 
-    public function testGetReviewList(): void
+    public function testGetPerformanceReviewList(): void
     {
         $performanceReviewList = TestDataService::loadObjectList(PerformanceReview::class, $this->fixture, 'PerformanceReview');
         $expected = [$performanceReviewList[1], $performanceReviewList[2], $performanceReviewList[3]];
 
-        $performanceReviewSearchAndFilterParams = new ReviewListSearchFilterParams();
-        $result = $this->performanceReviewDao->getReviewList($performanceReviewSearchAndFilterParams);
+        $performanceReviewSearchAndFilterParams = new PerformanceReviewSearchFilterParams();
+        $performanceReviewSearchAndFilterParams->setSupervisorId(1);
+        $performanceReviewSearchAndFilterParams->setExcludeInactiveReviews(true);
+        $result = $this->performanceReviewDao->getPerformanceReviewList($performanceReviewSearchAndFilterParams);
         for ($i = 0; $i < count($result); $i++) {
             $this->assertEquals($expected[$i]->getId(), $result[$i]->getId());
             $this->assertEquals($expected[$i]->getStatusId(), $result[$i]->getStatusId());
@@ -77,17 +79,19 @@ class PerformanceReviewDaoTest extends KernelTestCase
         }
     }
 
-    public function testGetReviewListCount(): void
+    public function testGetPerformanceReviewCount(): void
     {
-        $performanceReviewSearchAndFilterParams = new ReviewListSearchFilterParams();
-        $result = $this->performanceReviewDao->getReviewListCount($performanceReviewSearchAndFilterParams);
+        $performanceReviewSearchAndFilterParams = new PerformanceReviewSearchFilterParams();
+        $performanceReviewSearchAndFilterParams->setSupervisorId(1);
+        $performanceReviewSearchAndFilterParams->setExcludeInactiveReviews(true);
+        $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
         $this->assertEquals(3, $result);
     }
 
-    public function testGetReviewIdsBySupervisorId(): void
-    {
-        $expected = [11, 12, 13, 14];
-        $result = $this->performanceReviewDao->getReviewIdsBySupervisorId(1);
-        $this->assertEquals($expected, $result);
-    }
+//    public function testGetReviewIdsBySupervisorId(): void
+//    {
+//        $expected = [11, 12, 13, 14];
+//        $result = $this->performanceReviewDao->getReviewIdsBySupervisorId(1);
+//        $this->assertEquals($expected, $result);
+//    }
 }

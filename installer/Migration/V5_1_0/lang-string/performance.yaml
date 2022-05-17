@@ -74,3 +74,15 @@ langStrings:
   -
     value: 'Review Status'
     unitId: review_status
+  -
+    value: 'Reviewer'
+    unitId: reviewer
+  -
+    value: 'Edit Details'
+    unitId: edit_details
+  -
+    value: 'Manage Performance Reviews'
+    unitId: manage_performance_reviews
+  -
+    value: 'Inactive'
+    unitId: inactive

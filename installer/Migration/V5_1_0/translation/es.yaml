@@ -88,3 +88,7 @@ translations:
     - { target: 'Fecha de vencimiento', unitId: due_date, group: performance }
     - { target: 'Evaluar', unitId: evaluate, group: performance }
     - { target: 'Estatus de evaluación', unitId: review_status, group: performance }
+    - { target: 'Auditor / Revisor', unitId: reviewer, group: performance }
+    - { target: 'Editar Detalles', unitId: edit_details, group: performance }
+    - { target: 'Buscar revisiones de desempeño', unitId: manage_performance_reviews, group: performance }
+    - { target: 'Inactivo', unitId: inactive, group: performance }

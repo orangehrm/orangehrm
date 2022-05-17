@@ -26,6 +26,13 @@ apiv2_performance_review_list:
   defaults:
     _api: OrangeHRM\Performance\Api\ReviewListAPI
 
+api_v2_performance_review:
+  path: /api/v2/performance/reviews
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, DELETE ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
 ##########################
 #        Screens
 ##########################
@@ -56,6 +63,11 @@ performance_kpi_edit:
   methods: [ GET ]
 
 performance_review_list:
-  path: /performance/searchEvaluatePerformancReview #typo is present in 4.x URL
+  path: /performance/searchEvaluatePerformancReview
   controller: OrangeHRM\Performance\Controller\ReviewListController::handle
+  methods: [ GET ]
+
+performance_review_search:
+  path: /performance/searchPerformancReview
+  controller: OrangeHRM\Performance\Controller\ReviewSearchController::handle
   methods: [ GET ]

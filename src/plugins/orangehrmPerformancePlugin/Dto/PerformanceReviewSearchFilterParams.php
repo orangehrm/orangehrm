@@ -23,19 +23,37 @@ use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
-class ReviewListSearchFilterParams extends FilterParams
+class PerformanceReviewSearchFilterParams extends FilterParams
 {
     use SubunitIdChainTrait;
 
-    public const ALLOWED_SORT_FIELDS = ['employee.firstName', 'performanceReview.workPeriodStart',  'performanceReview.dueDate', 'performanceReview.statusId'];
+    public const REVIEW_LIST_ALLOWED_SORT_FIELDS = ['employee.firstName', 'performanceReview.workPeriodStart',  'performanceReview.dueDate', 'performanceReview.statusId'];
+    public const PERFORMANCE_REVIEW_ALLOWED_SORT_FIELDS = [...self::REVIEW_LIST_ALLOWED_SORT_FIELDS, 'jobTitle.jobTitleName', 'reviewerEmployee.firstName'];
+
+    public const STATUS_ID_INACTIVE = 1;
+    public const STATUS_ID_ACTIVATED = 2;
+    public const STATUS_ID_IN_PROGRESS = 3;
+    public const STATUS_ID_COMPLETED = 4;
+
+    public const REVIEW_LIST_STATUSES = [
+        self::STATUS_ID_ACTIVATED,
+        self::STATUS_ID_IN_PROGRESS,
+        self::STATUS_ID_COMPLETED
+    ];
+
+    public const PERFORMANCE_REVIEW_STATUSES = [
+        self::STATUS_ID_INACTIVE,
+        ...self::REVIEW_LIST_STATUSES
+    ];
 
     protected ?int $empNumber = null;
-    protected ?string $nameOrId = null;
+    protected ?int $supervisorId = null;
     protected ?int $jobTitleId = null;
     protected ?int $subunitId = null;
     protected ?int $statusId = null;
     protected ?DateTime $fromDate = null;
     protected ?DateTime $toDate = null;
+    protected bool $excludeInactiveReviews = false;
 
     public function __construct()
     {
@@ -59,19 +77,19 @@ class ReviewListSearchFilterParams extends FilterParams
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getNameOrId(): ?string
+    public function getSupervisorId(): ?int
     {
-        return $this->nameOrId;
+        return $this->supervisorId;
     }
 
     /**
-     * @param string|null $nameOrId
+     * @param int|null $supervisorId
      */
-    public function setNameOrId(?string $nameOrId): void
+    public function setSupervisorId(?int $supervisorId): void
     {
-        $this->nameOrId = $nameOrId;
+        $this->supervisorId = $supervisorId;
     }
 
     /**
@@ -152,5 +170,21 @@ class ReviewListSearchFilterParams extends FilterParams
     public function setToDate(?DateTime $toDate): void
     {
         $this->toDate = $toDate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExcludeInactiveReviews(): bool
+    {
+        return $this->excludeInactiveReviews;
+    }
+
+    /**
+     * @param bool $excludeInactiveReviews
+     */
+    public function setExcludeInactiveReviews(bool $excludeInactiveReviews): void
+    {
+        $this->excludeInactiveReviews = $excludeInactiveReviews;
     }
 }

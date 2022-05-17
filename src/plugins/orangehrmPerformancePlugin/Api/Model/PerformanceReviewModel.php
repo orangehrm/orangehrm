@@ -44,6 +44,11 @@ class PerformanceReviewModel implements Normalizable
             ['getJobTitle', 'getJobTitleName'],
             ['getDepartment', 'getId'],
             ['getDepartment', 'getName'],
+            ['getDecorator', 'getSupervisorReviewer', 'getId'],
+            ['getDecorator', 'getSupervisorReviewer', 'getEmployee', 'getEmpNumber'],
+            ['getDecorator', 'getSupervisorReviewer', 'getEmployee', 'getFirstName'],
+            ['getDecorator', 'getSupervisorReviewer', 'getEmployee', 'getLastName'],
+            ['getDecorator', 'getSupervisorReviewer', 'getEmployee', 'getEmployeeTerminationRecord', 'getId'],
         ]);
         $this->setAttributeNames([
             'id',
@@ -59,6 +64,11 @@ class PerformanceReviewModel implements Normalizable
             ['jobTitle', 'name'],
             ['department', 'id'],
             ['department', 'name'],
+            ['reviewer', 'id'],
+            ['reviewer', 'employee', 'empNumber'],
+            ['reviewer', 'employee', 'firstName'],
+            ['reviewer', 'employee', 'lastName'],
+            ['reviewer', 'employee', 'terminationId']
         ]);
     }
 }
