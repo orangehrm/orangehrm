@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('recruitment.candidate') }} {{ $t('recruitment.profile') }}
+        {{ $t('recruitment.candidate_profile') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -232,11 +232,7 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then(({data: {data}}) => {
-      const {resume, candidate, manager, ...rest} = data;
-      const managerName = manager.terminationId
-        ? '(Past Employee)'
-        : '' + `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
-      const fullName = `${candidate.firstName} ${candidate.middleName} ${candidate.lastName}`;
+      const {resume, candidate, ...rest} = data;
       this.profile.oldResume = resume?.id ? resume : null;
       this.profile.newResume = null;
       this.profile.firstName = candidate.firstName;
@@ -249,10 +245,6 @@ export default {
         ...rest,
       };
       this.isLoading = false;
-      this.$emit('getData', {
-        stage: [fullName, data.vacancy.label, managerName],
-        vacancyId: data.vacancy.id,
-      });
     });
   },
   methods: {

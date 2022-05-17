@@ -28,7 +28,7 @@
         <oxd-form-actions class="orangehrm-form-buttons">
           <oxd-button
             display-type="ghost-danger"
-            :label="$t('recruitment.reject')"
+            :label="$t('general.reject')"
             @click="onReject"
           />
           <oxd-button
@@ -65,13 +65,11 @@ export default {
       data: null,
       status: null,
       isLoading: true,
-      vacancyId: null,
     };
   },
   methods: {
     getData(data) {
       this.data = data.stage;
-      this.vacancyId = data.vacancyId;
       this.isLoading = false;
     },
     onReject() {

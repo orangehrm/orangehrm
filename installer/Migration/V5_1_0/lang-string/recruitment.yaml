@@ -99,9 +99,6 @@ langStrings:
     value: 'Application Stage'
     unitId: application_stage
   -
-    value: 'Reject'
-    unitId: reject
-  -
     value: 'Offer job'
     unitId: offer_job
   -
@@ -120,7 +117,7 @@ langStrings:
     value: 'Profile'
     unitId: profile
   -
-    value: 'job vacancy'
+    value: 'Job vacancy'
     unitId: job_vacancy
   -
     value: 'History'
@@ -128,6 +125,11 @@ langStrings:
   -
     value: 'Hiring Manager'
     unitId: hiring_manager
-
+  -
+    value: 'Candidate Profile'
+    unitId: candidate_profile
+  -
+    value: 'Candidate History'
+    unitId: candidate_profile
 
 

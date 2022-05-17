@@ -19,47 +19,80 @@
  -->
 
 <template>
-  <div class="orangehrm-card-container">
-    <slot name="header-title"></slot>
-    <oxd-divider />
-    <oxd-form-row>
-      <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-        <oxd-grid-item>
-          <oxd-input-group :label="$t('general.name')">
-            <oxd-text tag="p">
-              {{ data?.[0] }}
-            </oxd-text>
-          </oxd-input-group>
-        </oxd-grid-item>
-        <oxd-grid-item>
-          <oxd-input-group :label="$t('recruitment.vacancy')">
-            <oxd-text tag="p">
-              {{ data?.[1] }}
-            </oxd-text>
-          </oxd-input-group>
-        </oxd-grid-item>
-        <oxd-grid-item>
-          <oxd-input-group :label="$t('recruitment.hiring_manager')">
-            <oxd-text tag="p">
-              {{ data?.[2] }}
-            </oxd-text>
-          </oxd-input-group>
-        </oxd-grid-item>
-      </oxd-grid>
-    </oxd-form-row>
-    <oxd-divider />
-    <slot name="footer-options"></slot>
-  </div>
+  <oxd-form :loading="isLoading">
+    <div class="orangehrm-card-container">
+      <slot name="header-title"></slot>
+      <oxd-divider />
+      <oxd-form-row>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-group :label="$t('general.name')">
+              <oxd-text tag="p">
+                {{ candidate }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-group :label="$t('recruitment.vacancy')">
+              <oxd-text tag="p">
+                {{ vacancy }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-group :label="$t('recruitment.hiring_manager')">
+              <oxd-text tag="p">
+                {{ hiringManager }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+      <oxd-divider />
+      <slot name="footer-options"></slot>
+    </div>
+  </oxd-form>
 </template>
 
 <script>
+import {APIService} from '@/core/util/services/api.service';
 export default {
   name: 'RecruitmentStatus',
   props: {
-    data: {
-      type: Array,
+    candidateId: {
+      type: Number,
       required: true,
     },
+  },
+  setup(props) {
+    const http = new APIService(
+      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
+      `/recruitment/status/${props.candidateId}`,
+    );
+
+    return {
+      http,
+    };
+  },
+  data() {
+    return {
+      isLoading: false,
+      candidate: '',
+      hiringManager: '',
+      vacancy: '',
+    };
+  },
+  beforeMount() {
+    this.isLoading = true;
+    this.http.getAll().then(({data: {data}}) => {
+      const {candidate, vacancy, manager} = data;
+      this.candidate = candidate;
+      this.vacancy = vacancy;
+      this.hiringManager =
+        (manager.terminationId ? '(Past Employee)' : '') +
+        `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
+      this.isLoading = false;
+    });
   },
 };
 </script>

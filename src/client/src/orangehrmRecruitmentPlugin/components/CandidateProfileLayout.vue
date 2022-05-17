@@ -18,8 +18,8 @@
  */
  -->
 <template>
-  <oxd-form :loading="isLoading">
-    <recruitment-status :data="data">
+  <div>
+    <recruitment-status>
       <template #header-title>
         <oxd-text tag="h6" class="orangehrm-main-title">
           {{ $t('recruitment.application_stage') }}
@@ -29,11 +29,8 @@
         <slot name="form-footer"></slot>
       </template>
     </recruitment-status>
-  </oxd-form>
-  <candidate-profile
-    :candidate-id="candidateId"
-    @getData="getData"
-  ></candidate-profile>
+  </div>
+  <candidate-profile :candidate-id="candidateId"></candidate-profile>
   <history-table :candidate-id="candidateId"></history-table>
 </template>
 
@@ -60,18 +57,10 @@ export default {
   },
   data() {
     return {
-      data: null,
       status: null,
       isLoading: true,
       vacancyId: null,
     };
-  },
-  methods: {
-    getData(data) {
-      this.data = data.stage;
-      this.vacancyId = data.vacancyId;
-      this.isLoading = false;
-    },
   },
 };
 </script>

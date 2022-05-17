@@ -28,7 +28,7 @@
         <oxd-form-actions class="orangehrm-form-buttons">
           <oxd-button
             display-type="ghost-danger"
-            :label="$t('recruitment.reject')"
+            :label="$t('general.reject')"
             @click="onReject"
           />
           <oxd-button

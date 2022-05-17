@@ -63,7 +63,6 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
-    - { target: 'Rechazar', unitId: reject, group: recruitment }
     - { target: 'Marcar entrevista como no aprobada', unitId: mark_interview_failed, group: recruitment }
     - { target: 'Marcar entrevista como exitosa', unitId: mark_interview_passed, group: recruitment }
     - { target: 'Contratar', unitId: hire, group: recruitment }

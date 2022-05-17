@@ -25,18 +25,6 @@
         <oxd-text type="subtitle-2" class="orangehrm-status-title">
           {{ $t('general.status') }}: {{ action.label }}
         </oxd-text>
-        <oxd-form-actions class="orangehrm-form-buttons">
-          <oxd-button
-            display-type="ghost-danger"
-            :label="$t('recruitment.reject')"
-            @click="onReject"
-          />
-          <oxd-button
-            display-type="secondary"
-            :label="$t('recruitment.shortlist')"
-            @click="onShortlist"
-          />
-        </oxd-form-actions>
       </div>
     </template>
   </candidate-profile-layout>
