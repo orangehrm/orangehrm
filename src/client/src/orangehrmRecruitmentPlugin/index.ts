@@ -1,4 +1,3 @@
-<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,14 +15,19 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-input-field type="time" :step="15" :placeholder="$t('general.hh_mm')" />
-</template>
+import ShortlistCandidateScreen from './pages/ShortlistCandidateScreen.vue';
+import ShortlistHistoryScreen from './pages/ShortlistHistoryScreen.vue';
+import ScheduleInterview from './pages/ScheduleInterview.vue';
+import ScheduleInterviewHistory from './pages/ScheduleInterviewHistory.vue';
+import ViewCandidate from './pages/ViewCandidate.vue';
+import SaveCandidate from './pages/SaveCandidate.vue';
 
-<script>
 export default {
-  name: 'TimeInput',
+  'schedule-interview': ScheduleInterview,
+  'schedule-interview-history': ScheduleInterviewHistory,
+  'shortlist-candidate': ShortlistCandidateScreen,
+  'shortlist-history': ShortlistHistoryScreen,
+  'view-candidate': ViewCandidate,
+  'save-candidate': SaveCandidate,
 };
-</script>

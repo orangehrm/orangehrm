@@ -19,11 +19,37 @@
  -->
 
 <template>
-  <oxd-input-field type="time" :step="15" :placeholder="$t('general.hh_mm')" />
+  <oxd-input-field
+    type="select"
+    :label="$t('recruitment.vacancy')"
+    :options="options"
+  />
 </template>
 
 <script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'TimeInput',
+  name: 'VacancyDropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'recruitment/api/vacancy',
+    );
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
 };
 </script>

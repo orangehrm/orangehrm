@@ -18,6 +18,8 @@
 
 import {
   compareTime,
+  diffInDays,
+  formatDate,
   isAfter,
   isBefore,
   isEqual,
@@ -70,6 +72,18 @@ export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
       : translate('general.should_be_a_valid_date_in_x_format', {
           format: dateFormat,
         });
+  };
+};
+
+export const shouldBeCurrentOrPreviousDate = function() {
+  return function(value: string): boolean | string {
+    if (!value) return true;
+    const dateFormat = 'yyyy-MM-dd';
+    const currentDate = formatDate(new Date(), dateFormat) || '';
+    const isValid = diffInDays(value, currentDate, dateFormat);
+    return isValid > 0
+      ? true
+      : translate('recruitment.should_be_current_date_previous_date');
   };
 };
 
