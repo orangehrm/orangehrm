@@ -19,7 +19,12 @@
  -->
 
 <template>
-  <candidate-profile-layout :candidate-id="candidateId" :action="action">
+  <candidate-profile-layout
+    :candidate-id="candidateId"
+    :action="action"
+    :allowed-file-types="allowedFileTypes"
+    :max-file-size="maxFileSize"
+  >
     <template #form-footer>
       <div class="orangehrm-form-footer">
         <oxd-text type="subtitle-2" class="orangehrm-status-title">
@@ -44,6 +49,14 @@ export default {
     },
     action: {
       type: Object,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
       required: true,
     },
   },

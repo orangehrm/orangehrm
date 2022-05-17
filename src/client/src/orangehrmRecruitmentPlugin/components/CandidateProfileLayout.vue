@@ -30,7 +30,11 @@
       </template>
     </recruitment-status>
   </div>
-  <candidate-profile :candidate-id="candidateId"></candidate-profile>
+  <candidate-profile
+    :candidate-id="candidateId"
+    :allowed-file-types="allowedFileTypes"
+    :max-file-size="maxFileSize"
+  ></candidate-profile>
   <history-table :candidate-id="candidateId"></history-table>
 </template>
 
@@ -52,6 +56,14 @@ export default {
     },
     action: {
       type: Object,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
       required: true,
     },
   },

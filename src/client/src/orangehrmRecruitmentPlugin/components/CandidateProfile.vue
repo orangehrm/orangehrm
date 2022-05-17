@@ -174,8 +174,15 @@ export default {
       type: Number,
       required: true,
     },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
   },
-  emits: ['getData'],
   setup(props) {
     const http = new APIService(
       'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
@@ -189,14 +196,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      allowedFileTypes: [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'text/plain',
-        'application/rtf',
-        'application/vnd.oasis.opendocument.text',
-      ],
       profile: {
         firstName: '',
         middleName: '',
