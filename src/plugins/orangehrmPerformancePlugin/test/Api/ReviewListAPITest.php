@@ -37,8 +37,9 @@ class ReviewListAPITest extends EndpointIntegrationTestCase
     {
         $this->populateFixtures('ReviewListAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-
+        $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
+
         $api = $this->getApiEndpointMock(ReviewListAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }

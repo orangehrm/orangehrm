@@ -19,14 +19,13 @@
 
 namespace OrangeHRM\Tests\Performance\Dao;
 
+use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Entity\PerformanceReview;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
-use OrangeHRM\Tests\Util\Mock\MockAuthUser;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
@@ -40,58 +39,40 @@ class PerformanceReviewDaoTest extends KernelTestCase
 
     protected function setUp(): void
     {
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $this->performanceReviewDao = new PerformanceReviewDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceReviewDao.yaml';
         TestDataService::populate($this->fixture);
-
-        $authUser = $this->getMockBuilder(MockAuthUser::class)
-            ->onlyMethods(['getUserId', 'getEmpNumber', 'getUserRoleId'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $authUser->method('getUserId')
-            ->willReturn(1);
-        $authUser->method('getEmpNumber')
-            ->willReturn(
-                $this->getEntityReference(
-                    User::class,
-                    1
-                )->getEmployee()->getEmpNumber()
-            );
-        $this->createKernelWithMockServices([Services::AUTH_USER => $authUser]);
     }
 
     public function testGetPerformanceReviewList(): void
     {
-        $performanceReviewList = TestDataService::loadObjectList(PerformanceReview::class, $this->fixture, 'PerformanceReview');
-        $expected = [$performanceReviewList[1], $performanceReviewList[2], $performanceReviewList[3]];
+        $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
+        $performanceReviewSearchFilterParams->setJobTitleId(2);
+        $performanceReviewSearchFilterParams->setStatusId(1);
+        $performanceReviewSearchFilterParams->setFromDate(DateTime::createFromFormat("Y-m-d",  "2022-05-01"));
+        $performanceReviewSearchFilterParams->setToDate(DateTime::createFromFormat("Y-m-d", "2022-05-31"));
+        $performanceReviewSearchFilterParams->setIncludeEmployees('onlyCurrent');
 
-        $performanceReviewSearchAndFilterParams = new PerformanceReviewSearchFilterParams();
-        $performanceReviewSearchAndFilterParams->setSupervisorId(1);
-        $performanceReviewSearchAndFilterParams->setExcludeInactiveReviews(true);
-        $result = $this->performanceReviewDao->getPerformanceReviewList($performanceReviewSearchAndFilterParams);
-        for ($i = 0; $i < count($result); $i++) {
-            $this->assertEquals($expected[$i]->getId(), $result[$i]->getId());
-            $this->assertEquals($expected[$i]->getStatusId(), $result[$i]->getStatusId());
-            $this->assertEquals($expected[$i]->getWorkPeriodStart(), $result[$i]->getWorkPeriodStart());
-            $this->assertEquals($expected[$i]->getWorkPeriodEnd(), $result[$i]->getWorkPeriodEnd());
-            $this->assertEquals($expected[$i]->getDueDate(), $result[$i]->getDueDate());
-            $this->assertEquals($expected[$i]->getDepartment()->getId(), $result[$i]->getDepartment()->getId());
-        }
+        $result = $this->performanceReviewDao->getPerformanceReviewList($performanceReviewSearchFilterParams);
+        $this->assertCount(1, $result);
+
+        $this->assertEquals('Seungcheol', $result[0]->getEmployee()->getFirstName());
+        $this->assertEquals('Choi', $result[0]->getEmployee()->getLastName());
+        $this->assertEquals('Devi', $result[0]->getDecorator()->getSupervisorReviewer()->getEmployee()->getFirstName());
+        $this->assertEquals('Admin', $result[0]->getDecorator()->getSupervisorReviewer()->getEmployee()->getLastName());
     }
 
     public function testGetPerformanceReviewCount(): void
     {
         $performanceReviewSearchAndFilterParams = new PerformanceReviewSearchFilterParams();
-        $performanceReviewSearchAndFilterParams->setSupervisorId(1);
-        $performanceReviewSearchAndFilterParams->setExcludeInactiveReviews(true);
-        $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
-        $this->assertEquals(3, $result);
-    }
 
-//    public function testGetReviewIdsBySupervisorId(): void
-//    {
-//        $expected = [11, 12, 13, 14];
-//        $result = $this->performanceReviewDao->getReviewIdsBySupervisorId(1);
-//        $this->assertEquals($expected, $result);
-//    }
+        $performanceReviewSearchAndFilterParams->setIncludeEmployees('onlyCurrent');
+        $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
+        $this->assertEquals(26, $result);
+
+        $performanceReviewSearchAndFilterParams->setSupervisorId(1);
+        $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
+        $this->assertEquals(7, $result);
+    }
 }
