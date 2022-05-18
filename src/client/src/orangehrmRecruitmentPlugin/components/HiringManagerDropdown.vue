@@ -35,15 +35,15 @@ export default {
   setup() {
     const options = ref([]);
     const http = new APIService(
-      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
-      'recruitment/api/hiringManager',
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/hiring-managers',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
         options.value = data.data.map(item => {
           return {
-            id: item.id,
-            label: item.name,
+            id: item.empNumber,
+            label: `${item.firstName} ${item.lastName}`,
           };
         });
       });

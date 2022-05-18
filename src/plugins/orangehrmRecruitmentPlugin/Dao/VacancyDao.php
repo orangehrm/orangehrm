@@ -144,4 +144,15 @@ class VacancyDao extends BaseDao
         }
         return false;
     }
+
+    /**
+     * @return Vacancy[]
+     */
+    public function getVacanciesOrderByHiringManagers(): array
+    {
+        $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
+        $qb->leftJoin('vacancy.employee', 'employee');
+        $qb->groupBy('employee.empNumber');
+        return $qb->getQuery()->execute();
+    }
 }

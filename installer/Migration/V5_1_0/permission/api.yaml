@@ -82,3 +82,16 @@ apiv2_candidate_status:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_hiring_managers:
+  description: 'API-v2 Recruitment - Hiring Managers'
+  api: OrangeHRM\Recruitment\Api\HiringManagerAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
