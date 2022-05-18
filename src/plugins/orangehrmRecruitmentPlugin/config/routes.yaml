@@ -58,6 +58,13 @@ apiv2_recruitment_candidate_attachments:
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateAttachmentAPI
 
+apiv2_candidate_status:
+  path: /api/v2/recruitment/candidate/status
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateStatusAPI
+
 ##########################
 #        Files
 ##########################
