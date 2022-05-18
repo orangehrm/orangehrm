@@ -115,7 +115,6 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
-import usei18n from '@/core/util/composable/usei18n';
 
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown.vue';
@@ -151,7 +150,7 @@ const defaultSortOrder = {
   'employee.firstName': 'DEFAULT',
 };
 export default {
-  name: 'view-job-vacancy',
+  name: 'ViewJobVacancy',
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
     'jobtitle-dropdown': JobtitleDropdown,
@@ -160,7 +159,6 @@ export default {
   },
 
   setup() {
-    const {$t} = usei18n();
     const filters = ref({...defaultFilters});
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
