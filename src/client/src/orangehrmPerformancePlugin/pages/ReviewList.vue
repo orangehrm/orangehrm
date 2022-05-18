@@ -21,12 +21,12 @@
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('performance.review_list')">
       <oxd-form @submitValid="filterItems" @reset="filterItems">
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+        <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <employee-autocomplete
               v-model="filters.employee"
               :params="{
-                includeEmployees: 'currentAndPast',
+                includeEmployees: filters.includeEmployees.param,
               }"
             />
           </oxd-grid-item>
@@ -35,6 +35,17 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <subunit-dropdown v-model="filters.subUnit" />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <!--TODO replace with include employee dropdown-->
+            <oxd-input-field
+              v-model="filters.includeEmployees"
+              type="select"
+              :label="$t('pim.include')"
+              :clear="false"
+              :options="includeOpts"
+              :show-empty-selector="false"
+            />
           </oxd-grid-item>
           <oxd-grid-item class="--offset-row-2">
             <review-status-dropdown v-model="filters.status" />
@@ -120,6 +131,11 @@ const defaultFilters = {
   status: null,
   fromDate: null,
   toDate: null,
+  includeEmployees: {
+    id: 1,
+    param: 'onlyCurrent',
+    label: 'Current Employees Only',
+  },
 };
 
 const defaultSortOrder = {
@@ -184,6 +200,7 @@ export default {
         statusId: filters.value.status?.statusId,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
+        includeEmployees: filters.value.includeEmployees?.param,
       };
     });
 
@@ -262,11 +279,29 @@ export default {
         },
         {
           name: 'action',
-          slot: 'action',
+          slot: 'footer',
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.cellRenderer,
           style: {flex: 1},
+        },
+      ],
+      // TODO remove
+      includeOpts: [
+        {
+          id: 1,
+          param: 'onlyCurrent',
+          label: this.$t('general.current_employees_only'),
+        },
+        {
+          id: 2,
+          param: 'currentAndPast',
+          label: this.$t('general.current_and_past_employees'),
+        },
+        {
+          id: 3,
+          param: 'onlyPast',
+          label: this.$t('general.past_employees_only'),
         },
       ],
     };
@@ -283,6 +318,9 @@ export default {
             label: this.$t('general.view'),
             displayType: 'text',
             size: 'medium',
+            style: {
+              'min-width': '140px',
+            },
           },
         };
       } else {
@@ -293,6 +331,9 @@ export default {
             label: this.$t('performance.evaluate'),
             displayType: 'text',
             size: 'medium',
+            style: {
+              'min-width': '140px',
+            },
           },
         };
       }
@@ -311,3 +352,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep(.card-footer-slot) {
+  .oxd-table-cell-actions {
+    justify-content: flex-end;
+  }
+}
+</style>

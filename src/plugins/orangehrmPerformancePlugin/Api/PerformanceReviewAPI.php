@@ -46,6 +46,7 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     public const FILTER_STATUS_ID = 'statusId';
     public const FILTER_FROM_DATE = 'fromDate';
     public const FILTER_TO_DATE = 'toDate';
+    public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
 
     /**
      * @inheritDoc
@@ -138,6 +139,13 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_TO_DATE
             )
         );
+        $performanceReviewSearchFilterParams->setIncludeEmployees(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_INCLUDE_EMPLOYEES,
+                PerformanceReviewSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+            )
+        );
     }
 
     /**
@@ -161,6 +169,12 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::FILTER_TO_DATE, new Rule(Rules::API_DATE))
             ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_INCLUDE_EMPLOYEES,
+                    new Rule(Rules::IN, [PerformanceReviewSearchFilterParams::INCLUDE_EMPLOYEES])
+                )
+            )
         ];
     }
 

@@ -46,6 +46,16 @@ class PerformanceReviewSearchFilterParams extends FilterParams
         ...self::REVIEW_LIST_STATUSES
     ];
 
+    public const INCLUDE_EMPLOYEES_ONLY_CURRENT = 'onlyCurrent';
+    public const INCLUDE_EMPLOYEES_ONLY_PAST = 'onlyPast';
+    public const INCLUDE_EMPLOYEES_CURRENT_AND_PAST = 'currentAndPast';
+
+    public const INCLUDE_EMPLOYEES = [
+        self::INCLUDE_EMPLOYEES_ONLY_CURRENT,
+        self::INCLUDE_EMPLOYEES_ONLY_PAST,
+        self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
+    ];
+
     protected ?int $empNumber = null;
     protected ?int $supervisorId = null;
     protected ?int $jobTitleId = null;
@@ -54,6 +64,7 @@ class PerformanceReviewSearchFilterParams extends FilterParams
     protected ?DateTime $fromDate = null;
     protected ?DateTime $toDate = null;
     protected bool $excludeInactiveReviews = false;
+    protected string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
 
     public function __construct()
     {
@@ -186,5 +197,21 @@ class PerformanceReviewSearchFilterParams extends FilterParams
     public function setExcludeInactiveReviews(bool $excludeInactiveReviews): void
     {
         $this->excludeInactiveReviews = $excludeInactiveReviews;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIncludeEmployees(): string
+    {
+        return $this->includeEmployees;
+    }
+
+    /**
+     * @param string $includeEmployees
+     */
+    public function setIncludeEmployees(string $includeEmployees): void
+    {
+        $this->includeEmployees = $includeEmployees;
     }
 }
