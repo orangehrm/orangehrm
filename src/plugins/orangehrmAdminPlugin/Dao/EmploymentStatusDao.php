@@ -63,8 +63,6 @@ class EmploymentStatusDao extends BaseDao
     }
 
     /**
-     * Search Employment Statuses
-     *
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return array
      */
