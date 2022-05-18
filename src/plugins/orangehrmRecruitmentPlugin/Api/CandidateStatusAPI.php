@@ -25,9 +25,11 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
 {
+    use VacancyServiceTrait;
     public const STATUS_MAP = [
         1 => 'APPLICATION INITIATED',
         2 => 'SHORTLISTED',

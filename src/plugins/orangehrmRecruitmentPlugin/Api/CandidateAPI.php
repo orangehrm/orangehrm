@@ -39,7 +39,6 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
-use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -58,6 +57,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
 
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
+    public const FILTER_CANDIDATE_ID = 'candidateId';
     public const FILTER_VACANCY_ID = 'vacancyId';
     public const FILTER_HIRING_MANAGER_ID = 'hiringManagerId';
     public const FILTER_STATUS = 'status';
@@ -81,14 +81,6 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_CONSENT_TO_KEEP_DATA = 'consentToKeepData';
     public const PARAMETER_RESUME = 'resume';
     public const PARAMETER_STATUS = 'status';
-
-    public const PARAMETER_CURRENT_ATTACHMENT = 'currentAttachment';
-
-    public const ATTACHMENT_REPLACE_CURRENT = 'replaceCurrent';
-    public const ATTACHMENT_KEEP_CURRENT = 'keepCurrent';
-    public const ATTACHMENT_DELETE_CURRENT = 'deleteCurrent';
-
-    public const PARAM_RULE_FILE_NAME_MAX_LENGTH = 200;
 
     public const MODEL_DEFAULT = 'default';
     public const MODEL_DETAILED = 'detailed';
@@ -123,6 +115,12 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_JOB_TITLE_ID
+            )
+        );
+        $candidateSearchFilterParamHolder->setCandidateId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_CANDIDATE_ID
             )
         );
         $candidateSearchFilterParamHolder->setVacancyId(
@@ -239,6 +237,12 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_CANDIDATE_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_JOB_TITLE_ID,
@@ -412,34 +416,6 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         $candidate->getDecorator()->setEmployeeById(
             $this->getAuthUser()->getEmpNumber()
         );
-    }
-
-    /**
-     * @param CandidateAttachment $candidateAttachment
-     * @param int $candidateId
-     */
-    private function setCandidateAttachment(CandidateAttachment $candidateAttachment, int $candidateId)
-    {
-        $candidateAttachment->getDecorator()->setCandidateById($candidateId);
-        $this->setBase64Attachment($candidateAttachment);
-    }
-
-    /**
-     * @param CandidateAttachment $candidateAttachment
-     */
-    private function setBase64Attachment(CandidateAttachment $candidateAttachment): void
-    {
-        $base64Attachment = $this->getRequestParams()->getAttachmentOrNull(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_RESUME
-        );
-        if (is_null($base64Attachment)) {
-            return;
-        }
-        $candidateAttachment->setFileName($base64Attachment->getFilename());
-        $candidateAttachment->setFileType($base64Attachment->getFileType());
-        $candidateAttachment->setFileSize($base64Attachment->getSize());
-        $candidateAttachment->setFileContent($base64Attachment->getContent());
     }
 
     /**
