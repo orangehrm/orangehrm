@@ -23,11 +23,13 @@
     type="select"
     :label="$t('leave.leave_period')"
     :options="options"
+    :model-value="selectedPeriod"
+    @update:modelValue="$emit('update:modelValue', $event)"
   />
 </template>
 
 <script>
-import {ref, onBeforeMount} from 'vue';
+import {ref, onBeforeMount, computed} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
@@ -35,7 +37,14 @@ import useLocale from '@/core/util/composable/useLocale';
 
 export default {
   name: 'LeavePeriodDropdown',
-  setup() {
+  props: {
+    modelValue: {
+      type: Object,
+      default: null,
+    },
+  },
+  emits: ['update:modelValue'],
+  setup(props) {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -59,15 +68,20 @@ export default {
           return {
             id: `${item.startDate}_${item.endDate}`,
             label: `${startDate} - ${endDate}`,
-            startDate: startDate,
-            endDate: endDate,
+            startDate: item.startDate,
+            endDate: item.endDate,
           };
         });
       });
     });
 
+    const selectedPeriod = computed(() => {
+      return options.value.find(_option => _option.id === props.modelValue?.id);
+    });
+
     return {
       options,
+      selectedPeriod,
     };
   },
 };
