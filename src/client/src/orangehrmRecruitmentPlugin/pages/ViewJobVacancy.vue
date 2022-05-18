@@ -19,7 +19,7 @@
  -->
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Vacancies">
+    <oxd-table-filter :filter-title="$t('general.vacancies')">
       <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
@@ -27,19 +27,22 @@
               <jobtitle-dropdown v-model="filters.jobTitleId" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <vacancy-dropdown v-model="filters.vacancyId" label="Vacancy" />
+              <vacancy-dropdown
+                v-model="filters.vacancyId"
+                :label="$t('recruitment.vacancy')"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.hiringManagerId"
-                label="Hiring Manager"
+                :label="$t('recruitment.hiring_manager')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="select"
-                label="Status"
                 v-model="filters.status"
+                type="select"
+                :label="$t('general.status')"
                 :clear="false"
                 :options="statusOptions"
               />
@@ -50,11 +53,15 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.reset')"
+            @click="onClickReset"
+          />
           <oxd-button
             class="orangehrm-left-space"
-            displayType="secondary"
-            label="Search"
+            display-type="secondary"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -64,36 +71,36 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
-          label="Add"
-          iconName="plus"
-          displayType="secondary"
+          :label="$t('general.add')"
+          icon-name="plus"
+          display-type="secondary"
           @click="onClickAdd"
         />
       </div>
       <table-header
         :selected="checkedItems.length"
         :loading="isLoading"
-        @delete="onClickDeleteSelected"
         :total="total"
+        @delete="onClickDeleteSelected"
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
-          v-model:selected="checkedItems"
           :loading="isLoading"
-          rowDecorator="oxd-table-decorator-card"
-          v-model:order="sortDefinition"
+          row-decorator="oxd-table-decorator-card"
           class="orangehrm-vacancy-list"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -108,6 +115,7 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
+import usei18n from '@/core/util/composable/usei18n';
 
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown.vue';
@@ -151,66 +159,8 @@ export default {
     'vacancy-dropdown': VacancyDropdown,
   },
 
-  data() {
-    return {
-      headers: [
-        {
-          name: 'vacancy',
-          slot: 'title',
-          title: 'Vacancy',
-          sortField: 'vacancy.name',
-          style: {flex: 3},
-        },
-        {
-          name: 'jobTitle',
-          title: 'Job Title',
-          sortField: 'jobTitle.jobTitleName',
-          style: {flex: 3},
-        },
-        {
-          name: 'hiringManager',
-          title: 'Hiring Manager',
-          sortField: 'employee.lastName',
-          style: {flex: 3},
-        },
-        {
-          name: 'status',
-          title: 'Status',
-          sortField: 'vacancy.status',
-          style: {flex: 2},
-        },
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {flex: 2},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
-      statusOptions: [
-        {id: 1, param: 'active', label: 'Active'},
-        {id: 2, param: 'closed', label: 'Closed'},
-      ],
-      vacancies: [],
-      checkedItems: [],
-    };
-  },
   setup() {
+    const {$t} = usei18n();
     const filters = ref({...defaultFilters});
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -258,6 +208,66 @@ export default {
       items: response,
       filters,
       sortDefinition,
+    };
+  },
+
+  data() {
+    return {
+      headers: [
+        {
+          name: 'vacancy',
+          slot: 'title',
+          title: this.$t('recruitment.vacancy'),
+          sortField: 'vacancy.name',
+          style: {flex: 3},
+        },
+        {
+          name: 'jobTitle',
+          title: 'Job Title',
+          sortField: 'jobTitle.jobTitleName',
+          style: {flex: 3},
+        },
+        {
+          name: 'hiringManager',
+          title: this.$t('recruitment.hiring_manager'),
+          sortField: 'employee.lastName',
+          style: {flex: 3},
+        },
+        {
+          name: 'status',
+          title: this.$t('general.status'),
+          sortField: 'vacancy.status',
+          style: {flex: 2},
+        },
+        {
+          name: 'actions',
+          slot: 'action',
+          title: this.$t('general.actions'),
+          style: {flex: 2},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+          },
+        },
+      ],
+      statusOptions: [
+        {id: 1, param: 'active', label: 'Active'},
+        {id: 2, param: 'closed', label: 'Closed'},
+      ],
+      vacancies: [],
+      checkedItems: [],
     };
   },
 

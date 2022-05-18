@@ -20,7 +20,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Vacancy</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('recruitment.add_vacancy') }}
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -28,7 +30,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="vacancy.name"
-              label="Vacancy Name"
+              :label="$t('recruitment.vacancy_name')"
               required
               :rules="rules.name"
             />
@@ -46,7 +48,7 @@
             <oxd-input-field
               v-model="vacancy.description"
               type="textarea"
-              label="Description"
+              :label="$t('recruitment.description')"
               placeholder="Type description here"
               :rules="rules.description"
             />
@@ -61,14 +63,14 @@
               }"
               required
               :rules="rules.hiringManager"
-              label="Hiring Manager"
+              :label="$t('recruitment.hiring_manager')"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-input-field
                 v-model.number="vacancy.numOfPositions"
-                label="Number Of Positions"
+                :label="$t('recruitment.no_of_positions')"
                 :rules="rules.numOfPositions"
               />
             </oxd-grid>
@@ -76,7 +78,9 @@
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
-            <oxd-text class="orangehrm-text" tag="p">Active</oxd-text>
+            <oxd-text class="orangehrm-text" tag="p">{{
+              $t('recruitment.active')
+            }}</oxd-text>
             <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
         </oxd-grid>
@@ -84,7 +88,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
             <oxd-text class="orangehrm-text" tag="p">
-              Publish in RSS feed and web page
+              {{ $t('publish _in_rss_feed _and_web_page') }}
             </oxd-text>
             <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
@@ -93,11 +97,11 @@
         <oxd-grid :cols="1" class="orangehrm-full-width-grid">
           <div class="orangehrm-container orangehrm-container--border">
             <vacancy-link-card
-              label="RSS Feed URL"
+              :label="$t('recruitment.rss_feed_url')"
               url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.rss"
             />
             <vacancy-link-card
-              label="Web Page URL"
+              :label="$t('recruitment.web_page_url')"
               url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.html"
             />
           </div>
@@ -106,7 +110,11 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -179,7 +187,7 @@ export default {
         const {data} = response.data;
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {
