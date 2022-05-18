@@ -96,7 +96,7 @@ export default {
   name: 'ShortlistCandidateScreen',
   setup() {
     const http = new APIService(
-      'https://0d188518-fc5f-4b13-833d-5cd0e9fcef79.mock.pstmn.io',
+      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
       'recruitment/shortlistCandidate',
     );
     return {
@@ -113,6 +113,7 @@ export default {
         note: '',
         status: null,
       },
+      historyId: null,
     };
   },
   beforeMount() {
@@ -139,11 +140,12 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.shortlist.id, {note: this.shortlist.note})
-        .then(() => {
+        .then(({data: {data}}) => {
+          this.historyId = data.id;
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/VacancyStatus');
+          navigate(`/recruitment/VacancyStatus/${this.historyId}`);
         });
     },
     onBack() {

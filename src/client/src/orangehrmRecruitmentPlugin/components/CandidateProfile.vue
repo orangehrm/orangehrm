@@ -21,8 +21,8 @@
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"
-        >{{ $t('recruitment.add_candidate') }}
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('recruitment.candidate_profile') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -30,9 +30,9 @@
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <full-name-input
-                v-model:first-name="candidate.firstName"
-                v-model:middle-name="candidate.middleName"
-                v-model:last-name="candidate.lastName"
+                v-model:first-name="profile.firstName"
+                v-model:middle-name="profile.middleName"
+                v-model:last-name="profile.lastName"
                 :rules="rules"
                 required
               />
@@ -42,7 +42,10 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <vacancy-dropdown v-model="candidate.vacancy" />
+              <vacancy-dropdown
+                v-model="profile.vacancy"
+                :label="$t('recruitment.job_vacancy')"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -50,7 +53,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="candidate.email"
+                v-model="profile.email"
                 :label="$t('general.email')"
                 :placeholder="$t('general.type_here')"
                 :rules="rules.email"
@@ -59,7 +62,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="candidate.contactNumber"
+                v-model="profile.contactNumber"
                 :label="$t('recruitment.contact_number')"
                 :placeholder="$t('general.type_here')"
                 :rules="rules.contactNumber"
@@ -70,48 +73,50 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="candidate.resume"
-                type="file"
+              <file-upload-input
+                v-model:newFile="profile.newResume"
+                v-model:method="profile.method"
                 :label="$t('recruitment.resume')"
                 :button-label="$t('general.browse')"
-                :placeholder="$t('general.no_file_chosen')"
+                :file="profile.oldResume"
                 :rules="rules.resume"
+                url="recruitment/resume"
+                :hint="$t('general.accept_custom_format_file')"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item class="orangehrm-save-candidate-page-full-width">
+            <oxd-grid-item
+              class="orangehrm-save-candidate-page --span-column-2"
+            >
               <oxd-input-field
-                v-model="candidate.keywords"
-                :label="$t('recruitment.keywords')"
-                :placeholder="$t('recruitment.enter_comma_se')"
+                v-model="profile.keywords"
+                :label="$t('general.keywords')"
+                :placeholder="$t('general.type_here')"
                 :rules="rules.keywords"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="candidate.application"
+              <date-input
+                v-model="profile.applicationDate"
                 :label="$t('recruitment.date_of_application')"
-                :rules="rules.applyDate"
-                type="date"
-                :placeholder="$t('general.date_format')"
+                :rules="rules.applicationDate"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item class="orangehrm-save-candidate-page-full-width">
+            <oxd-grid-item
+              class="orangehrm-save-candidate-page --span-column-2"
+            >
               <oxd-input-field
-                v-model="candidate.notes"
+                v-model="profile.notes"
                 :label="$t('general.notes')"
                 type="textarea"
                 :placeholder="$t('general.type_here')"
-                :rules="rules.notes"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -122,7 +127,7 @@
               class="orangehrm-save-candidate-page-full-width orangehrm-save-candidate-page-grid-checkbox"
             >
               <oxd-input-field
-                v-model="candidate.keep"
+                v-model="profile.keep"
                 type="checkbox"
                 :label="$t('recruitment.content_to_keep_data')"
               />
@@ -130,14 +135,10 @@
           </oxd-grid>
         </oxd-form-row>
         <oxd-divider />
+        <required-text></required-text>
         <oxd-form-actions>
-          <required-text />
-          <oxd-button
-            display-type="ghost"
-            :label="$t('general.cancel')"
-            @click="onCancel"
-          />
-          <submit-button />
+          <oxd-button display-type="ghost" :label="$t('general.cancel')" />
+          <submit-button :label="$t('general.save')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -146,38 +147,48 @@
 
 <script>
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
+import {APIService} from '@/core/util/services/api.service';
 import {
-  maxFileSize,
-  shouldBeCurrentOrPreviousDate,
   shouldNotExceedCharLength,
+  required,
   validDateFormat,
-  validFileTypes,
   validPhoneNumberFormat,
+  validEmailFormat,
+  maxFileSize,
+  validFileTypes,
 } from '@/core/util/validation/rules';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
-import SubmitButton from '@/core/components/buttons/SubmitButton';
-import {required, validEmailFormat} from '@/core/util/validation/rules';
-import {APIService} from '@ohrm/core/util/services/api.service';
+import FileUploadInput from '@/core/components/inputs/FileUploadInput';
+import DateInput from '@/core/components/inputs/DateInput';
 import {navigate} from '@/core/util/helper/navigation';
-
 export default {
-  name: 'SaveCandidate',
+  name: 'CandidateProfile',
   components: {
-    'submit-button': SubmitButton,
+    DateInput,
     'vacancy-dropdown': VacancyDropdown,
+    'file-upload-input': FileUploadInput,
     'full-name-input': FullNameInput,
   },
   props: {
+    candidateId: {
+      type: Number,
+      required: true,
+    },
     allowedFileTypes: {
       type: Array,
       required: true,
     },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
       'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      'recruitment/api/candidate',
+      `/recruitment/candidate/${props.candidateId}`,
     );
+
     return {
       http,
     };
@@ -185,18 +196,21 @@ export default {
   data() {
     return {
       isLoading: false,
-      candidate: {
-        firstName: null,
+      profile: {
+        firstName: '',
         middleName: '',
         lastName: '',
         email: '',
         contactNumber: '',
-        resume: null,
-        vacancy: null,
-        keywords: '',
-        application: '',
+        oldResume: '',
         notes: '',
-        keep: '',
+        keywords: '',
+        newResume: null,
+        vacancy: null,
+        resume: null,
+        method: 'keepCurrent',
+        applicationDate: null,
+        keep: null,
       },
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
@@ -204,31 +218,45 @@ export default {
         middleName: [shouldNotExceedCharLength(30)],
         email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
         contactNumber: [validPhoneNumberFormat, shouldNotExceedCharLength(25)],
-        notes: [shouldNotExceedCharLength(250)],
         keywords: [shouldNotExceedCharLength(250)],
+        applicationDate: [validDateFormat()],
         resume: [
           maxFileSize(1024 * 1024),
           validFileTypes(this.allowedFileTypes),
         ],
-        applyDate: [validDateFormat(), shouldBeCurrentOrPreviousDate()],
       },
     };
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http.getAll().then(({data: {data}}) => {
+      const {resume, candidate, ...rest} = data;
+      this.profile.oldResume = resume?.id ? resume : null;
+      this.profile.newResume = null;
+      this.profile.firstName = candidate.firstName;
+      this.profile.middleName = candidate.middleName;
+      this.profile.lastName = candidate.lastName;
+      this.profile.method = 'keepCurrent';
+      this.profile.vacancy = data.vacancy;
+      this.profile = {
+        ...this.profile,
+        ...rest,
+      };
+      this.isLoading = false;
+    });
   },
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({data: this.candidate})
+        .update(this.candidateId, this.profile)
         .then(() => {
-          this.isLoading = false;
-          return this.$toast.saveSuccess();
+          return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/addCandidate');
+          navigate(`/recruitment/addCandidate/${this.candidateId}`);
         });
-    },
-    onCancel() {
-      navigate('/recruitment/viewCandidates');
     },
   },
 };
@@ -236,10 +264,6 @@ export default {
 
 <style scoped lang="scss">
 .orangehrm-save-candidate-page {
-  &-full-width {
-    grid-column: 1 / span 2;
-  }
-
   &-grid-checkbox {
     .oxd-input-group {
       flex-direction: row-reverse;

@@ -278,7 +278,7 @@ export default {
     });
 
     const http = new APIService(
-      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
       'recruitment/api/candidate',
     );
 
@@ -408,7 +408,7 @@ export default {
       navigate('/recruitment/addCandidate');
     },
     onClickEdit(item) {
-      navigate('/recruitment/viewCandidate/{id}', {id: item.id});
+      navigate('/recruitment/addCandidate/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

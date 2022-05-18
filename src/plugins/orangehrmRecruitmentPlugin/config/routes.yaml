@@ -1,19 +1,25 @@
+candidate_shortlist_action:
+  path: /recruitment/addCandidate/{candidateId}
+  controller: OrangeHRM\Recruitment\Controller\CandidateActionController::handle
+  methods: [ GET ]
+
 candidate_schedule_interview:
-  path: /recruitment/jobInterview/vacancy/{vid}/action/{aid}
+  path: /recruitment/jobInterview/vacancy/{vacancyId}/action/{actionId}
   controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewController::handle
   methods: [ GET ]
 
 candidate_schedule_interview_history:
-  path: /recruitment/jobInterview/history/{hid}/interviewer/{id}
+  path: /recruitment/jobInterview/history/{historyId}/interviewer/{id}
   controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewHistory::handle
+  methods: [ GET ]
 
 candidate_shortlist:
-  path: /recruitment/vacancy/{vid}/action/{aid}
+  path: /recruitment/vacancy/{vacancyId}/action/{actionId}
   controller: OrangeHRM\Recruitment\Controller\ShortlistCandidateController::handle
   methods: [ GET ]
 
 view_shortlist_history:
-  path: /recruitment/VacancyStatus
+  path: /recruitment/VacancyStatus/{historyId}
   controller: OrangeHRM\Recruitment\Controller\ShortlistHistoryController::handle
   methods: [ GET ]
 

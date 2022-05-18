@@ -66,3 +66,6 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Markeer Interview als gefaald', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Markeer Interview als geslaagd', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Aannemen', unitId: hire, group: recruitment }

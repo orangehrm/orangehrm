@@ -35,7 +35,7 @@ export default {
   setup() {
     const options = ref([]);
     const http = new APIService(
-      'https://01eefc6d-daf1-4643-97ae-2d15ea8b587b.mock.pstmn.io',
+      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
       'recruitment/api/hiringManager',
     );
     onBeforeMount(() => {
