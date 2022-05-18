@@ -82,7 +82,7 @@ recruitment_attachment:
   methods: [ GET ]
 
 candidate_attachment:
-  path: /recruitment/viewCandidateAttachment/attachId/{attachId}
+  path: /recruitment/viewCandidateAttachment/candidateId/{candidateId}
   controller: OrangeHRM\Recruitment\Controller\File\CandidateAttachment::handle
   methods: [ GET ]
 
