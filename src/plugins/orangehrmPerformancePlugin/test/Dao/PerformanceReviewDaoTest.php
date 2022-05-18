@@ -50,7 +50,7 @@ class PerformanceReviewDaoTest extends KernelTestCase
         $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
         $performanceReviewSearchFilterParams->setJobTitleId(2);
         $performanceReviewSearchFilterParams->setStatusId(1);
-        $performanceReviewSearchFilterParams->setFromDate(DateTime::createFromFormat("Y-m-d",  "2022-05-01"));
+        $performanceReviewSearchFilterParams->setFromDate(DateTime::createFromFormat("Y-m-d", "2022-05-01"));
         $performanceReviewSearchFilterParams->setToDate(DateTime::createFromFormat("Y-m-d", "2022-05-31"));
         $performanceReviewSearchFilterParams->setIncludeEmployees('onlyCurrent');
 

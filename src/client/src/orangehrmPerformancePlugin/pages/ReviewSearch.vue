@@ -34,11 +34,8 @@
             <jobtitle-dropdown v-model="filters.jobTitle" />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <review-status-dropdown
               v-model="filters.status"
-              type="select"
-              :label="$t('performance.review_status')"
-              :clear="false"
               :options="statusOpts"
             />
           </oxd-grid-item>
@@ -145,6 +142,7 @@ import usei18n from '@/core/util/composable/usei18n';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
+import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
 
 const defaultFilters = {
   employee: null,
@@ -172,6 +170,7 @@ const defaultSortOrder = {
 export default {
   name: 'ReviewSearch',
   components: {
+    'review-status-dropdown': ReviewStatusDropdown,
     'jobtitle-dropdown': JobtitleDropdown,
     'employee-autocomplete': EmployeeAutocomplete,
     'delete-confirmation-dialog': DeleteConfirmationDialog,
