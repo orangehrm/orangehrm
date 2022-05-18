@@ -23,6 +23,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Exception;
 use OrangeHRM\Core\Traits\CacheTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use Symfony\Component\Cache\CacheItem;
 
@@ -30,6 +31,7 @@ class DatabaseBackupService
 {
     use EntityManagerHelperTrait;
     use CacheTrait;
+    use LoggerTrait;
 
     public const DB_SAVEPOINT_CACHE_KEY_PREFIX = 'db.savepoint';
     public const INITIAL_SAVEPOINT_CACHE_KEY_PREFIX = 'db.initial.savepoint';
@@ -156,7 +158,6 @@ class DatabaseBackupService
     {
         $conn = $this->getConnection();
         $conn->executeStatement('SET FOREIGN_KEY_CHECKS=0;');
-        $this->beginTransaction();
         try {
             $tables = [];
             $allTables = $this->getSchemaManager()->listTables();
@@ -178,11 +179,11 @@ class DatabaseBackupService
                 }
                 $tables[] = [$table, count($data)];
             }
-            $this->commitTransaction();
 
             return $tables;
         } catch (Exception $e) {
-            $this->rollBackTransaction();
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             throw $e;
         } finally {
             $conn->executeStatement('SET FOREIGN_KEY_CHECKS=1;');
