@@ -135,10 +135,16 @@ class Candidate
      */
     private iterable $candidateVacancy;
 
+    /**
+     * @var iterable|ArrayCollection
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\CandidateAttachment", mappedBy="candidate")
+     */
+    private iterable $candidateAttachment;
 
     public function __construct()
     {
         $this->candidateVacancy = new ArrayCollection();
+        $this->candidateAttachment = new ArrayCollection();
     }
 
     /**
@@ -389,8 +395,11 @@ class Candidate
         return $this->candidateVacancy;
     }
 
-
-    public function addCandidateVacancy(CandidateVacancy $candidateVacancy): self
+    /**
+     * @return ArrayCollection|iterable
+     */
+    public function getCandidateAttachment()
     {
+        return $this->candidateAttachment;
     }
 }

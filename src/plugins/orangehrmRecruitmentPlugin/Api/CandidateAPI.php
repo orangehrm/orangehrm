@@ -79,7 +79,6 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_DATE_OF_APPLICATION = 'dateOfApplication';
     public const PARAMETER_MODE_OF_APPLICATION = 'modeOfApplication';
     public const PARAMETER_CONSENT_TO_KEEP_DATA = 'consentToKeepData';
-    public const PARAMETER_RESUME = 'resume';
     public const PARAMETER_STATUS = 'status';
 
     public const MODEL_DEFAULT = 'default';
@@ -353,7 +352,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             )
         );
         $candidate->setMiddleName(
-            $this->getRequestParams()->getStringOrNull(
+            $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_MIDDLE_NAME
             ),

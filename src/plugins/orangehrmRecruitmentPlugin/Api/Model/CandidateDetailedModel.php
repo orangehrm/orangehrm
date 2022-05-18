@@ -43,46 +43,12 @@ class CandidateDetailedModel implements Normalizable
         $addedPerson = $this->candidate->getEmployee();
         $candidateVacancies = $this->candidate->getCandidateVacancy();
         $candidateVacancy = !empty($candidateVacancies) ? $candidateVacancies[0] : null;
+        $candidateAttachments = $this->candidate->getCandidateAttachment();
         /**
          * @var Vacancy
          */
         $vacancy = !is_null($candidateVacancy) ? $candidateVacancy->getVacancy() : null;
 
-        if (is_null($vacancy)) {
-            $vacancyDetails = [
-                'id' => null,
-                'name' => null,
-                'jobTitle' => [
-                    'id' => null,
-                    'title' => null,
-                    'isDeleted' => null,
-                ],
-                'hiringManger' => [
-                    'id' => null,
-                    'firstName' => null,
-                    'middleName' => null,
-                    'lastName' => null,
-                    'terminationId' => null,
-                ]
-            ];
-        } else {
-            $vacancyDetails = [
-                'id' => $vacancy->getId(),
-                'name' => $vacancy->getName(),
-                'jobTitle' => [
-                    'id' => $vacancy->getJobTitle()->getId(),
-                    'title' => $vacancy->getJobTitle()->getJobTitleName(),
-                    'isDeleted' => $vacancy->getJobTitle()->isDeleted(),
-                ],
-                'hiringManager' => [
-                    'id' => $vacancy->getEmployee()->getEmpNumber(),
-                    'firstName' => $vacancy->getEmployee()->getFirstName(),
-                    'middleName' => $vacancy->getEmployee()->getMiddleName(),
-                    'lastName' => $vacancy->getEmployee()->getLastName(),
-                    'terminationId' => $vacancy->getEmployee()->getEmployeeTerminationRecord(),
-                ]
-            ];
-        }
         return [
             'id' => $this->candidate->getId(),
             'firstName' => $this->candidate->getFirstName(),
@@ -102,7 +68,24 @@ class CandidateDetailedModel implements Normalizable
                 'lastName' => $addedPerson->getLastName(),
                 'terminationId' => $addedPerson->getEmployeeTerminationRecord()
             ],
-            'vacancy' => array_merge($vacancyDetails)
+            'vacancy' => is_null($vacancy) ? null :
+                [
+                    'id' => $vacancy->getId(),
+                    'name' => $vacancy->getName(),
+                    'jobTitle' => [
+                        'id' => $vacancy->getJobTitle()->getId(),
+                        'title' => $vacancy->getJobTitle()->getJobTitleName(),
+                        'isDeleted' => $vacancy->getJobTitle()->isDeleted(),
+                    ],
+                    'hiringManager' => [
+                        'id' => $vacancy->getEmployee()->getEmpNumber(),
+                        'firstName' => $vacancy->getEmployee()->getFirstName(),
+                        'middleName' => $vacancy->getEmployee()->getMiddleName(),
+                        'lastName' => $vacancy->getEmployee()->getLastName(),
+                        'terminationId' => $vacancy->getEmployee()->getEmployeeTerminationRecord(),
+                    ]
+                ],
+            'hasAttachment' => !is_null($candidateAttachments[0])
         ];
     }
 }

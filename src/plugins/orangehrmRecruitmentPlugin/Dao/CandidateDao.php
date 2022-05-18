@@ -22,6 +22,7 @@ namespace OrangeHRM\Recruitment\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
@@ -44,10 +45,12 @@ class CandidateDao extends BaseDao
      */
     protected function getCandidateListPaginator(CandidateSearchFilterParams $candidateSearchFilterParams): Paginator
     {
+        $qb = $this->createQueryBuilder(CandidateAttachment::class, 'candidateAttachment');
         $qb = $this->createQueryBuilder(Candidate::class, 'candidate');
         $qb->leftJoin('candidate.candidateVacancy', 'candidateVacancy');
         $qb->leftJoin('candidate.employee', 'added_person');
         $qb->leftJoin('candidateVacancy.vacancy', 'vacancy');
+        $qb->leftJoin('candidate.candidateAttachment', 'candidateAttachment');
 
         $this->setSortingAndPaginationParams($qb, $candidateSearchFilterParams);
 
