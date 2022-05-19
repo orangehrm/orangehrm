@@ -48,7 +48,7 @@
             {{ $t('general.date') }}:
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-text">
-            {{ data.date }}
+            {{ commentDate }}
           </oxd-text>
         </oxd-grid>
       </oxd-form-row>
@@ -79,6 +79,9 @@
 import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import useLocale from '@/core/util/composable/useLocale';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 
 export default {
   name: 'TimesheetCommentModal',
@@ -105,8 +108,12 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/time/timesheets`,
     );
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
     return {
       http,
+      locale,
+      jsDateFormat,
     };
   },
   data() {
@@ -124,6 +131,14 @@ export default {
       return project?.label
         ? project.label
         : `${customer?.name} - ${project?.name}`;
+    },
+    commentDate() {
+      const {date} = this.data;
+      return date
+        ? formatDate(parseDate(date), this.jsDateFormat, {
+            locale: this.locale,
+          })
+        : null;
     },
   },
   beforeMount() {

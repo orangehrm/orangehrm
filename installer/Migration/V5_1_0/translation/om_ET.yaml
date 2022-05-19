@@ -1,4 +1,34 @@
 translations:
+    - { target: "Ta'iiwwan Seenaa Mul'isi", unitId: view_action_history, group: recruitment }
+    - { target: 'Mata-Duree Gaaffifi Deebii', unitId: interview_title, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Saganteeffame', unitId: schedule_interview, group: recruitment }
+    - { target: 'Toon actie geschiedenis', unitId: view_action_history, group: recruitment }
+    - { target: 'Interview naam', unitId: interview_title, group: recruitment }
+    - { target: 'Interview plannen', unitId: schedule_interview, group: recruitment }
+    - { target: 'Calallii', unitId: shortlist, group: recruitment }
+    - { target: 'Haala amma irra jiru', unitId: current_status, group: recruitment }
+    - { target: 'Gocha Raawwatame', unitId: performed_action, group: recruitment }
+    - { target: 'Kan Raawwate', unitId: performed_by, group: recruitment }
+    - { target: 'Guyyaa Raawwatame', unitId: performed_date, group: recruitment }
+    - { target: "Ta'iiwwan Seenaa Mul'isi", unitId: view_action_history, group: recruitment }
+    - { target: 'Iddoo Hojii Banaa', unitId: vacancy, group: recruitment }
+    - { target: 'Hogganaan Qaxaru', unitId: hiring_manager, group: recruitment }
+    - { target: 'Maqaa Dorgomaa', unitId: candidate_name, group: recruitment }
+    - { target: 'Jechabeekamtuu', unitId: keywords, group: recruitment }
+    - { target: 'Guyyaa Itti Iyyate', unitId: date_of_application, group: recruitment }
+    - { target: 'Akkaata Iyyannoo', unitId: method_of_application, group: recruitment }
+    - { target: 'Jechoota koomaan Adda baasii galchi', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Dorgomaa', unitId: candidate, group: recruitment }
+    - { target: 'Calalameera', unitId: shortlisted, group: recruitment }
+    - { target: 'Gaaffiifi Deebiin Saganteeffameera', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Darbe', unitId: interview_passed, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Kufe', unitId: interview_failed, group: recruitment }
+    - { target: 'Hojiif Affeerameera', unitId: job_offered, group: recruitment }
+    - { target: 'Maanuwaalii', unitId: manual, group: recruitment }
+    - { target: 'Sarararra', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Ragaa Barumsaa', unitId: resume, group: recruitment }
+    - { target: 'Dorgomaa Dabali', unitId: add_candidate, group: recruitment }
     - { target: Eebila, unitId: april, group: general }
     - { target: Hagayya, unitId: august, group: general }
     - { target: Mudde, unitId: december, group: general }
@@ -36,3 +66,6 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Markeer Interview als gefaald', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Markeer Interview als geslaagd', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Aannemen', unitId: hire, group: recruitment }
