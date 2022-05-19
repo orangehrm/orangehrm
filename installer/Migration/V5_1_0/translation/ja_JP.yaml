@@ -23,7 +23,6 @@ translations:
     - { target: 'ジョブが提供され', unitId: job_offered, group: recruitment }
     - { target: 'マニュアル', unitId: manual, group: recruitment }
     - { target: 'オンライン', unitId: online, group: recruitment }
-    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
     - { target: '再開する', unitId: resume, group: recruitment }
     - { target: '候補を追加します。', unitId: add_candidate, group: recruitment }
     - { target: 4月, unitId: april, group: general }

@@ -866,9 +866,3 @@ langStrings:
   -
     value: 'Range'
     unitId: range
-  -
-    value: 'Should be lower than Maximum value'
-    unitId: should_be_lower_than_maximum_value
-  -
-    value: 'Should be a number between {min}-{max}'
-    unitId: should_be_a_number_between_min_and_max
