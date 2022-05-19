@@ -22,6 +22,10 @@ namespace OrangeHRM\Tests\Performance\Dao;
 use DateTime;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\Reviewer;
+use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
@@ -34,6 +38,8 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class PerformanceReviewDaoTest extends KernelTestCase
 {
+    use EntityManagerHelperTrait;
+
     private PerformanceReviewDao $performanceReviewDao;
     protected string $fixture;
 
@@ -74,5 +80,19 @@ class PerformanceReviewDaoTest extends KernelTestCase
         $performanceReviewSearchAndFilterParams->setSupervisorId(1);
         $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
         $this->assertEquals(7, $result);
+    }
+
+    public function testDeletePerformanceReviews(): void
+    {
+        $result = $this->performanceReviewDao->deletePerformanceReviews([1, 2]);
+        $this->assertEquals(2, $result);
+
+        $this->assertEmpty($this->getRepository(PerformanceReview::class)->find(1));
+        $this->assertEmpty($this->getRepository(Reviewer::class)->findBy(['review' => 1]));
+        $this->assertEmpty($this->getRepository(ReviewerRating::class)->findBy(['performanceReview' => 1]));
+
+        $this->assertEmpty($this->getRepository(PerformanceReview::class)->find(2));
+        $this->assertEmpty($this->getRepository(Reviewer::class)->findBy(['review' => 2]));
+        $this->assertEmpty($this->getRepository(ReviewerRating::class)->findBy(['performanceReview' => 2]));
     }
 }

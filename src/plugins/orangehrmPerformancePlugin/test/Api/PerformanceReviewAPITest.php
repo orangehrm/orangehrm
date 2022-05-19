@@ -67,4 +67,46 @@ class PerformanceReviewAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('PerformanceReviewAPITestCases.yaml', 'Delete');
     }
+
+    public function testCreate(): void
+    {
+        $api = new PerformanceReviewAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new PerformanceReviewAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testUpdate(): void
+    {
+        $api = new PerformanceReviewAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new PerformanceReviewAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new PerformanceReviewAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new PerformanceReviewAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
 }

@@ -48,4 +48,32 @@ class ReviewListAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('ReviewListAPITestCases.yaml', 'GetAll');
     }
+
+    public function testCreate(): void
+    {
+        $api = new ReviewListAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new ReviewListAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testUpdate(): void
+    {
+        $api = new ReviewListAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new ReviewListAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
+    }
 }
