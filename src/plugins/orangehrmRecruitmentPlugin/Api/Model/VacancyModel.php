@@ -37,16 +37,14 @@ class VacancyModel implements Normalizable
             'numOfPositions',
             'status',
             'isPublished',
-            'definedTime',
-            'updatedTime',
             ['getJobTitle', 'getId'],
             ['getJobTitle', 'getJobTitleName'],
             ['getJobTitle', 'isDeleted'],
-            ['getEmployee', 'getEmpNumber'],
-            ['getEmployee', 'getFirstName'],
-            ['getEmployee', 'getMiddleName'],
-            ['getEmployee', 'getLastName'],
-            ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
+            ['getHiringManager', 'getEmpNumber'],
+            ['getHiringManager', 'getFirstName'],
+            ['getHiringManager', 'getMiddleName'],
+            ['getHiringManager', 'getLastName'],
+            ['getHiringManager', 'getEmployeeTerminationRecord', 'getId'],
         ]);
 
         $this->setAttributeNames([
@@ -56,8 +54,6 @@ class VacancyModel implements Normalizable
             'numOfPositions',
             'status',
             'isPublished',
-            'definedTime',
-            'updatedTime',
             ['jobTitle', 'id'],
             ['jobTitle', 'title'],
             ['jobTitle', 'isDeleted'],
@@ -66,7 +62,6 @@ class VacancyModel implements Normalizable
             ['hiringManager', 'middleName'],
             ['hiringManager', 'lastName'],
             ['hiringManager', 'terminationId'],
-
         ]);
     }
 }

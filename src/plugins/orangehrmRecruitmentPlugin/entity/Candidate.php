@@ -121,7 +121,7 @@ class Candidate
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="candidates", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="added_person", referencedColumnName="emp_number",nullable=true)
      */
-    private ?Employee $employee = null;
+    private ?Employee $addedPerson = null;
 
     /**
      * @var bool
@@ -358,17 +358,17 @@ class Candidate
     /**
      * @return Employee|null
      */
-    public function getEmployee(): ?Employee
+    public function getAddedPerson(): ?Employee
     {
-        return $this->employee;
+        return $this->addedPerson;
     }
 
     /**
-     * @param Employee|null $employee
+     * @param Employee|null $addedPerson
      */
-    public function setEmployee(?Employee $employee): void
+    public function setAddedPerson(?Employee $addedPerson): void
     {
-        $this->employee = $employee;
+        $this->addedPerson = $addedPerson;
     }
 
     /**

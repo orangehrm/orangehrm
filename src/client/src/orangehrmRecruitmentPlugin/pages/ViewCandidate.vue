@@ -274,7 +274,7 @@ export default {
         toDate: filters.value.toDate,
         status: filters.value.status,
         methodOfApplication: filters.value.methodOfApplication?.id,
-        model: 'detailed',
+        model: 'list',
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };

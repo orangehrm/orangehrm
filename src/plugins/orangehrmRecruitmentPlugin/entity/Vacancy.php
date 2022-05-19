@@ -56,7 +56,7 @@ class Vacancy
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="vacancies", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="hiring_manager_id", referencedColumnName="emp_number",nullable=true)
      */
-    private ?Employee $employee;
+    private ?Employee $hiringManager;
 
     /**
      * @var string
@@ -134,17 +134,17 @@ class Vacancy
     /**
      * @return Employee|null
      */
-    public function getEmployee(): ?Employee
+    public function getHiringManager(): ?Employee
     {
-        return $this->employee;
+        return $this->hiringManager;
     }
 
     /**
-     * @param Employee|null $employee
+     * @param Employee|null $hiringManager
      */
-    public function setEmployee(?Employee $employee): void
+    public function setHiringManager(?Employee $hiringManager): void
     {
-        $this->employee = $employee;
+        $this->hiringManager = $hiringManager;
     }
 
 

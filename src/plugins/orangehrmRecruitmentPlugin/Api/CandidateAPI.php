@@ -43,6 +43,7 @@ use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Recruitment\Api\Model\CandidateDetailedModel;
+use OrangeHRM\Recruitment\Api\Model\CandidateListModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateModel;
 use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
@@ -82,11 +83,11 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_STATUS = 'status';
 
     public const MODEL_DEFAULT = 'default';
-    public const MODEL_DETAILED = 'detailed';
+    public const MODEL_CANDIDATE_LIST = 'list';
 
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => CandidateModel::class,
-        self::MODEL_DETAILED => CandidateDetailedModel::class,
+        self::MODEL_CANDIDATE_LIST => CandidateListModel::class,
     ];
 
     public const STATUS_MAP = [
@@ -327,7 +328,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             );
             if (!is_null($vacancyId)) {
                 $candidateVacancy = new CandidateVacancy();
-                $this->setCandidateVacancy($candidateVacancy, $lastInsertedCandidateId);
+                $this->setCandidateVacancy($candidateVacancy, $lastInsertedCandidateId, self::STATUS_MAP[1]);
                 $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($candidateVacancy);
             }
 
@@ -390,7 +391,9 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         $candidate->setDateOfApplication(
             $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_DATE_OF_APPLICATION
+                self::PARAMETER_DATE_OF_APPLICATION,
+                null,
+                $this->getDateTimeHelper()->getNow()
             )
         );
         $candidate->setModeOfApplication(
@@ -412,7 +415,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 false
             )
         );
-        $candidate->getDecorator()->setEmployeeById(
+        $candidate->getDecorator()->setAddedPersonById(
             $this->getAuthUser()->getEmpNumber()
         );
     }
@@ -421,17 +424,15 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      * @param CandidateVacancy $candidateVacancy
      * @param int $candidateId
      */
-    private function setCandidateVacancy(CandidateVacancy $candidateVacancy, int $candidateId)
+    private function setCandidateVacancy(CandidateVacancy $candidateVacancy, int $candidateId, string $status)
     {
-        $candidateVacancy->getDecorator()->setCandidate($candidateId);
-        $candidateVacancy->getDecorator()->setVacancy(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_VACANCY_ID
-            )
+        $vacancyId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_VACANCY_ID
         );
-        //TODO: add workflow state machine solution
-        $candidateVacancy->setStatus(self::STATUS_MAP[1]);
+        $candidateVacancy->getDecorator()->setCandidate($candidateId);
+        $candidateVacancy->getDecorator()->setVacancy($vacancyId);
+        $candidateVacancy->setStatus($status);
         $candidateVacancy->setAppliedDate($this->getDateTimeHelper()->getNow());
     }
 
@@ -514,7 +515,6 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             )
         ];
     }
-
 
     /**
      * @inheritDoc
@@ -608,7 +608,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 if (is_null($candidateVacancy) && !is_null($vacancyId)) {
                     $candidateVacancy = new CandidateVacancy();
                 }
-                $this->setCandidateVacancy($candidateVacancy, $id);
+                //TODO handle status with workflow state machine
+                $this->setCandidateVacancy($candidateVacancy, $id, self::STATUS_MAP[1]);
                 $this->getCandidateService()
                     ->getCandidateDao()
                     ->saveCandidateVacancy($candidateVacancy);

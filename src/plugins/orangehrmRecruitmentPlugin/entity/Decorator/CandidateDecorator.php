@@ -43,10 +43,10 @@ class CandidateDecorator
     /**
      * @param int $id
      */
-    public function setEmployeeById(int $id): void
+    public function setAddedPersonById(int $id): void
     {
         $employee = $this->getReference(Employee::class, $id);
-        $this->candidate->setEmployee($employee);
+        $this->candidate->setAddedPerson($employee);
     }
 
     /**
@@ -67,17 +67,5 @@ class CandidateDecorator
             'id' => $status,
             'label' => ucwords(strtolower(CandidateAPI::STATUS_MAP[$status]))
         ];
-    }
-
-    /**
-     * @param  Employee  $employee
-     */
-    private function addCandidateVacancy(Employee $employee): void
-    {
-        $projectAdmins = $this->candidate->getProjectAdmins();
-        if ($projectAdmins->contains($employee)) {
-            return;
-        }
-        $projectAdmins[] = $employee;
     }
 }

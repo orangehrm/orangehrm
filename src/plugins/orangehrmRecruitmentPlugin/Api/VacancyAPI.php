@@ -166,7 +166,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     {
         $vacancy = new Vacancy();
         $this->setVacancy($vacancy);
-        $vacancy = $this->getVacancyService()->saveJobVacancy($vacancy);
+        $vacancy = $this->getVacancyService()->getVacancyDao()->saveJobVacancy($vacancy);
 
         return new EndpointResourceResult(VacancyModel::class, $vacancy);
     }

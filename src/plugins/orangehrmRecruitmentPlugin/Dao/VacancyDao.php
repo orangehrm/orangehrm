@@ -52,7 +52,7 @@ class VacancyDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
         $q->leftJoin('vacancy.jobTitle', 'jobTitle');
-        $q->leftJoin('vacancy.employee', 'employee');
+        $q->leftJoin('vacancy.hiringManager', 'hiringManager');
 
         $this->setSortingAndPaginationParams($q, $vacancySearchFilterParamHolder);
 
@@ -64,7 +64,7 @@ class VacancyDao extends BaseDao
                 );
         }
         if (!is_null($vacancySearchFilterParamHolder->getEmpNumber())) {
-            $q->andWhere('employee.empNumber  = :hiringManagerId')
+            $q->andWhere('hiringManager.empNumber  = :hiringManagerId')
                 ->setParameter(
                     'hiringManagerId',
                     $vacancySearchFilterParamHolder->getEmpNumber()
@@ -151,8 +151,8 @@ class VacancyDao extends BaseDao
     public function getVacanciesOrderByHiringManagers(): array
     {
         $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
-        $qb->leftJoin('vacancy.employee', 'employee');
-        $qb->groupBy('employee.empNumber');
+        $qb->leftJoin('vacancy.hiringManager', 'hiringManager');
+        $qb->groupBy('hiringManager.empNumber');
         return $qb->getQuery()->execute();
     }
 }

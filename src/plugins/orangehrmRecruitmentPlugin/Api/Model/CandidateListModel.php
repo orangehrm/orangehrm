@@ -24,7 +24,7 @@ use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
-class CandidateDetailedModel implements Normalizable
+class CandidateListModel implements Normalizable
 {
     use RecruitmentAttachmentServiceTrait;
 
@@ -43,44 +43,26 @@ class CandidateDetailedModel implements Normalizable
      */
     public function toArray(): array
     {
-        $addedPerson = $this->candidate->getAddedPerson();
         $candidateVacancies = $this->candidate->getCandidateVacancy();
         $candidateVacancy = !empty($candidateVacancies) ? $candidateVacancies[0] : null;
-        $candidateAttachment = $this->getRecruitmentAttachmentService()
-            ->getRecruitmentAttachmentDao()
-            ->getCandidateAttachmentByCandidateId($this->candidate->getId());
         /**
          * @var Vacancy
          */
         $vacancy = !is_null($candidateVacancy) ? $candidateVacancy->getVacancy() : null;
+        $candidateAttachment = $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->getCandidateAttachmentByCandidateId($this->candidate->getId());
 
         return [
             'id' => $this->candidate->getId(),
             'firstName' => $this->candidate->getFirstName(),
             'middleName' => $this->candidate->getMiddleName(),
             'lastName' => $this->candidate->getLastName(),
-            'email' => $this->candidate->getEmail(),
-            'contactNumber' => $this->candidate->getContactNumber(),
-            'comment' => $this->candidate->getComment(),
-            'keywords' => $this->candidate->getKeywords(),
-            'modeOfApplication' => $this->candidate->getModeOfApplication(),
             'dateOfApplication' => $this->candidate->getDecorator()->getDateOfApplication(),
-            'addedPerson' => [
-                'id' => $addedPerson->getEmpNumber(),
-                'firstName' => $addedPerson->getFirstName(),
-                'middleName' => $addedPerson->getMiddleName(),
-                'lastName' => $addedPerson->getLastName(),
-                'terminationId' => $addedPerson->getEmployeeTerminationRecord()
-            ],
             'vacancy' => is_null($vacancy) ? null :
                 [
                     'id' => $vacancy->getId(),
                     'name' => $vacancy->getName(),
-                    'jobTitle' => [
-                        'id' => $vacancy->getJobTitle()->getId(),
-                        'title' => $vacancy->getJobTitle()->getJobTitleName(),
-                        'isDeleted' => $vacancy->getJobTitle()->isDeleted(),
-                    ],
                     'hiringManager' => [
                         'id' => $vacancy->getHiringManager()->getEmpNumber(),
                         'firstName' => $vacancy->getHiringManager()->getFirstName(),

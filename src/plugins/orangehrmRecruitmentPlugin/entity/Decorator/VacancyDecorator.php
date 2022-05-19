@@ -67,7 +67,7 @@ class VacancyDecorator
     public function setEmployeeById(int $id): void
     {
         $employee = $this->getReference(Employee::class, $id);
-        $this->getVacancy()->setEmployee($employee);
+        $this->getVacancy()->setHiringManager($employee);
     }
 
     /**

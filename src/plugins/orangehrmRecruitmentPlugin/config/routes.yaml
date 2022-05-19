@@ -103,6 +103,8 @@ recruitment_add_job_vacancy:
 recruitment_edit_job_vacancy:
   path: /recruitment/addJobVacancy/{id}
   controller: OrangeHRM\Recruitment\Controller\EditJobVacancyController::handle
+  methods: [ GET ]
+
 candidate_schedule_interview:
   path: /recruitment/jobInterview/vacancy/{vid}/action/{aid}
   controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewController::handle
@@ -111,6 +113,7 @@ candidate_schedule_interview:
 candidate_schedule_interview_history:
   path: /recruitment/jobInterview/history/{hid}/interviewer/{id}
   controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewHistory::handle
+  methods: [ GET ]
 
 candidate_shortlist:
   path: /recruitment/vacancy/{vid}/action/{aid}
