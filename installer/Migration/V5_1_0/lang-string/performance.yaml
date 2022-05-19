@@ -1,0 +1,49 @@
+langStrings:
+  -
+    value: 'Key Performance Indicators for Job Title'
+    unitId: key_performance_indicators_for_job_title
+  -
+    value: 'Key Performance Indicator'
+    unitId: key_performance_indicator
+  -
+    value: 'Min Rate'
+    unitId: min_rate
+  -
+    value: 'Max Rate'
+    unitId: max_rate
+  -
+    value: 'Is Default'
+    unitId: is_default
+  -
+    value: 'Add Key Performance Indicator'
+    unitId: add_key_performance_indicator
+  -
+    value: 'Edit Key Performance Indicator'
+    unitId: edit_key_performance_indicator
+  -
+    value: 'Minimum Rating'
+    unitId: minimum_rating
+  -
+    value: 'Maximum Rating'
+    unitId: maximum_rating
+  -
+    value: 'Make Default Scale'
+    unitId: make_default_scale
+  -
+    value: 'Minimum Rating should be less than Maximum Rating'
+    unitId: minimum_rating_should_be_less_than_maximum_rating
+  -
+    value: 'Maximum Rating should be greater than Minimum Rating'
+    unitId: maximum_rating_should_be_greater_than_minimum_rating
+  -
+    value: 'Employee Performance Trackers'
+    unitId: employee_performance_trackers
+  -
+    value: 'Trackers'
+    unitId: trackers
+  -
+    value: 'Modified Date'
+    unitId: modified_date
+  -
+    value: 'Added Date'
+    unitId: added_date

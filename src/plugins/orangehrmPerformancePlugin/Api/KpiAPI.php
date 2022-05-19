@@ -168,7 +168,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_DEFAULT_KPI
-            ) ? 1 : null
+            )
         );
     }
 
@@ -263,7 +263,10 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS)
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::INT_ARRAY)
+            ),
         );
     }
 }

@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Key Performance Indicators for Job Title">
+    <oxd-table-filter
+      :filter-title="$t('performance.key_performance_indicators_for_job_title')"
+    >
       <oxd-form @submitValid="filterItems" @reset="resetDataTable">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -33,11 +35,15 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button display-type="ghost" label="Reset" type="reset" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.reset')"
+            type="reset"
+          />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"
-            label="Search"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -47,7 +53,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
-          label="Add"
+          :label="$t('general.add')"
           icon-name="plus"
           display-type="secondary"
           @click="onClickAdd"
@@ -91,20 +97,7 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
 import useSort from '@/core/util/composable/useSort';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown.vue';
-
-const kpiNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      title: item.title,
-      jobTitleName: item.jobTitle.name,
-      jobTitleId: item.jobTitle.id,
-      minRating: item.minRating,
-      maxRating: item.maxRating,
-      isDefault: item.isDefault ? 'Yes' : '',
-    };
-  });
-};
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   jobTitleId: null,
@@ -122,6 +115,21 @@ export default {
     'jobtitle-dropdown': JobtitleDropdown,
   },
   setup() {
+    const {$t} = usei18n();
+    const kpiNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          title: item.title,
+          jobTitleName: item.jobTitle.name,
+          jobTitleId: item.jobTitle.id,
+          minRating: item.minRating,
+          maxRating: item.maxRating,
+          isDefault: item.isDefault ? $t('general.yes') : '',
+        };
+      });
+    };
+
     const filters = ref({...defaultFilters});
 
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
@@ -138,7 +146,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/performance/kpi',
+      'api/v2/performance/kpis',
     );
 
     const {
@@ -176,36 +184,36 @@ export default {
       headers: [
         {
           name: 'title',
-          title: 'Key Performance Indicator',
+          title: this.$t('performance.key_performance_indicator'),
           slot: 'title',
           sortField: 'kpi.title',
           style: {flex: '25%'},
         },
         {
           name: 'jobTitleName',
-          title: 'Job Title',
+          title: this.$t('general.job_title'),
           sortField: 'jobTitle.jobTitleName',
           style: {flex: '25%'},
         },
         {
           name: 'minRating',
-          title: 'Min Rate',
+          title: this.$t('performance.min_rate'),
           style: {flex: 1},
         },
         {
           name: 'maxRating',
-          title: 'Max Rate',
+          title: this.$t('performance.max_rate'),
           style: {flex: 1},
         },
         {
           name: 'isDefault',
-          title: 'Is Default',
+          title: this.$t('performance.is_default'),
           style: {flex: 1},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

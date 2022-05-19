@@ -17,27 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Controller;
+namespace OrangeHRM\Tests\Performance\Service;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
-class KpiSaveController extends AbstractVueController
+/**
+ * @group Performance
+ * @group Service
+ */
+class PerformanceTrackerServiceTest extends KernelTestCase
 {
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
+    private PerformanceTrackerService $employeeTrackerService;
+
+    protected function setUp(): void
     {
-        $id = $request->attributes->get('id');
-        if ($id) {
-            $component = new Component('kpi-edit');
-            $component->addProp(new Prop('kpi-id', Prop::TYPE_NUMBER, $id));
-        } else {
-            $component = new Component('kpi-save');
-        }
-        $this->setComponent($component);
+        $this->employeeTrackerService = new PerformanceTrackerService();
+    }
+
+    public function testGetPerformanceTrackerDao(): void
+    {
+        $result = $this->employeeTrackerService->getPerformanceTrackerDao();
+        $this->assertInstanceOf(PerformanceTrackerDao::class, $result);
     }
 }

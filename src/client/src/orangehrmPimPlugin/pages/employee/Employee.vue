@@ -42,14 +42,9 @@
               <employment-status-dropdown v-model="filters.empStatusId" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
+              <include-employee-dropdown
                 v-model="filters.includeEmployees"
-                type="select"
-                :label="$t('pim.include')"
-                :clear="false"
-                :options="includeOpts"
-                :show-empty-selector="false"
-              />
+              ></include-employee-dropdown>
             </oxd-grid-item>
             <oxd-grid-item>
               <employee-autocomplete
@@ -139,6 +134,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
+import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 import useSort from '@ohrm/core/util/composable/useSort';
 
 const userdataNormalizer = data => {
@@ -193,6 +189,7 @@ export default {
     'jobtitle-dropdown': JobtitleDropdown,
     'subunit-dropdown': SubunitDropdown,
     'employment-status-dropdown': EmploymentStatusDropdown,
+    'include-employee-dropdown': IncludeEmployeeDropdown,
   },
 
   setup() {
@@ -253,23 +250,6 @@ export default {
   },
   data() {
     return {
-      includeOpts: [
-        {
-          id: 1,
-          param: 'onlyCurrent',
-          label: this.$t('general.current_employees_only'),
-        },
-        {
-          id: 2,
-          param: 'currentAndPast',
-          label: this.$t('general.current_and_past_employees'),
-        },
-        {
-          id: 3,
-          param: 'onlyPast',
-          label: this.$t('general.past_employees_only'),
-        },
-      ],
       checkedItems: [],
     };
   },

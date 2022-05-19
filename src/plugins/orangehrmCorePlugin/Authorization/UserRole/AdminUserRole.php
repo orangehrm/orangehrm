@@ -24,6 +24,7 @@ use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
+use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -57,6 +58,7 @@ class AdminUserRole extends AbstractUserRole
     {
         switch ($entityType) {
             case Employee::class:
+            case PerformanceTrackerReviewer::class:
                 return $this->getAccessibleEmployeeIds($requiredPermissions);
             case User::class:
                 return $this->getAccessibleSystemUserIds($requiredPermissions);

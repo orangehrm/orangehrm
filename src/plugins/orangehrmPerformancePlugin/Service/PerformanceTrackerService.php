@@ -17,27 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Controller;
+namespace OrangeHRM\Performance\Service;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 
-class KpiSaveController extends AbstractVueController
+class PerformanceTrackerService
 {
+    private ?PerformanceTrackerDao $employeeTrackerDao = null;
+
     /**
-     * @inheritDoc
+     * @return PerformanceTrackerDao
      */
-    public function preRender(Request $request): void
+    public function getPerformanceTrackerDao(): PerformanceTrackerDao
     {
-        $id = $request->attributes->get('id');
-        if ($id) {
-            $component = new Component('kpi-edit');
-            $component->addProp(new Prop('kpi-id', Prop::TYPE_NUMBER, $id));
-        } else {
-            $component = new Component('kpi-save');
+        if (!$this->employeeTrackerDao instanceof PerformanceTrackerDao) {
+            $this->employeeTrackerDao = new PerformanceTrackerDao();
         }
-        $this->setComponent($component);
+        return $this->employeeTrackerDao;
     }
 }

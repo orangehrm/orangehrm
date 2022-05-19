@@ -17,27 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Controller;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-
-class KpiSaveController extends AbstractVueController
+class IntArray extends AbstractRule
 {
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function validate($input): bool
     {
-        $id = $request->attributes->get('id');
-        if ($id) {
-            $component = new Component('kpi-edit');
-            $component->addProp(new Prop('kpi-id', Prop::TYPE_NUMBER, $id));
-        } else {
-            $component = new Component('kpi-save');
+        if (!is_array($input)) {
+            return false;
         }
-        $this->setComponent($component);
+
+        foreach ($input as $value) {
+            if (!is_int($value)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
