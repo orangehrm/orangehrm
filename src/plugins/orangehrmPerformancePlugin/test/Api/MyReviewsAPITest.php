@@ -3,7 +3,7 @@
 namespace OrangeHRM\Tests\Performance\Api;
 
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Api\MyReviewsAPI;
+use OrangeHRM\Performance\Api\MyReviewAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
@@ -18,7 +18,7 @@ class MyReviewsAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(MyReviewsAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(MyReviewAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 

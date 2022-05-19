@@ -7,11 +7,13 @@ GetAll:
     data:
       0:
         id: 5
-        status: 'Activated'
+        overallStatus:
+          statusName: 'Activated'
+          statusId: 1
+        selfReviewStatus: 'Completed'
         workPeriodStart: '2011-01-01'
         workPeriodEnd: '2011-01-01'
         dueDate: '2011-01-01'
-        statusId: 1
         jobTitle:
           id: 1
           name: 'Software Architect'

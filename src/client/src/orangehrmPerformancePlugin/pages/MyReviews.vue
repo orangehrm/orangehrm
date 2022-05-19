@@ -55,11 +55,13 @@ import {computed} from 'vue';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import {navigate} from '@/core/util/helper/navigation';
 
 const defaultSortOrder = {
   'performanceReview.statusId': 'ASC',
   'performanceReview.dueDate': 'ASC',
-  'performanceReview.reviewPeriod': 'DEFAULT',
+  'performanceReview.workPeriodStart': 'DEFAULT',
+  'reviewer.status': 'DEFAULT',
 };
 
 export default {
@@ -96,7 +98,8 @@ export default {
             ' - ' +
             formatDate(parseDate(item.workPeriodEnd), jsDateFormat, {locale}),
           dueDate: formatDate(parseDate(item.dueDate), jsDateFormat, {locale}),
-          status: item.status,
+          overallStatus: item.overallStatus.statusName,
+          selfEvaluationStatus: item.selfReviewStatus,
         };
       });
     };
@@ -142,13 +145,13 @@ export default {
         },
         {
           name: 'department',
-          title: this.$t('general.department'),
+          title: this.$t('general.sub_unit'),
           style: {flex: 1},
         },
         {
           name: 'reviewPeriod',
           title: this.$t('performance.review_period'),
-          sortField: 'performanceReview.reviewPeriod',
+          sortField: 'performanceReview.workPeriodStart',
           style: {flex: 2},
         },
         {
@@ -158,31 +161,77 @@ export default {
           style: {flex: 1},
         },
         {
-          name: 'status',
-          title: this.$t('general.status'),
+          name: 'selfEvaluationStatus',
+          title: this.$t('performance.self_evaluation_status'),
+          sortField: 'reviewer.status',
+          style: {flex: 1},
+        },
+        {
+          name: 'overallStatus',
+          title: this.$t('performance.review_status'),
           sortField: 'performanceReview.statusId',
           style: {flex: 1},
         },
         {
           name: 'action',
-          slot: 'action',
+          slot: 'footer',
           title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            view: {
-              onClick: this.onClickView,
-              component: 'oxd-button',
-              props: {
-                name: 'view',
-                label: this.$t('general.view'),
-                displayType: 'text',
-              },
-            },
-          },
+          cellRenderer: this.cellRenderer,
         },
       ],
     };
   },
+  methods: {
+    cellRenderer(...[, , , row]) {
+      const cellConfig = {};
+      if (row.selfEvaluationStatus === 'Completed') {
+        cellConfig.view = {
+          component: 'oxd-button',
+          props: {
+            name: 'view',
+            label: this.$t('general.view'),
+            displayType: 'text',
+            size: 'medium',
+          },
+        };
+      } else {
+        cellConfig.evaluation = {
+          component: 'oxd-button',
+          props: {
+            name: 'evaluate',
+            label: this.$t('performance.evaluate'),
+            displayType: 'text',
+            size: 'medium',
+          },
+        };
+      }
+
+      return {
+        props: {
+          header: {
+            cellConfig,
+          },
+        },
+      };
+    },
+    onClickView() {
+      navigate('/performance/searchKpi');
+    },
+    onClickEvaluate() {
+      navigate('/performance/searchKpi');
+    },
+  },
 };
 </script>
+<style lang="scss" scoped>
+::v-deep(.card-footer-slot) {
+  .oxd-table-cell-actions {
+    justify-content: flex-end;
+  }
+  .oxd-table-cell-actions > * {
+    margin: 0 !important;
+  }
+}
+</style>

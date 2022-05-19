@@ -13,11 +13,11 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Performance\Api\Model\DetailedPerformanceReviewModel;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
-use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
 
-class MyReviewsAPI extends Endpoint implements CrudEndpoint
+class MyReviewAPI extends Endpoint implements CrudEndpoint
 {
     use AuthUserTrait;
     use PerformanceReviewServiceTrait;
@@ -40,7 +40,7 @@ class MyReviewsAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceReviewDao()
             ->getPerformanceReviewCount($performanceReviewSeearchParamHolder);
         return new EndpointCollectionResult(
-            PerformanceReviewModel::class,
+            DetailedPerformanceReviewModel::class,
             $reviews,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );

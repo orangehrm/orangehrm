@@ -35,3 +35,12 @@ langStrings:
   -
     value: 'Due Date'
     unitId: due_date
+
+  - value: 'Self Evaluation Status'
+    unitId: self_evaluation_status
+
+  - value: 'Review Status'
+    unitId: review_status
+
+  - value: 'Evaluate'
+    unitId: evaluate

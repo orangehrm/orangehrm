@@ -6,7 +6,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class PerformanceReviewSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['performanceReview.statusId','performanceReview.reviewPeriod', 'performanceReview.dueDate', ];
+    public const ALLOWED_SORT_FIELDS = ['performanceReview.statusId','performanceReview.workPeriodStart', 'performanceReview.dueDate', 'reviewer.status'];
 
     /**
      * @var int|null
