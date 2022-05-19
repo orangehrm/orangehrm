@@ -25,7 +25,7 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = [
         'tracker.trackerName',
-        'employee.firstName',
+        'employee.lastName',
         'tracker.addedDate',
         'tracker.modifiedDate'
     ];

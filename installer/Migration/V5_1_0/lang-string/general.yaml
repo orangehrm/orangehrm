@@ -114,7 +114,7 @@ langStrings:
     value: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB'
     unitId: accept_custom_format_file
   -
-    value: 'Should be lower than Maximum value'
+    value: 'Should be lower than maximum value'
     unitId: should_be_lower_than_maximum_value
   -
     value: 'Should be a number between {min}-{max}'

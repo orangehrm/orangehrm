@@ -112,7 +112,7 @@ const defaultFilters = {
 };
 
 const defaultSortOrder = {
-  'employee.firstName': 'DEFAULT',
+  'employee.lastName': 'DEFAULT',
   'tracker.trackerName': 'DEFAULT',
   'tracker.modifiedDate': 'DESC',
   'tracker.addedDate': 'DEFAULT',
@@ -203,7 +203,7 @@ export default {
           name: 'empName',
           slot: 'title',
           title: this.$t('general.employee_name'),
-          sortField: 'employee.firstName',
+          sortField: 'employee.lastName',
           style: {flex: 2},
         },
         {

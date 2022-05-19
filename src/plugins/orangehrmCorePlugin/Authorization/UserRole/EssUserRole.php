@@ -27,7 +27,7 @@ class EssUserRole extends AbstractUserRole
 {
     use AuthUserTrait;
 
-    protected ?PerformanceTrackerService $employeeTrackerService = null;
+    protected ?PerformanceTrackerService $performanceTrackerService = null;
 
     /**
      * @inheritDoc
@@ -43,11 +43,11 @@ class EssUserRole extends AbstractUserRole
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     protected function getAccessibleEmployeeIdsForReviewer(): array
     {
-        return $this->getEmployeeTrackerService()
+        return $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
             ->getEmployeeIdsByReviewerId($this->getAuthUser()->getEmpNumber());
     }
@@ -55,11 +55,11 @@ class EssUserRole extends AbstractUserRole
     /**
      * @return PerformanceTrackerService
      */
-    protected function getEmployeeTrackerService(): PerformanceTrackerService
+    protected function getPerformanceTrackerService(): PerformanceTrackerService
     {
-        if (!$this->employeeTrackerService instanceof PerformanceTrackerService) {
-            $this->employeeTrackerService = new PerformanceTrackerService();
+        if (!$this->performanceTrackerService instanceof PerformanceTrackerService) {
+            $this->performanceTrackerService = new PerformanceTrackerService();
         }
-        return $this->employeeTrackerService;
+        return $this->performanceTrackerService;
     }
 }

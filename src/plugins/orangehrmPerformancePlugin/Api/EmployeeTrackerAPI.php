@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\InAccessibleEntityIdOption;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\Performance\Api\Model\EmployeeTrackerModel;
@@ -97,23 +98,15 @@ class EmployeeTrackerAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
+        $inaccessibleEntityIdOption = new InAccessibleEntityIdOption();
+        $inaccessibleEntityIdOption->setThrow(false)->setThrowIfOnlyEntityExist(false);
+
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::CALLBACK, [
-                        function ($empNumber) {
-                            if (!(is_numeric($empNumber) && $empNumber > 0)) {
-                                return false;
-                            }
-
-                            return in_array(
-                                $empNumber,
-                                $this->getUserRoleManager()
-                                    ->getAccessibleEntityIds(PerformanceTrackerReviewer::class)
-                            );
-                        }
-                    ])
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTrackerReviewer::class, $inaccessibleEntityIdOption])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
