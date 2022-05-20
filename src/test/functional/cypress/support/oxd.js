@@ -45,6 +45,7 @@ const OXD_ELEMENTS = {
   inputGroup: '.oxd-input-group',
   pageContext: '.oxd-layout-context',
   pageTitle: '.orangehrm-main-title',
+  numRecords: '.oxd-text--span',
   ...OXD_INPUT_ELEMENTS,
 };
 
