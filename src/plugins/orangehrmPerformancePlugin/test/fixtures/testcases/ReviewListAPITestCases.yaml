@@ -67,36 +67,6 @@ GetAll:
         }
       },
       {
-        "id": 24,
-        "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
-        "dueDate": "2022-05-31",
-        "employee": {
-          "empNumber": 2,
-          "firstName": "Jaesang",
-          "lastName": "Park",
-          "terminationId": null
-        },
-        "jobTitle": {
-          "id": 4,
-          "name": "Senior QA"
-        },
-        "department": {
-          "id": 4,
-          "name": "QA"
-        },
-        "reviewer": {
-          "id": 48,
-          "employee": {
-            "empNumber": 1,
-            "firstName": "Devi",
-            "lastName": "Admin",
-            "terminationId": null
-          }
-        }
-      },
-      {
         "id": 23,
         "status": 3,
         "workPeriodStart": "2022-05-01",
@@ -118,6 +88,36 @@ GetAll:
         },
         "reviewer": {
           "id": 46,
+          "employee": {
+            "empNumber": 1,
+            "firstName": "Devi",
+            "lastName": "Admin",
+            "terminationId": null
+          }
+        }
+      },
+      {
+        "id": 24,
+        "status": 3,
+        "workPeriodStart": "2022-05-01",
+        "workPeriodEnd": "2022-05-31",
+        "dueDate": "2022-05-31",
+        "employee": {
+          "empNumber": 2,
+          "firstName": "Jaesang",
+          "lastName": "Park",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 4,
+          "name": "Senior QA"
+        },
+        "department": {
+          "id": 4,
+          "name": "QA"
+        },
+        "reviewer": {
+          "id": 48,
           "employee": {
             "empNumber": 1,
             "firstName": "Devi",
@@ -427,36 +427,6 @@ GetAll:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
     data: [
       {
-        "id": 18,
-        "status": 2,
-        "workPeriodStart": "2022-06-01",
-        "workPeriodEnd": "2022-06-30",
-        "dueDate": "2022-06-30",
-        "employee": {
-          "empNumber": 4,
-          "firstName": "Jeonghan",
-          "lastName": "Yoon",
-          "terminationId": null
-        },
-        "jobTitle": {
-          "id": 1,
-          "name": "Software Engineer"
-        },
-        "department": {
-          "id": 3,
-          "name": "Open Source"
-        },
-        "reviewer": {
-          "id": 36,
-          "employee": {
-            "empNumber": 3,
-            "firstName": "Seungcheol",
-            "lastName": "Choi",
-            "terminationId": null
-          }
-        }
-      },
-      {
         "id": 11,
         "status": 2,
         "workPeriodStart": "2022-06-01",
@@ -478,6 +448,36 @@ GetAll:
         },
         "reviewer": {
           "id": 22,
+          "employee": {
+            "empNumber": 3,
+            "firstName": "Seungcheol",
+            "lastName": "Choi",
+            "terminationId": null
+          }
+        }
+      },
+      {
+        "id": 18,
+        "status": 2,
+        "workPeriodStart": "2022-06-01",
+        "workPeriodEnd": "2022-06-30",
+        "dueDate": "2022-06-30",
+        "employee": {
+          "empNumber": 4,
+          "firstName": "Jeonghan",
+          "lastName": "Yoon",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        },
+        "reviewer": {
+          "id": 36,
           "employee": {
             "empNumber": 3,
             "firstName": "Seungcheol",
@@ -547,36 +547,6 @@ GetAll:
         }
       },
       {
-        "id": 17,
-        "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
-        "dueDate": "2022-05-31",
-        "employee": {
-          "empNumber": 4,
-          "firstName": "Jeonghan",
-          "lastName": "Yoon",
-          "terminationId": null
-        },
-        "jobTitle": {
-          "id": 1,
-          "name": "Software Engineer"
-        },
-        "department": {
-          "id": 3,
-          "name": "Open Source"
-        },
-        "reviewer": {
-          "id": 34,
-          "employee": {
-            "empNumber": 3,
-            "firstName": "Seungcheol",
-            "lastName": "Choi",
-            "terminationId": null
-          }
-        }
-      },
-      {
         "id": 2,
         "status": 3,
         "workPeriodStart": "2022-05-01",
@@ -598,6 +568,36 @@ GetAll:
         },
         "reviewer": {
           "id": 4,
+          "employee": {
+            "empNumber": 3,
+            "firstName": "Seungcheol",
+            "lastName": "Choi",
+            "terminationId": null
+          }
+        }
+      },
+      {
+        "id": 17,
+        "status": 3,
+        "workPeriodStart": "2022-05-01",
+        "workPeriodEnd": "2022-05-31",
+        "dueDate": "2022-05-31",
+        "employee": {
+          "empNumber": 4,
+          "firstName": "Jeonghan",
+          "lastName": "Yoon",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        },
+        "reviewer": {
+          "id": 34,
           "employee": {
             "empNumber": 3,
             "firstName": "Seungcheol",
@@ -667,36 +667,6 @@ GetAll:
         }
       },
       {
-        "id": 21,
-        "status": 4,
-        "workPeriodStart": "2022-03-01",
-        "workPeriodEnd": "2022-03-31",
-        "dueDate": "2022-03-31",
-        "employee": {
-          "empNumber": 5,
-          "firstName": "Chan",
-          "lastName": "Lee",
-          "terminationId": null
-        },
-        "jobTitle": {
-          "id": 1,
-          "name": "Software Engineer"
-        },
-        "department": {
-          "id": 3,
-          "name": "Open Source"
-        },
-        "reviewer": {
-          "id": 42,
-          "employee": {
-            "empNumber": 3,
-            "firstName": "Seungcheol",
-            "lastName": "Choi",
-            "terminationId": null
-          }
-        }
-      },
-      {
         "id": 12,
         "status": 4,
         "workPeriodStart": "2022-03-01",
@@ -718,6 +688,36 @@ GetAll:
         },
         "reviewer": {
           "id": 24,
+          "employee": {
+            "empNumber": 3,
+            "firstName": "Seungcheol",
+            "lastName": "Choi",
+            "terminationId": null
+          }
+        }
+      },
+      {
+        "id": 21,
+        "status": 4,
+        "workPeriodStart": "2022-03-01",
+        "workPeriodEnd": "2022-03-31",
+        "dueDate": "2022-03-31",
+        "employee": {
+          "empNumber": 5,
+          "firstName": "Chan",
+          "lastName": "Lee",
+          "terminationId": null
+        },
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Engineer"
+        },
+        "department": {
+          "id": 3,
+          "name": "Open Source"
+        },
+        "reviewer": {
+          "id": 42,
           "employee": {
             "empNumber": 3,
             "firstName": "Seungcheol",

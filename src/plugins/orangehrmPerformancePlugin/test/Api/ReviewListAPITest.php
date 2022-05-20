@@ -76,4 +76,18 @@ class ReviewListAPITest extends EndpointIntegrationTestCase
         $this->expectNotImplementedException();
         $api->getValidationRuleForUpdate();
     }
+
+    public function testDelete(): void
+    {
+        $api = new ReviewListAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new ReviewListAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
 }
