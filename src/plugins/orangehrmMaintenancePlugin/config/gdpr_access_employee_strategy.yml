@@ -251,9 +251,9 @@ Entities :
           - {match: employee}
         parameters:
           - {field: "jobTitle" ,class: 'FormatWithJobTitle', getter: ['getJobTitle','getId']}
-          - {field: "workPeriodStart",class : 'FormatWithDate' }
-          - {field: "workPeriodEnd" ,class : 'FormatWithDate'}
-          - {field: "department" ,getter: ['getDepartment','getName']}
+          - {field: "reviewPeriodStart",class : 'FormatWithDate' }
+          - {field: "reviewPeriodEnd" ,class : 'FormatWithDate'}
+          - {field: "subunit" ,getter: ['getSubunit','getName']}
           - {field: "dueDate" ,class : 'FormatWithDate'}
           - {field: "completedDate",class : 'FormatWithDate' }
           - {field: "activatedDate",class: 'FormatWithDateTime' }

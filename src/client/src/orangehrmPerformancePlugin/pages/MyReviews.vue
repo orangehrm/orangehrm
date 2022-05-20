@@ -151,7 +151,7 @@ export default {
         {
           name: 'reviewPeriod',
           title: this.$t('performance.review_period'),
-          sortField: 'performanceReview.workPeriodStart',
+          sortField: 'performanceReview.reviewPeriodStart',
           style: {flex: 2},
         },
         {

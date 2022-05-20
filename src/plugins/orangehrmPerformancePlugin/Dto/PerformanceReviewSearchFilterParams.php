@@ -25,7 +25,7 @@ class PerformanceReviewSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = [
         'performanceReview.statusId',
-        'performanceReview.workPeriodStart',
+        'performanceReview.reviewPeriodStart',
         'performanceReview.dueDate',
         'reviewer.status'
     ];
