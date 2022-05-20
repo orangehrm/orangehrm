@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Performance\Traits\Service;
 
-use Exception;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Service\PerformanceTrackerService;

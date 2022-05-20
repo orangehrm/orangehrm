@@ -44,8 +44,7 @@
               <employee-autocomplete
                 v-model="tracker.employee"
                 :rules="rules.employee"
-                :readonly="isReadOnly"  //TODO:: have to configure based on logs
-                required
+                :readonly="isReadOnly"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -114,7 +113,7 @@ export default {
     return {
       isLoading: false,
       tracker: {...trackerModel},
-      isReadOnly: false,
+      isReadOnly: false, // TODO:: have to configure based on logs required
       rules: {
         tracker: [required, shouldNotExceedCharLength(200)],
         employee: [

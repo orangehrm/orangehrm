@@ -20,7 +20,6 @@
 namespace OrangeHRM\Performance\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\PerformanceTracker;
