@@ -17,29 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceReviewService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Performance\Traits\Service;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Performance\Service\PerformanceReviewService;
+
+trait PerformanceReviewServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return PerformanceReviewService
      */
-    public function initialize(Request $request): void
+    protected function getPerformanceReviewService(): PerformanceReviewService
     {
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
-        $this->getContainer()->register(
-            Services::PERFORMANCE_REVIEW_SERVICE,
-            PerformanceReviewService::class
-        );
+        return $this->getContainer()->get(Services::PERFORMANCE_REVIEW_SERVICE);
     }
 }

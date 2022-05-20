@@ -17,29 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceReviewService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
+namespace OrangeHRM\Tests\Performance\Api;
+
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Performance\Api\PerformanceReviewAPI;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class PerformanceReviewAPITest extends EndpointIntegrationTestCase
 {
-    use ServiceContainerTrait;
-
     /**
-     * @inheritDoc
+     * @dataProvider dataProviderForTestCreate
      */
-    public function initialize(Request $request): void
+    public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
-        $this->getContainer()->register(
-            Services::PERFORMANCE_REVIEW_SERVICE,
-            PerformanceReviewService::class
-        );
+        $this->populateFixtures('PerformanceReviewAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(PerformanceReviewAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
+    }
+
+    public function dataProviderForTestCreate(): array
+    {
+        return $this->getTestCases('PerformanceReviewAPITestCases.yaml', 'Create');
     }
 }

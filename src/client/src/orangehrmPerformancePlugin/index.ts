@@ -21,6 +21,8 @@ import EmployeeTrackers from './pages/EmployeeTrackers.vue';
 import KpiEdit from './pages/KpiEdit.vue';
 import KpiSave from './pages/KpiSave.vue';
 import KpiSearch from './pages/KpiSearch.vue';
+import AddReview from './pages/AddReview.vue';
+import EditReview from './pages/EditReview.vue';
 
 export default {
   'my-tracker': MyTracker,
@@ -28,4 +30,6 @@ export default {
   'kpi-search': KpiSearch,
   'kpi-save': KpiSave,
   'kpi-edit': KpiEdit,
+  'add-review': AddReview,
+  'edit-review': EditReview,
 };

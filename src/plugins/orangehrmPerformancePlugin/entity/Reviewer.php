@@ -22,13 +22,18 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\ReviewerDecorator;
 
 /**
+ * @method ReviewerDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_reviewer")
  * @ORM\Entity
  */
 class Reviewer
 {
+    use DecoratorTrait;
     /**
      * @var int
      *

@@ -1,0 +1,17 @@
+Create:
+  'save review without empNumber':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      activate: false
+      dueDate: '2022-05-17'
+      reviewer: 1
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+    invalidOnly: [ 'empNumber' ]

@@ -1,0 +1,34 @@
+langStrings:
+  -
+    value: 'Supervisor Reviewer'
+    unitId: supervisor_reviewer
+  -
+    value: 'Add Review'
+    unitId: add_review
+  -
+    value: 'Review Period Start Date'
+    unitId: review_period_start_date
+  -
+    value: 'Review Period End Date'
+    unitId: review_period_end_date
+  -
+    value: 'Due date'
+    unitId: due_date
+  -
+    value: 'Activate'
+    unitId: activate
+  -
+    value: 'Review period start date should be before period end date'
+    unitId: review_period_start_date_should_be_before_end_date
+  -
+    value: 'Review period end date should be after period start date'
+    unitId: review_period_end_date_should_be_after_start_date
+  -
+    value: 'Due date should be after period end date'
+    unitId: review_period_end_date_should_be_after_start_date
+  -
+    value: "Cannot activate review for employees who doesn't have Job Title and/or Sub-Division"
+    unitId: cannot_activate_review_without_job_title_subdivision
+  -
+    value: "Cannot activate review without KPIs"
+    unitId: cannot_activate_review_without_kpi

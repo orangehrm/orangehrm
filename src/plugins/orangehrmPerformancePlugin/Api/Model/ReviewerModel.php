@@ -17,29 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceReviewService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Performance\Api\Model;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Reviewer;
+
+class ReviewerModel implements Normalizable
 {
-    use ServiceContainerTrait;
+    use ModelTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    public function __construct(Reviewer $reviewer)
     {
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
+        $this->setEntity($reviewer);
+        $this->setFilters(
+            [
+                'id',
+                ['getEmployee','getEmpNumber'],
+                ['getEmployee','getLastName'],
+                ['getEmployee','getFirstName'],
+                ['getEmployee','getMiddleName'],
+            ]
         );
-        $this->getContainer()->register(
-            Services::PERFORMANCE_REVIEW_SERVICE,
-            PerformanceReviewService::class
+        $this->setAttributeNames(
+            [
+                'id',
+                ['empNumber'],
+                ['lastName'],
+                ['firstName'],
+                ['middleName'],
+            ]
         );
     }
 }

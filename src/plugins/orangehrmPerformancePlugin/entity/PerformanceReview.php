@@ -22,13 +22,18 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\PerformanceReviewDecorator;
 
 /**
+ * @method PerformanceReviewDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_performance_review")
  * @ORM\Entity
  */
 class PerformanceReview
 {
+    use DecoratorTrait;
     /**
      * @var int
      *
@@ -107,10 +112,7 @@ class PerformanceReview
     /**
      * @var Reviewer[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Reviewer", mappedBy="PerformanceReview")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="review_id")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Reviewer", mappedBy="review")
      */
     private iterable $reviewers;
 
@@ -343,5 +345,21 @@ class PerformanceReview
     public function setEmployee(?Employee $employee): void
     {
         $this->employee = $employee;
+    }
+
+    /**
+     * @return Reviewer[]
+     */
+    public function getReviewers()
+    {
+        return $this->reviewers;
+    }
+
+    /**
+     * @param Reviewer[] $reviewers
+     */
+    public function setReviewers($reviewers): void
+    {
+        $this->reviewers = $reviewers;
     }
 }

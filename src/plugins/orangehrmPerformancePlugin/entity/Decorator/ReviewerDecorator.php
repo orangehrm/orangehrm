@@ -17,29 +17,40 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceReviewService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Entity\Decorator;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Reviewer;
+
+class ReviewerDecorator
 {
-    use ServiceContainerTrait;
+    use EntityManagerHelperTrait;
+
+    protected Reviewer $reviewer;
 
     /**
-     * @inheritDoc
+     * @param Reviewer $reviewer
      */
-    public function initialize(Request $request): void
+    public function __construct(Reviewer $reviewer)
     {
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
-        $this->getContainer()->register(
-            Services::PERFORMANCE_REVIEW_SERVICE,
-            PerformanceReviewService::class
-        );
+        $this->reviewer = $reviewer;
+    }
+
+    /**
+     * @return Reviewer
+     */
+    public function getReviewer(): Reviewer
+    {
+        return $this->reviewer;
+    }
+
+    /**
+     * @param int $empNumber
+     */
+    public function setEmployeeByEmpNumber(int $empNumber): void
+    {
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getReviewer()->setEmployee($employee);
     }
 }
