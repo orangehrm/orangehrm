@@ -35,7 +35,6 @@ use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 class MyTrackerAPI extends Endpoint implements CrudEndpoint
 {
     use AuthUserTrait;
-    use DateTimeHelperTrait;
     use PerformanceTrackerServiceTrait;
 
     /**

@@ -30,7 +30,6 @@ trait PerformanceTrackerServiceTrait
 
     /**
      * @return PerformanceTrackerService
-     * @throws Exception
      */
     protected function getPerformanceTrackerService(): PerformanceTrackerService
     {

@@ -51,19 +51,19 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/performance/tracker-reviewers',
+      'api/v2/performance/trackers/reviewers',
     );
     return {
       http,
     };
   },
   methods: {
-    async loadEmployees(serachParam) {
+    async loadEmployees(searchParam) {
       return new Promise(resolve => {
-        if (serachParam.trim()) {
+        if (searchParam.trim()) {
           this.http
             .getAll({
-              nameOrId: serachParam.trim(),
+              nameOrId: searchParam.trim(),
               empNumber:
                 this.excludeEmployee == null ? null : this.excludeEmployee.id, //to be added back when a seperate API is created for reviewers
             })

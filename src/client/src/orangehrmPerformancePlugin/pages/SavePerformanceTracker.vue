@@ -122,7 +122,7 @@ export default {
               return true;
             }
             return this.$t(
-              'performance.employee_cannot_be_someone_added_as_a_reviewer',
+              'performance.employee_cannot_be_assigned_as_his_own_reviewer',
             );
           },
         ],

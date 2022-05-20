@@ -23,6 +23,7 @@ use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\Reviewer;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 
 class PerformanceReviewDao extends BaseDao
@@ -49,9 +50,9 @@ class PerformanceReviewDao extends BaseDao
 
     /**
      * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
-     * @return \OrangeHRM\ORM\QueryBuilderWrapper
+     * @return QueryBuilderWrapper
      */
-    private function getPerformanceReviewQueryBuilderWrapper(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams)
+    private function getPerformanceReviewQueryBuilderWrapper(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): QueryBuilderWrapper
     {
         $q = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
         $q->leftJoin('performanceReview.employee ', 'employee');

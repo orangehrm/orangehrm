@@ -123,7 +123,7 @@ class PerformanceTrackerDao extends BaseDao
                 ->setParameter('employeeNumber', $performanceTrackerSearchFilterParams->getEmpNumber());
         }
         $q->andWhere('performanceTracker.status = :status')
-            ->setParameter('status', PerformanceTracker::STATUS_NOT_DELETED);
+            ->setParameter('status', PerformanceTracker::STATUS_TRACKER_NOT_DELETED);
         return $this->getQueryBuilderWrapper($q);
     }
 

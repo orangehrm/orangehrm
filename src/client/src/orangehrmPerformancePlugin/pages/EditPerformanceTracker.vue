@@ -44,7 +44,7 @@
               <employee-autocomplete
                 v-model="tracker.employee"
                 :rules="rules.employee"
-                :readonly="isReadOnly"
+                :readonly="isReadOnly"  //TODO:: have to configure based on logs
                 required
               />
             </oxd-grid-item>
@@ -96,7 +96,7 @@ export default {
     'reviewer-autocomplete': ReviewerAutoComplete,
   },
   props: {
-    performaceTrackerId: {
+    performanceTrackerId: {
       type: Number,
       required: true,
     },
@@ -130,7 +130,7 @@ export default {
               return true;
             }
             return this.$t(
-              'performance.employee_cannot_be_someone_added_as_a_reviewer',
+              'performance.employee_cannot_be_assigned_as_his_own_reviewer',
             );
           },
         ],
@@ -141,7 +141,7 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http
-      .get(this.performaceTrackerId) //performace-tracker-id
+      .get(this.performanceTrackerId) //performace-tracker-id
       .then(response => {
         const {data} = response.data;
         this.tracker.id = data.id;
@@ -178,12 +178,11 @@ export default {
         reviewers: this.tracker.reviewers.map(employee => employee.id),
       };
       this.http
-        .update(this.performaceTrackerId, payload)
+        .update(this.performanceTrackerId, payload)
         .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          // go back
           this.onCancel();
         });
     },

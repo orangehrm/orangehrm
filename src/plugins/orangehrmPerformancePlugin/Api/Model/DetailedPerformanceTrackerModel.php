@@ -29,7 +29,6 @@ use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 class DetailedPerformanceTrackerModel implements Normalizable
 {
     use NormalizerServiceTrait;
-    use DateTimeHelperTrait;
     use PerformanceTrackerServiceTrait;
 
     /**

@@ -102,7 +102,6 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
         throw $this->getNotImplementedException();
     }
 
-
     /**
      * @inheritDoc
      */

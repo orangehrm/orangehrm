@@ -38,6 +38,7 @@ class PerformanceTrackerSearchFilterParams extends FilterParams
     public function __construct()
     {
         $this->setSortField('performanceTracker.modifiedDate');
+        $this->setSortOrder('DESC');
     }
 
     /**

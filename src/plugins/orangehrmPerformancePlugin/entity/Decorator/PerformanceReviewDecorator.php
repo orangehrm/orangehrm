@@ -47,7 +47,7 @@ class PerformanceReviewDecorator
     /**
      * @return string|null
      */
-    public function getDueDate(): ?String
+    public function getDueDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getDueDate());
     }
@@ -55,7 +55,7 @@ class PerformanceReviewDecorator
     /**
      * @return string|null
      */
-    public function getReviewPeriodStart(): ?String
+    public function getReviewPeriodStart(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodStart());
     }
@@ -63,15 +63,15 @@ class PerformanceReviewDecorator
     /**
      * @return string|null
      */
-    public function getReviewPeriodEnd(): ?String
+    public function getReviewPeriodEnd(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodEnd());
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getStatusName(): String
+    public function getStatusName(): string
     {
         $statusId = $this->getPerformanceReview()->getStatusId();
         switch ($statusId) {

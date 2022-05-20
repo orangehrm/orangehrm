@@ -21,9 +21,9 @@ import EmployeeTrackers from './pages/EmployeeTrackers.vue';
 import KpiEdit from './pages/KpiEdit.vue';
 import KpiSave from './pages/KpiSave.vue';
 import KpiSearch from './pages/KpiSearch.vue';
-import PerformanceTrackerList from '@/orangehrmPerformancePlugin/pages/PerformanceTrackers.vue';
-import SavePerformanceTracker from '@/orangehrmPerformancePlugin/pages/SavePerformanceTracker.vue';
-import EditPerformanceTracker from '@/orangehrmPerformancePlugin/pages/EditPerformanceTracker.vue';
+import PerformanceTrackerList from './pages/PerformanceTrackers.vue';
+import SavePerformanceTracker from './pages/SavePerformanceTracker.vue';
+import EditPerformanceTracker from './pages/EditPerformanceTracker.vue';
 import MyReviews from './pages/MyReviews.vue';
 
 export default {

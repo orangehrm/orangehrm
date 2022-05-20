@@ -29,7 +29,6 @@ trait PerformanceReviewServiceTrait
 
     /**
      * @return PerformanceReviewService
-     * @throws Exception
      */
     protected function getPerformanceReviewService(): PerformanceReviewService
     {

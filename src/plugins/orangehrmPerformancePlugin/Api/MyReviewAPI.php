@@ -41,18 +41,18 @@ class MyReviewAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $performanceReviewSeearchParamHolder = new PerformanceReviewSearchFilterParams();
-        $this->setSortingAndPaginationParams($performanceReviewSeearchParamHolder);
+        $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
+        $this->setSortingAndPaginationParams($performanceReviewSearchFilterParams);
 
-        $performanceReviewSeearchParamHolder->setEmpNumber(
+        $performanceReviewSearchFilterParams->setEmpNumber(
             $this->getAuthUser()->getEmpNumber()
         );
         $reviews = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
-            ->getPerformanceReviewList($performanceReviewSeearchParamHolder);
+            ->getPerformanceReviewList($performanceReviewSearchFilterParams);
         $count = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
-            ->getPerformanceReviewCount($performanceReviewSeearchParamHolder);
+            ->getPerformanceReviewCount($performanceReviewSearchFilterParams);
         return new EndpointCollectionResult(
             DetailedPerformanceReviewModel::class,
             $reviews,
