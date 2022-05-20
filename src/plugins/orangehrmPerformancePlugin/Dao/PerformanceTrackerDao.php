@@ -84,7 +84,7 @@ class PerformanceTrackerDao extends BaseDao
                 $this->savePerformanceTrackerReviewers($reviewers, $performanceTracker);
             }
             $this->commitTransaction();
-        }catch (Exception $e){
+        } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
