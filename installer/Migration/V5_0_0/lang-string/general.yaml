@@ -345,7 +345,7 @@ langStrings:
     value: 'To date should be after From date'
     unitId: to_date_should_be_after_from_date
   -
-    value: 'Past Employee'
+    value: '(Past Employee)'
     unitId: past_employee
   -
     value: 'First name'
