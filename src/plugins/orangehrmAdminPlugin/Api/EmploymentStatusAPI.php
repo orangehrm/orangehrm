@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use Exception;
 use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Admin\Service\EmploymentStatusService;
@@ -28,7 +27,6 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -36,7 +34,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmploymentStatus;
 
 class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
@@ -62,25 +59,13 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param EmploymentStatusService $employmentStatusService
-     */
-    public function setEmploymentStatusService(EmploymentStatusService $employmentStatusService): void
-    {
-        $this->employmentStatusService = $employmentStatusService;
-    }
-
-    /**
-     * @return EndpointResourceResult
-     * @throws RecordNotFoundException
-     * @throws DaoException
+     * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-        if (!$employmentStatus instanceof EmploymentStatus) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($employmentStatus);
 
         return new EndpointResourceResult(EmploymentStatusModel::class, $employmentStatus);
     }
@@ -119,10 +104,8 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
             $employmentStatuses,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_TOTAL => $this->getEmploymentStatusService(
-                    )->getSearchEmploymentStatusesCount(
-                        $employmentStatusSearchParams
-                    )
+                    CommonParams::PARAMETER_TOTAL => $this->getEmploymentStatusService()
+                        ->getSearchEmploymentStatusesCount($employmentStatusSearchParams)
                 ]
             )
         );
@@ -144,7 +127,8 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $employmentStatus = $this->saveEmploymentStatus();
+        $employmentStatus = new EmploymentStatus();
+        $employmentStatus = $this->saveEmploymentStatus($employmentStatus);
 
         return new EndpointResourceResult(EmploymentStatusModel::class, $employmentStatus);
     }
@@ -161,11 +145,13 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function update(): EndpointResourceResult
     {
-        $employmentStatus = $this->saveEmploymentStatus();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($employmentStatus);
+        $employmentStatus = $this->saveEmploymentStatus($employmentStatus);
 
         return new EndpointResourceResult(EmploymentStatusModel::class, $employmentStatus);
     }
@@ -185,31 +171,18 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param EmploymentStatus $employmentStatus
      * @return EmploymentStatus
-     * @throws DaoException
-     * @throws RecordNotFoundException
      */
-    public function saveEmploymentStatus(): EmploymentStatus
+    public function saveEmploymentStatus(EmploymentStatus $employmentStatus): EmploymentStatus
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
-            $employeeStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-            if ($employeeStatus == null) {
-                throw new RecordNotFoundException('No Record Found');
-            }
-        } else {
-            $employeeStatus = new EmploymentStatus();
-        }
-
-        $employeeStatus->setName($name);
-        return $this->getEmploymentStatusService()->saveEmploymentStatus($employeeStatus);
+        $employmentStatus->setName($name);
+        return $this->getEmploymentStatusService()->saveEmploymentStatus($employmentStatus);
     }
 
     /**
      * @inheritDoc
-     * @throws DaoException
-     * @throws Exception
      */
     public function delete(): EndpointResourceResult
     {

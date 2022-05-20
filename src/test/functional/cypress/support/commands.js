@@ -35,39 +35,16 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add(
-  'apiLogin',
-  ({username, password}, url = '/auth/login') => {
-    cy.visit(url);
-    cy.get('input[name=_token]').then(($token) => {
-      const csrfToken = $token.val();
-      cy.request({
-        method: 'POST',
-        url: '/index.php/auth/validate',
-        form: true,
-        body: {
-          username,
-          password,
-          _token: csrfToken,
-        },
-      });
-    });
-    // getCookie code was added to support session migration added in OHRM5X-666
-    // After login, session id will be changed
-    // This results in two cookies appearing during cypress testing
-    // If not handled, Session Expiration error will be displayed during tests
-    // For the fix, need to clear cookies and set only the new cookie
-    // The second cookie in the array contains the older session
-    // Note that this behaviour may change if cookie lifetime is set
-    // Clear all cookies and set cookies[0] from the array as the only cookie
-    cy.getCookies()
-      .should('have.length', 2)
-      .then((cookies) => {
-        cy.clearCookies();
-        cy.setCookie('_orangehrm', cookies[0].value, cookies[0]);
-      });
-  },
-);
+Cypress.Commands.add('apiLogin', ({username, password}) => {
+  cy.request({
+    method: 'POST',
+    url: '/functional-testing/auth/validate',
+    body: {
+      username,
+      password,
+    },
+  });
+});
 
 Cypress.Commands.add('getOXD', (type, options = {}) => {
   return cy.get(OXD_ELEMENTS[type], options);
