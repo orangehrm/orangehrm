@@ -1,40 +1,50 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Performance\Dao;
 
-use Exception;
+use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\Reviewer;
-use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 
 class PerformanceReviewDao extends BaseDao
 {
-    public function getPerformanceReviewList(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams)
+    /**
+     * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
+     * @return PerformanceReview[]
+     */
+    public function getPerformanceReviewList(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): array
     {
-        try {
-            $query = $this->getPerformanceReviewQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
-            return $query->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $query = $this->getPerformanceReviewQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
+        return $query->getQuery()->execute();
     }
 
     /**
      * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getPerformanceReviewCount(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): int
     {
-        try {
-            $query = $this->getPerformanceReviewQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
-            return $this->getPaginator($query)->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $query = $this->getPerformanceReviewQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($query)->count();
     }
 
     /**
@@ -46,31 +56,40 @@ class PerformanceReviewDao extends BaseDao
         $q = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
         $q->leftJoin('performanceReview.employee ', 'employee');
         $q->leftJoin('performanceReview.jobTitle', 'jobTitle');
-        $q->leftJoin('performanceReview.department', 'subUnit');
+        $q->leftJoin('performanceReview.subunit', 'subUnit');
         $q->leftJoin(Reviewer::class, 'reviewer', Expr\Join::WITH, 'performanceReview.id = reviewer.review');
         $this->setSortingAndPaginationParams($q, $performanceReviewSearchFilterParams);
         $q->andWhere('reviewer.employee = performanceReview.employee')
-        ->andWhere('employee.empNumber = :employeeNumber')
-            ->setParameter('employeeNumber', $performanceReviewSearchFilterParams->getEmpNumber());
+            ->andWhere('employee.empNumber = :employeeNumber')
+            ->andWhere('performanceReview.statusId > :inactiveStatus')
+            ->setParameter('employeeNumber', $performanceReviewSearchFilterParams->getEmpNumber())
+            ->setParameter('inactiveStatus', PerformanceReview::STATUS_INACTIVE);
         return $this->getQueryBuilderWrapper($q);
     }
 
+    /**
+     * @param PerformanceReview $performanceReview
+     * @return string
+     */
     public function getPerformanceSelfReviewStatus(PerformanceReview $performanceReview): string
     {
         $selfReviewer = $this->getPerformanceSelfReviewer($performanceReview);
         switch ($selfReviewer->getStatus()) {
-            case 1:
+            case Reviewer::STATUS_ACTIVATED:
                 return 'Activated';
-            case 2:
+            case Reviewer::STATUS_IN_PROGRESS:
                 return 'In progress';
-            case 4:
-            case 3:
+            case Reviewer::STATUS_COMPLETED:
                 return 'Completed';
             default:
                 return '';
         }
     }
 
+    /**
+     * @param PerformanceReview $performanceReview
+     * @return Reviewer
+     */
     private function getPerformanceSelfReviewer(PerformanceReview $performanceReview): Reviewer
     {
         $reviewer = $this->getRepository(Reviewer::class)->findOneBy(['review'=>$performanceReview->getId(),'employee'=>$performanceReview->getEmployee()]);

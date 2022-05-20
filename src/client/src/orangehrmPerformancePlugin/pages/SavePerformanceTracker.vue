@@ -48,7 +48,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <reviewers-autocomplete
+              <reviewer-autocomplete
                 v-model="tracker.reviewers"
                 :rules="rules.reviewers"
                 :exclude-employee="tracker.employee"
@@ -75,7 +75,7 @@
 
 <script>
 import {navigate} from '@/core/util/helper/navigation';
-import ReviewersAutoComplete from '@/orangehrmPerformancePlugin/components/ReviewersAutoComplete';
+import ReviewerAutoComplete from '@/orangehrmPerformancePlugin/components/ReviewerAutoComplete';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import {APIService} from '@/core/util/services/api.service';
 import {
@@ -91,13 +91,13 @@ const trackerModel = {
 
 export default {
   components: {
-    'reviewers-autocomplete': ReviewersAutoComplete,
+    'reviewer-autocomplete': ReviewerAutoComplete,
     'employee-autocomplete': EmployeeAutocomplete,
   },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/performance-tracker',
+      '/api/v2/performance/config/trackers',
     );
     return {
       http,

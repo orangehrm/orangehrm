@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -20,23 +19,15 @@
 
 namespace OrangeHRM\Performance\Dao;
 
-use Doctrine;
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
-use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
 
-/**
- * Description of PerformanceTrackDao
- *
- */
 class PerformanceTrackerDao extends BaseDao
 {
     use DateTimeHelperTrait;
@@ -58,60 +49,45 @@ class PerformanceTrackerDao extends BaseDao
     /**
      * @param PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function getPerformanceTrackList(PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams): array
     {
-        try {
-            $query = $this->getPerformanceTrackerQueryBuilderWrapper($performanceTrackerSearchFilterParams)->getQueryBuilder();
-            return $query->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $query = $this->getPerformanceTrackerQueryBuilderWrapper($performanceTrackerSearchFilterParams)->getQueryBuilder();
+        return $query->getQuery()->execute();
     }
 
     /**
      * @param PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getPerformanceTrackerCount(PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams): int
     {
-        try {
-            $query = $this->getPerformanceTrackerQueryBuilderWrapper($performanceTrackerSearchFilterParams)->getQueryBuilder();
-            return $this->getPaginator($query)->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $query = $this->getPerformanceTrackerQueryBuilderWrapper($performanceTrackerSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($query)->count();
     }
-
 
     /**
      * @param PerformanceTracker $performanceTracker
+     * @param array $reviewers
      * @return PerformanceTracker
-     * @throws DaoException
-     * @throws TransactionException
      */
     public function savePerformanceTracker(PerformanceTracker $performanceTracker, array $reviewers): PerformanceTracker
     {
         $this->beginTransaction();
-        try {
-            $this->persist($performanceTracker);
-            if (count($reviewers) > 0) {
-                $this->savePerformanceTrackerReviewers($reviewers, $performanceTracker);
-            }
-            $this->commitTransaction();
-            return $performanceTracker;
-        } catch (Exception $e) {
-            $this->rollBackTransaction();
-            throw new TransactionException($e);
+        $this->persist($performanceTracker);
+        if (count($reviewers) > 0) {
+            $this->savePerformanceTrackerReviewers($reviewers, $performanceTracker);
         }
+        $this->commitTransaction();
+        return $performanceTracker;
     }
 
     /**
-     * @throws Doctrine\ORM\ORMException
+     * @param array $reviewers
+     * @param PerformanceTracker $performanceTracker
+     * @return void
      */
-    public function savePerformanceTrackerReviewers(array $reviewers, PerformanceTracker $performanceTracker)
+    private function savePerformanceTrackerReviewers(array $reviewers, PerformanceTracker $performanceTracker)
     {
         foreach ($reviewers as $reviewer) {
             $performanceTrackerReviewer = new PerformanceTrackerReviewer();
@@ -138,7 +114,7 @@ class PerformanceTrackerDao extends BaseDao
                 ->setParameter('employeeNumber', $performanceTrackerSearchFilterParams->getEmpNumber());
         }
         $q->andWhere('performanceTracker.status = :status')
-            ->setParameter('status', 1);
+            ->setParameter('status', PerformanceTracker::STATUS_NOT_DELETED);
         return $this->getQueryBuilderWrapper($q);
     }
 
@@ -150,7 +126,7 @@ class PerformanceTrackerDao extends BaseDao
     {
         $q = $this->createQueryBuilder(PerformanceTracker::class, 'performanceTracker');
         $q->update()
-            ->set('performanceTracker.status', 2)
+            ->set('performanceTracker.status', PerformanceTracker::STATUS_TRACKER_DELETED)
             ->andWhere($q->expr()->in('performanceTracker.id', ':ids'))
             ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
@@ -171,25 +147,24 @@ class PerformanceTrackerDao extends BaseDao
 
     /**
      * @param PerformanceTracker $performanceTracker
-     * @param array $reviewers
+     * @param array $reviewerEmpNumbers
      * @return PerformanceTracker
-     * @throws Doctrine\ORM\ORMException
      */
-    public function updatePerformanceTracker(PerformanceTracker $performanceTracker, array $reviewers): PerformanceTracker
+    public function updatePerformanceTracker(PerformanceTracker $performanceTracker, array $reviewerEmpNumbers): PerformanceTracker
     {
         $existingReviewers = $this->getReviewerListByTrackerId($performanceTracker->getId());
         $newReviewerList = [];
         $deletableReviewerList = [];
         foreach ($existingReviewers as $existingReviewer) {
             $reviewerNumber = $existingReviewer->getReviewer()->getEmpNumber();
-            if (!in_array($reviewerNumber, $reviewers)) {
-                array_push($deletableReviewerList, $reviewerNumber);
+            if (!in_array($reviewerNumber, $reviewerEmpNumbers)) {
+                $deletableReviewerList[] = $reviewerNumber;
             } else {
-                array_push($newReviewerList, $reviewerNumber);
+                $newReviewerList[] = $reviewerNumber;
             }
         }
         $this->deleteExistingReviewers($performanceTracker->getId(), $deletableReviewerList);
-        $reviewerList = array_diff($reviewers, $newReviewerList);
+        $reviewerList = array_diff($reviewerEmpNumbers, $newReviewerList);
         $updateReviewerList = [];
 
         foreach ($reviewerList as $reviewer) {
@@ -225,9 +200,9 @@ class PerformanceTrackerDao extends BaseDao
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->select();
         $this->setSortingAndPaginationParams($q, $performanceTrackerReviewerSearchFilterParams);
-        if (!is_null($performanceTrackerReviewerSearchFilterParams->getTrackerempNumber())) {
+        if (!is_null($performanceTrackerReviewerSearchFilterParams->getTrackerEmpNumber())) {
             $q->andWhere('employee.empNumber != :excludeEmployee')
-                ->setParameter('excludeEmployee', $performanceTrackerReviewerSearchFilterParams->getTrackerempNumber());
+                ->setParameter('excludeEmployee', $performanceTrackerReviewerSearchFilterParams->getTrackerEmpNumber());
         }
         if (!is_null($performanceTrackerReviewerSearchFilterParams->getNameOrId())) {
             $q->andWhere(

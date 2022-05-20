@@ -36,7 +36,7 @@ class PerformanceTrackerDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->performanceTrackerDao = new PerformanceTrackerDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceTracker2.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceTracker.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -60,16 +60,6 @@ class PerformanceTrackerDaoTest extends KernelTestCase
         $this->assertEquals(3, $result);
     }
 
-
-    /*public function testSavePerformanceTracker(): void
-    {
-        $performanceTracker = new PerformanceTracker();
-        $performanceTracker->setTrackerName('Devp vue apps');
-        $performanceTracker->getDecorator()->setEmployeeByEmpNumber(1);
-
-        $result =$this->performanceTrackerDao->savePerformanceTracker($performanceTracker);
-        $this->assertEquals("Devp vue apps", $result->getTrackerName());
-    }*/
 
     public function testSavePerformanceTracker(): void
     {

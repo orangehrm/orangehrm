@@ -19,24 +19,16 @@
 
 namespace OrangeHRM\Performance\Service;
 
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 
-/**
- * Description of PerformanceReviewService
- *
- * @author nadeera
- */
 class PerformanceReviewService
 {
-    use NormalizerServiceTrait;
-
     private ?PerformanceReviewDao $performanceReviewDao = null;
 
     /**
-     * @return PerformanceReviewDao|null
+     * @return PerformanceReviewDao
      */
-    public function getPerformanceReviewDao(): ?PerformanceReviewDao
+    public function getPerformanceReviewDao(): PerformanceReviewDao
     {
         if (! ($this->performanceReviewDao instanceof PerformanceReviewDao)) {
             $this->performanceReviewDao = new PerformanceReviewDao();

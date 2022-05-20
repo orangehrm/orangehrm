@@ -23,6 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class PerformanceTrackerReviewerSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = [];
     /**
      * @var int|null
      */
@@ -41,7 +42,7 @@ class PerformanceTrackerReviewerSearchFilterParams extends FilterParams
     /**
      * @return int|null
      */
-    public function getTrackerempNumber(): ?int
+    public function getTrackerEmpNumber(): ?int
     {
         return $this->trackerEmpNumber;
     }
@@ -49,7 +50,7 @@ class PerformanceTrackerReviewerSearchFilterParams extends FilterParams
     /**
      * @param int|null $TrackerempNumber
      */
-    public function setTrackerempNumber(?int $trackerEmpNumber): void
+    public function setTrackerEmpNumber(?int $trackerEmpNumber): void
     {
         $this->trackerEmpNumber = $trackerEmpNumber;
     }

@@ -141,7 +141,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/performance-trackers',
+      '/api/v2/performance/config/trackers',
     );
 
     const filters = ref({...defaultFilters});

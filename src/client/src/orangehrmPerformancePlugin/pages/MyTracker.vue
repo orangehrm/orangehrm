@@ -77,7 +77,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/myTracker',
+      '/api/v2/performance/trackers',
     );
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();

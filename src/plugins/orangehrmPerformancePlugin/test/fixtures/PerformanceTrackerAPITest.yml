@@ -10,12 +10,13 @@ Employee:
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
 
 User:
   - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
-  - { id: 2, user_role_id: 1, emp_number: 2, user_name: 'as', user_password: 'rtps' }
-  - { id: 3, user_role_id: 1, emp_number: 3, user_name: 'as5', user_password: 'ps5' }
-  - { id: 4, user_role_id: 1, emp_number: 4, user_name: 'asr', user_password: 'p5s' }
+  - { id: 2, user_role_id: 2, emp_number: 2, user_name: 'as', user_password: 'rtps' }
+  - { id: 3, user_role_id: 2, emp_number: 3, user_name: 'as5', user_password: 'ps5' }
+  - { id: 4, user_role_id: 2, emp_number: 4, user_name: 'asr', user_password: 'p5s' }
 
 PerformanceTracker:
   0: { id: 1, emp_number: 1,trackerName: 'test tracker name', added_date: '2011-12-12', status: 1 }

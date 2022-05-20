@@ -27,7 +27,7 @@ apiv2_performance_tracker:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
 
 apiv2_performance_tracker-reviewers:
-  description: 'API-v2 Performance - TrackerReviewers'
+  description: 'API-v2 Performance - Tracker Reviewers'
   api: OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI
   module: performance
   allowed:
@@ -39,7 +39,7 @@ apiv2_performance_tracker-reviewers:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
 
 apiv2_performance_my_trackers:
-  description: 'API-v2 Performance - MyTrackers'
+  description: 'API-v2 Performance - My Trackers'
   api: OrangeHRM\Performance\Api\MyTrackerAPI
   module: performance
   allowed:
@@ -52,7 +52,7 @@ apiv2_performance_my_trackers:
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_performance_my_reviews:
-  description: 'API-v2 Performance - MyReviews'
+  description: 'API-v2 Performance - My Reviews'
   api: OrangeHRM\Performance\Api\MyReviewsAPI
   module: performance
   allowed:

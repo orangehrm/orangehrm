@@ -37,10 +37,8 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
 {
     use PerformanceTrackerServiceTrait;
 
-    public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_NAME_OR_ID = 'nameOrId';
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
-    public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
 
     /**
      * @inheritDoc
@@ -50,10 +48,10 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
         $performanceTrackerReviewerSearchParamHolder = new PerformanceTrackerReviewerSearchFilterParams();
         $this->setSortingAndPaginationParams($performanceTrackerReviewerSearchParamHolder);
 
-        $performanceTrackerReviewerSearchParamHolder->setTrackerempNumber(
+        $performanceTrackerReviewerSearchParamHolder->setTrackerEmpNumber(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_EMPLOYEE_NUMBER
+                CommonParams::PARAMETER_EMP_NUMBER
             )
         );
         $performanceTrackerReviewerSearchParamHolder->setNameOrId(
@@ -80,7 +78,7 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -91,12 +89,6 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
                         Rules::LENGTH,
                         [null, self::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH]
                     ),
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_INCLUDE_EMPLOYEES,
-                    new Rule(Rules::STRING_TYPE)
                 )
             ),
         );

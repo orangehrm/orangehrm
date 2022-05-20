@@ -72,12 +72,4 @@ class DetailedPerformanceTrackerModel implements Normalizable
             'reviewers' => $reviewers,
         ];
     }
-
-    /**
-     * @return PerformanceTracker
-     */
-    private function getPerformanceTracker(): PerformanceTracker
-    {
-        return $this->performanceTracker;
-    }
 }

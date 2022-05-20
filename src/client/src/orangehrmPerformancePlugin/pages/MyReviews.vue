@@ -60,7 +60,7 @@ import {navigate} from '@/core/util/helper/navigation';
 const defaultSortOrder = {
   'performanceReview.statusId': 'ASC',
   'performanceReview.dueDate': 'ASC',
-  'performanceReview.workPeriodStart': 'DEFAULT',
+  'performanceReview.reviewPeriodStart': 'DEFAULT',
   'reviewer.status': 'DEFAULT',
 };
 
@@ -79,7 +79,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/myReview',
+      '/api/v2/performance/reviews',
     );
 
     const {jsDateFormat} = useDateFormat();
@@ -90,13 +90,13 @@ export default {
         return {
           id: item.id,
           jobTitle: item.jobTitle.name,
-          department: item.department.name,
+          department: item.subunit.name,
           reviewPeriod:
-            formatDate(parseDate(item.workPeriodStart), jsDateFormat, {
+            formatDate(parseDate(item.reviewPeriodStart), jsDateFormat, {
               locale,
             }) +
             ' - ' +
-            formatDate(parseDate(item.workPeriodEnd), jsDateFormat, {locale}),
+            formatDate(parseDate(item.reviewPeriodEnd), jsDateFormat, {locale}),
           dueDate: formatDate(parseDate(item.dueDate), jsDateFormat, {locale}),
           overallStatus: item.overallStatus.statusName,
           selfEvaluationStatus: item.selfReviewStatus,

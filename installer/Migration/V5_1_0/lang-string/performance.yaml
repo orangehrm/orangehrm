@@ -12,7 +12,7 @@ langStrings:
     value: 'Add Performance Tracker'
     unitId: add_performance_tracker
   -
-    value: 'Employee cannot be someone added as a reviewer'
+    value: 'Employee cannot be assigned as his own reviewer'
     unitId: employee_cannot_be_someone_added_as_a_reviewer
   -
     value: 'Performance Trackers'

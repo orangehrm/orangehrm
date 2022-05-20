@@ -46,10 +46,9 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     use DateTimeHelperTrait;
     use PerformanceTrackerServiceTrait;
 
-    public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const PARAMETER_TRACKER_NAME = 'trackerName';
     public const PARAM_RULE_TRACKER_NAME_MAX_LENGTH = 200;
-    public const PARAMETER_REVIEWERS = 'reviewers';
+    public const PARAMETER_REVIEWER_IDS = 'reviewers';
 
     /**
      * @inheritDoc
@@ -62,7 +61,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         $performanceTrackerSearchParamHolder->setEmpNumber(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_EMPLOYEE_NUMBER
+                CommonParams::PARAMETER_EMP_NUMBER
             )
         );
         $performanceTrackers = $this->getPerformanceTrackerService()
@@ -87,7 +86,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
                 ),
             ),
             ...$this->getSortingAndPaginationParamsRules(PerformanceTrackerSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -102,11 +101,11 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         $performanceTracker = new PerformanceTracker();
         $reviewers = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_REVIEWERS
+            self::PARAMETER_REVIEWER_IDS
         );
         $this->setPerformanceTrackerParams($performanceTracker);
         $performanceTracker->setAddedDate($this->getDateTimeHelper()->getNow());
-        $performanceTracker->setStatus(1);
+        $performanceTracker->setStatus(PerformanceTracker::STATUS_NOT_DELETED);
         $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
             ->savePerformanceTracker($performanceTracker, $reviewers);
@@ -153,7 +152,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
             new ParamRule(
-                self::PARAMETER_REVIEWERS,
+                self::PARAMETER_REVIEWER_IDS,
                 new Rule(Rules::ARRAY_TYPE)
             ),
         ];
@@ -225,7 +224,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         $performanceTracker->setModifiedDate($this->getDateTimeHelper()->getNow());
         $reviewers = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_REVIEWERS
+            self::PARAMETER_REVIEWER_IDS
         );
         $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
@@ -239,7 +238,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
             ...$this->getCommonBodyParamRulesCollection()
         );
     }

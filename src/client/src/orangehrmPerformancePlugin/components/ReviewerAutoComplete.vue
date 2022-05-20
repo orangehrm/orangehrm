@@ -51,7 +51,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/performance/reviewers',
+      'api/v2/performance/tracker-reviewers',
     );
     return {
       http,

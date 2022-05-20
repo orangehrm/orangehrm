@@ -1,14 +1,29 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\PerformanceReview;
 
 class PerformanceReviewDecorator
 {
-    use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
 
     protected PerformanceReview $performanceReview;
@@ -32,7 +47,7 @@ class PerformanceReviewDecorator
     /**
      * @return string|null
      */
-    public function getDueDate()
+    public function getDueDate(): ?String
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getDueDate());
     }
@@ -40,29 +55,31 @@ class PerformanceReviewDecorator
     /**
      * @return string|null
      */
-    public function getWorkPeriodStart()
+    public function getReviewPeriodStart(): ?String
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getWorkPeriodStart());
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodStart());
     }
 
     /**
      * @return string|null
      */
-    public function getWorkPeriodEnd()
+    public function getReviewPeriodEnd(): ?String
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getWorkPeriodEnd());
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodEnd());
     }
 
-    public function getStatusName()
+    /**
+     * @return String
+     */
+    public function getStatusName(): String
     {
         $statusId = $this->getPerformanceReview()->getStatusId();
         switch ($statusId) {
-            case 1:
+            case PerformanceReview::STATUS_ACTIVATED:
                 return 'Activated';
-            case 2:
+            case PerformanceReview::STATUS_IN_PROGRESS:
                 return 'In progress';
-            case 4:
-            case 3:
+            case PerformanceReview::STATUS_COMPLETED:
                 return 'Completed';
             default:
                 return '';
