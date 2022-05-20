@@ -1,4 +1,31 @@
 translations:
+    - { target: 'Lịch sử hành động', unitId: view_action_history, group: recruitment }
+    - { target: 'Phỏng vấn Tiêu đề', unitId: interview_title, group: recruitment }
+    - { target: 'Lịch trình phỏng vấn', unitId: schedule_interview, group: recruitment }
+    - { target: 'Yêu cầu thông tin', unitId: shortlist, group: recruitment }
+    - { target: 'Trạng thái hiện hành', unitId: current_status, group: recruitment }
+    - { target: 'Thực hiện hành động', unitId: performed_action, group: recruitment }
+    - { target: 'Thực hiện By', unitId: performed_by, group: recruitment }
+    - { target: 'Thực hiện ngày', unitId: performed_date, group: recruitment }
+    - { target: 'Lịch sử hành động', unitId: view_action_history, group: recruitment }
+    - { target: 'Vị trí tuyển dụng', unitId: vacancy, group: recruitment }
+    - { target: 'Thuê quản lý', unitId: hiring_manager, group: recruitment }
+    - { target: 'Tên Ưng Viên', unitId: candidate_name, group: recruitment }
+    - { target: 'Từ khóa', unitId: keywords, group: recruitment }
+    - { target: 'Ngày áp dụng', unitId: date_of_application, group: recruitment }
+    - { target: 'Phương pháp áp dụng', unitId: method_of_application, group: recruitment }
+    - { target: 'Nhập từ dấu phẩy tách', unitId: enter_comma_se, group: recruitment }
+    - { target: 'Ứng cử viên', unitId: candidate, group: recruitment }
+    - { target: 'Lọt vào danh sách', unitId: shortlisted, group: recruitment }
+    - { target: 'Phỏng vấn theo lịch trình', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Đánh dấu phỏng vấn trôi qua', unitId: interview_passed, group: recruitment }
+    - { target: 'Cuộc phỏng vấn không thành công', unitId: interview_failed, group: recruitment }
+    - { target: 'Công việc Cung cấp', unitId: job_offered, group: recruitment }
+    - { target: 'Hướng dẫn sử dụng', unitId: manual, group: recruitment }
+    - { target: 'Trực tuyến', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Tiếp tục', unitId: resume, group: recruitment }
+    - { target: 'Thêm ứng cử viên', unitId: add_candidate, group: recruitment }
     - { target: 'Tháng Tư', unitId: april, group: general }
     - { target: 'Tháng tám', unitId: august, group: general }
     - { target: 'Tháng mười hai', unitId: december, group: general }
@@ -36,3 +63,7 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Đánh dấu phỏng vấn không thành công', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Đánh dấu phỏng vấn trôi qua', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Thuê', unitId: hire, group: recruitment }
+    - { target: 'Thêm KPI', unitId: add_key_performance_indicator, group: performance }

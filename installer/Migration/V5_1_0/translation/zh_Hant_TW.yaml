@@ -1,4 +1,31 @@
 translations:
+    - { target: '查看操作歷史記錄', unitId: view_action_history, group: recruitment }
+    - { target: '面試題目', unitId: interview_title, group: recruitment }
+    - { target: '安排面試', unitId: schedule_interview, group: recruitment }
+    - { target: '入圍', unitId: shortlist, group: recruitment }
+    - { target: '目前狀態', unitId: current_status, group: recruitment }
+    - { target: '已執行的操作', unitId: performed_action, group: recruitment }
+    - { target: '執行者', unitId: performed_by, group: recruitment }
+    - { target: '執行日期', unitId: performed_date, group: recruitment }
+    - { target: '查看操作歷史記錄', unitId: view_action_history, group: recruitment }
+    - { target: '空缺职位', unitId: vacancy, group: recruitment }
+    - { target: '招聘经理', unitId: hiring_manager, group: recruitment }
+    - { target: '候选人姓名', unitId: candidate_name, group: recruitment }
+    - { target: '关键词', unitId: keywords, group: recruitment }
+    - { target: '申请日期', unitId: date_of_application, group: recruitment }
+    - { target: '申请方法', unitId: method_of_application, group: recruitment }
+    - { target: '输入用逗号分隔的单词', unitId: enter_comma_se, group: recruitment }
+    - { target: '候选人', unitId: candidate, group: recruitment }
+    - { target: '入围', unitId: shortlisted, group: recruitment }
+    - { target: '面试已安排', unitId: interview_scheduled, group: recruitment }
+    - { target: '面试通过', unitId: interview_passed, group: recruitment }
+    - { target: '面试失败', unitId: interview_failed, group: recruitment }
+    - { target: '发出了工作邀请', unitId: job_offered, group: recruitment }
+    - { target: '手册', unitId: manual, group: recruitment }
+    - { target: '在线', unitId: online, group: recruitment }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: '恢复', unitId: resume, group: recruitment }
+    - { target: '添加候選人', unitId: add_candidate, group: recruitment }
     - { target: 四月, unitId: april, group: general }
     - { target: 八月, unitId: august, group: general }
     - { target: 十二月, unitId: december, group: general }
@@ -36,3 +63,19 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: '標記面試失敗', unitId: mark_interview_failed, group: recruitment }
+    - { target: '標記面試合格', unitId: mark_interview_passed, group: recruitment }
+    - { target: '聘請', unitId: hire, group: recruitment }
+    - { target: '職稱的關鍵績效指標', unitId: key_performance_indicators_for_job_title, group: performance }
+    - { target: '關鍵績效指標', unitId: key_performance_indicator, group: performance }
+    - { target: '最低速率', unitId: min_rate, group: performance }
+    - { target: '最大速率', unitId: max_rate, group: performance }
+    - { target: '是默認', unitId: is_default, group: performance }
+    - { target: '添加KPI', unitId: add_key_performance_indicator, group: performance }
+    - { target: '最低評級', unitId: minimum_rating, group: performance }
+    - { target: '最大評級', unitId: maximum_rating, group: performance }
+    - { target: '設置默認比例', unitId: make_default_scale, group: performance }
+    - { target: '職稱的關鍵績效指標', unitId: maximum_rating_should_be_greater_than_minimum_rating, group: performance }
+    - { target: '性能追蹤器', unitId: employee_performance_trackers, group: performance }
+    - { target: '新增日期', unitId: added_date, group: performance }
+    - { target: '修改日期', unitId: modified_date, group: performance }

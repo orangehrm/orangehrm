@@ -1,4 +1,30 @@
 translations:
+    - { target: 'アクション履歴を表示', unitId: view_action_history, group: recruitment }
+    - { target: 'インタビューのタイトル', unitId: interview_title, group: recruitment }
+    - { target: 'インタビューのスケジュールを設定', unitId: schedule_interview, group: recruitment }
+    - { target: '候補', unitId: shortlist, group: recruitment }
+    - { target: '現在の状態', unitId: current_status, group: recruitment }
+    - { target: '実行されるアクション', unitId: performed_action, group: recruitment }
+    - { target: 'によって実行される', unitId: performed_by, group: recruitment }
+    - { target: '実行日', unitId: performed_date, group: recruitment }
+    - { target: 'アクション履歴を表示', unitId: view_action_history, group: recruitment }
+    - { target: '欠員', unitId: vacancy, group: recruitment }
+    - { target: 'マネージャーを雇う', unitId: hiring_manager, group: recruitment }
+    - { target: '候補者名', unitId: candidate_name, group: recruitment }
+    - { target: 'キーワード', unitId: keywords, group: recruitment }
+    - { target: '出願日', unitId: date_of_application, group: recruitment }
+    - { target: '適用法', unitId: method_of_application, group: recruitment }
+    - { target: 'カンマで区切られた単語を入力して下さい', unitId: enter_comma_se, group: recruitment }
+    - { target: '候補者', unitId: candidate, group: recruitment }
+    - { target: '最終選考', unitId: shortlisted, group: recruitment }
+    - { target: 'インタビューのスケジュール', unitId: interview_scheduled, group: recruitment }
+    - { target: 'インタビューでは、渡された', unitId: interview_passed, group: recruitment }
+    - { target: '面接に失敗しました', unitId: interview_failed, group: recruitment }
+    - { target: 'ジョブが提供され', unitId: job_offered, group: recruitment }
+    - { target: 'マニュアル', unitId: manual, group: recruitment }
+    - { target: 'オンライン', unitId: online, group: recruitment }
+    - { target: '再開する', unitId: resume, group: recruitment }
+    - { target: '候補を追加します。', unitId: add_candidate, group: recruitment }
     - { target: 4月, unitId: april, group: general }
     - { target: 8月, unitId: august, group: general }
     - { target: 12月, unitId: december, group: general }
@@ -36,3 +62,7 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'マークのインタビューに失敗しました', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'マークのインタビューでは、渡された', unitId: mark_interview_passed, group: recruitment }
+    - { target: '雇う', unitId: hire, group: recruitment }
+    - { target: 'KPIを追加します。', unitId: add_key_performance_indicator, group: performance }

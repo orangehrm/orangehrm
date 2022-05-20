@@ -34,6 +34,7 @@ class ResetPasswordDao extends BaseDao
         return $resetPassword;
     }
 
+
     /**
      * @param string $email
      * @return ResetPasswordRequest|null
@@ -58,5 +59,22 @@ class ResetPasswordDao extends BaseDao
         $q->andWhere('r.resetCode = :code');
         $q->setParameter('code', $resetCode);
         return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param string $email
+     * @param int $value
+     * @return bool
+     */
+    public function updateResetPasswordValid(string $email, int $value): bool
+    {
+        $q = $this->createQueryBuilder(ResetPasswordRequest::class, 'r');
+        $q->update()
+            ->set('r.expired', ':value')
+            ->setParameter('value', $value)
+            ->andWhere('r.resetEmail = :email')
+            ->setParameter('email', $email);
+        $result = $q->getQuery()->execute();
+        return $result > 0;
     }
 }

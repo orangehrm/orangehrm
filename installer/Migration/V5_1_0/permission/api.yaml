@@ -18,6 +18,18 @@ apiv2_performance_review_supervisors:
   description: 'API-v2 Performance - Review Supervisors'
   api: OrangeHRM\Performance\Api\ReviewEmployeeSupervisorAPI
   module: performance
+    allowed:
+      read: true
+      create: false
+      update: false
+      delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_performance_employee_trackers:
+  description: 'API-v2 Performance - Employee Trackers'
+  api: OrangeHRM\Performance\Api\EmployeeTrackerAPI
+  module: performance
   allowed:
     read: true
     create: false
@@ -37,3 +49,4 @@ apiv2_performance_add_review:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }

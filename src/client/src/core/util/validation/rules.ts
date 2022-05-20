@@ -18,6 +18,8 @@
 
 import {
   compareTime,
+  diffInDays,
+  formatDate,
   isAfter,
   isBefore,
   isEqual,
@@ -70,6 +72,18 @@ export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
       : translate('general.should_be_a_valid_date_in_x_format', {
           format: dateFormat,
         });
+  };
+};
+
+export const shouldBeCurrentOrPreviousDate = function() {
+  return function(value: string): boolean | string {
+    if (!value) return true;
+    const dateFormat = 'yyyy-MM-dd';
+    const currentDate = formatDate(new Date(), dateFormat) || '';
+    const isValid = diffInDays(value, currentDate, dateFormat);
+    return isValid > 0
+      ? true
+      : translate('recruitment.should_be_current_date_previous_date');
   };
 };
 
@@ -464,7 +478,6 @@ export const maxValueShouldBeGreaterThanMinValue = (
  * @param {string | function} maxValue
  * @param {string|undefined} message
  */
-
 export const minValueShouldBeLowerThanMaxValue = (
   maxValue: string | Function,
   message?: string,
@@ -475,7 +488,7 @@ export const minValueShouldBeLowerThanMaxValue = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : 'Should be lower than Maximum value';
+        : translate('general.should_be_lower_than_maximum_value');
     if (resolvedMaxValue === null || value === null) return true;
     if (resolvedMaxValue === undefined || value === undefined) return true;
     if (resolvedMaxValue === '' || value === '0') return true;
@@ -488,8 +501,7 @@ export const minValueShouldBeLowerThanMaxValue = (
  * @param {number} maxValue
  * @param {string|undefined} message
  */
-
-export const numberShouldBeBetweenMinandMaxValue = (
+export const numberShouldBeBetweenMinAndMaxValue = (
   minValue: number,
   maxValue: number,
   message?: string,
@@ -498,7 +510,10 @@ export const numberShouldBeBetweenMinandMaxValue = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : `Should be a number between ${minValue}-${maxValue}`;
+        : translate('general.should_be_a_number_between_min_and_max', {
+            min: minValue,
+            max: maxValue,
+          });
     return (
       (digitsOnly(value) === true &&
         parseFloat(value) >= minValue &&
