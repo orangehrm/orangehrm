@@ -37,15 +37,7 @@
             <subunit-dropdown v-model="filters.subUnit" />
           </oxd-grid-item>
           <oxd-grid-item>
-            <!--TODO replace with include employee dropdown-->
-            <oxd-input-field
-              v-model="filters.includeEmployees"
-              type="select"
-              :label="$t('pim.include')"
-              :clear="false"
-              :options="includeOpts"
-              :show-empty-selector="false"
-            />
+            <include-employee-dropdown v-model="filters.includeEmployees" />
           </oxd-grid-item>
           <oxd-grid-item class="--offset-row-2">
             <review-status-dropdown v-model="filters.status" />
@@ -123,6 +115,7 @@ import usei18n from '@/core/util/composable/usei18n';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
+import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 
 const defaultFilters = {
   employee: null,
@@ -139,7 +132,7 @@ const defaultFilters = {
 };
 
 const defaultSortOrder = {
-  'employee.firstName': 'DEFAULT',
+  'employee.lastName': 'DEFAULT',
   'performanceReview.workPeriodStart': 'DEFAULT',
   'performanceReview.dueDate': 'DEFAULT',
   'performanceReview.statusId': 'ASC',
@@ -148,6 +141,7 @@ const defaultSortOrder = {
 export default {
   name: 'ReviewList',
   components: {
+    'include-employee-dropdown': IncludeEmployeeDropdown,
     'review-status-dropdown': ReviewStatusDropdown,
     'subunit-dropdown': SubunitDropdown,
     'jobtitle-dropdown': JobtitleDropdown,
@@ -246,7 +240,7 @@ export default {
           name: 'employee',
           title: this.$t('general.employee'),
           slot: 'title',
-          sortField: 'employee.firstName',
+          sortField: 'employee.lastName',
           style: {flex: 1},
         },
         {
@@ -284,24 +278,6 @@ export default {
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.cellRenderer,
           style: {flex: 1},
-        },
-      ],
-      // TODO remove
-      includeOpts: [
-        {
-          id: 1,
-          param: 'onlyCurrent',
-          label: this.$t('general.current_employees_only'),
-        },
-        {
-          id: 2,
-          param: 'currentAndPast',
-          label: this.$t('general.current_and_past_employees'),
-        },
-        {
-          id: 3,
-          param: 'onlyPast',
-          label: this.$t('general.past_employees_only'),
         },
       ],
     };

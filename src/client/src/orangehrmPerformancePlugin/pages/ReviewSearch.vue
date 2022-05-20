@@ -19,7 +19,9 @@
  -->
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter :filter-title="$t('performance.review_list')">
+    <oxd-table-filter
+      :filter-title="$t('performance.manage_performance_reviews')"
+    >
       <oxd-form @submitValid="filterItems" @reset="filterItems">
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -40,15 +42,7 @@
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <!--TODO replace with include employee dropdown-->
-            <oxd-input-field
-              v-model="filters.includeEmployees"
-              type="select"
-              :label="$t('pim.include')"
-              :clear="false"
-              :options="includeOpts"
-              :show-empty-selector="false"
-            />
+            <include-employee-dropdown v-model="filters.includeEmployees" />
           </oxd-grid-item>
           <oxd-grid-item class="--offset-row-2">
             <!-- All reviewers are searchable regardless of include employees param -->
@@ -143,6 +137,7 @@ import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
+import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 
 const defaultFilters = {
   employee: null,
@@ -159,17 +154,18 @@ const defaultFilters = {
 };
 
 const defaultSortOrder = {
-  'employee.firstName': 'DEFAULT',
+  'employee.lastName': 'DEFAULT',
   'performanceReview.workPeriodStart': 'DEFAULT',
   'performanceReview.dueDate': 'DEFAULT',
   'performanceReview.statusId': 'ASC',
   'jobTitle.jobTitleName': 'DEFAULT',
-  'reviewerEmployee.firstName': 'DEFAULT',
+  'reviewerEmployee.lastName': 'DEFAULT',
 };
 
 export default {
   name: 'ReviewSearch',
   components: {
+    'include-employee-dropdown': IncludeEmployeeDropdown,
     'review-status-dropdown': ReviewStatusDropdown,
     'jobtitle-dropdown': JobtitleDropdown,
     'employee-autocomplete': EmployeeAutocomplete,
@@ -273,7 +269,7 @@ export default {
           name: 'employee',
           title: this.$t('general.employee'),
           slot: 'title',
-          sortField: 'employee.firstName',
+          sortField: 'employee.lastName',
           style: {flex: 1},
         },
         {
@@ -297,7 +293,7 @@ export default {
         {
           name: 'reviewer',
           title: this.$t('performance.reviewer'),
-          sortField: 'reviewerEmployee.firstName',
+          sortField: 'reviewerEmployee.lastName',
           style: {flex: 1},
         },
         {
@@ -316,24 +312,6 @@ export default {
         },
       ],
       checkedItems: [],
-      // TODO remove
-      includeOpts: [
-        {
-          id: 1,
-          param: 'onlyCurrent',
-          label: this.$t('general.current_employees_only'),
-        },
-        {
-          id: 2,
-          param: 'currentAndPast',
-          label: this.$t('general.current_and_past_employees'),
-        },
-        {
-          id: 3,
-          param: 'onlyPast',
-          label: this.$t('general.past_employees_only'),
-        },
-      ],
     };
   },
   methods: {

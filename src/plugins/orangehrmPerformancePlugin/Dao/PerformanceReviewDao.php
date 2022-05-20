@@ -128,7 +128,7 @@ class PerformanceReviewDao extends BaseDao
 
         $this->setSortingAndPaginationParams($qb, $performanceReviewSearchFilterParams);
         $qb->addOrderBy('performanceReview.dueDate', 'DESC');
-        $qb->addOrderBy('employee.firstName');
+        $qb->addOrderBy('employee.lastName');
         return $this->getQueryBuilderWrapper($qb);
     }
 

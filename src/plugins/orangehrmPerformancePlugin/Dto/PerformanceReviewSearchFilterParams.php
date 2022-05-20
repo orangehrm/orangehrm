@@ -27,8 +27,8 @@ class PerformanceReviewSearchFilterParams extends FilterParams
 {
     use SubunitIdChainTrait;
 
-    public const REVIEW_LIST_ALLOWED_SORT_FIELDS = ['employee.firstName', 'performanceReview.workPeriodStart',  'performanceReview.dueDate', 'performanceReview.statusId'];
-    public const PERFORMANCE_REVIEW_ALLOWED_SORT_FIELDS = [...self::REVIEW_LIST_ALLOWED_SORT_FIELDS, 'jobTitle.jobTitleName', 'reviewerEmployee.firstName'];
+    public const REVIEW_LIST_ALLOWED_SORT_FIELDS = ['employee.lastName', 'performanceReview.workPeriodStart',  'performanceReview.dueDate', 'performanceReview.statusId'];
+    public const PERFORMANCE_REVIEW_ALLOWED_SORT_FIELDS = [...self::REVIEW_LIST_ALLOWED_SORT_FIELDS, 'jobTitle.jobTitleName', 'reviewerEmployee.lastName'];
 
     public const STATUS_ID_INACTIVE = 1;
     public const STATUS_ID_ACTIVATED = 2;
