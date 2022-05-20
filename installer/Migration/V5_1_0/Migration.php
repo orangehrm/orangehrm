@@ -46,8 +46,7 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_kpi', $kpiForeignKeyConstraint);
 
-
-        $groups = ['performance','recruitment'];
+        $groups = ['recruitment', 'performance'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);

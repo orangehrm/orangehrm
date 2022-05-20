@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,26 +16,40 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Performance\Service;
+<template>
+  <oxd-input-field
+    type="select"
+    :label="$t('pim.include')"
+    :options="includeOpts"
+    :show-empty-selector="false"
+  />
+</template>
 
-use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
-
-class PerformanceTrackerService
-{
-    /**
-     * @var PerformanceTrackerDao|null
-     */
-    private ?PerformanceTrackerDao $performanceTrackerDao = null;
-
-    /**
-     * @return PerformanceTrackerDao
-     */
-    public function getPerformanceTrackerDao(): PerformanceTrackerDao
-    {
-        if (!($this->performanceTrackerDao instanceof PerformanceTrackerDao)) {
-            $this->performanceTrackerDao = new PerformanceTrackerDao();
-        }
-        return $this->performanceTrackerDao;
-    }
-}
+<script>
+export default {
+  name: 'IncludeEmployeeDropdown',
+  data() {
+    return {
+      includeOpts: [
+        {
+          id: 1,
+          param: 'onlyCurrent',
+          label: this.$t('general.current_employees_only'),
+        },
+        {
+          id: 2,
+          param: 'currentAndPast',
+          label: this.$t('general.current_and_past_employees'),
+        },
+        {
+          id: 3,
+          param: 'onlyPast',
+          label: this.$t('general.past_employees_only'),
+        },
+      ],
+    };
+  },
+};
+</script>

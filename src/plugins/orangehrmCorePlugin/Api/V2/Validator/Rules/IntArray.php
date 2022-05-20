@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,25 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Performance\Service;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Tests\Util\KernelTestCase;
-
-class PerformanceTrackerServiceTest extends KernelTestCase
+class IntArray extends AbstractRule
 {
-    protected $fixture;
-    private PerformanceTrackerService $performanceTrackerService;
-
-    public function testGetPerformanceTrackerDao()
+    /**
+     * @inheritDoc
+     */
+    public function validate($input): bool
     {
-        $result = $this->performanceTrackerService->getPerformanceTrackerDao();
-        $this->assertTrue($result instanceof PerformanceTrackerDao);
-    }
+        if (!is_array($input)) {
+            return false;
+        }
 
-    protected function setUp(): void
-    {
-        $this->performanceTrackerService = new PerformanceTrackerService();
+        foreach ($input as $value) {
+            if (!is_int($value)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
