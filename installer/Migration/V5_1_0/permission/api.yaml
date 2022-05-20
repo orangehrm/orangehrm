@@ -54,6 +54,15 @@ apiv2_performance_my_trackers:
 apiv2_performance_my_reviews:
   description: 'API-v2 Performance - My Reviews'
   api: OrangeHRM\Performance\Api\MyReviewsAPI
+  module: performance
+    allowed:
+      read: true
+      create: false
+      update: false
+      delete: false
+    permissions:
+      - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+      - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_performance_employee_trackers:
   description: 'API-v2 Performance - Employee Trackers'
