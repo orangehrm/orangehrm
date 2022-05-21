@@ -133,17 +133,6 @@ GetAll:
       sortField: 'performanceTracker.addedDate'
     data:
       0:
-        id: 3
-        trackerName: 'test tracker3 name'
-        addedDate: '2011-12-10'
-        modifiedDate: null
-        status: 1
-        employee:
-          empNumber: 4
-          lastName: 'Sherlock'
-          firstName: 'Sherin'
-          terminationId: null
-      1:
         id: 1
         trackerName: 'test tracker name'
         addedDate: '2011-12-12'
@@ -154,7 +143,7 @@ GetAll:
           lastName: 'Abbey'
           firstName: 'Kayla'
           terminationId: null
-      2:
+      1:
         id: 2
         trackerName: 'test tracker2 name'
         addedDate: '2011-12-12'
@@ -164,6 +153,17 @@ GetAll:
           empNumber: 2
           lastName: 'Abel'
           firstName: 'Ashley'
+          terminationId: null
+      2:
+        id: 3
+        trackerName: 'test tracker3 name'
+        addedDate: '2011-12-10'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 4
+          lastName: 'Sherlock'
+          firstName: 'Sherin'
           terminationId: null
     meta:
       total: 3
