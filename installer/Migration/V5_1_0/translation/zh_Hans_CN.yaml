@@ -63,3 +63,24 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 性能追踪器, unitId: performance_trackers, group: performance }
+    - { target: 已添加日期, unitId: added_date, group: performance }
+    - { target: 已修改日期, unitId: modified_date, group: performance }
+    - { target: 我的绩效跟踪器列表, unitId: my_performance_trackers, group: performance }
+    - { target: 跟踪器名称, unitId: tracker_name, group: performance }
+    - { target: '标记面试失败', unitId: mark_interview_failed, group: recruitment }
+    - { target: '标记面试通过', unitId: mark_interview_passed, group: recruitment }
+    - { target: '聘用', unitId: hire, group: recruitment }
+    - { target: '职称的关键绩效指标', unitId: key_performance_indicators_for_job_title, group: performance }
+    - { target: '关键绩效指标', unitId: key_performance_indicator, group: performance }
+    - { target: '最小速率', unitId: min_rate, group: performance }
+    - { target: '最大速率', unitId: max_rate, group: performance }
+    - { target: '是默认', unitId: is_default, group: performance }
+    - { target: '添加KPI', unitId: add_key_performance_indicator, group: performance }
+    - { target: '最低评级', unitId: minimum_rating, group: performance }
+    - { target: '最高评级', unitId: maximum_rating, group: performance }
+    - { target: '设为默认比例', unitId: make_default_scale, group: performance }
+    - { target: '最大评分应大于最小评分', unitId: maximum_rating_should_be_greater_than_minimum_rating, group: performance }
+    - { target: '性能追踪器', unitId: employee_performance_trackers, group: performance }
+    - { target: '已添加日期', unitId: added_date, group: performance }
+    - { target: '已修改日期', unitId: modified_date, group: performance }

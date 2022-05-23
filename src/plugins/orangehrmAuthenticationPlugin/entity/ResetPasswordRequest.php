@@ -59,6 +59,13 @@ class ResetPasswordRequest
     private string $resetCode;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="expired", type="boolean")
+     */
+    private bool $expired;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -120,5 +127,21 @@ class ResetPasswordRequest
     public function setResetCode(string $resetCode): void
     {
         $this->resetCode = $resetCode;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getExpired(): bool
+    {
+        return $this->expired;
+    }
+
+    /**
+     * @param bool $expired
+     */
+    public function setExpired(bool $expired): void
+    {
+        $this->expired = $expired;
     }
 }

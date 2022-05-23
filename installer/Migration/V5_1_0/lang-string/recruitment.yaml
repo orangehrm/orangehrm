@@ -95,4 +95,39 @@ langStrings:
   -
     value: 'Should be the current date or a previous date'
     unitId: should_be_current_date_previous_date
-
+  -
+    value: 'Application Stage'
+    unitId: application_stage
+  -
+    value: 'Offer job'
+    unitId: offer_job
+  -
+    value: 'Mark Interview Failed'
+    unitId: mark_interview_failed
+  -
+    value: 'Mark Interview Passed'
+    unitId: mark_interview_passed
+  -
+    value: 'Decline offer'
+    unitId: decline_offer
+  -
+    value: 'Hire'
+    unitId: hire
+  -
+    value: 'Profile'
+    unitId: profile
+  -
+    value: 'Job vacancy'
+    unitId: job_vacancy
+  -
+    value: 'History'
+    unitId: history
+  -
+    value: 'Hiring Manager'
+    unitId: hiring_manager
+  -
+    value: 'Candidate Profile'
+    unitId: candidate_profile
+  -
+    value: 'Candidate History'
+    unitId: candidate_profile

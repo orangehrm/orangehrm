@@ -63,4 +63,24 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
-
+    - { target: 'Gestionnaires de Performance', unitId: performance_trackers, group: performance }
+    - { target: 'Date ajoutée', unitId: added_date, group: performance }
+    - { target: 'Date modifiée', unitId: modified_date, group: performance }
+    - { target: 'Ma liste de gestionnaires de performance', unitId: my_performance_trackers, group: performance }
+    - { target: 'Nom du gestionnaire', unitId: tracker_name, group: performance }
+    - { target: "Marquer l'entretien comme ayant échoué", unitId: mark_interview_failed, group: recruitment }
+    - { target: "Marquer l'entretien comme réussi", unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Embaucher', unitId: hire, group: recruitment }
+    - { target: 'Indicateurs Clés de performance pour le poste', unitId: key_performance_indicators_for_job_title, group: performance }
+    - { target: 'Indicateur Clé de Performance', unitId: key_performance_indicator, group: performance }
+    - { target: 'Note Min', unitId: min_rate, group: performance }
+    - { target: 'Note Max', unitId: max_rate, group: performance }
+    - { target: 'Par défaut', unitId: is_default, group: performance }
+    - { target: 'Ajouter ICP', unitId: add_key_performance_indicator, group: performance }
+    - { target: 'Note minimum', unitId: minimum_rating, group: performance }
+    - { target: 'Note maximale', unitId: maximum_rating, group: performance }
+    - { target: 'Echelle par défault', unitId: make_default_scale, group: performance }
+    - { target: 'La note Max devrait être supérieure à la note Min', unitId: maximum_rating_should_be_greater_than_minimum_rating, group: performance }
+    - { target: 'Gestionnaires de Performance', unitId: employee_performance_trackers, group: performance }
+    - { target: 'Date ajoutée', unitId: added_date, group: performance }
+    - { target: 'Date modifiée', unitId: modified_date, group: performance }

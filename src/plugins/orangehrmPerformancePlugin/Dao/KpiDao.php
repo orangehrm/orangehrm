@@ -53,6 +53,7 @@ class KpiDao extends BaseDao
     }
 
     /**
+     * @param KpiSearchFilterParams $kpiSearchFilterParams
      * @return Kpi[]
      */
     public function getKpiList(KpiSearchFilterParams $kpiSearchFilterParams): array

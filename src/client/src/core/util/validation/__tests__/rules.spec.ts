@@ -27,7 +27,7 @@ import {
   startTimeShouldBeBeforeEndTime,
   minValueShouldBeLowerThanMaxValue,
   maxValueShouldBeGreaterThanMinValue,
-  numberShouldBeBetweenMinandMaxValue,
+  numberShouldBeBetweenMinAndMaxValue,
   digitsOnly,
   digitsOnlyWithDecimalPoint,
   shouldBeCurrentOrPreviousDate,
@@ -51,6 +51,8 @@ jest.mock('@/core/plugins/i18n/translate', () => {
       'general.expected_email_address_format_not_matched':
         'Expected format: admin@example.com',
       'general.should_be_a_number': 'Should be a number',
+      'general.should_be_a_number_between_min_and_max':
+        'Should be a number between 0-100',
     };
     return mockStrings[langString];
   };
@@ -550,19 +552,19 @@ describe('core/util/validation/rules::minValueShouldBeLowerThanMaxValue', () => 
   });
 });
 
-describe('core/util/validation/rules::numberShouldBeBetweenMinandMaxValue', () => {
-  test('numberShouldBeBetweenMinandMaxValue:: should not allow number to be out of the given range', () => {
-    const result = numberShouldBeBetweenMinandMaxValue(0, 100)('101');
+describe('core/util/validation/rules::numberShouldBeBetweenMinAndMaxValue', () => {
+  test('numberShouldBeBetweenMinAndMaxValue:: should not allow number to be out of the given range', () => {
+    const result = numberShouldBeBetweenMinAndMaxValue(0, 100)('101');
     expect(result).toEqual('Should be a number between 0-100');
   });
 
-  test('numberShouldBeBetweenMinandMaxValue:: should allow number to be between 0 and 100', () => {
-    const result = numberShouldBeBetweenMinandMaxValue(0, 100)('10');
+  test('numberShouldBeBetweenMinAndMaxValue:: should allow number to be between 0 and 100', () => {
+    const result = numberShouldBeBetweenMinAndMaxValue(0, 100)('10');
     expect(result).toEqual(true);
   });
 
-  test('numberShouldBeBetweenMinandMaxValue:: should display custom message', () => {
-    const result = numberShouldBeBetweenMinandMaxValue(
+  test('numberShouldBeBetweenMinAndMaxValue:: should display custom message', () => {
+    const result = numberShouldBeBetweenMinAndMaxValue(
       0,
       10,
       'Rating should be between 0 and 10',

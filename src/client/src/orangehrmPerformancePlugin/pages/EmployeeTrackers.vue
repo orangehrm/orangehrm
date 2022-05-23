@@ -20,38 +20,41 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Employee Performance Trackers">
+    <oxd-table-filter
+      :filter-title="$t('performance.employee_performance_trackers')"
+    >
       <oxd-form @submitValid="filterItems" @reset="resetDataTable">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-autocomplete
+              <employee-tracker-employee-autocomplete
                 v-model="filters.empName"
+                :api="api"
+                :clear="false"
                 :params="{
                   includeEmployees: filters.includeEmployees.param,
                 }"
               >
-              </employee-autocomplete>
+              </employee-tracker-employee-autocomplete>
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
+              <include-employee-dropdown
                 v-model="filters.includeEmployees"
-                type="select"
-                label="Include"
-                :clear="false"
-                :options="includeOpts"
-                :show-empty-selector="false"
-              />
+              ></include-employee-dropdown>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-divider />
         <oxd-form-actions>
-          <oxd-button display-type="ghost" label="Reset" type="reset" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.reset')"
+            type="reset"
+          />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"
-            label="Search"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -89,13 +92,15 @@
 
 <script>
 import {computed, ref} from 'vue';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
+import usei18n from '@/core/util/composable/usei18n';
+import EmployeeTrackerEmployeeAutocomplete from '../components/EmployeeTrackerEmployeeAutocomplete';
+import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 
 const defaultFilters = {
   empName: null,
@@ -107,16 +112,40 @@ const defaultFilters = {
 };
 
 const defaultSortOrder = {
-  empName: 'DEFAULT',
-  trackers: 'DEFAULT',
-  modifiedDate: 'DESC',
-  addedDate: 'DEFAULT',
+  'employee.lastName': 'DEFAULT',
+  'tracker.trackerName': 'DEFAULT',
+  'tracker.modifiedDate': 'DESC',
+  'tracker.addedDate': 'DEFAULT',
 };
 export default {
   components: {
-    'employee-autocomplete': EmployeeAutocomplete,
+    'include-employee-dropdown': IncludeEmployeeDropdown,
+    'employee-tracker-employee-autocomplete': EmployeeTrackerEmployeeAutocomplete,
   },
   setup() {
+    const {$t} = usei18n();
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+    const employeeTrackerNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          title: item.title,
+          empName: `${item.employee?.firstName} ${item.employee?.lastName} ${
+            item.employee?.terminationId
+              ? ` ${$t('general.past_employee')}`
+              : ''
+          }`,
+          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
+            locale,
+          }),
+          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {
+            locale,
+          }),
+        };
+      });
+    };
+
     const filters = ref({...defaultFilters});
 
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
@@ -132,26 +161,8 @@ export default {
       };
     });
 
-    const http = new APIService(
-      'https://5875ebe4-9692-48a9-90dc-b79dac993a70.mock.pstmn.io',
-      '/api/v2/Performance/EmployeeTrackers',
-    );
-    const {jsDateFormat} = useDateFormat();
-    const {locale} = useLocale();
-
-    const trackerNormalizer = data => {
-      return data.map(item => {
-        return {
-          ...item,
-          modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
-            locale,
-          }),
-          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {
-            locale,
-          }),
-        };
-      });
-    };
+    const api = 'api/v2/performance/employees/trackers';
+    const http = new APIService(window.appGlobal.baseUrl, api);
 
     const {
       showPaginator,
@@ -164,7 +175,7 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilter,
-      normalizer: trackerNormalizer,
+      normalizer: employeeTrackerNormalizer,
     });
 
     onSort(execQuery);
@@ -177,6 +188,7 @@ export default {
       pageSize,
       isLoading,
       items: response,
+      api,
       http,
       execQuery,
       sortDefinition,
@@ -190,31 +202,31 @@ export default {
         {
           name: 'empName',
           slot: 'title',
-          title: 'Employee Name',
-          sortField: 'empName',
+          title: this.$t('general.employee_name'),
+          sortField: 'employee.lastName',
           style: {flex: 2},
         },
         {
-          name: 'trackers',
-          title: 'Trackers',
-          sortField: 'trackers',
+          name: 'title',
+          title: this.$t('performance.trackers'),
+          sortField: 'tracker.trackerName',
           style: {flex: 2},
         },
         {
           name: 'modifiedDate',
-          title: 'Modified Date',
-          sortField: 'modifiedDate',
+          title: this.$t('performance.modified_date'),
+          sortField: 'tracker.modifiedDate',
           style: {flex: 1},
         },
         {
           name: 'addedDate',
-          title: 'Added Date',
-          sortField: 'addedDate',
+          title: this.$t('performance.added_date'),
+          sortField: 'tracker.addedDate',
           style: {flex: 1},
         },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action ',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
@@ -224,18 +236,13 @@ export default {
               component: 'oxd-button',
               props: {
                 name: 'view',
-                label: 'View',
+                label: this.$t('general.view'),
                 class: 'orangehrm-left-space',
-                displayType: 'ghost',
+                displayType: 'text',
               },
             },
           },
         },
-      ],
-      includeOpts: [
-        {id: 1, param: 'onlyCurrent', label: 'Current Employees Only'},
-        {id: 2, param: 'currentAndPast', label: 'Current and Past Employees'},
-        {id: 3, param: 'onlyPast', label: 'Past Employees Only'},
       ],
     };
   },
