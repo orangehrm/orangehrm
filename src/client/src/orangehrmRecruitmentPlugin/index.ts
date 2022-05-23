@@ -16,6 +16,9 @@
  * Boston, MA  02110-1301, USA
  */
 
+import ViewJobVacancy from './pages/ViewJobVacancy.vue';
+import AddJobVacancy from './pages/AddJobVacancy.vue';
+import EditJobVacancy from './pages/EditJobVacancy.vue';
 import ApplicationInitiatedAction from './pages/ApplicationInitiatedAction.vue';
 import HiredAction from './pages/HiredAction.vue';
 import InterviewFailedAction from './pages/InterviewFailedAction.vue';
@@ -33,6 +36,9 @@ import ViewCandidate from './pages/ViewCandidate.vue';
 import SaveCandidate from './pages/SaveCandidate.vue';
 
 export default {
+  'view-job-vacancy': ViewJobVacancy,
+  'add-job-vacancy': AddJobVacancy,
+  'edit-job-vacancy': EditJobVacancy,
   'application-initiated-action': ApplicationInitiatedAction,
   'hired-action': HiredAction,
   'interview-failed-action': InterviewFailedAction,

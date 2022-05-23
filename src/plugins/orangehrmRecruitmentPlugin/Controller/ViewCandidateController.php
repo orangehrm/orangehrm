@@ -33,5 +33,4 @@ class ViewCandidateController extends AbstractVueController
         $component = new Component('view-candidate');
         $this->setComponent($component);
     }
-
 }

@@ -119,3 +119,18 @@ langStrings:
   -
     value: 'Should be a number between {min}-{max}'
     unitId: should_be_a_number_between_min_and_max
+
+  - value: 'Active'
+    unitId: active
+
+  - value: 'Closed'
+    unitId: closed
+
+  - value: 'Deleted'
+    unitId: deleted
+
+  - value: 'File Size'
+    unitId: file_size
+
+  - value: 'File Type'
+    unitId: file_type

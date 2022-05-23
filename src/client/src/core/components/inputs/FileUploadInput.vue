@@ -20,7 +20,7 @@
 
 <template>
   <!-- Always use inside OXD-Form -->
-  <oxd-input-group v-if="file" :label="`Current ${label}`">
+  <oxd-input-group v-if="fileSelected" :label="label">
     <div class="orangehrm-file-current">
       <div class="orangehrm-file-preview" @click="downloadFile">
         <oxd-icon class="orangehrm-file-icon" name="file-earmark-text" />
@@ -38,6 +38,7 @@
           @update:modelValue="$emit('update:method', $event)"
         />
         <oxd-input-field
+          v-if="deletable"
           type="radio"
           :option-label="$t('general.delete_current')"
           value="deleteCurrent"
@@ -54,7 +55,10 @@
       </div>
     </div>
   </oxd-input-group>
-  <div v-if="method === 'replaceCurrent' || !file" class="orangehrm-file-input">
+  <div
+    v-if="method === 'replaceCurrent' || !fileSelected"
+    class="orangehrm-file-input"
+  >
     <oxd-input-field
       v-bind="$attrs"
       type="file"
@@ -106,8 +110,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    deletable: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['update:method', 'update:newFile'],
+  computed: {
+    fileSelected() {
+      return this.file && Object.keys(this.file).length > 0;
+    },
+  },
   methods: {
     downloadFile() {
       if (!this.file?.id) return;
