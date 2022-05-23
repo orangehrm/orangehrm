@@ -34,7 +34,7 @@
             <jobtitle-dropdown v-model="filters.jobTitle" />
           </oxd-grid-item>
           <oxd-grid-item>
-            <subunit-dropdown v-model="filters.subUnit" />
+            <subunit-dropdown v-model="filters.subunit" />
           </oxd-grid-item>
           <oxd-grid-item>
             <include-employee-dropdown v-model="filters.includeEmployees" />
@@ -117,20 +117,6 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 
-const defaultFilters = {
-  employee: null,
-  jobTitle: null,
-  subUnit: null,
-  status: null,
-  fromDate: null,
-  toDate: null,
-  includeEmployees: {
-    id: 1,
-    param: 'onlyCurrent',
-    label: 'Current Employees Only',
-  },
-};
-
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
   'performanceReview.workPeriodStart': 'DEFAULT',
@@ -167,8 +153,8 @@ export default {
           jobTitle: item.jobTitle?.name,
           department: item.department?.name,
           reviewPeriod: `${reviewListDateFormat(
-            item.workPeriodStart,
-          )} - ${reviewListDateFormat(item.workPeriodEnd)}`,
+            item.reviewPeriodStart,
+          )} - ${reviewListDateFormat(item.reviewPeriodEnd)}`,
           dueDate: reviewListDateFormat(item.dueDate),
           status:
             item.status === 2
@@ -176,8 +162,23 @@ export default {
               : item.status === 3
               ? $t('performance.in_progress')
               : $t('performance.completed'),
+          statusId: item.status,
         };
       });
+    };
+
+    const defaultFilters = {
+      employee: null,
+      jobTitle: null,
+      subunit: null,
+      status: null,
+      fromDate: null,
+      toDate: null,
+      includeEmployees: {
+        id: 1,
+        param: 'onlyCurrent',
+        label: $t('general.current_employees_only'),
+      },
     };
 
     const filters = ref({...defaultFilters});
@@ -190,7 +191,7 @@ export default {
         sortOrder: sortOrder.value,
         empNumber: filters.value.employee?.id,
         jobTitleId: filters.value.jobTitle?.id,
-        subUnitId: filters.value.subUnit?.id,
+        subunitId: filters.value.subunit?.id,
         statusId: filters.value.status?.statusId,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
@@ -286,7 +287,7 @@ export default {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
 
-      if (row.status === 'Completed') {
+      if (row.statusId === 3) {
         cellConfig.view = {
           component: 'oxd-button',
           props: {

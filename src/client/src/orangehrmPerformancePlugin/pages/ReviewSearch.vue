@@ -139,20 +139,6 @@ import useLocale from '@/core/util/composable/useLocale';
 import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 
-const defaultFilters = {
-  employee: null,
-  jobTitle: null,
-  status: null,
-  reviewer: null,
-  fromDate: null,
-  toDate: null,
-  includeEmployees: {
-    id: 1,
-    param: 'onlyCurrent',
-    label: 'Current Employees Only',
-  },
-};
-
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
   'performanceReview.workPeriodStart': 'DEFAULT',
@@ -200,12 +186,27 @@ export default {
           }`,
           jobTitle: item.jobTitle?.name,
           reviewPeriod: `${reviewListDateFormat(
-            item.workPeriodStart,
-          )} - ${reviewListDateFormat(item.workPeriodEnd)}`,
+            item.reviewPeriodStart,
+          )} - ${reviewListDateFormat(item.reviewPeriodEnd)}`,
           dueDate: reviewListDateFormat(item.dueDate),
           status: statusOpts.find(el => el.id === item.status).label,
+          statusId: item.status,
         };
       });
+    };
+
+    const defaultFilters = {
+      employee: null,
+      jobTitle: null,
+      status: null,
+      reviewer: null,
+      fromDate: null,
+      toDate: null,
+      includeEmployees: {
+        id: 1,
+        param: 'onlyCurrent',
+        label: $t('general.current_employees_only'),
+      },
     };
 
     const filters = ref({...defaultFilters});
@@ -318,7 +319,7 @@ export default {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
 
-      if (row.status === 'Completed') {
+      if (row.statusId === 4) {
         cellConfig.view = {
           component: 'oxd-button',
           props: {
@@ -331,7 +332,7 @@ export default {
             },
           },
         };
-      } else if (row.status === 'Inactive') {
+      } else if (row.statusId === 1) {
         cellConfig.edit = {
           component: 'oxd-button',
           props: {

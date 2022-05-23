@@ -20,15 +20,13 @@
 namespace OrangeHRM\Performance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 
 class PerformanceReviewDao extends BaseDao
 {
-    use DateTimeHelperTrait;
-
     /**
      * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
      * @return PerformanceReview[]
@@ -61,14 +59,14 @@ class PerformanceReviewDao extends BaseDao
         $qb->leftJoin('reviewer.employee', 'reviewerEmployee');
         $qb->leftJoin('reviewer.group', 'reviewGroup');
         $qb->leftJoin('performanceReview.jobTitle', 'jobTitle');
-        $qb->leftJoin('performanceReview.department', 'subUnit');
+        $qb->leftJoin('performanceReview.department', 'subunit');
 
         $qb->andWhere($qb->expr()->eq('reviewGroup.name', ':reviewGroupName'))
             ->setParameter('reviewGroupName', 'Supervisor');
 
-        if (!is_null($performanceReviewSearchFilterParams->getSupervisorId())) {
+        if (!is_null($performanceReviewSearchFilterParams->getReviewerEmpNumber())) {
             $qb->andWhere($qb->expr()->eq('reviewerEmployee.empNumber', ':supervisorEmpNumber'))
-                ->setParameter('supervisorEmpNumber', $performanceReviewSearchFilterParams->getSupervisorId());
+                ->setParameter('supervisorEmpNumber', $performanceReviewSearchFilterParams->getReviewerEmpNumber());
         }
 
         if (!is_null($performanceReviewSearchFilterParams->getEmpNumber())) {
@@ -94,24 +92,14 @@ class PerformanceReviewDao extends BaseDao
                 ->setParameter('toDate', $performanceReviewSearchFilterParams->getToDate());
         }
 
-        if (is_null($performanceReviewSearchFilterParams->getFromDate()) &&
-            is_null($performanceReviewSearchFilterParams->getToDate())
-        ) {
-            $currentYear = $this->getDateTimeHelper()->getNow()->format('Y');
-            $qb->andWhere($qb->expr()->gte('performanceReview.dueDate', ':fromDate'))
-                ->setParameter('fromDate', "$currentYear-01-01");
-            $qb->andWhere($qb->expr()->lte('performanceReview.dueDate', ':toDate'))
-                ->setParameter('toDate', "$currentYear-12-31");
-        }
-
         if (!is_null($performanceReviewSearchFilterParams->getJobTitleId())) {
             $qb->andWhere($qb->expr()->eq('jobTitle.id', ':jobTitleId'))
                 ->setParameter('jobTitleId', $performanceReviewSearchFilterParams->getJobTitleId());
         }
 
         if (!is_null($performanceReviewSearchFilterParams->getSubunitId())) {
-            $qb->andWhere($qb->expr()->in('subUnit.id', ':subUnitId'))
-                ->setParameter('subUnitId', $performanceReviewSearchFilterParams->getSubunitIdChain());
+            $qb->andWhere($qb->expr()->in('subunit.id', ':subunitId'))
+                ->setParameter('subunitId', $performanceReviewSearchFilterParams->getSubunitIdChain());
         }
 
         if (is_null($performanceReviewSearchFilterParams->getIncludeEmployees()) ||
@@ -127,7 +115,7 @@ class PerformanceReviewDao extends BaseDao
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
 
         $this->setSortingAndPaginationParams($qb, $performanceReviewSearchFilterParams);
-        $qb->addOrderBy('performanceReview.dueDate', 'DESC');
+        $qb->addOrderBy('performanceReview.dueDate', ListSorter::DESCENDING);
         $qb->addOrderBy('employee.lastName');
         return $this->getQueryBuilderWrapper($qb);
     }

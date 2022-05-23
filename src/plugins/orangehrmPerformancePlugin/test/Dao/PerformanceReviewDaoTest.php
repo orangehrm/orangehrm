@@ -21,12 +21,10 @@ namespace OrangeHRM\Tests\Performance\Dao;
 
 use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\Entity\ReviewerRating;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -45,7 +43,6 @@ class PerformanceReviewDaoTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $this->performanceReviewDao = new PerformanceReviewDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceReviewDao.yaml';
         TestDataService::populate($this->fixture);
@@ -74,10 +71,12 @@ class PerformanceReviewDaoTest extends KernelTestCase
         $performanceReviewSearchAndFilterParams = new PerformanceReviewSearchFilterParams();
 
         $performanceReviewSearchAndFilterParams->setIncludeEmployees('onlyCurrent');
+        $performanceReviewSearchAndFilterParams->setFromDate(DateTime::createFromFormat("Y-m-d", "2022-01-01"));
+        $performanceReviewSearchAndFilterParams->setToDate(DateTime::createFromFormat("Y-m-d", "2022-12-31"));
         $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
         $this->assertEquals(26, $result);
 
-        $performanceReviewSearchAndFilterParams->setSupervisorId(1);
+        $performanceReviewSearchAndFilterParams->setReviewerEmpNumber(1);
         $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
         $this->assertEquals(7, $result);
     }

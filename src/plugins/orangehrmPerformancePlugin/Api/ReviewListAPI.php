@@ -38,7 +38,7 @@ class ReviewListAPI extends PerformanceReviewAPI
     use PerformanceReviewServiceTrait;
     use AuthUserTrait;
 
-    public const FILTER_SUB_UNIT_ID = 'subUnitId';
+    public const FILTER_SUBUNIT_ID = 'subunitId';
 
     /**
      * @inheritDoc
@@ -50,17 +50,17 @@ class ReviewListAPI extends PerformanceReviewAPI
 
         $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
 
-        $performanceReviewSearchFilterParams->setSupervisorId(
+        $performanceReviewSearchFilterParams->setReviewerEmpNumber(
             $this->getAuthUser()->getEmpNumber()
         );
 
         $performanceReviewSearchFilterParams->setSubunitId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_SUB_UNIT_ID
+                self::FILTER_SUBUNIT_ID
             )
         );
-        $this->getCommonBodyFilterParams($performanceReviewSearchFilterParams);
+        $this->getFilterParams($performanceReviewSearchFilterParams);
 
         $reviewList = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
@@ -83,7 +83,7 @@ class ReviewListAPI extends PerformanceReviewAPI
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_SUB_UNIT_ID, new Rule(Rules::POSITIVE))
+                new ParamRule(self::FILTER_SUBUNIT_ID, new Rule(Rules::POSITIVE))
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -92,7 +92,7 @@ class ReviewListAPI extends PerformanceReviewAPI
                     new Rule(Rules::IN, [PerformanceReviewSearchFilterParams::REVIEW_LIST_STATUSES])
                 )
             ),
-            ...$this->getCommonBodyFilterParamRules(),
+            ...$this->getFilterParamRules(),
             ...$this->getSortingAndPaginationParamsRules(
                 PerformanceReviewSearchFilterParams::REVIEW_LIST_ALLOWED_SORT_FIELDS
             )

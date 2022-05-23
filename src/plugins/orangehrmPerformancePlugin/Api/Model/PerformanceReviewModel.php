@@ -53,8 +53,8 @@ class PerformanceReviewModel implements Normalizable
         $this->setAttributeNames([
             'id',
             'status',
-            'workPeriodStart',
-            'workPeriodEnd',
+            'reviewPeriodStart',
+            'reviewPeriodEnd',
             'dueDate',
             ['employee', 'empNumber'],
             ['employee', 'firstName'],

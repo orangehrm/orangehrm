@@ -9,8 +9,8 @@ GetAll:
       {
         "id": 6,
         "status": 2,
-        "workPeriodStart": "2022-07-01",
-        "workPeriodEnd": "2022-07-31",
+        "reviewPeriodStart": "2022-07-01",
+        "reviewPeriodEnd": "2022-07-31",
         "dueDate": "2022-07-31",
         "employee": {
           "empNumber": 3,
@@ -39,8 +39,8 @@ GetAll:
       {
         "id": 7,
         "status": 2,
-        "workPeriodStart": "2022-06-01",
-        "workPeriodEnd": "2022-06-30",
+        "reviewPeriodStart": "2022-06-01",
+        "reviewPeriodEnd": "2022-06-30",
         "dueDate": "2022-06-30",
         "employee": {
           "empNumber": 2,
@@ -69,8 +69,8 @@ GetAll:
       {
         "id": 23,
         "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 3,
@@ -99,8 +99,8 @@ GetAll:
       {
         "id": 24,
         "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 2,
@@ -129,8 +129,8 @@ GetAll:
       {
         "id": 22,
         "status": 4,
-        "workPeriodStart": "2022-06-01",
-        "workPeriodEnd": "2022-06-30",
+        "reviewPeriodStart": "2022-06-01",
+        "reviewPeriodEnd": "2022-06-30",
         "dueDate": "2022-06-30",
         "employee": {
           "empNumber": 3,
@@ -159,8 +159,8 @@ GetAll:
       {
         "id": 25,
         "status": 4,
-        "workPeriodStart": "2022-04-01",
-        "workPeriodEnd": "2022-04-30",
+        "reviewPeriodStart": "2022-04-01",
+        "reviewPeriodEnd": "2022-04-30",
         "dueDate": "2022-04-30",
         "employee": {
           "empNumber": 2,
@@ -198,13 +198,13 @@ GetAll:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
     query:
-      subUnitId: 2
+      subunitId: 2
     data: [
       {
         "id": 6,
         "status": 2,
-        "workPeriodStart": "2022-07-01",
-        "workPeriodEnd": "2022-07-31",
+        "reviewPeriodStart": "2022-07-01",
+        "reviewPeriodEnd": "2022-07-31",
         "dueDate": "2022-07-31",
         "employee": {
           "empNumber": 3,
@@ -233,8 +233,8 @@ GetAll:
       {
         "id": 23,
         "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 3,
@@ -263,8 +263,8 @@ GetAll:
       {
         "id": 22,
         "status": 4,
-        "workPeriodStart": "2022-06-01",
-        "workPeriodEnd": "2022-06-30",
+        "reviewPeriodStart": "2022-06-01",
+        "reviewPeriodEnd": "2022-06-30",
         "dueDate": "2022-06-30",
         "employee": {
           "empNumber": 3,
@@ -304,8 +304,8 @@ GetAll:
       {
         "id": 5,
         "status": 2,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 9,
@@ -334,8 +334,8 @@ GetAll:
       {
         "id": 4,
         "status": 3,
-        "workPeriodStart": "2022-06-01",
-        "workPeriodEnd": "2022-06-30",
+        "reviewPeriodStart": "2022-06-01",
+        "reviewPeriodEnd": "2022-06-30",
         "dueDate": "2022-06-30",
         "employee": {
           "empNumber": 8,
@@ -373,13 +373,13 @@ GetAll:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
     query:
-      subUnitId: 5
+      subunitId: 5
     data: [
       {
         "id": 5,
         "status": 2,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 9,
@@ -429,8 +429,8 @@ GetAll:
       {
         "id": 11,
         "status": 2,
-        "workPeriodStart": "2022-06-01",
-        "workPeriodEnd": "2022-06-30",
+        "reviewPeriodStart": "2022-06-01",
+        "reviewPeriodEnd": "2022-06-30",
         "dueDate": "2022-06-30",
         "employee": {
           "empNumber": 6,
@@ -459,8 +459,8 @@ GetAll:
       {
         "id": 18,
         "status": 2,
-        "workPeriodStart": "2022-06-01",
-        "workPeriodEnd": "2022-06-30",
+        "reviewPeriodStart": "2022-06-01",
+        "reviewPeriodEnd": "2022-06-30",
         "dueDate": "2022-06-30",
         "employee": {
           "empNumber": 4,
@@ -489,8 +489,8 @@ GetAll:
       {
         "id": 3,
         "status": 2,
-        "workPeriodStart": "2022-04-01",
-        "workPeriodEnd": "2022-04-30",
+        "reviewPeriodStart": "2022-04-01",
+        "reviewPeriodEnd": "2022-04-30",
         "dueDate": "2022-04-30",
         "employee": {
           "empNumber": 7,
@@ -519,8 +519,8 @@ GetAll:
       {
         "id": 13,
         "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 7,
@@ -549,8 +549,8 @@ GetAll:
       {
         "id": 2,
         "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 6,
@@ -579,8 +579,8 @@ GetAll:
       {
         "id": 17,
         "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 4,
@@ -609,8 +609,8 @@ GetAll:
       {
         "id": 20,
         "status": 3,
-        "workPeriodStart": "2022-04-01",
-        "workPeriodEnd": "2022-04-30",
+        "reviewPeriodStart": "2022-04-01",
+        "reviewPeriodEnd": "2022-04-30",
         "dueDate": "2022-04-30",
         "employee": {
           "empNumber": 5,
@@ -639,8 +639,8 @@ GetAll:
       {
         "id": 10,
         "status": 4,
-        "workPeriodStart": "2022-04-01",
-        "workPeriodEnd": "2022-04-30",
+        "reviewPeriodStart": "2022-04-01",
+        "reviewPeriodEnd": "2022-04-30",
         "dueDate": "2022-04-30",
         "employee": {
           "empNumber": 6,
@@ -669,8 +669,8 @@ GetAll:
       {
         "id": 12,
         "status": 4,
-        "workPeriodStart": "2022-03-01",
-        "workPeriodEnd": "2022-03-31",
+        "reviewPeriodStart": "2022-03-01",
+        "reviewPeriodEnd": "2022-03-31",
         "dueDate": "2022-03-31",
         "employee": {
           "empNumber": 7,
@@ -699,8 +699,8 @@ GetAll:
       {
         "id": 21,
         "status": 4,
-        "workPeriodStart": "2022-03-01",
-        "workPeriodEnd": "2022-03-31",
+        "reviewPeriodStart": "2022-03-01",
+        "reviewPeriodEnd": "2022-03-31",
         "dueDate": "2022-03-31",
         "employee": {
           "empNumber": 5,
@@ -729,8 +729,8 @@ GetAll:
       {
         "id": 15,
         "status": 4,
-        "workPeriodStart": "2022-01-01",
-        "workPeriodEnd": "2022-01-01",
+        "reviewPeriodStart": "2022-01-01",
+        "reviewPeriodEnd": "2022-01-01",
         "dueDate": "2022-01-31",
         "employee": {
           "empNumber": 4,
@@ -768,13 +768,13 @@ GetAll:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
     query:
-      subUnitId: 3
+      subunitId: 3
     data: [
       {
         "id": 18,
         "status": 2,
-        "workPeriodStart": "2022-06-01",
-        "workPeriodEnd": "2022-06-30",
+        "reviewPeriodStart": "2022-06-01",
+        "reviewPeriodEnd": "2022-06-30",
         "dueDate": "2022-06-30",
         "employee": {
           "empNumber": 4,
@@ -803,8 +803,8 @@ GetAll:
       {
         "id": 17,
         "status": 3,
-        "workPeriodStart": "2022-05-01",
-        "workPeriodEnd": "2022-05-31",
+        "reviewPeriodStart": "2022-05-01",
+        "reviewPeriodEnd": "2022-05-31",
         "dueDate": "2022-05-31",
         "employee": {
           "empNumber": 4,
@@ -833,8 +833,8 @@ GetAll:
       {
         "id": 20,
         "status": 3,
-        "workPeriodStart": "2022-04-01",
-        "workPeriodEnd": "2022-04-30",
+        "reviewPeriodStart": "2022-04-01",
+        "reviewPeriodEnd": "2022-04-30",
         "dueDate": "2022-04-30",
         "employee": {
           "empNumber": 5,
@@ -863,8 +863,8 @@ GetAll:
       {
         "id": 21,
         "status": 4,
-        "workPeriodStart": "2022-03-01",
-        "workPeriodEnd": "2022-03-31",
+        "reviewPeriodStart": "2022-03-01",
+        "reviewPeriodEnd": "2022-03-31",
         "dueDate": "2022-03-31",
         "employee": {
           "empNumber": 5,
@@ -893,8 +893,8 @@ GetAll:
       {
         "id": 15,
         "status": 4,
-        "workPeriodStart": "2022-01-01",
-        "workPeriodEnd": "2022-01-01",
+        "reviewPeriodStart": "2022-01-01",
+        "reviewPeriodEnd": "2022-01-01",
         "dueDate": "2022-01-31",
         "employee": {
           "empNumber": 4,

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Performance\Api;
 
+use DateTime;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -32,6 +33,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
@@ -39,6 +41,7 @@ use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
 {
     use PerformanceReviewServiceTrait;
+    use DateTimeHelperTrait;
 
     public const FILTER_EMP_NUMBER = 'empNumber';
     public const FILTER_REVIEWER_EMP_NUMBER = 'reviewerEmpNumber';
@@ -56,13 +59,13 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
         $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
         $this->setSortingAndPaginationParams($performanceReviewSearchFilterParams);
 
-        $performanceReviewSearchFilterParams->setSupervisorId(
+        $performanceReviewSearchFilterParams->setReviewerEmpNumber(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_REVIEWER_EMP_NUMBER
             )
         );
-        $this->getCommonBodyFilterParams($performanceReviewSearchFilterParams);
+        $this->getFilterParams($performanceReviewSearchFilterParams);
 
         $performanceReviewList = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
@@ -97,7 +100,7 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::IN, [PerformanceReviewSearchFilterParams::PERFORMANCE_REVIEW_STATUSES])
                 )
             ),
-            ...$this->getCommonBodyFilterParamRules(),
+            ...$this->getFilterParamRules(),
             ...$this->getSortingAndPaginationParamsRules(
                 PerformanceReviewSearchFilterParams::PERFORMANCE_REVIEW_ALLOWED_SORT_FIELDS
             )
@@ -107,7 +110,7 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     /**
      * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
      */
-    protected function getCommonBodyFilterParams(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): void
+    protected function getFilterParams(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): void
     {
         $performanceReviewSearchFilterParams->setEmpNumber(
             $this->getRequestParams()->getIntOrNull(
@@ -127,18 +130,25 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_STATUS_ID
             )
         );
-        $performanceReviewSearchFilterParams->setFromDate(
-            $this->getRequestParams()->getDateTimeOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_FROM_DATE
-            )
+
+        $fromDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_FROM_DATE
         );
-        $performanceReviewSearchFilterParams->setToDate(
-            $this->getRequestParams()->getDateTimeOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_TO_DATE
-            )
+        $toDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_TO_DATE
         );
+
+        if (is_null($fromDate) && is_null($toDate)) {
+            $currentYear = $this->getDateTimeHelper()->getNow()->format('Y');
+            $performanceReviewSearchFilterParams->setFromDate(DateTime::createFromFormat('Y-m-d', "$currentYear-01-01"));
+            $performanceReviewSearchFilterParams->setToDate(DateTime::createFromFormat('Y-m-d', "$currentYear-12-31"));
+        } else {
+            $performanceReviewSearchFilterParams->setFromDate($fromDate);
+            $performanceReviewSearchFilterParams->setToDate($toDate);
+        }
+
         $performanceReviewSearchFilterParams->setIncludeEmployees(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -151,7 +161,7 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     /**
      * @return ParamRule[]
      */
-    protected function getCommonBodyFilterParamRules(): array
+    protected function getFilterParamRules(): array
     {
         return [
             $this->getValidationDecorator()->notRequiredParamRule(

@@ -57,7 +57,7 @@ class PerformanceReviewSearchFilterParams extends FilterParams
     ];
 
     protected ?int $empNumber = null;
-    protected ?int $supervisorId = null;
+    protected ?int $reviewerEmpNumber = null;
     protected ?int $jobTitleId = null;
     protected ?int $subunitId = null;
     protected ?int $statusId = null;
@@ -90,17 +90,17 @@ class PerformanceReviewSearchFilterParams extends FilterParams
     /**
      * @return int|null
      */
-    public function getSupervisorId(): ?int
+    public function getReviewerEmpNumber(): ?int
     {
-        return $this->supervisorId;
+        return $this->reviewerEmpNumber;
     }
 
     /**
-     * @param int|null $supervisorId
+     * @param int|null $reviewerEmpNumber
      */
-    public function setSupervisorId(?int $supervisorId): void
+    public function setReviewerEmpNumber(?int $reviewerEmpNumber): void
     {
-        $this->supervisorId = $supervisorId;
+        $this->reviewerEmpNumber = $reviewerEmpNumber;
     }
 
     /**
