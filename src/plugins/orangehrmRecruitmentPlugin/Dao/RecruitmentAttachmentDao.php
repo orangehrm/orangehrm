@@ -119,11 +119,7 @@ class RecruitmentAttachmentDao extends BaseDao
             ->andWhere('attachment.id IN (:ids)')
             ->setParameter('ids', $toBeDeletedAttachmentIds);
 
-        $result = $qr->getQuery()->execute();
-        if ($result > 0) {
-            return true;
-        }
-        return false;
+        return $qr->getQuery()->execute() > 0;
     }
 
     /**

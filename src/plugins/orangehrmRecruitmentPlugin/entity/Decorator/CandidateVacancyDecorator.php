@@ -42,7 +42,7 @@ class CandidateVacancyDecorator
     /**
      * @param int $id
      */
-    public function setVacancy(int $id): void
+    public function setVacancyById(int $id): void
     {
         $vacancy = $this->getReference(Vacancy::class, $id);
         $this->candidateVacancy->setVacancy($vacancy);
@@ -51,7 +51,7 @@ class CandidateVacancyDecorator
     /**
      * @param int $id
      */
-    public function setCandidate(int $id): void
+    public function setCandidateById(int $id): void
     {
         $candidate = $this->getReference(Candidate::class, $id);
         $this->candidateVacancy->setCandidate($candidate);

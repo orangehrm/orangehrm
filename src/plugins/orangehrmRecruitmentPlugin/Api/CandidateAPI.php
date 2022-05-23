@@ -430,8 +430,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_VACANCY_ID
         );
-        $candidateVacancy->getDecorator()->setCandidate($candidateId);
-        $candidateVacancy->getDecorator()->setVacancy($vacancyId);
+        $candidateVacancy->getDecorator()->setCandidateById($candidateId);
+        $candidateVacancy->getDecorator()->setVacancyById($vacancyId);
         $candidateVacancy->setStatus($status);
         $candidateVacancy->setAppliedDate($this->getDateTimeHelper()->getNow());
     }
@@ -562,7 +562,10 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID)
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            )
         );
     }
 
