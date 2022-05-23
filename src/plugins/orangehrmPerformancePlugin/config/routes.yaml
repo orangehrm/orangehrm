@@ -89,8 +89,19 @@ apiv2_performance_review_list:
   defaults:
     _api: OrangeHRM\Performance\Api\ReviewListAPI
 
+apiv2_performance_my_tracker_logs:
+  path: /api/v2/performance/trackerlogs
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\MyReviewAPI
 
-
+apiv2_performance_my_tracker_log:
+  path: /api/v2/performance/trackerlogs/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\MyTrackerLogAPI
 ##########################
 #        Screens
 ##########################
