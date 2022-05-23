@@ -69,7 +69,7 @@
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-input-field
                 v-model.number="vacancy.numOfPositions"
-                :label="$t('recruitment.no_of_positions')"
+                :label="$t('recruitment.num_of_positions')"
                 :rules="rules.numOfPositions"
               />
             </oxd-grid>
@@ -78,7 +78,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
             <oxd-text class="orangehrm-text" tag="p">
-              {{ $t('recruitment.active') }}
+              {{ $t('general.active') }}
             </oxd-text>
             <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
@@ -159,7 +159,7 @@
           <required-text />
           <oxd-button
             display-type="ghost"
-            :label="$t('recruitment.cancel')"
+            :label="$t('general.cancel')"
             @click="updateVisibility"
           />
           <submit-button :label="$t('general.upload')" />

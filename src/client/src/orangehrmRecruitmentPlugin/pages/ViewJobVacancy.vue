@@ -176,9 +176,7 @@ export default {
             item.hiringManager.terminationId ? $t('general.past_employee') : ''
           }`,
           status:
-            item.status == 1
-              ? $t('recruitment.active')
-              : $t('recruitment.closed'),
+            item.status == 1 ? $t('general.active') : $t('general.closed'),
         };
       });
     };
@@ -230,7 +228,7 @@ export default {
         },
         {
           name: 'jobTitle',
-          title: 'Job Title',
+          title: this.$t('general.job_title'),
           sortField: 'jobTitle.jobTitleName',
           style: {flex: 3},
         },
@@ -270,8 +268,8 @@ export default {
         },
       ],
       statusOptions: [
-        {id: 1, param: 'active', label: this.$t('recruitment.active')},
-        {id: 2, param: 'closed', label: this.$t('recruitment.closed')},
+        {id: 1, param: 'active', label: this.$t('general.active')},
+        {id: 2, param: 'closed', label: this.$t('general.closed')},
       ],
       vacancies: [],
       checkedItems: [],
