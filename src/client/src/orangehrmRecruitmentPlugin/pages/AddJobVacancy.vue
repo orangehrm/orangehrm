@@ -49,7 +49,7 @@
               v-model="vacancy.description"
               type="textarea"
               :label="$t('recruitment.description')"
-              placeholder="Type description here"
+              :placeholder="$t('general.type_description_here')"
               :rules="rules.description"
             />
           </oxd-grid-item>
@@ -78,9 +78,9 @@
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
-            <oxd-text class="orangehrm-text" tag="p">{{
-              $t('recruitment.active')
-            }}</oxd-text>
+            <oxd-text class="orangehrm-text" tag="p">
+              {{ $t('recruitment.active') }}
+            </oxd-text>
             <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
         </oxd-grid>
@@ -88,7 +88,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
             <oxd-text class="orangehrm-text" tag="p">
-              {{ $t('publish _in_rss_feed _and_web_page') }}
+              {{ $t('recruitment.publish_in_rss_feed _and_web_page') }}
             </oxd-text>
             <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
@@ -98,11 +98,11 @@
           <div class="orangehrm-container orangehrm-container--border">
             <vacancy-link-card
               :label="$t('recruitment.rss_feed_url')"
-              url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.rss"
+              :url="rssFeedUrl"
             />
             <vacancy-link-card
               :label="$t('recruitment.web_page_url')"
-              url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.html"
+              :url="webUrl"
             />
           </div>
         </oxd-grid>
@@ -177,6 +177,8 @@ export default {
         status: [required],
         isPublished: [required],
       },
+      rssFeedUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.rss`,
+      webUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.html`,
     };
   },
   created() {

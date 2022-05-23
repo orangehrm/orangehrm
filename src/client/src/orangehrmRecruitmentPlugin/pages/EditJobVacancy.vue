@@ -20,9 +20,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{
-        $t('recruitment.edit_vacancy')
-      }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('recruitment.edit_vacancy') }}
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
@@ -87,7 +87,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
             <oxd-text class="orangehrm-text" tag="p">
-              {{ $t('publish _in_rss_feed _and_web_page') }}
+              {{ $t('recruitment.publish_in_rss_feed _and_web_page') }}
             </oxd-text>
             <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
@@ -97,11 +97,11 @@
           <div class="orangehrm-container orangehrm-container--border">
             <vacancy-link-card
               :label="$t('recruitment.rss_feed_url')"
-              url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.rss"
+              :url="rssFeedUrl"
             />
             <vacancy-link-card
               :label="$t('recruitment.web_page_url')"
-              url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.html"
+              :url="webUrl"
             />
           </div>
         </oxd-grid>
@@ -109,7 +109,11 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -120,7 +124,7 @@
         tag="h6"
         class="orangehrm-main-title orangehrm-attachment-header__title"
       >
-        {{ $t('recruitment.add_attachment') }}
+        {{ $t('general.add_attachment') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoadingAttachment" @submitValid="onSaveAttachment">
@@ -129,12 +133,12 @@
             <file-upload-input
               v-model:newFile="vacancyAttachment.newAttachment"
               v-model:method="vacancyAttachment.method"
-              label="Select File"
-              button-label="Browse"
+              :label="$t('general.select_file')"
+              :button-label="$t('general.browse')"
               :file="vacancyAttachment.oldAttachment"
               :rules="rules.addAttachment"
               :url="`recruitment/vacancyAttachment/attachId`"
-              :hint="$t('general.file_upload_notice')"
+              :hint="$t('general.accepts_up_to_1mb')"
               required
             />
           </oxd-grid-item>
@@ -144,8 +148,8 @@
             <oxd-input-field
               v-model="vacancyAttachment.comment"
               type="textarea"
-              label="Comment"
-              placeholder="Type comment here"
+              :label="$t('general.comment')"
+              :placeholder="$t('general.type_comment_here')"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -155,10 +159,10 @@
           <required-text />
           <oxd-button
             display-type="ghost"
-            label="Cancel"
+            :label="$t('recruitment.cancel')"
             @click="updateVisibility"
           />
-          <submit-button label="Upload" />
+          <submit-button :label="$t('general.upload')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -167,7 +171,7 @@
         tag="h6"
         class="orangehrm-main-title orangehrm-attachment-header__title"
       >
-        {{ $t('recruitment.edit_attachment') }}
+        {{ $t('general.edit_attachment') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form
@@ -179,12 +183,12 @@
             <file-upload-input
               v-model:newFile="vacancyAttachment.newAttachment"
               v-model:method="vacancyAttachment.method"
-              label="Select File"
-              button-label="Browse"
+              :label="$t('general.select_file')"
+              :button-label="$t('general.browse')"
               :file="vacancyAttachment.oldAttachment"
               :rules="rules.updateAttachment"
               :url="`recruitment/viewVacancyAttachment/attachId`"
-              :hint="$t('general.file_upload_notice')"
+              :hint="$t('general.accepts_up_to_1mb')"
               :deletable="false"
               required
             />
@@ -195,8 +199,8 @@
             <oxd-input-field
               v-model="vacancyAttachment.comment"
               type="textarea"
-              label="Comment"
-              placeholder="Type comment here"
+              :label="$t('recruitment.comment')"
+              :placeholder="$t('general.type_comment_here')"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -206,10 +210,10 @@
           <required-text />
           <oxd-button
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="updateVisibility"
           />
-          <submit-button label="Upload" />
+          <submit-button :label="$t('general.upload')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -220,11 +224,11 @@
           tag="h6"
           class="orangehrm-main-title orangehrm-attachment-header__title"
         >
-          {{ $t('recruitment.attachments') }}
+          {{ $t('general.attachments') }}
         </oxd-text>
         <oxd-button
           v-if="!isAddClicked && !isEditClicked"
-          label="Add"
+          :label="$t('general.add')"
           icon-name="plus"
           display-type="text"
           @click="onClickAdd"
@@ -367,6 +371,8 @@ export default {
           maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
+        rssFeedUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.rss`,
+        webUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.html`,
         updateAttachment: [
           v => {
             if (this.vacancyAttachment.method == 'replaceCurrent') {
@@ -383,28 +389,28 @@ export default {
         {
           name: 'fileName',
           slot: 'title',
-          title: 'File Name',
+          title: this.$t('general.file_name'),
           style: {flex: 3},
         },
         {
           name: 'fileSize',
-          title: 'Size',
+          title: this.$t('general.file_size'),
           style: {flex: 2},
         },
         {
           name: 'fileType',
-          title: 'Type',
+          title: this.$t('general.file_type'),
           style: {flex: 2},
         },
         {
           name: 'comment',
-          title: 'Comment',
+          title: this.$t('general.comment'),
           style: {flex: 4},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: 2},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -465,7 +471,7 @@ export default {
           const index = data.findIndex(item => {
             return item.name == v && item.name != this.currentName;
           });
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .then(() => {

@@ -115,26 +115,11 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
+import usei18n from '@/core/util/composable/usei18n';
 
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown.vue';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
-
-const userdataNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      vacancy: item.name,
-      jobTitle: item.jobTitle?.isDeleted
-        ? item.jobTitle.title + ' (Deleted)'
-        : item.jobTitle?.title,
-      hiringManager: item.hiringManager?.terminationId
-        ? `${item.hiringManager.firstName} ${item.hiringManager.lastName} (Past Employee)`
-        : `${item.hiringManager.firstName} ${item.hiringManager.lastName}`,
-      status: item.status == 1 ? 'Active' : 'Closed',
-    };
-  });
-};
 
 const defaultFilters = {
   jobTitleId: null,
@@ -159,6 +144,7 @@ export default {
   },
 
   setup() {
+    const {$t} = usei18n();
     const filters = ref({...defaultFilters});
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -174,6 +160,28 @@ export default {
         sortOrder: sortOrder.value,
       };
     });
+
+    const userdataNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          vacancy: item.name,
+          jobTitle: item.jobTitle?.isDeleted
+            ? item.jobTitle.title + $t('general.deleted')
+            : item.jobTitle?.title,
+
+          hiringManager: `${item.hiringManager?.firstName} ${
+            item.hiringManger?.lastName
+          } ${
+            item.hiringManager.terminationId ? $t('general.past_employee') : ''
+          }`,
+          status:
+            item.status == 1
+              ? $t('recruitment.active')
+              : $t('recruitment.closed'),
+        };
+      });
+    };
 
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -206,6 +214,7 @@ export default {
       items: response,
       filters,
       sortDefinition,
+      $t,
     };
   },
 
@@ -261,8 +270,8 @@ export default {
         },
       ],
       statusOptions: [
-        {id: 1, param: 'active', label: 'Active'},
-        {id: 2, param: 'closed', label: 'Closed'},
+        {id: 1, param: 'active', label: this.$t('recruitment.active')},
+        {id: 2, param: 'closed', label: this.$t('recruitment.closed')},
       ],
       vacancies: [],
       checkedItems: [],

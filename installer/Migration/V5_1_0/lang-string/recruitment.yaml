@@ -131,3 +131,28 @@ langStrings:
   -
     value: 'Candidate History'
     unitId: candidate_profile
+
+  - value: 'Add Vacancy'
+    unitId: add_vacancy
+
+  - value: 'Edit Vacancy'
+    unitId: edit_vacancy
+
+  - value: 'Vacancy Name'
+    unitId: vacancy_name
+
+  - value: 'Description'
+    unitId: escription
+
+  - value: 'Number of Positions'
+    unitId: num_of_positions
+
+  - value: 'RSS Feed URL'
+    unitId: rss_feed_url
+
+  - value: 'Web Page URL'
+    unitId: web_page_url
+
+  - value: 'Actions'
+    unitId: actions
+

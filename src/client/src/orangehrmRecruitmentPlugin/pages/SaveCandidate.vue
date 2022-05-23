@@ -77,7 +77,7 @@
                 :file="resume.oldAttachment"
                 :rules="rules.resume"
                 :url="`recruitment/candidateAttachment/attachId`"
-                :hint="$t('general.file_upload_notice')"
+                :hint="$t('general.accepts_up_to_1mb')"
               />
             </oxd-grid-item>
           </oxd-grid>
