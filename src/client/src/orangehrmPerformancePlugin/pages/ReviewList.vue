@@ -133,7 +133,19 @@ export default {
     'jobtitle-dropdown': JobtitleDropdown,
     'employee-autocomplete': EmployeeAutocomplete,
   },
-  setup() {
+  props: {
+    fromDate: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    toDate: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+  setup(props) {
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
@@ -181,7 +193,11 @@ export default {
       },
     };
 
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      ...defaultFilters,
+      ...(props.fromDate && {fromDate: props.fromDate}),
+      ...(props.toDate && {toDate: props.toDate}),
+    });
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });

@@ -22,7 +22,7 @@
     <oxd-table-filter
       :filter-title="$t('performance.manage_performance_reviews')"
     >
-      <oxd-form @submitValid="filterItems" @reset="filterItems">
+      <oxd-form @submitValid="filterItems" @reset="resetDataTable">
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <employee-autocomplete
@@ -157,7 +157,19 @@ export default {
     'employee-autocomplete': EmployeeAutocomplete,
     'delete-confirmation-dialog': DeleteConfirmationDialog,
   },
-  setup() {
+  props: {
+    fromDate: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    toDate: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+  setup(props) {
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
@@ -209,7 +221,11 @@ export default {
       },
     };
 
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      ...defaultFilters,
+      ...(props.fromDate && {fromDate: props.fromDate}),
+      ...(props.toDate && {toDate: props.toDate}),
+    });
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });

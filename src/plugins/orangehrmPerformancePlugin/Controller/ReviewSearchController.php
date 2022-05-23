@@ -20,17 +20,32 @@
 namespace OrangeHRM\Performance\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class ReviewSearchController extends AbstractVueController
 {
+    use DateTimeHelperTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('review-search');
+        $this->addFromToDateProps($component);
         $this->setComponent($component);
+    }
+
+    /**
+     * @param Component $component
+     */
+    protected function addFromToDateProps(Component $component): void
+    {
+        $currentYear = $this->getDateTimeHelper()->getNow()->format('Y');
+        $component->addProp(new Prop('from-date', Prop::TYPE_STRING, "$currentYear-01-01"));
+        $component->addProp(new Prop('to-date', Prop::TYPE_STRING, "$currentYear-12-31"));
     }
 }

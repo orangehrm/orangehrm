@@ -19,11 +19,10 @@
 
 namespace OrangeHRM\Performance\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class ReviewListController extends AbstractVueController
+class ReviewListController extends ReviewSearchController
 {
     /**
      * @inheritDoc
@@ -31,6 +30,7 @@ class ReviewListController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('review-list');
+        $this->addFromToDateProps($component);
         $this->setComponent($component);
     }
 }
