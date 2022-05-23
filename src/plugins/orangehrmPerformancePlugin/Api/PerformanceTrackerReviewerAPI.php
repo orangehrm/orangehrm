@@ -91,6 +91,7 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
                     ),
                 )
             ),
+            ...$this->getSortingAndPaginationParamsRules(PerformanceTrackerReviewerSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 

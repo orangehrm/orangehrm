@@ -148,7 +148,6 @@ class PerformanceTrackerDao extends BaseDao
     public function getReviewerListByTrackerId(int $performanceTrackerId): array
     {
         $q = $this->createQueryBuilder(PerformanceTrackerReviewer::class, 'ptr');
-        $q->leftJoin('ptr.reviewer', 'ptrR');
         $q->andWhere('ptr.performanceTracker = :performanceTracker')
             ->setParameter('performanceTracker', $performanceTrackerId);
         return $q->getQuery()->execute();
@@ -207,7 +206,6 @@ class PerformanceTrackerDao extends BaseDao
     public function getReviewerList(PerformanceTrackerReviewerSearchFilterParams $performanceTrackerReviewerSearchFilterParams)
     {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
-        $q->select();
         $this->setSortingAndPaginationParams($q, $performanceTrackerReviewerSearchFilterParams);
         if (!is_null($performanceTrackerReviewerSearchFilterParams->getTrackerEmpNumber())) {
             $q->andWhere('employee.empNumber != :excludeEmployee')
