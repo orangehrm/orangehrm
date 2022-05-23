@@ -20,6 +20,7 @@
 namespace OrangeHRM\Performance\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\ORM\ListSorter;
 
 class EmployeeTrackerSearchFilterParams extends FilterParams
 {
@@ -47,7 +48,7 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
     public function __construct()
     {
         $this->setSortField('tracker.modifiedDate');
-        $this->setSortOrder('DESC');
+        $this->setSortOrder(ListSorter::DESCENDING);
     }
 
     /**

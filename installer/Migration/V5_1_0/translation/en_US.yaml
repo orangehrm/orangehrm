@@ -63,6 +63,13 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Performance Trackers', unitId: performance_trackers, group: performance }
+    - { target: 'Add Performance Tracker', unitId: add_performance_tracker, group: performance }
+    - { target: 'Added Date', unitId: added_date, group: performance }
+    - { target: 'Modified Date', unitId: modified_date, group: performance }
+    - { target: 'My Performance Trackers', unitId: my_performance_trackers, group: performance }
+    - { target: Tracker, unitId: tracker, group: performance }
+    - { target: 'Tracker Name', unitId: tracker_name, group: performance }
     - { target: 'Mark Interview Failed', unitId: mark_interview_failed, group: recruitment }
     - { target: 'Mark Interview Passed', unitId: mark_interview_passed, group: recruitment }
     - { target: 'Hire', unitId: hire, group: recruitment }

@@ -23,16 +23,19 @@ use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 
 class PerformanceTrackerService
 {
-    private ?PerformanceTrackerDao $employeeTrackerDao = null;
+    /**
+     * @var PerformanceTrackerDao|null
+     */
+    private ?PerformanceTrackerDao $performanceTrackerDao = null;
 
     /**
      * @return PerformanceTrackerDao
      */
     public function getPerformanceTrackerDao(): PerformanceTrackerDao
     {
-        if (!$this->employeeTrackerDao instanceof PerformanceTrackerDao) {
-            $this->employeeTrackerDao = new PerformanceTrackerDao();
+        if (!($this->performanceTrackerDao instanceof PerformanceTrackerDao)) {
+            $this->performanceTrackerDao = new PerformanceTrackerDao();
         }
-        return $this->employeeTrackerDao;
+        return $this->performanceTrackerDao;
     }
 }

@@ -183,6 +183,12 @@ Entities:
         parameters:
           - { field: "comment", class: 'FormatWithEmptyString' }
 
+  PerformanceTracker:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }
+
   LeaveComment:
     PurgeStrategy:
       ReplaceWithValue:

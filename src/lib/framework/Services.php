@@ -287,4 +287,14 @@ final class Services
      * @see \OrangeHRM\Performance\Service\KpiService
      */
     public const KPI_SERVICE = 'performance.kpi_service';
+
+    /**
+     * @see \OrangeHRM\Performance\Service\PerformanceTrackerService
+     */
+    public const PERFORMANCE_TRACKER_SERVICE = 'performance.performance_tracker_service';
+
+    /**
+     * @see \OrangeHRM\Performance\Service\PerformanceReviewService
+     */
+    public const PERFORMANCE_REVIEW_SERVICE = 'performance.performance_review_service';
 }

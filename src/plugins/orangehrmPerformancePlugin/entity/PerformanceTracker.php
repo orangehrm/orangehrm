@@ -35,6 +35,8 @@ class PerformanceTracker
 {
     use DecoratorTrait;
 
+    public const STATUS_TRACKER_NOT_DELETED = 1;
+    public const STATUS_TRACKER_DELETED = 2;
     /**
      * @var int
      *

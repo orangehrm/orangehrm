@@ -63,6 +63,11 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: Leistungsbeurteiler, unitId: performance_trackers, group: performance }
+    - { target: 'hinzugefügt am', unitId: added_date, group: performance }
+    - { target: 'bearbeitet am', unitId: modified_date, group: performance }
+    - { target: 'Meine Leistungsbeobachtungsliste', unitId: my_performance_trackers, group: performance }
+    - { target: Beobachtungsname, unitId: tracker_name, group: performance }
     - { target: 'Das Bewerbungsgespräch als nicht bestanden markieren', unitId: mark_interview_failed, group: recruitment }
     - { target: 'Das Bewerbungsgespräch als bestanden markieren', unitId: mark_interview_passed, group: recruitment }
     - { target: 'Anstellen', unitId: hire, group: recruitment }
