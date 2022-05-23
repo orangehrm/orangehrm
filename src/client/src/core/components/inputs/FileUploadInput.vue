@@ -20,7 +20,7 @@
 
 <template>
   <!-- Always use inside OXD-Form -->
-  <oxd-input-group v-if="fileSelected" :label="`Current ${label}`">
+  <oxd-input-group v-if="fileSelected" :label="label">
     <div class="orangehrm-file-current">
       <div class="orangehrm-file-preview" @click="downloadFile">
         <oxd-icon class="orangehrm-file-icon" name="file-earmark-text" />

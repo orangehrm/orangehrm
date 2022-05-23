@@ -141,9 +141,6 @@ langStrings:
   - value: 'Vacancy Name'
     unitId: vacancy_name
 
-  - value: 'Description'
-    unitId: escription
-
   - value: 'Number of Positions'
     unitId: num_of_positions
 
@@ -153,6 +150,7 @@ langStrings:
   - value: 'Web Page URL'
     unitId: web_page_url
 
-  - value: 'Actions'
-    unitId: actions
+  - value: 'Publish in RSS Feed and Web Page'
+    unitId: publish_in_rss_feed_and_web_page
+
 

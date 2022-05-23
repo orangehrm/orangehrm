@@ -48,7 +48,7 @@
             <oxd-input-field
               v-model="vacancy.description"
               type="textarea"
-              :label="$t('recruitment.description')"
+              :label="$t('general.description')"
               :placeholder="$t('general.type_description_here')"
               :rules="rules.description"
             />
@@ -88,7 +88,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
             <oxd-text class="orangehrm-text" tag="p">
-              {{ $t('recruitment.publish_in_rss_feed _and_web_page') }}
+              {{ $t('recruitment.publish_in_rss_feed_and_web_page') }}
             </oxd-text>
             <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
