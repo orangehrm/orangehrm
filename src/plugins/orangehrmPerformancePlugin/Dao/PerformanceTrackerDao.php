@@ -143,7 +143,7 @@ class PerformanceTrackerDao extends BaseDao
 
     /**
      * @param int $performanceTrackerId
-     * @return array
+     * @return PerformanceTrackerReviewer[]
      */
     public function getReviewerListByTrackerId(int $performanceTrackerId): array
     {
