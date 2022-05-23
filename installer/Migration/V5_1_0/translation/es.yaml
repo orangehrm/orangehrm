@@ -63,6 +63,11 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Rastreadores de desempeño', unitId: performance_trackers, group: performance }
+    - { target: 'Fecha Agregada', unitId: added_date, group: performance }
+    - { target: 'Fecha Modificada', unitId: modified_date, group: performance }
+    - { target: 'Mi lista de búsqueda de Desempeño', unitId: my_performance_trackers, group: performance }
+    - { target: 'Nombre de Búsqueda', unitId: tracker_name, group: performance }
     - { target: 'Marcar entrevista como no aprobada', unitId: mark_interview_failed, group: recruitment }
     - { target: 'Marcar entrevista como exitosa', unitId: mark_interview_passed, group: recruitment }
     - { target: 'Contratar', unitId: hire, group: recruitment }

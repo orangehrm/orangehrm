@@ -23,7 +23,6 @@ namespace OrangeHRM\Admin\Service;
 use OrangeHRM\Admin\Dao\EmploymentStatusDao;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\EmploymentStatusModel;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\EmploymentStatus;
 
@@ -58,10 +57,9 @@ class EmploymentStatusService
 
     /**
      * @param int $id
-     * @return EmploymentStatus
-     * @throws DaoException
+     * @return EmploymentStatus|null
      */
-    public function getEmploymentStatusById(int $id): EmploymentStatus
+    public function getEmploymentStatusById(int $id): ?EmploymentStatus
     {
         return $this->getEmploymentStatusDao()->getEmploymentStatusById($id);
     }
@@ -69,7 +67,6 @@ class EmploymentStatusService
     /**
      * @param EmploymentStatus $employmentStatus
      * @return EmploymentStatus
-     * @throws DaoException
      */
     public function saveEmploymentStatus(EmploymentStatus $employmentStatus): EmploymentStatus
     {
@@ -79,7 +76,6 @@ class EmploymentStatusService
     /**
      * @param array $toBeDeletedEmploymentStatusIds
      * @return int
-     * @throws DaoException
      */
     public function deleteEmploymentStatus(array $toBeDeletedEmploymentStatusIds): int
     {
@@ -89,7 +85,6 @@ class EmploymentStatusService
     /**
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmploymentStatus(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
     {
@@ -99,7 +94,6 @@ class EmploymentStatusService
     /**
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmploymentStatusesCount(
         EmploymentStatusSearchFilterParams $employmentStatusSearchParams

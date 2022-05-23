@@ -119,7 +119,7 @@ import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeD
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
-  'performanceReview.workPeriodStart': 'DEFAULT',
+  'performanceReview.reviewPeriodStart': 'DEFAULT',
   'performanceReview.dueDate': 'DEFAULT',
   'performanceReview.statusId': 'ASC',
 };
@@ -273,7 +273,7 @@ export default {
         {
           name: 'reviewPeriod',
           title: this.$t('performance.review_period'),
-          sortField: 'performanceReview.workPeriodStart',
+          sortField: 'performanceReview.reviewPeriodStart',
           style: {flex: 1},
         },
         {

@@ -21,28 +21,39 @@ namespace OrangeHRM\Performance\Dto;
 
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
 class PerformanceReviewSearchFilterParams extends FilterParams
 {
     use SubunitIdChainTrait;
 
-    public const REVIEW_LIST_ALLOWED_SORT_FIELDS = ['employee.lastName', 'performanceReview.workPeriodStart',  'performanceReview.dueDate', 'performanceReview.statusId'];
-    public const PERFORMANCE_REVIEW_ALLOWED_SORT_FIELDS = [...self::REVIEW_LIST_ALLOWED_SORT_FIELDS, 'jobTitle.jobTitleName', 'reviewerEmployee.lastName'];
-
-    public const STATUS_ID_INACTIVE = 1;
-    public const STATUS_ID_ACTIVATED = 2;
-    public const STATUS_ID_IN_PROGRESS = 3;
-    public const STATUS_ID_COMPLETED = 4;
+    public const MY_REVIEW_ALLOWED_SORT_FIELDS = [
+        'performanceReview.statusId',
+        'performanceReview.reviewPeriodStart',
+        'performanceReview.dueDate',
+        'reviewer.status'
+    ];
+    public const REVIEW_LIST_ALLOWED_SORT_FIELDS = [
+        'employee.lastName',
+        'performanceReview.reviewPeriodStart',
+        'performanceReview.dueDate',
+        'performanceReview.statusId'
+    ];
+    public const PERFORMANCE_REVIEW_ALLOWED_SORT_FIELDS = [
+        ...self::REVIEW_LIST_ALLOWED_SORT_FIELDS,
+        'jobTitle.jobTitleName',
+        'reviewerEmployee.lastName'
+    ];
 
     public const REVIEW_LIST_STATUSES = [
-        self::STATUS_ID_ACTIVATED,
-        self::STATUS_ID_IN_PROGRESS,
-        self::STATUS_ID_COMPLETED
+        PerformanceReview::STATUS_ACTIVATED,
+        PerformanceReview::STATUS_IN_PROGRESS,
+        PerformanceReview::STATUS_COMPLETED
     ];
 
     public const PERFORMANCE_REVIEW_STATUSES = [
-        self::STATUS_ID_INACTIVE,
+        PerformanceReview::STATUS_INACTIVE,
         ...self::REVIEW_LIST_STATUSES
     ];
 
@@ -56,14 +67,41 @@ class PerformanceReviewSearchFilterParams extends FilterParams
         self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
     ];
 
+    /**
+     * @var int|null
+     */
     protected ?int $empNumber = null;
+    /**
+     * @var int|null
+     */
     protected ?int $reviewerEmpNumber = null;
+    /**
+     * @var int|null
+     */
     protected ?int $jobTitleId = null;
+    /**
+     * @var int|null
+     */
     protected ?int $subunitId = null;
+    /**
+     * @var int|null
+     */
     protected ?int $statusId = null;
+    /**
+     * @var DateTime|null
+     */
     protected ?DateTime $fromDate = null;
+    /**
+     * @var DateTime|null
+     */
     protected ?DateTime $toDate = null;
+    /**
+     * @var bool
+     */
     protected bool $excludeInactiveReviews = false;
+    /**
+     * @var string
+     */
     protected string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
 
     public function __construct()

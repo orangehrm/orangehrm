@@ -17,28 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Performance\Service;
+namespace OrangeHRM\Performance\Dto;
 
-use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Core\Dto\FilterParams;
 
-/**
- * @group Performance
- * @group Service
- */
-class PerformanceTrackerServiceTest extends KernelTestCase
+class PerformanceTrackerSearchFilterParams extends FilterParams
 {
-    private PerformanceTrackerService $employeeTrackerService;
+    public const ALLOWED_SORT_FIELDS = [
+        'performanceTracker.trackerName',
+        'performanceTracker.addedDate',
+        'employee.empNumber', 'employee.lastName',
+        'performanceTracker.modifiedDate'
+    ];
 
-    protected function setUp(): void
+    /**
+     * @var int|null
+     */
+    protected ?int $empNumber = null;
+
+    public function __construct()
     {
-        $this->employeeTrackerService = new PerformanceTrackerService();
+        $this->setSortField('performanceTracker.modifiedDate');
+        $this->setSortOrder('DESC');
     }
 
-    public function testGetPerformanceTrackerDao(): void
+    /**
+     * @return int|null
+     */
+    public function getEmpNumber(): ?int
     {
-        $result = $this->employeeTrackerService->getPerformanceTrackerDao();
-        $this->assertInstanceOf(PerformanceTrackerDao::class, $result);
+        return $this->empNumber;
+    }
+
+    /**
+     * @param int|null $empNumber
+     */
+    public function setEmpNumber(?int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
     }
 }

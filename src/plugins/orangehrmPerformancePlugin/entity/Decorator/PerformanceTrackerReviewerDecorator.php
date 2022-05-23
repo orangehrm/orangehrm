@@ -35,14 +35,6 @@ class PerformanceTrackerReviewerDecorator
     }
 
     /**
-     * @return PerformanceTrackerReviewer
-     */
-    public function getPerformanceTrackerReviewer(): PerformanceTrackerReviewer
-    {
-        return $this->performanceTrackerReviewer;
-    }
-
-    /**
      * @param int $empNumber
      * @return void
      */

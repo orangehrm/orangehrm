@@ -19,79 +19,30 @@
 
 namespace OrangeHRM\Tests\Performance\Dao;
 
-use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\PerformanceReview;
-use OrangeHRM\Entity\Reviewer;
-use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * @group Performance
- * @group Dao
- */
 class PerformanceReviewDaoTest extends KernelTestCase
 {
-    use EntityManagerHelperTrait;
-
     private PerformanceReviewDao $performanceReviewDao;
     protected string $fixture;
 
     protected function setUp(): void
     {
         $this->performanceReviewDao = new PerformanceReviewDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceReviewDao.yaml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceReview.yml';
         TestDataService::populate($this->fixture);
     }
 
     public function testGetPerformanceReviewList(): void
     {
         $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
-        $performanceReviewSearchFilterParams->setJobTitleId(2);
-        $performanceReviewSearchFilterParams->setStatusId(1);
-        $performanceReviewSearchFilterParams->setFromDate(DateTime::createFromFormat("Y-m-d", "2022-05-01"));
-        $performanceReviewSearchFilterParams->setToDate(DateTime::createFromFormat("Y-m-d", "2022-05-31"));
-        $performanceReviewSearchFilterParams->setIncludeEmployees('onlyCurrent');
-
+        $performanceReviewSearchFilterParams->setEmpNumber(2);
+        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
         $result = $this->performanceReviewDao->getPerformanceReviewList($performanceReviewSearchFilterParams);
         $this->assertCount(1, $result);
-
-        $this->assertEquals('Seungcheol', $result[0]->getEmployee()->getFirstName());
-        $this->assertEquals('Choi', $result[0]->getEmployee()->getLastName());
-        $this->assertEquals('Devi', $result[0]->getDecorator()->getSupervisorReviewer()->getEmployee()->getFirstName());
-        $this->assertEquals('Admin', $result[0]->getDecorator()->getSupervisorReviewer()->getEmployee()->getLastName());
-    }
-
-    public function testGetPerformanceReviewCount(): void
-    {
-        $performanceReviewSearchAndFilterParams = new PerformanceReviewSearchFilterParams();
-
-        $performanceReviewSearchAndFilterParams->setIncludeEmployees('onlyCurrent');
-        $performanceReviewSearchAndFilterParams->setFromDate(DateTime::createFromFormat("Y-m-d", "2022-01-01"));
-        $performanceReviewSearchAndFilterParams->setToDate(DateTime::createFromFormat("Y-m-d", "2022-12-31"));
-        $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
-        $this->assertEquals(26, $result);
-
-        $performanceReviewSearchAndFilterParams->setReviewerEmpNumber(1);
-        $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchAndFilterParams);
-        $this->assertEquals(7, $result);
-    }
-
-    public function testDeletePerformanceReviews(): void
-    {
-        $result = $this->performanceReviewDao->deletePerformanceReviews([1, 2]);
-        $this->assertEquals(2, $result);
-
-        $this->assertEmpty($this->getRepository(PerformanceReview::class)->find(1));
-        $this->assertEmpty($this->getRepository(Reviewer::class)->findBy(['review' => 1]));
-        $this->assertEmpty($this->getRepository(ReviewerRating::class)->findBy(['performanceReview' => 1]));
-
-        $this->assertEmpty($this->getRepository(PerformanceReview::class)->find(2));
-        $this->assertEmpty($this->getRepository(Reviewer::class)->findBy(['review' => 2]));
-        $this->assertEmpty($this->getRepository(ReviewerRating::class)->findBy(['performanceReview' => 2]));
     }
 }

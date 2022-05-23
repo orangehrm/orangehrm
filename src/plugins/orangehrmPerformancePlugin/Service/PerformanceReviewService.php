@@ -30,7 +30,7 @@ class PerformanceReviewService
      */
     public function getPerformanceReviewDao(): PerformanceReviewDao
     {
-        if (!$this->performanceReviewDao instanceof PerformanceReviewDao) {
+        if (! ($this->performanceReviewDao instanceof PerformanceReviewDao)) {
             $this->performanceReviewDao = new PerformanceReviewDao();
         }
         return $this->performanceReviewDao;

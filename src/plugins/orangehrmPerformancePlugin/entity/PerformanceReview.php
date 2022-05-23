@@ -35,6 +35,10 @@ class PerformanceReview
 {
     use DecoratorTrait;
 
+    public const STATUS_INACTIVE = 1;
+    public const STATUS_ACTIVATED = 2;
+    public const STATUS_IN_PROGRESS = 3;
+    public const STATUS_COMPLETED = 4;
     /**
      * @var int
      *
@@ -56,14 +60,14 @@ class PerformanceReview
      *
      * @ORM\Column(name="work_period_start", type="date",nullable=true)
      */
-    private ?DateTime $workPeriodStart;
+    private ?DateTime $reviewPeriodStart;
 
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="work_period_end", type="date",nullable=true)
      */
-    private ?DateTime $workPeriodEnd;
+    private ?DateTime $reviewPeriodEnd;
 
     /**
      * @var DateTime|null
@@ -135,7 +139,7 @@ class PerformanceReview
      *   @ORM\JoinColumn(name="department_id", referencedColumnName="id")
      * })
      */
-    private ?Subunit $department;
+    private ?Subunit $subunit;
 
     /**
      * @var Employee|null
@@ -191,33 +195,33 @@ class PerformanceReview
     /**
      * @return DateTime|null
      */
-    public function getWorkPeriodStart(): ?DateTime
+    public function getReviewPeriodStart(): ?DateTime
     {
-        return $this->workPeriodStart;
+        return $this->reviewPeriodStart;
     }
 
     /**
-     * @param DateTime|null $workPeriodStart
+     * @param DateTime|null $reviewPeriodStart
      */
-    public function setWorkPeriodStart(?DateTime $workPeriodStart): void
+    public function setReviewPeriodStart(?DateTime $reviewPeriodStart): void
     {
-        $this->workPeriodStart = $workPeriodStart;
+        $this->reviewPeriodStart = $reviewPeriodStart;
     }
 
     /**
      * @return DateTime|null
      */
-    public function getWorkPeriodEnd(): ?DateTime
+    public function getReviewPeriodEnd(): ?DateTime
     {
-        return $this->workPeriodEnd;
+        return $this->reviewPeriodEnd;
     }
 
     /**
-     * @param DateTime|null $workPeriodEnd
+     * @param DateTime|null $reviewPeriodEnd
      */
-    public function setWorkPeriodEnd(?DateTime $workPeriodEnd): void
+    public function setReviewPeriodEnd(?DateTime $reviewPeriodEnd): void
     {
-        $this->workPeriodEnd = $workPeriodEnd;
+        $this->reviewPeriodEnd = $reviewPeriodEnd;
     }
 
     /**
@@ -319,17 +323,17 @@ class PerformanceReview
     /**
      * @return Subunit|null
      */
-    public function getDepartment(): ?Subunit
+    public function getSubunit(): ?Subunit
     {
-        return $this->department;
+        return $this->subunit;
     }
 
     /**
-     * @param Subunit|null $department
+     * @param Subunit|null $subunit
      */
-    public function setDepartment(?Subunit $department): void
+    public function setSubunit(?Subunit $subunit): void
     {
-        $this->department = $department;
+        $this->subunit = $subunit;
     }
 
     /**

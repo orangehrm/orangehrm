@@ -19,10 +19,8 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\ORM\Paginator;
 
@@ -31,69 +29,47 @@ class EmploymentStatusDao extends BaseDao
     /**
      * @param int $id
      * @return EmploymentStatus|null
-     * @throws DaoException
      */
     public function getEmploymentStatusById(int $id): ?EmploymentStatus
     {
-        try {
-            $employmentStatus = $this->getRepository(EmploymentStatus::class)->find($id);
-            if ($employmentStatus instanceof EmploymentStatus) {
-                return $employmentStatus;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $employmentStatus = $this->getRepository(EmploymentStatus::class)->find($id);
+        if ($employmentStatus instanceof EmploymentStatus) {
+            return $employmentStatus;
         }
+        return null;
     }
 
     /**
      * @param EmploymentStatus $employmentStatus
      * @return EmploymentStatus
-     * @throws DaoException
      */
     public function saveEmploymentStatus(EmploymentStatus $employmentStatus): EmploymentStatus
     {
-        try {
-            $this->persist($employmentStatus);
-            return $employmentStatus;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($employmentStatus);
+        return $employmentStatus;
     }
 
     /**
      * @param array $toBeDeletedEmploymentStatusIds
      * @return int
-     * @throws DaoException
      */
     public function deleteEmploymentStatus(array $toBeDeletedEmploymentStatusIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
-            $q->delete()
-                ->where($q->expr()->in('es.id', ':ids'))
-                ->setParameter('ids', $toBeDeletedEmploymentStatusIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
+        $q->delete()
+            ->where($q->expr()->in('es.id', ':ids'))
+            ->setParameter('ids', $toBeDeletedEmploymentStatusIds);
+        return $q->getQuery()->execute();
     }
 
     /**
-     * Search Employment Statuses
-     *
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return array
-     * @throws DaoException
      */
     public function searchEmploymentStatus(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
     {
-        try {
-            $q = $this->getSearchEmploymentStatusPaginator($employmentStatusSearchParams);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->getSearchEmploymentStatusPaginator($employmentStatusSearchParams);
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -117,17 +93,12 @@ class EmploymentStatusDao extends BaseDao
      * Get Employment Statuses
      *
      * @return EmploymentStatus[]
-     * @throws DaoException
      */
     public function getEmploymentStatuses(): array
     {
-        try {
-            return $this->getRepository(
-                EmploymentStatus::class
-            )->findAll();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(
+            EmploymentStatus::class
+        )->findAll();
     }
 
     /**
@@ -135,16 +106,11 @@ class EmploymentStatusDao extends BaseDao
      *
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchEmploymentStatusesCount(
         EmploymentStatusSearchFilterParams $employmentStatusSearchParams
     ): int {
-        try {
-            $paginator = $this->getSearchEmploymentStatusPaginator($employmentStatusSearchParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchEmploymentStatusPaginator($employmentStatusSearchParams);
+        return $paginator->count();
     }
 }

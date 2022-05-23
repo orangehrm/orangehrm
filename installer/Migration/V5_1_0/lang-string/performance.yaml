@@ -1,5 +1,23 @@
 langStrings:
   -
+    value: 'Reviewers'
+    unitId: reviewers
+  -
+    value: 'Tracker Name'
+    unitId: tracker_name
+  -
+    value: 'Edit Performance Tracker'
+    unitId: edit_performance_tracker
+  -
+    value: 'Add Performance Tracker'
+    unitId: add_performance_tracker
+  -
+    value: 'Employee cannot be assigned as his own reviewer'
+    unitId: employee_cannot_be_assigned_as_his_own_reviewer
+  -
+    value: 'Performance Trackers'
+    unitId: performance_trackers
+  -
     value: 'Key Performance Indicators for Job Title'
     unitId: key_performance_indicators_for_job_title
   -
@@ -48,6 +66,27 @@ langStrings:
     value: 'Added Date'
     unitId: added_date
   -
+    value: 'Tracker'
+    unitId: tracker
+  -
+    value: 'My Performance Trackers'
+    unitId: my_performance_trackers
+  -
+    value: 'Review Period'
+    unitId: review_period
+  -
+    value: 'Due Date'
+    unitId: due_date
+
+  - value: 'Self Evaluation Status'
+    unitId: self_evaluation_status
+
+  - value: 'Review Status'
+    unitId: review_status
+
+  - value: 'Evaluate'
+    unitId: evaluate
+  -
     value: 'Review List'
     unitId: review_list
   -
@@ -62,18 +101,6 @@ langStrings:
   -
     value: 'Department'
     unitId: department
-  -
-    value: 'Review Period'
-    unitId: review_period
-  -
-    value: 'Due Date'
-    unitId: due_date
-  -
-    value: 'Evaluate'
-    unitId: evaluate
-  -
-    value: 'Review Status'
-    unitId: review_status
   -
     value: 'Reviewer'
     unitId: reviewer

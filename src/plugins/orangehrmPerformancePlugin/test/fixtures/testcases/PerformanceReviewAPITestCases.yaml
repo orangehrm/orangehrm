@@ -5936,7 +5936,7 @@ GetAll:
     meta:
       total: 5
 
-  'with sortField reviewEmployee.lastName':
+  'with sortField reviewerEmployee.lastName':
     userId: 1
     now:
       datetime: '2022-05-18'
@@ -8316,14 +8316,14 @@ GetAll:
     meta:
       total: 26
 
-  'with sortField performanceReview.workPeriodStart DESC':
+  'with sortField performanceReview.reviewPeriodStart DESC':
     userId: 1
     now:
       datetime: '2022-05-18'
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
     query:
-      sortField: 'performanceReview.workPeriodStart'
+      sortField: 'performanceReview.reviewPeriodStart'
       sortOrder: 'DESC'
     data: [
       {

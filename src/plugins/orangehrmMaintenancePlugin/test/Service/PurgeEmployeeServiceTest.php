@@ -97,7 +97,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
     {
         $purgeableEntities = $this->purgeEmployeeService->getPurgeableEntities('gdpr_purge_employee_strategy');
 
-        $this->assertCount(26, $purgeableEntities);
+        $this->assertCount(27, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);
@@ -116,6 +116,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertArrayHasKey("EmpContract", $purgeableEntities);
         $this->assertArrayHasKey("User", $purgeableEntities);
         $this->assertArrayHasKey("ReportTo", $purgeableEntities);
+        $this->assertArrayHasKey("PerformanceTracker", $purgeableEntities);
         $this->assertArrayHasKey("PerformanceReview", $purgeableEntities);
         $this->assertArrayHasKey("ReviewerRating", $purgeableEntities);
         $this->assertArrayHasKey("Reviewer", $purgeableEntities);
@@ -379,10 +380,8 @@ class PurgeEmployeeServiceTest extends KernelTestCase
 
         $empPerformanceTrackerLogs = $this->getRepository(PerformanceTrackerLog::class);
         $purgedPerformanceTrackerLogs = $empPerformanceTrackerLogs->findBy(['performanceTracker' => [1,2]]);
-        $this->assertCount(6, $purgedPerformanceTrackerLogs);
-        foreach ($purgedPerformanceTrackerLogs as $purgedPerformanceTrackerLog) {
-            $this->assertEquals('', $purgedPerformanceTrackerLog->getComment());
-        }
+        $this->assertCount(0, $purgedPerformanceTrackerLogs);
+
         $preservedPerformanceTrackerLogs = $empPerformanceTrackerLogs->findBy(['performanceTracker' => 3]);
         $this->assertCount(3, $preservedPerformanceTrackerLogs);
         $this->assertEquals('Comment by Emp 1', $preservedPerformanceTrackerLogs[0]->getComment());

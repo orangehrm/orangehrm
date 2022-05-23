@@ -21,9 +21,10 @@ namespace OrangeHRM\Performance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\PerformanceReview;
-use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
+use OrangeHRM\ORM\ListSorter;
 
 class PerformanceReviewDao extends BaseDao
 {
@@ -33,8 +34,8 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getPerformanceReviewList(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): array
     {
-        $qb = $this->getReviewListQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
-        return $qb->getQuery()->execute();
+        $query = $this->getPerformanceReviewQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
+        return $query->getQuery()->execute();
     }
 
     /**
@@ -43,15 +44,15 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getPerformanceReviewCount(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): int
     {
-        $qb = $this->getReviewListQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
-        return $this->getPaginator($qb)->count();
+        $query = $this->getPerformanceReviewQueryBuilderWrapper($performanceReviewSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($query)->count();
     }
 
     /**
      * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
      * @return QueryBuilderWrapper
      */
-    private function getReviewListQueryBuilderWrapper(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): QueryBuilderWrapper
+    private function getPerformanceReviewQueryBuilderWrapper(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams): QueryBuilderWrapper
     {
         $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
         $qb->leftJoin('performanceReview.employee', 'employee');
@@ -59,7 +60,7 @@ class PerformanceReviewDao extends BaseDao
         $qb->leftJoin('reviewer.employee', 'reviewerEmployee');
         $qb->leftJoin('reviewer.group', 'reviewGroup');
         $qb->leftJoin('performanceReview.jobTitle', 'jobTitle');
-        $qb->leftJoin('performanceReview.department', 'subunit');
+        $qb->leftJoin('performanceReview.subunit', 'subunit');
 
         $qb->andWhere($qb->expr()->eq('reviewGroup.name', ':reviewGroupName'))
             ->setParameter('reviewGroupName', 'Supervisor');
@@ -118,6 +119,40 @@ class PerformanceReviewDao extends BaseDao
         $qb->addOrderBy('performanceReview.dueDate', ListSorter::DESCENDING);
         $qb->addOrderBy('employee.lastName');
         return $this->getQueryBuilderWrapper($qb);
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @return string
+     */
+    public function getPerformanceSelfReviewStatus(PerformanceReview $performanceReview): string
+    {
+        $selfReviewer = $this->getPerformanceSelfReviewer($performanceReview);
+        switch ($selfReviewer->getStatus()) {
+            case Reviewer::STATUS_ACTIVATED:
+                return 'Activated';
+            case Reviewer::STATUS_IN_PROGRESS:
+                return 'In progress';
+            case Reviewer::STATUS_COMPLETED:
+                return 'Completed';
+            default:
+                return '';
+        }
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @return Reviewer
+     */
+    private function getPerformanceSelfReviewer(PerformanceReview $performanceReview): Reviewer
+    {
+        $reviewer = $this->getRepository(Reviewer::class)->findOneBy(['review'=>$performanceReview->getId(),'employee'=>$performanceReview->getEmployee()]);
+        $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $q->andWhere('reviewer.review = :reviewId')
+            ->setParameter('reviewId', $performanceReview->getId())
+            ->andWhere('reviewer.employee =:employeeId')
+            ->setParameter('employeeId', $performanceReview->getEmployee()->getEmployeeId());
+        return $reviewer;
     }
 
     /**
