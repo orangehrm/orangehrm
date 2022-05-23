@@ -82,23 +82,23 @@
           <required-text />
           <div class="orangehrm-button-row">
             <oxd-button
-                display-type="ghost"
-                :label="$t('general.cancel')"
-                type="button"
-                @click="onCancel"
+              display-type="ghost"
+              :label="$t('general.cancel')"
+              type="button"
+              @click="onCancel"
             />
             <oxd-button
-                display-type="ghost"
-                :label="$t('general.nage_reviews')"
-                type="button"
-                @click="onSave"
+              display-type="ghost"
+              :label="$t('general.nage_reviews')"
+              type="button"
+              @click="onSave"
             />
             <oxd-button
-                class="orangehrm-left-space"
-                display-type="secondary"
-                :label="$t('performance.activate')"
-                type="button"
-                @click="onActivate"
+              class="orangehrm-left-space"
+              display-type="secondary"
+              :label="$t('performance.activate')"
+              type="button"
+              @click="onActivate"
             />
           </div>
         </oxd-form-actions>
@@ -220,7 +220,10 @@ export default {
           return this.$toast.saveSuccess();
         })
         .catch(error => {
-          this.isLoading = false;
+          return this.$toast.warn({
+            title: this.$t('general.warning'),
+            message: error,
+          });
         })
         .then(() => {
           // go back
