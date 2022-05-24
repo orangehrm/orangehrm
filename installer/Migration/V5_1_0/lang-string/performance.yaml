@@ -87,8 +87,8 @@ langStrings:
   - value: 'Evaluate'
     unitId: evaluate
   -
-    value: 'Review List'
-    unitId: review_list
+    value: 'Employee Reviews'
+    unitId: employee_reviews
   -
     value: 'Activated'
     unitId: activated
@@ -99,14 +99,8 @@ langStrings:
     value: 'Completed'
     unitId: completed
   -
-    value: 'Department'
-    unitId: department
-  -
     value: 'Reviewer'
     unitId: reviewer
-  -
-    value: 'Edit Details'
-    unitId: edit_details
   -
     value: 'Manage Performance Reviews'
     unitId: manage_performance_reviews

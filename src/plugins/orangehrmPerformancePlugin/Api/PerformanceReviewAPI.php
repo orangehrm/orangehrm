@@ -43,7 +43,6 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
     use PerformanceReviewServiceTrait;
     use DateTimeHelperTrait;
 
-    public const FILTER_EMP_NUMBER = 'empNumber';
     public const FILTER_REVIEWER_EMP_NUMBER = 'reviewerEmpNumber';
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_STATUS_ID = 'statusId';
@@ -115,7 +114,7 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
         $performanceReviewSearchFilterParams->setEmpNumber(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_EMP_NUMBER
+                CommonParams::PARAMETER_EMP_NUMBER
             )
         );
         $performanceReviewSearchFilterParams->setJobTitleId(
@@ -166,7 +165,7 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
         return [
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::FILTER_EMP_NUMBER,
+                    CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
                 )
             ),

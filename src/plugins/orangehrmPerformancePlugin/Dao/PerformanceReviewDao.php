@@ -133,7 +133,7 @@ class PerformanceReviewDao extends BaseDao
             case Reviewer::STATUS_ACTIVATED:
                 return 'Activated';
             case Reviewer::STATUS_IN_PROGRESS:
-                return 'In progress';
+                return 'In Progress';
             case Reviewer::STATUS_COMPLETED:
                 return 'Completed';
             default:

@@ -19,7 +19,7 @@
  -->
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter :filter-title="$t('performance.review_list')">
+    <oxd-table-filter :filter-title="$t('performance.employee_reviews')">
       <oxd-form @submitValid="filterItems" @reset="filterItems">
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -163,18 +163,18 @@ export default {
               : ''
           }`,
           jobTitle: item.jobTitle?.name,
-          department: item.department?.name,
+          subunit: item.subunit?.name,
           reviewPeriod: `${reviewListDateFormat(
             item.reviewPeriodStart,
           )} - ${reviewListDateFormat(item.reviewPeriodEnd)}`,
           dueDate: reviewListDateFormat(item.dueDate),
           status:
-            item.status === 2
+            item.overallStatus.statusId === 2
               ? $t('performance.activated')
-              : item.status === 3
+              : item.overallStatus.statusId === 3
               ? $t('performance.in_progress')
               : $t('performance.completed'),
-          statusId: item.status,
+          statusName: item.overallStatus.statusName,
         };
       });
     };
@@ -217,7 +217,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/performance/reviews/list',
+      'api/v2/performance/employees/reviews',
     );
 
     const {
@@ -266,8 +266,8 @@ export default {
           style: {flex: 1},
         },
         {
-          name: 'department',
-          title: this.$t('performance.department'),
+          name: 'subunit',
+          title: this.$t('general.sub_unit'),
           style: {flex: 1},
         },
         {
@@ -303,7 +303,7 @@ export default {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
 
-      if (row.statusId === 3) {
+      if (row.statusName === 'Completed') {
         cellConfig.view = {
           component: 'oxd-button',
           props: {
@@ -312,7 +312,7 @@ export default {
             displayType: 'text',
             size: 'medium',
             style: {
-              'min-width': '140px',
+              'min-width': '120px',
             },
           },
         };
@@ -325,7 +325,7 @@ export default {
             displayType: 'text',
             size: 'medium',
             style: {
-              'min-width': '140px',
+              'min-width': '120px',
             },
           },
         };

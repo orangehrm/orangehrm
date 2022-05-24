@@ -201,8 +201,9 @@ export default {
             item.reviewPeriodStart,
           )} - ${reviewListDateFormat(item.reviewPeriodEnd)}`,
           dueDate: reviewListDateFormat(item.dueDate),
-          status: statusOpts.find(el => el.id === item.status).label,
-          statusId: item.status,
+          status: statusOpts.find(el => el.id === item.overallStatus.statusId)
+            .label,
+          statusName: item.overallStatus.statusName,
         };
       });
     };
@@ -335,7 +336,7 @@ export default {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
 
-      if (row.statusId === 4) {
+      if (row.statusName === 'Completed') {
         cellConfig.view = {
           component: 'oxd-button',
           props: {
@@ -344,20 +345,20 @@ export default {
             displayType: 'text',
             size: 'medium',
             style: {
-              'min-width': '140px',
+              'min-width': '120px',
             },
           },
         };
-      } else if (row.statusId === 1) {
+      } else if (row.statusName === 'Inactive') {
         cellConfig.edit = {
           component: 'oxd-button',
           props: {
             name: 'edit',
-            label: this.$t('performance.edit_details'),
+            label: this.$t('general.edit'),
             displayType: 'text',
             size: 'medium',
             style: {
-              'min-width': '140px',
+              'min-width': '120px',
             },
           },
         };
@@ -370,7 +371,7 @@ export default {
             displayType: 'text',
             size: 'medium',
             style: {
-              'min-width': '140px',
+              'min-width': '120px',
             },
           },
         };

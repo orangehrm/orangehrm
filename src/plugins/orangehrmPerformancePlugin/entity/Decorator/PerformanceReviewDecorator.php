@@ -89,10 +89,12 @@ class PerformanceReviewDecorator
     {
         $statusId = $this->getPerformanceReview()->getStatusId();
         switch ($statusId) {
+            case PerformanceReview::STATUS_INACTIVE:
+                return 'Inactive';
             case PerformanceReview::STATUS_ACTIVATED:
                 return 'Activated';
             case PerformanceReview::STATUS_IN_PROGRESS:
-                return 'In progress';
+                return 'In Progress';
             case PerformanceReview::STATUS_COMPLETED:
                 return 'Completed';
             default:

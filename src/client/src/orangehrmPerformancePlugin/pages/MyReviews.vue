@@ -194,6 +194,9 @@ export default {
             label: this.$t('general.view'),
             displayType: 'text',
             size: 'medium',
+            style: {
+              'min-width': '120px',
+            },
           },
         };
       } else {
@@ -204,6 +207,9 @@ export default {
             label: this.$t('performance.evaluate'),
             displayType: 'text',
             size: 'medium',
+            style: {
+              'min-width': '120px',
+            },
           },
         };
       }
