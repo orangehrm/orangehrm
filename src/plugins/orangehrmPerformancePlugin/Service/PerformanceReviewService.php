@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Performance\Service;
 
-
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\Subunit;
@@ -69,6 +67,6 @@ class PerformanceReviewService
         if ($this->getPerformanceReviewDao()->getReviewKPI($performanceReview) == null) {
             throw ReviewServiceException::activateWithoutKPI();
         }
-        return $this->getPerformanceReviewDao()->updateReview($performanceReview,$reviewerEmpNumber);
+        return $this->getPerformanceReviewDao()->updateReview($performanceReview, $reviewerEmpNumber);
     }
 }

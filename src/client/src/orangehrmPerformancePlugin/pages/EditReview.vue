@@ -33,7 +33,6 @@
                 v-model="review.employee"
                 :rules="rules.employee"
                 required
-                :readonly="true"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -46,7 +45,6 @@
                 :rules="rules.supervisorReviewer"
                 required
                 :subordinate="review.employee"
-                :readonly="true"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -93,14 +91,14 @@
               display-type="ghost"
               :label="$t('general.save')"
               type="button"
-              @click="onSave"
+              @click="onSave(false)"
             />
             <oxd-button
               class="orangehrm-left-space"
               display-type="secondary"
               :label="$t('performance.activate')"
               type="button"
-              @click="onActivate"
+              @click="onSave(true)"
             />
           </div>
         </oxd-form-actions>
@@ -148,6 +146,7 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/performance/reviews',
     );
+    http.setIgnorePath('/api/v2/performance/reviews/[0-9]+');
     const rules = {
       employee: [required],
       supervisorReviewer: [required],
@@ -210,35 +209,16 @@ export default {
     onCancel() {
       navigate('/performance/searchPerformancReview');
     },
-    onSave() {
+    onSave(activate = false) {
       this.isLoading = true;
       this.http
         .update(this.reviewId, {
           empNumber: this.review.employee.id,
-          reviewer: this.review.supervisorReviewer.id,
+          reviewerEmpNumber: this.review.supervisorReviewer.id,
           startDate: this.review.startDate,
           endDate: this.review.endDate,
           dueDate: this.review.dueDate,
-          activate: false,
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          // go back
-          this.onCancel();
-        });
-    },
-    onActivate() {
-      this.isLoading = true;
-      this.http
-        .update(this.reviewId, {
-          empNumber: this.review.employee.id,
-          reviewer: this.review.supervisorReviewer.id,
-          startDate: this.review.startDate,
-          endDate: this.review.endDate,
-          dueDate: this.review.dueDate,
-          activate: true,
+          activate,
         })
         .then(() => {
           return this.$toast.saveSuccess();
@@ -250,7 +230,6 @@ export default {
           });
         })
         .then(() => {
-          // go back
           this.onCancel();
         });
     },

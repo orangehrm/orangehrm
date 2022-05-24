@@ -217,13 +217,13 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
             try {
                 $review->setActivatedDate($this->getDateTimeHelper()->getNow());
                 $review->setStatusId(PerformanceReview::STATUS_ACTIVATED);
-                $this->getPerformanceReviewService()->updateActivateReview($review,$reviewerEmpNumber);
+                $this->getPerformanceReviewService()->updateActivateReview($review, $reviewerEmpNumber);
             } catch (ReviewServiceException $e) {
                 throw $this->getBadRequestException($e->getMessage());
             }
         } else {
             $review->setStatusId(PerformanceReview::STATUS_INACTIVE);
-            $this->getPerformanceReviewService()->getPerformanceReviewDao()->updateReview($review,$reviewerEmpNumber);
+            $this->getPerformanceReviewService()->getPerformanceReviewDao()->updateReview($review, $reviewerEmpNumber);
         }
         return new EndpointResourceResult(PerformanceReviewModel::class, $review);
     }

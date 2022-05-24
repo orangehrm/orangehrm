@@ -106,7 +106,10 @@ export class APIService {
 
   // Function to prevent Invalid Parameter toast messages from showing
   ignoreInvalidParamError(error: AxiosError): boolean {
-    if (this._ignoreInvalidParamRegex && error.response?.status === 422) {
+    if (
+      this._ignoreInvalidParamRegex &&
+      (error.response?.status === 422 || error.response?.status === 400)
+    ) {
       const url: string = error.response.config.url ?? '';
       return this._ignoreInvalidParamRegex.test(url);
     }
@@ -129,7 +132,7 @@ export class APIService {
         }
 
         if (this.ignoreInvalidParamError(error)) {
-          return Promise.reject();
+          return Promise.reject(error.response?.data.error.message);
         }
 
         const $toast = vm?.appContext.config.globalProperties.$toast;

@@ -43,8 +43,8 @@
               <supervisor-autocomplete
                 v-model="review.supervisorReviewer"
                 :rules="rules.supervisorReviewer"
-                required
                 :subordinate="review.employee"
+                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -91,14 +91,13 @@
               display-type="ghost"
               :label="$t('general.save')"
               type="button"
-              @click="onSave"
+              @click="onSave(false)"
             />
             <oxd-button
-              class="orangehrm-left-space"
               display-type="secondary"
               :label="$t('performance.activate')"
               type="button"
-              @click="onActivate"
+              @click="onSave(true)"
             />
           </div>
         </oxd-form-actions>
@@ -156,7 +155,6 @@ export default {
             this.$t(
               'general.review_period_start_date_should_be_before_end_date',
             ),
-            {allowSameDate: false},
           ),
         ],
         endDate: [
@@ -186,35 +184,16 @@ export default {
     onCancel() {
       navigate('/performance/searchPerformanceReview');
     },
-    onSave() {
+    onSave(activate = false) {
       this.isLoading = true;
       this.http
         .create({
           empNumber: this.review.employee.id,
-          reviewer: this.review.supervisorReviewer.id,
+          reviewerEmpNumber: this.review.supervisorReviewer.id,
           startDate: this.review.startDate,
           endDate: this.review.endDate,
           dueDate: this.review.dueDate,
-          activate: false,
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          // go back
-          this.onCancel();
-        });
-    },
-    onActivate() {
-      this.isLoading = true;
-      this.http
-        .create({
-          empNumber: this.review.employee.id,
-          reviewer: this.review.supervisorReviewer.id,
-          startDate: this.review.startDate,
-          endDate: this.review.endDate,
-          dueDate: this.review.dueDate,
-          activate: true,
+          activate,
         })
         .then(() => {
           return this.$toast.saveSuccess();
@@ -226,7 +205,6 @@ export default {
           });
         })
         .then(() => {
-          // go back
           this.onCancel();
         });
     },

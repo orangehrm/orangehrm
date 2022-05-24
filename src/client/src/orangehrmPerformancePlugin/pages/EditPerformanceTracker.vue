@@ -75,7 +75,6 @@
 
 <script>
 import {navigate} from '@/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import ReviewerAutoComplete from '@/orangehrmPerformancePlugin/components/ReviewerAutoComplete';
 import {
@@ -100,15 +99,7 @@ export default {
       required: true,
     },
   },
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/performance/config/trackers',
-    );
-    return {
-      http,
-    };
-  },
+
   data() {
     return {
       isLoading: false,
