@@ -27,7 +27,7 @@ class CandidateSearchFilterParams extends FilterParams
     public const ALLOWED_SORT_FIELDS = [
         'vacancy.name',
         'candidate.lastName',
-        'employee.lastName',
+        'hiringManager.lastName',
         'candidate.dateOfApplication',
         'candidateVacancy.status'
     ];

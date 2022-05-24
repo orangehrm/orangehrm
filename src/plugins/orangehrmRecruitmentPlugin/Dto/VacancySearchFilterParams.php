@@ -27,8 +27,7 @@ class VacancySearchFilterParams extends FilterParams
         'vacancy.name',
         'vacancy.status',
         'jobTitle.jobTitleName',
-        'employee.lastName',
-        'employee.firstName',
+        'hiringManager.lastName',
     ];
 
     /**

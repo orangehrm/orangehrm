@@ -48,6 +48,7 @@ class CandidateDao extends BaseDao
         $qb->leftJoin('candidate.candidateVacancy', 'candidateVacancy');
         $qb->leftJoin('candidate.addedPerson', 'added_person');
         $qb->leftJoin('candidateVacancy.vacancy', 'vacancy');
+        $qb->leftJoin('vacancy.hiringManager', 'hiringManager');
 
         $this->setSortingAndPaginationParams($qb, $candidateSearchFilterParams);
 
