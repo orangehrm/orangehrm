@@ -22,6 +22,7 @@ namespace OrangeHRM\Performance\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\Reviewer;
+use OrangeHRM\Entity\ReviewerGroup;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\ORM\ListSorter;
@@ -63,7 +64,7 @@ class PerformanceReviewDao extends BaseDao
         $qb->leftJoin('performanceReview.subunit', 'subunit');
 
         $qb->andWhere($qb->expr()->eq('reviewGroup.name', ':reviewGroupName'))
-            ->setParameter('reviewGroupName', 'Supervisor');
+            ->setParameter('reviewGroupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
 
         if (!is_null($performanceReviewSearchFilterParams->getReviewerEmpNumber())) {
             $qb->andWhere($qb->expr()->eq('reviewerEmployee.empNumber', ':supervisorEmpNumber'))
@@ -80,7 +81,7 @@ class PerformanceReviewDao extends BaseDao
                 ->setParameter('statusId', $performanceReviewSearchFilterParams->getStatusId());
         } elseif ($performanceReviewSearchFilterParams->isExcludeInactiveReviews()) {
             $qb->andWhere($qb->expr()->neq('performanceReview.statusId', ':statusId'))
-                ->setParameter('statusId', 1);
+                ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
         }
 
         if (!is_null($performanceReviewSearchFilterParams->getFromDate())) {
