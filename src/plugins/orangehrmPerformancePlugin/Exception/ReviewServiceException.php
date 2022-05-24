@@ -28,7 +28,7 @@ class ReviewServiceException extends Exception
      */
     public static function activateWithoutJobTitle(): self
     {
-        return new self("Cannot activate review for employees who doesn't have Job Title and/or Sub-Division");
+        return new self("Cannot activate review for employees who doesn't have a Job Title with KPI");
     }
 
     /**

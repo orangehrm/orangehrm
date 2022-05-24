@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Performance\Service;
 
+
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\PerformanceReview;
@@ -26,21 +27,14 @@ use OrangeHRM\Entity\Subunit;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Exception\ReviewServiceException;
 
-/**
- * Description of PerformanceReviewService
- *
- * @author nadeera
- */
 class PerformanceReviewService
 {
-    use NormalizerServiceTrait;
-
     private ?PerformanceReviewDao $performanceReviewDao = null;
 
     /**
-     * @return PerformanceReviewDao|null
+     * @return PerformanceReviewDao
      */
-    public function getPerformanceReviewDao(): ?PerformanceReviewDao
+    public function getPerformanceReviewDao(): PerformanceReviewDao
     {
         if (! ($this->performanceReviewDao instanceof PerformanceReviewDao)) {
             $this->performanceReviewDao = new PerformanceReviewDao();
@@ -64,18 +58,17 @@ class PerformanceReviewService
 
     /**
      * @param PerformanceReview $performanceReview
-     * @param int $reviewerId
      * @return PerformanceReview
      * @throws ReviewServiceException
      */
-    public function updateActivateReview(PerformanceReview $performanceReview): PerformanceReview
+    public function updateActivateReview(PerformanceReview $performanceReview, int $reviewerEmpNumber): PerformanceReview
     {
-        if ((! $performanceReview->getEmployee()->getJobTitle() instanceof JobTitle) || (! $performanceReview->getEmployee()->getSubDivision() instanceof Subunit)) {
+        if (! $performanceReview->getEmployee()->getJobTitle() instanceof JobTitle) {
             throw ReviewServiceException::activateWithoutJobTitle();
         }
         if ($this->getPerformanceReviewDao()->getReviewKPI($performanceReview) == null) {
             throw ReviewServiceException::activateWithoutKPI();
         }
-        return $this->getPerformanceReviewDao()->updateReview($performanceReview);
+        return $this->getPerformanceReviewDao()->updateReview($performanceReview,$reviewerEmpNumber);
     }
 }

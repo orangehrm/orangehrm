@@ -26,16 +26,13 @@ class ReviewEmployeeSupervisorSearchFilterParams extends FilterParams
     /**
      * @var int|null
      */
-    protected ?int $EmpNumber = null;
+    protected ?int $empNumber = null;
 
     /**
      * @var string|null
      */
     protected ?string $nameOrId = null;
 
-    /**
-     * @param int|null $EmpNumber
-     */
     public function __construct()
     {
         $this->setSortField('employee.empNumber');
@@ -46,15 +43,15 @@ class ReviewEmployeeSupervisorSearchFilterParams extends FilterParams
      */
     public function getEmpNumber(): ?int
     {
-        return $this->EmpNumber;
+        return $this->empNumber;
     }
 
     /**
-     * @param int|null $EmpNumber
+     * @param int|null $empNumber
      */
-    public function setEmpNumber(?int $EmpNumber): void
+    public function setEmpNumber(?int $empNumber): void
     {
-        $this->EmpNumber = $EmpNumber;
+        $this->empNumber = $empNumber;
     }
 
     /**

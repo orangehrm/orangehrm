@@ -27,7 +27,6 @@ use OrangeHRM\Framework\Http\Request;
 
 class CandidateActionController extends AbstractVueController
 {
-
     /**
      * @inheritDoc
      */

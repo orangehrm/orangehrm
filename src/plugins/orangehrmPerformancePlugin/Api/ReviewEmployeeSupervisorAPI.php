@@ -41,6 +41,9 @@ class ReviewEmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
     public const FILTER_NAME_OR_ID = 'nameOrId';
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
 
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointResult
     {
         $reviewEmployeeSupervisorSearchParamHolder = new ReviewEmployeeSupervisorSearchFilterParams();
@@ -48,7 +51,7 @@ class ReviewEmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
         $reviewEmployeeSupervisorSearchParamHolder->setEmpNumber(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_EMPLOYEE_NUMBER
+                CommonParams::PARAMETER_EMP_NUMBER
             )
         );
         $reviewEmployeeSupervisorSearchParamHolder->setNameOrId(
@@ -65,6 +68,9 @@ class ReviewEmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -87,41 +93,65 @@ class ReviewEmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOne(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();

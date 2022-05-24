@@ -23,7 +23,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          My Performance Trackers List
+          {{ $t('performance.my_performance_trackers') }}
         </oxd-text>
       </div>
       <table-header :selected="0" :total="total" :loading="isLoading">
@@ -57,9 +57,9 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 
 const defaultSortOrder = {
-  trackers: 'DEFAULT',
-  date: 'DEFAULT',
-  modifiedDate: 'DESC',
+  'performanceTracker.trackerName': 'DEFAULT',
+  'performanceTracker.addedDate': 'DEFAULT',
+  'performanceTracker.modifiedDate': 'DESC',
 };
 
 export default {
@@ -76,8 +76,8 @@ export default {
     });
 
     const http = new APIService(
-      'https://990db1a5-734a-4bd6-a39b-12f29fbedfc3.mock.pstmn.io',
-      '/api/v2/leave/myTracker',
+      window.appGlobal.baseUrl,
+      '/api/v2/performance/trackers',
     );
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
@@ -85,8 +85,11 @@ export default {
     const trackerNormalizer = data => {
       return data.map(item => {
         return {
-          ...item,
-          date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
+          id: item.id,
+          tracker: item.trackerName,
+          addedDate: formatDate(parseDate(item.addedDate), jsDateFormat, {
+            locale,
+          }),
           modifiedDate: formatDate(parseDate(item.modifiedDate), jsDateFormat, {
             locale,
           }),
@@ -128,30 +131,28 @@ export default {
     return {
       headers: [
         {
-          name: 'trackers',
+          name: 'tracker',
           slot: 'title',
-          title: 'Tracker',
-          sortField: 'trackers',
+          title: this.$t('performance.tracker'),
+          sortField: 'performanceTracker.trackerName',
           style: {flex: '30%'},
         },
         {
-          name: 'date',
-          slot: 'title',
-          title: 'Added Date',
-          sortField: 'date',
+          name: 'addDate',
+          title: this.$t('performance.added_date'),
+          sortField: 'performanceTracker.addedDate',
           style: {flex: 1},
         },
         {
           name: 'modifiedDate',
-          slot: 'title',
-          title: 'Modified Date',
-          sortField: 'modifiedDate',
+          title: this.$t('performance.modified_date'),
+          sortField: 'performanceTracker.modifiedDate',
           style: {flex: 1},
         },
         {
           name: 'action',
           slot: 'action',
-          title: 'Action',
+          title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -160,8 +161,7 @@ export default {
               component: 'oxd-button',
               props: {
                 name: 'view',
-                label: 'View',
-                class: 'orangehrm-left-space',
+                label: this.$t('general.view'),
                 displayType: 'text',
               },
             },

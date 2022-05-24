@@ -340,9 +340,9 @@ class MaintenanceServiceTest extends KernelTestCase
     {
         $result = $this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Software Architect', $result['PerformanceReview'][0]['jobTitle']);
-        $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['workPeriodStart']);
-        $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['workPeriodEnd']);
-        $this->assertEquals('Organization', $result['PerformanceReview'][0]['department']);
+        $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['reviewPeriodStart']);
+        $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['reviewPeriodEnd']);
+        $this->assertEquals('Organization', $result['PerformanceReview'][0]['subunit']);
         $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['dueDate']);
         $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['completedDate']);
         $this->assertEquals('2011-01-02 00:00:00', $result['PerformanceReview'][0]['activatedDate']);

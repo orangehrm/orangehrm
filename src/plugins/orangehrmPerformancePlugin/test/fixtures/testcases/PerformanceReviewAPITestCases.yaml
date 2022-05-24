@@ -11,7 +11,7 @@ Create:
     body:
       activate: false
       dueDate: '2022-05-17'
-      reviewer: 1
+      reviewerEmpNumber: 1
       startDate: '2022-05-09'
       endDate: '2022-05-24'
     invalidOnly: [ 'empNumber' ]

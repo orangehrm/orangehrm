@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,28 +18,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Performance\Service;
+namespace OrangeHRM\Recruitment\Service;
 
-use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Recruitment\Dao\CandidateDao;
 
-/**
- * @group Performance
- * @group Service
- */
-class PerformanceTrackerServiceTest extends KernelTestCase
+class CandidateService
 {
-    private PerformanceTrackerService $employeeTrackerService;
+    protected ?CandidateDao $candidateDao = null;
 
-    protected function setUp(): void
+    /**
+     * Get Candidate Dao
+     * @return CandidateDao
+     */
+    public function getCandidateDao(): CandidateDao
     {
-        $this->employeeTrackerService = new PerformanceTrackerService();
-    }
-
-    public function testGetPerformanceTrackerDao(): void
-    {
-        $result = $this->employeeTrackerService->getPerformanceTrackerDao();
-        $this->assertInstanceOf(PerformanceTrackerDao::class, $result);
+        if (is_null($this->candidateDao)) {
+            $this->candidateDao = new CandidateDao();
+        }
+        return $this->candidateDao;
     }
 }

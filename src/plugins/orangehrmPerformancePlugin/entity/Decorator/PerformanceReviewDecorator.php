@@ -44,7 +44,7 @@ class PerformanceReviewDecorator
     /**
      * @return PerformanceReview
      */
-    public function getPerformanceReview(): PerformanceReview
+    protected function getPerformanceReview(): PerformanceReview
     {
         return $this->performanceReview;
     }
@@ -68,42 +68,19 @@ class PerformanceReviewDecorator
     }
 
     /**
-     * @param int $id
-     */
-    public function setDepartmentById(int $id): void
-    {
-        $jobTitle = $this->getReference(JobTitle::class, $id);
-        $this->getPerformanceReview()->setDepartment($jobTitle);
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getWorkPeriodStart(): ?string
-    {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd(
-            $this->getPerformanceReview()->getWorkPeriodStart()
-        );
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getWorkPeriodEnd(): ?string
-    {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd(
-            $this->getPerformanceReview()->getWorkPeriodEnd()
-        );
-    }
-
-    /**
      * @return string|null
      */
     public function getDueDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd(
-            $this->getPerformanceReview()->getDueDate()
-        );
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getDueDate());
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReviewPeriodStart(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodStart());
     }
 
     /**
@@ -117,5 +94,31 @@ class PerformanceReviewDecorator
             return $reviewer->getGroup()->getName() === 'Supervisor';
         });
         return array_values($supervisorArray)[0];
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReviewPeriodEnd(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodEnd());
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName(): string
+    {
+        $statusId = $this->getPerformanceReview()->getStatusId();
+        switch ($statusId) {
+            case PerformanceReview::STATUS_ACTIVATED:
+                return 'Activated';
+            case PerformanceReview::STATUS_IN_PROGRESS:
+                return 'In progress';
+            case PerformanceReview::STATUS_COMPLETED:
+                return 'Completed';
+            default:
+                return '';
+        }
     }
 }

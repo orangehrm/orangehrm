@@ -24,6 +24,54 @@ apiv2_performance_review_supervisors:
     update: false
     delete: false
   permissions:
+
+apiv2_performance_tracker:
+  description: 'API-v2 Performance - Tracker'
+  api: OrangeHRM\Performance\Api\PerformanceTrackerAPI
+  module: performance
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_performance_tracker-reviewers:
+  description: 'API-v2 Performance - Tracker Reviewers'
+  api: OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI
+  module: performance
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_performance_my_trackers:
+  description: 'API-v2 Performance - My Trackers'
+  api: OrangeHRM\Performance\Api\MyTrackerAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
+
+apiv2_performance_my_reviews:
+  description: 'API-v2 Performance - My Reviews'
+  api: OrangeHRM\Performance\Api\MyReviewsAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_performance_employee_trackers:
@@ -37,6 +85,7 @@ apiv2_performance_employee_trackers:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_performance_add_review:
   description: 'API-v2 Performance - Reviews'
@@ -49,4 +98,87 @@ apiv2_performance_add_review:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+##########################
+#        Recruitment
+##########################
+
+apiv2_vacancy:
+  description: 'API-v2 Recruitment - Vacancy'
+  api: OrangeHRM\Recruitment\Api\VacancyAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
+
+apiv2_vacancy_attachment:
+  description: 'API-v2 Recruitment - Vacancy Attachment'
+  api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin,permission: { read: true, create: true, update: true, delete: true, self: true } }
+
+apiv2_candidates:
+  description: 'API-v2 Recruitment - Candidates'
+  api: OrangeHRM\Recruitment\Api\CandidateAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Interviewer, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_candidate_attachments:
+  description: 'API-v2 Recruitment - Candidate Attachment'
+  api: OrangeHRM\Recruitment\Api\CandidateAttachmentAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Interviewer, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_candidate_status:
+  description: 'API-v2 - Recruitment - Candidate Status'
+  api: OrangeHRM\Recruitment\Api\CandidateStatusAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_hiring_managers:
+  description: 'API-v2 Recruitment - Hiring Managers'
+  api: OrangeHRM\Recruitment\Api\HiringManagerAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false, self: false } }

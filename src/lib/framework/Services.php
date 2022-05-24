@@ -280,6 +280,25 @@ final class Services
     public const I18N_HELPER = 'i18n.i18n_helper';
 
     ///////////////////////////////////////////////////////////////
+    /// Recruitment plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Recruitment\Service\VacancyService
+     */
+    public const VACANCY_SERVICE = 'recruitment.vacancy_service';
+
+    /**
+     * @see \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+     */
+    public const RECRUITMENT_ATTACHMENT_SERVICE = 'recruitment.recruitment_attachment_service';
+
+    /**
+     * @see \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+     */
+    public const CANDIDATE_SERVICE = 'recruitment.candidate_service';
+
+    ///////////////////////////////////////////////////////////////
     /// Performance plugin services
     ///////////////////////////////////////////////////////////////
 
@@ -287,6 +306,11 @@ final class Services
      * @see \OrangeHRM\Performance\Service\KpiService
      */
     public const KPI_SERVICE = 'performance.kpi_service';
+
+    /**
+     * @see \OrangeHRM\Performance\Service\PerformanceTrackerService
+     */
+    public const PERFORMANCE_TRACKER_SERVICE = 'performance.performance_tracker_service';
 
     /**
      * @see \OrangeHRM\Performance\Service\PerformanceReviewService

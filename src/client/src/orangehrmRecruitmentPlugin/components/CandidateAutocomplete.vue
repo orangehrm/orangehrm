@@ -43,8 +43,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      'recruitment/api/candidateDetails',
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/candidates',
     );
     return {
       http,
@@ -56,7 +56,7 @@ export default {
         if (serachParam.trim()) {
           this.http
             .getAll({
-              nameOrId: serachParam.trim(),
+              candidateName: serachParam.trim(),
               ...this.params,
             })
             .then(({data}) => {

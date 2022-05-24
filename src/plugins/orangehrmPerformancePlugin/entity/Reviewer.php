@@ -34,6 +34,11 @@ use OrangeHRM\Entity\Decorator\ReviewerDecorator;
 class Reviewer
 {
     use DecoratorTrait;
+
+    public const STATUS_ACTIVATED = 1;
+    public const STATUS_IN_PROGRESS = 2;
+    public const STATUS_COMPLETED = 3;
+
     /**
      * @var int
      *
