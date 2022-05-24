@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
  -->
-
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
@@ -42,7 +41,7 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <vacancy-dropdown v-model="candidate.vacancy" />
+              <vacancy-dropdown v-model="candidate.vacancyId" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -70,13 +69,15 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="candidate.resume"
-                type="file"
+              <file-upload-input
+                v-model:newFile="resume.newAttachment"
+                v-model:method="resume.method"
                 :label="$t('recruitment.resume')"
                 :button-label="$t('general.browse')"
-                :placeholder="$t('general.no_file_chosen')"
+                :file="resume.oldAttachment"
                 :rules="rules.resume"
+                :url="`recruitment/candidateAttachment/attachId`"
+                :hint="$t('general.accepts_up_to_1mb')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -93,11 +94,10 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="candidate.application"
+              <date-input
+                v-model="candidate.dateOfApplication"
                 :label="$t('recruitment.date_of_application')"
-                :rules="rules.applyDate"
-                type="date"
+                :rules="rules.date"
                 :placeholder="$t('general.date_format')"
               />
             </oxd-grid-item>
@@ -107,7 +107,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item class="orangehrm-save-candidate-page-full-width">
               <oxd-input-field
-                v-model="candidate.notes"
+                v-model="candidate.comment"
                 :label="$t('general.notes')"
                 type="textarea"
                 :placeholder="$t('general.type_here')"
@@ -122,7 +122,7 @@
               class="orangehrm-save-candidate-page-full-width orangehrm-save-candidate-page-grid-checkbox"
             >
               <oxd-input-field
-                v-model="candidate.keep"
+                v-model="candidate.consentToKeepData"
                 type="checkbox"
                 :label="$t('recruitment.content_to_keep_data')"
               />
@@ -155,10 +155,12 @@ import {
   validPhoneNumberFormat,
 } from '@/core/util/validation/rules';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
+import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import SubmitButton from '@/core/components/buttons/SubmitButton';
 import {required, validEmailFormat} from '@/core/util/validation/rules';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
+import {parseDate, formatDate} from '@/core/util/helper/datefns';
 
 export default {
   name: 'SaveCandidate',
@@ -166,6 +168,7 @@ export default {
     'submit-button': SubmitButton,
     'vacancy-dropdown': VacancyDropdown,
     'full-name-input': FullNameInput,
+    'file-upload-input': FileUploadInput,
   },
   props: {
     allowedFileTypes: {
@@ -175,11 +178,16 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      'recruitment/api/candidate',
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/candidates',
+    );
+    const httpAttachments = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/candidate/attachments',
     );
     return {
       http,
+      httpAttachments,
     };
   },
   data() {
@@ -190,13 +198,20 @@ export default {
         middleName: '',
         lastName: '',
         email: '',
-        contactNumber: '',
-        resume: null,
-        vacancy: null,
-        keywords: '',
-        application: '',
-        notes: '',
-        keep: '',
+        contactNumber: null,
+        keywords: null,
+        comment: null,
+        dateOfApplication: '',
+        modeOfApplication: 1,
+        consentToKeepData: false,
+        status: 1,
+        vacancyId: null,
+      },
+      resume: {
+        id: null,
+        oldAttachment: {},
+        newAttachment: null,
+        method: 'replaceCurrent',
       },
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
@@ -214,21 +229,51 @@ export default {
       },
     };
   },
+  beforeMount() {
+    this.setCurrentDateTime();
+  },
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({data: this.candidate})
+        .create({...this.candidate})
+        .then(response => {
+          if (!this.resume.newAttachment) {
+            return true;
+          }
+          const {data} = response.data;
+          return this.httpAttachments.create({
+            candidateId: parseInt(data.id),
+            attachment: this.resume.newAttachment,
+          });
+        })
         .then(() => {
           this.isLoading = false;
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          navigate('/recruitment/addCandidate');
+          navigate('/recruitment/viewCandidates');
         });
     },
     onCancel() {
       navigate('/recruitment/viewCandidates');
+    },
+    setCurrentDateTime() {
+      return new Promise((resolve, reject) => {
+        this.http
+          .request({method: 'GET', url: '/api/v2/attendance/current-datetime'})
+          .then(res => {
+            const {utcDate, utcTime} = res.data.data;
+            const currentDate = parseDate(
+              `${utcDate} ${utcTime} +00:00`,
+              'yyyy-MM-dd HH:mm xxx',
+            );
+            this.candidate.dateOfApplication =
+              this.date ?? formatDate(currentDate, 'yyyy-MM-dd');
+            resolve();
+          })
+          .catch(error => reject(error));
+      });
     },
   },
 };

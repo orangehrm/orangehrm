@@ -25,7 +25,6 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
-
 class SaveCandidateController extends AbstractVueController
 {
     protected ?ConfigService $configService = null;

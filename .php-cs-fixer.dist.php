@@ -38,7 +38,8 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('src/plugins/orangehrmPerformancePlugin/test/model')
     ->exclude('src/plugins/orangehrmPerformanceTrackerPlugin')
     ->exclude('src/plugins/orangehrmPimPlugin/test/model')
-    ->exclude('src/plugins/orangehrmRecruitmentPlugin')
+    ->exclude('src/plugins/orangehrmRecruitmentPlugin/lib') 
+    ->exclude('src/plugins/orangehrmRecruitmentPlugin/test/model')
     ->exclude('src/plugins/orangehrmRESTPlugin');
 
 $config = new PhpCsFixer\Config();
