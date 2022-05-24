@@ -21,6 +21,7 @@ namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\Reviewer;
 
 class PerformanceReviewDecorator
 {
@@ -42,6 +43,19 @@ class PerformanceReviewDecorator
     protected function getPerformanceReview(): PerformanceReview
     {
         return $this->performanceReview;
+    }
+
+    /**
+     * @return Reviewer
+     */
+    public function getSupervisorReviewer(): Reviewer
+    {
+        $reviewers = [...$this->performanceReview->getReviewers()];
+        $supervisorArray = array_filter($reviewers, function ($reviewer) {
+            /** @var Reviewer $reviewer */
+            return $reviewer->getGroup()->getName() === 'Supervisor';
+        });
+        return array_values($supervisorArray)[0];
     }
 
     /**
@@ -75,10 +89,12 @@ class PerformanceReviewDecorator
     {
         $statusId = $this->getPerformanceReview()->getStatusId();
         switch ($statusId) {
+            case PerformanceReview::STATUS_INACTIVE:
+                return 'Inactive';
             case PerformanceReview::STATUS_ACTIVATED:
                 return 'Activated';
             case PerformanceReview::STATUS_IN_PROGRESS:
-                return 'In progress';
+                return 'In Progress';
             case PerformanceReview::STATUS_COMPLETED:
                 return 'Completed';
             default:
