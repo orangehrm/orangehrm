@@ -91,7 +91,7 @@
             />
             <oxd-button
               display-type="ghost"
-              :label="$t('general.nage_reviews')"
+              :label="$t('general.save')"
               type="button"
               @click="onSave"
             />
