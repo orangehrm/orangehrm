@@ -1,3 +1,21 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
 describe('Admin - Employment Status', function () {
   beforeEach(function () {
     cy.task('db:reset');
@@ -27,17 +45,30 @@ describe('Admin - Employment Status', function () {
     });
   });
 
-  describe('add emp status', function () {
-    it('add an emp status and save', function () {
+  describe('create snapshot with emp status', function () {
+    it('create snapshot with emp status', function () {
       cy.loginTo(this.user, '/admin/saveEmploymentStatus');
       cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars50.text);
         cy.getOXD('button').contains('Save').click();
       });
+      cy.wait('@postEmpStatus').then(function () {
+        cy.task('db:snapshot', {name: 'empStatus'});
+      });
+    });
+  });
+
+  describe('add emp status', function () {
+    it('add an emp status and save', function () {
+      cy.loginTo(this.user, '/admin/saveEmploymentStatus');
+      cy.wait('@getEmpStatus');
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Name').type(this.strings.chars10.text);
+        cy.getOXD('button').contains('Save').click();
+      });
       cy.wait('@postEmpStatus');
       cy.toast('success', 'Successfully Saved');
-      cy.task('db:snapshot', {name: 'empStatus'});
     });
 
     it('add an emp status and cancel', function () {
