@@ -21,7 +21,6 @@ namespace OrangeHRM\Performance\Service;
 
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\PerformanceReview;
-use OrangeHRM\Entity\Subunit;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Exception\ReviewServiceException;
 

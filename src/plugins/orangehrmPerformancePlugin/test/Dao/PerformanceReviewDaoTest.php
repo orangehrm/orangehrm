@@ -63,8 +63,8 @@ class PerformanceReviewDaoTest extends KernelTestCase
 
         $reviewId = 5;
         $result = $this->performanceReviewDao->getEditableReviewById($reviewId);
-        $this->assertEquals(5,$result->getId());
-        $this->assertEquals(1,$result->getJobTitle()->getId());
-        $this->assertEquals(1,$result->getEmployee()->getEmpNumber());
+        $this->assertEquals(5, $result->getId());
+        $this->assertEquals(1, $result->getJobTitle()->getId());
+        $this->assertEquals(1, $result->getEmployee()->getEmpNumber());
     }
 }
