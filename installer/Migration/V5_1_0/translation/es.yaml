@@ -84,3 +84,13 @@ translations:
     - { target: 'Rastreadores de desempeño', unitId: employee_performance_trackers, group: performance }
     - { target: 'Fecha Agregada', unitId: added_date, group: performance }
     - { target: 'Fecha Modificada', unitId: modified_date, group: performance }
+    - { target: 'Activo', unitId: activated, group: performance }
+    - { target: 'En Progreso', unitId: in_progress, group: performance }
+    - { target: 'Completado', unitId: completed, group: performance }
+    - { target: 'Período de revisión', unitId: review_period, group: performance }
+    - { target: 'Fecha de vencimiento', unitId: due_date, group: performance }
+    - { target: 'Evaluar', unitId: evaluate, group: performance }
+    - { target: 'Estatus de evaluación', unitId: review_status, group: performance }
+    - { target: 'Auditor / Revisor', unitId: reviewer, group: performance }
+    - { target: 'Buscar revisiones de desempeño', unitId: manage_performance_reviews, group: performance }
+    - { target: 'Inactivo', unitId: inactive, group: performance }

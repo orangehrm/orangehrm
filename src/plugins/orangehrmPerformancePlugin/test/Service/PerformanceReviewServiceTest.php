@@ -17,32 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Performance\Dao;
+namespace OrangeHRM\Tests\Performance\Service;
 
-use OrangeHRM\Config\Config;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
-use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
-use OrangeHRM\Tests\Util\KernelTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Performance\Service\PerformanceReviewService;
+use OrangeHRM\Tests\Util\TestCase;
 
-class PerformanceReviewDaoTest extends KernelTestCase
+/**
+ * @group Performance
+ * @group Service
+ */
+class PerformanceReviewServiceTest extends TestCase
 {
-    private PerformanceReviewDao $performanceReviewDao;
-    protected string $fixture;
+    private PerformanceReviewService $performanceReviewService;
 
     protected function setUp(): void
     {
-        $this->performanceReviewDao = new PerformanceReviewDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceReview.yml';
-        TestDataService::populate($this->fixture);
+        $this->performanceReviewService = new PerformanceReviewService();
     }
 
-    public function testGetPerformanceReviewList(): void
+    public function testGetPerformanceReviewDao(): void
     {
-        $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
-        $performanceReviewSearchFilterParams->setEmpNumber(2);
-        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
-        $result = $this->performanceReviewDao->getPerformanceReviewList($performanceReviewSearchFilterParams);
-        $this->assertCount(1, $result);
+        $result = $this->performanceReviewService->getPerformanceReviewDao();
+        $this->assertInstanceOf(PerformanceReviewDao::class, $result);
     }
 }

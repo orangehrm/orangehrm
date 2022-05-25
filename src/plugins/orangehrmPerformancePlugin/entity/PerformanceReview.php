@@ -356,7 +356,7 @@ class PerformanceReview
     /**
      * @return Reviewer[]
      */
-    public function getReviewers()
+    public function getReviewers(): iterable
     {
         return $this->reviewers;
     }
@@ -364,7 +364,7 @@ class PerformanceReview
     /**
      * @param Reviewer[] $reviewers
      */
-    public function setReviewers($reviewers): void
+    public function setReviewers(iterable $reviewers): void
     {
         $this->reviewers = $reviewers;
     }

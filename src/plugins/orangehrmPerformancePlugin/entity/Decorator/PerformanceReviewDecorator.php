@@ -68,6 +68,19 @@ class PerformanceReviewDecorator
     }
 
     /**
+     * @return Reviewer
+     */
+    public function getSupervisorReviewer(): Reviewer
+    {
+        $reviewers = [...$this->performanceReview->getReviewers()];
+        $supervisorArray = array_filter($reviewers, function ($reviewer) {
+            /** @var Reviewer $reviewer */
+            return $reviewer->getGroup()->getName() === 'Supervisor';
+        });
+        return array_values($supervisorArray)[0];
+    }
+
+    /**
      * @return string|null
      */
     public function getDueDate(): ?string
@@ -81,19 +94,6 @@ class PerformanceReviewDecorator
     public function getReviewPeriodStart(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodStart());
-    }
-
-    /**
-     * @return Reviewer
-     */
-    public function getSupervisorReviewer(): Reviewer
-    {
-        $reviewers = [...$this->performanceReview->getReviewers()];
-        $supervisorArray = array_filter($reviewers, function ($reviewer) {
-            /** @var Reviewer $reviewer */
-            return $reviewer->getGroup()->getName() === 'Supervisor';
-        });
-        return array_values($supervisorArray)[0];
     }
 
     /**
@@ -111,10 +111,12 @@ class PerformanceReviewDecorator
     {
         $statusId = $this->getPerformanceReview()->getStatusId();
         switch ($statusId) {
+            case PerformanceReview::STATUS_INACTIVE:
+                return 'Inactive';
             case PerformanceReview::STATUS_ACTIVATED:
                 return 'Activated';
             case PerformanceReview::STATUS_IN_PROGRESS:
-                return 'In progress';
+                return 'In Progress';
             case PerformanceReview::STATUS_COMPLETED:
                 return 'Completed';
             default:

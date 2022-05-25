@@ -20,21 +20,25 @@
 namespace OrangeHRM\Performance\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CrudEndpoint;
-use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Performance\Api\Model\DetailedPerformanceReviewModel;
+use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
-class MyReviewAPI extends Endpoint implements CrudEndpoint
+class ReviewListAPI extends PerformanceReviewAPI
 {
-    use AuthUserTrait;
     use PerformanceReviewServiceTrait;
+    use AuthUserTrait;
+
+    public const FILTER_SUBUNIT_ID = 'subunitId';
 
     /**
      * @inheritDoc
@@ -44,22 +48,31 @@ class MyReviewAPI extends Endpoint implements CrudEndpoint
         $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
         $this->setSortingAndPaginationParams($performanceReviewSearchFilterParams);
 
-        $performanceReviewSearchFilterParams->setEmpNumber(
+        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
+
+        $performanceReviewSearchFilterParams->setReviewerEmpNumber(
             $this->getAuthUser()->getEmpNumber()
         );
 
-        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
+        $performanceReviewSearchFilterParams->setSubunitId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_SUBUNIT_ID
+            )
+        );
+        $this->getFilterParams($performanceReviewSearchFilterParams);
 
-        $reviews = $this->getPerformanceReviewService()
+        $reviewList = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
             ->getPerformanceReviewList($performanceReviewSearchFilterParams);
-        $count = $this->getPerformanceReviewService()
+        $reviewListCount = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
             ->getPerformanceReviewCount($performanceReviewSearchFilterParams);
+
         return new EndpointCollectionResult(
-            DetailedPerformanceReviewModel::class,
-            $reviews,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+            PerformanceReviewModel::class,
+            $reviewList,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $reviewListCount])
         );
     }
 
@@ -69,7 +82,20 @@ class MyReviewAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(PerformanceReviewSearchFilterParams::MY_REVIEW_ALLOWED_SORT_FIELDS)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_SUBUNIT_ID, new Rule(Rules::POSITIVE))
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_STATUS_ID,
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN, [PerformanceReviewSearchFilterParams::REVIEW_LIST_STATUSES])
+                )
+            ),
+            ...$this->getFilterParamRules(),
+            ...$this->getSortingAndPaginationParamsRules(
+                PerformanceReviewSearchFilterParams::REVIEW_LIST_ALLOWED_SORT_FIELDS
+            )
         );
     }
 
@@ -105,33 +131,11 @@ class MyReviewAPI extends Endpoint implements CrudEndpoint
         throw $this->getNotImplementedException();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getOne(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetOne(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function update(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();

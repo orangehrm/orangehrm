@@ -28,6 +28,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ReviewerGroup
 {
+    public const REVIEWER_GROUP_SUPERVISOR = 'Supervisor';
+    public const REVIEWER_GROUP_EMPLOYEE = 'Employee';
+
     /**
      * @var int
      *

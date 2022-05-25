@@ -21,12 +21,10 @@ namespace OrangeHRM\Performance\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\PerformanceReview;
 
 class PerformanceReviewModel implements Normalizable
 {
-    use NormalizerServiceTrait;
     use ModelTrait;
 
     public function __construct(PerformanceReview $performanceReview)
@@ -34,18 +32,20 @@ class PerformanceReviewModel implements Normalizable
         $this->setEntity($performanceReview);
         $this->setFilters([
             'id',
-            'statusId',
-            ['getDecorator', 'getReviewPeriodEnd'],
+            ['getJobTitle', 'getId'],
+            ['getJobTitle', 'getJobTitleName'],
+            ['getJobTitle', 'isDeleted'],
+            ['getSubunit', 'getId'],
+            ['getSubunit', 'getName'],
+            ['getDecorator', 'getReviewPeriodStart'],
             ['getDecorator', 'getReviewPeriodEnd'],
             ['getDecorator', 'getDueDate'],
+            'statusId',
+            ['getDecorator', 'getStatusName'],
             ['getEmployee', 'getEmpNumber'],
             ['getEmployee', 'getFirstName'],
             ['getEmployee', 'getLastName'],
             ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
-            ['getJobTitle', 'getId'],
-            ['getJobTitle', 'getJobTitleName'],
-            ['getSubunit', 'getId'],
-            ['getSubunit', 'getName'],
             ['getDecorator', 'getSupervisorReviewer', 'getId'],
             ['getDecorator', 'getSupervisorReviewer', 'getEmployee', 'getEmpNumber'],
             ['getDecorator', 'getSupervisorReviewer', 'getEmployee', 'getFirstName'],
@@ -54,18 +54,20 @@ class PerformanceReviewModel implements Normalizable
         ]);
         $this->setAttributeNames([
             'id',
-            'status',
-            'workPeriodStart',
-            'workPeriodEnd',
+            ['jobTitle', 'id'],
+            ['jobTitle', 'name'],
+            ['jobTitle', 'deleted'],
+            ['subunit', 'id'],
+            ['subunit', 'name'],
+            'reviewPeriodStart',
+            'reviewPeriodEnd',
             'dueDate',
+            ['overallStatus', 'statusId'],
+            ['overallStatus', 'statusName'],
             ['employee', 'empNumber'],
             ['employee', 'firstName'],
             ['employee', 'lastName'],
             ['employee', 'terminationId'],
-            ['jobTitle', 'id'],
-            ['jobTitle', 'name'],
-            ['department', 'id'],
-            ['department', 'name'],
             ['reviewer', 'id'],
             ['reviewer', 'employee', 'empNumber'],
             ['reviewer', 'employee', 'firstName'],

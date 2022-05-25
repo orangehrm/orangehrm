@@ -18,7 +18,11 @@ PerformanceReview:
   0: {id: 5, status_id: 1, employee_number: 1, work_period_start: '2011-01-01', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01'}
   1: {id: 6, status_id: 2, employee_number: 2, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-01'}
   2: {id: 7, status_id: 1, employee_number: 2, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-05'}
-  
+
+ReviewerGroup:
+  - {"id": 1,"name": "Supervisor","piority": 1}
+  - {"id": 2,"name": "Employee","piority": 2}
+
 Reviewer:
   0: {id: 1, review_id: 5, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 1'}
   1: {id: 2, review_id: 5, employee_number: 1, status: 3, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 2'}
@@ -27,7 +31,7 @@ Reviewer:
   4: {id: 5, review_id: 7, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 5' }
   5: {id: 6, review_id: 7, employee_number: 2, status: 1, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 6' }
 
-  
+
 ReviewerRating:
   0: {id: 1, rating: '5.5', kpi_id: 2, review_id: 5, reviewer_id: 1 ,comment: 'Test comment 1'}
   1: {id: 2, rating: '4', kpi_id: 3, review_id: 5, reviewer_id: 1 ,comment: 'Test comment 2'}

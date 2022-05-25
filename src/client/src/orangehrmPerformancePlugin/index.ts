@@ -27,6 +27,8 @@ import PerformanceTrackerList from './pages/PerformanceTrackers.vue';
 import SavePerformanceTracker from './pages/SavePerformanceTracker.vue';
 import EditPerformanceTracker from './pages/EditPerformanceTracker.vue';
 import MyReviews from './pages/MyReviews.vue';
+import ReviewList from './pages/ReviewList.vue';
+import ReviewSearch from './pages/ReviewSearch.vue';
 
 export default {
   'my-tracker': MyTracker,
@@ -40,4 +42,6 @@ export default {
   'performance-tracker-save': SavePerformanceTracker,
   'performance-tracker-edit': EditPerformanceTracker,
   'my-reviews': MyReviews,
+  'review-list': ReviewList,
+  'review-search': ReviewSearch,
 };

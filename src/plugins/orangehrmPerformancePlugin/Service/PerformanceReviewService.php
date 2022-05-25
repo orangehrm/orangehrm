@@ -51,6 +51,9 @@ class PerformanceReviewService
         if ((! $performanceReview->getEmployee()->getJobTitle() instanceof JobTitle) || (! $performanceReview->getEmployee()->getSubDivision() instanceof Subunit)) {
             throw ReviewServiceException::activateWithoutJobTitle();
         }
+        if ($this->getPerformanceReviewDao()->getReviewKPI($performanceReview) == null) {
+            throw ReviewServiceException::activateWithoutKPI();
+        }
         return $this->getPerformanceReviewDao()->createReview($performanceReview, $reviewerId);
     }
 

@@ -33,6 +33,13 @@ apiv2_performance_reviews:
   defaults:
     _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
 
+apiv2_performance_manage_review:
+  path: /api/v2/performance/manage/reviews
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, DELETE ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
 apiv2_performance_config_trackers:
   path: /api/v2/performance/config/trackers
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -74,6 +81,14 @@ apiv2_performance_employee_trackers:
   methods: [GET]
   defaults:
     _api: OrangeHRM\Performance\Api\EmployeeTrackerAPI
+
+apiv2_performance_review_list:
+  path: /api/v2/performance/employees/reviews
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\ReviewListAPI
+
 
 
 ##########################
@@ -133,4 +148,14 @@ edit_performance_tracker:
 performance_my_reviews:
   path: /performance/myPerformanceReview
   controller: OrangeHRM\Performance\Controller\MyReviewController::handle
+  methods: [ GET ]
+
+performance_review_list:
+  path: /performance/searchEvaluatePerformancReview
+  controller: OrangeHRM\Performance\Controller\ReviewListController::handle
+  methods: [ GET ]
+
+performance_review_search:
+  path: /performance/searchPerformancReview
+  controller: OrangeHRM\Performance\Controller\ReviewSearchController::handle
   methods: [ GET ]

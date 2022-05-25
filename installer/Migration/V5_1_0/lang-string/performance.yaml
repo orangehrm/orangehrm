@@ -1,6 +1,5 @@
 langStrings:
   -
-<<<<<<< HEAD
     value: 'Supervisor Reviewer'
     unitId: supervisor_reviewer
   -
@@ -33,7 +32,7 @@ langStrings:
   -
     value: "Cannot activate review without KPIs"
     unitId: cannot_activate_review_without_kpi
-=======
+  -
     value: 'Reviewers'
     unitId: reviewers
   -
@@ -51,7 +50,6 @@ langStrings:
   -
     value: 'Performance Trackers'
     unitId: performance_trackers
->>>>>>> e7229c6ca2ab71dbc811e07b85420fa9d7781822
   -
     value: 'Key Performance Indicators for Job Title'
     unitId: key_performance_indicators_for_job_title
@@ -121,3 +119,24 @@ langStrings:
 
   - value: 'Evaluate'
     unitId: evaluate
+  -
+    value: 'Employee Reviews'
+    unitId: employee_reviews
+  -
+    value: 'Activated'
+    unitId: activated
+  -
+    value: 'In Progress'
+    unitId: in_progress
+  -
+    value: 'Completed'
+    unitId: completed
+  -
+    value: 'Reviewer'
+    unitId: reviewer
+  -
+    value: 'Manage Performance Reviews'
+    unitId: manage_performance_reviews
+  -
+    value: 'Inactive'
+    unitId: inactive

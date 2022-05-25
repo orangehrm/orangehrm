@@ -197,8 +197,8 @@ export default {
               } ${data.reviewer.employee.lastName}`,
             }
           : null;
-        this.review.startDate = data.workPeriodStart;
-        this.review.endDate = data.workPeriodEnd;
+        this.review.startDate = data.reviewPeriodStart;
+        this.review.endDate = data.reviewPeriodEnd;
         this.review.dueDate = data.dueDate;
       })
       .finally(() => {
