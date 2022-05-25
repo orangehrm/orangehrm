@@ -16,6 +16,74 @@ Create:
       endDate: '2022-05-24'
     invalidOnly: [ 'empNumber' ]
 
+  'save review with activate':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-03'
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 7
+    data:
+      id: 37
+      "jobTitle":
+        "id": 1
+        "name": "Software Engineer"
+        "deleted": false
+      "subunit":
+        "id": 5
+        "name": "Enterprise"
+      "reviewPeriodStart": "2022-05-09"
+      "reviewPeriodEnd": "2022-05-24"
+      "dueDate": "2022-05-30"
+      "overallStatus":
+        "statusId": 2
+        "statusName": "Activated"
+      "selfReviewStatus": "Activated"
+
+  'save review with save draft':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      activate: false
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 7
+    data:
+      id: 37
+      "jobTitle":
+        "id": 1
+        "name": "Software Engineer"
+        "deleted": false
+      "subunit":
+        "id": 5
+        "name": "Enterprise"
+      "reviewPeriodStart": "2022-05-09"
+      "reviewPeriodEnd": "2022-05-24"
+      "dueDate": "2022-05-30"
+      "overallStatus":
+        "statusId": 1
+        "statusName": "Inactive"
+      "selfReviewStatus": "Activated"
+
 Update:
   'update review without empNumber':
     userId: 1
@@ -36,7 +104,7 @@ Update:
       endDate: '2022-05-24'
     invalidOnly: [ 'empNumber' ]
 
-  'update review no 2':
+  'update review draft':
     userId: 1
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
@@ -81,6 +149,55 @@ Update:
           "firstName": "Jaesang"
           "lastName": "Park"
           "terminationId": null
+
+  'update review with activate':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-07-03'
+    attributes:
+      id: 9
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 7
+    data:
+      id: 9
+      "jobTitle":
+        "id": 1
+        "name": "Software Engineer"
+        "deleted": false
+      "subunit":
+        "id": 5
+        "name": "Enterprise"
+      "reviewPeriodStart": "2022-05-09"
+      "reviewPeriodEnd": "2022-05-24"
+      "dueDate": "2022-05-30"
+      "overallStatus":
+        "statusId": 2
+        "statusName": "Activated"
+      "employee":
+        "empNumber": 7
+        "firstName": "Hansol"
+        "lastName": "Chew"
+        "terminationId": null
+      "reviewer":
+        "id": 73
+        "employee":
+          "empNumber": 2
+          "firstName": "Jaesang"
+          "lastName": "Park"
+          "terminationId": null
+
 
 GetOne:
   'get by Id':

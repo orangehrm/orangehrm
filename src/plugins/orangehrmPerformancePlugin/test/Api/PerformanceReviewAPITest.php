@@ -76,6 +76,7 @@ class PerformanceReviewAPITest extends EndpointIntegrationTestCase
         $this->populateFixtures('PerformanceReviewAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(PerformanceReviewAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
@@ -93,6 +94,7 @@ class PerformanceReviewAPITest extends EndpointIntegrationTestCase
         $this->populateFixtures('PerformanceReviewAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(PerformanceReviewAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }

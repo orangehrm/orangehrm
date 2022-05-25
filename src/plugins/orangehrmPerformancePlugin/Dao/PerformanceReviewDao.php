@@ -26,10 +26,12 @@ use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\Entity\ReviewerGroup;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
 use OrangeHRM\ORM\ListSorter;
+use PHPUnit\Exception;
 
 class PerformanceReviewDao extends BaseDao
 {
@@ -39,22 +41,43 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getEmployeeSupervisorList(ReviewEmployeeSupervisorSearchFilterParams $reviewEmployeeSupervisorSearchFilterParams): array
     {
-        $q = $this->createQueryBuilder(ReportTo::class, 'rt');
-        $q->leftJoin('rt.supervisor', 'employee')
+        $query = $this->getEmployeeSupervisorQueryBuilderWrapper($reviewEmployeeSupervisorSearchFilterParams)->getQueryBuilder();
+        return $query->getQuery()->execute();
+    }
+
+    /**
+     * @param ReviewEmployeeSupervisorSearchFilterParams $reviewEmployeeSupervisorSearchFilterParams
+     * @return int
+     */
+    public function getEmployeeSupervisorCount(ReviewEmployeeSupervisorSearchFilterParams $reviewEmployeeSupervisorSearchFilterParams): int
+    {
+        $query = $this->getEmployeeSupervisorQueryBuilderWrapper($reviewEmployeeSupervisorSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($query)->count();
+    }
+
+    /**
+     * @param ReviewEmployeeSupervisorSearchFilterParams $reviewEmployeeSupervisorSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getEmployeeSupervisorQueryBuilderWrapper(ReviewEmployeeSupervisorSearchFilterParams $reviewEmployeeSupervisorSearchFilterParams): QueryBuilderWrapper
+    {
+        $qb = $this->createQueryBuilder(ReportTo::class, 'rt');
+        $qb->leftJoin('rt.supervisor', 'employee')
             ->andWhere('rt.subordinate = :empNumber')
             ->setParameter('empNumber', $reviewEmployeeSupervisorSearchFilterParams->getEmpNumber());
         if (! is_null($reviewEmployeeSupervisorSearchFilterParams->getNameOrId())) {
-            $q->andWhere(
-                $q->expr()->orX(
-                    $q->expr()->like('employee.firstName', ':nameOrId'),
-                    $q->expr()->like('employee.lastName', ':nameOrId'),
-                    $q->expr()->like('employee.middleName', ':nameOrId'),
-                    $q->expr()->like('employee.employeeId', ':nameOrId'),
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('employee.firstName', ':nameOrId'),
+                    $qb->expr()->like('employee.lastName', ':nameOrId'),
+                    $qb->expr()->like('employee.middleName', ':nameOrId'),
+                    $qb->expr()->like('employee.employeeId', ':nameOrId'),
                 )
             );
-            $q->setParameter('nameOrId', '%'.$reviewEmployeeSupervisorSearchFilterParams->getNameOrId().'%');
+            $qb->setParameter('nameOrId', '%'.$reviewEmployeeSupervisorSearchFilterParams->getNameOrId().'%');
         }
-        return $q->getQuery()->execute();
+        $this->setSortingAndPaginationParams($qb, $reviewEmployeeSupervisorSearchFilterParams);
+        return $this->getQueryBuilderWrapper($qb);
     }
 
     /**
@@ -220,13 +243,21 @@ class PerformanceReviewDao extends BaseDao
      * @param PerformanceReview $performanceReview
      * @param int $reviewerEmpNumber
      * @return PerformanceReview
+     * @throws TransactionException
      */
     public function updateReview(PerformanceReview $performanceReview, int $reviewerEmpNumber): PerformanceReview
     {
-        $this->deletePerformanceReviewReviewers($performanceReview);
-        $this->persist($performanceReview);
-        $this->saveReviewer($performanceReview, 'Supervisor', $reviewerEmpNumber);
-        $this->saveReviewer($performanceReview, 'Employee', null);
+        $this->beginTransaction();
+        try {
+            $this->deletePerformanceReviewReviewers($performanceReview);
+            $this->persist($performanceReview);
+            $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR, $reviewerEmpNumber);
+            $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_EMPLOYEE, null);
+            $this->commitTransaction();
+        }catch (Exception $e){
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
         return $performanceReview;
     }
 

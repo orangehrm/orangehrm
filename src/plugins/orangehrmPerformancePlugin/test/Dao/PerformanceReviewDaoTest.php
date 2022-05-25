@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Performance\Dao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
+use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 

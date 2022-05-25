@@ -80,6 +80,7 @@ class PerformanceReviewDecorator
         return array_values($supervisorArray)[0];
     }
 
+
     /**
      * @return string|null
      */

@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Performance\Api\Model\DetailedPerformanceReviewModel;
 use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
@@ -218,7 +219,7 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
             $performanceReview->setStatusId(PerformanceReview::STATUS_INACTIVE);
             $this->getPerformanceReviewService()->getPerformanceReviewDao()->createReview($performanceReview, $reviewerEmpNumber);
         }
-        return new EndpointResourceResult(PerformanceReviewModel::class, $performanceReview);
+        return new EndpointResourceResult(DetailedPerformanceReviewModel::class, $performanceReview);
     }
 
     /**

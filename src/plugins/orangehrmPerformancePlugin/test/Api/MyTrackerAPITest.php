@@ -19,6 +19,10 @@
 
 namespace OrangeHRM\Tests\Performance\Api;
 
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Api\MyTrackerAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
@@ -45,5 +49,61 @@ class MyTrackerAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestGetAll(): array
     {
         return $this->getTestCases('MyTrackerAPITestCases.yaml', 'GetAll');
+    }
+
+    public function testCreate(): void
+    {
+        $api = new MyTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new MyTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new MyTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new MyTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new MyTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new MyTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
+
+    public function testUpdate(): void
+    {
+        $api = new MyTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new MyTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
     }
 }

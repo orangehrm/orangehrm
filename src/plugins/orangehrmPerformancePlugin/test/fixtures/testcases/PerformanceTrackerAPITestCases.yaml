@@ -179,7 +179,7 @@ Create:
     body:
       trackerName: 'New tracker 345'
       empNumber: 3
-      reviewers: [ 2,4 ]
+      reviewerEmpNumbers: [ 2,4 ]
     query: [ ]
     data:
       id: 4
@@ -208,7 +208,7 @@ Update:
     body:
       trackerName: 'Tracker updated second time'
       empNumber: 3
-      reviewers: [ 1,2 ]
+      reviewerEmpNumbers: [ 1,2 ]
     query: [ ]
     data:
       id: 1

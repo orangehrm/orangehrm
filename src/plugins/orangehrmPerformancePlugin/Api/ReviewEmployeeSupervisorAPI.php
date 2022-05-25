@@ -24,6 +24,7 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -59,11 +60,16 @@ class ReviewEmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_NAME_OR_ID
             )
         );
-        $supervisors = $this->getPerformanceReviewService()->getPerformanceReviewDao()->getEmployeeSupervisorList($reviewEmployeeSupervisorSearchParamHolder);
-
+        $supervisors = $this->getPerformanceReviewService()
+            ->getPerformanceReviewDao()
+            ->getEmployeeSupervisorList($reviewEmployeeSupervisorSearchParamHolder);
+        $count = $this->getPerformanceReviewService()
+            ->getPerformanceReviewDao()
+            ->getEmployeeSupervisorCount($reviewEmployeeSupervisorSearchParamHolder);
         return new EndpointCollectionResult(
             SupervisorModel::class,
-            $supervisors
+            $supervisors,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
