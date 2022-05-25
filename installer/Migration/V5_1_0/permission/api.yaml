@@ -24,6 +24,7 @@ apiv2_performance_review_supervisors:
     update: false
     delete: false
   permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_performance_tracker:
   description: 'API-v2 Performance - Tracker'

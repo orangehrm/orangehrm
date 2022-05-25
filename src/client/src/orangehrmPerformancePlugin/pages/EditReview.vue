@@ -90,7 +90,7 @@
             <oxd-button
               display-type="ghost"
               :label="$t('general.save')"
-              type="button"
+              type="submit"
               @click="onSave(false)"
             />
             <oxd-button
@@ -223,10 +223,10 @@ export default {
         .then(() => {
           return this.$toast.saveSuccess();
         })
-        .catch(error => {
+        .catch(response => {
           return this.$toast.warn({
             title: this.$t('general.warning'),
-            message: error,
+            message: response?.data.error.message,
           });
         })
         .then(() => {

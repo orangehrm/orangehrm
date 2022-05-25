@@ -29,7 +29,7 @@ export class APIService {
   private _http: AxiosInstance;
   private _baseUrl: string;
   private _apiSection: string;
-  private _ignoreInvalidParamRegex: RegExp | undefined;
+  private _ignorePathRegex: RegExp | undefined;
 
   constructor(baseUrl: string, path: string) {
     this._baseUrl = baseUrl;
@@ -41,7 +41,7 @@ export class APIService {
   }
 
   setIgnorePath(ignorePath: string) {
-    this._ignoreInvalidParamRegex = new RegExp(ignorePath);
+    this._ignorePathRegex = new RegExp(ignorePath);
   }
 
   getAll(params?: object): Promise<AxiosResponse> {
@@ -104,14 +104,14 @@ export class APIService {
     });
   }
 
-  // Function to prevent Invalid Parameter toast messages from showing
-  ignoreInvalidParamError(error: AxiosError): boolean {
+  // Function to prevent Error toast messages from showing
+  ignoreError(error: AxiosError): boolean {
     if (
-      this._ignoreInvalidParamRegex &&
+      this._ignorePathRegex &&
       (error.response?.status === 422 || error.response?.status === 400)
     ) {
       const url: string = error.response.config.url ?? '';
-      return this._ignoreInvalidParamRegex.test(url);
+      return this._ignorePathRegex.test(url);
     }
     return false;
   }
@@ -131,8 +131,8 @@ export class APIService {
           return Promise.reject();
         }
 
-        if (this.ignoreInvalidParamError(error)) {
-          return Promise.reject(error.response?.data.error.message);
+        if (this.ignoreError(error)) {
+          return Promise.reject(error.response);
         }
 
         const $toast = vm?.appContext.config.globalProperties.$toast;

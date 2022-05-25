@@ -37,7 +37,6 @@ class ReviewEmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
 {
     use PerformanceReviewServiceTrait;
 
-    public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_NAME_OR_ID = 'nameOrId';
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
 

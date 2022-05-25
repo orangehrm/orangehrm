@@ -36,6 +36,7 @@ class SupervisorModel implements Normalizable
                 ['getSupervisor','getLastName'],
                 ['getSupervisor','getFirstName'],
                 ['getSupervisor','getMiddleName'],
+                ['getSupervisor', 'getEmployeeTerminationRecord', 'getId'],
             ]
         );
         $this->setAttributeNames(
@@ -44,6 +45,7 @@ class SupervisorModel implements Normalizable
                 ['lastName'],
                 ['firstName'],
                 ['middleName'],
+                ['terminationId'],
             ]
         );
     }
