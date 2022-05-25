@@ -84,6 +84,50 @@ Create:
         "statusName": "Inactive"
       "selfReviewStatus": "Activated"
 
+  'save review with activate without JobTitle':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-03'
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 1
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      messsage: "Cannot activate review for employees who doesn't have a Job Title with KPI"
+
+  'save review with activate without KPI':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-03'
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 15
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      messsage: "Cannot activate review without KPIs"
+
 Update:
   'update review without empNumber':
     userId: 1
