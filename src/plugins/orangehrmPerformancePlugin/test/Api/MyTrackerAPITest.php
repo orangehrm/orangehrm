@@ -19,10 +19,6 @@
 
 namespace OrangeHRM\Tests\Performance\Api;
 
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Api\MyTrackerAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;

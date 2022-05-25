@@ -254,7 +254,7 @@ class PerformanceReviewDao extends BaseDao
             $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR, $reviewerEmpNumber);
             $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_EMPLOYEE, null);
             $this->commitTransaction();
-        }catch (Exception $e){
+        } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
