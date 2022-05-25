@@ -48,7 +48,7 @@ class PerformanceReviewService
      */
     public function activateReview(PerformanceReview $performanceReview, int $reviewerId): PerformanceReview
     {
-        if ((! $performanceReview->getEmployee()->getJobTitle() instanceof JobTitle) || (! $performanceReview->getEmployee()->getSubDivision() instanceof Subunit)) {
+        if (! $performanceReview->getEmployee()->getJobTitle() instanceof JobTitle) {
             throw ReviewServiceException::activateWithoutJobTitle();
         }
         if ($this->getPerformanceReviewDao()->getReviewKPI($performanceReview) == null) {
