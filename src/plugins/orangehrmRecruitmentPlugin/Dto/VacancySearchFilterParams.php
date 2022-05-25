@@ -48,7 +48,7 @@ class VacancySearchFilterParams extends FilterParams
     /**
      * @var int|null
      */
-    protected ?int $status = 1;
+    protected ?int $status = null;
 
     public function __construct()
     {

@@ -33,6 +33,8 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Api\Model\VacancyModel;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
@@ -57,8 +59,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_EMPLOYEE_ID = 'employeeId';
 
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 100;
-    public const PARAMETER_RULE_JOB_TITLE_CODE_MAX_LENGTH = 4;
-    public const PARAMETER_RULE_HIRING_MANGER_ID_MAX_LENGTH = 13;
     public const PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH = 13;
     public const PARAMETER_RULE_STATUS_MAX_LENGTH = 4;
 
@@ -240,32 +240,24 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     protected function getCommonBodyValidationRules(): array
     {
         return [
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_NAME,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
-                )
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_STATUS,
-                    new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_STATUS_MAX_LENGTH])
-                )
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::INT_TYPE),
+                new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_STATUS_MAX_LENGTH])
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_JOB_TITLE_ID,
-                    new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_JOB_TITLE_CODE_MAX_LENGTH])
-                )
+            new ParamRule(
+                self::PARAMETER_JOB_TITLE_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [JobTitle::class]),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_IS_PUBLISHED,
-                    new Rule(Rules::BOOL_TYPE),
-                )
+            new ParamRule(
+                self::PARAMETER_IS_PUBLISHED,
+                new Rule(Rules::BOOL_TYPE),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -281,13 +273,10 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH])
                 )
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_EMPLOYEE_ID,
-                    new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_HIRING_MANGER_ID_MAX_LENGTH])
-                ),
-                true
+            new ParamRule(
+                self::PARAMETER_EMPLOYEE_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class])
             ),
         ];
     }

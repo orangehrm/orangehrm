@@ -199,7 +199,7 @@
             <oxd-input-field
               v-model="vacancyAttachment.comment"
               type="textarea"
-              :label="$t('recruitment.comment')"
+              :label="$t('general.comment')"
               :placeholder="$t('general.type_comment_here')"
             />
           </oxd-grid-item>
@@ -594,17 +594,20 @@ export default {
       this.isLoadingAttachment = true;
       this.isLoadingTable = true;
       this.httpAttachments
-        .update(this.vacancyId, {
-          id: this.vacancyAttachment.id,
-          vacancyId: parseInt(this.vacancyId),
-          currentAttachment: this.vacancyAttachment.oldAttachment
-            ? this.vacancyAttachment.method
-            : undefined,
-          attachment: this.vacancyAttachment.newAttachment
-            ? this.vacancyAttachment.newAttachment
-            : undefined,
-          comment: this.vacancyAttachment.comment,
-          attachmentType: 1,
+        .request({
+          method: 'PUT',
+          url: `/api/v2/recruitment/vacancy/attachment/${this.vacancyAttachment.id}`,
+          data: {
+            vacancyId: parseInt(this.vacancyId),
+            currentAttachment: this.vacancyAttachment.oldAttachment
+              ? this.vacancyAttachment.method
+              : undefined,
+            attachment: this.vacancyAttachment.newAttachment
+              ? this.vacancyAttachment.newAttachment
+              : undefined,
+            comment: this.vacancyAttachment.comment,
+            attachmentType: 1,
+          },
         })
         .then(() => {
           return this.$toast.saveSuccess();
