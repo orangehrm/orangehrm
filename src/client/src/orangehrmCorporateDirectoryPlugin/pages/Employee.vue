@@ -59,25 +59,39 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
-
-    <div class="orangehrm-paper-container">
-      <table-header
-        :loading="isLoading"
-        :show-divider="false"
-        total="10"
-      ></table-header>
-      <oxd-grid :cols="4" class="orangehrm-container">
-        <oxd-grid-item v-for="employee in employees" :key="employee">
-          <summary-card
-            :employee-designation="employee.employeeJobTitle"
-            :employee-location="employee.employeeLocation"
-            :employee-name="employee.employeeName"
-            :employee-sub-unit="employee.employeeSubUnit"
-          ></summary-card>
-        </oxd-grid-item>
-      </oxd-grid>
-      <div class="orangehrm-bottom-container">
-        {{ info }}
+    <div class="orangehrm-paper">
+      <div class="orangehrm-paper-container">
+        <table-header
+          :loading="isLoading"
+          :show-divider="false"
+          total="10"
+        ></table-header>
+        <oxd-grid :cols="4" class="orangehrm-container">
+          <oxd-grid-item v-for="employee in employees" :key="employee">
+            <summary-card
+              :id="employee.id"
+              :employee-designation="employee.employeeJobTitle"
+              :employee-location="employee.employeeLocation"
+              :employee-name="employee.employeeName"
+              :employee-sub-unit="employee.employeeSubUnit"
+            ></summary-card>
+          </oxd-grid-item>
+        </oxd-grid>
+        <div class="orangehrm-bottom-container"></div>
+      </div>
+      <div class="orangehrm-paper-container orangehrm-paper-container-details">
+        <oxd-grid :cols="1">
+          <oxd-grid-item>
+            <summary-card-details
+              :id="employees[0].id"
+              :employee-designation="employees[0].employeeJobTitle"
+              :employee-location="employees[0].employeeLocation"
+              :employee-name="employees[0].employeeName"
+              :employee-sub-unit="employees[0].employeeSubUnit"
+            ></summary-card-details>
+          </oxd-grid-item>
+        </oxd-grid>
+        <div class="orangehrm-bottom-container"></div>
       </div>
     </div>
   </div>
@@ -86,24 +100,23 @@
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
+import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
 import {APIService} from '@/core/util/services/api.service';
 
-// const userdataNormalizer = data => {
-//   return data.map(item => {
-//     return {
-//       id: item.empNumber,
-//       employeeId: item.employeeId,
-//       firstAndMiddleName: `${item.firstName} ${item.middleName}`,
-//       lastName: item.lastName + (item.terminationId ? ' (Past Employee)' : ''),
-//       jobTitle: item.jobTitle?.isDeleted
-//           ? item.jobTitle.title + ' (Deleted)'
-//           : item.jobTitle?.title,
-//       empStatus: item.empStatus?.name,
-//       subunit: item.subunit?.name,
-//       location: item.location?.name,
-//     };
-//   });
-// };
+const userdataNormalizer = data => {
+  return data.map(item => {
+    return {
+      id: item.id,
+      employeeId: item.employeeId,
+      employeeName:
+        `${item.firstName} ${item.middleName} ${item.lastName}` +
+        (item.terminationId ? ' (Past Employee)' : ''),
+      employeeJobTitle: item.jobTitle?.title,
+      employeeSubUnit: item.subunit?.name,
+      employeeLocation: item.location?.name,
+    };
+  });
+};
 
 export default {
   name: 'Employee',
@@ -112,6 +125,7 @@ export default {
     'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
     'summary-card': SummaryCard,
+    'summary-card-details': SummaryCardDetails,
   },
 
   props: {
@@ -136,21 +150,29 @@ export default {
       info: this.http,
       employees: [
         {
-          employeeName: 'Saif Zaman',
-          employeeJobTitle: 'Software Engineer',
-          employeeLocation: 'Dhaka',
-          employeeSubUnit: 'Engineering',
-        },
-        {
-          employeeName: 'Koli Zaman',
-          employeeJobTitle: 'Engineer',
-          employeeLocation: 'Rajshahi',
-          employeeSubUnit: 'Engineering Team',
+          id: 0,
+          employeeName: '',
+          employeeJobTitle: '',
+          employeeLocation: '',
+          employeeSubUnit: '',
         },
       ],
     };
   },
+  beforeMount() {
+    this.http.getAll().then(response => {
+      this.employees = userdataNormalizer(response.data.data);
+    });
+  },
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.orangehrm-paper {
+  display: flex;
+
+  &-container-details {
+    margin-left: 10px;
+  }
+}
+</style>

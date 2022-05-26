@@ -57,7 +57,7 @@ import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import ProfilePicture from './ProfilePicture.vue';
 
 export default {
-  name: 'SummaryCard',
+  name: 'SummaryCardDetails',
   components: {
     'oxd-sheet': Sheet,
     'oxd-icon': Icon,
