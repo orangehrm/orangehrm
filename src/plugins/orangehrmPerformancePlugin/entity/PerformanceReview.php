@@ -39,6 +39,7 @@ class PerformanceReview
     public const STATUS_ACTIVATED = 2;
     public const STATUS_IN_PROGRESS = 3;
     public const STATUS_COMPLETED = 4;
+
     /**
      * @var int
      *

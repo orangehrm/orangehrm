@@ -14,6 +14,18 @@ apiv2_performance_kpi:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
 
+apiv2_performance_review_supervisors:
+  description: 'API-v2 Performance - Review Supervisors'
+  api: OrangeHRM\Performance\Api\ReviewEmployeeSupervisorAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
 apiv2_performance_tracker:
   description: 'API-v2 Performance - Tracker'
   api: OrangeHRM\Performance\Api\PerformanceTrackerAPI
@@ -26,7 +38,7 @@ apiv2_performance_tracker:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
 
-apiv2_performance_tracker-reviewers:
+apiv2_performance_tracker_reviewers:
   description: 'API-v2 Performance - Tracker Reviewers'
   api: OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI
   module: performance
@@ -61,8 +73,7 @@ apiv2_performance_my_reviews:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_performance_employee_trackers:
   description: 'API-v2 Performance - Employee Trackers'
@@ -100,7 +111,7 @@ apiv2_performance_review:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true,  create: true, update: true, delete: true } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
 
 ##########################
 #        Recruitment

@@ -71,17 +71,17 @@ class PerformanceTrackerDao extends BaseDao
 
     /**
      * @param PerformanceTracker $performanceTracker
-     * @param array $reviewers
+     * @param array $reviewerEmpNumbers
      * @return PerformanceTracker
      * @throws TransactionException
      */
-    public function savePerformanceTracker(PerformanceTracker $performanceTracker, array $reviewers): PerformanceTracker
+    public function savePerformanceTracker(PerformanceTracker $performanceTracker, array $reviewerEmpNumbers): PerformanceTracker
     {
         $this->beginTransaction();
         try {
             $this->persist($performanceTracker);
-            if (count($reviewers) > 0) {
-                $this->savePerformanceTrackerReviewers($reviewers, $performanceTracker);
+            if (count($reviewerEmpNumbers) > 0) {
+                $this->savePerformanceTrackerReviewers($reviewerEmpNumbers, $performanceTracker);
             }
             $this->commitTransaction();
         } catch (Exception $e) {
@@ -176,7 +176,7 @@ class PerformanceTrackerDao extends BaseDao
         $updateReviewerList = [];
 
         foreach ($reviewerList as $reviewer) {
-            array_push($updateReviewerList, $reviewer);
+            $updateReviewerList[] = $reviewer;
         }
         $this->persist($performanceTracker);
         if (count($updateReviewerList) > 0) {

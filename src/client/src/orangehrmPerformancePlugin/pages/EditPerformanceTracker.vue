@@ -75,13 +75,13 @@
 
 <script>
 import {navigate} from '@/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import ReviewerAutoComplete from '@/orangehrmPerformancePlugin/components/ReviewerAutoComplete';
 import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
+import {APIService} from '@/core/util/services/api.service';
 
 const trackerModel = {
   name: null,
@@ -100,6 +100,7 @@ export default {
       required: true,
     },
   },
+
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -109,6 +110,7 @@ export default {
       http,
     };
   },
+
   data() {
     return {
       isLoading: false,
@@ -174,7 +176,7 @@ export default {
       const payload = {
         trackerName: this.tracker.name.trim(),
         empNumber: this.tracker.employee.id,
-        reviewers: this.tracker.reviewers.map(employee => employee.id),
+        reviewerEmpNumbers: this.tracker.reviewers.map(employee => employee.id),
       };
       this.http
         .update(this.performanceTrackerId, payload)

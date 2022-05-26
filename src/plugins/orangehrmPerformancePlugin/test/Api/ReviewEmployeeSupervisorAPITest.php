@@ -20,85 +20,83 @@
 namespace OrangeHRM\Tests\Performance\Api;
 
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Api\MyTrackerAPI;
+use OrangeHRM\Performance\Api\ReviewEmployeeSupervisorAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-class MyTrackerAPITest extends EndpointIntegrationTestCase
+class ReviewEmployeeSupervisorAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetAll
+     *
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('MyTrackerAPITest.yaml');
+        $this->populateFixtures('ReviewEmployeeSupervisorAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(MyTrackerAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ReviewEmployeeSupervisorAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    /**
-     * @return array
-     */
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('MyTrackerAPITestCases.yaml', 'GetAll');
+        return $this->getTestCases('ReviewEmployeeSupervisorAPITestCases.yaml', 'GetAll');
     }
 
     public function testCreate(): void
     {
-        $api = new MyTrackerAPI($this->getRequest());
+        $api = new ReviewEmployeeSupervisorAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->create();
     }
 
     public function testGetValidationRuleForCreate(): void
     {
-        $api = new MyTrackerAPI($this->getRequest());
+        $api = new ReviewEmployeeSupervisorAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForCreate();
     }
 
     public function testDelete(): void
     {
-        $api = new MyTrackerAPI($this->getRequest());
+        $api = new ReviewEmployeeSupervisorAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new MyTrackerAPI($this->getRequest());
+        $api = new ReviewEmployeeSupervisorAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
 
     public function testGetOne(): void
     {
-        $api = new MyTrackerAPI($this->getRequest());
+        $api = new ReviewEmployeeSupervisorAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getOne();
     }
 
     public function testGetValidationRuleForGetOne(): void
     {
-        $api = new MyTrackerAPI($this->getRequest());
+        $api = new ReviewEmployeeSupervisorAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
     }
 
     public function testUpdate(): void
     {
-        $api = new MyTrackerAPI($this->getRequest());
+        $api = new ReviewEmployeeSupervisorAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->update();
     }
 
     public function testGetValidationRuleForUpdate(): void
     {
-        $api = new MyTrackerAPI($this->getRequest());
+        $api = new ReviewEmployeeSupervisorAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForUpdate();
     }

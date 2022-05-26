@@ -68,45 +68,56 @@ class PerformanceReviewAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('PerformanceReviewAPITestCases.yaml', 'Delete');
     }
 
-    public function testCreate(): void
+    /**
+     * @dataProvider dataProviderForTestCreate
+     */
+    public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $api = new PerformanceReviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->create();
+        $this->populateFixtures('PerformanceReviewAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(PerformanceReviewAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
-    public function testGetValidationRuleForCreate(): void
+    public function dataProviderForTestCreate(): array
     {
-        $api = new PerformanceReviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForCreate();
+        return $this->getTestCases('PerformanceReviewAPITestCases.yaml', 'Create');
     }
 
-    public function testUpdate(): void
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $api = new PerformanceReviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->update();
+        $this->populateFixtures('PerformanceReviewAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(PerformanceReviewAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function testGetValidationRuleForUpdate(): void
+    public function dataProviderForTestUpdate(): array
     {
-        $api = new PerformanceReviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
+        return $this->getTestCases('PerformanceReviewAPITestCases.yaml', 'Update');
     }
 
-    public function testGetOne(): void
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $api = new PerformanceReviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
+        $this->populateFixtures('PerformanceReviewAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(PerformanceReviewAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function dataProviderForTestGetOne(): array
     {
-        $api = new PerformanceReviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
+        return $this->getTestCases('PerformanceReviewAPITestCases.yaml', 'GetOne');
     }
 }

@@ -1,0 +1,18 @@
+GetAll:
+  'Get all reviewers with empNumber':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    attributes: [ ]
+    query:
+      empNumber: 5
+      nameOrId: 'Ashley'
+    data:
+      0:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        terminationId: null
+    meta:
+      total: 1
