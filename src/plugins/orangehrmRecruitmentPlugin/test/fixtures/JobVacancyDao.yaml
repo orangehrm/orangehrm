@@ -19,15 +19,15 @@ User:
   - { "id": 4, "user_role_id": 2, "emp_number": 4, "user_name": "Sherin","user_password": "Sherin","deleted": "0","status": "1","date_entered": "2021-09-15 17:47:59","created_by": "1" }
 
 JobTitle:
-  0: {id: 1, jobTitleName: 'Technical Assistant', jobDescription: 'Assists the engineers', isDeleted: '0'}
-  1: {id: 2, jobTitleName: 'Supervisor', jobDescription: 'Oversees technical assistant', isDeleted: '0'}
-  2: {id: 3, jobTitleName: 'Engineering Manager', jobDescription: 'Manages Engineers', isDeleted: '0'}
-  3: {id: 4, jobTitleName: 'Engineering Officer', jobDescription: 'Engineer', isDeleted: '0'}
+  0: { id: 1, jobTitleName: 'Technical Assistant', jobDescription: 'Assists the engineers', isDeleted: '0' }
+  1: { id: 2, jobTitleName: 'Supervisor', jobDescription: 'Oversees technical assistant', isDeleted: '0' }
+  2: { id: 3, jobTitleName: 'Engineering Manager', jobDescription: 'Manages Engineers', isDeleted: '0' }
+  3: { id: 4, jobTitleName: 'Engineering Officer', jobDescription: 'Engineer', isDeleted: '0' }
 
 Vacancy:
-  - {id: 1, job_title_code: 1, hiring_manager_id: 1, name: 'Technical Assistant Intern', description: 'Assists the engineers', no_of_positions: 2, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00'}
-  - {id: 2, job_title_code: 2, hiring_manager_id: 2, name: 'Senior Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 3, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00'}
-  - {id: 3, job_title_code: 1, hiring_manager_id: 1, name: 'Part-Time Technical Assistant', description: '', no_of_positions: 1, status: 2, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00'}
-  - {id: 4, job_title_code: 3, hiring_manager_id: 4, name: 'Charted Engineer', description: 'Manages Engineers', no_of_positions: 4, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00'}
-  - {id: 5, job_title_code: 2, hiring_manager_id: 3, name: 'Assistant Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 9, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00'}
-  - {id: 6, job_title_code: 4, hiring_manager_id: 1, name: 'Electrical Engineer Officer', description: 'Engineer', no_of_positions: 10, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00'}
+  - { id: 1, job_title_code: 1, hiring_manager_id: 1, name: 'Technical Assistant Intern', description: 'Assists the engineers', no_of_positions: 2, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 2, job_title_code: 2, hiring_manager_id: 2, name: 'Senior Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 3, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 3, job_title_code: 1, hiring_manager_id: 1, name: 'Part-Time Technical Assistant', description: '', no_of_positions: 1, status: 2, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 4, job_title_code: 3, hiring_manager_id: 4, name: 'Charted Engineer', description: 'Manages Engineers', no_of_positions: 4, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 5, job_title_code: 2, hiring_manager_id: 3, name: 'Assistant Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 9, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 6, job_title_code: 4, hiring_manager_id: 1, name: 'Electrical Engineer Officer', description: 'Engineer', no_of_positions: 10, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
