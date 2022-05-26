@@ -67,4 +67,21 @@ class PerformanceReviewDaoTest extends KernelTestCase
         $this->assertEquals(1, $result->getJobTitle()->getId());
         $this->assertEquals(1, $result->getEmployee()->getEmpNumber());
     }
+
+    public function testGetSupervisorRecord(): void
+    {
+        $employeeId = 5;
+        $existingSupervisor = 2;
+        $nonExistentSupervisor = 3;
+        $pastSupervisor = 6;
+
+        $result = $this->performanceReviewDao->getSupervisorRecord($employeeId, $existingSupervisor);
+        $this->assertNotNull($result);
+
+        $result2 = $this->performanceReviewDao->getSupervisorRecord($employeeId, $nonExistentSupervisor);
+        $this->assertCount(0, $result2);
+
+        $result3 = $this->performanceReviewDao->getSupervisorRecord($employeeId, $pastSupervisor);
+        $this->assertCount(0, $result3);
+    }
 }

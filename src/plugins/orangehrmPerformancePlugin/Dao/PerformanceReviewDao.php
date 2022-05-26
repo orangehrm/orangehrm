@@ -27,10 +27,10 @@ use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\Entity\ReviewerGroup;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
-use OrangeHRM\ORM\ListSorter;
 use PHPUnit\Exception;
 
 class PerformanceReviewDao extends BaseDao
@@ -272,6 +272,23 @@ class PerformanceReviewDao extends BaseDao
             ->where('reviewer.review = :reviewId')
             ->setParameter('reviewId', $performanceReview->getId())
             ->getQuery()->execute();
+    }
+
+    /**
+     * @param int $subordinateId
+     * @param int $supervisorId
+     * @return ReportTo[]
+     */
+    public function getSupervisorRecord(int $subordinateId, int $supervisorId): array
+    {
+        $qb = $this->createQueryBuilder(ReportTo::class, 'rt');
+        $qb->leftJoin('rt.supervisor', 'employee')
+            ->andWhere('rt.supervisor = :supervisorId')
+            ->setParameter('supervisorId', $supervisorId)
+            ->andWhere('rt.subordinate = :subordinateId')
+            ->setParameter('subordinateId', $subordinateId)
+            ->andWhere($qb->expr()->isNull('employee.employeeTerminationRecord'));
+        return $qb->getQuery()->execute();
     }
 
     /**

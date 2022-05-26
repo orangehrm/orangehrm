@@ -165,7 +165,7 @@ export default {
       const payload = {
         trackerName: this.tracker.name.trim(),
         empNumber: this.tracker.employee.id,
-        reviewers: this.tracker.reviewers.map(employee => employee.id),
+        reviewerEmpNumbers: this.tracker.reviewers.map(employee => employee.id),
       };
       this.http
         .update(this.performanceTrackerId, payload)

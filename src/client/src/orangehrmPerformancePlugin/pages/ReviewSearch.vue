@@ -351,6 +351,7 @@ export default {
           },
         };
       } else if (row.statusName === 'Inactive') {
+        //TODO:: Change to Id
         cellConfig.edit = {
           onClick: this.onClickEdit,
           component: 'oxd-button',

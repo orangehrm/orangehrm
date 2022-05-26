@@ -38,9 +38,9 @@ use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Api\Model\DetailedPerformanceReviewModel;
 use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
+use OrangeHRM\Performance\Exception\ReviewServiceException;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
-use OrangeHRM\Performance\Exception\ReviewServiceException;
 
 class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
 {
@@ -207,7 +207,14 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::FILTER_REVIEWER_EMP_NUMBER
         );
-        if ($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVATE) == true) {
+        $reportToRecord = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->getSupervisorRecord($performanceReview->getEmployee()->getEmpNumber(), $reviewerEmpNumber);
+        if ($reportToRecord == null) {
+            throw $this->getBadRequestException();
+        }
+        if ($this->getRequestParams()
+                ->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVATE) == true
+        ) {
             try {
                 $performanceReview->setActivatedDate($this->getDateTimeHelper()->getNow());
                 $performanceReview->setStatusId(PerformanceReview::STATUS_ACTIVATED);
@@ -352,6 +359,11 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::FILTER_REVIEWER_EMP_NUMBER
         );
+        $reportToRecord = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->getSupervisorRecord($review->getEmployee()->getEmpNumber(), $reviewerEmpNumber);
+        if ($reportToRecord == null) {
+            throw $this->getBadRequestException();
+        }
         if ($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVATE) == true) {
             try {
                 $review->setActivatedDate($this->getDateTimeHelper()->getNow());

@@ -55,7 +55,7 @@ export default {
   methods: {
     async loadEmployees(serachParam) {
       return new Promise(resolve => {
-        if (serachParam.trim()) {
+        if (serachParam.trim() && this.subordinate) {
           this.http
             .getAll({
               nameOrId: serachParam.trim(),
