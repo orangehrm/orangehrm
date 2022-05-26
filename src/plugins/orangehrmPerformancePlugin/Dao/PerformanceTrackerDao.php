@@ -26,9 +26,9 @@ use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
-use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use PHPUnit\Exception;
 
 class PerformanceTrackerDao extends BaseDao
@@ -51,7 +51,7 @@ class PerformanceTrackerDao extends BaseDao
 
     /**
      * @param PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams
-     * @return array
+     * @return PerformanceTracker[]
      */
     public function getPerformanceTrackList(PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams): array
     {

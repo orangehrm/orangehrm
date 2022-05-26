@@ -21,6 +21,8 @@ namespace OrangeHRM\Performance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\PerformanceTrackerLog;
+use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Performance\Dto\PerformanceTrackerLogSearchFilterParams;
 
 class PerformanceTrackerLogDao extends BaseDao
 {
@@ -30,10 +32,57 @@ class PerformanceTrackerLogDao extends BaseDao
      */
     public function getPerformanceTrackerLog(int $performanceTrackerLogId): ?PerformanceTrackerLog
     {
-        $performanceTrackerLog = $this->getRepository(PerformanceTrackerLog::class)->findOneBy(['id'=>$performanceTrackerLogId]);
-        if ($performanceTrackerLog instanceof PerformanceTrackerLog){
+        $performanceTrackerLog = $this->getRepository(PerformanceTrackerLog::class)->findOneBy(['id' => $performanceTrackerLogId]);
+        if ($performanceTrackerLog instanceof PerformanceTrackerLog) {
             return $performanceTrackerLog;
         }
         return null;
+    }
+
+    /**
+     * @param PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams
+     * @return PerformanceTrackerLog[]
+     */
+    public function getPerformanceTrackerLogsByTrackerId(PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams): array
+    {
+        $query = $this->getPerformanceTrackerLogQueryBuilder($performanceTrackerLogSearchFilterParams)->getQueryBuilder();
+        return $query->getQuery()->execute();
+    }
+
+    /**
+     * @param PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams
+     * @return int
+     */
+    public function getPerformanceTrackerLogCountPerTrackerId(PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams): int
+    {
+        $query = $this->getPerformanceTrackerLogQueryBuilder($performanceTrackerLogSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($query)->count();
+    }
+
+    /**
+     * @param PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getPerformanceTrackerLogQueryBuilder(PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams): QueryBuilderWrapper
+    {
+        $q = $this->createQueryBuilder(PerformanceTrackerLog::class, 'ptrLog');
+        $q->andWhere('ptrLog.performanceTracker = :trackerId')
+            ->setParameter('trackerId', $performanceTrackerLogSearchFilterParams->getTrackerId());
+        return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @param int $rateType
+     * @param int $performanceTrackerId
+     * @return int
+     */
+    public function getPerformanceTrackerLogsRateCount(int $rateType, int $performanceTrackerId): int
+    {
+        $q = $this->createQueryBuilder(PerformanceTrackerLog::class, 'ptrLog');
+        $q->andWhere('ptrLog.performanceTracker = :trackerId')
+            ->setParameter('trackerId', $performanceTrackerId)
+            ->andWhere('ptrLog.achievement = :ratingId')
+            ->setParameter('ratingId', $rateType);
+        return $this->getPaginator($q)->count();
     }
 }

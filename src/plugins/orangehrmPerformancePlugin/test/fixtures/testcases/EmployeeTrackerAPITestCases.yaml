@@ -760,3 +760,32 @@ GetAll:
     data: [ ]
     meta:
       total: 0
+
+GetOne:
+  'Get existing tracker':
+    userId: 1
+    services:
+    attributes:
+      id: 5
+    data:
+      "id": 5
+      "trackerName": "Tracker Emp 5"
+      "employee":
+        "empNumber": 5
+        "firstName": "Anika"
+        "lastName": "Sapramadu"
+        "terminationId": null
+      "addedDate": "2022-05-06"
+      "modifiedDate": "2022-05-06"
+      "status": 1
+    meta:
+      []
+
+  'Get non existing tracker':
+    userId: 1
+    services:
+    attributes:
+      id: 6
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: 'Record Not Found'
