@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Recruitment\Entity;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Tests\Util\EntityTestCase;
@@ -29,6 +30,10 @@ class CandidateAttachmentTest extends EntityTestCase
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([CandidateAttachment::class]);
+        $fixtures = Config::get(
+            Config::PLUGINS_DIR
+        ) . '/orangehrmRecruitmentPlugin/test/fixtures/CandidateAttachmentEntityTest.yaml';
+        TestDataService::populate($fixtures);
     }
 
     public function testCandidateAttachmentEntity(): void
