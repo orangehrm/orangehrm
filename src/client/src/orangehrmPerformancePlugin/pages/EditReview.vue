@@ -118,7 +118,6 @@ import {
   startDateShouldBeBeforeEndDate,
   validDateFormat,
 } from '@/core/util/validation/rules';
-import {ref} from 'vue';
 
 const reviewModel = {
   employee: null,
@@ -160,30 +159,30 @@ export default {
           required,
           validDateFormat(),
           startDateShouldBeBeforeEndDate(
-              () => this.review.endDate,
-              this.$t(
-                  'general.review_period_start_date_should_be_before_end_date',
-              ),
+            () => this.review.endDate,
+            this.$t(
+              'general.review_period_start_date_should_be_before_end_date',
+            ),
           ),
         ],
         endDate: [
           required,
           validDateFormat(),
           endDateShouldBeAfterStartDate(
-              () => this.review.startDate,
-              this.$t(
-                  'performance.review_period_end_date_should_be_after_start_date',
-              ),
+            () => this.review.startDate,
+            this.$t(
+              'performance.review_period_end_date_should_be_after_start_date',
+            ),
           ),
         ],
         dueDate: [
           required,
           validDateFormat(),
           endDateShouldBeAfterStartDate(
-              () => this.review.endDate,
-              this.$t(
-                  'performance.due_date_should_be_after_review_period_end_date',
-              ),
+            () => this.review.endDate,
+            this.$t(
+              'performance.due_date_should_be_after_review_period_end_date',
+            ),
           ),
         ],
       },
