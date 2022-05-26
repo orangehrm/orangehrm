@@ -29,6 +29,7 @@ import EditPerformanceTracker from './pages/EditPerformanceTracker.vue';
 import MyReviews from './pages/MyReviews.vue';
 import ReviewList from './pages/ReviewList.vue';
 import ReviewSearch from './pages/ReviewSearch.vue';
+import EmployeeTrackerLogs from './pages/EmployeeTrackerLogs.vue';
 
 export default {
   'my-tracker': MyTracker,
@@ -44,4 +45,5 @@ export default {
   'my-reviews': MyReviews,
   'review-list': ReviewList,
   'review-search': ReviewSearch,
+  'employee-tracker-logs': EmployeeTrackerLogs,
 };

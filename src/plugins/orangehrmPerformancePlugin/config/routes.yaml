@@ -171,3 +171,8 @@ performance_review_search:
   path: /performance/searchPerformanceReview
   controller: OrangeHRM\Performance\Controller\ReviewSearchController::handle
   methods: [ GET ]
+
+performance_employee_tracker_logs:
+  path: /performance/addPerformanceTrackerLog/trackId/{id}
+  controller: OrangeHRM\Performance\Controller\EmployeeTrackerLogsController::handle
+  methods: [ GET ]
