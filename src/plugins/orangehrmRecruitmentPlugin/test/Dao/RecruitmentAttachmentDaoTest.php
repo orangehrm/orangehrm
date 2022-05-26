@@ -26,6 +26,10 @@ use OrangeHRM\Recruitment\Dao\RecruitmentAttachmentDao;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Recruitment
+ * @group Dao
+ */
 class RecruitmentAttachmentDaoTest extends KernelTestCase
 {
     private RecruitmentAttachmentDao $recruitmentAttachmentDao;

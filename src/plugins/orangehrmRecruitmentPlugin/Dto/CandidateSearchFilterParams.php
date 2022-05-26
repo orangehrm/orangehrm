@@ -21,6 +21,7 @@ namespace OrangeHRM\Recruitment\Dto;
 
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\ORM\ListSorter;
 
 class CandidateSearchFilterParams extends FilterParams
 {
@@ -94,7 +95,8 @@ class CandidateSearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('vacancy.name');
+        $this->setSortField('candidate.dateOfApplication');
+        $this->setSortOrder(ListSorter::DESCENDING);
     }
 
     /**

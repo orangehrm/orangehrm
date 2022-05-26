@@ -28,6 +28,10 @@ use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Recruitment
+ * @group Dao
+ */
 class VacancyDaoTest extends KernelTestCase
 {
     private VacancyDao $vacancyDao;

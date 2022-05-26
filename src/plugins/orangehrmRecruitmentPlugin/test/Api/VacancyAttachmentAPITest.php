@@ -24,6 +24,10 @@ use OrangeHRM\Recruitment\Api\VacancyAttachmentAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
+/**
+ * @group Recruitment
+ * @group APIv2
+ */
 class VacancyAttachmentAPITest extends EndpointIntegrationTestCase
 {
     public function testGetAll(): void
