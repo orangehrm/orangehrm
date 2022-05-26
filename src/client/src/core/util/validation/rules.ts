@@ -522,3 +522,15 @@ export const numberShouldBeBetweenMinAndMaxValue = (
     );
   };
 };
+
+/**
+ * Validate #rrggbb & #rgb hex strings
+ * @param {string} value hex string
+ * @returns {boolean|string}
+ */
+export const validHexFormat = function(value: string): boolean | string {
+  if (!value) return true;
+  return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i.test(value)
+    ? true
+    : translate('general.invalid');
+};

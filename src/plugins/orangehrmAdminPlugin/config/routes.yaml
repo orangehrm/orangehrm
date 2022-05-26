@@ -559,7 +559,26 @@ admin_register_oauth_client: # remove this
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
   methods: [ GET ]
 
-admin_corporate_branding: # remove this
+admin_corporate_branding:
   path: /admin/addTheme
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  controller: OrangeHRM\Admin\Controller\CorporateBrandingController::handle
   methods: [ GET ]
+
+##########################
+#        Mock API
+##########################
+
+apiv2_corporate_branding_theme:
+  path: /api/v2/admin/corporateBranding
+  controller: OrangeHRM\Admin\Controller\CorporateBrandingMockController::getTheme
+  methods: [ GET, POST ]
+
+apiv2_corporate_branding_preview:
+  path: /api/v2/admin/corporateBranding/preview
+  controller: OrangeHRM\Admin\Controller\CorporateBrandingMockController::bulidThemePreview
+  methods: [ POST ]
+
+apiv2_corporate_branding_reset:
+  path: /api/v2/admin/corporateBranding/reset
+  controller: OrangeHRM\Admin\Controller\CorporateBrandingMockController::resetTheme
+  methods: [ POST ]

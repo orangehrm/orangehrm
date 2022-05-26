@@ -62,6 +62,7 @@ import EditWorkShift from './pages/workShift/EditWorkShift.vue';
 import EmailSubscription from './pages/emailSubscription/EmailSubscription.vue';
 import EditEmailSubscription from './pages/emailSubscription/EditEmailSubscription.vue';
 import LocalizationConfiguration from './pages/localization/LocalizationConfiguration.vue';
+import CorporateBranding from './pages/corporateBranding/CorporateBranding.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -110,4 +111,5 @@ export default {
   'email-subscription-list': EmailSubscription,
   'email-subscription-edit': EditEmailSubscription,
   'localization-configuration': LocalizationConfiguration,
+  'corporate-branding': CorporateBranding,
 };
