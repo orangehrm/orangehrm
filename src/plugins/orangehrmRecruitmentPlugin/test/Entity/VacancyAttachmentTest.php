@@ -33,20 +33,20 @@ class VacancyAttachmentTest extends EntityTestCase
 
     public function testVacancyAttachmentEntity(): void
     {
-       $vacancyAttachment = new VacancyAttachment();
-       $vacancyAttachment->setFileName('Attachment6.pdf');
-       $vacancyAttachment->getDecorator()->setVacancyById(1);
-       $vacancyAttachment->setFileType('application/pdf');
-       $vacancyAttachment->setFileSize('14874');
-       $vacancyAttachment->setFileContent('attachment_06_content');
-       $vacancyAttachment->setAttachmentType(1);
-       $vacancyAttachment->setComment('This is the attachment 06');
-       $this->persist($vacancyAttachment);
+        $vacancyAttachment = new VacancyAttachment();
+        $vacancyAttachment->setFileName('Attachment6.pdf');
+        $vacancyAttachment->getDecorator()->setVacancyById(1);
+        $vacancyAttachment->setFileType('application/pdf');
+        $vacancyAttachment->setFileSize('14874');
+        $vacancyAttachment->setFileContent('attachment_06_content');
+        $vacancyAttachment->setAttachmentType(1);
+        $vacancyAttachment->setComment('This is the attachment 06');
+        $this->persist($vacancyAttachment);
 
-       $vacancyAttachment = $this->getRepository(VacancyAttachment::class)->find(1);
-       $this->assertInstanceOf(VacancyAttachment::class, $vacancyAttachment);
-       $this->assertEquals('Attachment6.pdf', $vacancyAttachment->getFileName());
-       $this->assertEquals('application/pdf', $vacancyAttachment->getFileType());
-       $this->assertInstanceOf(Vacancy::class, $vacancyAttachment->getVacancy());
+        $vacancyAttachment = $this->getRepository(VacancyAttachment::class)->find(1);
+        $this->assertInstanceOf(VacancyAttachment::class, $vacancyAttachment);
+        $this->assertEquals('Attachment6.pdf', $vacancyAttachment->getFileName());
+        $this->assertEquals('application/pdf', $vacancyAttachment->getFileType());
+        $this->assertInstanceOf(Vacancy::class, $vacancyAttachment->getVacancy());
     }
 }
