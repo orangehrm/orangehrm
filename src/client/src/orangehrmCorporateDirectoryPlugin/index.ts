@@ -19,5 +19,5 @@
 import Employee from './pages/Employee.vue';
 
 export default {
-    "corporate-directory-employee-list": Employee,
+  'corporate-directory-employee-list': Employee,
 };
