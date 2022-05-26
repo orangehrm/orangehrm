@@ -84,3 +84,13 @@ translations:
     - { target: 'Gestionnaires de Performance', unitId: employee_performance_trackers, group: performance }
     - { target: 'Date ajoutée', unitId: added_date, group: performance }
     - { target: 'Date modifiée', unitId: modified_date, group: performance }
+    - { target: 'Activée', unitId: activated, group: performance }
+    - { target: 'En Cours', unitId: in_progress, group: performance }
+    - { target: 'Terminée', unitId: completed, group: performance }
+    - { target: "Période d'Évaluation", unitId: review_period, group: performance }
+    - { target: "Date d'Échéance", unitId: due_date, group: performance }
+    - { target: 'Evaluer', unitId: evaluate, group: performance }
+    - { target: "Statut de l'Évaluation", unitId: review_status, group: performance }
+    - { target: 'Examinateur', unitId: reviewer, group: performance }
+    - { target: 'Rechercher Évaluations de Performance', unitId: manage_performance_reviews, group: performance }
+    - { target: 'Inactif', unitId: inactive, group: performance }

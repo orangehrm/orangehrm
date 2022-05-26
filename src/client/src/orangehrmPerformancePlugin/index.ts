@@ -21,10 +21,14 @@ import EmployeeTrackers from './pages/EmployeeTrackers.vue';
 import KpiEdit from './pages/KpiEdit.vue';
 import KpiSave from './pages/KpiSave.vue';
 import KpiSearch from './pages/KpiSearch.vue';
+import AddReview from './pages/AddReview.vue';
+import EditReview from './pages/EditReview.vue';
 import PerformanceTrackerList from './pages/PerformanceTrackers.vue';
 import SavePerformanceTracker from './pages/SavePerformanceTracker.vue';
 import EditPerformanceTracker from './pages/EditPerformanceTracker.vue';
 import MyReviews from './pages/MyReviews.vue';
+import ReviewList from './pages/ReviewList.vue';
+import ReviewSearch from './pages/ReviewSearch.vue';
 
 export default {
   'my-tracker': MyTracker,
@@ -32,8 +36,12 @@ export default {
   'kpi-search': KpiSearch,
   'kpi-save': KpiSave,
   'kpi-edit': KpiEdit,
+  'add-review': AddReview,
+  'edit-review': EditReview,
   'performance-tracker-list': PerformanceTrackerList,
   'performance-tracker-save': SavePerformanceTracker,
   'performance-tracker-edit': EditPerformanceTracker,
   'my-reviews': MyReviews,
+  'review-list': ReviewList,
+  'review-search': ReviewSearch,
 };

@@ -28,14 +28,14 @@
 
 <script>
 import {ref, onBeforeMount} from 'vue';
-import {APIService} from '@ohrm/core/util/services/api.service';
+import {APIService} from '@/core/util/services/api.service';
 export default {
   name: 'VacancyDropdown',
   setup() {
     const options = ref([]);
     const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      'recruitment/api/vacancy',
+      window.appGlobal.baseUrl,
+      'api/v2/recruitment/vacancies',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {

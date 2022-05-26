@@ -28,7 +28,7 @@ use OrangeHRM\Tests\Util\TestDataService;
 class PerformanceReviewDaoTest extends KernelTestCase
 {
     private PerformanceReviewDao $performanceReviewDao;
-    protected $fixture;
+    protected string $fixture;
 
     protected function setUp(): void
     {
@@ -41,7 +41,47 @@ class PerformanceReviewDaoTest extends KernelTestCase
     {
         $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
         $performanceReviewSearchFilterParams->setEmpNumber(2);
+        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
         $result = $this->performanceReviewDao->getPerformanceReviewList($performanceReviewSearchFilterParams);
         $this->assertCount(1, $result);
+    }
+
+    public function testGetPerformanceReviewCount(): void
+    {
+        $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
+        $performanceReviewSearchFilterParams->setEmpNumber(2);
+        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
+        $result = $this->performanceReviewDao->getPerformanceReviewCount($performanceReviewSearchFilterParams);
+        $this->assertEquals(1, $result);
+    }
+
+    public function testGetEditableReviewById(): void
+    {
+        $reviewId = 6;
+        $result = $this->performanceReviewDao->getEditableReviewById($reviewId);
+        $this->assertEmpty($result);
+
+        $reviewId = 5;
+        $result = $this->performanceReviewDao->getEditableReviewById($reviewId);
+        $this->assertEquals(5, $result->getId());
+        $this->assertEquals(1, $result->getJobTitle()->getId());
+        $this->assertEquals(1, $result->getEmployee()->getEmpNumber());
+    }
+
+    public function testGetSupervisorRecord(): void
+    {
+        $employeeId = 5;
+        $existingSupervisor = 2;
+        $nonExistentSupervisor = 3;
+        $pastSupervisor = 6;
+
+        $result = $this->performanceReviewDao->getSupervisorRecord($employeeId, $existingSupervisor);
+        $this->assertNotNull($result);
+
+        $result2 = $this->performanceReviewDao->getSupervisorRecord($employeeId, $nonExistentSupervisor);
+        $this->assertCount(0, $result2);
+
+        $result3 = $this->performanceReviewDao->getSupervisorRecord($employeeId, $pastSupervisor);
+        $this->assertCount(0, $result3);
     }
 }

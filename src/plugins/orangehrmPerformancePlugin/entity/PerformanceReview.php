@@ -39,6 +39,7 @@ class PerformanceReview
     public const STATUS_ACTIVATED = 2;
     public const STATUS_IN_PROGRESS = 3;
     public const STATUS_COMPLETED = 4;
+
     /**
      * @var int
      *
@@ -117,10 +118,7 @@ class PerformanceReview
     /**
      * @var Reviewer[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Reviewer", mappedBy="PerformanceReview")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="review_id")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Reviewer", mappedBy="review")
      */
     private iterable $reviewers;
 
@@ -353,5 +351,21 @@ class PerformanceReview
     public function setEmployee(?Employee $employee): void
     {
         $this->employee = $employee;
+    }
+
+    /**
+     * @return Reviewer[]
+     */
+    public function getReviewers(): iterable
+    {
+        return $this->reviewers;
+    }
+
+    /**
+     * @param Reviewer[] $reviewers
+     */
+    public function setReviewers(iterable $reviewers): void
+    {
+        $this->reviewers = $reviewers;
     }
 }

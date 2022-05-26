@@ -75,7 +75,8 @@
                 "./plugins/orangehrmAuthenticationPlugin/entity",
                 "./plugins/orangehrmTimePlugin/entity",
                 "./plugins/orangehrmAttendancePlugin/entity",
-                "./plugins/orangehrmI18NPlugin/entity"
+                "./plugins/orangehrmI18NPlugin/entity",
+                "./plugins/orangehrmRecruitmentPlugin/entity"
             ]
         }
     },
@@ -92,6 +93,7 @@
             "OrangeHRM\\Tests\\Attendance\\": "./plugins/orangehrmAttendancePlugin/test",
             "OrangeHRM\\Tests\\Maintenance\\": "./plugins/orangehrmMaintenancePlugin/test",
             "OrangeHRM\\Tests\\I18N\\": "./plugins/orangehrmI18NPlugin/test",
+            "OrangeHRM\\Tests\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin/test",
             "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test"
         }
     },

@@ -35,7 +35,6 @@ interface State {
   response: ServerResponse;
   total: number;
   pages: number;
-  pageSize: number;
   currentPage: number;
 }
 
@@ -90,6 +89,7 @@ type usePaginateArgs = {
   normalizer?: Function;
   prefetch?: boolean;
   toastNoRecords?: boolean;
+  pageSize?: number;
 };
 
 export default function usePaginate(
@@ -99,6 +99,7 @@ export default function usePaginate(
     normalizer = defaultNormalizer,
     prefetch = true,
     toastNoRecords = true,
+    pageSize = 50,
   }: usePaginateArgs = {},
 ) {
   const state = reactive<State>({
@@ -107,14 +108,13 @@ export default function usePaginate(
     response: {},
     total: 0,
     pages: 0,
-    pageSize: 50,
     currentPage: 1,
   });
   const {noRecordsFound} = useToast();
 
   const execQuery = async () => {
     state.isLoading = true;
-    const pageParams = getPageParams(state.pageSize, state.currentPage);
+    const pageParams = getPageParams(pageSize, state.currentPage);
     const queryParams = getQueryParams(query);
     state.response = await fetchData(http, {...pageParams, ...queryParams});
     if (!state.response.error) {
@@ -124,9 +124,9 @@ export default function usePaginate(
     }
     if (state.response.meta) {
       state.total = state.response.meta.total;
-      if (state.total > state.pageSize) {
+      if (state.total > pageSize) {
         state.showPaginator = true;
-        state.pages = Math.ceil(state.total / state.pageSize);
+        state.pages = Math.ceil(state.total / pageSize);
       } else {
         state.currentPage = 1;
         state.pages = 1;

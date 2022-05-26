@@ -80,7 +80,7 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="filters.application"
+                v-model="filters.methodOfApplication"
                 :label="$t('recruitment.method_of_application')"
                 type="select"
                 :options="applications"
@@ -175,11 +175,11 @@ const defaultFilters = {
   toDate: null,
 };
 const defaultSortOrder = {
-  'v.vacancy': 'DEFAULT',
-  'c.candidate': 'DEFAULT',
-  'h.manager': 'DEFAULT',
-  'd.fromDate': 'DESC',
-  's.status': 'DEFAULT',
+  'vacancy.name': 'DEFAULT',
+  'candidate.lastName': 'DEFAULT',
+  'employee.lastName': 'DEFAULT',
+  'candidate.dateOfApplication': 'DESC',
+  'candidateVacancy.status': 'DEFAULT',
 };
 
 export default {
@@ -230,12 +230,14 @@ export default {
       return data.map(item => {
         return {
           id: item.id,
-          vacancy: item.vacancy?.jobTitle,
-          candidate: `${item.candidate.firstName} ${item.candidate.middleName} ${item.candidate.lastName}`,
-          manager: `${item.hiringManager.firstName} ${item.hiringManager.middleName} ${item.hiringManager.lastName}`,
-          fromDate: item.fromDate,
-          status: statuses.find(({id}) => id === item.status.id)?.label,
-          resume: item.resume,
+          vacancy: item.vacancy?.name,
+          candidate: `${item.firstName} ${item.middleName} ${item.lastName}`,
+          manager: item.vacancy
+            ? `${item.vacancy.hiringManager.firstName} ${item.vacancy.hiringManager.middleName} ${item.vacancy.hiringManager.lastName}`
+            : '',
+          dateOfApplication: item.dateOfApplication,
+          status: item.status?.label,
+          resume: item.hasAttachment,
         };
       });
     };
@@ -263,23 +265,24 @@ export default {
     });
     const serializedFilters = computed(() => {
       return {
-        jobTitle: filters.value.jobTitle?.id,
-        vacancy: filters.value.vacancy?.id,
-        manager: filters.value.hiringManager?.id,
-        keywords: filters.value.keywords?.id,
-        application: filters.value.application?.id,
-        candidate: filters.value.candidate?.id,
-        dateFrom: filters.value.fromDate,
-        dateTo: filters.value.toDate,
+        jobTitleId: filters.value.jobTitle?.id,
+        vacancyId: filters.value.vacancy?.id,
+        hiringManagerId: filters.value.hiringManager?.id,
+        keywords: filters.value.keywords,
+        candidateId: filters.value.candidate?.id,
+        fromDate: filters.value.fromDate,
+        toDate: filters.value.toDate,
         status: filters.value.status,
+        methodOfApplication: filters.value.methodOfApplication?.id,
+        model: 'list',
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };
     });
 
     const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      'recruitment/api/candidate',
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/candidates',
     );
 
     const {
@@ -321,32 +324,32 @@ export default {
         {
           name: 'vacancy',
           title: this.$t('recruitment.vacancy'),
-          sortField: 'v.vacancy',
+          sortField: 'vacancy.name',
           style: {flex: 1},
         },
         {
           name: 'candidate',
           slot: 'title',
           title: this.$t('recruitment.candidate'),
-          sortField: 'c.candidate',
+          sortField: 'candidate.lastName',
           style: {flex: 1},
         },
         {
           name: 'manager',
           title: this.$t('recruitment.hiring_manager'),
-          sortField: 'h.manager',
+          sortField: 'hiringManager.lastName',
           style: {flex: 1},
         },
         {
-          name: 'fromDate',
+          name: 'dateOfApplication',
           title: this.$t('recruitment.date_of_application'),
-          sortField: 'd.fromDate',
+          sortField: 'candidate.dateOfApplication',
           style: {flex: 1},
         },
         {
           name: 'status',
           title: this.$t('general.status'),
-          sortField: 's.status',
+          sortField: 'candidateVacancy.status',
           style: {flex: 1},
         },
         {
@@ -408,7 +411,7 @@ export default {
       navigate('/recruitment/addCandidate');
     },
     onClickEdit(item) {
-      navigate('/recruitment/addCandidate/{id}', {id: item.id});
+      navigate('/recruitment/viewCandidate/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -428,7 +431,10 @@ export default {
       });
     },
     onDownload(item) {
-      navigate('/recruitment/download/{id}', {id: item.id});
+      if (!item?.id) return;
+      const fileUrl = 'recruitment/viewCandidateAttachment/candidateId';
+      const downUrl = `${window.appGlobal.baseUrl}/${fileUrl}/${item.id}`;
+      window.open(downUrl, '_blank');
     },
     deleteItems(items) {
       if (items instanceof Array) {

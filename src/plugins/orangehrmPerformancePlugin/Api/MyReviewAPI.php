@@ -47,6 +47,8 @@ class MyReviewAPI extends Endpoint implements CrudEndpoint
         $performanceReviewSearchFilterParams->setEmpNumber(
             $this->getAuthUser()->getEmpNumber()
         );
+        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
+
         $reviews = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
             ->getPerformanceReviewList($performanceReviewSearchFilterParams);
@@ -66,7 +68,7 @@ class MyReviewAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(PerformanceReviewSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(PerformanceReviewSearchFilterParams::MY_REVIEW_ALLOWED_SORT_FIELDS)
         );
     }
 

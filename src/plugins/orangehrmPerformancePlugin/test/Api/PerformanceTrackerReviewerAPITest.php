@@ -46,4 +46,60 @@ class PerformanceTrackerReviewerAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('PerformanceTrackerReviewerAPITestCases.yaml', 'GetAll');
     }
+
+    public function testCreate(): void
+    {
+        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
+
+    public function testUpdate(): void
+    {
+        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
+    }
 }

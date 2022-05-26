@@ -19,11 +19,17 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\Entity\Reviewer;
+
 use OrangeHRM\Entity\PerformanceReview;
 
 class PerformanceReviewDecorator
 {
+    use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
 
     protected PerformanceReview $performanceReview;
@@ -43,6 +49,38 @@ class PerformanceReviewDecorator
     {
         return $this->performanceReview;
     }
+
+    /**
+     * @param int $empNumber
+     */
+    public function setEmployeeByEmpNumber(int $empNumber): void
+    {
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getPerformanceReview()->setEmployee($employee);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setJobTitleById(int $id): void
+    {
+        $jobTitle = $this->getReference(JobTitle::class, $id);
+        $this->getPerformanceReview()->setJobTitle($jobTitle);
+    }
+
+    /**
+     * @return Reviewer
+     */
+    public function getSupervisorReviewer(): Reviewer
+    {
+        $reviewers = [...$this->performanceReview->getReviewers()];
+        $supervisorArray = array_filter($reviewers, function ($reviewer) {
+            /** @var Reviewer $reviewer */
+            return $reviewer->getGroup()->getName() === 'Supervisor';
+        });
+        return array_values($supervisorArray)[0];
+    }
+
 
     /**
      * @return string|null
@@ -75,10 +113,12 @@ class PerformanceReviewDecorator
     {
         $statusId = $this->getPerformanceReview()->getStatusId();
         switch ($statusId) {
+            case PerformanceReview::STATUS_INACTIVE:
+                return 'Inactive';
             case PerformanceReview::STATUS_ACTIVATED:
                 return 'Activated';
             case PerformanceReview::STATUS_IN_PROGRESS:
-                return 'In progress';
+                return 'In Progress';
             case PerformanceReview::STATUS_COMPLETED:
                 return 'Completed';
             default:
