@@ -26,9 +26,9 @@ use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
-use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use PHPUnit\Exception;
 
 class PerformanceTrackerDao extends BaseDao
@@ -51,7 +51,7 @@ class PerformanceTrackerDao extends BaseDao
 
     /**
      * @param PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams
-     * @return array
+     * @return PerformanceTracker[]
      */
     public function getPerformanceTrackList(PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams): array
     {
@@ -143,12 +143,11 @@ class PerformanceTrackerDao extends BaseDao
 
     /**
      * @param int $performanceTrackerId
-     * @return array
+     * @return PerformanceTrackerReviewer[]
      */
     public function getReviewerListByTrackerId(int $performanceTrackerId): array
     {
         $q = $this->createQueryBuilder(PerformanceTrackerReviewer::class, 'ptr');
-        $q->leftJoin('ptr.reviewer', 'ptrR');
         $q->andWhere('ptr.performanceTracker = :performanceTracker')
             ->setParameter('performanceTracker', $performanceTrackerId);
         return $q->getQuery()->execute();
@@ -207,7 +206,6 @@ class PerformanceTrackerDao extends BaseDao
     public function getReviewerList(PerformanceTrackerReviewerSearchFilterParams $performanceTrackerReviewerSearchFilterParams)
     {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
-        $q->select();
         $this->setSortingAndPaginationParams($q, $performanceTrackerReviewerSearchFilterParams);
         if (!is_null($performanceTrackerReviewerSearchFilterParams->getTrackerEmpNumber())) {
             $q->andWhere('employee.empNumber != :excludeEmployee')

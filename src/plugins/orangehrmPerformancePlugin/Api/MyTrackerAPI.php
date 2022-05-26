@@ -42,11 +42,11 @@ class MyTrackerAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointResult
     {
         $performanceTrackerSearchParamHolder = new PerformanceTrackerSearchFilterParams();
-        $this->setSortingAndPaginationParams($performanceTrackerSearchParamHolder);
 
         $performanceTrackerSearchParamHolder->setEmpNumber(
             $this->getAuthUser()->getEmpNumber()
         );
+        $this->setSortingAndPaginationParams($performanceTrackerSearchParamHolder);
         $performanceTrackers = $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
             ->getPerformanceTrackList($performanceTrackerSearchParamHolder);

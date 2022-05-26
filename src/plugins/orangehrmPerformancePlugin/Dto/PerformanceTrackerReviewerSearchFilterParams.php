@@ -23,7 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class PerformanceTrackerReviewerSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = [];
+    public const    ALLOWED_SORT_FIELDS = [];
     /**
      * @var int|null
      */

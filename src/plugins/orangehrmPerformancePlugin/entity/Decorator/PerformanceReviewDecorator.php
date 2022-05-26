@@ -39,7 +39,7 @@ class PerformanceReviewDecorator
     /**
      * @return PerformanceReview
      */
-    public function getPerformanceReview(): PerformanceReview
+    protected function getPerformanceReview(): PerformanceReview
     {
         return $this->performanceReview;
     }

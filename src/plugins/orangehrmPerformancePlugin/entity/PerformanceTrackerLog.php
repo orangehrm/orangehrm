@@ -21,13 +21,21 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\PerformanceTrackerLogDecorator;
 
 /**
+ * @method PerformanceTrackerLogDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_performance_tracker_log")
  * @ORM\Entity
  */
 class PerformanceTrackerLog
 {
+    use DecoratorTrait;
+
+    public const POSITIVE_RATING = 1;
+    public const NEGATIVE_RATING = 2;
     /**
      * @var int
      *
@@ -105,7 +113,7 @@ class PerformanceTrackerLog
      *   @ORM\JoinColumn(name="reviewer_id", referencedColumnName="emp_number")
      * })
      */
-    private ?Employee $employee;
+    private ?Employee $reviewer;
 
     /**
      * @var User|null
@@ -248,17 +256,17 @@ class PerformanceTrackerLog
     /**
      * @return Employee|null
      */
-    public function getEmployee(): ?Employee
+    public function getReviewer(): ?Employee
     {
-        return $this->employee;
+        return $this->reviewer;
     }
 
     /**
-     * @param Employee|null $employee
+     * @param Employee|null $reviewer
      */
-    public function setEmployee(?Employee $employee): void
+    public function setReviewer(?Employee $reviewer): void
     {
-        $this->employee = $employee;
+        $this->reviewer = $reviewer;
     }
 
     /**

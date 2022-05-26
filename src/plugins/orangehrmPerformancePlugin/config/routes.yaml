@@ -54,15 +54,22 @@ apiv2_performance_employee_trackers:
   defaults:
     _api: OrangeHRM\Performance\Api\EmployeeTrackerAPI
 
+apiv2_performance_employee_tracker:
+  path: /api/v2/performance/employees/trackers/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET]
+  defaults:
+    _api: OrangeHRM\Performance\Api\EmployeeTrackerAPI
+
 apiv2_performance_my_tracker_logs:
-  path: /api/v2/performance/trackerlogs
+  path: /api/v2/performance/trackers/{id}/logs
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Performance\Api\MyReviewAPI
+    _api: OrangeHRM\Performance\Api\MyTrackerLogAPI
 
 apiv2_performance_my_tracker_log:
-  path: /api/v2/performance/trackerlogs/{id}
+  path: api/v2/performance/trackers/log/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:

@@ -1,10 +1,10 @@
 <?php
 
 namespace OrangeHRM\Performance\Traits\Service;
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Service\PerformanceTrackerLogService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
 
 trait PerformanceTrackerLogServiceTrait
 {

@@ -19,22 +19,23 @@
 
 namespace OrangeHRM\Performance\Service;
 
-use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Performance\Dao\PerformanceTrackerLogDao;
 
 class PerformanceTrackerLogService
 {
-    private PerformanceTrackerLogDao $performanceTrackerLogDao;
+    /**
+     * @var PerformanceTrackerLogDao|null
+     */
+    private ?PerformanceTrackerLogDao $performanceTrackerLogDao = null;
 
     /**
      * @return PerformanceTrackerLogDao
      */
     public function getPerformanceTrackerLogDao(): PerformanceTrackerLogDao
     {
-        if (!($this->performanceTrackerLogDao instanceof PerformanceTrackerLogDao)){
+        if (!($this->performanceTrackerLogDao instanceof PerformanceTrackerLogDao)) {
             $this->performanceTrackerLogDao = new PerformanceTrackerLogDao();
         }
         return $this->performanceTrackerLogDao;
     }
-
 }

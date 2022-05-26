@@ -17,44 +17,46 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Dto;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\PerformanceTrackerLog;
 
-class PerformanceTrackerSearchFilterParams extends FilterParams
+class PerformanceTrackerLogDecorator
 {
-    public const ALLOWED_SORT_FIELDS = [
-        'performanceTracker.trackerName',
-        'performanceTracker.addedDate',
-        'employee.empNumber', 'employee.lastName',
-        'performanceTracker.modifiedDate'
-    ];
+    use DateTimeHelperTrait;
+
+    protected PerformanceTrackerLog $performanceTrackerLog;
 
     /**
-     * @var int|null
+     * @param PerformanceTrackerLog $performanceTrackerLog
      */
-    protected ?int $empNumber = null;
-
-    public function __construct()
+    public function __construct(PerformanceTrackerLog $performanceTrackerLog)
     {
-        $this->setSortField('performanceTracker.modifiedDate');
-        $this->setSortOrder(ListSorter::DESCENDING);
+        $this->performanceTrackerLog = $performanceTrackerLog;
     }
 
     /**
-     * @return int|null
+     * @return PerformanceTrackerLog
      */
-    public function getEmpNumber(): ?int
+    protected function getPerformanceTrackerLog(): PerformanceTrackerLog
     {
-        return $this->empNumber;
+        return $this->performanceTrackerLog;
     }
 
     /**
-     * @param int|null $empNumber
+     * @return string|null
      */
-    public function setEmpNumber(?int $empNumber): void
+    public function getAddedDate(): ?string
     {
-        $this->empNumber = $empNumber;
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceTrackerLog()->getAddedDate());
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getModifiedDate(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceTrackerLog()->getModifiedDate());
     }
 }
