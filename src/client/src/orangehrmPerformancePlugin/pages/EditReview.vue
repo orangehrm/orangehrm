@@ -63,7 +63,7 @@
               <date-input
                 v-model="review.endDate"
                 :label="$t('performance.review_period_end_date')"
-                :rules="rules.fromDate"
+                :rules="rules.endDate"
                 required
               />
             </oxd-grid-item>
@@ -71,7 +71,7 @@
               <date-input
                 v-model="review.dueDate"
                 :label="$t('performance.due_date')"
-                :rules="rules.fromDate"
+                :rules="rules.dueDate"
                 required
               />
             </oxd-grid-item>
@@ -113,11 +113,11 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import SupervisorAutoComplete from '@/orangehrmPerformancePlugin/components/SupervisorAutoComplete';
 import {APIService} from '@/core/util/services/api.service';
 import {
+  endDateShouldBeAfterStartDate,
   required,
   startDateShouldBeBeforeEndDate,
   validDateFormat,
 } from '@/core/util/validation/rules';
-import usei18n from '@/core/util/composable/usei18n';
 import {ref} from 'vue';
 
 const reviewModel = {
@@ -140,37 +140,53 @@ export default {
     },
   },
   setup() {
-    const review = ref({...reviewModel});
-    const {$t} = usei18n();
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/performance/reviews',
     );
     http.setIgnorePath('/api/v2/performance/reviews/[0-9]+');
-    const rules = {
-      employee: [required],
-      supervisorReviewer: [required],
-      startDate: [
-        required,
-        validDateFormat(),
-        startDateShouldBeBeforeEndDate(
-          () => review.value.endDate,
-          $t('general.from_date_should_be_before_to_date'),
-          {allowSameDate: false},
-        ),
-      ],
-      endDate: [required],
-      dueDate: [required],
-    };
     return {
       http,
-      rules,
     };
   },
   data() {
     return {
       isLoading: false,
       review: {...reviewModel},
+      rules: {
+        employee: [required],
+        supervisorReviewer: [required],
+        startDate: [
+          required,
+          validDateFormat(),
+          startDateShouldBeBeforeEndDate(
+              () => this.review.endDate,
+              this.$t(
+                  'general.review_period_start_date_should_be_before_end_date',
+              ),
+          ),
+        ],
+        endDate: [
+          required,
+          validDateFormat(),
+          endDateShouldBeAfterStartDate(
+              () => this.review.startDate,
+              this.$t(
+                  'performance.review_period_end_date_should_be_after_start_date',
+              ),
+          ),
+        ],
+        dueDate: [
+          required,
+          validDateFormat(),
+          endDateShouldBeAfterStartDate(
+              () => this.review.endDate,
+              this.$t(
+                  'performance.due_date_should_be_after_review_period_end_date',
+              ),
+          ),
+        ],
+      },
     };
   },
   created() {

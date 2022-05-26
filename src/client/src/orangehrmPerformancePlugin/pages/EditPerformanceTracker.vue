@@ -81,6 +81,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
+import {APIService} from '@/core/util/services/api.service';
 
 const trackerModel = {
   name: null,
@@ -98,6 +99,16 @@ export default {
       type: Number,
       required: true,
     },
+  },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/performance/config/trackers',
+    );
+    return {
+      http,
+    };
   },
 
   data() {
