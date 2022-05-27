@@ -1,39 +1,6 @@
 Create:
-  'Add new Vacancy - Admin':
+  'Add new Vacancy':
     userId: 1
-    services:
-      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
-    now:
-      datetime: '2022-05-25 08:42:00'
-    body:
-      name: 'Tesla Motor Engineer'
-      employeeId: 3
-      jobTitleId: 4
-      numOfPositions: 2
-      description: 'Only apply Mechatronic engineers'
-      isPublished: true
-      status: 1
-    data:
-      id: 7
-      name: 'Tesla Motor Engineer'
-      description: 'Only apply Mechatronic engineers'
-      numOfPositions: 2
-      status: 1
-      isPublished: true
-      jobTitle:
-        id: 4
-        title: 'Engineering Officer'
-        isDeleted: false
-      hiringManager:
-        id: 3
-        firstName: 'Renukshan'
-        middleName: 'RT'
-        lastName: 'Saputhanthri'
-        terminationId: null
-    meta: [ ]
-
-  'Add new Vacancy - ESS':
-    userId: 2
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
     now:

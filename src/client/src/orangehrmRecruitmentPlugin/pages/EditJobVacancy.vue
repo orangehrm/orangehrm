@@ -475,10 +475,15 @@ export default {
         });
       })
       .then(() => {
-        this.httpAttachments.get(this.vacancyId).then(response => {
-          const {data} = response.data;
-          this.attachments = attachmentNormalizer(data);
-        });
+        this.httpAttachments
+          .request({
+            method: 'GET',
+            url: `/api/v2/recruitment/vacancies/${this.vacancyId}/attachments`,
+          })
+          .then(response => {
+            const {data} = response.data;
+            this.attachments = attachmentNormalizer(data);
+          });
       })
       .finally(() => {
         this.isLoadingTable = false;
@@ -567,10 +572,15 @@ export default {
     },
     resetDataTable() {
       this.checkedItems = [];
-      this.httpAttachments.get(this.vacancyId).then(response => {
-        const {data} = response.data;
-        this.attachments = attachmentNormalizer(data);
-      });
+      this.httpAttachments
+        .request({
+          method: 'GET',
+          url: `/api/v2/recruitment/vacancies/${this.vacancyId}/attachments`,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.attachments = attachmentNormalizer(data);
+        });
     },
     onClickAdd() {
       this.isEditClicked = false;
@@ -596,7 +606,7 @@ export default {
       this.httpAttachments
         .request({
           method: 'PUT',
-          url: `/api/v2/recruitment/vacancy/attachment/${this.vacancyAttachment.id}`,
+          url: `/api/v2/recruitment/vacancies/${this.vacancyId}/attachments/${this.vacancyAttachment.id}`,
           data: {
             vacancyId: parseInt(this.vacancyId),
             currentAttachment: this.vacancyAttachment.oldAttachment

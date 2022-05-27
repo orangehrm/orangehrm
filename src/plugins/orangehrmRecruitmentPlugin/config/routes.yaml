@@ -13,16 +13,16 @@ apiv2_recruitment_vacancies:
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAPI
 
-apiv2_recruitment_vacancy_attachment_vacancyId:
-  path: /api/v2/recruitment/vacancy/attachments/{vacancyId}
+apiv2_recruitment_vacancies_attachments:
+  path: /api/v2/recruitment/vacancies/{vacancyId}/attachments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
     _key: vacancyId
 
-apiv2_recruitment_vacancy_attachment_update_by_attachment_id:
-  path: /api/v2/recruitment/vacancy/attachment/{attachmentId}
+apiv2_recruitment_vacancies_attachment:
+  path: /api/v2/recruitment/vacancies/{vacancyId}/attachments/{attachmentId}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ PUT ]
   defaults:
@@ -78,22 +78,6 @@ apiv2_recruitment_hiring_managers:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\HiringManagerAPI
-
-apiv2_recruitment_candidate_workflow:
-  path: /api/v2/recruitment/candidate-workflow/{candidateId}
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
-  defaults:
-    _api: OrangeHRM\Recruitment\Api\CandidateWorkflowAPI
-    _key: id
-
-apiv2_recrutiment_reject_candidate:
-  path: /api/v2/recruitment/reject-candidate/{candidateId}
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ PUT ]
-  defaults:
-    _api: OrangeHRM\Recruitment\Api\RejectCandidateAPI
-    _key: id
 
 ##########################
 #        Files
