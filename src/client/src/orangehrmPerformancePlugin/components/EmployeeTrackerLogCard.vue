@@ -30,6 +30,13 @@
       </div>
     </div>
     <div class="orangehrm-employee-tracker-log-content-section">
+      <div class="orangehrm-employee-tracker-log-reviewer-name">
+        <oxd-text>
+          {{
+            trackerLog.reviewer.firstName + ' ' + trackerLog.reviewer.lastName
+          }}
+        </oxd-text>
+      </div>
       <div class="orangehrm-employee-tracker-log-content-container">
         <div class="orangehrm-employee-tracker-log-header">
           <div class="orangehrm-employee-tracker-log-title">
@@ -66,29 +73,43 @@
           </oxd-text>
         </div>
       </div>
-      <div class="orangehrm-employee-tracker-log-reviewer">
-        <oxd-text class="orangehrm-employee-tracker-log-reviewer-name">
-          {{
-            trackerLog.reviewer.firstName + ' ' + trackerLog.reviewer.lastName
-          }}
-        </oxd-text>
-        <oxd-text>
-          {{ $t('performance.added_on') + ': ' + trackerLog.addedDate }}
-        </oxd-text>
-        <oxd-text v-if="trackerLog.modifiedDate">
-          {{ $t('performance.modified_on') + ': ' + trackerLog.modifiedDate }}
-        </oxd-text>
+      <div class="orangehrm-employee-tracker-log-reviewer-date">
+        <div class="orangehrm-employee-tracker-log-reviewer-date-container">
+          <oxd-icon
+            class="orangehrm-employee-tracker-log-reviewer-date-icon"
+            name="calendar-plus"
+            title="Added On"
+          />
+          <oxd-text>
+            {{ trackerLog.addedDate }}
+          </oxd-text>
+        </div>
+        <div
+          v-if="trackerLog.modifiedDate"
+          class="orangehrm-employee-tracker-log-reviewer-date-container"
+        >
+          <oxd-icon
+            class="orangehrm-employee-tracker-log-reviewer-date-icon"
+            name="pencil"
+            title="Modified On"
+          />
+          <oxd-text>
+            {{ trackerLog.modifiedDate }}
+          </oxd-text>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown.vue';
 
 export default {
   name: 'EmployeeTrackerLogCard',
   components: {
+    'oxd-icon': Icon,
     'oxd-dropdown': Dropdown,
   },
   props: {
@@ -199,12 +220,30 @@ export default {
   }
 
   &-reviewer {
-    margin-top: 0.6rem;
-    margin-left: 1.2rem;
-    font-size: 14px;
+    display: flex;
 
     &-name {
       font-weight: 700;
+      margin-left: 1.2rem;
+      font-size: 14px;
+    }
+
+    &-date {
+      display: flex;
+      flex-direction: column;
+      margin-top: 0.3rem;
+      margin-left: 1.2rem;
+      font-size: 14px;
+
+      &-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      &-icon {
+        margin-right: 0.3rem;
+      }
     }
   }
 }
