@@ -62,7 +62,7 @@ apiv2_performance_my_trackers:
     _api: OrangeHRM\Performance\Api\MyTrackerAPI
 
 apiv2_performance_my_reviews:
-  path: /api/v2/performance/reviews
+  path: /api/v2/performance/my-reviews
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
