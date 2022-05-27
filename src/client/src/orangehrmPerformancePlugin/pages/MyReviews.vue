@@ -79,7 +79,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/reviews',
+      '/api/v2/performance/my-reviews',
     );
 
     const {jsDateFormat} = useDateFormat();

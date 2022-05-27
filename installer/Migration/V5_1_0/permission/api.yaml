@@ -74,6 +74,7 @@ apiv2_performance_my_reviews:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_performance_employee_trackers:
   description: 'API-v2 Performance - Employee Trackers'
