@@ -19,12 +19,16 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerLog;
 
 class PerformanceTrackerLogDecorator
 {
     use DateTimeHelperTrait;
+    use EntityManagerHelperTrait;
 
     protected PerformanceTrackerLog $performanceTrackerLog;
 
@@ -58,5 +62,25 @@ class PerformanceTrackerLogDecorator
     public function getModifiedDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceTrackerLog()->getModifiedDate());
+    }
+
+    /**
+     * @param int $empNumber
+     * @return void
+     */
+    public function setReviewerByEmpNumber(int $empNumber): void
+    {
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getPerformanceTrackerLog()->setReviewer($employee);
+    }
+
+    /**
+     * @param int $trackerId
+     * @return void
+     */
+    public function setPerformanceTrackerById(int $trackerId): void
+    {
+        $tracker = $this->getReference(PerformanceTracker::class,$trackerId);
+        $this->getPerformanceTrackerLog()->setPerformanceTracker($tracker);
     }
 }

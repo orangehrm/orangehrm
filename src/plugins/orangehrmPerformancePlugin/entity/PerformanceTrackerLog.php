@@ -36,6 +36,7 @@ class PerformanceTrackerLog
 
     public const POSITIVE_RATING = 1;
     public const NEGATIVE_RATING = 2;
+    public const STATUS_NOT_DELETED =1;
     /**
      * @var int
      *

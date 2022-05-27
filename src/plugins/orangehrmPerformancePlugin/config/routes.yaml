@@ -99,14 +99,14 @@ apiv2_performance_employee_tracker:
 apiv2_performance_my_tracker_logs:
   path: /api/v2/performance/trackers/{id}/logs
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
+  methods: [ GET,POST]
   defaults:
     _api: OrangeHRM\Performance\Api\MyTrackerLogAPI
 
 apiv2_performance_my_tracker_log:
   path: api/v2/performance/trackers/log/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
+  methods: [ GET,PUT]
   defaults:
     _api: OrangeHRM\Performance\Api\MyTrackerLogAPI
 ##########################

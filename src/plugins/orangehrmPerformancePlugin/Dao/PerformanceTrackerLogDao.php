@@ -30,7 +30,7 @@ class PerformanceTrackerLogDao extends BaseDao
      * @param int $performanceTrackerLogId
      * @return PerformanceTrackerLog|null
      */
-    public function getPerformanceTrackerLog(int $performanceTrackerLogId): ?PerformanceTrackerLog
+    public function getPerformanceTrackerLogById(int $performanceTrackerLogId): ?PerformanceTrackerLog
     {
         $performanceTrackerLog = $this->getRepository(PerformanceTrackerLog::class)->findOneBy(['id' => $performanceTrackerLogId]);
         if ($performanceTrackerLog instanceof PerformanceTrackerLog) {
@@ -84,5 +84,15 @@ class PerformanceTrackerLogDao extends BaseDao
             ->andWhere('ptrLog.achievement = :ratingId')
             ->setParameter('ratingId', $rateType);
         return $this->getPaginator($q)->count();
+    }
+
+    /**
+     * @param PerformanceTrackerLog $performanceTrackerLog
+     * @return PerformanceTrackerLog
+     */
+    public function savePerformanceTrackerLog(PerformanceTrackerLog $performanceTrackerLog): PerformanceTrackerLog
+    {
+        $this->persist($performanceTrackerLog);
+        return $performanceTrackerLog;
     }
 }

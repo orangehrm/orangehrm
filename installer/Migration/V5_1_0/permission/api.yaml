@@ -119,12 +119,12 @@ apiv2_performance_my_tracker_logs:
   module: performance
   allowed:
     read: true
-    create: false
-    update: false
-    delete: false
+    create: true
+    update: true
+    delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 ##########################
 #        Recruitment
