@@ -27,7 +27,7 @@ use OrangeHRM\Entity\VacancyAttachment;
 class RecruitmentAttachmentDao extends BaseDao
 {
     /**
-     * @param  VacancyAttachment  $vacancyAttachment
+     * @param VacancyAttachment $vacancyAttachment
      * @return VacancyAttachment
      */
     public function saveVacancyAttachment(VacancyAttachment $vacancyAttachment): VacancyAttachment
@@ -47,10 +47,10 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
-     * @param  int  $attachId
+     * @param int $attachId
      * @return VacancyAttachment|null
      */
-    public function getVacancyAttachment(int $attachId): ?VacancyAttachment
+    public function getVacancyAttachmentById(int $attachId): ?VacancyAttachment
     {
         $attachment = $this->getRepository(VacancyAttachment::class)->find($attachId);
         if ($attachment instanceof VacancyAttachment) {
@@ -85,10 +85,10 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
-     * @param $vacancyId
+     * @param int $vacancyId
      * @return VacancyAttachment[]
      */
-    public function getVacancyAttachments($vacancyId): array
+    public function getVacancyAttachmentsByVacancyId(int $vacancyId): array
     {
         $qb = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
         $qb->leftJoin('attachment.vacancy', 'vacancy');
@@ -99,10 +99,10 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
-     * @param $vacancyId
+     * @param int $vacancyId
      * @return int
      */
-    public function getAttachmentCount($vacancyId): int
+    public function getAttachmentCount(int $vacancyId): int
     {
         $qb = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
         $qb->leftJoin('attachment.vacancy', 'vacancy');

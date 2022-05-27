@@ -36,12 +36,7 @@
               ></hiring-manager-dropdown>
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="filters.status"
-                type="select"
-                :label="$t('general.status')"
-                :options="statuses"
-              />
+              <candidate-status-dropdown v-model="filters.status" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -154,6 +149,7 @@ import {APIService} from '@/core/util/services/api.service';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
+import CandidateStatusDropdown from '@/orangehrmRecruitmentPlugin/components/CandidateStatusDropdown';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import usei18n from '@/core/util/composable/usei18n';
 
@@ -177,7 +173,7 @@ const defaultFilters = {
 const defaultSortOrder = {
   'vacancy.name': 'DEFAULT',
   'candidate.lastName': 'DEFAULT',
-  'employee.lastName': 'DEFAULT',
+  'hiringManager.lastName': 'DEFAULT',
   'candidate.dateOfApplication': 'DESC',
   'candidateVacancy.status': 'DEFAULT',
 };
@@ -191,41 +187,11 @@ export default {
     'hiring-manager-dropdown': HiringManagerDropdown,
     'vacancy-dropdown': VacancyDropdown,
     'jobtitle-dropdown': JobtitleDropdown,
+    'candidate-status-dropdown': CandidateStatusDropdown,
   },
 
   setup() {
     const {$t} = usei18n();
-
-    const statuses = [
-      {
-        id: 1,
-        label: $t('recruitment.application_initiated'),
-      },
-      {
-        id: 2,
-        label: $t('recruitment.shortlisted'),
-      },
-      {
-        id: 3,
-        label: $t('recruitment.interview_scheduled'),
-      },
-      {
-        id: 4,
-        label: $t('recruitment.interview_passed'),
-      },
-      {
-        id: 5,
-        label: $t('recruitment.interview_failed'),
-      },
-      {
-        id: 6,
-        label: $t('recruitment.job_offered'),
-      },
-      {
-        id: 7,
-        label: $t('recruitment.offered_declined'),
-      },
-    ];
     const candidateDataNormalizer = data => {
       return data.map(item => {
         return {
@@ -233,7 +199,13 @@ export default {
           vacancy: item.vacancy?.name,
           candidate: `${item.firstName} ${item.middleName} ${item.lastName}`,
           manager: item.vacancy
-            ? `${item.vacancy.hiringManager.firstName} ${item.vacancy.hiringManager.middleName} ${item.vacancy.hiringManager.lastName}`
+            ? `${item.vacancy.hiringManager.firstName} ${
+                item.vacancy.hiringManager.lastName
+              } ${
+                item.vacancy.hiringManager.terminationId
+                  ? $t('general.past_employee')
+                  : ''
+              }`
             : '',
           dateOfApplication: item.dateOfApplication,
           status: item.status?.label,
@@ -272,7 +244,7 @@ export default {
         candidateId: filters.value.candidate?.id,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
-        status: filters.value.status,
+        status: filters.value.status?.id,
         methodOfApplication: filters.value.methodOfApplication?.id,
         model: 'list',
         sortField: sortField.value,
@@ -313,7 +285,6 @@ export default {
       items: response,
       filters,
       sortDefinition,
-      statuses,
       rules,
     };
   },

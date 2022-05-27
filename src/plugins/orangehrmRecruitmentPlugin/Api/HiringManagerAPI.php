@@ -38,7 +38,7 @@ class HiringManagerAPI extends Endpoint implements CollectionEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $vacancies = $this->getVacancyService()->getVacancyDao()->getVacanciesOrderByHiringManagers();
+        $vacancies = $this->getVacancyService()->getVacancyDao()->getVacanciesGroupByHiringManagers();
         $hiringManagers = array_map(function ($vacancy) {
             return $vacancy->getHiringManager();
         }, $vacancies);

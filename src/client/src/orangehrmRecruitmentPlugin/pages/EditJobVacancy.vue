@@ -199,7 +199,7 @@
             <oxd-input-field
               v-model="vacancyAttachment.comment"
               type="textarea"
-              :label="$t('recruitment.comment')"
+              :label="$t('general.comment')"
               :placeholder="$t('general.type_comment_here')"
             />
           </oxd-grid-item>
@@ -475,10 +475,15 @@ export default {
         });
       })
       .then(() => {
-        this.httpAttachments.get(this.vacancyId).then(response => {
-          const {data} = response.data;
-          this.attachments = attachmentNormalizer(data);
-        });
+        this.httpAttachments
+          .request({
+            method: 'GET',
+            url: `/api/v2/recruitment/vacancies/${this.vacancyId}/attachments`,
+          })
+          .then(response => {
+            const {data} = response.data;
+            this.attachments = attachmentNormalizer(data);
+          });
       })
       .finally(() => {
         this.isLoadingTable = false;
@@ -567,10 +572,15 @@ export default {
     },
     resetDataTable() {
       this.checkedItems = [];
-      this.httpAttachments.get(this.vacancyId).then(response => {
-        const {data} = response.data;
-        this.attachments = attachmentNormalizer(data);
-      });
+      this.httpAttachments
+        .request({
+          method: 'GET',
+          url: `/api/v2/recruitment/vacancies/${this.vacancyId}/attachments`,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.attachments = attachmentNormalizer(data);
+        });
     },
     onClickAdd() {
       this.isEditClicked = false;
@@ -594,17 +604,20 @@ export default {
       this.isLoadingAttachment = true;
       this.isLoadingTable = true;
       this.httpAttachments
-        .update(this.vacancyId, {
-          id: this.vacancyAttachment.id,
-          vacancyId: parseInt(this.vacancyId),
-          currentAttachment: this.vacancyAttachment.oldAttachment
-            ? this.vacancyAttachment.method
-            : undefined,
-          attachment: this.vacancyAttachment.newAttachment
-            ? this.vacancyAttachment.newAttachment
-            : undefined,
-          comment: this.vacancyAttachment.comment,
-          attachmentType: 1,
+        .request({
+          method: 'PUT',
+          url: `/api/v2/recruitment/vacancies/${this.vacancyId}/attachments/${this.vacancyAttachment.id}`,
+          data: {
+            vacancyId: parseInt(this.vacancyId),
+            currentAttachment: this.vacancyAttachment.oldAttachment
+              ? this.vacancyAttachment.method
+              : undefined,
+            attachment: this.vacancyAttachment.newAttachment
+              ? this.vacancyAttachment.newAttachment
+              : undefined,
+            comment: this.vacancyAttachment.comment,
+            attachmentType: 1,
+          },
         })
         .then(() => {
           return this.$toast.saveSuccess();
