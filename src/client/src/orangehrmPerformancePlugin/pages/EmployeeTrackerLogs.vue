@@ -347,7 +347,13 @@ export default {
 
 .orangehrm-employee-tracker {
   display: flex;
-  flex-direction: row;
+  overflow: hidden;
+  @include oxd-respond-to('xs') {
+    flex-direction: column;
+  }
+  @include oxd-respond-to('sm') {
+    flex-direction: row;
+  }
 
   &-image-wrapper {
     padding: 0.6rem 1.2rem;
@@ -379,7 +385,16 @@ export default {
 
   &-header-section {
     display: flex;
-    flex-direction: row;
+    @include oxd-respond-to('xs') {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    @include oxd-respond-to('sm') {
+      flex-direction: row;
+      align-items: flex-start;
+      text-align: start;
+    }
   }
 
   &-header {
@@ -488,7 +503,12 @@ export default {
 
   &-title {
     display: flex;
-    flex-direction: row;
+    @include oxd-respond-to('xs') {
+      flex-direction: column;
+    }
+    @include oxd-respond-to('sm') {
+      flex-direction: row;
+    }
 
     &-text {
       font-weight: 700;
