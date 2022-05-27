@@ -1,3 +1,323 @@
+Create:
+  'save review without empNumber':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      activate: false
+      dueDate: '2022-05-17'
+      reviewerEmpNumber: 1
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+    invalidOnly: [ 'empNumber' ]
+
+  'save review with activate':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-03'
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 7
+    data:
+      id: 37
+      "jobTitle":
+        "id": 1
+        "name": "Software Engineer"
+        "deleted": false
+      "subunit":
+        "id": 5
+        "name": "Enterprise"
+      "reviewPeriodStart": "2022-05-09"
+      "reviewPeriodEnd": "2022-05-24"
+      "dueDate": "2022-05-30"
+      "overallStatus":
+        "statusId": 2
+        "statusName": "Activated"
+      "selfReviewStatus": "Activated"
+
+  'save review with save draft':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      activate: false
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 7
+    data:
+      id: 37
+      "jobTitle":
+        "id": 1
+        "name": "Software Engineer"
+        "deleted": false
+      "subunit":
+        "id": 5
+        "name": "Enterprise"
+      "reviewPeriodStart": "2022-05-09"
+      "reviewPeriodEnd": "2022-05-24"
+      "dueDate": "2022-05-30"
+      "overallStatus":
+        "statusId": 1
+        "statusName": "Inactive"
+      "selfReviewStatus": "Activated"
+
+  'save review with activate without JobTitle':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 1
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      messsage: "Cannot activate review for employees who doesn't have a Job Title with KPI"
+
+  'save review with activate without KPI':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 15
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      messsage: "Cannot activate review without KPIs"
+
+Update:
+  'update review without empNumber':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body:
+      activate: false
+      dueDate: '2022-05-17'
+      reviewerEmpNumber: 1
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+    invalidOnly: [ 'empNumber' ]
+
+  'update review draft':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 9
+    body:
+      activate: false
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 7
+    data:
+      id: 9
+      "jobTitle":
+        "id": 1
+        "name": "Software Engineer"
+        "deleted": false
+      "subunit":
+        "id": 5
+        "name": "Enterprise"
+      "reviewPeriodStart": "2022-05-09"
+      "reviewPeriodEnd": "2022-05-24"
+      "dueDate": "2022-05-30"
+      "overallStatus":
+        "statusId": 1
+        "statusName": "Inactive"
+      "employee":
+        "empNumber": 7
+        "firstName": "Hansol"
+        "lastName": "Chew"
+        "terminationId": null
+      "reviewer":
+        "id": 73
+        "employee":
+          "empNumber": 2
+          "firstName": "Jaesang"
+          "lastName": "Park"
+          "terminationId": null
+
+  'update review with activate':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-07-03'
+    attributes:
+      id: 9
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 7
+    data:
+      id: 9
+      "jobTitle":
+        "id": 1
+        "name": "Software Engineer"
+        "deleted": false
+      "subunit":
+        "id": 5
+        "name": "Enterprise"
+      "reviewPeriodStart": "2022-05-09"
+      "reviewPeriodEnd": "2022-05-24"
+      "dueDate": "2022-05-30"
+      "overallStatus":
+        "statusId": 2
+        "statusName": "Activated"
+      "employee":
+        "empNumber": 7
+        "firstName": "Hansol"
+        "lastName": "Chew"
+        "terminationId": null
+      "reviewer":
+        "id": 73
+        "employee":
+          "empNumber": 2
+          "firstName": "Jaesang"
+          "lastName": "Park"
+          "terminationId": null
+
+  'update review with activate without JobTitle':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 9
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 1
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      messsage: "Cannot activate review for employees who doesn't have a Job Title with KPI"
+
+  'update review with activate without KPI':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 9
+    body:
+      activate: true
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 15
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      messsage: "Cannot activate review without KPIs"
+
+
+GetOne:
+  'get by Id':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    attributes:
+      id: 14
+    data:
+      id: 14
+      "jobTitle":
+        "id": 1
+        "name": "Software Engineer"
+        "deleted": false
+      "subunit":
+        "id": 5
+        "name": "Enterprise"
+      "reviewPeriodStart": "2022-07-01"
+      "reviewPeriodEnd": "2022-07-31"
+      "dueDate": "2022-07-31"
+      "overallStatus":
+        "statusId": 1
+        "statusName": "Inactive"
+      "employee":
+        "empNumber": 7
+        "firstName": "Hansol"
+        "lastName": "Chew"
+        "terminationId": null
+      "reviewer":
+        "id": 28
+        "employee":
+          "empNumber": 3
+          "firstName": "Seungcheol"
+          "lastName": "Choi"
+          "terminationId": null
+
 GetAll:
   'without query params':
     userId: 1

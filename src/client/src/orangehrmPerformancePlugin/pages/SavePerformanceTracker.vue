@@ -140,7 +140,9 @@ export default {
         .create({
           trackerName: this.tracker.name.trim(),
           empNumber: this.tracker.employee.id,
-          reviewers: this.tracker.reviewers.map(employee => employee.id),
+          reviewerEmpNumbers: this.tracker.reviewers.map(
+            employee => employee.id,
+          ),
         })
         .then(() => {
           return this.$toast.saveSuccess();

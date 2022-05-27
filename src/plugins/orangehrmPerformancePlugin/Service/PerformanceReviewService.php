@@ -19,7 +19,10 @@
 
 namespace OrangeHRM\Performance\Service;
 
+use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
+use OrangeHRM\Performance\Exception\ReviewServiceException;
 
 class PerformanceReviewService
 {
@@ -34,5 +37,38 @@ class PerformanceReviewService
             $this->performanceReviewDao = new PerformanceReviewDao();
         }
         return $this->performanceReviewDao;
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @param int $reviewerId
+     * @return PerformanceReview
+     * @throws ReviewServiceException
+     */
+    public function activateReview(PerformanceReview $performanceReview, int $reviewerId): PerformanceReview
+    {
+        if (! $performanceReview->getEmployee()->getJobTitle() instanceof JobTitle) {
+            throw ReviewServiceException::activateWithoutJobTitle();
+        }
+        if ($this->getPerformanceReviewDao()->getReviewKPI($performanceReview) == null) {
+            throw ReviewServiceException::activateWithoutKPI();
+        }
+        return $this->getPerformanceReviewDao()->createReview($performanceReview, $reviewerId);
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @return PerformanceReview
+     * @throws ReviewServiceException
+     */
+    public function updateActivateReview(PerformanceReview $performanceReview, int $reviewerEmpNumber): PerformanceReview
+    {
+        if (! $performanceReview->getEmployee()->getJobTitle() instanceof JobTitle) {
+            throw ReviewServiceException::activateWithoutJobTitle();
+        }
+        if ($this->getPerformanceReviewDao()->getReviewKPI($performanceReview) == null) {
+            throw ReviewServiceException::activateWithoutKPI();
+        }
+        return $this->getPerformanceReviewDao()->updateReview($performanceReview, $reviewerEmpNumber);
     }
 }

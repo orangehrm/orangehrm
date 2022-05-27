@@ -17,35 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
+namespace OrangeHRM\Performance\Controller;
 
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Performance\Service\PerformanceReviewService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class PerformanceReviewSaveController extends AbstractVueController
 {
-    use ServiceContainerTrait;
-
     /**
      * @inheritDoc
      */
-    public function initialize(Request $request): void
+    public function preRender(Request $request): void
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
-        $this->getContainer()->register(
-            Services::PERFORMANCE_REVIEW_SERVICE,
-            PerformanceReviewService::class
-        );
+        $id = $request->attributes->get('id');
+        if ($id) {
+            $component = new Component('edit-review');
+            $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('add-review');
+        }
+        $this->setComponent($component);
     }
 }

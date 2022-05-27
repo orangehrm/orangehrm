@@ -17,35 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Performance\Service\KpiService;
+namespace OrangeHRM\Performance\Exception;
 
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-use OrangeHRM\Performance\Service\PerformanceReviewService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
+use Exception;
 
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class ReviewServiceException extends Exception
 {
-    use ServiceContainerTrait;
+    /**
+     * @return static
+     */
+    public static function activateWithoutJobTitle(): self
+    {
+        return new self("Cannot activate review for employees who doesn't have a Job Title with KPI");
+    }
 
     /**
-     * @inheritDoc
+     * @return static
      */
-    public function initialize(Request $request): void
+    public static function activateWithoutKPI(): self
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
-        $this->getContainer()->register(
-            Services::PERFORMANCE_REVIEW_SERVICE,
-            PerformanceReviewService::class
-        );
+        return new self("Cannot activate review without KPIs");
     }
 }

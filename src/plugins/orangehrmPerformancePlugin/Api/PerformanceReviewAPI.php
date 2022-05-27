@@ -34,16 +34,25 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Performance\Api\Model\DetailedPerformanceReviewModel;
 use OrangeHRM\Performance\Api\Model\PerformanceReviewModel;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
+use OrangeHRM\Performance\Exception\ReviewServiceException;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
 {
     use PerformanceReviewServiceTrait;
     use DateTimeHelperTrait;
+    use EmployeeServiceTrait;
 
     public const FILTER_REVIEWER_EMP_NUMBER = 'reviewerEmpNumber';
+    public const PARAMETER_PERIOD_START_DATE = 'startDate';
+    public const PARAMETER_PERIOD_END_DATE = 'endDate';
+    public const PARAMETER_DUE_DATE = 'dueDate';
+    public const PARAMETER_ACTIVATE = 'activate';
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_STATUS_ID = 'statusId';
     public const FILTER_FROM_DATE = 'fromDate';
@@ -192,7 +201,32 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $performanceReview = new PerformanceReview();
+        $this->setReviewParams($performanceReview);
+        $reviewerEmpNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::FILTER_REVIEWER_EMP_NUMBER
+        );
+        $reportToRecord = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->getSupervisorRecord($performanceReview->getEmployee()->getEmpNumber(), $reviewerEmpNumber);
+        if ($reportToRecord == null) {
+            throw $this->getBadRequestException();
+        }
+        if ($this->getRequestParams()
+                ->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVATE) == true
+        ) {
+            try {
+                $performanceReview->setActivatedDate($this->getDateTimeHelper()->getNow());
+                $performanceReview->setStatusId(PerformanceReview::STATUS_ACTIVATED);
+                $this->getPerformanceReviewService()->activateReview($performanceReview, $reviewerEmpNumber);
+            } catch (ReviewServiceException $e) {
+                throw $this->getBadRequestException($e->getMessage());
+            }
+        } else {
+            $performanceReview->setStatusId(PerformanceReview::STATUS_INACTIVE);
+            $this->getPerformanceReviewService()->getPerformanceReviewDao()->createReview($performanceReview, $reviewerEmpNumber);
+        }
+        return new EndpointResourceResult(DetailedPerformanceReviewModel::class, $performanceReview);
     }
 
     /**
@@ -200,7 +234,69 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            ...$this->getCommonValidationRules()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCommonValidationRules(): array
+    {
+        return [
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+            new ParamRule(
+                self::FILTER_REVIEWER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+            new ParamRule(
+                self::PARAMETER_PERIOD_START_DATE,
+                new Rule(Rules::API_DATE)
+            ),
+            new ParamRule(
+                self::PARAMETER_PERIOD_END_DATE,
+                new Rule(Rules::API_DATE)
+            ),
+            new ParamRule(
+                self::PARAMETER_DUE_DATE,
+                new Rule(Rules::API_DATE)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ACTIVATE,
+                    new Rule(Rules::BOOL_VAL)
+                )
+            ),
+        ];
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @return void
+     */
+    private function setReviewParams(PerformanceReview $performanceReview): void
+    {
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $performanceReview->getDecorator()->setEmployeeByEmpNumber($empNumber);
+        $performanceReview->setReviewPeriodStart(
+            $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PERIOD_START_DATE)
+        );
+        $performanceReview->setReviewPeriodEnd(
+            $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PERIOD_END_DATE)
+        );
+        $performanceReview->setDueDate(
+            $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DUE_DATE)
+        );
+        $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+        $performanceReview->setJobTitle($employee->getJobTitle());
+        $performanceReview->setSubunit($employee->getSubDivision());
     }
 
     /**
@@ -231,7 +327,10 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()->getEditableReviewById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($review, PerformanceReview::class);
+        return new EndpointResourceResult(PerformanceReviewModel::class, $review);
     }
 
     /**
@@ -239,7 +338,12 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            )
+        );
     }
 
     /**
@@ -247,7 +351,32 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()->getEditableReviewById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($review, PerformanceReview::class);
+        $this->setReviewParams($review);
+        $reviewerEmpNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::FILTER_REVIEWER_EMP_NUMBER
+        );
+        $reportToRecord = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->getSupervisorRecord($review->getEmployee()->getEmpNumber(), $reviewerEmpNumber);
+        if ($reportToRecord == null) {
+            throw $this->getBadRequestException();
+        }
+        if ($this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVATE) == true) {
+            try {
+                $review->setActivatedDate($this->getDateTimeHelper()->getNow());
+                $review->setStatusId(PerformanceReview::STATUS_ACTIVATED);
+                $this->getPerformanceReviewService()->updateActivateReview($review, $reviewerEmpNumber);
+            } catch (ReviewServiceException $e) {
+                throw $this->getBadRequestException($e->getMessage());
+            }
+        } else {
+            $review->setStatusId(PerformanceReview::STATUS_INACTIVE);
+            $this->getPerformanceReviewService()->getPerformanceReviewDao()->updateReview($review, $reviewerEmpNumber);
+        }
+        return new EndpointResourceResult(PerformanceReviewModel::class, $review);
     }
 
     /**
@@ -255,6 +384,9 @@ class PerformanceReviewAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
+            ...$this->getCommonValidationRules()
+        );
     }
 }

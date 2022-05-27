@@ -138,6 +138,7 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
+import {navigate} from '@/core/util/helper/navigation';
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
@@ -350,7 +351,9 @@ export default {
           },
         };
       } else if (row.statusName === 'Inactive') {
+        //TODO:: Change to Id
         cellConfig.edit = {
+          onClick: this.onClickEdit,
           component: 'oxd-button',
           props: {
             name: 'edit',
@@ -392,6 +395,9 @@ export default {
           },
         },
       };
+    },
+    onClickEdit(item) {
+      navigate('/performance/saveReview/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = [];

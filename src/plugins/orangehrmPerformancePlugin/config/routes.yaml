@@ -12,6 +12,34 @@ apiv2_performance_kpis:
   defaults:
     _api: OrangeHRM\Performance\Api\KpiAPI
 
+apiv2_performance_supervisors:
+  path: /api/v2/performance/supervisors
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\ReviewEmployeeSupervisorAPI
+
+apiv2_performance_review:
+  path: /api/v2/performance/reviews/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
+apiv2_performance_reviews:
+  path: /api/v2/performance/reviews
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
+apiv2_performance_manage_review:
+  path: /api/v2/performance/manage/reviews
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, DELETE ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
 apiv2_performance_config_trackers:
   path: /api/v2/performance/config/trackers
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -61,12 +89,7 @@ apiv2_performance_review_list:
   defaults:
     _api: OrangeHRM\Performance\Api\ReviewListAPI
 
-apiv2_performance_review:
-  path: /api/v2/performance/manage/reviews
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, DELETE ]
-  defaults:
-    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
 
 ##########################
 #        Screens
@@ -95,6 +118,16 @@ performance_kpi_save:
 performance_kpi_edit:
   path: /performance/saveKpi/{id}
   controller: OrangeHRM\Performance\Controller\KpiSaveController::handle
+  methods: [ GET ]
+
+performance_review_save:
+  path: /performance/saveReview
+  controller: OrangeHRM\Performance\Controller\PerformanceReviewSaveController::handle
+  methods: [ GET ]
+
+performance_review_edit:
+  path: /performance/saveReview/{id}
+  controller: OrangeHRM\Performance\Controller\PerformanceReviewSaveController::handle
   methods: [ GET ]
 
 performance_tracker_list:
