@@ -32,9 +32,7 @@
     <div class="orangehrm-employee-tracker-log-content-section">
       <div class="orangehrm-employee-tracker-log-reviewer-name">
         <oxd-text>
-          {{
-            trackerLog.reviewer.firstName + ' ' + trackerLog.reviewer.lastName
-          }}
+          {{ trackerLog.reviewerName }}
         </oxd-text>
       </div>
       <div class="orangehrm-employee-tracker-log-content-container">
@@ -63,6 +61,7 @@
             </div>
           </div>
           <oxd-dropdown
+            v-if="trackerLog.editable"
             :options="dropdownOptions"
             @click="onTrackerDropdownAction($event, trackerLog)"
           />

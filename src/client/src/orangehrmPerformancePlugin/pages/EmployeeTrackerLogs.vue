@@ -126,6 +126,7 @@
 import {APIService} from '@/core/util/services/api.service';
 import {reactive, toRefs} from 'vue';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
@@ -172,6 +173,7 @@ export default {
       isLoading: false,
     });
 
+    const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
@@ -192,6 +194,13 @@ export default {
                 return {
                   ...item,
                   reviewerPictureSrc: `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${item.reviewer.empNumber}`,
+                  reviewerName: `${item.reviewer?.firstName} ${
+                    item.reviewer?.lastName
+                  } ${
+                    item.reviewer?.terminationId
+                      ? ` ${$t('general.past_employee')}`
+                      : ''
+                  }`,
                   addedDate: formatDate(
                     parseDate(item.addedDate),
                     jsDateFormat,
@@ -244,8 +253,13 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.trackerName = data.title;
-        this.employeeName =
-          data.employee.firstName + ' ' + data.employee.lastName;
+        this.employeeName = `${data.employee.firstName} ${
+          data.employee.lastName
+        } ${
+          data.employee.terminationId
+            ? ` ${this.$t('general.past_employee')}`
+            : ''
+        }`;
         this.employeeImgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${data.employee.empNumber}`;
       })
       .then(() => {
