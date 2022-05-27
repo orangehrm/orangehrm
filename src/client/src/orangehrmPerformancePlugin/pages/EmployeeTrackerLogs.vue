@@ -24,13 +24,11 @@
       <div class="orangehrm-employee-tracker">
         <div class="orangehrm-employee-tracker-image-section">
           <div class="orangehrm-employee-tracker-image-wrapper">
-            <div class="orangehrm-employee-tracker-image">
-              <img
-                alt="profile picture"
-                class="employee-image"
-                :src="employeeImgSrc"
-              />
-            </div>
+            <img
+              alt="profile picture"
+              class="employee-image"
+              :src="employeeImgSrc"
+            />
           </div>
         </div>
         <div class="orangehrm-employee-tracker-header-section">
@@ -97,71 +95,11 @@
           type="gray-lighten-2"
           class="orangehrm-scroll-card"
         >
-          <div class="orangehrm-employee-tracker-log">
-            <div class="orangehrm-employee-tracker-log-image-section">
-              <div class="orangehrm-employee-tracker-log-image-wrapper">
-                <div class="orangehrm-employee-tracker-log-image">
-                  <img
-                    alt="profile picture"
-                    class="employee-image"
-                    :src="item.reviewerPictureSrc"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="orangehrm-employee-tracker-log-content-section">
-              <div class="orangehrm-employee-tracker-log-content-container">
-                <div class="orangehrm-employee-tracker-log-header">
-                  <div class="orangehrm-employee-tracker-log-title">
-                    <oxd-text
-                      tag="h6"
-                      class="orangehrm-employee-tracker-log-title-text"
-                    >
-                      {{ item.log }}
-                    </oxd-text>
-                    <div
-                      :class="{
-                        'orangehrm-employee-tracker-log-title-icon': true,
-                        '--positive': item.achievement === 1,
-                        '--negative': item.achievement === 2,
-                      }"
-                    >
-                      <oxd-icon
-                        :name="
-                          `hand-thumbs-${
-                            item.achievement === 1 ? 'up' : 'down'
-                          }-fill`
-                        "
-                      />
-                    </div>
-                  </div>
-                  <oxd-dropdown
-                    :options="dropdownOptions"
-                    @click="onTrackerDropdownAction($event, item)"
-                  />
-                </div>
-                <div class="orangehrm-employee-tracker-log-body">
-                  <oxd-text
-                    tag="p"
-                    class="orangehrm-employee-tracker-log-body-text"
-                  >
-                    {{ item.comment }}
-                  </oxd-text>
-                </div>
-              </div>
-              <div class="orangehrm-employee-tracker-log-reviewer">
-                <oxd-text class="orangehrm-employee-tracker-log-reviewer-name">
-                  {{ item.reviewer.firstName + ' ' + item.reviewer.lastName }}
-                </oxd-text>
-                <oxd-text>
-                  {{ $t('performance.added_on') + ': ' + item.addedDate }}
-                </oxd-text>
-                <oxd-text v-if="item.modifiedDate">
-                  {{ $t('performance.modified_on') + ': ' + item.modifiedDate }}
-                </oxd-text>
-              </div>
-            </div>
-          </div>
+          <employee-tracker-log-card
+            :tracker-log="item"
+            @edit="onClickEdit"
+            @delete="onClickDelete"
+          />
         </oxd-sheet>
         <oxd-loading-spinner
           v-if="isLoading"
@@ -180,6 +118,7 @@
       :tracker-log-id="editTrackerLogId"
       @close="onEditTrackerModalClose"
     ></edit-tracker-log-modal>
+    <delete-confirmation ref="deleteDialog"></delete-confirmation>
   </div>
 </template>
 
@@ -193,9 +132,10 @@ import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
-import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown.vue';
 import AddTrackerLogModal from '@/orangehrmPerformancePlugin/components/AddTrackerLogModal';
 import EditTrackerLogModal from '@/orangehrmPerformancePlugin/components/EditTrackerLogModal';
+import DeleteConfirmationDialog from '@/core/components/dialogs/DeleteConfirmationDialog';
+import EmployeeTrackerLogCard from '@/orangehrmPerformancePlugin/components/EmployeeTrackerLogCard';
 
 export default {
   name: 'ViewEmployeeTrackerLogs',
@@ -203,9 +143,10 @@ export default {
     'oxd-icon': Icon,
     'oxd-sheet': Sheet,
     'oxd-loading-spinner': Spinner,
-    'oxd-dropdown': Dropdown,
     'add-tracker-log-modal': AddTrackerLogModal,
     'edit-tracker-log-modal': EditTrackerLogModal,
+    'delete-confirmation': DeleteConfirmationDialog,
+    'employee-tracker-log-card': EmployeeTrackerLogCard,
   },
   props: {
     trackerId: {
@@ -273,7 +214,6 @@ export default {
       if (state.items.length >= state.total) return;
       fetchData();
     });
-    fetchData();
     return {
       http,
       scrollerRef,
@@ -307,6 +247,9 @@ export default {
         this.employeeName =
           data.employee.firstName + ' ' + data.employee.lastName;
         this.employeeImgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${data.employee.empNumber}`;
+      })
+      .then(() => {
+        this.fetchData();
       });
   },
   methods: {
@@ -321,15 +264,31 @@ export default {
       this.showEditTrackerModal = false;
       this.resetItems();
     },
-    onTrackerDropdownAction(event, item) {
-      switch (event.context) {
-        case 'edit':
-          this.showEditTrackerModal = true;
-          this.editTrackerLogId = item.id;
-          break;
-        case 'delete':
-          // TODO implement delete
-          break;
+    onClickEdit(id) {
+      this.editTrackerLogId = id;
+      this.showEditTrackerModal = true;
+    },
+    onClickDelete(id) {
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems([id]);
+        }
+      });
+    },
+    deleteItems(items) {
+      if (items instanceof Array) {
+        this.items = [];
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess;
+          })
+          .finally(() => {
+            this.fetchData();
+          });
       }
     },
     resetItems() {
@@ -340,226 +299,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-container {
-  overflow: auto;
-  max-height: 400px;
-  @include oxd-scrollbar();
-  &-loader {
-    margin: 0 auto;
-    background-color: $oxd-white-color;
-  }
-}
-.orangehrm-scroll-card {
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.5rem;
-  &-header {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-
-.orangehrm-employee-tracker {
-  display: flex;
-  overflow: hidden;
-  @include oxd-respond-to('xs') {
-    flex-direction: column;
-  }
-  @include oxd-respond-to('sm') {
-    flex-direction: row;
-  }
-
-  &-image-wrapper {
-    padding: 0.6rem 1.2rem;
-  }
-
-  &-image {
-    width: 100px;
-    height: 100px;
-    border-radius: 100%;
-    display: flex;
-    overflow: hidden;
-    justify-content: center;
-    box-sizing: border-box;
-    border: 0.5rem solid $oxd-background-pastel-white-color;
-  }
-
-  &-image-section {
-    display: flex;
-    align-items: center;
-    @include oxd-respond-to('xs') {
-      flex-direction: row-reverse;
-      justify-content: center;
-    }
-    @include oxd-respond-to('md') {
-      flex-direction: column;
-      justify-content: center;
-    }
-  }
-
-  &-header-section {
-    display: flex;
-    @include oxd-respond-to('xs') {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    @include oxd-respond-to('sm') {
-      flex-direction: row;
-      align-items: flex-start;
-      text-align: start;
-    }
-  }
-
-  &-header {
-    display: flex;
-    flex-direction: column;
-    padding-left: 1.2rem;
-    padding-right: 0.6rem;
-    padding-top: 1.2rem;
-
-    &-title {
-      font-weight: 700;
-    }
-
-    &-subtitle {
-      font-weight: 700;
-      color: $oxd-interface-gray-color;
-    }
-  }
-
-  &-ratings {
-    display: flex;
-    padding-top: 1.2rem;
-
-    &-info {
-      display: flex;
-      flex-direction: row;
-      padding-left: 0.6rem;
-      padding-right: 0.6rem;
-      text-align: center;
-    }
-
-    &-icon {
-      font-size: 25px;
-      padding-right: 0.6rem;
-
-      &.--positive {
-        ::v-deep(.oxd-icon) {
-          color: $oxd-secondary-four-color;
-        }
-      }
-
-      &.--negative {
-        ::v-deep(.oxd-icon) {
-          color: $oxd-feedback-danger-color;
-        }
-      }
-    }
-
-    &-text {
-      font-size: 25px;
-
-      &.--positive {
-        color: $oxd-secondary-four-color;
-      }
-
-      &.--negative {
-        color: $oxd-feedback-danger-color;
-      }
-    }
-  }
-}
-
-.orangehrm-employee-tracker-log {
-  display: flex;
-  flex-direction: row;
-
-  &-list-header {
-    font-size: 16px;
-    font-weight: 800;
-  }
-
-  &-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 100%;
-    display: flex;
-    overflow: hidden;
-    box-sizing: border-box;
-    border: 0.1rem solid $oxd-background-pastel-white-color;
-  }
-
-  &-image-section {
-    display: flex;
-  }
-
-  &-content-section {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-left: 1.2rem;
-    margin-right: 1.2rem;
-  }
-
-  &-content-container {
-    background-color: $oxd-white-color;
-    border-radius: 1.2rem;
-    padding: 1.2rem;
-  }
-
-  &-header {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 0.6rem;
-    align-items: flex-start;
-  }
-
-  &-title {
-    display: flex;
-    @include oxd-respond-to('xs') {
-      flex-direction: column;
-    }
-    @include oxd-respond-to('sm') {
-      flex-direction: row;
-    }
-
-    &-text {
-      font-weight: 700;
-      padding-right: 0.6rem;
-    }
-
-    &-icon {
-      font-size: 21px;
-
-      &.--positive {
-        ::v-deep(.oxd-icon) {
-          color: $oxd-secondary-four-color;
-        }
-      }
-
-      &.--negative {
-        ::v-deep(.oxd-icon) {
-          color: $oxd-feedback-danger-color;
-        }
-      }
-    }
-  }
-
-  &-body-text {
-    font-size: 14px;
-  }
-
-  &-reviewer {
-    margin-top: 0.6rem;
-    margin-left: 1.2rem;
-    font-size: 14px;
-
-    &-name {
-      font-weight: 700;
-    }
-  }
-}
-</style>
+<style src="./employee-tracker-log.scss" lang="scss" scoped></style>

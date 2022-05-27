@@ -20,7 +20,7 @@
 
 <template>
   <oxd-dialog
-    :style="{width: '90%', maxWidth: '450px'}"
+    :style="{width: '90%', maxWidth: '650px'}"
     @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
@@ -34,9 +34,9 @@
         <oxd-input-field
           v-model="trackerLog.log"
           :label="$t('performance.log')"
-          required
           :placeholder="$t('general.type_here')"
           :rules="rules.log"
+          required
         />
       </oxd-form-row>
       <oxd-form-row>
@@ -48,7 +48,7 @@
             :class="{
               'orangehrm-add-tracker-rating-button': true,
               '--positive': true,
-              '--deselected': positiveSelected === false,
+              '--deselected': !rating,
             }"
             @click="onClickPositive"
           />
@@ -59,7 +59,7 @@
             :class="{
               'orangehrm-add-tracker-rating-button': true,
               '--negative': true,
-              '--deselected': negativeSelected === false,
+              '--deselected': !!rating,
             }"
             @click="onClickNegative"
           />
@@ -134,8 +134,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      positiveSelected: false,
-      negativeSelected: false,
+      rating: true,
       trackerLog: {...trackerLogModel},
       rules: {
         log: [required, shouldNotExceedCharLength(150)],
@@ -151,8 +150,7 @@ export default {
         const {data} = response.data;
         this.trackerLog.log = data.log;
         this.trackerLog.comment = data.comment;
-        this.positiveSelected = data.achievement === 1;
-        this.negativeSelected = data.achievement === 2;
+        this.rating = data.achievement === 1;
       })
       .finally(() => {
         this.isLoading = false;
@@ -160,12 +158,10 @@ export default {
   },
   methods: {
     onClickPositive() {
-      this.positiveSelected = true;
-      this.negativeSelected = false;
+      this.rating = true;
     },
     onClickNegative() {
-      this.negativeSelected = true;
-      this.positiveSelected = false;
+      this.rating = false;
     },
     onSave() {
       this.isLoading = true;
@@ -173,7 +169,7 @@ export default {
         .update(this.trackerLogId, {
           log: this.trackerLog.log,
           comment: this.trackerLog.comment,
-          rating: this.positiveSelected ? 1 : 2,
+          achievement: this.rating ? 1 : 2,
         })
         .then(() => {
           this.$toast.updateSuccess();
