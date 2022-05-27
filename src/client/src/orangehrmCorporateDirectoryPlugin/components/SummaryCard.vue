@@ -19,29 +19,29 @@
  -->
 
 <template>
-  <oxd-sheet :gutters="false" class="orangehrm-scroll-card" type="white">
-    <div class="orangehrm-scroll-card-header">
+  <oxd-sheet :gutters="false" class="orangehrm-directory-card" type="white">
+    <div class="orangehrm-directory-card-header">
       <oxd-text type="card-title">
         {{ employeeName }}
       </oxd-text>
     </div>
     <profile-picture :id="id"> </profile-picture>
-    <div class="orangehrm-scroll-card-header">
+    <div class="orangehrm-directory-card-header">
       <oxd-text type="toast-title">
         {{ employeeDesignation }}
       </oxd-text>
     </div>
-    <div class="orangehrm-scroll-card-body">
-      <span class="corporate-loc-group-icon">
+    <div class="orangehrm-directory-card-body">
+      <span class="orangehrm-directory-card-icon">
         <oxd-icon name="geo-alt-fill"></oxd-icon>
       </span>
       <span>
-        <div class="corporate-unit">
+        <div class="orangehrm-directory-card-subunit">
           <oxd-text type="toast-message">
             {{ employeeSubUnit }}
           </oxd-text>
         </div>
-        <div class="corporate-loc">
+        <div class="orangehrm-directory-card-location">
           <oxd-text type="toast-message">
             {{ employeeLocation }}
           </oxd-text>
@@ -54,7 +54,7 @@
 <script>
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import ProfilePicture from './ProfilePicture.vue';
+import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
 
 export default {
   name: 'SummaryCard',
@@ -78,20 +78,21 @@ export default {
     },
     employeeSubUnit: {
       type: String,
-      required: true,
+      default: '',
     },
     employeeLocation: {
       type: String,
-      required: true,
+      default: '',
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.orangehrm-scroll-card {
+.orangehrm-directory-card {
   padding: 0.5rem 1rem;
   height: 260px;
+  width: 178px;
   overflow: hidden;
 
   &-header {
@@ -111,37 +112,25 @@ export default {
     margin-top: -0.25rem;
     background-color: #fafafc;
     border-radius: 0.5rem;
+    height: 44px;
   }
-}
 
-.employee-image {
-  height: 120px;
-  width: 120px;
-}
+  &-icon {
+    margin-right: 0.5rem;
+    color: #64728c;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+  }
 
-.image-wrapper {
-  height: 90px;
-  width: 90px;
-  overflow: hidden;
-  border-radius: 50%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+  &-subunit {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
 
-.corporate-loc-group-icon {
-  margin-right: 0.5rem;
-  color: #64728c;
-  font-size: 24px;
-}
-
-.corporate-unit {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-}
-
-.corporate-loc {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+  &-location {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
 }
 </style>

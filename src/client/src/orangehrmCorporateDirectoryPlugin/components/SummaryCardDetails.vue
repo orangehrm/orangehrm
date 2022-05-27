@@ -19,34 +19,86 @@
  -->
 
 <template>
-  <oxd-sheet :gutters="false" class="orangehrm-scroll-card" type="white">
-    <div class="orangehrm-scroll-card-header">
+  <oxd-sheet :gutters="false" class="orangehrm-directory-card" type="white">
+    <div class="orangehrm-directory-card-top">
+      <oxd-icon name="arrow-right"></oxd-icon>
+    </div>
+    <div class="orangehrm-directory-card-header">
       <oxd-text type="card-title">
         {{ employeeName }}
       </oxd-text>
     </div>
-    <profile-picture :id="id"> </profile-picture>
-    <div class="orangehrm-scroll-card-header">
+    <profile-picture :id="id"></profile-picture>
+    <div class="orangehrm-directory-card-header">
       <oxd-text type="toast-title">
         {{ employeeDesignation }}
       </oxd-text>
     </div>
-    <div class="orangehrm-scroll-card-body">
-      <span class="corporate-loc-group-icon">
+    <div class="orangehrm-directory-card-body">
+      <span class="orangehrm-directory-card-icon">
         <oxd-icon name="geo-alt-fill"></oxd-icon>
       </span>
       <span>
-        <div class="corporate-unit">
+        <div class="orangehrm-directory-card-subunit">
           <oxd-text type="toast-message">
             {{ employeeSubUnit }}
           </oxd-text>
         </div>
-        <div class="corporate-loc">
+        <div class="orangehrm-directory-card-location">
           <oxd-text type="toast-message">
             {{ employeeLocation }}
           </oxd-text>
         </div>
       </span>
+    </div>
+    <div class="orangehrm-directory-card-rounded-body">
+      <div class="orangehrm-directory-card-icon">
+        <oxd-icon-button
+          name="telephone-fill"
+          display-type="success"
+        ></oxd-icon-button>
+      </div>
+      <div class="orangehrm-directory-card-icon">
+        <oxd-icon-button name="mailbox" display-type="danger"></oxd-icon-button>
+      </div>
+    </div>
+    <div
+      class="orangehrm-directory-card-hover"
+      @mouseover="showTelephoneClip = true"
+      @mouseleave="showTelephoneClip = false"
+    >
+      <div class="orangehrm-directory-card-hover-body">
+        <oxd-text type="toast-message">{{ $t('Work Telephone') }}</oxd-text>
+        <oxd-text type="toast-title"> {{ employeeWorkTelephone }} </oxd-text>
+      </div>
+      <div
+        class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
+      >
+        <oxd-icon v-show="showTelephoneClip" name="clipboard-check"></oxd-icon>
+      </div>
+    </div>
+    <oxd-divider></oxd-divider>
+    <div
+      class="orangehrm-directory-card-hover"
+      @mouseover="showEmailClip = true"
+      @mouseleave="showEmailClip = false"
+    >
+      <div class="orangehrm-directory-card-hover-body">
+        <oxd-text type="toast-message">{{ $t('Work Email') }}</oxd-text>
+        <oxd-text type="toast-title"> {{ employeeWorkEmail }} </oxd-text>
+      </div>
+      <div
+        class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
+      >
+        <oxd-icon v-show="showEmailClip" name="clipboard-check"></oxd-icon>
+      </div>
+    </div>
+    <oxd-divider></oxd-divider>
+    <div class="orangehrm-directory-card-qrcode">
+      <img
+        class="orangehrm-directory-card-qrcode-img"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
+      />
     </div>
   </oxd-sheet>
 </template>
@@ -54,13 +106,15 @@
 <script>
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import ProfilePicture from './ProfilePicture.vue';
+import OxdDivider from '@ohrm/oxd/core/components/Divider/Divider';
+import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
 
 export default {
   name: 'SummaryCardDetails',
   components: {
     'oxd-sheet': Sheet,
     'oxd-icon': Icon,
+    'oxd-divider': OxdDivider,
     'profile-picture': ProfilePicture,
   },
   props: {
@@ -78,21 +132,44 @@ export default {
     },
     employeeSubUnit: {
       type: String,
-      required: true,
+      default: '',
     },
     employeeLocation: {
       type: String,
-      required: true,
+      default: '',
     },
+    employeeWorkTelephone: {
+      type: String,
+      default: '',
+    },
+    employeeWorkEmail: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      showTelephoneClip: false,
+      showEmailClip: false,
+    };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.orangehrm-scroll-card {
+.orangehrm-directory-card {
   padding: 0.5rem 1rem;
-  height: 260px;
+  height: 640px;
+  width: 164px;
   overflow: hidden;
+
+  &-top {
+    padding-top: 0.5rem;
+    padding-bottom: -0.5rem;
+    text-align: left;
+    justify-content: space-between;
+    height: 16px;
+  }
 
   &-header {
     padding-top: 1rem;
@@ -111,37 +188,75 @@ export default {
     margin-top: -0.25rem;
     background-color: #fafafc;
     border-radius: 0.5rem;
+    width: 156px;
+    margin-right: 8px;
   }
-}
 
-.employee-image {
-  height: 120px;
-  width: 120px;
-}
+  &-rounded-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 100px;
+    width: 140px;
+    height: 64px;
+    box-shadow: 5px 5px 5px 5px #fafafc;
+    margin-right: 8px;
+  }
 
-.image-wrapper {
-  height: 90px;
-  width: 90px;
-  overflow: hidden;
-  border-radius: 50%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+  &-hover {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    width: 156px;
+    min-height: 48px;
+    margin-right: 8px;
 
-.corporate-loc-group-icon {
-  margin-right: 0.5rem;
-  color: #64728c;
-  font-size: 24px;
-}
+    &-body {
+      display: block;
+      align-items: center;
+      overflow: hidden;
+      word-wrap: break-word;
+    }
+  }
 
-.corporate-unit {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-}
+  &-hover:hover {
+    background-color: #fafafc;
+  }
 
-.corporate-loc {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+  &-icon {
+    margin-right: 0.5rem;
+    color: #64728c;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &-subunit {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  &-location {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  &-qrcode {
+    height: 128px;
+    width: 128px;
+    display: block;
+    align-items: center;
+    margin-left: 1rem;
+
+    &-img {
+      height: 128px;
+      width: 128px;
+    }
+  }
 }
 </style>

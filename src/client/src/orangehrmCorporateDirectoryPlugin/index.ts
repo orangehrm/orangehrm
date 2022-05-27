@@ -16,8 +16,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Employee from './pages/Employee.vue';
+import CorporateDirectory from './pages/CorporateDirectory.vue';
 
 export default {
-  'corporate-directory-employee-list': Employee,
+  'corporate-directory-employee-list': CorporateDirectory,
 };

@@ -59,14 +59,14 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
-    <div class="orangehrm-paper">
+    <div class="orangehrm-corporate-directory">
       <div class="orangehrm-paper-container">
         <table-header
           :loading="isLoading"
           :show-divider="false"
-          total="10"
+          :total="total"
         ></table-header>
-        <oxd-grid :cols="4" class="orangehrm-container">
+        <oxd-grid :cols="3" class="orangehrm-container">
           <oxd-grid-item v-for="employee in employees" :key="employee">
             <summary-card
               :id="employee.id"
@@ -79,19 +79,24 @@
         </oxd-grid>
         <div class="orangehrm-bottom-container"></div>
       </div>
-      <div class="orangehrm-paper-container orangehrm-paper-container-details">
+      <div
+        class="orangehrm-paper-container orangehrm-corporate-directory-sidebar"
+      >
         <oxd-grid :cols="1">
           <oxd-grid-item>
             <summary-card-details
-              :id="employees[0].id"
-              :employee-designation="employees[0].employeeJobTitle"
-              :employee-location="employees[0].employeeLocation"
-              :employee-name="employees[0].employeeName"
-              :employee-sub-unit="employees[0].employeeSubUnit"
+              :id="employeeDetails[0].id"
+              :employee-designation="employeeDetails[0].employeeJobTitle"
+              :employee-location="employeeDetails[0].employeeLocation"
+              :employee-name="employeeDetails[0].employeeName"
+              :employee-sub-unit="employeeDetails[0].employeeSubUnit"
+              :employee-work-email="employeeDetails[0].employeeWorkEmail"
+              :employee-work-telephone="
+                employeeDetails[0].employeeWorkTelephone
+              "
             ></summary-card-details>
           </oxd-grid-item>
         </oxd-grid>
-        <div class="orangehrm-bottom-container"></div>
       </div>
     </div>
   </div>
@@ -103,7 +108,7 @@ import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryC
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
 import {APIService} from '@/core/util/services/api.service';
 
-const userdataNormalizer = data => {
+const employeeDataNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
@@ -118,8 +123,25 @@ const userdataNormalizer = data => {
   });
 };
 
+const employeeDetailsDataNormalizer = data => {
+  return data.map(item => {
+    return {
+      id: item.id,
+      employeeId: item.employeeId,
+      employeeName:
+        `${item.firstName} ${item.middleName} ${item.lastName}` +
+        (item.terminationId ? ' (Past Employee)' : ''),
+      employeeJobTitle: item.jobTitle?.title,
+      employeeSubUnit: item.subunit?.name,
+      employeeLocation: item.location?.name,
+      employeeWorkTelephone: item.contactInfo?.workTelephone,
+      employeeWorkEmail: item.contactInfo?.workEmail,
+    };
+  });
+};
+
 export default {
-  name: 'Employee',
+  name: 'CorporateDirectory',
 
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
@@ -128,25 +150,25 @@ export default {
     'summary-card-details': SummaryCardDetails,
   },
 
-  props: {
-    countries: {
-      type: Array,
-      default: () => [],
-    },
-  },
   setup() {
-    const http = new APIService(
+    const http1 = new APIService(
       'https://4f792798-fc9b-4ba7-b530-f20c22eb65f0.mock.pstmn.io',
       'api/v2/corporate-directory/employees',
     );
 
+    const http2 = new APIService(
+      'https://4f792798-fc9b-4ba7-b530-f20c22eb65f0.mock.pstmn.io',
+      'api/v2/corporate-directory/employees/1',
+    );
+
     return {
-      http,
+      http1,
+      http2,
     };
   },
   data() {
     return {
-      checkedItems: [],
+      countries: [],
       info: this.http,
       employees: [
         {
@@ -157,22 +179,39 @@ export default {
           employeeSubUnit: '',
         },
       ],
+      employeeDetails: [
+        {
+          id: 0,
+          employeeName: '',
+          employeeJobTitle: '',
+          employeeLocation: '',
+          employeeSubUnit: '',
+          employeeWorkTelephone: '',
+          employeeWorkEmail: '',
+        },
+      ],
+      total: null,
     };
   },
   beforeMount() {
-    this.http.getAll().then(response => {
-      this.employees = userdataNormalizer(response.data.data);
+    this.http1.getAll().then(response => {
+      this.employees = employeeDataNormalizer(response.data.data);
+      this.total = response.data.meta.total;
+    });
+
+    this.http2.getAll().then(response => {
+      this.employeeDetails = employeeDetailsDataNormalizer(response.data.data);
     });
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.orangehrm-paper {
+.orangehrm-corporate-directory {
   display: flex;
 
-  &-container-details {
-    margin-left: 10px;
+  &-sidebar {
+    margin-left: 16px;
   }
 }
 </style>

@@ -19,8 +19,12 @@
  -->
 
 <template>
-  <div class="image-wrapper">
-    <img :src="imgSrc" alt="Profile Picture" class="employee-image" />
+  <div class="orangehrm-profile-picture">
+    <img
+      :src="imgSrc"
+      alt="Profile Picture"
+      class="orangehrm-profile-picture-img"
+    />
   </div>
 </template>
 
@@ -51,18 +55,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.employee-image {
-  height: 100px;
-  width: 90px;
-}
-
-.image-wrapper {
+.orangehrm-profile-picture {
+  display: block;
   height: 90px;
   width: 90px;
+  margin: 0 auto;
   overflow: hidden;
   border-radius: 50%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  & img {
+    height: 90px;
+    width: 90px;
+  }
 }
 </style>
