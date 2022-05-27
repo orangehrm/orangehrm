@@ -134,7 +134,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/reviews',
+      '/api/v2/performance/manage/reviews',
     );
     return {
       http,
