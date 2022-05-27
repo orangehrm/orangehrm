@@ -112,11 +112,11 @@ class MyTrackerLogAPI extends Endpoint implements CrudEndpoint
     {
         $performanceTrackerLog = new PerformanceTrackerLog();
         $this->setTrackerLogsParams($performanceTrackerLog);
-        $performanceTrackerLog->getDecorator()->setPerformanceTrackerById($this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE,CommonParams::PARAMETER_ID));
+        $performanceTrackerLog->getDecorator()->setPerformanceTrackerById($this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID));
         $performanceTrackerLog->setAddedDate($this->getDateTimeHelper()->getNow());
         $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()->savePerformanceTrackerLog($performanceTrackerLog);
-        return new EndpointResourceResult(PerformanceTrackerLogModel::class,$performanceTrackerLog);
+        return new EndpointResourceResult(PerformanceTrackerLogModel::class, $performanceTrackerLog);
     }
 
     /**
@@ -132,13 +132,13 @@ class MyTrackerLogAPI extends Endpoint implements CrudEndpoint
     public function setTrackerLogsParams(PerformanceTrackerLog $performanceTrackerLog): void
     {
         $performanceTrackerLog->setLog(
-            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,self::PARAMETER_LOG)
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LOG)
         );
         $performanceTrackerLog->setAchievement(
-            $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,self::PARAMETER_RATING)
+            $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_RATING)
         );
         $performanceTrackerLog->setComment(
-            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,self::PARAMETER_COMMENT)
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COMMENT)
         );
         $performanceTrackerLog->getDecorator()->setReviewerByEmpNumber($this->getAuthUser()->getEmpNumber());
         $performanceTrackerLog->setStatus(PerformanceTrackerLog::STATUS_NOT_DELETED);
@@ -219,7 +219,7 @@ class MyTrackerLogAPI extends Endpoint implements CrudEndpoint
         $performanceTrackerLog->setModifiedDate($this->getDateTimeHelper()->getNow());
         $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()->savePerformanceTrackerLog($performanceTrackerLog);
-        return new EndpointResourceResult(PerformanceTrackerLogModel::class,$performanceTrackerLog);
+        return new EndpointResourceResult(PerformanceTrackerLogModel::class, $performanceTrackerLog);
     }
 
     /**

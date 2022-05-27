@@ -42,8 +42,8 @@ class PerformanceTrackerLogDaoTest extends KernelTestCase
     {
         $trackerLogId = 1;
         $result = $this->performanceTrackerLogDao->getPerformanceTrackerLogById($trackerLogId);
-        $this->assertEquals(1,$result->getPerformanceTracker()->getId());
-        $this->assertEquals(2,$result->getReviewer()->getEmpNumber());
+        $this->assertEquals(1, $result->getPerformanceTracker()->getId());
+        $this->assertEquals(2, $result->getReviewer()->getEmpNumber());
 
         $trackerLogId2 = 10;
         $result2 = $this->performanceTrackerLogDao->getPerformanceTrackerLogById($trackerLogId2);
@@ -60,19 +60,19 @@ class PerformanceTrackerLogDaoTest extends KernelTestCase
         $performanceTrackerLogSearchFilterParams->setTrackerId($existingTrackerIdWithLogs);
         $result = $this->performanceTrackerLogDao
             ->getPerformanceTrackerLogsByTrackerId($performanceTrackerLogSearchFilterParams);
-        $this->assertCount(2,$result);
+        $this->assertCount(2, $result);
 
         $performanceTrackerLogSearchFilterParams2 = new PerformanceTrackerLogSearchFilterParams();
         $performanceTrackerLogSearchFilterParams2->setTrackerId($existingTrackerIdWithoutLogs);
         $result2 = $this->performanceTrackerLogDao
             ->getPerformanceTrackerLogsByTrackerId($performanceTrackerLogSearchFilterParams2);
-        $this->assertCount(0,$result2);
+        $this->assertCount(0, $result2);
 
         $performanceTrackerLogSearchFilterParams3 = new PerformanceTrackerLogSearchFilterParams();
         $performanceTrackerLogSearchFilterParams3->setTrackerId($nonExistentTrackerId);
         $result3 = $this->performanceTrackerLogDao
             ->getPerformanceTrackerLogsByTrackerId($performanceTrackerLogSearchFilterParams3);
-        $this->assertCount(0,$result3);
+        $this->assertCount(0, $result3);
     }
 
     public function testGetPerformanceTrackerLogCountPerTrackerId(): void
@@ -85,30 +85,30 @@ class PerformanceTrackerLogDaoTest extends KernelTestCase
         $performanceTrackerLogSearchFilterParams->setTrackerId($existingTrackerIdWithLogs);
         $result = $this->performanceTrackerLogDao
             ->getPerformanceTrackerLogCountPerTrackerId($performanceTrackerLogSearchFilterParams);
-        $this->assertEquals(2,$result);
+        $this->assertEquals(2, $result);
 
         $performanceTrackerLogSearchFilterParams2 = new PerformanceTrackerLogSearchFilterParams();
         $performanceTrackerLogSearchFilterParams2->setTrackerId($existingTrackerIdWithoutLogs);
         $result2 = $this->performanceTrackerLogDao
             ->getPerformanceTrackerLogCountPerTrackerId($performanceTrackerLogSearchFilterParams2);
-        $this->assertEquals(0,$result2);
+        $this->assertEquals(0, $result2);
 
         $performanceTrackerLogSearchFilterParams3 = new PerformanceTrackerLogSearchFilterParams();
         $performanceTrackerLogSearchFilterParams3->setTrackerId($nonExistentTrackerId);
         $result3 = $this->performanceTrackerLogDao
             ->getPerformanceTrackerLogCountPerTrackerId($performanceTrackerLogSearchFilterParams3);
-        $this->assertEquals(0,$result3);
+        $this->assertEquals(0, $result3);
     }
 
     public function testGetPerformanceTrackerLogsRateCount(): void
     {
         $existingTrackerIdWithLogs = 1;
         $positiveLogs = $this->performanceTrackerLogDao
-            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::POSITIVE_RATING,$existingTrackerIdWithLogs);
-        $this->assertEquals(1,$positiveLogs);
+            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::POSITIVE_RATING, $existingTrackerIdWithLogs);
+        $this->assertEquals(1, $positiveLogs);
 
         $negativeLogs = $this->performanceTrackerLogDao
-            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::NEGATIVE_RATING,$existingTrackerIdWithLogs);
-        $this->assertEquals(1,$negativeLogs);
+            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::NEGATIVE_RATING, $existingTrackerIdWithLogs);
+        $this->assertEquals(1, $negativeLogs);
     }
 }

@@ -80,7 +80,7 @@ class PerformanceTrackerLogDecorator
      */
     public function setPerformanceTrackerById(int $trackerId): void
     {
-        $tracker = $this->getReference(PerformanceTracker::class,$trackerId);
+        $tracker = $this->getReference(PerformanceTracker::class, $trackerId);
         $this->getPerformanceTrackerLog()->setPerformanceTracker($tracker);
     }
 }
