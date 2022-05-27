@@ -79,6 +79,14 @@ apiv2_recruitment_hiring_managers:
   defaults:
     _api: OrangeHRM\Recruitment\Api\HiringManagerAPI
 
+apiv2_recruitment_candidate_workflow:
+  path: /api/v2/recruitment/candidate-workflow/{candidateId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateAllowedActionsAPI
+    _key: id
+
 ##########################
 #        Files
 ##########################

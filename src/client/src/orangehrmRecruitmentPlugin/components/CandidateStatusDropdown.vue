@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="select"
-    :label="$t('recruitment.candidate')"
+    :label="$t('general.status')"
     :options="options"
   />
 </template>
