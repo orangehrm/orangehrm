@@ -186,6 +186,9 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {reactive, toRefs} from 'vue';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import useLocale from '@/core/util/composable/useLocale';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
@@ -228,6 +231,9 @@ export default {
       isLoading: false,
     });
 
+    const {jsDateFormat} = useDateFormat();
+    const {locale} = useLocale();
+
     const fetchData = () => {
       state.isLoading = true;
       http
@@ -245,6 +251,16 @@ export default {
                 return {
                   ...item,
                   reviewerPictureSrc: `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${item.reviewer.empNumber}`,
+                  addedDate: formatDate(
+                    parseDate(item.addedDate),
+                    jsDateFormat,
+                    {locale},
+                  ),
+                  modifiedDate: formatDate(
+                    parseDate(item.modifiedDate),
+                    jsDateFormat,
+                    {locale},
+                  ),
                 };
               }),
             ];
