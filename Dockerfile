@@ -1,7 +1,5 @@
 FROM php:8.1-apache-bullseye
 
-LABEL maintainer="samanthaj@orangehrm.com"
-
 ENV OHRM_VERSION 5.0
 ENV OHRM_MD5 c5dd647d68edde6718a2a964b239519d
 
