@@ -141,7 +141,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/reviews',
+      '/api/v2/performance/manage/reviews',
     );
     http.setIgnorePath('/api/v2/performance/reviews/[0-9]+');
     return {
