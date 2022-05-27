@@ -155,7 +155,7 @@ export default {
         .create({
           log: this.trackerLog.log,
           comment: this.trackerLog.comment,
-          achievement: this.positiveSelected ? 1 : 2,
+          rating: this.positiveSelected ? 1 : 2,
         })
         .then(() => {
           this.$toast.saveSuccess;
