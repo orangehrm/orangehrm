@@ -66,7 +66,7 @@
           :show-divider="false"
           :total="total"
         ></table-header>
-        <oxd-grid :cols="3" class="orangehrm-container">
+        <oxd-grid :cols="colSize" class="orangehrm-container">
           <oxd-grid-item v-for="employee in employees" :key="employee">
             <summary-card
               :id="employee.id"
@@ -74,12 +74,15 @@
               :employee-location="employee.employeeLocation"
               :employee-name="employee.employeeName"
               :employee-sub-unit="employee.employeeSubUnit"
+              :show-employee-details="showDetails"
+              @click="(showDetails = true) && (colSize = 3)"
             ></summary-card>
           </oxd-grid-item>
         </oxd-grid>
         <div class="orangehrm-bottom-container"></div>
       </div>
       <div
+        v-show="showDetails && windowWidth > 900"
         class="orangehrm-paper-container orangehrm-corporate-directory-sidebar"
       >
         <oxd-grid :cols="1">
@@ -94,6 +97,7 @@
               :employee-work-telephone="
                 employeeDetails[0].employeeWorkTelephone
               "
+              @hideDetails="hideEmployeeDetails($event)"
             ></summary-card-details>
           </oxd-grid-item>
         </oxd-grid>
@@ -166,6 +170,7 @@ export default {
       http2,
     };
   },
+
   data() {
     return {
       countries: [],
@@ -191,8 +196,18 @@ export default {
         },
       ],
       total: null,
+      showDetails: false,
+      colSize: 4,
+      windowWidth: window.innerWidth,
     };
   },
+
+  computed() {
+    window.onresize = () => {
+      this.windowWidth = window.innerWidth;
+    };
+  },
+
   beforeMount() {
     this.http1.getAll().then(response => {
       this.employees = employeeDataNormalizer(response.data.data);
@@ -203,6 +218,13 @@ export default {
       this.employeeDetails = employeeDetailsDataNormalizer(response.data.data);
     });
   },
+
+  methods: {
+    hideEmployeeDetails(event) {
+      this.showDetails = event;
+      this.colSize = 4;
+    },
+  },
 };
 </script>
 
@@ -212,6 +234,12 @@ export default {
 
   &-sidebar {
     margin-left: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .orangehrm-corporate-directory {
+    display: block;
   }
 }
 </style>

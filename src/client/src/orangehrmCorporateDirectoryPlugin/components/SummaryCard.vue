@@ -48,6 +48,64 @@
         </div>
       </span>
     </div>
+    <div v-if="detailsSection">
+      <oxd-divider></oxd-divider>
+      <div class="orangehrm-directory-card-rounded-body">
+        <div class="orangehrm-directory-card-icon">
+          <oxd-icon-button display-type="success" name="telephone-fill">
+          </oxd-icon-button>
+        </div>
+        <div class="orangehrm-directory-card-icon">
+          <oxd-icon-button display-type="danger" name="mailbox">
+          </oxd-icon-button>
+        </div>
+      </div>
+      <div
+        class="orangehrm-directory-card-hover"
+        @mouseleave="showTelephoneClip = false"
+        @mouseover="showTelephoneClip = true"
+      >
+        <div class="orangehrm-directory-card-hover-body">
+          <oxd-text type="toast-message">{{ $t('Work Telephone') }}</oxd-text>
+          <oxd-text type="toast-title">
+            {{ employeeDetails[0].employeeWorkTelephone }}</oxd-text
+          >
+        </div>
+        <div
+          class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
+        >
+          <oxd-icon
+            v-show="showTelephoneClip"
+            name="clipboard-check"
+          ></oxd-icon>
+        </div>
+      </div>
+      <oxd-divider></oxd-divider>
+      <div
+        class="orangehrm-directory-card-hover"
+        @mouseleave="showEmailClip = false"
+        @mouseover="showEmailClip = true"
+      >
+        <div class="orangehrm-directory-card-hover-body">
+          <oxd-text type="toast-message">{{ $t('Work Email') }}</oxd-text>
+          <oxd-text type="toast-title">
+            {{ employeeDetails[0].employeeWorkEmail }}</oxd-text
+          >
+        </div>
+        <div
+          class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
+        >
+          <oxd-icon v-show="showEmailClip" name="clipboard-check"></oxd-icon>
+        </div>
+      </div>
+      <oxd-divider></oxd-divider>
+      <div class="orangehrm-directory-card-qrcode">
+        <img
+          class="orangehrm-directory-card-qrcode-img"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
+        />
+      </div>
+    </div>
   </oxd-sheet>
 </template>
 
@@ -55,6 +113,16 @@
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
+import {APIService} from '@/core/util/services/api.service';
+
+const employeeDetailsDataNormalizer = data => {
+  return data.map(item => {
+    return {
+      employeeWorkTelephone: item.contactInfo?.workTelephone,
+      employeeWorkEmail: item.contactInfo?.workEmail,
+    };
+  });
+};
 
 export default {
   name: 'SummaryCard',
@@ -84,6 +152,51 @@ export default {
       type: String,
       default: '',
     },
+    showEmployeeDetails: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  data() {
+    return {
+      employeeDetails: [
+        {
+          employeeWorkTelephone: null,
+          employeeWorkEmail: null,
+        },
+      ],
+      windowWidth: window.innerWidth,
+      showTelephoneClip: false,
+      showEmailClip: false,
+      detailsSection: false,
+    };
+  },
+
+  computed() {
+    window.onresize = () => {
+      this.windowWidth = window.innerWidth;
+    };
+
+    if (this.showEmployeeDetails) {
+      this.showEmployeeDetailsFn(this.id);
+    }
+  },
+
+  methods: {
+    showEmployeeDetailsFn(id) {
+      new APIService(
+        'https://4f792798-fc9b-4ba7-b530-f20c22eb65f0.mock.pstmn.io',
+        'api/v2/corporate-directory/employees/' + id,
+      )
+        .getAll()
+        .then(response => {
+          this.employeeDetails = employeeDetailsDataNormalizer(
+            response.data.data,
+          );
+          this.detailsSection = this.showEmployeeDetails;
+        });
+    },
   },
 };
 </script>
@@ -92,7 +205,6 @@ export default {
 .orangehrm-directory-card {
   padding: 0.5rem 1rem;
   height: 260px;
-  width: 178px;
   overflow: hidden;
 
   &-header {
@@ -131,6 +243,62 @@ export default {
   &-location {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
+  }
+
+  &-rounded-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 100px;
+    width: 140px;
+    height: 64px;
+    box-shadow: 5px 5px 5px 5px #fafafc;
+    margin-right: 8px;
+  }
+
+  &-hover {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    width: 156px;
+    min-height: 48px;
+    margin-right: 8px;
+
+    &-body {
+      display: block;
+      align-items: center;
+      overflow: hidden;
+      word-wrap: break-word;
+    }
+  }
+
+  &-hover:hover {
+    background-color: #fafafc;
+  }
+
+  &-qrcode {
+    height: 128px;
+    width: 128px;
+    display: block;
+    align-items: center;
+    margin-left: 1rem;
+
+    &-img {
+      height: 128px;
+      width: 128px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .orangehrm-directory-card {
+    padding: 0.5rem 1rem;
+    overflow: hidden;
   }
 }
 </style>

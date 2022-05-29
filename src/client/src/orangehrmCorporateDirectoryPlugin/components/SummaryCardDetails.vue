@@ -20,7 +20,10 @@
 
 <template>
   <oxd-sheet :gutters="false" class="orangehrm-directory-card" type="white">
-    <div class="orangehrm-directory-card-top">
+    <div
+      class="orangehrm-directory-card-top"
+      @click="$emit('hide-details', false)"
+    >
       <oxd-icon name="arrow-right"></oxd-icon>
     </div>
     <div class="orangehrm-directory-card-header">
@@ -53,23 +56,22 @@
     </div>
     <div class="orangehrm-directory-card-rounded-body">
       <div class="orangehrm-directory-card-icon">
-        <oxd-icon-button
-          name="telephone-fill"
-          display-type="success"
-        ></oxd-icon-button>
+        <oxd-icon-button display-type="success" name="telephone-fill">
+        </oxd-icon-button>
       </div>
       <div class="orangehrm-directory-card-icon">
-        <oxd-icon-button name="mailbox" display-type="danger"></oxd-icon-button>
+        <oxd-icon-button display-type="danger" name="mailbox">
+        </oxd-icon-button>
       </div>
     </div>
     <div
       class="orangehrm-directory-card-hover"
-      @mouseover="showTelephoneClip = true"
       @mouseleave="showTelephoneClip = false"
+      @mouseover="showTelephoneClip = true"
     >
       <div class="orangehrm-directory-card-hover-body">
         <oxd-text type="toast-message">{{ $t('Work Telephone') }}</oxd-text>
-        <oxd-text type="toast-title"> {{ employeeWorkTelephone }} </oxd-text>
+        <oxd-text type="toast-title"> {{ employeeWorkTelephone }}</oxd-text>
       </div>
       <div
         class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
@@ -80,12 +82,12 @@
     <oxd-divider></oxd-divider>
     <div
       class="orangehrm-directory-card-hover"
-      @mouseover="showEmailClip = true"
       @mouseleave="showEmailClip = false"
+      @mouseover="showEmailClip = true"
     >
       <div class="orangehrm-directory-card-hover-body">
         <oxd-text type="toast-message">{{ $t('Work Email') }}</oxd-text>
-        <oxd-text type="toast-title"> {{ employeeWorkEmail }} </oxd-text>
+        <oxd-text type="toast-title"> {{ employeeWorkEmail }}</oxd-text>
       </div>
       <div
         class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
@@ -147,6 +149,7 @@ export default {
       default: '',
     },
   },
+  emits: ['hide-details'],
   data() {
     return {
       showTelephoneClip: false,
