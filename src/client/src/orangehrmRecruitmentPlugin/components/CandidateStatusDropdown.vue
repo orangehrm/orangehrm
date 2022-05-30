@@ -35,7 +35,7 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/recruitment/candidate/statuses',
+      '/api/v2/recruitment/candidates/statuses',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
