@@ -109,4 +109,15 @@ class KpiDao extends BaseDao
             ->setParameter('ids', $toBeDeletedKpiIds);
         return $q->getQuery()->execute();
     }
+
+    public function unsetDefaultKpi(): void
+    {
+        $q = $this->createQueryBuilder(Kpi::class, 'kpi');
+        $q->update()
+            ->set('kpi.defaultKpi', ':newDefault')
+            ->setParameter('newDefault', false)
+            ->where($q->expr()->eq('kpi.defaultKpi', ':oldDefault'))
+            ->setParameter('oldDefault', true);
+        $q->getQuery()->execute();
+    }
 }

@@ -33,19 +33,19 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class KpiServiceTest extends KernelTestCase
 {
-    private KpiService $KpiService;
+    private KpiService $kpiService;
     protected string $fixture;
 
     protected function setUp(): void
     {
-        $this->KpiService = new KpiService();
+        $this->kpiService = new KpiService();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/KpiService.yaml';
         TestDataService::populate($this->fixture);
     }
 
     public function testGetKpiDao(): void
     {
-        $result = $this->KpiService->getKpiDao();
+        $result = $this->kpiService->getKpiDao();
         $this->assertInstanceOf(KpiDao::class, $result);
     }
 
@@ -75,6 +75,26 @@ class KpiServiceTest extends KernelTestCase
         $this->assertInstanceOf(Kpi::class, $kpiService->saveKpi($kpi));
     }
 
+    public function testSaveKpiWithDefaultTrue(): void
+    {
+        $kpi = new Kpi();
+        $kpi->getDecorator()->setJobTitleById(1);
+        $kpi->setTitle('indicator 4');
+        $kpi->setMinRating(0);
+        $kpi->setMaxRating(100);
+        $kpi->setDefaultKpi(true);
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+        $this->assertEquals('Planning Methodologies', $result[0]->getTitle());
+
+        $this->assertInstanceOf(Kpi::class, $this->kpiService->saveKpi($kpi));
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+        $this->assertEquals('indicator 4', $result[0]->getTitle());
+    }
+
     public function testExceptionForSaveKpi(): void
     {
         $kpi = new Kpi();
@@ -86,6 +106,6 @@ class KpiServiceTest extends KernelTestCase
         $this->expectException(KpiServiceException::class);
         $this->expectExceptionMessage("Minimum rating should be less than Maximum rating");
 
-        $this->KpiService->saveKpi($kpi);
+        $this->kpiService->saveKpi($kpi);
     }
 }

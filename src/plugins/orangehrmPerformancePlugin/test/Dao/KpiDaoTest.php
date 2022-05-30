@@ -105,4 +105,15 @@ class KpiDaoTest extends KernelTestCase
         $result = $this->kpiDao->deleteKpi($toBeDeletedIds);
         $this->assertEquals(0, $result);
     }
+
+    public function testUnsetDefaultKpi(): void
+    {
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+
+        $this->kpiDao->unsetDefaultKpi();
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertEmpty($result);
+    }
 }

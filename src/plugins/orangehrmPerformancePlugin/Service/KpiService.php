@@ -48,6 +48,9 @@ class KpiService
         if ($kpi->getMinRating() >= $kpi->getMaxRating()) {
             throw KpiServiceException::minGreaterThanMax();
         }
+        if ($kpi->isDefaultKpi()) {
+            $this->getKpiDao()->unsetDefaultKpi();
+        }
         return $this->getKpiDao()->saveKpi($kpi);
     }
 }
