@@ -60,6 +60,9 @@ class CandidateHistoryDecorator
         $this->candidateHistory->setVacancy($vacancy);
     }
 
+    /**
+     * @param int $id
+     */
     public function setInterview(int $id): void
     {
         $interview = $this->getReference(Interview::class, $id);

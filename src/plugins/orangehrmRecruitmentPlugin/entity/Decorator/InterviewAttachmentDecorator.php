@@ -63,7 +63,7 @@ class InterviewAttachmentDecorator
     /**
      * @return InterviewAttachment
      */
-    public function getInterviewAttachment(): InterviewAttachment
+    protected function getInterviewAttachment(): InterviewAttachment
     {
         return $this->interviewAttachment;
     }
