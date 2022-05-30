@@ -49,6 +49,8 @@ apiv2_recruitment_candidate:
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateAPI
     _key: id
+  requirements:
+    id: '\d+'
 
 apiv2_recruitment_candidte_attachment_candidateId:
   path: /api/v2/recruitment/candidate/attachments/{candidateId}
