@@ -26,6 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @method VacancyDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_job_vacancy")
  * @ORM\Entity
  *

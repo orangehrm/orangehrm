@@ -25,6 +25,7 @@ use OrangeHRM\Entity\Decorator\VacancyAttachmentDecorator;
 
 /**
  * @method VacancyAttachmentDecorator getDecorator()
+ * 
  * @ORM\Table(name="ohrm_job_vacancy_attachment")
  * @ORM\Entity
  *

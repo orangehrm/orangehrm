@@ -25,6 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @method InterviewAttachmentDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_job_interview_attachment")
  * @ORM\Entity
  */
