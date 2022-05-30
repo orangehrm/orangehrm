@@ -74,33 +74,32 @@
               :employee-location="employee.employeeLocation"
               :employee-name="employee.employeeName"
               :employee-sub-unit="employee.employeeSubUnit"
-              :show-employee-details="showDetails"
-              @click="(showDetails = true) && (colSize = 3)"
+              :show-employee-details="isMobile ? toggle : false"
+              @click="
+                isMobile === false ? showEmployeeDetailsFn(employee.id) : '';
+                toggle = !toggle;
+              "
             ></summary-card>
           </oxd-grid-item>
         </oxd-grid>
         <div class="orangehrm-bottom-container"></div>
       </div>
       <div
-        v-show="showDetails && windowWidth > 900"
+        v-if="showDetails && isMobile === false"
         class="orangehrm-paper-container orangehrm-corporate-directory-sidebar"
       >
-        <oxd-grid :cols="1">
-          <oxd-grid-item>
-            <summary-card-details
-              :id="employeeDetails[0].id"
-              :employee-designation="employeeDetails[0].employeeJobTitle"
-              :employee-location="employeeDetails[0].employeeLocation"
-              :employee-name="employeeDetails[0].employeeName"
-              :employee-sub-unit="employeeDetails[0].employeeSubUnit"
-              :employee-work-email="employeeDetails[0].employeeWorkEmail"
-              :employee-work-telephone="
-                employeeDetails[0].employeeWorkTelephone
-              "
-              @hideDetails="hideEmployeeDetails($event)"
-            ></summary-card-details>
-          </oxd-grid-item>
-        </oxd-grid>
+        <oxd-grid-item>
+          <summary-card-details
+            :id="employeeDetails[0].id"
+            :employee-designation="employeeDetails[0].employeeJobTitle"
+            :employee-location="employeeDetails[0].employeeLocation"
+            :employee-name="employeeDetails[0].employeeName"
+            :employee-sub-unit="employeeDetails[0].employeeSubUnit"
+            :employee-work-email="employeeDetails[0].employeeWorkEmail"
+            :employee-work-telephone="employeeDetails[0].employeeWorkTelephone"
+            @hideDetails="hideEmployeeDetails($event)"
+          ></summary-card-details>
+        </oxd-grid-item>
       </div>
     </div>
   </div>
@@ -155,74 +154,85 @@ export default {
   },
 
   setup() {
-    const http1 = new APIService(
-      'https://4f792798-fc9b-4ba7-b530-f20c22eb65f0.mock.pstmn.io',
+    const http = new APIService(
+      'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
       'api/v2/corporate-directory/employees',
     );
 
-    const http2 = new APIService(
-      'https://4f792798-fc9b-4ba7-b530-f20c22eb65f0.mock.pstmn.io',
-      'api/v2/corporate-directory/employees/1',
-    );
-
     return {
-      http1,
-      http2,
+      http,
     };
   },
-
   data() {
     return {
       countries: [],
-      info: this.http,
       employees: [
         {
-          id: 0,
-          employeeName: '',
-          employeeJobTitle: '',
-          employeeLocation: '',
-          employeeSubUnit: '',
+          id: null,
+          employeeName: null,
+          employeeJobTitle: null,
+          employeeLocation: null,
+          employeeSubUnit: null,
         },
       ],
       employeeDetails: [
         {
-          id: 0,
-          employeeName: '',
-          employeeJobTitle: '',
-          employeeLocation: '',
-          employeeSubUnit: '',
-          employeeWorkTelephone: '',
-          employeeWorkEmail: '',
+          id: null,
+          employeeName: null,
+          employeeJobTitle: null,
+          employeeLocation: null,
+          employeeSubUnit: null,
+          employeeWorkTelephone: null,
+          employeeWorkEmail: null,
         },
       ],
       total: null,
       showDetails: false,
       colSize: 4,
-      windowWidth: window.innerWidth,
+      toggle: false,
     };
   },
 
-  computed() {
-    window.onresize = () => {
-      this.windowWidth = window.innerWidth;
-    };
+  computed: {
+    isMobile() {
+      return this.windowWidth < 600 ? true : false;
+    },
   },
 
   beforeMount() {
-    this.http1.getAll().then(response => {
+    this.http.getAll().then(response => {
       this.employees = employeeDataNormalizer(response.data.data);
       this.total = response.data.meta.total;
     });
 
-    this.http2.getAll().then(response => {
-      this.employeeDetails = employeeDetailsDataNormalizer(response.data.data);
-    });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.onResize);
   },
 
   methods: {
     hideEmployeeDetails(event) {
       this.showDetails = event;
       this.colSize = 4;
+    },
+    showEmployeeDetailsFn(id) {
+      new APIService(
+        'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
+        'api/v2/corporate-directory/employees/' + id,
+      )
+        .getAll()
+        .then(response => {
+          this.employeeDetails = employeeDetailsDataNormalizer(
+            response.data.data,
+          );
+          this.showDetails = true;
+          this.colSize = 3;
+        });
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth;
     },
   },
 };

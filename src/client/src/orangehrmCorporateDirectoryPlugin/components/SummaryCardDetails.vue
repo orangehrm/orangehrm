@@ -183,9 +183,7 @@ export default {
   }
 
   &-body {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-align: center;
     align-items: center;
     padding: 0.25rem 0.5rem;
     margin-top: -0.25rem;

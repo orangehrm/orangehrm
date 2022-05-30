@@ -19,7 +19,12 @@
  -->
 
 <template>
-  <oxd-sheet :gutters="false" class="orangehrm-directory-card" type="white">
+  <oxd-sheet
+    :gutters="false"
+    class="orangehrm-directory-card"
+    type="white"
+    @click="toggle = !toggle"
+  >
     <div class="orangehrm-directory-card-header">
       <oxd-text type="card-title">
         {{ employeeName }}
@@ -48,7 +53,7 @@
         </div>
       </span>
     </div>
-    <div v-if="detailsSection">
+    <div v-show="changeShowDetailsStatus && toggle">
       <oxd-divider></oxd-divider>
       <div class="orangehrm-directory-card-rounded-body">
         <div class="orangehrm-directory-card-icon">
@@ -68,7 +73,7 @@
         <div class="orangehrm-directory-card-hover-body">
           <oxd-text type="toast-message">{{ $t('Work Telephone') }}</oxd-text>
           <oxd-text type="toast-title">
-            {{ employeeDetails[0].employeeWorkTelephone }}</oxd-text
+            {{ employeeInfoDetails[0].employeeWorkTelephone }}</oxd-text
           >
         </div>
         <div
@@ -89,7 +94,7 @@
         <div class="orangehrm-directory-card-hover-body">
           <oxd-text type="toast-message">{{ $t('Work Email') }}</oxd-text>
           <oxd-text type="toast-title">
-            {{ employeeDetails[0].employeeWorkEmail }}</oxd-text
+            {{ employeeInfoDetails[0].employeeWorkEmail }}</oxd-text
           >
         </div>
         <div
@@ -115,9 +120,10 @@ import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
 import {APIService} from '@/core/util/services/api.service';
 
-const employeeDetailsDataNormalizer = data => {
+const employeeInfoDetailsDataNormalizer = data => {
   return data.map(item => {
     return {
+      employeeId: item.id,
       employeeWorkTelephone: item.contactInfo?.workTelephone,
       employeeWorkEmail: item.contactInfo?.workEmail,
     };
@@ -160,41 +166,38 @@ export default {
 
   data() {
     return {
-      employeeDetails: [
+      employeeInfoDetails: [
         {
           employeeWorkTelephone: null,
           employeeWorkEmail: null,
         },
       ],
-      windowWidth: window.innerWidth,
       showTelephoneClip: false,
       showEmailClip: false,
-      detailsSection: false,
+      toggle: false,
     };
   },
 
-  computed() {
-    window.onresize = () => {
-      this.windowWidth = window.innerWidth;
-    };
-
-    if (this.showEmployeeDetails) {
-      this.showEmployeeDetailsFn(this.id);
-    }
+  computed: {
+    changeShowDetailsStatus() {
+      if (this.showEmployeeDetails === true && this.toggle === true) {
+        this.showEmployeeDetailsFn(this.id);
+      }
+      return this.showEmployeeDetails === true ? true : false;
+    },
   },
 
   methods: {
     showEmployeeDetailsFn(id) {
       new APIService(
-        'https://4f792798-fc9b-4ba7-b530-f20c22eb65f0.mock.pstmn.io',
+        'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
         'api/v2/corporate-directory/employees/' + id,
       )
         .getAll()
         .then(response => {
-          this.employeeDetails = employeeDetailsDataNormalizer(
+          this.employeeInfoDetails = employeeInfoDetailsDataNormalizer(
             response.data.data,
           );
-          this.detailsSection = this.showEmployeeDetails;
         });
     },
   },
@@ -216,9 +219,7 @@ export default {
   }
 
   &-body {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-align: center;
     align-items: center;
     padding: 0.25rem 0.5rem;
     margin-top: -0.25rem;
@@ -298,6 +299,7 @@ export default {
 @media (max-width: 600px) {
   .orangehrm-directory-card {
     padding: 0.5rem 1rem;
+    height: auto;
     overflow: hidden;
   }
 }
