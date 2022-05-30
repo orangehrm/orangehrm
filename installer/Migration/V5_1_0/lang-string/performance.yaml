@@ -25,7 +25,7 @@ langStrings:
     unitId: review_period_end_date_should_be_after_start_date
   -
     value: 'Due date should be after period end date'
-    unitId: review_period_end_date_should_be_after_start_date
+    unitId: due_date_should_be_after_review_period_end_date
   -
     value: "Cannot activate review for employees who doesn't have Job Title and/or Sub-Division"
     unitId: cannot_activate_review_without_job_title_subdivision
