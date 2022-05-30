@@ -118,9 +118,8 @@ export default {
   },
   emits: ['close'],
   setup(props) {
-    // TODO change to window.appGlobal.baseUrl
     const http = new APIService(
-      'https://942be86c-56c6-42e3-ac85-874a20c7ce9b.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       `api/v2/performance/trackers/${props.trackerId}/logs`,
     );
 
@@ -155,7 +154,7 @@ export default {
           achievement: this.rating ? 1 : 2,
         })
         .then(() => {
-          this.$toast.saveSuccess;
+          this.$toast.saveSuccess();
           this.onCancel();
         });
     },

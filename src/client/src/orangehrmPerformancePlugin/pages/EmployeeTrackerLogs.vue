@@ -24,11 +24,7 @@
       <div class="orangehrm-employee-tracker">
         <div class="orangehrm-employee-tracker-image-section">
           <div class="orangehrm-employee-tracker-image-wrapper">
-            <img
-              alt="profile picture"
-              class="employee-image"
-              :src="employeeImgSrc"
-            />
+            <img alt="profile picture" class="employee-image" :src="imgSrc" />
           </div>
         </div>
         <div class="orangehrm-employee-tracker-header-section">
@@ -124,7 +120,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {reactive, toRefs} from 'vue';
+import {reactive, toRefs, computed} from 'vue';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
@@ -154,11 +150,14 @@ export default {
       type: Number,
       required: true,
     },
+    empNumber: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props) {
-    // TODO change to window.appGlobal.baseUrl
     const http = new APIService(
-      'https://942be86c-56c6-42e3-ac85-874a20c7ce9b.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       `api/v2/performance/trackers/${props.trackerId}/logs`,
     );
     const limit = 10;
@@ -225,18 +224,22 @@ export default {
       fetchData();
     });
 
+    const imgSrc = computed(() => {
+      return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.empNumber}`;
+    });
+
     return {
       http,
       scrollerRef,
       fetchData,
       ...toRefs(state),
+      imgSrc,
     };
   },
   data() {
     return {
       trackerName: '',
       employeeName: '',
-      employeeImgSrc: '',
       showAddTrackerModal: false,
       showEditTrackerModal: false,
       editTrackerLogId: null,
@@ -258,7 +261,6 @@ export default {
             ? ` ${this.$t('general.past_employee')}`
             : ''
         }`;
-        this.employeeImgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${data.employee.empNumber}`;
       })
       .then(() => {
         this.fetchData();
@@ -296,7 +298,7 @@ export default {
             ids: items,
           })
           .then(() => {
-            return this.$toast.deleteSuccess;
+            return this.$toast.deleteSuccess();
           })
           .finally(() => {
             this.fetchData();

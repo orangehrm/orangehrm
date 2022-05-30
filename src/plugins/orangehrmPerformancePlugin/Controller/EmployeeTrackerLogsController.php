@@ -23,17 +23,37 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 
 class EmployeeTrackerLogsController extends AbstractVueController
 {
+    private ?PerformanceTrackerDao $performanceTrackerDao = null;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $id = $request->attributes->get('id');
+        $id = $request->attributes->getInt('id');
         $component = new Component('employee-tracker-logs');
-        $component->addProp(new Prop('tracker-id', Prop::TYPE_NUMBER, (int) $id));
+        $tracker = $this->getPerformanceTrackerDao()->getPerformanceTrack($id);
+
+        if (!is_null($tracker)) {
+            $component->addProp(new Prop('tracker-id', Prop::TYPE_NUMBER, $tracker->getId()));
+            $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $tracker->getEmployee()->getEmpNumber()));
+        }
+
         $this->setComponent($component);
+    }
+
+    /**
+     * @return PerformanceTrackerDao
+     */
+    private function getPerformanceTrackerDao(): PerformanceTrackerDao
+    {
+        if (!$this->performanceTrackerDao instanceof PerformanceTrackerDao) {
+            $this->performanceTrackerDao = new PerformanceTrackerDao();
+        }
+        return $this->performanceTrackerDao;
     }
 }
