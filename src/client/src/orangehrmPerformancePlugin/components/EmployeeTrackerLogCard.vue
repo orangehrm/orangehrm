@@ -174,6 +174,8 @@ export default {
     background-color: $oxd-white-color;
     border-radius: 1.2rem;
     padding: 1.2rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
   }
 
   &-header {

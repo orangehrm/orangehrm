@@ -219,10 +219,12 @@ export default {
         })
         .finally(() => (state.isLoading = false));
     };
+
     const {scrollerRef} = useInfiniteScroll(() => {
       if (state.items.length >= state.total) return;
       fetchData();
     });
+
     return {
       http,
       scrollerRef,

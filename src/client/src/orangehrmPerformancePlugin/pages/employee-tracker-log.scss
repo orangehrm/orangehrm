@@ -19,6 +19,7 @@
 .orangehrm-container {
   overflow: auto;
   max-height: 400px;
+  min-height: 400px;
   @include oxd-scrollbar();
   &-loader {
     margin: 0 auto;
@@ -149,4 +150,8 @@
     font-size: 16px;
     font-weight: 800;
   }
+}
+
+.orangehrm-paper-container {
+  padding-bottom: 2.4rem;
 }
