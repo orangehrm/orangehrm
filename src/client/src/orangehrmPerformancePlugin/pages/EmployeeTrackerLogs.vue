@@ -240,10 +240,6 @@ export default {
       showAddTrackerModal: false,
       showEditTrackerModal: false,
       editTrackerLogId: null,
-      dropdownOptions: [
-        {label: this.$t('general.edit'), context: 'edit'},
-        {label: 'Delete', context: 'delete'},
-      ],
     };
   },
   beforeMount() {

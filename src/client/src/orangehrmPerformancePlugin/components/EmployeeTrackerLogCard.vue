@@ -77,7 +77,7 @@
           <oxd-icon
             class="orangehrm-employee-tracker-log-reviewer-date-icon"
             name="calendar-plus"
-            title="Added On"
+            :title="$t('performance.added_on')"
           />
           <oxd-text>
             {{ trackerLog.addedDate }}
@@ -90,7 +90,7 @@
           <oxd-icon
             class="orangehrm-employee-tracker-log-reviewer-date-icon"
             name="pencil"
-            title="Modified On"
+            :title="$t('performance.modified_on')"
           />
           <oxd-text>
             {{ trackerLog.modifiedDate }}
@@ -122,7 +122,7 @@ export default {
     return {
       dropdownOptions: [
         {label: this.$t('general.edit'), context: 'edit'},
-        {label: 'Delete', context: 'delete'},
+        {label: this.$t('performance.delete'), context: 'delete'},
       ],
     };
   },
