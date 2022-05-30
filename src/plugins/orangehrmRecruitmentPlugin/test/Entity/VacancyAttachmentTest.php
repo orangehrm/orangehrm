@@ -24,6 +24,10 @@ use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Recruitment
+ * @group Entity
+ */
 class VacancyAttachmentTest extends EntityTestCase
 {
     protected function setUp(): void

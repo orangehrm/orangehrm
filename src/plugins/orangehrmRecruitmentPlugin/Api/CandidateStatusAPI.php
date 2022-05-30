@@ -30,6 +30,7 @@ use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
 {
     use VacancyServiceTrait;
+
     public const STATUS_MAP = [
         1 => 'APPLICATION INITIATED',
         2 => 'SHORTLISTED',

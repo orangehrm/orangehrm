@@ -19,18 +19,17 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
-use OrangeHRM\Entity\Decorator\VacancyAttachmentDecorator;
+use OrangeHRM\Entity\Decorator\InterviewAttachmentDecorator;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @method VacancyAttachmentDecorator getDecorator()
+ * @method InterviewAttachmentDecorator getDecorator()
  *
- * @ORM\Table(name="ohrm_job_vacancy_attachment")
+ * @ORM\Table(name="ohrm_job_interview_attachment")
  * @ORM\Entity
- *
  */
-class VacancyAttachment
+class InterviewAttachment
 {
     use DecoratorTrait;
 
@@ -44,11 +43,11 @@ class VacancyAttachment
     private int $id;
 
     /**
-     * @var Vacancy
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Vacancy", inversedBy="vacancies", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="vacancy_id", referencedColumnName="id",nullable=false)
+     * @var Interview
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Interview", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="interview_id", referencedColumnName="id", nullable=false)
      */
-    private Vacancy $vacancy;
+    private Interview $interview;
 
     /**
      * @var string
@@ -62,12 +61,12 @@ class VacancyAttachment
      *
      * @ORM\Column(name="file_type", type="string", length=200)
      */
-    private ?string $fileType;
+    private ?string $fileType = null;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="file_size", type="integer")
+     * @ORM\Column(name="file_size", type="integer", length=11)
      */
     private int $fileSize;
 
@@ -81,16 +80,16 @@ class VacancyAttachment
     /**
      * @var int|null
      *
-     * @ORM\Column(name="attachment_type", type="integer")
+     * @ORM\Column(name="attachment_type", type="integer", length=4)
      */
-    private ?int $attachmentType;
+    private ?int $attachmentType = null;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="comment",type="string", length=255)
+     * @ORM\Column(name="comment", type="string", length=255)
      */
-    private ?string $comment;
+    private ?string $comment = null;
 
     /**
      * @return int
@@ -101,7 +100,7 @@ class VacancyAttachment
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      */
     public function setId(int $id): void
     {
@@ -109,19 +108,19 @@ class VacancyAttachment
     }
 
     /**
-     * @return Vacancy
+     * @return Interview
      */
-    public function getVacancy(): Vacancy
+    public function getInterview(): Interview
     {
-        return $this->vacancy;
+        return $this->interview;
     }
 
     /**
-     * @param  Vacancy  $vacancy
+     * @param Interview $interview
      */
-    public function setVacancy(Vacancy $vacancy): void
+    public function setInterview(Interview $interview): void
     {
-        $this->vacancy = $vacancy;
+        $this->interview = $interview;
     }
 
     /**
@@ -133,7 +132,7 @@ class VacancyAttachment
     }
 
     /**
-     * @param  string  $fileName
+     * @param string $fileName
      */
     public function setFileName(string $fileName): void
     {
@@ -149,7 +148,7 @@ class VacancyAttachment
     }
 
     /**
-     * @param  string|null  $fileType
+     * @param string|null $fileType
      */
     public function setFileType(?string $fileType): void
     {
@@ -165,7 +164,7 @@ class VacancyAttachment
     }
 
     /**
-     * @param  int  $fileSize
+     * @param int $fileSize
      */
     public function setFileSize(int $fileSize): void
     {
@@ -175,13 +174,13 @@ class VacancyAttachment
     /**
      * @return resource|string
      */
-    public function getFileContent()
+    public function getFileContent(): string
     {
         return $this->fileContent;
     }
 
     /**
-     * @param  string  $fileContent
+     * @param resource|string $fileContent
      */
     public function setFileContent(string $fileContent): void
     {
@@ -197,7 +196,7 @@ class VacancyAttachment
     }
 
     /**
-     * @param  int|null  $attachmentType
+     * @param int|null $attachmentType
      */
     public function setAttachmentType(?int $attachmentType): void
     {
@@ -213,7 +212,7 @@ class VacancyAttachment
     }
 
     /**
-     * @param  string|null  $comment
+     * @param string|null $comment
      */
     public function setComment(?string $comment): void
     {

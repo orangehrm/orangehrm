@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="select"
-    :label="$t('recruitment.candidate')"
+    :label="$t('general.status')"
     :options="options"
   />
 </template>
@@ -35,7 +35,7 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/recruitment/candidate/status',
+      '/api/v2/recruitment/candidates/statuses',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
