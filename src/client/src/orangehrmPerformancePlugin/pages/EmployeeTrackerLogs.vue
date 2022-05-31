@@ -44,9 +44,11 @@
               v-if="meta.positive > 0"
               class="orangehrm-employee-tracker-ratings-info"
             >
-              <div class="orangehrm-employee-tracker-ratings-icon --positive">
-                <oxd-icon type="svg" name="thumbsup" />
-              </div>
+              <oxd-icon
+                class="orangehrm-employee-tracker-ratings-icon --positive"
+                type="svg"
+                name="thumbsup"
+              />
               <oxd-text
                 class="orangehrm-employee-tracker-ratings-text --positive"
               >
@@ -57,9 +59,11 @@
               v-if="meta.negative > 0"
               class="orangehrm-employee-tracker-ratings-info"
             >
-              <div class="orangehrm-employee-tracker-ratings-icon --negative">
-                <oxd-icon type="svg" name="thumbsdown" />
-              </div>
+              <oxd-icon
+                class="orangehrm-employee-tracker-ratings-icon --negative"
+                type="svg"
+                name="thumbsdown"
+              />
               <oxd-text
                 class="orangehrm-employee-tracker-ratings-text --negative"
               >
@@ -73,7 +77,7 @@
     <br />
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h5" class="orangehrm-employee-tracker-log-list-header">
+        <oxd-text tag="h5" class="orangehrm-employee-tracker-list-header">
           {{ $t('performance.tracker_logs') }}
         </oxd-text>
         <oxd-button
@@ -99,7 +103,7 @@
         </oxd-sheet>
         <div
           v-if="showNoRecordsFound"
-          class="orangehrm-employee-tracker-log-no-records"
+          class="orangehrm-employee-tracker-no-records"
         >
           <oxd-text>
             No Records Found

@@ -118,49 +118,34 @@
 
     &-icon {
       padding-right: 0.6rem;
-
-      ::v-deep(.oxd-icon) {
-        width: 25px;
-        height: 25px;
-      }
-
-      &.--positive {
-        ::v-deep(.oxd-icon) {
-          color: $oxd-secondary-four-color;
-        }
-      }
-
-      &.--negative {
-        ::v-deep(.oxd-icon) {
-          color: $oxd-feedback-danger-color;
-        }
-      }
+      min-width: 25px;
+      min-height: 25px;
     }
 
     &-text {
       font-size: 25px;
-
-      &.--positive {
-        color: $oxd-secondary-four-color;
-      }
-
-      &.--negative {
-        color: $oxd-feedback-danger-color;
-      }
     }
   }
 
-  &-log-list-header {
+  &-list-header {
     font-size: 16px;
     font-weight: 800;
   }
 
-  &-log-no-records {
+  &-no-records {
     display: flex;
     min-height: inherit;
     justify-content: center;
     align-items: center;
   }
+}
+
+.--positive {
+  color: $oxd-secondary-four-color;
+}
+
+.--negative {
+  color: $oxd-feedback-danger-color;
 }
 
 .orangehrm-paper-container {

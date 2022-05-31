@@ -44,18 +44,15 @@
             >
               {{ trackerLog.log }}
             </oxd-text>
-            <div
+            <oxd-icon
+              type="svg"
               :class="{
                 'orangehrm-employee-tracker-log-title-icon': true,
                 '--positive': trackerLog.achievement === 1,
                 '--negative': trackerLog.achievement === 2,
               }"
-            >
-              <oxd-icon
-                type="svg"
-                :name="`thumbs${trackerLog.achievement === 1 ? 'up' : 'down'}`"
-              />
-            </div>
+              :name="`thumbs${trackerLog.achievement === 1 ? 'up' : 'down'}`"
+            />
           </div>
           <oxd-dropdown
             v-if="trackerLog.editable"

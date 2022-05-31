@@ -73,21 +73,15 @@
     }
 
     &-icon {
-      ::v-deep(.oxd-icon) {
-        width: 21px;
-        height: 21px;
-      }
+      min-width: 21px;
+      min-height: 21px;
 
       &.--positive {
-        ::v-deep(.oxd-icon) {
-          color: $oxd-secondary-four-color;
-        }
+        color: $oxd-secondary-four-color;
       }
 
       &.--negative {
-        ::v-deep(.oxd-icon) {
-          color: $oxd-feedback-danger-color;
-        }
+        color: $oxd-feedback-danger-color;
       }
     }
   }
