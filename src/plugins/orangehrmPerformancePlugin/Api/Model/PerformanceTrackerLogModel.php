@@ -22,10 +22,12 @@ namespace OrangeHRM\Performance\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\PerformanceTrackerLog;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 
 class PerformanceTrackerLogModel implements Normalizable
 {
-    use ModelTrait;
+    use ModelTrait {ModelTrait::toArray as modelToArray;}
+    use PerformanceTrackerLogServiceTrait;
 
     public function __construct(PerformanceTrackerLog $performanceTrackerLog)
     {
@@ -58,5 +60,14 @@ class PerformanceTrackerLogModel implements Normalizable
                 ['reviewer', 'terminationId'],
             ]
         );
+    }
+
+    public function toArray(): array
+    {
+        $editability = $this->getPerformanceTrackerLogService()
+            ->getPerformanceTrackerLogDao()->checkTrackerLogEditable($this->getEntity());
+        $result = $this->modelToArray();
+        $result['editable'] = $editability;
+        return $result;
     }
 }

@@ -24,6 +24,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerLog;
+use OrangeHRM\Entity\User;
 
 class PerformanceTrackerLogDecorator
 {
@@ -72,6 +73,16 @@ class PerformanceTrackerLogDecorator
     {
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->getPerformanceTrackerLog()->setReviewer($employee);
+    }
+
+    /**
+     * @param int $userId
+     * @return void
+     */
+    public function setUserByUserId(int $userId): void
+    {
+        $user = $this->getReference(User::class, $userId);
+        $this->getPerformanceTrackerLog()->setUser($user);
     }
 
     /**

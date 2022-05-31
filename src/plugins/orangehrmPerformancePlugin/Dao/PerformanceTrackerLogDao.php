@@ -20,19 +20,21 @@
 namespace OrangeHRM\Performance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceTrackerLogSearchFilterParams;
 
 class PerformanceTrackerLogDao extends BaseDao
 {
+    use UserRoleManagerTrait;
     /**
      * @param int $performanceTrackerLogId
      * @return PerformanceTrackerLog|null
      */
     public function getPerformanceTrackerLogById(int $performanceTrackerLogId): ?PerformanceTrackerLog
     {
-        $performanceTrackerLog = $this->getRepository(PerformanceTrackerLog::class)->findOneBy(['id' => $performanceTrackerLogId]);
+        $performanceTrackerLog = $this->getRepository(PerformanceTrackerLog::class)->findOneBy(['id' => $performanceTrackerLogId,'status' => PerformanceTrackerLog::STATUS_NOT_DELETED]);
         if ($performanceTrackerLog instanceof PerformanceTrackerLog) {
             return $performanceTrackerLog;
         }
@@ -67,7 +69,9 @@ class PerformanceTrackerLogDao extends BaseDao
     {
         $q = $this->createQueryBuilder(PerformanceTrackerLog::class, 'ptrLog');
         $q->andWhere('ptrLog.performanceTracker = :trackerId')
-            ->setParameter('trackerId', $performanceTrackerLogSearchFilterParams->getTrackerId());
+            ->setParameter('trackerId', $performanceTrackerLogSearchFilterParams->getTrackerId())
+            ->andWhere('ptrLog.status = :notDeletedStatus')
+            ->setParameter('notDeletedStatus', PerformanceTrackerLog::STATUS_NOT_DELETED);
         return $this->getQueryBuilderWrapper($q);
     }
 
@@ -82,7 +86,9 @@ class PerformanceTrackerLogDao extends BaseDao
         $q->andWhere('ptrLog.performanceTracker = :trackerId')
             ->setParameter('trackerId', $performanceTrackerId)
             ->andWhere('ptrLog.achievement = :ratingId')
-            ->setParameter('ratingId', $rateType);
+            ->setParameter('ratingId', $rateType)
+            ->andWhere('ptrLog.status = :notDeletedStatus')
+            ->setParameter('notDeletedStatus', PerformanceTrackerLog::STATUS_NOT_DELETED);
         return $this->getPaginator($q)->count();
     }
 
@@ -94,5 +100,41 @@ class PerformanceTrackerLogDao extends BaseDao
     {
         $this->persist($performanceTrackerLog);
         return $performanceTrackerLog;
+    }
+
+    /**
+     * @param array $toDeleteId
+     * @return int
+     */
+    public function deletePerformanceTrackerLog(array $toDeleteId): int
+    {
+        $q = $this->createQueryBuilder(PerformanceTrackerLog::class, 'ptrLog');
+        $q->update()
+            ->set('ptrLog.status', ':deletedStatus')
+            ->setParameter('deletedStatus', PerformanceTrackerLog::STATUS_DELETED)
+            ->where($q->expr()->in('ptrLog.id', ':ids'))
+            ->setParameter('ids', $toDeleteId);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param PerformanceTrackerLog $performanceTrackerLog
+     * @return bool
+     */
+    public function checkTrackerLogEditable(PerformanceTrackerLog $performanceTrackerLog): bool
+    {
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($performanceTrackerLog->getReviewer()->getEmpNumber());
+        if ($this->getUserRoleManager()
+            ->getDataGroupPermissions(
+                'performance_tracker_log',
+                [],
+                [],
+                $self,
+                []
+            )->canUpdate()
+        ) {
+            return true;
+        }
+        return false;
     }
 }
