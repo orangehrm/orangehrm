@@ -55,70 +55,27 @@
         </div>
       </span>
     </div>
-    <div class="orangehrm-directory-card-rounded-body">
-      <div class="orangehrm-directory-card-icon">
-        <oxd-icon-button display-type="success" name="telephone-fill">
-        </oxd-icon-button>
-      </div>
-      <div class="orangehrm-directory-card-icon">
-        <oxd-icon-button display-type="danger" name="mailbox">
-        </oxd-icon-button>
-      </div>
-    </div>
-    <div
-      class="orangehrm-directory-card-hover"
-      @mouseleave="showTelephoneClip = false"
-      @mouseover="showTelephoneClip = true"
+    <employee-details
+      :employee-work-telephone="employeeWorkTelephone"
+      :employee-work-email="employeeWorkEmail"
     >
-      <div class="orangehrm-directory-card-hover-body">
-        <oxd-text type="toast-message">{{ $t('Work Telephone') }}</oxd-text>
-        <oxd-text type="toast-title"> {{ employeeWorkTelephone }}</oxd-text>
-      </div>
-      <div
-        class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
-      >
-        <oxd-icon v-show="showTelephoneClip" name="clipboard-check"></oxd-icon>
-      </div>
-    </div>
-    <oxd-divider></oxd-divider>
-    <div
-      class="orangehrm-directory-card-hover"
-      @mouseleave="showEmailClip = false"
-      @mouseover="showEmailClip = true"
-    >
-      <div class="orangehrm-directory-card-hover-body">
-        <oxd-text type="toast-message">{{ $t('Work Email') }}</oxd-text>
-        <oxd-text type="toast-title"> {{ employeeWorkEmail }}</oxd-text>
-      </div>
-      <div
-        class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
-      >
-        <oxd-icon v-show="showEmailClip" name="clipboard-check"></oxd-icon>
-      </div>
-    </div>
-    <oxd-divider></oxd-divider>
-    <div class="orangehrm-directory-card-qrcode">
-      <img
-        class="orangehrm-directory-card-qrcode-img"
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
-      />
-    </div>
+    </employee-details>
   </oxd-sheet>
 </template>
 
 <script>
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import OxdDivider from '@ohrm/oxd/core/components/Divider/Divider';
 import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
+import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 
 export default {
   name: 'SummaryCardDetails',
   components: {
     'oxd-sheet': Sheet,
     'oxd-icon': Icon,
-    'oxd-divider': OxdDivider,
     'profile-picture': ProfilePicture,
+    'employee-details': EmployeeDetails,
   },
   props: {
     id: {
@@ -151,12 +108,6 @@ export default {
     },
   },
   emits: ['hide-details'],
-  data() {
-    return {
-      showTelephoneClip: false,
-      showEmailClip: false,
-    };
-  },
 };
 </script>
 
@@ -193,43 +144,6 @@ export default {
     width: 156px;
     margin-right: 8px;
   }
-
-  &-rounded-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 100px;
-    width: 140px;
-    height: 64px;
-    box-shadow: 5px 5px 5px 5px #fafafc;
-    margin-right: 8px;
-  }
-
-  &-hover {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.5rem;
-    width: 156px;
-    min-height: 48px;
-    margin-right: 8px;
-
-    &-body {
-      display: block;
-      align-items: center;
-      overflow: hidden;
-      word-wrap: break-word;
-    }
-  }
-
-  &-hover:hover {
-    background-color: #fafafc;
-  }
-
   &-icon {
     margin-right: 0.5rem;
     color: #64728c;
@@ -246,19 +160,6 @@ export default {
   &-location {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
-  }
-
-  &-qrcode {
-    height: 128px;
-    width: 128px;
-    display: block;
-    align-items: center;
-    margin-left: 1rem;
-
-    &-img {
-      height: 128px;
-      width: 128px;
-    }
   }
 }
 </style>

@@ -56,11 +56,8 @@
     <br />
     <div class="orangehrm-corporate-directory">
       <div class="orangehrm-paper-container">
-        <table-header
-          :loading="isLoading"
-          :show-divider="false"
-          :total="total"
-        ></table-header>
+        <table-header :loading="isLoading" :show-divider="false" :total="total">
+        </table-header>
         <oxd-grid :cols="colSize" class="orangehrm-container">
           <oxd-grid-item v-for="employee in employees" :key="employee">
             <summary-card
@@ -69,10 +66,8 @@
               :employee-location="employee.employeeLocation"
               :employee-name="employee.employeeName"
               :employee-sub-unit="employee.employeeSubUnit"
-              :show-employee-details="isMobile ? toggle : false"
               @click="
-                isMobile === false ? showEmployeeDetailsFn(employee.id) : '';
-                toggle = !toggle;
+                isMobile === false ? showEmployeeDetailsFn(employee.id) : ''
               "
             ></summary-card>
           </oxd-grid-item>
@@ -155,7 +150,6 @@ export default {
       'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
       'api/v2/corporate-directory/employees',
     );
-
     return {
       http,
     };
@@ -185,7 +179,7 @@ export default {
       total: null,
       showDetails: false,
       colSize: 4,
-      toggle: false,
+      windowWidth: 0,
     };
   },
 
@@ -214,18 +208,13 @@ export default {
       this.colSize = 4;
     },
     showEmployeeDetailsFn(id) {
-      new APIService(
-        'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
-        'api/v2/corporate-directory/employees/' + id,
-      )
-        .getAll()
-        .then(response => {
-          this.employeeDetails = employeeDetailsDataNormalizer(
-            response.data.data,
-          );
-          this.showDetails = true;
-          this.colSize = 3;
-        });
+      this.http.get(id).then(response => {
+        this.employeeDetails = employeeDetailsDataNormalizer(
+          response.data.data,
+        );
+        this.showDetails = true;
+        this.colSize = 3;
+      });
     },
     onResize() {
       this.windowWidth = window.innerWidth;

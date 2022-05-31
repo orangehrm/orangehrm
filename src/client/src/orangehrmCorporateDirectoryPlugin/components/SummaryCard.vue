@@ -23,14 +23,14 @@
     :gutters="false"
     class="orangehrm-directory-card"
     type="white"
-    @click="toggle = !toggle"
+    @click="showEmployeeDetailsFn(id)"
   >
     <div class="orangehrm-directory-card-header">
       <oxd-text type="card-title">
         {{ employeeName }}
       </oxd-text>
     </div>
-    <profile-picture :id="id"> </profile-picture>
+    <profile-picture :id="id"></profile-picture>
     <div class="orangehrm-directory-card-header">
       <oxd-text type="toast-title">
         {{ employeeDesignation }}
@@ -53,66 +53,12 @@
         </div>
       </span>
     </div>
-    <div v-show="changeShowDetailsStatus && toggle">
-      <oxd-divider></oxd-divider>
-      <div class="orangehrm-directory-card-rounded-body">
-        <div class="orangehrm-directory-card-icon">
-          <oxd-icon-button display-type="success" name="telephone-fill">
-          </oxd-icon-button>
-        </div>
-        <div class="orangehrm-directory-card-icon">
-          <oxd-icon-button display-type="danger" name="mailbox">
-          </oxd-icon-button>
-        </div>
-      </div>
-      <div
-        class="orangehrm-directory-card-hover"
-        @mouseleave="showTelephoneClip = false"
-        @mouseover="showTelephoneClip = true"
+    <div v-show="changedShowDetailsStatus && toggled">
+      <employee-details
+        :employee-work-email="employeeInfoDetails[0].employeeWorkEmail"
+        :employee-work-telephone="employeeInfoDetails[0].employeeWorkTelephone"
       >
-        <div class="orangehrm-directory-card-hover-body">
-          <oxd-text type="toast-message">{{ $t('Work Telephone') }}</oxd-text>
-          <oxd-text type="toast-title">
-            {{ employeeInfoDetails[0].employeeWorkTelephone }}</oxd-text
-          >
-        </div>
-        <div
-          class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
-        >
-          <oxd-icon
-            v-show="showTelephoneClip || showEmployeeDetails"
-            name="clipboard-check"
-          ></oxd-icon>
-        </div>
-      </div>
-      <oxd-divider></oxd-divider>
-      <div
-        class="orangehrm-directory-card-hover"
-        @mouseleave="showEmailClip = false"
-        @mouseover="showEmailClip = true"
-      >
-        <div class="orangehrm-directory-card-hover-body">
-          <oxd-text type="toast-message">{{ $t('Work Email') }}</oxd-text>
-          <oxd-text type="toast-title">
-            {{ employeeInfoDetails[0].employeeWorkEmail }}</oxd-text
-          >
-        </div>
-        <div
-          class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
-        >
-          <oxd-icon
-            v-show="showEmailClip || showEmployeeDetails"
-            name="clipboard-check"
-          ></oxd-icon>
-        </div>
-      </div>
-      <oxd-divider></oxd-divider>
-      <div class="orangehrm-directory-card-qrcode">
-        <img
-          class="orangehrm-directory-card-qrcode-img"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/800px-QR_code_for_mobile_English_Wikipedia.svg.png"
-        />
-      </div>
+      </employee-details>
     </div>
   </oxd-sheet>
 </template>
@@ -121,6 +67,7 @@
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
+import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 import {APIService} from '@/core/util/services/api.service';
 
 const employeeInfoDetailsDataNormalizer = data => {
@@ -139,6 +86,7 @@ export default {
     'oxd-sheet': Sheet,
     'oxd-icon': Icon,
     'profile-picture': ProfilePicture,
+    'employee-details': EmployeeDetails,
   },
   props: {
     id: {
@@ -161,10 +109,15 @@ export default {
       type: String,
       default: '',
     },
-    showEmployeeDetails: {
-      type: Boolean,
-      default: false,
-    },
+  },
+  setup() {
+    const http = new APIService(
+      'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
+      'api/v2/corporate-directory/employees',
+    );
+    return {
+      http,
+    };
   },
 
   data() {
@@ -175,33 +128,27 @@ export default {
           employeeWorkEmail: null,
         },
       ],
-      showTelephoneClip: false,
-      showEmailClip: false,
-      toggle: false,
+      toggled: false,
     };
   },
 
   computed: {
-    changeShowDetailsStatus() {
-      if (this.showEmployeeDetails === true && this.toggle === true) {
-        this.showEmployeeDetailsFn(this.id);
-      }
-      return this.showEmployeeDetails === true ? true : false;
+    changedShowDetailsStatus() {
+      return this.toggled === true ? true : false;
     },
   },
-
   methods: {
     showEmployeeDetailsFn(id) {
-      new APIService(
-        'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
-        'api/v2/corporate-directory/employees/' + id,
-      )
-        .getAll()
-        .then(response => {
+      if (this.toggled === false) {
+        this.http.get(id).then(response => {
           this.employeeInfoDetails = employeeInfoDetailsDataNormalizer(
             response.data.data,
           );
+          this.toggled = true;
         });
+      } else {
+        this.toggled = false;
+      }
     },
   },
 };
@@ -247,56 +194,6 @@ export default {
   &-location {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
-  }
-
-  &-rounded-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 100px;
-    width: 140px;
-    height: 64px;
-    box-shadow: 5px 5px 5px 5px #fafafc;
-    margin-right: 8px;
-  }
-
-  &-hover {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.5rem;
-    width: 156px;
-    min-height: 48px;
-    margin-right: 8px;
-
-    &-body {
-      display: block;
-      align-items: center;
-      overflow: hidden;
-      word-wrap: break-word;
-    }
-  }
-
-  &-hover:hover {
-    background-color: #fafafc;
-  }
-
-  &-qrcode {
-    height: 128px;
-    width: 128px;
-    display: block;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-
-    &-img {
-      height: 128px;
-      width: 128px;
-    }
   }
 }
 
