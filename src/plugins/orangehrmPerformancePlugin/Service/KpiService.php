@@ -19,12 +19,17 @@
 
 namespace OrangeHRM\Performance\Service;
 
+use Exception;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Kpi;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Dao\KpiDao;
 use OrangeHRM\Performance\Exception\KpiServiceException;
 
 class KpiService
 {
+    use EntityManagerHelperTrait;
+
     private ?KpiDao $kpiDao = null;
 
     /**
@@ -41,16 +46,24 @@ class KpiService
     /**
      * @param Kpi $kpi
      * @return Kpi
-     * @throws KpiServiceException
+     * @throws KpiServiceException|TransactionException
      */
     public function saveKpi(Kpi $kpi): Kpi
     {
         if ($kpi->getMinRating() >= $kpi->getMaxRating()) {
             throw KpiServiceException::minGreaterThanMax();
         }
-        if ($kpi->isDefaultKpi()) {
-            $this->getKpiDao()->unsetDefaultKpi();
+        $this->beginTransaction();
+        try {
+            if ($kpi->isDefaultKpi()) {
+                $this->getKpiDao()->unsetDefaultKpi();
+            }
+            $kpi = $this->getKpiDao()->saveKpi($kpi);
+            $this->commitTransaction();
+            return $kpi;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
         }
-        return $this->getKpiDao()->saveKpi($kpi);
     }
 }

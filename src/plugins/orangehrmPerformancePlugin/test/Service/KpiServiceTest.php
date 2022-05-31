@@ -19,8 +19,10 @@
 
 namespace OrangeHRM\Tests\Performance\Service;
 
+use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Kpi;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Dao\KpiDao;
 use OrangeHRM\Performance\Exception\KpiServiceException;
 use OrangeHRM\Performance\Service\KpiService;
@@ -95,7 +97,7 @@ class KpiServiceTest extends KernelTestCase
         $this->assertEquals('indicator 4', $result[0]->getTitle());
     }
 
-    public function testExceptionForSaveKpi(): void
+    public function testKpiServiceExceptionForSaveKpi(): void
     {
         $kpi = new Kpi();
         $kpi->getDecorator()->setJobTitleById(1);
@@ -107,5 +109,26 @@ class KpiServiceTest extends KernelTestCase
         $this->expectExceptionMessage("Minimum rating should be less than Maximum rating");
 
         $this->kpiService->saveKpi($kpi);
+    }
+
+    public function testTransactionExceptionForSaveKpi(): void
+    {
+        $kpi = new Kpi();
+        $kpi->getDecorator()->setJobTitleById(1);
+        $kpi->setTitle('indicator 4');
+        $kpi->setMinRating(2);
+        $kpi->setMaxRating(20);
+
+        $kpiService = $this->getMockBuilder(KpiService::class)
+            ->onlyMethods(['getKpiDao'])
+            ->getMock();
+        $kpiService->expects($this->once())
+            ->method('getKpiDao')
+            ->willReturnCallback(function () {
+                throw new Exception();
+            });
+
+        $this->expectException(TransactionException::class);
+        $kpiService->saveKpi($kpi);
     }
 }
