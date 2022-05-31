@@ -19,7 +19,12 @@
  -->
 
 <template>
-  <oxd-sheet :gutters="false" class="orangehrm-directory-card" type="white">
+  <oxd-sheet
+    :gutters="false"
+    class="orangehrm-directory-card"
+    type="white"
+    :class="hasDefaultSlot ? 'orangehrm-directory-card-height' : ''"
+  >
     <div
       v-show="showBackButton"
       class="orangehrm-directory-card-top"
@@ -97,8 +102,17 @@ export default {
       default: false,
     },
   },
-
   emits: ['hide-details'],
+  data() {
+    return {
+      height: 260,
+    };
+  },
+  computed: {
+    hasDefaultSlot() {
+      return !!this.$slots.default;
+    },
+  },
 };
 </script>
 
@@ -106,6 +120,10 @@ export default {
 .orangehrm-directory-card {
   padding: 0.5rem 1rem;
 
+  &-height {
+    height: 260px;
+    overflow: hidden;
+  }
   &-header {
     padding-top: 1rem;
     padding-bottom: 0.75rem;

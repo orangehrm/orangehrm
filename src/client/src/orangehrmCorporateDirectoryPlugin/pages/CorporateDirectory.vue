@@ -54,10 +54,9 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
-    <div class="orangehrm-corporate-directory">
+    <div :class="!isTotalZero ? 'orangehrm-corporate-directory' : ''">
       <div class="orangehrm-paper-container">
-        <table-header :loading="isLoading" :show-divider="false" :total="total">
-        </table-header>
+        <table-header :show-divider="false" :total="total"> </table-header>
         <oxd-grid :cols="colSize" class="orangehrm-container">
           <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
             <summary-card
@@ -75,6 +74,10 @@
               </employee-details>
             </summary-card>
           </oxd-grid-item>
+          <oxd-loading-spinner
+            v-if="isLoading"
+            class="orangehrm-container-loader"
+          />
         </oxd-grid>
         <div class="orangehrm-bottom-container"></div>
       </div>
@@ -104,6 +107,7 @@ import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryC
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 import {APIService} from '@/core/util/services/api.service';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 
 const employeeDataNormalizer = data => {
   return data.map(item => {
@@ -129,6 +133,7 @@ export default {
     'summary-card': SummaryCard,
     'summary-card-details': SummaryCardDetails,
     'employee-details': EmployeeDetails,
+    'oxd-loading-spinner': Spinner,
   },
 
   setup() {
@@ -147,6 +152,7 @@ export default {
       colSize: 4,
       windowWidth: 0,
       currentIndex: -1,
+      isLoading: false,
     };
   },
 
@@ -154,12 +160,17 @@ export default {
     isMobile() {
       return this.windowWidth < 600 ? true : false;
     },
+    isTotalZero() {
+      return this.total <= 0 ? true : false;
+    },
   },
 
   beforeMount() {
+    this.isLoading = true;
     this.http.getAll().then(response => {
       this.employees = employeeDataNormalizer(response.data.data);
       this.total = response.data.meta.total;
+      this.isLoading = false;
     });
 
     this.onResize();
@@ -168,7 +179,6 @@ export default {
   beforeUnmount() {
     window.removeEventListener('resize', this.onResize);
   },
-
   methods: {
     hideEmployeeDetails() {
       this.currentIndex = -1;
@@ -195,6 +205,17 @@ export default {
 
   &-sidebar {
     margin-left: 16px;
+  }
+}
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+.orangehrm-container {
+  overflow: auto;
+  max-height: 512px;
+  @include oxd-scrollbar();
+  &-loader {
+    margin: 0 auto;
+    background-color: $oxd-white-color;
   }
 }
 

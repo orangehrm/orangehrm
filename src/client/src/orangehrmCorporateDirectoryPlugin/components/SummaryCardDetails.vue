@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <summary-card :employee-id="employeeId" :show-back-button="true">
+  <summary-card
+    :employee-id="employeeId"
+    :show-back-button="true"
+    :class="!hasDefaultSlot ? 'orangehrm-directory-card-height' : ''"
+  >
     <employee-details :employee-id="employeeId"> </employee-details>
   </summary-card>
 </template>
@@ -40,5 +44,15 @@ export default {
       required: true,
     },
   },
+  computed: {
+    hasDefaultSlot() {
+      return !!this.$slots.default;
+    },
+  },
 };
 </script>
+<style lang="scss" scoped>
+.orangehrm-directory-card-height {
+  height: auto;
+}
+</style>

@@ -21,12 +21,18 @@
 <template>
   <oxd-divider></oxd-divider>
   <div class="orangehrm-directory-card-rounded-body">
-    <div class="orangehrm-directory-card-icon">
-      <oxd-icon-button display-type="success" name="telephone-fill">
-      </oxd-icon-button>
+    <div v-show="employeeWorkTelephone" class="orangehrm-directory-card-icon">
+      <a :href="`tel:${employeeWorkTelephone}`">
+        <oxd-icon-button
+          display-type="success"
+          name="telephone-fill"
+        ></oxd-icon-button>
+      </a>
     </div>
-    <div class="orangehrm-directory-card-icon">
-      <oxd-icon-button display-type="danger" name="mailbox"> </oxd-icon-button>
+    <div v-show="employeeWorkEmail" class="orangehrm-directory-card-icon">
+      <a :href="`tel:${employeeWorkEmail}`">
+        <oxd-icon-button display-type="danger" name="mailbox"></oxd-icon-button>
+      </a>
     </div>
   </div>
   <div
@@ -36,12 +42,18 @@
   >
     <div class="orangehrm-directory-card-hover-body">
       <oxd-text type="toast-message">{{ $t('Work Telephone') }}</oxd-text>
-      <oxd-text type="toast-title"> {{ employeeWorkTelephone }}</oxd-text>
+      <oxd-text ref="cloneTelephone" type="toast-title">
+        {{ employeeWorkTelephone }}
+      </oxd-text>
     </div>
     <div
       class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
     >
-      <oxd-icon v-show="showTelephoneClip" name="clipboard-check"></oxd-icon>
+      <oxd-icon-button
+        v-show="showTelephoneClip"
+        name="clipboard-check"
+        @click="copyTelephone"
+      ></oxd-icon-button>
     </div>
   </div>
   <oxd-divider></oxd-divider>
@@ -52,12 +64,18 @@
   >
     <div class="orangehrm-directory-card-hover-body">
       <oxd-text type="toast-message">{{ $t('Work Email') }}</oxd-text>
-      <oxd-text type="toast-title"> {{ employeeWorkEmail }}</oxd-text>
+      <oxd-text ref="cloneEmail" type="toast-title">
+        {{ employeeWorkEmail }}
+      </oxd-text>
     </div>
     <div
       class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
     >
-      <oxd-icon v-show="showEmailClip" name="clipboard-check"></oxd-icon>
+      <oxd-icon-button
+        v-show="showEmailClip"
+        name="clipboard-check"
+        @click="copyEmail"
+      ></oxd-icon-button>
     </div>
   </div>
   <oxd-divider></oxd-divider>
@@ -65,13 +83,11 @@
 
 <script>
 import OxdDivider from '@ohrm/oxd/core/components/Divider/Divider';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import {APIService} from '@/core/util/services/api.service';
 
 export default {
   name: 'EmployeeDetails',
   components: {
-    'oxd-icon': Icon,
     'oxd-divider': OxdDivider,
   },
   props: {
@@ -103,6 +119,16 @@ export default {
       this.employeeWorkTelephone = data.contactInfo?.workTelephone;
       this.employeeWorkEmail = data.contactInfo?.workEmail;
     });
+  },
+  methods: {
+    copyEmail() {
+      this.$refs.cloneEmail.select();
+      document.execCommand('copy');
+    },
+    copyTelephone() {
+      this.$refs.cloneTelephone.select();
+      document.execCommand('copy');
+    },
   },
 };
 </script>
@@ -153,6 +179,7 @@ export default {
     justify-content: center;
   }
 }
+
 @media (max-width: 600px) {
   .orangehrm-directory-card {
     padding: 0.5rem 1rem;
