@@ -90,6 +90,10 @@ class Migration extends AbstractMigration
         foreach ($langCodes as $langCode) {
             $this->getTranslationHelper()->addTranslations($langCode);
         }
+
+        $this->insertModuleDefaultPage(11, 1, 'performance/searchEvaluatePerformancReview', 20);
+        $this->insertModuleDefaultPage(11, 3, 'performance/searchEvaluatePerformancReview', 10);
+        $this->insertModuleDefaultPage(11, 2, 'performance/myPerformanceReview', 0);
     }
 
     /**
@@ -103,6 +107,35 @@ class Migration extends AbstractMigration
             Types::BOOLEAN,
             ['Default' => true, 'Notnull' => true]
         );
+    }
+
+    /**
+     * @param int $moduleId
+     * @param int $userRoleId
+     * @param string $action
+     * @param int $priority
+     */
+    private function insertModuleDefaultPage(
+        int $moduleId,
+        int $userRoleId,
+        string $action,
+        int $priority
+    ): void {
+        $this->createQueryBuilder()
+            ->insert('ohrm_module_default_page')
+            ->values(
+                [
+                    'module_id' => ':moduleId',
+                    'user_role_id' => ':userRoleId',
+                    'action' => ':action',
+                    'priority' => ':priority'
+                ]
+            )
+            ->setParameter('moduleId', $moduleId)
+            ->setParameter('userRoleId', $userRoleId)
+            ->setParameter('action', $action)
+            ->setParameter('priority', $priority)
+            ->executeQuery();
     }
 
     /**

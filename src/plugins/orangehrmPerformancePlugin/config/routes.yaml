@@ -107,6 +107,11 @@ apiv2_performance_tracker_log:
 #        Screens
 ##########################
 
+performance_module:
+  path: /performance/viewPerformanceModule
+  controller: OrangeHRM\Performance\Controller\PerformanceModuleController::handle
+  methods: [ GET ]
+
 performance_my_trackers:
   path: /performance/viewMyPerformanceTrackerList
   controller: OrangeHRM\Performance\Controller\MyTrackerController::handle
