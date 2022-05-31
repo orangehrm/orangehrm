@@ -41,26 +41,16 @@
       </oxd-form-row>
       <oxd-form-row>
         <div class="orangehrm-add-tracker-log-ratings-container">
-          <oxd-button
-            display-type="text"
+          <tracker-log-rating-button
             :label="$t('performance.positive')"
-            icon-name="hand-thumbs-up-fill"
-            :class="{
-              'orangehrm-add-tracker-rating-button': true,
-              '--positive': true,
-              '--deselected': !rating,
-            }"
+            :selected="rating"
+            type="positive"
             @click="onClickPositive"
           />
-          <oxd-button
-            display-type="text"
+          <tracker-log-rating-button
             :label="$t('performance.negative')"
-            icon-name="hand-thumbs-down-fill"
-            :class="{
-              'orangehrm-add-tracker-rating-button': true,
-              '--negative': true,
-              '--deselected': !!rating,
-            }"
+            :selected="!rating"
+            type="negative"
             @click="onClickNegative"
           />
         </div>
@@ -99,6 +89,7 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
+import TrackerLogRatingButton from '@/orangehrmPerformancePlugin/components/TrackerLogRatingButton';
 
 const trackerLogModel = {
   log: '',
@@ -109,6 +100,7 @@ export default {
   name: 'EditTrackerLogModal',
   components: {
     'oxd-dialog': Dialog,
+    'tracker-log-rating-button': TrackerLogRatingButton,
   },
   props: {
     trackerId: {
@@ -182,30 +174,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-add-tracker-log-ratings-container {
-  padding-bottom: 0.6rem;
-}
-
-.orangehrm-add-tracker-rating-button {
-  margin-right: 0.6rem;
-  padding-right: 0.6rem;
-  padding-left: 0.6rem;
-}
-
-.--positive {
-  ::v-deep(.oxd-icon) {
-    color: $oxd-secondary-four-color;
-  }
-}
-
-.--negative {
-  ::v-deep(.oxd-icon) {
-    color: $oxd-feedback-danger-color;
-  }
-}
-
-.--deselected {
-  background-color: $oxd-white-color;
-}
-</style>
+<style src="./tracker-log-modal.scss" lang="scss" scoped></style>
