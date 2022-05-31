@@ -111,10 +111,21 @@ class KpiDaoTest extends KernelTestCase
         $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
         $this->assertCount(1, $result);
 
-        $this->kpiDao->unsetDefaultKpi();
+        $this->kpiDao->unsetDefaultKpi(null);
 
         $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
         $this->assertEmpty($result);
+    }
+
+    public function testUnsetDefaultKpiWithId(): void
+    {
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findOneBy(['defaultKpi' => true]);
+        $this->assertEquals('Planning Methodologies', $result->getTitle());
+
+        $this->kpiDao->unsetDefaultKpi(3);
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findOneBy(['defaultKpi' => true]);
+        $this->assertEquals('Planning Methodologies', $result->getTitle());
     }
 
     public function testGetDefaultKpi(): void

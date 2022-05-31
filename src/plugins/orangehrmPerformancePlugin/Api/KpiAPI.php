@@ -230,7 +230,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
         $this->setKpi($kpi);
 
         try {
-            $this->getKpiService()->saveKpi($kpi);
+            $this->getKpiService()->saveKpi($kpi, $id);
             return new EndpointResourceResult(KpiModel::class, $kpi);
         } catch (KpiServiceException $e) {
             throw $this->getBadRequestException($e->getMessage());

@@ -45,10 +45,11 @@ class KpiService
 
     /**
      * @param Kpi $kpi
+     * @param int|null $id
      * @return Kpi
      * @throws KpiServiceException|TransactionException
      */
-    public function saveKpi(Kpi $kpi): Kpi
+    public function saveKpi(Kpi $kpi, ?int $id = null): Kpi
     {
         if ($kpi->getMinRating() >= $kpi->getMaxRating()) {
             throw KpiServiceException::minGreaterThanMax();
@@ -56,7 +57,7 @@ class KpiService
         $this->beginTransaction();
         try {
             if ($kpi->isDefaultKpi()) {
-                $this->getKpiDao()->unsetDefaultKpi();
+                $this->getKpiDao()->unsetDefaultKpi($id);
             }
             $kpi = $this->getKpiDao()->saveKpi($kpi);
             $this->commitTransaction();
