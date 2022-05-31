@@ -46,6 +46,14 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_kpi', $kpiForeignKeyConstraint);
 
+        $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.action_url ', ':actionUrl')
+            ->setParameter('actionUrl', 'searchPerformanceReview')
+            ->andWhere('screen.name  = :name')
+            ->setParameter('name', 'Search Performance Review')
+            ->executeQuery();
+
         $groups = ['recruitment', 'performance'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);

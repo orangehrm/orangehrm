@@ -149,6 +149,6 @@ performance_review_list:
   methods: [ GET ]
 
 performance_review_search:
-  path: /performance/searchPerformancReview
+  path: /performance/searchPerformanceReview
   controller: OrangeHRM\Performance\Controller\ReviewSearchController::handle
   methods: [ GET ]
