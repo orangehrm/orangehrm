@@ -91,9 +91,41 @@ class Migration extends AbstractMigration
             $this->getTranslationHelper()->addTranslations($langCode);
         }
 
-        $this->insertModuleDefaultPage(11, 1, 'performance/searchEvaluatePerformancReview', 20);
-        $this->insertModuleDefaultPage(11, 3, 'performance/searchEvaluatePerformancReview', 10);
-        $this->insertModuleDefaultPage(11, 2, 'performance/myPerformanceReview', 0);
+        $performanceModuleId = $this->createQueryBuilder()
+            ->select('module.id')
+            ->from('ohrm_module', 'module')
+            ->andWhere('module.name = :module')
+            ->setParameter('module', 'performance')
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->insertModuleDefaultPage($performanceModuleId, 1, 'performance/searchEvaluatePerformancReview', 20);
+        $this->insertModuleDefaultPage($performanceModuleId, 3, 'performance/searchEvaluatePerformancReview', 10);
+        $this->insertModuleDefaultPage($performanceModuleId, 2, 'performance/myPerformanceReview', 0);
+
+        $reviewListScreenId = $this->createQueryBuilder()
+            ->select('screen.id')
+            ->from('ohrm_screen', 'screen')
+            ->andWhere('screen.name = :screenName')
+            ->setParameter('screenName', 'Search Evaluate Performance')
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_user_role_screen', 'userRoleScreen')
+            ->set('userRoleScreen.user_role_id', ':userRoleId')
+            ->setParameter('userRoleId', 3)
+            ->andWhere('userRoleScreen.screen_id = :screenId')
+            ->setParameter('screenId', $reviewListScreenId)
+            ->executeQuery();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menuItem')
+            ->set('menuItem.menu_title', ':menuTitle')
+            ->setParameter('menuTitle', 'Employee Reviews')
+            ->andWhere('menuItem.screen_id = :screenId')
+            ->setParameter('screenId', $reviewListScreenId)
+            ->executeQuery();
     }
 
     /**
