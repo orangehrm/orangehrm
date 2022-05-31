@@ -122,6 +122,18 @@ export default {
     'oxd-switch-input': SwitchInput,
     'jobtitle-dropdown': JobtitleDropdown,
   },
+  props: {
+    defaultMinRating: {
+      type: Number,
+      required: false,
+      default: null,
+    },
+    defaultMaxRating: {
+      type: Number,
+      required: false,
+      default: null,
+    },
+  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -161,6 +173,10 @@ export default {
         ],
       },
     };
+  },
+  beforeMount() {
+    this.kpi.minRating = this.defaultMinRating;
+    this.kpi.maxRating = this.defaultMaxRating;
   },
   methods: {
     onCancel() {
