@@ -154,6 +154,13 @@
     font-size: 16px;
     font-weight: 800;
   }
+
+  &-log-no-records {
+    display: flex;
+    min-height: inherit;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .orangehrm-paper-container {

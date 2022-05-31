@@ -20,6 +20,8 @@
 namespace OrangeHRM\Performance\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -41,6 +43,8 @@ class EmployeeTrackerLogsController extends AbstractVueController
         if (!is_null($tracker)) {
             $component->addProp(new Prop('tracker-id', Prop::TYPE_NUMBER, $tracker->getId()));
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $tracker->getEmployee()->getEmpNumber()));
+        } else {
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
 
         $this->setComponent($component);

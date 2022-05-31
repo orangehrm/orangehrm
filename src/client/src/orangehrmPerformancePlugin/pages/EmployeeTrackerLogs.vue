@@ -97,6 +97,14 @@
             @delete="onClickDelete"
           />
         </oxd-sheet>
+        <div
+          v-if="showNoRecordsFound"
+          class="orangehrm-employee-tracker-log-no-records"
+        >
+          <oxd-text>
+            No Records Found
+          </oxd-text>
+        </div>
         <oxd-loading-spinner
           v-if="isLoading"
           class="orangehrm-container-loader"
@@ -170,6 +178,7 @@ export default {
       },
       infinite: false,
       isLoading: false,
+      showNoRecordsFound: false,
     });
 
     const {$t} = usei18n();
@@ -177,6 +186,7 @@ export default {
     const {locale} = useLocale();
 
     const fetchData = () => {
+      state.showNoRecordsFound = false;
       state.isLoading = true;
       http
         .getAll({
@@ -216,7 +226,10 @@ export default {
             state.meta = {...state.meta, ...meta};
           }
         })
-        .finally(() => (state.isLoading = false));
+        .finally(() => {
+          state.showNoRecordsFound = state.total === 0;
+          state.isLoading = false;
+        });
     };
 
     const {scrollerRef} = useInfiniteScroll(() => {
