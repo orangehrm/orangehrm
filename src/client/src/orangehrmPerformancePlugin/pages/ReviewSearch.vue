@@ -57,12 +57,14 @@
           <oxd-grid-item class="--offset-row-2">
             <date-input
               v-model="filters.fromDate"
+              :rules="rules.fromDate"
               :label="$t('general.from_date')"
             />
           </oxd-grid-item>
           <oxd-grid-item class="--offset-row-2">
             <date-input
               v-model="filters.toDate"
+              :rules="rules.toDate"
               :label="$t('general.to_date')"
             />
           </oxd-grid-item>
@@ -127,6 +129,10 @@
 
 <script>
 import {computed, ref} from 'vue';
+import {
+  endDateShouldBeAfterStartDate,
+  startDateShouldBeBeforeEndDate,
+} from '@/core/util/validation/rules';
 import useSort from '@ohrm/core/util/composable/useSort';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {APIService} from '@/core/util/services/api.service';
@@ -332,6 +338,22 @@ export default {
         },
       ],
       checkedItems: [],
+      rules: {
+        fromDate: [
+          startDateShouldBeBeforeEndDate(
+            () => this.filters.toDate,
+            this.$t('general.from_date_should_be_before_to_date'),
+            {allowSameDate: true},
+          ),
+        ],
+        toDate: [
+          endDateShouldBeAfterStartDate(
+            () => this.filters.fromDate,
+            this.$t('general.to_date_should_be_after_from_date'),
+            {allowSameDate: true},
+          ),
+        ],
+      },
     };
   },
   methods: {
