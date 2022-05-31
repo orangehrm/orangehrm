@@ -52,11 +52,8 @@
               }"
             >
               <oxd-icon
-                :name="
-                  `hand-thumbs-${
-                    trackerLog.achievement === 1 ? 'up' : 'down'
-                  }-fill`
-                "
+                type="svg"
+                :name="`thumbs${trackerLog.achievement === 1 ? 'up' : 'down'}`"
               />
             </div>
           </div>
@@ -200,7 +197,10 @@ export default {
     }
 
     &-icon {
-      font-size: 21px;
+      ::v-deep(.oxd-icon) {
+        width: 21px;
+        height: 21px;
+      }
 
       &.--positive {
         ::v-deep(.oxd-icon) {

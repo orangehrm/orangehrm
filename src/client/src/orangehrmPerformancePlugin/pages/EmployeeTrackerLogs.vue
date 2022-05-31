@@ -45,7 +45,7 @@
               class="orangehrm-employee-tracker-ratings-info"
             >
               <div class="orangehrm-employee-tracker-ratings-icon --positive">
-                <oxd-icon name="hand-thumbs-up-fill" />
+                <oxd-icon type="svg" name="thumbsup" />
               </div>
               <oxd-text
                 class="orangehrm-employee-tracker-ratings-text --positive"
@@ -58,7 +58,7 @@
               class="orangehrm-employee-tracker-ratings-info"
             >
               <div class="orangehrm-employee-tracker-ratings-icon --negative">
-                <oxd-icon name="hand-thumbs-down-fill" />
+                <oxd-icon type="svg" name="thumbsdown" />
               </div>
               <oxd-text
                 class="orangehrm-employee-tracker-ratings-text --negative"

@@ -117,8 +117,12 @@
     }
 
     &-icon {
-      font-size: 25px;
       padding-right: 0.6rem;
+
+      ::v-deep(.oxd-icon) {
+        width: 25px;
+        height: 25px;
+      }
 
       &.--positive {
         ::v-deep(.oxd-icon) {
