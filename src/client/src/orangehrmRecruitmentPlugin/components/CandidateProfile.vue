@@ -34,6 +34,7 @@
                 v-model:middle-name="profile.middleName"
                 v-model:last-name="profile.lastName"
                 :rules="rules"
+                :label="$t('general.full_name')"
                 required
               />
             </oxd-grid-item>
@@ -93,8 +94,8 @@
             >
               <oxd-input-field
                 v-model="profile.keywords"
-                :label="$t('general.keywords')"
-                :placeholder="$t('general.type_here')"
+                :label="$t('recruitment.keywords')"
+                :placeholder="$t('recruitment.enter_comma_seperated_words')"
                 :rules="rules.keywords"
               />
             </oxd-grid-item>
@@ -129,7 +130,7 @@
               <oxd-input-field
                 v-model="profile.keep"
                 type="checkbox"
-                :label="$t('recruitment.content_to_keep_data')"
+                :label="$t('recruitment.consent_to_keep_data')"
               />
             </oxd-grid-item>
           </oxd-grid>

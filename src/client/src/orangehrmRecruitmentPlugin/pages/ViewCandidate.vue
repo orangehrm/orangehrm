@@ -49,7 +49,7 @@
               <oxd-input-field
                 v-model="filters.keywords"
                 :label="$t('recruitment.keywords')"
-                :placeholder="$t('recruitment.enter_comma_se')"
+                :placeholder="$t('recruitment.enter_comma_seperated_words')"
               />
             </oxd-grid-item>
             <oxd-grid-item>

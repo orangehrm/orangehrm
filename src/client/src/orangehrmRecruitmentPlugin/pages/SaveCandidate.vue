@@ -20,8 +20,8 @@
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"
-        >{{ $t('recruitment.add_candidate') }}
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('recruitment.add_candidate') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -32,6 +32,7 @@
                 v-model:first-name="candidate.firstName"
                 v-model:middle-name="candidate.middleName"
                 v-model:last-name="candidate.lastName"
+                :label="$t('general.full_name')"
                 :rules="rules"
                 required
               />
@@ -89,7 +90,7 @@
               <oxd-input-field
                 v-model="candidate.keywords"
                 :label="$t('recruitment.keywords')"
-                :placeholder="$t('recruitment.enter_comma_se')"
+                :placeholder="$t('recruitment.enter_comma_seperated_words')"
                 :rules="rules.keywords"
               />
             </oxd-grid-item>
@@ -124,7 +125,7 @@
               <oxd-input-field
                 v-model="candidate.consentToKeepData"
                 type="checkbox"
-                :label="$t('recruitment.content_to_keep_data')"
+                :label="$t('recruitment.consent_to_keep_data')"
               />
             </oxd-grid-item>
           </oxd-grid>
