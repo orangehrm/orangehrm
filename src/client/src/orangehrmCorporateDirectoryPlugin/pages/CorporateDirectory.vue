@@ -31,12 +31,7 @@
               <jobtitle-dropdown />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                :clear="false"
-                :label="$t('general.location')"
-                :options="countries"
-                type="select"
-              />
+              <subunit-dropdown />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -107,6 +102,7 @@
 <script>
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
+import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
 import {APIService} from '@/core/util/services/api.service';
@@ -149,6 +145,7 @@ export default {
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
+    'subunit-dropdown': SubunitDropdown,
     'summary-card': SummaryCard,
     'summary-card-details': SummaryCardDetails,
   },
@@ -165,7 +162,6 @@ export default {
   },
   data() {
     return {
-      countries: [],
       employees: [
         {
           id: null,

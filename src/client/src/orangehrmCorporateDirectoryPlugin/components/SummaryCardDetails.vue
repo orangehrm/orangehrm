@@ -26,6 +26,7 @@
     >
       <oxd-icon name="arrow-right"></oxd-icon>
     </div>
+    <slot></slot>
     <div class="orangehrm-directory-card-header">
       <oxd-text type="card-title">
         {{ employeeName }}

@@ -80,7 +80,7 @@
           class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
         >
           <oxd-icon
-            v-show="showTelephoneClip"
+            v-show="showTelephoneClip || showEmployeeDetails"
             name="clipboard-check"
           ></oxd-icon>
         </div>
@@ -100,7 +100,10 @@
         <div
           class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
         >
-          <oxd-icon v-show="showEmailClip" name="clipboard-check"></oxd-icon>
+          <oxd-icon
+            v-show="showEmailClip || showEmployeeDetails"
+            name="clipboard-check"
+          ></oxd-icon>
         </div>
       </div>
       <oxd-divider></oxd-divider>
@@ -287,7 +290,8 @@ export default {
     width: 128px;
     display: block;
     align-items: center;
-    margin-left: 1rem;
+    margin-left: auto;
+    margin-right: auto;
 
     &-img {
       height: 128px;
@@ -301,6 +305,42 @@ export default {
     padding: 0.5rem 1rem;
     height: auto;
     overflow: hidden;
+
+    &-rounded-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 1rem;
+      padding-left: 1rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 100px;
+      width: auto;
+      height: 64px;
+      box-shadow: 5px 5px 5px 5px #fafafc;
+      margin-right: 8px;
+    }
+
+    &-hover {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      width: auto;
+      min-height: 48px;
+      margin-right: 8px;
+
+      &-body {
+        display: block;
+        align-items: center;
+        overflow: hidden;
+        word-wrap: break-word;
+      }
+    }
+
+    &-hover:hover {
+      background-color: #fafafc;
+    }
   }
 }
 </style>
