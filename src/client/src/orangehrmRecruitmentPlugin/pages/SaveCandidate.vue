@@ -236,7 +236,7 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({...this.candidate})
+        .create({...this.candidate, vacancyId: this.candidate.vacancyId?.id})
         .then(response => {
           if (!this.resume.newAttachment) {
             return true;
