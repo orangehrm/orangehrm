@@ -123,6 +123,7 @@ apiv2_performance_my_tracker_logs:
     update: true
     delete: true
   permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
 

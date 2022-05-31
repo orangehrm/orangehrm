@@ -142,6 +142,10 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @param PerformanceTrackerLog $performanceTrackerLog
+     * @return void
+     */
     public function setTrackerLogsParams(PerformanceTrackerLog $performanceTrackerLog): void
     {
         $performanceTrackerLog->setLog(

@@ -103,17 +103,17 @@ class PerformanceTrackerLogDao extends BaseDao
     }
 
     /**
-     * @param array $toDeleteId
+     * @param array $toDeleteIds
      * @return int
      */
-    public function deletePerformanceTrackerLog(array $toDeleteId): int
+    public function deletePerformanceTrackerLog(array $toDeleteIds): int
     {
         $q = $this->createQueryBuilder(PerformanceTrackerLog::class, 'ptrLog');
         $q->update()
             ->set('ptrLog.status', ':deletedStatus')
             ->setParameter('deletedStatus', PerformanceTrackerLog::STATUS_DELETED)
             ->where($q->expr()->in('ptrLog.id', ':ids'))
-            ->setParameter('ids', $toDeleteId);
+            ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
     }
 
