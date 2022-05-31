@@ -48,7 +48,7 @@ langStrings:
     value: 'Method of Application'
     unitId: method_of_application
   -
-    value: 'Enter comma seperated words'
+    value: 'Enter comma seperated words...'
     unitId: enter_comma_seperated_words
   -
     value: 'Candidate'
