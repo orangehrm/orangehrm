@@ -66,6 +66,8 @@
 <script>
 import OxdDivider from '@ohrm/oxd/core/components/Divider/Divider';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
+import {APIService} from '@/core/util/services/api.service';
+
 export default {
   name: 'EmployeeDetails',
   components: {
@@ -73,20 +75,34 @@ export default {
     'oxd-divider': OxdDivider,
   },
   props: {
-    employeeWorkTelephone: {
-      type: String,
-      default: null,
+    employeeId: {
+      type: Number,
+      required: true,
     },
-    employeeWorkEmail: {
-      type: String,
-      default: null,
-    },
+  },
+  setup() {
+    const http = new APIService(
+      'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
+      'api/v2/corporate-directory/employees',
+    );
+    return {
+      http,
+    };
   },
   data() {
     return {
+      employeeWorkTelephone: null,
+      employeeWorkEmail: null,
       showTelephoneClip: false,
       showEmailClip: false,
     };
+  },
+  beforeMount() {
+    this.http.get(this.employeeId).then(response => {
+      const {data} = response.data;
+      this.employeeWorkTelephone = data.contactInfo?.workTelephone;
+      this.employeeWorkEmail = data.contactInfo?.workEmail;
+    });
   },
 };
 </script>

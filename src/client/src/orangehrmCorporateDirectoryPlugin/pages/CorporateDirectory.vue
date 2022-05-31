@@ -59,35 +59,37 @@
         <table-header :loading="isLoading" :show-divider="false" :total="total">
         </table-header>
         <oxd-grid :cols="colSize" class="orangehrm-container">
-          <oxd-grid-item v-for="employee in employees" :key="employee">
+          <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
             <summary-card
-              :id="employee.id"
               :employee-designation="employee.employeeJobTitle"
+              :employee-id="employee.id"
               :employee-location="employee.employeeLocation"
               :employee-name="employee.employeeName"
               :employee-sub-unit="employee.employeeSubUnit"
-              @click="
-                isMobile === false ? showEmployeeDetailsFn(employee.id) : ''
-              "
-            ></summary-card>
+              @click="showEmployeeDetails(index)"
+            >
+              <employee-details
+                v-if="isMobile && currentIndex === index"
+                :employee-id="employee.id"
+              >
+              </employee-details>
+            </summary-card>
           </oxd-grid-item>
         </oxd-grid>
         <div class="orangehrm-bottom-container"></div>
       </div>
       <div
-        v-if="showDetails && isMobile === false"
+        v-if="currentIndex > -1 && isMobile === false"
         class="orangehrm-paper-container orangehrm-corporate-directory-sidebar"
       >
         <oxd-grid-item>
           <summary-card-details
-            :id="employeeDetails[0].id"
-            :employee-designation="employeeDetails[0].employeeJobTitle"
-            :employee-location="employeeDetails[0].employeeLocation"
-            :employee-name="employeeDetails[0].employeeName"
-            :employee-sub-unit="employeeDetails[0].employeeSubUnit"
-            :employee-work-email="employeeDetails[0].employeeWorkEmail"
-            :employee-work-telephone="employeeDetails[0].employeeWorkTelephone"
-            @hideDetails="hideEmployeeDetails($event)"
+            :employee-designation="employees[currentIndex].employeeJobTitle"
+            :employee-id="employees[currentIndex].id"
+            :employee-location="employees[currentIndex].employeeLocation"
+            :employee-name="employees[currentIndex].employeeName"
+            :employee-sub-unit="employees[currentIndex].employeeSubUnit"
+            @hideDetails="hideEmployeeDetails()"
           ></summary-card-details>
         </oxd-grid-item>
       </div>
@@ -100,6 +102,7 @@ import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
+import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 import {APIService} from '@/core/util/services/api.service';
 
 const employeeDataNormalizer = data => {
@@ -116,24 +119,6 @@ const employeeDataNormalizer = data => {
     };
   });
 };
-
-const employeeDetailsDataNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      employeeId: item.employeeId,
-      employeeName:
-        `${item.firstName} ${item.middleName} ${item.lastName}` +
-        (item.terminationId ? ' (Past Employee)' : ''),
-      employeeJobTitle: item.jobTitle?.title,
-      employeeSubUnit: item.subunit?.name,
-      employeeLocation: item.location?.name,
-      employeeWorkTelephone: item.contactInfo?.workTelephone,
-      employeeWorkEmail: item.contactInfo?.workEmail,
-    };
-  });
-};
-
 export default {
   name: 'CorporateDirectory',
 
@@ -143,6 +128,7 @@ export default {
     'subunit-dropdown': SubunitDropdown,
     'summary-card': SummaryCard,
     'summary-card-details': SummaryCardDetails,
+    'employee-details': EmployeeDetails,
   },
 
   setup() {
@@ -156,30 +142,11 @@ export default {
   },
   data() {
     return {
-      employees: [
-        {
-          id: null,
-          employeeName: null,
-          employeeJobTitle: null,
-          employeeLocation: null,
-          employeeSubUnit: null,
-        },
-      ],
-      employeeDetails: [
-        {
-          id: null,
-          employeeName: null,
-          employeeJobTitle: null,
-          employeeLocation: null,
-          employeeSubUnit: null,
-          employeeWorkTelephone: null,
-          employeeWorkEmail: null,
-        },
-      ],
-      total: null,
-      showDetails: false,
+      employees: [],
+      total: 0,
       colSize: 4,
       windowWidth: 0,
+      currentIndex: -1,
     };
   },
 
@@ -203,18 +170,17 @@ export default {
   },
 
   methods: {
-    hideEmployeeDetails(event) {
-      this.showDetails = event;
+    hideEmployeeDetails() {
+      this.currentIndex = -1;
       this.colSize = 4;
     },
-    showEmployeeDetailsFn(id) {
-      this.http.get(id).then(response => {
-        this.employeeDetails = employeeDetailsDataNormalizer(
-          response.data.data,
-        );
-        this.showDetails = true;
+    showEmployeeDetails(index) {
+      if (this.currentIndex != index) {
+        this.currentIndex = index;
         this.colSize = 3;
-      });
+      } else {
+        this.hideEmployeeDetails();
+      }
     },
     onResize() {
       this.windowWidth = window.innerWidth;

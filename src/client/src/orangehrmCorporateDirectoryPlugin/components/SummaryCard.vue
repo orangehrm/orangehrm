@@ -19,18 +19,20 @@
  -->
 
 <template>
-  <oxd-sheet
-    :gutters="false"
-    class="orangehrm-directory-card"
-    type="white"
-    @click="showEmployeeDetailsFn(id)"
-  >
+  <oxd-sheet :gutters="false" class="orangehrm-directory-card" type="white">
+    <div
+      v-show="showBackButton"
+      class="orangehrm-directory-card-top"
+      @click="$emit('hide-details', false)"
+    >
+      <oxd-icon name="arrow-right"></oxd-icon>
+    </div>
     <div class="orangehrm-directory-card-header">
       <oxd-text type="card-title">
         {{ employeeName }}
       </oxd-text>
     </div>
-    <profile-picture :id="id"></profile-picture>
+    <profile-picture :id="employeeId"></profile-picture>
     <div class="orangehrm-directory-card-header">
       <oxd-text type="toast-title">
         {{ employeeDesignation }}
@@ -53,13 +55,7 @@
         </div>
       </span>
     </div>
-    <div v-show="changedShowDetailsStatus && toggled">
-      <employee-details
-        :employee-work-email="employeeInfoDetails[0].employeeWorkEmail"
-        :employee-work-telephone="employeeInfoDetails[0].employeeWorkTelephone"
-      >
-      </employee-details>
-    </div>
+    <slot></slot>
   </oxd-sheet>
 </template>
 
@@ -67,18 +63,6 @@
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
-import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
-import {APIService} from '@/core/util/services/api.service';
-
-const employeeInfoDetailsDataNormalizer = data => {
-  return data.map(item => {
-    return {
-      employeeId: item.id,
-      employeeWorkTelephone: item.contactInfo?.workTelephone,
-      employeeWorkEmail: item.contactInfo?.workEmail,
-    };
-  });
-};
 
 export default {
   name: 'SummaryCard',
@@ -86,10 +70,9 @@ export default {
     'oxd-sheet': Sheet,
     'oxd-icon': Icon,
     'profile-picture': ProfilePicture,
-    'employee-details': EmployeeDetails,
   },
   props: {
-    id: {
+    employeeId: {
       type: Number,
       required: true,
     },
@@ -109,56 +92,19 @@ export default {
       type: String,
       default: '',
     },
-  },
-  setup() {
-    const http = new APIService(
-      'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
-      'api/v2/corporate-directory/employees',
-    );
-    return {
-      http,
-    };
-  },
-
-  data() {
-    return {
-      employeeInfoDetails: [
-        {
-          employeeWorkTelephone: null,
-          employeeWorkEmail: null,
-        },
-      ],
-      toggled: false,
-    };
-  },
-
-  computed: {
-    changedShowDetailsStatus() {
-      return this.toggled === true ? true : false;
+    showBackButton: {
+      type: Boolean,
+      default: false,
     },
   },
-  methods: {
-    showEmployeeDetailsFn(id) {
-      if (this.toggled === false) {
-        this.http.get(id).then(response => {
-          this.employeeInfoDetails = employeeInfoDetailsDataNormalizer(
-            response.data.data,
-          );
-          this.toggled = true;
-        });
-      } else {
-        this.toggled = false;
-      }
-    },
-  },
+
+  emits: ['hide-details'],
 };
 </script>
 
 <style lang="scss" scoped>
 .orangehrm-directory-card {
   padding: 0.5rem 1rem;
-  height: 260px;
-  overflow: hidden;
 
   &-header {
     padding-top: 1rem;

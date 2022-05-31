@@ -19,147 +19,26 @@
  -->
 
 <template>
-  <oxd-sheet :gutters="false" class="orangehrm-directory-card" type="white">
-    <div
-      class="orangehrm-directory-card-top"
-      @click="$emit('hide-details', false)"
-    >
-      <oxd-icon name="arrow-right"></oxd-icon>
-    </div>
-    <slot></slot>
-    <div class="orangehrm-directory-card-header">
-      <oxd-text type="card-title">
-        {{ employeeName }}
-      </oxd-text>
-    </div>
-    <profile-picture :id="id"></profile-picture>
-    <div class="orangehrm-directory-card-header">
-      <oxd-text type="toast-title">
-        {{ employeeDesignation }}
-      </oxd-text>
-    </div>
-    <div class="orangehrm-directory-card-body">
-      <span class="orangehrm-directory-card-icon">
-        <oxd-icon name="geo-alt-fill"></oxd-icon>
-      </span>
-      <span>
-        <div class="orangehrm-directory-card-subunit">
-          <oxd-text type="toast-message">
-            {{ employeeSubUnit }}
-          </oxd-text>
-        </div>
-        <div class="orangehrm-directory-card-location">
-          <oxd-text type="toast-message">
-            {{ employeeLocation }}
-          </oxd-text>
-        </div>
-      </span>
-    </div>
-    <employee-details
-      :employee-work-telephone="employeeWorkTelephone"
-      :employee-work-email="employeeWorkEmail"
-    >
-    </employee-details>
-  </oxd-sheet>
+  <summary-card :employee-id="employeeId" :show-back-button="true">
+    <employee-details :employee-id="employeeId"> </employee-details>
+  </summary-card>
 </template>
 
 <script>
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import ProfilePicture from '@/orangehrmCorporateDirectoryPlugin/components/ProfilePicture';
+import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 
 export default {
   name: 'SummaryCardDetails',
   components: {
-    'oxd-sheet': Sheet,
-    'oxd-icon': Icon,
-    'profile-picture': ProfilePicture,
     'employee-details': EmployeeDetails,
+    'summary-card': SummaryCard,
   },
   props: {
-    id: {
+    employeeId: {
       type: Number,
       required: true,
     },
-    employeeName: {
-      type: String,
-      required: true,
-    },
-    employeeDesignation: {
-      type: String,
-      required: true,
-    },
-    employeeSubUnit: {
-      type: String,
-      default: '',
-    },
-    employeeLocation: {
-      type: String,
-      default: '',
-    },
-    employeeWorkTelephone: {
-      type: String,
-      default: '',
-    },
-    employeeWorkEmail: {
-      type: String,
-      default: '',
-    },
   },
-  emits: ['hide-details'],
 };
 </script>
-
-<style lang="scss" scoped>
-.orangehrm-directory-card {
-  padding: 0.5rem 1rem;
-  height: 640px;
-  width: 164px;
-  overflow: hidden;
-
-  &-top {
-    padding-top: 0.5rem;
-    padding-bottom: -0.5rem;
-    text-align: left;
-    justify-content: space-between;
-    height: 16px;
-  }
-
-  &-header {
-    padding-top: 1rem;
-    padding-bottom: 0.75rem;
-    text-align: center;
-    justify-content: space-between;
-    height: 32px;
-  }
-
-  &-body {
-    display: flex;
-    align-items: center;
-    padding: 0.25rem 0.5rem;
-    margin-top: -0.25rem;
-    background-color: #fafafc;
-    border-radius: 0.5rem;
-    width: 156px;
-    margin-right: 8px;
-  }
-  &-icon {
-    margin-right: 0.5rem;
-    color: #64728c;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-  }
-
-  &-subunit {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-  }
-
-  &-location {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-  }
-}
-</style>
