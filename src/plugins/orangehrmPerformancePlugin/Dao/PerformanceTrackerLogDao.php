@@ -20,14 +20,12 @@
 namespace OrangeHRM\Performance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceTrackerLogSearchFilterParams;
 
 class PerformanceTrackerLogDao extends BaseDao
 {
-    use UserRoleManagerTrait;
     /**
      * @param int $performanceTrackerLogId
      * @return PerformanceTrackerLog|null

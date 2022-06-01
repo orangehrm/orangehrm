@@ -51,8 +51,6 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
 
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
 
-    private ?PerformanceTrackerService $employeeTrackerService = null;
-
     /**
      * @inheritDoc
      */
