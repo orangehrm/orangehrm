@@ -72,7 +72,7 @@ class PerformanceTrackerLogDecorator
     public function setReviewerByEmpNumber(int $empNumber): void
     {
         $employee = $this->getReference(Employee::class, $empNumber);
-        $this->getPerformanceTrackerLog()->setReviewer($employee);
+        $this->getPerformanceTrackerLog()->setEmployee($employee);
     }
 
     /**

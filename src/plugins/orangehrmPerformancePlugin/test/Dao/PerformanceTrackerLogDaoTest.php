@@ -43,7 +43,7 @@ class PerformanceTrackerLogDaoTest extends KernelTestCase
         $trackerLogId = 1;
         $result = $this->performanceTrackerLogDao->getPerformanceTrackerLogById($trackerLogId);
         $this->assertEquals(1, $result->getPerformanceTracker()->getId());
-        $this->assertEquals(2, $result->getReviewer()->getEmpNumber());
+        $this->assertEquals(2, $result->getEmployee()->getEmpNumber());
 
         $trackerLogId2 = 10;
         $result2 = $this->performanceTrackerLogDao->getPerformanceTrackerLogById($trackerLogId2);

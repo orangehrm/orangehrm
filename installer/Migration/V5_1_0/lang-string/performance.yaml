@@ -90,9 +90,6 @@ langStrings:
     value: 'Employee Performance Trackers'
     unitId: employee_performance_trackers
   -
-    value: 'Trackers'
-    unitId: trackers
-  -
     value: 'Modified Date'
     unitId: modified_date
   -

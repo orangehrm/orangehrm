@@ -123,7 +123,7 @@ class PerformanceTrackerLogDao extends BaseDao
      */
     public function checkTrackerLogEditable(PerformanceTrackerLog $performanceTrackerLog): bool
     {
-        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($performanceTrackerLog->getReviewer()->getEmpNumber());
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($performanceTrackerLog->getEmployee()->getEmpNumber());
         if ($this->getUserRoleManager()
             ->getDataGroupPermissions(
                 'performance_tracker_log',

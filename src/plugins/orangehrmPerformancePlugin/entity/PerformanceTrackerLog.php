@@ -96,30 +96,27 @@ class PerformanceTrackerLog
     /**
      * @var PerformanceTracker|null
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\PerformanceTracker", inversedBy="PerformanceTrackerLog")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="performance_track_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\PerformanceTracker")
+     * @ORM\JoinColumn(name="performance_track_id", referencedColumnName="id")
+     *
      */
     private ?PerformanceTracker $performanceTracker;
 
     /**
      * @var Employee|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="PerformanceTrackerLog")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="reviewer_id", referencedColumnName="emp_number")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="reviewer_id", referencedColumnName="emp_number")
+     *
      */
-    private ?Employee $reviewer;
+    private ?Employee $employee;
 
     /**
      * @var User|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User", inversedBy="PerformanceTrackerLog")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *
      */
     private ?User $user;
 
@@ -254,17 +251,17 @@ class PerformanceTrackerLog
     /**
      * @return Employee|null
      */
-    public function getReviewer(): ?Employee
+    public function getEmployee(): ?Employee
     {
-        return $this->reviewer;
+        return $this->employee;
     }
 
     /**
-     * @param Employee|null $reviewer
+     * @param Employee|null $employee
      */
-    public function setReviewer(?Employee $reviewer): void
+    public function setEmployee(?Employee $employee): void
     {
-        $this->reviewer = $reviewer;
+        $this->employee = $employee;
     }
 
     /**

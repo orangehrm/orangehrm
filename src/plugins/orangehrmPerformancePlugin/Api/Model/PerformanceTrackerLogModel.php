@@ -40,10 +40,10 @@ class PerformanceTrackerLogModel implements Normalizable
                 'achievement',
                 ['getDecorator', 'getAddedDate'],
                 ['getDecorator', 'getModifiedDate'],
-                ['getReviewer', 'getEmpNumber'],
-                ['getReviewer', 'getLastName'],
-                ['getReviewer', 'getFirstName'],
-                ['getReviewer', 'getEmployeeTerminationRecord', 'getId'],
+                ['getEmployee', 'getEmpNumber'],
+                ['getEmployee', 'getLastName'],
+                ['getEmployee', 'getFirstName'],
+                ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
             ]
         );
         $this->setAttributeNames(

@@ -21,9 +21,6 @@ langStrings:
     value: 'Performed Action'
     unitId: performed_action
   -
-    value: 'Performed By'
-    unitId: performed_by
-  -
     value: 'Performed Date'
     unitId: performed_date
   -
@@ -152,5 +149,3 @@ langStrings:
 
   - value: 'Publish in RSS Feed and Web Page'
     unitId: publish_in_rss_feed_and_web_page
-
-
