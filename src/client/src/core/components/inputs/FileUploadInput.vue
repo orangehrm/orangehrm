@@ -100,11 +100,13 @@ export default {
     },
     file: {
       type: Object,
-      required: true,
+      required: false,
+      default: () => null,
     },
     newFile: {
       type: Object,
-      required: true,
+      required: false,
+      default: () => null,
     },
     disabled: {
       type: Boolean,
