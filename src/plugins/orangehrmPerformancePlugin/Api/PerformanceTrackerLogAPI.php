@@ -25,7 +25,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -37,6 +36,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Performance\Api\Model\PerformanceTrackerLogModel;
+use OrangeHRM\Performance\Api\Traits\PerformanceTrackerPermissionTrait;
 use OrangeHRM\Performance\Dto\PerformanceTrackerLogSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
@@ -47,6 +47,7 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
     use PerformanceTrackerLogServiceTrait;
     use DateTimeHelperTrait;
     use PerformanceTrackerServiceTrait;
+    use PerformanceTrackerPermissionTrait;
 
     public const PARAMETER_TRACKER_ID = 'trackerId';
     public const PARAMETER_NEGATIVE = 'negative';
@@ -196,8 +197,8 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
                 ->getPerformanceTrackerLogDao()
                 ->getPerformanceTrackerLogById($id);
             $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLog, PerformanceTrackerLog::class);
-            if ($this->getPerformanceTrackerLogService()->getPerformanceTrackerLogDao()->checkTrackerLogEditable($performanceTrackerLog) == false) {
-                throw new ForbiddenException();
+            if ($this->checkTrackerLogEditable($performanceTrackerLog) == false) {
+                throw $this->getForbiddenException();
             }
         }
         $this->getPerformanceTrackerLogService()->getPerformanceTrackerLogDao()->deletePerformanceTrackerLog($ids);
@@ -224,13 +225,16 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointResult
+    public function getOne(): EndpointResult  //TODO :: ADD VALID
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $performanceTrackerLogs = $this->getPerformanceTrackerLogService()->getPerformanceTrackerLogDao()
+        $performanceTrackerLog = $this->getPerformanceTrackerLogService()->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogById($id);
-        $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLogs, PerformanceTrackerLog::class);
-        return new EndpointResourceResult(PerformanceTrackerLogModel::class, $performanceTrackerLogs);
+        $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLog, PerformanceTrackerLog::class);
+        if ($this->checkTrackerLogEditable($performanceTrackerLog) == false) {
+            throw $this->getForbiddenException();
+        }
+        return new EndpointResourceResult(PerformanceTrackerLogModel::class, $performanceTrackerLog);
     }
 
     /**
@@ -260,10 +264,11 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLog, PerformanceTrackerLog::class);
-        if ($this->getPerformanceTrackerLogService()->getPerformanceTrackerLogDao()->checkTrackerLogEditable($performanceTrackerLog) == false) {
-            throw new ForbiddenException();
+        if ($this->checkTrackerLogEditable($performanceTrackerLog) == false) {
+            throw $this->getForbiddenException();
         }
         $this->setTrackerLogsParams($performanceTrackerLog);
+        $performanceTrackerLog->getDecorator()->setUserByUserId($this->getAuthUser()->getUserId());
         $performanceTrackerLog->setModifiedDate($this->getDateTimeHelper()->getNow());
         $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()->savePerformanceTrackerLog($performanceTrackerLog);

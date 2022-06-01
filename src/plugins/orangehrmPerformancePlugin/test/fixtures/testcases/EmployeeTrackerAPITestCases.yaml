@@ -9,6 +9,7 @@ GetAll:
   'without query params for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -64,6 +65,7 @@ GetAll:
   'with limit for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -107,6 +109,7 @@ GetAll:
   'with limit and offset for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -151,6 +154,7 @@ GetAll:
   'sort field tracker name ascending for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -209,6 +213,7 @@ GetAll:
   'sort field tracker modified date ascending for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -273,6 +278,7 @@ GetAll:
   'include employee only past for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -302,6 +308,7 @@ GetAll:
   'include employee current and past for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -409,6 +416,7 @@ GetAll:
   'valid employee id with tracker for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -438,6 +446,7 @@ GetAll:
   'with valid emp id that has no trackers for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -452,6 +461,7 @@ GetAll:
   'with valid terminated emp id for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -466,6 +476,7 @@ GetAll:
   'with valid terminated emp id and include employees only past for admin':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -496,6 +507,7 @@ GetAll:
   'with invalid name or id':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -508,6 +520,7 @@ GetAll:
   'with non existent name or id':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -522,6 +535,7 @@ GetAll:
   'with valid name for name or id':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -551,6 +565,7 @@ GetAll:
   'with valid id for name or id':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -580,6 +595,7 @@ GetAll:
   'with valid employee name that has no tracker for name or id':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -595,6 +611,7 @@ GetAll:
   'without query params for ESS':
     userId: 2
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -636,6 +653,7 @@ GetAll:
   'with sort field tracker name ASC for ESS':
     userId: 2
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -680,6 +698,7 @@ GetAll:
   'with employee id query':
     userId: 2
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -709,6 +728,7 @@ GetAll:
   'with valid name or id for ESS':
     userId: 2
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -738,6 +758,7 @@ GetAll:
   'with name of employee that has tracker but not assigned for review':
     userId: 2
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -752,6 +773,7 @@ GetAll:
   'with user id that is not assigned as reviewer':
     userId: 3
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -765,6 +787,7 @@ GetOne:
   'Get existing tracker':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
     attributes:
       id: 5
     data:
@@ -784,6 +807,7 @@ GetOne:
   'Get non existing tracker':
     userId: 1
     services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
     attributes:
       id: 6
     exception:

@@ -22,12 +22,14 @@ namespace OrangeHRM\Performance\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\PerformanceTrackerLog;
+use OrangeHRM\Performance\Api\Traits\PerformanceTrackerPermissionTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 
 class PerformanceTrackerLogModel implements Normalizable
 {
     use ModelTrait {ModelTrait::toArray as modelToArray;}
     use PerformanceTrackerLogServiceTrait;
+    use PerformanceTrackerPermissionTrait;
 
     public function __construct(PerformanceTrackerLog $performanceTrackerLog)
     {
@@ -43,6 +45,7 @@ class PerformanceTrackerLogModel implements Normalizable
                 ['getEmployee', 'getEmpNumber'],
                 ['getEmployee', 'getLastName'],
                 ['getEmployee', 'getFirstName'],
+                ['getEmployee', 'getMiddleName'],
                 ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
             ]
         );
@@ -57,6 +60,7 @@ class PerformanceTrackerLogModel implements Normalizable
                 ['reviewer', 'empNumber'],
                 ['reviewer', 'lastName'],
                 ['reviewer', 'firstName'],
+                ['reviewer', 'middleName'],
                 ['reviewer', 'terminationId'],
             ]
         );
@@ -64,8 +68,7 @@ class PerformanceTrackerLogModel implements Normalizable
 
     public function toArray(): array
     {
-        $editability = $this->getPerformanceTrackerLogService()
-            ->getPerformanceTrackerLogDao()->checkTrackerLogEditable($this->getEntity());
+        $editability = $this->checkTrackerLogEditable($this->getEntity());
         $result = $this->modelToArray();
         $result['editable'] = $editability;
         return $result;

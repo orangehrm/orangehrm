@@ -23,6 +23,7 @@ GetOne:
         "empNumber": 2
         "lastName": "Perera"
         "firstName": "Sharuka"
+        "middleName": null
         "terminationId": null
       "editable": true
 
@@ -62,6 +63,7 @@ GetAll:
           "empNumber": 2
           "lastName": "Perera"
           "firstName": "Sharuka"
+          "middleName": null
           "terminationId": null
         "editable": true
       1:
@@ -75,6 +77,7 @@ GetAll:
           "empNumber": 3
           "lastName": "Gamage"
           "firstName": "Chenuka"
+          "middleName": null
           "terminationId": null
         "editable": true
     meta:
@@ -113,6 +116,7 @@ Create:
         "empNumber": 1
         "lastName": "DS"
         "firstName": "Devi"
+        "middleName": null
         "terminationId": null
       "editable": true
     meta: [ ]
@@ -149,6 +153,7 @@ Update:
         "empNumber": 1
         "lastName": "DS"
         "firstName": "Devi"
+        "middleName": null
         "terminationId": null
       "editable": true
     meta: [ ]
@@ -185,6 +190,7 @@ Update:
         "empNumber": 2
         "lastName": "Perera"
         "firstName": "Sharuka"
+        "middleName": null
         "terminationId": null
       "editable": true
     meta: [ ]
@@ -243,6 +249,7 @@ Update:
         "empNumber": 2
         "lastName": "Perera"
         "firstName": "Sharuka"
+        "middleName": null
         "terminationId": null
       "editable": true
     meta: [ ]

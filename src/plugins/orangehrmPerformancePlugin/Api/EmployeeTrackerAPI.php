@@ -39,10 +39,12 @@ use OrangeHRM\Performance\Api\Model\EmployeeTrackerModel;
 use OrangeHRM\Performance\Api\Model\PerformanceTrackerModel;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
 {
     use UserRoleManagerTrait;
+    use PerformanceTrackerServiceTrait;
 
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
     public const FILTER_NAME_OR_ID = 'nameOrId';
@@ -50,17 +52,6 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
 
     private ?PerformanceTrackerService $employeeTrackerService = null;
-
-    /**
-     * @return PerformanceTrackerService
-     */
-    public function getPerformanceTrackerService(): PerformanceTrackerService
-    {
-        if (!$this->employeeTrackerService instanceof PerformanceTrackerService) {
-            $this->employeeTrackerService = new PerformanceTrackerService();
-        }
-        return $this->employeeTrackerService;
-    }
 
     /**
      * @inheritDoc
@@ -190,7 +181,8 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $id = $this->getRequestParams()
+            ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $performanceTracker = $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
             ->getPerformanceTrack($id);

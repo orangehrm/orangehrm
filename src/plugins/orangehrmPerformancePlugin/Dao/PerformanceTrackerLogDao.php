@@ -116,25 +116,4 @@ class PerformanceTrackerLogDao extends BaseDao
             ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
     }
-
-    /**
-     * @param PerformanceTrackerLog $performanceTrackerLog
-     * @return bool
-     */
-    public function checkTrackerLogEditable(PerformanceTrackerLog $performanceTrackerLog): bool
-    {
-        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($performanceTrackerLog->getEmployee()->getEmpNumber());
-        if ($this->getUserRoleManager()
-            ->getDataGroupPermissions(
-                'performance_tracker_log',
-                [],
-                [],
-                $self,
-                []
-            )->canUpdate()
-        ) {
-            return true;
-        }
-        return false;
-    }
 }
