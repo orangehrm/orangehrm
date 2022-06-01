@@ -31,6 +31,7 @@ import {
   digitsOnly,
   digitsOnlyWithDecimalPoint,
   shouldBeCurrentOrPreviousDate,
+  validHexFormat,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -53,6 +54,7 @@ jest.mock('@/core/plugins/i18n/translate', () => {
       'general.should_be_a_number': 'Should be a number',
       'general.should_be_a_number_between_min_and_max':
         'Should be a number between 0-100',
+      'general.invalid': 'Invalid',
     };
     return mockStrings[langString];
   };
@@ -644,5 +646,28 @@ describe('core/util/validation/rules::shouldBeCurrentOrPreviousDate', () => {
   test('shouldBeCurrentOrPreviousDate::valid', () => {
     const result = shouldBeCurrentOrPreviousDate()('2022-01-29');
     expect(result).toBeTruthy();
+  });
+});
+
+describe('core/util/validation/rules::validHexFormat', () => {
+  it('should accept valid 6 digit Hex', () => {
+    const result = validHexFormat('#ff0000');
+    expect(result).toStrictEqual(true);
+  });
+  it('should accept valid 3 digit Hex', () => {
+    const result = validHexFormat('#f00');
+    expect(result).toStrictEqual(true);
+  });
+  it('should not accept invalid 6 digit Hex', () => {
+    const result = validHexFormat('#ffx000');
+    expect(result).toStrictEqual('Invalid');
+  });
+  it('should not accept invalid 3 digit Hex', () => {
+    const result = validHexFormat('#ffx');
+    expect(result).toStrictEqual('Invalid');
+  });
+  it('should not accept non Hex string', () => {
+    const result = validHexFormat('car');
+    expect(result).toStrictEqual('Invalid');
   });
 });

@@ -115,5 +115,6 @@ export default {
 }
 ::v-deep(.oxd-color-input) {
   padding: 2px;
+  flex-shrink: 0;
 }
 </style>

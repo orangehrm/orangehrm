@@ -22,12 +22,6 @@
   @return $color;
 }
 
-:root {
-  --oxd-primary-one-color: #ff7b1d;
-  --oxd-secondary-four-color: #76bc21;
-  --oxd-primary-gradient-start-color: #ff8226;
-  --oxd-primary-gradient-end-color: #f35c17;
-}
 
 $oxd-primary-one-color: var(--oxd-primary-one-color);
 $oxd-secondary-four-color: var(--oxd-secondary-four-color);
@@ -40,6 +34,7 @@ $oxd-primary-gradient: linear-gradient(
   var(--oxd-primary-gradient-end-color) 90%
 );
 
+$oxd-menu-slide-button-color: $oxd-primary-one-color;
 $oxd-menu-item-active-color: $oxd-primary-gradient-start-color;
 $oxd-secondary-gradient: linear-gradient(
   90deg,

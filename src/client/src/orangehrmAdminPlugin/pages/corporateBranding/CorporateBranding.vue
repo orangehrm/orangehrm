@@ -29,20 +29,20 @@
 
       <oxd-form ref="formRef" :loading="isLoading" @submitValid="onFormSubmit">
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <inline-color-input
                 v-model="colors.primaryColor"
                 :rules="rules.color"
-                label="Primary Color"
+                :label="$t('admin.primary_color')"
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item>
+            <oxd-grid-item class="--offset-column-3">
               <inline-color-input
                 v-model="colors.secondaryColor"
                 :rules="rules.color"
-                label="Secondary Color"
+                :label="$t('admin.secondary_color')"
                 required
               />
             </oxd-grid-item>
@@ -50,15 +50,15 @@
               <inline-color-input
                 v-model="colors.primaryFontColor"
                 :rules="rules.color"
-                label="Primary Font Color"
+                :label="$t('admin.primary_font_color')"
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-2">
+            <oxd-grid-item class="--offset-row-2 --offset-column-3">
               <inline-color-input
                 v-model="colors.secondaryFontColor"
                 :rules="rules.color"
-                label="Secondary Font Color"
+                :label="$t('admin.secondary_font_color')"
                 required
               />
             </oxd-grid-item>
@@ -66,81 +66,89 @@
               <inline-color-input
                 v-model="colors.primaryGradientStartColor"
                 :rules="rules.color"
-                label="Primary Gradient Color 1"
+                :label="$t('admin.primary_gradient_color_one')"
                 type="color"
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-3">
+            <oxd-grid-item class="--offset-row-3 --offset-column-3">
               <inline-color-input
                 v-model="colors.primaryGradientEndColor"
                 :rules="rules.color"
-                label="Primary Gradient Color 2"
+                :label="$t('admin.primary_gradient_color_two')"
                 required
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <br />
+        <oxd-divider />
+        <br />
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <file-upload-input
                 v-model:newFile="clientLogo.newAttachment"
                 v-model:method="clientLogo.method"
-                label="Client Logo"
+                :label="$t('admin.client_logo')"
                 :button-label="$t('general.browse')"
                 :file="clientLogo.oldAttachment"
                 :rules="rules.clientLogo"
-                url=""
                 :hint="
-                  $t(
-                    'general.accept_jpg_png_upto_1mb_recomended_dimentions_200px_x_200px',
-                  )
+                  $t('general.accept_jpg_png_gif_upto_recomended_dimentions', {
+                    fileSize: '1MB',
+                    width: 50,
+                    height: 50,
+                  })
                 "
+                url=""
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <file-upload-input
                 v-model:newFile="clientBanner.newAttachment"
                 v-model:method="clientBanner.method"
-                label="Client Banner"
+                :label="$t('admin.client_banner')"
                 :button-label="$t('general.browse')"
                 :file="clientBanner.oldAttachment"
                 :rules="rules.clientBanner"
-                url=""
                 :hint="
-                  $t(
-                    'general.accept_jpg_png_upto_1mb_recomended_dimentions_200px_x_200px',
-                  )
+                  $t('general.accept_jpg_png_gif_upto_recomended_dimentions', {
+                    fileSize: '1MB',
+                    width: 132,
+                    height: 50,
+                  })
                 "
+                url=""
               />
             </oxd-grid-item>
-            <oxd-grid-item>
+            <oxd-grid-item class="--offset-row-2">
               <file-upload-input
                 v-model:newFile="loginBanner.newAttachment"
                 v-model:method="loginBanner.method"
-                label="Login Banner"
+                :label="$t('admin.login_banner')"
                 :button-label="$t('general.browse')"
                 :file="loginBanner.oldAttachment"
                 :rules="rules.loginBanner"
-                url=""
                 :hint="
-                  $t(
-                    'general.accept_jpg_png_upto_1mb_recomended_dimentions_200px_x_200px',
-                  )
+                  $t('general.accept_jpg_png_gif_upto_recomended_dimentions', {
+                    fileSize: '1MB',
+                    width: 340,
+                    height: 65,
+                  })
                 "
+                url=""
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <div class="orangehrm-sm-field">
                 <oxd-text tag="p" class="orangehrm-sm-field-label">
-                  Social Media Images
+                  {{ $t('admin.social_media_images') }}
                 </oxd-text>
                 <oxd-switch-input v-model="showSocialMediaImages" />
               </div>
@@ -155,14 +163,14 @@
           <div class="orangehrm-actions-group">
             <oxd-button
               type="button"
-              label="Reset to Default"
               display-type="ghost"
+              :label="$t('general.reset_to_default')"
               @click="onClickReset"
             />
             <oxd-button
               type="button"
-              label="Preview"
               display-type="ghost"
+              :label="$t('general.preview')"
               @click="onClickPreview"
             />
             <oxd-button
@@ -184,6 +192,7 @@ import {
   maxFileSize,
   validHexFormat,
   validFileTypes,
+  imageShouldHaveDimensions,
 } from '@ohrm/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
 import useToast from '@/core/util/composable/useToast';
@@ -233,14 +242,17 @@ export default {
       color: [required, validHexFormat],
       clientLogo: [
         maxFileSize(1024 * 1024),
+        imageShouldHaveDimensions(50, 50),
         validFileTypes(props.allowedImageTypes),
       ],
       clientBanner: [
         maxFileSize(1024 * 1024),
+        imageShouldHaveDimensions(132, 50),
         validFileTypes(props.allowedImageTypes),
       ],
       loginBanner: [
         maxFileSize(1024 * 1024),
+        imageShouldHaveDimensions(340, 65),
         validFileTypes(props.allowedImageTypes),
       ],
     };
@@ -311,27 +323,31 @@ export default {
     };
 
     onBeforeMount(() => {
-      http.getAll().then(response => {
-        const {data} = response.data;
-        const {
-          clientLogo,
-          clientBanner,
-          loginBanner,
-          showSocialMediaImages,
-          ...rest
-        } = data;
-        state.colors = {...rest};
-        if (clientLogo) {
-          state.clientLogo.oldAttachment = clientLogo;
-        }
-        if (clientBanner) {
-          state.clientBanner.oldAttachment = clientBanner;
-        }
-        if (loginBanner) {
-          state.loginBanner.oldAttachment = loginBanner;
-        }
-        state.showSocialMediaImages = showSocialMediaImages;
-      });
+      state.isLoading = true;
+      http
+        .getAll()
+        .then(response => {
+          const {data} = response.data;
+          const {
+            clientLogo,
+            clientBanner,
+            loginBanner,
+            showSocialMediaImages,
+            ...rest
+          } = data;
+          state.colors = {...rest};
+          if (clientLogo) {
+            state.clientLogo.oldAttachment = clientLogo;
+          }
+          if (clientBanner) {
+            state.clientBanner.oldAttachment = clientBanner;
+          }
+          if (loginBanner) {
+            state.loginBanner.oldAttachment = loginBanner;
+          }
+          state.showSocialMediaImages = showSocialMediaImages;
+        })
+        .finally(() => (state.isLoading = false));
     });
 
     return {
