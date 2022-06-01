@@ -214,15 +214,15 @@ export default {
           style: {flex: 2},
         },
         {
-          name: 'modifiedDate',
-          title: this.$t('performance.modified_date'),
-          sortField: 'tracker.modifiedDate',
-          style: {flex: 1},
-        },
-        {
           name: 'addedDate',
           title: this.$t('performance.added_date'),
           sortField: 'tracker.addedDate',
+          style: {flex: 1},
+        },
+        {
+          name: 'modifiedDate',
+          title: this.$t('performance.modified_date'),
+          sortField: 'tracker.modifiedDate',
           style: {flex: 1},
         },
         {
