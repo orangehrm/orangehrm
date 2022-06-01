@@ -38,7 +38,6 @@ use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\Performance\Api\Model\EmployeeTrackerModel;
 use OrangeHRM\Performance\Api\Model\PerformanceTrackerModel;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint

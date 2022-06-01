@@ -113,7 +113,8 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::POSITIVE)
             ),
             ...$this->getSortingAndPaginationParamsRules(
-                PerformanceTrackerLogSearchFilterParams::ALLOWED_SORT_FIELDS)
+                PerformanceTrackerLogSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
         );
     }
 
@@ -187,7 +188,7 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_ACHIEVEMENT,
                 new Rule(Rules::POSITIVE),
-                new Rule(Rules::IN,[[
+                new Rule(Rules::IN, [[
                     PerformanceTrackerLog::POSITIVE_ACHIEVEMENT,
                     PerformanceTrackerLog::NEGATIVE_ACHIEVEMENT
                 ]])
@@ -206,14 +207,16 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
     {
         $ids = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_IDS);
+            CommonParams::PARAMETER_IDS
+        );
         foreach ($ids as $id) {
             $performanceTrackerLog = $this->getPerformanceTrackerLogService()
                 ->getPerformanceTrackerLogDao()
                 ->getPerformanceTrackerLogById($id);
             $this->throwRecordNotFoundExceptionIfNotExist(
                 $performanceTrackerLog,
-                PerformanceTrackerLog::class);
+                PerformanceTrackerLog::class
+            );
             if (! $this->getTrackerLogPermission($performanceTrackerLog)->canUpdate()) {
                 throw $this->getForbiddenException();
             }
