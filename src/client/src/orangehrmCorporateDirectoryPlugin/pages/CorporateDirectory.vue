@@ -57,7 +57,7 @@
     <div :class="!isTotalZero ? 'orangehrm-corporate-directory' : ''">
       <div class="orangehrm-paper-container">
         <table-header :show-divider="false" :total="total"> </table-header>
-        <oxd-grid :cols="colSize" class="orangehrm-container">
+        <oxd-grid ref="scrollerRef" :cols="colSize" class="orangehrm-container">
           <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
             <summary-card
               :employee-designation="employee.employeeJobTitle"
@@ -108,6 +108,8 @@ import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/S
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
+import {reactive, toRefs} from 'vue';
 
 const employeeDataNormalizer = data => {
   return data.map(item => {
@@ -141,18 +143,47 @@ export default {
       'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
       'api/v2/corporate-directory/employees',
     );
-    return {
-      http,
-    };
-  },
-  data() {
-    return {
+    const limit = 10; // this is a static limit since no pagination
+    const state = reactive({
       employees: [],
       total: 0,
       colSize: 4,
       windowWidth: 0,
       currentIndex: -1,
       isLoading: false,
+      offset: 0,
+    });
+
+    const fetchData = () => {
+      state.isLoading = true;
+      http
+        .getAll({
+          limit: limit,
+          offset: state.offset,
+        })
+        .then(response => {
+          const {data, meta} = response.data;
+          state.total = meta?.total || 0;
+          if (Array.isArray(data)) {
+            state.employees = [
+              ...state.employees,
+              ...employeeDataNormalizer(data),
+            ];
+          }
+        })
+        .finally(() => (state.isLoading = false));
+    };
+
+    const {scrollerRef} = useInfiniteScroll(() => {
+      if (state.employees.length >= state.total) return;
+      state.offset += limit;
+      fetchData();
+    });
+
+    return {
+      scrollerRef,
+      ...toRefs(state),
+      fetchData,
     };
   },
 
@@ -166,12 +197,7 @@ export default {
   },
 
   beforeMount() {
-    this.isLoading = true;
-    this.http.getAll().then(response => {
-      this.employees = employeeDataNormalizer(response.data.data);
-      this.total = response.data.meta.total;
-      this.isLoading = false;
-    });
+    this.fetchData();
 
     this.onResize();
     window.addEventListener('resize', this.onResize);

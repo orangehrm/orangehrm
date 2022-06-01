@@ -122,12 +122,10 @@ export default {
   },
   methods: {
     copyEmail() {
-      this.$refs.cloneEmail.select();
-      document.execCommand('copy');
+      navigator.clipboard?.writeText(this.employeeWorkEmail);
     },
     copyTelephone() {
-      this.$refs.cloneTelephone.select();
-      document.execCommand('copy');
+      navigator.clipboard?.writeText(this.employeeWorkTelephone);
     },
   },
 };
