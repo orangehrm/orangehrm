@@ -52,7 +52,7 @@
           :label="$t('general.approve')"
           display-type="secondary"
           class="orangehrm-left-space"
-          @click="onClickApprove('test')"
+          @click="onClickApprove"
         />
       </oxd-form-actions>
     </oxd-form>

@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,30 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-import CorePages from '@/core/pages';
-import AdminPages from '@/orangehrmAdminPlugin';
-import PimPages from '@/orangehrmPimPlugin';
-import HelpPages from '@/orangehrmHelpPlugin';
-import TimePages from '@/orangehrmTimePlugin';
-import LeavePages from '@/orangehrmLeavePlugin';
-import OAuthPages from '@/orangehrmCoreOAuthPlugin';
-import AttendancePages from '@/orangehrmAttendancePlugin';
-import MaintenancePages from '@/orangehrmMaintenancePlugin';
-import RecruitmentPages from '@/orangehrmRecruitmentPlugin';
-import PerformancePages from '@/orangehrmPerformancePlugin';
-import authenticationPages from '@/orangehrmAuthenticationPlugin';
+namespace OrangeHRM\Admin\Controller;
 
-export default {
-  ...AdminPages,
-  ...PimPages,
-  ...CorePages,
-  ...HelpPages,
-  ...TimePages,
-  ...OAuthPages,
-  ...LeavePages,
-  ...AttendancePages,
-  ...MaintenancePages,
-  ...RecruitmentPages,
-  ...PerformancePages,
-  ...authenticationPages,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\EmpPicture;
+use OrangeHRM\Framework\Http\Request;
+
+class CorporateBrandingController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('corporate-branding');
+        $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
+        $this->setComponent($component);
+    }
+}
