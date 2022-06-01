@@ -29,6 +29,13 @@ import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
 
 const translate = translatorFactory();
 
+export type File = {
+  name: string;
+  type: string;
+  size: number;
+  base64: string;
+};
+
 /**
  * @param {string|number|Array} value
  * @returns {boolean|string}
@@ -311,8 +318,7 @@ export const endTimeShouldBeAfterStartTime = (
  * @param {number} size - File size in bytes
  */
 export const maxFileSize = function(size: number) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return function(file: any): boolean | string {
+  return function(file: File): boolean | string {
     return (
       file === null ||
       (file.size && file.size <= size) ||
@@ -322,8 +328,7 @@ export const maxFileSize = function(size: number) {
 };
 
 export const validFileTypes = function(fileTypes: string[]) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return function(file: any): boolean | string {
+  return function(file: File): boolean | string {
     return (
       file === null ||
       (file && fileTypes.findIndex(item => item === file.type) > -1) ||
@@ -520,5 +525,43 @@ export const numberShouldBeBetweenMinAndMaxValue = (
         parseFloat(value) <= maxValue) ||
       resolvedMessage
     );
+  };
+};
+
+/**
+ * Validate #rrggbb & #rgb hex strings
+ * @param {string} value hex string
+ * @returns {boolean|string}
+ */
+export const validHexFormat = function(value: string): boolean | string {
+  if (!value) return true;
+  return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i.test(value)
+    ? true
+    : translate('general.invalid');
+};
+
+/**
+ * Validate image dimensions
+ * @param {number} width in pixels
+ * @param {number} height in pixels
+ * @returns {Promise<boolean|string>}
+ */
+export const imageShouldHaveDimensions = function(
+  width: number,
+  height: number,
+) {
+  return function(file: File): Promise<boolean | string> {
+    return new Promise(resolve => {
+      if (file === null) resolve(true);
+      const image = new Image();
+      image.src = `data:${file.type};base64, ${file.base64}`;
+      image.decode().then(() => {
+        if (image.width === width && image.height === height) {
+          resolve(true);
+        } else {
+          resolve(translate('general.incorrect_dimensions'));
+        }
+      });
+    });
   };
 };
