@@ -13,13 +13,20 @@ apiv2_recruitment_vacancies:
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAPI
 
-apiv2_recruitment_vacancy_attachment_vacancyId:
-  path: /api/v2/recruitment/vacancy/attachments/{vacancyId}
+apiv2_recruitment_vacancies_attachments:
+  path: /api/v2/recruitment/vacancies/{vacancyId}/attachments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, PUT ]
+  methods: [ GET ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
     _key: vacancyId
+
+apiv2_recruitment_vacancies_attachment:
+  path: /api/v2/recruitment/vacancies/{vacancyId}/attachments/{attachmentId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
 
 apiv2_recruitment_vacancy_attachments:
   path: /api/v2/recruitment/vacancy/attachments
@@ -42,6 +49,8 @@ apiv2_recruitment_candidate:
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateAPI
     _key: id
+  requirements:
+    id: '\d+'
 
 apiv2_recruitment_candidte_attachment_candidateId:
   path: /api/v2/recruitment/candidate/attachments/{candidateId}
@@ -59,7 +68,7 @@ apiv2_recruitment_candidate_attachments:
     _api: OrangeHRM\Recruitment\Api\CandidateAttachmentAPI
 
 apiv2_recruitment_candidate_status:
-  path: /api/v2/recruitment/candidate/status
+  path: /api/v2/recruitment/candidates/statuses
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
@@ -71,6 +80,14 @@ apiv2_recruitment_hiring_managers:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\HiringManagerAPI
+
+apiv2_recruitment_candidates_allowed_actions:
+  path: /api/v2/recruitment/candidates/{candidateId}/actions/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateAllowedActionsAPI
+    _key: id
 
 ##########################
 #        Files

@@ -25,7 +25,7 @@
         {{ $t('performance.add_review') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -117,6 +117,7 @@ import {
   startDateShouldBeBeforeEndDate,
   validDateFormat,
 } from '@/core/util/validation/rules';
+import useForm from '@/core/util/composable/useForm';
 
 const reviewModel = {
   employee: null,
@@ -132,11 +133,15 @@ export default {
     'supervisor-autocomplete': SupervisorAutoComplete,
   },
   setup() {
+    const {formRef, invalid, validate} = useForm();
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/reviews',
+      '/api/v2/performance/manage/reviews',
     );
     return {
+      formRef,
+      invalid,
+      validate,
       http,
     };
   },
@@ -153,7 +158,7 @@ export default {
           startDateShouldBeBeforeEndDate(
             () => this.review.endDate,
             this.$t(
-              'general.review_period_start_date_should_be_before_end_date',
+              'performance.review_period_start_date_should_be_before_end_date',
             ),
           ),
         ],
@@ -185,28 +190,34 @@ export default {
       navigate('/performance/searchPerformanceReview');
     },
     onSave(activate = false) {
-      this.isLoading = true;
-      this.http
-        .create({
-          empNumber: this.review.employee.id,
-          reviewerEmpNumber: this.review.supervisorReviewer.id,
-          startDate: this.review.startDate,
-          endDate: this.review.endDate,
-          dueDate: this.review.dueDate,
-          activate,
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .catch(response => {
-          return this.$toast.warn({
-            title: this.$t('general.warning'),
-            message: response?.data.error.message,
+      this.validate().then(() => {
+        if (this.invalid === true) return;
+        this.isLoading = true;
+        this.http
+          .create({
+            empNumber: this.review.employee.id,
+            reviewerEmpNumber: this.review.supervisorReviewer.id,
+            startDate: this.review.startDate,
+            endDate: this.review.endDate,
+            dueDate: this.review.dueDate,
+            activate,
+          })
+          .then(() => {
+            return this.$toast.saveSuccess();
+          })
+          .then(() => {
+            this.onCancel();
+          })
+          .catch(response => {
+            return this.$toast.warn({
+              title: this.$t('general.warning'),
+              message: response?.data.error.message,
+            });
+          })
+          .finally(() => {
+            this.isLoading = false;
           });
-        })
-        .then(() => {
-          this.onCancel();
-        });
+      });
     },
   },
 };

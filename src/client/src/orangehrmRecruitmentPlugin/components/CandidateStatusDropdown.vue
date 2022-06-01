@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,27 +16,40 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Performance\Controller;
+<template>
+  <oxd-input-field
+    type="select"
+    :label="$t('general.status')"
+    :options="options"
+  />
+</template>
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-
-class SavePerformanceTrackerController extends AbstractVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        if ($request->attributes->has('id')) {
-            $component = new Component('performance-tracker-edit');
-            $component->addProp(new Prop('performance-tracker-id', Prop::TYPE_NUMBER, $request->attributes->get('id')));
-        } else {
-            $component = new Component('performance-tracker-save');
-        }
-        $this->setComponent($component);
-    }
-}
+<script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@/core/util/services/api.service';
+export default {
+  name: 'CandidateStatusDropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/candidates/statuses',
+    );
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.label,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
+};
+</script>

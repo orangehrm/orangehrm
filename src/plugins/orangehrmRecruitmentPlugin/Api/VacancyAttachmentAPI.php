@@ -33,6 +33,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\Recruitment\Api\Model\VacancyAttachmentModel;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
@@ -41,7 +42,7 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
 {
     use RecruitmentAttachmentServiceTrait;
 
-    public const PARAMETER_ID = 'id';
+    public const PARAMETER_ATTACHMENT_ID = 'attachmentId';
     public const PARAMETER_ATTACHMENT_TYPE = 'attachmentType';
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_VACANCY_ID = 'vacancyId';
@@ -136,14 +137,6 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_VACANCY_ID,
-                    new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_VACANCY_ID_MAX_LENGTH]),
-                ),
-                true
-            ),
-            $this->getValidationDecorator()->requiredParamRule(
                 $this->getAttachmentRule()
             ),
             ...$this->getCommonBodyValidationRules(),
@@ -186,6 +179,11 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
                 ),
                 true
             ),
+            new ParamRule(
+                self::PARAMETER_VACANCY_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [Vacancy::class])
+            ),
         ];
     }
 
@@ -217,6 +215,7 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_VACANCY_ID
         );
+
         return $this->getVacancyAttachments($vacancyId);
     }
 
@@ -229,7 +228,7 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $attachments = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getVacancyAttachments($vacancyId);
+            ->getVacancyAttachmentsByVacancyId($vacancyId);
         $count = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->getAttachmentCount($vacancyId);
@@ -246,7 +245,11 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_VACANCY_ID),
+            new ParamRule(
+                self::PARAMETER_VACANCY_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [Vacancy::class])
+            )
         );
     }
 
@@ -255,14 +258,18 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_ID);
+        $attachmentId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_ATTACHMENT_ID
+        );
         $currentAttachment = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_CURRENT_ATTACHMENT
         );
         $vacancyAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getVacancyAttachment($id);
+            ->getVacancyAttachmentById($attachmentId);
+
         $this->throwRecordNotFoundExceptionIfNotExist($vacancyAttachment, VacancyAttachment::class);
         $this->setVacancyAttachment($vacancyAttachment);
         if ($currentAttachment == self::VACANCY_ATTACHMENT_REPLACE_CURRENT) {
@@ -280,26 +287,19 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_CURRENT_ATTACHMENT,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH]),
-                ),
-                true
+            new ParamRule(
+                self::PARAMETER_ATTACHMENT_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_VACANCY_ID_MAX_LENGTH]),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    CommonParams::PARAMETER_ID,
-                    new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_VACANCY_ID_MAX_LENGTH]),
-                ),
-                true
+            new ParamRule(
+                self::PARAMETER_CURRENT_ATTACHMENT,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH]),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 $this->getAttachmentRule()
             ),
-            new ParamRule(self::PARAMETER_VACANCY_ID),
             ...$this->getCommonBodyValidationRules(),
         );
     }

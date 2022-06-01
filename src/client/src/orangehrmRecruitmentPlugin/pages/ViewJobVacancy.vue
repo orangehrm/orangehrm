@@ -33,10 +33,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-autocomplete
-                v-model="filters.hiringManagerId"
-                :label="$t('recruitment.hiring_manager')"
-              />
+              <hiring-manager-dropdown v-model="filters.hiringManagerId" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -119,7 +116,7 @@ import usei18n from '@/core/util/composable/usei18n';
 
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown.vue';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
+import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
 
 const defaultFilters = {
   jobTitleId: null,
@@ -131,16 +128,15 @@ const defaultSortOrder = {
   'vacancy.name': 'ASC',
   'vacancy.status': 'DEFAULT',
   'jobTitle.jobTitleName': 'DEFAULT',
-  'employee.lastName': 'DEFAULT',
-  'employee.firstName': 'DEFAULT',
+  'hiringManager.lastName': 'DEFAULT',
 };
 export default {
   name: 'ViewJobVacancy',
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
     'jobtitle-dropdown': JobtitleDropdown,
-    'employee-autocomplete': EmployeeAutocomplete,
     'vacancy-dropdown': VacancyDropdown,
+    'hiring-manager-dropdown': HiringManagerDropdown,
   },
 
   setup() {
@@ -171,7 +167,7 @@ export default {
             : item.jobTitle?.title,
 
           hiringManager: `${item.hiringManager?.firstName} ${
-            item.hiringManger?.lastName
+            item.hiringManager?.lastName
           } ${
             item.hiringManager.terminationId ? $t('general.past_employee') : ''
           }`,
@@ -235,7 +231,7 @@ export default {
         {
           name: 'hiringManager',
           title: this.$t('recruitment.hiring_manager'),
-          sortField: 'employee.lastName',
+          sortField: 'hiringManager.lastName',
           style: {flex: 3},
         },
         {

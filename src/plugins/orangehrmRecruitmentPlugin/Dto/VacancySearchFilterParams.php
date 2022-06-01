@@ -27,8 +27,7 @@ class VacancySearchFilterParams extends FilterParams
         'vacancy.name',
         'vacancy.status',
         'jobTitle.jobTitleName',
-        'employee.lastName',
-        'employee.firstName',
+        'hiringManager.lastName',
     ];
 
     /**
@@ -49,7 +48,7 @@ class VacancySearchFilterParams extends FilterParams
     /**
      * @var int|null
      */
-    protected ?int $status = 1;
+    protected ?int $status = null;
 
     public function __construct()
     {

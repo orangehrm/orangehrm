@@ -92,6 +92,7 @@
           :label="$t('general.add')"
           icon-name="plus"
           display-type="secondary"
+          @click="onClickAdd"
         />
       </div>
       <table-header
@@ -398,6 +399,9 @@ export default {
     },
     onClickEdit(item) {
       navigate('/performance/saveReview/{id}', {id: item.id});
+    },
+    onClickAdd() {
+      navigate('/performance/saveReview');
     },
     onClickDeleteSelected() {
       const ids = [];

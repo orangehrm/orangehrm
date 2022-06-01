@@ -25,7 +25,7 @@
         {{ $t('performance.add_review') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -118,6 +118,7 @@ import {
   startDateShouldBeBeforeEndDate,
   validDateFormat,
 } from '@/core/util/validation/rules';
+import useForm from '@/core/util/composable/useForm';
 
 const reviewModel = {
   employee: null,
@@ -139,12 +140,16 @@ export default {
     },
   },
   setup() {
+    const {formRef, invalid, validate} = useForm();
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/performance/reviews',
+      '/api/v2/performance/manage/reviews',
     );
-    http.setIgnorePath('/api/v2/performance/reviews/[0-9]+');
+    http.setIgnorePath('/api/v2/performance/manage/reviews/[0-9]+');
     return {
+      formRef,
+      invalid,
+      validate,
       http,
     };
   },
@@ -222,31 +227,37 @@ export default {
   },
   methods: {
     onCancel() {
-      navigate('/performance/searchPerformancReview');
+      navigate('/performance/searchPerformanceReview');
     },
     onSave(activate = false) {
-      this.isLoading = true;
-      this.http
-        .update(this.reviewId, {
-          empNumber: this.review.employee.id,
-          reviewerEmpNumber: this.review.supervisorReviewer.id,
-          startDate: this.review.startDate,
-          endDate: this.review.endDate,
-          dueDate: this.review.dueDate,
-          activate,
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .catch(response => {
-          return this.$toast.warn({
-            title: this.$t('general.warning'),
-            message: response?.data.error.message,
+      this.validate().then(() => {
+        if (this.invalid === true) return;
+        this.isLoading = true;
+        this.http
+          .update(this.reviewId, {
+            empNumber: this.review.employee.id,
+            reviewerEmpNumber: this.review.supervisorReviewer.id,
+            startDate: this.review.startDate,
+            endDate: this.review.endDate,
+            dueDate: this.review.dueDate,
+            activate,
+          })
+          .then(() => {
+            return this.$toast.updateSuccess();
+          })
+          .then(() => {
+            this.onCancel();
+          })
+          .catch(response => {
+            return this.$toast.warn({
+              title: this.$t('general.warning'),
+              message: response?.data.error.message,
+            });
+          })
+          .finally(() => {
+            this.isLoading = false;
           });
-        })
-        .then(() => {
-          this.onCancel();
-        });
+      });
     },
   },
 };

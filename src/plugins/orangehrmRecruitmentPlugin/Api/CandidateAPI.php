@@ -41,6 +41,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Recruitment\Api\Model\CandidateDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateListModel;
@@ -91,15 +92,15 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     ];
 
     public const STATUS_MAP = [
-        1 => 'APPLICATION INITIATED',
-        2 => 'SHORTLISTED',
-        3 => 'REJECTED',
-        4 => 'INTERVIEW SCHEDULED',
-        5 => 'INTERVIEW PASSED',
-        6 => 'INTERVIEW FAILED',
-        7 => 'JOB OFFERED',
-        8 => 'OFFER DECLINED',
-        9 => 'HIRED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY => 'APPLICATION INITIATED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST => 'SHORTLISTED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT => 'REJECTED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW => 'INTERVIEW SCHEDULED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED => 'INTERVIEW PASSED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED => 'INTERVIEW FAILED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB => 'JOB OFFERED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER => 'OFFER DECLINED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE => 'HIRED',
     ];
 
     /**
@@ -328,7 +329,11 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             );
             if (!is_null($vacancyId)) {
                 $candidateVacancy = new CandidateVacancy();
-                $this->setCandidateVacancy($candidateVacancy, $lastInsertedCandidateId, self::STATUS_MAP[1]);
+                $this->setCandidateVacancy(
+                    $candidateVacancy,
+                    $lastInsertedCandidateId,
+                    self::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
+                );
                 $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($candidateVacancy);
             }
 
@@ -416,7 +421,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             )
         );
         $candidate->getDecorator()->setAddedPersonById(
-            $this->getAuthUser()->getEmpNumber()
+            !is_null($candidate->getAddedPerson()) ? $candidate->getAddedPerson()->getEmpNumber() :
+                $this->getAuthUser()->getEmpNumber()
         );
     }
 
@@ -424,7 +430,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      * @param CandidateVacancy $candidateVacancy
      * @param int $candidateId
      */
-    private function setCandidateVacancy(CandidateVacancy $candidateVacancy, int $candidateId, string $status)
+    private function setCandidateVacancy(CandidateVacancy $candidateVacancy, int $candidateId, string $status): void
     {
         $vacancyId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_BODY,
@@ -585,7 +591,6 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_VACANCY_ID
             );
-
             $candidate = $this->getCandidateService()->getCandidateDao()->getCandidateById($id);
             $this->throwRecordNotFoundExceptionIfNotExist($candidate, Candidate::class);
             $this->setCandidate($candidate);
@@ -596,27 +601,46 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 ->getCandidateVacancyByCandidateId($id);
 
             /**
-             * If there is vacancy assigned, but vacancyId is null,
-             * delete the candidate vacancy
+             * vacancyId is not null
              */
-            if (!is_null($candidateVacancy) && is_null($vacancyId)) {
-                $this->getCandidateService()
-                    ->getCandidateDao()
-                    ->deleteCandidateVacancy($id);
-            } else {
+            if (!is_null($vacancyId)) {
                 /**
-                 * If the candidate doesn't assign with a vacancy and
-                 * new vacancy is coming with update request body to assign with candidate
+                 * already existing candidate vacancy available
                  */
-                if (is_null($candidateVacancy) && !is_null($vacancyId)) {
+                if (!is_null($candidateVacancy)) {
+                    /**
+                     * provided vacancyId is not equal to existing candidateVacancy's vacancyId
+                     * in that case, existing candidateVacancy record get deleted and new candidateVacancy initiated
+                     */
+                    if ($vacancyId !== $candidateVacancy->getVacancy()->getId()) {
+                        $this->getCandidateService()->getCandidateDao()->deleteCandidateVacancy($id);
+                        $candidateVacancy = new CandidateVacancy();
+                    }
+                    //else not attempting to change existing candidateVacancy
+                } /**
+                 * if the candidate is not assigned to a vacancy, and vacancyId is not null
+                 * initiate new candidateVacancy
+                 */
+                else {
                     $candidateVacancy = new CandidateVacancy();
                 }
-                //TODO handle status with workflow state machine
-                $this->setCandidateVacancy($candidateVacancy, $id, self::STATUS_MAP[1]);
+                $this->setCandidateVacancy(
+                    $candidateVacancy,
+                    $id,
+                    self::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
+                );
                 $this->getCandidateService()
                     ->getCandidateDao()
                     ->saveCandidateVacancy($candidateVacancy);
+            } /**
+             * already existing candidateVacancy available but null vacancyId given
+             * In this case, the existing candidateVacancy record get deleted and
+             * now the candidate has not assigned to a vacancy
+             */
+            elseif (!is_null($candidateVacancy)) {
+                $this->getCandidateService()->getCandidateDao()->deleteCandidateVacancy($id);
             }
+            //else vacancyId is null and no existing vacancy available - Do nothing
 
             $this->commitTransaction();
             return new EndpointResourceResult(CandidateDetailedModel::class, $candidate);
