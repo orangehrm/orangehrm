@@ -5,7 +5,6 @@ translations:
     - { target: 'Shortlist', unitId: shortlist, group: recruitment }
     - { target: 'Current Status', unitId: current_status, group: recruitment }
     - { target: 'Performed Action', unitId: performed_action, group: recruitment }
-    - { target: 'Performed By', unitId: performed_by, group: recruitment }
     - { target: 'Performed Date', unitId: performed_date, group: recruitment }
     - { target: 'View Action History', unitId: view_action_history, group: recruitment }
     - { target: 'Vacancy', unitId: vacancy, group: recruitment }
@@ -86,7 +85,6 @@ translations:
     - { target: 'Minimum Rating should be less than Maximum Rating', unitId: minimum_rating_should_be_less_than_maximum_rating, group: performance }
     - { target: 'Maximum Rating should be greater than Minimum Rating', unitId: maximum_rating_should_be_greater_than_minimum_rating, group: performance }
     - { target: 'Employee Performance Trackers', unitId: employee_performance_trackers, group: performance }
-    - { target: 'Trackers', unitId: trackers, group: performance }
     - { target: 'Added Date', unitId: added_date, group: performance }
     - { target: 'Modified Date', unitId: modified_date, group: performance }
     - { target: 'Employee Reviews', unitId: employee_reviews, group: performance }
