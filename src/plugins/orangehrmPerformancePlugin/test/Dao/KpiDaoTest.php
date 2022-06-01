@@ -73,7 +73,7 @@ class KpiDaoTest extends KernelTestCase
     {
         $kpiSearchFilterParams = new KpiSearchFilterParams();
         $result = $this->kpiDao->getKpiList($kpiSearchFilterParams);
-        $this->assertCount(4, $result);
+        $this->assertCount(5, $result);
         $this->assertEquals('Capacity Planning', $result[0]->getTitle());
         $this->assertEquals('Code Clarity', $result[1]->getTitle());
         $this->assertEquals(10, $result[1]->getMaxRating());
@@ -87,7 +87,7 @@ class KpiDaoTest extends KernelTestCase
     {
         $kpiSearchFilterParams = new KpiSearchFilterParams();
         $result = $this->kpiDao->getKpiCount($kpiSearchFilterParams);
-        $this->assertEquals(4, $result);
+        $this->assertEquals(5, $result);
 
         $kpiSearchFilterParams->setJobTitleId(100);
         $result = $this->kpiDao->getKpiCount($kpiSearchFilterParams);
