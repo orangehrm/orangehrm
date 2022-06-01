@@ -113,8 +113,8 @@ apiv2_performance_review:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
 
-apiv2_performance_my_tracker_logs:
-  description: 'API-v2 Performance - My Tacker Logs'
+apiv2_performance_performance_tracker_logs:
+  description: 'API-v2 Performance - Performance tracker Logs'
   api: OrangeHRM\Performance\Api\PerformanceTrackerLogAPI
   module: performance
   allowed:
