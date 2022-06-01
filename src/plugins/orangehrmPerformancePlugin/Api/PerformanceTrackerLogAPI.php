@@ -75,23 +75,20 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
         $performanceTrackerLogs = $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogsByTrackerId($performanceTrackerLogParamHolder);
-        $performanceTrackerLogCount = $this->getPerformanceTrackerLogService()
+        $performanceTrackerLogsPositiveAchievementCount = $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()
-            ->getPerformanceTrackerLogCountPerTrackerId($performanceTrackerLogParamHolder);
-        $performanceTrackerLogsPositiveRatingCount = $this->getPerformanceTrackerLogService()
+            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::POSITIVE_ACHIEVEMENT, $performanceTrackerLogParamHolder->getTrackerId());
+        $performanceTrackerLogsNegativeAchievementCount = $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()
-            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::POSITIVE_RATING, $performanceTrackerLogParamHolder->getTrackerId());
-        $performanceTrackerLogsNegativeRatingCount = $this->getPerformanceTrackerLogService()
-            ->getPerformanceTrackerLogDao()
-            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::NEGATIVE_RATING, $performanceTrackerLogParamHolder->getTrackerId());
+            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::NEGATIVE_ACHIEVEMENT, $performanceTrackerLogParamHolder->getTrackerId());
         return new EndpointCollectionResult(
             PerformanceTrackerLogModel::class,
             $performanceTrackerLogs,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_TOTAL => $performanceTrackerLogCount,
-                    self::PARAMETER_POSITIVE => $performanceTrackerLogsPositiveRatingCount,
-                    self::PARAMETER_NEGATIVE => $performanceTrackerLogsNegativeRatingCount,
+                    CommonParams::PARAMETER_TOTAL => $performanceTrackerLogsNegativeAchievementCount + $performanceTrackerLogsPositiveAchievementCount,
+                    self::PARAMETER_POSITIVE => $performanceTrackerLogsPositiveAchievementCount,
+                    self::PARAMETER_NEGATIVE => $performanceTrackerLogsNegativeAchievementCount,
                 ]
             ),
         );
@@ -197,7 +194,7 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
                 ->getPerformanceTrackerLogDao()
                 ->getPerformanceTrackerLogById($id);
             $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLog, PerformanceTrackerLog::class);
-            if ($this->checkTrackerLogEditable($performanceTrackerLog) == false) {
+            if (! $this->getTrackerLogPermission($performanceTrackerLog)->canUpdate()) {
                 throw $this->getForbiddenException();
             }
         }
@@ -225,13 +222,13 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointResult  //TODO :: ADD VALID
+    public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $performanceTrackerLog = $this->getPerformanceTrackerLogService()->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLog, PerformanceTrackerLog::class);
-        if ($this->checkTrackerLogEditable($performanceTrackerLog) == false) {
+        if (! $this->getTrackerLogPermission($performanceTrackerLog)->canUpdate()) {
             throw $this->getForbiddenException();
         }
         return new EndpointResourceResult(PerformanceTrackerLogModel::class, $performanceTrackerLog);
@@ -264,7 +261,7 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLog, PerformanceTrackerLog::class);
-        if ($this->checkTrackerLogEditable($performanceTrackerLog) == false) {
+        if (! $this->getTrackerLogPermission($performanceTrackerLog)->canUpdate()) {
             throw $this->getForbiddenException();
         }
         $this->setTrackerLogsParams($performanceTrackerLog);

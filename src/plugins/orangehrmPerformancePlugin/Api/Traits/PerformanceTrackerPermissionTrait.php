@@ -22,27 +22,16 @@ namespace OrangeHRM\Performance\Api\Traits;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceTrackerLog;
-use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 trait PerformanceTrackerPermissionTrait
 {
     use UserRoleManagerTrait;
-    use PerformanceTrackerServiceTrait;
-
-    /**
-     * @param PerformanceTrackerLog $performanceTrackerLog
-     * @return bool
-     */
-    protected function checkTrackerLogEditable(PerformanceTrackerLog $performanceTrackerLog): bool
-    {
-        return $this->getTrackerLogPermission($performanceTrackerLog)->canUpdate();
-    }
 
     /**
      * @param PerformanceTrackerLog $performanceTrackerLog
      * @return ResourcePermission
      */
-    private function getTrackerLogPermission(PerformanceTrackerLog $performanceTrackerLog): ResourcePermission
+    protected function getTrackerLogPermission(PerformanceTrackerLog $performanceTrackerLog): ResourcePermission
     {
         $self = $this->getUserRoleManagerHelper()
             ->isSelfByEmpNumber($performanceTrackerLog->getEmployee()->getEmpNumber());

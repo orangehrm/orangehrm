@@ -34,8 +34,8 @@ class PerformanceTrackerLog
 {
     use DecoratorTrait;
 
-    public const POSITIVE_RATING = 1;
-    public const NEGATIVE_RATING = 2;
+    public const POSITIVE_ACHIEVEMENT = 1;
+    public const NEGATIVE_ACHIEVEMENT = 2;
 
     public const STATUS_NOT_DELETED = 1;
     public const STATUS_DELETED = 2;

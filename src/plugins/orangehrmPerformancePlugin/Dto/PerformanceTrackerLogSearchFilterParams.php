@@ -24,7 +24,7 @@ use OrangeHRM\ORM\ListSorter;
 
 class PerformanceTrackerLogSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = [ 'ptrLog.added_date'];
+    public const ALLOWED_SORT_FIELDS = ['ptrLog.addedDate'];
 
     protected ?int $trackerId = null;
 
@@ -33,7 +33,7 @@ class PerformanceTrackerLogSearchFilterParams extends FilterParams
      */
     public function __construct()
     {
-        $this->setSortField('ptrLog.added_date');
+        $this->setSortField('ptrLog.addedDate');
         $this->setSortOrder(ListSorter::DESCENDING);
     }
 

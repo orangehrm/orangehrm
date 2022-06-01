@@ -75,40 +75,15 @@ class PerformanceTrackerLogDaoTest extends KernelTestCase
         $this->assertCount(0, $result3);
     }
 
-    public function testGetPerformanceTrackerLogCountPerTrackerId(): void
-    {
-        $existingTrackerIdWithLogs = 1;
-        $existingTrackerIdWithoutLogs = 3;
-        $nonExistentTrackerId = 4;
-
-        $performanceTrackerLogSearchFilterParams = new PerformanceTrackerLogSearchFilterParams();
-        $performanceTrackerLogSearchFilterParams->setTrackerId($existingTrackerIdWithLogs);
-        $result = $this->performanceTrackerLogDao
-            ->getPerformanceTrackerLogCountPerTrackerId($performanceTrackerLogSearchFilterParams);
-        $this->assertEquals(2, $result);
-
-        $performanceTrackerLogSearchFilterParams2 = new PerformanceTrackerLogSearchFilterParams();
-        $performanceTrackerLogSearchFilterParams2->setTrackerId($existingTrackerIdWithoutLogs);
-        $result2 = $this->performanceTrackerLogDao
-            ->getPerformanceTrackerLogCountPerTrackerId($performanceTrackerLogSearchFilterParams2);
-        $this->assertEquals(0, $result2);
-
-        $performanceTrackerLogSearchFilterParams3 = new PerformanceTrackerLogSearchFilterParams();
-        $performanceTrackerLogSearchFilterParams3->setTrackerId($nonExistentTrackerId);
-        $result3 = $this->performanceTrackerLogDao
-            ->getPerformanceTrackerLogCountPerTrackerId($performanceTrackerLogSearchFilterParams3);
-        $this->assertEquals(0, $result3);
-    }
-
     public function testGetPerformanceTrackerLogsRateCount(): void
     {
         $existingTrackerIdWithLogs = 1;
         $positiveLogs = $this->performanceTrackerLogDao
-            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::POSITIVE_RATING, $existingTrackerIdWithLogs);
+            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::POSITIVE_ACHIEVEMENT, $existingTrackerIdWithLogs);
         $this->assertEquals(1, $positiveLogs);
 
         $negativeLogs = $this->performanceTrackerLogDao
-            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::NEGATIVE_RATING, $existingTrackerIdWithLogs);
+            ->getPerformanceTrackerLogsRateCount(PerformanceTrackerLog::NEGATIVE_ACHIEVEMENT, $existingTrackerIdWithLogs);
         $this->assertEquals(1, $negativeLogs);
     }
 }

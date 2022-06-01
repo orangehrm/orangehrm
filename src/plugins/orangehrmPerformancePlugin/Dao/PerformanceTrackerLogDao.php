@@ -53,16 +53,6 @@ class PerformanceTrackerLogDao extends BaseDao
 
     /**
      * @param PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams
-     * @return int
-     */
-    public function getPerformanceTrackerLogCountPerTrackerId(PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams): int
-    {
-        $query = $this->getPerformanceTrackerLogQueryBuilder($performanceTrackerLogSearchFilterParams)->getQueryBuilder();
-        return $this->getPaginator($query)->count();
-    }
-
-    /**
-     * @param PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams
      * @return QueryBuilderWrapper
      */
     private function getPerformanceTrackerLogQueryBuilder(PerformanceTrackerLogSearchFilterParams $performanceTrackerLogSearchFilterParams): QueryBuilderWrapper
