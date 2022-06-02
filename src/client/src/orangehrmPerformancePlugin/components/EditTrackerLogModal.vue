@@ -62,6 +62,7 @@
           :label="$t('general.comment')"
           :placeholder="$t('general.type_here')"
           :rules="rules.comment"
+          required
         />
       </oxd-form-row>
       <oxd-divider />
