@@ -60,6 +60,8 @@ class PerformanceTrackerLogDao extends BaseDao
             ->setParameter('trackerId', $performanceTrackerLogSearchFilterParams->getTrackerId())
             ->andWhere('ptrLog.status = :notDeletedStatus')
             ->setParameter('notDeletedStatus', PerformanceTrackerLog::STATUS_NOT_DELETED);
+
+        $this->setSortingAndPaginationParams($q, $performanceTrackerLogSearchFilterParams);
         return $this->getQueryBuilderWrapper($q);
     }
 

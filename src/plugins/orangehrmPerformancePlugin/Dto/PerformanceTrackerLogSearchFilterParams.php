@@ -28,9 +28,6 @@ class PerformanceTrackerLogSearchFilterParams extends FilterParams
 
     protected ?int $trackerId = null;
 
-    /**
-     * @param int|null $trackerId
-     */
     public function __construct()
     {
         $this->setSortField('ptrLog.addedDate');
