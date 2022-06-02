@@ -190,11 +190,10 @@ Cypress.Commands.add(
     cy.wrap(element, {log: false})
       .click('center', {log: false})
       .then(($el) => {
-        console.log($el);
-        cy.wrap($el.closest(OXD_ELEMENTS.selectWrapper), {log: true})
-          .find(OXD_ELEMENTS.option, {log: true})
-          .contains(value, {log: true})
-          .click('center', {log: true});
+        cy.wrap($el.closest(OXD_ELEMENTS.selectWrapper), {log: false})
+          .find(OXD_ELEMENTS.option, {log: false})
+          .contains(value, {log: false})
+          .click('center', {log: false});
       });
 
     cy.on('fail', (err) => {
