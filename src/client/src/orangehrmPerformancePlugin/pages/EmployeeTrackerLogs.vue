@@ -270,7 +270,7 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.trackerName = data.title;
+        this.trackerName = data.trackerName;
         this.employeeName = `${data.employee.firstName} ${
           data.employee.lastName
         } ${

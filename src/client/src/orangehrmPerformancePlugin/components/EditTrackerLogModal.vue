@@ -141,7 +141,7 @@ export default {
         const {data} = response.data;
         this.trackerLog.log = data.log;
         this.trackerLog.comment = data.comment;
-        this.rating = data.achievement === 1;
+        this.rating = data.achievement === '1';
       })
       .finally(() => {
         this.isLoading = false;

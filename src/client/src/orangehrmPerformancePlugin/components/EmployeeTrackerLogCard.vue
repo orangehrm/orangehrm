@@ -48,10 +48,10 @@
               type="svg"
               :class="{
                 'orangehrm-employee-tracker-log-title-icon': true,
-                '--positive': trackerLog.achievement === 1,
-                '--negative': trackerLog.achievement === 2,
+                '--positive': trackerLog.achievement === '1',
+                '--negative': trackerLog.achievement === '2',
               }"
-              :name="`thumbs${trackerLog.achievement === 1 ? 'up' : 'down'}`"
+              :name="`thumbs${trackerLog.achievement === '1' ? 'up' : 'down'}`"
             />
           </div>
           <oxd-dropdown
