@@ -82,19 +82,21 @@
           <required-text />
           <div class="orangehrm-button-row">
             <oxd-button
+              class="orangehrm-button"
               display-type="ghost"
               :label="$t('general.cancel')"
               type="button"
               @click="onCancel"
             />
             <oxd-button
+              class="orangehrm-button"
               display-type="ghost"
               :label="$t('general.save')"
               type="submit"
               @click="onSave(false)"
             />
             <oxd-button
-              class="orangehrm-left-space"
+              class="orangehrm-button"
               display-type="secondary"
               :label="$t('performance.activate')"
               type="button"
