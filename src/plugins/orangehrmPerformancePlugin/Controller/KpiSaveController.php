@@ -23,11 +23,11 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Performance\Dao\KpiDao;
+use OrangeHRM\Performance\Traits\Service\KpiServiceTrait;
 
 class KpiSaveController extends AbstractVueController
 {
-    private ?KpiDao $kpiDao = null;
+    use KpiServiceTrait;
 
     /**
      * @inheritDoc
@@ -41,23 +41,12 @@ class KpiSaveController extends AbstractVueController
         } else {
             $component = new Component('kpi-save');
 
-            $defaultKpi = $this->getKpiDao()->getDefaultKpi();
+            $defaultKpi = $this->getKpiService()->getKpiDao()->getDefaultKpi();
             if ($defaultKpi) {
                 $component->addProp(new Prop('default-min-rating', Prop::TYPE_NUMBER, $defaultKpi->getMinRating()));
                 $component->addProp(new Prop('default-max-rating', Prop::TYPE_NUMBER, $defaultKpi->getMaxRating()));
             }
         }
         $this->setComponent($component);
-    }
-
-    /**
-     * @return KpiDao
-     */
-    private function getKpiDao(): KpiDao
-    {
-        if (!$this->kpiDao instanceof KpiDao) {
-            $this->kpiDao = new KpiDao();
-        }
-        return $this->kpiDao;
     }
 }
