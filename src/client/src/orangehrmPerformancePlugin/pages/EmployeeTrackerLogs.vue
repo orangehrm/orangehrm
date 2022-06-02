@@ -106,7 +106,7 @@
           class="orangehrm-employee-tracker-no-records"
         >
           <oxd-text>
-            No Records Found
+            {{ $t('general.n_records_found', {count: 0}) }}
           </oxd-text>
         </div>
         <oxd-loading-spinner

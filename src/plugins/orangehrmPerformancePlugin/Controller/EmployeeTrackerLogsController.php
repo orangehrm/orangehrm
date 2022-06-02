@@ -25,11 +25,11 @@ use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 class EmployeeTrackerLogsController extends AbstractVueController
 {
-    private ?PerformanceTrackerDao $performanceTrackerDao = null;
+    use PerformanceTrackerServiceTrait;
 
     /**
      * @inheritDoc
@@ -38,7 +38,7 @@ class EmployeeTrackerLogsController extends AbstractVueController
     {
         $id = $request->attributes->getInt('id');
         $component = new Component('employee-tracker-logs');
-        $tracker = $this->getPerformanceTrackerDao()->getPerformanceTrack($id);
+        $tracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTrack($id);
 
         if (!is_null($tracker)) {
             $component->addProp(new Prop('tracker-id', Prop::TYPE_NUMBER, $tracker->getId()));
@@ -48,16 +48,5 @@ class EmployeeTrackerLogsController extends AbstractVueController
         }
 
         $this->setComponent($component);
-    }
-
-    /**
-     * @return PerformanceTrackerDao
-     */
-    private function getPerformanceTrackerDao(): PerformanceTrackerDao
-    {
-        if (!$this->performanceTrackerDao instanceof PerformanceTrackerDao) {
-            $this->performanceTrackerDao = new PerformanceTrackerDao();
-        }
-        return $this->performanceTrackerDao;
     }
 }
