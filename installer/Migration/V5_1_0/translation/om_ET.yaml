@@ -8,7 +8,6 @@ translations:
     - { target: 'Calallii', unitId: shortlist, group: recruitment }
     - { target: 'Haala amma irra jiru', unitId: current_status, group: recruitment }
     - { target: 'Gocha Raawwatame', unitId: performed_action, group: recruitment }
-    - { target: 'Kan Raawwate', unitId: performed_by, group: recruitment }
     - { target: 'Guyyaa Raawwatame', unitId: performed_date, group: recruitment }
     - { target: "Ta'iiwwan Seenaa Mul'isi", unitId: view_action_history, group: recruitment }
     - { target: 'Iddoo Hojii Banaa', unitId: vacancy, group: recruitment }

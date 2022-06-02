@@ -4,7 +4,6 @@ translations:
     - { target: 'กำหนดการสอบสัมภาษณ์', unitId: schedule_interview, group: recruitment }
     - { target: 'สถานะปัจจุบัน', unitId: current_status, group: recruitment }
     - { target: 'การดำเนินการที่ได้ทำไป', unitId: performed_action, group: recruitment }
-    - { target: 'ดำเนินการโดย', unitId: performed_by, group: recruitment }
     - { target: 'วันที่ดำเนินการ', unitId: performed_date, group: recruitment }
     - { target: 'ดูการกระทำก่อนหน้านี้', unitId: view_action_history, group: recruitment }
     - { target: 'ตำแหน่งที่ว่าง', unitId: vacancy, group: recruitment }

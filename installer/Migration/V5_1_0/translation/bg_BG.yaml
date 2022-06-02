@@ -21,7 +21,6 @@ translations:
     - { target: 'Кратък списък', unitId: shortlist, group: recruitment }
     - { target: 'Текущ статус', unitId: current_status, group: recruitment }
     - { target: 'Извършва действие', unitId: performed_action, group: recruitment }
-    - { target: 'Извършва се от', unitId: performed_by, group: recruitment }
     - { target: 'Извършва Дата', unitId: performed_date, group: recruitment }
     - { target: 'Преглед на История за действие', unitId: view_action_history, group: recruitment }
     - { target: Април, unitId: april, group: general }

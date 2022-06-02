@@ -5,7 +5,6 @@ translations:
     - { target: '最后的候选人名单', unitId: shortlist, group: recruitment }
     - { target: '现状', unitId: current_status, group: recruitment }
     - { target: '执行了动作', unitId: performed_action, group: recruitment }
-    - { target: '执行者', unitId: performed_by, group: recruitment }
     - { target: '执行的日期', unitId: performed_date, group: recruitment }
     - { target: '查看行动历史', unitId: view_action_history, group: recruitment }
     - { target: '空缺职位', unitId: vacancy, group: recruitment }

@@ -32,6 +32,7 @@ class Migration extends AbstractMigration
     public function up(): void
     {
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+        $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
         $this->addValidColumnToRequestResetPassword();
 
         $this->getConnection()->executeStatement(
@@ -45,6 +46,14 @@ class Migration extends AbstractMigration
             ['onCascade' => 'DELETE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_kpi', $kpiForeignKeyConstraint);
+
+        $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.action_url ', ':actionUrl')
+            ->setParameter('actionUrl', 'searchPerformanceReview')
+            ->andWhere('screen.name  = :name')
+            ->setParameter('name', 'Search Performance Review')
+            ->executeQuery();
 
         $groups = ['recruitment', 'performance'];
         foreach ($groups as $group) {
