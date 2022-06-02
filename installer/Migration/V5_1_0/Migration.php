@@ -91,30 +91,40 @@ class Migration extends AbstractMigration
             $this->getTranslationHelper()->addTranslations($langCode);
         }
 
-        $performanceModuleId = $this->createQueryBuilder()
-            ->select('module.id')
-            ->from('ohrm_module', 'module')
-            ->andWhere('module.name = :module')
-            ->setParameter('module', 'performance')
-            ->executeQuery()
-            ->fetchOne();
+        $performanceModuleId = $this->getDataGroupHelper()->getModuleIdByName('performance');
 
-        $this->insertModuleDefaultPage($performanceModuleId, 1, 'performance/searchEvaluatePerformancReview', 20);
-        $this->insertModuleDefaultPage($performanceModuleId, 3, 'performance/searchEvaluatePerformancReview', 10);
-        $this->insertModuleDefaultPage($performanceModuleId, 2, 'performance/myPerformanceReview', 0);
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('Admin'),
+            'performance/searchEvaluatePerformancReview',
+            20
+        );
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'),
+            'performance/searchEvaluatePerformancReview',
+            20
+        );
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('ESS'),
+            'performance/myPerformanceReview',
+            0
+        );
 
-        $reviewListScreenId = $this->createQueryBuilder()
-            ->select('screen.id')
-            ->from('ohrm_screen', 'screen')
-            ->andWhere('screen.name = :screenName')
-            ->setParameter('screenName', 'Search Evaluate Performance')
-            ->executeQuery()
-            ->fetchOne();
+        $reviewListScreenId = $this->getDataGroupHelper()
+            ->getScreenIdByModuleAndUrl(
+                $performanceModuleId,
+                'searchEvaluatePerformancReview',
+            );
 
         $this->createQueryBuilder()
             ->update('ohrm_user_role_screen', 'userRoleScreen')
             ->set('userRoleScreen.user_role_id', ':userRoleId')
-            ->setParameter('userRoleId', 3)
+            ->setParameter(
+                'userRoleId',
+                $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor')
+            )
             ->andWhere('userRoleScreen.screen_id = :screenId')
             ->setParameter('screenId', $reviewListScreenId)
             ->executeQuery();
