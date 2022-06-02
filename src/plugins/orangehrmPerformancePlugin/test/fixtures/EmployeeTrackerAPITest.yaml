@@ -28,10 +28,10 @@ User:
   - { "id": 3,"user_role_id": 2,"emp_number": 5,"user_name": "anika","user_password": "$2y$12$quEtkVtd0QKu3.LHlIQJQefGzsTKk1ymZ2jjAV5Ns4izu.bUrEOXi","deleted": 0,"status": 1,"date_entered": "2022-05-06 02:45:16","date_modified": null,"modified_user_id": null,"created_by": 1 }
 
 PerformanceTracker:
-  - { "id": 1,"emp_number": 2,"tracker_name": "Tracker Emp 2","added_date": "2022-05-05 15:02:57","added_by": 1,"status": null,"modified_date": "2022-05-05 15:18:15" }
-  - { "id": 2,"emp_number": 1,"tracker_name": "Tracker Emp 1","added_date": "2022-05-05 15:03:16","added_by": 1,"status": null,"modified_date": null }
-  - { "id": 3,"emp_number": 3,"tracker_name": "Tracker Emp 3","added_date": "2022-05-02 17:20:56","added_by": 1,"status": null,"modified_date": null }
-  - { "id": 4,"emp_number": 4,"tracker_name": "Tracker Emp 4","added_date": "2022-05-04 17:31:59","added_by": 1,"status": null,"modified_date": "2022-05-06 17:32:19" }
+  - { "id": 1,"emp_number": 2,"tracker_name": "Tracker Emp 2","added_date": "2022-05-05 15:02:57","added_by": 1,"status": 1,"modified_date": "2022-05-05 15:18:15" }
+  - { "id": 2,"emp_number": 1,"tracker_name": "Tracker Emp 1","added_date": "2022-05-05 15:03:16","added_by": 1,"status": 1,"modified_date": null }
+  - { "id": 3,"emp_number": 3,"tracker_name": "Tracker Emp 3","added_date": "2022-05-02 17:20:56","added_by": 1,"status": 1,"modified_date": null }
+  - { "id": 4,"emp_number": 4,"tracker_name": "Tracker Emp 4","added_date": "2022-05-04 17:31:59","added_by": 1,"status": 1,"modified_date": "2022-05-06 17:32:19" }
   - { "id": 5,"emp_number": 5,"tracker_name": "Tracker Emp 5","added_date": "2022-05-06 21:47:23","added_by": 1,"status": 1,"modified_date": "2022-05-06 23:47:42" }
 
 PerformanceTrackerReviewer:

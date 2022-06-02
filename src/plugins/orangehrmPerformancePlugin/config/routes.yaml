@@ -97,7 +97,7 @@ apiv2_performance_tracker_logs:
     _api: OrangeHRM\Performance\Api\PerformanceTrackerLogAPI
 
 apiv2_performance_tracker_log:
-  path: api/v2/performance/trackers/{trackerId}/log/{id}
+  path: api/v2/performance/trackers/{trackerId}/logs/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET,PUT]
   defaults:
@@ -170,4 +170,9 @@ performance_review_list:
 performance_review_search:
   path: /performance/searchPerformanceReview
   controller: OrangeHRM\Performance\Controller\ReviewSearchController::handle
+  methods: [ GET ]
+
+performance_employee_tracker_logs:
+  path: /performance/addPerformanceTrackerLog/trackId/{id}
+  controller: OrangeHRM\Performance\Controller\EmployeeTrackerLogsController::handle
   methods: [ GET ]

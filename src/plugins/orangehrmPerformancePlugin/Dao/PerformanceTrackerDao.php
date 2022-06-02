@@ -281,6 +281,8 @@ class PerformanceTrackerDao extends BaseDao
             $qb->setParameter('nameOrId', '%' . $employeeTrackerSearchFilterParams->getNameOrId() . '%');
         }
 
+        $qb->andWhere($qb->expr()->eq('tracker.status', ':status'))
+            ->setParameter('status', PerformanceTracker::STATUS_TRACKER_NOT_DELETED);
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
         $this->setSortingAndPaginationParams($qb, $employeeTrackerSearchFilterParams);
 
