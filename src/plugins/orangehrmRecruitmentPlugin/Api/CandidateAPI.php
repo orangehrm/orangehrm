@@ -39,6 +39,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
@@ -312,10 +313,19 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $candidate = $this->getCandidateService()->getCandidateDao()->saveCandidate($candidate);
             $lastInsertedCandidateId = $candidate->getId();
 
+            $candidateHistory = new CandidateHistory();
+            $this->setCommonCandidateHistoryAttributes(
+                $candidateHistory,
+                $lastInsertedCandidateId,
+                CandidateService::RECRUITMENT_CANDIDATE_ACTION_ADD
+            );
+            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
+
             $vacancyId = $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_VACANCY_ID
             );
+
             if (!is_null($vacancyId)) {
                 $candidateVacancy = new CandidateVacancy();
                 $this->setCandidateVacancy(
@@ -324,6 +334,16 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                     CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
                 );
                 $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($candidateVacancy);
+
+                $candidateHistory = new CandidateHistory();
+                $this->setCommonCandidateHistoryAttributes(
+                    $candidateHistory,
+                    $lastInsertedCandidateId,
+                    WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY
+                );
+                $candidateHistory->getDecorator()->setVacancyById($vacancyId);
+                $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
+                $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
             }
 
             $this->commitTransaction();
@@ -429,6 +449,22 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         $candidateVacancy->getDecorator()->setVacancyById($vacancyId);
         $candidateVacancy->setStatus($status);
         $candidateVacancy->setAppliedDate($this->getDateTimeHelper()->getNow());
+    }
+
+    /**
+     * @param CandidateHistory $candidateHistory
+     * @param int $candidateId
+     * @param int $action
+     */
+    private function setCommonCandidateHistoryAttributes(
+        CandidateHistory $candidateHistory,
+        int $candidateId,
+        int $action
+    ): void {
+        $candidateHistory->getDecorator()->setCandidateById($candidateId);
+        $candidateHistory->setAction($action);
+        $candidateHistory->getDecorator()->setPerformedBy($this->getAuthUser()->getEmpNumber());
+        $candidateHistory->setPerformedDate($this->getDateTimeHelper()->getNow());
     }
 
     /**
