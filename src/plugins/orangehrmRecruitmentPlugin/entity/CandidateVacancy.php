@@ -35,14 +35,13 @@ class CandidateVacancy
 
     /**
      * @var int
-     * @ORM\Id
      * @ORM\Column(name="id", type="integer", length=13)
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
 
     /**
      * @var Candidate
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Candidate", inversedBy="candidateVacancy", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="candidate_id", referencedColumnName="id")
      */
@@ -50,6 +49,7 @@ class CandidateVacancy
 
     /**
      * @var Vacancy
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Vacancy", inversedBy="candidateVacancy", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="vacancy_id", referencedColumnName="id")
      */

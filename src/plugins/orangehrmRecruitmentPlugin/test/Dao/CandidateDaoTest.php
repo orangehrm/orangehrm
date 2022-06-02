@@ -23,9 +23,11 @@ use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Recruitment\Dao\CandidateDao;
 use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -225,5 +227,23 @@ class CandidateDaoTest extends KernelTestCase
         $this->assertEquals('John', $candidateList[0]->getFirstName());
         $this->assertEquals('Jo', $candidateList[1]->getFirstName());
         $this->assertNull($candidateList[0]->getCandidateVacancy()[0]);
+    }
+
+    public function testSaveCandidateHistory(): void
+    {
+        $candidateVacancy = $this->candidateDao->getCandidateVacancyByCandidateId(1);
+        $candidateHistory = new CandidateHistory();
+        $candidateHistory->getDecorator()->setCandidateById(1);
+        $candidateHistory->getDecorator()->setVacancyById($candidateVacancy->getVacancy()->getId());
+        $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
+        $candidateHistory->setAction(WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT);
+        $candidateHistory->getDecorator()->setPerformedBy(1);
+        $candidateHistory->setPerformedDate(new DateTime('2022-06-01'));
+        $candidateHistory->setNote('Rejected effect from 2022-06-01');
+        $result = $this->candidateDao->saveCandidateHistory($candidateHistory);
+        $this->assertInstanceOf(CandidateHistory::class, $result);
+        $this->assertInstanceOf(Vacancy::class, $result->getVacancy());
+        $this->assertEquals('Rejected effect from 2022-06-01', $result->getNote());
+        $this->assertEquals(3, $result->getAction());
     }
 }

@@ -38,11 +38,11 @@ use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
-use OrangeHRM\Recruitment\Api\Model\DefaultCandidateHistoryModel;
+use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDefaultModel;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
-class RejectCandidateAPI extends Endpoint implements ResourceEndpoint
+class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
 {
     use CandidateServiceTrait;
     use EntityManagerHelperTrait;
@@ -107,7 +107,7 @@ class RejectCandidateAPI extends Endpoint implements ResourceEndpoint
             $result = $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
 
             $this->commitTransaction();
-            return new EndpointResourceResult(DefaultCandidateHistoryModel::class, $result);
+            return new EndpointResourceResult(CandidateHistoryDefaultModel::class, $result);
         } catch (RecordNotFoundException $e) {
             $this->rollBackTransaction();
             throw $e;

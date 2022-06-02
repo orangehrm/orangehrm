@@ -1,0 +1,48 @@
+Update:
+  'Reject candidate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 1
+    body:
+      note: 'Rejected since not answering the phone'
+    "data":
+      {
+        "id": 1,
+        "candidate": {
+          "id": 1,
+          "firstName": "Peter",
+          "middleName": "",
+          "lastName": "Smith"
+        },
+        "Vacancy": {
+          "id": 1,
+          "name": "Technical Assistant Intern",
+          "hiringManager": {
+            "empNumber": "1",
+            "firstName": "Kayla",
+            "middleName": "T",
+            "lastName": "Abbey",
+            "employeeTerminationRecord": null
+          }
+        },
+        "note": 'Rejected since not answering the phone',
+        "action": {
+          "id": 3,
+          "label": "Rejected"
+        }
+      }
+    "meta": [ ]
+
+  'Reject candidate - non existing candidate id':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    attributes:
+      candidateId: 100
+    body:
+      note: 'Rejected since not answering the phone'
+    invalidOnly: [ 'candidateId' ]

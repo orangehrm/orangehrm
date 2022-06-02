@@ -227,7 +227,7 @@ apiv2_recruitment_candidate_allowed_actions:
 
 apiv2_recruitment_reject_candidate:
   description: 'API-v2 Recruitment - Reject Candidate'
-  api: OrangeHRM\Recruitment\Api\RejectCandidateAPI
+  api: OrangeHRM\Recruitment\Api\CandidateRejectAPI
   module: recruitment
   allowed:
     read: false

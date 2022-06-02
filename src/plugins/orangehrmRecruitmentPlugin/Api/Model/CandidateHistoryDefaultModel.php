@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\CandidateHistory;
 
-class DefaultCandidateHistoryModel implements Normalizable
+class CandidateHistoryDefaultModel implements Normalizable
 {
     use ModelTrait;
 
@@ -38,11 +38,14 @@ class DefaultCandidateHistoryModel implements Normalizable
             ['getCandidate', 'getLastName'],
             ['getVacancy', 'getId'],
             ['getVacancy', 'getName'],
+            ['getVacancy', 'getHiringManager', 'getEmpNumber'],
             ['getVacancy', 'getHiringManager', 'getFirstName'],
             ['getVacancy', 'getHiringManager', 'getMiddleName'],
             ['getVacancy', 'getHiringManager', 'getLastName'],
             ['getVacancy', 'getHiringManager', 'getEmployeeTerminationRecord'],
             'note',
+            'action',
+            ['getDecorator', 'getCandidateHistoryAction'],
         ]);
 
         $this->setAttributeNames([
@@ -59,6 +62,8 @@ class DefaultCandidateHistoryModel implements Normalizable
             ['Vacancy', 'hiringManager', 'lastName'],
             ['Vacancy', 'hiringManager', 'employeeTerminationRecord'],
             'note',
+            ['action', 'id'],
+            ['action', 'label']
         ]);
     }
 }

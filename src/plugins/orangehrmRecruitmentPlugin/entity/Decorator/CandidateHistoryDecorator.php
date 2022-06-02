@@ -25,6 +25,7 @@ use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Recruitment\Service\CandidateService;
 
 class CandidateHistoryDecorator
 {
@@ -77,5 +78,14 @@ class CandidateHistoryDecorator
     {
         $performedBy = $this->getReference(Employee::class, $id);
         $this->candidateHistory->setPerformedBy($performedBy);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCandidateHistoryAction(): string
+    {
+        $actionId = $this->candidateHistory->getAction();
+        return ucwords(strtolower(CandidateService::STATUS_MAP[$actionId]));
     }
 }
