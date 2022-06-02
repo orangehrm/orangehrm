@@ -22,39 +22,34 @@ namespace OrangeHRM\Performance\Dto;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\ORM\ListSorter;
 
-class PerformanceTrackerSearchFilterParams extends FilterParams
+class PerformanceTrackerLogSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = [
-        'performanceTracker.trackerName',
-        'performanceTracker.addedDate',
-        'employee.empNumber', 'employee.lastName',
-        'performanceTracker.modifiedDate'
-    ];
+    public const ALLOWED_SORT_FIELDS = ['ptrLog.addedDate'];
+
+    protected ?int $trackerId = null;
 
     /**
-     * @var int|null
+     * @param int|null $trackerId
      */
-    protected ?int $empNumber = null;
-
     public function __construct()
     {
-        $this->setSortField('performanceTracker.modifiedDate');
+        $this->setSortField('ptrLog.addedDate');
         $this->setSortOrder(ListSorter::DESCENDING);
     }
 
     /**
      * @return int|null
      */
-    public function getEmpNumber(): ?int
+    public function getTrackerId(): ?int
     {
-        return $this->empNumber;
+        return $this->trackerId;
     }
 
     /**
-     * @param int|null $empNumber
+     * @param int|null $trackerId
      */
-    public function setEmpNumber(?int $empNumber): void
+    public function setTrackerId(?int $trackerId): void
     {
-        $this->empNumber = $empNumber;
+        $this->trackerId = $trackerId;
     }
 }

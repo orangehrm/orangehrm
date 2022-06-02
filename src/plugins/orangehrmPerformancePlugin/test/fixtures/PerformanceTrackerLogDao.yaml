@@ -1,0 +1,26 @@
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "DS","emp_firstname": "Devi" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Perera","emp_firstname": "Sharuka" }
+  - { "emp_number": 3,"employee_id": "0004","emp_lastname": "Gamage","emp_firstname": "Chenuka" }
+
+UserRole:
+  - {"id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1}
+  - {"id": 2,"name": "ESS","display_name": "ESS","is_assignable": 1,"is_predefined": 1}
+
+User:
+  - {"id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","user_password": "$2y$12$UWOju9mkaVMNzxiRNuXDQuZ.6sNi5cpi.4StNTc21yzsHWf1Dxer.","deleted": 0,"status": 1,"date_entered": "2022-05-05 21:27:53","date_modified": null,"modified_user_id": null,"created_by": 1}
+  - {"id": 2,"user_role_id": 2,"emp_number": 2,"user_name": "sharuka","user_password": "$2y$12$9KOPXLlc.CFMahfWFalWheX.IVLE8Gqa1VQzK.7nqXbulCX0nlQzm","deleted": 0,"status": 1,"date_entered": "2022-05-06 01:09:06","date_modified": null,"modified_user_id": null,"created_by": 1}
+
+PerformanceTracker:
+  - { "id": 1,"emp_number": 2,"tracker_name": "Tracker 1","added_date": "2022-05-03 22:45:06","added_by": 1,"status": 1,"modified_date": "2022-05-03 22:55:42" }
+  - { "id": 2,"emp_number": 3,"tracker_name": "Tracker 2","added_date": "2022-05-05 17:28:39","added_by": 1,"status": 1,"modified_date": null }
+  - { "id": 3,"emp_number": 1,"tracker_name": "Tracker 3","added_date": "2022-05-05 18:49:49","added_by": 1,"status": 1,"modified_date": "2022-05-05 18:49:59" }
+
+PerformanceTrackerReviewer:
+  - {"id": 1,"performance_track_id": 2,"reviewer_id": 2,"added_date": "2022-05-05 18:53:27","status": 1}
+  - {"id": 2,"performance_track_id": 3,"reviewer_id": 2,"added_date": "2022-05-05 18:55:27","status": 1}
+
+PerformanceTrackerLog:
+  0: {id: 1, performance_track_id: 1, reviewer_id: 2, added_date: '2021-12-12', status: 1,achievement: 1, comment: 'test comment by 2', log: 'log by 2',  modified_date: '2022-02-12'}
+  1: {id: 2, performance_track_id: 1, reviewer_id: 3, added_date: '2021-12-12', status: 1,achievement: 2, comment: 'test comment by 3', log: 'log by 3',  modified_date: '2011-12-12'}
+  2: {id: 3, performance_track_id: 2, reviewer_id: 3, added_date: '2021-12-12', status: 1,achievement: 1, comment: 'test comment by 3', log: 'log by 3',  modified_date: '2011-12-12'}

@@ -208,7 +208,7 @@ export default {
         },
         {
           name: 'title',
-          title: this.$t('performance.trackers'),
+          title: this.$t('general.trackers'),
           sortField: 'tracker.trackerName',
           style: {flex: 2},
         },

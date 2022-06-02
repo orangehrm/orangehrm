@@ -17,44 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Dto;
+namespace OrangeHRM\Performance\Service;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Performance\Dao\PerformanceTrackerLogDao;
 
-class PerformanceTrackerSearchFilterParams extends FilterParams
+class PerformanceTrackerLogService
 {
-    public const ALLOWED_SORT_FIELDS = [
-        'performanceTracker.trackerName',
-        'performanceTracker.addedDate',
-        'employee.empNumber', 'employee.lastName',
-        'performanceTracker.modifiedDate'
-    ];
+    /**
+     * @var PerformanceTrackerLogDao|null
+     */
+    private ?PerformanceTrackerLogDao $performanceTrackerLogDao = null;
 
     /**
-     * @var int|null
+     * @return PerformanceTrackerLogDao
      */
-    protected ?int $empNumber = null;
-
-    public function __construct()
+    public function getPerformanceTrackerLogDao(): PerformanceTrackerLogDao
     {
-        $this->setSortField('performanceTracker.modifiedDate');
-        $this->setSortOrder(ListSorter::DESCENDING);
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEmpNumber(): ?int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int|null $empNumber
-     */
-    public function setEmpNumber(?int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
+        if (!($this->performanceTrackerLogDao instanceof PerformanceTrackerLogDao)) {
+            $this->performanceTrackerLogDao = new PerformanceTrackerLogDao();
+        }
+        return $this->performanceTrackerLogDao;
     }
 }

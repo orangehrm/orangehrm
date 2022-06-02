@@ -17,44 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Dto;
+namespace OrangeHRM\Performance\Api\Traits;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\PerformanceTrackerLog;
 
-class PerformanceTrackerSearchFilterParams extends FilterParams
+trait PerformanceTrackerPermissionTrait
 {
-    public const ALLOWED_SORT_FIELDS = [
-        'performanceTracker.trackerName',
-        'performanceTracker.addedDate',
-        'employee.empNumber', 'employee.lastName',
-        'performanceTracker.modifiedDate'
-    ];
+    use UserRoleManagerTrait;
 
     /**
-     * @var int|null
+     * @param PerformanceTrackerLog $performanceTrackerLog
+     * @return ResourcePermission
      */
-    protected ?int $empNumber = null;
-
-    public function __construct()
+    protected function getTrackerLogPermission(PerformanceTrackerLog $performanceTrackerLog): ResourcePermission
     {
-        $this->setSortField('performanceTracker.modifiedDate');
-        $this->setSortOrder(ListSorter::DESCENDING);
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEmpNumber(): ?int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int|null $empNumber
-     */
-    public function setEmpNumber(?int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
+        $self = $this->getUserRoleManagerHelper()
+            ->isSelfByEmpNumber($performanceTrackerLog->getEmployee()->getEmpNumber());
+        return $this->getUserRoleManager()->getDataGroupPermissions(
+            'performance_tracker_log',
+            [],
+            [],
+            $self,
+            []
+        );
     }
 }

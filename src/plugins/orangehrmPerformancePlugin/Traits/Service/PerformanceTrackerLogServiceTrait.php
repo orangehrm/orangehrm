@@ -17,44 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Dto;
+namespace OrangeHRM\Performance\Traits\Service;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Performance\Service\PerformanceTrackerLogService;
 
-class PerformanceTrackerSearchFilterParams extends FilterParams
+trait PerformanceTrackerLogServiceTrait
 {
-    public const ALLOWED_SORT_FIELDS = [
-        'performanceTracker.trackerName',
-        'performanceTracker.addedDate',
-        'employee.empNumber', 'employee.lastName',
-        'performanceTracker.modifiedDate'
-    ];
+    use ServiceContainerTrait;
 
     /**
-     * @var int|null
+     * @return PerformanceTrackerLogService
      */
-    protected ?int $empNumber = null;
-
-    public function __construct()
+    protected function getPerformanceTrackerLogService(): PerformanceTrackerLogService
     {
-        $this->setSortField('performanceTracker.modifiedDate');
-        $this->setSortOrder(ListSorter::DESCENDING);
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEmpNumber(): ?int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int|null $empNumber
-     */
-    public function setEmpNumber(?int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
+        return $this->getContainer()->get(Services::PERFORMANCE_TRACKER_LOG_SERVICE);
     }
 }
