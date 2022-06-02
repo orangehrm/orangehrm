@@ -20,10 +20,25 @@
 
 namespace OrangeHRM\Recruitment\Service;
 
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Recruitment\Dao\CandidateDao;
 
 class CandidateService
 {
+    public const STATUS_MAP = [
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY => 'APPLICATION INITIATED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST => 'SHORTLISTED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT => 'REJECTED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW => 'INTERVIEW SCHEDULED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED => 'INTERVIEW PASSED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED => 'INTERVIEW FAILED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB => 'JOB OFFERED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER => 'OFFER DECLINED',
+        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE => 'HIRED',
+    ];
+
+    public const RECRUITMENT_CANDIDATE_ACTION_ADD = 16;
+
     protected ?CandidateDao $candidateDao = null;
 
     /**

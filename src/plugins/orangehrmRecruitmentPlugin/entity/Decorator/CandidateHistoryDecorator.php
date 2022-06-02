@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity\Decorator;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\Vacancy;
 
@@ -67,5 +68,14 @@ class CandidateHistoryDecorator
     {
         $interview = $this->getReference(Interview::class, $id);
         $this->candidateHistory->setInterview($interview);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setPerformedBy(int $id): void
+    {
+        $performedBy = $this->getReference(Employee::class, $id);
+        $this->candidateHistory->setPerformedBy($performedBy);
     }
 }

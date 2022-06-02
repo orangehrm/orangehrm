@@ -87,10 +87,10 @@ class Interview
     private ?string $note;
 
     /**
-     * @ManyToMany(targetEntity="OrangeHRM\Entity\Employee")
-     * @JoinTable(name="ohrm_job_interview_interviewer",
-     *      joinColumns={@JoinColumn(name="interview_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="interviewer_id", referencedColumnName="emp_number")}
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinTable(name="ohrm_job_interview_interviewer",
+     *      joinColumns={@ORM\JoinColumn(name="interview_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="interviewer_id", referencedColumnName="emp_number")}
      *      )
      */
     private iterable $interviewers;

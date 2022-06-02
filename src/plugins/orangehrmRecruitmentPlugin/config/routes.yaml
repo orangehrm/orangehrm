@@ -89,6 +89,14 @@ apiv2_recruitment_candidates_allowed_actions:
     _api: OrangeHRM\Recruitment\Api\CandidateAllowedActionsAPI
     _key: id
 
+apiv2_recrutiment_candidates_reject:
+  path: /api/v2/recruitment/candidates/{candidateId}/reject
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\RejectCandidateAPI
+    _key: id
+
 ##########################
 #        Files
 ##########################
