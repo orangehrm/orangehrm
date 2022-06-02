@@ -1,0 +1,289 @@
+GetOne:
+  'get one performance tracker log':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+      trackerId: 1
+    data:
+      "id": 1
+      "log": "log by 2"
+      "comment": "test comment by 2"
+      "achievement": "1"
+      "addedDate": "2021-12-12"
+      "modifiedDate": "2022-02-12"
+      "reviewer":
+        "empNumber": 2
+        "lastName": "Perera"
+        "firstName": "Sharuka"
+        "middleName": null
+        "terminationId": null
+      "editable": true
+
+  'non existent tracker log':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+    attributes:
+      id: 10
+      trackerId: 1
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: 'Record Not Found'
+
+GetAll:
+  'Get all logs of existing tracker':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      trackerId: 1
+    data:
+      0:
+        "id": 1
+        "log": "log by 2"
+        "comment": "test comment by 2"
+        "achievement": "1"
+        "addedDate": "2021-12-12"
+        "modifiedDate": "2022-02-12"
+        "reviewer":
+          "empNumber": 2
+          "lastName": "Perera"
+          "firstName": "Sharuka"
+          "middleName": null
+          "terminationId": null
+        "editable": true
+      1:
+        "id": 2
+        "log": "log by 3"
+        "comment": "test comment by 3"
+        "achievement": "2"
+        "addedDate": "2021-12-12"
+        "modifiedDate": "2021-12-12"
+        "reviewer":
+          "empNumber": 3
+          "lastName": "Gamage"
+          "firstName": "Chenuka"
+          "middleName": null
+          "terminationId": null
+        "editable": true
+    meta:
+      total: 2
+      positive: 1
+      negative: 1
+
+Create:
+  'create tracker log':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-27'
+    attributes:
+      trackerId: 2
+    body:
+      "log": "Log Create"
+      "achievement": 2
+      "comment": "Test logs create"
+    query: [ ]
+    data:
+      "id": 6
+      "log": "Log Create"
+      "comment": "Test logs create"
+      "achievement": "2"
+      "addedDate": "2022-05-27"
+      "modifiedDate": null
+      "reviewer":
+        "empNumber": 1
+        "lastName": "DS"
+        "firstName": "Devi"
+        "middleName": null
+        "terminationId": null
+      "editable": true
+    meta: [ ]
+
+Update:
+  'update tracker log by admin self':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-27'
+    attributes:
+      id: 5
+      trackerId: 2
+    body:
+      "log": "LogUpdate"
+      "achievement": 2
+      "comment": "Test logs update"
+    query: [ ]
+    data:
+      "id": 5
+      "log": "LogUpdate"
+      "comment": "Test logs update"
+      "achievement": "2"
+      "addedDate": "2021-12-12"
+      "modifiedDate": "2022-05-27"
+      "reviewer":
+        "empNumber": 1
+        "lastName": "DS"
+        "firstName": "Devi"
+        "middleName": null
+        "terminationId": null
+      "editable": true
+    meta: [ ]
+
+  'update tracker log by admin not for self':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-27'
+    attributes:
+      id: 4
+      trackerId: 2
+    body:
+      "log": "Log ESS self Update"
+      "achievement": 2
+      "comment": "Test logs update by ESS"
+    query: [ ]
+    exception:
+    data:
+      "id": 4
+      "log": "Log ESS self Update"
+      "comment": "Test logs update by ESS"
+      "achievement": "2"
+      "addedDate": "2021-12-12"
+      "modifiedDate": "2022-05-27"
+      "reviewer":
+        "empNumber": 2
+        "lastName": "Perera"
+        "firstName": "Sharuka"
+        "middleName": null
+        "terminationId": null
+      "editable": true
+    meta: [ ]
+
+  'update tracker log ESS for not self':
+    userId: 2
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+      trackerId: 1
+    body:
+      "log": "LogUpdate"
+      "achievement": 2
+      "comment": "Test logs update"
+    query: [ ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+
+  'update tracker log ESS for self':
+    userId: 2
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-27'
+    attributes:
+      id: 4
+      trackerId: 2
+    body:
+      "log": "Log ESS self Update"
+      "achievement": 2
+      "comment": "Test logs update by ESS"
+    query: [ ]
+    exception:
+    data:
+      "id": 4
+      "log": "Log ESS self Update"
+      "comment": "Test logs update by ESS"
+      "achievement": "2"
+      "addedDate": "2021-12-12"
+      "modifiedDate": "2022-05-27"
+      "reviewer":
+        "empNumber": 2
+        "lastName": "Perera"
+        "firstName": "Sharuka"
+        "middleName": null
+        "terminationId": null
+      "editable": true
+    meta: [ ]
+
+'Delete':
+  'with one id':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      trackerId: 1
+    body:
+      ids: [ 1 ]
+    data: [ 1 ]
+
+  'without permission':
+    userId: 2
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      trackerId: 1
+    body:
+      ids: [ 2 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException

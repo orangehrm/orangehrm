@@ -21,13 +21,25 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\PerformanceTrackerLogDecorator;
 
 /**
+ * @method PerformanceTrackerLogDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_performance_tracker_log")
  * @ORM\Entity
  */
 class PerformanceTrackerLog
 {
+    use DecoratorTrait;
+
+    public const POSITIVE_ACHIEVEMENT = 1;
+    public const NEGATIVE_ACHIEVEMENT = 2;
+
+    public const STATUS_NOT_DELETED = 1;
+    public const STATUS_DELETED = 2;
+
     /**
      * @var int
      *
@@ -42,7 +54,6 @@ class PerformanceTrackerLog
      * @var string|null
      *
      * @ORM\Column(name="log", type="string", length=150, nullable=true)
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?string $log;
 
@@ -50,7 +61,6 @@ class PerformanceTrackerLog
      * @var string|null
      *
      * @ORM\Column(name="comment", type="string", length=3000,nullable=true)
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?string $comment;
 
@@ -58,7 +68,6 @@ class PerformanceTrackerLog
      * @var int|null
      *
      * @ORM\Column(name="status", type="integer", length=11, nullable=true)
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?int $status;
 
@@ -66,7 +75,6 @@ class PerformanceTrackerLog
      * @var string|null
      *
      * @ORM\Column(name="achievement", type="string", length=45,nullable=true)
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?string $achievement;
 
@@ -74,46 +82,41 @@ class PerformanceTrackerLog
      * @var DateTime|null
      *
      * @ORM\Column(name="added_date", type="datetime",nullable=true)
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private ?DateTime $added_date;
+    private ?DateTime $addedDate = null;
 
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="modified_date", type="datetime",nullable=true)
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private ?DateTime $modified_date;
+    private ?DateTime $modifiedDate = null;
 
 
     /**
      * @var PerformanceTracker|null
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\PerformanceTracker", inversedBy="PerformanceTrackerLog")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="performance_track_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\PerformanceTracker")
+     * @ORM\JoinColumn(name="performance_track_id", referencedColumnName="id")
+     *
      */
     private ?PerformanceTracker $performanceTracker;
 
     /**
      * @var Employee|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="PerformanceTrackerLog")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="reviewer_id", referencedColumnName="emp_number")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="reviewer_id", referencedColumnName="emp_number")
+     *
      */
     private ?Employee $employee;
 
     /**
      * @var User|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User", inversedBy="PerformanceTrackerLog")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *
      */
     private ?User $user;
 
@@ -202,15 +205,15 @@ class PerformanceTrackerLog
      */
     public function getAddedDate(): ?DateTime
     {
-        return $this->added_date;
+        return $this->addedDate;
     }
 
     /**
-     * @param DateTime|null $added_date
+     * @param DateTime|null $addedDate
      */
-    public function setAddedDate(?DateTime $added_date): void
+    public function setAddedDate(?DateTime $addedDate): void
     {
-        $this->added_date = $added_date;
+        $this->addedDate = $addedDate;
     }
 
     /**
@@ -218,15 +221,15 @@ class PerformanceTrackerLog
      */
     public function getModifiedDate(): ?DateTime
     {
-        return $this->modified_date;
+        return $this->modifiedDate;
     }
 
     /**
-     * @param DateTime|null $modified_date
+     * @param DateTime|null $modifiedDate
      */
-    public function setModifiedDate(?DateTime $modified_date): void
+    public function setModifiedDate(?DateTime $modifiedDate): void
     {
-        $this->modified_date = $modified_date;
+        $this->modifiedDate = $modifiedDate;
     }
 
     /**

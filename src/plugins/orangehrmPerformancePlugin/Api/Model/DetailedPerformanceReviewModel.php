@@ -26,7 +26,9 @@ use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
 class DetailedPerformanceReviewModel implements Normalizable
 {
-    use ModelTrait {ModelTrait::toArray as modelToArray;}
+    use ModelTrait {
+        ModelTrait::toArray as entityToArray;
+    }
     use PerformanceReviewServiceTrait;
 
     /**
@@ -63,12 +65,15 @@ class DetailedPerformanceReviewModel implements Normalizable
         ]);
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         $selfReviewStatus = $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->getPerformanceSelfReviewStatus($this->getEntity());
-        $result = $this->modelToArray();
-        $result['selfReviewStatus'] =$selfReviewStatus;
+        $result = $this->entityToArray();
+        $result['selfReviewStatus'] = $selfReviewStatus;
         return $result;
     }
 }
