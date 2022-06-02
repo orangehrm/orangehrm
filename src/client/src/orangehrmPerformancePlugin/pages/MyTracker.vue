@@ -138,7 +138,7 @@ export default {
           style: {flex: '30%'},
         },
         {
-          name: 'addDate',
+          name: 'addedDate',
           title: this.$t('performance.added_date'),
           sortField: 'performanceTracker.addedDate',
           style: {flex: 1},
