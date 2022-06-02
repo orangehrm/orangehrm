@@ -14,7 +14,6 @@ translations:
     - { target: 'Mots-clés', unitId: keywords, group: recruitment }
     - { target: 'Date de la soumission', unitId: date_of_application, group: recruitment }
     - { target: 'Méthode de candidature', unitId: method_of_application, group: recruitment }
-    - { target: 'Entrez les mots séparés par des virgules', unitId: enter_comma_se, group: recruitment }
     - { target: 'Candidat', unitId: candidate, group: recruitment }
     - { target: 'Pré-sélectionné', unitId: shortlisted, group: recruitment }
     - { target: 'Entretien programmé', unitId: interview_scheduled, group: recruitment }

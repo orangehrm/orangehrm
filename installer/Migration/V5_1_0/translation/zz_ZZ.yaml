@@ -14,7 +14,6 @@ translations:
   - { target: 'FR_Keywords', unitId: keywords, group: recruitment }
   - { target: 'FR_Date of Application', unitId: date_of_application, group: recruitment }
   - { target: 'FR_Method of Application', unitId: method_of_application, group: recruitment }
-  - { target: 'FR_Enter comma separated words', unitId: enter_comma_se, group: recruitment }
   - { target: 'FR_Candidate', unitId: candidate, group: recruitment }
   - { target: 'FR_Shortlisted', unitId: shortlisted, group: recruitment }
   - { target: 'FR_Interview Scheduled', unitId: interview_scheduled, group: recruitment }

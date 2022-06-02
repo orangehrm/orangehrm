@@ -14,7 +14,6 @@ translations:
     - { target: 'Sleutelwoorden', unitId: keywords, group: recruitment }
     - { target: 'Sollicitatiedatum', unitId: date_of_application, group: recruitment }
     - { target: 'Wijze van solliciteren', unitId: method_of_application, group: recruitment }
-    - { target: 'Woorden invoeren en scheiden met een komma', unitId: enter_comma_se, group: recruitment }
     - { target: 'Kandidaat', unitId: candidate, group: recruitment }
     - { target: 'Shortlisted', unitId: shortlisted, group: recruitment }
     - { target: 'Interview gepland', unitId: interview_scheduled, group: recruitment }

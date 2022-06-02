@@ -13,7 +13,6 @@ translations:
     - { target: 'คำหลัก', unitId: keywords, group: recruitment }
     - { target: 'วันที่สมัคร', unitId: date_of_application, group: recruitment }
     - { target: 'วิธีการใช้การสมัครงาน', unitId: method_of_application, group: recruitment }
-    - { target: 'ป้อนคำที่คั่นด้วยเครื่องหมายจุลภาค', unitId: enter_comma_se, group: recruitment }
     - { target: 'เพิ่มผู้สมัคร', unitId: candidate, group: recruitment }
     - { target: 'สั้น ๆ<', unitId: shortlisted, group: recruitment }
     - { target: 'กำหนดตารางการสัมภาษณ์', unitId: interview_scheduled, group: recruitment }

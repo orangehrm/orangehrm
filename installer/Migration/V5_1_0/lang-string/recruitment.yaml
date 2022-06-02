@@ -49,7 +49,7 @@ langStrings:
     unitId: method_of_application
   -
     value: 'Enter comma seperated words'
-    unitId: enter_comma_se
+    unitId: enter_comma_seperated_words
   -
     value: 'Candidate'
     unitId: candidate

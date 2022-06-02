@@ -14,7 +14,6 @@ translations:
     - { target: '关键词', unitId: keywords, group: recruitment }
     - { target: '申请日期', unitId: date_of_application, group: recruitment }
     - { target: '申请方法', unitId: method_of_application, group: recruitment }
-    - { target: '输入用逗号分隔的单词', unitId: enter_comma_se, group: recruitment }
     - { target: '候选人', unitId: candidate, group: recruitment }
     - { target: '入围', unitId: shortlisted, group: recruitment }
     - { target: '面试已安排', unitId: interview_scheduled, group: recruitment }
