@@ -129,23 +129,24 @@
 
 <script>
 import {computed, ref} from 'vue';
+import {navigate} from '@/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useSort from '@ohrm/core/util/composable/useSort';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {APIService} from '@/core/util/services/api.service';
+import usei18n from '@/core/util/composable/usei18n';
+import useLocale from '@/core/util/composable/useLocale';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-import usei18n from '@/core/util/composable/usei18n';
-import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
-import useDateFormat from '@/core/util/composable/useDateFormat';
-import useLocale from '@/core/util/composable/useLocale';
 import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
-import {navigate} from '@/core/util/helper/navigation';
+import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
@@ -205,9 +206,10 @@ export default {
             reviewer?.terminationId ? ` ${$t('general.past_employee')}` : ''
           }`,
           jobTitle: item.jobTitle?.name,
-          reviewPeriod: `${reviewListDateFormat(
-            item.reviewPeriodStart,
-          )} - ${reviewListDateFormat(item.reviewPeriodEnd)}`,
+          reviewPeriod: {
+            reviewPeriodStart: reviewListDateFormat(item.reviewPeriodStart),
+            reviewPeriodEnd: reviewListDateFormat(item.reviewPeriodEnd),
+          },
           dueDate: reviewListDateFormat(item.dueDate),
           status: statusOpts.find(el => el.id === item.overallStatus.statusId)
             .label,
@@ -309,6 +311,7 @@ export default {
           title: this.$t('performance.review_period'),
           sortField: 'performanceReview.reviewPeriodStart',
           style: {flex: 1},
+          cellRenderer: this.reviewPeriodCellRenderer,
         },
         {
           name: 'dueDate',
@@ -333,7 +336,7 @@ export default {
           slot: 'footer',
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
-          cellRenderer: this.cellRenderer,
+          cellRenderer: this.actionButtonCellRenderer,
           style: {flex: 1},
         },
       ],
@@ -357,7 +360,7 @@ export default {
     };
   },
   methods: {
-    cellRenderer(...[, , , row]) {
+    actionButtonCellRenderer(...[, , , row]) {
       const cellConfig = {};
 
       if (row.statusName === 'Completed') {
@@ -416,6 +419,16 @@ export default {
           header: {
             cellConfig,
           },
+        },
+      };
+    },
+    reviewPeriodCellRenderer(...args) {
+      const cellData = args[1];
+      return {
+        component: ReviewPeriodCell,
+        props: {
+          reviewPeriodStart: cellData.reviewPeriodStart,
+          reviewPeriodEnd: cellData.reviewPeriodEnd,
         },
       };
     },
