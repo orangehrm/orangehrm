@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
@@ -29,6 +30,8 @@ class ReviewerUserRole extends AbstractUserRole
     use AuthUserTrait;
     use PerformanceTrackerServiceTrait;
 
+    public const REVIEWER_INCLUDE_EMPLOYEE = 'reviewer_include_employee';
+
     /**
      * @inheritDoc
      */
@@ -36,9 +39,9 @@ class ReviewerUserRole extends AbstractUserRole
     {
         switch ($entityType) {
             case Employee::class:
-                return $this->getAccessibleEmployeeIdsForReviewer();
+                return $this->getAccessibleEmployeeIdsForReviewer($requiredPermissions);
             case PerformanceTracker::class:
-                return $this->getAccessibleTrackerIdsForReviewer();
+                return $this->getAccessibleTrackerIdsForReviewer($requiredPermissions);
             default:
                 return [];
         }
@@ -50,9 +53,19 @@ class ReviewerUserRole extends AbstractUserRole
      */
     protected function getAccessibleEmployeeIdsForReviewer(array $requiredPermissions = []): array
     {
-        return $this->getPerformanceTrackerService()
-            ->getPerformanceTrackerDao()
-            ->getEmployeeIdsByReviewerId($this->getAuthUser()->getEmpNumber());
+        if (isset($requiredPermissions[BasicUserRoleManager::PERMISSION_TYPE_USER_ROLE_SPECIFIC])) {
+            $permission = $requiredPermissions[BasicUserRoleManager::PERMISSION_TYPE_USER_ROLE_SPECIFIC];
+            if (
+                is_array($permission) &&
+                isset($permission[self::REVIEWER_INCLUDE_EMPLOYEE]) &&
+                $permission[self::REVIEWER_INCLUDE_EMPLOYEE] === true
+            ) {
+                return $this->getPerformanceTrackerService()
+                    ->getPerformanceTrackerDao()
+                    ->getEmployeeIdsByReviewerId($this->getAuthUser()->getEmpNumber());
+            }
+        }
+        return [];
     }
 
     /**

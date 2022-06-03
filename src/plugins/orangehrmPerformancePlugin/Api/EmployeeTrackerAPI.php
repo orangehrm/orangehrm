@@ -31,7 +31,11 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\InAccessibleEntityIdOption;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Authorization\UserRole\ReviewerUserRole;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Performance\Api\Model\EmployeeTrackerModel;
 use OrangeHRM\Performance\Api\Model\PerformanceTrackerModel;
@@ -87,7 +91,19 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::POSITIVE),
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                    new Rule(
+                        Rules::IN_ACCESSIBLE_ENTITY_ID,
+                        [
+                            Employee::class,
+                            (new InAccessibleEntityIdOption())
+                                ->setRolesToExclude(['Supervisor'])
+                                ->setThrow(false)
+                                ->setThrowIfOnlyEntityExist(false)
+                                ->setRequiredPermissions(
+                                    [BasicUserRoleManager::PERMISSION_TYPE_USER_ROLE_SPECIFIC => [ReviewerUserRole::REVIEWER_INCLUDE_EMPLOYEE => true]]
+                                )
+                        ]
+                    )
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
