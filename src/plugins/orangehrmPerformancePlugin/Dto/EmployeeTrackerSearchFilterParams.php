@@ -41,8 +41,8 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
         self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
     ];
 
-    private ?array $empNumbers = null;
-    private ?string $nameOrId = null;
+    private ?array $trackerIds = null;
+    private ?int $empNumber = null;
     private string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
 
     public function __construct()
@@ -54,17 +54,33 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
     /**
      * @return array|null
      */
-    public function getEmpNumbers(): ?array
+    public function getTrackerIds(): ?array
     {
-        return $this->empNumbers;
+        return $this->trackerIds;
     }
 
     /**
-     * @param array|null $empNumbers
+     * @param array|null $trackerIds
      */
-    public function setEmpNumbers(?array $empNumbers): void
+    public function setTrackerIds(?array $trackerIds): void
     {
-        $this->empNumbers = $empNumbers;
+        $this->trackerIds = $trackerIds;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEmpNumber(): ?int
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param int|null $empNumber
+     */
+    public function setEmpNumber(?int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
     }
 
     /**
@@ -81,21 +97,5 @@ class EmployeeTrackerSearchFilterParams extends FilterParams
     public function setIncludeEmployees(?string $includeEmployees): void
     {
         $this->includeEmployees = $includeEmployees;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getNameOrId(): ?string
-    {
-        return $this->nameOrId;
-    }
-
-    /**
-     * @param string|null $nameOrId
-     */
-    public function setNameOrId(?string $nameOrId): void
-    {
-        $this->nameOrId = $nameOrId;
     }
 }

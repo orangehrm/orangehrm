@@ -31,10 +31,8 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Api\V2\Validator\Rules\InAccessibleEntityIdOption;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceTracker;
-use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\Performance\Api\Model\EmployeeTrackerModel;
 use OrangeHRM\Performance\Api\Model\PerformanceTrackerModel;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
@@ -46,9 +44,6 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
     use PerformanceTrackerServiceTrait;
 
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
-    public const FILTER_NAME_OR_ID = 'nameOrId';
-
-    public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
 
     /**
      * @inheritDoc
@@ -58,17 +53,15 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
         $employeeTrackerSearchFilterParams = $this->getEmployeeTrackerSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeTrackerSearchFilterParams);
 
-        $empNumber = $this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            CommonParams::PARAMETER_EMP_NUMBER
+        $employeeTrackerSearchFilterParams->setEmpNumber(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                CommonParams::PARAMETER_EMP_NUMBER
+            )
         );
-
-        if (!is_null($empNumber)) {
-            $employeeTrackerSearchFilterParams->setEmpNumbers([$empNumber]);
-        } else {
-            $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(PerformanceTrackerReviewer::class);
-            $employeeTrackerSearchFilterParams->setEmpNumbers($accessibleEmpNumbers);
-        }
+        $employeeTrackerSearchFilterParams->setTrackerIds(
+            $this->getUserRoleManager()->getAccessibleEntityIds(PerformanceTracker::class)
+        );
 
         $employeeTrackerList = $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
@@ -89,22 +82,12 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        $inaccessibleEntityIdOption = new InAccessibleEntityIdOption();
-        $inaccessibleEntityIdOption->setThrow(false)->setThrowIfOnlyEntityExist(false);
-
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::POSITIVE),
-                    new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTrackerReviewer::class, $inaccessibleEntityIdOption])
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_NAME_OR_ID,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH]),
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -125,12 +108,6 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
     protected function getEmployeeTrackerSearchFilterParams(): EmployeeTrackerSearchFilterParams
     {
         $employeeTrackerSearchFilterParams = new EmployeeTrackerSearchFilterParams();
-        $employeeTrackerSearchFilterParams->setNameOrId(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_NAME_OR_ID
-            )
-        );
         $employeeTrackerSearchFilterParams->setIncludeEmployees(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_QUERY,

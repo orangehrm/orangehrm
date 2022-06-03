@@ -27,15 +27,13 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-tracker-employee-autocomplete
+              <employee-autocomplete
                 v-model="filters.empName"
-                :api="api"
-                :clear="false"
                 :params="{
                   includeEmployees: filters.includeEmployees.param,
                 }"
               >
-              </employee-tracker-employee-autocomplete>
+              </employee-autocomplete>
             </oxd-grid-item>
             <oxd-grid-item>
               <include-employee-dropdown
@@ -100,7 +98,7 @@ import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import usei18n from '@/core/util/composable/usei18n';
-import EmployeeTrackerEmployeeAutocomplete from '../components/EmployeeTrackerEmployeeAutocomplete';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 
 const defaultFilters = {
@@ -121,7 +119,7 @@ const defaultSortOrder = {
 export default {
   components: {
     'include-employee-dropdown': IncludeEmployeeDropdown,
-    'employee-tracker-employee-autocomplete': EmployeeTrackerEmployeeAutocomplete,
+    'employee-autocomplete': EmployeeAutocomplete,
   },
   setup() {
     const {$t} = usei18n();

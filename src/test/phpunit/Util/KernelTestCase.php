@@ -30,6 +30,7 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Service\I18NHelper;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Performance\Service\PerformanceTrackerService;
 use OrangeHRM\Time\Service\ProjectService;
 
 abstract class KernelTestCase extends TestCase
@@ -136,6 +137,7 @@ abstract class KernelTestCase extends TestCase
     {
         if (isset($this->options[self::OPTIONS_WITH_BASE_SERVICES]) && $this->options[self::OPTIONS_WITH_BASE_SERVICES]) {
             $this->getContainer()->set(Services::PROJECT_SERVICE, new ProjectService());
+            $this->getContainer()->set(Services::PERFORMANCE_TRACKER_SERVICE, new PerformanceTrackerService());
         }
     }
 }
