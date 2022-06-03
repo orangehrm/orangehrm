@@ -44,8 +44,14 @@ class AddTestTranslationCommand extends Command
         $this->translationTestTool->setTestLanguage('zz_ZZ');
         $modules = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
         foreach ($modules as $module) {
-            $this->translationTestTool->execute($module);
-            $output->writeln('Added test translation strings to ' . $module . ' module strings.');
+            $this->translationTestTool->execute($module, 'V5_0_0');
+            $output->writeln('Added test translation strings to 5.0 ' . $module . ' module strings.');
+        }
+
+        $modules = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth','performance','maintenance'];
+        foreach ($modules as $module) {
+            $this->translationTestTool->execute($module, 'V5_1_0');
+            $output->writeln('Added test translation strings to 5.1 ' . $module . ' module strings.');
         }
         return Command::SUCCESS;
     }
