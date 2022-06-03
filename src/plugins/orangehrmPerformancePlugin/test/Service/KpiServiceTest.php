@@ -97,6 +97,31 @@ class KpiServiceTest extends KernelTestCase
         $this->assertEquals('indicator 4', $result[0]->getTitle());
     }
 
+    public function testSaveKpiWithDefaultTrue2(): void
+    {
+        // Testing whether currently set default true will get unset if saved again
+        $kpi = new Kpi();
+        $kpi->getDecorator()->setJobTitleById(3);
+        $kpi->setTitle('Planning Methodologies');
+        $kpi->setMinRating(10);
+        $kpi->setMaxRating(20);
+        $kpi->setDefaultKpi(true);
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+        $this->assertEquals('Planning Methodologies', $result[0]->getTitle());
+        $this->assertEquals(1, $result[0]->getMinRating());
+        $this->assertEquals(50, $result[0]->getMaxRating());
+
+        $this->assertInstanceOf(Kpi::class, $this->kpiService->saveKpi($kpi));
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+        $this->assertEquals('Planning Methodologies', $result[0]->getTitle());
+        $this->assertEquals(10, $result[0]->getMinRating());
+        $this->assertEquals(20, $result[0]->getMaxRating());
+    }
+
     public function testKpiServiceExceptionForSaveKpi(): void
     {
         $kpi = new Kpi();
