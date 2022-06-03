@@ -23,6 +23,16 @@ use OrangeHRM\Recruitment\Dao\RecruitmentAttachmentDao;
 
 class RecruitmentAttachmentService
 {
+    public const ALLOWED_CANDIDATE_ATTACHMENT_FILE_TYPES = [
+        "text/plain",
+        "text/rtf",
+        "application/rtf",
+        "application/pdf",
+        "application/msword",
+        "application/vnd.oasis.opendocument.text",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
     private RecruitmentAttachmentDao $recruitmentAttachmentDao;
 
     /**

@@ -13,7 +13,6 @@ translations:
     - { target: 'Từ khóa', unitId: keywords, group: recruitment }
     - { target: 'Ngày áp dụng', unitId: date_of_application, group: recruitment }
     - { target: 'Phương pháp áp dụng', unitId: method_of_application, group: recruitment }
-    - { target: 'Nhập từ dấu phẩy tách', unitId: enter_comma_se, group: recruitment }
     - { target: 'Ứng cử viên', unitId: candidate, group: recruitment }
     - { target: 'Lọt vào danh sách', unitId: shortlisted, group: recruitment }
     - { target: 'Phỏng vấn theo lịch trình', unitId: interview_scheduled, group: recruitment }

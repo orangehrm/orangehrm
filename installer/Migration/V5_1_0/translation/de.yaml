@@ -13,7 +13,6 @@ translations:
     - { target: 'Schlüsselwörter', unitId: keywords, group: recruitment }
     - { target: 'Bewerbungsdatum', unitId: date_of_application, group: recruitment }
     - { target: 'Bewerbungsmethode', unitId: method_of_application, group: recruitment }
-    - { target: 'Geben Sie durch Kommata getrennte Wörter ein', unitId: enter_comma_se, group: recruitment }
     - { target: 'Bewerber', unitId: candidate, group: recruitment }
     - { target: 'Shortlisted', unitId: shortlisted, group: recruitment }
     - { target: 'Bewerbungsgespräch geplant', unitId: interview_scheduled, group: recruitment }

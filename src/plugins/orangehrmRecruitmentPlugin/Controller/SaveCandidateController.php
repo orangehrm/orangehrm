@@ -24,6 +24,7 @@ use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 
 class SaveCandidateController extends AbstractVueController
 {
@@ -44,7 +45,11 @@ class SaveCandidateController extends AbstractVueController
     {
         $component = new Component('save-candidate');
         $component->addProp(
-            new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes())
+            new Prop(
+                'allowed-file-types',
+                Prop::TYPE_ARRAY,
+                RecruitmentAttachmentService::ALLOWED_CANDIDATE_ATTACHMENT_FILE_TYPES
+            )
         );
         $this->setComponent($component);
     }
