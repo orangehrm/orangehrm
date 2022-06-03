@@ -28,6 +28,7 @@ use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -644,6 +645,9 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
 
             $this->commitTransaction();
             return new EndpointResourceResult(CandidateDetailedModel::class, $candidate);
+        } catch (RecordNotFoundException $e) {
+            $this->rollBackTransaction();
+            throw $e;
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);

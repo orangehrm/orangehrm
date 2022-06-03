@@ -141,7 +141,7 @@ const vacancyModel = {
   jobTitle: null,
   name: '',
   hiringManager: null,
-  numOfPositions: null,
+  numOfPositions: '',
   description: '',
   status: true,
   isPublished: true,

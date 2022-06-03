@@ -49,7 +49,9 @@
               <oxd-input-field
                 v-model="filters.keywords"
                 :label="$t('recruitment.keywords')"
-                :placeholder="$t('recruitment.enter_comma_se')"
+                :placeholder="
+                  `${$t('recruitment.enter_comma_seperated_words')}...`
+                "
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -382,7 +384,7 @@ export default {
       navigate('/recruitment/addCandidate');
     },
     onClickEdit(item) {
-      navigate('/recruitment/viewCandidate/{id}', {id: item.id});
+      navigate('/recruitment/addCandidate/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

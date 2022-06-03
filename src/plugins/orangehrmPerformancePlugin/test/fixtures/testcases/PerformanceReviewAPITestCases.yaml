@@ -84,6 +84,39 @@ Create:
         "statusName": "Inactive"
       "selfReviewStatus": "Activated"
 
+  'save review with save draft with no jobTitle':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      activate: false
+      dueDate: '2022-05-30'
+      reviewerEmpNumber: 2
+      startDate: '2022-05-09'
+      endDate: '2022-05-24'
+      empNumber: 16
+    data:
+      id: 37
+      "jobTitle":
+        "id": null
+        "name": null
+        "deleted": null
+      "subunit":
+        "id": null
+        "name": null
+      "reviewPeriodStart": "2022-05-09"
+      "reviewPeriodEnd": "2022-05-24"
+      "dueDate": "2022-05-30"
+      "overallStatus":
+        "statusId": 1
+        "statusName": "Inactive"
+      "selfReviewStatus": "Activated"
+
   'save review with activate without JobTitle':
     userId: 1
     services:

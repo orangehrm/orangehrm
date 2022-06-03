@@ -911,6 +911,30 @@ Update:
       }
     "meta": [ ]
 
+  'update non existing candidate - Change Vacancy':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+    attributes:
+      id: 100
+    body:
+      "firstName": "Richard"
+      "middleName": "Edward"
+      "lastName": "Holmes"
+      "email": "richardholmes@gmail.com"
+      "contactNumber": "+1 453-452-2354"
+      "vacancyId": 3
+      "keywords": "php,html,css,js"
+      "comment": "happy to apply"
+      "dateOfApplication": "2020-10-08"
+      "modeOfApplication": 1
+      "consentToKeepData": true
+      "status": 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
   'update existing candidate - remove vacancy':
     userId: 1
     services:

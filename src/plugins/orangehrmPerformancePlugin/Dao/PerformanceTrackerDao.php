@@ -27,9 +27,9 @@ use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
-use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use PHPUnit\Exception;
 
 class PerformanceTrackerDao extends BaseDao
@@ -52,7 +52,7 @@ class PerformanceTrackerDao extends BaseDao
 
     /**
      * @param PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams
-     * @return array
+     * @return PerformanceTracker[]
      */
     public function getPerformanceTrackList(PerformanceTrackerSearchFilterParams $performanceTrackerSearchFilterParams): array
     {
@@ -282,6 +282,8 @@ class PerformanceTrackerDao extends BaseDao
             $qb->setParameter('nameOrId', '%' . $employeeTrackerSearchFilterParams->getNameOrId() . '%');
         }
 
+        $qb->andWhere($qb->expr()->eq('tracker.status', ':status'))
+            ->setParameter('status', PerformanceTracker::STATUS_TRACKER_NOT_DELETED);
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
         $this->setSortingAndPaginationParams($qb, $employeeTrackerSearchFilterParams);
         return $this->getQueryBuilderWrapper($qb);

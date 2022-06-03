@@ -92,6 +92,7 @@
 
 <script>
 import {computed, ref} from 'vue';
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
@@ -208,7 +209,7 @@ export default {
         },
         {
           name: 'title',
-          title: this.$t('performance.trackers'),
+          title: this.$t('general.trackers'),
           sortField: 'tracker.trackerName',
           style: {flex: 2},
         },
@@ -253,6 +254,11 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
+    },
+    onClickView(item) {
+      navigate('/performance/addPerformanceTrackerLog/trackId/{id}', {
+        id: item.id,
+      });
     },
   },
 };

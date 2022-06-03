@@ -32,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Recruitment\Api\Model\CandidateAttachmentModel;
+use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
 class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
@@ -124,7 +125,11 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_ATTACHMENT,
                 new Rule(
                     Rules::BASE_64_ATTACHMENT,
-                    [null, null, self::PARAM_RULE_FILE_NAME_MAX_LENGTH]
+                    [
+                        RecruitmentAttachmentService::ALLOWED_CANDIDATE_ATTACHMENT_FILE_TYPES,
+                        null,
+                        self::PARAM_RULE_FILE_NAME_MAX_LENGTH
+                    ]
                 )
             )
         );

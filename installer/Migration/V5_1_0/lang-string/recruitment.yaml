@@ -48,8 +48,8 @@ langStrings:
     value: 'Method of Application'
     unitId: method_of_application
   -
-    value: 'Enter comma se'
-    unitId: enter_comma_se
+    value: 'Enter comma seperated words'
+    unitId: enter_comma_seperated_words
   -
     value: 'Candidate'
     unitId: candidate
@@ -84,8 +84,8 @@ langStrings:
     value: 'Contact Number'
     unitId: contact_number
   -
-    value: 'Content to keep data'
-    unitId: content_to_keep_data
+    value: 'Consent to keep data'
+    unitId: consent_to_keep_data
   -
     value: 'Resume'
     unitId: resume
@@ -117,7 +117,7 @@ langStrings:
     value: 'Profile'
     unitId: profile
   -
-    value: 'Job vacancy'
+    value: 'Job Vacancy'
     unitId: job_vacancy
   -
     value: 'History'
@@ -153,4 +153,5 @@ langStrings:
   - value: 'Publish in RSS Feed and Web Page'
     unitId: publish_in_rss_feed_and_web_page
 
-
+  - value: 'Candidate History'
+    unitId: candidate_history
