@@ -9,33 +9,39 @@ Update:
       candidateId: 1
     body:
       note: 'Rejected since not answering the phone'
-    "data":
-      {
-        "id": 1,
-        "candidate": {
-          "id": 1,
-          "firstName": "Peter",
-          "middleName": "",
-          "lastName": "Smith"
-        },
-        "Vacancy": {
-          "id": 1,
-          "name": "Technical Assistant Intern",
-          "hiringManager": {
-            "empNumber": "1",
-            "firstName": "Kayla",
-            "middleName": "T",
-            "lastName": "Abbey",
-            "employeeTerminationRecord": null
-          }
-        },
-        "note": 'Rejected since not answering the phone',
-        "action": {
-          "id": 3,
-          "label": "Rejected"
-        }
-      }
-    "meta": [ ]
+    data:
+      id: 1
+      candidate:
+        id: 1
+        firstName: 'Peter'
+        middleName: ''
+        lastName: 'Smith'
+      vacancy:
+        id: 1
+        name: 'Technical Assistant Intern'
+        hiringManager:
+          empNumber: '1'
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+      note: 'Rejected since not answering the phone'
+      action:
+        id: 3
+        label: 'Rejected'
+    meta: [ ]
+
+  'Reject candidate - no candidate vacancy for the candidate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    attributes:
+      candidateId: 4
+    body:
+      note: 'Rejected since not answering the phone'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
 
   'Reject candidate - non existing candidate id':
     userId: 1
