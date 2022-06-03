@@ -105,11 +105,17 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue';
+import {computed, ref, inject} from 'vue';
 import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
+import {
+  viewIcon,
+  evaluateIcon,
+  viewLabel,
+  evaluateLabel,
+} from '@/orangehrmPerformancePlugin/util/composable/useReviewActions';
 import useSort from '@ohrm/core/util/composable/useSort';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {APIService} from '@/core/util/services/api.service';
@@ -122,6 +128,7 @@ import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
+import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
@@ -170,9 +177,10 @@ export default {
           }`,
           jobTitle: item.jobTitle?.name,
           subunit: item.subunit?.name,
-          reviewPeriod: `${reviewListDateFormat(
-            item.reviewPeriodStart,
-          )} - ${reviewListDateFormat(item.reviewPeriodEnd)}`,
+          reviewPeriod: {
+            reviewPeriodStart: reviewListDateFormat(item.reviewPeriodStart),
+            reviewPeriodEnd: reviewListDateFormat(item.reviewPeriodEnd),
+          },
           dueDate: reviewListDateFormat(item.dueDate),
           status:
             item.overallStatus.statusId === 2
@@ -180,7 +188,7 @@ export default {
               : item.overallStatus.statusId === 3
               ? $t('performance.in_progress')
               : $t('performance.completed'),
-          statusName: item.overallStatus.statusName,
+          statusId: item.overallStatus.statusId,
         };
       });
     };
@@ -281,6 +289,7 @@ export default {
           title: this.$t('performance.review_period'),
           sortField: 'performanceReview.reviewPeriodStart',
           style: {flex: 1},
+          cellRenderer: this.reviewPeriodCellRenderer,
         },
         {
           name: 'dueDate',
@@ -299,7 +308,7 @@ export default {
           slot: 'footer',
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
-          cellRenderer: this.cellRenderer,
+          cellRenderer: this.actionCellRenderer,
           style: {flex: 1},
         },
       ],
@@ -322,35 +331,26 @@ export default {
     };
   },
   methods: {
-    cellRenderer(...[, , , row]) {
+    actionCellRenderer(...[, , , row]) {
       const cellConfig = {};
+      const screenState = inject('screenState');
 
-      if (row.statusName === 'Completed') {
-        cellConfig.view = {
-          component: 'oxd-button',
-          props: {
-            name: 'view',
-            label: this.$t('general.view'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
+      if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
+        if (row.statusId === 4) {
+          cellConfig.view = viewIcon;
+          cellConfig.view.props.title = this.$t('general.view');
+        } else {
+          cellConfig.evaluate = evaluateIcon;
+          cellConfig.evaluate.props.title = this.$t('performance.evaluate');
+        }
       } else {
-        cellConfig.evaluate = {
-          component: 'oxd-button',
-          props: {
-            name: 'evaluate',
-            label: this.$t('performance.evaluate'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
+        if (row.statusId === 4) {
+          cellConfig.view = viewLabel;
+          cellConfig.view.props.label = this.$t('general.view');
+        } else {
+          cellConfig.evaluate = evaluateLabel;
+          cellConfig.evaluate.props.label = this.$t('performance.evaluate');
+        }
       }
 
       return {
@@ -358,6 +358,16 @@ export default {
           header: {
             cellConfig,
           },
+        },
+      };
+    },
+    reviewPeriodCellRenderer(...args) {
+      const cellData = args[1];
+      return {
+        component: ReviewPeriodCell,
+        props: {
+          reviewPeriodStart: cellData.reviewPeriodStart,
+          reviewPeriodEnd: cellData.reviewPeriodEnd,
         },
       };
     },

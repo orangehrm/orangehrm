@@ -128,13 +128,21 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue';
+import {computed, ref, inject} from 'vue';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
+import {
+  viewIcon,
+  editIcon,
+  evaluateIcon,
+  viewLabel,
+  editLabel,
+  evaluateLabel,
+} from '@/orangehrmPerformancePlugin/util/composable/useReviewActions';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useSort from '@ohrm/core/util/composable/useSort';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
@@ -213,7 +221,7 @@ export default {
           dueDate: reviewListDateFormat(item.dueDate),
           status: statusOpts.find(el => el.id === item.overallStatus.statusId)
             .label,
-          statusName: item.overallStatus.statusName,
+          statusId: item.overallStatus.statusId,
         };
       });
     };
@@ -298,38 +306,38 @@ export default {
           title: this.$t('general.employee'),
           slot: 'title',
           sortField: 'employee.lastName',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'jobTitle',
           title: this.$t('general.job_title'),
           sortField: 'jobTitle.jobTitleName',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'reviewPeriod',
           title: this.$t('performance.review_period'),
           sortField: 'performanceReview.reviewPeriodStart',
-          style: {flex: 1},
+          style: {flex: '14%'},
           cellRenderer: this.reviewPeriodCellRenderer,
         },
         {
           name: 'dueDate',
           title: this.$t('performance.due_date'),
           sortField: 'performanceReview.dueDate',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'reviewer',
           title: this.$t('performance.reviewer'),
           sortField: 'reviewerEmployee.lastName',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'status',
           title: this.$t('performance.review_status'),
           sortField: 'performanceReview.statusId',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'action',
@@ -337,7 +345,7 @@ export default {
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.actionButtonCellRenderer,
-          style: {flex: 1},
+          style: {flex: '16%'},
         },
       ],
       checkedItems: [],
@@ -362,48 +370,32 @@ export default {
   methods: {
     actionButtonCellRenderer(...[, , , row]) {
       const cellConfig = {};
+      const screenState = inject('screenState');
 
-      if (row.statusName === 'Completed') {
-        cellConfig.view = {
-          component: 'oxd-button',
-          props: {
-            name: 'view',
-            label: this.$t('general.view'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
-      } else if (row.statusName === 'Inactive') {
-        //TODO:: Change to Id
-        cellConfig.edit = {
-          onClick: this.onClickEdit,
-          component: 'oxd-button',
-          props: {
-            name: 'edit',
-            label: this.$t('general.edit'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
+      if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
+        if (row.statusId === 4) {
+          cellConfig.view = viewIcon;
+          cellConfig.view.props.title = this.$t('general.view');
+        } else if (row.statusId === 1) {
+          cellConfig.edit = editIcon;
+          cellConfig.edit.props.title = this.$t('general.edit');
+          cellConfig.edit.onClick = this.onClickEdit;
+        } else {
+          cellConfig.evaluate = evaluateIcon;
+          cellConfig.evaluate.props.title = this.$t('performance.evaluate');
+        }
       } else {
-        cellConfig.evaluate = {
-          component: 'oxd-button',
-          props: {
-            name: 'evaluate',
-            label: this.$t('performance.evaluate'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
+        if (row.statusId === 4) {
+          cellConfig.view = viewLabel;
+          cellConfig.view.props.label = this.$t('general.view');
+        } else if (row.statusId === 1) {
+          cellConfig.edit = editLabel;
+          cellConfig.edit.props.label = this.$t('general.edit');
+          cellConfig.edit.onClick = this.onClickEdit;
+        } else {
+          cellConfig.evaluate = evaluateLabel;
+          cellConfig.evaluate.props.label = this.$t('performance.evaluate');
+        }
       }
 
       cellConfig.delete = {
