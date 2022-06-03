@@ -100,11 +100,7 @@ class KpiDao extends BaseDao
      */
     public function getDefaultKpi(): ?Kpi
     {
-        $kpi = $this->getRepository(Kpi::class)->findOneBy(['defaultKpi' => true, 'deletedAt' => null]);
-        if ($kpi instanceof Kpi) {
-            return $kpi;
-        }
-        return null;
+        return $this->getRepository(Kpi::class)->findOneBy(['defaultKpi' => true, 'deletedAt' => null]);
     }
 
     /**
