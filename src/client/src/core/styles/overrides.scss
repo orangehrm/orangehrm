@@ -14,19 +14,17 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
-@function darken($color, $amount) {
-  @return $color;
-}
-
-@function lighten($color, $amount) {
-  @return $color;
-}
-
-
 $oxd-primary-one-color: var(--oxd-primary-one-color);
 $oxd-secondary-four-color: var(--oxd-secondary-four-color);
 $oxd-primary-gradient-start-color: var(--oxd-primary-gradient-start-color);
 $oxd-primary-gradient-end-color: var(--oxd-primary-gradient-end-color);
+$oxd-primary-font-color: var(--oxd-primary-font-color);
+$oxd-secondary-font-color: var(--oxd-secondary-font-color);
+$oxd-primary-one-lighten-5-color: var(--oxd-primary-one-lighten-5-color);
+$oxd-primary-one-lighten-30-color: var(--oxd-primary-one-lighten-30-color);
+$oxd-primary-one-darken-5-color: var(--oxd-primary-one-darken-5-color);
+$oxd-secondary-four-lighten-5-color: var(--oxd-secondary-four-lighten-5-color);
+$oxd-secondary-four-darken-5-color: var(--oxd-secondary-four-darken-5-color);
 
 $oxd-primary-gradient: linear-gradient(
   90deg,
@@ -34,10 +32,3 @@ $oxd-primary-gradient: linear-gradient(
   var(--oxd-primary-gradient-end-color) 90%
 );
 
-$oxd-menu-slide-button-color: $oxd-primary-one-color;
-$oxd-menu-item-active-color: $oxd-primary-gradient-start-color;
-$oxd-secondary-gradient: linear-gradient(
-  90deg,
-  var(--oxd-primary-gradient-start-color) 0%,
-  #ffffffbf 95%
-);

@@ -9,7 +9,23 @@
   {% block stylesheets %}{% endblock %}
 </head>
 <body>
-{% block body %}{% endblock %}
+  <style>
+    :root {
+        --oxd-primary-one-color: #FF7B1D;
+        --oxd-primary-font-color: #FFFFFF;
+        --oxd-secondary-four-color: #76BC21;
+        --oxd-secondary-font-color: #FFFFFF;
+        --oxd-primary-gradient-start-color: #FF920B;
+        --oxd-primary-gradient-end-color: #F35C17;
+        --oxd-primary-one-lighten-5-color: #FF8A37;
+        --oxd-primary-one-lighten-30-color: #FFD4B6;
+        --oxd-primary-one-darken-5-color: #FF6C04;
+        --oxd-secondary-four-lighten-5-color: #84D225;
+        --oxd-secondary-four-darken-5-color: #68A61D;
+    }
+  </style>
+{% block body %}
+{% endblock %}
 {% block javascripts %}{% endblock %}
 </body>
 </html>
