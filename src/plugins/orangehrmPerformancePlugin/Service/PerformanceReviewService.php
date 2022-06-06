@@ -80,7 +80,7 @@ class PerformanceReviewService
         if ($this->getPerformanceReviewDao()->getSupervisorRecord(
             $performanceReview->getEmployee()->getEmpNumber(),
             $reviewerEmpNumber
-        ) == null){
+        ) == null) {
             throw ReviewServiceException::invalidSupervisor();
         }
 
