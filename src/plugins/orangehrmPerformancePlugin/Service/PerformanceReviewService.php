@@ -23,7 +23,6 @@ use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Exception\ReviewServiceException;
-use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class PerformanceReviewService
