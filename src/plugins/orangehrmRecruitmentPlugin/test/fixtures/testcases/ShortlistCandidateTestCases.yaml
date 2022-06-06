@@ -1,5 +1,5 @@
 Update:
-  'Reject candidate':
+  'Shortlist candidate':
     userId: 1
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -32,11 +32,11 @@ Update:
           terminationId: null
       note: 'Rejected since not answering the phone'
       action:
-        id: 3
-        label: 'Rejected'
+        id: 2
+        label: 'Shortlisted'
     meta: [ ]
 
-  'Reject candidate - no candidate vacancy for the candidate':
+  'Shortlist candidate - no candidate vacancy for the candidate':
     userId: 1
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -48,7 +48,7 @@ Update:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
-  'Reject candidate - non existing candidate id':
+  'Shortlist candidate - non existing candidate id':
     userId: 1
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -57,3 +57,22 @@ Update:
     body:
       note: 'Rejected since not answering the phone'
     invalidOnly: [ 'candidateId' ]
+
+
+  'Shortlist candidate - already shortlisted':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+    body:
+      note: 'Rejected since not answering the phone'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
