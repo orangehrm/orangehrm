@@ -1,0 +1,37 @@
+GetAll:
+  'Get all KPIs for review':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    attributes:
+      reviewId: 1
+    data:
+      0:
+        "id": 2
+        "title": "Code Coverage"
+        "jobTitle":
+          "id": 1
+          "name": "Software Engineer"
+        "minRating": 0
+        "maxRating": 100
+        "isDefault": null
+      1:
+        "id": 3
+        "title": "Code Stability"
+        "jobTitle":
+          "id": 1
+          "name": "Software Engineer"
+        "minRating": 0
+        "maxRating": 100
+        "isDefault": null
+      2:
+        "id": 1
+        "title": "Velocity"
+        "jobTitle":
+          "id": 1
+          "name": "Software Engineer"
+        "minRating": 0
+        "maxRating": 100
+        "isDefault": null
+    meta:
+      total: 3

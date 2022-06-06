@@ -31,6 +31,7 @@ use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
+use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use PHPUnit\Exception;
 
 class PerformanceReviewDao extends BaseDao
@@ -329,5 +330,49 @@ class PerformanceReviewDao extends BaseDao
             ->andWhere($qb->expr()->in('performanceReview.id', ':performanceReviewIds'))
             ->setParameter('performanceReviewIds', $performanceReviewIds);
         return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $id
+     * @return PerformanceReview|null
+     */
+    public function getReviewById(int $id): ?PerformanceReview
+    {
+        $review = $this->getRepository(PerformanceReview::class)->findOneBy(['id' => $id]);
+        if ($review instanceof PerformanceReview) {
+            return $review;
+        }
+        return null;
+    }
+
+    /**
+     * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
+     * @return Kpi[]
+     */
+    public function getKpisForReview(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): array
+    {
+        $qb = $this->getKpiReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
+     * @return int
+     */
+    public function getKpisForReviewCount(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): int
+    {
+        $qb = $this->getKpiReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($qb)->count();
+    }
+
+    private function getKpiReviewQueryBuilderWrapper(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): QueryBuilderWrapper
+    {
+        $jobTitleId = $this->getReviewById($reviewKpiSearchFilterParams->getReviewId())->getJobTitle()->getId();
+        $q = $this->createQueryBuilder(Kpi::class,'kpi');
+        $q->andWhere('kpi.jobTitle =:jobTitle')
+            ->setParameter('jobTitle', $jobTitleId);
+        $this->setSortingAndPaginationParams($q, $reviewKpiSearchFilterParams);
+
+        return $this->getQueryBuilderWrapper($q);
     }
 }
