@@ -19,8 +19,10 @@
 
 namespace OrangeHRM\Tests\Performance\Service;
 
+use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Kpi;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Dao\KpiDao;
 use OrangeHRM\Performance\Exception\KpiServiceException;
 use OrangeHRM\Performance\Service\KpiService;
@@ -33,19 +35,19 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class KpiServiceTest extends KernelTestCase
 {
-    private KpiService $KpiService;
+    private KpiService $kpiService;
     protected string $fixture;
 
     protected function setUp(): void
     {
-        $this->KpiService = new KpiService();
+        $this->kpiService = new KpiService();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/KpiService.yaml';
         TestDataService::populate($this->fixture);
     }
 
     public function testGetKpiDao(): void
     {
-        $result = $this->KpiService->getKpiDao();
+        $result = $this->kpiService->getKpiDao();
         $this->assertInstanceOf(KpiDao::class, $result);
     }
 
@@ -75,7 +77,52 @@ class KpiServiceTest extends KernelTestCase
         $this->assertInstanceOf(Kpi::class, $kpiService->saveKpi($kpi));
     }
 
-    public function testExceptionForSaveKpi(): void
+    public function testSaveKpiWithDefaultTrue(): void
+    {
+        $kpi = new Kpi();
+        $kpi->getDecorator()->setJobTitleById(1);
+        $kpi->setTitle('indicator 4');
+        $kpi->setMinRating(0);
+        $kpi->setMaxRating(100);
+        $kpi->setDefaultKpi(true);
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+        $this->assertEquals('Planning Methodologies', $result[0]->getTitle());
+
+        $this->assertInstanceOf(Kpi::class, $this->kpiService->saveKpi($kpi));
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+        $this->assertEquals('indicator 4', $result[0]->getTitle());
+    }
+
+    public function testSaveKpiWithDefaultTrue2(): void
+    {
+        // Testing whether currently set default true will get unset if saved again
+        $kpi = new Kpi();
+        $kpi->getDecorator()->setJobTitleById(3);
+        $kpi->setTitle('Planning Methodologies');
+        $kpi->setMinRating(10);
+        $kpi->setMaxRating(20);
+        $kpi->setDefaultKpi(true);
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+        $this->assertEquals('Planning Methodologies', $result[0]->getTitle());
+        $this->assertEquals(1, $result[0]->getMinRating());
+        $this->assertEquals(50, $result[0]->getMaxRating());
+
+        $this->assertInstanceOf(Kpi::class, $this->kpiService->saveKpi($kpi));
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+        $this->assertEquals('Planning Methodologies', $result[0]->getTitle());
+        $this->assertEquals(10, $result[0]->getMinRating());
+        $this->assertEquals(20, $result[0]->getMaxRating());
+    }
+
+    public function testKpiServiceExceptionForSaveKpi(): void
     {
         $kpi = new Kpi();
         $kpi->getDecorator()->setJobTitleById(1);
@@ -86,6 +133,27 @@ class KpiServiceTest extends KernelTestCase
         $this->expectException(KpiServiceException::class);
         $this->expectExceptionMessage("Minimum rating should be less than Maximum rating");
 
-        $this->KpiService->saveKpi($kpi);
+        $this->kpiService->saveKpi($kpi);
+    }
+
+    public function testTransactionExceptionForSaveKpi(): void
+    {
+        $kpi = new Kpi();
+        $kpi->getDecorator()->setJobTitleById(1);
+        $kpi->setTitle('indicator 4');
+        $kpi->setMinRating(2);
+        $kpi->setMaxRating(20);
+
+        $kpiService = $this->getMockBuilder(KpiService::class)
+            ->onlyMethods(['getKpiDao'])
+            ->getMock();
+        $kpiService->expects($this->once())
+            ->method('getKpiDao')
+            ->willReturnCallback(function () {
+                throw new Exception();
+            });
+
+        $this->expectException(TransactionException::class);
+        $kpiService->saveKpi($kpi);
     }
 }

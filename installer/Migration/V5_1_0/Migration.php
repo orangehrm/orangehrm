@@ -90,6 +90,52 @@ class Migration extends AbstractMigration
         foreach ($langCodes as $langCode) {
             $this->getTranslationHelper()->addTranslations($langCode);
         }
+
+        $performanceModuleId = $this->getDataGroupHelper()->getModuleIdByName('performance');
+
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('Admin'),
+            'performance/searchEvaluatePerformancReview',
+            20
+        );
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'),
+            'performance/searchEvaluatePerformancReview',
+            20
+        );
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('ESS'),
+            'performance/myPerformanceReview',
+            0
+        );
+
+        $reviewListScreenId = $this->getDataGroupHelper()
+            ->getScreenIdByModuleAndUrl(
+                $performanceModuleId,
+                'searchEvaluatePerformancReview',
+            );
+
+        $this->createQueryBuilder()
+            ->update('ohrm_user_role_screen', 'userRoleScreen')
+            ->set('userRoleScreen.user_role_id', ':userRoleId')
+            ->setParameter(
+                'userRoleId',
+                $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor')
+            )
+            ->andWhere('userRoleScreen.screen_id = :screenId')
+            ->setParameter('screenId', $reviewListScreenId)
+            ->executeQuery();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menuItem')
+            ->set('menuItem.menu_title', ':menuTitle')
+            ->setParameter('menuTitle', 'Employee Reviews')
+            ->andWhere('menuItem.screen_id = :screenId')
+            ->setParameter('screenId', $reviewListScreenId)
+            ->executeQuery();
     }
 
     /**
@@ -103,6 +149,35 @@ class Migration extends AbstractMigration
             Types::BOOLEAN,
             ['Default' => true, 'Notnull' => true]
         );
+    }
+
+    /**
+     * @param int $moduleId
+     * @param int $userRoleId
+     * @param string $action
+     * @param int $priority
+     */
+    private function insertModuleDefaultPage(
+        int $moduleId,
+        int $userRoleId,
+        string $action,
+        int $priority
+    ): void {
+        $this->createQueryBuilder()
+            ->insert('ohrm_module_default_page')
+            ->values(
+                [
+                    'module_id' => ':moduleId',
+                    'user_role_id' => ':userRoleId',
+                    'action' => ':action',
+                    'priority' => ':priority'
+                ]
+            )
+            ->setParameter('moduleId', $moduleId)
+            ->setParameter('userRoleId', $userRoleId)
+            ->setParameter('action', $action)
+            ->setParameter('priority', $priority)
+            ->executeQuery();
     }
 
     /**

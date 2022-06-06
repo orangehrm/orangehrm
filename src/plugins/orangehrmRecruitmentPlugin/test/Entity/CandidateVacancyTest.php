@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Recruitment\Entity;
 
 use DateTime;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
@@ -32,6 +33,8 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class CandidateVacancyTest extends EntityTestCase
 {
+    use EntityManagerHelperTrait;
+
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([CandidateVacancy::class]);
@@ -45,7 +48,11 @@ class CandidateVacancyTest extends EntityTestCase
         $candidateVacancy->setAppliedDate(new DateTime('2022-05-25 08:37'));
         $candidateVacancy->setStatus('APPLICATION INITIATED');
         $this->persist($candidateVacancy);
-        $candidateVacancy = $this->getRepository(CandidateVacancy::class)->find(1);
+        $candidateVacancy = $this->createQueryBuilder(CandidateVacancy::class, 'candidateVacancy')
+            ->where('candidateVacancy.candidate = :candidateId')
+            ->setParameter('candidateId', 1)
+            ->getQuery()
+            ->getOneOrNullResult();
         $this->assertInstanceOf(CandidateVacancy::class, $candidateVacancy);
         $this->assertInstanceOf(Candidate::class, $candidateVacancy->getCandidate());
         $this->assertInstanceOf(Vacancy::class, $candidateVacancy->getVacancy());

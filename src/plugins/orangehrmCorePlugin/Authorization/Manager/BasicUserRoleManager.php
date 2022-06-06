@@ -39,6 +39,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
@@ -49,6 +50,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     use ProjectServiceTrait;
     use UserServiceTrait;
     use MenuServiceTrait;
+    use PerformanceTrackerServiceTrait;
 
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
@@ -98,6 +100,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             'Interviewer' => [
                 'class' => 'InterviewerUserRole',
             ],
+            'Reviewer' => [
+                'class' => 'ReviewerUserRole',
+            ]
         ];
 
         foreach ($configurations as $roleName => $roleObj) {
@@ -576,6 +581,13 @@ class BasicUserRoleManager extends AbstractUserRoleManager
                 $supervisorRole = $this->getUserService()->getUserRole('Supervisor');
                 if (!empty($supervisorRole)) {
                     $roles[] = $supervisorRole;
+                }
+            }
+
+            if ($this->getPerformanceTrackerService()->getPerformanceTrackerDao()->isTrackerReviewer($empNumber)) {
+                $reviewerRole = $this->getUserService()->getUserRole('Reviewer');
+                if (!is_null($reviewerRole)) {
+                    $roles[] = $reviewerRole;
                 }
             }
         }

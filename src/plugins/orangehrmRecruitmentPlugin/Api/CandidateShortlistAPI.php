@@ -17,18 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Authorization\UserRole;
+namespace OrangeHRM\Recruitment\Api;
 
-class EssUserRole extends AbstractUserRole
+use OrangeHRM\Entity\WorkflowStateMachine;
+
+class CandidateShortlistAPI extends CandidateRejectAPI
 {
     /**
      * @inheritDoc
      */
-    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
+    public function getResultingState(): int
     {
-        switch ($entityType) {
-            default:
-                return [];
-        }
+        return WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST;
     }
 }

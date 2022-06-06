@@ -127,6 +127,19 @@ apiv2_performance_performance_tracker_logs:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
+apiv2_performance_tracker_reviewers_autocomplete:
+  description: 'API-v2 Performance - Performance Tracker Reviewers Autocomplete'
+  api: OrangeHRM\Performance\Api\TrackerReviewerAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Reviewer, permission: { read: true, create: false, update: false, delete: false, self: true } }
+
 ##########################
 #        Recruitment
 ##########################
@@ -224,3 +237,31 @@ apiv2_recruitment_candidate_allowed_actions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
     - { role: HiringManager, permission: { read: true, create: false, update: false, delete: false, self: false } }
     - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_recruitment_candidate_reject:
+  description: 'API-v2 Recruitment - Candidate Reject'
+  api: OrangeHRM\Recruitment\Api\CandidateRejectAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
+apiv2_recruitment_candidate_shortlist:
+  description: 'API-v2 Recruitment - Candidate Shortlist'
+  api: OrangeHRM\Recruitment\Api\CandidateShortlistAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
