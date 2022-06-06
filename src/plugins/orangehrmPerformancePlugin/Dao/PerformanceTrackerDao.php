@@ -41,7 +41,7 @@ class PerformanceTrackerDao extends BaseDao
      * @param int $performanceTrackId
      * @return PerformanceTracker|null
      */
-    public function getPerformanceTrack(int $performanceTrackId): ?PerformanceTracker
+    public function getPerformanceTracker(int $performanceTrackId): ?PerformanceTracker
     {
         $performanceTracker = $this->getRepository(PerformanceTracker::class)->findOneBy(['id' => $performanceTrackId ,'status' => 1]);
         if ($performanceTracker instanceof PerformanceTracker) {
@@ -307,6 +307,19 @@ class PerformanceTrackerDao extends BaseDao
             /** @var PerformanceTrackerReviewer $trackerReviewer */
             return $trackerReviewer->getPerformanceTracker()->getId();
         }, $trackerReviewList);
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getTrackerIdsByEmpNumber(int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceTracker::class, 'performanceTracker');
+        $qb->andWhere($qb->expr()->eq('performanceTracker.employee', ':empNumber'))
+            ->setParameter('empNumber', $empNumber);
+
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
     /**

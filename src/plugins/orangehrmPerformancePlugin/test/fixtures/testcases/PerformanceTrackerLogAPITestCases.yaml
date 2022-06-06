@@ -6,7 +6,6 @@ GetOne:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -31,6 +30,11 @@ GetOne:
     userId: 1
     services:
       performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 10
       trackerId: 1
@@ -46,7 +50,6 @@ GetAll:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -93,7 +96,6 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     now:
@@ -129,7 +131,6 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     now:
@@ -165,7 +166,6 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     now:
@@ -203,7 +203,6 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -224,7 +223,6 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     now:
@@ -262,7 +260,6 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -278,7 +275,6 @@ Update:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:

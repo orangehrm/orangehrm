@@ -22,14 +22,17 @@ namespace OrangeHRM\Performance\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 class EmployeeTrackerLogsController extends AbstractVueController
 {
     use PerformanceTrackerServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
@@ -38,9 +41,9 @@ class EmployeeTrackerLogsController extends AbstractVueController
     {
         $id = $request->attributes->getInt('id');
         $component = new Component('employee-tracker-logs');
-        $tracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTrack($id);
+        $tracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTracker($id);
 
-        if (!is_null($tracker)) {
+        if (!is_null($tracker) && $this->isPerformanceTrackerAccessible($tracker)) {
             $component->addProp(new Prop('tracker-id', Prop::TYPE_NUMBER, $tracker->getId()));
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $tracker->getEmployee()->getEmpNumber()));
         } else {
@@ -48,5 +51,14 @@ class EmployeeTrackerLogsController extends AbstractVueController
         }
 
         $this->setComponent($component);
+    }
+
+    /**
+     * @param PerformanceTracker $performanceTracker
+     * @return bool
+     */
+    private function isPerformanceTrackerAccessible(PerformanceTracker $performanceTracker): bool
+    {
+        return $this->getUserRoleManager()->isEntityAccessible(PerformanceTracker::class, $performanceTracker->getId());
     }
 }
