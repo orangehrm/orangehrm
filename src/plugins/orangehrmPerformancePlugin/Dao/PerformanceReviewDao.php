@@ -365,14 +365,65 @@ class PerformanceReviewDao extends BaseDao
         return $this->getPaginator($qb)->count();
     }
 
+    /**
+     * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
     private function getKpiReviewQueryBuilderWrapper(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): QueryBuilderWrapper
     {
         $jobTitleId = $this->getReviewById($reviewKpiSearchFilterParams->getReviewId())->getJobTitle()->getId();
-        $q = $this->createQueryBuilder(Kpi::class,'kpi');
+        $q = $this->createQueryBuilder(Kpi::class, 'kpi');
         $q->andWhere('kpi.jobTitle =:jobTitle')
             ->setParameter('jobTitle', $jobTitleId);
         $this->setSortingAndPaginationParams($q, $reviewKpiSearchFilterParams);
 
         return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @param int $supervisorEmpNumber
+     * @return array
+     */
+    public function getReviewIdsForSupervisorReviewer(int $supervisorEmpNumber): array
+    {
+        $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $q->andWhere('reviewer.employee = :supervisor')
+            ->setParameter('supervisor', $supervisorEmpNumber);
+        /** @var Reviewer[] $reviewers */
+        $reviewers = $q->getQuery()->execute();
+        $reviewIds =[];
+
+        foreach ($reviewers as $reviewer) {
+            $reviewIds[] =$reviewer->getReview()->getId();
+        }
+        return $reviewIds;
+    }
+
+    /**
+     * @return array
+     */
+    public function getReviewIdList(): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
+     * @param int $employeeNumber
+     * @return array
+     */
+    public function getSelfReviewIds(int $employeeNumber): array
+    {
+        $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $q->andWhere('reviewer.employee = :supervisor')
+            ->setParameter('supervisor', $employeeNumber);
+        /** @var Reviewer[] $reviewerOwners */
+        $reviewerOwners = $q->getQuery()->execute();
+        $reviewIds =[];
+
+        foreach ($reviewerOwners as $reviewerOwner) {
+            $reviewIds[] =$reviewerOwner->getReview()->getId();
+        }
+        return $reviewIds;
     }
 }

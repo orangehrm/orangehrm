@@ -22,11 +22,14 @@ namespace OrangeHRM\Core\Authorization\UserRole;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class SupervisorUserRole extends AbstractUserRole
 {
     use EmployeeServiceTrait;
+    use PerformanceReviewServiceTrait;
 
     protected ?LocationService $locationService = null;
 
@@ -51,6 +54,8 @@ class SupervisorUserRole extends AbstractUserRole
                 return $this->getAccessibleEmployeeIds($requiredPermissions);
             case Location::class:
                 return $this->getAccessibleLocationIds($requiredPermissions);
+            case PerformanceReview::class:
+                return $this->getAccessibleReviewIds($requiredPermissions);
             default:
                 return [];
         }
@@ -79,5 +84,15 @@ class SupervisorUserRole extends AbstractUserRole
     {
         $empNumbers = $this->getAccessibleEmployeeIds();
         return $this->getLocationService()->getLocationIdsForEmployees($empNumbers);
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return array
+     */
+    protected function getAccessibleReviewIds(array $requiredPermissions = []): array
+    {
+        $empNumber = $this->getEmployeeNumber();
+        return $this->getPerformanceReviewService()->getPerformanceReviewDao()->getReviewIdsForSupervisorReviewer($empNumber);
     }
 }

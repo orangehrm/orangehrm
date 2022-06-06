@@ -20,7 +20,6 @@
 namespace OrangeHRM\Tests\Performance\Api;
 
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI;
 use OrangeHRM\Performance\Api\ReviewKpiAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -30,7 +29,6 @@ class ReviewKpiAPITest extends EndpointIntegrationTestCase
     /**
      * @dataProvider dataProviderForTestGetAll
      *
-     * @throws Exception
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {

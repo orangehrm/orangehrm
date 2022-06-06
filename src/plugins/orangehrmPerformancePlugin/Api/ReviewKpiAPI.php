@@ -19,26 +19,19 @@
 
 namespace OrangeHRM\Performance\Api;
 
-use Egulias\EmailValidator\Result\Reason\CommaInDomain;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
-use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
-use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\Kpi;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Api\Model\KpiModel;
-use OrangeHRM\Performance\Dto\PerformanceTrackerLogSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
@@ -46,6 +39,7 @@ use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
 {
     use PerformanceReviewServiceTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_REVIEW_ID = 'reviewId';
     /**
@@ -60,6 +54,10 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_REVIEW_ID
             )
         );
+        $accessibleIds = $this->getUserRoleManager()->getAccessibleEntityIds(PerformanceReview::class);
+        if (! in_array($reviewKpiParamHolder->getReviewId(), $accessibleIds)) {
+            throw $this->getBadRequestException();
+        }
         $this->setSortingAndPaginationParams($reviewKpiParamHolder);
         $reviewKpis = $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->getKpisForReview($reviewKpiParamHolder);
@@ -84,8 +82,8 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
                 new Rule(Rules::POSITIVE)
             ),
             ...$this->getSortingAndPaginationParamsRules(
-            ReviewKpiSearchFilterParams::ALLOWED_SORT_FIELDS
-        )
+                ReviewKpiSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
         );
     }
 
