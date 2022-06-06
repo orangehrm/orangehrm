@@ -24,11 +24,13 @@ use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Exception\ReviewServiceException;
 use OrangeHRM\Pim\Dao\EmployeeDao;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class PerformanceReviewService
 {
+    use EmployeeServiceTrait;
+
     private ?PerformanceReviewDao $performanceReviewDao = null;
-    private ?EmployeeDao $employeeDao = null;
 
     /**
      * @return PerformanceReviewDao
@@ -40,18 +42,6 @@ class PerformanceReviewService
         }
         return $this->performanceReviewDao;
     }
-
-    /**
-     * @return EmployeeDao
-     */
-    public function getEmployeeDao(): EmployeeDao
-    {
-        if (!($this->employeeDao instanceof EmployeeDao)) {
-            $this->employeeDao = new EmployeeDao();
-        }
-        return $this->employeeDao;
-    }
-
 
     /**
      * @param PerformanceReview $performanceReview
@@ -73,7 +63,7 @@ class PerformanceReviewService
     public function updateActivateReview(PerformanceReview $performanceReview, int $reviewerEmpNumber): PerformanceReview
     {
         $this->activateReviewCommonExceptions($performanceReview);
-        if (!($this->getEmployeeDao()->getEmployeeByEmpNumber($reviewerEmpNumber)->getEmployeeTerminationRecord()
+        if (!($this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($reviewerEmpNumber)->getEmployeeTerminationRecord()
             == null)) {
             throw ReviewServiceException::pastEmployeeForReviewer();
         }
