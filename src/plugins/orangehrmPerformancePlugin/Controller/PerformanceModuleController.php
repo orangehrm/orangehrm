@@ -17,18 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Authorization\UserRole;
+namespace OrangeHRM\Performance\Controller;
 
-class EssUserRole extends AbstractUserRole
+use Exception;
+use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Framework\Http\RedirectResponse;
+
+class PerformanceModuleController extends AbstractModuleController
 {
     /**
-     * @inheritDoc
+     * @return RedirectResponse
+     * @throws Exception
      */
-    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
+    public function handle(): RedirectResponse
     {
-        switch ($entityType) {
-            default:
-                return [];
-        }
+        $defaultPath = $this->getHomePageService()->getPerformanceModuleDefaultPath();
+        return $this->redirect($defaultPath);
     }
 }

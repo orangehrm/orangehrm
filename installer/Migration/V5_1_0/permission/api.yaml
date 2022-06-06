@@ -127,6 +127,19 @@ apiv2_performance_performance_tracker_logs:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
+apiv2_performance_tracker_reviewers_autocomplete:
+  description: 'API-v2 Performance - Performance Tracker Reviewers Autocomplete'
+  api: OrangeHRM\Performance\Api\TrackerReviewerAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Reviewer, permission: { read: true, create: false, update: false, delete: false, self: true } }
+
 ##########################
 #        Recruitment
 ##########################

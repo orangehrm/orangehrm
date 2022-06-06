@@ -21,6 +21,7 @@ Employee:
 UserRole:
   - { "id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1 }
   - { "id": 2,"name": "ESS","display_name": "ESS","is_assignable": 1,"is_predefined": 1 }
+  - { "id": 7,"name": "Reviewer","display_name": "Reviewer","is_assignable": 0,"is_predefined": 1 }
 
 User:
   - { "id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","user_password": "$2y$12$UWOju9mkaVMNzxiRNuXDQuZ.6sNi5cpi.4StNTc21yzsHWf1Dxer.","deleted": 0,"status": 1,"date_entered": "2022-05-05 21:27:53","date_modified": null,"modified_user_id": null,"created_by": null }
