@@ -3,6 +3,11 @@ GetAll:
     userId: 1
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       reviewId: 1
     data:
@@ -12,6 +17,7 @@ GetAll:
         "jobTitle":
           "id": 1
           "name": "Software Engineer"
+          "deleted": false
         "minRating": 0
         "maxRating": 100
         "isDefault": null
@@ -21,6 +27,7 @@ GetAll:
         "jobTitle":
           "id": 1
           "name": "Software Engineer"
+          "deleted": false
         "minRating": 0
         "maxRating": 100
         "isDefault": null
@@ -30,6 +37,7 @@ GetAll:
         "jobTitle":
           "id": 1
           "name": "Software Engineer"
+          "deleted": false
         "minRating": 0
         "maxRating": 100
         "isDefault": null
