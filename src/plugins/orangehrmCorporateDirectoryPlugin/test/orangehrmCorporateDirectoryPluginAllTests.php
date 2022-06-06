@@ -5,21 +5,19 @@
  * and open the template in the editor.
  */
 
-class orangehrmCorporateDirectoryPluginAllTests {
-    public static function suite() {
+use PHPUnit\Framework\TestSuite;
 
-        $suite = new PHPUnit\Framework\TestSuite('orangehrmCorporateDirectoryPlugin');
+class orangehrmCorporateDirectoryPluginAllTests
+{
+    public static function suite(): TestSuite
+    {
+
+        $suite = new TestSuite('orangehrmCorporateDirectoryPlugin');
 
         /* Dao Test Cases */
-        $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeDirectoryDaoTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/model/service/EmployeeDirectoryServiceTest.php');
-        
-        /* Helper Test */
-        $suite->addTestFile(dirname(__FILE__) . '/model/wrapper/CorporateDirectoryWebServiceHelperTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/test/Dao/EmployeeDirectoryDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/test/Service/EmployeeDirectoryServiceTest.php');
 
-        /* Wrapper Test */
-        $suite->addTestFile(dirname(__FILE__) . '/model/wrapper/CorporateDirectoryWebServiceWrapperTest.php');
         return $suite;
     }
 }
-
