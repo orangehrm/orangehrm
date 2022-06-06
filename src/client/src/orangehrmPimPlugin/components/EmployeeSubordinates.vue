@@ -78,7 +78,7 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
 import SaveEmployeeReportTo from '@/orangehrmPimPlugin/components/SaveEmployeeReportTo';
 import EditEmployeeReportTo from '@/orangehrmPimPlugin/components/EditEmployeeReportTo';
-import usei18n from "@/core/util/composable/usei18n";
+import usei18n from '@/core/util/composable/usei18n';
 
 export default {
   name: 'EmployeeSubordinates',
@@ -111,9 +111,7 @@ export default {
       return data.map(item => {
         return {
           name: `${item.subordinate?.firstName} ${item.subordinate?.lastName} ${
-              item.subordinate.terminationId
-                  ? ''.$t('general.past_employee')
-                  : ''
+            item.subordinate.terminationId ? $t('general.past_employee') : ''
           }`,
           reportingMethod: item.reportingMethod.name,
           subordinateEmpNumber: item.subordinate.empNumber,
