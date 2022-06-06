@@ -25,6 +25,10 @@
   max-width: 120px;
   margin-left: 60px;
 
+  ::v-deep(.oxd-button--medium) {
+    width: 100%;
+  }
+
   @include oxd-respond-to('md') {
     margin-left: unset;
     max-width: unset;
