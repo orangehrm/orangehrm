@@ -80,7 +80,7 @@
       <br />
     </div>
     <div class="orangehrm-login-footer">
-      <div class="orangehrm-login-footer-sm">
+      <div v-if="showSocialMedia" class="orangehrm-login-footer-sm">
         <a
           href="https://www.linkedin.com/company/orangehrm/mycompany/"
           target="_blank"
@@ -125,6 +125,10 @@ export default {
     token: {
       type: String,
       required: true,
+    },
+    showSocialMedia: {
+      type: Boolean,
+      default: true,
     },
   },
 
