@@ -550,9 +550,9 @@ export const imageShouldHaveDimensions = function(
   width: number,
   height: number,
 ) {
-  return function(file: File): Promise<boolean | string> {
+  return function(file: File | null): Promise<boolean | string> {
     return new Promise(resolve => {
-      if (file === null) resolve(true);
+      if (file === null) return resolve(true);
       const image = new Image();
       image.src = `data:${file.type};base64, ${file.base64}`;
       image.decode().then(() => {
