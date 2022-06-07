@@ -278,3 +278,16 @@ apiv2_recruitment_candidate_schedule_interview:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
     - { role: HiringManager, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_recruitment_candidate_interview_attachment:
+  description: 'API-v2 Recruitment - Candidate Interview Attachment'
+  api: OrangeHRM\Recruitment\Api\InterviewAttachmentAPI
+  module: recruitment
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: false, self: false } }

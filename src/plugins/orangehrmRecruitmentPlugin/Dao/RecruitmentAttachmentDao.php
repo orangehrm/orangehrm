@@ -22,6 +22,7 @@ namespace OrangeHRM\Recruitment\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\CandidateAttachment;
+use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Entity\VacancyAttachment;
 
 class RecruitmentAttachmentDao extends BaseDao
@@ -44,6 +45,16 @@ class RecruitmentAttachmentDao extends BaseDao
     {
         $this->persist($candidateAttachment);
         return $candidateAttachment;
+    }
+
+    /**
+     * @param InterviewAttachment $interviewAttachment
+     * @return InterviewAttachment
+     */
+    public function saveInterviewAttachment(InterviewAttachment $interviewAttachment): InterviewAttachment
+    {
+        $this->persist($interviewAttachment);
+        return $interviewAttachment;
     }
 
     /**
@@ -73,6 +84,15 @@ class RecruitmentAttachmentDao extends BaseDao
 
     /**
      * @param int $attachId
+     * @return InterviewAttachment|null
+     */
+    public function getInterviewAttachmentById(int $attachId): ?InterviewAttachment
+    {
+        return $this->getRepository(InterviewAttachment::class)->find($attachId);
+    }
+
+    /**
+     * @param int $attachId
      * @return CandidateAttachment|null
      */
     public function getCandidateAttachment(int $attachId): ?CandidateAttachment
@@ -94,6 +114,19 @@ class RecruitmentAttachmentDao extends BaseDao
         $qb->leftJoin('attachment.vacancy', 'vacancy');
         $qb->where('vacancy.id = :vacancyId')
             ->setParameter('vacancyId', $vacancyId)
+            ->orderBy('attachment.fileName', 'ASC');
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $interviewId
+     * @return InterviewAttachment[]
+     */
+    public function getInterviewAttachmentsByInterviewId(int $interviewId): array
+    {
+        $qb = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
+        $qb->where('attachment.interview = :interviewId')
+            ->setParameter('interviewId', $interviewId)
             ->orderBy('attachment.fileName', 'ASC');
         return $qb->getQuery()->execute();
     }

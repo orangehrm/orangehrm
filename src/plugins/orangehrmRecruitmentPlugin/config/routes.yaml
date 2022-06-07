@@ -113,6 +113,28 @@ apiv2_recrutiment_candidates_schedule_interview:
     _api: OrangeHRM\Recruitment\Api\CandidateScheduleInterviewAPI
     _key: id
 
+apiv2_recruitment_interviews_attachment:
+  path: /api/v2/recruitment/interviews/attachments/{attachmentId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\InterviewAttachmentAPI
+    _key: attachmentId
+
+apiv2_recruitment_interview_attachments:
+  path: /api/v2/recruitment/interviews/{interviewId}/attachments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\InterviewAttachmentAPI
+
+apiv2_recruitment_interviews_attachments:
+  path: /api/v2/recruitment/interviews/attachments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\InterviewAttachmentAPI
+
 ##########################
 #        Files
 ##########################
