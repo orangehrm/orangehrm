@@ -23,9 +23,9 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class ReviewKpiSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = [];
+    public const ALLOWED_SORT_FIELDS = ['kpi.title'];
 
-    protected int $reviewId;
+    protected ?int $reviewId = null;
 
     /**
      * @param int $reviewId

@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -33,7 +34,6 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Api\Model\KpiModel;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
 class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
@@ -42,6 +42,7 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
     use UserRoleManagerTrait;
 
     public const PARAMETER_REVIEW_ID = 'reviewId';
+
     /**
      * @inheritDoc
      */
@@ -54,10 +55,6 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_REVIEW_ID
             )
         );
-        $accessibleIds = $this->getUserRoleManager()->getAccessibleEntityIds(PerformanceReview::class);
-        if (! in_array($reviewKpiParamHolder->getReviewId(), $accessibleIds)) {
-            throw $this->getBadRequestException();
-        }
         $this->setSortingAndPaginationParams($reviewKpiParamHolder);
         $reviewKpis = $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->getKpisForReview($reviewKpiParamHolder);
@@ -67,7 +64,7 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
         return new EndpointCollectionResult(
             KpiModel::class,
             $reviewKpis,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL=>$reviewCount])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $reviewCount])
         );
     }
 
@@ -79,7 +76,8 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_REVIEW_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceReview::class])
             ),
             ...$this->getSortingAndPaginationParamsRules(
                 ReviewKpiSearchFilterParams::ALLOWED_SORT_FIELDS

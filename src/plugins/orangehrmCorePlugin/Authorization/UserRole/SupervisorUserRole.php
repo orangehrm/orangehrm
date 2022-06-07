@@ -88,7 +88,7 @@ class SupervisorUserRole extends AbstractUserRole
 
     /**
      * @param array $requiredPermissions
-     * @return array
+     * @return int[]
      */
     protected function getAccessibleReviewIds(array $requiredPermissions = []): array
     {

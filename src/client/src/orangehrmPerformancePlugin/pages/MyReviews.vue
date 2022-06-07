@@ -208,7 +208,7 @@ export default {
       const screenState = inject('screenState');
 
       if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
-        if (row.statusId === 4) {
+        if (row.selfEvaluationStatus === 3) {
           cellConfig.view = viewIcon;
           cellConfig.view.props.title = this.$t('general.view');
         } else {
@@ -216,7 +216,7 @@ export default {
           cellConfig.evaluate.props.title = this.$t('performance.evaluate');
         }
       } else {
-        if (row.statusId === 4) {
+        if (row.selfEvaluationStatus === 3) {
           cellConfig.view = viewLabel;
           cellConfig.view.props.label = this.$t('general.view');
         } else {

@@ -25,6 +25,7 @@ use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 class EssUserRole extends AbstractUserRole
 {
     use PerformanceReviewServiceTrait;
+
     /**
      * @inheritDoc
      */
@@ -39,7 +40,7 @@ class EssUserRole extends AbstractUserRole
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     protected function getAccessibleReviewIds(): array
     {

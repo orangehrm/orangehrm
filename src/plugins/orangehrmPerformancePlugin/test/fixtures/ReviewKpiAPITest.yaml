@@ -53,7 +53,8 @@ User:
   - {"id": 2,"user_role_id": 2,"emp_number": 2,"user_name": "psycho","user_password": "$2y$12$ZycUQ/B39Xe6C6sfD.vuh.N4HV8M5vB3OomxHaJUBjYLd8xvVs7u6","deleted": 0,"status": 1,"date_entered": "2022-05-12 15:52:28","date_modified": "2022-05-12 19:56:02","modified_user_id": 1,"created_by": 1}
   - {"id": 3,"user_role_id": 2,"emp_number": 6,"user_name": "woozi","user_password": "$2y$12$FCBTsL4S6ZelyVG/dOna9.hEWCj3MxH.10M74q67fuZuHqme4XljC","deleted": 0,"status": 1,"date_entered": "2022-05-12 15:52:49","date_modified": null,"modified_user_id": null,"created_by": 1}
   - {"id": 4,"user_role_id": 2,"emp_number": 3,"user_name": "scoups","user_password": "$2y$12$M9435QU8kzJM0RVYo1pkrurLIUfjtRDKHnKTYqLg4fGhwGzEKVLzi","deleted": 0,"status": 1,"date_entered": "2022-05-12 19:55:44","date_modified": null,"modified_user_id": null,"created_by": 1}
-
+  - {"id": 5,"user_role_id": 2,"emp_number": 4,"user_name": "Yoongun","user_password": "$2y$12$9KOPXLlc.CFMahfWFalWheX.IVLE8Gqa1VQzK.7nqXbulCX0nlQzm","deleted": 0,"status": 1,"date_entered": "2022-05-06 01:09:06","date_modified": null,"modified_user_id": null,"created_by": 1}
+  
 Kpi:
   - {"id": 1,"job_title_code": 1,"kpi_indicators": "Velocity","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
   - {"id": 2,"job_title_code": 1,"kpi_indicators": "Code Coverage","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}

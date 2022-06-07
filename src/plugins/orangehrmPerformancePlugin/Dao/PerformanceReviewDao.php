@@ -338,11 +338,7 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getReviewById(int $id): ?PerformanceReview
     {
-        $review = $this->getRepository(PerformanceReview::class)->findOneBy(['id' => $id]);
-        if ($review instanceof PerformanceReview) {
-            return $review;
-        }
-        return null;
+        return $this->getRepository(PerformanceReview::class)->findOneBy(['id' => $id]);
     }
 
     /**
@@ -382,7 +378,7 @@ class PerformanceReviewDao extends BaseDao
 
     /**
      * @param int $supervisorEmpNumber
-     * @return array
+     * @return int[]
      */
     public function getReviewIdsForSupervisorReviewer(int $supervisorEmpNumber): array
     {
@@ -400,7 +396,7 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getReviewIdList(): array
     {
@@ -410,7 +406,7 @@ class PerformanceReviewDao extends BaseDao
 
     /**
      * @param int $employeeNumber
-     * @return array
+     * @return int[]
      */
     public function getSelfReviewIds(int $employeeNumber): array
     {
@@ -422,7 +418,7 @@ class PerformanceReviewDao extends BaseDao
         $reviewIds =[];
 
         foreach ($reviewerOwners as $reviewerOwner) {
-            $reviewIds[] =$reviewerOwner->getReview()->getId();
+            $reviewIds[] = $reviewerOwner->getReview()->getId();
         }
         return $reviewIds;
     }
