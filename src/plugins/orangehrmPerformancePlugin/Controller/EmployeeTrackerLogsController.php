@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Performance\Controller;
 
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
@@ -29,7 +30,7 @@ use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
-class EmployeeTrackerLogsController extends AbstractVueController
+class EmployeeTrackerLogsController extends AbstractVueController implements CapableViewController
 {
     use PerformanceTrackerServiceTrait;
     use UserRoleManagerTrait;
@@ -43,7 +44,7 @@ class EmployeeTrackerLogsController extends AbstractVueController
         $component = new Component('employee-tracker-logs');
         $tracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTracker($id);
 
-        if (!is_null($tracker) && $this->isPerformanceTrackerAccessible($tracker)) {
+        if (!is_null($tracker)) {
             $component->addProp(new Prop('tracker-id', Prop::TYPE_NUMBER, $tracker->getId()));
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $tracker->getEmployee()->getEmpNumber()));
         } else {
@@ -54,11 +55,14 @@ class EmployeeTrackerLogsController extends AbstractVueController
     }
 
     /**
-     * @param PerformanceTracker $performanceTracker
-     * @return bool
+     * @inheritDoc
      */
-    private function isPerformanceTrackerAccessible(PerformanceTracker $performanceTracker): bool
+    public function isCapable(Request $request): bool
     {
-        return $this->getUserRoleManager()->isEntityAccessible(PerformanceTracker::class, $performanceTracker->getId());
+        $id = $request->attributes->getInt('id');
+        if (!$this->getUserRoleManager()->isEntityAccessible(PerformanceTracker::class, $id)) {
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+        }
+        return true;
     }
 }
