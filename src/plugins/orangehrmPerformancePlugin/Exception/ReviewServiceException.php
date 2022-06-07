@@ -38,4 +38,20 @@ class ReviewServiceException extends Exception
     {
         return new self("Cannot activate review without KPIs");
     }
+
+    /**
+     * @return static
+     */
+    public static function pastEmployeeForReviewer(): self
+    {
+        return new self("Cannot add a past employee as reviewer");
+    }
+
+    /**
+     * @return static
+     */
+    public static function invalidSupervisor(): self
+    {
+        return new self("Selected supervisor for reviewer is invalid");
+    }
 }

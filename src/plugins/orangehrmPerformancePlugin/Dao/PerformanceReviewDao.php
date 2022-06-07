@@ -65,7 +65,8 @@ class PerformanceReviewDao extends BaseDao
         $qb = $this->createQueryBuilder(ReportTo::class, 'rt');
         $qb->leftJoin('rt.supervisor', 'employee')
             ->andWhere('rt.subordinate = :empNumber')
-            ->setParameter('empNumber', $reviewEmployeeSupervisorSearchFilterParams->getEmpNumber());
+            ->setParameter('empNumber', $reviewEmployeeSupervisorSearchFilterParams->getEmpNumber())
+            ->andWhere($qb->expr()->isNull('employee.employeeTerminationRecord'));
         if (! is_null($reviewEmployeeSupervisorSearchFilterParams->getNameOrId())) {
             $qb->andWhere(
                 $qb->expr()->orX(

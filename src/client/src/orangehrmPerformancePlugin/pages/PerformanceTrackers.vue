@@ -107,7 +107,7 @@ const defaultSortOrder = {
   'performanceTracker.modifiedDate': 'DESC',
   'employee.lastName': 'ASC',
   'performanceTracker.trackerName': 'ASC',
-  'performanceTracker.addedDate': 'ASC',
+  'performanceTracker.addedDate': 'DESC',
 };
 
 export default {

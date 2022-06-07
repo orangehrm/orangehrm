@@ -78,20 +78,7 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
 import SaveEmployeeReportTo from '@/orangehrmPimPlugin/components/SaveEmployeeReportTo';
 import EditEmployeeReportTo from '@/orangehrmPimPlugin/components/EditEmployeeReportTo';
-
-const subordinateNormalizer = data => {
-  return data.map(item => {
-    return {
-      name: `${item.subordinate?.firstName} ${item.subordinate?.lastName} ${
-        item.subordinate.terminationId
-          ? ''.this.$t('general.past_employee')
-          : ''
-      }`,
-      reportingMethod: item.reportingMethod.name,
-      subordinateEmpNumber: item.subordinate.empNumber,
-    };
-  });
-};
+import usei18n from '@/core/util/composable/usei18n';
 
 export default {
   name: 'EmployeeSubordinates',
@@ -119,6 +106,18 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.empNumber}/subordinates`,
     );
+    const {$t} = usei18n();
+    const subordinateNormalizer = data => {
+      return data.map(item => {
+        return {
+          name: `${item.subordinate?.firstName} ${item.subordinate?.lastName} ${
+            item.subordinate.terminationId ? $t('general.past_employee') : ''
+          }`,
+          reportingMethod: item.reportingMethod.name,
+          subordinateEmpNumber: item.subordinate.empNumber,
+        };
+      });
+    };
     const subordinateEndpoint = `api/v2/pim/employees/${props.empNumber}/subordinates/`;
     const {
       showPaginator,

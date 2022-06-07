@@ -34,9 +34,10 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Performance\Api\Model\PerformanceTrackerLogModel;
-use OrangeHRM\Performance\Api\Traits\PerformanceTrackerPermissionTrait;
 use OrangeHRM\Performance\Dto\PerformanceTrackerLogSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
@@ -47,7 +48,7 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
     use PerformanceTrackerLogServiceTrait;
     use DateTimeHelperTrait;
     use PerformanceTrackerServiceTrait;
-    use PerformanceTrackerPermissionTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_TRACKER_ID = 'trackerId';
     public const PARAMETER_NEGATIVE = 'negative';
@@ -110,7 +111,8 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_TRACKER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTracker::class])
             ),
             ...$this->getSortingAndPaginationParamsRules(
                 PerformanceTrackerLogSearchFilterParams::ALLOWED_SORT_FIELDS
@@ -183,7 +185,8 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_TRACKER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTracker::class])
             ),
             new ParamRule(
                 self::PARAMETER_ACHIEVEMENT,
@@ -210,14 +213,7 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_IDS
         );
         foreach ($ids as $id) {
-            $performanceTrackerLog = $this->getPerformanceTrackerLogService()
-                ->getPerformanceTrackerLogDao()
-                ->getPerformanceTrackerLogById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist(
-                $performanceTrackerLog,
-                PerformanceTrackerLog::class
-            );
-            if (! $this->getTrackerLogPermission($performanceTrackerLog)->canUpdate()) {
+            if (!$this->getUserRoleManager()->isEntityAccessible(PerformanceTrackerLog::class, $id)) {
                 throw $this->getForbiddenException();
             }
         }
@@ -239,7 +235,8 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_TRACKER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTracker::class])
             ),
         );
     }
@@ -255,9 +252,6 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLog, PerformanceTrackerLog::class);
-        if (! $this->getTrackerLogPermission($performanceTrackerLog)->canUpdate()) {
-            throw $this->getForbiddenException();
-        }
         return new EndpointResourceResult(PerformanceTrackerLogModel::class, $performanceTrackerLog);
     }
 
@@ -269,11 +263,13 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTrackerLog::class])
             ),
             new ParamRule(
                 self::PARAMETER_TRACKER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTracker::class])
             ),
         );
     }
@@ -289,9 +285,6 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTrackerLog, PerformanceTrackerLog::class);
-        if (! $this->getTrackerLogPermission($performanceTrackerLog)->canUpdate()) {
-            throw $this->getForbiddenException();
-        }
         $this->setTrackerLogsParams($performanceTrackerLog);
         $performanceTrackerLog->getDecorator()->setUserByUserId($this->getAuthUser()->getUserId());
         $performanceTrackerLog->setModifiedDate($this->getDateTimeHelper()->getNow());
@@ -308,7 +301,8 @@ class PerformanceTrackerLogAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTrackerLog::class])
             ),
             ...$this->getCommonBodyParamRulesCollection()
         );

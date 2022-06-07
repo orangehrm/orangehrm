@@ -20,52 +20,81 @@
 namespace OrangeHRM\Performance\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Authorization\UserRole\ReviewerUserRole;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
-use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
+use OrangeHRM\Pim\Api\EmployeeAPI;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
+class PerformanceTrackerReviewerAPI extends Endpoint implements CollectionEndpoint
 {
-    use PerformanceTrackerServiceTrait;
-
-    public const FILTER_NAME_OR_ID = 'nameOrId';
-    public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
+    use EmployeeServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        $performanceTrackerReviewerSearchParamHolder = new PerformanceTrackerReviewerSearchFilterParams();
-        $this->setSortingAndPaginationParams($performanceTrackerReviewerSearchParamHolder);
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $this->setSortingAndPaginationParams($employeeSearchFilterParams);
 
-        $performanceTrackerReviewerSearchParamHolder->setTrackerEmpNumber(
-            $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                CommonParams::PARAMETER_EMP_NUMBER
-            )
+        $excludeEmpNumber = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            CommonParams::PARAMETER_EMP_NUMBER
         );
-        $performanceTrackerReviewerSearchParamHolder->setNameOrId(
+
+        $accessibleEmpNumbers = $this->getUserRoleManager()
+            ->getAccessibleEntityIds(
+                Employee::class,
+                null,
+                null,
+                ['Supervisor'],
+                ['Admin', 'Reviewer'],
+                [BasicUserRoleManager::PERMISSION_TYPE_USER_ROLE_SPECIFIC => [ReviewerUserRole::REVIEWER_INCLUDE_EMPLOYEE => true]]
+            );
+
+        if (!is_null($excludeEmpNumber) && in_array($excludeEmpNumber, $accessibleEmpNumbers)) {
+            $accessibleEmpNumbers = array_diff($accessibleEmpNumbers, [$excludeEmpNumber]);
+        }
+
+        $employeeSearchFilterParams->setEmployeeNumbers($accessibleEmpNumbers);
+
+        $employeeSearchFilterParams->setIncludeEmployees(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_NAME_OR_ID
+                EmployeeAPI::FILTER_INCLUDE_EMPLOYEES
             )
         );
-        $reviewers = $this->getPerformanceTrackerService()
-            ->getPerformanceTrackerDao()
-            ->getReviewerList($performanceTrackerReviewerSearchParamHolder);
+
+        $employeeSearchFilterParams->setNameOrId(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                EmployeeAPI::FILTER_NAME_OR_ID
+            )
+        );
+
+        $employees = $this->getEmployeeService()->getEmployeeList($employeeSearchFilterParams);
+        $count = $this->getEmployeeService()->getEmployeeCount($employeeSearchFilterParams);
+
         return new EndpointCollectionResult(
             EmployeeModel::class,
-            $reviewers
+            $employees,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
@@ -83,12 +112,23 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::FILTER_NAME_OR_ID,
-                    new Rule(Rules::STRING_TYPE),
+                    EmployeeAPI::FILTER_INCLUDE_EMPLOYEES,
                     new Rule(
-                        Rules::LENGTH,
-                        [null, self::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH]
-                    ),
+                        Rules::IN,
+                        [
+                            array_merge(
+                                array_keys(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP),
+                                array_values(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP)
+                            )
+                        ]
+                    )
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    EmployeeAPI::FILTER_NAME_OR_ID,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, EmployeeAPI::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH]),
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(PerformanceTrackerReviewerSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -123,38 +163,6 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getOne(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetOne(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function update(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }

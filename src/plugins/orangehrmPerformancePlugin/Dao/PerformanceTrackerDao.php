@@ -25,6 +25,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
@@ -40,7 +41,7 @@ class PerformanceTrackerDao extends BaseDao
      * @param int $performanceTrackId
      * @return PerformanceTracker|null
      */
-    public function getPerformanceTrack(int $performanceTrackId): ?PerformanceTracker
+    public function getPerformanceTracker(int $performanceTrackId): ?PerformanceTracker
     {
         $performanceTracker = $this->getRepository(PerformanceTracker::class)->findOneBy(['id' => $performanceTrackId ,'status' => 1]);
         if ($performanceTracker instanceof PerformanceTracker) {
@@ -116,14 +117,14 @@ class PerformanceTrackerDao extends BaseDao
     {
         $q = $this->createQueryBuilder(PerformanceTracker::class, 'performanceTracker');
         $q->leftJoin('performanceTracker.employee', 'employee');
-        $this->setSortingAndPaginationParams($q, $performanceTrackerSearchFilterParams);
-
         if (!is_null($performanceTrackerSearchFilterParams->getEmpNumber())) {
             $q->andWhere('employee.empNumber = :employeeNumber')
                 ->setParameter('employeeNumber', $performanceTrackerSearchFilterParams->getEmpNumber());
         }
         $q->andWhere('performanceTracker.status = :status')
             ->setParameter('status', PerformanceTracker::STATUS_TRACKER_NOT_DELETED);
+        $this->setSortingAndPaginationParams($q, $performanceTrackerSearchFilterParams);
+        $q->addOrderBy('performanceTracker.addedDate', ListSorter::DESCENDING);
         return $this->getQueryBuilderWrapper($q);
     }
 
@@ -278,7 +279,6 @@ class PerformanceTrackerDao extends BaseDao
             ->setParameter('status', PerformanceTracker::STATUS_TRACKER_NOT_DELETED);
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
         $this->setSortingAndPaginationParams($qb, $employeeTrackerSearchFilterParams);
-
         return $this->getQueryBuilderWrapper($qb);
     }
 
@@ -307,6 +307,19 @@ class PerformanceTrackerDao extends BaseDao
             /** @var PerformanceTrackerReviewer $trackerReviewer */
             return $trackerReviewer->getPerformanceTracker()->getId();
         }, $trackerReviewList);
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getTrackerIdsByEmpNumber(int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceTracker::class, 'performanceTracker');
+        $qb->andWhere($qb->expr()->eq('performanceTracker.employee', ':empNumber'))
+            ->setParameter('empNumber', $empNumber);
+
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
     /**

@@ -19,17 +19,21 @@
 
 namespace OrangeHRM\Performance\Controller;
 
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
-class EmployeeTrackerLogsController extends AbstractVueController
+class EmployeeTrackerLogsController extends AbstractVueController implements CapableViewController
 {
     use PerformanceTrackerServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
@@ -38,15 +42,25 @@ class EmployeeTrackerLogsController extends AbstractVueController
     {
         $id = $request->attributes->getInt('id');
         $component = new Component('employee-tracker-logs');
-        $tracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTrack($id);
 
+        $tracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTracker($id);
         if (!is_null($tracker)) {
             $component->addProp(new Prop('tracker-id', Prop::TYPE_NUMBER, $tracker->getId()));
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $tracker->getEmployee()->getEmpNumber()));
-        } else {
-            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
 
         $this->setComponent($component);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCapable(Request $request): bool
+    {
+        $id = $request->attributes->getInt('id');
+        if (is_null($this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTracker($id))) {
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+        }
+        return $this->getUserRoleManager()->isEntityAccessible(PerformanceTracker::class, $id);
     }
 }
