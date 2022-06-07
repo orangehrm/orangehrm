@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_1_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
@@ -136,6 +137,8 @@ class Migration extends AbstractMigration
             ->andWhere('menuItem.screen_id = :screenId')
             ->setParameter('screenId', $reviewListScreenId)
             ->executeQuery();
+
+        $this->changeCandidateVacancyPrimaryKeyConstraints();
     }
 
     /**
@@ -208,5 +211,22 @@ class Migration extends AbstractMigration
             $this->translationHelper = new TranslationHelper($this->getConnection());
         }
         return $this->translationHelper;
+    }
+
+    private function changeCandidateVacancyPrimaryKeyConstraints(): void
+    {
+        $this->getSchemaHelper()->disableConstraints();
+        $this->getSchemaHelper()->dropPrimaryKey('ohrm_job_candidate_vacancy');
+        $primaryKey = new Index(
+            null,
+            ['id'],
+            true,
+            true
+        );
+        $this->getSchemaHelper()->changeColumn('ohrm_job_candidate_vacancy', 'id', ['Autoincrement' => false]);
+        $this->getSchemaManager()->dropUniqueConstraint('id', 'ohrm_job_candidate_vacancy');
+        $this->getSchemaHelper()->getSchemaManager()->createIndex($primaryKey, 'ohrm_job_candidate_vacancy');
+        $this->getSchemaHelper()->changeColumn('ohrm_job_candidate_vacancy', 'id', ['Autoincrement' => true]);
+        $this->getSchemaHelper()->enableConstraints();
     }
 }

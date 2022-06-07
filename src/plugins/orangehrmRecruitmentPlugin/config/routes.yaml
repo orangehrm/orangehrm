@@ -105,6 +105,14 @@ apiv2_recrutiment_candidates_shortlist:
     _api: OrangeHRM\Recruitment\Api\CandidateShortlistAPI
     _key: id
 
+apiv2_recrutiment_candidates_schedule_interview:
+  path: /api/v2/recruitment/candidates/{candidateId}/shedule-interview
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateScheduleInterviewAPI
+    _key: id
+
 ##########################
 #        Files
 ##########################

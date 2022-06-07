@@ -1,0 +1,195 @@
+Create:
+  'Schedule interview':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 2
+    body:
+      interviewName: 'Test interview 01'
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00:00'
+      interviewers: [ 1,2,3 ]
+      note: 'Will be delayed due to the power cuts'
+    data:
+      id: 3
+      name: 'Test interview 01'
+      candidate:
+        id: 2
+        firstName: 'Jo'
+        middleName: ''
+        lastName: 'Denton'
+      vacancy:
+        id: 3
+        name: 'Part-Time Technical Assistant'
+      "interviewers": [
+        {
+          "empNumber": 1,
+          "lastName": "Abbey",
+          "firstName": "Kayla",
+          "middleName": "T",
+          "terminationId": null
+        },
+        {
+          "empNumber": 2,
+          "lastName": "Abel",
+          "firstName": "Ashley",
+          "middleName": "ST",
+          "terminationId": null
+        },
+        {
+          "empNumber": 3,
+          "lastName": "Saputhanthri",
+          "firstName": "Renukshan",
+          "middleName": "RT",
+          "terminationId": null
+        }
+      ],
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00'
+      note: 'Will be delayed due to the power cuts'
+    meta: [ ]
+
+  'Schedule Interview - already two interviews scheduled':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 5
+    body:
+      interviewName: 'Test interview 01'
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00:00'
+      interviewers: [ 1,2,3 ]
+      note: 'Will be delayed due to the power cuts'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'You Can not Schedule More Than Two Interviews Per Candidate'
+
+  'Schedule Interview - not shortlisted candidate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 1
+    body:
+      interviewName: 'Test interview 01'
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00:00'
+      interviewers: [ 1,2,3 ]
+      note: 'Will be delayed due to the power cuts'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Schedule Interview - no canddate vacancy found':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 4
+    body:
+      interviewName: 'Test interview 01'
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00:00'
+      interviewers: [ 1,2,3 ]
+      note: 'Will be delayed due to the power cuts'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Schedule Interview - wihtout interviewers':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+    body:
+      interviewName: 'Test interview 01'
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00:00'
+      interviewers: [ ]
+      note: 'Will be delayed due to the power cuts'
+    invalidOnly: [ 'interviewers' ]
+
+  'Schedule Interview - more than five interviewers':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+    body:
+      interviewName: 'Test interview 01'
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00:00'
+      interviewers: [ 1,2,3,4,5,6 ]
+      note: 'Will be delayed due to the power cuts'
+    invalidOnly: [ 'interviewers' ]
+
+  'Schedule Interview - without name':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+    body:
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00:00'
+      interviewers: [ 1,2,3,4 ]
+      note: 'Will be delayed due to the power cuts'
+    invalidOnly: [ 'interviewName' ]
+
+  'Schedule Interview - without date':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+    body:
+      interviewName: 'Test interview 01'
+      interviewTime: '05:00:00'
+      interviewers: [ 1,2,3,4 ]
+      note: 'Will be delayed due to the power cuts'
+    invalidOnly: [ 'interviewDate' ]
