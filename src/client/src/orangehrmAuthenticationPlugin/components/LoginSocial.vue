@@ -20,9 +20,9 @@
 
 <template>
   <div class="orangehrm-login-social">
-    <oxd-text class="orangehrm-login-social-text" tag="p"
-      >Or login with</oxd-text
-    >
+    <oxd-text class="orangehrm-login-social-text" tag="p">
+      {{ $t('general.or_login_with') }}
+    </oxd-text>
     <div class="orangehrm-login-social-icons">
       <oxd-icon-button class="--loginwith" name="google"></oxd-icon-button>
       <oxd-icon-button class="--loginwith" name="facebook"></oxd-icon-button>

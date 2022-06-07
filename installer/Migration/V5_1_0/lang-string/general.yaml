@@ -149,3 +149,6 @@ langStrings:
   -
     value: 'Invalid'
     unitId: invalid
+  -
+    value: 'Or login with'
+    unitId: or_login_with

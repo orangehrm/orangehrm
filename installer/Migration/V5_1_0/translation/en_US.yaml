@@ -115,3 +115,4 @@ translations:
     - { target: 'Accepts jpg, .png, .gif up to {fileSize}. Recommended dimensions: {width}px X {height}px', unitId: accept_jpg_png_gif_upto_recomended_dimentions, group: general }
     - { target: 'Incorrect Dimensions', unitId: incorrect_dimensions, group: general }
     - { target: 'Invalid', unitId: invalid, group: general }
+    - { target: 'Or login with', unitId: or_login_with, group: general }
