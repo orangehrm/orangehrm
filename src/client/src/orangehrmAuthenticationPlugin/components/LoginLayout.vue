@@ -29,7 +29,6 @@
               <img :src="loginLogoSrc" alt="orangehrm-logo" />
             </div>
             <slot></slot>
-            <slot name="footer"></slot>
           </div>
         </div>
       </div>
