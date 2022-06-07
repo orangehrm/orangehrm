@@ -51,7 +51,6 @@ class WorkflowStateMachine
     public const ATTENDANCE_ACTION_DELETE = 7;
     public const ATTENDANCE_ACTION_EDIT_PUNCH_TIME = 8;
 
-
     public const RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY = 1;
     public const RECRUITMENT_APPLICATION_ACTION_SHORTLIST = 2;
     public const RECRUITMENT_APPLICATION_ACTION_REJECT = 3;
@@ -69,11 +68,17 @@ class WorkflowStateMachine
     public const EMPLOYEE_ACTION_REACTIVE = 4;
     public const EMPLOYEE_ACTION_DELETE_TERMINATED = 5;
 
+    public const REVIEW_INACTIVE_SAVE = 1;
+    public const REVIEW_ACTIVATE = 2;
+    public const REVIEW_IN_PROGRESS_SAVE = 3;
+    public const REVIEW_COMPLETE = 4;
+
     public const FLOW_TIME_TIMESHEET = 0;
     public const FLOW_ATTENDANCE = 1;
     public const FLOW_RECRUITMENT = 2;
     public const FLOW_EMPLOYEE = 3;
     public const FLOW_LEAVE = 4;
+    public const FLOW_REVIEW = 5;
 
     /**
      * @var int

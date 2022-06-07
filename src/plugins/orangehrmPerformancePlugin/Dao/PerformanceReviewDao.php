@@ -130,6 +130,15 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
+     * @param int $id
+     * @return PerformanceReview|null
+     */
+    public function getPerformanceReviewById(int $id): ?PerformanceReview
+    {
+        return $this->getRepository(PerformanceReview::class)->findOneBy(['id' => $id]);
+    }
+
+    /**
      * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
      * @return PerformanceReview[]
      */
@@ -309,7 +318,7 @@ class PerformanceReviewDao extends BaseDao
      * @param PerformanceReview $performanceReview
      * @return Reviewer
      */
-    private function getPerformanceSelfReviewer(PerformanceReview $performanceReview): Reviewer
+    public function getPerformanceSelfReviewer(PerformanceReview $performanceReview): Reviewer
     {
         $reviewer = $this->getRepository(Reviewer::class)->findOneBy(['review' => $performanceReview->getId(), 'employee' => $performanceReview->getEmployee()]);
         $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
