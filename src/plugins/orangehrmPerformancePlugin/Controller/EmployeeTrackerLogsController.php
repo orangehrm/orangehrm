@@ -42,13 +42,11 @@ class EmployeeTrackerLogsController extends AbstractVueController implements Cap
     {
         $id = $request->attributes->getInt('id');
         $component = new Component('employee-tracker-logs');
-        $tracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTracker($id);
 
+        $tracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTracker($id);
         if (!is_null($tracker)) {
             $component->addProp(new Prop('tracker-id', Prop::TYPE_NUMBER, $tracker->getId()));
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $tracker->getEmployee()->getEmpNumber()));
-        } else {
-            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
 
         $this->setComponent($component);
@@ -60,9 +58,9 @@ class EmployeeTrackerLogsController extends AbstractVueController implements Cap
     public function isCapable(Request $request): bool
     {
         $id = $request->attributes->getInt('id');
-        if (!$this->getUserRoleManager()->isEntityAccessible(PerformanceTracker::class, $id)) {
+        if (is_null($this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTracker($id))) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
-        return true;
+        return $this->getUserRoleManager()->isEntityAccessible(PerformanceTracker::class, $id);
     }
 }
