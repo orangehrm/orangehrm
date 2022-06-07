@@ -72,6 +72,12 @@ class LoginController extends AbstractVueController implements PublicControllerI
         $component->addProp(
             new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('login')->getValue())
         );
+        $component->addProp(
+            new Prop('login-logo-src', Prop::TYPE_STRING, $request->getBasePath() . "/images/ohrm_logo.png")
+        );
+        $component->addProp(
+            new Prop('login-banner-src', Prop::TYPE_STRING, $request->getBasePath() . "/images/ohrm_branding.png")
+        );
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }
