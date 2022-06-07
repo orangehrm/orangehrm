@@ -228,7 +228,6 @@ apiv2_recruitment_candidate_allowed_actions:
   description: 'API-v2 Recruitment - Candidate Allowed Actions'
   api: OrangeHRM\Recruitment\Api\CandidateAllowedActionsAPI
   module: recruitment
-
   allowed:
     read: true
     create: false
@@ -236,7 +235,6 @@ apiv2_recruitment_candidate_allowed_actions:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
     - { role: HiringManager, permission: { read: true, create: false, update: false, delete: false, self: false } }
     - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
