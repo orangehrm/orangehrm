@@ -19,16 +19,52 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Entity\PerformanceTrackerLog;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
+
 class EssUserRole extends AbstractUserRole
 {
+    use AuthUserTrait;
+    use PerformanceTrackerServiceTrait;
+    use PerformanceTrackerLogServiceTrait;
+
     /**
      * @inheritDoc
      */
     protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
         switch ($entityType) {
+            case PerformanceTracker::class:
+                return $this->getAccessiblePerformanceTrackerIdsForESS($requiredPermissions);
+            case PerformanceTrackerLog::class:
+                return $this->getAccessiblePerformanceTrackerLogIdsForESS($requiredPermissions);
             default:
                 return [];
         }
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessiblePerformanceTrackerIdsForESS(array $requiredPermissions = []): array
+    {
+        return $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getTrackerIdsByEmpNumber($this->getAuthUser()->getEmpNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessiblePerformanceTrackerLogIdsForESS(array $requiredPermissions = []): array
+    {
+        return $this->getPerformanceTrackerLogService()
+            ->getPerformanceTrackerLogDao()
+            ->getPerformanceTrackerLogIdsByUserId($this->getAuthUser()->getUserId());
     }
 }

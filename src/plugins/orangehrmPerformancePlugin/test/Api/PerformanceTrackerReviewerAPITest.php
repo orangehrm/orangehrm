@@ -74,32 +74,4 @@ class PerformanceTrackerReviewerAPITest extends EndpointIntegrationTestCase
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
-
-    public function testGetOne(): void
-    {
-        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
-    }
-
-    public function testGetValidationRuleForGetOne(): void
-    {
-        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
-    }
-
-    public function testUpdate(): void
-    {
-        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->update();
-    }
-
-    public function testGetValidationRuleForUpdate(): void
-    {
-        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
-    }
 }
