@@ -299,7 +299,7 @@ class PerformanceReviewDao extends BaseDao
     public function getReviewKPI(PerformanceReview $performanceReview): array
     {
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
-        $q->andWhere('kpi.jobTitle =:jobTitle')
+        $q->andWhere('kpi.jobTitle = :jobTitle')
             ->setParameter('jobTitle', $performanceReview->getJobTitle());
         return $q->getQuery()->execute();
     }
@@ -314,7 +314,7 @@ class PerformanceReviewDao extends BaseDao
         $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
         $q->andWhere('reviewer.review = :reviewId')
             ->setParameter('reviewId', $performanceReview->getId())
-            ->andWhere('reviewer.employee =:employeeId')
+            ->andWhere('reviewer.employee = :employeeId')
             ->setParameter('employeeId', $performanceReview->getEmployee()->getEmployeeId());
         return $reviewer;
     }
