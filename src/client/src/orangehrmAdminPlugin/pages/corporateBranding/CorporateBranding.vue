@@ -115,7 +115,7 @@
                 :hint="
                   $t('general.accept_jpg_png_gif_upto_recomended_dimentions', {
                     fileSize: '1MB',
-                    width: 132,
+                    width: 182,
                     height: 50,
                   })
                 "
@@ -247,7 +247,7 @@ export default {
       ],
       clientBanner: [
         maxFileSize(1024 * 1024),
-        imageShouldHaveDimensions(132, 50),
+        imageShouldHaveDimensions(182, 50),
         validFileTypes(props.allowedImageTypes),
       ],
       loginBanner: [
