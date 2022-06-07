@@ -49,6 +49,7 @@
 </template>
 <script>
 import {computed} from 'vue';
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
@@ -138,7 +139,7 @@ export default {
           style: {flex: '30%'},
         },
         {
-          name: 'addDate',
+          name: 'addedDate',
           title: this.$t('performance.added_date'),
           sortField: 'performanceTracker.addedDate',
           style: {flex: 1},
@@ -169,6 +170,14 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    onClickView(item) {
+      navigate('/performance/addPerformanceTrackerLog/trackId/{id}', {
+        id: item.id,
+      });
+    },
   },
 };
 </script>

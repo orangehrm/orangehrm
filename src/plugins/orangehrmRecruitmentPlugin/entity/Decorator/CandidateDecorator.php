@@ -23,7 +23,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Recruitment\Api\CandidateAPI;
+use OrangeHRM\Recruitment\Service\CandidateService;
 
 class CandidateDecorator
 {
@@ -65,7 +65,7 @@ class CandidateDecorator
         $status = $this->candidate->getStatus();
         return [
             'id' => $status,
-            'label' => ucwords(strtolower(CandidateAPI::STATUS_MAP[$status]))
+            'label' => ucwords(strtolower(CandidateService::STATUS_MAP[$status]))
         ];
     }
 }

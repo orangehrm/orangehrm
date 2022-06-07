@@ -36,10 +36,10 @@ class TranslationTestTool
      * @return void
      * @throws Exception
      */
-    public function execute(string $groupName)
+    public function execute(string $groupName, string $version)
     {
         $langCode = 'zz_ZZ';   //the test language will be added as zz_ZZ
-        $this->addTranslations($langCode, $groupName);
+        $this->addTranslations($langCode, $groupName, $version);
         //setting the default language to tr
         $q = $this->createQueryBuilder();
         $q->update('hs_hr_config')
@@ -56,9 +56,9 @@ class TranslationTestTool
      * @return void
      * @throws Exception
      */
-    private function addTranslations(string $language, string $groupName): void
+    private function addTranslations(string $language, string $groupName, string $version): void
     {
-        $filepath2 = 'installer/Migration/V5_0_0/lang-string/' . $groupName . '.yaml';
+        $filepath2 = 'installer/Migration/'.$version.'/lang-string/' . $groupName . '.yaml';
         $yml2 = Yaml::parseFile($filepath2);
         $langStrings = array_shift($yml2);
         foreach ($langStrings as $langString) {

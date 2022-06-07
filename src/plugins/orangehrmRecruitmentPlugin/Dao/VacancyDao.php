@@ -148,7 +148,7 @@ class VacancyDao extends BaseDao
     /**
      * @return Vacancy[]
      */
-    public function getVacanciesOrderByHiringManagers(): array
+    public function getVacanciesGroupByHiringManagers(): array
     {
         $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
         $qb->leftJoin('vacancy.hiringManager', 'hiringManager');

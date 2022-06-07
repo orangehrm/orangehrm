@@ -73,7 +73,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                :label="$t('recruitment.performed_by')"
+                :label="$t('general.performed_by')"
                 disabled
                 :value="schedule.performedBy"
               />

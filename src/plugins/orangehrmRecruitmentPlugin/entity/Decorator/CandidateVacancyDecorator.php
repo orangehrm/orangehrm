@@ -23,7 +23,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
-use OrangeHRM\Recruitment\Api\CandidateAPI;
+use OrangeHRM\Recruitment\Service\CandidateService;
 
 class CandidateVacancyDecorator
 {
@@ -64,7 +64,7 @@ class CandidateVacancyDecorator
     {
         $candidateVacancyStatus = $this->candidateVacancy->getStatus();
         return [
-            'id' => array_flip(CandidateAPI::STATUS_MAP)[$candidateVacancyStatus],
+            'id' => array_flip(CandidateService::STATUS_MAP)[$candidateVacancyStatus],
             'label' => ucwords(strtolower($candidateVacancyStatus))
         ];
     }

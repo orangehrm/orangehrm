@@ -87,5 +87,10 @@
       <directory>src/plugins/orangehrmPerformancePlugin/test/Api</directory>
       <directory>src/plugins/orangehrmPerformancePlugin/test/Entity</directory>
     </testsuite>
+    <testsuite name="Recruitment">
+      <directory>src/plugins/orangehrmRecruitmentPlugin/test/Dao</directory>
+      <directory>src/plugins/orangehrmRecruitmentPlugin/test/Api</directory>
+      <directory>src/plugins/orangehrmRecruitmentPlugin/test/Entity</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

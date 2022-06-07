@@ -19,49 +19,61 @@
 
 namespace OrangeHRM\Performance\Api\Model;
 
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
 class DetailedPerformanceReviewModel implements Normalizable
 {
-    use NormalizerServiceTrait;
+    use ModelTrait {
+        ModelTrait::toArray as entityToArray;
+    }
     use PerformanceReviewServiceTrait;
-
-    private PerformanceReview $performanceReview;
 
     /**
      * @param PerformanceReview $performanceReview
      */
     public function __construct(PerformanceReview $performanceReview)
     {
-        $this->performanceReview = $performanceReview;
+        $this->setEntity($performanceReview);
+        $this->setFilters([
+            'id',
+            ['getJobTitle', 'getId'],
+            ['getJobTitle', 'getJobTitleName'],
+            ['getJobTitle', 'isDeleted'],
+            ['getSubunit', 'getId'],
+            ['getSubunit', 'getName'],
+            ['getDecorator', 'getReviewPeriodStart'],
+            ['getDecorator', 'getReviewPeriodEnd'],
+            ['getDecorator', 'getDueDate'],
+            'statusId',
+            ['getDecorator', 'getStatusName'],
+        ]);
+        $this->setAttributeNames([
+            'id',
+            ['jobTitle', 'id'],
+            ['jobTitle', 'name'],
+            ['jobTitle', 'deleted'],
+            ['subunit', 'id'],
+            ['subunit', 'name'],
+            'reviewPeriodStart',
+            'reviewPeriodEnd',
+            'dueDate',
+            ['overallStatus', 'statusId'],
+            ['overallStatus', 'statusName'],
+        ]);
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         $selfReviewStatus = $this->getPerformanceReviewService()->getPerformanceReviewDao()
-            ->getPerformanceSelfReviewStatus($this->performanceReview);
-        return [
-            'id' => $this->performanceReview->getId(),
-            'jobTitle' => [
-                'id' => $this->performanceReview->getJobTitle()->getId(),
-                'name' => $this->performanceReview->getJobTitle()->getJobTitleName(),
-                'deleted' => $this->performanceReview->getJobTitle()->isDeleted(),
-            ],
-            'subunit' => [
-                'id' => $this->performanceReview->getSubunit()->getId(),
-                'name' => $this->performanceReview->getSubunit()->getName(),
-            ],
-            'reviewPeriodStart' => $this->performanceReview->getDecorator()->getReviewPeriodStart(),
-            'reviewPeriodEnd' => $this->performanceReview->getDecorator()->getReviewPeriodEnd(),
-            'dueDate' => $this->performanceReview->getDecorator()->getDueDate(),
-            'overallStatus' => [
-                'statusId' => $this->performanceReview->getStatusId(),
-                'statusName' => $this->performanceReview->getDecorator()->getStatusName(),
-            ],
-            'selfReviewStatus' => $selfReviewStatus,
-        ];
+            ->getPerformanceSelfReviewStatus($this->getEntity());
+        $result = $this->entityToArray();
+        $result['selfReviewStatus'] = $selfReviewStatus;
+        return $result;
     }
 }

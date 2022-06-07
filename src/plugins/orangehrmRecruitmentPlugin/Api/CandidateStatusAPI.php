@@ -25,22 +25,12 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
 {
     use VacancyServiceTrait;
-    public const STATUS_MAP = [
-        1 => 'APPLICATION INITIATED',
-        2 => 'SHORTLISTED',
-        3 => 'REJECTED',
-        4 => 'INTERVIEW SCHEDULED',
-        5 => 'INTERVIEW PASSED',
-        6 => 'INTERVIEW FAILED',
-        7 => 'JOB OFFERED',
-        8 => 'OFFER DECLINED',
-        9 => 'HIRED',
-    ];
 
     /**
      * @inheritDoc
@@ -52,7 +42,7 @@ class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
                 'id' => $key,
                 'label' => ucwords(strtolower($value))
             ];
-        }, array_keys(self::STATUS_MAP), self::STATUS_MAP);
+        }, array_keys(CandidateService::STATUS_MAP), CandidateService::STATUS_MAP);
         return new EndpointResourceResult(ArrayModel::class, $candidateStatus);
     }
 

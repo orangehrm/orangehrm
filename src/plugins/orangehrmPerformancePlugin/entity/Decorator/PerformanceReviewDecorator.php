@@ -19,12 +19,16 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Reviewer;
+use OrangeHRM\Entity\PerformanceReview;
 
 class PerformanceReviewDecorator
 {
+    use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
 
     protected PerformanceReview $performanceReview;
@@ -46,6 +50,24 @@ class PerformanceReviewDecorator
     }
 
     /**
+     * @param int $empNumber
+     */
+    public function setEmployeeByEmpNumber(int $empNumber): void
+    {
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getPerformanceReview()->setEmployee($employee);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setJobTitleById(int $id): void
+    {
+        $jobTitle = $this->getReference(JobTitle::class, $id);
+        $this->getPerformanceReview()->setJobTitle($jobTitle);
+    }
+
+    /**
      * @return Reviewer
      */
     public function getSupervisorReviewer(): Reviewer
@@ -57,6 +79,7 @@ class PerformanceReviewDecorator
         });
         return array_values($supervisorArray)[0];
     }
+
 
     /**
      * @return string|null

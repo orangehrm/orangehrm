@@ -19,47 +19,16 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Entity\PerformanceTrackerReviewer;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
-
 class EssUserRole extends AbstractUserRole
 {
-    use AuthUserTrait;
-
-    protected ?PerformanceTrackerService $performanceTrackerService = null;
-
     /**
      * @inheritDoc
      */
     protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
         switch ($entityType) {
-            case PerformanceTrackerReviewer::class:
-                return $this->getAccessibleEmployeeIdsForReviewer();
             default:
                 return [];
         }
-    }
-
-    /**
-     * @return int[]
-     */
-    protected function getAccessibleEmployeeIdsForReviewer(): array
-    {
-        return $this->getPerformanceTrackerService()
-            ->getPerformanceTrackerDao()
-            ->getEmployeeIdsByReviewerId($this->getAuthUser()->getEmpNumber());
-    }
-
-    /**
-     * @return PerformanceTrackerService
-     */
-    protected function getPerformanceTrackerService(): PerformanceTrackerService
-    {
-        if (!$this->performanceTrackerService instanceof PerformanceTrackerService) {
-            $this->performanceTrackerService = new PerformanceTrackerService();
-        }
-        return $this->performanceTrackerService;
     }
 }

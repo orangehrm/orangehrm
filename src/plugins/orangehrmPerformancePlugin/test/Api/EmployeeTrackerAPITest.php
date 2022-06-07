@@ -75,4 +75,36 @@ class EmployeeTrackerAPITest extends EndpointIntegrationTestCase
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
+
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('EmployeeTrackerAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeTrackerAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetOne(): array
+    {
+        return $this->getTestCases('EmployeeTrackerAPITestCases.yaml', 'GetOne');
+    }
+
+    public function testUpdate(): void
+    {
+        $api = new EmployeeTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new EmployeeTrackerAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
+    }
 }

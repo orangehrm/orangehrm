@@ -317,4 +317,8 @@ final class Services
      */
     public const PERFORMANCE_REVIEW_SERVICE = 'performance.performance_review_service';
 
+    /**
+     * @see \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+     */
+    public const PERFORMANCE_TRACKER_LOG_SERVICE = 'performance.performance_tracker_log_service';
 }

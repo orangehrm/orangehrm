@@ -27,15 +27,14 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-tracker-employee-autocomplete
+              <employee-autocomplete
                 v-model="filters.empName"
-                :api="api"
-                :clear="false"
+                api-path="api/v2/performance/tracker-reviewers"
                 :params="{
                   includeEmployees: filters.includeEmployees.param,
                 }"
               >
-              </employee-tracker-employee-autocomplete>
+              </employee-autocomplete>
             </oxd-grid-item>
             <oxd-grid-item>
               <include-employee-dropdown
@@ -92,6 +91,7 @@
 
 <script>
 import {computed, ref} from 'vue';
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
@@ -99,7 +99,7 @@ import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import usei18n from '@/core/util/composable/usei18n';
-import EmployeeTrackerEmployeeAutocomplete from '../components/EmployeeTrackerEmployeeAutocomplete';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 
 const defaultFilters = {
@@ -120,7 +120,7 @@ const defaultSortOrder = {
 export default {
   components: {
     'include-employee-dropdown': IncludeEmployeeDropdown,
-    'employee-tracker-employee-autocomplete': EmployeeTrackerEmployeeAutocomplete,
+    'employee-autocomplete': EmployeeAutocomplete,
   },
   setup() {
     const {$t} = usei18n();
@@ -208,20 +208,20 @@ export default {
         },
         {
           name: 'title',
-          title: this.$t('performance.trackers'),
+          title: this.$t('general.trackers'),
           sortField: 'tracker.trackerName',
           style: {flex: 2},
-        },
-        {
-          name: 'modifiedDate',
-          title: this.$t('performance.modified_date'),
-          sortField: 'tracker.modifiedDate',
-          style: {flex: 1},
         },
         {
           name: 'addedDate',
           title: this.$t('performance.added_date'),
           sortField: 'tracker.addedDate',
+          style: {flex: 1},
+        },
+        {
+          name: 'modifiedDate',
+          title: this.$t('performance.modified_date'),
+          sortField: 'tracker.modifiedDate',
           style: {flex: 1},
         },
         {
@@ -253,6 +253,11 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
+    },
+    onClickView(item) {
+      navigate('/performance/addPerformanceTrackerLog/trackId/{id}', {
+        id: item.id,
+      });
     },
   },
 };

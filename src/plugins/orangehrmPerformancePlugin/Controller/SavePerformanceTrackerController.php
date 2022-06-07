@@ -33,7 +33,7 @@ class SavePerformanceTrackerController extends AbstractVueController
     {
         if ($request->attributes->has('id')) {
             $component = new Component('performance-tracker-edit');
-            $component->addProp(new Prop('performace-tracker-id', Prop::TYPE_NUMBER, $request->attributes->get('id')));
+            $component->addProp(new Prop('performance-tracker-id', Prop::TYPE_NUMBER, $request->attributes->get('id')));
         } else {
             $component = new Component('performance-tracker-save');
         }

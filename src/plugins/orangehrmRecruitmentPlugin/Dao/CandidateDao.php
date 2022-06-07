@@ -22,7 +22,9 @@ namespace OrangeHRM\Recruitment\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
 
@@ -48,6 +50,7 @@ class CandidateDao extends BaseDao
         $qb->leftJoin('candidate.candidateVacancy', 'candidateVacancy');
         $qb->leftJoin('candidate.addedPerson', 'added_person');
         $qb->leftJoin('candidateVacancy.vacancy', 'vacancy');
+        $qb->leftJoin('vacancy.hiringManager', 'hiringManager');
 
         $this->setSortingAndPaginationParams($qb, $candidateSearchFilterParams);
 
@@ -112,6 +115,7 @@ class CandidateDao extends BaseDao
             $qb->andWhere($qb->expr()->lte('candidate.dateOfApplication', ':toDate'));
             $qb->setParameter('toDate', $candidateSearchFilterParams->getToDate());
         }
+        $qb->addOrderBy('candidate.lastName', ListSorter::ASCENDING);
         //else: neither fromDate nor toDate is available
         return $this->getPaginator($qb);
     }
@@ -196,5 +200,15 @@ class CandidateDao extends BaseDao
             ->where('candidateVacancy.candidate = :candidateId')
             ->setParameter('candidateId', $candidateId);
         return $qb->getQuery()->execute() > 0;
+    }
+
+    /**
+     * @param CandidateHistory $candidateHistory
+     * @return CandidateHistory
+     */
+    public function saveCandidateHistory(CandidateHistory $candidateHistory): CandidateHistory
+    {
+        $this->persist($candidateHistory);
+        return $candidateHistory;
     }
 }

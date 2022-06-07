@@ -12,6 +12,27 @@ apiv2_performance_kpis:
   defaults:
     _api: OrangeHRM\Performance\Api\KpiAPI
 
+apiv2_performance_supervisors:
+  path: /api/v2/performance/supervisors
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\ReviewEmployeeSupervisorAPI
+
+apiv2_performance_review:
+  path: /api/v2/performance/manage/reviews/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
+apiv2_performance_reviews:
+  path: /api/v2/performance/manage/reviews
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+
 apiv2_performance_config_trackers:
   path: /api/v2/performance/config/trackers
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -61,16 +82,42 @@ apiv2_performance_review_list:
   defaults:
     _api: OrangeHRM\Performance\Api\ReviewListAPI
 
-apiv2_performance_review:
-  path: /api/v2/performance/manage/reviews
+apiv2_performance_employee_tracker:
+  path: /api/v2/performance/employees/trackers/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, DELETE ]
+  methods: [GET]
   defaults:
-    _api: OrangeHRM\Performance\Api\PerformanceReviewAPI
+    _api: OrangeHRM\Performance\Api\EmployeeTrackerAPI
+
+apiv2_performance_tracker_logs:
+  path: /api/v2/performance/trackers/{trackerId}/logs
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET,POST,DELETE]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceTrackerLogAPI
+
+apiv2_performance_tracker_log:
+  path: api/v2/performance/trackers/{trackerId}/logs/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET,PUT]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceTrackerLogAPI
+
+apiv2_performance_tracker_reviewers:
+  path: api/v2/performance/tracker-reviewers
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\TrackerReviewerAPI
 
 ##########################
 #        Screens
 ##########################
+
+performance_module:
+  path: /performance/viewPerformanceModule
+  controller: OrangeHRM\Performance\Controller\PerformanceModuleController::handle
+  methods: [ GET ]
 
 performance_my_trackers:
   path: /performance/viewMyPerformanceTrackerList
@@ -95,6 +142,16 @@ performance_kpi_save:
 performance_kpi_edit:
   path: /performance/saveKpi/{id}
   controller: OrangeHRM\Performance\Controller\KpiSaveController::handle
+  methods: [ GET ]
+
+performance_review_save:
+  path: /performance/saveReview
+  controller: OrangeHRM\Performance\Controller\PerformanceReviewSaveController::handle
+  methods: [ GET ]
+
+performance_review_edit:
+  path: /performance/saveReview/{id}
+  controller: OrangeHRM\Performance\Controller\PerformanceReviewSaveController::handle
   methods: [ GET ]
 
 performance_tracker_list:
@@ -123,6 +180,11 @@ performance_review_list:
   methods: [ GET ]
 
 performance_review_search:
-  path: /performance/searchPerformancReview
+  path: /performance/searchPerformanceReview
   controller: OrangeHRM\Performance\Controller\ReviewSearchController::handle
+  methods: [ GET ]
+
+performance_employee_tracker_logs:
+  path: /performance/addPerformanceTrackerLog/trackId/{id}
+  controller: OrangeHRM\Performance\Controller\EmployeeTrackerLogsController::handle
   methods: [ GET ]
