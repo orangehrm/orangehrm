@@ -103,6 +103,13 @@ apiv2_performance_tracker_log:
   defaults:
     _api: OrangeHRM\Performance\Api\PerformanceTrackerLogAPI
 
+apiv2_performance_reviews_kpis:
+  path: /api/v2/performance/reviews/{reviewId}/kpis
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\ReviewKpiAPI
+
 apiv2_performance_tracker_reviewers:
   path: api/v2/performance/tracker-reviewers
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

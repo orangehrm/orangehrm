@@ -31,6 +31,7 @@ use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
+use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use PHPUnit\Exception;
 
 class PerformanceReviewDao extends BaseDao
@@ -299,7 +300,7 @@ class PerformanceReviewDao extends BaseDao
     public function getReviewKPI(PerformanceReview $performanceReview): array
     {
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
-        $q->andWhere('kpi.jobTitle =:jobTitle')
+        $q->andWhere('kpi.jobTitle = :jobTitle')
             ->setParameter('jobTitle', $performanceReview->getJobTitle());
         return $q->getQuery()->execute();
     }
@@ -314,7 +315,7 @@ class PerformanceReviewDao extends BaseDao
         $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
         $q->andWhere('reviewer.review = :reviewId')
             ->setParameter('reviewId', $performanceReview->getId())
-            ->andWhere('reviewer.employee =:employeeId')
+            ->andWhere('reviewer.employee = :employeeId')
             ->setParameter('employeeId', $performanceReview->getEmployee()->getEmployeeId());
         return $reviewer;
     }
@@ -330,5 +331,96 @@ class PerformanceReviewDao extends BaseDao
             ->andWhere($qb->expr()->in('performanceReview.id', ':performanceReviewIds'))
             ->setParameter('performanceReviewIds', $performanceReviewIds);
         return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $id
+     * @return PerformanceReview|null
+     */
+    public function getReviewById(int $id): ?PerformanceReview
+    {
+        return $this->getRepository(PerformanceReview::class)->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
+     * @return Kpi[]
+     */
+    public function getKpisForReview(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): array
+    {
+        $qb = $this->getKpiReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
+     * @return int
+     */
+    public function getKpisForReviewCount(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): int
+    {
+        $qb = $this->getKpiReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($qb)->count();
+    }
+
+    /**
+     * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getKpiReviewQueryBuilderWrapper(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): QueryBuilderWrapper
+    {
+        $jobTitleId = $this->getReviewById($reviewKpiSearchFilterParams->getReviewId())->getJobTitle()->getId();
+        $q = $this->createQueryBuilder(Kpi::class, 'kpi');
+        $q->andWhere('kpi.jobTitle =:jobTitle')
+            ->setParameter('jobTitle', $jobTitleId);
+        $this->setSortingAndPaginationParams($q, $reviewKpiSearchFilterParams);
+
+        return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @param int $supervisorEmpNumber
+     * @return int[]
+     */
+    public function getReviewIdsForSupervisorReviewer(int $supervisorEmpNumber): array
+    {
+        $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $q->andWhere('reviewer.employee = :supervisor')
+            ->setParameter('supervisor', $supervisorEmpNumber);
+        /** @var Reviewer[] $reviewers */
+        $reviewers = $q->getQuery()->execute();
+        $reviewIds =[];
+
+        foreach ($reviewers as $reviewer) {
+            $reviewIds[] =$reviewer->getReview()->getId();
+        }
+        return $reviewIds;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getReviewIdList(): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
+     * @param int $employeeNumber
+     * @return int[]
+     */
+    public function getSelfReviewIds(int $employeeNumber): array
+    {
+        $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $q->andWhere('reviewer.employee = :supervisor')
+            ->setParameter('supervisor', $employeeNumber);
+        /** @var Reviewer[] $reviewerOwners */
+        $reviewerOwners = $q->getQuery()->execute();
+        $reviewIds =[];
+
+        foreach ($reviewerOwners as $reviewerOwner) {
+            $reviewIds[] = $reviewerOwner->getReview()->getId();
+        }
+        return $reviewIds;
     }
 }

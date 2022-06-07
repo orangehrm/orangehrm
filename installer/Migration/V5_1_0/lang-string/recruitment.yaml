@@ -21,9 +21,6 @@ langStrings:
     value: 'Performed Action'
     unitId: performed_action
   -
-    value: 'Performed By'
-    unitId: performed_by
-  -
     value: 'Performed Date'
     unitId: performed_date
   -
