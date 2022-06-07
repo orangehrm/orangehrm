@@ -20,15 +20,15 @@
 
 <template>
   <login-layout>
-    <oxd-text class="orangehrm-login-title" tag="h5">{{
-      $t('auth.login')
-    }}</oxd-text>
+    <oxd-text class="orangehrm-login-title" tag="h5">
+      {{ $t('auth.login') }}
+    </oxd-text>
     <div class="orangehrm-login-form">
       <div class="orangehrm-login-error">
         <oxd-alert
           :show="error !== null"
+          :message="error?.message || ''"
           type="error"
-          :message="error?.message"
         ></oxd-alert>
       </div>
       <oxd-form

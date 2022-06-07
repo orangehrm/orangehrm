@@ -32,6 +32,8 @@ import {
   digitsOnlyWithDecimalPoint,
   shouldBeCurrentOrPreviousDate,
   validHexFormat,
+  imageShouldHaveDimensions,
+  File,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -55,11 +57,26 @@ jest.mock('@/core/plugins/i18n/translate', () => {
       'general.should_be_a_number_between_min_and_max':
         'Should be a number between 0-100',
       'general.invalid': 'Invalid',
+      'general.incorrect_dimensions': 'Incorrect Dimensions',
     };
     return mockStrings[langString];
   };
   return {translate: jest.fn(() => t)};
 });
+
+const createMockFile = (
+  type = 'image/gif',
+  base64 = 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+  name = 'mock',
+  size = 100,
+): File => {
+  return {
+    name,
+    type,
+    size,
+    base64,
+  };
+};
 
 describe('core/util/validation/rules::required', () => {
   test('required::empty string', () => {
@@ -650,24 +667,53 @@ describe('core/util/validation/rules::shouldBeCurrentOrPreviousDate', () => {
 });
 
 describe('core/util/validation/rules::validHexFormat', () => {
-  it('should accept valid 6 digit Hex', () => {
+  it('validHexFormat:: valid 6 digit Hex', () => {
     const result = validHexFormat('#ff0000');
     expect(result).toStrictEqual(true);
   });
-  it('should accept valid 3 digit Hex', () => {
+  it('validHexFormat:: valid 3 digit Hex', () => {
     const result = validHexFormat('#f00');
     expect(result).toStrictEqual(true);
   });
-  it('should not accept invalid 6 digit Hex', () => {
+  it('validHexFormat:: invalid 6 digit Hex', () => {
     const result = validHexFormat('#ffx000');
     expect(result).toStrictEqual('Invalid');
   });
-  it('should not accept invalid 3 digit Hex', () => {
+  it('validHexFormat:: invalid 3 digit Hex', () => {
     const result = validHexFormat('#ffx');
     expect(result).toStrictEqual('Invalid');
   });
-  it('should not accept non Hex string', () => {
+  it('validHexFormat:: non Hex string', () => {
     const result = validHexFormat('car');
     expect(result).toStrictEqual('Invalid');
+  });
+});
+
+describe('core/util/validation/rules::imageShouldHaveDimensions', () => {
+  // Mock Image class methods since jsdom is not supported
+  const mockDomImage = (width: number, height: number) => {
+    Image.prototype.decode = function() {
+      this.width = width;
+      this.height = height;
+      return Promise.resolve();
+    };
+  };
+
+  test('imageShouldHaveDimensions:: Invalid file dimensions', async () => {
+    mockDomImage(100, 75);
+    const result = await imageShouldHaveDimensions(50, 50)(createMockFile());
+    expect(result).toStrictEqual('Incorrect Dimensions');
+  });
+
+  test('imageShouldHaveDimensions:: Valid file dimensions', async () => {
+    mockDomImage(50, 50);
+    const result = await imageShouldHaveDimensions(50, 50)(createMockFile());
+    expect(result).toStrictEqual(true);
+  });
+
+  test('imageShouldHaveDimensions:: should allow null files', async () => {
+    mockDomImage(0, 0);
+    const result = await imageShouldHaveDimensions(50, 50)(null);
+    expect(result).toStrictEqual(true);
   });
 });
