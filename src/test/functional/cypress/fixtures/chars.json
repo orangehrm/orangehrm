@@ -3,6 +3,10 @@
     "int": "0123456789",
     "text": "Lorem ipsu"
   },
+  "leaveTypes": {
+    "leavetype1": "Annual Leave",
+    "leavetype2": "Casual Leave"
+  },
   "chars30": {
     "text": "Lorem ipsum dolor sit amet, co"
   },
