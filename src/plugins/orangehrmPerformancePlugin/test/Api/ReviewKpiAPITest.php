@@ -19,59 +19,29 @@
 
 namespace OrangeHRM\Tests\Performance\Api;
 
-use Exception;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI;
+use OrangeHRM\Performance\Api\ReviewKpiAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-class PerformanceTrackerReviewerAPITest extends EndpointIntegrationTestCase
+class ReviewKpiAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetAll
      *
-     * @throws Exception
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('PerformanceTrackerAPITest.yml');
+        $this->populateFixtures('ReviewKpiAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(PerformanceTrackerReviewerAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ReviewKpiAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('PerformanceTrackerReviewerAPITestCases.yaml', 'GetAll');
-    }
-
-    public function testCreate(): void
-    {
-        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->create();
-    }
-
-    public function testGetValidationRuleForCreate(): void
-    {
-        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForCreate();
-    }
-
-    public function testDelete(): void
-    {
-        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
-    }
-
-    public function testGetValidationRuleForDelete(): void
-    {
-        $api = new PerformanceTrackerReviewerAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
+        return $this->getTestCases('ReviewKpiAPITestCases.yaml', 'GetAll');
     }
 }

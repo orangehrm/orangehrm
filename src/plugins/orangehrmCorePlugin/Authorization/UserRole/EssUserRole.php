@@ -19,16 +19,66 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Entity\PerformanceTrackerLog;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
+
 class EssUserRole extends AbstractUserRole
 {
+    use AuthUserTrait;
+    use PerformanceTrackerServiceTrait;
+    use PerformanceTrackerLogServiceTrait;
+    use PerformanceReviewServiceTrait;
+
     /**
      * @inheritDoc
      */
     protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
         switch ($entityType) {
+            case PerformanceReview::class:
+                return $this->getAccessibleReviewIds();
+            case PerformanceTracker::class:
+                return $this->getAccessiblePerformanceTrackerIdsForESS($requiredPermissions);
+            case PerformanceTrackerLog::class:
+                return $this->getAccessiblePerformanceTrackerLogIdsForESS($requiredPermissions);
             default:
                 return [];
         }
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function getAccessibleReviewIds(): array
+    {
+        $empNumber = $this->getEmployeeNumber();
+        return $this->getPerformanceReviewService()->getPerformanceReviewDao()->getSelfReviewIds($empNumber);
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessiblePerformanceTrackerIdsForESS(array $requiredPermissions = []): array
+    {
+        return $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getTrackerIdsByEmpNumber($this->getAuthUser()->getEmpNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessiblePerformanceTrackerLogIdsForESS(array $requiredPermissions = []): array
+    {
+        return $this->getPerformanceTrackerLogService()
+            ->getPerformanceTrackerLogDao()
+            ->getPerformanceTrackerLogIdsByUserId($this->getAuthUser()->getUserId());
     }
 }

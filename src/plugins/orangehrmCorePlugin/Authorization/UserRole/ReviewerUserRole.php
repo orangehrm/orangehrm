@@ -23,12 +23,15 @@ use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Entity\PerformanceTrackerLog;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 class ReviewerUserRole extends AbstractUserRole
 {
     use AuthUserTrait;
     use PerformanceTrackerServiceTrait;
+    use PerformanceTrackerLogServiceTrait;
 
     public const REVIEWER_INCLUDE_EMPLOYEE = 'reviewer_include_employee';
 
@@ -42,6 +45,8 @@ class ReviewerUserRole extends AbstractUserRole
                 return $this->getAccessibleEmployeeIdsForReviewer($requiredPermissions);
             case PerformanceTracker::class:
                 return $this->getAccessibleTrackerIdsForReviewer($requiredPermissions);
+            case PerformanceTrackerLog::class:
+                return $this->getAccessibleTrackerLogIdsForReviewer($requiredPermissions);
             default:
                 return [];
         }
@@ -77,5 +82,16 @@ class ReviewerUserRole extends AbstractUserRole
         return $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
             ->getTrackerIdsByReviewerId($this->getAuthUser()->getEmpNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return array
+     */
+    protected function getAccessibleTrackerLogIdsForReviewer(array $requiredPermissions = []): array
+    {
+        return $this->getPerformanceTrackerLogService()
+            ->getPerformanceTrackerLogDao()
+            ->getPerformanceTrackerLogIdsByUserId($this->getAuthUser()->getUserId());
     }
 }

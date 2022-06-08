@@ -640,6 +640,11 @@ GetOne:
     userId: 1
     services:
       performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 5
     data:
@@ -665,3 +670,79 @@ GetOne:
     exception:
       class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
       message: 'Record Not Found'
+
+  'ESS get one tracker without permission':
+    userId: 3
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 4
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'Ess get their own tracker':
+    userId: 3
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    data:
+      "id": 5
+      "trackerName": "Tracker Emp 5"
+      "employee":
+        "empNumber": 5
+        "firstName": "Anika"
+        "lastName": "Sapramadu"
+        "terminationId": null
+      "addedDate": "2022-05-06"
+      "modifiedDate": "2022-05-06"
+      "status": 1
+
+  'reviewer get one tracker without permission':
+    userId: 2
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 3
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'reviewer get one tracker with permission':
+    userId: 2
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    data:
+      "id": 5
+      "trackerName": "Tracker Emp 5"
+      "employee":
+        "empNumber": 5
+        "firstName": "Anika"
+        "lastName": "Sapramadu"
+        "terminationId": null
+      "addedDate": "2022-05-06"
+      "modifiedDate": "2022-05-06"
+      "status": 1
