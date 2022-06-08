@@ -65,17 +65,6 @@ class EmployeeDirectoryDao extends BaseDao
             $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
         }
 
-        if (!is_null($employeeDirectorySearchParamHolder->getName())) {
-            $q->andWhere(
-                $q->expr()->orX(
-                    $q->expr()->like('employee.firstName', ':name'),
-                    $q->expr()->like('employee.lastName', ':name'),
-                    $q->expr()->like('employee.middleName', ':name'),
-                )
-            );
-            $q->setParameter('name', '%' . $employeeDirectorySearchParamHolder->getName() . '%');
-        }
-
         if (!is_null($employeeDirectorySearchParamHolder->getEmpNumber())) {
             $q->andWhere('employee.empNumber = :empNumber')
                 ->setParameter('empNumber', $employeeDirectorySearchParamHolder->getEmpNumber());
@@ -128,18 +117,5 @@ class EmployeeDirectoryDao extends BaseDao
     {
         return $this->getRepository(Employee::class)->find($empNumber);
     }
-//
-//    /**
-//     * @param bool $includeTerminated
-//     * @return int
-//     */
-//    public function getNumberOfEmployees(bool $includeTerminated = false): int
-//    {
-//        $q = $this->createQueryBuilder(Employee::class, 'e');
-//
-//        if (!$includeTerminated) {
-//            $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
-//        }
-//        return $this->count($q);
-//    }
+
 }

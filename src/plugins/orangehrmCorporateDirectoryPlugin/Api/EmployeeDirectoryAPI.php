@@ -20,10 +20,13 @@
 namespace OrangeHRM\CorporateDirectory\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -33,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\CorporateDirectory\Api\Model\EmployeeDirectoryDetailedModel;
 use OrangeHRM\CorporateDirectory\Api\Model\EmployeeDirectoryModel;
 use OrangeHRM\CorporateDirectory\Dto\EmployeeDirectorySearchFilterParams;
 use OrangeHRM\CorporateDirectory\Service\EmployeeDirectoryService;
@@ -41,23 +45,23 @@ use OrangeHRM\Entity\Employee;
 /**
  *
  */
-class EmployeeDirectoryAPI extends Endpoint implements CollectionEndpoint
+class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
 {
     use UserRoleManagerTrait;
 
-    public const FILTER_NAME = 'name';
     public const FILTER_EMP_NUMBER = 'empNumber';
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_LOCATION_ID = 'locationId';
     public const FILTER_MODEL = 'model';
 
     public const MODEL_DEFAULT = 'default';
+    public const MODEL_DETAILED = 'detailed';
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => EmployeeDirectoryModel::class,
+        self::MODEL_DETAILED => EmployeeDirectoryDetailedModel::class,
     ];
 
     /**
-     * @inheritDoc
      * @throws NormalizeException
      * @throws RecordNotFoundException
      */
@@ -67,7 +71,7 @@ class EmployeeDirectoryAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $employee = $this->getEmployeeDirectoryService()->getEmployeeByEmpNumber($empNumber);
+        $employee = $this->getEmployeeDirectoryService()->getEmployeeDirectoryDao()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
         return new EndpointResourceResult($this->getModelClass(), $employee);
@@ -94,8 +98,9 @@ class EmployeeDirectoryAPI extends Endpoint implements CollectionEndpoint
         return self::MODEL_MAP[$model];
     }
 
+
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
@@ -108,6 +113,9 @@ class EmployeeDirectoryAPI extends Endpoint implements CollectionEndpoint
         );
     }
 
+    /**
+     * @return ParamRule
+     */
     protected function getModelParamRule(): ParamRule
     {
         return $this->getValidationDecorator()->notRequiredParamRule(
@@ -220,6 +228,24 @@ class EmployeeDirectoryAPI extends Endpoint implements CollectionEndpoint
      * @inheritDoc
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @return EndpointResult
+     * @throws NotImplementedException
+     */
+    public function update(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @return ParamRuleCollection
+     * @throws NotImplementedException
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
