@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Recruitment\Api\Model\InterviewAttachmentModel;
+use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
 class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
@@ -41,8 +42,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
     use RecruitmentAttachmentServiceTrait;
 
     public const PARAMETER_COMMENT = 'comment';
-    public const PARAMETER_INTERVIEW_ID = 'interviewId';
     public const PARAMETER_ATTACHMENT_ID = 'attachmentId';
+    public const PARAMETER_INTERVIEW_ID = 'interviewId';
     public const PARAMETER_ATTACHMENT = 'attachment';
     public const PARAMETER_CURRENT_ATTACHMENT = 'currentAttachment';
 
@@ -57,13 +58,18 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $interviewId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_INTERVIEW_ID
+        $interviewAttachmentParamHolder = new InterviewAttachmentSearchFilterParams();
+        $this->setSortingAndPaginationParams($interviewAttachmentParamHolder);
+
+        $interviewAttachmentParamHolder->setInterviewId(
+            $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_INTERVIEW_ID
+            )
         );
         $attachments = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getInterviewAttachmentsByInterviewId($interviewId);
+            ->getInterviewAttachments($interviewAttachmentParamHolder);
         return new EndpointCollectionResult(
             InterviewAttachmentModel::class,
             $attachments,
@@ -118,9 +124,9 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param InterviewAttachment $InterviewAttachment
+     * @param InterviewAttachment $interviewAttachment
      */
-    private function setBase64Attachment(InterviewAttachment $InterviewAttachment): void
+    private function setBase64Attachment(InterviewAttachment $interviewAttachment): void
     {
         $base64Attachment = $this->getRequestParams()->getAttachmentOrNull(
             RequestParams::PARAM_TYPE_BODY,
@@ -129,10 +135,10 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         if (is_null($base64Attachment)) {
             return;
         }
-        $InterviewAttachment->setFileName($base64Attachment->getFilename());
-        $InterviewAttachment->setFileType($base64Attachment->getFileType());
-        $InterviewAttachment->setFileSize($base64Attachment->getSize());
-        $InterviewAttachment->setFileContent($base64Attachment->getContent());
+        $interviewAttachment->setFileName($base64Attachment->getFilename());
+        $interviewAttachment->setFileType($base64Attachment->getFileType());
+        $interviewAttachment->setFileSize($base64Attachment->getSize());
+        $interviewAttachment->setFileContent($base64Attachment->getContent());
     }
 
     /**
@@ -206,6 +212,10 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_INTERVIEW_ID,
+                new Rule(Rules::ENTITY_ID_EXISTS, [Interview::class])
+            ),
             new ParamRule(
                 self::PARAMETER_ATTACHMENT_ID,
                 new Rule(Rules::POSITIVE)

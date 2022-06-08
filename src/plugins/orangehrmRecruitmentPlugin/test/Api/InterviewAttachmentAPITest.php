@@ -35,7 +35,7 @@ class InterviewAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('InterviewAttachmentAPITest.yaml');
+        $this->populateFixtures('InterviewAttachmentAPITest.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -71,7 +71,7 @@ class InterviewAttachmentAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('InterviewAttachmentAPITest.yaml');
+        $this->populateFixtures('InterviewAttachmentAPITest.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);

@@ -109,6 +109,7 @@ GetOne:
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
     attributes:
       attachmentId: 1
+      interviewId: 1
     data:
       id: 1
       interviewId: 1

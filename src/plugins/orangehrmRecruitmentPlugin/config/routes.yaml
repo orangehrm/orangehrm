@@ -114,7 +114,7 @@ apiv2_recrutiment_candidates_schedule_interview:
     _key: id
 
 apiv2_recruitment_interviews_attachment:
-  path: /api/v2/recruitment/interviews/attachments/{attachmentId}
+  path: /api/v2/recruitment/interviews/{interviewId}/attachments/{attachmentId}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
