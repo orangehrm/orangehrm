@@ -125,6 +125,8 @@ class PerformanceReviewAllowedActionsAPI extends Endpoint implements CollectionE
             $selfReviewer = $this->getPerformanceReviewService()
                 ->getPerformanceReviewDao()
                 ->getPerformanceSelfReviewer($performanceReview);
+            // Self status => 1 (activated), 2 (in progress), 3 (completed)
+            // Add 1 and return to match the overall status id
             return $selfReviewer->getStatus() + 1;
         }
         return $performanceReview->getStatusId();

@@ -24,6 +24,10 @@ use OrangeHRM\Performance\Api\PerformanceReviewAllowedActionsAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
+/**
+ * @group Performance
+ * @group APIv2
+ */
 class PerformanceReviewAllowedActionsAPITest extends EndpointIntegrationTestCase
 {
     /**
