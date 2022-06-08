@@ -198,14 +198,14 @@ Reviewer:
   - {"id": 6,"review_id": 3,"employee_number": 1,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
   - {"id": 7,"review_id": 4,"employee_number": 3,"status": 3,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
   - {"id": 8,"review_id": 4,"employee_number": 1,"status": 3,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
-  - {"id": 9,"review_id": 5,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
-  - {"id": 10,"review_id": 5,"employee_number": 6,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
-  - {"id": 11,"review_id": 6,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
-  - {"id": 12,"review_id": 6,"employee_number": 6,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
-  - {"id": 13,"review_id": 7,"employee_number": 3,"status": 2,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
-  - {"id": 14,"review_id": 7,"employee_number": 6,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
-  - {"id": 15,"review_id": 8,"employee_number": 3,"status": 3,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
-  - {"id": 16,"review_id": 8,"employee_number": 6,"status": 3,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 9,"review_id": 5,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 10,"review_id": 5,"employee_number": 6,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
+  - {"id": 11,"review_id": 6,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 12,"review_id": 6,"employee_number": 6,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
+  - {"id": 13,"review_id": 7,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 14,"review_id": 7,"employee_number": 6,"status": 2,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
+  - {"id": 15,"review_id": 8,"employee_number": 3,"status": 3,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 16,"review_id": 8,"employee_number": 6,"status": 3,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
   - {"id": 17,"review_id": 9,"employee_number": 7,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
   - {"id": 18,"review_id": 9,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
   - {"id": 19,"review_id": 10,"employee_number": 4,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}

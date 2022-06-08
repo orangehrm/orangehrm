@@ -394,10 +394,13 @@ class PerformanceReviewDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
         $q->leftJoin('reviewer.review', 'performanceReview');
+        $q->leftJoin('reviewer.group', 'reviewGroup');
         $q->andWhere('reviewer.employee = :supervisor')
             ->setParameter('supervisor', $supervisorEmpNumber);
         $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
             ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
+        $q->andWhere($q->expr()->eq('reviewGroup.name', ':groupName'))
+            ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
         /** @var Reviewer[] $reviewers */
         $reviewers = $q->getQuery()->execute();
         $reviewIds =[];
@@ -423,19 +426,12 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getSelfReviewIds(int $employeeNumber): array
     {
-        $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
-        $q->leftJoin('reviewer.review', 'performanceReview');
-        $q->andWhere('reviewer.employee = :supervisor')
-            ->setParameter('supervisor', $employeeNumber);
+        $q = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        $q->andWhere($q->expr()->eq('performanceReview.employee', ':empNumber'))
+            ->setParameter('empNumber', $employeeNumber);
         $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
             ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
-        /** @var Reviewer[] $reviewerOwners */
-        $reviewerOwners = $q->getQuery()->execute();
-        $reviewIds =[];
 
-        foreach ($reviewerOwners as $reviewerOwner) {
-            $reviewIds[] = $reviewerOwner->getReview()->getId();
-        }
-        return $reviewIds;
+        return array_column($q->getQuery()->getArrayResult(), 'id');
     }
 }
