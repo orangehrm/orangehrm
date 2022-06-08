@@ -59,7 +59,7 @@ class CandidateScheduleInterviewAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_INTERVIEW_DATE = 'interviewDate';
     public const PARAMETER_INTERVIEW_TIME = 'interviewTime';
     public const PARAMETER_NOTE = 'note';
-    public const PARAMETER_INTERVIEWERS = 'interviewers';
+    public const PARAMETER_INTERVIEWERS = 'interviewerEmpNumbers';
 
     public const PARAMETER_RULE_INTERVIEW_NAME_MAX_LENGTH = 100;
     public const PARAMETER_RULE_INTERVIEWERS_MIN_COUNT = 1;
