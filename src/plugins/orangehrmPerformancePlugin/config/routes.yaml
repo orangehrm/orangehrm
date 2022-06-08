@@ -82,6 +82,13 @@ apiv2_performance_review_list:
   defaults:
     _api: OrangeHRM\Performance\Api\ReviewListAPI
 
+apiv2_performance_review_allowed_actions:
+  path: /api/v2/performance/reviews/{reviewId}/actions/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceReviewAllowedActionsAPI
+
 apiv2_performance_employee_tracker:
   path: /api/v2/performance/employees/trackers/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

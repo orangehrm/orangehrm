@@ -130,6 +130,15 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
+     * @param int $id
+     * @return PerformanceReview|null
+     */
+    public function getPerformanceReviewById(int $id): ?PerformanceReview
+    {
+        return $this->getRepository(PerformanceReview::class)->findOneBy(['id' => $id]);
+    }
+
+    /**
      * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
      * @return PerformanceReview[]
      */
@@ -309,7 +318,7 @@ class PerformanceReviewDao extends BaseDao
      * @param PerformanceReview $performanceReview
      * @return Reviewer
      */
-    private function getPerformanceSelfReviewer(PerformanceReview $performanceReview): Reviewer
+    public function getPerformanceSelfReviewer(PerformanceReview $performanceReview): Reviewer
     {
         $reviewer = $this->getRepository(Reviewer::class)->findOneBy(['review' => $performanceReview->getId(), 'employee' => $performanceReview->getEmployee()]);
         $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
@@ -384,8 +393,14 @@ class PerformanceReviewDao extends BaseDao
     public function getReviewIdsForSupervisorReviewer(int $supervisorEmpNumber): array
     {
         $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $q->leftJoin('reviewer.review', 'performanceReview');
+        $q->leftJoin('reviewer.group', 'reviewGroup');
         $q->andWhere('reviewer.employee = :supervisor')
             ->setParameter('supervisor', $supervisorEmpNumber);
+        $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
+            ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
+        $q->andWhere($q->expr()->eq('reviewGroup.name', ':groupName'))
+            ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
         /** @var Reviewer[] $reviewers */
         $reviewers = $q->getQuery()->execute();
         $reviewIds =[];
@@ -411,16 +426,12 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getSelfReviewIds(int $employeeNumber): array
     {
-        $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
-        $q->andWhere('reviewer.employee = :supervisor')
-            ->setParameter('supervisor', $employeeNumber);
-        /** @var Reviewer[] $reviewerOwners */
-        $reviewerOwners = $q->getQuery()->execute();
-        $reviewIds =[];
+        $q = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        $q->andWhere($q->expr()->eq('performanceReview.employee', ':empNumber'))
+            ->setParameter('empNumber', $employeeNumber);
+        $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
+            ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
 
-        foreach ($reviewerOwners as $reviewerOwner) {
-            $reviewIds[] = $reviewerOwner->getReview()->getId();
-        }
-        return $reviewIds;
+        return array_column($q->getQuery()->getArrayResult(), 'id');
     }
 }
