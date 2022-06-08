@@ -196,14 +196,14 @@ class Migration extends AbstractMigration
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ADMIN', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
 
         // Supervisor workflows
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'INITIAL', 'SUPERVISOR', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'INITIAL', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'SUPERVISOR', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'SUPERVISOR', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
 
         // ESS workflows
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'INITIAL', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'INITIAL', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
     }

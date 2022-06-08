@@ -109,7 +109,8 @@ class PerformanceReviewAllowedActionsAPI extends Endpoint implements CollectionE
             new ParamRule(
                 self::PARAMETER_REVIEW_ID,
                 new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [PerformanceReview::class])
+                new Rule(Rules::ENTITY_ID_EXISTS, [PerformanceReview::class]),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceReview::class])
             )
         );
     }

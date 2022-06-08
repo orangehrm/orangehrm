@@ -393,8 +393,11 @@ class PerformanceReviewDao extends BaseDao
     public function getReviewIdsForSupervisorReviewer(int $supervisorEmpNumber): array
     {
         $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $q->leftJoin('reviewer.review', 'performanceReview');
         $q->andWhere('reviewer.employee = :supervisor')
             ->setParameter('supervisor', $supervisorEmpNumber);
+        $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
+            ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
         /** @var Reviewer[] $reviewers */
         $reviewers = $q->getQuery()->execute();
         $reviewIds =[];
@@ -421,8 +424,11 @@ class PerformanceReviewDao extends BaseDao
     public function getSelfReviewIds(int $employeeNumber): array
     {
         $q = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $q->leftJoin('reviewer.review', 'performanceReview');
         $q->andWhere('reviewer.employee = :supervisor')
             ->setParameter('supervisor', $employeeNumber);
+        $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
+            ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
         /** @var Reviewer[] $reviewerOwners */
         $reviewerOwners = $q->getQuery()->execute();
         $reviewIds =[];
