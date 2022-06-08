@@ -227,6 +227,15 @@ class Migration extends AbstractMigration
         $this->getSchemaManager()->dropUniqueConstraint('id', 'ohrm_job_candidate_vacancy');
         $this->getSchemaHelper()->getSchemaManager()->createIndex($primaryKey, 'ohrm_job_candidate_vacancy');
         $this->getSchemaHelper()->changeColumn('ohrm_job_candidate_vacancy', 'id', ['Autoincrement' => true]);
+        $this->getSchemaHelper()->dropForeignKeys('ohrm_job_interview', ['ohrm_job_interview_ibfk_1']);
+        $foreignKey = new ForeignKeyConstraint(
+            ['candidate_vacancy_id'],
+            'ohrm_job_candidate_vacancy',
+            ['id'],
+            null,
+            ['onDelete' => 'SET NULL', 'onUpdate' => 'RESTRICT']
+        );
+        $this->getSchemaManager()->createForeignKey($foreignKey, 'ohrm_job_interview');
         $this->getSchemaHelper()->enableConstraints();
     }
 }
