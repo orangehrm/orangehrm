@@ -61,7 +61,7 @@ class Migration extends AbstractMigration
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
-        $oldGroups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
+        $oldGroups = ['admin', 'general'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }

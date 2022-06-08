@@ -134,8 +134,8 @@ langStrings:
   -
     value: 'File Type'
     unitId: file_type
-
-  - value: 'Full Name'
+  -
+    value: 'Full Name'
     unitId: full_name
   -
     value: 'Reset to Default'
