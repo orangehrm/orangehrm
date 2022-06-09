@@ -19,8 +19,10 @@
 
 namespace OrangeHRM\Performance\Service;
 
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Exception\ReviewServiceException;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -28,6 +30,7 @@ use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 class PerformanceReviewService
 {
     use EmployeeServiceTrait;
+    use AuthUserTrait;
 
     private ?PerformanceReviewDao $performanceReviewDao = null;
 
@@ -90,4 +93,41 @@ class PerformanceReviewService
             throw ReviewServiceException::activateWithoutKPI();
         }
     }
+
+    public function saveAndUpdateReviewRatings(PerformanceReview $review, array $ratings, array $kpisForReview): void
+    {
+        $reviewerRatings = $this->createRatingsFromRows($review, $ratings, $kpisForReview);
+        $this->getPerformanceReviewDao()->saveAndUpdateReviewerRatings($reviewerRatings);
+    }
+
+    /**
+     * @param PerformanceReview $review
+     * @param array $rows
+     * @return array
+     */
+    private function createRatingsFromRows(PerformanceReview $review, array $rows, array $kpisForReview): array
+    {
+        $ratings = [];
+        $reviewer = $this->getPerformanceReviewDao()->getSupervisorReviewerForReview(
+            $review->getId()
+        );
+
+        foreach ($rows as $row) {
+            $itemKey = $this->getPerformanceReviewDao()->generateReviewReviewerRatingKey(
+                $reviewer->getId(),
+                $review->getId(),
+                $row['kpiId'],
+            );
+            $reviewerRating = new ReviewerRating();
+            $reviewerRating->setReviewer($reviewer);
+            $reviewerRating->getDecorator()->setKpiByKpiId($row['kpiId']);
+            $reviewerRating->setComment($row['comment']);
+            $reviewerRating->setRating($row['rating']);
+            $reviewerRating->setPerformanceReview($review);
+            $ratings[$itemKey] = $reviewerRating;
+        }
+        return $ratings;
+    }
+
+
 }

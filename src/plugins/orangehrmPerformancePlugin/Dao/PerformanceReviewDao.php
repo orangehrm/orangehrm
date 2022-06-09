@@ -26,12 +26,14 @@ use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\Entity\ReviewerGroup;
+use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
+use OrangeHRM\Performance\Dto\SupervisorEvaluationSearchFilterParams;
 use PHPUnit\Exception;
 
 class PerformanceReviewDao extends BaseDao
@@ -357,7 +359,7 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getKpisForReview(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): array
     {
-        $qb = $this->getKpiReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
+        $qb = $this->getKpisForReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
         return $qb->getQuery()->execute();
     }
 
@@ -367,7 +369,7 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getKpisForReviewCount(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): int
     {
-        $qb = $this->getKpiReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
+        $qb = $this->getKpisForReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
         return $this->getPaginator($qb)->count();
     }
 
@@ -375,7 +377,7 @@ class PerformanceReviewDao extends BaseDao
      * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
      * @return QueryBuilderWrapper
      */
-    private function getKpiReviewQueryBuilderWrapper(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): QueryBuilderWrapper
+    private function getKpisForReviewQueryBuilderWrapper(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): QueryBuilderWrapper
     {
         $jobTitleId = $this->getReviewById($reviewKpiSearchFilterParams->getReviewId())->getJobTitle()->getId();
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
@@ -433,5 +435,166 @@ class PerformanceReviewDao extends BaseDao
             ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
 
         return array_column($q->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
+     * @param SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
+     * @return ReviewerRating[]
+     */
+    public function getSupervisorRating(
+        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams): array
+    {
+        /** @var ReviewerGroup $supervisorGroup */
+        $supervisorGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => 'Supervisor']);
+        $qb = $this->getEvaluationRatingQueryBuilderWrapper(
+            $supervisorEvaluationSearchFilterParams, $supervisorGroup)->getQueryBuilder();
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
+     * @return int
+     */
+    public function getSupervisorRatingCount(
+        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams): int
+    {
+        /** @var ReviewerGroup $supervisorGroup */
+        $supervisorGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => 'Supervisor']);
+        $qb = $this->getEvaluationRatingQueryBuilderWrapper(
+            $supervisorEvaluationSearchFilterParams, $supervisorGroup)->getQueryBuilder();
+        return $this->getPaginator($qb)->count();
+    }
+
+    private function getEvaluationRatingQueryBuilderWrapper(
+        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams,
+        ReviewerGroup                          $reviewGroup
+    ): QueryBuilderWrapper
+    {
+        $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
+        $qb->leftJoin('reviewerRating.performanceReview', 'performanceReview')
+            ->leftJoin('reviewerRating.reviewer', 'reviewer')
+            ->andWhere('performanceReview.id = :reviewId')
+            ->setParameter('reviewId', $supervisorEvaluationSearchFilterParams->getReviewId())
+            ->andWhere('reviewer.group = :group')
+            ->setParameter('group', $reviewGroup);
+        $this->setSortingAndPaginationParams($qb, $supervisorEvaluationSearchFilterParams);
+        return $this->getQueryBuilderWrapper($qb);
+    }
+
+    /**
+     * @param int $performanceReviewId
+     * @return Reviewer|null
+     */
+    public function getSupervisorReviewerForReview(int $performanceReviewId): ?Reviewer
+    {
+        $supervisorGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(
+            ['name' => ReviewerGroup::REVIEWER_GROUP_SUPERVISOR]
+        );
+        return $this->getRepository(Reviewer::class)->findOneBy(
+            ['review' => $performanceReviewId, 'group' => $supervisorGroup]
+        );
+    }
+
+    /**
+     * @param int $reviewId
+     * @return array
+     */
+    public function getKpiIdsForReviewId(int $reviewId): array
+    {
+        $jobTitleId = $this->getReviewById($reviewId)->getJobTitle()->getId();
+        $q = $this->createQueryBuilder(Kpi::class, 'kpi');
+        $q->select('kpi.id')
+            ->andWhere('kpi.jobTitle =:jobTitle')
+            ->setParameter('jobTitle', $jobTitleId);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param array $reviewerRatings
+     * @return void
+     */
+    public function saveAndUpdateReviewerRatings(array $reviewerRatings): void
+    {
+        $q = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
+
+        foreach (array_values($reviewerRatings) as $i => $reviewerRating) {
+            $reviewerIdParamKey = 'timesheetId_' . $i;
+            $performanceReviewIdParamKey = 'projectId_' . $i;
+            $kpiIdParamKey = 'activityId_' . $i;
+
+            /** @var ReviewerRating $reviewerRating */
+
+            $reviewerId = $reviewerRating->getReviewer()->getId();
+            $performanceReviewId = $reviewerRating->getPerformanceReview()->getId();
+            $kpiId = $reviewerRating->getKpi()->getId();
+
+            $q->orWhere(
+                $q->expr()->andX(
+                    $q->expr()->eq('reviewerRating.reviewer', ':' . $reviewerIdParamKey),
+                    $q->expr()->eq('reviewerRating.performanceReview', ':' . $performanceReviewIdParamKey),
+                    $q->expr()->eq('reviewerRating.kpi', ':' . $kpiIdParamKey),
+                )
+            );
+            $q->setParameter($reviewerIdParamKey, $reviewerId)
+                ->setParameter($performanceReviewIdParamKey, $performanceReviewId)
+                ->setParameter($kpiIdParamKey, $kpiId);
+        }
+
+        /** @var array<string, ReviewerRating> $updatableReviewerRatings */
+        $updatableReviewerRatings = [];
+        foreach ($q->getQuery()->execute() as $updatableReviewerRating) {
+            /** @var ReviewerRating $updatableReviewerRating */
+            $itemKey = $this->generateReviewReviewerRatingKey(
+                $updatableReviewerRating->getReviewer()->getId(),
+                $updatableReviewerRating->getPerformanceReview()->getId(),
+                $updatableReviewerRating->getKpi()->getId()
+            );
+            $updatableReviewerRatings[$itemKey] = $updatableReviewerRating;
+        }
+
+        foreach ($reviewerRatings as $key => $reviewerRating) {
+            if (isset($updatableReviewerRatings[$key])) {
+                $updatableReviewerRatings[$key]->setRating($reviewerRating->getRating());
+                $updatableReviewerRatings[$key]->setComment($reviewerRating->getComment());
+
+                $this->getEntityManager()->persist($updatableReviewerRatings[$key]);
+                continue;
+            } else {
+                $this->getEntityManager()->persist($reviewerRating);
+            }
+            $this->getEntityManager()->flush();
+        }
+
+    }
+
+    /**
+     * @param int $reviewerId
+     * @param int $performanceReviewId
+     * @param int $kpiId
+     * @return string
+     */
+    public function generateReviewReviewerRatingKey(int $reviewerId, int $performanceReviewId, int $kpiId): string
+    {
+        return $reviewerId . '_' .
+            $performanceReviewId . '_' .
+            $kpiId . '_';
+    }
+
+    /**
+     * @param int $performanceReviewId
+     * @param string $reviewerGroupName
+     * @return ReportTo[]
+     */
+    public function getReviewerRecord(int $performanceReviewId, string $reviewerGroupName): array
+    {
+
+        $qb = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $qb->leftJoin('reviewer.review', 'performanceReview')
+            ->leftJoin('reviewer.group', 'reviewerGroup')
+            ->andWhere('performanceReview.id = :performanceReviewId')
+            ->setParameter('performanceReviewId', $performanceReviewId)
+            ->andWhere('reviewerGroup.name = :groupName')
+            ->setParameter('groupName', $reviewerGroupName);
+        return $qb->getQuery()->execute();
     }
 }
