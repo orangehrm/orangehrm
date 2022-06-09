@@ -387,6 +387,31 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
+     * @param PerformanceReview $performanceReview
+     * @return PerformanceReview
+     */
+    public function savePerformanceReview(PerformanceReview $performanceReview): PerformanceReview
+    {
+        $this->persist($performanceReview);
+        return $performanceReview;
+    }
+
+    /**
+     * @param int $reviewId
+     */
+    public function setReviewerStatusToCompleted(int $reviewId): void
+    {
+        $qb = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $qb->update()
+            ->set('reviewer.status', ':status')
+            ->setParameter('status', Reviewer::STATUS_COMPLETED)
+            ->andWhere($qb->expr()->eq('reviewer.review', ':reviewId'))
+            ->setParameter('reviewId', $reviewId);
+
+        $qb->getQuery()->execute();
+    }
+
+    /**
      * @param int $supervisorEmpNumber
      * @return int[]
      */
@@ -416,6 +441,7 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getReviewIdList(): array
     {
+        // TODO check purged employee permissions
         $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
