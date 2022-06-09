@@ -82,4 +82,22 @@ class InterviewDecorator
         }
         $interviewers[] = $employee;
     }
+
+    /**
+     * @return string
+     */
+    public function getInterviewDate(): string
+    {
+        $interviewDate = $this->interview->getInterviewDate();
+        return $interviewDate->format('Y-m-d');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getInterviewTime(): ?string
+    {
+        $interviewTime = $this->interview->getInterviewTime();
+        return !is_null($interviewTime) ? $interviewTime->format('H:i') : null;
+    }
 }

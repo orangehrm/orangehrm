@@ -22,7 +22,10 @@ namespace OrangeHRM\Recruitment\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\CandidateAttachment;
+use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Entity\VacancyAttachment;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
 
 class RecruitmentAttachmentDao extends BaseDao
 {
@@ -44,6 +47,16 @@ class RecruitmentAttachmentDao extends BaseDao
     {
         $this->persist($candidateAttachment);
         return $candidateAttachment;
+    }
+
+    /**
+     * @param InterviewAttachment $interviewAttachment
+     * @return InterviewAttachment
+     */
+    public function saveInterviewAttachment(InterviewAttachment $interviewAttachment): InterviewAttachment
+    {
+        $this->persist($interviewAttachment);
+        return $interviewAttachment;
     }
 
     /**
@@ -69,6 +82,15 @@ class RecruitmentAttachmentDao extends BaseDao
         $qb->where('candidateAttachment.candidate = :candidateId');
         $qb->setParameter('candidateId', $candidateId);
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $attachId
+     * @return InterviewAttachment|null
+     */
+    public function getInterviewAttachmentById(int $attachId): ?InterviewAttachment
+    {
+        return $this->getRepository(InterviewAttachment::class)->find($attachId);
     }
 
     /**
@@ -133,5 +155,29 @@ class RecruitmentAttachmentDao extends BaseDao
             ->where('candidateAttachment.candidate = :candidateId')
             ->setParameter('candidateId', $candidateId);
         return $qb->getQuery()->execute() > 0;
+    }
+
+    /**
+     * @param InterviewAttachmentSearchFilterParams $interviewAttachmentParamHolder
+     * @return InterviewAttachment[]
+     */
+    public function getInterviewAttachments(
+        InterviewAttachmentSearchFilterParams $interviewAttachmentParamHolder
+    ): array {
+        $qb = $this->getInterviewAttachmentPaginator($interviewAttachmentParamHolder);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param InterviewAttachmentSearchFilterParams $interviewAttachmentSearchFilterParams
+     * @return Paginator
+     */
+    protected function getInterviewAttachmentPaginator(
+        InterviewAttachmentSearchFilterParams $interviewAttachmentSearchFilterParams
+    ): Paginator {
+        $qb = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
+        $qb->where('attachment.interview = :interviewId')
+            ->setParameter('interviewId', $interviewAttachmentSearchFilterParams->getInterviewId());
+        return $this->getPaginator($qb);
     }
 }
