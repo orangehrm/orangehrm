@@ -133,7 +133,7 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
         $paramRules = [
             new ParamRule(
                 self::PARAMETER_FINAL_RATING,
-                new Rule(Rules::FLOAT_TYPE),
+                new Rule(Rules::NUMBER),
                 new Rule(
                     Rules::BETWEEN,
                     [self::PARAM_RULE_FINAL_RATING_MIN_VALUE, self::PARAM_RULE_FINAL_RATING_MAX_VALUE]
