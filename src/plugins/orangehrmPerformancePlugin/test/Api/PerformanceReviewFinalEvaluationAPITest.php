@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\test\Api;
+namespace OrangeHRM\Tests\Performance\Api;
 
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Api\PerformanceReviewFinalEvaluationAPI;
