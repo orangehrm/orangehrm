@@ -20,9 +20,11 @@
 namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Admin\Service\LocationService;
-use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Interview;
+use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\PerformanceTracker;
@@ -30,11 +32,15 @@ use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
-
+use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
@@ -46,6 +52,9 @@ class AdminUserRole extends AbstractUserRole
     use PerformanceTrackerServiceTrait;
     use PerformanceReviewServiceTrait;
     use PerformanceTrackerLogServiceTrait;
+    use CandidateServiceTrait;
+    use RecruitmentAttachmentServiceTrait;
+    use VacancyServiceTrait;
 
     protected ?LocationService $locationService = null;
 
@@ -78,16 +87,22 @@ class AdminUserRole extends AbstractUserRole
                 return $this->getAccessibleProjectIds($requiredPermissions);
             case Customer::class:
                 return $this->getAccessibleCustomerIds($requiredPermissions);
-            case 'Vacancy':
-                // TODO:: implement and remove below line
-                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
+            case Vacancy::class:
                 return $this->getAccessibleVacancyIds($requiredPermissions);
+            case VacancyAttachment::class:
+                return $this->getAccessibleVacancyAttachmentIds();
             case PerformanceTracker::class:
                 return $this->getAccessibleTrackerIds($requiredPermissions);
             case PerformanceReview::class:
-                return $this->getAccessibleReviewIds();
+                return $this->getAccessibleReviewIds($requiredPermissions);
             case PerformanceTrackerLog::class:
                 return $this->getAccessibleTrackerLogIds($requiredPermissions);
+            case Candidate::class:
+                return $this->getAccessibleCandidateIds($requiredPermissions);
+            case Interview::class:
+                return $this->getAccessibleInterviewIds($requiredPermissions);
+            case InterviewAttachment::class:
+                return $this->getAccessibleInterviewAttachmentIds($requiredPermissions);
             default:
                 return [];
         }
@@ -156,6 +171,9 @@ class AdminUserRole extends AbstractUserRole
      */
     protected function getAccessibleProjectIds(array $requiredPermissions = []): array
     {
+        /**
+         * @return int[]
+         */
         return $this->getProjectService()
             ->getProjectDao()
             ->getProjectIdList();
@@ -178,7 +196,7 @@ class AdminUserRole extends AbstractUserRole
      */
     protected function getAccessibleVacancyIds(array $requiredPermissions = []): array
     {
-        return $this->getVacancyService()->getVacancyIdList();
+        return $this->getVacancyService()->getVacancyDao()->getVacancyIdList();
     }
 
     /**
@@ -193,9 +211,10 @@ class AdminUserRole extends AbstractUserRole
     }
 
     /**
-     * @return array
+     * @param array $requiredPermissions
+     * @return int[]
      */
-    protected function getAccessibleReviewIds(): array
+    protected function getAccessibleReviewIds(array $requiredPermissions = []): array
     {
         return $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()
@@ -211,5 +230,49 @@ class AdminUserRole extends AbstractUserRole
         return $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogsIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleCandidateIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleInterviewIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getInterviewIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleInterviewAttachmentIds(array $requiredPermissions = []): array
+    {
+        return $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->getInterviewAttachmentIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleVacancyAttachmentIds(array $requiredPermissions = []): array
+    {
+        return $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->getVacancyAttachmentIdList();
     }
 }

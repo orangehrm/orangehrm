@@ -36,7 +36,7 @@ use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
-class CandidateAllowedActionsAPI extends Endpoint implements CollectionEndpoint
+class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
 {
     use CandidateServiceTrait;
     use UserRoleManagerTrait;
@@ -66,6 +66,11 @@ class CandidateAllowedActionsAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_CANDIDATE_ID
         );
+
+        $candidate = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateById($candidateId);
+        $this->throwRecordNotFoundExceptionIfNotExist($candidate, Candidate::class);
 
         $candidateVacancy = $this->getCandidateService()
             ->getCandidateDao()
@@ -101,7 +106,7 @@ class CandidateAllowedActionsAPI extends Endpoint implements CollectionEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_CANDIDATE_ID,
-                new Rule(Rules::ENTITY_ID_EXISTS, [Candidate::class])
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
             )
         );
     }

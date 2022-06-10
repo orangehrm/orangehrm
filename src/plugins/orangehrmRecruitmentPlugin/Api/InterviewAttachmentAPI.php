@@ -35,11 +35,13 @@ use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Recruitment\Api\Model\InterviewAttachmentModel;
 use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
 class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
 {
     use RecruitmentAttachmentServiceTrait;
+    use CandidateServiceTrait;
 
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_ATTACHMENT_ID = 'attachmentId';
@@ -61,6 +63,11 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         $interviewAttachmentParamHolder = new InterviewAttachmentSearchFilterParams();
         $this->setSortingAndPaginationParams($interviewAttachmentParamHolder);
 
+        $interview = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getInterviewById($this->getInterviewId());
+        $this->throwRecordNotFoundExceptionIfNotExist($interview, Interview::class);
+
         $interviewAttachmentParamHolder->setInterviewId(
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -70,10 +77,13 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         $attachments = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->getInterviewAttachments($interviewAttachmentParamHolder);
+        $count = $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->getInterviewAttachmentsCount($interviewAttachmentParamHolder);
         return new EndpointCollectionResult(
             InterviewAttachmentModel::class,
             $attachments,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($attachments)])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
@@ -85,7 +95,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::ENTITY_ID_EXISTS, [Interview::class])
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
             )
         );
     }
@@ -95,6 +105,10 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
+        $interview = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getInterviewById($this->getInterviewId());
+        $this->throwRecordNotFoundExceptionIfNotExist($interview, Interview::class);
         $interviewAttachment = new InterviewAttachment();
         $this->setInterviewAttachment($interviewAttachment);
         $this->setBase64Attachment($interviewAttachment);
@@ -110,16 +124,24 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
     private function setInterviewAttachment(InterviewAttachment $interviewAttachment)
     {
         $interviewAttachment->getDecorator()->setInterviewById(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_INTERVIEW_ID
-            )
+            $this->getInterviewId()
         );
         $interviewAttachment->setComment(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_COMMENT
             )
+        );
+    }
+
+    /**
+     * @return int
+     */
+    private function getInterviewId(): int
+    {
+        return $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_INTERVIEW_ID
         );
     }
 
@@ -149,7 +171,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::ENTITY_ID_EXISTS, [Interview::class])
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
             ),
             new ParamRule(
                 self::PARAMETER_ATTACHMENT,
@@ -198,9 +220,13 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_ATTACHMENT_ID
         );
+        $interviewId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_INTERVIEW_ID
+        );
         $interviewAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getInterviewAttachmentById($attachmentId);
+            ->getInterviewAttachmentByAttachmentIDAndInterviewId($attachmentId, $interviewId);
         $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, InterviewAttachment::class);
 
         return new EndpointResourceResult(InterviewAttachmentModel::class, $interviewAttachment);
@@ -214,7 +240,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::ENTITY_ID_EXISTS, [Interview::class])
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
             ),
             new ParamRule(
                 self::PARAMETER_ATTACHMENT_ID,
@@ -236,9 +262,13 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_CURRENT_ATTACHMENT
         );
+        $interviewId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_INTERVIEW_ID
+        );
         $interviewAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getInterviewAttachmentById($attachmentId);
+            ->getInterviewAttachmentByAttachmentIDAndInterviewId($attachmentId, $interviewId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, InterviewAttachment::class);
         $this->setInterviewAttachment($interviewAttachment);
@@ -263,7 +293,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::ENTITY_ID_EXISTS, [Interview::class])
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -276,7 +306,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_CURRENT_ATTACHMENT,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH]),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH]),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
