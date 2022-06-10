@@ -20,7 +20,6 @@
 namespace OrangeHRM\Recruitment\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
 
 class InterviewAttachmentSearchFilterParams extends FilterParams
 {
@@ -32,7 +31,6 @@ class InterviewAttachmentSearchFilterParams extends FilterParams
     public function __construct()
     {
         $this->setSortField('attachment.interviewId');
-        $this->setSortOrder(ListSorter::ASCENDING);
     }
 
     /**
