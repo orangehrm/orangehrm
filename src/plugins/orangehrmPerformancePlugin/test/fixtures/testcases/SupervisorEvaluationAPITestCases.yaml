@@ -1,0 +1,251 @@
+GetAll:
+  'Get all ratings for invalid supervisor review':
+    userId: 2
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+
+  'Get all ratings for Admin supervisor review that has no reviewer ratings':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    data:
+        []
+    meta:
+      total: 0
+      kpis:
+        0:
+          "id": 2
+          "title": "Code Coverage"
+          "jobTitle":
+            "id": 1
+            "name": "Software Engineer"
+            "deleted": false
+          "minRating": 0
+          "maxRating": 100
+          "isDefault": null
+        1:
+          "id": 3
+          "title": "Code Stability"
+          "jobTitle":
+            "id": 1
+            "name": "Software Engineer"
+            "deleted": false
+          "minRating": 0
+          "maxRating": 100
+          "isDefault": null
+        2:
+          "id": 1
+          "title": "Velocity"
+          "jobTitle":
+            "id": 1
+            "name": "Software Engineer"
+            "deleted": false
+          "minRating": 0
+          "maxRating": 100
+          "isDefault": null
+      reviewer:
+        0:
+          "id": 2
+          "employee":
+            "empNumber": 3
+            "lastName": "Choi"
+            "firstName": "Seungcheol"
+            "middleName": ''
+            "employeeId": "0003"
+            "terminationId": null
+
+  'Get all ratings for supervisor own supervisor review that has reviewer ratings':
+    userId: 4
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 2
+    data:
+      0:
+        "id": 1
+        "rating": "2.00"
+        "comment": "test"
+        "kpiId": 4
+      1:
+        "id": 2
+        "rating": "2.00"
+        "comment": "test2"
+        "kpiId": 5
+    meta:
+      total: 2
+      kpis:
+        0:
+          "id": 4
+          "title": "A"
+          "jobTitle":
+            "id": 2
+            "name": "Senior Software Engineer"
+            "deleted": false
+          "minRating": 0
+          "maxRating": 100
+          "isDefault": null
+        1:
+          "id": 5
+          "title": "B"
+          "jobTitle":
+            "id": 2
+            "name": "Senior Software Engineer"
+            "deleted": false
+          "minRating": 0
+          "maxRating": 100
+          "isDefault": null
+      reviewer:
+        0:
+          "id": 4
+          "employee":
+            "empNumber": 3
+            "lastName": "Choi"
+            "firstName": "Seungcheol"
+            "middleName": ''
+            "employeeId": "0003"
+            "terminationId": null
+
+Update:
+  'Invalid User creating reviewer rating':
+    userId: 2
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    body:
+      ratings:
+        0:
+          "kpiId": 5
+          "rating": 2
+          "comment": "Test logs create"
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'No KPI':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    body:
+      ratings:
+        0:
+          "rating": 2
+          "comment": "Test logs create"
+    invalidOnly: [ 'ratings' ]
+
+  'Invalid KPI':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    body:
+      ratings:
+        0:
+          "kpiId": 5
+          "rating": 2
+          "comment": "Test logs create"
+    invalidOnly: [ 'ratings' ]
+
+  'valid KPI with new reviewer ratings':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 4
+    body:
+      ratings:
+        0:
+          "kpiId": 6
+          "rating": 2
+          "comment": "Test logs create"
+    data:
+      0:
+        id: 3
+        "rating": 2
+        "comment": "Test logs create"
+        "kpiId": 6
+
+  'update existing reviewer ratings':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 2
+    body:
+      ratings:
+        0:
+          "rating": "3.00"
+          "comment": "test comment update"
+          "kpiId": 4
+        1:
+          "rating": "2.00"
+          "comment": "test comment update 2"
+          "kpiId": 5
+    data:
+      0:
+        "id": 1
+        "rating": "3.00"
+        "comment": "test comment update"
+        "kpiId": 4
+      1:
+        "id": 2
+        "rating": "2.00"
+        "comment": "test comment update 2"
+        "kpiId": 5

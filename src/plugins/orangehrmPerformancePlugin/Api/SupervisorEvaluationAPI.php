@@ -38,7 +38,6 @@ use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\ReviewerGroup;
-use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Api\Model\KpiModel;
 use OrangeHRM\Performance\Api\Model\ReviewerModel;
@@ -47,7 +46,6 @@ use OrangeHRM\Performance\Api\ValidationRules\ReviewReviewerRatingParamRule;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Performance\Dto\SupervisorEvaluationSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
-use phpDocumentor\Reflection\Types\Self_;
 use PHPUnit\Exception;
 
 class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
@@ -101,11 +99,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_REVIEW_ID,
-                new Rule(Rules::POSITIVE),
-                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceReview::class])
-            ),
+            $this->getReviewIdParamRule(),
             ...$this->getSortingAndPaginationParamsRules(
             ReviewKpiSearchFilterParams::ALLOWED_SORT_FIELDS
         )
@@ -120,6 +114,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         return new ParamRule(
             self::PARAMETER_REVIEW_ID,
             new Rule(Rules::POSITIVE),
+            new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceReview::class])
         );
     }
 
@@ -143,6 +138,9 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @return array
+     */
     private function getSupervisorReviewerForReviewRating(): array
     {
         $reviewId = $this->getRequestParams()->getInt(

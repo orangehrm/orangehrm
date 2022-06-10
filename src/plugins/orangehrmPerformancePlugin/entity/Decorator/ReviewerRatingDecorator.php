@@ -46,6 +46,10 @@ class ReviewerRatingDecorator
         return $this->reviewerRating;
     }
 
+    /**
+     * @param int $kpiId
+     * @return void
+     */
     public function setKpiByKpiId(int $kpiId): void
     {
         $kpi = $this->getReference(Kpi::class, $kpiId);

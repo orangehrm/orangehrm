@@ -465,6 +465,11 @@ class PerformanceReviewDao extends BaseDao
         return $this->getPaginator($qb)->count();
     }
 
+    /**
+     * @param SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
+     * @param ReviewerGroup $reviewGroup
+     * @return QueryBuilderWrapper
+     */
     private function getEvaluationRatingQueryBuilderWrapper(
         SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams,
         ReviewerGroup                          $reviewGroup

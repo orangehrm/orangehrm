@@ -32,6 +32,7 @@ class ReviewerModel implements Normalizable
         $this->setEntity($reviewer);
         $this->setFilters(
             [
+                'id',
                 ['getEmployee', 'getEmpNumber'],
                 ['getEmployee', 'getLastName'],
                 ['getEmployee', 'getFirstName'],
@@ -43,12 +44,12 @@ class ReviewerModel implements Normalizable
         $this->setAttributeNames(
             [
                 'id',
-                'empNumber',
-                'lastName',
-                'firstName',
-                'middleName',
-                'employeeId',
-                'terminationId',
+                ['employee','empNumber'],
+                ['employee','lastName'],
+                ['employee','firstName'],
+                ['employee','middleName'],
+                ['employee','employeeId'],
+                ['employee','terminationId'],
             ]
         );
     }
