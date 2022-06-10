@@ -30,7 +30,7 @@
       </a>
     </div>
     <div v-show="employeeWorkEmail" class="orangehrm-directory-card-icon">
-      <a :href="`tel:${employeeWorkEmail}`">
+      <a :href="`mailto:${employeeWorkEmail}`">
         <oxd-icon-button display-type="danger" name="mailbox"></oxd-icon-button>
       </a>
     </div>

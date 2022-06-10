@@ -44,7 +44,8 @@ class EmployeeDirectoryModel implements Normalizable
                 ['getJobTitle', 'getJobTitleName'],
                 ['getSubDivision', 'getId'],
                 ['getSubDivision', 'getName'],
-                ['getLocations', ['getId', 'getName']],
+                ['getDecorator', 'getLocation', 'getId'],
+                ['getDecorator', 'getLocation', 'getName'],
             ]
         );
         $this->setAttributeNames(
@@ -56,9 +57,10 @@ class EmployeeDirectoryModel implements Normalizable
                 'terminationId',
                 ['jobTitle', 'id'],
                 ['jobTitle', 'title'],
-                ['subUnit', 'id'],
-                ['subUnit', 'name'],
-                ['location', ['id', 'name']],
+                ['subunit', 'id'],
+                ['subunit', 'name'],
+                ['location', 'id'],
+                ['location', 'name'],
             ]
         );
     }

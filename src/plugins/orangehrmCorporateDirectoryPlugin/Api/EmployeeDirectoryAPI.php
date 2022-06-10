@@ -25,12 +25,8 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -41,13 +37,11 @@ use OrangeHRM\CorporateDirectory\Api\Model\EmployeeDirectoryModel;
 use OrangeHRM\CorporateDirectory\Dto\EmployeeDirectorySearchFilterParams;
 use OrangeHRM\CorporateDirectory\Service\EmployeeDirectoryService;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-/**
- *
- */
 class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
 {
-    use UserRoleManagerTrait;
+    use UserRoleManagerTrait, EmployeeServiceTrait;
 
     public const FILTER_EMP_NUMBER = 'empNumber';
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
@@ -62,8 +56,7 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
     ];
 
     /**
-     * @throws NormalizeException
-     * @throws RecordNotFoundException
+     * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
     {
@@ -100,7 +93,7 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
 
 
     /**
-     * @return ParamRuleCollection
+     * @inheritDoc
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
@@ -139,10 +132,10 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
             self::FILTER_EMP_NUMBER
         );
         if (!is_null($empNumber)) {
-            $employeeDirectoryParamHolder->setEmpNumber([$empNumber]);
+            $employeeDirectoryParamHolder->setEmpNumbers([$empNumber]);
         } else {
             $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
-            $employeeDirectoryParamHolder->setEmpNumber($accessibleEmpNumbers);
+            $employeeDirectoryParamHolder->setEmpNumbers($accessibleEmpNumbers);
         }
 
         $employeeDirectoryParamHolder->setJobTitleId(
@@ -233,8 +226,7 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws NotImplementedException
+     * @inheritDoc
      */
     public function update(): EndpointResult
     {
@@ -242,8 +234,7 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return ParamRuleCollection
-     * @throws NotImplementedException
+     * @inheritDoc
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {

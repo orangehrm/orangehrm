@@ -103,11 +103,6 @@ export default {
     },
   },
   emits: ['hide-details'],
-  data() {
-    return {
-      height: 260,
-    };
-  },
   computed: {
     hasDefaultSlot() {
       return !!this.$slots.default;

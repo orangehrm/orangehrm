@@ -65,9 +65,9 @@ class EmployeeDirectoryDao extends BaseDao
             $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
         }
 
-        if (!is_null($employeeDirectorySearchParamHolder->getEmpNumber())) {
-            $q->andWhere('employee.empNumber = :empNumber')
-                ->setParameter('empNumber', $employeeDirectorySearchParamHolder->getEmpNumber());
+        if (!is_null($employeeDirectorySearchParamHolder->getEmpNumbers())) {
+            $q->andWhere($q->expr()->in('employee.empNumber',':empNumbers'))
+                ->setParameter('empNumbers', $employeeDirectorySearchParamHolder->getEmpNumbers());
         }
 
         if (!is_null($employeeDirectorySearchParamHolder->getLocationId())) {
@@ -83,20 +83,6 @@ class EmployeeDirectoryDao extends BaseDao
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
 
         return $this->getQueryBuilderWrapper($q);
-    }
-
-    /**
-     * @param EmployeeDirectorySearchFilterParams $employeeDirectorySearchParamHolder
-     * @return int[]
-     */
-    public function getEmpNumbersByFilterParams(EmployeeDirectorySearchFilterParams $employeeDirectorySearchParamHolder
-    ): array {
-        $employeeDirectorySearchParamHolder->setSortField('employee.empNumber');
-        $q = $this->getEmployeeListQueryBuilderWrapper($employeeDirectorySearchParamHolder)->getQueryBuilder();
-        $q->select('employee.empNumber');
-
-        $result = $q->getQuery()->getArrayResult();
-        return array_column($result, 'empNumber');
     }
 
     /**
@@ -117,5 +103,4 @@ class EmployeeDirectoryDao extends BaseDao
     {
         return $this->getRepository(Employee::class)->find($empNumber);
     }
-
 }

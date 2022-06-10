@@ -94,7 +94,8 @@
             "OrangeHRM\\Tests\\Maintenance\\": "./plugins/orangehrmMaintenancePlugin/test",
             "OrangeHRM\\Tests\\I18N\\": "./plugins/orangehrmI18NPlugin/test",
             "OrangeHRM\\Tests\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin/test",
-            "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test"
+            "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test",
+            "OrangeHRM\\Tests\\CorporateDirectory\\": "./plugins/orangehrmCorporateDirectoryPlugin/test"
         }
     },
     "scripts": {

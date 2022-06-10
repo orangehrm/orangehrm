@@ -56,7 +56,7 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
     /**
      * @var int[]|null
      */
-    protected ?array $empNumber = null;
+    protected ?array $empNumbers = null;
     /**
      * @var int|null
      */
@@ -101,17 +101,17 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
     /**
      * @return int[]|null
      */
-    public function getEmpNumber(): ?array
+    public function getEmpNumbers(): ?array
     {
-        return $this->empNumber;
+        return $this->empNumbers;
     }
 
     /**
-     * @param int[]|null $empNumber
+     * @param int[]|null $empNumbers
      */
-    public function setEmpNumber(?array $empNumber): void
+    public function setEmpNumbers(?array $empNumbers): void
     {
-        $this->empNumber = $empNumber;
+        $this->empNumbers = $empNumbers;
     }
 
     /**

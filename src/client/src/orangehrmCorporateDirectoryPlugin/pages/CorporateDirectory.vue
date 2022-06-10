@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter :filter-title="$t('Directory')">
+    <oxd-table-filter :filter-title="$t('***.directory')">
       <oxd-form>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -118,7 +118,7 @@ const employeeDataNormalizer = data => {
       employeeId: item.employeeId,
       employeeName:
         `${item.firstName} ${item.middleName} ${item.lastName}` +
-        (item.terminationId ? ' (Past Employee)' : ''),
+        (item.terminationId ? $t('general.past_employee') : ''),
       employeeJobTitle: item.jobTitle?.title,
       employeeSubUnit: item.subunit?.name,
       employeeLocation: item.location?.name,
