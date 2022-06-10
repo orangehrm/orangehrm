@@ -175,7 +175,9 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.kpi.title = data.title;
-        this.kpi.jobTitle = {id: data.jobTitle.id, label: data.jobTitle.name};
+        this.kpi.jobTitle = !data.jobTitle.deleted
+          ? {id: data.jobTitle.id, label: data.jobTitle.name}
+          : null;
         this.kpi.minRating = data.minRating;
         this.kpi.maxRating = data.maxRating;
         this.kpi.isDefault = data.isDefault;

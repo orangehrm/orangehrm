@@ -150,6 +150,7 @@
               type="textarea"
               :label="$t('general.comment')"
               :placeholder="$t('general.type_comment_here')"
+              :rules="rules.comment"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -201,6 +202,7 @@
               type="textarea"
               :label="$t('general.comment')"
               :placeholder="$t('general.type_comment_here')"
+              :rules="rules.comment"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -290,7 +292,7 @@ const VacancyAttachmentModel = {
   id: null,
   comment: '',
   oldAttachment: {},
-  newAttachment: {},
+  newAttachment: null,
   method: 'keepCurrent',
 };
 
@@ -353,8 +355,6 @@ export default {
       isLoadingTable: false,
       isAddClicked: false,
       isEditClicked: false,
-      rssFeedUrl: '',
-      webFeedUrl: '',
       currentName: '',
       vacancy: {...vacancyModel},
       vacancyAttachment: {...VacancyAttachmentModel},
@@ -371,8 +371,6 @@ export default {
           maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
-        rssFeedUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.rss`,
-        webUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.html`,
         updateAttachment: [
           v => {
             if (this.vacancyAttachment.method == 'replaceCurrent') {
@@ -384,6 +382,7 @@ export default {
           validFileTypes(this.allowedFileTypes),
           maxFileSize(this.maxFileSize),
         ],
+        comment: [shouldNotExceedCharLength(200)],
       },
       headers: [
         {
@@ -438,6 +437,8 @@ export default {
       ],
       attachments: [],
       checkedItems: [],
+      rssFeedUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.rss`,
+      webUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.html`,
     };
   },
   created() {

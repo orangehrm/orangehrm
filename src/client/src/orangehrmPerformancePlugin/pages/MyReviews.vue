@@ -51,11 +51,18 @@
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
-import {computed} from 'vue';
+import {computed, inject} from 'vue';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
+import {
+  viewIcon,
+  evaluateIcon,
+  viewLabel,
+  evaluateLabel,
+} from '@/orangehrmPerformancePlugin/util/composable/useReviewActions';
+import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
 
 const defaultSortOrder = {
   'performanceReview.statusId': 'ASC',
@@ -91,15 +98,26 @@ export default {
           id: item.id,
           jobTitle: item.jobTitle.name,
           department: item.subunit.name,
-          reviewPeriod:
-            formatDate(parseDate(item.reviewPeriodStart), jsDateFormat, {
-              locale,
-            }) +
-            ' - ' +
-            formatDate(parseDate(item.reviewPeriodEnd), jsDateFormat, {locale}),
+          reviewPeriod: {
+            reviewPeriodStart: formatDate(
+              parseDate(item.reviewPeriodStart),
+              jsDateFormat,
+              {
+                locale,
+              },
+            ),
+            reviewPeriodEnd: formatDate(
+              parseDate(item.reviewPeriodEnd),
+              jsDateFormat,
+              {
+                locale,
+              },
+            ),
+          },
           dueDate: formatDate(parseDate(item.dueDate), jsDateFormat, {locale}),
           overallStatus: item.overallStatus.statusName,
           selfEvaluationStatus: item.selfReviewStatus,
+          statusId: item.overallStatus.statusId,
         };
       });
     };
@@ -153,6 +171,7 @@ export default {
           title: this.$t('performance.review_period'),
           sortField: 'performanceReview.reviewPeriodStart',
           style: {flex: 2},
+          cellRenderer: this.reviewPeriodCellRenderer,
         },
         {
           name: 'dueDate',
@@ -178,40 +197,32 @@ export default {
           title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
-          cellRenderer: this.cellRenderer,
+          cellRenderer: this.actionButtonCellRenderer,
         },
       ],
     };
   },
   methods: {
-    cellRenderer(...[, , , row]) {
+    actionButtonCellRenderer(...[, , , row]) {
       const cellConfig = {};
-      if (row.selfEvaluationStatus === 'Completed') {
-        cellConfig.view = {
-          component: 'oxd-button',
-          props: {
-            name: 'view',
-            label: this.$t('general.view'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
+      const screenState = inject('screenState');
+
+      if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
+        if (row.selfEvaluationStatus === 3) {
+          cellConfig.view = viewIcon;
+          cellConfig.view.props.title = this.$t('general.view');
+        } else {
+          cellConfig.evaluate = evaluateIcon;
+          cellConfig.evaluate.props.title = this.$t('performance.evaluate');
+        }
       } else {
-        cellConfig.evaluation = {
-          component: 'oxd-button',
-          props: {
-            name: 'evaluate',
-            label: this.$t('performance.evaluate'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
+        if (row.selfEvaluationStatus === 3) {
+          cellConfig.view = viewLabel;
+          cellConfig.view.props.label = this.$t('general.view');
+        } else {
+          cellConfig.evaluate = evaluateLabel;
+          cellConfig.evaluate.props.label = this.$t('performance.evaluate');
+        }
       }
 
       return {
@@ -219,6 +230,16 @@ export default {
           header: {
             cellConfig,
           },
+        },
+      };
+    },
+    reviewPeriodCellRenderer(...args) {
+      const cellData = args[1];
+      return {
+        component: ReviewPeriodCell,
+        props: {
+          reviewPeriodStart: cellData.reviewPeriodStart,
+          reviewPeriodEnd: cellData.reviewPeriodEnd,
         },
       };
     },

@@ -187,13 +187,13 @@ export default {
           title: this.$t('performance.key_performance_indicator'),
           slot: 'title',
           sortField: 'kpi.title',
-          style: {flex: '25%'},
+          style: {flex: '20%'},
         },
         {
           name: 'jobTitleName',
           title: this.$t('general.job_title'),
           sortField: 'jobTitle.jobTitleName',
-          style: {flex: '25%'},
+          style: {flex: '20%'},
         },
         {
           name: 'minRating',
@@ -214,7 +214,7 @@ export default {
           name: 'actions',
           slot: 'action',
           title: this.$t('general.actions'),
-          style: {flex: 1},
+          style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {

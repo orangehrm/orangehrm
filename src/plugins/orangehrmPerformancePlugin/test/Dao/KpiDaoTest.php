@@ -73,7 +73,7 @@ class KpiDaoTest extends KernelTestCase
     {
         $kpiSearchFilterParams = new KpiSearchFilterParams();
         $result = $this->kpiDao->getKpiList($kpiSearchFilterParams);
-        $this->assertCount(4, $result);
+        $this->assertCount(5, $result);
         $this->assertEquals('Capacity Planning', $result[0]->getTitle());
         $this->assertEquals('Code Clarity', $result[1]->getTitle());
         $this->assertEquals(10, $result[1]->getMaxRating());
@@ -87,7 +87,7 @@ class KpiDaoTest extends KernelTestCase
     {
         $kpiSearchFilterParams = new KpiSearchFilterParams();
         $result = $this->kpiDao->getKpiCount($kpiSearchFilterParams);
-        $this->assertEquals(4, $result);
+        $this->assertEquals(5, $result);
 
         $kpiSearchFilterParams->setJobTitleId(100);
         $result = $this->kpiDao->getKpiCount($kpiSearchFilterParams);
@@ -104,5 +104,35 @@ class KpiDaoTest extends KernelTestCase
         $toBeDeletedIds = [];
         $result = $this->kpiDao->deleteKpi($toBeDeletedIds);
         $this->assertEquals(0, $result);
+    }
+
+    public function testUnsetDefaultKpi(): void
+    {
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertCount(1, $result);
+
+        $this->kpiDao->unsetDefaultKpi(null);
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findBy(['defaultKpi' => true]);
+        $this->assertEmpty($result);
+    }
+
+    public function testUnsetDefaultKpiWithId(): void
+    {
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findOneBy(['defaultKpi' => true]);
+        $this->assertEquals('Planning Methodologies', $result->getTitle());
+
+        $this->kpiDao->unsetDefaultKpi(3);
+
+        $result = $this->getEntityManager()->getRepository(Kpi::class)->findOneBy(['defaultKpi' => true]);
+        $this->assertEquals('Planning Methodologies', $result->getTitle());
+    }
+
+    public function testGetDefaultKpi(): void
+    {
+        $expected = $this->getEntityManager()->getRepository(Kpi::class)->findOneBy(['defaultKpi' => true]);
+        $result = $this->kpiDao->getDefaultKpi();
+
+        $this->assertEquals($expected, $result);
     }
 }

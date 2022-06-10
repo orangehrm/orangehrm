@@ -20,8 +20,8 @@
 <template>
   <div class="orangehrm-background-container orangehrm-save-candidate-page">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"
-        >{{ $t('recruitment.add_candidate') }}
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('recruitment.add_candidate') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -32,6 +32,7 @@
                 v-model:first-name="candidate.firstName"
                 v-model:middle-name="candidate.middleName"
                 v-model:last-name="candidate.lastName"
+                :label="$t('general.full_name')"
                 :rules="rules"
                 required
               />
@@ -77,7 +78,7 @@
                 :file="resume.oldAttachment"
                 :rules="rules.resume"
                 :url="`recruitment/candidateAttachment/attachId`"
-                :hint="$t('general.accepts_up_to_1mb')"
+                :hint="$t('general.accept_custom_format_file')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -89,7 +90,9 @@
               <oxd-input-field
                 v-model="candidate.keywords"
                 :label="$t('recruitment.keywords')"
-                :placeholder="$t('recruitment.enter_comma_se')"
+                :placeholder="
+                  `${$t('recruitment.enter_comma_seperated_words')}...`
+                "
                 :rules="rules.keywords"
               />
             </oxd-grid-item>
@@ -124,7 +127,7 @@
               <oxd-input-field
                 v-model="candidate.consentToKeepData"
                 type="checkbox"
-                :label="$t('recruitment.content_to_keep_data')"
+                :label="$t('recruitment.consent_to_keep_data')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -236,7 +239,7 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({...this.candidate})
+        .create({...this.candidate, vacancyId: this.candidate.vacancyId?.id})
         .then(response => {
           if (!this.resume.newAttachment) {
             return true;

@@ -81,18 +81,26 @@ class KpiDao extends BaseDao
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
         $q->leftJoin('kpi.jobTitle', 'jobTitle');
         $q->andWhere($q->expr()->isNull('kpi.deletedAt'));
-        $q->andWhere('jobTitle.isDeleted = :jobTitleIsDeleted')
-            ->setParameter('jobTitleIsDeleted', false);
         $this->setSortingAndPaginationParams($q, $kpiSearchFilterParams);
 
         if (!is_null($kpiSearchFilterParams->getJobTitleId())) {
             $q->andWhere('jobTitle.id = :jobTitleId')
-                ->setParameter('jobTitleId', $kpiSearchFilterParams->getJobTitleId());
+                ->andWhere('jobTitle.isDeleted = :isDeleted')
+                ->setParameter('jobTitleId', $kpiSearchFilterParams->getJobTitleId())
+                ->setParameter('isDeleted', false);
         }
 
         $q->addOrderBy('kpi.title');
 
         return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @return Kpi|null
+     */
+    public function getDefaultKpi(): ?Kpi
+    {
+        return $this->getRepository(Kpi::class)->findOneBy(['defaultKpi' => true, 'deletedAt' => null]);
     }
 
     /**
@@ -108,5 +116,25 @@ class KpiDao extends BaseDao
             ->where($q->expr()->in('kpi.id', ':ids'))
             ->setParameter('ids', $toBeDeletedKpiIds);
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function unsetDefaultKpi(?int $id): void
+    {
+        $q = $this->createQueryBuilder(Kpi::class, 'kpi');
+        $q->update()
+            ->set('kpi.defaultKpi', ':newDefault')
+            ->setParameter('newDefault', false)
+            ->where($q->expr()->eq('kpi.defaultKpi', ':oldDefault'))
+            ->setParameter('oldDefault', true);
+
+        if ($id) {
+            $q->andWhere($q->expr()->neq('kpi.id', ':id'))
+                ->setParameter('id', $id);
+        }
+
+        $q->getQuery()->execute();
     }
 }

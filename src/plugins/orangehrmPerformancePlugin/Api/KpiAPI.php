@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Kpi;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Api\Model\KpiModel;
 use OrangeHRM\Performance\Dto\KpiSearchFilterParams;
 use OrangeHRM\Performance\Exception\KpiServiceException;
@@ -119,7 +120,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws BadRequestException
+     * @throws BadRequestException|TransactionException
      */
     public function create(): EndpointResult
     {
@@ -219,7 +220,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws BadRequestException
+     * @throws BadRequestException|TransactionException
      */
     public function update(): EndpointResult
     {

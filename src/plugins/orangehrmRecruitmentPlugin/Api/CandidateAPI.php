@@ -28,6 +28,7 @@ use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -39,6 +40,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
@@ -47,6 +49,7 @@ use OrangeHRM\Recruitment\Api\Model\CandidateDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateListModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateModel;
 use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
+use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
@@ -89,18 +92,6 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => CandidateModel::class,
         self::MODEL_CANDIDATE_LIST => CandidateListModel::class,
-    ];
-
-    public const STATUS_MAP = [
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY => 'APPLICATION INITIATED',
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST => 'SHORTLISTED',
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT => 'REJECTED',
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW => 'INTERVIEW SCHEDULED',
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED => 'INTERVIEW PASSED',
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED => 'INTERVIEW FAILED',
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB => 'JOB OFFERED',
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER => 'OFFER DECLINED',
-        WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE => 'HIRED',
     ];
 
     /**
@@ -180,7 +171,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_QUERY,
             self::FILTER_STATUS
         );
-        return $state ? self::STATUS_MAP[$state] : null;
+        return $state ? CandidateService::STATUS_MAP[$state] : null;
     }
 
     /**
@@ -323,18 +314,37 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $candidate = $this->getCandidateService()->getCandidateDao()->saveCandidate($candidate);
             $lastInsertedCandidateId = $candidate->getId();
 
+            $candidateHistory = new CandidateHistory();
+            $this->setCommonCandidateHistoryAttributes(
+                $candidateHistory,
+                $lastInsertedCandidateId,
+                CandidateService::RECRUITMENT_CANDIDATE_ACTION_ADD
+            );
+            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
+
             $vacancyId = $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_VACANCY_ID
             );
+
             if (!is_null($vacancyId)) {
                 $candidateVacancy = new CandidateVacancy();
                 $this->setCandidateVacancy(
                     $candidateVacancy,
                     $lastInsertedCandidateId,
-                    self::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
+                    CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
                 );
                 $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($candidateVacancy);
+
+                $candidateHistory = new CandidateHistory();
+                $this->setCommonCandidateHistoryAttributes(
+                    $candidateHistory,
+                    $lastInsertedCandidateId,
+                    WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY
+                );
+                $candidateHistory->getDecorator()->setVacancyById($vacancyId);
+                $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
+                $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
             }
 
             $this->commitTransaction();
@@ -440,6 +450,22 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         $candidateVacancy->getDecorator()->setVacancyById($vacancyId);
         $candidateVacancy->setStatus($status);
         $candidateVacancy->setAppliedDate($this->getDateTimeHelper()->getNow());
+    }
+
+    /**
+     * @param CandidateHistory $candidateHistory
+     * @param int $candidateId
+     * @param int $action
+     */
+    private function setCommonCandidateHistoryAttributes(
+        CandidateHistory $candidateHistory,
+        int $candidateId,
+        int $action
+    ): void {
+        $candidateHistory->getDecorator()->setCandidateById($candidateId);
+        $candidateHistory->setAction($action);
+        $candidateHistory->getDecorator()->setPerformedBy($this->getAuthUser()->getEmpNumber());
+        $candidateHistory->setPerformedDate($this->getDateTimeHelper()->getNow());
     }
 
     /**
@@ -627,7 +653,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 $this->setCandidateVacancy(
                     $candidateVacancy,
                     $id,
-                    self::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
+                    CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
                 );
                 $this->getCandidateService()
                     ->getCandidateDao()
@@ -644,6 +670,9 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
 
             $this->commitTransaction();
             return new EndpointResourceResult(CandidateDetailedModel::class, $candidate);
+        } catch (RecordNotFoundException $e) {
+            $this->rollBackTransaction();
+            throw $e;
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);

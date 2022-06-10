@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Migration\V5_1_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -90,6 +91,54 @@ class Migration extends AbstractMigration
         foreach ($langCodes as $langCode) {
             $this->getTranslationHelper()->addTranslations($langCode);
         }
+
+        $performanceModuleId = $this->getDataGroupHelper()->getModuleIdByName('performance');
+
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('Admin'),
+            'performance/searchEvaluatePerformancReview',
+            20
+        );
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'),
+            'performance/searchEvaluatePerformancReview',
+            20
+        );
+        $this->insertModuleDefaultPage(
+            $performanceModuleId,
+            $this->getDataGroupHelper()->getUserRoleIdByName('ESS'),
+            'performance/myPerformanceReview',
+            0
+        );
+
+        $reviewListScreenId = $this->getDataGroupHelper()
+            ->getScreenIdByModuleAndUrl(
+                $performanceModuleId,
+                'searchEvaluatePerformancReview',
+            );
+
+        $this->createQueryBuilder()
+            ->update('ohrm_user_role_screen', 'userRoleScreen')
+            ->set('userRoleScreen.user_role_id', ':userRoleId')
+            ->setParameter(
+                'userRoleId',
+                $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor')
+            )
+            ->andWhere('userRoleScreen.screen_id = :screenId')
+            ->setParameter('screenId', $reviewListScreenId)
+            ->executeQuery();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menuItem')
+            ->set('menuItem.menu_title', ':menuTitle')
+            ->setParameter('menuTitle', 'Employee Reviews')
+            ->andWhere('menuItem.screen_id = :screenId')
+            ->setParameter('screenId', $reviewListScreenId)
+            ->executeQuery();
+
+        $this->insertReviewWorkflowStates();
     }
 
     /**
@@ -103,6 +152,94 @@ class Migration extends AbstractMigration
             Types::BOOLEAN,
             ['Default' => true, 'Notnull' => true]
         );
+    }
+
+    /**
+     * @param int $moduleId
+     * @param int $userRoleId
+     * @param string $action
+     * @param int $priority
+     */
+    private function insertModuleDefaultPage(
+        int $moduleId,
+        int $userRoleId,
+        string $action,
+        int $priority
+    ): void {
+        $this->createQueryBuilder()
+            ->insert('ohrm_module_default_page')
+            ->values(
+                [
+                    'module_id' => ':moduleId',
+                    'user_role_id' => ':userRoleId',
+                    'action' => ':action',
+                    'priority' => ':priority'
+                ]
+            )
+            ->setParameter('moduleId', $moduleId)
+            ->setParameter('userRoleId', $userRoleId)
+            ->setParameter('action', $action)
+            ->setParameter('priority', $priority)
+            ->executeQuery();
+    }
+
+    private function insertReviewWorkflowStates(): void
+    {
+        // Admin workflows
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'INITIAL', 'ADMIN', WorkflowStateMachine::REVIEW_INACTIVE_SAVE, 'SAVED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'INITIAL', 'ADMIN', WorkflowStateMachine::REVIEW_ACTIVATE, 'ACTIVATED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'SAVED', 'ADMIN', WorkflowStateMachine::REVIEW_INACTIVE_SAVE, 'SAVED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'SAVED', 'ADMIN', WorkflowStateMachine::REVIEW_ACTIVATE, 'ACTIVATED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ADMIN', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ADMIN', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ADMIN', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ADMIN', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+
+        // Supervisor workflows
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'SUPERVISOR', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'SUPERVISOR', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+
+        // ESS workflows
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+    }
+
+    /**
+     * @param int $workflow
+     * @param string $state
+     * @param string $role
+     * @param int $action
+     * @param string $resultingState
+     * @return void
+     */
+    private function insertWorkflowState(
+        int $workflow,
+        string $state,
+        string $role,
+        int $action,
+        string $resultingState
+    ): void {
+        $this->createQueryBuilder()
+            ->insert('ohrm_workflow_state_machine')
+            ->values(
+                [
+                    'workflow' => ':workflow',
+                    'state' => ':state',
+                    'role' => ':role',
+                    'action' => ':action',
+                    'resulting_state' => ':resultingState',
+                ]
+            )
+            ->setParameter('workflow', $workflow)
+            ->setParameter('state', $state)
+            ->setParameter('role', $role)
+            ->setParameter('action', $action)
+            ->setParameter('resultingState', $resultingState)
+            ->executeQuery();
     }
 
     /**

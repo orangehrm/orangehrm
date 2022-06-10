@@ -60,6 +60,8 @@ class PerformanceTrackerLogDao extends BaseDao
             ->setParameter('trackerId', $performanceTrackerLogSearchFilterParams->getTrackerId())
             ->andWhere('ptrLog.status = :notDeletedStatus')
             ->setParameter('notDeletedStatus', PerformanceTrackerLog::STATUS_NOT_DELETED);
+
+        $this->setSortingAndPaginationParams($q, $performanceTrackerLogSearchFilterParams);
         return $this->getQueryBuilderWrapper($q);
     }
 
@@ -103,5 +105,26 @@ class PerformanceTrackerLogDao extends BaseDao
             ->where($q->expr()->in('ptrLog.id', ':ids'))
             ->setParameter('ids', $toDeleteIds);
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $userId
+     * @return int[]
+     */
+    public function getPerformanceTrackerLogIdsByUserId(int $userId): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceTrackerLog::class, 'performanceTrackerLog');
+        $qb->andWhere($qb->expr()->eq('performanceTrackerLog.user', ':userId'))
+            ->setParameter('userId', $userId);
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getPerformanceTrackerLogsIdList(): array
+    {
+        $qb = $this->createQueryBuilder(PerformanceTrackerLog::class, 'performanceTrackerLog');
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 }

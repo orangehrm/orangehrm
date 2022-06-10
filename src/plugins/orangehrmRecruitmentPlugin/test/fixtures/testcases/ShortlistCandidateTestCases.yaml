@@ -1,0 +1,78 @@
+Update:
+  'Shortlist candidate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 1
+    body:
+      note: 'Rejected since not answering the phone'
+    data:
+      id: 1
+      candidate:
+        id: 1
+        firstName: 'Peter'
+        middleName: ''
+        lastName: 'Smith'
+      vacancy:
+        id: 1
+        name: 'Technical Assistant Intern'
+        hiringManager:
+          empNumber: '1'
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+      note: 'Rejected since not answering the phone'
+      action:
+        id: 2
+        label: 'Shortlisted'
+    meta: [ ]
+
+  'Shortlist candidate - no candidate vacancy for the candidate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    attributes:
+      candidateId: 4
+    body:
+      note: 'Rejected since not answering the phone'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Shortlist candidate - non existing candidate id':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    attributes:
+      candidateId: 100
+    body:
+      note: 'Rejected since not answering the phone'
+    invalidOnly: [ 'candidateId' ]
+
+
+  'Shortlist candidate - already shortlisted':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+    body:
+      note: 'Rejected since not answering the phone'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'

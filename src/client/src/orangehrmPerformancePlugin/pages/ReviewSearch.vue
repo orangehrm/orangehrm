@@ -57,12 +57,14 @@
           <oxd-grid-item class="--offset-row-2">
             <date-input
               v-model="filters.fromDate"
+              :rules="rules.fromDate"
               :label="$t('general.from_date')"
             />
           </oxd-grid-item>
           <oxd-grid-item class="--offset-row-2">
             <date-input
               v-model="filters.toDate"
+              :rules="rules.toDate"
               :label="$t('general.to_date')"
             />
           </oxd-grid-item>
@@ -126,20 +128,33 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue';
+import {computed, ref, inject} from 'vue';
+import {navigate} from '@/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
+import {
+  endDateShouldBeAfterStartDate,
+  startDateShouldBeBeforeEndDate,
+} from '@/core/util/validation/rules';
+import {
+  viewIcon,
+  editIcon,
+  evaluateIcon,
+  viewLabel,
+  editLabel,
+  evaluateLabel,
+} from '@/orangehrmPerformancePlugin/util/composable/useReviewActions';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useSort from '@ohrm/core/util/composable/useSort';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {APIService} from '@/core/util/services/api.service';
+import usei18n from '@/core/util/composable/usei18n';
+import useLocale from '@/core/util/composable/useLocale';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-import usei18n from '@/core/util/composable/usei18n';
-import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
-import useDateFormat from '@/core/util/composable/useDateFormat';
-import useLocale from '@/core/util/composable/useLocale';
 import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
-import {navigate} from '@/core/util/helper/navigation';
+import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
@@ -199,13 +214,14 @@ export default {
             reviewer?.terminationId ? ` ${$t('general.past_employee')}` : ''
           }`,
           jobTitle: item.jobTitle?.name,
-          reviewPeriod: `${reviewListDateFormat(
-            item.reviewPeriodStart,
-          )} - ${reviewListDateFormat(item.reviewPeriodEnd)}`,
+          reviewPeriod: {
+            reviewPeriodStart: reviewListDateFormat(item.reviewPeriodStart),
+            reviewPeriodEnd: reviewListDateFormat(item.reviewPeriodEnd),
+          },
           dueDate: reviewListDateFormat(item.dueDate),
           status: statusOpts.find(el => el.id === item.overallStatus.statusId)
             .label,
-          statusName: item.overallStatus.statusName,
+          statusId: item.overallStatus.statusId,
         };
       });
     };
@@ -290,95 +306,96 @@ export default {
           title: this.$t('general.employee'),
           slot: 'title',
           sortField: 'employee.lastName',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'jobTitle',
           title: this.$t('general.job_title'),
           sortField: 'jobTitle.jobTitleName',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'reviewPeriod',
           title: this.$t('performance.review_period'),
           sortField: 'performanceReview.reviewPeriodStart',
-          style: {flex: 1},
+          style: {flex: '14%'},
+          cellRenderer: this.reviewPeriodCellRenderer,
         },
         {
           name: 'dueDate',
           title: this.$t('performance.due_date'),
           sortField: 'performanceReview.dueDate',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'reviewer',
           title: this.$t('performance.reviewer'),
           sortField: 'reviewerEmployee.lastName',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'status',
           title: this.$t('performance.review_status'),
           sortField: 'performanceReview.statusId',
-          style: {flex: 1},
+          style: {flex: '14%'},
         },
         {
           name: 'action',
           slot: 'footer',
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
-          cellRenderer: this.cellRenderer,
-          style: {flex: 1},
+          cellRenderer: this.actionButtonCellRenderer,
+          style: {flex: '16%'},
         },
       ],
       checkedItems: [],
+      rules: {
+        fromDate: [
+          startDateShouldBeBeforeEndDate(
+            () => this.filters.toDate,
+            this.$t('general.from_date_should_be_before_to_date'),
+            {allowSameDate: true},
+          ),
+        ],
+        toDate: [
+          endDateShouldBeAfterStartDate(
+            () => this.filters.fromDate,
+            this.$t('general.to_date_should_be_after_from_date'),
+            {allowSameDate: true},
+          ),
+        ],
+      },
     };
   },
   methods: {
-    cellRenderer(...[, , , row]) {
+    actionButtonCellRenderer(...[, , , row]) {
       const cellConfig = {};
+      const screenState = inject('screenState');
 
-      if (row.statusName === 'Completed') {
-        cellConfig.view = {
-          component: 'oxd-button',
-          props: {
-            name: 'view',
-            label: this.$t('general.view'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
-      } else if (row.statusName === 'Inactive') {
-        //TODO:: Change to Id
-        cellConfig.edit = {
-          onClick: this.onClickEdit,
-          component: 'oxd-button',
-          props: {
-            name: 'edit',
-            label: this.$t('general.edit'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
+      if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
+        if (row.statusId === 4) {
+          cellConfig.view = viewIcon;
+          cellConfig.view.props.title = this.$t('general.view');
+        } else if (row.statusId === 1) {
+          cellConfig.edit = editIcon;
+          cellConfig.edit.props.title = this.$t('general.edit');
+          cellConfig.edit.onClick = this.onClickEdit;
+        } else {
+          cellConfig.evaluate = evaluateIcon;
+          cellConfig.evaluate.props.title = this.$t('performance.evaluate');
+        }
       } else {
-        cellConfig.evaluate = {
-          component: 'oxd-button',
-          props: {
-            name: 'evaluate',
-            label: this.$t('performance.evaluate'),
-            displayType: 'text',
-            size: 'medium',
-            style: {
-              'min-width': '120px',
-            },
-          },
-        };
+        if (row.statusId === 4) {
+          cellConfig.view = viewLabel;
+          cellConfig.view.props.label = this.$t('general.view');
+        } else if (row.statusId === 1) {
+          cellConfig.edit = editLabel;
+          cellConfig.edit.props.label = this.$t('general.edit');
+          cellConfig.edit.onClick = this.onClickEdit;
+        } else {
+          cellConfig.evaluate = evaluateLabel;
+          cellConfig.evaluate.props.label = this.$t('performance.evaluate');
+        }
       }
 
       cellConfig.delete = {
@@ -394,6 +411,16 @@ export default {
           header: {
             cellConfig,
           },
+        },
+      };
+    },
+    reviewPeriodCellRenderer(...args) {
+      const cellData = args[1];
+      return {
+        component: ReviewPeriodCell,
+        props: {
+          reviewPeriodStart: cellData.reviewPeriodStart,
+          reviewPeriodEnd: cellData.reviewPeriodEnd,
         },
       };
     },

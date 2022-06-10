@@ -94,7 +94,6 @@
               @click="onSave(false)"
             />
             <oxd-button
-              class="orangehrm-left-space"
               display-type="secondary"
               :label="$t('performance.activate')"
               type="button"

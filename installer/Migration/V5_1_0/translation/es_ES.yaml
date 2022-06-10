@@ -13,7 +13,6 @@ translations:
     - { target: 'Palabras clave', unitId: keywords, group: recruitment }
     - { target: 'Fecha de la solicitud', unitId: date_of_application, group: recruitment }
     - { target: 'Método de aplicación', unitId: method_of_application, group: recruitment }
-    - { target: 'Introduzca las palabras separadas por comas', unitId: enter_comma_se, group: recruitment }
     - { target: 'Candidato', unitId: candidate, group: recruitment }
     - { target: 'Finalista', unitId: shortlisted, group: recruitment }
     - { target: 'Entrevista programada', unitId: interview_scheduled, group: recruitment }

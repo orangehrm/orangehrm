@@ -20,7 +20,7 @@
 
 <template>
   <!-- Always use inside OXD-Form -->
-  <oxd-input-group :label="$t('general.employee_full_name')" :classes="classes">
+  <oxd-input-group :label="localizedLabel" :classes="classes">
     <oxd-input-field
       class="orangehrm-firstname"
       name="First Name"
@@ -80,6 +80,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    label: {
+      type: String,
+      default: null,
+    },
   },
   emits: ['update:firstName', 'update:middleName', 'update:lastName'],
   computed: {
@@ -92,6 +96,9 @@ export default {
           '--name-grouped-field': true,
         },
       };
+    },
+    localizedLabel() {
+      return this.label ? this.label : this.$t('general.employee_full_name');
     },
   },
 };

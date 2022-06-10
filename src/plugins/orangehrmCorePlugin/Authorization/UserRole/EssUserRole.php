@@ -19,15 +19,20 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Entity\PerformanceTrackerReviewer;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Entity\PerformanceTrackerLog;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 class EssUserRole extends AbstractUserRole
 {
     use AuthUserTrait;
-
-    protected ?PerformanceTrackerService $performanceTrackerService = null;
+    use PerformanceTrackerServiceTrait;
+    use PerformanceTrackerLogServiceTrait;
+    use PerformanceReviewServiceTrait;
 
     /**
      * @inheritDoc
@@ -35,8 +40,12 @@ class EssUserRole extends AbstractUserRole
     protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
         switch ($entityType) {
-            case PerformanceTrackerReviewer::class:
-                return $this->getAccessibleEmployeeIdsForReviewer();
+            case PerformanceReview::class:
+                return $this->getAccessibleReviewIds();
+            case PerformanceTracker::class:
+                return $this->getAccessiblePerformanceTrackerIdsForESS($requiredPermissions);
+            case PerformanceTrackerLog::class:
+                return $this->getAccessiblePerformanceTrackerLogIdsForESS($requiredPermissions);
             default:
                 return [];
         }
@@ -45,21 +54,31 @@ class EssUserRole extends AbstractUserRole
     /**
      * @return int[]
      */
-    protected function getAccessibleEmployeeIdsForReviewer(): array
+    protected function getAccessibleReviewIds(): array
     {
-        return $this->getPerformanceTrackerService()
-            ->getPerformanceTrackerDao()
-            ->getEmployeeIdsByReviewerId($this->getAuthUser()->getEmpNumber());
+        $empNumber = $this->getEmployeeNumber();
+        return $this->getPerformanceReviewService()->getPerformanceReviewDao()->getSelfReviewIds($empNumber);
     }
 
     /**
-     * @return PerformanceTrackerService
+     * @param array $requiredPermissions
+     * @return int[]
      */
-    protected function getPerformanceTrackerService(): PerformanceTrackerService
+    protected function getAccessiblePerformanceTrackerIdsForESS(array $requiredPermissions = []): array
     {
-        if (!$this->performanceTrackerService instanceof PerformanceTrackerService) {
-            $this->performanceTrackerService = new PerformanceTrackerService();
-        }
-        return $this->performanceTrackerService;
+        return $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getTrackerIdsByEmpNumber($this->getAuthUser()->getEmpNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessiblePerformanceTrackerLogIdsForESS(array $requiredPermissions = []): array
+    {
+        return $this->getPerformanceTrackerLogService()
+            ->getPerformanceTrackerLogDao()
+            ->getPerformanceTrackerLogIdsByUserId($this->getAuthUser()->getUserId());
     }
 }

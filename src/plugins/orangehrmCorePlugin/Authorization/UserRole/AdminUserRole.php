@@ -24,10 +24,16 @@ use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
-use OrangeHRM\Entity\PerformanceTrackerReviewer;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
+
+use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
@@ -37,6 +43,9 @@ class AdminUserRole extends AbstractUserRole
     use EmployeeServiceTrait;
     use ProjectServiceTrait;
     use CustomerServiceTrait;
+    use PerformanceTrackerServiceTrait;
+    use PerformanceReviewServiceTrait;
+    use PerformanceTrackerLogServiceTrait;
 
     protected ?LocationService $locationService = null;
 
@@ -58,7 +67,6 @@ class AdminUserRole extends AbstractUserRole
     {
         switch ($entityType) {
             case Employee::class:
-            case PerformanceTrackerReviewer::class:
                 return $this->getAccessibleEmployeeIds($requiredPermissions);
             case User::class:
                 return $this->getAccessibleSystemUserIds($requiredPermissions);
@@ -74,6 +82,12 @@ class AdminUserRole extends AbstractUserRole
                 // TODO:: implement and remove below line
                 throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                 return $this->getAccessibleVacancyIds($requiredPermissions);
+            case PerformanceTracker::class:
+                return $this->getAccessibleTrackerIds($requiredPermissions);
+            case PerformanceReview::class:
+                return $this->getAccessibleReviewIds();
+            case PerformanceTrackerLog::class:
+                return $this->getAccessibleTrackerLogIds($requiredPermissions);
             default:
                 return [];
         }
@@ -165,5 +179,37 @@ class AdminUserRole extends AbstractUserRole
     protected function getAccessibleVacancyIds(array $requiredPermissions = []): array
     {
         return $this->getVacancyService()->getVacancyIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleTrackerIds(array $requiredPermissions = []): array
+    {
+        return $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getPerformanceTrackerIdList();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAccessibleReviewIds(): array
+    {
+        return $this->getPerformanceReviewService()
+            ->getPerformanceReviewDao()
+            ->getReviewIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleTrackerLogIds(array $requiredPermissions = []): array
+    {
+        return $this->getPerformanceTrackerLogService()
+            ->getPerformanceTrackerLogDao()
+            ->getPerformanceTrackerLogsIdList();
     }
 }

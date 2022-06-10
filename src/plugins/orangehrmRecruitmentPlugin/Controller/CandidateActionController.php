@@ -24,6 +24,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 
 class CandidateActionController extends AbstractVueController
 {
@@ -39,14 +40,11 @@ class CandidateActionController extends AbstractVueController
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));
         $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, 1024 * 1024));
         $component->addProp(
-            new Prop('allowed-file-types', Prop::TYPE_ARRAY, [
-                'application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'text/plain',
-                'application/rtf',
-                'application/vnd.oasis.opendocument.text'
-            ])
+            new Prop(
+                'allowed-file-types',
+                Prop::TYPE_ARRAY,
+                RecruitmentAttachmentService::ALLOWED_CANDIDATE_ATTACHMENT_FILE_TYPES
+            )
         );
         $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, 1));
         $component->addProp(new Prop('action', Prop::TYPE_OBJECT, ['id' => 1, 'label' => 'Application initiated']));
