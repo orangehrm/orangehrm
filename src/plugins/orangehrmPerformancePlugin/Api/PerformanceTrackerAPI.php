@@ -192,7 +192,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $performanceTracker = $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
-            ->getPerformanceTrack($id);
+            ->getPerformanceTracker($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTracker, PerformanceTracker::class);
         return new EndpointResourceResult(DetailedPerformanceTrackerModel::class, $performanceTracker);
     }
@@ -216,7 +216,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $performanceTracker = $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
-            ->getPerformanceTrack($id);
+            ->getPerformanceTracker($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTracker, PerformanceTracker::class);
         $this->setPerformanceTrackerParams($performanceTracker);
         $performanceTracker->setModifiedDate($this->getDateTimeHelper()->getNow());

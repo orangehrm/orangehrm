@@ -29,7 +29,7 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.empName"
-                api-path="api/v2/performance/tracker-reviewers"
+                api-path="api/v2/performance/trackers/reviewers"
                 :params="{
                   includeEmployees: filters.includeEmployees.param,
                 }"

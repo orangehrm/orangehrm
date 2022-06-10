@@ -46,6 +46,8 @@ const OXD_ELEMENTS = {
   pageContext: '.oxd-layout-context',
   pageTitle: '.orangehrm-main-title',
   numRecords: '.oxd-text--span',
+  option: '.oxd-select-option',
+  selectWrapper: '.oxd-select-wrapper',
   ...OXD_INPUT_ELEMENTS,
 };
 

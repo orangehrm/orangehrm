@@ -64,7 +64,12 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
             )
         );
         $employeeTrackerSearchFilterParams->setTrackerIds(
-            $this->getUserRoleManager()->getAccessibleEntityIds(PerformanceTracker::class)
+            $this->getUserRoleManager()->getAccessibleEntityIds(
+                PerformanceTracker::class,
+                null,
+                null,
+                ['ESS']
+            )
         );
 
         $employeeTrackerList = $this->getPerformanceTrackerService()
@@ -175,7 +180,7 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
             ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $performanceTracker = $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
-            ->getPerformanceTrack($id);
+            ->getPerformanceTracker($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTracker, PerformanceTracker::class);
         return new EndpointResourceResult(PerformanceTrackerModel::class, $performanceTracker);
     }
@@ -187,7 +192,8 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(new ParamRule(
             CommonParams::PARAMETER_ID,
-            new Rule(Rules::POSITIVE)
+            new Rule(Rules::POSITIVE),
+            new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceTracker::class])
         ));
     }
 

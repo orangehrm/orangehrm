@@ -21,6 +21,7 @@ namespace OrangeHRM\Performance\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Performance\Api\Traits\PerformanceTrackerPermissionTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
@@ -30,6 +31,7 @@ class PerformanceTrackerLogModel implements Normalizable
     use ModelTrait {ModelTrait::toArray as entityToArray;}
     use PerformanceTrackerLogServiceTrait;
     use PerformanceTrackerPermissionTrait;
+    use UserRoleManagerTrait;
 
     public function __construct(PerformanceTrackerLog $performanceTrackerLog)
     {
@@ -71,7 +73,10 @@ class PerformanceTrackerLogModel implements Normalizable
      */
     public function toArray(): array
     {
-        $editability = $this->getTrackerLogPermission($this->getEntity())->canUpdate();
+        $editability = $this->getUserRoleManager()->isEntityAccessible(
+            PerformanceTrackerLog::class,
+            $this->getEntity()->getId()
+        );
         $result = $this->entityToArray();
         $result['editable'] = $editability;
         return $result;

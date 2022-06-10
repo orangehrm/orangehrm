@@ -65,7 +65,7 @@ class CandidateHistoryDecorator
     /**
      * @param int $id
      */
-    public function setInterview(int $id): void
+    public function setInterviewByInterviewId(int $id): void
     {
         $interview = $this->getReference(Interview::class, $id);
         $this->candidateHistory->setInterview($interview);
