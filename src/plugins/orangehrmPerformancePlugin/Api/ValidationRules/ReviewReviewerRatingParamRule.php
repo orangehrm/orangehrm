@@ -50,7 +50,7 @@ class ReviewReviewerRatingParamRule extends AbstractRule
             if (count(array_keys($rating)) != 3) {
                 return false;
             }
-            if (!(isset($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID]) )) {
+            if (!(isset($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID]))) {
                 return false;
             }
 
@@ -58,15 +58,14 @@ class ReviewReviewerRatingParamRule extends AbstractRule
                 ->getKpiIdsForReviewId($this->reviewId);
 
             $kpiId = $rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID];
-            if(! (is_numeric($kpiId) && ($kpiId > 0))){
+            if (! (is_numeric($kpiId) && ($kpiId > 0))) {
                 return false;
             }
-            if(! in_array($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID],array_column($kpisForReview,'id'))){
+            if (! in_array($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID], array_column($kpisForReview, 'id'))) {
                 return false;
             }
         }
 
         return true;
     }
-
 }

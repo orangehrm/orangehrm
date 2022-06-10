@@ -23,7 +23,6 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class SupervisorEvaluationSearchFilterParams extends FilterParams
 {
-
     public const ALLOWED_SORT_FIELDS = [];
 
     protected int $reviewId;
@@ -60,5 +59,4 @@ class SupervisorEvaluationSearchFilterParams extends FilterParams
     {
         $this->isSelfEvaluation = $isSelfEvaluation;
     }
-
 }
