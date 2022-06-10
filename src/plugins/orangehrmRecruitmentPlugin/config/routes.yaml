@@ -152,6 +152,13 @@ apiv2_recrutiment_candidates_offer_job:
     _api: OrangeHRM\Recruitment\Api\CandidateJobOfferingAPI
     _key: id
 
+apiv2_recrutiment_candidates_offer_decline:
+  path: /api/v2/recruitment/candidates/{candidateId}/job/decline
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateOfferDecliningAPI
+    _key: id
 
 ##########################
 #        Files

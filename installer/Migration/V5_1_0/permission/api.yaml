@@ -347,3 +347,15 @@ apiv2_recruitment_candidate_offer_job:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
+apiv2_recruitment_candidate_decline_offer:
+  description: 'API-v2 Recruitment - Candidate Decline Offer'
+  api: OrangeHRM\Recruitment\Api\CandidateOfferDecliningAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
