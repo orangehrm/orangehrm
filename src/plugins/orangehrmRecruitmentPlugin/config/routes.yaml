@@ -128,8 +128,22 @@ apiv2_recruitment_interview_attachments:
   defaults:
     _api: OrangeHRM\Recruitment\Api\InterviewAttachmentAPI
 
-apiv2_recruitment_interviews_attachments:
-  path: /api/v2/recruitment/interviews/attachments
+apiv2_recrutiment_candidates_mark_interview_passed:
+  path: /api/v2/recruitment/candidates/{candidateId}/interviews/{interviewId}/pass
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewPassAPI
+    _key: id
+
+apiv2_recrutiment_candidates_mark_interview_failed:
+  path: /api/v2/recruitment/candidates/{candidateId}/interviews/{interviewId}/fail
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewFailAPI
+    _key: id
+
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST ]
   defaults:

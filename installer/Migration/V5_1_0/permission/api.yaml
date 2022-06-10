@@ -305,3 +305,32 @@ apiv2_recruitment_candidate_interview_attachment:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
     - { role: HiringManager, permission: { read: true, create: true, update: true, delete: false, self: false } }
+
+apiv2_recruitment_candidate_mark_interview_passed:
+  description: 'API-v2 Recruitment - Candidate Mark Interview Passed'
+  api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewPassAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
+apiv2_recruitment_candidate_mark_interview_failed:
+  description: 'API-v2 Recruitment - Candidate Mark Interview Failed'
+  api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewFailAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
