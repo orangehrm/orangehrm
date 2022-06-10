@@ -199,6 +199,7 @@ Update:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -207,12 +208,12 @@ Update:
       ratings:
         0:
           "kpiId": 6
-          "rating": 2
+          "rating": 20
           "comment": "Test logs create"
     data:
       0:
         id: 3
-        "rating": 2
+        "rating": 20
         "comment": "Test logs create"
         "kpiId": 6
 
@@ -224,6 +225,7 @@ Update:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:

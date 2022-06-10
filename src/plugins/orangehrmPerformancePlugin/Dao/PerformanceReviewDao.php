@@ -442,12 +442,14 @@ class PerformanceReviewDao extends BaseDao
      * @return ReviewerRating[]
      */
     public function getSupervisorRating(
-        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams): array
-    {
+        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
+    ): array {
         /** @var ReviewerGroup $supervisorGroup */
         $supervisorGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => 'Supervisor']);
         $qb = $this->getEvaluationRatingQueryBuilderWrapper(
-            $supervisorEvaluationSearchFilterParams, $supervisorGroup)->getQueryBuilder();
+            $supervisorEvaluationSearchFilterParams,
+            $supervisorGroup
+        )->getQueryBuilder();
         return $qb->getQuery()->execute();
     }
 
@@ -456,12 +458,14 @@ class PerformanceReviewDao extends BaseDao
      * @return int
      */
     public function getSupervisorRatingCount(
-        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams): int
-    {
+        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
+    ): int {
         /** @var ReviewerGroup $supervisorGroup */
         $supervisorGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => 'Supervisor']);
         $qb = $this->getEvaluationRatingQueryBuilderWrapper(
-            $supervisorEvaluationSearchFilterParams, $supervisorGroup)->getQueryBuilder();
+            $supervisorEvaluationSearchFilterParams,
+            $supervisorGroup
+        )->getQueryBuilder();
         return $this->getPaginator($qb)->count();
     }
 
@@ -473,8 +477,7 @@ class PerformanceReviewDao extends BaseDao
     private function getEvaluationRatingQueryBuilderWrapper(
         SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams,
         ReviewerGroup                          $reviewGroup
-    ): QueryBuilderWrapper
-    {
+    ): QueryBuilderWrapper {
         $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
         $qb->leftJoin('reviewerRating.performanceReview', 'performanceReview')
             ->leftJoin('reviewerRating.reviewer', 'reviewer')
@@ -569,7 +572,6 @@ class PerformanceReviewDao extends BaseDao
             }
             $this->getEntityManager()->flush();
         }
-
     }
 
     /**
@@ -592,7 +594,6 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getReviewerRecord(int $performanceReviewId, string $reviewerGroupName): array
     {
-
         $qb = $this->createQueryBuilder(Reviewer::class, 'reviewer');
         $qb->leftJoin('reviewer.review', 'performanceReview')
             ->leftJoin('reviewer.group', 'reviewerGroup')

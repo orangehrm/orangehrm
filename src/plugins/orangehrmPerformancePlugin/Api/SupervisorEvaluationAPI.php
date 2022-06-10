@@ -101,8 +101,8 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             $this->getReviewIdParamRule(),
             ...$this->getSortingAndPaginationParamsRules(
-            ReviewKpiSearchFilterParams::ALLOWED_SORT_FIELDS
-        )
+                ReviewKpiSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
         );
     }
 
@@ -221,14 +221,14 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         $this->beginTransaction();
         try {
             $reviewId = $this->getRequestParams()
-                ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE,self::PARAMETER_REVIEW_ID);
+                ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REVIEW_ID);
             $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getReviewById($reviewId);
             $ratings = $this->getRequestParams()
-                ->getArray(RequestParams::PARAM_TYPE_BODY,self::PARAMETER_RATINGS);
+                ->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_RATINGS);
 
             $kpisForReview = $this->getKpisForReview();
-            $this->getPerformanceReviewService()->saveAndUpdateReviewRatings($review,$ratings,$kpisForReview);
+            $this->getPerformanceReviewService()->saveAndUpdateReviewRatings($review, $ratings, $kpisForReview);
 
             $reviewRatings = $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getSupervisorRating($supervisorParamHolder);
@@ -241,11 +241,9 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
-        $this->rollBackTransaction();
-        throw new TransactionException($e);
-
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
         }
-
     }
 
     /**

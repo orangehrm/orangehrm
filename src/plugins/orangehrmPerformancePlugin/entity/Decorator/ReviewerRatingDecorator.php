@@ -25,7 +25,6 @@ use OrangeHRM\Entity\ReviewerRating;
 
 class ReviewerRatingDecorator
 {
-
     use EntityManagerHelperTrait;
 
     protected ReviewerRating $reviewerRating;
@@ -55,5 +54,4 @@ class ReviewerRatingDecorator
         $kpi = $this->getReference(Kpi::class, $kpiId);
         $this->getReviewerRating()->setKpi($kpi);
     }
-
 }

@@ -21,11 +21,13 @@ namespace OrangeHRM\Performance\Api\ValidationRules;
 
 use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 use OrangeHRM\Performance\Api\SupervisorEvaluationAPI;
+use OrangeHRM\Performance\Traits\Service\KpiServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
 class ReviewReviewerRatingParamRule extends AbstractRule
 {
     use PerformanceReviewServiceTrait;
+    use KpiServiceTrait;
 
     private int $reviewId;
 
@@ -46,11 +48,14 @@ class ReviewReviewerRatingParamRule extends AbstractRule
             return false;
         }
 
+        $kpisForReview = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->getKpiIdsForReviewId($this->reviewId);
+
         foreach ($ratings as $rating) {
             if (count(array_keys($rating)) != 3) {
                 return false;
             }
-            if (!(isset($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID]) )) {
+            if (!(isset($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID]))) {
                 return false;
             }
 
@@ -58,15 +63,19 @@ class ReviewReviewerRatingParamRule extends AbstractRule
                 ->getKpiIdsForReviewId($this->reviewId);
 
             $kpiId = $rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID];
-            if(! (is_numeric($kpiId) && ($kpiId > 0))){
+            if (! (is_numeric($kpiId) && ($kpiId > 0))) {
                 return false;
             }
-            if(! in_array($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID],array_column($kpisForReview,'id'))){
+            if (! in_array($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID], array_column($kpisForReview, 'id'))) {
+                return false;
+            }
+
+            $kpi = $this->getKpiService()->getKpiDao()->getKpiById($kpiId);
+            if (! ($kpi->getMinRating() <= $rating[SupervisorEvaluationAPI::PARAMETER_RATING] && $rating[SupervisorEvaluationAPI::PARAMETER_RATING] <= $kpi->getMaxRating())) {
                 return false;
             }
         }
 
         return true;
     }
-
 }

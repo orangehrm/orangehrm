@@ -128,6 +128,4 @@ class PerformanceReviewService
         }
         return $ratings;
     }
-
-
 }
