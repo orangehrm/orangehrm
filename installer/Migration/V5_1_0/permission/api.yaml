@@ -334,3 +334,16 @@ apiv2_recruitment_candidate_mark_interview_failed:
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
     - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
+apiv2_recruitment_candidate_offer_job:
+  description: 'API-v2 Recruitment - Candidate Offer Job'
+  api: OrangeHRM\Recruitment\Api\CandidateJobOfferingAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
