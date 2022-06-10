@@ -230,10 +230,7 @@ export default {
     },
   },
   setup(props) {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/admin/corporateBranding`,
-    );
+    const http = new APIService(window.appGlobal.baseUrl, `api/v2/admin/theme`);
 
     const {saveSuccess} = useToast();
     const {formRef, invalid, validate} = useForm();
@@ -274,14 +271,30 @@ export default {
     });
 
     const onFormSubmit = () => {
+      const getAttachment = fileUploadModel => {
+        if (
+          fileUploadModel.method === null ||
+          fileUploadModel.method === 'replaceCurrent'
+        ) {
+          return fileUploadModel.newAttachment;
+        }
+        return undefined;
+      };
       state.isLoading = true;
       http
-        .create({
-          ...state.colors,
-          showSocialMediaImages: state.showSocialMediaImages,
-          clientLogo: state.clientLogo ? {...state.clientLogo} : null,
-          loginBanner: state.loginBanner ? {...state.loginBanner} : null,
-          clientBanner: state.clientBanner ? {...state.clientBanner} : null,
+        .request({
+          method: 'PUT',
+          url: '/api/v2/admin/theme',
+          data: {
+            variables: state.colors,
+            showSocialMediaImages: state.showSocialMediaImages,
+            currentClientLogo: state.clientLogo.method,
+            clientLogo: getAttachment(state.clientLogo),
+            currentClientBanner: state.clientBanner.method,
+            clientBanner: getAttachment(state.clientBanner),
+            currentLoginBanner: state.loginBanner.method,
+            loginBanner: getAttachment(state.loginBanner),
+          },
         })
         .then(() => {
           return saveSuccess();
@@ -293,8 +306,8 @@ export default {
       state.isLoading = true;
       http
         .request({
-          method: 'POST',
-          url: '/api/v2/admin/corporateBranding/reset',
+          method: 'DELETE',
+          url: '/api/v2/admin/theme',
         })
         .then(() => reloadPage());
     };
@@ -333,18 +346,18 @@ export default {
             clientBanner,
             loginBanner,
             showSocialMediaImages,
-            ...rest
+            variables,
           } = data;
-          state.colors = {...rest};
-          if (clientLogo) {
-            state.clientLogo.oldAttachment = clientLogo;
-          }
-          if (clientBanner) {
-            state.clientBanner.oldAttachment = clientBanner;
-          }
-          if (loginBanner) {
-            state.loginBanner.oldAttachment = loginBanner;
-          }
+          state.colors = variables;
+          clientLogo === null
+            ? (state.clientLogo.method = null)
+            : (state.clientLogo.oldAttachment = clientLogo);
+          clientBanner === null
+            ? (state.clientBanner.method = null)
+            : (state.clientBanner.oldAttachment = clientBanner);
+          loginBanner === null
+            ? (state.loginBanner.method = null)
+            : (state.loginBanner.oldAttachment = loginBanner);
           state.showSocialMediaImages = showSocialMediaImages;
         })
         .finally(() => (state.isLoading = false));
