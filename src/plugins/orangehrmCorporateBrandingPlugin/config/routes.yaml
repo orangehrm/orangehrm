@@ -15,6 +15,11 @@ corporate_branding_images:
   controller: OrangeHRM\CorporateBranding\Controller\File\ImageController::handle
   methods: [ GET ]
 
+corporate_branding_attachments_image:
+  path: /admin/theme/attachments/image/{imageName}
+  controller: OrangeHRM\CorporateBranding\Controller\File\ImageAttachmentController::handle
+  methods: [ GET ]
+
 ##########################
 #        Screens
 ##########################

@@ -101,7 +101,7 @@
                     height: 50,
                   })
                 "
-                url=""
+                url="admin/theme/attachments/image"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -119,7 +119,7 @@
                     height: 50,
                   })
                 "
-                url=""
+                url="admin/theme/attachments/image"
               />
             </oxd-grid-item>
             <oxd-grid-item class="--offset-row-2">
@@ -137,7 +137,7 @@
                     height: 65,
                   })
                 "
-                url=""
+                url="admin/theme/attachments/image"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -349,15 +349,24 @@ export default {
             variables,
           } = data;
           state.colors = variables;
-          clientLogo === null
-            ? (state.clientLogo.method = null)
-            : (state.clientLogo.oldAttachment = clientLogo);
-          clientBanner === null
-            ? (state.clientBanner.method = null)
-            : (state.clientBanner.oldAttachment = clientBanner);
-          loginBanner === null
-            ? (state.loginBanner.method = null)
-            : (state.loginBanner.oldAttachment = loginBanner);
+          if (clientLogo === null) {
+            state.clientLogo.method = null;
+          } else {
+            state.clientLogo.oldAttachment = clientLogo;
+            state.clientLogo.oldAttachment.id = 'clientLogo';
+          }
+          if (clientBanner === null) {
+            state.clientBanner.method = null;
+          } else {
+            state.clientBanner.oldAttachment = clientBanner;
+            state.clientBanner.oldAttachment.id = 'clientBanner';
+          }
+          if (loginBanner === null) {
+            state.loginBanner.method = null;
+          } else {
+            state.loginBanner.oldAttachment = loginBanner;
+            state.loginBanner.oldAttachment.id = 'loginBanner';
+          }
           state.showSocialMediaImages = showSocialMediaImages;
         })
         .finally(() => (state.isLoading = false));

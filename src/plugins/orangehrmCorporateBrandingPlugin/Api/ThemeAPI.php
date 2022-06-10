@@ -232,7 +232,7 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
                     $this->getAttachmentParamRule(self::PARAMETER_CLIENT_BANNER)
                 )
             );
-        } elseif ($currentClientLogo === self::REPLACE_CURRENT) {
+        } elseif ($currentClientBanner === self::REPLACE_CURRENT) {
             $paramRules->addParamValidation($this->getAttachmentParamRule(self::PARAMETER_CLIENT_BANNER));
         }
 
@@ -242,7 +242,7 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
                     $this->getAttachmentParamRule(self::PARAMETER_LOGIN_BANNER)
                 )
             );
-        } elseif ($currentClientLogo === self::REPLACE_CURRENT) {
+        } elseif ($currentLoginBanner === self::REPLACE_CURRENT) {
             $paramRules->addParamValidation($this->getAttachmentParamRule(self::PARAMETER_LOGIN_BANNER));
         }
 
