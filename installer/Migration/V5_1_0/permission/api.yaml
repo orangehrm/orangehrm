@@ -287,7 +287,7 @@ apiv2_recruitment_candidate_shortlist:
 
 apiv2_admin_localization_languages:
   description: 'API-v2 Admin - Localization Languages'
-  api: OrangeHRM\I18N\Api\I18NLanguageAPI
+  api: OrangeHRM\Admin\Api\I18NLanguageAPI
   module: admin
   allowed:
     read: true

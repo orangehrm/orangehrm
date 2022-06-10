@@ -77,4 +77,15 @@ class LocalizationDaoTest extends TestCase
     {
         return $this->getTestCases('searchLanguages');
     }
+
+    public function testGetLanguagesCount(): void
+    {
+        $i18NLanguageSearchParams = new I18NLanguageSearchFilterParams();
+        $count = $this->i18NDao->getLanguagesCount($i18NLanguageSearchParams);
+        $this->assertEquals(4, $count);
+
+        $i18NLanguageSearchParams->setAddedOnly(true);
+        $count = $this->i18NDao->getLanguagesCount($i18NLanguageSearchParams);
+        $this->assertEquals(2, $count);
+    }
 }

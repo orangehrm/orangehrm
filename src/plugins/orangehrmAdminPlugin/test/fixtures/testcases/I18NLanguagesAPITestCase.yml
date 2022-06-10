@@ -1,0 +1,17 @@
+GetAll:
+  'Get all enabled and added i18 languages':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    data:
+      - id: 1
+        name: 'Chinese (Simplified, China) - 中文（简体，中国）'
+        code: 'zh_Hans_CN'
+      - id: 2
+        name: 'Chinese (Traditional, Taiwan) - 中文（繁體，台灣）'
+        code: 'zh_Hant_TW'
+      - id: 4
+        name: 'English (United States)'
+        code: 'en_US'
+    meta:
+      total: 3

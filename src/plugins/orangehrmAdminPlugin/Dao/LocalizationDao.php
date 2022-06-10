@@ -55,4 +55,13 @@ class LocalizationDao extends BaseDao
         }
         return $this->getPaginator($q);
     }
+
+    /**
+     * @param I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams
+     * @return int
+     */
+    public function getLanguagesCount(I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams): int
+    {
+        return $this->getSearchI18NLanguagePaginator($i18NLanguageSearchFilterParams)->count();
+    }
 }

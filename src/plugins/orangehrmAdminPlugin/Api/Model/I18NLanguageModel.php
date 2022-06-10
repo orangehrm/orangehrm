@@ -17,32 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\I18N\Dao;
+namespace OrangeHRM\Admin\Api\Model;
 
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\I18NLanguage;
-use OrangeHRM\I18N\Dao\I18NDao;
-use OrangeHRM\Tests\Util\KernelTestCase;
 
-/**
- * @group I18N
- * @group Dao
- */
-class I18NDaoTest extends KernelTestCase
+class I18NLanguageModel implements Normalizable
 {
-    private I18NDao $i18NDao;
+    use ModelTrait;
 
-    protected function setUp(): void
+    public function __construct(I18NLanguage $i18NLanguage)
     {
-        $this->i18NDao = new I18NDao();
-    }
+        $this->setEntity($i18NLanguage);
+        $this->setFilters([
+            'id',
+            'name',
+            'code',
+        ]);
 
-    public function testGetI18languages(): void
-    {
-        $i18languages = $this->i18NDao->getI18Languages();
-
-
-        $this->assertInstanceOf(I18NLanguage::class, $i18languages[0]);
-        $this->assertCount(8, $i18languages);
-        $this->assertEquals('Chinese (Simplified, China) - 中文（简体，中国）', $i18languages[0]->getName());
+        $this->setAttributeNames([
+            'id',
+            'name',
+            'code',
+        ]);
     }
 }
