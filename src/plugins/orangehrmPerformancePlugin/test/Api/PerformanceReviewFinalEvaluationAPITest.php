@@ -61,4 +61,18 @@ class PerformanceReviewFinalEvaluationAPITest extends EndpointIntegrationTestCas
     {
         return $this->getTestCases('PerformanceReviewFinalEvaluationAPITestCases.yaml', 'GetOne');
     }
+
+    public function testDelete(): void
+    {
+        $api = new PerformanceReviewFinalEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new PerformanceReviewFinalEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
 }
