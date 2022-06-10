@@ -168,6 +168,7 @@ apiv2_performance_review_final_evaluation:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 ##########################
 #        Recruitment
