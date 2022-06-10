@@ -24,6 +24,7 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\Entity\Interview;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
@@ -210,5 +211,25 @@ class CandidateDao extends BaseDao
     {
         $this->persist($candidateHistory);
         return $candidateHistory;
+    }
+
+    /**
+     * @param int $candidateId
+     * @return int
+     */
+    public function getInterviewCountByCandidateId(int $candidateId): int
+    {
+        $candidateInterviews = $this->getRepository(Interview::class)->findBy(['candidate'=> $candidateId]);
+        return count($candidateInterviews);
+    }
+
+    /**
+     * @param Interview $interview
+     * @return Interview
+     */
+    public function saveCandidateInterview(Interview $interview): Interview
+    {
+        $this->persist($interview);
+        return $interview;
     }
 }

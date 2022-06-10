@@ -167,3 +167,39 @@ Cypress.Commands.add(
     });
   },
 );
+
+Cypress.Commands.add(
+  'selectOption',
+  {
+    prevSubject: 'element',
+  },
+  (subject, value) => {
+    const element = subject[0];
+    const log = Cypress.log({
+      autoEnd: false,
+      name: 'selectOption',
+      displayName: 'select option',
+      consoleProps() {
+        return {
+          value: value,
+          yielded: element,
+        };
+      },
+    });
+
+    cy.wrap(element, {log: false})
+      .click('center', {log: false})
+      .then(($el) => {
+        cy.wrap($el.closest(OXD_ELEMENTS.selectWrapper), {log: false})
+          .find(OXD_ELEMENTS.option, {log: false})
+          .contains(value, {log: false})
+          .click('center', {log: false});
+      });
+
+    cy.on('fail', (err) => {
+      log.error(err);
+      log.end();
+      throw err;
+    });
+  },
+);
