@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\InAccessibleEntityIdOption;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -106,7 +107,14 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
             new ParamRule(
                 self::PARAMETER_REVIEW_ID,
                 new Rule(Rules::POSITIVE),
-                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [PerformanceReview::class])
+                new Rule(
+                    Rules::IN_ACCESSIBLE_ENTITY_ID,
+                    [
+                        PerformanceReview::class,
+                        (new InAccessibleEntityIdOption())
+                            ->setRolesToExclude(['ESS'])
+                    ]
+                )
             ),
             new ParamRule(
                 self::PARAMETER_COMPLETE,

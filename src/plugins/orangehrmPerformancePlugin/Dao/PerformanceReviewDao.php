@@ -443,6 +443,7 @@ class PerformanceReviewDao extends BaseDao
     {
         // TODO check purged employee permissions
         $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        $qb->select('performanceReview.id');
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
@@ -453,6 +454,7 @@ class PerformanceReviewDao extends BaseDao
     public function getSelfReviewIds(int $employeeNumber): array
     {
         $q = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        $q->select('performanceReview.id');
         $q->andWhere($q->expr()->eq('performanceReview.employee', ':empNumber'))
             ->setParameter('empNumber', $employeeNumber);
         $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
