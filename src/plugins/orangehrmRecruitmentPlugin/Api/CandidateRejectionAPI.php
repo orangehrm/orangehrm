@@ -21,13 +21,13 @@ namespace OrangeHRM\Recruitment\Api;
 
 use OrangeHRM\Entity\WorkflowStateMachine;
 
-class CandidateShortlistAPI extends CandidateRejectAPI
+class CandidateRejectionAPI extends AbstractCandidateActionAPI
 {
     /**
-     * @inheritDoc
+     * @return int
      */
     public function getResultingState(): int
     {
-        return WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST;
+        return WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT;
     }
 }

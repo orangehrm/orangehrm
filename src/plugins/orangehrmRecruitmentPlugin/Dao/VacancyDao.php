@@ -155,4 +155,44 @@ class VacancyDao extends BaseDao
         $qb->groupBy('hiringManager.empNumber');
         return $qb->getQuery()->execute();
     }
+
+    /**
+     * @return int[]
+     */
+    public function getVacancyIdList(): array
+    {
+        $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
+        $q->select('vacancy.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getVacancyIdListForHiringManager(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
+        $q->select('vacancy.id');
+        $q->andWhere('vacancy.hiringManager = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    public function isHiringManager(?int $empNumber): bool
+    {
+        if (is_null($empNumber)) {
+            return false;
+        }
+        $q = $this->createQueryBuilder(Vacancy::class, 'vacancy')
+            ->andWhere('vacancy.hiringManager = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        return $this->getPaginator($q)->count() > 0;
+    }
 }

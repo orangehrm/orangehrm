@@ -44,7 +44,7 @@ use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDefaultModel;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
-class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
+abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEndpoint
 {
     use CandidateServiceTrait;
     use EntityManagerHelperTrait;
@@ -53,9 +53,8 @@ class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
     use UserRoleManagerTrait;
 
     public const PARAMETER_CANDIDATE_ID = 'candidateId';
+    public const PARAMETER_INTERVIEW_ID = 'interviewId';
     public const PARAMETER_NOTE = 'note';
-
-    public const STATE_INITIAL = 'INITIAL';
 
     /**
      * @inheritDoc
@@ -85,10 +84,6 @@ class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 self::PARAMETER_CANDIDATE_ID
             );
-            $note = $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_NOTE
-            );
 
             $candidateVacancy = $this->getCandidateService()
                 ->getCandidateDao()
@@ -112,13 +107,7 @@ class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
             $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($candidateVacancy);
 
             $candidateHistory = new CandidateHistory();
-            $candidateHistory->getDecorator()->setCandidateById($candidateId);
-            $candidateHistory->getDecorator()->setVacancyById($candidateVacancy->getVacancy()->getId());
-            $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
-            $candidateHistory->setAction($this->getResultingState());
-            $candidateHistory->getDecorator()->setPerformedBy($this->getAuthUser()->getEmpNumber());
-            $candidateHistory->setPerformedDate($this->getDateTimeHelper()->getNow());
-            $candidateHistory->setNote($note);
+            $this->setCandidateHistory($candidateHistory, $candidateVacancy);
             $result = $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
 
             $this->commitTransaction();
@@ -133,6 +122,30 @@ class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @param CandidateHistory $candidateHistory
+     * @param CandidateVacancy $candidateVacancy
+     */
+    protected function setCandidateHistory(CandidateHistory $candidateHistory, CandidateVacancy $candidateVacancy): void
+    {
+        $candidateHistory->getDecorator()->setCandidateById($candidateVacancy->getCandidate()->getId());
+        $candidateHistory->getDecorator()->setVacancyById($candidateVacancy->getVacancy()->getId());
+        $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
+        $candidateHistory->setAction($this->getResultingState());
+        $candidateHistory->getDecorator()->setPerformedBy($this->getAuthUser()->getEmpNumber());
+        $candidateHistory->setPerformedDate($this->getDateTimeHelper()->getNow());
+
+        $candidateHistory->setNote(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_NOTE
+            )
+        );
+        if (!is_null($this->getInterviewId())) {
+            $candidateHistory->getDecorator()->setInterviewByInterviewId($this->getInterviewId());
+        }
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
@@ -140,7 +153,7 @@ class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_CANDIDATE_ID,
-                new Rule(Rules::ENTITY_ID_EXISTS, [Candidate::class]),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -149,14 +162,6 @@ class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
                 )
             )
         );
-    }
-
-    /**
-     * @return int
-     */
-    public function getResultingState(): int
-    {
-        return WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT;
     }
 
     /**
@@ -174,4 +179,20 @@ class CandidateRejectAPI extends Endpoint implements ResourceEndpoint
     {
         throw $this->getNotImplementedException();
     }
+
+    /**
+     * @return int|null
+     */
+    protected function getInterviewId(): ?int
+    {
+        return $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_INTERVIEW_ID
+        );
+    }
+
+    /**
+     * @return int
+     */
+    abstract public function getResultingState(): int;
 }
