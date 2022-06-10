@@ -1,5 +1,5 @@
 GetAll:
-  'Get all enabled and added i18 languages':
+  'Get all enabled and added i18n languages':
     userId: 1
     services:
       admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
