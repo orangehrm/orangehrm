@@ -86,11 +86,15 @@ class RecruitmentAttachmentDao extends BaseDao
 
     /**
      * @param int $attachId
+     * @param int $interviewId
      * @return InterviewAttachment|null
      */
-    public function getInterviewAttachmentById(int $attachId): ?InterviewAttachment
-    {
-        return $this->getRepository(InterviewAttachment::class)->find($attachId);
+    public function getInterviewAttachmentByAttachmentIDAndInterviewId(
+        int $attachId,
+        int $interviewId
+    ): ?InterviewAttachment {
+        return $this->getRepository(InterviewAttachment::class)
+            ->findOneBy(['id' => $attachId, 'interview' => $interviewId]);
     }
 
     /**
