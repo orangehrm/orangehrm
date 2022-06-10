@@ -463,6 +463,21 @@ GetOne:
       finalComment: "Final"
       completedDate: "2022-05-13"
 
+  'ess - get final evaluation for non complete review':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 11
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
   'ess - get final evaluation for another review':
     userId: 3
     services:

@@ -449,16 +449,22 @@ class PerformanceReviewDao extends BaseDao
 
     /**
      * @param int $employeeNumber
+     * @param array|null $allowedStatuses
      * @return int[]
      */
-    public function getSelfReviewIds(int $employeeNumber): array
+    public function getSelfReviewIds(int $employeeNumber, ?array $allowedStatuses = []): array
     {
         $q = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
         $q->select('performanceReview.id');
         $q->andWhere($q->expr()->eq('performanceReview.employee', ':empNumber'))
             ->setParameter('empNumber', $employeeNumber);
-        $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
-            ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
+        if (empty($allowedStatuses)) {
+            $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
+                ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
+        } else {
+            $q->andWhere($q->expr()->in('performanceReview.statusId', ':statuses'))
+                ->setParameter('statuses', $allowedStatuses);
+        }
 
         return array_column($q->getQuery()->getArrayResult(), 'id');
     }
