@@ -21,7 +21,7 @@ namespace OrangeHRM\Tests\Recruitment\Api;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Api\CandidateAllowedActionsAPI;
+use OrangeHRM\Recruitment\Api\CandidateAllowedActionAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -30,7 +30,7 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Recruitment
  * @group APIv2
  */
-class CandidateAllowedActionsAPITest extends EndpointIntegrationTestCase
+class CandidateAllowedActionAPITest extends EndpointIntegrationTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -46,7 +46,7 @@ class CandidateAllowedActionsAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CandidateAllowedActionsAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(CandidateAllowedActionAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
@@ -57,28 +57,28 @@ class CandidateAllowedActionsAPITest extends EndpointIntegrationTestCase
 
     public function testCreate(): void
     {
-        $api = new CandidateAllowedActionsAPI($this->getRequest());
+        $api = new CandidateAllowedActionAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->create();
     }
 
     public function testGetValidationRuleForCreate(): void
     {
-        $api = new CandidateAllowedActionsAPI($this->getRequest());
+        $api = new CandidateAllowedActionAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForCreate();
     }
 
     public function testDelete(): void
     {
-        $api = new CandidateAllowedActionsAPI($this->getRequest());
+        $api = new CandidateAllowedActionAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new CandidateAllowedActionsAPI($this->getRequest());
+        $api = new CandidateAllowedActionAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

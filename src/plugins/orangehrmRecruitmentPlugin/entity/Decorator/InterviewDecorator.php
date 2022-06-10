@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Employee;
@@ -28,6 +29,7 @@ use OrangeHRM\Entity\Interview;
 class InterviewDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var Interview
@@ -89,7 +91,7 @@ class InterviewDecorator
     public function getInterviewDate(): string
     {
         $interviewDate = $this->interview->getInterviewDate();
-        return $interviewDate->format('Y-m-d');
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($interviewDate);
     }
 
     /**
@@ -98,6 +100,6 @@ class InterviewDecorator
     public function getInterviewTime(): ?string
     {
         $interviewTime = $this->interview->getInterviewTime();
-        return !is_null($interviewTime) ? $interviewTime->format('H:i') : null;
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($interviewTime);
     }
 }

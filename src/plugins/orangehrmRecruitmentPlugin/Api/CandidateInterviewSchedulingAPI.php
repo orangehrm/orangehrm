@@ -46,7 +46,7 @@ use OrangeHRM\Recruitment\Api\Model\CandidateInterviewModel;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
-class CandidateScheduleInterviewAPI extends Endpoint implements CrudEndpoint
+class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
 {
     use CandidateServiceTrait;
     use UserRoleManagerTrait;
@@ -229,7 +229,7 @@ class CandidateScheduleInterviewAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_CANDIDATE_ID,
                 new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [Candidate::class])
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
             ),
             new ParamRule(
                 self::PARAMETER_INTERVIEW_NAME,
