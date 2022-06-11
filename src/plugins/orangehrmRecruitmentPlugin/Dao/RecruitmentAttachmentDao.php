@@ -86,11 +86,15 @@ class RecruitmentAttachmentDao extends BaseDao
 
     /**
      * @param int $attachId
+     * @param int $interviewId
      * @return InterviewAttachment|null
      */
-    public function getInterviewAttachmentById(int $attachId): ?InterviewAttachment
-    {
-        return $this->getRepository(InterviewAttachment::class)->find($attachId);
+    public function getInterviewAttachmentByAttachmentIDAndInterviewId(
+        int $attachId,
+        int $interviewId
+    ): ?InterviewAttachment {
+        return $this->getRepository(InterviewAttachment::class)
+            ->findOneBy(['id' => $attachId, 'interview' => $interviewId]);
     }
 
     /**
@@ -179,5 +183,69 @@ class RecruitmentAttachmentDao extends BaseDao
         $qb->where('attachment.interview = :interviewId')
             ->setParameter('interviewId', $interviewAttachmentSearchFilterParams->getInterviewId());
         return $this->getPaginator($qb);
+    }
+
+    /**
+     * @param InterviewAttachmentSearchFilterParams $interviewAttachmentParamHolder
+     * @return int
+     */
+    public function getInterviewAttachmentsCount(
+        InterviewAttachmentSearchFilterParams $interviewAttachmentParamHolder
+    ): int {
+        return $this->getInterviewAttachmentPaginator($interviewAttachmentParamHolder)->count();
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getInterviewAttachmentIdList(): array
+    {
+        $q = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
+        $q->select('attachment.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getVacancyAttachmentIdList(): array
+    {
+        $q = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
+        $q->select('attachment.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getVacancyAttachmentListForHiringManger(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
+        $q->leftJoin('attachment.vacancy', 'vacancy');
+        $q->select('attachment.id');
+        $q->andWhere('vacancy.hiringManager = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getInterviewAttachmentListForHiringManger(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
+        $q->leftJoin('attachment.interview', 'interview');
+        $q->leftJoin('interview.candidateVacancy', 'candidateVacancy');
+        $q->leftJoin('candidateVacancy.vacancy', 'vacancy');
+        $q->select('attachment.id');
+        $q->andWhere('vacancy.hiringManager = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
     }
 }

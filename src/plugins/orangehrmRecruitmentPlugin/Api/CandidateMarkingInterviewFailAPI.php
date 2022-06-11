@@ -19,15 +19,36 @@
 
 namespace OrangeHRM\Recruitment\Api;
 
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
-class CandidateShortlistAPI extends CandidateRejectAPI
+class CandidateMarkingInterviewFailAPI extends AbstractCandidateActionAPI
 {
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        $paramRuleCollection = parent::getValidationRuleForUpdate();
+        $paramRuleCollection->addParamValidation(
+            new ParamRule(
+                self::PARAMETER_INTERVIEW_ID,
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class]),
+                new Rule(Rules::ENTITY_ID_EXISTS, [Interview::class])
+            ),
+        );
+        return $paramRuleCollection;
+    }
+
     /**
      * @inheritDoc
      */
     public function getResultingState(): int
     {
-        return WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST;
+        return WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED;
     }
 }

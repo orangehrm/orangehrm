@@ -1,5 +1,5 @@
 Update:
-  'Reject candidate':
+  'Candidate decline job offer - Admin':
     userId: 1
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -11,32 +11,32 @@ Update:
     now:
       datetime: '2022-05-25 08:42:00'
     attributes:
-      candidateId: 1
+      candidateId: 3
     body:
-      note: 'Rejected since not answering the phone'
+      note: 'Candidate is not willing to join the company'
     data:
       id: 1
       candidate:
-        id: 1
-        firstName: 'Peter'
-        middleName: ''
-        lastName: 'Smith'
-      vacancy:
-        id: 1
-        name: 'Technical Assistant Intern'
-        hiringManager:
-          empNumber: '1'
-          firstName: 'Kayla'
-          middleName: 'T'
-          lastName: 'Abbey'
-          terminationId: null
-      note: 'Rejected since not answering the phone'
-      action:
         id: 3
-        label: 'Rejected'
+        firstName: 'Richard'
+        middleName: ''
+        lastName: 'Holmes'
+      vacancy:
+        id: 2
+        name: 'Senior Technical Supervisor'
+        hiringManager:
+          empNumber: '2'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          lastName: 'Abel'
+          terminationId: null
+      note: 'Candidate is not willing to join the company'
+      action:
+        id: 8
+        label: 'Offer Declined'
     meta: [ ]
 
-  'Reject candidate - no candidate vacancy for the candidate':
+  'Candidate decline job offer - no candidate vacancy for the candidate':
     userId: 1
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -48,12 +48,12 @@ Update:
     attributes:
       candidateId: 4
     body:
-      note: 'Rejected since not answering the phone'
+      note: 'Candidate is not willing to join the company'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
-  'Reject candidate - non existing candidate id':
+  'Candidate decline job offer- non existing candidate id':
     userId: 1
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -65,12 +65,31 @@ Update:
     attributes:
       candidateId: 100
     body:
-      note: 'Rejected since not answering the phone'
+      note: 'Candidate is not willing to join the company'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
-  'Reject candidate - ESS User':
+
+  'Offer job candidate - already decline job offered':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 6
+    body:
+      note: 'Candidate is not willing to join the company'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+  
+  'Offer job candidate - ESS User':
     userId: 3
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -82,8 +101,7 @@ Update:
     attributes:
       candidateId: 1
     body:
-      note: 'Rejected since not answering the phone'
+      note: 'Candidate is not willing to join the company'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
-

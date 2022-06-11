@@ -19,10 +19,9 @@
 
 namespace OrangeHRM\Tests\Recruitment\Api;
 
-use OrangeHRM\Entity\Interview;
-use OrangeHRM\Entity\InterviewInterviewer;
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Api\CandidateScheduleInterviewAPI;
+use OrangeHRM\Recruitment\Api\CandidateMarkingInterviewPassAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -31,84 +30,55 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Recruitment
  * @group APIv2
  */
-class CandidateScheduleInterviewAPITest extends EndpointIntegrationTestCase
+class CandidateMarkingInterviewPassAPITest extends EndpointIntegrationTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateSpecificTables([InterviewInterviewer::class]);
-        TestDataService::truncateSpecificTables([Interview::class]);
+        TestDataService::truncateSpecificTables([CandidateHistory::class]);
     }
 
     public function testGetOne(): void
     {
-        $api = new CandidateScheduleInterviewAPI($this->getRequest());
+        $api = new CandidateMarkingInterviewPassAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getOne();
     }
 
     public function testGetValidationRuleForGetOne(): void
     {
-        $api = new CandidateScheduleInterviewAPI($this->getRequest());
+        $api = new CandidateMarkingInterviewPassAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
     }
 
-    public function testGetAll(): void
-    {
-        $api = new CandidateScheduleInterviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
-    }
-
     /**
-     * @dataProvider dataProviderForTestCreate
+     * @dataProvider dataProviderForTestUpdate
      */
-    public function testCreate(TestCaseParams $testCaseParams): void
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CandidateScheduleInterview.yaml');
+        $this->populateFixtures('InterviewDao.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CandidateScheduleInterviewAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'create', $testCaseParams);
+        $api = $this->getApiEndpointMock(CandidateMarkingInterviewPassAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function dataProviderForTestCreate(): array
+    public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('CandidateScheduleInterviewTestCases.yaml', 'Create');
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new CandidateScheduleInterviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
-    }
-
-    public function testUpdate(): void
-    {
-        $api = new CandidateScheduleInterviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
-    }
-
-    public function testGetValidationRuleForUpdate(): void
-    {
-        $api = new CandidateScheduleInterviewAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
+        return $this->getTestCases('MarkInterviewPassedTestCases.yaml', 'Update');
     }
 
     public function testDelete(): void
     {
-        $api = new CandidateScheduleInterviewAPI($this->getRequest());
+        $api = new CandidateMarkingInterviewPassAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new CandidateScheduleInterviewAPI($this->getRequest());
+        $api = new CandidateMarkingInterviewPassAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

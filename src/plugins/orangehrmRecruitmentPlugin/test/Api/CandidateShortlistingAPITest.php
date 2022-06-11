@@ -21,7 +21,7 @@ namespace OrangeHRM\Tests\Recruitment\Api;
 
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Api\CandidateRejectAPI;
+use OrangeHRM\Recruitment\Api\CandidateShortlistingAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -30,7 +30,7 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Recruitment
  * @group APIv2
  */
-class CandidateRejectAPITest extends EndpointIntegrationTestCase
+class CandidateShortlistingAPITest extends EndpointIntegrationTestCase
 {
     protected function setUp(): void
     {
@@ -39,14 +39,14 @@ class CandidateRejectAPITest extends EndpointIntegrationTestCase
 
     public function testGetOne(): void
     {
-        $api = new CandidateRejectAPI($this->getRequest());
+        $api = new CandidateShortlistingAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getOne();
     }
 
     public function testGetValidationRuleForGetOne(): void
     {
-        $api = new CandidateRejectAPI($this->getRequest());
+        $api = new CandidateShortlistingAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
     }
@@ -60,25 +60,25 @@ class CandidateRejectAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CandidateRejectAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(CandidateShortlistingAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('RejectCandidateTestCases.yaml', 'Update');
+        return $this->getTestCases('ShortlistCandidateTestCases.yaml', 'Update');
     }
 
     public function testDelete(): void
     {
-        $api = new CandidateRejectAPI($this->getRequest());
+        $api = new CandidateShortlistingAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new CandidateRejectAPI($this->getRequest());
+        $api = new CandidateShortlistingAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
