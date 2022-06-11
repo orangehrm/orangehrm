@@ -288,6 +288,7 @@ class PerformanceTrackerDao extends BaseDao
     public function getPerformanceTrackerIdList(): array
     {
         $qb = $this->createQueryBuilder(PerformanceTracker::class, 'performanceTracker');
+        $qb->select('performanceTracker.id');
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
@@ -316,6 +317,7 @@ class PerformanceTrackerDao extends BaseDao
     public function getTrackerIdsByEmpNumber(int $empNumber): array
     {
         $qb = $this->createQueryBuilder(PerformanceTracker::class, 'performanceTracker');
+        $qb->select('performanceTracker.id');
         $qb->andWhere($qb->expr()->eq('performanceTracker.employee', ':empNumber'))
             ->setParameter('empNumber', $empNumber);
 

@@ -17,35 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Dto;
+namespace OrangeHRM\Recruitment\Api;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
-class InterviewAttachmentSearchFilterParams extends FilterParams
+class CandidateRejectionAPI extends AbstractCandidateActionAPI
 {
-    /**
-     * @var int
-     */
-    protected int $interviewId;
-
-    public function __construct()
-    {
-        $this->setSortField('attachment.interviewId');
-    }
-
     /**
      * @return int
      */
-    public function getInterviewId(): int
+    public function getResultingState(): int
     {
-        return $this->interviewId;
-    }
-
-    /**
-     * @param int $interviewId
-     */
-    public function setInterviewId(int $interviewId): void
-    {
-        $this->interviewId = $interviewId;
+        return WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT;
     }
 }

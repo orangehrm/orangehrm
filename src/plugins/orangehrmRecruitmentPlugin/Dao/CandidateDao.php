@@ -219,8 +219,11 @@ class CandidateDao extends BaseDao
      */
     public function getInterviewCountByCandidateId(int $candidateId): int
     {
-        $candidateInterviews = $this->getRepository(Interview::class)->findBy(['candidate'=> $candidateId]);
-        return count($candidateInterviews);
+        $qb = $this->createQueryBuilder(Interview::class, 'interview');
+        $qb->select('count(interview.id)')
+            ->where('interview.candidate = :candidateId')
+            ->setParameter('candidateId', $candidateId);
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -231,5 +234,64 @@ class CandidateDao extends BaseDao
     {
         $this->persist($interview);
         return $interview;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getCandidateIdList(): array
+    {
+        $q = $this->createQueryBuilder(Candidate::class, 'candidate');
+        $q->select('candidate.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getInterviewIdList(): array
+    {
+        $q = $this->createQueryBuilder(Interview::class, 'interview');
+        $q->select('interview.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getCandidateIdListForHiringManger(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(CandidateVacancy::class, 'candidateVacancy');
+        $q->leftJoin('candidateVacancy.candidate', 'candidate');
+        $q->leftJoin('candidateVacancy.vacancy', 'vacancy');
+        $q->select('candidate.id');
+        $q->andWhere('vacancy.hiringManager = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getInterviewIdListForHiringManager(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(Interview::class, 'interview');
+        $q->leftJoin('interview.candidateVacancy', 'candidateVacancy');
+        $q->leftJoin('candidateVacancy.vacancy', 'vacancy');
+        $q->select('interview.id');
+        $q->andWhere('vacancy.hiringManager = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    public function getInterviewById(int $interviewId)
+    {
+        return $this->getRepository(Interview::class)->find($interviewId);
     }
 }

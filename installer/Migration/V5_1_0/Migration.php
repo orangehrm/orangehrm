@@ -104,7 +104,7 @@ class Migration extends AbstractMigration
             $performanceModuleId,
             $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'),
             'performance/searchEvaluatePerformancReview',
-            20
+            10
         );
         $this->insertModuleDefaultPage(
             $performanceModuleId,
@@ -139,6 +139,8 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->insertReviewWorkflowStates();
+
+        $this->insertReviewListScreenForAdminRole($reviewListScreenId);
     }
 
     /**
@@ -239,6 +241,32 @@ class Migration extends AbstractMigration
             ->setParameter('role', $role)
             ->setParameter('action', $action)
             ->setParameter('resultingState', $resultingState)
+            ->executeQuery();
+    }
+
+    /**
+     * @param int $reviewListScreenId
+     */
+    private function insertReviewListScreenForAdminRole(int $reviewListScreenId): void
+    {
+        $this->createQueryBuilder()
+            ->insert('ohrm_user_role_screen')
+            ->values(
+                [
+                    'screen_id' => ':screenId',
+                    'user_role_id' => ':userRoleId',
+                    'can_read' => ':read',
+                    'can_create' => ':create',
+                    'can_update' => ':update',
+                    'can_delete' => ':delete',
+                ]
+            )
+            ->setParameter('screenId', $reviewListScreenId)
+            ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
+            ->setParameter('read', 1)
+            ->setParameter('create', 0)
+            ->setParameter('update', 1)
+            ->setParameter('delete', 0)
             ->executeQuery();
     }
 

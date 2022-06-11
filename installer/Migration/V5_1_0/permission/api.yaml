@@ -156,6 +156,20 @@ apiv2_performance_review_allowed_actions:
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
+apiv2_performance_review_final_evaluation:
+  description: 'API-v2 Performance - Performance Review Final Evaluation'
+  api: OrangeHRM\Performance\Api\PerformanceReviewFinalEvaluationAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
 ##########################
 #        Recruitment
 ##########################
@@ -242,7 +256,7 @@ apiv2_recruitment_hiring_managers:
 
 apiv2_recruitment_candidate_allowed_actions:
   description: 'API-v2 Recruitment - Candidate Allowed Actions'
-  api: OrangeHRM\Recruitment\Api\CandidateAllowedActionsAPI
+  api: OrangeHRM\Recruitment\Api\CandidateAllowedActionAPI
   module: recruitment
   allowed:
     read: true
@@ -256,7 +270,7 @@ apiv2_recruitment_candidate_allowed_actions:
 
 apiv2_recruitment_candidate_reject:
   description: 'API-v2 Recruitment - Candidate Reject'
-  api: OrangeHRM\Recruitment\Api\CandidateRejectAPI
+  api: OrangeHRM\Recruitment\Api\CandidateRejectionAPI
   module: recruitment
   allowed:
     read: false
@@ -266,11 +280,10 @@ apiv2_recruitment_candidate_reject:
   permissions:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
-    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_recruitment_candidate_shortlist:
   description: 'API-v2 Recruitment - Candidate Shortlist'
-  api: OrangeHRM\Recruitment\Api\CandidateShortlistAPI
+  api: OrangeHRM\Recruitment\Api\CandidateShortlistingAPI
   module: recruitment
   allowed:
     read: false
@@ -280,11 +293,10 @@ apiv2_recruitment_candidate_shortlist:
   permissions:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
 apiv2_recruitment_candidate_schedule_interview:
   description: 'API-v2 Recruitment - Candidate Schedule Interview '
-  api: OrangeHRM\Recruitment\Api\CandidateScheduleInterviewAPI
+  api: OrangeHRM\Recruitment\Api\CandidateInterviewSchedulingAPI
   module: recruitment
   allowed:
     read: true
@@ -307,6 +319,60 @@ apiv2_recruitment_candidate_interview_attachment:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
     - { role: HiringManager, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    
+apiv2_recruitment_candidate_mark_interview_passed:
+  description: 'API-v2 Recruitment - Candidate Mark Interview Passed'
+  api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewPassAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
+apiv2_recruitment_candidate_mark_interview_failed:
+  description: 'API-v2 Recruitment - Candidate Mark Interview Failed'
+  api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewFailAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
+apiv2_recruitment_candidate_offer_job:
+  description: 'API-v2 Recruitment - Candidate Offer Job'
+  api: OrangeHRM\Recruitment\Api\CandidateJobOfferingAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
+apiv2_recruitment_candidate_decline_offer:
+  description: 'API-v2 Recruitment - Candidate Decline Offer'
+  api: OrangeHRM\Recruitment\Api\CandidateOfferDecliningAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
 apiv2_admin_localization_languages:
   description: 'API-v2 Admin - Localization Languages'
@@ -314,8 +380,8 @@ apiv2_admin_localization_languages:
   module: admin
   allowed:
     read: true
-    create: true
+    create: false
     update: true
-    delete: true
+    delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }

@@ -117,12 +117,13 @@ apiv2_performance_reviews_kpis:
   defaults:
     _api: OrangeHRM\Performance\Api\ReviewKpiAPI
 
-apiv2_performance_tracker_reviewers:
-  path: api/v2/performance/tracker-reviewers
+apiv2_performance_reviews_final_evaluation:
+  path: /api/v2/performance/reviews/{reviewId}/evaluation/final
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
+  methods: [ GET, PUT ]
   defaults:
-    _api: OrangeHRM\Performance\Api\TrackerReviewerAPI
+    _api: OrangeHRM\Performance\Api\PerformanceReviewFinalEvaluationAPI
+    _key: reviewId
 
 ##########################
 #        Screens
