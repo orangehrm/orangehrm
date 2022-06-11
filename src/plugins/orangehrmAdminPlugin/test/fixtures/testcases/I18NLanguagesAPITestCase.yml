@@ -15,3 +15,15 @@ GetAll:
         code: 'en_US'
     meta:
       total: 3
+
+Update:
+  'Update language as added':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 1
+    data:
+        id: 1
+        name: 'Chinese (Simplified, China) - 中文（简体，中国）'
+        code: 'zh_Hans_CN'

@@ -46,4 +46,21 @@ class I18NApiTest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('I18NLanguagesAPITestCase.yml', 'GetAll');
     }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('I18NLanguages.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(I18NLanguageAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('I18NLanguagesAPITestCase.yml','Update');
+    }
 }

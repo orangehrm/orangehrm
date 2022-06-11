@@ -26,6 +26,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -33,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\I18NLanguage;
 
 class I18NLanguageAPI extends Endpoint implements CrudEndpoint
 {
@@ -130,14 +132,29 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
         throw $this->getNotImplementedException();
     }
 
-
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $language = $this->getLocalizationService()->getLocalizationDao()->getLanguageById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($language, I18NLanguage::class);
+        $language->setAdded(true);
+        $this->getLocalizationService()->getLocalizationDao()->saveI18NLanguage($language);
+        return new EndpointResourceResult(I18NLanguageModel::class, $language);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            )
+        );
     }
 }

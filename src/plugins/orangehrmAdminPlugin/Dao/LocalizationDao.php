@@ -64,4 +64,23 @@ class LocalizationDao extends BaseDao
     {
         return $this->getSearchI18NLanguagePaginator($i18NLanguageSearchFilterParams)->count();
     }
+
+    /**
+     * @param int $languageId
+     * @return I18NLanguage|null
+     */
+    public function getLanguageById(int $languageId): ?I18NLanguage
+    {
+        return $this->getRepository(I18NLanguage::class)->find($languageId);
+    }
+
+    /**
+     * @param I18NLanguage $i18NLanguage
+     * @return I18NLanguage
+     */
+    public function saveI18NLanguage(I18NLanguage $i18NLanguage): I18NLanguage
+    {
+        $this->persist($i18NLanguage);
+        return $i18NLanguage;
+    }
 }
