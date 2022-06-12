@@ -20,13 +20,10 @@
 namespace OrangeHRM\Tests\CorporateDirectory\Dao;
 
 use Exception;
-use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\SearchParamException;
-use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\CorporateDirectory\Dao\EmployeeDirectoryDao;
 use OrangeHRM\CorporateDirectory\Dto\EmployeeDirectorySearchFilterParams;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -66,11 +63,6 @@ class EmployeeDirectoryDaoTest extends KernelTestCase
      */
     public function testGetEmployeeList(): void
     {
-        $this->createKernelWithMockServices(
-            [
-                Services::TEXT_HELPER_SERVICE => new TextHelperService()
-            ]
-        );
         $employeeDirectorySearchFilterParams = new EmployeeDirectorySearchFilterParams();
         $empList = $this->employeeDirectoryDao->getEmployeeList($employeeDirectorySearchFilterParams);
         $this->assertCount(6, $empList);
@@ -103,12 +95,6 @@ class EmployeeDirectoryDaoTest extends KernelTestCase
      */
     public function testGetEmployeeCount(): void
     {
-        $this->createKernelWithMockServices(
-            [
-                Services::TEXT_HELPER_SERVICE => new TextHelperService(),
-            ]
-        );
-
         $employeeDirectorySearchFilterParams = new EmployeeDirectorySearchFilterParams();
         $empList = $this->employeeDirectoryDao->getEmployeeList($employeeDirectorySearchFilterParams);
         $this->assertCount(6, $empList);

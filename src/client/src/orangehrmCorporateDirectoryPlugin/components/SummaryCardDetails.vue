@@ -22,7 +22,7 @@
   <summary-card
     :employee-id="employeeId"
     :show-back-button="true"
-    :class="!hasDefaultSlot ? 'orangehrm-directory-card-height' : ''"
+    :class="{'orangehrm-directory-card-height': !hasDefaultSlot}"
   >
     <employee-details :employee-id="employeeId"> </employee-details>
   </summary-card>

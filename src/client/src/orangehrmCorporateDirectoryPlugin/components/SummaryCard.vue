@@ -20,10 +20,10 @@
 
 <template>
   <oxd-sheet
+    :class="{'orangehrm-directory-card-height': hasDefaultSlot}"
     :gutters="false"
     class="orangehrm-directory-card"
     type="white"
-    :class="hasDefaultSlot ? 'orangehrm-directory-card-height' : ''"
   >
     <div
       v-show="showBackButton"
@@ -112,13 +112,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-directory-card {
   padding: 0.5rem 1rem;
+  @include oxd-respond-to('md') {
+    height: auto;
+    overflow: hidden;
+  }
 
   &-height {
     height: 260px;
     overflow: hidden;
+    @include oxd-respond-to('xs') {
+      height: auto;
+    }
   }
+
   &-header {
     padding-top: 1rem;
     padding-bottom: 0.75rem;
@@ -130,16 +140,17 @@ export default {
   &-body {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 0.25rem 0.5rem;
     margin-top: -0.25rem;
-    background-color: #fafafc;
+    background-color: $oxd-background-white-shadow-color;
     border-radius: 0.5rem;
     height: 44px;
   }
 
   &-icon {
-    margin-right: 0.5rem;
-    color: #64728c;
+    margin: 0 0.5rem 0 0;
+    color: $oxd-interface-gray-darken-1-color;
     font-size: 24px;
     display: flex;
     justify-content: center;
@@ -156,25 +167,18 @@ export default {
   }
 }
 
-@media (max-width: 600px) {
+@include oxd-respond-to('xs') {
   .orangehrm-directory-card {
-    padding: 0.5rem 1rem;
-    height: auto;
-    overflow: hidden;
-
     &-rounded-body {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-right: 1rem;
-      padding-left: 1rem;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 100px;
+      padding: 0 1rem;
+      margin: 1rem 8px 1rem 0;
+      border-radius: 1.2rem;
       width: auto;
       height: 64px;
-      box-shadow: 5px 5px 5px 5px #fafafc;
-      margin-right: 8px;
+      box-shadow: 5px 5px 5px 5px $oxd-background-white-shadow-color;
     }
 
     &-hover {
@@ -189,13 +193,14 @@ export default {
       &-body {
         display: block;
         align-items: center;
+        justify-content: center;
         overflow: hidden;
         word-wrap: break-word;
       }
     }
 
     &-hover:hover {
-      background-color: #fafafc;
+      background-color: $oxd-background-white-shadow-color;
     }
   }
 }

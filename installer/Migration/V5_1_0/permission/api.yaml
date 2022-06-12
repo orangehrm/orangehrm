@@ -374,5 +374,5 @@ apiv2_corporate_directory_employees:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false} }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false} }

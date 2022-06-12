@@ -20,14 +20,12 @@
 namespace OrangeHRM\CorporateDirectory\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\CorporateDirectory\Dto\EmployeeDirectorySearchFilterParams;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class EmployeeDirectoryDao extends BaseDao
 {
-    use TextHelperTrait;
 
     /**
      * @param EmployeeDirectorySearchFilterParams $employeeDirectorySearchParamHolder

@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter :filter-title="$t('***.directory')">
+    <oxd-table-filter :filter-title="$t('general.directory')">
       <oxd-form>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -54,9 +54,9 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
-    <div :class="!isTotalZero ? 'orangehrm-corporate-directory' : ''">
+    <div :class="{'orangehrm-corporate-directory': !isTotalZero}">
       <div class="orangehrm-paper-container">
-        <table-header :show-divider="false" :total="total"> </table-header>
+        <table-header :show-divider="false" :total="total"></table-header>
         <oxd-grid ref="scrollerRef" :cols="colSize" class="orangehrm-container">
           <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
             <summary-card
@@ -110,12 +110,13 @@ import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
 import {reactive, toRefs} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
 
+const {$t} = usei18n();
 const employeeDataNormalizer = data => {
   return data.map(item => {
     return {
-      id: item.id,
-      employeeId: item.employeeId,
+      id: item.empNumber,
       employeeName:
         `${item.firstName} ${item.middleName} ${item.lastName}` +
         (item.terminationId ? $t('general.past_employee') : ''),
@@ -140,7 +141,8 @@ export default {
 
   setup() {
     const http = new APIService(
-      'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
+      // 'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       'api/v2/corporate-directory/employees',
     );
     const limit = 10; // this is a static limit since no pagination
@@ -226,28 +228,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-corporate-directory {
-  display: flex;
+  display: block;
+  @include oxd-respond-to('md') {
+    display: flex;
+  }
 
   &-sidebar {
     margin-left: 16px;
   }
 }
 
-@import '@ohrm/oxd/styles/_mixins.scss';
 .orangehrm-container {
   overflow: auto;
   max-height: 512px;
   @include oxd-scrollbar();
+
   &-loader {
     margin: 0 auto;
     background-color: $oxd-white-color;
-  }
-}
-
-@media (max-width: 600px) {
-  .orangehrm-corporate-directory {
-    display: block;
   }
 }
 </style>
