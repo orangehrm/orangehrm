@@ -241,7 +241,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
 
             $actionAllowed = $this->checkActionAllowed($review);
             if (! $actionAllowed) {
-                throw $this->getBadRequestException('Performed action not allowed');
+                throw $this->getForbiddenException();
             }
 
             $ratings = $this->getRequestParams()
@@ -294,7 +294,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
      */
     protected function checkActionAllowed(PerformanceReview $review): bool
     {
-        $currentState = is_null($review) ? self::STATE_INITIAL : self::WORKFLOW_STATES_MAP[$this->getPerformanceReviewStatus($review)];
+        $currentState = self::WORKFLOW_STATES_MAP[$this->getPerformanceReviewStatus($review)];
 
         $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_REVIEW,

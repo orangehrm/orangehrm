@@ -48,8 +48,8 @@ class ReviewReviewerRatingParamRule extends AbstractRule
             return false;
         }
 
-        $kpisForReview = $this->getPerformanceReviewService()->getPerformanceReviewDao()
-            ->getKpiIdsForReviewId($this->reviewId);
+        /*$kpisForReview = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->getKpiIdsForReviewId($this->reviewId);*/
 
         foreach ($ratings as $rating) {
             if (count(array_keys($rating)) != 3) {

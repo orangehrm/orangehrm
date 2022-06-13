@@ -90,12 +90,14 @@ GetAll:
         "id": 1
         "rating": "2.00"
         "comment": "test"
-        "kpiId": 4
+        "kpi":
+          "id": 4
       1:
         "id": 2
         "rating": "2.00"
         "comment": "test2"
-        "kpiId": 5
+        "kpi":
+          "id": 5
     meta:
       total: 2
       kpis:
@@ -148,7 +150,8 @@ GetAll:
         "id": 3
         "rating": "2.00"
         "comment": "testb2"
-        "kpiId": 6
+        "kpi":
+          "id": 6
     meta:
       total: 1
       kpis:
@@ -257,8 +260,8 @@ Update:
           "rating": 20
           "comment": "Test logs create"
     exception:
-      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
-      message: 'Performed action not allowed'
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
 
   'reviewer ratings without actionable state(Completed review)':
     userId: 1
@@ -280,8 +283,8 @@ Update:
           "rating": 20
           "comment": "Test logs create"
     exception:
-      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
-      message: 'Performed action not allowed'
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
 
   'valid KPI with new reviewer ratings':
     userId: 1
@@ -307,7 +310,8 @@ Update:
         id: 4
         "rating": 20
         "comment": "Test logs create"
-        "kpiId": 6
+        "kpi":
+          "id": 6
 
   'update existing reviewer ratings':
     userId: 1
@@ -337,9 +341,11 @@ Update:
         "id": 1
         "rating": "3.00"
         "comment": "test comment update"
-        "kpiId": 4
+        "kpi":
+          "id": 4
       1:
         "id": 2
         "rating": "2.00"
         "comment": "test comment update 2"
-        "kpiId": 5
+        "kpi":
+          "id": 5
