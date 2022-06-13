@@ -187,28 +187,28 @@ export default {
           title: this.$t('performance.key_performance_indicator'),
           slot: 'title',
           sortField: 'kpi.title',
-          style: {flex: '20%'},
+          style: {flex: '25%'},
         },
         {
           name: 'jobTitleName',
           title: this.$t('general.job_title'),
           sortField: 'jobTitle.jobTitleName',
-          style: {flex: '20%'},
+          style: {flex: '25%'},
         },
         {
           name: 'minRating',
           title: this.$t('performance.min_rate'),
-          style: {flex: 1},
+          style: {flex: '10%'},
         },
         {
           name: 'maxRating',
           title: this.$t('performance.max_rate'),
-          style: {flex: 1},
+          style: {flex: '10%'},
         },
         {
           name: 'isDefault',
           title: this.$t('performance.is_default'),
-          style: {flex: 1},
+          style: {flex: '10%'},
         },
         {
           name: 'actions',
