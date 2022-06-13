@@ -101,7 +101,7 @@
                     height: 50,
                   })
                 "
-                url=""
+                url="admin/theme/attachments/image"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -119,7 +119,7 @@
                     height: 50,
                   })
                 "
-                url=""
+                url="admin/theme/attachments/image"
               />
             </oxd-grid-item>
             <oxd-grid-item class="--offset-row-2">
@@ -137,7 +137,7 @@
                     height: 65,
                   })
                 "
-                url=""
+                url="admin/theme/attachments/image"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -230,10 +230,7 @@ export default {
     },
   },
   setup(props) {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/admin/corporateBranding`,
-    );
+    const http = new APIService(window.appGlobal.baseUrl, `api/v2/admin/theme`);
 
     const {saveSuccess} = useToast();
     const {formRef, invalid, validate} = useForm();
@@ -274,14 +271,30 @@ export default {
     });
 
     const onFormSubmit = () => {
+      const getAttachment = fileUploadModel => {
+        if (
+          fileUploadModel.method === null ||
+          fileUploadModel.method === 'replaceCurrent'
+        ) {
+          return fileUploadModel.newAttachment;
+        }
+        return undefined;
+      };
       state.isLoading = true;
       http
-        .create({
-          ...state.colors,
-          showSocialMediaImages: state.showSocialMediaImages,
-          clientLogo: state.clientLogo ? {...state.clientLogo} : null,
-          loginBanner: state.loginBanner ? {...state.loginBanner} : null,
-          clientBanner: state.clientBanner ? {...state.clientBanner} : null,
+        .request({
+          method: 'PUT',
+          url: '/api/v2/admin/theme',
+          data: {
+            variables: state.colors,
+            showSocialMediaImages: state.showSocialMediaImages,
+            currentClientLogo: state.clientLogo.method,
+            clientLogo: getAttachment(state.clientLogo),
+            currentClientBanner: state.clientBanner.method,
+            clientBanner: getAttachment(state.clientBanner),
+            currentLoginBanner: state.loginBanner.method,
+            loginBanner: getAttachment(state.loginBanner),
+          },
         })
         .then(() => {
           return saveSuccess();
@@ -293,8 +306,8 @@ export default {
       state.isLoading = true;
       http
         .request({
-          method: 'POST',
-          url: '/api/v2/admin/corporateBranding/reset',
+          method: 'DELETE',
+          url: '/api/v2/admin/theme',
         })
         .then(() => reloadPage());
     };
@@ -333,17 +346,26 @@ export default {
             clientBanner,
             loginBanner,
             showSocialMediaImages,
-            ...rest
+            variables,
           } = data;
-          state.colors = {...rest};
-          if (clientLogo) {
+          state.colors = variables;
+          if (clientLogo === null) {
+            state.clientLogo.method = null;
+          } else {
             state.clientLogo.oldAttachment = clientLogo;
+            state.clientLogo.oldAttachment.id = 'clientLogo';
           }
-          if (clientBanner) {
+          if (clientBanner === null) {
+            state.clientBanner.method = null;
+          } else {
             state.clientBanner.oldAttachment = clientBanner;
+            state.clientBanner.oldAttachment.id = 'clientBanner';
           }
-          if (loginBanner) {
+          if (loginBanner === null) {
+            state.loginBanner.method = null;
+          } else {
             state.loginBanner.oldAttachment = loginBanner;
+            state.loginBanner.oldAttachment.id = 'loginBanner';
           }
           state.showSocialMediaImages = showSocialMediaImages;
         })
