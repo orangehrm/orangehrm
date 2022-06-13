@@ -37,11 +37,10 @@ use OrangeHRM\CorporateDirectory\Api\Model\EmployeeDirectoryModel;
 use OrangeHRM\CorporateDirectory\Dto\EmployeeDirectorySearchFilterParams;
 use OrangeHRM\CorporateDirectory\Service\EmployeeDirectoryService;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
 {
-    use UserRoleManagerTrait, EmployeeServiceTrait;
+    use UserRoleManagerTrait;
 
     public const FILTER_EMP_NUMBER = 'empNumber';
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
@@ -100,7 +99,7 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class])
             ),
             $this->getModelParamRule(),
         );
@@ -133,9 +132,6 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
         );
         if (!is_null($empNumber)) {
             $employeeDirectoryParamHolder->setEmpNumbers([$empNumber]);
-        } else {
-            $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
-            $employeeDirectoryParamHolder->setEmpNumbers($accessibleEmpNumbers);
         }
 
         $employeeDirectoryParamHolder->setJobTitleId(
@@ -173,7 +169,7 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

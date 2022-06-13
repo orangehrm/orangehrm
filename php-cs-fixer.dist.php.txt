@@ -1,0 +1,14 @@
+diff --git a/.php-cs-fixer.dist.php b/.php-cs-fixer.dist.php
+index 2b0e6ccee..5ec1034d7 100644
+--- a/.php-cs-fixer.dist.php
++++ b/.php-cs-fixer.dist.php
+@@ -29,7 +29,8 @@ $finder = PhpCsFixer\Finder::create()
+     ->exclude('src/plugins/orangehrmCorePlugin/test/model')
+     ->exclude('src/plugins/orangehrmCorePlugin/test/utility')
+     ->exclude('src/plugins/orangehrmCorporateBrandingPlugin')
+-    ->exclude('src/plugins/orangehrmCorporateDirectoryPlugin')
++    ->exclude('src/plugins/orangehrmCorporateDirectoryPlugin/lib')
++    ->exclude('src/plugins/orangehrmCorporateDirectoryPlugin/test/model')
+     ->exclude('src/plugins/orangehrmDashboardPlugin')
+     ->exclude('src/plugins/orangehrmHelpPlugin/test')
+     ->exclude('src/plugins/orangehrmMaintenancePlugin/test/model')

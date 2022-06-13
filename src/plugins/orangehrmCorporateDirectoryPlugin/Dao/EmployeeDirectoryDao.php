@@ -26,7 +26,6 @@ use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class EmployeeDirectoryDao extends BaseDao
 {
-
     /**
      * @param EmployeeDirectorySearchFilterParams $employeeDirectorySearchParamHolder
      * @return Employee[]
@@ -46,7 +45,6 @@ class EmployeeDirectoryDao extends BaseDao
     ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->leftJoin('employee.jobTitle', 'jobTitle');
-        $q->leftJoin('employee.subDivision', 'subunit');
         $q->leftJoin('employee.locations', 'location');
 
         $this->setSortingAndPaginationParams($q, $employeeDirectorySearchParamHolder);
@@ -64,7 +62,7 @@ class EmployeeDirectoryDao extends BaseDao
         }
 
         if (!is_null($employeeDirectorySearchParamHolder->getEmpNumbers())) {
-            $q->andWhere($q->expr()->in('employee.empNumber',':empNumbers'))
+            $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
                 ->setParameter('empNumbers', $employeeDirectorySearchParamHolder->getEmpNumbers());
         }
 

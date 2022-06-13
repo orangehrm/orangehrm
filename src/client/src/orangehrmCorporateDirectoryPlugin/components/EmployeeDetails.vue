@@ -98,9 +98,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      // 'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
       window.appGlobal.baseUrl,
-      'api/v2/corporate-directory/employees',
+      'api/v2/directory/employees',
     );
     return {
       http,
@@ -115,7 +114,7 @@ export default {
     };
   },
   beforeMount() {
-    this.http.get(this.employeeId,{model: 'detailed'}).then(response => {
+    this.http.get(this.employeeId, {model: 'detailed'}).then(response => {
       const {data} = response.data;
       this.employeeWorkTelephone = data.contactInfo?.workTelephone;
       this.employeeWorkEmail = data.contactInfo?.workEmail;

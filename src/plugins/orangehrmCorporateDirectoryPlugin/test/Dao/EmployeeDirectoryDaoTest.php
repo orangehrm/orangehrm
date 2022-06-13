@@ -44,20 +44,6 @@ class EmployeeDirectoryDaoTest extends KernelTestCase
      */
     private EmployeeDirectoryDao $employeeDirectoryDao;
 
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        $this->employeeDirectoryDao = new EmployeeDirectoryDao();
-        $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmCorporateDirectoryPlugin/test/fixtures/EmployeeDirectoryDao.yml';
-        TestDataService::populate($this->fixture);
-    }
-
     /**
      * @throws SearchParamException
      */
@@ -90,6 +76,7 @@ class EmployeeDirectoryDaoTest extends KernelTestCase
         $empList = $this->employeeDirectoryDao->getEmployeeList($employeeDirectorySearchFilterParams);
         $this->assertCount(1, $empList);
     }
+
     /**
      * @return void
      */
@@ -108,8 +95,18 @@ class EmployeeDirectoryDaoTest extends KernelTestCase
         $employeeDirectorySearchFilterParams->setJobTitleId(1);
         $empList = $this->employeeDirectoryDao->getEmployeeList($employeeDirectorySearchFilterParams);
         $this->assertCount(1, $empList);
-
     }
 
-
+    /**
+     * @return void
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        $this->employeeDirectoryDao = new EmployeeDirectoryDao();
+        $this->fixture = Config::get(
+            Config::PLUGINS_DIR
+        ) . '/orangehrmCorporateDirectoryPlugin/test/fixtures/EmployeeDirectoryDao.yml';
+        TestDataService::populate($this->fixture);
+    }
 }

@@ -23,7 +23,6 @@ use OrangeHRM\CorporateDirectory\Dao\EmployeeDirectoryDao;
 
 class EmployeeDirectoryService
 {
-
     /**
      * @var EmployeeDirectoryDao|null
      */

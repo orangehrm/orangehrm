@@ -24,26 +24,11 @@ use OrangeHRM\Core\Exception\SearchParamException;
 
 class EmployeeDirectorySearchFilterParams extends FilterParams
 {
-
-    public const ALLOWED_SORT_FIELDS = [
-        'employee.lastName',
-        'employee.firstName',
-        'employee.middleName',
-        'employee.empNumber',
-        'jobTitle.jobTitleName',
-        'subunit.name',
-        'location.name'
-    ];
+    public const ALLOWED_SORT_FIELDS = [];
 
     public const INCLUDE_EMPLOYEES_ONLY_CURRENT = 'onlyCurrent';
     public const INCLUDE_EMPLOYEES_ONLY_PAST = 'onlyPast';
     public const INCLUDE_EMPLOYEES_CURRENT_AND_PAST = 'currentAndPast';
-
-    public const INCLUDE_EMPLOYEES_MAP = [
-        1 => self::INCLUDE_EMPLOYEES_ONLY_CURRENT,
-        2 => self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
-        3 => self::INCLUDE_EMPLOYEES_ONLY_PAST,
-    ];
 
     /**
      * @var string|null
@@ -87,12 +72,16 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
      * @param string|null $includeEmployees
      * @throws SearchParamException
      */
-    public function setIncludeEmployees(?string $includeEmployees): void
+    public function setIncludeEmployees(string $includeEmployees): void
     {
-        if (in_array($includeEmployees, array_keys(self::INCLUDE_EMPLOYEES_MAP))) {
-            $includeEmployees = self::INCLUDE_EMPLOYEES_MAP[$includeEmployees] ?? null;
-        }
-        if (!is_null($includeEmployees) && !in_array($includeEmployees, array_values(self::INCLUDE_EMPLOYEES_MAP))) {
+        if (!in_array(
+            $includeEmployees,
+            [
+                self::INCLUDE_EMPLOYEES_ONLY_CURRENT,
+                self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
+                self::INCLUDE_EMPLOYEES_ONLY_PAST,
+            ]
+        )) {
             throw new SearchParamException('Invalid parameter');
         }
         $this->includeEmployees = $includeEmployees;

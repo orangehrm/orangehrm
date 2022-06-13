@@ -23,7 +23,6 @@
     :class="{'orangehrm-directory-card-height': hasDefaultSlot}"
     :gutters="false"
     class="orangehrm-directory-card"
-    type="white"
   >
     <div
       v-show="showBackButton"

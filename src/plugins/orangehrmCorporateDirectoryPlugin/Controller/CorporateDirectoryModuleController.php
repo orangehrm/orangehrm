@@ -19,18 +19,35 @@
 
 namespace OrangeHRM\CorporateDirectory\Controller;
 
+use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class CorporateDirectoryModuleController extends AbstractVueController
 {
+    protected ?LocationService $locationService = null;
+
+    /**
+     * @return LocationService
+     */
+    protected function getLocationService(): LocationService
+    {
+        if (!$this->locationService instanceof LocationService) {
+            $this->locationService = new LocationService();
+        }
+        return $this->locationService;
+    }
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('corporate-directory-employee-list');
+        $locations = $this->getLocationService()->getAccessibleLocationsArray();
+        $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $locations));
         $this->setComponent($component);
     }
 }

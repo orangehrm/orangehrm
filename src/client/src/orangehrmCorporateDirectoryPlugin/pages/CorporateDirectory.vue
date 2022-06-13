@@ -25,13 +25,18 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-autocomplete />
+              <employee-autocomplete v-model="filters.employeeNumber" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <jobtitle-dropdown />
+              <jobtitle-dropdown v-model="filters.jobTitleId" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <subunit-dropdown />
+              <oxd-input-field
+                v-model="filters.locationId"
+                type="select"
+                :label="$t('general.location')"
+                :options="locations"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -43,18 +48,20 @@
             :label="$t('general.reset')"
             display-type="ghost"
             type="reset"
+            @click="triggerReset"
           />
           <oxd-button
             :label="$t('general.search')"
             class="orangehrm-left-space"
             display-type="secondary"
             type="submit"
+            @click="triggerSearch"
           />
         </oxd-form-actions>
       </oxd-form>
     </oxd-table-filter>
     <br />
-    <div :class="{'orangehrm-corporate-directory': !isTotalZero}">
+    <div :class="{'orangehrm-corporate-directory': !hasCurrentIndex}">
       <div class="orangehrm-paper-container">
         <table-header :show-divider="false" :total="total"></table-header>
         <oxd-grid ref="scrollerRef" :cols="colSize" class="orangehrm-container">
@@ -102,7 +109,6 @@
 <script>
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
-import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
@@ -111,7 +117,13 @@ import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
 import {reactive, toRefs} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
+import {ref} from 'vue';
 
+const defaultFilters = {
+  employeeNumber: null,
+  jobTitleId: null,
+  locationId: null,
+};
 const {$t} = usei18n();
 const employeeDataNormalizer = data => {
   return data.map(item => {
@@ -132,18 +144,24 @@ export default {
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
-    'subunit-dropdown': SubunitDropdown,
     'summary-card': SummaryCard,
     'summary-card-details': SummaryCardDetails,
     'employee-details': EmployeeDetails,
     'oxd-loading-spinner': Spinner,
   },
 
+  props: {
+    locations: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   setup() {
+    const filters = ref({...defaultFilters});
     const http = new APIService(
-      // 'https://07bd2c2f-bd2b-4a9f-97c7-cb744a96e0f8.mock.pstmn.io',
       window.appGlobal.baseUrl,
-      'api/v2/corporate-directory/employees',
+      'api/v2/directory/employees',
     );
     const limit = 10; // this is a static limit since no pagination
     const state = reactive({
@@ -162,6 +180,9 @@ export default {
         .getAll({
           limit: limit,
           offset: state.offset,
+          locationId: filters.value.locationId?.id,
+          empNumber: filters.value.employeeNumber?.id,
+          jobTitleId: filters.value.jobTitleId?.id,
         })
         .then(response => {
           const {data, meta} = response.data;
@@ -186,6 +207,7 @@ export default {
       scrollerRef,
       ...toRefs(state),
       fetchData,
+      filters,
     };
   },
 
@@ -193,8 +215,8 @@ export default {
     isMobile() {
       return this.windowWidth < 600 ? true : false;
     },
-    isTotalZero() {
-      return this.total <= 0 ? true : false;
+    hasCurrentIndex() {
+      return this.currentIndex ? true : false;
     },
   },
 
@@ -222,6 +244,15 @@ export default {
     },
     onResize() {
       this.windowWidth = window.innerWidth;
+    },
+    triggerSearch() {
+      this.employees = [];
+      this.fetchData();
+    },
+    triggerReset() {
+      this.employees = [];
+      this.filters.locationId = null;
+      this.fetchData();
     },
   },
 };
