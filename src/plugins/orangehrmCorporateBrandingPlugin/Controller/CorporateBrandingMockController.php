@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Controller;
+namespace OrangeHRM\CorporateBranding\Controller;
 
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Framework\Http\Request;

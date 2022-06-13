@@ -14,26 +14,25 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Controller;
+namespace OrangeHRM\CorporateBranding\Traits;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\EmpPicture;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\CorporateBranding\Service\ThemeService;
+use OrangeHRM\Framework\Services;
 
-class CorporateBrandingController extends AbstractVueController
+trait ThemeServiceTrait
 {
+    use ServiceContainerTrait;
+
     /**
-     * @inheritDoc
+     * @return ThemeService
      */
-    public function preRender(Request $request): void
+    protected function getThemeService(): ThemeService
     {
-        $component = new Component('corporate-branding');
-        $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
-        $this->setComponent($component);
+        return $this->getContainer()->get(Services::THEME_SERVICE);
     }
+
 }

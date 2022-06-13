@@ -63,7 +63,7 @@
             "OrangeHRM\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin",
             "OrangeHRM\\Time\\": "./plugins/orangehrmTimePlugin",
             "OrangeHRM\\I18N\\": "./plugins/orangehrmI18NPlugin",
-            "OrangeHRM\\Tools\\Migrations\\": "../installer/upgrader/Migrations",
+            "OrangeHRM\\CorporateBranding\\": "./plugins/orangehrmCorporateBrandingPlugin",
             "OrangeHRM\\Installer\\": "../installer",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
@@ -76,7 +76,8 @@
                 "./plugins/orangehrmTimePlugin/entity",
                 "./plugins/orangehrmAttendancePlugin/entity",
                 "./plugins/orangehrmI18NPlugin/entity",
-                "./plugins/orangehrmRecruitmentPlugin/entity"
+                "./plugins/orangehrmRecruitmentPlugin/entity",
+                "./plugins/orangehrmCorporateBrandingPlugin/entity"
             ]
         }
     },
@@ -94,7 +95,8 @@
             "OrangeHRM\\Tests\\Maintenance\\": "./plugins/orangehrmMaintenancePlugin/test",
             "OrangeHRM\\Tests\\I18N\\": "./plugins/orangehrmI18NPlugin/test",
             "OrangeHRM\\Tests\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin/test",
-            "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test"
+            "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test",
+            "OrangeHRM\\Tests\\CorporateBranding\\": "./plugins/orangehrmCorporateBrandingPlugin/test"
         }
     },
     "scripts": {
