@@ -70,7 +70,8 @@ PerformanceReview:
   - {"id": 4,"status_id": 3,"employee_number": 8,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 3,"due_date": "2022-06-30","completed_date": null,"activated_date": "2022-05-12 19:59:56","final_comment": null,"final_rate": null}
   - {"id": 5,"status_id": 2,"employee_number": 9,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 3,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-12 20:00:10","final_comment": null,"final_rate": null}
   - {"id": 6,"status_id": 2,"employee_number": 3,"work_period_start": "2022-07-01","work_period_end": "2022-07-31","job_title_code": 2,"department_id": 2,"due_date": "2022-07-31","completed_date": null,"activated_date": "2022-05-12 20:00:32","final_comment": null,"final_rate": null}
-  - {"id": 7,"status_id": 2,"employee_number": 2,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-06-30","completed_date": null,"activated_date": "2022-05-12 20:00:54","final_comment": null,"final_rate": null}
+  - {"id": 7,"status_id": 1,"employee_number": 2,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-06-30","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
+  - {"id": 8,"status_id": 1,"employee_number": 6,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-07-30","completed_date": "2022-07-29","activated_date": "2022-07-09","final_comment": "final comment","final_rate": 3}
 
 ReviewerGroup:
   - {"id": 1,"name": "Supervisor","piority": 1}
@@ -91,10 +92,13 @@ Reviewer:
   - {"id": 12,"review_id": 6,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
   - {"id": 13,"review_id": 7,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
   - {"id": 14,"review_id": 7,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 15,"review_id": 8,"employee_number": 6,"status": 4,"reviewer_group_id": 2,"completed_date": "2022-07-29","comment": null }
+  - {"id": 16,"review_id": 8,"employee_number": 3,"status": 4,"reviewer_group_id": 1,"completed_date": "2022-07-29","comment": null }
 
 ReviewerRating:
   - {id: 1, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 4,comment: "test"}
   - {id: 2, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 4,comment: "test2"}
+  - {id: 3, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 16,comment: "testb2"}
 
 ReportingMethod:
   0: {id: 1, name: 'Indirect'}

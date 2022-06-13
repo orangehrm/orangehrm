@@ -33,11 +33,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\ReviewerGroup;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Api\Model\KpiModel;
 use OrangeHRM\Performance\Api\Model\ReviewerModel;
@@ -54,15 +56,26 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     use UserRoleManagerTrait;
     use NormalizerServiceTrait;
     use EntityManagerHelperTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_REVIEW_ID = 'reviewId';
-    public const PARAMETER_IS_SELF_EVALUATION = 'selfEvaluation';
+    public const PARAMETER_RATING_EDITABLE = 'ratingEditable';
     public const PARAMETER_KPIS = 'kpis';
     public const PARAMETER_RATINGS = 'ratings';
     public const PARAMETER_RATING = 'rating';
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_KPI_ID = 'kpiId';
     public const PARAMETER_REVIEWERS = 'reviewer';
+    public const STATE_INITIAL = 'INITIAL';
+    public const ACTION_IN_PROGRESS = 'IN PROGRESS';
+    public const ACTION_COMPLETE = 'COMPLETE';
+
+    public const WORKFLOW_STATES_MAP = [
+        WorkflowStateMachine::REVIEW_INACTIVE_SAVE => 'SAVED',
+        WorkflowStateMachine::REVIEW_ACTIVATE => 'ACTIVATED',
+        WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE => 'IN PROGRESS',
+        WorkflowStateMachine::REVIEW_COMPLETE => 'COMPLETED'
+    ];
 
     /**
      * @inheritDoc
@@ -81,7 +94,9 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceReviewDao()->getSupervisorRating($supervisorParamHolder);
         $ratingCount = $this->getPerformanceReviewService()
             ->getPerformanceReviewDao()->getSupervisorRatingCount($supervisorParamHolder);
-
+        $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->getPerformanceReviewById($supervisorParamHolder->getReviewId());
+        $editable = $this->checkActionAllowed($review);
         return new EndpointCollectionResult(
             ReviewerRatingModel::class,
             $ratings,
@@ -89,6 +104,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_TOTAL => $ratingCount,
                 self::PARAMETER_KPIS => $this->getKpisForReview(),
                 self::PARAMETER_REVIEWERS => $this->getSupervisorReviewerForReviewRating(),
+                self::PARAMETER_RATING_EDITABLE => $editable,
             ])
         );
     }
@@ -224,6 +240,12 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_REVIEW_ID);
             $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getReviewById($reviewId);
+
+            $actionAllowed = $this->checkActionAllowed($review);
+            if(! $actionAllowed){
+                throw $this->getBadRequestException('Performed action not allowed');
+            }
+
             $ratings = $this->getRequestParams()
                 ->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_RATINGS);
 
@@ -237,13 +259,53 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ReviewerRatingModel::class,
                 $reviewRatings
             );
-        } catch (RecordNotFoundException|ForbiddenException|BadRequestException $e) {
+        } catch (BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @return int
+     */
+    private function getPerformanceReviewStatus(PerformanceReview $performanceReview): int
+    {
+        if ($this->getAuthUser()->getEmpNumber() === $performanceReview->getEmployee()->getEmpNumber()) {
+            $selfReviewer = $this->getPerformanceReviewService()
+                ->getPerformanceReviewDao()
+                ->getPerformanceSelfReviewer($performanceReview);
+            // Self status => 1 (activated), 2 (in progress), 3 (completed)
+            // Add 1 and return to match the overall status id
+            return $selfReviewer->getStatus() + 1;
+        }
+        return $performanceReview->getStatusId();
+    }
+
+    /**
+     * @param PerformanceReview $review
+     * @return bool
+     */
+    protected function checkActionAllowed(PerformanceReview $review): bool
+    {
+        $currentState = is_null($review) ? self::STATE_INITIAL : self::WORKFLOW_STATES_MAP[$this->getPerformanceReviewStatus($review)];
+
+        $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_REVIEW,
+            $currentState
+        );
+
+        $hasPermission = false;
+        foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
+            if($allowedWorkflowItem->getResultingState() == self::ACTION_COMPLETE || $allowedWorkflowItem->getResultingState() == self::ACTION_IN_PROGRESS){
+                $hasPermission = true;
+                break;
+            }
+        }
+        return $hasPermission;
     }
 
     /**

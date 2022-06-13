@@ -71,6 +71,7 @@ GetAll:
             "middleName": ''
             "employeeId": "0003"
             "terminationId": null
+      ratingEditable: true
 
   'Get all ratings for supervisor own supervisor review that has reviewer ratings':
     userId: 4
@@ -128,6 +129,51 @@ GetAll:
             "middleName": ''
             "employeeId": "0003"
             "terminationId": null
+      ratingEditable: true
+
+  'Get all ratings for complete review':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 8
+    data:
+      0:
+        "id": 3
+        "rating": "2.00"
+        "comment": "testb2"
+        "kpiId": 6
+    meta:
+      total: 1
+      kpis:
+        0:
+          "id": 6
+          "title": "C"
+          "jobTitle":
+            "id": 4
+            "name": "Senior QA"
+            "deleted": false
+          "minRating": 0
+          "maxRating": 100
+          "isDefault": null
+      reviewer:
+        0:
+          "id": 16
+          "employee":
+            "empNumber": 3
+            "lastName": "Choi"
+            "firstName": "Seungcheol"
+            "middleName": ''
+            "employeeId": "0003"
+            "terminationId": null
+      ratingEditable: false
+
 
 Update:
   'Invalid User creating reviewer rating':
@@ -191,6 +237,52 @@ Update:
           "comment": "Test logs create"
     invalidOnly: [ 'ratings' ]
 
+  'reviewer ratings without actionable state(Inactive review)':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 7
+    body:
+      ratings:
+        0:
+          "kpiId": 6
+          "rating": 20
+          "comment": "Test logs create"
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: 'Performed action not allowed'
+
+  'reviewer ratings without actionable state(Completed review)':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 8
+    body:
+      ratings:
+        0:
+          "kpiId": 6
+          "rating": 20
+          "comment": "Test logs create"
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
+      message: 'Performed action not allowed'
+
   'valid KPI with new reviewer ratings':
     userId: 1
     services:
@@ -212,7 +304,7 @@ Update:
           "comment": "Test logs create"
     data:
       0:
-        id: 3
+        id: 4
         "rating": 20
         "comment": "Test logs create"
         "kpiId": 6

@@ -526,9 +526,9 @@ class PerformanceReviewDao extends BaseDao
         $q = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
 
         foreach (array_values($reviewerRatings) as $i => $reviewerRating) {
-            $reviewerIdParamKey = 'timesheetId_' . $i;
-            $performanceReviewIdParamKey = 'projectId_' . $i;
-            $kpiIdParamKey = 'activityId_' . $i;
+            $reviewerIdParamKey = 'reviewerId_' . $i;
+            $performanceReviewIdParamKey = 'performanceReviewId_' . $i;
+            $kpiIdParamKey = 'kpiId_' . $i;
 
             /** @var ReviewerRating $reviewerRating */
 
