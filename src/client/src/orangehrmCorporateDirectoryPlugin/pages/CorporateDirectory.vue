@@ -251,6 +251,8 @@ export default {
     },
     triggerReset() {
       this.employees = [];
+      this.filters.employeeNumber = null;
+      this.filters.jobTitleId = null;
       this.filters.locationId = null;
       this.fetchData();
     },

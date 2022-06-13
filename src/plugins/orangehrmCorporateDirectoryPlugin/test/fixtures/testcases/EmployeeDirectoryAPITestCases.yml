@@ -15,25 +15,8 @@ GetOne:
       empNumber: 10
     invalidOnly: [ 'empNumber' ]
 
-  'without necessary permission':
-    userId: 3
-    attributes:
-      empNumber: 1
-    invalidOnly: [ 'empNumber' ]
-
-  'with purged empNumber':
-    userId: 1
-    attributes:
-      empNumber: 4
-    invalidOnly: [ 'empNumber' ]
-
   'with valid empNumber':
     userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       empNumber: 3
     data: {
@@ -58,11 +41,6 @@ GetOne:
 
   'with valid empNumber and detailed view':
     userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       empNumber: 3
     query:
@@ -94,11 +72,6 @@ GetOne:
 GetAll:
   'without query':
     userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data: [
       {
         "empNumber": 1,
@@ -190,11 +163,6 @@ GetAll:
 
   'with empNumber given':
     userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       empNumber: '2'
     data: [
@@ -224,11 +192,6 @@ GetAll:
 
   'with job title id':
     userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       jobTitleId: '1'
     data: [
@@ -258,11 +221,6 @@ GetAll:
 
   'with nonexistent job title id':
     userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       jobTitleId: '500'
     data: [ ]
@@ -271,11 +229,6 @@ GetAll:
 
   'with sort order':
     userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       sortOrder: 'DESC'
     data: [
@@ -341,193 +294,6 @@ GetAll:
         "lastName": "Admin",
         "firstName": "Devi",
         "middleName": "",
-        "terminationId": null,
-        "jobTitle": {
-          "id": null,
-          "title": null,
-        },
-        "subunit": {
-          "id": null,
-          "name": null
-        },
-        "location": {
-          "id": 1,
-          "name": 'location 1'
-        },
-      }
-    ]
-    meta:
-      total: 4
-
-  'with sort field':
-    userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    query:
-      sortField: 'employee.empNumber'
-    data: [
-      {
-        "empNumber": 1,
-        "lastName": "Admin",
-        "firstName": "Devi",
-        "middleName": "",
-
-        "terminationId": null,
-        "jobTitle": {
-          "id": null,
-          "title": null,
-        },
-        "subunit": {
-          "id": null,
-          "name": null
-        },
-        "location": {
-          "id": 1,
-          "name": 'location 1'
-        },
-      },
-      {
-        "empNumber": 2,
-        "lastName": "Kumara",
-        "firstName": "Rajitha",
-        "middleName": "",
-
-        "terminationId": null,
-        "jobTitle": {
-          "id": null,
-          "title": null,
-        },
-        "subunit": {
-          "id": null,
-          "name": null
-        },
-        "location": {
-          "id": 1,
-          "name": 'location 1'
-        },
-      },
-      {
-        "empNumber": 3,
-        "lastName": "de Silva",
-        "firstName": "Devishke",
-        "middleName": "Romesh",
-
-        "terminationId": null,
-        "jobTitle": {
-          "id": 1,
-          "title": 'Software Engineer - Intern',
-        },
-        "subunit": {
-          "id": 3,
-          "name": 'Development'
-        },
-        "location": {
-          "id": 1,
-          "name": 'location 1'
-        },
-      },
-      {
-        "empNumber": 5,
-        "lastName": "Perera",
-        "firstName": "Sharuka",
-        "middleName": "",
-
-        "terminationId": null,
-        "jobTitle": {
-          "id": null,
-          "title": null,
-        },
-        "subunit": {
-          "id": null,
-          "name": null
-        },
-        "location": {
-          "id": 2,
-          "name": 'location 2'
-        },
-      }
-    ]
-    meta:
-      total: 4
-
-  'with sort order and sort field':
-    userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    query:
-      sortOrder: 'DESC'
-      sortField: 'employee.empNumber'
-    data: [
-      {
-        "empNumber": 5,
-        "lastName": "Perera",
-        "firstName": "Sharuka",
-        "middleName": "",
-        "terminationId": null,
-        "jobTitle": {
-          "id": null,
-          "title": null,
-        },
-        "subunit": {
-          "id": null,
-          "name": null
-        },
-        "location": {
-          "id": 2,
-          "name": 'location 2'
-        },
-      },
-      {
-        "empNumber": 3,
-        "lastName": "de Silva",
-        "firstName": "Devishke",
-        "middleName": "Romesh",
-        "terminationId": null,
-        "jobTitle": {
-          "id": 1,
-          "title": 'Software Engineer - Intern',
-        },
-        "subunit": {
-          "id": 3,
-          "name": 'Development'
-        },
-        "location": {
-          "id": 1,
-          "name": 'location 1'
-        },
-      },
-      {
-        "empNumber": 2,
-        "lastName": "Kumara",
-        "firstName": "Rajitha",
-        "middleName": "",
-
-        "terminationId": null,
-        "jobTitle": {
-          "id": null,
-          "title": null,
-        },
-        "subunit": {
-          "id": null,
-          "name": null
-        },
-        "location": {
-          "id": 1,
-          "name": 'location 1'
-        },
-      },
-      {
-        "empNumber": 1,
-        "lastName": "Admin",
-        "firstName": "Devi",
-        "middleName": "",
-
         "terminationId": null,
         "jobTitle": {
           "id": null,
@@ -548,11 +314,6 @@ GetAll:
 
   'with location id':
     userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       locationId: '2'
     data: [
