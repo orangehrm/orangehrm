@@ -139,6 +139,7 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->insertReviewWorkflowStates();
+        $this->insertSelfReviewWorkflowStates();
 
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
     }
@@ -202,12 +203,23 @@ class Migration extends AbstractMigration
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'SUPERVISOR', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+    }
+
+    private function insertSelfReviewWorkflowStates(): void
+    {
+        // Admin workflows
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SELF COMPLETED', 'ADMIN', WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION, 'SUPERVISOR UPDATED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SUPERVISOR UPDATED', 'ADMIN', WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION, 'SUPERVISOR UPDATED');
+
+        // Supervisor workflows
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SELF COMPLETED', 'SUPERVISOR', WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION, 'SUPERVISOR UPDATED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SUPERVISOR UPDATED', 'SUPERVISOR', WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION, 'SUPERVISOR UPDATED');
 
         // ESS workflows
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'INITIAL', 'ESS USER', WorkflowStateMachine::SELF_REVIEW_SELF_SAVE, 'SELF IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'INITIAL', 'ESS USER', WorkflowStateMachine::SELF_REVIEW_SELF_COMPLETE, 'SELF COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SELF IN PROGRESS', 'ESS USER', WorkflowStateMachine::SELF_REVIEW_SELF_SAVE, 'SELF IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SELF IN PROGRESS', 'ESS USER', WorkflowStateMachine::SELF_REVIEW_SELF_COMPLETE, 'SELF COMPLETED');
     }
 
     /**

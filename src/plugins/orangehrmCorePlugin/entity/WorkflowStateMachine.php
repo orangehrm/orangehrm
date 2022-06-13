@@ -73,12 +73,17 @@ class WorkflowStateMachine
     public const REVIEW_IN_PROGRESS_SAVE = 3;
     public const REVIEW_COMPLETE = 4;
 
+    public const SELF_REVIEW_SELF_SAVE = 1;
+    public const SELF_REVIEW_SELF_COMPLETE = 2;
+    public const SELF_REVIEW_SUPERVISOR_ACTION = 3;
+
     public const FLOW_TIME_TIMESHEET = 0;
     public const FLOW_ATTENDANCE = 1;
     public const FLOW_RECRUITMENT = 2;
     public const FLOW_EMPLOYEE = 3;
     public const FLOW_LEAVE = 4;
     public const FLOW_REVIEW = 5;
+    public const FLOW_SELF_REVIEW = 6;
 
     /**
      * @var int
