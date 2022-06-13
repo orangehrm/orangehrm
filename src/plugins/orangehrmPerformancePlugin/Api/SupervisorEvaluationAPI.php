@@ -25,8 +25,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -242,7 +240,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ->getReviewById($reviewId);
 
             $actionAllowed = $this->checkActionAllowed($review);
-            if(! $actionAllowed){
+            if (! $actionAllowed) {
                 throw $this->getBadRequestException('Performed action not allowed');
             }
 
@@ -251,7 +249,12 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
 
             $kpisForReview = $this->getKpisForReview();
             $this->getPerformanceReviewService()->saveAndUpdateReviewRatings($review, $ratings, $kpisForReview);
-
+            $this->getPerformanceReviewService()->getPerformanceReviewDao()
+                ->updateReviewerStatus(
+                    $review,
+                    ReviewerGroup::REVIEWER_GROUP_SUPERVISOR,
+                    self::ACTION_IN_PROGRESS
+                );
             $reviewRatings = $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getSupervisorRating($supervisorParamHolder);
             $this->commitTransaction();
@@ -300,7 +303,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
 
         $hasPermission = false;
         foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
-            if($allowedWorkflowItem->getResultingState() == self::ACTION_COMPLETE || $allowedWorkflowItem->getResultingState() == self::ACTION_IN_PROGRESS){
+            if ($allowedWorkflowItem->getResultingState() == self::ACTION_COMPLETE || $allowedWorkflowItem->getResultingState() == self::ACTION_IN_PROGRESS) {
                 $hasPermission = true;
                 break;
             }

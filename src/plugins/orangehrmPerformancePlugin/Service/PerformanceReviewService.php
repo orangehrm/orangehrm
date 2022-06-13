@@ -21,11 +21,9 @@ namespace OrangeHRM\Performance\Service;
 
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\ReviewerRating;
-use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Exception\ReviewServiceException;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
