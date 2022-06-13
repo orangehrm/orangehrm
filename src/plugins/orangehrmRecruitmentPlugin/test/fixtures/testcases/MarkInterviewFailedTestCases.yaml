@@ -1,5 +1,5 @@
 Update:
-  'Reject candidate':
+  'Candidate mark interview failed - Admin':
     userId: 1
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -11,66 +11,89 @@ Update:
     now:
       datetime: '2022-05-25 08:42:00'
     attributes:
-      candidateId: 1
+      candidateId: 2
+      interviewId: 1
     body:
-      note: 'Rejected since not answering the phone'
+      note: 'Does not meet the minimum qualifications'
     data:
       id: 1
       candidate:
-        id: 1
-        firstName: 'Peter'
+        id: 2
+        firstName: 'Jo'
         middleName: ''
-        lastName: 'Smith'
+        lastName: 'Denton'
       vacancy:
-        id: 1
-        name: 'Technical Assistant Intern'
+        id: 3
+        name: 'Part-Time Technical Assistant'
         hiringManager:
           empNumber: '1'
           firstName: 'Kayla'
           middleName: 'T'
           lastName: 'Abbey'
           terminationId: null
-      note: 'Rejected since not answering the phone'
+      note: 'Does not meet the minimum qualifications'
       action:
-        id: 3
-        label: 'Rejected'
+        id: 6
+        label: 'Interview Failed'
     meta: [ ]
 
-  'Reject candidate - no candidate vacancy for the candidate':
+  'Candidate mark interview failed - already marked interview failed':
     userId: 1
     services:
-      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
-      candidateId: 4
+      candidateId: 1
+      interviewId: 1
     body:
-      note: 'Rejected since not answering the phone'
+      note: 'Does not meet the minimum qualifications'
     exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
-  'Reject candidate - non existing candidate id':
+  'Candidate mark interview failed - non existing candidate Id':
     userId: 1
     services:
-      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       candidateId: 100
+      interviewId: 1
     body:
-      note: 'Rejected since not answering the phone'
+      note: 'Does not meet the minimum qualifications'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
-  'Reject candidate - ESS User':
+  'Candidate mark interview failed - non existing interview Id':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 1
+      interviewId: 100
+    body:
+      note: 'Does not meet the minimum qualifications'
+    invalidOnly: [ 'interviewId' ]
+
+
+  'Candidate mark interview failed - ESS User':
     userId: 3
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
@@ -80,10 +103,10 @@ Update:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
-      candidateId: 1
+      candidateId: 2
+      interviewId: 1
     body:
-      note: 'Rejected since not answering the phone'
+      note: 'Does not meet the minimum qualifications'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
-

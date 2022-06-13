@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -30,9 +31,12 @@ use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 class EssUserRole extends AbstractUserRole
 {
     use AuthUserTrait;
+    use LoggerTrait;
     use PerformanceTrackerServiceTrait;
     use PerformanceTrackerLogServiceTrait;
     use PerformanceReviewServiceTrait;
+
+    public const ALLOWED_REVIEW_STATUSES = 'allowed_review_statuses';
 
     /**
      * @inheritDoc
@@ -41,7 +45,7 @@ class EssUserRole extends AbstractUserRole
     {
         switch ($entityType) {
             case PerformanceReview::class:
-                return $this->getAccessibleReviewIds();
+                return $this->getAccessibleReviewIds($requiredPermissions);
             case PerformanceTracker::class:
                 return $this->getAccessiblePerformanceTrackerIdsForESS($requiredPermissions);
             case PerformanceTrackerLog::class:
@@ -54,10 +58,19 @@ class EssUserRole extends AbstractUserRole
     /**
      * @return int[]
      */
-    protected function getAccessibleReviewIds(): array
+    protected function getAccessibleReviewIds(array $requiredPermissions = []): array
     {
+        $allowedStatuses = [];
+        if (isset($requiredPermissions[self::ALLOWED_REVIEW_STATUSES]) &&
+            is_array($requiredPermissions[self::ALLOWED_REVIEW_STATUSES])
+        ) {
+            $allowedStatuses = $requiredPermissions[self::ALLOWED_REVIEW_STATUSES];
+        }
+
         $empNumber = $this->getEmployeeNumber();
-        return $this->getPerformanceReviewService()->getPerformanceReviewDao()->getSelfReviewIds($empNumber);
+        return $this->getPerformanceReviewService()
+            ->getPerformanceReviewDao()
+            ->getSelfReviewIds($empNumber, $allowedStatuses);
     }
 
     /**

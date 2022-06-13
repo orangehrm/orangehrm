@@ -389,6 +389,31 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
+     * @param PerformanceReview $performanceReview
+     * @return PerformanceReview
+     */
+    public function savePerformanceReview(PerformanceReview $performanceReview): PerformanceReview
+    {
+        $this->persist($performanceReview);
+        return $performanceReview;
+    }
+
+    /**
+     * @param int $reviewId
+     */
+    public function setReviewerStatusToCompleted(int $reviewId): void
+    {
+        $qb = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+        $qb->update()
+            ->set('reviewer.status', ':status')
+            ->setParameter('status', Reviewer::STATUS_COMPLETED)
+            ->andWhere($qb->expr()->eq('reviewer.review', ':reviewId'))
+            ->setParameter('reviewId', $reviewId);
+
+        $qb->getQuery()->execute();
+    }
+
+    /**
      * @param int $supervisorEmpNumber
      * @return int[]
      */
@@ -418,21 +443,30 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getReviewIdList(): array
     {
+        // TODO check purged employee permissions
         $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        $qb->select('performanceReview.id');
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
     /**
      * @param int $employeeNumber
+     * @param array|null $allowedStatuses
      * @return int[]
      */
-    public function getSelfReviewIds(int $employeeNumber): array
+    public function getSelfReviewIds(int $employeeNumber, ?array $allowedStatuses = []): array
     {
         $q = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        $q->select('performanceReview.id');
         $q->andWhere($q->expr()->eq('performanceReview.employee', ':empNumber'))
             ->setParameter('empNumber', $employeeNumber);
-        $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
-            ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
+        if (empty($allowedStatuses)) {
+            $q->andWhere($q->expr()->neq('performanceReview.statusId', ':statusId'))
+                ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
+        } else {
+            $q->andWhere($q->expr()->in('performanceReview.statusId', ':statuses'))
+                ->setParameter('statuses', $allowedStatuses);
+        }
 
         return array_column($q->getQuery()->getArrayResult(), 'id');
     }
