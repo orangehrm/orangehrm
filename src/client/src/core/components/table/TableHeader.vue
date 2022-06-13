@@ -68,3 +68,10 @@ export default {
   emits: ['delete'],
 };
 </script>
+
+<style scoped>
+.oxd-divider {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+</style>

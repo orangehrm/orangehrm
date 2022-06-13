@@ -183,7 +183,7 @@ export default {
   grid-column-start: 1;
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.75rem;
 }
 .orangehrm-module-field-label {
   @include oxd-input-control();

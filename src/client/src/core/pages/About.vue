@@ -33,33 +33,49 @@
       <oxd-loading-spinner />
     </div>
     <oxd-grid v-else :cols="2" class="orangehrm-about">
-      <oxd-text tag="p" class="orangehrm-about-title">
-        {{ $t('general.company_name') }}:
-      </oxd-text>
-      <oxd-text tag="p" class="orangehrm-about-text">
-        {{ data.companyName }}
-      </oxd-text>
-      <oxd-text tag="p" class="orangehrm-about-title">
-        {{ $t('general.version') }}:
-      </oxd-text>
-      <oxd-text tag="p" class="orangehrm-about-text">
-        {{ data.productName }} {{ data.version }}
-      </oxd-text>
-      <template v-if="data.numberOfActiveEmployee !== undefined">
+      <oxd-grid-item>
         <oxd-text tag="p" class="orangehrm-about-title">
-          {{ $t('general.active_employees') }}:
+          {{ $t('general.company_name') }}:
         </oxd-text>
+      </oxd-grid-item>
+      <oxd-grid-item>
         <oxd-text tag="p" class="orangehrm-about-text">
-          {{ data.numberOfActiveEmployee }}
+          {{ data.companyName }}
         </oxd-text>
+      </oxd-grid-item>
+      <oxd-grid-item>
+        <oxd-text tag="p" class="orangehrm-about-title">
+          {{ $t('general.version') }}:
+        </oxd-text>
+      </oxd-grid-item>
+      <oxd-grid-item>
+        <oxd-text tag="p" class="orangehrm-about-text">
+          {{ data.productName }} {{ data.version }}
+        </oxd-text>
+      </oxd-grid-item>
+      <template v-if="data.numberOfActiveEmployee !== undefined">
+        <oxd-grid-item>
+          <oxd-text tag="p" class="orangehrm-about-title">
+            {{ $t('general.active_employees') }}:
+          </oxd-text>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-text tag="p" class="orangehrm-about-text">
+            {{ data.numberOfActiveEmployee }}
+          </oxd-text>
+        </oxd-grid-item>
       </template>
       <template v-if="data.numberOfPastEmployee !== undefined">
-        <oxd-text tag="p" class="orangehrm-about-title">
-          {{ $t('general.employees_terminated') }}:
-        </oxd-text>
-        <oxd-text tag="p" class="orangehrm-about-text">
-          {{ data.numberOfPastEmployee }}
-        </oxd-text>
+        <oxd-grid-item>
+          <oxd-text tag="p" class="orangehrm-about-title">
+            {{ $t('general.employees_terminated') }}:
+          </oxd-text>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-text tag="p" class="orangehrm-about-text">
+            {{ data.numberOfPastEmployee }}
+          </oxd-text>
+        </oxd-grid-item>
       </template>
     </oxd-grid>
   </oxd-dialog>

@@ -3,7 +3,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  padding: 1.2rem;
+  padding: 25px;
   align-items: center;
   & .oxd-button {
     white-space: nowrap;
@@ -28,7 +28,7 @@
 .orangehrm-card-container {
   background-color: $oxd-white-color;
   border-radius: 1.2rem;
-  padding: 1.2rem;
+  padding: 25px;
 }
 
 .orangehrm-container {
@@ -55,22 +55,22 @@
 }
 
 .orangehrm-horizontal-padding {
-  padding-left: 1.2rem;
-  padding-right: 1.2rem;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .orangehrm-vertical-padding {
-  padding-top: 1.2rem;
-  padding-bottom: 1.2rem;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 .orangehrm-top-padding {
-  padding-top: 1.2rem;
+  padding-top: 25px;
 }
 
 .orangehrm-horizontal-margin {
-  margin-left: 1.2rem;
-  margin-right: 1.2rem;
+  margin-left: 25px;
+  margin-right: 25px;
 }
 
 .orangehrm-bottom-container {
@@ -78,16 +78,12 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-end;
-  padding: 1.2rem;
+  padding: 25px;
 }
 
 .orangehrm-background-container {
   padding: 1.5rem 0;
   flex: 1;
-}
-
-.orangehrm-full-width-grid {
-  width: 100%;
 }
 
 .orangehrm-input-hint {

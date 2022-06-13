@@ -37,7 +37,7 @@
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-membership>
-    <div class="orangehrm-horizontal-padding orangehrm-top-padding">
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
         {{ $t('pim.assigned_memberships') }}
       </profile-action-header>

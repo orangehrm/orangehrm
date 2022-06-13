@@ -35,29 +35,37 @@
     <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-grid :cols="3">
-        <oxd-input-group :label="$t('general.employee_name')">
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ employeeName }}
-          </oxd-text>
-        </oxd-input-group>
-        <oxd-input-group
-          class="--offset-column-1"
-          :label="$t('leave.leave_type')"
-        >
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ leaveType }}
-          </oxd-text>
-        </oxd-input-group>
-        <oxd-input-group :label="$t('leave.total_entitlement')">
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ totalEntitlement }}
-          </oxd-text>
-        </oxd-input-group>
-        <oxd-input-group :label="$t('leave.balance')">
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ leaveBalance }}
-          </oxd-text>
-        </oxd-input-group>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('general.employee_name')">
+            <oxd-text class="orangehrm-leave-balance-text" tag="p">
+              {{ employeeName }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group
+            class="--offset-column-1"
+            :label="$t('leave.leave_type')"
+          >
+            <oxd-text class="orangehrm-leave-balance-text" tag="p">
+              {{ leaveType }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('leave.total_entitlement')">
+            <oxd-text class="orangehrm-leave-balance-text" tag="p">
+              {{ totalEntitlement }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('leave.balance')">
+            <oxd-text class="orangehrm-leave-balance-text" tag="p">
+              {{ leaveBalance }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
       </oxd-grid>
     </div>
     <div class="orangehrm-container">
