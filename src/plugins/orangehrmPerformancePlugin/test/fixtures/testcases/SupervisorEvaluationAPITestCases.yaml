@@ -1,4 +1,63 @@
 GetAll:
+  'Get all ratings for supervisor own supervisor review that has reviewer ratings':
+    userId: 4
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 2
+    data:
+      0:
+        "id": 1
+        "rating": "2.00"
+        "comment": "test"
+        "kpi":
+          "id": 4
+      1:
+        "id": 2
+        "rating": "2.00"
+        "comment": "test2"
+        "kpi":
+          "id": 5
+    meta:
+      total: 2
+      kpis:
+        0:
+          "id": 4
+          "title": "A"
+          "jobTitle":
+            "id": 2
+            "name": "Senior Software Engineer"
+            "deleted": false
+          "minRating": 0
+          "maxRating": 100
+          "isDefault": null
+        1:
+          "id": 5
+          "title": "B"
+          "jobTitle":
+            "id": 2
+            "name": "Senior Software Engineer"
+            "deleted": false
+          "minRating": 0
+          "maxRating": 100
+          "isDefault": null
+      reviewer:
+        0:
+          "id": 4
+          "employee":
+            "empNumber": 3
+            "lastName": "Choi"
+            "firstName": "Seungcheol"
+            "middleName": ''
+            "employeeId": "0003"
+            "terminationId": null
+
   'Get all ratings for invalid supervisor review':
     userId: 2
     services:
@@ -71,67 +130,6 @@ GetAll:
             "middleName": ''
             "employeeId": "0003"
             "terminationId": null
-      ratingEditable: true
-
-  'Get all ratings for supervisor own supervisor review that has reviewer ratings':
-    userId: 4
-    services:
-      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      reviewId: 2
-    data:
-      0:
-        "id": 1
-        "rating": "2.00"
-        "comment": "test"
-        "kpi":
-          "id": 4
-      1:
-        "id": 2
-        "rating": "2.00"
-        "comment": "test2"
-        "kpi":
-          "id": 5
-    meta:
-      total: 2
-      kpis:
-        0:
-          "id": 4
-          "title": "A"
-          "jobTitle":
-            "id": 2
-            "name": "Senior Software Engineer"
-            "deleted": false
-          "minRating": 0
-          "maxRating": 100
-          "isDefault": null
-        1:
-          "id": 5
-          "title": "B"
-          "jobTitle":
-            "id": 2
-            "name": "Senior Software Engineer"
-            "deleted": false
-          "minRating": 0
-          "maxRating": 100
-          "isDefault": null
-      reviewer:
-        0:
-          "id": 4
-          "employee":
-            "empNumber": 3
-            "lastName": "Choi"
-            "firstName": "Seungcheol"
-            "middleName": ''
-            "employeeId": "0003"
-            "terminationId": null
-      ratingEditable: true
 
   'Get all ratings for complete review':
     userId: 1
@@ -175,7 +173,6 @@ GetAll:
             "middleName": ''
             "employeeId": "0003"
             "terminationId": null
-      ratingEditable: false
 
 
 Update:
@@ -239,52 +236,6 @@ Update:
           "rating": 2
           "comment": "Test logs create"
     invalidOnly: [ 'ratings' ]
-
-  'reviewer ratings without actionable state(Inactive review)':
-    userId: 1
-    services:
-      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      reviewId: 7
-    body:
-      ratings:
-        0:
-          "kpiId": 6
-          "rating": 20
-          "comment": "Test logs create"
-    exception:
-      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
-      message: 'Unauthorized'
-
-  'reviewer ratings without actionable state(Completed review)':
-    userId: 1
-    services:
-      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      reviewId: 8
-    body:
-      ratings:
-        0:
-          "kpiId": 6
-          "rating": 20
-          "comment": "Test logs create"
-    exception:
-      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
-      message: 'Unauthorized'
 
   'valid KPI with new reviewer ratings':
     userId: 1

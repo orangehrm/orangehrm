@@ -36,6 +36,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\Entity\ReviewerGroup;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
@@ -57,7 +58,6 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
 
     public const PARAMETER_REVIEW_ID = 'reviewId';
-    public const PARAMETER_RATING_EDITABLE = 'ratingEditable';
     public const PARAMETER_KPIS = 'kpis';
     public const PARAMETER_RATINGS = 'ratings';
     public const PARAMETER_RATING = 'rating';
@@ -94,7 +94,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceReviewDao()->getSupervisorRatingCount($supervisorParamHolder);
         $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->getPerformanceReviewById($supervisorParamHolder->getReviewId());
-        $editable = $this->checkActionAllowed($review);
+
         return new EndpointCollectionResult(
             ReviewerRatingModel::class,
             $ratings,
@@ -102,7 +102,6 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_TOTAL => $ratingCount,
                 self::PARAMETER_KPIS => $this->getKpisForReview(),
                 self::PARAMETER_REVIEWERS => $this->getSupervisorReviewerForReviewRating(),
-                self::PARAMETER_RATING_EDITABLE => $editable,
             ])
         );
     }
@@ -253,7 +252,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ->updateReviewerStatus(
                     $review,
                     ReviewerGroup::REVIEWER_GROUP_SUPERVISOR,
-                    self::ACTION_IN_PROGRESS
+                    Reviewer::STATUS_IN_PROGRESS
                 );
             $reviewRatings = $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getSupervisorRating($supervisorParamHolder);
@@ -300,7 +299,6 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             WorkflowStateMachine::FLOW_REVIEW,
             $currentState
         );
-
         $hasPermission = false;
         foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
             if ($allowedWorkflowItem->getResultingState() == self::ACTION_COMPLETE || $allowedWorkflowItem->getResultingState() == self::ACTION_IN_PROGRESS) {
