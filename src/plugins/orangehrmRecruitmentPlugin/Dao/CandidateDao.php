@@ -25,6 +25,7 @@ use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Interview;
+use OrangeHRM\Entity\InterviewInterviewer;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
@@ -293,5 +294,51 @@ class CandidateDao extends BaseDao
     public function getInterviewById(int $interviewId)
     {
         return $this->getRepository(Interview::class)->find($interviewId);
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getCandidateListForInterviewer(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewerInterview');
+        $q->leftJoin('interviewerInterview.interview', 'interview');
+        $q->leftJoin('interview.candidate', 'candidate');
+        $q->select('candidate.id');
+        $q->andWhere('interviewerInterview.interviewer = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getInterviewListForInterviewer(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewInterviewer');
+        $q->leftJoin('interviewInterviewer.interview', 'interview');
+        $q->select('interview.id');
+        $q->andWhere('interviewInterviewer.interviewer = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    public function isInterviewer(?int $empNumber): bool
+    {
+        if (is_null($empNumber)) {
+            return false;
+        }
+        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewInterviewer')
+            ->andWhere('interviewInterviewer.interviewer = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        return $this->getPaginator($q)->count() > 0;
     }
 }

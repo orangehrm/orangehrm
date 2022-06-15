@@ -19,20 +19,24 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\Interview;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class InterviewerUserRole extends AbstractUserRole
 {
+    use CandidateServiceTrait;
+
     /**
      * @inheritDoc
      */
     protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
         switch ($entityType) {
-            case 'Vacancy':
-                // TODO:: implement and remove below line
-                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
-                return $this->getAccessibleVacancyIds($requiredPermissions);
+            case Candidate::class:
+                return $this->getAccessibleCandidateIds($requiredPermissions);
+            case Interview::class:
+                return $this->getAccessibleInterviewIds($requiredPermissions);
             default:
                 return [];
         }
@@ -42,8 +46,21 @@ class InterviewerUserRole extends AbstractUserRole
      * @param array $requiredPermissions
      * @return int[]
      */
-    protected function getAccessibleVacancyIds(array $requiredPermissions = []): array
+    private function getAccessibleCandidateIds(array $requiredPermissions = []): array
     {
-        return $this->getVacancyService()->getVacancyIdListForInterviewer($this->getEmployeeNumber());
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateListForInterviewer($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleInterviewIds(array $requiredPermissions): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getInterviewListForInterviewer($this->getEmployeeNumber());
     }
 }
