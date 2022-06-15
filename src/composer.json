@@ -33,7 +33,8 @@
         "guzzlehttp/guzzle": "~7.4",
         "symfony/translation": "~5.4",
         "symfony/polyfill-intl-messageformatter": "^1.24",
-        "symfony/process": "^5.4"
+        "symfony/process": "^5.4",
+        "scssphp/scssphp": "^1.10"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

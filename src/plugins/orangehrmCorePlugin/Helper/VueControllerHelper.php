@@ -316,29 +316,7 @@ class VueControllerHelper
                 . '/admin/theme/image/clientBanner?' . $this->getAssetsVersion();
         }
 
-        $variables = $this->getThemeService()->getCurrentThemeVariables();
-        $themeVariables = [
-            '--oxd-primary-one-color' => $variables['primaryColor'],
-            '--oxd-primary-font-color' => $variables['primaryFontColor'],
-            '--oxd-secondary-four-color' => $variables['secondaryColor'],
-            '--oxd-secondary-font-color' => $variables['secondaryFontColor'],
-            '--oxd-primary-gradient-start-color' => $variables['primaryGradientStartColor'],
-            '--oxd-primary-gradient-end-color' => $variables['primaryGradientEndColor'],
-            // TODO:: calculate below variables
-            '--oxd-primary-one-lighten-5-color' => '#FF8A37',
-            '--oxd-primary-one-lighten-30-color' => '#FFD4B6',
-            '--oxd-primary-one-darken-5-color' => '#FF6C04',
-            '--oxd-secondary-four-lighten-5-color' => '#84D225',
-            '--oxd-secondary-four-darken-5-color' => '#68A61D',
-            '--oxd-primary-one-alpha-10-color' => 'rgba(255, 123, 29, 0.1)',
-            '--oxd-primary-one-alpha-15-color' => 'rgba(255, 123, 29, 0.15)',
-            '--oxd-primary-one-alpha-20-color' => 'rgba(255, 123, 29, 0.2)',
-            '--oxd-primary-one-alpha-50-color' => 'rgba(255, 123, 29, 0.5)',
-            '--oxd-secondary-four-alpha-10-color' => 'rgba(118, 188, 33, 0.1)',
-            '--oxd-secondary-four-alpha-15-color' => 'rgba(118, 188, 33, 0.15)',
-            '--oxd-secondary-four-alpha-20-color' => 'rgba(118, 188, 33, 0.2)',
-            '--oxd-secondary-four-alpha-50-color' => 'rgba(118, 188, 33, 0.5)',
-        ];
+        $themeVariables = $this->getThemeService()->getCurrentThemeVariables();
 
         return [$clientLogoUrl, $clientBannerUrl, $themeVariables];
     }
