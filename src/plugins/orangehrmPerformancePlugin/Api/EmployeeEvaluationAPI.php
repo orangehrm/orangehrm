@@ -184,7 +184,7 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_COMPLETE
         );
-        $status = !$action ?  Reviewer::STATUS_IN_PROGRESS : Reviewer::STATUS_COMPLETED;
+        $status = !$action ? Reviewer::STATUS_IN_PROGRESS : Reviewer::STATUS_COMPLETED;
         $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->updateReviewerStatus(
                 $review,
