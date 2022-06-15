@@ -15,31 +15,25 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
+namespace OrangeHRM\CorporateBranding\Controller;
 
-class ThemeDaoTest extends PHPUnit_Framework_TestCase {
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\EmpPicture;
+use OrangeHRM\Framework\Http\Request;
 
-    private $themeDao;
-    private $fixture;
-
-    protected function setUp() {
-        $this->themeDao = new ThemeDao();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorporateBrandingPlugin/test/fixtures/ThemeDao.yml';
-        TestDataService::populate($this->fixture);
+class CorporateBrandingController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('corporate-branding');
+        $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
+        $this->setComponent($component);
     }
-
-    public function testGetVariablesByThemeName() {
-        $themeName = "jaguar";
-        $result = $this->themeDao->getVariablesByThemeName($themeName);
-        $variables = json_decode($result,true);
-        $this->assertEquals('#00bcff', $variables['primaryColor']);
-        $this->assertEquals('#11394f', $variables['secondaryColor']);
-        $this->assertEquals('#adff00', $variables['tableHeadingColor']);
-        $this->assertEquals('#00ddff', $variables['buttonSuccessColor']);
-        $this->assertEquals('#f2dddd', $variables['buttonCancelColor']);
-
-    }
-
 }

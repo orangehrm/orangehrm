@@ -62,7 +62,7 @@ class Migration extends AbstractMigration
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
-        $oldGroups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
+        $oldGroups = ['admin', 'general'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
@@ -140,8 +140,8 @@ class Migration extends AbstractMigration
 
         $this->insertReviewWorkflowStates();
         $this->insertSelfReviewWorkflowStates();
-
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
+        $this->modifyThemeTable();
     }
 
     /**
@@ -279,6 +279,103 @@ class Migration extends AbstractMigration
             ->setParameter('create', 0)
             ->setParameter('update', 1)
             ->setParameter('delete', 0)
+            ->executeQuery();
+    }
+
+    private function modifyThemeTable(): void
+    {
+        $this->getSchemaHelper()->dropColumn('ohrm_theme', 'social_media_icons');
+        $this->getSchemaHelper()
+            ->addColumn(
+                'ohrm_theme',
+                'show_social_media_icons',
+                Types::BOOLEAN,
+                ['Notnull' => true, 'Default' => true]
+            );
+        $this->getSchemaHelper()->renameColumn('ohrm_theme', 'main_logo', 'client_logo');
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_banner',
+            Types::BLOB,
+            ['Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_logo_filename',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_logo_file_type',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_logo_file_size',
+            Types::INTEGER,
+            ['Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_banner_filename',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_banner_file_type',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_banner_file_size',
+            Types::INTEGER,
+            ['Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'login_banner_filename',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'login_banner_file_type',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'login_banner_file_size',
+            Types::INTEGER,
+            ['Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->changeColumn(
+            'ohrm_theme',
+            'login_banner',
+            ['Notnull' => false, 'Default' => null]
+        );
+
+        $this->createQueryBuilder()
+            ->update('ohrm_theme')
+            ->set('ohrm_theme.variables', ':variables')
+            ->where('ohrm_theme.theme_name = :themeName')
+            ->setParameter(
+                'variables',
+                '{"primaryColor":"#FF7B1D","primaryFontColor":"#FFFFFF","secondaryColor":"#76BC21","secondaryFontColor":"#FFFFFF","primaryGradientStartColor":"#FF920B","primaryGradientEndColor":"#F35C17"}'
+            )
+            ->setParameter('themeName', 'default')
+            ->executeQuery();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_theme')
+            ->set('ohrm_theme.theme_name', ':newName')
+            ->where('ohrm_theme.theme_name = :currentName')
+            ->setParameter('currentName', 'custom')
+            ->setParameter('newName', 'custom_4x')
             ->executeQuery();
     }
 
