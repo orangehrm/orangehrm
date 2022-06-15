@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <oxd-input-group :message="message" :classes="classes">
+  <oxd-input-group
+    class="oxd-input-field-bottom-space"
+    :message="message"
+    :classes="classes"
+  >
     <oxd-label :label="label" :class="classes.label" />
     <oxd-color-input
       v-bind="$attrs"
@@ -116,5 +120,8 @@ export default {
 ::v-deep(.oxd-color-input) {
   padding: 2px;
   flex-shrink: 0;
+}
+.oxd-input-field-bottom-space {
+  margin-bottom: 1rem;
 }
 </style>
