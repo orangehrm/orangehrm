@@ -21,10 +21,10 @@
 <template>
   <oxd-dialog
     :gutters="false"
-    :style="{width: '90%', maxWidth: '600px'}"
+    class="orangehrm-dialog-modal"
     @update:show="onCancel"
   >
-    <div class="orangehrm-header-container">
+    <div class="orangehrm-dialog-header-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('leave.leave_balance_details') }}
       </oxd-text>
@@ -32,7 +32,9 @@
         {{ $t('leave.as_of_date') }} - {{ asAtDate }}
       </oxd-text>
     </div>
-    <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
+    <oxd-divider
+      class="orangehrm-dialog-horizontal-margin orangehrm-clear-margins"
+    />
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-grid :cols="3">
         <oxd-grid-item>

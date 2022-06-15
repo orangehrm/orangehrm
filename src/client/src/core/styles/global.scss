@@ -1,13 +1,21 @@
-.orangehrm-header-container {
+.orangehrm-header-container,
+.orangehrm-dialog-header-container {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  padding: 25px;
   align-items: center;
   & .oxd-button {
     white-space: nowrap;
   }
+}
+
+.orangehrm-header-container {
+  padding: 25px;
+}
+
+.orangehrm-dialog-header-container {
+  padding: 1.2rem;
 }
 
 .orangehrm-main-title {
@@ -59,9 +67,19 @@
   padding-right: 25px;
 }
 
+.orangehrm-dialog-horizontal-padding {
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+
 .orangehrm-vertical-padding {
   padding-top: 25px;
   padding-bottom: 25px;
+}
+
+.orangehrm-dialog-vertical-padding {
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
 }
 
 .orangehrm-top-padding {
@@ -71,6 +89,11 @@
 .orangehrm-horizontal-margin {
   margin-left: 25px;
   margin-right: 25px;
+}
+
+.orangehrm-dialog-horizontal-margin {
+  margin-left: 1.2rem;
+  margin-right: 1.2rem;
 }
 
 .orangehrm-bottom-container {
@@ -118,4 +141,13 @@
       width: 100%;
     }
   }
+}
+
+.orangehrm-dialog-modal {
+  width: 90%;
+  max-width: 600px;
+}
+
+.orangehrm-dialog-popup {
+  max-width: 450px;
 }
