@@ -34,10 +34,12 @@ use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Performance\Dto\SupervisorEvaluationSearchFilterParams;
+use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use PHPUnit\Exception;
 
 class PerformanceReviewDao extends BaseDao
 {
+    use PerformanceReviewServiceTrait;
     /**
      * @param ReviewEmployeeSupervisorSearchFilterParams $reviewEmployeeSupervisorSearchFilterParams
      * @return Employee[]
@@ -525,20 +527,6 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
-     * @param int $performanceReviewId
-     * @return Reviewer|null
-     */
-    public function getSupervisorReviewerForReview(int $performanceReviewId): ?Reviewer
-    {
-        $supervisorGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(
-            ['name' => ReviewerGroup::REVIEWER_GROUP_SUPERVISOR]
-        );
-        return $this->getRepository(Reviewer::class)->findOneBy(
-            ['review' => $performanceReviewId, 'group' => $supervisorGroup]
-        );
-    }
-
-    /**
      * @param int $reviewId
      * @return array
      */
@@ -587,7 +575,7 @@ class PerformanceReviewDao extends BaseDao
         $updatableReviewerRatings = [];
         foreach ($q->getQuery()->execute() as $updatableReviewerRating) {
             /** @var ReviewerRating $updatableReviewerRating */
-            $itemKey = $this->generateReviewReviewerRatingKey(
+            $itemKey = $this->getPerformanceReviewService()->generateReviewReviewerRatingKey(
                 $updatableReviewerRating->getReviewer()->getId(),
                 $updatableReviewerRating->getPerformanceReview()->getId(),
                 $updatableReviewerRating->getKpi()->getId()
@@ -607,19 +595,6 @@ class PerformanceReviewDao extends BaseDao
             }
             $this->getEntityManager()->flush();
         }
-    }
-
-    /**
-     * @param int $reviewerId
-     * @param int $performanceReviewId
-     * @param int $kpiId
-     * @return string
-     */
-    public function generateReviewReviewerRatingKey(int $reviewerId, int $performanceReviewId, int $kpiId): string
-    {
-        return $reviewerId . '_' .
-            $performanceReviewId . '_' .
-            $kpiId . '_';
     }
 
     /**

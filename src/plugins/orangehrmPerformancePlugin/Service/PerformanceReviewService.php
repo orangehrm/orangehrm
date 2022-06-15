@@ -121,7 +121,7 @@ class PerformanceReviewService
         $reviewer = $this->performanceReviewDao->getReviewerRecord($review->getId(), $reviewerGroupName);
 
         foreach ($rows as $row) {
-            $itemKey = $this->getPerformanceReviewDao()->generateReviewReviewerRatingKey(
+            $itemKey = $this->generateReviewReviewerRatingKey(
                 $reviewer->getId(),
                 $review->getId(),
                 $row['kpiId'],
@@ -135,5 +135,18 @@ class PerformanceReviewService
             $ratings[$itemKey] = $reviewerRating;
         }
         return $ratings;
+    }
+
+    /**
+     * @param int $reviewerId
+     * @param int $performanceReviewId
+     * @param int $kpiId
+     * @return string
+     */
+    public function generateReviewReviewerRatingKey(int $reviewerId, int $performanceReviewId, int $kpiId): string
+    {
+        return $reviewerId . '_' .
+            $performanceReviewId . '_' .
+            $kpiId . '_';
     }
 }

@@ -37,6 +37,7 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
     public const ACTION_SELF_IN_PROGRESS = 'SELF IN PROGRESS';
     public const ACTION_SUPERVISOR_UPDATED = 'SUPERVISOR UPDATED';
     public const ACTION_SELF_COMPLETED = 'SELF COMPLETED';
+
     public const PARAMETER_COMPLETE = 'complete';
 
     public const ACTIONABLE_STATES_MAP = [
@@ -91,7 +92,7 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
      */
     protected function getAllowedActions(PerformanceReview $review): ?array
     {
-        if ($review->getStatusId() == 4) {
+        if ($review->getStatusId() == PerformanceReview::STATUS_COMPLETED) {
             return null;
         }
 
@@ -155,7 +156,7 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
     protected function checkActionAllowed(PerformanceReview $review): bool
     {
         $hasPermission = false;
-        if ($review->getStatusId() == 4) {
+        if ($review->getStatusId() == PerformanceReview::STATUS_COMPLETED) {
             return false;
         }
 
@@ -183,11 +184,7 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_COMPLETE
         );
-        if (!$action) {
-            $status = Reviewer::STATUS_IN_PROGRESS;
-        } else {
-            $status = Reviewer::STATUS_COMPLETED;
-        }
+        $status = !$action ?  Reviewer::STATUS_IN_PROGRESS : Reviewer::STATUS_COMPLETED;
         $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->updateReviewerStatus(
                 $review,
