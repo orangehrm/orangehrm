@@ -22,14 +22,14 @@
   <teleport to="#app">
     <oxd-dialog
       v-if="show"
-      :style="{maxWidth: '450px'}"
+      class="orangehrm-dialog-popup"
       @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
         <oxd-text type="card-title">{{ $t('general.are_you_sure') }}</oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
-        <oxd-text type="subtitle-2">
+        <oxd-text type="card-body">
           {{ $t('general.delete_confirmation_message') }}
         </oxd-text>
       </div>
