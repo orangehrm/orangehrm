@@ -94,6 +94,7 @@
     </testsuite>
     <testsuite name="CorporateBranding">
       <directory>src/plugins/orangehrmCorporateBrandingPlugin/test/Dao</directory>
+      <directory>src/plugins/orangehrmCorporateBrandingPlugin/test/Service</directory>
     </testsuite>
   </testsuites>
 </phpunit>

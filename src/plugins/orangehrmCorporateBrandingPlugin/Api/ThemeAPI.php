@@ -192,7 +192,8 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         $currentAttachmentRule = new Rule(
-            Rules::IN, [[self::REPLACE_CURRENT, self::KEEP_CURRENT, self::DELETE_CURRENT]]
+            Rules::IN,
+            [[self::REPLACE_CURRENT, self::KEEP_CURRENT, self::DELETE_CURRENT]]
         );
         $paramRules = new ParamRuleCollection(
             new ParamRule(self::PARAMETER_VARIABLES, new Rule(Rules::ARRAY_TYPE)),
