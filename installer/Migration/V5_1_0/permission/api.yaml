@@ -156,7 +156,7 @@ apiv2_performance_review_allowed_actions:
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
-apiv2_performance_review_supervisor_evaluation_list:
+apiv2_performance_review_supervisor_evaluation:
   description: 'API-v2 Performance - Performance Review Supervisor Evaluation'
   api: OrangeHRM\Performance\Api\SupervisorEvaluationAPI
   module: performance
@@ -169,6 +169,20 @@ apiv2_performance_review_supervisor_evaluation_list:
     - { role: Admin, permission: { read: true,  create: false, update: true, delete: false } }
     - { role: Supervisor, permission: { read: true,  create: false, update: true, delete: false } }
     - { role: ESS, permission: { read: true,  create: false, update: false, delete: false } }
+
+apiv2_performance_review_employee_evaluation:
+  description: 'API-v2 Performance - Performance Review Employee Evaluation'
+  api: OrangeHRM\Performance\Api\EmployeeEvaluationAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true,  create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true,  create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true,  create: false, update: true, delete: false } }
 
 apiv2_performance_review_final_evaluation:
   description: 'API-v2 Performance - Performance Review Final Evaluation'

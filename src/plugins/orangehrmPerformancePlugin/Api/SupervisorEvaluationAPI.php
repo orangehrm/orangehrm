@@ -24,7 +24,8 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Model\WorkflowStateModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -38,9 +39,10 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\Entity\ReviewerGroup;
+use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
-use OrangeHRM\Performance\Api\Model\KpiModel;
+use OrangeHRM\Performance\Api\Model\KpiSummaryModel;
 use OrangeHRM\Performance\Api\Model\ReviewerModel;
 use OrangeHRM\Performance\Api\Model\ReviewerRatingModel;
 use OrangeHRM\Performance\Api\ValidationRules\ReviewReviewerRatingParamRule;
@@ -64,9 +66,17 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_KPI_ID = 'kpiId';
     public const PARAMETER_REVIEWERS = 'reviewer';
+    public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
     public const STATE_INITIAL = 'INITIAL';
     public const ACTION_IN_PROGRESS = 'IN PROGRESS';
     public const ACTION_COMPLETE = 'COMPLETE';
+
+    public const ACTIONABLE_STATES_MAP = [
+        WorkflowStateMachine::REVIEW_INACTIVE_SAVE => 'saveDraft',
+        WorkflowStateMachine::REVIEW_ACTIVATE => 'activate',
+        WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE => 'save',
+        WorkflowStateMachine::REVIEW_COMPLETE => 'complete'
+    ];
 
     public const WORKFLOW_STATES_MAP = [
         WorkflowStateMachine::REVIEW_INACTIVE_SAVE => 'SAVED',
@@ -88,12 +98,12 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             )
         );
         $this->setSortingAndPaginationParams($supervisorParamHolder);
-        $ratings = $this->getPerformanceReviewService()
-            ->getPerformanceReviewDao()->getSupervisorRating($supervisorParamHolder);
-        $ratingCount = $this->getPerformanceReviewService()
-            ->getPerformanceReviewDao()->getSupervisorRatingCount($supervisorParamHolder);
         $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->getPerformanceReviewById($supervisorParamHolder->getReviewId());
+        $allowedActions = $this->getAllowedActions($review);
+        $ratings = $this->getReviewerRatings($supervisorParamHolder);
+        $ratingCount = $this->getReviewerRatingCount($supervisorParamHolder);
+
 
         return new EndpointCollectionResult(
             ReviewerRatingModel::class,
@@ -101,7 +111,8 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             new ParameterBag([
                 CommonParams::PARAMETER_TOTAL => $ratingCount,
                 self::PARAMETER_KPIS => $this->getKpisForReview(),
-                self::PARAMETER_REVIEWERS => $this->getSupervisorReviewerForReviewRating(),
+                self::PARAMETER_REVIEWERS => $this->getReviewerForReviewRating(),
+                self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
             ])
         );
     }
@@ -117,6 +128,48 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ReviewKpiSearchFilterParams::ALLOWED_SORT_FIELDS
             )
         );
+    }
+
+    /**
+     * @param PerformanceReview $review
+     * @return array|null
+     */
+    protected function getAllowedActions(PerformanceReview $review): ?array
+    {
+        $currentState = self::WORKFLOW_STATES_MAP[$this->getPerformanceReviewStatus($review)];
+
+        $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_REVIEW,
+            $currentState
+        );
+
+        foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
+            $allowedWorkflowItem->setAction(self::ACTIONABLE_STATES_MAP[$allowedWorkflowItem->getAction()]);
+        }
+        return $this->getNormalizerService()->normalizeArray(
+            WorkflowStateModel::class,
+            $allowedWorkflowItems,
+        );
+    }
+
+    /**
+     * @param SupervisorEvaluationSearchFilterParams $evaluationParamHolder
+     * @return ReviewerRating[]
+     */
+    protected function getReviewerRatings(SupervisorEvaluationSearchFilterParams $evaluationParamHolder): array
+    {
+        return $this->getPerformanceReviewService()
+            ->getPerformanceReviewDao()->getReviewerRating($evaluationParamHolder, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+    }
+
+    /**
+     * @param SupervisorEvaluationSearchFilterParams $evaluationParamHolder
+     * @return int
+     */
+    protected function getReviewerRatingCount(SupervisorEvaluationSearchFilterParams $evaluationParamHolder): int
+    {
+        return $this->getPerformanceReviewService()
+            ->getPerformanceReviewDao()->getReviewerRatingCount($evaluationParamHolder, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
     }
 
     /**
@@ -145,7 +198,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         );
         $this->setSortingAndPaginationParams($reviewKpiParamHolder);
         return $this->getNormalizerService()->normalizeArray(
-            KpiModel::class,
+            KpiSummaryModel::class,
             $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getKpisForReview($reviewKpiParamHolder)
         );
@@ -154,14 +207,14 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     /**
      * @return array
      */
-    private function getSupervisorReviewerForReviewRating(): array
+    protected function getReviewerForReviewRating(): array
     {
         $reviewId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_REVIEW_ID
         );
 
-        return $this->getNormalizerService()->normalizeArray(
+        return $this->getNormalizerService()->normalize(
             ReviewerModel::class,
             $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getReviewerRecord($reviewId, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR)
@@ -239,35 +292,41 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ->getReviewById($reviewId);
 
             $actionAllowed = $this->checkActionAllowed($review);
-            if (! $actionAllowed) {
+            if (!$actionAllowed) {
                 throw $this->getForbiddenException();
             }
 
-            $ratings = $this->getRequestParams()
-                ->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_RATINGS);
+            $this->setReviewRatingsParams($review);
+            $this->updateReviewerStatus($review);
 
-            $kpisForReview = $this->getKpisForReview();
-            $this->getPerformanceReviewService()->saveAndUpdateReviewRatings($review, $ratings, $kpisForReview);
-            $this->getPerformanceReviewService()->getPerformanceReviewDao()
-                ->updateReviewerStatus(
-                    $review,
-                    ReviewerGroup::REVIEWER_GROUP_SUPERVISOR,
-                    Reviewer::STATUS_IN_PROGRESS
-                );
-            $reviewRatings = $this->getPerformanceReviewService()->getPerformanceReviewDao()
-                ->getSupervisorRating($supervisorParamHolder);
+            $reviewRatings = $this->getReviewerRatings($supervisorParamHolder);
             $this->commitTransaction();
             return new EndpointCollectionResult(
                 ReviewerRatingModel::class,
                 $reviewRatings
             );
-        } catch (BadRequestException $e) {
+        } catch (ForbiddenException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
+    }
+
+    /**
+     * @param PerformanceReview $review
+     * @return void
+     */
+    protected function setReviewRatingsParams(PerformanceReview $review): void
+    {
+        $ratings = $this->getRequestParams()
+            ->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_RATINGS);
+        $this->getPerformanceReviewService()->saveAndUpdateReviewRatings(
+            $review,
+            $ratings,
+            ReviewerGroup::REVIEWER_GROUP_SUPERVISOR
+        );
     }
 
     /**
@@ -307,6 +366,20 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             }
         }
         return $hasPermission;
+    }
+
+    /**
+     * @param PerformanceReview $review
+     * @return void
+     */
+    protected function updateReviewerStatus(PerformanceReview $review): void
+    {
+        $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->updateReviewerStatus(
+                $review,
+                ReviewerGroup::REVIEWER_GROUP_EMPLOYEE,
+                Reviewer::STATUS_IN_PROGRESS
+            );
     }
 
     /**

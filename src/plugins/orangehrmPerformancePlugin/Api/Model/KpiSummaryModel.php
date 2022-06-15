@@ -21,43 +21,29 @@ namespace OrangeHRM\Performance\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\Reviewer;
+use OrangeHRM\Entity\Kpi;
 
-class ReviewerModel implements Normalizable
+class KpiSummaryModel implements Normalizable
 {
     use ModelTrait;
 
-    public function __construct(Reviewer $reviewer)
+    public function __construct(Kpi $kpi)
     {
-        $this->setEntity($reviewer);
+        $this->setEntity($kpi);
         $this->setFilters(
             [
                 'id',
-                ['getEmployee', 'getEmpNumber'],
-                ['getEmployee', 'getLastName'],
-                ['getEmployee', 'getFirstName'],
-                ['getEmployee', 'getMiddleName'],
-                ['getEmployee', 'getEmployeeId'],
-                ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
-                ['getEmployee', 'getJobTitle', 'getId'],
-                ['getEmployee', 'getJobTitle', 'getJobTitleName'],
-                ['getEmployee','getJobTitle', 'isDeleted'],
-                'status'
+                'title',
+                'minRating',
+                'maxRating',
             ]
         );
         $this->setAttributeNames(
             [
                 'id',
-                ['employee','empNumber'],
-                ['employee','lastName'],
-                ['employee','firstName'],
-                ['employee','middleName'],
-                ['employee','employeeId'],
-                ['employee','terminationId'],
-                ['employee','jobTitle','id'],
-                ['employee','jobTitle','name'],
-                ['employee','jobTitle', 'deleted'],
-                'status'
+                'title',
+                'minRating',
+                'maxRating',
             ]
         );
     }

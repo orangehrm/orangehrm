@@ -24,6 +24,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Entity\ReviewerRating;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Exception\ReviewServiceException;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -62,7 +63,7 @@ class PerformanceReviewService
     /**
      * @param PerformanceReview $performanceReview
      * @return PerformanceReview
-     * @throws ReviewServiceException
+     * @throws ReviewServiceException|TransactionException
      */
     public function updateActivateReview(PerformanceReview $performanceReview, int $reviewerEmpNumber): PerformanceReview
     {
@@ -96,23 +97,28 @@ class PerformanceReviewService
         }
     }
 
-    public function saveAndUpdateReviewRatings(PerformanceReview $review, array $ratings, array $kpisForReview): void
+    /**
+     * @param PerformanceReview $review
+     * @param array $ratings
+     * @param string $reviewerGroupName
+     * @return void
+     */
+    public function saveAndUpdateReviewRatings(PerformanceReview $review, array $ratings, string $reviewerGroupName): void
     {
-        $reviewerRatings = $this->createRatingsFromRows($review, $ratings, $kpisForReview);
+        $reviewerRatings = $this->createRatingsFromRows($review, $ratings, $reviewerGroupName);
         $this->getPerformanceReviewDao()->saveAndUpdateReviewerRatings($reviewerRatings);
     }
 
     /**
      * @param PerformanceReview $review
      * @param array $rows
+     * @param string $reviewerGroupName
      * @return array
      */
-    private function createRatingsFromRows(PerformanceReview $review, array $rows, array $kpisForReview): array
+    private function createRatingsFromRows(PerformanceReview $review, array $rows, string $reviewerGroupName): array
     {
         $ratings = [];
-        $reviewer = $this->getPerformanceReviewDao()->getSupervisorReviewerForReview(
-            $review->getId()
-        );
+        $reviewer = $this->performanceReviewDao->getReviewerRecord($review->getId(), $reviewerGroupName);
 
         foreach ($rows as $row) {
             $itemKey = $this->getPerformanceReviewDao()->generateReviewReviewerRatingKey(

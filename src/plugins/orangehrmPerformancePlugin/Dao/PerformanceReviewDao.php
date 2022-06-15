@@ -475,42 +475,43 @@ class PerformanceReviewDao extends BaseDao
      * @param SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
      * @return ReviewerRating[]
      */
-    public function getSupervisorRating(
-        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
+    public function getReviewerRating(
+        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams,
+        string $reviewerGroupName
     ): array {
-        /** @var ReviewerGroup $supervisorGroup */
-        $supervisorGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => 'Supervisor']);
+        $reviewerGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => $reviewerGroupName]);
         $qb = $this->getEvaluationRatingQueryBuilderWrapper(
             $supervisorEvaluationSearchFilterParams,
-            $supervisorGroup
+            $reviewerGroup
         )->getQueryBuilder();
         return $qb->getQuery()->execute();
     }
 
     /**
      * @param SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
+     * @param string $reviewerGroupName
      * @return int
      */
-    public function getSupervisorRatingCount(
-        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
+    public function getReviewerRatingCount(
+        SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams,
+        string $reviewerGroupName
     ): int {
-        /** @var ReviewerGroup $supervisorGroup */
-        $supervisorGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => 'Supervisor']);
+        $reviewerGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => $reviewerGroupName]);
         $qb = $this->getEvaluationRatingQueryBuilderWrapper(
             $supervisorEvaluationSearchFilterParams,
-            $supervisorGroup
+            $reviewerGroup
         )->getQueryBuilder();
         return $this->getPaginator($qb)->count();
     }
 
     /**
      * @param SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams
-     * @param ReviewerGroup $reviewGroup
+     * @param ReviewerGroup $reviewerGroup
      * @return QueryBuilderWrapper
      */
     private function getEvaluationRatingQueryBuilderWrapper(
         SupervisorEvaluationSearchFilterParams $supervisorEvaluationSearchFilterParams,
-        ReviewerGroup                          $reviewGroup
+        ReviewerGroup                          $reviewerGroup
     ): QueryBuilderWrapper {
         $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
         $qb->leftJoin('reviewerRating.performanceReview', 'performanceReview')
@@ -518,7 +519,7 @@ class PerformanceReviewDao extends BaseDao
             ->andWhere('performanceReview.id = :reviewId')
             ->setParameter('reviewId', $supervisorEvaluationSearchFilterParams->getReviewId())
             ->andWhere('reviewer.group = :group')
-            ->setParameter('group', $reviewGroup);
+            ->setParameter('group', $reviewerGroup);
         $this->setSortingAndPaginationParams($qb, $supervisorEvaluationSearchFilterParams);
         return $this->getQueryBuilderWrapper($qb);
     }
@@ -624,18 +625,17 @@ class PerformanceReviewDao extends BaseDao
     /**
      * @param int $performanceReviewId
      * @param string $reviewerGroupName
-     * @return ReportTo[]
+     * @return Reviewer
      */
-    public function getReviewerRecord(int $performanceReviewId, string $reviewerGroupName): array
+    public function getReviewerRecord(int $performanceReviewId, string $reviewerGroupName): Reviewer
     {
-        $qb = $this->createQueryBuilder(Reviewer::class, 'reviewer');
-        $qb->leftJoin('reviewer.review', 'performanceReview')
-            ->leftJoin('reviewer.group', 'reviewerGroup')
-            ->andWhere('performanceReview.id = :performanceReviewId')
-            ->setParameter('performanceReviewId', $performanceReviewId)
-            ->andWhere('reviewerGroup.name = :groupName')
-            ->setParameter('groupName', $reviewerGroupName);
-        return $qb->getQuery()->execute();
+        $reviewerGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(
+            ['name' => $reviewerGroupName]
+        );
+
+        return $this->getRepository(Reviewer::class)->findOneBy(
+            ['review' => $performanceReviewId, 'group' => $reviewerGroup]
+        );
     }
 
     /**

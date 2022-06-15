@@ -1,6 +1,6 @@
 GetAll:
-  'Get all ratings for supervisor own supervisor review that has reviewer ratings':
-    userId: 4
+  'Get all ratings for not completed employee review by admin':
+    userId: 1
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -11,55 +11,10 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       reviewId: 2
-    data:
-      0:
-        "id": 1
-        "rating": "2.00"
-        "comment": "test"
-        "kpi":
-          "id": 4
-      1:
-        "id": 2
-        "rating": "2.00"
-        "comment": "test2"
-        "kpi":
-          "id": 5
-    meta:
-      total: 2
-      kpis:
-        0:
-          "id": 4
-          "title": "A"
-          "minRating": 0
-          "maxRating": 100
-        1:
-          "id": 5
-          "title": "B"
-          "minRating": 0
-          "maxRating": 100
-      reviewer:
-        "id": 4
-        "employee":
-          "empNumber": 3
-          "lastName": "Choi"
-          "firstName": "Seungcheol"
-          "middleName": ''
-          "employeeId": "0003"
-          "terminationId": null
-          "jobTitle":
-            "id": 2
-            "name": "Senior Software Engineer"
-            "deleted": false
-        "status": 2
-      allowedActions:
-        0:
-          "action": 'save'
-          "name": 'Save'
-        1:
-          "action": 'complete'
-          "name": 'Complete'
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
 
-  'Get all ratings for invalid supervisor review':
+  'Get all ratings for self review by invalid supervisor':
     userId: 2
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
@@ -74,8 +29,8 @@ GetAll:
     exception:
       class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
 
-  'Get all ratings for Admin supervisor review that has no reviewer ratings':
-    userId: 1
+  'Get all ratings for review that has no self reviewer ratings':
+    userId: 5
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -87,7 +42,7 @@ GetAll:
     attributes:
       reviewId: 1
     data:
-        []
+      []
     meta:
       total: 0
       kpis:
@@ -107,19 +62,19 @@ GetAll:
           "minRating": 0
           "maxRating": 100
       reviewer:
-        "id": 2
-        "employee":
-          "empNumber": 3
-          "lastName": "Choi"
-          "firstName": "Seungcheol"
-          "middleName": ''
-          "employeeId": "0003"
-          "terminationId": null
-          "jobTitle":
-            "id": 2
-            "name": "Senior Software Engineer"
-            "deleted": false
-        "status": 2
+          "id": 1
+          "employee":
+            "empNumber": 10
+            "lastName": "Anuka"
+            "firstName": "Christopher"
+            "middleName": ''
+            "employeeId": "0014"
+            "terminationId": 1
+            "jobTitle":
+              "id": 1
+              "name": "Software Engineer"
+              "deleted": false
+          "status": 1
       allowedActions:
         0:
           "action": 'save'
@@ -128,7 +83,7 @@ GetAll:
           "action": 'complete'
           "name": 'Complete'
 
-  'Get all ratings for complete review':
+  'Get all ratings for completed self review':
     userId: 1
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
@@ -142,9 +97,9 @@ GetAll:
       reviewId: 8
     data:
       0:
-        "id": 3
+        "id": 6
         "rating": "2.00"
-        "comment": "testb2"
+        "comment": "testSelfb2"
         "kpi":
           "id": 6
     meta:
@@ -156,20 +111,23 @@ GetAll:
           "minRating": 0
           "maxRating": 100
       reviewer:
-        "id": 16
-        "employee":
-          "empNumber": 3
-          "lastName": "Choi"
-          "firstName": "Seungcheol"
-          "middleName": ''
-          "employeeId": "0003"
-          "terminationId": null
-          "jobTitle":
-            "id": 2
-            "name": "Senior Software Engineer"
-            "deleted": false
-        "status" : 4
-      allowedActions: []
+          "id": 15
+          "employee":
+            "empNumber": 6
+            "lastName": "Park"
+            "firstName": "Jihoon"
+            "middleName": ''
+            "employeeId": "0006"
+            "terminationId": null
+            "jobTitle":
+              "id": 1
+              "name": "Software Engineer"
+              "deleted": false
+          "status": 3
+      allowedActions:
+        0:
+          "action": 'supervisorUpdate'
+          "name": 'Supervisorupdate'
 
 Update:
   'Invalid User creating reviewer rating':
@@ -190,6 +148,7 @@ Update:
           "kpiId": 5
           "rating": 2
           "comment": "Test logs create"
+      "complete": false
     exception:
       class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
       message: 'Unauthorized'
@@ -211,6 +170,7 @@ Update:
         0:
           "rating": 2
           "comment": "Test logs create"
+      "complete": false
     invalidOnly: [ 'ratings' ]
 
   'Invalid KPI':
@@ -231,15 +191,17 @@ Update:
           "kpiId": 5
           "rating": 2
           "comment": "Test logs create"
+      "complete": false
     invalidOnly: [ 'ratings' ]
 
-  'valid KPI with new reviewer ratings':
+  'without complete parameter':
     userId: 1
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
@@ -251,16 +213,33 @@ Update:
           "kpiId": 6
           "rating": 20
           "comment": "Test logs create"
-    data:
-      0:
-        id: 4
-        "rating": 20
-        "comment": "Test logs create"
-        "kpi":
-          "id": 6
+    invalidOnly: [ 'complete' ]
+
+  'Admin trying to add new self review for another user':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 4
+    body:
+      ratings:
+        0:
+          "kpiId": 6
+          "rating": 20
+          "comment": "Test logs create"
+      "complete": false
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
 
   'update existing reviewer ratings':
-    userId: 1
+    userId: 3
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -275,22 +254,23 @@ Update:
       ratings:
         0:
           "rating": "3.00"
-          "comment": "test comment update"
+          "comment": "test self comment update"
           "kpiId": 4
         1:
           "rating": "2.00"
-          "comment": "test comment update 2"
+          "comment": "test self comment update 2"
           "kpiId": 5
+      "complete": false
     data:
       0:
-        "id": 1
+        "id": 3
         "rating": "3.00"
-        "comment": "test comment update"
+        "comment": "test self comment update"
         "kpi":
           "id": 4
       1:
-        "id": 2
+        "id": 4
         "rating": "2.00"
-        "comment": "test comment update 2"
+        "comment": "test self comment update 2"
         "kpi":
           "id": 5
