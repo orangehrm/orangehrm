@@ -142,6 +142,15 @@ class Migration extends AbstractMigration
         $this->insertSelfReviewWorkflowStates();
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
         $this->modifyThemeTable();
+
+        $langStringName = "Allows numbers and only + - / ( )";
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_lang_string')
+            ->andWhere('ohrm_i18n_lang_string.unit_id = :unitId')
+            ->setParameter('unitId', 'allows_phone_numbers_only')
+            ->andWhere('ohrm_i18n_lang_string.value = :value')
+            ->setParameter('value', $langStringName)
+            ->executeQuery();
     }
 
     /**

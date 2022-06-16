@@ -105,16 +105,13 @@ langStrings:
     value: 'Review Period'
     unitId: review_period
   -
-    value: 'Due Date'
-    unitId: due_date
-
-  - value: 'Self Evaluation Status'
+    value: 'Self Evaluation Status'
     unitId: self_evaluation_status
-
-  - value: 'Review Status'
+  -
+    value: 'Review Status'
     unitId: review_status
-
-  - value: 'Evaluate'
+  -
+    value: 'Evaluate'
     unitId: evaluate
   -
     value: 'Employee Reviews'
