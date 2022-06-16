@@ -53,12 +53,12 @@ class ReviewReviewerRatingParamRule extends AbstractRule
                 return false;
             }
 
-            $kpisForReview = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            $kpiIdsForReviewId = $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getKpiIdsForReviewId($this->reviewId);
 
             $kpiId = $rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID];
             if (!(is_numeric($kpiId) && ($kpiId > 0))
-                || !in_array($kpiId, array_column($kpisForReview, 'id'))
+                || !in_array($kpiId, $kpiIdsForReviewId)
             ) {
                 return false;
             }
