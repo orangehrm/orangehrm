@@ -23,6 +23,7 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\ListSorter;
@@ -358,5 +359,24 @@ class PerformanceTrackerDao extends BaseDao
         $qb->andWhere($qb->expr()->eq('trackerReviewer.reviewer', ':empNumber'))
             ->setParameter('empNumber', $empNumber);
         return $this->getPaginator($qb)->count() > 0;
+    }
+
+
+    /**
+     * @param int $trackerId
+     * @return bool
+     */
+    public function isTrackerOwnerEditable(int $trackerId): bool
+    {
+        $q = $this->createQueryBuilder(PerformanceTrackerLog::class, 'ptrLog');
+        $q->andWhere('ptrLog.performanceTracker = :trackerId')
+            ->setParameter('trackerId', $trackerId)
+            ->andWhere('ptrLog.status = :notDeletedStatus')
+            ->setParameter('notDeletedStatus', PerformanceTrackerLog::STATUS_NOT_DELETED);
+        $logs = $q->getQuery()->execute();
+        if (empty($logs)) {
+            return true;
+        }
+        return false;
     }
 }
