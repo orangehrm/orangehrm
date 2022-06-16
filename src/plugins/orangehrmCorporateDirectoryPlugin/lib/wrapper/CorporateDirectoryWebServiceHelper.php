@@ -45,7 +45,8 @@ class CorporateDirectoryWebServiceHelper {
      * @param type $includeTerminated
      * @return Array
      */
-    public function getCorporateDirectoryEmployeeDetailsAsArray($includeTerminated = false) {
+    public function getCorporateDirectoryEmployeeDetailsAsArray($includeTerminated = false): array
+    {
         $filters = array();
         if ($includeTerminated) {
             $filters['termination'] = EmployeeSearchForm::WITH_TERMINATED;

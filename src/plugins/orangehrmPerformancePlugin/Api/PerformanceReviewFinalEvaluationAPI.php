@@ -23,7 +23,6 @@ use Exception;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -33,7 +32,9 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Api\V2\Validator\Rules\InAccessibleEntityIdOption;
 use OrangeHRM\Core\Authorization\UserRole\EssUserRole;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Api\Model\CompletedPerformanceReviewModel;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
@@ -41,6 +42,7 @@ use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEndpoint
 {
     use EntityManagerHelperTrait;
+    use UserRoleManagerTrait;
     use PerformanceReviewServiceTrait;
 
     public const PARAMETER_REVIEW_ID = 'reviewId';
@@ -48,6 +50,13 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
     public const PARAMETER_FINAL_COMMENT = 'finalComment';
     public const PARAMETER_COMPLETED_DATE = 'completedDate';
     public const PARAMETER_COMPLETE = 'complete';
+
+    public const WORKFLOW_STATES_MAP = [
+        PerformanceReview::STATUS_INACTIVE => 'SAVED',
+        PerformanceReview::STATUS_ACTIVATED => 'ACTIVATED',
+        PerformanceReview::STATUS_IN_PROGRESS => 'IN PROGRESS',
+        PerformanceReview::STATUS_COMPLETED => 'COMPLETED'
+    ];
 
     public const PARAM_RULE_FINAL_RATING_MIN_VALUE = 0;
     public const PARAM_RULE_FINAL_RATING_MAX_VALUE = 100;
@@ -72,10 +81,14 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
             ->getPerformanceReviewById($reviewId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($review, PerformanceReview::class);
-        $this->throwBadRequestExceptionIfStatusInArray(
-            $review->getStatusId(),
-            [PerformanceReview::STATUS_INACTIVE, PerformanceReview::STATUS_COMPLETED]
-        );
+
+        if (!$this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_REVIEW,
+            self::WORKFLOW_STATES_MAP[$review->getStatusId()],
+            $complete ? WorkflowStateMachine::REVIEW_COMPLETE : WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE
+        )) {
+            throw $this->getForbiddenException();
+        }
 
         $this->setFinalEvaluation($review);
 
@@ -206,10 +219,10 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
             ->getPerformanceReviewById($reviewId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($review, PerformanceReview::class);
-        $this->throwBadRequestExceptionIfStatusInArray(
-            $review->getStatusId(),
-            [PerformanceReview::STATUS_INACTIVE]
-        );
+
+        if ($review->getStatusId() === PerformanceReview::STATUS_INACTIVE) {
+            throw $this->getForbiddenException();
+        }
 
         return new EndpointResourceResult(CompletedPerformanceReviewModel::class, $review);
     }
@@ -232,18 +245,6 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
                 ])
             )
         );
-    }
-
-    /**
-     * @param int $statusId
-     * @param int[] $statuses
-     * @throws BadRequestException
-     */
-    private function throwBadRequestExceptionIfStatusInArray(int $statusId, array $statuses): void
-    {
-        if (in_array($statusId, $statuses)) {
-            throw $this->getBadRequestException();
-        }
     }
 
     /**

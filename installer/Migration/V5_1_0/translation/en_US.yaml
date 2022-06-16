@@ -97,3 +97,19 @@ translations:
     - { target: 'Reviewer', unitId: reviewer, group: performance }
     - { target: 'Manage Performance Reviews', unitId: manage_performance_reviews, group: performance }
     - { target: 'Inactive', unitId: inactive, group: performance }
+    - { target: 'Primary Color', unitId: primary_color, group: admin }
+    - { target: 'Secondary Color', unitId: secondary_color, group: admin }
+    - { target: 'Primary Font Color', unitId: primary_font_color, group: admin }
+    - { target: 'Secondary Font Color', unitId: secondary_font_color, group: admin }
+    - { target: 'Primary Gradient Color 1', unitId: primary_gradient_color_one, group: admin }
+    - { target: 'Primary Gradient Color 2', unitId: primary_gradient_color_two, group: admin }
+    - { target: 'Client Logo', unitId: client_logo, group: admin }
+    - { target: 'Client Banner', unitId: client_banner, group: admin }
+    - { target: 'Login Banner', unitId: login_banner, group: admin }
+    - { target: 'Social Media Images', unitId: social_media_images, group: admin }
+    - { target: 'Reset to Default', unitId: reset_to_default, group: general }
+    - { target: 'Preview', unitId: preview, group: general }
+    - { target: 'Accepts jpg, .png, .gif up to {fileSize}. Recommended dimensions: {width}px X {height}px', unitId: accept_jpg_png_gif_upto_recomended_dimentions, group: general }
+    - { target: 'Incorrect Dimensions', unitId: incorrect_dimensions, group: general }
+    - { target: 'Invalid', unitId: invalid, group: general }
+    - { target: 'Or login with', unitId: or_login_with, group: general }

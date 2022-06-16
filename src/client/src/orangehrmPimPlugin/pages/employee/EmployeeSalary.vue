@@ -39,7 +39,7 @@
       :account-types="accountTypes"
       @close="onEditModalClose"
     ></edit-salary-component>
-    <div class="orangehrm-horizontal-padding orangehrm-top-padding">
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header
         :action-button-shown="$can.update(`salary_details`)"
         @click="onClickAdd"

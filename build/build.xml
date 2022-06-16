@@ -90,7 +90,7 @@
         <exclude name="src/plugins/orangehrmAttendancePlugin/lib"/>
         <exclude name="src/plugins/orangehrmBuzzPlugin/lib"/>
         <exclude name="src/plugins/orangehrmCoreWebServicePlugin/**"/>
-        <exclude name="src/plugins/orangehrmCorporateBrandingPlugin/**"/>
+        <exclude name="src/plugins/orangehrmCorporateBrandingPlugin/lib"/>
         <exclude name="src/plugins/orangehrmCorporateDirectoryPlugin/lib"/>
         <exclude name="src/plugins/orangehrmDashboardPlugin/lib"/>
         <exclude name="src/plugins/orangehrmMaintenancePlugin/lib"/>

@@ -19,9 +19,9 @@
  -->
 <template>
   <div class="orangehrm-card-container">
-    <oxd-text tag="h6" class="orangehrm-main-title">{{
-      $t('admin.edit_currency')
-    }}</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">
+      {{ $t('admin.edit_currency') }}
+    </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -77,18 +77,20 @@ import {
   required,
   maxCurrency,
   digitsOnly,
-  minValueShouldBeLowerThanMaxValue,
+  maxValueShouldBeGreaterThanMinValue,
 } from '@ohrm/core/util/validation/rules';
+
 const payCurrencyModel = {
   currencyId: null,
   minSalary: '',
   maxSalary: '',
 };
+
 export default {
   name: 'EditPayCurrency',
   props: {
     payGradeId: {
-      type: String,
+      type: Number,
       required: true,
     },
     data: {
@@ -116,7 +118,7 @@ export default {
         maxSalary: [
           maxCurrency(1000000000),
           digitsOnly,
-          minValueShouldBeLowerThanMaxValue(
+          maxValueShouldBeGreaterThanMinValue(
             () => this.payCurrency.minSalary,
             this.$t('admin.should_be_higher_than_minimum_salary'),
           ),

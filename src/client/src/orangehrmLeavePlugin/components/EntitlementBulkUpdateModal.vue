@@ -22,17 +22,21 @@
   <oxd-dialog
     v-if="show"
     :gutters="false"
-    :style="{width: '90%', maxWidth: '600px'}"
+    class="orangehrm-dialog-modal"
     @update:show="onCancel"
   >
-    <div class="orangehrm-header-container">
+    <div class="orangehrm-dialog-header-container">
       <oxd-text type="card-title">
         {{ $t('leave.updating_entitlement') }} -
         {{ $t('leave.matching_employees') }}
       </oxd-text>
     </div>
-    <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
-    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+    <oxd-divider
+      class="orangehrm-dialog-horizontal-margin orangehrm-clear-margins"
+    />
+    <div
+      class="orangehrm-dialog-horizontal-padding orangehrm-dialog-vertical-padding"
+    >
       <oxd-text type="subtitle-2">
         {{
           $t('leave.selected_leave_entitlement_applied_to_following_employees')
@@ -48,7 +52,9 @@
         row-decorator="oxd-table-decorator-card"
       />
     </div>
-    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+    <div
+      class="orangehrm-dialog-horizontal-padding orangehrm-dialog-vertical-padding"
+    >
       <oxd-form-actions>
         <oxd-button
           display-type="ghost"

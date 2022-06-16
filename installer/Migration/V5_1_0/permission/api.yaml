@@ -156,6 +156,34 @@ apiv2_performance_review_allowed_actions:
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
+apiv2_performance_review_supervisor_evaluation:
+  description: 'API-v2 Performance - Performance Review Supervisor Evaluation'
+  api: OrangeHRM\Performance\Api\SupervisorEvaluationAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true,  create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true,  create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true,  create: false, update: false, delete: false } }
+
+apiv2_performance_review_employee_evaluation:
+  description: 'API-v2 Performance - Performance Review Employee Evaluation'
+  api: OrangeHRM\Performance\Api\EmployeeEvaluationAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true,  create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true,  create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true,  create: false, update: true, delete: false } }
+
 apiv2_performance_review_final_evaluation:
   description: 'API-v2 Performance - Performance Review Final Evaluation'
   api: OrangeHRM\Performance\Api\PerformanceReviewFinalEvaluationAPI
@@ -386,3 +414,36 @@ apiv2_recruitment_candidate_hire:
   permissions:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
+##########################
+#   Corporate Directory
+##########################
+
+apiv2_corporate_directory_employees:
+  description: 'API-v2 Corporate Directory - Employee Directory'
+  api: OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI
+  module: directory
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false} }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false} }
+    
+##########################
+#        Admin
+##########################
+
+apiv2_corporate_branding_theme:
+  description: 'API-v2 Admin - Theme'
+  api: OrangeHRM\CorporateBranding\Api\ThemeAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: true } }

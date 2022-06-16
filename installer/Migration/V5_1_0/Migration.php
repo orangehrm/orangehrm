@@ -62,7 +62,7 @@ class Migration extends AbstractMigration
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
-        $oldGroups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
+        $oldGroups = ['admin', 'general'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
@@ -139,8 +139,9 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->insertReviewWorkflowStates();
-
+        $this->insertSelfReviewWorkflowStates();
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
+        $this->modifyThemeTable();
     }
 
     /**
@@ -202,12 +203,23 @@ class Migration extends AbstractMigration
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'SUPERVISOR', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
         $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'SUPERVISOR', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+    }
+
+    private function insertSelfReviewWorkflowStates(): void
+    {
+        // Admin workflows
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SELF COMPLETED', 'ADMIN', WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION, 'SUPERVISOR UPDATED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SUPERVISOR UPDATED', 'ADMIN', WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION, 'SUPERVISOR UPDATED');
+
+        // Supervisor workflows
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SELF COMPLETED', 'SUPERVISOR', WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION, 'SUPERVISOR UPDATED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SUPERVISOR UPDATED', 'SUPERVISOR', WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION, 'SUPERVISOR UPDATED');
 
         // ESS workflows
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'ACTIVATED', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ESS USER', WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE, 'IN PROGRESS');
-        $this->insertWorkflowState(WorkflowStateMachine::FLOW_REVIEW, 'IN PROGRESS', 'ESS USER', WorkflowStateMachine::REVIEW_COMPLETE, 'COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'INITIAL', 'ESS USER', WorkflowStateMachine::SELF_REVIEW_SELF_SAVE, 'SELF IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'INITIAL', 'ESS USER', WorkflowStateMachine::SELF_REVIEW_SELF_COMPLETE, 'SELF COMPLETED');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SELF IN PROGRESS', 'ESS USER', WorkflowStateMachine::SELF_REVIEW_SELF_SAVE, 'SELF IN PROGRESS');
+        $this->insertWorkflowState(WorkflowStateMachine::FLOW_SELF_REVIEW, 'SELF IN PROGRESS', 'ESS USER', WorkflowStateMachine::SELF_REVIEW_SELF_COMPLETE, 'SELF COMPLETED');
     }
 
     /**
@@ -267,6 +279,103 @@ class Migration extends AbstractMigration
             ->setParameter('create', 0)
             ->setParameter('update', 1)
             ->setParameter('delete', 0)
+            ->executeQuery();
+    }
+
+    private function modifyThemeTable(): void
+    {
+        $this->getSchemaHelper()->dropColumn('ohrm_theme', 'social_media_icons');
+        $this->getSchemaHelper()
+            ->addColumn(
+                'ohrm_theme',
+                'show_social_media_icons',
+                Types::BOOLEAN,
+                ['Notnull' => true, 'Default' => true]
+            );
+        $this->getSchemaHelper()->renameColumn('ohrm_theme', 'main_logo', 'client_logo');
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_banner',
+            Types::BLOB,
+            ['Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_logo_filename',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_logo_file_type',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_logo_file_size',
+            Types::INTEGER,
+            ['Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_banner_filename',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_banner_file_type',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'client_banner_file_size',
+            Types::INTEGER,
+            ['Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'login_banner_filename',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'login_banner_file_type',
+            Types::STRING,
+            ['Length' => 100, 'Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_theme',
+            'login_banner_file_size',
+            Types::INTEGER,
+            ['Notnull' => false, 'Default' => null]
+        );
+        $this->getSchemaHelper()->changeColumn(
+            'ohrm_theme',
+            'login_banner',
+            ['Notnull' => false, 'Default' => null]
+        );
+
+        $this->createQueryBuilder()
+            ->update('ohrm_theme')
+            ->set('ohrm_theme.variables', ':variables')
+            ->where('ohrm_theme.theme_name = :themeName')
+            ->setParameter(
+                'variables',
+                '{"primaryColor":"#FF7B1D","primaryFontColor":"#FFFFFF","secondaryColor":"#76BC21","secondaryFontColor":"#FFFFFF","primaryGradientStartColor":"#FF920B","primaryGradientEndColor":"#F35C17"}'
+            )
+            ->setParameter('themeName', 'default')
+            ->executeQuery();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_theme')
+            ->set('ohrm_theme.theme_name', ':newName')
+            ->where('ohrm_theme.theme_name = :currentName')
+            ->setParameter('currentName', 'custom')
+            ->setParameter('newName', 'custom_4x')
             ->executeQuery();
     }
 

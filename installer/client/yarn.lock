@@ -1040,10 +1040,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@ohrm/oxd@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@ohrm/oxd/-/oxd-1.0.5.tgz#20d39e49d72c4ad2be19618b7a53beee0c7280fc"
-  integrity sha512-SWnkNI+aH3yI/KziGD/bgHvoJUbS17EpLOXqf1svG9s2WbETYKp5iwqcQXYBUIR2Iuwk1oMKxcRw5xTCoAlRVg==
+"@ohrm/oxd@1.0.6-alpha.5":
+  version "1.0.6-alpha.5"
+  resolved "https://registry.yarnpkg.com/@ohrm/oxd/-/oxd-1.0.6-alpha.5.tgz#c54ce80a097c46321f95137e9d8574bdb672ab54"
+  integrity sha512-yxgdYFL5TSGiW//Mu/bIQVBcRcvk8O9NIEHVEL1reeVXr60b8M0j32jfqlYdQw0qRMKiRPnqtGlR+jvxdrQ18Q==
   dependencies:
     "@revolist/vue3-datagrid" "^3.0.96"
     bootstrap-icons "^1.3.0"

@@ -19,20 +19,18 @@
  -->
 
 <template>
-  <oxd-dialog class="modal-container" :gutters="false" @update:show="onCancel">
-    <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">
+  <oxd-dialog class="orangehrm-dialog-popup" @update:show="onCancel">
+    <div class="orangehrm-modal-header">
+      <oxd-text type="card-title">
         {{ $t('leave.situational_leave') }}
       </oxd-text>
     </div>
-    <oxd-divider />
-
-    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="p">
+    <div class="orangehrm-text-center-align">
+      <oxd-text type="card-body">
         {{ $t('leave.entitlement_situational_description') }}
       </oxd-text>
     </div>
-    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+    <div class="orangehrm-modal-footer">
       <oxd-form-actions>
         <oxd-button
           type="submit"
@@ -62,4 +60,20 @@ export default {
 };
 </script>
 
-<style src="../pages/leaveType/leave-type.scss" lang="scss"></style>
+<style lang="scss" scoped>
+.orangehrm-modal-header {
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.orangehrm-modal-footer {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.orangehrm-text-center-align {
+  text-align: center;
+}
+</style>
