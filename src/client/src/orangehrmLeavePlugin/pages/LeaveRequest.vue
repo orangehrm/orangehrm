@@ -33,6 +33,7 @@
       <oxd-divider
         class="orangehrm-horizontal-margin orangehrm-clear-margins"
       />
+      <br />
       <div class="orangehrm-horizontal-padding">
         <oxd-grid :cols="3">
           <oxd-grid-item>
@@ -51,6 +52,7 @@
           </oxd-grid-item>
         </oxd-grid>
       </div>
+      <br />
       <table-header
         :selected="0"
         :total="total"

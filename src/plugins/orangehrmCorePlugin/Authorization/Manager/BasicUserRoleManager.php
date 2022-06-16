@@ -41,6 +41,7 @@ use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class BasicUserRoleManager extends AbstractUserRoleManager
@@ -51,6 +52,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     use UserServiceTrait;
     use MenuServiceTrait;
     use PerformanceTrackerServiceTrait;
+    use VacancyServiceTrait;
 
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
@@ -106,7 +108,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         ];
 
         foreach ($configurations as $roleName => $roleObj) {
-            $className = $this->getClassHelper()->getClass($roleObj['class'], 'OrangeHRM\\Core\\Authorization\\UserRole\\');
+            $className = $this->getClassHelper()->getClass(
+                $roleObj['class'],
+                'OrangeHRM\\Core\\Authorization\\UserRole\\'
+            );
             $this->userRoleClasses[$roleName] = new $className($roleName, $this);
         }
     }
@@ -277,7 +282,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
 
         foreach ($filteredRoles as $role) {
             $ids = [];
-
             $roleClass = $this->getUserRoleClass($role->getName());
 
             if ($roleClass) {
@@ -748,12 +752,11 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             ->isProjectAdmin($empNumber);
     }
 
-    private function isHiringManager($empNumber)
+    private function isHiringManager(?int $empNumber): bool
     {
-        // TODO:: should remove this return
-        return false;
-        // TODO
-        return $this->getVacancyService()->isHiringManager($empNumber);
+        return $this->getVacancyService()
+            ->getVacancyDao()
+            ->isHiringManager($empNumber);
     }
 
     private function isInterviewer($empNumber)
@@ -799,7 +802,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             );
 
             foreach ($permissions as $permission) {
-                $resourcePermission = $resourcePermission->orWith(ResourcePermission::createFromDataGroupPermission($permission));
+                $resourcePermission = $resourcePermission->orWith(
+                    ResourcePermission::createFromDataGroupPermission($permission)
+                );
             }
         }
 
@@ -887,10 +892,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
-     * @todo fix this in `ohrm_workflow_state_machine`
      * @param string $roleName
      * @param string $workflow
      * @return string
+     * @todo fix this in `ohrm_workflow_state_machine`
      */
     protected function fixUserRoleNameForWorkflowStateMachine(string $roleName, string $workflow): string
     {

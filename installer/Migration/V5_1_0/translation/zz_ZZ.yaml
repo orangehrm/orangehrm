@@ -42,3 +42,19 @@ translations:
   - { target: 'FR_Employee Performance Trackers', unitId: employee_performance_trackers, group: performance }
   - { target: 'FR_Added Date', unitId: added_date, group: performance }
   - { target: 'FR_Modified Date', unitId: modified_date, group: performance }
+  - { target: 'FR_Primary Color', unitId: primary_color, group: admin }
+  - { target: 'FR_Secondary Color', unitId: secondary_color, group: admin }
+  - { target: 'FR_Primary Font Color', unitId: primary_font_color, group: admin }
+  - { target: 'FR_Secondary Font Color', unitId: secondary_font_color, group: admin }
+  - { target: 'FR_Primary Gradient Color 1', unitId: primary_gradient_color_one, group: admin }
+  - { target: 'FR_Primary Gradient Color 2', unitId: primary_gradient_color_two, group: admin }
+  - { target: 'FR_Client Logo', unitId: client_logo, group: admin }
+  - { target: 'FR_Client Banner', unitId: client_banner, group: admin }
+  - { target: 'FR_Login Banner', unitId: login_banner, group: admin }
+  - { target: 'FR_Social Media Images', unitId: social_media_images, group: admin }
+  - { target: 'FR_Reset to Default', unitId: reset_to_default, group: general }
+  - { target: 'FR_Preview', unitId: preview, group: general }
+  - { target: 'FR_Accepts jpg, .png, .gif up to {fileSize}. Recommended dimensions: {width}px X {height}px', unitId: accept_jpg_png_gif_upto_recomended_dimentions, group: general }
+  - { target: 'FR_Incorrect Dimensions', unitId: incorrect_dimensions, group: general }
+  - { target: 'FR_Invalid', unitId: invalid, group: general }
+  - { target: 'FR_Or login with', unitId: or_login_with, group: general }

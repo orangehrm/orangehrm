@@ -31,7 +31,7 @@
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-dependent>
-    <div class="orangehrm-horizontal-padding orangehrm-top-padding">
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
         {{ $t('pim.assigned_dependents') }}
       </profile-action-header>

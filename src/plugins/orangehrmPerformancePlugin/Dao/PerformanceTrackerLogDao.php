@@ -114,6 +114,7 @@ class PerformanceTrackerLogDao extends BaseDao
     public function getPerformanceTrackerLogIdsByUserId(int $userId): array
     {
         $qb = $this->createQueryBuilder(PerformanceTrackerLog::class, 'performanceTrackerLog');
+        $qb->select('performanceTrackerLog.id');
         $qb->andWhere($qb->expr()->eq('performanceTrackerLog.user', ':userId'))
             ->setParameter('userId', $userId);
         return array_column($qb->getQuery()->getArrayResult(), 'id');
@@ -125,6 +126,7 @@ class PerformanceTrackerLogDao extends BaseDao
     public function getPerformanceTrackerLogsIdList(): array
     {
         $qb = $this->createQueryBuilder(PerformanceTrackerLog::class, 'performanceTrackerLog');
+        $qb->select('performanceTrackerLog.id');
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 }

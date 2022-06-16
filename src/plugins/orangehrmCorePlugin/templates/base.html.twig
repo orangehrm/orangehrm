@@ -9,7 +9,15 @@
   {% block stylesheets %}{% endblock %}
 </head>
 <body>
-{% block body %}{% endblock %}
+  <style>
+    :root {
+    {% for key, variable in themeVariables %}
+        {{ key }}:{{ variable }};
+    {% endfor %}
+    }
+  </style>
+{% block body %}
+{% endblock %}
 {% block javascripts %}{% endblock %}
 </body>
 </html>

@@ -37,6 +37,62 @@ Update:
         label: 'Interview Passed'
     meta: [ ]
 
+  'Mark Interview Passed - Hiring manager':
+    userId: 2
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 5
+      interviewId: 2
+    body:
+      note: 'Matching the qualifications'
+    data:
+      id: 1
+      candidate:
+        id: 5
+        firstName: 'Charles'
+        middleName: ''
+        lastName: 'Haywire'
+      vacancy:
+        id: 2
+        name: 'Senior Technical Supervisor'
+        hiringManager:
+          empNumber: 2
+          firstName: 'Ashley'
+          middleName: 'ST'
+          lastName: 'Abel'
+          terminationId: null
+      note: 'Matching the qualifications'
+      action:
+        id: 5
+        label: 'Interview Passed'
+    meta: [ ]
+
+  'Candidate mark interview passed - ESS User':
+    userId: 3
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+      interviewId: 1
+    body:
+      note: 'Matching the qualifications'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
   'Candidate mark interview passed - already marked interview passed':
     userId: 1
     services:
@@ -92,20 +148,3 @@ Update:
       note: 'Matching the qualifications'
     invalidOnly: [ 'interviewId' ]
 
-  'Candidate mark interview passed - ESS User':
-    userId: 3
-    services:
-      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      candidateId: 2
-      interviewId: 1
-    body:
-      note: 'Matching the qualifications'
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'

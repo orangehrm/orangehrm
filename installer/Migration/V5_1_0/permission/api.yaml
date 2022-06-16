@@ -156,6 +156,20 @@ apiv2_performance_review_allowed_actions:
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
+apiv2_performance_review_final_evaluation:
+  description: 'API-v2 Performance - Performance Review Final Evaluation'
+  api: OrangeHRM\Performance\Api\PerformanceReviewFinalEvaluationAPI
+  module: performance
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
 ##########################
 #        Recruitment
 ##########################
@@ -376,3 +390,19 @@ apiv2_corporate_directory_employees:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false} }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false} }
+    
+##########################
+#        Admin
+##########################
+
+apiv2_corporate_branding_theme:
+  description: 'API-v2 Admin - Theme'
+  api: OrangeHRM\CorporateBranding\Api\ThemeAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: true } }

@@ -36,6 +36,60 @@ Update:
         label: 'Rejected'
     meta: [ ]
 
+  'Reject candidate - Hiring manager':
+    userId: 2
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 3
+    body:
+      note: 'Rejected since not answering the phone'
+    data:
+      id: 1
+      candidate:
+        id: 3
+        firstName: 'Richard'
+        middleName: ''
+        lastName: 'Holmes'
+      vacancy:
+        id: 2
+        name: 'Senior Technical Supervisor'
+        hiringManager:
+          empNumber: '2'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          lastName: 'Abel'
+          terminationId: null
+      note: 'Rejected since not answering the phone'
+      action:
+        id: 3
+        label: 'Rejected'
+    meta: [ ]
+
+  'Reject candidate - ESS User':
+    userId: 3
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 1
+    body:
+      note: 'Rejected since not answering the phone'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
   'Reject candidate - no candidate vacancy for the candidate':
     userId: 1
     services:
@@ -69,21 +123,3 @@ Update:
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
-
-  'Reject candidate - ESS User':
-    userId: 3
-    services:
-      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      candidateId: 1
-    body:
-      note: 'Rejected since not answering the phone'
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
-

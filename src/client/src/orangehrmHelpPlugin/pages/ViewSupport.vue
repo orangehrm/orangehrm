@@ -34,8 +34,10 @@
       </oxd-text>
       <div class="orangehrm-support">
         <oxd-grid :cols="2" class="orangehrm-support-channel --mail">
-          <img :src="helpImgSrc" alt="help image" />
-          <div>
+          <oxd-grid-item>
+            <img :src="helpImgSrc" alt="help image" />
+          </oxd-grid-item>
+          <oxd-grid-item>
             <oxd-text class="orangehrm-sub-title" tag="p">
               {{ $t('help.customer_support') }}
             </oxd-text>
@@ -48,7 +50,7 @@
               </a>
               {{ $t('help.we_will_be_delighted_to_help') }}
             </oxd-text>
-          </div>
+          </oxd-grid-item>
         </oxd-grid>
       </div>
     </div>

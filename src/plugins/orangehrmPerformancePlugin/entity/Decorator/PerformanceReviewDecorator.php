@@ -106,6 +106,14 @@ class PerformanceReviewDecorator
     }
 
     /**
+     * @return string|null
+     */
+    public function getCompletedDate(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getCompletedDate());
+    }
+
+    /**
      * @return string
      */
     public function getStatusName(): string

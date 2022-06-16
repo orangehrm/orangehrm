@@ -28,52 +28,48 @@
       <oxd-divider />
 
       <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
-        <oxd-grid :cols="1">
-          <div>
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="jobTitle.title"
-                :label="$t('general.job_title')"
-                :rules="rules.title"
-                required
-              />
-            </oxd-form-row>
+        <oxd-form-row>
+          <oxd-input-field
+            v-model="jobTitle.title"
+            :label="$t('general.job_title')"
+            :rules="rules.title"
+            required
+          />
+        </oxd-form-row>
 
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="jobTitle.description"
-                type="textarea"
-                :label="$t('admin.job_description')"
-                :placeholder="$t('general.type_description_here')"
-                :rules="rules.description"
-              />
-            </oxd-form-row>
+        <oxd-form-row>
+          <oxd-input-field
+            v-model="jobTitle.description"
+            type="textarea"
+            :label="$t('admin.job_description')"
+            :placeholder="$t('general.type_description_here')"
+            :rules="rules.description"
+          />
+        </oxd-form-row>
 
-            <oxd-form-row>
-              <file-upload-input
-                v-model:newFile="jobTitle.newSpecification"
-                v-model:method="jobTitle.method"
-                :label="$t('general.job_specification')"
-                :button-label="$t('general.browse')"
-                :file="jobTitle.oldSpecification"
-                :rules="rules.specification"
-                :url="`admin/viewJobSpecification/attachId`"
-                :hint="$t('general.accepts_up_to_1mb')"
-              />
-            </oxd-form-row>
+        <oxd-form-row>
+          <file-upload-input
+            v-model:newFile="jobTitle.newSpecification"
+            v-model:method="jobTitle.method"
+            :label="$t('general.job_specification')"
+            :button-label="$t('general.browse')"
+            :file="jobTitle.oldSpecification"
+            :rules="rules.specification"
+            :url="`admin/viewJobSpecification/attachId`"
+            :hint="$t('general.accepts_up_to_1mb')"
+          />
+        </oxd-form-row>
 
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="jobTitle.note"
-                type="textarea"
-                :label="$t('general.note')"
-                :placeholder="$t('general.add_note')"
-                :rules="rules.note"
-                label-icon="pencil-square"
-              />
-            </oxd-form-row>
-          </div>
-        </oxd-grid>
+        <oxd-form-row>
+          <oxd-input-field
+            v-model="jobTitle.note"
+            type="textarea"
+            :label="$t('general.note')"
+            :placeholder="$t('general.add_note')"
+            :rules="rules.note"
+            label-icon="pencil-square"
+          />
+        </oxd-form-row>
 
         <oxd-divider />
 

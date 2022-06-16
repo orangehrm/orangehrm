@@ -33,7 +33,8 @@
         "guzzlehttp/guzzle": "~7.4",
         "symfony/translation": "~5.4",
         "symfony/polyfill-intl-messageformatter": "^1.24",
-        "symfony/process": "^5.4"
+        "symfony/process": "^5.4",
+        "scssphp/scssphp": "^1.10"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -63,7 +64,7 @@
             "OrangeHRM\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin",
             "OrangeHRM\\Time\\": "./plugins/orangehrmTimePlugin",
             "OrangeHRM\\I18N\\": "./plugins/orangehrmI18NPlugin",
-            "OrangeHRM\\Tools\\Migrations\\": "../installer/upgrader/Migrations",
+            "OrangeHRM\\CorporateBranding\\": "./plugins/orangehrmCorporateBrandingPlugin",
             "OrangeHRM\\Installer\\": "../installer",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
@@ -76,7 +77,8 @@
                 "./plugins/orangehrmTimePlugin/entity",
                 "./plugins/orangehrmAttendancePlugin/entity",
                 "./plugins/orangehrmI18NPlugin/entity",
-                "./plugins/orangehrmRecruitmentPlugin/entity"
+                "./plugins/orangehrmRecruitmentPlugin/entity",
+                "./plugins/orangehrmCorporateBrandingPlugin/entity"
             ]
         }
     },
@@ -96,6 +98,7 @@
             "OrangeHRM\\Tests\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin/test",
             "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test",
             "OrangeHRM\\Tests\\CorporateDirectory\\": "./plugins/orangehrmCorporateDirectoryPlugin/test"
+            "OrangeHRM\\Tests\\CorporateBranding\\": "./plugins/orangehrmCorporateBrandingPlugin/test"
         }
     },
     "scripts": {
