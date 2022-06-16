@@ -34,6 +34,7 @@ class Migration extends AbstractMigration
     {
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         $this->addValidColumnToRequestResetPassword();
 
         $this->getConnection()->executeStatement(

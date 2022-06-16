@@ -1,0 +1,6 @@
+'Save Tracker':
+  module: performance
+  url: savePerformanceTracker
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: NULL
