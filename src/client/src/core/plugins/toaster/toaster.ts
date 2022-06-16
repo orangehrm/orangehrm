@@ -53,6 +53,7 @@ export interface ToasterAPI {
   saveSuccess: () => Promise<string>;
   addSuccess: () => Promise<string>;
   updateSuccess: () => Promise<string>;
+  activateSuccess: () => Promise<string>;
   deleteSuccess: () => Promise<string>;
   cannotDelete: () => Promise<string>;
   noRecordsFound: () => Promise<string>;
@@ -214,6 +215,12 @@ export default {
         message: translate('general.successfully_updated'),
       });
 
+    const activateSuccess = () =>
+      success({
+        title: translate('general.success'),
+        message: translate('general.successfully_activated'),
+      });
+
     const deleteSuccess = () =>
       success({
         title: translate('general.success'),
@@ -258,6 +265,7 @@ export default {
       saveSuccess,
       addSuccess,
       updateSuccess,
+      activateSuccess,
       deleteSuccess,
       cannotDelete,
       noRecordsFound,

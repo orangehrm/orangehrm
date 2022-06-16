@@ -155,3 +155,6 @@ langStrings:
   -
     value: 'Or login with'
     unitId: or_login_with
+  -
+    value: 'Successfully Activated'
+    unitId: successfully_activated

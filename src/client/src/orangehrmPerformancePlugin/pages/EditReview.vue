@@ -242,7 +242,11 @@ export default {
             activate,
           })
           .then(() => {
-            return this.$toast.updateSuccess();
+            if (activate === true) {
+              return this.$toast.activateSuccess();
+            } else {
+              return this.$toast.updateSuccess();
+            }
           })
           .then(() => {
             this.onCancel();

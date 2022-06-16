@@ -206,9 +206,9 @@ export default {
     actionButtonCellRenderer(...[, , , row]) {
       const cellConfig = {};
       const screenState = inject('screenState');
-
       if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
-        if (row.selfEvaluationStatus === 3) {
+
+        if (row.selfEvaluationStatus === 'Completed') {
           cellConfig.view = viewIcon;
           cellConfig.view.props.title = this.$t('general.view');
         } else {
@@ -216,7 +216,7 @@ export default {
           cellConfig.evaluate.props.title = this.$t('performance.evaluate');
         }
       } else {
-        if (row.selfEvaluationStatus === 3) {
+        if (row.selfEvaluationStatus === 'Completed') {
           cellConfig.view = viewLabel;
           cellConfig.view.props.label = this.$t('general.view');
         } else {
