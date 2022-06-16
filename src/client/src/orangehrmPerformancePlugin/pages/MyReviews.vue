@@ -207,7 +207,6 @@ export default {
       const cellConfig = {};
       const screenState = inject('screenState');
       if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
-
         if (row.selfEvaluationStatus === 'Completed') {
           cellConfig.view = viewIcon;
           cellConfig.view.props.title = this.$t('general.view');
