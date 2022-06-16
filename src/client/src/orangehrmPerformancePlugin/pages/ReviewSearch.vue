@@ -391,6 +391,7 @@ export default {
         } else {
           cellConfig.evaluate = evaluateIcon;
           cellConfig.evaluate.props.title = this.$t('performance.evaluate');
+          cellConfig.evaluate.onClick = this.onClickEvaluate;
         }
       } else {
         if (row.statusId === 4) {
@@ -403,6 +404,7 @@ export default {
         } else {
           cellConfig.evaluate = evaluateLabel;
           cellConfig.evaluate.props.label = this.$t('performance.evaluate');
+          cellConfig.evaluate.onClick = this.onClickEvaluate;
         }
       }
 
@@ -429,6 +431,9 @@ export default {
     },
     onClickAdd() {
       navigate('/performance/saveReview');
+    },
+    onClickEvaluate(item) {
+      navigate('/performance/reviewEvaluateByAdmin/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = [];
