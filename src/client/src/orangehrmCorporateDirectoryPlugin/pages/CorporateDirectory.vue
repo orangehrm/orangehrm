@@ -309,4 +309,7 @@ export default {
     bottom: 0;
   }
 }
+.oxd-grid-item {
+  padding: 0.5rem 0.75rem;
+}
 </style>
