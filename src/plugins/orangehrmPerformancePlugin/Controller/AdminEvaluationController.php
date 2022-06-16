@@ -19,26 +19,83 @@
 
 namespace OrangeHRM\Performance\Controller;
 
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
-class AdminEvaluationController extends AbstractVueController
+class AdminEvaluationController extends AbstractVueController implements CapableViewController
 {
+    use PerformanceReviewServiceTrait;
+    use UserRoleManagerTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         if ($request->attributes->has('id')) {
+            $id = $request->attributes->getInt('id');
             $component = new Component('admin-evaluation');
-            $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $request->attributes->get('id')));
+            $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()->getPerformanceReviewById($id);
+            if (!is_null($review)) {
+                $this->setReviewProps($component, $review);
+                if ($this->isUserPerformanceReviewEvaluator($id)) {
+                    $component->addProp(new Prop('is-reviewer', Prop::TYPE_BOOLEAN, true));
+                }
+            }
             $this->setComponent($component);
         } else {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCapable(Request $request): bool
+    {
+        $id = $request->attributes->getInt('id');
+        if (is_null($this->getPerformanceReviewService()->getPerformanceReviewDao()->getPerformanceReviewById($id))) {
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+        }
+        return $this->getUserRoleManager()->isEntityAccessible(PerformanceReview::class, $id, null, ['ESS']);
+    }
+
+    /**
+     * @param Component $component
+     * @param PerformanceReview $performanceReview
+     */
+    protected function setReviewProps(Component $component, PerformanceReview $performanceReview): void
+    {
+        $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $performanceReview->getId()));
+        $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $performanceReview->getEmployee()->getEmpNumber()));
+        $component->addProp(new Prop('employee-name', Prop::TYPE_STRING, $performanceReview->getEmployee()->getDecorator()->getFirstAndLastNames()));
+        $component->addProp(new Prop('job-title', Prop::TYPE_STRING, $performanceReview->getEmployee()->getJobTitle()->getJobTitleName()));
+        $component->addProp(new Prop('status', Prop::TYPE_NUMBER, $performanceReview->getStatusId()));
+        $component->addProp(new Prop('review-period-start', Prop::TYPE_STRING, $performanceReview->getDecorator()->getReviewPeriodStart()));
+        $component->addProp(new Prop('review-period-end', Prop::TYPE_STRING, $performanceReview->getDecorator()->getReviewPeriodEnd()));
+        $component->addProp(new Prop('due-date', Prop::TYPE_STRING, $performanceReview->getDecorator()->getDueDate()));
+    }
+
+    /**
+     * @param int $performanceReviewId
+     * @return bool
+     */
+    private function isUserPerformanceReviewEvaluator(int $performanceReviewId): bool
+    {
+        return $this->getUserRoleManager()->isEntityAccessible(
+            PerformanceReview::class,
+            $performanceReviewId,
+            null,
+            ['Admin', 'ESS'],
+            ['Supervisor']
+        );
     }
 }

@@ -167,3 +167,33 @@ langStrings:
   -
     value: 'Edit Tracker Log'
     unitId: edit_tracker_log
+  -
+    value: 'Performance Review'
+    unitId: performance_review
+  -
+    value: 'Review Summary'
+    unitId: review_summary
+  -
+    value: 'Review Due Date'
+    unitId: review_due_date
+  -
+    value: 'Complete'
+    unitId: complete
+  -
+    value: 'Review Finalization'
+    unitId: review_finalization
+  -
+    value: 'Date of Completion'
+    unitId: date_of_completion
+  -
+    value: 'Final Rating'
+    unitId: final_rating
+  -
+    value: 'Final Comments'
+    unitId: final_comments
+  -
+    value: 'Rating should be greater than or equal to 0'
+    unitId: rating_should_be_greater_than_or_equal_to_0
+  -
+    value: 'Rating should be less than or equal to 100'
+    unitId: rating_should_be_less_than_or_equal_to_100

@@ -31,6 +31,7 @@ import ReviewList from './pages/ReviewList.vue';
 import ReviewSearch from './pages/ReviewSearch.vue';
 import EmployeeTrackerLogs from './pages/EmployeeTrackerLogs.vue';
 import AdminEvaluation from './pages/AdminEvaluation.vue';
+import SelfEvaluation from './pages/SelfEvaluation.vue';
 
 export default {
   'my-tracker': MyTracker,
@@ -48,4 +49,5 @@ export default {
   'review-search': ReviewSearch,
   'employee-tracker-logs': EmployeeTrackerLogs,
   'admin-evaluation': AdminEvaluation,
+  'self-evaluation': SelfEvaluation,
 };

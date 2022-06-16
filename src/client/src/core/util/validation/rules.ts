@@ -130,6 +130,16 @@ export const digitsOnlyWithDecimalPoint = function(
   );
 };
 
+export const digitsOnlyWithDecimalPointAndMinusSign = function(
+  value: string,
+): boolean | string {
+  return (
+    value == '' ||
+    (/^-?\d*\.?\d*$/.test(value) && !Number.isNaN(parseFloat(value))) ||
+    translate('general.should_be_a_number')
+  );
+};
+
 /**
  * Check whether date1 is before date2
  * @param {string} date1
@@ -563,5 +573,31 @@ export const imageShouldHaveDimensions = function(
         }
       });
     });
+  };
+};
+
+export const greaterThanOrEqual = function(minValue: number, message?: string) {
+  const resolvedMessage =
+    typeof message === 'string'
+      ? message
+      : translate('general.greater_than_or_equal_to_n', {minValue: minValue});
+  return function(value: string): boolean | string {
+    if (digitsOnlyWithDecimalPointAndMinusSign(value) !== true) {
+      return resolvedMessage;
+    }
+    return parseFloat(value) >= minValue || resolvedMessage;
+  };
+};
+
+export const lessThanOrEqual = function(maxValue: number, message?: string) {
+  const resolvedMessage =
+    typeof message === 'string'
+      ? message
+      : translate('general.less_than_or_equal_to_n', {maxValue: maxValue});
+  return function(value: string): boolean | string {
+    if (digitsOnlyWithDecimalPointAndMinusSign(value) !== true) {
+      return resolvedMessage;
+    }
+    return parseFloat(value) <= maxValue || resolvedMessage;
   };
 };

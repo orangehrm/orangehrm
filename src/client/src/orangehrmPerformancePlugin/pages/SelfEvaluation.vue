@@ -36,16 +36,15 @@
       :due-date="dueDate"
     />
     <br />
-    <oxd-form :loading="isLoading" @submitValid="onClickSave(true)">
-      <evaluation-form></evaluation-form>
-      <br />
-      <div class="orangehrm-card-container">
+    <div class="orangehrm-card-container">
+      <oxd-form :loading="isLoading">
         <oxd-divider />
-        <final-evaluation
-          v-model:completed-date="completedDate"
-          v-model:final-rating="finalRating"
-          v-model:final-comment="finalComment"
+        <final-evaulation
+          v-show="completed"
           :status="status"
+          :final-comment="finalComment"
+          :final-rating="finalRating"
+          :completed-date="completedDate"
         />
         <oxd-divider />
         <oxd-form-actions>
@@ -69,27 +68,23 @@
             type="submit"
           />
         </oxd-form-actions>
-      </div>
-    </oxd-form>
+      </oxd-form>
+    </div>
   </div>
 </template>
 
 <script>
 import {computed} from 'vue';
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {navigate, reloadPage} from '@/core/util/helper/navigation';
-import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
 import ReviewSummary from '../components/ReviewSummary';
 import FinalEvaluation from '../components/FinalEvaluation';
-import EvaluationForm from '@/orangehrmPerformancePlugin/components/EvaluationForm';
 
 export default {
-  name: 'AdminEvaluation',
+  name: 'SelfEvaluation',
   components: {
-    'oxd-divider': Divider,
     'review-summary': ReviewSummary,
-    'final-evaluation': FinalEvaluation,
-    'evaluation-form': EvaluationForm,
+    'final-evaulation': FinalEvaluation,
   },
   props: {
     reviewId: {
@@ -124,10 +119,6 @@ export default {
       type: String,
       required: true,
     },
-    isReviewer: {
-      type: Boolean,
-      default: false,
-    },
   },
   setup(props) {
     const http = new APIService(window.appGlobal.baseUrl, '');
@@ -148,49 +139,27 @@ export default {
     };
   },
   beforeMount() {
-    this.isLoading = true;
-    this.http
-      .request({
-        method: 'GET',
-        url: `/api/v2/performance/reviews/${this.reviewId}/evaluation/final`,
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.completedDate = data.completedDate;
-        this.finalRating = data.finalRating;
-        this.finalComment = data.finalComment;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
-  },
-  methods: {
-    onClickSave(complete = false) {
+    if (this.completed) {
       this.isLoading = true;
       this.http
         .request({
-          method: 'PUT',
+          method: 'GET',
           url: `/api/v2/performance/reviews/${this.reviewId}/evaluation/final`,
-          data: {
-            complete: complete,
-            completedDate: this.completedDate,
-            finalComment: this.finalComment,
-            finalRating: this.finalRating,
-          },
         })
-        .then(() => {
-          return this.$toast.saveSuccess();
+        .then(response => {
+          const {data} = response.data;
+          this.completedDate = data.completedDate;
+          this.finalRating = data.finalRating;
+          this.finalComment = data.finalComment;
         })
         .finally(() => {
-          reloadPage();
+          this.isLoading = false;
         });
-    },
+    }
+  },
+  methods: {
     onClickBack() {
-      navigate(
-        this.isReviewer
-          ? '/performance/searchEvaluatePerformancReview'
-          : '/performance/searchPerformanceReview',
-      );
+      navigate('/performance/myPerformanceReview');
     },
   },
 };
