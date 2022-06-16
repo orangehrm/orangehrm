@@ -25,17 +25,25 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-autocomplete v-model="filters.employeeNumber" />
+              <employee-autocomplete
+                v-model="filters.employeeNumber"
+                api-path="api/v2/directory/employees"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
-              <jobtitle-dropdown v-model="filters.jobTitleId" />
+              <oxd-input-field
+                v-model="filters.jobTitleId"
+                type="select"
+                :label="$t('general.job_title')"
+                :options="jobTitles"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.locationId"
-                type="select"
                 :label="$t('general.location')"
                 :options="locations"
+                type="select"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -61,7 +69,7 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
-    <div :class="{'orangehrm-corporate-directory': !hasCurrentIndex}">
+    <div :class="{'orangehrm-corporate-directory': hasCurrentIndex}">
       <div class="orangehrm-paper-container">
         <table-header :show-divider="false" :total="total"></table-header>
         <oxd-grid ref="scrollerRef" :cols="colSize" class="orangehrm-container">
@@ -77,6 +85,7 @@
               <employee-details
                 v-if="isMobile && currentIndex === index"
                 :employee-id="employee.id"
+                :is-mobile="isMobile"
               >
               </employee-details>
             </summary-card>
@@ -108,7 +117,6 @@
 </template>
 <script>
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
 import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
 import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
@@ -124,26 +132,12 @@ const defaultFilters = {
   jobTitleId: null,
   locationId: null,
 };
-const {$t} = usei18n();
-const employeeDataNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.empNumber,
-      employeeName:
-        `${item.firstName} ${item.middleName} ${item.lastName}` +
-        (item.terminationId ? $t('general.past_employee') : ''),
-      employeeJobTitle: item.jobTitle?.title,
-      employeeSubUnit: item.subunit?.name,
-      employeeLocation: item.location?.name,
-    };
-  });
-};
+
 export default {
   name: 'CorporateDirectory',
 
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
-    'jobtitle-dropdown': JobtitleDropdown,
     'summary-card': SummaryCard,
     'summary-card-details': SummaryCardDetails,
     'employee-details': EmployeeDetails,
@@ -151,6 +145,10 @@ export default {
   },
 
   props: {
+    jobTitles: {
+      type: Array,
+      default: () => [],
+    },
     locations: {
       type: Array,
       default: () => [],
@@ -158,12 +156,26 @@ export default {
   },
 
   setup() {
+    const {$t} = usei18n();
+    const employeeDataNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.empNumber,
+          employeeName:
+            `${item.firstName} ${item.middleName} ${item.lastName} ` +
+            (item.terminationId ? $t('general.past_employee') : ''),
+          employeeJobTitle: item.jobTitle?.title,
+          employeeSubUnit: item.subunit?.name,
+          employeeLocation: item.location?.name,
+        };
+      });
+    };
     const filters = ref({...defaultFilters});
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/directory/employees',
     );
-    const limit = 10; // this is a static limit since no pagination
+    const limit = 8; // this is a static limit since no pagination
     const state = reactive({
       employees: [],
       total: 0,
@@ -213,10 +225,10 @@ export default {
 
   computed: {
     isMobile() {
-      return this.windowWidth < 600 ? true : false;
+      return this.windowWidth < 600;
     },
     hasCurrentIndex() {
-      return this.currentIndex ? true : false;
+      return this.currentIndex >= 0;
     },
   },
 
@@ -239,6 +251,7 @@ export default {
         this.currentIndex = index;
         this.colSize = 3;
       } else {
+        this.currentIndex = -1;
         this.hideEmployeeDetails();
       }
     },
@@ -247,6 +260,7 @@ export default {
     },
     triggerSearch() {
       this.employees = [];
+      this.offset = 0;
       this.fetchData();
     },
     triggerReset() {
@@ -267,6 +281,7 @@ export default {
   display: block;
   @include oxd-respond-to('md') {
     display: flex;
+    justify-content: space-between;
   }
 
   &-sidebar {
@@ -276,12 +291,21 @@ export default {
 
 .orangehrm-container {
   overflow: auto;
-  max-height: 512px;
+  height: 512px;
+  position: relative;
+  @include oxd-respond-to('md') {
+    min-width: 678px;
+  }
   @include oxd-scrollbar();
 
   &-loader {
     margin: 0 auto;
     background-color: $oxd-white-color;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }
 </style>

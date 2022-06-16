@@ -37,12 +37,15 @@
       </oxd-text>
     </div>
     <profile-picture :id="employeeId"></profile-picture>
-    <div class="orangehrm-directory-card-header">
+    <div v-show="employeeDesignation" class="orangehrm-directory-card-header">
       <oxd-text type="toast-title">
         {{ employeeDesignation }}
       </oxd-text>
     </div>
-    <div class="orangehrm-directory-card-body">
+    <div
+      v-show="employeeSubUnit || employeeLocation"
+      class="orangehrm-directory-card-body"
+    >
       <span class="orangehrm-directory-card-icon">
         <oxd-icon name="geo-alt-fill"></oxd-icon>
       </span>
@@ -114,17 +117,18 @@ export default {
 @import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-directory-card {
+  height: auto;
+  overflow: hidden;
   padding: 0.5rem 1rem;
   @include oxd-respond-to('md') {
-    height: auto;
-    overflow: hidden;
+    min-height: 280px;
   }
 
   &-height {
-    height: 260px;
-    overflow: hidden;
-    @include oxd-respond-to('xs') {
-      height: auto;
+    height: auto;
+    @include oxd-respond-to('md') {
+      height: 260px;
+      overflow: hidden;
     }
   }
 
@@ -134,21 +138,28 @@ export default {
     text-align: center;
     justify-content: space-between;
     height: 32px;
+    word-break: break-all;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
   }
 
   &-body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem;
     margin-top: -0.25rem;
     background-color: $oxd-background-white-shadow-color;
     border-radius: 0.5rem;
-    height: 44px;
+    height: 64px;
+    min-width: 168px;
   }
 
   &-icon {
-    margin: 0 0.5rem 0 0;
+    margin: 0 0.25rem 0 0;
     color: $oxd-interface-gray-darken-1-color;
     font-size: 24px;
     display: flex;
@@ -163,44 +174,6 @@ export default {
   &-location {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
-  }
-}
-
-@include oxd-respond-to('xs') {
-  .orangehrm-directory-card {
-    &-rounded-body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 1rem;
-      margin: 1rem 8px 1rem 0;
-      border-radius: 1.2rem;
-      width: auto;
-      height: 64px;
-      box-shadow: 5px 5px 5px 5px $oxd-background-white-shadow-color;
-    }
-
-    &-hover {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.5rem;
-      width: auto;
-      min-height: 48px;
-      margin-right: 8px;
-
-      &-body {
-        display: block;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        word-wrap: break-word;
-      }
-    }
-
-    &-hover:hover {
-      background-color: $oxd-background-white-shadow-color;
-    }
   }
 }
 </style>

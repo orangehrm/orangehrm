@@ -20,7 +20,10 @@
 
 <template>
   <oxd-divider></oxd-divider>
-  <div class="orangehrm-directory-card-rounded-body">
+  <div
+    v-show="employeeWorkEmail || employeeWorkTelephone"
+    class="orangehrm-directory-card-rounded-body"
+  >
     <div v-show="employeeWorkTelephone" class="orangehrm-directory-card-icon">
       <a :href="`tel:${employeeWorkTelephone}`">
         <oxd-icon-button
@@ -31,11 +34,15 @@
     </div>
     <div v-show="employeeWorkEmail" class="orangehrm-directory-card-icon">
       <a :href="`mailto:${employeeWorkEmail}`">
-        <oxd-icon-button display-type="danger" name="mailbox"></oxd-icon-button>
+        <oxd-icon-button
+          display-type="danger"
+          name="envelope-fill"
+        ></oxd-icon-button>
       </a>
     </div>
   </div>
   <div
+    v-show="employeeWorkTelephone"
     class="orangehrm-directory-card-hover"
     @mouseleave="showTelephoneClip = false"
     @mouseover="showTelephoneClip = true"
@@ -47,17 +54,18 @@
       </oxd-text>
     </div>
     <div
-      class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
+      class="orangehrm-directory-card-hover-body orangehrm-directory-card-hover-icon"
     >
       <oxd-icon-button
-        v-show="showTelephoneClip"
+        v-show="showTelephoneClip || isMobile"
         name="clipboard-check"
         @click="copyTelephone"
       ></oxd-icon-button>
     </div>
   </div>
-  <oxd-divider></oxd-divider>
+  <oxd-divider v-show="employeeWorkTelephone"></oxd-divider>
   <div
+    v-show="employeeWorkEmail"
     class="orangehrm-directory-card-hover"
     @mouseleave="showEmailClip = false"
     @mouseover="showEmailClip = true"
@@ -69,16 +77,16 @@
       </oxd-text>
     </div>
     <div
-      class="orangehrm-directory-card-hover-body orangehrm-directory-card-icon"
+      class="orangehrm-directory-card-hover-body orangehrm-directory-card-hover-icon"
     >
       <oxd-icon-button
-        v-show="showEmailClip"
+        v-show="showEmailClip || isMobile"
         name="clipboard-check"
         @click="copyEmail"
       ></oxd-icon-button>
     </div>
   </div>
-  <oxd-divider></oxd-divider>
+  <oxd-divider v-show="employeeWorkEmail"></oxd-divider>
 </template>
 
 <script>
@@ -94,6 +102,10 @@ export default {
     employeeId: {
       type: Number,
       required: true,
+    },
+    isMobile: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {
@@ -135,10 +147,11 @@ export default {
 @import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-directory-card {
-  @include oxd-respond-to('xs') {
-    padding: 0.5rem 1rem;
-    height: auto;
-    overflow: hidden;
+  height: auto;
+  overflow: hidden;
+  padding: 0.5rem 1rem;
+  @include oxd-respond-to('md') {
+    min-height: 280px;
   }
 
   &-rounded-body {
@@ -148,22 +161,17 @@ export default {
     padding: 0 1rem;
     margin: 1rem 8px 1rem 0;
     border-radius: 1.2rem;
-    width: 140px;
+    width: auto;
     height: 64px;
     box-shadow: 5px 5px 5px 5px $oxd-background-white-shadow-color;
-    @include oxd-respond-to('xs') {
-      width: auto;
-    }
   }
 
   &-hover {
     display: flex;
     justify-content: space-between;
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 0.5rem;
-    width: 156px;
-    min-height: 48px;
-    margin-right: 8px;
+    margin: auto;
     @include oxd-respond-to('md') {
       width: auto;
     }
@@ -174,6 +182,13 @@ export default {
       justify-content: center;
       overflow: hidden;
       word-wrap: break-word;
+    }
+
+    &-icon {
+      color: $oxd-interface-gray-darken-1-color;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
     }
   }
 

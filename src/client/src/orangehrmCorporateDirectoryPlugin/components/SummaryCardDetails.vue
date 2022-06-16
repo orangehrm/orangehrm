@@ -54,5 +54,6 @@ export default {
 <style lang="scss" scoped>
 .orangehrm-directory-card-height {
   height: auto;
+  width: 188px;
 }
 </style>

@@ -20,20 +20,11 @@
 namespace OrangeHRM\CorporateDirectory\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Exception\SearchParamException;
 
 class EmployeeDirectorySearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = [];
 
-    public const INCLUDE_EMPLOYEES_ONLY_CURRENT = 'onlyCurrent';
-    public const INCLUDE_EMPLOYEES_ONLY_PAST = 'onlyPast';
-    public const INCLUDE_EMPLOYEES_CURRENT_AND_PAST = 'currentAndPast';
-
-    /**
-     * @var string|null
-     */
-    protected ?string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
     /**
      * @var string|null
      */
@@ -42,6 +33,10 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
      * @var int[]|null
      */
     protected ?array $empNumbers = null;
+    /**
+     * @var string|null
+     */
+    protected ?string $nameOrId = null;
     /**
      * @var int|null
      */
@@ -58,33 +53,6 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
     public function __construct()
     {
         $this->setSortField('employee.lastName');
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getIncludeEmployees(): ?string
-    {
-        return $this->includeEmployees;
-    }
-
-    /**
-     * @param string|null $includeEmployees
-     * @throws SearchParamException
-     */
-    public function setIncludeEmployees(string $includeEmployees): void
-    {
-        if (!in_array(
-            $includeEmployees,
-            [
-                self::INCLUDE_EMPLOYEES_ONLY_CURRENT,
-                self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
-                self::INCLUDE_EMPLOYEES_ONLY_PAST,
-            ]
-        )) {
-            throw new SearchParamException('Invalid parameter');
-        }
-        $this->includeEmployees = $includeEmployees;
     }
 
     /**
@@ -117,6 +85,22 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNameOrId(): ?string
+    {
+        return $this->nameOrId;
+    }
+
+    /**
+     * @param string|null $nameOrId
+     */
+    public function setNameOrId(?string $nameOrId): void
+    {
+        $this->nameOrId = $nameOrId;
     }
 
     /**

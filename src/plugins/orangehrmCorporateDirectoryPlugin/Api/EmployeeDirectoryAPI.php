@@ -43,10 +43,11 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
     use UserRoleManagerTrait;
 
     public const FILTER_EMP_NUMBER = 'empNumber';
+    public const FILTER_NAME_OR_ID = 'nameOrId';
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_LOCATION_ID = 'locationId';
     public const FILTER_MODEL = 'model';
-
+    public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
     public const MODEL_DEFAULT = 'default';
     public const MODEL_DETAILED = 'detailed';
     public const MODEL_MAP = [
@@ -133,7 +134,12 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
         if (!is_null($empNumber)) {
             $employeeDirectoryParamHolder->setEmpNumbers([$empNumber]);
         }
-
+        $employeeDirectoryParamHolder->setNameOrId(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_NAME_OR_ID
+            )
+        );
         $employeeDirectoryParamHolder->setJobTitleId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -170,6 +176,13 @@ class EmployeeDirectoryAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::FILTER_EMP_NUMBER,
                     new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_NAME_OR_ID,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH]),
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

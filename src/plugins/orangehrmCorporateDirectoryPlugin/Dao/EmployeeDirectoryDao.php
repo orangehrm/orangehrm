@@ -49,21 +49,21 @@ class EmployeeDirectoryDao extends BaseDao
 
         $this->setSortingAndPaginationParams($q, $employeeDirectorySearchParamHolder);
 
-        if (is_null($employeeDirectorySearchParamHolder->getIncludeEmployees()) ||
-            $employeeDirectorySearchParamHolder->getIncludeEmployees() ===
-            EmployeeDirectorySearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
-        ) {
-            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
-        } elseif (
-            $employeeDirectorySearchParamHolder->getIncludeEmployees() ===
-            EmployeeDirectorySearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST
-        ) {
-            $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
-        }
-
         if (!is_null($employeeDirectorySearchParamHolder->getEmpNumbers())) {
             $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
                 ->setParameter('empNumbers', $employeeDirectorySearchParamHolder->getEmpNumbers());
+        } elseif (!is_null($employeeDirectorySearchParamHolder->getNameOrId())) {
+            $q->andWhere(
+                $q->expr()->orX(
+                    $q->expr()->like('employee.firstName', ':nameOrId'),
+                    $q->expr()->like('employee.lastName', ':nameOrId'),
+                    $q->expr()->like('employee.middleName', ':nameOrId'),
+                    $q->expr()->like('employee.employeeId', ':nameOrId'),
+                )
+            );
+            $q->setParameter('nameOrId', '%' . $employeeDirectorySearchParamHolder->getNameOrId() . '%');
+        } else {
+            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         }
 
         if (!is_null($employeeDirectorySearchParamHolder->getLocationId())) {
