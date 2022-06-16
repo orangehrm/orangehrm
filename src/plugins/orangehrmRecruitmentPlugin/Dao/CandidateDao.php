@@ -221,10 +221,9 @@ class CandidateDao extends BaseDao
     public function getInterviewCountByCandidateId(int $candidateId): int
     {
         $qb = $this->createQueryBuilder(Interview::class, 'interview');
-        $qb->select('count(interview.id)')
-            ->where('interview.candidate = :candidateId')
+        $qb->where('interview.candidate = :candidateId')
             ->setParameter('candidateId', $candidateId);
-        return $qb->getQuery()->getSingleScalarResult();
+        return $this->getPaginator($qb)->count();
     }
 
     /**
@@ -291,7 +290,11 @@ class CandidateDao extends BaseDao
         return array_column($result, 'id');
     }
 
-    public function getInterviewById(int $interviewId)
+    /**
+     * @param int $interviewId
+     * @return Interview|null
+     */
+    public function getInterviewById(int $interviewId): ?Interview
     {
         return $this->getRepository(Interview::class)->find($interviewId);
     }
