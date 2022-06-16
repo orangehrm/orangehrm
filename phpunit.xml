@@ -97,8 +97,7 @@
       <directory>src/plugins/orangehrmCorporateDirectoryPlugin/test/Api</directory>
     </testsuite>
     <testsuite name="CorporateBranding">
-      <directory>src/plugins/orangehrmCorporateBrandingPlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmCorporateBrandingPlugin/test/Service</directory>
+      <directory>src/plugins/orangehrmCorporateBrandingPlugin/test</directory>
     </testsuite>
   </testsuites>
 </phpunit>

@@ -33,6 +33,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\CorporateBranding\Api\Model\ThemeModel;
+use OrangeHRM\CorporateBranding\Api\Traits\VariablesParamRuleCollection;
 use OrangeHRM\CorporateBranding\Dto\PartialTheme;
 use OrangeHRM\CorporateBranding\Service\ThemeService;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
@@ -42,6 +43,7 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
 {
     use ThemeServiceTrait;
     use ValidatorTrait;
+    use VariablesParamRuleCollection;
 
     public const PARAMETER_VARIABLES = 'variables';
     public const PARAMETER_SHOW_SOCIAL_MEDIA_ICONS = 'showSocialMediaImages';
@@ -91,6 +93,9 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
      */
     public function update(): EndpointResult
     {
+        $variables = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_VARIABLES);
+        $this->validate($variables, $this->getParamRuleCollection());
+
         $theme = $this->getThemeService()
             ->getThemeDao()
             ->getThemeByThemeName(ThemeService::CUSTOM_THEME);
@@ -99,17 +104,6 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
             $theme = new Theme();
             $theme->setName(ThemeService::CUSTOM_THEME);
         }
-
-        $variables = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_VARIABLES);
-        $paramRules = new ParamRuleCollection(
-            new ParamRule(ThemeService::PRIMARY_COLOR, new Rule(Rules::STRING_TYPE)),
-            new ParamRule(ThemeService::PRIMARY_FONT_COLOR, new Rule(Rules::STRING_TYPE)),
-            new ParamRule(ThemeService::SECONDARY_COLOR, new Rule(Rules::STRING_TYPE)),
-            new ParamRule(ThemeService::SECONDARY_FONT_COLOR, new Rule(Rules::STRING_TYPE)),
-            new ParamRule(ThemeService::PRIMARY_GRADIENT_START_COLOR, new Rule(Rules::STRING_TYPE)),
-            new ParamRule(ThemeService::PRIMARY_GRADIENT_END_COLOR, new Rule(Rules::STRING_TYPE)),
-        );
-        $this->validate($variables, $paramRules);
 
         $theme->setVariables($variables);
         $theme->setShowSocialMediaIcons(

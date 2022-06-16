@@ -322,7 +322,7 @@ export default {
         http
           .request({
             method: 'POST',
-            url: '/api/v2/admin/corporateBranding/preview',
+            url: '/api/v2/admin/theme/preview',
             data: {
               ...state.colors,
             },
