@@ -142,9 +142,10 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http
-      .get(this.performanceTrackerId) //performace-tracker-id
+      .get(this.performanceTrackerId) //performance-tracker-id
       .then(response => {
         const {data} = response.data;
+        this.isReadOnly = data.ownerEditable === true ? false : true;
         this.tracker.id = data.id;
         this.tracker.name = data.trackerName;
         this.tracker.employee = data.employee
