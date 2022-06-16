@@ -19,10 +19,7 @@
  -->
 
 <template>
-  <oxd-dialog
-    :style="{width: '90%', maxWidth: '600px'}"
-    @update:show="onCancel(false)"
-  >
+  <oxd-dialog class="orangehrm-dialog-modal" @update:show="onCancel(false)">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">{{
         $t('pim.terminate_employment')

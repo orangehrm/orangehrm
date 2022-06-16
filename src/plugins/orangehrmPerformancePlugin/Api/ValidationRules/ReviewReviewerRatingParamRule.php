@@ -52,7 +52,6 @@ class ReviewReviewerRatingParamRule extends AbstractRule
             if (count(array_keys($rating)) != 3 || !(isset($rating[SupervisorEvaluationAPI::PARAMETER_KPI_ID]))) {
                 return false;
             }
-
             $kpiIdsForReviewId = $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getKpiIdsForReviewId($this->reviewId);
 
@@ -62,7 +61,6 @@ class ReviewReviewerRatingParamRule extends AbstractRule
             ) {
                 return false;
             }
-
 
             $kpi = $this->getKpiService()->getKpiDao()->getKpiById($kpiId);
             if (! ($kpi->getMinRating() <= $rating[SupervisorEvaluationAPI::PARAMETER_RATING] && $rating[SupervisorEvaluationAPI::PARAMETER_RATING] <= $kpi->getMaxRating())) {

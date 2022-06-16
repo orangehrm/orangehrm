@@ -21,15 +21,15 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">{{
-        $t('pim.data_import')
-      }}</oxd-text>
+      <oxd-text class="orangehrm-main-title">
+        {{ $t('pim.data_import') }}
+      </oxd-text>
 
       <oxd-divider />
       <div class="orangehrm-information-card-container">
-        <oxd-text class="orangehrm-sub-title"
-          >{{ $t('general.note') }}:</oxd-text
-        >
+        <oxd-text class="orangehrm-sub-title">
+          {{ $t('general.note') }}:
+        </oxd-text>
         <ul>
           <li>
             <oxd-text class="orangehrm-information-card-text">
@@ -79,6 +79,7 @@
           </li>
         </ul>
       </div>
+      <br />
 
       <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>

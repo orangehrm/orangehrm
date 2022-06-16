@@ -403,6 +403,23 @@ apiv2_recruitment_candidate_decline_offer:
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
 ##########################
+#   Corporate Directory
+##########################
+
+apiv2_corporate_directory_employees:
+  description: 'API-v2 Corporate Directory - Employee Directory'
+  api: OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI
+  module: directory
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false} }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false} }
+    
+##########################
 #        Admin
 ##########################
 

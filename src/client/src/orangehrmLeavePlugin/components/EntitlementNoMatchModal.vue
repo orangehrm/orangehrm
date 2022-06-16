@@ -31,7 +31,7 @@
         </oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
-        <oxd-text type="subtitle-2">
+        <oxd-text type="card-body">
           {{ $t('general.no_employees_match_filters') }}
         </oxd-text>
       </div>

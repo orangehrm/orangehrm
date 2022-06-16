@@ -101,6 +101,7 @@
                     height: 50,
                   })
                 "
+                button-icon=""
                 url="admin/theme/attachments/image"
               />
             </oxd-grid-item>
@@ -119,6 +120,7 @@
                     height: 50,
                   })
                 "
+                button-icon=""
                 url="admin/theme/attachments/image"
               />
             </oxd-grid-item>
@@ -137,6 +139,7 @@
                     height: 65,
                   })
                 "
+                button-icon=""
                 url="admin/theme/attachments/image"
               />
             </oxd-grid-item>

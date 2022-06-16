@@ -34,5 +34,4 @@ trait ThemeServiceTrait
     {
         return $this->getContainer()->get(Services::THEME_SERVICE);
     }
-
 }

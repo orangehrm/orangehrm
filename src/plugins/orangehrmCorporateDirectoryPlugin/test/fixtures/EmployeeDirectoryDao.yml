@@ -1,8 +1,11 @@
 Subunit:
-  Subunit_1: { name: 'OrangeHRM', description: '', lft: '1', rgt: '8', id: 1, level: '0', unit_id: '' }
-  Subunit_2: { name: 'Software Development  Department', description: '', lft: '2', rgt: '7', id: 2, level: '1', unit_id: '001' }
-  Subunit_3: { name: 'QA Division', description: '', lft: '3', rgt: '6', id: 3, level: '2', unit_id: 001A }
-  Subunit_4: { name: 'OpenSource  Team', description: '', lft: '4', rgt: '5', id: 4, level: '3', unit_id: 001Aa }
+  0: {id: 1, name: 'Organization', description: 'company description', lft: 1, rgt: 14, level: 0}
+  1: {id: 2, name: 'Sales', description: 'department description', lft: 2, rgt: 5, level: 1}
+  2: {id: 3, name: 'Engineering', description: 'sub department description', lft: 6, rgt: 7, level: 1}
+  3: {id: 4, name: 'Marketing', description: 'sub department description', lft: 8, rgt: 9, level: 1}
+  4: {id: 5, name: 'Executive', description: 'sub department description', lft: 10, rgt: 13, level: 1}
+  5: {id: 6, name: 'Sub Executive', description: 'sub department description', lft: 11, rgt: 12, level: 2}
+  6: {id: 7, name: 'Sales Executive', description: 'sub department description', lft: 3, rgt: 4, level: 2}
 
 JobTitle:
   0: {id: 1, jobTitleName: 'Software Architect', isDeleted: 0}
@@ -33,4 +36,3 @@ EmpLocations:
   1: {emp_number: 2, location_id: 1 }
   2: {emp_number: 3, location_id: 1 }
   3: {emp_number: 4, location_id: 2 }
-  
