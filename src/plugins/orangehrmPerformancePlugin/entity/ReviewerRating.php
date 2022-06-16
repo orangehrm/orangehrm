@@ -20,13 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\ReviewerRatingDecorator;
 
 /**
+ * @method ReviewerRatingDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_reviewer_rating")
  * @ORM\Entity
  */
 class ReviewerRating
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
