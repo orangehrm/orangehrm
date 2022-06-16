@@ -21,11 +21,14 @@ namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\Interview;
+use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
 class InterviewerUserRole extends AbstractUserRole
 {
     use CandidateServiceTrait;
+    use RecruitmentAttachmentServiceTrait;
 
     /**
      * @inheritDoc
@@ -37,6 +40,8 @@ class InterviewerUserRole extends AbstractUserRole
                 return $this->getAccessibleCandidateIds($requiredPermissions);
             case Interview::class:
                 return $this->getAccessibleInterviewIds($requiredPermissions);
+            case InterviewAttachment::class:
+                return $this->getAccessibleInterviewAttachmentIds($requiredPermissions);
             default:
                 return [];
         }
@@ -57,10 +62,21 @@ class InterviewerUserRole extends AbstractUserRole
      * @param array $requiredPermissions
      * @return int[]
      */
-    private function getAccessibleInterviewIds(array $requiredPermissions): array
+    private function getAccessibleInterviewIds(array $requiredPermissions = []): array
     {
         return $this->getCandidateService()
             ->getCandidateDao()
             ->getInterviewListForInterviewer($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermission
+     * @return int[]
+     */
+    private function getAccessibleInterviewAttachmentIds(array $requiredPermission = []): array
+    {
+        return $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->getInterviewAttachmentListForInterviewer($this->getEmployeeNumber());
     }
 }
