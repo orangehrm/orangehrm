@@ -117,6 +117,20 @@ apiv2_performance_reviews_kpis:
   defaults:
     _api: OrangeHRM\Performance\Api\ReviewKpiAPI
 
+apiv2_performance_reviews_supervisor_evaluation:
+  path: /api/v2/performance/reviews/{reviewId}/evaluation/supervisor
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET,PUT]
+  defaults:
+    _api: OrangeHRM\Performance\Api\SupervisorEvaluationAPI
+
+apiv2_performance_reviews_employee_evaluation:
+  path: /api/v2/performance/reviews/{reviewId}/evaluation/employee
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET,PUT]
+  defaults:
+    _api: OrangeHRM\Performance\Api\EmployeeEvaluationAPI
+
 apiv2_performance_reviews_final_evaluation:
   path: /api/v2/performance/reviews/{reviewId}/evaluation/final
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

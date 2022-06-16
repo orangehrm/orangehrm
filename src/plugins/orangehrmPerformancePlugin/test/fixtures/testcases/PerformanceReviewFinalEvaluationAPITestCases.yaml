@@ -16,8 +16,8 @@ Update:
       finalComment: "Final comment"
       completedDate: "2022-06-09"
     exception:
-      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
-      message: 'Bad Request'
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
 
   'save final evaluation for completed review':
     userId: 1
@@ -36,8 +36,8 @@ Update:
       finalComment: "Final comment"
       completedDate: "2022-06-09"
     exception:
-      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
-      message: 'Bad Request'
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
 
   'save final evaluation for non existent review':
     userId: 1
@@ -294,8 +294,8 @@ GetOne:
     attributes:
       reviewId: 8
     exception:
-      class: \OrangeHRM\Core\Api\V2\Exception\BadRequestException
-      message: 'Bad Request'
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
 
 
   'admin - get final evaluation for active review':
