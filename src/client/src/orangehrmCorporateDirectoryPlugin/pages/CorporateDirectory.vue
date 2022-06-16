@@ -295,6 +295,7 @@ export default {
   position: relative;
   @include oxd-respond-to('md') {
     min-width: 678px;
+    margin: 0px;
   }
   @include oxd-scrollbar();
 
