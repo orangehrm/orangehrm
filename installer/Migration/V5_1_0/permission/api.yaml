@@ -375,7 +375,7 @@ apiv2_recruitment_candidate_decline_offer:
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
 ##########################
-#        Corporate Directory
+#   Corporate Directory
 ##########################
 
 apiv2_corporate_directory_employees:
