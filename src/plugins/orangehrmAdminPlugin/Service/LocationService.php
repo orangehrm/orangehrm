@@ -20,11 +20,11 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\LocationDao;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\LocationModel;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Location;
-use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class LocationService
@@ -161,5 +161,16 @@ class LocationService
     public function deleteLocations(array $ids): int
     {
         return $this->getLocationDao()->deleteLocations($ids);
+    }
+
+    /**
+     * @return array
+     */
+    public function getLocationsArray(): array
+    {
+        $locationSearchFilterParams = new LocationSearchFilterParams();
+        $locationSearchFilterParams->setLimit(0);
+        $locations = $this->getLocationDao()->searchLocations($locationSearchFilterParams);
+        return $this->getNormalizerService()->normalizeArray(LocationModel::class, $locations);
     }
 }

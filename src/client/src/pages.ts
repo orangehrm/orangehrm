@@ -27,6 +27,7 @@ import AttendancePages from '@/orangehrmAttendancePlugin';
 import MaintenancePages from '@/orangehrmMaintenancePlugin';
 import RecruitmentPages from '@/orangehrmRecruitmentPlugin';
 import PerformancePages from '@/orangehrmPerformancePlugin';
+import CorporateDirectoryPages from '@/orangehrmCorporateDirectoryPlugin';
 import authenticationPages from '@/orangehrmAuthenticationPlugin';
 
 export default {
@@ -41,5 +42,6 @@ export default {
   ...MaintenancePages,
   ...RecruitmentPages,
   ...PerformancePages,
+  ...CorporateDirectoryPages,
   ...authenticationPages,
 };

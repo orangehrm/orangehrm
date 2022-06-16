@@ -97,6 +97,7 @@
             "OrangeHRM\\Tests\\I18N\\": "./plugins/orangehrmI18NPlugin/test",
             "OrangeHRM\\Tests\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin/test",
             "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test",
+            "OrangeHRM\\Tests\\CorporateDirectory\\": "./plugins/orangehrmCorporateDirectoryPlugin/test",
             "OrangeHRM\\Tests\\CorporateBranding\\": "./plugins/orangehrmCorporateBrandingPlugin/test"
         }
     },
