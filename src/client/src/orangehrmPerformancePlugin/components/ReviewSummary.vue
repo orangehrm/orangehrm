@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import {computed} from 'vue';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
@@ -80,12 +81,8 @@ import usei18n from '@/core/util/composable/usei18n';
 export default {
   name: 'ReviewSummary',
   props: {
-    empNumber: {
-      type: Number,
-      required: true,
-    },
-    employeeName: {
-      type: String,
+    employee: {
+      type: Object,
       required: true,
     },
     jobTitle: {
@@ -124,18 +121,25 @@ export default {
     const reviewDateFormat = date =>
       formatDate(parseDate(date), jsDateFormat, {locale});
 
-    const imgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.empNumber}`;
+    const imgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`;
     const reviewStatus = statusOpts.find(el => el.id === props.status).label;
     const reviewPeriod = `${reviewDateFormat(
       props.reviewPeriodStart,
     )} - ${reviewDateFormat(props.reviewPeriodEnd)}`;
     const reviewDueDate = reviewDateFormat(props.dueDate);
 
+    const employeeName = computed(() => {
+      return `${props.employee.firstName} ${props.employee.lastName} ${
+        props.employee.terminationId ? $t('general.past_employee') : ''
+      }`;
+    });
+
     return {
       imgSrc,
       reviewStatus,
       reviewPeriod,
       reviewDueDate,
+      employeeName,
     };
   },
 };
@@ -160,8 +164,8 @@ export default {
     margin-bottom: 1.2rem;
 
     & img {
-      width: 100px;
-      height: 100px;
+      width: 75px;
+      height: 75px;
       border-radius: 100%;
       display: flex;
       overflow: hidden;
@@ -177,8 +181,6 @@ export default {
       display: flex;
       flex-direction: column;
       padding-left: 1.2rem;
-      padding-right: 0.6rem;
-      padding-top: 1.2rem;
 
       &-name {
         font-weight: 700;

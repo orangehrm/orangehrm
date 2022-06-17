@@ -125,11 +125,21 @@ export default {
           required,
           greaterThanOrEqual(
             0,
-            this.$t('performance.rating_should_be_greater_than_or_equal_to_0'),
+            this.$t(
+              'performance.rating_should_be_greater_than_or_equal_to_minValue',
+              {
+                minValue: 0,
+              },
+            ),
           ),
           lessThanOrEqual(
             100,
-            this.$t('performance.rating_should_be_less_than_or_equal_to_100'),
+            this.$t(
+              'performance.rating_should_be_less_than_or_equal_to_maxValue',
+              {
+                maxValue: 100,
+              },
+            ),
           ),
         ],
         // TODO add min max rules

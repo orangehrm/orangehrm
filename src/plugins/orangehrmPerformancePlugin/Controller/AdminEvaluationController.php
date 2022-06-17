@@ -29,11 +29,13 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class AdminEvaluationController extends AbstractVueController implements CapableViewController
 {
     use PerformanceReviewServiceTrait;
     use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
 
     /**
      * @inheritDoc
@@ -75,13 +77,25 @@ class AdminEvaluationController extends AbstractVueController implements Capable
     protected function setReviewProps(Component $component, PerformanceReview $performanceReview): void
     {
         $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $performanceReview->getId()));
-        $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $performanceReview->getEmployee()->getEmpNumber()));
-        $component->addProp(new Prop('employee-name', Prop::TYPE_STRING, $performanceReview->getEmployee()->getDecorator()->getFirstAndLastNames()));
         $component->addProp(new Prop('job-title', Prop::TYPE_STRING, $performanceReview->getEmployee()->getJobTitle()->getJobTitleName()));
         $component->addProp(new Prop('status', Prop::TYPE_NUMBER, $performanceReview->getStatusId()));
         $component->addProp(new Prop('review-period-start', Prop::TYPE_STRING, $performanceReview->getDecorator()->getReviewPeriodStart()));
         $component->addProp(new Prop('review-period-end', Prop::TYPE_STRING, $performanceReview->getDecorator()->getReviewPeriodEnd()));
         $component->addProp(new Prop('due-date', Prop::TYPE_STRING, $performanceReview->getDecorator()->getDueDate()));
+        $component->addProp(
+            new Prop(
+                'employee',
+                Prop::TYPE_OBJECT,
+                $this->getEmployeeService()->getEmployeeAsArray($performanceReview->getEmployee()->getEmpNumber())
+            )
+        );
+        $component->addProp(
+            new Prop(
+                'supervisor',
+                Prop::TYPE_OBJECT,
+                $this->getEmployeeService()->getEmployeeAsArray($performanceReview->getReviewers()[0]->getEmployee()->getEmpNumber())
+            )
+        );
     }
 
     /**

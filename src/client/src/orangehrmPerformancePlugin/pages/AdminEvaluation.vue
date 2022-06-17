@@ -27,8 +27,7 @@
     </div>
     <br />
     <review-summary
-      :emp-number="empNumber"
-      :employee-name="employeeName"
+      :employee="employee"
       :job-title="jobTitle"
       :status="status"
       :review-period-start="reviewPeriodStart"
@@ -37,9 +36,25 @@
     />
     <br />
     <oxd-form :loading="isLoading" @submitValid="onClickSave(true)">
-      <evaluation-form></evaluation-form>
+      <evaluation-form
+        :kpis="kpis"
+        :rules="rules"
+        :editable="false"
+        :collapsible="false"
+        :job-title="jobTitle"
+        :employee="employee"
+        title="Evaluation by Employee"
+      ></evaluation-form>
       <br />
-      <div class="orangehrm-card-container">
+      <evaluation-form
+        v-model="supervisorReview"
+        :kpis="kpis"
+        :rules="rules"
+        :editable="true"
+        :collapsible="true"
+        :employee="supervisor"
+        title="Evaluation by Supervisor"
+      >
         <oxd-divider />
         <final-evaluation
           v-model:completed-date="completedDate"
@@ -69,7 +84,7 @@
             type="submit"
           />
         </oxd-form-actions>
-      </div>
+      </evaluation-form>
     </oxd-form>
   </div>
 </template>
@@ -78,15 +93,13 @@
 import {computed} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
-import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
-import ReviewSummary from '../components/ReviewSummary';
-import FinalEvaluation from '../components/FinalEvaluation';
+import ReviewSummary from '@/orangehrmPerformancePlugin/components/ReviewSummary';
+import FinalEvaluation from '@/orangehrmPerformancePlugin/components/FinalEvaluation';
 import EvaluationForm from '@/orangehrmPerformancePlugin/components/EvaluationForm';
+import useReviewEvaluation from '@/orangehrmPerformancePlugin/util/composable/useReviewEvaluation';
 
 export default {
-  name: 'AdminEvaluation',
   components: {
-    'oxd-divider': Divider,
     'review-summary': ReviewSummary,
     'final-evaluation': FinalEvaluation,
     'evaluation-form': EvaluationForm,
@@ -94,14 +107,6 @@ export default {
   props: {
     reviewId: {
       type: Number,
-      required: true,
-    },
-    empNumber: {
-      type: Number,
-      required: true,
-    },
-    employeeName: {
-      type: String,
       required: true,
     },
     jobTitle: {
@@ -128,15 +133,33 @@ export default {
       type: Boolean,
       default: false,
     },
+    employee: {
+      type: Object,
+      required: true,
+    },
+    supervisor: {
+      type: Object,
+      required: true,
+    },
   },
   setup(props) {
     const http = new APIService(window.appGlobal.baseUrl, '');
+    const {
+      getAllKpis,
+      getFinalReview,
+      generateRules,
+      generateModel,
+    } = useReviewEvaluation(http);
     // TODO workflow
     const completed = computed(() => props.status === 4);
 
     return {
       http,
       completed,
+      getAllKpis,
+      generateRules,
+      generateModel,
+      getFinalReview,
     };
   },
   data() {
@@ -145,14 +168,22 @@ export default {
       completedDate: null,
       finalRating: null,
       finalComment: null,
+      kpis: [],
+      rules: [],
+      employeeReview: [],
+      supervisorReview: [],
     };
   },
   beforeMount() {
     this.isLoading = true;
-    this.http
-      .request({
-        method: 'GET',
-        url: `/api/v2/performance/reviews/${this.reviewId}/evaluation/final`,
+    this.getAllKpis(this.reviewId)
+      .then(response => {
+        const {data} = response.data;
+        this.kpis = [...data];
+        this.rules = this.generateRules(data);
+        this.employeeReview = this.generateModel(data);
+        this.supervisorReview = this.generateModel(data);
+        return this.getFinalReview(this.reviewId);
       })
       .then(response => {
         const {data} = response.data;

@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-evaluation orangehrm-card-container">
-    <oxd-text class="orangehrm-main-title">Evaluation by Employee</oxd-text>
+    <oxd-text class="orangehrm-main-title">
+      {{ title }}
+    </oxd-text>
     <div class="orangehrm-evaluation-header">
       <div class="orangehrm-evaluation-header-title">
         <img
@@ -30,10 +32,10 @@
         />
         <div class="orangehrm-evaluation-header-name">
           <oxd-text type="card-title">
-            James McGill
+            {{ employeeName }}
           </oxd-text>
           <oxd-text type="card-body">
-            Software Engineer
+            {{ jobTitle }}
           </oxd-text>
         </div>
       </div>
@@ -42,6 +44,7 @@
           Evaluation Activated
         </oxd-text>
         <oxd-icon-button
+          v-if="collapsible"
           :with-container="false"
           :name="isCollapsed ? 'chevron-up' : 'chevron-down'"
           @click="toggleForm"
@@ -58,10 +61,10 @@
           <oxd-text type="subtitle-2">Rating</oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
-          <oxd-text type="subtitle-2">Comments</oxd-text>
+          <oxd-text type="subtitle-2">{{ $t('general.comments') }}</oxd-text>
         </oxd-grid-item>
 
-        <template v-for="kpi in kpis" :key="kpi.id">
+        <template v-for="(kpi, index) in kpis" :key="kpi.id">
           <oxd-grid-item class="orangehrm-evaluation-grid-kpi">
             <oxd-text
               class="orangehrm-evaluation-grid-kpi-header"
@@ -90,19 +93,26 @@
             >
               Rating
             </oxd-text>
-            <oxd-input-field type="input" />
+            <oxd-input-field
+              type="input"
+              :rules="rules[index]"
+              :model-value="modelValue[index].rating"
+              @update:modelValue="onUpdateRating($event, index)"
+            />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-text
               class="orangehrm-evaluation-grid-kpi-header"
               type="subtitle-2"
             >
-              Comment
+              {{ $t('general.comment') }}
             </oxd-text>
             <oxd-input-field
               class="orangehrm-evaluation-grid-comment"
               type="textarea"
               rows="2"
+              :model-value="modelValue[index].comment"
+              @update:modelValue="onUpdateComment($event, index)"
             />
           </oxd-grid-item>
           <div class="orangehrm-evaluation-grid-spacer"></div>
@@ -114,64 +124,96 @@
 </template>
 
 <script>
-import {computed, reactive, toRefs} from 'vue';
+import {computed, ref} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
 
 export default {
-  setup() {
-    const state = reactive({
-      isCollapsed: true,
-      kpis: [
-        {
-          id: 3,
-          title: 'Client retention rate',
-          minRating: 1,
-          maxRating: 5,
-          isDefault: false,
-        },
-        {
-          id: 4,
-          title: 'Customer satisfaction',
-          minRating: 1,
-          maxRating: 5,
-          isDefault: false,
-        },
-        {
-          id: 5,
-          title: 'Profit margin',
-          minRating: 1,
-          maxRating: 5,
-          isDefault: false,
-        },
-        {
-          id: 1,
-          title:
-            'Praesent lorem mauris, rhoncus vel hendrerit ac, egestas in nulla. Cras suscipit mi ut dictum lacinia. Curabitur pellentesque neque ut aliquet ullamcorper',
-          minRating: 1,
-          maxRating: 5,
-          isDefault: false,
-        },
-        {
-          id: 2,
-          title: 'Revenue per client',
-          minRating: 1,
-          maxRating: 5,
-          isDefault: false,
-        },
-      ],
-    });
+  props: {
+    kpis: {
+      type: Array,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    editable: {
+      type: Boolean,
+      required: true,
+    },
+    collapsible: {
+      type: Boolean,
+      required: true,
+    },
+    employee: {
+      type: Object,
+      required: true,
+    },
+    jobTitle: {
+      type: String,
+      required: true,
+    },
+    rules: {
+      type: Array,
+      required: true,
+    },
+    modelValue: {
+      type: Array,
+      required: true,
+    },
+  },
+
+  emits: ['update:modelValue'],
+
+  setup(props, context) {
+    const {$t} = usei18n();
+    const isCollapsed = ref(props.kpis.length === 0);
 
     const profileImgSrc = computed(() => {
-      return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/1`;
+      return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`;
+    });
+
+    const employeeName = computed(() => {
+      return `${props.employee.firstName} ${props.employee.lastName} ${
+        props.employee.terminationId ? $t('general.past_employee') : ''
+      }`;
     });
 
     const toggleForm = () => {
-      state.isCollapsed = !state.isCollapsed;
+      isCollapsed.value = !isCollapsed.value;
+    };
+
+    const onUpdateRating = (value, index) => {
+      context.emit(
+        'update:modelValue',
+        props.modelValue.map((item, _index) => {
+          if (_index === index) {
+            return {...item, rating: value};
+          }
+          return item;
+        }),
+      );
+    };
+
+    const onUpdateComment = (value, index) => {
+      context.emit(
+        'update:modelValue',
+        props.modelValue.map((item, _index) => {
+          if (_index === index) {
+            return {...item, comment: value};
+          }
+          return item;
+        }),
+      );
     };
 
     return {
       toggleForm,
+      isCollapsed,
+      employeeName,
       profileImgSrc,
-      ...toRefs(state),
+      onUpdateRating,
+      onUpdateComment,
     };
   },
 };
