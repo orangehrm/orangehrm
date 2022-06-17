@@ -43,7 +43,7 @@ describe('Leave - Leave Period', function () {
         cy.getOXDInput('Start Date').selectOption('15');
         cy.getOXD('button').contains('Save').click();
       });
-      //cy.toast('success', 'Successfully Saved');
+      cy.toast('success', 'Successfully Saved');
       cy.wait('@updateLeavePeriod');
     });
     it('Verify the Current Leave Period and End date is getting updated', function () {
@@ -55,7 +55,7 @@ describe('Leave - Leave Period', function () {
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@updateLeavePeriod');
-      //cy.toast('success', 'Successfully Saved');
+      cy.toast('success', 'Successfully Saved');
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-text',
       ).should('include.text', 'June 27 (Following Year)');
@@ -94,7 +94,7 @@ describe('Leave - Leave Period', function () {
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@updateLeavePeriod');
-      //cy.toast('success', 'Successfully Saved');
+      cy.toast('success', 'Successfully Saved');
       cy.task('db:snapshot', {name: 'leavePeriodSaved2'});
     });
     it('Verify Reset button Function ', function () {

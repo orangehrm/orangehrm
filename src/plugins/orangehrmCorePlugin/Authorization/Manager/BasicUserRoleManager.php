@@ -41,7 +41,6 @@ use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
-use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
@@ -54,7 +53,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     use MenuServiceTrait;
     use PerformanceTrackerServiceTrait;
     use VacancyServiceTrait;
-    use CandidateServiceTrait;
 
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
@@ -754,10 +752,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             ->isProjectAdmin($empNumber);
     }
 
-    /**
-     * @param int|null $empNumber
-     * @return bool
-     */
     private function isHiringManager(?int $empNumber): bool
     {
         return $this->getVacancyService()

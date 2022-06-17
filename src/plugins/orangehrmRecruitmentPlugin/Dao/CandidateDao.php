@@ -221,9 +221,10 @@ class CandidateDao extends BaseDao
     public function getInterviewCountByCandidateId(int $candidateId): int
     {
         $qb = $this->createQueryBuilder(Interview::class, 'interview');
-        $qb->where('interview.candidate = :candidateId')
+        $qb->select('count(interview.id)')
+            ->where('interview.candidate = :candidateId')
             ->setParameter('candidateId', $candidateId);
-        return $this->getPaginator($qb)->count();
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -290,58 +291,8 @@ class CandidateDao extends BaseDao
         return array_column($result, 'id');
     }
 
-    /**
-     * @param int $interviewId
-     * @return Interview|null
-     */
-    public function getInterviewById(int $interviewId): ?Interview
+    public function getInterviewById(int $interviewId)
     {
         return $this->getRepository(Interview::class)->find($interviewId);
-    }
-
-    /**
-     * @param int $empNumber
-     * @return int[]
-     */
-    public function getCandidateListForInterviewer(int $empNumber): array
-    {
-        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewerInterview');
-        $q->leftJoin('interviewerInterview.interview', 'interview');
-        $q->leftJoin('interview.candidate', 'candidate');
-        $q->select('candidate.id');
-        $q->andWhere('interviewerInterview.interviewer = :empNumber');
-        $q->setParameter('empNumber', $empNumber);
-        $result = $q->getQuery()->getArrayResult();
-        return array_column($result, 'id');
-    }
-
-    /**
-     * @param int $empNumber
-     * @return int[]
-     */
-    public function getInterviewListForInterviewer(int $empNumber): array
-    {
-        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewInterviewer');
-        $q->leftJoin('interviewInterviewer.interview', 'interview');
-        $q->select('interview.id');
-        $q->andWhere('interviewInterviewer.interviewer = :empNumber');
-        $q->setParameter('empNumber', $empNumber);
-        $result = $q->getQuery()->getArrayResult();
-        return array_column($result, 'id');
-    }
-
-    /**
-     * @param int|null $empNumber
-     * @return bool
-     */
-    public function isInterviewer(?int $empNumber): bool
-    {
-        if (is_null($empNumber)) {
-            return false;
-        }
-        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewInterviewer')
-            ->andWhere('interviewInterviewer.interviewer = :empNumber')
-            ->setParameter('empNumber', $empNumber);
-        return $this->getPaginator($q)->count() > 0;
     }
 }

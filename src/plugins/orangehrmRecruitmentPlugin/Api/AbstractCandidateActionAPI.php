@@ -200,22 +200,6 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
         );
     }
 
-
-    /**
-     * @param CandidateVacancy $candidateVacancy
-     * @param Employee $employee
-     */
-    protected function setCandidateAsEmployee(CandidateVacancy $candidateVacancy, Employee $employee)
-    {
-        $employee->setFirstName($candidateVacancy->getCandidate()->getFirstName());
-        $employee->setMiddleName($candidateVacancy->getCandidate()->getMiddleName());
-        $employee->setLastName($candidateVacancy->getCandidate()->getLastName());
-        $employee->setOtherEmail($candidateVacancy->getCandidate()->getEmail());
-        $employee->getDecorator()->setJobTitleById(
-            $candidateVacancy->getVacancy()->getJobTitle()->getId()
-        );
-    }
-
     /**
      * @return int
      */
