@@ -28,6 +28,7 @@ GetOne:
       "jobTitle": {
         "id": 1,
         "title": 'Software Engineer - Intern',
+        "isDeleted": false,
       },
       "subunit": {
         "id": 3,
@@ -54,6 +55,7 @@ GetOne:
       "jobTitle": {
         "id": 1,
         "title": 'Software Engineer - Intern',
+        "isDeleted": false,
       },
       "subunit": {
         "id": 3,
@@ -82,6 +84,7 @@ GetAll:
         "jobTitle": {
           "id": null,
           "title": null,
+          "isDeleted": false,
         },
         "subunit": {
           "id": null,
@@ -101,6 +104,7 @@ GetAll:
         "jobTitle": {
           "id": 1,
           "title": 'Software Engineer - Intern',
+          "isDeleted": false,
         },
         "subunit": {
           "id": 3,
@@ -120,6 +124,7 @@ GetAll:
         "jobTitle": {
           "id": null,
           "title": null,
+          "isDeleted": false,
         },
         "subunit": {
           "id": null,
@@ -139,6 +144,7 @@ GetAll:
         "jobTitle": {
           "id": null,
           "title": null,
+          "isDeleted": false,
         },
         "subunit": {
           "id": null,
@@ -176,6 +182,7 @@ GetAll:
         "jobTitle": {
           "id": null,
           "title": null,
+          "isDeleted": false,
         },
         "subunit": {
           "id": null,
@@ -205,6 +212,7 @@ GetAll:
         "jobTitle": {
           "id": 1,
           "title": 'Software Engineer - Intern',
+          "isDeleted": false,
         },
         "subunit": {
           "id": 3,
@@ -241,6 +249,7 @@ GetAll:
         "jobTitle": {
           "id": null,
           "title": null,
+          "isDeleted": false,
         },
         "subunit": {
           "id": null,
@@ -260,6 +269,7 @@ GetAll:
         "jobTitle": {
           "id": null,
           "title": null,
+          "isDeleted": false,
         },
         "subunit": {
           "id": null,
@@ -279,6 +289,7 @@ GetAll:
         "jobTitle": {
           "id": 1,
           "title": 'Software Engineer - Intern',
+          "isDeleted": false,
         },
         "subunit": {
           "id": 3,
@@ -298,6 +309,7 @@ GetAll:
         "jobTitle": {
           "id": null,
           "title": null,
+          "isDeleted": false,
         },
         "subunit": {
           "id": null,
@@ -326,6 +338,7 @@ GetAll:
         "jobTitle": {
           "id": null,
           "title": null,
+          "isDeleted": false,
         },
         "subunit": {
           "id": null,

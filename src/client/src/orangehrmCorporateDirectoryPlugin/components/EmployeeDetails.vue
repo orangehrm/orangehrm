@@ -25,7 +25,7 @@
     class="orangehrm-directory-card-rounded-body"
   >
     <div v-show="employeeWorkTelephone" class="orangehrm-directory-card-icon">
-      <a :href="`tel:${employeeWorkTelephone}`">
+      <a :href="'tel:' + employeeWorkTelephone">
         <oxd-icon-button
           display-type="success"
           name="telephone-fill"
@@ -33,7 +33,7 @@
       </a>
     </div>
     <div v-show="employeeWorkEmail" class="orangehrm-directory-card-icon">
-      <a :href="`mailto:${employeeWorkEmail}`">
+      <a :href="'mailto:' + employeeWorkEmail">
         <oxd-icon-button
           display-type="danger"
           name="envelope-fill"

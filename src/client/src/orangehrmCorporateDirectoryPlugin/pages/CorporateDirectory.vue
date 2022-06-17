@@ -164,7 +164,9 @@ export default {
           employeeName:
             `${item.firstName} ${item.middleName} ${item.lastName} ` +
             (item.terminationId ? $t('general.past_employee') : ''),
-          employeeJobTitle: item.jobTitle?.title,
+          employeeJobTitle:
+            `${item.jobTitle?.title} ` +
+            (item.jobTitle?.isDeleted ? $t('general.deleted') : ''),
           employeeSubUnit: item.subunit?.name,
           employeeLocation: item.location?.name,
         };
