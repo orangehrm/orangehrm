@@ -159,7 +159,7 @@ class ThemeService
     /**
      * @return bool
      */
-    public function getShowSocialMediaImages(): bool
+    public function showSocialMediaImages(): bool
     {
         return $this->getCache()->get(
             self::THEME_SHOW_SOCIAL_MEDIA_IMAGES_CACHE_KEY,

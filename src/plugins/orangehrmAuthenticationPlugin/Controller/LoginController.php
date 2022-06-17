@@ -89,7 +89,9 @@ class LoginController extends AbstractVueController implements PublicControllerI
         $component->addProp(
             new Prop('login-banner-src', Prop::TYPE_STRING, $loginBannerUrl)
         );
-        $component->addProp(new Prop('show-social-media', Prop::TYPE_BOOLEAN, true));
+        $component->addProp(
+            new Prop('show-social-media', Prop::TYPE_BOOLEAN, $this->getThemeService()->showSocialMediaImages())
+        );
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }

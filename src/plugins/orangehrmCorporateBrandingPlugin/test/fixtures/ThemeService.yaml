@@ -1,0 +1,3 @@
+Theme:
+  - { "theme_id": "1","theme_name": "default","variables": "{\"primaryColor\":\"#FF7B1D\",\"primaryFontColor\":\"#FFFFFF\",\"secondaryColor\":\"#76BC21\",\"secondaryFontColor\":\"#FFFFFF\",\"primaryGradientStartColor\":\"#FF920B\",\"primaryGradientEndColor\":\"#F35C17\"}","show_social_media_icons": "1" }
+  - { "theme_id": "2","theme_name": "custom","variables": "{\"primaryColor\":\"#FF7B1D\",\"primaryFontColor\":\"#FFFFFF\",\"secondaryColor\":\"#76BC21\",\"secondaryFontColor\":\"#FFFFFF\",\"primaryGradientStartColor\":\"#653904\",\"primaryGradientEndColor\":\"#ae410f\"}","show_social_media_icons": "0" }
