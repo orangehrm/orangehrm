@@ -770,7 +770,7 @@ describe('core/util/validation/rules::imageShouldHaveDimensions', () => {
 describe('core/util/validation/rules::lessThanOrEqual', () => {
   test('lessThanOrEqual:: with empty string', () => {
     const result = lessThanOrEqual(100)('');
-    expect(result).toEqual('Number should be less than or equal to 100');
+    expect(result).toStrictEqual(true);
   });
 
   test('lessThanOrEqual:: with string', () => {
@@ -807,7 +807,7 @@ describe('core/util/validation/rules::lessThanOrEqual', () => {
 describe('core/util/validation/rules::greaterThanOrEqual', () => {
   test('greaterThanOrEqual:: with empty string', () => {
     const result = greaterThanOrEqual(0)('');
-    expect(result).toEqual('Number should be greater than or equal to 0');
+    expect(result).toStrictEqual(true);
   });
 
   test('greaterThanOrEqual:: with string', () => {
