@@ -118,7 +118,6 @@ class ThemeService
      */
     private function getImageETagAlongWithCache(string $imageKey): ?string
     {
-        /** @var ThemeImage|null $image */
         $image = $this->getCache()->get(
             "admin.theme.$imageKey.image",
             function () use ($imageKey) {
