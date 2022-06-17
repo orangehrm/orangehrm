@@ -216,7 +216,9 @@ export default {
           this.updateLeavePeriodModel(data);
           this.defineLeavePeriod(meta);
           this.resetLeavePeriod();
-          this.$toast.saveSuccess();
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
           this.isLoading = false;
           if (!this.leavePeriodDefined) {
             reloadPage();
