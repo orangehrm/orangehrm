@@ -86,11 +86,12 @@
     }
     ::v-deep(.oxd-textarea) {
       min-height: unset;
+      height: 58px;
     }
     ::v-deep(.oxd-input) {
       text-align: center;
       font-size: 1.2rem;
-      height: calc(#{$oxd-input-control-line-height} * 2em);
+      height: 58px;
     }
   }
   .orangehrm-main-title {

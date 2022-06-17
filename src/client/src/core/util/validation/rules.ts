@@ -582,6 +582,7 @@ export const greaterThanOrEqual = function(minValue: number, message?: string) {
       ? message
       : translate('general.greater_than_or_equal_to_n', {minValue: minValue});
   return function(value: string): boolean | string {
+    if (value === null || value === '') return true;
     if (digitsOnlyWithDecimalPointAndMinusSign(value) !== true) {
       return resolvedMessage;
     }
@@ -595,6 +596,7 @@ export const lessThanOrEqual = function(maxValue: number, message?: string) {
       ? message
       : translate('general.less_than_or_equal_to_n', {maxValue: maxValue});
   return function(value: string): boolean | string {
+    if (value === null || value === '') return true;
     if (digitsOnlyWithDecimalPointAndMinusSign(value) !== true) {
       return resolvedMessage;
     }

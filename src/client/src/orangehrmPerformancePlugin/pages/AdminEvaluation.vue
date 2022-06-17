@@ -27,22 +27,24 @@
     </div>
     <br />
     <review-summary
+      :status="status"
+      :due-date="dueDate"
       :employee="employee"
       :job-title="jobTitle"
-      :status="status"
-      :review-period-start="reviewPeriodStart"
       :review-period-end="reviewPeriodEnd"
-      :due-date="dueDate"
+      :review-period-start="reviewPeriodStart"
     />
     <br />
-    <oxd-form :loading="isLoading" @submitValid="onClickSave(true)">
+    <oxd-form ref="formRef" :loading="isLoading">
       <evaluation-form
+        v-model="employeeReview"
         :kpis="kpis"
         :rules="rules"
         :editable="false"
+        :collapsed="true"
         :collapsible="false"
-        :job-title="jobTitle"
         :employee="employee"
+        :job-title="jobTitle"
         title="Evaluation by Employee"
       ></evaluation-form>
       <br />
@@ -53,14 +55,17 @@
         :editable="true"
         :collapsible="true"
         :employee="supervisor"
+        :job-title="jobTitle"
         title="Evaluation by Supervisor"
       >
         <oxd-divider />
         <final-evaluation
-          v-model:completed-date="completedDate"
+          :key="isFinalizeRequired"
           v-model:final-rating="finalRating"
           v-model:final-comment="finalComment"
+          v-model:completed-date="completedDate"
           :status="status"
+          :is-required="isFinalizeRequired"
         />
         <oxd-divider />
         <oxd-form-actions>
@@ -72,16 +77,18 @@
           <oxd-button
             v-show="!completed"
             display-type="ghost"
+            type="button"
             class="orangehrm-left-space"
             :label="$t('general.save')"
-            @click="onClickSave(false)"
+            @click="onSubmit(false)"
           />
           <oxd-button
             v-show="!completed"
+            type="button"
             display-type="secondary"
             class="orangehrm-left-space"
             :label="$t('performance.complete')"
-            type="submit"
+            @click="onSubmit(true)"
           />
         </oxd-form-actions>
       </evaluation-form>
@@ -91,6 +98,7 @@
 
 <script>
 import {computed} from 'vue';
+import useForm from '@ohrm/core/util/composable/useForm';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
 import ReviewSummary from '@/orangehrmPerformancePlugin/components/ReviewSummary';
@@ -143,35 +151,44 @@ export default {
     },
   },
   setup(props) {
+    const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
     const {
       getAllKpis,
       getFinalReview,
       generateRules,
       generateModel,
+      finalizeReview,
+      saveSupervisorReview,
     } = useReviewEvaluation(http);
     // TODO workflow
     const completed = computed(() => props.status === 4);
 
     return {
       http,
+      invalid,
+      formRef,
+      validate,
       completed,
       getAllKpis,
       generateRules,
       generateModel,
       getFinalReview,
+      finalizeReview,
+      saveSupervisorReview,
     };
   },
   data() {
     return {
-      isLoading: false,
-      completedDate: null,
-      finalRating: null,
-      finalComment: null,
       kpis: [],
       rules: [],
       employeeReview: [],
       supervisorReview: [],
+      isLoading: false,
+      finalRating: null,
+      finalComment: null,
+      completedDate: null,
+      isFinalizeRequired: false,
     };
   },
   beforeMount() {
@@ -187,33 +204,39 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.completedDate = data.completedDate;
         this.finalRating = data.finalRating;
         this.finalComment = data.finalComment;
+        this.completedDate = data.completedDate;
       })
       .finally(() => {
         this.isLoading = false;
       });
   },
   methods: {
-    onClickSave(complete = false) {
-      this.isLoading = true;
-      this.http
-        .request({
-          method: 'PUT',
-          url: `/api/v2/performance/reviews/${this.reviewId}/evaluation/final`,
-          data: {
-            complete: complete,
-            completedDate: this.completedDate,
-            finalComment: this.finalComment,
-            finalRating: this.finalRating,
-          },
-        })
+    onSubmit(complete = false) {
+      this.isFinalizeRequired = complete;
+      this.$nextTick()
+        .then(() => this.validate())
         .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .finally(() => {
-          reloadPage();
+          if (this.invalid === true) return;
+          this.isLoading = true;
+          this.saveSupervisorReview(this.reviewId, this.supervisorReview)
+            .then(() => {
+              return complete === true
+                ? this.finalizeReview(this.reviewId, {
+                    complete: true,
+                    finalRating: this.finalRating,
+                    finalComment: this.finalComment,
+                    completedDate: this.completedDate,
+                  })
+                : null;
+            })
+            .then(() => {
+              return this.$toast.saveSuccess();
+            })
+            .finally(() => {
+              reloadPage();
+            });
         });
     },
     onClickBack() {

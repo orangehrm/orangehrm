@@ -95,6 +95,7 @@
             </oxd-text>
             <oxd-input-field
               type="input"
+              :disabled="!editable"
               :rules="rules[index]"
               :model-value="modelValue[index].rating"
               @update:modelValue="onUpdateRating($event, index)"
@@ -109,8 +110,10 @@
             </oxd-text>
             <oxd-input-field
               class="orangehrm-evaluation-grid-comment"
-              type="textarea"
               rows="2"
+              type="textarea"
+              :disabled="!editable"
+              :rules="commentValidators"
               :model-value="modelValue[index].comment"
               @update:modelValue="onUpdateComment($event, index)"
             />
@@ -126,6 +129,7 @@
 <script>
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 
 export default {
   props: {
@@ -161,13 +165,18 @@ export default {
       type: Array,
       required: true,
     },
+    collapsed: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   emits: ['update:modelValue'],
 
   setup(props, context) {
     const {$t} = usei18n();
-    const isCollapsed = ref(props.kpis.length === 0);
+    const isCollapsed = ref(props.collapsed);
+    const commentValidators = [shouldNotExceedCharLength(1000)];
 
     const profileImgSrc = computed(() => {
       return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`;
@@ -214,6 +223,7 @@ export default {
       profileImgSrc,
       onUpdateRating,
       onUpdateComment,
+      commentValidators,
     };
   },
 };

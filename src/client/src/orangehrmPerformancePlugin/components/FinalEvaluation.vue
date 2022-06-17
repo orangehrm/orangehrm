@@ -23,9 +23,10 @@
     <oxd-text class="orangehrm-performance-review-title">
       {{ $t('performance.review_finalization') }}
     </oxd-text>
-    <div class="orangehrm-performance-review-final">
-      <div class="orangehrm-performance-review-final-date">
-        <oxd-text class="orangehrm-performance-review-bold">
+    <br />
+    <oxd-grid :cols="3">
+      <oxd-grid-item>
+        <oxd-text type="subtitle-2">
           {{ $t('performance.date_of_completion') }}
         </oxd-text>
         <date-input
@@ -37,9 +38,9 @@
         <div v-else class="orangehrm-performance-review-final-read">
           <oxd-text>{{ formattedCompletedDate }}</oxd-text>
         </div>
-      </div>
-      <div class="orangehrm-performance-review-final-rating">
-        <oxd-text class="orangehrm-performance-review-bold">
+      </oxd-grid-item>
+      <oxd-grid-item>
+        <oxd-text type="subtitle-2">
           {{ $t('performance.final_rating') }}
         </oxd-text>
         <oxd-input-field
@@ -51,9 +52,9 @@
         <div v-else class="orangehrm-performance-review-final-read">
           <oxd-text>{{ finalRating }}</oxd-text>
         </div>
-      </div>
-      <div class="orangehrm-performance-review-final-comment">
-        <oxd-text class="orangehrm-performance-review-bold">
+      </oxd-grid-item>
+      <oxd-grid-item>
+        <oxd-text type="subtitle-2">
           {{ $t('performance.final_comments') }}
         </oxd-text>
         <oxd-input-field
@@ -65,8 +66,8 @@
         <div v-else class="orangehrm-performance-review-final-read">
           <oxd-text>{{ finalComment }}</oxd-text>
         </div>
-      </div>
-    </div>
+      </oxd-grid-item>
+    </oxd-grid>
   </div>
 </template>
 
@@ -87,25 +88,32 @@ export default {
   props: {
     completedDate: {
       type: String,
-      required: true,
+      default: null,
+      required: false,
     },
     finalRating: {
       type: String,
-      required: true,
+      default: null,
+      required: false,
     },
     finalComment: {
       type: String,
-      required: true,
+      default: null,
+      required: false,
     },
     status: {
       type: Number,
       required: true,
     },
+    isRequired: {
+      type: Boolean,
+      required: true,
+    },
   },
   emits: ['update:finalRating', 'update:finalComment', 'update:completedDate'],
   setup(props) {
-    const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
 
     const editable = computed(() => props.status !== 4);
     const formattedCompletedDate = computed(() =>
@@ -117,12 +125,15 @@ export default {
       formattedCompletedDate,
     };
   },
+
   data() {
     return {
       rules: {
-        completedDate: [required, validDateFormat()],
+        completedDate: [
+          validDateFormat(),
+          ...(this.isRequired ? [required] : []),
+        ],
         finalRating: [
-          required,
           greaterThanOrEqual(
             0,
             this.$t(
@@ -141,9 +152,10 @@ export default {
               },
             ),
           ),
+          ...(this.isRequired ? [required] : []),
         ],
         // TODO add min max rules
-        finalComment: [required],
+        finalComment: [...(this.isRequired ? [required] : [])],
       },
     };
   },

@@ -23,8 +23,6 @@ import {
 import usei18n from '@/core/util/composable/usei18n';
 import {APIService} from '@/core/util/services/api.service';
 
-type Rule = (value: string) => boolean | string;
-
 export interface JobTitle {
   id: number;
   name: string;
@@ -54,6 +52,39 @@ export default function useReviewEvaluation(http: APIService) {
     return http.request({
       method: 'GET',
       url: `/api/v2/performance/reviews/${reviewId}/evaluation/final`,
+    });
+  };
+
+  const finalizeReview = (
+    reviewId: number,
+    reviewData: {
+      complete: boolean;
+      finalComment: string;
+      finalRating: number;
+      completedDate: string;
+    },
+  ) => {
+    return http.request({
+      method: 'PUT',
+      url: `/api/v2/performance/reviews/${reviewId}/evaluation/final`,
+      data: {...reviewData},
+    });
+  };
+
+  const saveSupervisorReview = (
+    reviewId: number,
+    ratings: Array<{
+      kpiId: number;
+      rating: number;
+      comment: string;
+    }>,
+  ) => {
+    return http.request({
+      method: 'PUT',
+      url: `/api/v2/performance/reviews/${reviewId}/evaluation/supervisor`,
+      data: {
+        ratings,
+      },
     });
   };
 
@@ -87,5 +118,7 @@ export default function useReviewEvaluation(http: APIService) {
     getFinalReview,
     generateRules,
     generateModel,
+    finalizeReview,
+    saveSupervisorReview,
   };
 }

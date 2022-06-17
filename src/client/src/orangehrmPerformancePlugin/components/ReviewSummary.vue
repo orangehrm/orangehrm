@@ -42,32 +42,32 @@
         </div>
       </div>
     </div>
-    <div class="orangehrm-performance-review-details">
-      <div class="orangehrm-performance-review-details-column">
+    <oxd-grid :cols="3">
+      <oxd-grid-item class="orangehrm-performance-review-column">
         <oxd-text type="subtitle-2">
           {{ $t('performance.review_status') }}
         </oxd-text>
         <oxd-text class="orangehrm-performance-review-bold">
           {{ reviewStatus }}
         </oxd-text>
-      </div>
-      <div class="orangehrm-performance-review-details-column">
+      </oxd-grid-item>
+      <oxd-grid-item class="orangehrm-performance-review-column">
         <oxd-text type="subtitle-2">
           {{ $t('performance.review_period') }}
         </oxd-text>
         <oxd-text class="orangehrm-performance-review-bold">
           {{ reviewPeriod }}
         </oxd-text>
-      </div>
-      <div class="orangehrm-performance-review-details-column">
+      </oxd-grid-item>
+      <oxd-grid-item class="orangehrm-performance-review-column">
         <oxd-text type="subtitle-2">
           {{ $t('performance.review_due_date') }}
         </oxd-text>
         <oxd-text class="orangehrm-performance-review-bold">
           {{ reviewDueDate }}
         </oxd-text>
-      </div>
-    </div>
+      </oxd-grid-item>
+    </oxd-grid>
   </div>
 </template>
 
@@ -194,13 +194,8 @@ export default {
     }
   }
 
-  &-details {
-    display: flex;
-    flex-direction: row;
-
-    &-column {
-      width: 30%;
-    }
+  &-column {
+    margin-bottom: 0.5rem;
   }
 }
 </style>
