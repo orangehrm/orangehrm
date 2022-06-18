@@ -7,7 +7,7 @@ This is the main advantage of cypress over selenium.
 
 - Install Yarn locally in your computer. pls refer https://yarnpkg.com/getting-started/install
 - Install project dependencies via `yarn install`
-- Modify test/cypress.json fie base url to working instance url
+- Modify cypress.config.js fie base url to working instance url
 
 ```
      {
