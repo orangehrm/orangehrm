@@ -25,20 +25,18 @@
     class="orangehrm-directory-card-rounded-body"
   >
     <div v-show="employeeWorkTelephone" class="orangehrm-directory-card-icon">
-      <a :href="'tel:' + employeeWorkTelephone">
-        <oxd-icon-button
-          display-type="success"
-          name="telephone-fill"
-        ></oxd-icon-button>
-      </a>
+      <oxd-icon-button
+        display-type="success"
+        name="telephone-fill"
+        @click.stop.prevent="openClientTelephone"
+      ></oxd-icon-button>
     </div>
     <div v-show="employeeWorkEmail" class="orangehrm-directory-card-icon">
-      <a :href="'mailto:' + employeeWorkEmail">
-        <oxd-icon-button
-          display-type="danger"
-          name="envelope-fill"
-        ></oxd-icon-button>
-      </a>
+      <oxd-icon-button
+        display-type="danger"
+        name="envelope-fill"
+        @click.stop.prevent="openClientEmail"
+      ></oxd-icon-button>
     </div>
   </div>
   <div
@@ -58,8 +56,8 @@
     >
       <oxd-icon-button
         v-show="showTelephoneClip || isMobile"
-        name="clipboard-check"
-        @click="copyTelephone"
+        name="files"
+        @click.stop.prevent="copyTelephone"
       ></oxd-icon-button>
     </div>
   </div>
@@ -81,8 +79,8 @@
     >
       <oxd-icon-button
         v-show="showEmailClip || isMobile"
-        name="clipboard-check"
-        @click="copyEmail"
+        name="files"
+        @click.stop.prevent="copyEmail"
       ></oxd-icon-button>
     </div>
   </div>
@@ -123,21 +121,36 @@ export default {
       employeeWorkEmail: null,
       showTelephoneClip: false,
       showEmailClip: false,
+      toGoEmail: null,
     };
   },
+  watch: {
+    employeeId: function() {
+      this.callEmployeeDetailsApi();
+    },
+  },
   beforeMount() {
-    this.http.get(this.employeeId, {model: 'detailed'}).then(response => {
-      const {data} = response.data;
-      this.employeeWorkTelephone = data.contactInfo?.workTelephone;
-      this.employeeWorkEmail = data.contactInfo?.workEmail;
-    });
+    this.callEmployeeDetailsApi();
   },
   methods: {
+    openClientTelephone() {
+      window.location.href = 'tel:' + this.employeeWorkTelephone;
+    },
+    openClientEmail() {
+      window.location.href = 'mailto:' + this.employeeWorkEmail;
+    },
     copyEmail() {
       navigator.clipboard?.writeText(this.employeeWorkEmail);
     },
     copyTelephone() {
       navigator.clipboard?.writeText(this.employeeWorkTelephone);
+    },
+    callEmployeeDetailsApi() {
+      this.http.get(this.employeeId, {model: 'detailed'}).then(response => {
+        const {data} = response.data;
+        this.employeeWorkTelephone = data.contactInfo?.workTelephone;
+        this.employeeWorkEmail = data.contactInfo?.workEmail;
+      });
     },
   },
 };

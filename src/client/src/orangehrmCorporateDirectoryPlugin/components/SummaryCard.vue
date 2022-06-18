@@ -40,7 +40,7 @@
     </div>
     <profile-picture :id="employeeId"></profile-picture>
     <div
-      v-show="employeeDesignation"
+      v-if="employeeDesignation"
       class="orangehrm-directory-card-header orangehrm-directory-card-word-break"
     >
       <oxd-text type="toast-title">

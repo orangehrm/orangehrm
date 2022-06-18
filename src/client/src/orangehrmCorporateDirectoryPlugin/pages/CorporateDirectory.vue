@@ -164,9 +164,9 @@ export default {
           employeeName:
             `${item.firstName} ${item.middleName} ${item.lastName} ` +
             (item.terminationId ? $t('general.past_employee') : ''),
-          employeeJobTitle:
-            `${item.jobTitle?.title} ` +
-            (item.jobTitle?.isDeleted ? $t('general.deleted') : ''),
+          employeeJobTitle: item.jobTitle?.isDeleted
+            ? `${item.jobTitle?.title} ` + $t('general.deleted')
+            : item.jobTitle?.title,
           employeeSubUnit: item.subunit?.name,
           employeeLocation: item.location?.name,
         };
@@ -253,7 +253,6 @@ export default {
         this.currentIndex = index;
         this.colSize = 3;
       } else {
-        this.currentIndex = -1;
         this.hideEmployeeDetails();
       }
     },
@@ -295,9 +294,9 @@ export default {
   overflow: auto;
   height: 512px;
   position: relative;
+  margin: 0px;
   @include oxd-respond-to('md') {
     min-width: 678px;
-    margin: 0px;
   }
   @include oxd-scrollbar();
 
