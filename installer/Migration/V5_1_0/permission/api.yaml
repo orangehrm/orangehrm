@@ -447,3 +447,15 @@ apiv2_corporate_branding_theme:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: true } }
+
+apiv2_corporate_branding_theme_preview:
+  description: 'API-v2 Admin - Theme Preview'
+  api: OrangeHRM\CorporateBranding\Api\PreviewThemeAPI
+  module: admin
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }

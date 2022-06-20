@@ -62,9 +62,16 @@ abstract class KernelTestCase extends TestCase
      * @param array $attributes
      * @return Request
      */
-    protected function getHttpRequest(array $query = [], array $request = [], array $attributes = []): Request
-    {
-        return new Request($query, $request, $attributes);
+    protected function getHttpRequest(
+        array $query = [],
+        array $request = [],
+        array $attributes = [],
+        array $cookies = [],
+        array $files = [],
+        array $server = [],
+        $content = null
+    ): Request {
+        return new Request($query, $request, $attributes, $cookies, $files, $server, $content);
     }
 
     /**

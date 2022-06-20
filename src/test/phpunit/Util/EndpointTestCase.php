@@ -101,7 +101,12 @@ abstract class EndpointTestCase extends KernelTestCase
             sort($invalidOnly);
             $invalidParamKeys = array_keys($e->getErrorBag());
             sort($invalidParamKeys);
-            $this->assertEquals($invalidOnly, $invalidParamKeys);
+            $this->assertEquals(
+                $invalidOnly,
+                $invalidParamKeys,
+                'Expected invalid parameters are: ' . implode(',', $invalidOnly) .
+                '; But actual: ' . implode(',', $invalidParamKeys)
+            );
         }
     }
 }
