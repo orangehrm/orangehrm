@@ -72,7 +72,12 @@
     <div :class="{'orangehrm-corporate-directory': hasCurrentIndex}">
       <div class="orangehrm-paper-container">
         <table-header :show-divider="false" :total="total"></table-header>
-        <oxd-grid ref="scrollerRef" :cols="colSize" class="orangehrm-container">
+        <oxd-grid
+          ref="scrollerRef"
+          :cols="colSize"
+          class="orangehrm-container"
+          :class="{'orangehrm-container-min-display': hasCurrentIndex}"
+        >
           <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
             <summary-card
               :employee-designation="employee.employeeJobTitle"
@@ -126,6 +131,7 @@ import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
 import {reactive, toRefs} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import {ref} from 'vue';
+import useToast from '@/core/util/composable/useToast';
 
 const defaultFilters = {
   employeeNumber: null,
@@ -156,6 +162,7 @@ export default {
   },
 
   setup() {
+    const {noRecordsFound} = useToast();
     const {$t} = usei18n();
     const employeeDataNormalizer = data => {
       return data.map(item => {
@@ -206,6 +213,9 @@ export default {
               ...state.employees,
               ...employeeDataNormalizer(data),
             ];
+          }
+          if (state.total === 0) {
+            noRecordsFound();
           }
         })
         .finally(() => (state.isLoading = false));
@@ -298,6 +308,10 @@ export default {
   @include oxd-respond-to('md') {
     min-width: 678px;
   }
+  &-min-display {
+    min-width: auto;
+  }
+
   @include oxd-scrollbar();
 
   &-loader {
