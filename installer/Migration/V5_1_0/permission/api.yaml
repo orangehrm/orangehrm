@@ -402,6 +402,19 @@ apiv2_recruitment_candidate_decline_offer:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
+apiv2_recruitment_candidate_hire:
+  description: 'API-v2 Recruitment - Candidate Hire'
+  api: OrangeHRM\Recruitment\Api\CandidateHiringAPI
+  module: recruitment
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
 ##########################
 #   Corporate Directory
 ##########################
@@ -434,3 +447,15 @@ apiv2_corporate_branding_theme:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: true } }
+
+apiv2_corporate_branding_theme_preview:
+  description: 'API-v2 Admin - Theme Preview'
+  api: OrangeHRM\CorporateBranding\Api\PreviewThemeAPI
+  module: admin
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }

@@ -20,6 +20,7 @@
 namespace OrangeHRM\CorporateBranding\Service;
 
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Exception\SassException;
 use ScssPhp\ScssPhp\OutputStyle;
 
 class ScssHelper
@@ -80,5 +81,19 @@ class ScssHelper
         ]);
         $css = $compiler->compileString('p{color:rgba($color, $alpha)}')->getCss();
         return str_replace(['p{color:', '}'], '', $css);
+    }
+
+    /**
+     * @param string $color
+     * @return bool
+     */
+    public function isValidColor(string $color): bool
+    {
+        try {
+            $this->lighten($color, '50%');
+            return true;
+        } catch (SassException $e) {
+            return false;
+        }
     }
 }

@@ -25,7 +25,7 @@ use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group Admin
+ * @group CorporateBranding
  * @group Dao
  */
 class ThemeDaoTest extends KernelTestCase

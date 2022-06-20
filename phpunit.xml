@@ -17,6 +17,7 @@
       <directory>src/web</directory>
       <directory>src/vendor</directory>
       <directory>src/test</directory>
+      <directory>src/plugins/**/test</directory>
     </exclude>
   </coverage>
   <testsuites>
@@ -65,7 +66,6 @@
       <directory>src/plugins/orangehrmTimePlugin/test/Entity</directory>
     </testsuite>
     <testsuite name="Attendance">
-<!--      <directory>src/plugins/orangehrmAttendancePlugin/test/Service</directory>-->
       <directory>src/plugins/orangehrmAttendancePlugin/test/Dao</directory>
       <directory>src/plugins/orangehrmAttendancePlugin/test/Api</directory>
       <directory>src/plugins/orangehrmAttendancePlugin/test/Entity</directory>
@@ -97,8 +97,7 @@
       <directory>src/plugins/orangehrmCorporateDirectoryPlugin/test/Api</directory>
     </testsuite>
     <testsuite name="CorporateBranding">
-      <directory>src/plugins/orangehrmCorporateBrandingPlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmCorporateBrandingPlugin/test/Service</directory>
+      <directory>src/plugins/orangehrmCorporateBrandingPlugin/test</directory>
     </testsuite>
   </testsuites>
 </phpunit>
