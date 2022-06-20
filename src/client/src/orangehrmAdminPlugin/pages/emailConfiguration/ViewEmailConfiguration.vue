@@ -144,7 +144,10 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row v-if="emailConfiguration.mailType !== 'sendmail'">
+        <oxd-form-row
+          v-if="emailConfiguration.mailType !== 'sendmail'"
+          class="orangehrm-input-field-bottom-space"
+        >
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
               <div class="orangehrm-optional-field-row">
