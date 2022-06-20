@@ -197,3 +197,33 @@ langStrings:
   -
     value: 'Rating should be less than or equal to {maxValue}'
     unitId: rating_should_be_less_than_or_equal_to_maxValue
+  -
+    value: 'Self Evaluation by'
+    unitId: self_evaluation_by
+  -
+    value: 'Supervisor Evaluation by'
+    unitId: supervisor_evaluation_by
+  -
+    value: 'KPIs'
+    unitId: kpis
+  -
+    value: 'KPI'
+    unitId: kpi
+  -
+    value: 'Rating'
+    unitId: rating
+  -
+    value: 'Min'
+    unitId: min
+  -
+    value: 'Max'
+    unitId: max
+  -
+    value: 'Evaluation Activated'
+    unitId: evaluation_activated
+  -
+    value: 'Evaluation In Progress'
+    unitId: evaluation_in_progress
+  -
+    value: 'Evaluation Completed'
+    unitId: evaluation_completed

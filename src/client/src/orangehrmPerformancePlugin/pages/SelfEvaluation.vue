@@ -27,24 +27,48 @@
     </div>
     <br />
     <review-summary
-      :emp-number="empNumber"
-      :employee-name="employeeName"
-      :job-title="jobTitle"
       :status="status"
-      :review-period-start="reviewPeriodStart"
-      :review-period-end="reviewPeriodEnd"
       :due-date="dueDate"
+      :employee="employee"
+      :job-title="jobTitle"
+      :review-period-end="reviewPeriodEnd"
+      :review-period-start="reviewPeriodStart"
     />
     <br />
-    <div class="orangehrm-card-container">
-      <oxd-form :loading="isLoading">
-        <oxd-divider />
-        <final-evaulation
-          v-show="completed"
+    <oxd-form ref="formRef" :loading="isLoading">
+      <evaluation-form
+        v-model="supervisorReview"
+        :kpis="kpis"
+        :rules="rules"
+        :editable="false"
+        :collapsible="status === 4"
+        :collapsed="status < 4"
+        :employee="supervisor"
+        :job-title="jobTitle"
+        :status="supervisorStatus"
+        :title="$t('performance.supervisor_evaluation_by')"
+      ></evaluation-form>
+      <br />
+      <evaluation-form
+        v-model="employeeReview"
+        :kpis="kpis"
+        :rules="rules"
+        :editable="employeeStatus < 3"
+        :collapsed="false"
+        :collapsible="true"
+        :employee="employee"
+        :job-title="jobTitle"
+        :status="employeeStatus"
+        :title="$t('performance.self_evaluation_by')"
+      >
+        <oxd-divider v-show="status === 4" />
+        <final-evaluation
+          v-show="status === 4"
+          v-model:final-rating="finalRating"
+          v-model:final-comment="finalComment"
+          v-model:completed-date="completedDate"
           :status="status"
-          :final-comment="finalComment"
-          :final-rating="finalRating"
-          :completed-date="completedDate"
+          :is-required="false"
         />
         <oxd-divider />
         <oxd-form-actions>
@@ -56,35 +80,41 @@
           <oxd-button
             v-show="!completed"
             display-type="ghost"
+            type="button"
             class="orangehrm-left-space"
             :label="$t('general.save')"
-            @click="onClickSave(false)"
+            @click="onSubmit(false)"
           />
           <oxd-button
             v-show="!completed"
+            type="button"
             display-type="secondary"
             class="orangehrm-left-space"
             :label="$t('performance.complete')"
-            type="submit"
+            @click="onSubmit(true)"
           />
         </oxd-form-actions>
-      </oxd-form>
-    </div>
+      </evaluation-form>
+    </oxd-form>
   </div>
 </template>
 
 <script>
 import {computed} from 'vue';
-import {navigate} from '@/core/util/helper/navigation';
+import {navigate, reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import ReviewSummary from '../components/ReviewSummary';
 import FinalEvaluation from '../components/FinalEvaluation';
+import EvaluationForm from '../components/EvaluationForm';
+import useForm from '@ohrm/core/util/composable/useForm';
+import useReviewEvaluation from '@/orangehrmPerformancePlugin/util/composable/useReviewEvaluation';
 
 export default {
   name: 'SelfEvaluation',
   components: {
     'review-summary': ReviewSummary,
-    'final-evaulation': FinalEvaluation,
+    'final-evaluation': FinalEvaluation,
+    'evaluation-form': EvaluationForm,
   },
   props: {
     reviewId: {
@@ -119,45 +149,119 @@ export default {
       type: String,
       required: true,
     },
+    employee: {
+      type: Object,
+      required: true,
+    },
+    supervisor: {
+      type: Object,
+      required: true,
+    },
+    employeeStatus: {
+      type: Number,
+      required: true,
+    },
+    supervisorStatus: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props) {
+    const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
     // TODO workflow
     const completed = computed(() => props.status === 4);
 
+    const {
+      getAllKpis,
+      getEmployeeReview,
+      getSupervisorReview,
+      getFinalReview,
+      generateRules,
+      generateModel,
+      generateEvaluationFormData,
+      saveEmployeeReview,
+    } = useReviewEvaluation(http);
+
     return {
       http,
+      invalid,
+      formRef,
+      validate,
       completed,
+      getAllKpis,
+      getEmployeeReview,
+      getSupervisorReview,
+      getFinalReview,
+      generateRules,
+      generateModel,
+      generateEvaluationFormData,
+      saveEmployeeReview,
     };
   },
   data() {
     return {
+      kpis: [],
+      rules: [],
+      employeeReview: [],
+      supervisorReview: [],
       isLoading: false,
-      completedDate: null,
       finalRating: null,
       finalComment: null,
+      completedDate: null,
     };
   },
   beforeMount() {
-    if (this.completed) {
-      this.isLoading = true;
-      this.http
-        .request({
-          method: 'GET',
-          url: `/api/v2/performance/reviews/${this.reviewId}/evaluation/final`,
-        })
-        .then(response => {
+    this.isLoading = true;
+    this.getAllKpis(this.reviewId)
+      .then(response => {
+        const {data} = response.data;
+        this.kpis = [...data];
+        this.rules = this.generateRules(data);
+        this.employeeReview = this.generateModel(data);
+        this.supervisorReview = this.generateModel(data);
+        return this.getEmployeeReview(this.reviewId);
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.employeeReview = this.generateEvaluationFormData(data);
+        return this.completed ? this.getSupervisorReview(this.reviewId) : {};
+      })
+      .then(response => {
+        if (Object.keys(response).length !== 0) {
           const {data} = response.data;
-          this.completedDate = data.completedDate;
+          this.supervisorReview = this.generateEvaluationFormData(data);
+        }
+        return this.completed ? this.getFinalReview(this.reviewId) : {};
+      })
+      .then(response => {
+        if (Object.keys(response).length !== 0) {
+          const {data} = response.data;
           this.finalRating = data.finalRating;
           this.finalComment = data.finalComment;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    }
+          this.completedDate = data.completedDate;
+        }
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   methods: {
+    onSubmit(complete = false) {
+      this.$nextTick()
+        .then(() => this.validate())
+        .then(() => {
+          if (this.invalid === true) return;
+          this.isLoading = true;
+          this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
+            .then(() => {
+              return this.$toast.saveSuccess();
+            })
+            .finally(() => {
+              reloadPage();
+            });
+        });
+    },
     onClickBack() {
       navigate('/performance/myPerformanceReview');
     },

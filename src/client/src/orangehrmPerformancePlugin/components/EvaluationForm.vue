@@ -41,7 +41,7 @@
       </div>
       <div class="orangehrm-evaluation-header-action">
         <oxd-text type="card-title">
-          Evaluation Activated
+          {{ evaluationLabel }}
         </oxd-text>
         <oxd-icon-button
           v-if="collapsible"
@@ -55,10 +55,10 @@
     <template v-if="!isCollapsed">
       <oxd-grid :cols="3" class="orangehrm-evaluation-grid">
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
-          <oxd-text type="subtitle-2">KPIs</oxd-text>
+          <oxd-text type="subtitle-2">{{ $t('performance.kpis') }}</oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
-          <oxd-text type="subtitle-2">Rating</oxd-text>
+          <oxd-text type="subtitle-2">{{ $t('performance.rating') }}</oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
           <oxd-text type="subtitle-2">{{ $t('general.comments') }}</oxd-text>
@@ -70,7 +70,7 @@
               class="orangehrm-evaluation-grid-kpi-header"
               type="subtitle-2"
             >
-              KPI
+              {{ $t('performance.kpi') }}
             </oxd-text>
             <oxd-text
               :title="kpi.title"
@@ -80,10 +80,10 @@
               {{ kpi.title }}
             </oxd-text>
             <oxd-text class="orangehrm-evaluation-grid-kpi-minmax" tag="p">
-              Min: {{ kpi.minRating }}
+              {{ $t('performance.min') }}: {{ kpi.minRating }}
             </oxd-text>
             <oxd-text class="orangehrm-evaluation-grid-kpi-minmax" tag="p">
-              Max: {{ kpi.maxRating }}
+              {{ $t('performance.max') }}: {{ kpi.maxRating }}
             </oxd-text>
           </oxd-grid-item>
           <oxd-grid-item>
@@ -91,7 +91,7 @@
               class="orangehrm-evaluation-grid-kpi-header"
               type="subtitle-2"
             >
-              Rating
+              {{ $t('performance.rating') }}
             </oxd-text>
             <oxd-input-field
               type="input"
@@ -169,6 +169,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    status: {
+      type: Number,
+      required: true,
+    },
   },
 
   emits: ['update:modelValue'],
@@ -216,6 +220,14 @@ export default {
       );
     };
 
+    const statusOpts = [
+      {id: 1, label: $t('performance.evaluation_activated')},
+      {id: 2, label: $t('performance.evaluation_in_progress')},
+      {id: 3, label: $t('performance.evaluation_completed')},
+    ];
+
+    const evaluationLabel = statusOpts.find(el => el.id === props.status).label;
+
     return {
       toggleForm,
       isCollapsed,
@@ -224,6 +236,7 @@ export default {
       onUpdateRating,
       onUpdateComment,
       commentValidators,
+      evaluationLabel,
     };
   },
 };

@@ -25,6 +25,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\ReviewerGroup;
 
 class PerformanceReviewDecorator
 {
@@ -75,11 +76,23 @@ class PerformanceReviewDecorator
         $reviewers = [...$this->performanceReview->getReviewers()];
         $supervisorArray = array_filter($reviewers, function ($reviewer) {
             /** @var Reviewer $reviewer */
-            return $reviewer->getGroup()->getName() === 'Supervisor';
+            return $reviewer->getGroup()->getName() === ReviewerGroup::REVIEWER_GROUP_SUPERVISOR;
         });
         return array_values($supervisorArray)[0];
     }
 
+    /**
+     * @return Reviewer
+     */
+    public function getEmployeeReviewer(): Reviewer
+    {
+        $reviewers = [...$this->performanceReview->getReviewers()];
+        $employeeArray = array_filter($reviewers, function ($reviewer) {
+            /** @var Reviewer $reviewer */
+            return $reviewer->getGroup()->getName() === ReviewerGroup::REVIEWER_GROUP_EMPLOYEE;
+        });
+        return array_values($employeeArray)[0];
+    }
 
     /**
      * @return string|null

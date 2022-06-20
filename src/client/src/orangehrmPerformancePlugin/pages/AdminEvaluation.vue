@@ -40,23 +40,25 @@
         v-model="employeeReview"
         :kpis="kpis"
         :rules="rules"
-        :editable="false"
-        :collapsed="true"
-        :collapsible="false"
+        :editable="status < 4"
+        :collapsed="employeeStatus < 3"
+        :collapsible="employeeStatus === 3"
         :employee="employee"
         :job-title="jobTitle"
-        title="Evaluation by Employee"
+        :status="employeeStatus"
+        :title="$t('performance.self_evaluation_by')"
       ></evaluation-form>
       <br />
       <evaluation-form
         v-model="supervisorReview"
         :kpis="kpis"
         :rules="rules"
-        :editable="true"
+        :editable="status < 4"
         :collapsible="true"
         :employee="supervisor"
         :job-title="jobTitle"
-        title="Evaluation by Supervisor"
+        :status="supervisorStatus"
+        :title="$t('performance.supervisor_evaluation_by')"
       >
         <oxd-divider />
         <final-evaluation
@@ -149,16 +151,28 @@ export default {
       type: Object,
       required: true,
     },
+    employeeStatus: {
+      type: Number,
+      required: true,
+    },
+    supervisorStatus: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props) {
     const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
     const {
       getAllKpis,
+      getEmployeeReview,
+      getSupervisorReview,
       getFinalReview,
       generateRules,
       generateModel,
+      generateEvaluationFormData,
       finalizeReview,
+      saveEmployeeReview,
       saveSupervisorReview,
     } = useReviewEvaluation(http);
     // TODO workflow
@@ -173,8 +187,12 @@ export default {
       getAllKpis,
       generateRules,
       generateModel,
+      generateEvaluationFormData,
+      getEmployeeReview,
+      getSupervisorReview,
       getFinalReview,
       finalizeReview,
+      saveEmployeeReview,
       saveSupervisorReview,
     };
   },
@@ -200,6 +218,20 @@ export default {
         this.rules = this.generateRules(data);
         this.employeeReview = this.generateModel(data);
         this.supervisorReview = this.generateModel(data);
+        return this.getSupervisorReview(this.reviewId);
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.supervisorReview = this.generateEvaluationFormData(data);
+        return this.employeeStatus === 3
+          ? this.getEmployeeReview(this.reviewId)
+          : {};
+      })
+      .then(response => {
+        if (Object.keys(response).length !== 0) {
+          const {data} = response.data;
+          this.employeeReview = this.generateEvaluationFormData(data);
+        }
         return this.getFinalReview(this.reviewId);
       })
       .then(response => {
@@ -222,14 +254,21 @@ export default {
           this.isLoading = true;
           this.saveSupervisorReview(this.reviewId, this.supervisorReview)
             .then(() => {
-              return complete === true
-                ? this.finalizeReview(this.reviewId, {
-                    complete: true,
-                    finalRating: this.finalRating,
-                    finalComment: this.finalComment,
-                    completedDate: this.completedDate,
-                  })
-                : null;
+              if (this.employeeStatus === 3) {
+                this.saveEmployeeReview(
+                  this.reviewId,
+                  true,
+                  this.employeeReview,
+                );
+              }
+            })
+            .then(() => {
+              this.finalizeReview(this.reviewId, {
+                complete: complete,
+                finalRating: this.finalRating,
+                finalComment: this.finalComment,
+                completedDate: this.completedDate,
+              });
             })
             .then(() => {
               return this.$toast.saveSuccess();

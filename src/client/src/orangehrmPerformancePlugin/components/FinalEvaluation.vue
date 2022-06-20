@@ -24,7 +24,7 @@
       {{ $t('performance.review_finalization') }}
     </oxd-text>
     <br />
-    <oxd-grid :cols="3">
+    <oxd-grid :cols="3" class="orangehrm-performance-review-grid">
       <oxd-grid-item>
         <oxd-text type="subtitle-2">
           {{ $t('performance.date_of_completion') }}
@@ -35,11 +35,11 @@
           :rules="rules.completedDate"
           @update:modelValue="$emit('update:completedDate', $event)"
         />
-        <div v-else class="orangehrm-performance-review-final-read">
+        <div v-else class="orangehrm-performance-review-read">
           <oxd-text>{{ formattedCompletedDate }}</oxd-text>
         </div>
       </oxd-grid-item>
-      <oxd-grid-item>
+      <oxd-grid-item class="orangehrm-performance-review-grid-rating">
         <oxd-text type="subtitle-2">
           {{ $t('performance.final_rating') }}
         </oxd-text>
@@ -49,7 +49,7 @@
           :rules="rules.finalRating"
           @update:modelValue="$emit('update:finalRating', $event)"
         />
-        <div v-else class="orangehrm-performance-review-final-read">
+        <div v-else class="orangehrm-performance-review-read">
           <oxd-text>{{ finalRating }}</oxd-text>
         </div>
       </oxd-grid-item>
@@ -59,11 +59,13 @@
         </oxd-text>
         <oxd-input-field
           v-if="editable"
+          rows="2"
+          type="textarea"
           :model-value="finalComment"
           :rules="rules.finalComment"
           @update:modelValue="$emit('update:finalComment', $event)"
         />
-        <div v-else class="orangehrm-performance-review-final-read">
+        <div v-else class="orangehrm-performance-review-read">
           <oxd-text>{{ finalComment }}</oxd-text>
         </div>
       </oxd-grid-item>
@@ -163,7 +165,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-performance-review {
+  &-grid {
+    @include oxd-respond-to('md') {
+      grid-template-columns: 1fr 110px 1fr;
+    }
+
+    ::v-deep(.oxd-textarea) {
+      min-height: unset;
+      height: 58px;
+    }
+
+    ::v-deep(.oxd-input) {
+      font-size: 1.2rem;
+      height: 58px;
+    }
+
+    &-rating {
+      ::v-deep(.oxd-input) {
+        text-align: center;
+      }
+    }
+  }
   &-title {
     font-size: 14px;
     font-weight: 800;
@@ -173,32 +198,8 @@ export default {
     font-weight: 700;
   }
 
-  &-final {
-    display: flex;
-    flex-direction: row;
+  &-read {
     margin-top: 1.2rem;
-    margin-bottom: 1.2rem;
-
-    &-date {
-      width: 30%;
-      margin-right: 2.4rem;
-    }
-
-    &-rating {
-      width: 10%;
-      margin-right: 2.4rem;
-      //overflow: hidden;
-      //white-space: nowrap;
-      //text-overflow: ellipsis;
-    }
-
-    &-comment {
-      width: 65%;
-    }
-
-    &-read {
-      margin-top: 1.2rem;
-    }
   }
 }
 </style>

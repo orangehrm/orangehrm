@@ -48,7 +48,7 @@
   }
   &-grid {
     @include oxd-respond-to('md') {
-      grid-template-columns: 1fr 100px 1fr;
+      grid-template-columns: 1fr 110px 1fr;
     }
     &-header {
       display: none;

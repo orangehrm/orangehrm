@@ -65,7 +65,8 @@ class ReviewReviewerRatingParamRule extends AbstractRule
 
 
             $kpi = $this->getKpiService()->getKpiDao()->getKpiById($kpiId);
-            if (! ($kpi->getMinRating() <= $rating[SupervisorEvaluationAPI::PARAMETER_RATING] && $rating[SupervisorEvaluationAPI::PARAMETER_RATING] <= $kpi->getMaxRating())) {
+            $userRating = $rating[SupervisorEvaluationAPI::PARAMETER_RATING];
+            if (!is_null($userRating) && !($kpi->getMinRating() <= $userRating && $userRating <= $kpi->getMaxRating())) {
                 return false;
             }
         }

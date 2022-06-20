@@ -38,6 +38,13 @@ export interface KPI {
   isDefault: boolean;
 }
 
+export interface EvaluationData {
+  id: number;
+  rating: string;
+  comment: string;
+  kpi: KPI;
+}
+
 export default function useReviewEvaluation(http: APIService) {
   const {$t} = usei18n();
 
@@ -45,6 +52,20 @@ export default function useReviewEvaluation(http: APIService) {
     return http.request({
       method: 'GET',
       url: `/api/v2/performance/reviews/${reviewId}/kpis`,
+    });
+  };
+
+  const getSupervisorReview = (reviewId: number) => {
+    return http.request({
+      method: 'GET',
+      url: `/api/v2/performance/reviews/${reviewId}/evaluation/supervisor`,
+    });
+  };
+
+  const getEmployeeReview = (reviewId: number) => {
+    return http.request({
+      method: 'GET',
+      url: `/api/v2/performance/reviews/${reviewId}/evaluation/employee`,
     });
   };
 
@@ -68,6 +89,25 @@ export default function useReviewEvaluation(http: APIService) {
       method: 'PUT',
       url: `/api/v2/performance/reviews/${reviewId}/evaluation/final`,
       data: {...reviewData},
+    });
+  };
+
+  const saveEmployeeReview = (
+    reviewId: number,
+    complete: boolean,
+    ratings: Array<{
+      kpiId: number;
+      rating: number;
+      comment: string;
+    }>,
+  ) => {
+    return http.request({
+      method: 'PUT',
+      url: `/api/v2/performance/reviews/${reviewId}/evaluation/employee`,
+      data: {
+        complete,
+        ratings,
+      },
     });
   };
 
@@ -113,12 +153,24 @@ export default function useReviewEvaluation(http: APIService) {
     }));
   };
 
+  const generateEvaluationFormData = (evaluationData: EvaluationData[]) => {
+    return evaluationData.map(datum => ({
+      kpiId: datum.kpi.id,
+      rating: datum.rating,
+      comment: datum.comment,
+    }));
+  };
+
   return {
     getAllKpis,
+    getEmployeeReview,
+    getSupervisorReview,
     getFinalReview,
     generateRules,
     generateModel,
+    generateEvaluationFormData,
     finalizeReview,
+    saveEmployeeReview,
     saveSupervisorReview,
   };
 }

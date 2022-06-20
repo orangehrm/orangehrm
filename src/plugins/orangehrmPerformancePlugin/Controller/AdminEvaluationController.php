@@ -82,20 +82,26 @@ class AdminEvaluationController extends AbstractVueController implements Capable
         $component->addProp(new Prop('review-period-start', Prop::TYPE_STRING, $performanceReview->getDecorator()->getReviewPeriodStart()));
         $component->addProp(new Prop('review-period-end', Prop::TYPE_STRING, $performanceReview->getDecorator()->getReviewPeriodEnd()));
         $component->addProp(new Prop('due-date', Prop::TYPE_STRING, $performanceReview->getDecorator()->getDueDate()));
+
+        $employeeReviewer = $performanceReview->getDecorator()->getEmployeeReviewer();
+        $supervisorReviewer = $performanceReview->getDecorator()->getSupervisorReviewer();
+
         $component->addProp(
             new Prop(
                 'employee',
                 Prop::TYPE_OBJECT,
-                $this->getEmployeeService()->getEmployeeAsArray($performanceReview->getEmployee()->getEmpNumber())
+                $this->getEmployeeService()->getEmployeeAsArray($employeeReviewer->getEmployee()->getEmpNumber())
             )
         );
         $component->addProp(
             new Prop(
                 'supervisor',
                 Prop::TYPE_OBJECT,
-                $this->getEmployeeService()->getEmployeeAsArray($performanceReview->getReviewers()[0]->getEmployee()->getEmpNumber())
+                $this->getEmployeeService()->getEmployeeAsArray($supervisorReviewer->getEmployee()->getEmpNumber())
             )
         );
+        $component->addProp(new Prop('employee-status', Prop::TYPE_NUMBER, $employeeReviewer->getStatus()));
+        $component->addProp(new Prop('supervisor-status', Prop::TYPE_NUMBER, $supervisorReviewer->getStatus()));
     }
 
     /**
