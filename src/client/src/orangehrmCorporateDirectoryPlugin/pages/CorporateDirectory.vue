@@ -240,7 +240,7 @@ export default {
     oxdGridClasses() {
       return {
         'orangehrm-container': true,
-        ['orangehrm-container-min-display']: this.hasCurrentIndex,
+        'orangehrm-container-min-display': this.hasCurrentIndex,
       };
     },
   },
