@@ -17,68 +17,61 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Recruitment\Api;
+namespace OrangeHRM\Tests\Performance\Api;
 
-use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Api\CandidateShortlistAPI;
+use OrangeHRM\Performance\Api\PerformanceReviewFinalEvaluationAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * @group Recruitment
- * @group APIv2
- */
-class CandidateShortlistAPITest extends EndpointIntegrationTestCase
+class PerformanceReviewFinalEvaluationAPITest extends EndpointIntegrationTestCase
 {
-    protected function setUp(): void
-    {
-        TestDataService::truncateSpecificTables([CandidateHistory::class]);
-    }
-
-    public function testGetOne(): void
-    {
-        $api = new CandidateShortlistAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
-    }
-
-    public function testGetValidationRuleForGetOne(): void
-    {
-        $api = new CandidateShortlistAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
-    }
-
     /**
      * @dataProvider dataProviderForTestUpdate
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('JobCandidateDao.yaml');
+        $this->populateFixtures('PerformanceReviewFinalEvaluationAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
         $this->registerServices($testCaseParams);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CandidateShortlistAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(PerformanceReviewFinalEvaluationAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('ShortlistCandidateTestCases.yaml', 'Update');
+        return $this->getTestCases('PerformanceReviewFinalEvaluationAPITestCases.yaml', 'Update');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('PerformanceReviewFinalEvaluationAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(PerformanceReviewFinalEvaluationAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetOne(): array
+    {
+        return $this->getTestCases('PerformanceReviewFinalEvaluationAPITestCases.yaml', 'GetOne');
     }
 
     public function testDelete(): void
     {
-        $api = new CandidateShortlistAPI($this->getRequest());
+        $api = new PerformanceReviewFinalEvaluationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new CandidateShortlistAPI($this->getRequest());
+        $api = new PerformanceReviewFinalEvaluationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

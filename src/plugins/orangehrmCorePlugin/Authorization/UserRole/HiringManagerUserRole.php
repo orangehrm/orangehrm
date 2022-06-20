@@ -19,20 +19,37 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\Interview;
+use OrangeHRM\Entity\InterviewAttachment;
+use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Entity\VacancyAttachment;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class HiringManagerUserRole extends AbstractUserRole
 {
+    use VacancyServiceTrait;
+    use CandidateServiceTrait;
+    use RecruitmentAttachmentServiceTrait;
+
     /**
      * @inheritDoc
      */
     protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
         switch ($entityType) {
-            case 'Vacancy':
-                // TODO:: implement and remove below line
-                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
+            case Vacancy::class:
                 return $this->getAccessibleVacancyIds($requiredPermissions);
+            case VacancyAttachment::class:
+                return $this->getAccessibleVacancyAttachmentIds($requiredPermissions);
+            case Candidate::class:
+                return $this->getAccessibleCandidateIds($requiredPermissions);
+            case Interview::class:
+                return $this->getAccessibleInterviewIds($requiredPermissions);
+            case InterviewAttachment::class:
+                return $this->getAccessibleInterviewAttachmentIds($requiredPermissions);
             default:
                 return [];
         }
@@ -44,6 +61,52 @@ class HiringManagerUserRole extends AbstractUserRole
      */
     protected function getAccessibleVacancyIds(array $requiredPermissions = []): array
     {
-        return $this->getVacancyService()->getVacancyIdListForHiringManager($this->getEmployeeNumber());
+        return $this->getVacancyService()
+            ->getVacancyDao()
+            ->getVacancyIdListForHiringManager($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleVacancyAttachmentIds(array $requiredPermissions = []): array
+    {
+        return $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->getVacancyAttachmentListForHiringManger($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleCandidateIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateIdListForHiringManger($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleInterviewIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getInterviewIdListForHiringManager($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleInterviewAttachmentIds(array $requiredPermissions = []): array
+    {
+        return $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->getInterviewAttachmentListForHiringManger($this->getEmployeeNumber());
     }
 }

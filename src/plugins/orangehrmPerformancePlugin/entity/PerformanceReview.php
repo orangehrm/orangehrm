@@ -99,11 +99,11 @@ class PerformanceReview
     private ?string $finalComment;
 
     /**
-     * @var string|null
+     * @var float|null
      *
-     * @ORM\Column(name="final_rate", type="decimal",precision=18, scale=2, nullable=true)
+     * @ORM\Column(name="final_rate", type="decimal", precision=18, scale=2, nullable=true)
      */
-    private ?string $finalRate;
+    private ?float $finalRate;
 
     /**
      * @var ReviewerRating[]
@@ -290,17 +290,17 @@ class PerformanceReview
     }
 
     /**
-     * @return string|null
+     * @return float|null
      */
-    public function getFinalRate(): ?string
+    public function getFinalRate(): ?float
     {
         return $this->finalRate;
     }
 
     /**
-     * @param string|null $finalRate
+     * @param float|null $finalRate
      */
-    public function setFinalRate(?string $finalRate): void
+    public function setFinalRate(?float $finalRate): void
     {
         $this->finalRate = $finalRate;
     }

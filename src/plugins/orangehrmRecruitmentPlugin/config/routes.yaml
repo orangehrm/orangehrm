@@ -86,7 +86,7 @@ apiv2_recruitment_candidates_allowed_actions:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Recruitment\Api\CandidateAllowedActionsAPI
+    _api: OrangeHRM\Recruitment\Api\CandidateAllowedActionAPI
     _key: id
 
 apiv2_recrutiment_candidates_reject:
@@ -94,7 +94,7 @@ apiv2_recrutiment_candidates_reject:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ PUT ]
   defaults:
-    _api: OrangeHRM\Recruitment\Api\CandidateRejectAPI
+    _api: OrangeHRM\Recruitment\Api\CandidateRejectionAPI
     _key: id
 
 apiv2_recrutiment_candidates_shortlist:
@@ -102,7 +102,7 @@ apiv2_recrutiment_candidates_shortlist:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ PUT ]
   defaults:
-    _api: OrangeHRM\Recruitment\Api\CandidateShortlistAPI
+    _api: OrangeHRM\Recruitment\Api\CandidateShortlistingAPI
     _key: id
 
 apiv2_recrutiment_candidates_schedule_interview:
@@ -110,7 +110,7 @@ apiv2_recrutiment_candidates_schedule_interview:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST ]
   defaults:
-    _api: OrangeHRM\Recruitment\Api\CandidateScheduleInterviewAPI
+    _api: OrangeHRM\Recruitment\Api\CandidateInterviewSchedulingAPI
     _key: id
 
 apiv2_recruitment_interviews_attachment:
@@ -124,16 +124,41 @@ apiv2_recruitment_interviews_attachment:
 apiv2_recruitment_interview_attachments:
   path: /api/v2/recruitment/interviews/{interviewId}/attachments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
+  methods: [ GET, POST ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\InterviewAttachmentAPI
 
-apiv2_recruitment_interviews_attachments:
-  path: /api/v2/recruitment/interviews/attachments
+apiv2_recrutiment_candidates_mark_interview_passed:
+  path: /api/v2/recruitment/candidates/{candidateId}/interviews/{interviewId}/pass
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST ]
+  methods: [ PUT ]
   defaults:
-    _api: OrangeHRM\Recruitment\Api\InterviewAttachmentAPI
+    _api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewPassAPI
+    _key: id
+
+apiv2_recrutiment_candidates_mark_interview_failed:
+  path: /api/v2/recruitment/candidates/{candidateId}/interviews/{interviewId}/fail
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewFailAPI
+    _key: id
+
+apiv2_recrutiment_candidates_offer_job:
+  path: /api/v2/recruitment/candidates/{candidateId}/job/offer
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateJobOfferingAPI
+    _key: id
+
+apiv2_recrutiment_candidates_offer_decline:
+  path: /api/v2/recruitment/candidates/{candidateId}/job/decline
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateOfferDecliningAPI
+    _key: id
 
 ##########################
 #        Files
