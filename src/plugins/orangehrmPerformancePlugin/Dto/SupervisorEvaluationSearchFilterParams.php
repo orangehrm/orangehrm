@@ -43,5 +43,4 @@ class SupervisorEvaluationSearchFilterParams extends FilterParams
     {
         $this->reviewId = $reviewId;
     }
-
 }
