@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,17 +16,40 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-namespace OrangeHRM\Admin\Controller;
+ -->
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-
-class LanguagePackageController extends AbstractVueController
-{
-    public function preRender(Request $request): void
-    {
-        $component = new Component('language-package-list');
-        $this->setComponent($component);
-    }
-}
+<template lang="">
+  <oxd-input-field
+    type="select"
+    :label="$t('general.name')"
+    :options="options"
+  />
+</template>
+<script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@ohrm/core/util/services/api.service';
+export default {
+  name: 'LanguagesDropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/i18n/languages?limit=500',
+    );
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
+};
+</script>
+<style lang=""></style>

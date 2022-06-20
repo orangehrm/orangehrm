@@ -73,6 +73,7 @@ import AttendancePages from '@/orangehrmAttendancePlugin';
 import MaintenancePages from '@/orangehrmMaintenancePlugin';
 import RecruitmentPages from '@/orangehrmRecruitmentPlugin';
 import PerformancePages from '@/orangehrmPerformancePlugin';
+import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/languagePackage.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -133,4 +134,5 @@ export default {
   ...MaintenancePages,
   ...RecruitmentPages,
   ...PerformancePages,
+  'language-package-list': LanguagePackages,
 };
