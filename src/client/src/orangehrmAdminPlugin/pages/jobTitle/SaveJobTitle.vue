@@ -28,52 +28,48 @@
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-grid :cols="1">
-          <div>
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="jobTitle.title"
-                :label="$t('general.job_title')"
-                :rules="rules.title"
-                required
-              />
-            </oxd-form-row>
+        <oxd-form-row>
+          <oxd-input-field
+            v-model="jobTitle.title"
+            :label="$t('general.job_title')"
+            :rules="rules.title"
+            required
+          />
+        </oxd-form-row>
 
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="jobTitle.description"
-                type="textarea"
-                :label="$t('admin.job_description')"
-                :placeholder="$t('general.type_description_here')"
-                :rules="rules.description"
-              />
-            </oxd-form-row>
+        <oxd-form-row>
+          <oxd-input-field
+            v-model="jobTitle.description"
+            type="textarea"
+            :label="$t('admin.job_description')"
+            :placeholder="$t('general.type_description_here')"
+            :rules="rules.description"
+          />
+        </oxd-form-row>
 
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="jobTitle.specification"
-                type="file"
-                :label="$t('general.job_specification')"
-                :button-label="$t('general.browse')"
-                :rules="rules.specification"
-              />
-              <oxd-text class="orangehrm-input-hint" tag="p">
-                {{ $t('general.accepts_up_to_1mb') }}
-              </oxd-text>
-            </oxd-form-row>
+        <oxd-form-row>
+          <oxd-input-field
+            v-model="jobTitle.specification"
+            type="file"
+            :label="$t('general.job_specification')"
+            :button-label="$t('general.browse')"
+            :rules="rules.specification"
+          />
+          <oxd-text class="orangehrm-input-hint" tag="p">
+            {{ $t('general.accepts_up_to_1mb') }}
+          </oxd-text>
+        </oxd-form-row>
 
-            <oxd-form-row>
-              <oxd-input-field
-                v-model="jobTitle.note"
-                type="textarea"
-                :label="$t('general.note')"
-                :placeholder="$t('general.add_note')"
-                label-icon="pencil-square"
-                :rules="rules.note"
-              />
-            </oxd-form-row>
-          </div>
-        </oxd-grid>
+        <oxd-form-row>
+          <oxd-input-field
+            v-model="jobTitle.note"
+            type="textarea"
+            :label="$t('general.note')"
+            :placeholder="$t('general.add_note')"
+            label-icon="pencil-square"
+            :rules="rules.note"
+          />
+        </oxd-form-row>
 
         <oxd-divider />
 

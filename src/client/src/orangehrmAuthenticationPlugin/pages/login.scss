@@ -55,8 +55,31 @@
   justify-content: center;
   margin-top: 1rem;
   font-size: $oxd-button-font-size--medium;
-  &-header{
+  &-header {
     cursor: pointer;
     color: $oxd-primary-one-color;
+  }
+}
+
+.orangehrm-login-footer {
+  &-sm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+      width: 22px;
+      height: 22px;
+      margin: 0 0.25rem;
+    }
+    .orangehrm-sm-icon {
+      width: inherit;
+      height: inherit;
+      color: rgba($oxd-interface-gray-color, 0.8);
+    }
+    @include oxd-respond-to('md') {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+    }
   }
 }

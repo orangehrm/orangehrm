@@ -21,32 +21,42 @@
 <template>
   <oxd-dialog
     :gutters="false"
-    :style="{width: '90%', maxWidth: '600px'}"
+    class="orangehrm-dialog-modal"
     @update:show="onCancel"
   >
-    <div class="orangehrm-header-container">
+    <div class="orangehrm-dialog-header-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('leave.insufficient_leave_balance') }}
       </oxd-text>
     </div>
-    <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
-    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+    <oxd-divider
+      class="orangehrm-dialog-horizontal-margin orangehrm-clear-margins"
+    />
+    <div
+      class="orangehrm-dialog-horizontal-padding orangehrm-dialog-vertical-padding"
+    >
       <oxd-grid :cols="3">
-        <oxd-input-group :label="$t('general.employee_name')">
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ employeeName }}
-          </oxd-text>
-        </oxd-input-group>
-        <oxd-input-group :label="$t('leave.leave_type')">
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ leaveType }}
-          </oxd-text>
-        </oxd-input-group>
-        <oxd-input-group :label="$t('leave.balance')">
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ leaveBalance }}
-          </oxd-text>
-        </oxd-input-group>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('general.employee_name')">
+            <oxd-text class="orangehrm-leave-balance-text" tag="p">
+              {{ employeeName }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('leave.leave_type')">
+            <oxd-text class="orangehrm-leave-balance-text" tag="p">
+              {{ leaveType }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('leave.balance')">
+            <oxd-text class="orangehrm-leave-balance-text" tag="p">
+              {{ leaveBalance }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
       </oxd-grid>
     </div>
     <div class="orangehrm-container">
@@ -58,7 +68,9 @@
         row-decorator="oxd-table-decorator-card"
       />
     </div>
-    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+    <div
+      class="orangehrm-dialog-horizontal-padding orangehrm-dialog-vertical-padding"
+    >
       <oxd-form-actions>
         <oxd-button
           type="submit"

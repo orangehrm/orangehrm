@@ -184,6 +184,11 @@ final class Services
      */
     public const LOCALIZATION_SERVICE = 'admin.localization_service';
 
+    /**
+     * @see \OrangeHRM\CorporateBranding\Service\ThemeService
+     */
+    public const THEME_SERVICE = 'admin.theme_service';
+
     ///////////////////////////////////////////////////////////////
     /// Leave plugin services
     ///////////////////////////////////////////////////////////////

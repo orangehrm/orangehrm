@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint --max-warnings=0 --mode production"
   },
   "dependencies": {
-    "@ohrm/oxd": "1.0.5",
+    "@ohrm/oxd": "1.0.6-alpha.5",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "vue": "^3.2.13"

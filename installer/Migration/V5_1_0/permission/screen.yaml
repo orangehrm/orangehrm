@@ -1,0 +1,5 @@
+'Download Corporate Branding Images':
+  module: admin
+  url: theme
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }

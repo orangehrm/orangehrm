@@ -31,7 +31,7 @@
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-emergency-contact>
-    <div class="orangehrm-horizontal-padding orangehrm-top-padding">
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
         {{ $t('pim.assigned_emergency_contacts') }}
       </profile-action-header>

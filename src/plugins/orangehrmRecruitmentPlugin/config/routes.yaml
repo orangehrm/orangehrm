@@ -87,7 +87,6 @@ apiv2_recruitment_candidates_allowed_actions:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateAllowedActionAPI
-    _key: id
 
 apiv2_recrutiment_candidates_reject:
   path: /api/v2/recruitment/candidates/{candidateId}/reject
@@ -95,7 +94,6 @@ apiv2_recrutiment_candidates_reject:
   methods: [ PUT ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateRejectionAPI
-    _key: id
 
 apiv2_recrutiment_candidates_shortlist:
   path: /api/v2/recruitment/candidates/{candidateId}/shortlist
@@ -103,7 +101,6 @@ apiv2_recrutiment_candidates_shortlist:
   methods: [ PUT ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateShortlistingAPI
-    _key: id
 
 apiv2_recrutiment_candidates_schedule_interview:
   path: /api/v2/recruitment/candidates/{candidateId}/shedule-interview
@@ -111,7 +108,6 @@ apiv2_recrutiment_candidates_schedule_interview:
   methods: [ POST ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateInterviewSchedulingAPI
-    _key: id
 
 apiv2_recruitment_interviews_attachment:
   path: /api/v2/recruitment/interviews/{interviewId}/attachments/{attachmentId}
@@ -134,7 +130,6 @@ apiv2_recrutiment_candidates_mark_interview_passed:
   methods: [ PUT ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewPassAPI
-    _key: id
 
 apiv2_recrutiment_candidates_mark_interview_failed:
   path: /api/v2/recruitment/candidates/{candidateId}/interviews/{interviewId}/fail
@@ -142,7 +137,6 @@ apiv2_recrutiment_candidates_mark_interview_failed:
   methods: [ PUT ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewFailAPI
-    _key: id
 
 apiv2_recrutiment_candidates_offer_job:
   path: /api/v2/recruitment/candidates/{candidateId}/job/offer
@@ -150,7 +144,6 @@ apiv2_recrutiment_candidates_offer_job:
   methods: [ PUT ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateJobOfferingAPI
-    _key: id
 
 apiv2_recrutiment_candidates_offer_decline:
   path: /api/v2/recruitment/candidates/{candidateId}/job/decline
@@ -158,7 +151,13 @@ apiv2_recrutiment_candidates_offer_decline:
   methods: [ PUT ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateOfferDecliningAPI
-    _key: id
+
+apiv2_recrutiment_candidates_hire:
+  path: /api/v2/recruitment/candidates/{candidateId}/hire
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Recruitment\Api\CandidateHiringAPI
 
 ##########################
 #        Files

@@ -18,6 +18,6 @@ $oxd-font-family: 'Nunito Sans' !default;
 
 /* Import OXD Globals */
 @import '@ohrm/oxd/styles/_colors.scss';
+@import '@ohrm/oxd/styles/_derived.scss';
 @import '@ohrm/oxd/styles/_variables.scss';
-@import '@ohrm/oxd/core/components/Alert/variables.scss';
 @import './global.scss';

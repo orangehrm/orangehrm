@@ -33,6 +33,7 @@ class Config
     public const TEST_DIR = 'ohrm_test_dir';
     public const CONF_FILE_PATH = 'ohrm_conf_file_path';
     public const I18N_ENABLED = 'ohrm_i18n_enabled';
+    public const VUE_BUILD_TIMESTAMP = 'ohrm_vue_build_timestamp';
 
     public const MODE_DEV = 'dev';
     public const MODE_PROD = 'prod';

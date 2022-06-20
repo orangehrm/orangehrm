@@ -21,6 +21,7 @@ namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -28,12 +29,14 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 
 class LoginController extends AbstractVueController implements PublicControllerInterface
 {
     use AuthUserTrait;
     use EventDispatcherTrait;
+    use ThemeServiceTrait;
 
     /**
      * @var HomePageService|null
@@ -71,6 +74,23 @@ class LoginController extends AbstractVueController implements PublicControllerI
         $csrfTokenManager = new CsrfTokenManager();
         $component->addProp(
             new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('login')->getValue())
+        );
+        $component->addProp(
+            new Prop('login-logo-src', Prop::TYPE_STRING, $request->getBasePath() . "/images/ohrm_logo.png")
+        );
+
+        $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
+        $loginBannerUrl = $request->getBasePath()
+            . "/images/ohrm_branding.png?$assetsVersion";
+        if (!is_null($this->getThemeService()->getImageETag('login_banner'))) {
+            $loginBannerUrl = $request->getBaseUrl()
+                . "/admin/theme/image/loginBanner?$assetsVersion";
+        }
+        $component->addProp(
+            new Prop('login-banner-src', Prop::TYPE_STRING, $loginBannerUrl)
+        );
+        $component->addProp(
+            new Prop('show-social-media', Prop::TYPE_BOOLEAN, $this->getThemeService()->showSocialMediaImages())
         );
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');

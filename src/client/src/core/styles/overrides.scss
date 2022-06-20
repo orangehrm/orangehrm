@@ -1,0 +1,44 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+$oxd-primary-one-color: var(--oxd-primary-one-color);
+$oxd-secondary-four-color: var(--oxd-secondary-four-color);
+$oxd-primary-gradient-start-color: var(--oxd-primary-gradient-start-color);
+$oxd-primary-gradient-end-color: var(--oxd-primary-gradient-end-color);
+$oxd-primary-font-color: var(--oxd-primary-font-color);
+$oxd-secondary-font-color: var(--oxd-secondary-font-color);
+
+$oxd-primary-one-lighten-5-color: var(--oxd-primary-one-lighten-5-color);
+$oxd-primary-one-lighten-30-color: var(--oxd-primary-one-lighten-30-color);
+$oxd-primary-one-darken-5-color: var(--oxd-primary-one-darken-5-color);
+$oxd-primary-one-alpha-10-color: var(--oxd-primary-one-alpha-10-color);
+$oxd-primary-one-alpha-15-color: var(--oxd-primary-one-alpha-15-color);
+$oxd-primary-one-alpha-20-color: var(--oxd-primary-one-alpha-20-color);
+$oxd-primary-one-alpha-50-color: var(--oxd-primary-one-alpha-50-color);
+
+$oxd-secondary-four-lighten-5-color: var(--oxd-secondary-four-lighten-5-color);
+$oxd-secondary-four-darken-5-color: var(--oxd-secondary-four-darken-5-color);
+$oxd-secondary-four-alpha-10-color: var(--oxd-secondary-four-alpha-10-color);
+$oxd-secondary-four-alpha-15-color: var(--oxd-secondary-four-alpha-15-color);
+$oxd-secondary-four-alpha-20-color: var(--oxd-secondary-four-alpha-20-color);
+
+$oxd-primary-gradient: linear-gradient(
+  90deg,
+  var(--oxd-primary-gradient-start-color) 0%,
+  var(--oxd-primary-gradient-end-color) 90%
+);
+
+$oxd-menu-item-active-gradient: $oxd-primary-gradient;

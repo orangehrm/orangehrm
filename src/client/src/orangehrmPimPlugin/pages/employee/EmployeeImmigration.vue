@@ -33,7 +33,7 @@
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-immigration>
-    <div class="orangehrm-horizontal-padding orangehrm-top-padding">
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
         {{ $t('pim.assigned_immigration_records') }}
       </profile-action-header>
