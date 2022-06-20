@@ -30,6 +30,7 @@ use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
@@ -40,6 +41,7 @@ class VueControllerHelper
     use MenuServiceTrait;
     use I18NHelperTrait;
     use ConfigServiceTrait;
+    use ThemeServiceTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -57,6 +59,9 @@ class VueControllerHelper
     public const PERMISSIONS = 'permissions';
     public const BREADCRUMB = 'breadcrumb';
     public const DATE_FORMAT = 'dateFormat';
+    public const CLIENT_LOGO_URL = 'clientLogoUrl';
+    public const CLIENT_BANNER_URL = 'clientBannerUrl';
+    public const THEME_VARIABLES = 'themeVariables';
 
     public const DATE_FORMAT_MAP = [
         'Y-m-d' => 'yyyy-mm-dd',
@@ -139,6 +144,7 @@ class VueControllerHelper
     {
         list($sidePanelMenuItems, $topMenuItems) = $this->getMenuItems();
         list($contextTitle, $contextIcon) = $this->getContextItems();
+        list($clientLogoUrl, $clientBannerUrl, $themeVariables) = $this->getThemeData();
 
         $this->context->add(
             [
@@ -156,7 +162,10 @@ class VueControllerHelper
                 self::PRODUCT_VERSION => Config::PRODUCT_VERSION,
                 self::PRODUCT_NAME => Config::PRODUCT_NAME,
                 self::BREADCRUMB => $this->getBreadcrumb(),
-                self::DATE_FORMAT => $this->getDateFormat()
+                self::DATE_FORMAT => $this->getDateFormat(),
+                self::CLIENT_LOGO_URL => $clientLogoUrl,
+                self::CLIENT_BANNER_URL => $clientBannerUrl,
+                self::THEME_VARIABLES => $themeVariables,
             ]
         );
         return $this->context->all();
@@ -167,7 +176,7 @@ class VueControllerHelper
      */
     protected function getAssetsVersion(): string
     {
-        return Config::get('ohrm_vue_build_timestamp');
+        return Config::get(Config::VUE_BUILD_TIMESTAMP);
     }
 
     /**
@@ -288,5 +297,27 @@ class VueControllerHelper
             'id' => $dateFormat,
             'label' => self::DATE_FORMAT_MAP[$dateFormat]
         ];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getThemeData(): array
+    {
+        $clientLogoUrl = $this->getRequest()->getBasePath() . '/images/orange.png?' . $this->getAssetsVersion();
+        if (!is_null($this->getThemeService()->getImageETag('client_logo'))) {
+            $clientLogoUrl = $this->getRequest()->getBaseUrl()
+                . '/admin/theme/image/clientLogo?' . $this->getAssetsVersion();
+        }
+        $clientBannerUrl = $this->getRequest()->getBasePath()
+            . '/images/orangehrm-logo.png?' . $this->getAssetsVersion();
+        if (!is_null($this->getThemeService()->getImageETag('client_banner'))) {
+            $clientBannerUrl = $this->getRequest()->getBaseUrl()
+                . '/admin/theme/image/clientBanner?' . $this->getAssetsVersion();
+        }
+
+        $themeVariables = $this->getThemeService()->getCurrentThemeVariables();
+
+        return [$clientLogoUrl, $clientBannerUrl, $themeVariables];
     }
 }

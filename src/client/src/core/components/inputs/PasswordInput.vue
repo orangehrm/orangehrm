@@ -139,8 +139,7 @@ export default {
 <style lang="scss" scoped>
 .user-password {
   &-row {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
     background-color: $oxd-background-white-shadow-color;
     border-radius: 0.75rem;
   }

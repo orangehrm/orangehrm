@@ -36,6 +36,60 @@ Update:
         label: 'Shortlisted'
     meta: [ ]
 
+  'Shortlist candidate - Hiring manager':
+    userId: 2
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 3
+    body:
+      note: 'Matching the qualifications'
+    data:
+      id: 1
+      candidate:
+        id: 3
+        firstName: 'Richard'
+        middleName: ''
+        lastName: 'Holmes'
+      vacancy:
+        id: 2
+        name: 'Senior Technical Supervisor'
+        hiringManager:
+          empNumber: '2'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          lastName: 'Abel'
+          terminationId: null
+      note: 'Matching the qualifications'
+      action:
+        id: 2
+        label: 'Shortlisted'
+    meta: [ ]
+
+  'Shortlist candidate - ESS User':
+    userId: 3
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 1
+    body:
+      note: 'Matching the qualifications'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
   'Shortlist candidate - no candidate vacancy for the candidate':
     userId: 1
     services:
@@ -70,7 +124,6 @@ Update:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
-
   'Shortlist candidate - already shortlisted':
     userId: 1
     services:
@@ -83,23 +136,6 @@ Update:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       candidateId: 2
-    body:
-      note: 'Matching the qualifications'
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
-      
-  'Shortlist candidate - ESS User':
-    userId: 3
-    services:
-      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      candidateId: 1
     body:
       note: 'Matching the qualifications'
     exception:

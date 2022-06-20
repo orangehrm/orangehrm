@@ -372,6 +372,14 @@ export default {
       const cellConfig = {};
       const screenState = inject('screenState');
 
+      cellConfig.delete = {
+        onClick: this.onClickDelete,
+        component: 'oxd-icon-button',
+        props: {
+          name: 'trash',
+        },
+      };
+
       if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
         if (row.statusId === 4) {
           cellConfig.view = viewIcon;
@@ -397,14 +405,6 @@ export default {
           cellConfig.evaluate.props.label = this.$t('performance.evaluate');
         }
       }
-
-      cellConfig.delete = {
-        onClick: this.onClickDelete,
-        component: 'oxd-icon-button',
-        props: {
-          name: 'trash',
-        },
-      };
 
       return {
         props: {

@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">{{
-        $t('pim.optional_fields')
-      }}</oxd-text>
+      <oxd-text class="orangehrm-main-title">
+        {{ $t('pim.optional_fields') }}
+      </oxd-text>
 
       <oxd-divider />
 
@@ -156,7 +156,7 @@ export default {
   grid-column-start: 1;
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.75rem;
 }
 
 .orangehrm-optional-field-label {

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -31,7 +30,6 @@ use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 class EssUserRole extends AbstractUserRole
 {
     use AuthUserTrait;
-    use LoggerTrait;
     use PerformanceTrackerServiceTrait;
     use PerformanceTrackerLogServiceTrait;
     use PerformanceReviewServiceTrait;

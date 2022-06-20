@@ -30,89 +30,103 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-input-field
-              v-model="workWeek.monday"
-              type="select"
-              :options="dayTypes"
-              :rules="rules.monday"
-              :label="$t('general.monday')"
-              required
-            />
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="workWeek.monday"
+                type="select"
+                :options="dayTypes"
+                :rules="rules.monday"
+                :label="$t('general.monday')"
+                required
+              />
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-input-field
-              v-model="workWeek.tuesday"
-              type="select"
-              :options="dayTypes"
-              :rules="rules.tuesday"
-              :label="$t('general.tuesday')"
-              required
-            />
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="workWeek.tuesday"
+                type="select"
+                :options="dayTypes"
+                :rules="rules.tuesday"
+                :label="$t('general.tuesday')"
+                required
+              />
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-input-field
-              v-model="workWeek.wednesday"
-              type="select"
-              :options="dayTypes"
-              :rules="rules.wednesday"
-              :label="$t('general.wednesday')"
-              required
-            />
-          </oxd-grid>
-        </oxd-form-row>
-
-        <oxd-form-row>
-          <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-input-field
-              v-model="workWeek.thursday"
-              type="select"
-              :options="dayTypes"
-              :rules="rules.thursday"
-              :label="$t('general.thursday')"
-              required
-            />
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="workWeek.wednesday"
+                type="select"
+                :options="dayTypes"
+                :rules="rules.wednesday"
+                :label="$t('general.wednesday')"
+                required
+              />
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-input-field
-              v-model="workWeek.friday"
-              type="select"
-              :options="dayTypes"
-              :rules="rules.friday"
-              :label="$t('general.friday')"
-              required
-            />
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="workWeek.thursday"
+                type="select"
+                :options="dayTypes"
+                :rules="rules.thursday"
+                :label="$t('general.thursday')"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-form-row>
+          <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="workWeek.friday"
+                type="select"
+                :options="dayTypes"
+                :rules="rules.friday"
+                :label="$t('general.friday')"
+                required
+              />
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-input-field
-              v-model="workWeek.saturday"
-              type="select"
-              :options="dayTypes"
-              :rules="rules.saturday"
-              :label="$t('general.saturday')"
-              required
-            />
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="workWeek.saturday"
+                type="select"
+                :options="dayTypes"
+                :rules="rules.saturday"
+                :label="$t('general.saturday')"
+                required
+              />
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-input-field
-              v-model="workWeek.sunday"
-              type="select"
-              :options="dayTypes"
-              :rules="rules.sunday"
-              :label="$t('general.sunday')"
-              required
-            />
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="workWeek.sunday"
+                type="select"
+                :options="dayTypes"
+                :rules="rules.sunday"
+                :label="$t('general.sunday')"
+                required
+              />
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-divider />

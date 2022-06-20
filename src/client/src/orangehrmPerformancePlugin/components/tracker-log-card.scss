@@ -69,6 +69,7 @@
 
     &-text {
       font-weight: 700;
+      font-size: 21px;
       padding-right: 0.6rem;
     }
 
@@ -87,7 +88,7 @@
   }
 
   &-body-text {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   &-reviewer {
@@ -104,7 +105,7 @@
       flex-direction: column;
       margin-top: 0.3rem;
       margin-left: 1.2rem;
-      font-size: 14px;
+      font-size: 12px;
 
       &-container {
         display: flex;

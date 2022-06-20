@@ -23,6 +23,7 @@ namespace OrangeHRM\Recruitment\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\InterviewAttachment;
+use OrangeHRM\Entity\InterviewInterviewer;
 use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
@@ -89,7 +90,7 @@ class RecruitmentAttachmentDao extends BaseDao
      * @param int $interviewId
      * @return InterviewAttachment|null
      */
-    public function getInterviewAttachmentByAttachmentIDAndInterviewId(
+    public function getInterviewAttachmentByAttachmentIdAndInterviewId(
         int $attachId,
         int $interviewId
     ): ?InterviewAttachment {
@@ -245,6 +246,29 @@ class RecruitmentAttachmentDao extends BaseDao
         $q->select('attachment.id');
         $q->andWhere('vacancy.hiringManager = :empNumber');
         $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getInterviewAttachmentListForInterviewer(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewInterviewer');
+        $q->leftJoin('interviewInterviewer.interview', 'interview');
+        $q->select('interview.id');
+        $q->andWhere('interviewInterviewer.interviewer = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        $accessibleInterviewIds = array_column($result, 'id');
+
+        $q = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
+        $q->leftJoin('attachment.interview', 'interview');
+        $q->select('attachment.id');
+        $q->andWhere('interview IN (:ids)');
+        $q->setParameter('ids', $accessibleInterviewIds);
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
     }

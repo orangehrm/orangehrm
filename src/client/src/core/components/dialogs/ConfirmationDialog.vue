@@ -22,14 +22,14 @@
   <teleport to="#app">
     <oxd-dialog
       v-if="show"
-      class="orangehrm-confirmation-dialog"
+      class="orangehrm-confirmation-dialog orangehrm-dialog-popup"
       @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
         <oxd-text type="card-title">{{ title }}</oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
-        <oxd-text type="subtitle-2">
+        <oxd-text type="card-body">
           {{ subtitle }}
         </oxd-text>
       </div>
@@ -109,9 +109,3 @@ export default {
 </script>
 
 <style src="./dialog.scss" lang="scss" scoped></style>
-
-<style>
-.orangehrm-confirmation-dialog {
-  max-width: 450px;
-}
-</style>
