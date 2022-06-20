@@ -271,11 +271,13 @@ export default {
       this.windowWidth = window.innerWidth;
     },
     triggerSearch() {
+      this.hideEmployeeDetails();
       this.employees = [];
       this.offset = 0;
       this.fetchData();
     },
     triggerReset() {
+      this.hideEmployeeDetails();
       this.employees = [];
       this.filters.employeeNumber = null;
       this.filters.jobTitleId = null;
