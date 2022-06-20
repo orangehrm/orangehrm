@@ -47,13 +47,13 @@ class I18NLangStringFixture extends AbstractFixture
             $result = [];
             $result['unitId'] = $langString->getUnitId();
             $result['value'] = $langString->getValue();
-            $result['group'] = $langString->getGroup()->getId();
+            $result['group_id'] = $langString->getGroup()->getId();
             $result['note'] = $langString->getNote();
             $result['version'] = $langString->getVersion();
             $results[] = $result;
         }
 
-        return ['Group'=> $groupResults,'LangString' => $results];
+        return ['I18NGroup'=> $groupResults,'I18NLangString' => $results];
     }
 
     /**

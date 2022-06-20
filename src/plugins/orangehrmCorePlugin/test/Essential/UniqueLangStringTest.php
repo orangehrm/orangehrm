@@ -52,7 +52,7 @@ class UniqueLangStringTest extends TestCase
 
     public function testUniqueUnitId(): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml');
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/LangString.yaml');
         $q = $this->getEntityManager()->createQueryBuilder();
         $q->select('langString.unitId')
             ->from(I18NLangString::class, 'langString')
