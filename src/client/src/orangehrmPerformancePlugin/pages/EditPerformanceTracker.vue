@@ -145,7 +145,7 @@ export default {
       .get(this.performanceTrackerId) //performance-tracker-id
       .then(response => {
         const {data} = response.data;
-        this.isReadOnly = data.ownerEditable === true ? false : true;
+        this.isReadOnly = data.ownerEditable === false;
         this.tracker.id = data.id;
         this.tracker.name = data.trackerName;
         this.tracker.employee = data.employee
@@ -170,7 +170,7 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/performance/addPerformanceTracker');
+      navigate('/performance/searchPerformanceTracker');
     },
     onSave() {
       this.isLoading = true;

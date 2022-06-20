@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Util\Fixture;
 
+use OrangeHRM\Entity\I18NGroup;
 use OrangeHRM\Entity\I18NLangString;
 
 class I18NLangStringFixture extends AbstractFixture
@@ -28,6 +29,17 @@ class I18NLangStringFixture extends AbstractFixture
      */
     protected function getContent(): array
     {
+        /** @var I18NGroup $group */
+        $I18NGroups = $this->getEntityManager()->getRepository(I18NGroup::class)->findAll();
+        $groupResults = [];
+        foreach ($I18NGroups as $group) {
+            $result = [];
+            $result['id'] = $group->getId();
+            $result['name'] = $group->getName();
+            $result['title'] = $group->getTitle();
+            $groupResults[] = $result;
+        }
+
         /** @var I18NLangString[] $langStrings */
         $langStrings = $this->getEntityManager()->getRepository(I18NLangString::class)->findAll();
         $results = [];
@@ -35,13 +47,13 @@ class I18NLangStringFixture extends AbstractFixture
             $result = [];
             $result['unitId'] = $langString->getUnitId();
             $result['value'] = $langString->getValue();
-            $result['group'] = $langString->getGroup();
+            $result['group'] = $langString->getGroup()->getId();
             $result['note'] = $langString->getNote();
             $result['version'] = $langString->getVersion();
             $results[] = $result;
         }
 
-        return ['LangString' => $results];
+        return ['Group'=> $groupResults,'LangString' => $results];
     }
 
     /**

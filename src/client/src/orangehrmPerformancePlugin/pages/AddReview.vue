@@ -205,7 +205,10 @@ export default {
           })
           .then(() => {
             if (activate === true) {
-              return this.$toast.activateSuccess();
+              return this.$toast.success({
+                title: this.$t('general.success'),
+                message: this.$t('general.successfully_activated'),
+              });
             } else {
               return this.$toast.updateSuccess();
             }
