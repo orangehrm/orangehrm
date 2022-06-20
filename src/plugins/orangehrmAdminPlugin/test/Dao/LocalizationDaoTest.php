@@ -108,8 +108,8 @@ class LocalizationDaoTest extends TestCase
         $language->setAdded(true);
 
         $result = $this->i18NDao->saveI18NLanguage($language);
-        $this->assertInstanceOf(I18NLanguage::class,$result);
-        $this->assertEquals('Special Langauege',$result->getName());
-        $this->assertEquals(true,$result->isAdded());
+        $this->assertInstanceOf(I18NLanguage::class, $result);
+        $this->assertEquals('Special Langauege', $result->getName());
+        $this->assertEquals(true, $result->isAdded());
     }
 }

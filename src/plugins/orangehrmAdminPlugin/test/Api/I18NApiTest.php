@@ -61,6 +61,48 @@ class I18NApiTest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('I18NLanguagesAPITestCase.yml','Update');
+        return $this->getTestCases('I18NLanguagesAPITestCase.yml', 'Update');
+    }
+
+    public function testCreate(): void
+    {
+        $api = new I18NLanguageAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): array
+    {
+        $api = new I18NLanguageAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function getOne(): void
+    {
+        $api = new I18NLanguageAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForGetOne(): array
+    {
+        $api = new I18NLanguageAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new I18NLanguageAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new I18NLanguageAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
     }
 }

@@ -43,7 +43,7 @@ class LocalizationDao extends BaseDao
         I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(I18NLanguage::class, 'l');
-        $this->setSortingParams($q, $i18NLanguageSearchFilterParams);
+        $this->setSortingAndPaginationParams($q, $i18NLanguageSearchFilterParams);
 
         if ($i18NLanguageSearchFilterParams->getEnabledOnly()) {
             $q->andWhere('l.enabled = :enabled');
