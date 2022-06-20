@@ -75,6 +75,11 @@ class EmployeeDirectoryDaoTest extends KernelTestCase
         $employeeDirectorySearchFilterParams->setJobTitleId(1);
         $empList = $this->employeeDirectoryDao->getEmployeeList($employeeDirectorySearchFilterParams);
         $this->assertCount(1, $empList);
+
+        $employeeDirectorySearchFilterParams = new EmployeeDirectorySearchFilterParams();
+        $employeeDirectorySearchFilterParams->setNameOrId('Ashan');
+        $empList = $this->employeeDirectoryDao->getEmployeeList($employeeDirectorySearchFilterParams);
+        $this->assertCount(1, $empList);
     }
 
     /**
@@ -93,6 +98,11 @@ class EmployeeDirectoryDaoTest extends KernelTestCase
 
         $employeeDirectorySearchFilterParams = new EmployeeDirectorySearchFilterParams();
         $employeeDirectorySearchFilterParams->setJobTitleId(1);
+        $empList = $this->employeeDirectoryDao->getEmployeeList($employeeDirectorySearchFilterParams);
+        $this->assertCount(1, $empList);
+
+        $employeeDirectorySearchFilterParams = new EmployeeDirectorySearchFilterParams();
+        $employeeDirectorySearchFilterParams->setNameOrId('Ashan');
         $empList = $this->employeeDirectoryDao->getEmployeeList($employeeDirectorySearchFilterParams);
         $this->assertCount(1, $empList);
     }

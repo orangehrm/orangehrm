@@ -72,12 +72,7 @@
     <div :class="{'orangehrm-corporate-directory': hasCurrentIndex}">
       <div class="orangehrm-paper-container">
         <table-header :show-divider="false" :total="total"></table-header>
-        <oxd-grid
-          ref="scrollerRef"
-          :cols="colSize"
-          class="orangehrm-container"
-          :class="{'orangehrm-container-min-display': hasCurrentIndex}"
-        >
+        <oxd-grid ref="scrollerRef" :cols="colSize" :class="oxdGridClasses">
           <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
             <summary-card
               :employee-designation="employee.employeeJobTitle"
@@ -241,6 +236,12 @@ export default {
     },
     hasCurrentIndex() {
       return this.currentIndex >= 0;
+    },
+    oxdGridClasses() {
+      return {
+        'orangehrm-container': true,
+        ['orangehrm-container-min-display']: this.hasCurrentIndex,
+      };
     },
   },
 

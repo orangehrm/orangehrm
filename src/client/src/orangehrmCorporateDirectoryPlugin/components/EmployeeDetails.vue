@@ -28,14 +28,14 @@
       <oxd-icon-button
         display-type="success"
         name="telephone-fill"
-        @click.stop.prevent="openClientTelephone"
+        @click.stop="openClientTelephone"
       ></oxd-icon-button>
     </div>
     <div v-show="employeeWorkEmail" class="orangehrm-directory-card-icon">
       <oxd-icon-button
         display-type="danger"
         name="envelope-fill"
-        @click.stop.prevent="openClientEmail"
+        @click.stop="openClientEmail"
       ></oxd-icon-button>
     </div>
   </div>
@@ -57,7 +57,7 @@
       <oxd-icon-button
         v-show="showTelephoneClip || isMobile"
         name="files"
-        @click.stop.prevent="copyTelephone"
+        @click.stop="copyTelephone"
       ></oxd-icon-button>
     </div>
   </div>
@@ -80,7 +80,7 @@
       <oxd-icon-button
         v-show="showEmailClip || isMobile"
         name="files"
-        @click.stop.prevent="copyEmail"
+        @click.stop="copyEmail"
       ></oxd-icon-button>
     </div>
   </div>

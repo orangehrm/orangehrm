@@ -197,6 +197,36 @@ GetAll:
     meta:
       total: 1
 
+  'with nameOrId given':
+    userId: 1
+    query:
+      nameOrId: 'Rajitha'
+    data: [
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        },
+      }
+    ]
+    meta:
+      total: 1
+
   'with job title id':
     userId: 1
     query:
