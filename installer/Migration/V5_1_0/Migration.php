@@ -144,13 +144,23 @@ class Migration extends AbstractMigration
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
         $this->modifyThemeTable();
 
-        $langStringName = "Allows Phone Numbers Only";
+        $groupId = $this->getLangStringHelper()->getGroupId('general');
+        $toDeleteLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows Phone Numbers Only', $groupId);
+        $toPreserveLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows numbers and only + - / ( )', $groupId);
+
+
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_translate', 'translate')
+            ->set('translate.lang_string_id', ':langStringId')
+            ->setParameter('langStringId', $toPreserveLangStringId)
+            ->andWhere('translate.lang_string_id = :deletedLangStringId')
+            ->setParameter('deletedLangStringId', $toDeleteLangStringId)
+            ->executeQuery();
+
         $this->createQueryBuilder()
             ->delete('ohrm_i18n_lang_string')
-            ->andWhere('ohrm_i18n_lang_string.unit_id = :unitId')
-            ->setParameter('unitId', 'allows_phone_numbers_only')
-            ->andWhere('ohrm_i18n_lang_string.value = :value')
-            ->setParameter('value', $langStringName)
+            ->andWhere('ohrm_i18n_lang_string.id = :id')
+            ->setParameter('id', $toDeleteLangStringId)
             ->executeQuery();
     }
 
@@ -417,5 +427,23 @@ class Migration extends AbstractMigration
             $this->translationHelper = new TranslationHelper($this->getConnection());
         }
         return $this->translationHelper;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLangStringId(string $unitId, string $value): array
+    {
+        $q = $this->createQueryBuilder()
+            ->select('id')
+            ->from('ohrm_i18n_lang_string')
+            ->andWhere('ohrm_i18n_lang_string.unit_id = :unitId')
+            ->setParameter('unitId', $unitId)
+            ->andWhere('ohrm_i18n_lang_string.value = :value')
+            ->setParameter('value', $value);
+
+        $result = $q->executeQuery();
+
+        return array_column($result, 'id');
     }
 }
