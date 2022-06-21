@@ -97,6 +97,7 @@ export default {
     const serializedFilters = computed(() => {
       return {
         sortOrder: sortOrder.value,
+        activeOnly: true,
       };
     });
 
@@ -178,9 +179,13 @@ export default {
     },
     onAddLanguageModalClose() {
       this.showAddLanguageModal = false;
+      this.reloadLanguages();
     },
     onCancel() {
       navigate('/admin/languagePackage');
+    },
+    async reloadLanguages() {
+      await this.execQuery();
     },
   },
 };

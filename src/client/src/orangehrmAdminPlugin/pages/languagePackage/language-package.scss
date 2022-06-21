@@ -7,7 +7,7 @@
 }
 
 .addlanguage-note-text{
-    padding: 10px;
+    padding: 1.2rem;
 }
 
 .oxd-table-cell-actions{
@@ -17,4 +17,14 @@
 .orangehrm-dialog-modal{
     width: '90%';
     min-width: '800px';
+}
+
+.orangehrm-information-card-text {
+    font-size: $oxd-input-control-font-size;
+    color: $oxd-input-control-font-color;
+    font-weight: $oxd-input-control-font-weight;
+}
+
+.oxd-table-th{
+    margin-right: 10rem;
 }

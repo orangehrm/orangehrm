@@ -32,11 +32,11 @@
       <oxd-form-row>
         <div class="addlanguage-note">
           <div class="addlanguage-note-text">
-            <oxd-text type="card-title">Note: </oxd-text>
-            <br />
-            <oxd-text type="subtitle-1">
-              Users will require translate texts manually after creating the
-              language package.
+            <oxd-text class="orangehrm-sub-title">{{
+              $t('general.note')
+            }}</oxd-text>
+            <oxd-text class="orangehrm-information-card-text">
+              {{ $t('general.translate_text_manually') }}
             </oxd-text>
           </div>
         </div>

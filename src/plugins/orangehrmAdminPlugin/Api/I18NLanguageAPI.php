@@ -49,10 +49,9 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
     {
         $i18NLanguageSearchParams = new I18NLanguageSearchFilterParams();
 
-        $addedOnly = $this->getRequestParams()->getBoolean(
+        $addedOnly = $this->getRequestParams()->getBooleanOrNull(
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_ACTIVE_ONLY,
-            false
         );
         $i18NLanguageSearchParams->setAddedOnly($addedOnly);
 

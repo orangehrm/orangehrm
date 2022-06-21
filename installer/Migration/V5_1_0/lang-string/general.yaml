@@ -161,3 +161,9 @@ langStrings:
   -
     value: 'Translate'
     unitId: translate
+  -
+    value: 'Note'
+    unitId: note
+  -
+    value: 'Users will require translate texts manually after creating the language package.'
+    unitId: translate_text_manually

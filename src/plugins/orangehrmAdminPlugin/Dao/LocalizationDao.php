@@ -49,9 +49,9 @@ class LocalizationDao extends BaseDao
             $q->andWhere('l.enabled = :enabled');
             $q->setParameter('enabled', true);
         }
-        if ($i18NLanguageSearchFilterParams->getAddedOnly()) {
+        if (!is_null($i18NLanguageSearchFilterParams->getAddedOnly())) {
             $q->andWhere('l.added = :added');
-            $q->setParameter('added', true);
+            $q->setParameter('added', $i18NLanguageSearchFilterParams->getAddedOnly());
         }
         return $this->getPaginator($q);
     }
