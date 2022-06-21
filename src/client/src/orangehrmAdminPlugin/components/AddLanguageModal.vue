@@ -18,10 +18,7 @@
  */
  -->
 <template>
-  <oxd-dialog
-    :style="{width: '90%', maxWidth: '800px'}"
-    @update:show="onCancel"
-  >
+  <oxd-dialog @update:show="onCancel">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
         {{ $t('general.add_language') }}
@@ -30,10 +27,9 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
-        <languages-dropdown v-model="language.languageId"></languages-dropdown>
+        <languages-dropdown v-model="language"></languages-dropdown>
       </oxd-form-row>
       <oxd-form-row>
-        <!-- change to text -->
         <div class="addlanguage-note">
           <div class="addlanguage-note-text">
             <oxd-text type="card-title">Note: </oxd-text>
@@ -68,10 +64,6 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import LanguagesDropdown from '@/orangehrmAdminPlugin/components/LanguagesDropdown.vue';
 
-const languageModel = {
-  languageId: '',
-};
-
 export default {
   name: 'AddLanguageModal',
   components: {
@@ -92,20 +84,16 @@ export default {
   data() {
     return {
       isLoading: false,
-      language: {...languageModel},
+      language: null,
     };
   },
   methods: {
     onSave() {
-      this.isLoading = true;
       this.http
-        .request({
-          method: 'PUT',
-          url: `api/v2/admin/i18n/languages/${this.language.languageId.id}`,
-        })
+        .update(this.language.id, null)
         .then(response => {
           if (response) {
-            return this.$toast.updateSuccess();
+            return this.$toast.saveSuccess();
           }
         })
         .then(() => {

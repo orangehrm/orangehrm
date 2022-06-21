@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
-<template lang="">
+<template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
@@ -33,10 +33,13 @@
           />
         </div>
       </div>
-      <table-header :total="total"></table-header>
+      <table-header
+        :loading="isLoading"
+        :total="total"
+        :selected="0"
+      ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
-          v-model:selected="checkedItems"
           v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
@@ -54,7 +57,6 @@
         />
       </div>
     </div>
-    <br />
     <add-language-modal
       v-if="showAddLanguageModal"
       @close="onAddLanguageModalClose"
@@ -139,7 +141,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Language Packages',
+          title: this.$t('general.language_packages'),
           sortField: 'languageName',
           style: {flex: 2},
         },
@@ -150,19 +152,17 @@ export default {
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             translate: {
-              onClick: this.onClickDelete,
               component: 'oxd-button',
               props: {
-                label: 'Translate',
+                label: this.$t('general.translate'),
                 style: 'Text',
                 displayType: 'text',
               },
             },
             export: {
-              onClick: this.onClickEdit,
               component: 'oxd-button',
               props: {
-                label: 'Export',
+                label: this.$t('general.export'),
                 displayType: 'text',
                 size: 'medium',
               },

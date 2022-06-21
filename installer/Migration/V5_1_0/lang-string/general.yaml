@@ -155,3 +155,9 @@ langStrings:
   -
     value: 'Or login with'
     unitId: or_login_with
+  -
+    value: 'Export'
+    unitId: export
+  -
+    value: 'Translate'
+    unitId: translate

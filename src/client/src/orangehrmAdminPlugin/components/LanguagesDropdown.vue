@@ -18,7 +18,7 @@
  */
  -->
 
-<template lang="">
+<template>
   <oxd-input-field
     type="select"
     :label="$t('general.name')"
@@ -52,4 +52,3 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
