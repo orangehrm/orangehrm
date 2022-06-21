@@ -14,27 +14,18 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-return [
-    'phpversion' => [
-        'min' => '7.4',
-        'max' => '8.1',
-        'excludeRange' => [],
-    ],
+namespace OrangeHRM\DevTools\Command\Util\Platforms;
 
-    'mysqlversion' => [
-        'min' => '5.5',
-        'max' => '8.0',
-        'excludeRange' => [],
-    ],
-
-    'mariadbversion' => [
-        'min' => '5.5',
-        'max' => '10.7',
-        'excludeRange' => [],
-    ],
-
-    'webserver' => ['Apache', 'nginx', 'IIS'],
-];
+class MySQL57Platform extends \Doctrine\DBAL\Platforms\MySQL57Platform
+{
+    /**
+     * @inheritDoc
+     */
+    public function hasNativeJsonType(): bool
+    {
+        return false;
+    }
+}

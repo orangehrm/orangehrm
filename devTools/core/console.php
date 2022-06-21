@@ -38,6 +38,7 @@ require_once $pathToDevAutoload;
 use OrangeHRM\DevTools\Command\AddDataGroupCommand;
 use OrangeHRM\DevTools\Command\AddRolePermissionCommand;
 use OrangeHRM\DevTools\Command\AddTestTranslationCommand;
+use OrangeHRM\DevTools\Command\CreateTestDatabaseCommand;
 use OrangeHRM\DevTools\Command\EventDispatcherDebugCommand;
 use OrangeHRM\DevTools\Command\PHPFixCodingStandardsCommand;
 use OrangeHRM\DevTools\Command\ReInstallCommand;
@@ -60,6 +61,7 @@ $application->add(new AddTestTranslationCommand());
 $application->add(new ResetInstallationCommand());
 $application->add(new ReInstallCommand());
 $application->add(new AddLangStrings());
+$application->add(new CreateTestDatabaseCommand());
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
