@@ -72,7 +72,7 @@
     <div :class="{'orangehrm-corporate-directory': hasCurrentIndex}">
       <div class="orangehrm-paper-container">
         <table-header :show-divider="false" :total="total"></table-header>
-        <oxd-grid ref="scrollerRef" :cols="colSize" class="orangehrm-container">
+        <oxd-grid ref="scrollerRef" :cols="colSize" :class="oxdGridClasses">
           <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
             <summary-card
               :employee-designation="employee.employeeJobTitle"
@@ -126,6 +126,7 @@ import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
 import {reactive, toRefs} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import {ref} from 'vue';
+import useToast from '@/core/util/composable/useToast';
 
 const defaultFilters = {
   employeeNumber: null,
@@ -156,6 +157,7 @@ export default {
   },
 
   setup() {
+    const {noRecordsFound} = useToast();
     const {$t} = usei18n();
     const employeeDataNormalizer = data => {
       return data.map(item => {
@@ -164,7 +166,9 @@ export default {
           employeeName:
             `${item.firstName} ${item.middleName} ${item.lastName} ` +
             (item.terminationId ? $t('general.past_employee') : ''),
-          employeeJobTitle: item.jobTitle?.title,
+          employeeJobTitle: item.jobTitle?.isDeleted
+            ? `${item.jobTitle?.title} ` + $t('general.deleted')
+            : item.jobTitle?.title,
           employeeSubUnit: item.subunit?.name,
           employeeLocation: item.location?.name,
         };
@@ -205,6 +209,9 @@ export default {
               ...employeeDataNormalizer(data),
             ];
           }
+          if (state.total === 0) {
+            noRecordsFound();
+          }
         })
         .finally(() => (state.isLoading = false));
     };
@@ -230,6 +237,12 @@ export default {
     hasCurrentIndex() {
       return this.currentIndex >= 0;
     },
+    oxdGridClasses() {
+      return {
+        'orangehrm-container': true,
+        'orangehrm-container-min-display': this.hasCurrentIndex,
+      };
+    },
   },
 
   beforeMount() {
@@ -251,7 +264,6 @@ export default {
         this.currentIndex = index;
         this.colSize = 3;
       } else {
-        this.currentIndex = -1;
         this.hideEmployeeDetails();
       }
     },
@@ -259,11 +271,13 @@ export default {
       this.windowWidth = window.innerWidth;
     },
     triggerSearch() {
+      this.hideEmployeeDetails();
       this.employees = [];
       this.offset = 0;
       this.fetchData();
     },
     triggerReset() {
+      this.hideEmployeeDetails();
       this.employees = [];
       this.filters.employeeNumber = null;
       this.filters.jobTitleId = null;
@@ -293,10 +307,14 @@ export default {
   overflow: auto;
   height: 512px;
   position: relative;
+  margin: 0px;
   @include oxd-respond-to('md') {
     min-width: 678px;
-    margin: 0px;
   }
+  &-min-display {
+    min-width: auto;
+  }
+
   @include oxd-scrollbar();
 
   &-loader {
@@ -308,5 +326,8 @@ export default {
     right: 0;
     bottom: 0;
   }
+}
+.oxd-grid-item {
+  padding: 0.5rem 0.75rem;
 }
 </style>

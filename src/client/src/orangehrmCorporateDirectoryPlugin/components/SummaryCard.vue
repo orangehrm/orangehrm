@@ -31,13 +31,16 @@
     >
       <oxd-icon name="arrow-right"></oxd-icon>
     </div>
-    <div class="orangehrm-directory-card-header">
+    <div class="orangehrm-directory-card-header --breakWords">
       <oxd-text type="card-title">
         {{ employeeName }}
       </oxd-text>
     </div>
     <profile-picture :id="employeeId"></profile-picture>
-    <div v-show="employeeDesignation" class="orangehrm-directory-card-header">
+    <div
+      v-if="employeeDesignation"
+      class="orangehrm-directory-card-header --breakWords"
+    >
       <oxd-text type="toast-title">
         {{ employeeDesignation }}
       </oxd-text>
@@ -50,12 +53,12 @@
         <oxd-icon name="geo-alt-fill"></oxd-icon>
       </span>
       <span>
-        <div class="orangehrm-directory-card-subunit">
+        <div class="orangehrm-directory-card-subunit --breakWords">
           <oxd-text type="toast-message">
             {{ employeeSubUnit }}
           </oxd-text>
         </div>
-        <div class="orangehrm-directory-card-location">
+        <div class="orangehrm-directory-card-location --breakWords">
           <oxd-text type="toast-message">
             {{ employeeLocation }}
           </oxd-text>
@@ -137,13 +140,7 @@ export default {
     padding-bottom: 0.75rem;
     text-align: center;
     justify-content: space-between;
-    height: 32px;
-    word-break: break-all;
-    -webkit-line-clamp: 2;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
+    height: 30px;
   }
 
   &-body {
@@ -175,5 +172,14 @@ export default {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
   }
+}
+
+.--breakWords {
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 </style>
