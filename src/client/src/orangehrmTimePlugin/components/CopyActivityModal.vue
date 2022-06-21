@@ -39,19 +39,17 @@
       </oxd-form-row>
       <template v-if="activities && activities.length > 0">
         <oxd-divider />
-        <oxd-form-row class="orangehrm-activites-container">
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+        <oxd-grid :cols="2" class="orangehrm-activites-container">
+          <oxd-grid-item v-for="activity in activities" :key="activity.id">
             <oxd-input-field
-              v-for="activity in activities"
-              :key="activity.id"
               v-model="selectedActivities"
               type="checkbox"
               :value="activity.id"
               :disabled="!activity.unique"
               :option-label="activity.name"
             />
-          </oxd-grid>
-        </oxd-form-row>
+          </oxd-grid-item>
+        </oxd-grid>
       </template>
 
       <oxd-divider />

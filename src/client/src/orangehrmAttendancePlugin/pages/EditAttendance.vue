@@ -38,7 +38,7 @@
       <div class="orangehrm-paper-container">
         <oxd-form :loading="isLoading" @submitValid="onSave">
           <oxd-grid :cols="2" class="orangehrm-full-width-grid no-gap">
-            <oxd-form-row>
+            <oxd-grid-item>
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
                   <oxd-text type="subtitle-2">
@@ -86,9 +86,12 @@
                   />
                 </oxd-grid-item>
               </oxd-grid>
-            </oxd-form-row>
+            </oxd-grid-item>
 
-            <oxd-form-row v-if="attendance.punchOut">
+            <oxd-grid-item
+              v-if="attendance.punchOut"
+              class="orangehrm-punch-out-record"
+            >
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
                   <oxd-text type="subtitle-2">
@@ -136,7 +139,7 @@
                   />
                 </oxd-grid-item>
               </oxd-grid>
-            </oxd-form-row>
+            </oxd-grid-item>
           </oxd-grid>
 
           <oxd-divider />

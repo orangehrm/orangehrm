@@ -31,7 +31,7 @@
     >
       <oxd-icon name="arrow-right"></oxd-icon>
     </div>
-    <div class="orangehrm-directory-card-header --breakWords">
+    <div class="orangehrm-directory-card-header --break-words">
       <oxd-text type="card-title">
         {{ employeeName }}
       </oxd-text>
@@ -39,7 +39,7 @@
     <profile-picture :id="employeeId"></profile-picture>
     <div
       v-if="employeeDesignation"
-      class="orangehrm-directory-card-header --breakWords"
+      class="orangehrm-directory-card-header --break-words"
     >
       <oxd-text type="toast-title">
         {{ employeeDesignation }}
@@ -53,12 +53,12 @@
         <oxd-icon name="geo-alt-fill"></oxd-icon>
       </span>
       <span>
-        <div class="orangehrm-directory-card-subunit --breakWords">
+        <div class="orangehrm-directory-card-subunit --break-words">
           <oxd-text type="toast-message">
             {{ employeeSubUnit }}
           </oxd-text>
         </div>
-        <div class="orangehrm-directory-card-location --breakWords">
+        <div class="orangehrm-directory-card-location --break-words">
           <oxd-text type="toast-message">
             {{ employeeLocation }}
           </oxd-text>
@@ -92,7 +92,8 @@ export default {
     },
     employeeDesignation: {
       type: String,
-      required: true,
+      required: false,
+      default: null,
     },
     employeeSubUnit: {
       type: String,
@@ -174,12 +175,12 @@ export default {
   }
 }
 
-.--breakWords {
-  word-break: break-all;
-  -webkit-line-clamp: 2;
-  text-overflow: ellipsis;
+.--break-words {
   overflow: hidden;
+  word-break: break-all;
+  text-overflow: ellipsis;
   display: -webkit-box;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 </style>
