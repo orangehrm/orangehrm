@@ -23,10 +23,15 @@ use DateInterval;
 use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class DateTimeHelperService
 {
+    use ConfigServiceTrait;
+
     public const TIMEZONE_UTC = '+0000';
+
     /**
      * Format given \DateTime object to Y-m-d string.
      * Return null if null given
@@ -134,7 +139,7 @@ class DateTimeHelperService
     }
 
     /**
-     * @param  float $timezoneOffset
+     * @param float $timezoneOffset
      * @return DateTimeZone eg:- 5.5 -> +0530, -5.5 -> -0530
      */
     public function getTimezoneByTimezoneOffset(float $timezoneOffset): DateTimeZone
@@ -142,7 +147,23 @@ class DateTimeHelperService
         $absoluteOffset = abs($timezoneOffset);
         $hours = floor($absoluteOffset);
         $minutes = ($absoluteOffset * 60) % 60 == 0 ? '00' : ($absoluteOffset * 60) % 60;
-        $hours = $hours < 10 ? '0'.$hours : $hours;
-        return new DateTimeZone(($timezoneOffset > 0 ? '+' : '-').$hours.$minutes);
+        $hours = $hours < 10 ? '0' . $hours : $hours;
+        return new DateTimeZone(($timezoneOffset > 0 ? '+' : '-') . $hours . $minutes);
+    }
+
+    /**
+     * @param DateTime|null $dateTime
+     * @return string|null
+     */
+    public function formatDateTime(?DateTime $dateTime): ?string
+    {
+        if (is_null($dateTime)) {
+            return null;
+        }
+        if (!Config::get(Config::DATE_FORMATTING_ENABLED)) {
+            return $this->formatDateTimeToYmd($dateTime);
+        }
+        $dateFormat = $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
+        return $dateTime->format($dateFormat);
     }
 }
