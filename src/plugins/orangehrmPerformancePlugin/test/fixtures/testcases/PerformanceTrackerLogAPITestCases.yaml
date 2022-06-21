@@ -42,6 +42,22 @@ GetOne:
       class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
       message: 'Record Not Found'
 
+  'admin get purged emp tracker log':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 6
+      trackerId: 2
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
   'ess get another reviewer log on their tracker':
     userId: 3
     services:
@@ -146,6 +162,79 @@ GetAll:
       total: 2
       positive: 1
       negative: 1
+
+  'admin get all logs of tracker with purged employee log':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      trackerId: 2
+    data:
+      0:
+        "id": 3
+        "log": "log by 3"
+        "comment": "test comment by 3"
+        "achievement": "1"
+        "addedDate": "2021-12-12"
+        "modifiedDate": "2021-12-12"
+        "reviewer":
+          "empNumber": 3
+          "lastName": "Gamage"
+          "firstName": "Chenuka"
+          "middleName": null
+          "terminationId": null
+        "editable": true
+      1:
+        "id": 4
+        "log": "log by ESS"
+        "comment": "test comment by ESS"
+        "achievement": "1"
+        "addedDate": "2021-12-12"
+        "modifiedDate": null
+        "reviewer":
+          "empNumber": 2
+          "lastName": "Perera"
+          "firstName": "Sharuka"
+          "middleName": null
+          "terminationId": null
+        "editable": true
+      2:
+        "id": 5
+        "log": "log by Admin"
+        "comment": "test comment by Admin"
+        "achievement": "1"
+        "addedDate": "2021-12-12"
+        "modifiedDate": null
+        "reviewer":
+          "empNumber": 1
+          "lastName": "DS"
+          "firstName": "Devi"
+          "middleName": null
+          "terminationId": null
+        "editable": true
+      3:
+        "id": 6
+        "log": "log by Purged Emp"
+        "comment": "test comment by Purged Emp"
+        "achievement": "1"
+        "addedDate": "2021-12-12"
+        "modifiedDate": null
+        "reviewer":
+          "empNumber": 4
+          "lastName": "Employee"
+          "firstName": "Purged"
+          "middleName": null
+          "terminationId": 1
+        "editable": false
+    meta:
+      total: 4
+      positive: 4
+      negative: 0
 
   'reviewer get all logs of existing tracker':
     userId: 2
@@ -261,9 +350,23 @@ GetAll:
           "middleName": null
           "terminationId": null
         "editable": false
+      3:
+        "id": 6
+        "log": "log by Purged Emp"
+        "comment": "test comment by Purged Emp"
+        "achievement": "1"
+        "addedDate": "2021-12-12"
+        "modifiedDate": null
+        "reviewer":
+          "empNumber": 4
+          "lastName": "Employee"
+          "firstName": "Purged"
+          "middleName": null
+          "terminationId": 1
+        "editable": false
     meta:
-      total: 3
-      positive: 3
+      total: 4
+      positive: 4
       negative: 0
 
 Create:
@@ -286,7 +389,7 @@ Create:
       "comment": "Test logs create"
     query: [ ]
     data:
-      "id": 6
+      "id": 7
       "log": "Log Create"
       "comment": "Test logs create"
       "achievement": "2"
@@ -339,7 +442,7 @@ Create:
       "comment": "Test logs create"
     query: [ ]
     data:
-      "id": 6
+      "id": 7
       "log": "Log Create"
       "comment": "Test logs create"
       "achievement": "2"
@@ -426,6 +529,27 @@ Update:
       "editable": true
     meta: [ ]
 
+  'admin update purged emp tracker log':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 6
+      trackerId: 2
+    body:
+      "log": "LogUpdate"
+      "achievement": 2
+      "comment": "Test logs update"
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
   'update tracker log Reviewer for not self':
     userId: 2
     services:
@@ -446,6 +570,7 @@ Update:
     query: [ ]
     exception:
       class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
 
   'update tracker log Reviewer for self':
     userId: 2
@@ -553,6 +678,23 @@ Update:
       ids: [ 1 ]
     data: [ 1 ]
 
+  'admin delete purged employee tracker log':
+    userId: 1
+    services:
+      performance.performance_tracker_log_service: \OrangeHRM\Performance\Service\PerformanceTrackerLogService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      trackerId: 2
+    body:
+      ids: [ 6 ]
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
   'reviewer without permission':
     userId: 2
     services:
@@ -568,6 +710,7 @@ Update:
       ids: [ 2 ]
     exception:
       class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
 
   'ess delete without permission':
     userId: 3
@@ -584,6 +727,7 @@ Update:
       ids: [ 3, 4 ]
     exception:
       class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
 
   'ess delete with permission':
     userId: 3
