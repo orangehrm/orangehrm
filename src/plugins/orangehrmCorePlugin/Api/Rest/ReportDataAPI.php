@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Api\Rest;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -54,6 +55,7 @@ abstract class ReportDataAPI extends EndpointProxy implements CollectionEndpoint
         $this->validate($this->getRequest()->getAllParameters(), $validationRule);
 
         $filterParams = $report->prepareFilterParams($this);
+        Config::set(Config::DATE_FORMATTING_ENABLED, true);
         $data = $report->getData($filterParams);
 
         return new EndpointCollectionResult(

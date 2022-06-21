@@ -56,7 +56,7 @@ class EmpDependentDecorator
     public function getDateOfBirth(): ?string
     {
         $date = $this->getEmpDependent()->getDateOfBirth();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**

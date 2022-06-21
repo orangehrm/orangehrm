@@ -155,7 +155,7 @@ class DateTimeHelperService
      * @param DateTime|null $dateTime
      * @return string|null
      */
-    public function formatDateTime(?DateTime $dateTime): ?string
+    public function formatDate(?DateTime $dateTime): ?string
     {
         if (is_null($dateTime)) {
             return null;

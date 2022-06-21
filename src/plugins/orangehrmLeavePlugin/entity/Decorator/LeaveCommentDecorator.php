@@ -88,7 +88,7 @@ class LeaveCommentDecorator
     public function getCreatedAtDate(): string
     {
         $dateTime = $this->getLeaveComment()->getCreatedAt();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($dateTime);
+        return $this->getDateTimeHelper()->formatDate($dateTime);
     }
 
     /**

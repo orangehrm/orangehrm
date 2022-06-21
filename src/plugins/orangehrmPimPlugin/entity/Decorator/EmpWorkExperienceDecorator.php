@@ -67,7 +67,7 @@ class EmpWorkExperienceDecorator
     public function getFromDate(): ?string
     {
         $date = $this->getEmployeeWorkExperience()->getFromDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -76,7 +76,7 @@ class EmpWorkExperienceDecorator
     public function getToDate(): ?string
     {
         $date = $this->getEmployeeWorkExperience()->getToDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**

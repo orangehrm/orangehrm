@@ -82,7 +82,7 @@ class EmployeeMembershipDecorator
     public function getSubscriptionCommenceDate(): ?string
     {
         $date = $this->getEmployeeMembership()->getSubscriptionCommenceDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -91,7 +91,7 @@ class EmployeeMembershipDecorator
     public function getSubscriptionRenewalDate(): ?string
     {
         $date = $this->getEmployeeMembership()->getSubscriptionRenewalDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**

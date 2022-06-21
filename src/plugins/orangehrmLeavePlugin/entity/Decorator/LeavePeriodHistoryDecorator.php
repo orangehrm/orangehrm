@@ -53,6 +53,6 @@ class LeavePeriodHistoryDecorator
     public function getCreatedAt(): string
     {
         $date = $this->getLeavePeriodHistory()->getCreatedAt();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 }
