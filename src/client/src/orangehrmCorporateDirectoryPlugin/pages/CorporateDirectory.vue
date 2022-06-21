@@ -23,7 +23,7 @@
     <oxd-table-filter :filter-title="$t('general.directory')">
       <oxd-form>
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="3">
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.employeeNumber"
@@ -70,7 +70,7 @@
     </oxd-table-filter>
     <br />
     <div :class="{'orangehrm-corporate-directory': hasCurrentIndex}">
-      <div class="orangehrm-paper-container">
+      <div class="orangehrm-paper-container orangehrm-full-width">
         <table-header :show-divider="false" :total="total"></table-header>
         <oxd-grid ref="scrollerRef" :cols="colSize" :class="oxdGridClasses">
           <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
@@ -288,46 +288,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-corporate-directory {
-  display: block;
-  @include oxd-respond-to('md') {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &-sidebar {
-    margin-left: 16px;
-  }
-}
-
-.orangehrm-container {
-  overflow: auto;
-  height: 512px;
-  position: relative;
-  margin: 0px;
-  @include oxd-respond-to('md') {
-    min-width: 678px;
-  }
-  &-min-display {
-    min-width: auto;
-  }
-
-  @include oxd-scrollbar();
-
-  &-loader {
-    margin: 0 auto;
-    background-color: $oxd-white-color;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-}
-.oxd-grid-item {
-  padding: 0.5rem 0.75rem;
-}
-</style>
+<style src="./corporate-directory.scss" lang="scss" scoped></style>
