@@ -42,7 +42,7 @@ export default {
   ...AttendancePages,
   ...MaintenancePages,
   ...RecruitmentPages,
-  ...PerformancePages,  
+  ...PerformancePages,
   ...CorporateDirectoryPages,
   ...authenticationPages,
   ...languagePages,

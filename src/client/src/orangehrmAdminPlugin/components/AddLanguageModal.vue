@@ -19,7 +19,7 @@
  -->
 <template>
   <oxd-dialog
-    :style="{width: '90%', maxWidth: '850px'}"
+    :style="{width: '90%', maxWidth: '800px'}"
     @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
@@ -35,12 +35,14 @@
       <oxd-form-row>
         <!-- change to text -->
         <div class="addlanguage-note">
-          <oxd-text type="card-title">Note: </oxd-text>
-          <br />
-          <oxd-text type="subtitle-1">
-            Users will require translate texts manually after creating the
-            language package.
-          </oxd-text>
+          <div class="addlanguage-note-text">
+            <oxd-text type="card-title">Note: </oxd-text>
+            <br />
+            <oxd-text type="subtitle-1">
+              Users will require translate texts manually after creating the
+              language package.
+            </oxd-text>
+          </div>
         </div>
       </oxd-form-row>
       <oxd-divider />
