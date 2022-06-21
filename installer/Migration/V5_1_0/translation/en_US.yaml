@@ -113,3 +113,4 @@ translations:
     - { target: 'Incorrect Dimensions', unitId: incorrect_dimensions, group: general }
     - { target: 'Invalid', unitId: invalid, group: general }
     - { target: 'Or login with', unitId: or_login_with, group: general }
+    - { target: 'Publish', unitId: publish, group: general }
