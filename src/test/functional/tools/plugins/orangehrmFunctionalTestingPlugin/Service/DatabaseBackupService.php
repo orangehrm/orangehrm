@@ -41,9 +41,7 @@ class DatabaseBackupService
      */
     private function getConnection(): Connection
     {
-        $conn = $this->getEntityManager()->getConnection();
-        $conn->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-        return $conn;
+        return $this->getEntityManager()->getConnection();
     }
 
     /**

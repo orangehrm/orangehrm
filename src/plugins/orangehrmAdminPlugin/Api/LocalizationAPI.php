@@ -84,7 +84,7 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $dateFormats = $this->getLocalizationService()->getLocalizationDateFormats();
+        $dateFormats = $this->getLocalizationService()->getSupportedDateFormats();
         $languageArray = $this->getLocalizationService()->getSupportedLanguages();
         $paramRules = new ParamRuleCollection(
             new ParamRule(
@@ -93,7 +93,7 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_DATE_FORMAT,
-                new Rule(Rules::IN, [array_column($dateFormats, 'id')])
+                new Rule(Rules::IN, [array_keys($dateFormats)])
             ),
         );
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);

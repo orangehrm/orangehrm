@@ -14,32 +14,18 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Service\EmployeeSalaryService;
-use OrangeHRM\Pim\Service\EmployeeService;
+namespace OrangeHRM\DevTools\Command\Util\Platforms;
 
-class PimPluginConfiguration implements PluginConfigurationInterface
+class MySQL80Platform extends \Doctrine\DBAL\Platforms\MySQL80Platform
 {
-    use ServiceContainerTrait;
-
     /**
      * @inheritDoc
      */
-    public function initialize(Request $request): void
+    public function hasNativeJsonType(): bool
     {
-        $this->getContainer()->register(
-            Services::EMPLOYEE_SERVICE,
-            EmployeeService::class
-        );
-        $this->getContainer()->register(
-            Services::EMPLOYEE_SALARY_SERVICE,
-            EmployeeSalaryService::class
-        );
+        return false;
     }
 }

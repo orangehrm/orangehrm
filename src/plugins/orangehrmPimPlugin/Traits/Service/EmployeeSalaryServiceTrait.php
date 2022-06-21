@@ -14,32 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
+namespace OrangeHRM\Pim\Traits\Service;
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Service\EmployeeSalaryService;
-use OrangeHRM\Pim\Service\EmployeeService;
 
-class PimPluginConfiguration implements PluginConfigurationInterface
+trait EmployeeSalaryServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return EmployeeSalaryService
      */
-    public function initialize(Request $request): void
+    public function getEmployeeSalaryService(): EmployeeSalaryService
     {
-        $this->getContainer()->register(
-            Services::EMPLOYEE_SERVICE,
-            EmployeeService::class
-        );
-        $this->getContainer()->register(
-            Services::EMPLOYEE_SALARY_SERVICE,
-            EmployeeSalaryService::class
-        );
+        return $this->getContainer()->get(Services::EMPLOYEE_SALARY_SERVICE);
     }
 }

@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Config;
 
+use Conf;
+
 class Config
 {
     public const PLUGINS = 'ohrm_plugins';
@@ -51,6 +53,12 @@ class Config
      * @var array
      */
     protected static array $configs = [];
+
+    /**
+     * @var Conf|null
+     */
+    protected static ?Conf $conf = null;
+
     /**
      * @var bool
      */
@@ -128,5 +136,21 @@ class Config
     public static function isInstalled(): bool
     {
         return realpath(self::get(self::CONF_FILE_PATH)) !== false;
+    }
+
+    /**
+     * @param bool $force
+     * @return Conf|null
+     */
+    public static function getConf(bool $force = false): ?Conf
+    {
+        if (!self::isInstalled()) {
+            return null;
+        }
+        if (!self::$conf instanceof Conf || $force) {
+            require_once self::get(self::CONF_FILE_PATH);
+            self::$conf = new Conf();
+        }
+        return self::$conf;
     }
 }
