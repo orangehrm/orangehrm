@@ -50,7 +50,7 @@
         <oxd-button
           v-if="canApproveTimesheet"
           :label="$t('general.approve')"
-          display-type="secondary"
+          display-type="success"
           class="orangehrm-left-space"
           @click="onClickApprove"
         />

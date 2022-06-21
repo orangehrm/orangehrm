@@ -179,7 +179,7 @@
             <oxd-button
               type="submit"
               display-type="secondary"
-              :label="$t('general.save')"
+              :label="$t('general.publish')"
             />
           </div>
         </oxd-form-actions>
