@@ -91,7 +91,7 @@ export default {
 }
 
 .--positive {
-  color: $oxd-secondary-four-color;
+  color: $oxd-feedback-success-color;
 }
 
 .--negative {
