@@ -143,6 +143,7 @@ class Migration extends AbstractMigration
         $this->insertSelfReviewWorkflowStates();
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
         $this->modifyThemeTable();
+        $this->modifyTrackerLogsUserForeignKey();
     }
 
     /**
@@ -378,6 +379,19 @@ class Migration extends AbstractMigration
             ->setParameter('currentName', 'custom')
             ->setParameter('newName', 'custom_4x')
             ->executeQuery();
+    }
+
+    private function modifyTrackerLogsUserForeignKey(): void
+    {
+        $this->getSchemaHelper()->dropForeignKeys('ohrm_performance_tracker_log', ['fk_ohrm_performance_tracker_log_1']);
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['user_id'],
+            'ohrm_user',
+            ['id'],
+            'ohrm_performance_tracker_log_modified_by_id',
+            ['onDelete' => 'SET NULL', 'onUpdate' => 'CASCADE']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_performance_tracker_log', $foreignKeyConstraint);
     }
 
     /**
