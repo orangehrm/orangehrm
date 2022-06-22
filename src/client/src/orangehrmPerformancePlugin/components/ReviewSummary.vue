@@ -24,23 +24,33 @@
       {{ $t('performance.review_summary') }}
     </oxd-text>
     <oxd-form :loading="loading">
-      <div class="orangehrm-performance-review-owner">
-        <img alt="profile picture" class="employee-image" :src="imgSrc" />
-        <div class="orangehrm-performance-review-owner-employee-section">
-          <div class="orangehrm-performance-review-owner-employee">
-            <oxd-text
-              tag="h5"
-              class="orangehrm-performance-review-owner-employee-name"
-            >
-              {{ employeeName }}
-            </oxd-text>
-            <oxd-text
-              tag="h6"
-              class="orangehrm-performance-review-owner-employee-job"
-            >
-              {{ jobTitle }}
-            </oxd-text>
+      <div class="orangehrm-performance-review-top">
+        <div class="orangehrm-performance-review-owner">
+          <img alt="profile picture" class="employee-image" :src="imgSrc" />
+          <div class="orangehrm-performance-review-owner-employee-section">
+            <div class="orangehrm-performance-review-owner-employee">
+              <oxd-text
+                tag="h5"
+                class="orangehrm-performance-review-owner-employee-name"
+              >
+                {{ employeeName }}
+              </oxd-text>
+              <oxd-text
+                tag="h6"
+                class="orangehrm-performance-review-owner-employee-job"
+              >
+                {{ jobTitle }}
+              </oxd-text>
+            </div>
           </div>
+        </div>
+        <div v-show="status === 4" class="orangehrm-performance-review-rating">
+          <oxd-text class="orangehrm-performance-review-bold">
+            {{ $t('performance.final_rating') }}
+          </oxd-text>
+          <oxd-text tag="h4" class="orangehrm-performance-review-rating-number">
+            {{ finalRating }}
+          </oxd-text>
         </div>
       </div>
       <oxd-grid :cols="3" class="orangehrm-performance-review-grid">
@@ -111,6 +121,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    finalRating: {
+      type: Number,
+      default: 0,
+    },
   },
   setup(props) {
     const {$t} = usei18n();
@@ -171,6 +185,25 @@ export default {
     padding-left: 0.25rem;
     @include oxd-respond-to('md') {
       padding-left: 0;
+    }
+  }
+
+  &-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include oxd-respond-to('md') {
+      flex-direction: row;
+    }
+  }
+
+  &-rating {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &-number {
+      color: $oxd-primary-one-color;
     }
   }
 

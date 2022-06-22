@@ -34,6 +34,7 @@
       :job-title="employee.jobTitle"
       :review-period-end="reviewPeriodEnd"
       :review-period-start="reviewPeriodStart"
+      :final-rating="finalRating"
     />
     <br />
     <oxd-form ref="formRef" :loading="isLoading">
