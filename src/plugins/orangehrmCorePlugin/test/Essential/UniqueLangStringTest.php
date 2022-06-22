@@ -53,10 +53,12 @@ class UniqueLangStringTest extends TestCase
     public function testUniqueUnitId(): void
     {
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/LangString.yaml');
+        $exemptionUnitIds = ['date_format','first_name', 'password', 'past_employee', 'report_to', 'username'];
         $q = $this->getEntityManager()->createQueryBuilder();
         $q->select('langString.unitId')
             ->from(I18NLangString::class, 'langString')
-            ->groupBy('langString.unitId', 'langString.group')
+            ->groupBy('langString.unitId')
+            ->andWhere($q->expr()->notIn('langString.unitId',$exemptionUnitIds))
             ->having('count(langString.unitId) > 1');
 
         $result = $q->getQuery()->execute();

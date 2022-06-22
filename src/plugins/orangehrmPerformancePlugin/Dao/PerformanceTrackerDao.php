@@ -361,7 +361,6 @@ class PerformanceTrackerDao extends BaseDao
         return $this->getPaginator($qb)->count() > 0;
     }
 
-
     /**
      * @param int $trackerId
      * @return bool
@@ -373,10 +372,6 @@ class PerformanceTrackerDao extends BaseDao
             ->setParameter('trackerId', $trackerId)
             ->andWhere('ptrLog.status = :notDeletedStatus')
             ->setParameter('notDeletedStatus', PerformanceTrackerLog::STATUS_NOT_DELETED);
-        $logs = $q->getQuery()->execute();
-        if (empty($logs)) {
-            return true;
-        }
-        return false;
+        return $this->getPaginator($q)->count() == 0;
     }
 }

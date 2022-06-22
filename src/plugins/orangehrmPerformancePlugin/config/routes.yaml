@@ -184,7 +184,7 @@ performance_review_edit:
   methods: [ GET ]
 
 performance_tracker_list:
-  path: /performance/searchPerformanceTracker
+  path: /performance/viewPerformanceTracker
   controller: OrangeHRM\Performance\Controller\TrackerListController::handle
   methods: [ GET ]
 

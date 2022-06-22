@@ -428,22 +428,4 @@ class Migration extends AbstractMigration
         }
         return $this->translationHelper;
     }
-
-    /**
-     * @return int
-     */
-    public function getLangStringId(string $unitId, string $value): array
-    {
-        $q = $this->createQueryBuilder()
-            ->select('id')
-            ->from('ohrm_i18n_lang_string')
-            ->andWhere('ohrm_i18n_lang_string.unit_id = :unitId')
-            ->setParameter('unitId', $unitId)
-            ->andWhere('ohrm_i18n_lang_string.value = :value')
-            ->setParameter('value', $value);
-
-        $result = $q->executeQuery();
-
-        return array_column($result, 'id');
-    }
 }
