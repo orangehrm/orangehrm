@@ -32,9 +32,9 @@
       <oxd-form-row>
         <div class="addlanguage-note">
           <div class="addlanguage-note-text">
-            <oxd-text class="orangehrm-sub-title">{{
-              $t('general.note')
-            }}</oxd-text>
+            <oxd-text class="orangehrm-sub-title">
+              {{ $t('general.note') }}
+            </oxd-text>
             <oxd-text class="orangehrm-information-card-text">
               {{ $t('general.translate_text_manually') }}
             </oxd-text>

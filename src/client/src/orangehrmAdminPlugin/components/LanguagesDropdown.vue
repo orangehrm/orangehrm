@@ -37,7 +37,7 @@ export default {
       '/api/v2/admin/i18n/languages?limit=500',
     );
     onBeforeMount(() => {
-      http.getAll({activeOnly:false}).then(({data}) => {
+      http.getAll({activeOnly: false}).then(({data}) => {
         options.value = data.data.map(item => {
           return {
             id: item.id,
