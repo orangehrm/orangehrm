@@ -58,7 +58,7 @@ class UniqueLangStringTest extends TestCase
         $q->select('langString.unitId')
             ->from(I18NLangString::class, 'langString')
             ->groupBy('langString.unitId')
-            ->andWhere($q->expr()->notIn('langString.unitId',$exemptionUnitIds))
+            ->andWhere($q->expr()->notIn('langString.unitId', $exemptionUnitIds))
             ->having('count(langString.unitId) > 1');
 
         $result = $q->getQuery()->execute();
