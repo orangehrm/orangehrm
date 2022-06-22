@@ -153,8 +153,20 @@ langStrings:
     value: 'Or login with'
     unitId: or_login_with
   -
+    value: 'Export'
+    unitId: export
+  -
+    value: 'Translate'
+    unitId: translate
+  -
     value: 'Successfully Activated'
     unitId: successfully_activated
   -
     value: 'Publish'
     unitId: publish
+  -
+    value: 'Note'
+    unitId: note
+  -
+    value: 'Users will require translate texts manually after creating the language package.'
+    unitId: translate_text_manually
