@@ -150,7 +150,7 @@ class Migration extends AbstractMigration
         $toPreserveLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows numbers and only + - / ( )', $groupId);
 
 
-        $qb = $this->createQueryBuilder()
+        $this->createQueryBuilder()
             ->update('ohrm_i18n_translate', 'translate')
             ->set('translate.lang_string_id', ':langStringId')
             ->setParameter('langStringId', $toPreserveLangStringId)
@@ -162,6 +162,16 @@ class Migration extends AbstractMigration
             ->delete('ohrm_i18n_lang_string')
             ->andWhere('ohrm_i18n_lang_string.id = :id')
             ->setParameter('id', $toDeleteLangStringId)
+            ->executeQuery();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.action_url ', ':actionUrl')
+            ->setParameter('actionUrl', 'viewPerformanceTracker')
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName('performance'))
+            ->andWhere('screen.name = :name')
+            ->setParameter('name', 'Manage_Trackers')
             ->executeQuery();
 
         $this->modifyTrackerLogsUserForeignKey();

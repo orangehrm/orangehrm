@@ -246,10 +246,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/performance/savePerformanceTracker');
+      navigate('/performance/addPerformanceTracker');
     },
     onClickEdit(item) {
-      navigate('/performance/savePerformanceTracker/{id}', {id: item.id});
+      navigate('/performance/addPerformanceTracker/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
