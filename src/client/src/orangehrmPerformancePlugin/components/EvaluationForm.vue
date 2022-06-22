@@ -205,7 +205,7 @@ export default {
   setup(props, context) {
     const {$t} = usei18n();
     const isCollapsed = ref(props.collapsed);
-    const commentValidators = [shouldNotExceedCharLength(1000)];
+    const commentValidators = [shouldNotExceedCharLength(2000)];
 
     const profileImgSrc = computed(() => {
       return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`;
