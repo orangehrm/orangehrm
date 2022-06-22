@@ -226,7 +226,9 @@ export default {
       {id: 3, label: $t('performance.evaluation_completed')},
     ];
 
-    const evaluationLabel = statusOpts.find(el => el.id === props.status).label;
+    const evaluationLabel = computed(
+      () => statusOpts.find(el => el.id === props.status).label,
+    );
 
     return {
       toggleForm,

@@ -27,80 +27,117 @@
     </div>
     <br />
     <review-summary
+      :loading="isLoading"
       :status="status"
       :due-date="dueDate"
-      :employee="employee"
-      :job-title="jobTitle"
+      :employee="employee.details"
+      :job-title="employee.jobTitle"
       :review-period-end="reviewPeriodEnd"
       :review-period-start="reviewPeriodStart"
     />
     <br />
     <oxd-form ref="formRef" :loading="isLoading">
-      <evaluation-form
-        v-model="supervisorReview"
-        :kpis="kpis"
-        :rules="rules"
-        :editable="false"
-        :collapsible="status === 4"
-        :collapsed="status < 4"
-        :employee="supervisor"
-        :job-title="jobTitle"
-        :status="supervisorStatus"
-        :title="$t('performance.supervisor_evaluation_by')"
-      ></evaluation-form>
-      <br />
-      <evaluation-form
-        v-model="employeeReview"
-        :kpis="kpis"
-        :rules="rules"
-        :editable="employeeStatus < 3"
-        :collapsed="false"
-        :collapsible="true"
-        :employee="employee"
-        :job-title="jobTitle"
-        :status="employeeStatus"
-        :title="$t('performance.self_evaluation_by')"
-      >
-        <oxd-divider v-show="status === 4" />
-        <final-evaluation
-          v-show="status === 4"
-          v-model:final-rating="finalRating"
-          v-model:final-comment="finalComment"
-          v-model:completed-date="completedDate"
-          :status="status"
-          :is-required="false"
-        />
-        <oxd-divider />
-        <oxd-form-actions>
-          <oxd-button
-            display-type="ghost"
-            :label="$t('general.back')"
-            @click="onClickBack"
+      <div v-if="status < 4">
+        <evaluation-form
+          v-model="supervisorReview"
+          :kpis="kpis"
+          :rules="rules"
+          :editable="false"
+          :collapsible="false"
+          :collapsed="true"
+          :employee="supervisor.details"
+          :job-title="supervisor.jobTitle"
+          :status="supervisor.status"
+          :title="$t('performance.supervisor_evaluation_by')"
+        ></evaluation-form>
+        <br />
+        <evaluation-form
+          v-model="employeeReview"
+          :kpis="kpis"
+          :rules="rules"
+          :editable="employee.status < 3"
+          :collapsed="false"
+          :collapsible="true"
+          :employee="employee.details"
+          :job-title="employee.jobTitle"
+          :status="employee.status"
+          :title="$t('performance.self_evaluation_by')"
+        >
+          <oxd-divider />
+          <oxd-form-actions>
+            <oxd-button
+              display-type="ghost"
+              :label="$t('general.back')"
+              @click="onClickBack"
+            />
+            <oxd-button
+              v-show="hasSaveAction"
+              display-type="ghost"
+              type="button"
+              class="orangehrm-left-space"
+              :label="$t('general.save')"
+              @click="onSubmit(false)"
+            />
+            <oxd-button
+              v-show="hasCompleteAction"
+              type="button"
+              display-type="secondary"
+              class="orangehrm-left-space"
+              :label="$t('performance.complete')"
+              @click="onSubmit(true)"
+            />
+          </oxd-form-actions>
+        </evaluation-form>
+      </div>
+      <div v-if="status === 4">
+        <evaluation-form
+          v-model="employeeReview"
+          :kpis="kpis"
+          :rules="rules"
+          :editable="false"
+          :collapsed="false"
+          :collapsible="true"
+          :employee="employee.details"
+          :job-title="employee.jobTitle"
+          :status="employee.status"
+          :title="$t('performance.self_evaluation_by')"
+        ></evaluation-form>
+        <br />
+        <evaluation-form
+          v-model="supervisorReview"
+          :kpis="kpis"
+          :rules="rules"
+          :editable="false"
+          :collapsible="true"
+          :collapsed="false"
+          :employee="supervisor.details"
+          :job-title="supervisor.jobTitle"
+          :status="supervisor.status"
+          :title="$t('performance.supervisor_evaluation_by')"
+        >
+          <oxd-divider />
+          <final-evaluation
+            v-model:final-rating="finalRating"
+            v-model:final-comment="finalComment"
+            v-model:completed-date="completedDate"
+            :status="status"
+            :is-required="false"
           />
-          <oxd-button
-            v-show="!completed"
-            display-type="ghost"
-            type="button"
-            class="orangehrm-left-space"
-            :label="$t('general.save')"
-            @click="onSubmit(false)"
-          />
-          <oxd-button
-            v-show="!completed"
-            type="button"
-            display-type="secondary"
-            class="orangehrm-left-space"
-            :label="$t('performance.complete')"
-            @click="onSubmit(true)"
-          />
-        </oxd-form-actions>
-      </evaluation-form>
+          <oxd-divider />
+          <oxd-form-actions>
+            <oxd-button
+              display-type="ghost"
+              :label="$t('general.back')"
+              @click="onClickBack"
+            />
+          </oxd-form-actions>
+        </evaluation-form>
+      </div>
     </oxd-form>
   </div>
 </template>
 
 <script>
-import {computed} from 'vue';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import ReviewSummary from '../components/ReviewSummary';
@@ -108,6 +145,18 @@ import FinalEvaluation from '../components/FinalEvaluation';
 import EvaluationForm from '../components/EvaluationForm';
 import useForm from '@ohrm/core/util/composable/useForm';
 import useReviewEvaluation from '@/orangehrmPerformancePlugin/util/composable/useReviewEvaluation';
+
+const reviewerModel = {
+  details: {
+    empNumber: null,
+    firstName: '',
+    lastName: '',
+    terminationId: null,
+  },
+  jobTitle: '',
+  status: 1,
+  actions: new Map(),
+};
 
 export default {
   name: 'SelfEvaluation',
@@ -119,18 +168,6 @@ export default {
   props: {
     reviewId: {
       type: Number,
-      required: true,
-    },
-    empNumber: {
-      type: Number,
-      required: true,
-    },
-    employeeName: {
-      type: String,
-      required: true,
-    },
-    jobTitle: {
-      type: String,
       required: true,
     },
     status: {
@@ -149,28 +186,10 @@ export default {
       type: String,
       required: true,
     },
-    employee: {
-      type: Object,
-      required: true,
-    },
-    supervisor: {
-      type: Object,
-      required: true,
-    },
-    employeeStatus: {
-      type: Number,
-      required: true,
-    },
-    supervisorStatus: {
-      type: Number,
-      required: true,
-    },
   },
-  setup(props) {
+  setup() {
     const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
-    // TODO workflow
-    const completed = computed(() => props.status === 4);
 
     const {
       getAllKpis,
@@ -179,7 +198,10 @@ export default {
       getFinalReview,
       generateRules,
       generateModel,
+      generateReviewerData,
+      generateAllowedActions,
       generateEvaluationFormData,
+      finalizeReview,
       saveEmployeeReview,
     } = useReviewEvaluation(http);
 
@@ -188,14 +210,16 @@ export default {
       invalid,
       formRef,
       validate,
-      completed,
       getAllKpis,
+      generateRules,
+      generateModel,
+      generateReviewerData,
+      generateAllowedActions,
+      generateEvaluationFormData,
       getEmployeeReview,
       getSupervisorReview,
       getFinalReview,
-      generateRules,
-      generateModel,
-      generateEvaluationFormData,
+      finalizeReview,
       saveEmployeeReview,
     };
   },
@@ -203,13 +227,23 @@ export default {
     return {
       kpis: [],
       rules: [],
+      employee: {...reviewerModel},
       employeeReview: [],
+      supervisor: {...reviewerModel},
       supervisorReview: [],
       isLoading: false,
       finalRating: null,
       finalComment: null,
       completedDate: null,
     };
+  },
+  computed: {
+    hasSaveAction() {
+      return this.employee.actions.has('save');
+    },
+    hasCompleteAction() {
+      return this.employee.actions.has('complete');
+    },
   },
   beforeMount() {
     this.isLoading = true;
@@ -224,15 +258,23 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
+        const {meta} = response.data;
+        this.employee = this.generateReviewerData(meta.reviewer);
+        this.employee.actions = this.generateAllowedActions(
+          meta.allowedActions,
+        );
         this.employeeReview = this.generateEvaluationFormData(data);
-        return this.completed ? this.getSupervisorReview(this.reviewId) : {};
+        return this.getSupervisorReview(this.reviewId);
       })
       .then(response => {
-        if (Object.keys(response).length !== 0) {
-          const {data} = response.data;
-          this.supervisorReview = this.generateEvaluationFormData(data);
-        }
-        return this.completed ? this.getFinalReview(this.reviewId) : {};
+        const {data} = response.data;
+        const {meta} = response.data;
+        this.supervisor = this.generateReviewerData(meta.reviewer);
+        this.supervisor.actions = this.generateAllowedActions(
+          meta.allowedActions,
+        );
+        this.supervisorReview = this.generateEvaluationFormData(data);
+        return this.status === 4 ? this.getFinalReview(this.reviewId) : {};
       })
       .then(response => {
         if (Object.keys(response).length !== 0) {

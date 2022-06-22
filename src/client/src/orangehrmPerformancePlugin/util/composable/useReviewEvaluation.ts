@@ -45,6 +45,24 @@ export interface EvaluationData {
   kpi: KPI;
 }
 
+export interface Reviewer {
+  empNumber: number;
+  firstName: string;
+  lastName: string;
+  terminationId: number;
+  jobTitle: JobTitle;
+}
+
+export interface ReviewerData {
+  status: number;
+  employee: Reviewer;
+}
+
+export interface AllowedAction {
+  action: string;
+  name: string;
+}
+
 export default function useReviewEvaluation(http: APIService) {
   const {$t} = usei18n();
 
@@ -161,6 +179,27 @@ export default function useReviewEvaluation(http: APIService) {
     }));
   };
 
+  const generateReviewerData = (reviewerData: ReviewerData) => {
+    return {
+      details: {
+        empNumber: reviewerData.employee.empNumber,
+        firstName: reviewerData.employee.firstName,
+        lastName: reviewerData.employee.lastName,
+        terminationId: reviewerData.employee.terminationId,
+      },
+      jobTitle: reviewerData.employee.jobTitle.name,
+      status: reviewerData.status,
+    };
+  };
+
+  const generateAllowedActions = (allowedActions: AllowedAction[] | null) => {
+    return new Map(
+      allowedActions?.map(action => {
+        return [action.action, action.name];
+      }),
+    );
+  };
+
   return {
     getAllKpis,
     getEmployeeReview,
@@ -168,6 +207,8 @@ export default function useReviewEvaluation(http: APIService) {
     getFinalReview,
     generateRules,
     generateModel,
+    generateReviewerData,
+    generateAllowedActions,
     generateEvaluationFormData,
     finalizeReview,
     saveEmployeeReview,

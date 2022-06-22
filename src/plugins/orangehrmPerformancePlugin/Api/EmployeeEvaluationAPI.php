@@ -19,7 +19,11 @@
 
 namespace OrangeHRM\Performance\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\WorkflowStateModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -30,6 +34,7 @@ use OrangeHRM\Entity\Reviewer;
 use OrangeHRM\Entity\ReviewerGroup;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Performance\Api\Model\ReviewerModel;
+use OrangeHRM\Performance\Api\Model\ReviewerRatingModel;
 use OrangeHRM\Performance\Dto\SupervisorEvaluationSearchFilterParams;
 
 class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
@@ -51,6 +56,50 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
         WorkflowStateMachine::SELF_REVIEW_SELF_COMPLETE => 'SELF IN PROGRESS',
         WorkflowStateMachine::SELF_REVIEW_SUPERVISOR_ACTION => 'SELF COMPLETED',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function getAll(): EndpointResult
+    {
+        $supervisorParamHolder = new SupervisorEvaluationSearchFilterParams();
+        $supervisorParamHolder->setReviewId(
+            $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_REVIEW_ID
+            )
+        );
+        $this->setSortingAndPaginationParams($supervisorParamHolder);
+        $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()
+            ->getPerformanceReviewById($supervisorParamHolder->getReviewId());
+        $allowedActions = $this->getAllowedActions($review);
+
+        $sendRatings = true;
+        // Check if supervisor/admin is accessing API
+        if ($this->getAuthUser()->getEmpNumber() !== $review->getEmployee()->getEmpNumber()) {
+            // Don't send ratings if employee status is activated / in progress
+            if (
+                $review->getDecorator()->getEmployeeReviewer()->getStatus() === Reviewer::STATUS_ACTIVATED ||
+                $review->getDecorator()->getEmployeeReviewer()->getStatus() === Reviewer::STATUS_IN_PROGRESS
+            ) {
+                $sendRatings = false;
+            }
+        }
+
+        $ratings = $sendRatings ? $this->getReviewerRatings($supervisorParamHolder) : [];
+        $ratingCount = $sendRatings ? $this->getReviewerRatingCount($supervisorParamHolder) : 0;
+
+        return new EndpointCollectionResult(
+            ReviewerRatingModel::class,
+            $ratings,
+            new ParameterBag([
+                CommonParams::PARAMETER_TOTAL => $ratingCount,
+                self::PARAMETER_KPIS => $this->getKpisForReview(),
+                self::PARAMETER_REVIEWERS => $this->getReviewerForReviewRating(),
+                self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
+            ])
+        );
+    }
 
     /**
      * @inheritDoc
@@ -98,11 +147,6 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
 
         $allowedWorkflowItems = $this->getAllowedActionList($review);
 
-        if ($this->getAuthUser()->getEmpNumber() != $review->getEmployee()->getEmpNumber()) {
-            if (!$this->checkActionAllowed($review)) {
-                throw $this->getForbiddenException();
-            }
-        }
         foreach ($allowedWorkflowItems as $allowedWorkflowItem) {
             $allowedWorkflowItem->setAction(self::ACTIONABLE_STATES_MAP[$allowedWorkflowItem->getAction()]);
         }

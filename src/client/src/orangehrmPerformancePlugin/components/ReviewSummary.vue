@@ -23,51 +23,53 @@
     <oxd-text tag="h5" class="orangehrm-performance-review-title">
       {{ $t('performance.review_summary') }}
     </oxd-text>
-    <div class="orangehrm-performance-review-owner">
-      <img alt="profile picture" class="employee-image" :src="imgSrc" />
-      <div class="orangehrm-performance-review-owner-employee-section">
-        <div class="orangehrm-performance-review-owner-employee">
-          <oxd-text
-            tag="h5"
-            class="orangehrm-performance-review-owner-employee-name"
-          >
-            {{ employeeName }}
-          </oxd-text>
-          <oxd-text
-            tag="h6"
-            class="orangehrm-performance-review-owner-employee-job"
-          >
-            {{ jobTitle }}
-          </oxd-text>
+    <oxd-form :loading="loading">
+      <div class="orangehrm-performance-review-owner">
+        <img alt="profile picture" class="employee-image" :src="imgSrc" />
+        <div class="orangehrm-performance-review-owner-employee-section">
+          <div class="orangehrm-performance-review-owner-employee">
+            <oxd-text
+              tag="h5"
+              class="orangehrm-performance-review-owner-employee-name"
+            >
+              {{ employeeName }}
+            </oxd-text>
+            <oxd-text
+              tag="h6"
+              class="orangehrm-performance-review-owner-employee-job"
+            >
+              {{ jobTitle }}
+            </oxd-text>
+          </div>
         </div>
       </div>
-    </div>
-    <oxd-grid :cols="3">
-      <oxd-grid-item class="orangehrm-performance-review-column">
-        <oxd-text type="subtitle-2">
-          {{ $t('performance.review_status') }}
-        </oxd-text>
-        <oxd-text class="orangehrm-performance-review-bold">
-          {{ reviewStatus }}
-        </oxd-text>
-      </oxd-grid-item>
-      <oxd-grid-item class="orangehrm-performance-review-column">
-        <oxd-text type="subtitle-2">
-          {{ $t('performance.review_period') }}
-        </oxd-text>
-        <oxd-text class="orangehrm-performance-review-bold">
-          {{ reviewPeriod }}
-        </oxd-text>
-      </oxd-grid-item>
-      <oxd-grid-item class="orangehrm-performance-review-column">
-        <oxd-text type="subtitle-2">
-          {{ $t('performance.review_due_date') }}
-        </oxd-text>
-        <oxd-text class="orangehrm-performance-review-bold">
-          {{ reviewDueDate }}
-        </oxd-text>
-      </oxd-grid-item>
-    </oxd-grid>
+      <oxd-grid :cols="3">
+        <oxd-grid-item class="orangehrm-performance-review-column">
+          <oxd-text type="subtitle-2">
+            {{ $t('performance.review_status') }}
+          </oxd-text>
+          <oxd-text class="orangehrm-performance-review-bold">
+            {{ reviewStatus }}
+          </oxd-text>
+        </oxd-grid-item>
+        <oxd-grid-item class="orangehrm-performance-review-column">
+          <oxd-text type="subtitle-2">
+            {{ $t('performance.review_period') }}
+          </oxd-text>
+          <oxd-text class="orangehrm-performance-review-bold">
+            {{ reviewPeriod }}
+          </oxd-text>
+        </oxd-grid-item>
+        <oxd-grid-item class="orangehrm-performance-review-column">
+          <oxd-text type="subtitle-2">
+            {{ $t('performance.review_due_date') }}
+          </oxd-text>
+          <oxd-text class="orangehrm-performance-review-bold">
+            {{ reviewDueDate }}
+          </oxd-text>
+        </oxd-grid-item>
+      </oxd-grid>
+    </oxd-form>
   </div>
 </template>
 
@@ -105,6 +107,10 @@ export default {
       type: String,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
   },
   setup(props) {
     const {$t} = usei18n();
@@ -121,7 +127,10 @@ export default {
     const reviewDateFormat = date =>
       formatDate(parseDate(date), jsDateFormat, {locale});
 
-    const imgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`;
+    const imgSrc = computed(
+      () =>
+        `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`,
+    );
     const reviewStatus = statusOpts.find(el => el.id === props.status).label;
     const reviewPeriod = `${reviewDateFormat(
       props.reviewPeriodStart,

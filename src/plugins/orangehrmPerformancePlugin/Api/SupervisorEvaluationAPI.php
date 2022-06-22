@@ -101,9 +101,21 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->getPerformanceReviewById($supervisorParamHolder->getReviewId());
         $allowedActions = $this->getAllowedActions($review);
-        $ratings = $this->getReviewerRatings($supervisorParamHolder);
-        $ratingCount = $this->getReviewerRatingCount($supervisorParamHolder);
 
+        $sendRatings = true;
+        // Check if ESS is accessing API
+        if ($this->getAuthUser()->getEmpNumber() === $review->getEmployee()->getEmpNumber()) {
+            // Don't send ratings if supervisor status is activated / in progress
+            if (
+                $review->getDecorator()->getSupervisorReviewer()->getStatus() === Reviewer::STATUS_ACTIVATED ||
+                $review->getDecorator()->getSupervisorReviewer()->getStatus() === Reviewer::STATUS_IN_PROGRESS
+            ) {
+                $sendRatings = false;
+            }
+        }
+
+        $ratings = $sendRatings ? $this->getReviewerRatings($supervisorParamHolder) : [];
+        $ratingCount = $sendRatings ? $this->getReviewerRatingCount($supervisorParamHolder) : 0;
 
         return new EndpointCollectionResult(
             ReviewerRatingModel::class,
@@ -187,7 +199,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     /**
      * @return array
      */
-    private function getKpisForReview(): array
+    protected function getKpisForReview(): array
     {
         $reviewKpiParamHolder = new ReviewKpiSearchFilterParams();
         $reviewKpiParamHolder->setReviewId(
@@ -298,6 +310,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
 
             $this->setReviewRatingsParams($review);
             $this->updateReviewerStatus($review);
+            $this->updateReviewStatus($review);
 
             $reviewRatings = $this->getReviewerRatings($supervisorParamHolder);
             $this->commitTransaction();
@@ -316,7 +329,6 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param PerformanceReview $review
-     * @return void
      */
     protected function setReviewRatingsParams(PerformanceReview $review): void
     {
@@ -370,7 +382,6 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param PerformanceReview $review
-     * @return void
      */
     protected function updateReviewerStatus(PerformanceReview $review): void
     {
@@ -380,6 +391,19 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ReviewerGroup::REVIEWER_GROUP_SUPERVISOR,
                 Reviewer::STATUS_IN_PROGRESS
             );
+    }
+
+    /**
+     * @param PerformanceReview $review
+     */
+    protected function updateReviewStatus(PerformanceReview $review): void
+    {
+        if ($review->getStatusId() === PerformanceReview::STATUS_ACTIVATED) {
+            $review->setStatusId(PerformanceReview::STATUS_IN_PROGRESS);
+            $this->getPerformanceReviewService()
+                ->getPerformanceReviewDao()
+                ->savePerformanceReview($review);
+        }
     }
 
     /**
