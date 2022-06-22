@@ -14,33 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report\DisplayField;
+namespace OrangeHRM\Pim\Traits\Service;
 
-use DateTime;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Service\EmployeeSalaryService;
 
-class GenericDateDisplayFieldDTO implements Stringable
+trait EmployeeSalaryServiceTrait
 {
-    use DateTimeHelperTrait;
-
-    private ?DateTime $dateTime = null;
+    use ServiceContainerTrait;
 
     /**
-     * @param DateTime|null $dateTime
+     * @return EmployeeSalaryService
      */
-    public function __construct(?DateTime $dateTime)
+    public function getEmployeeSalaryService(): EmployeeSalaryService
     {
-        $this->dateTime = $dateTime;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function toString(): ?string
-    {
-        return $this->getDateTimeHelper()->formatDate($this->dateTime);
+        return $this->getContainer()->get(Services::EMPLOYEE_SALARY_SERVICE);
     }
 }

@@ -78,7 +78,7 @@ class LeaveRequestDecorator
      */
     public function getDateApplied(): string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveRequest()->getDateApplied());
+        return $this->getDateTimeHelper()->formatDate($this->getLeaveRequest()->getDateApplied());
     }
 
     /**

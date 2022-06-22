@@ -77,7 +77,7 @@ class EmployeeLicenseDecorator
     public function getLicenseIssuedDate(): ?string
     {
         $date = $this->getEmployeeLicense()->getLicenseIssuedDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -86,6 +86,6 @@ class EmployeeLicenseDecorator
     public function getLicenseExpiryDate(): ?string
     {
         $date = $this->getEmployeeLicense()->getLicenseExpiryDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 }
