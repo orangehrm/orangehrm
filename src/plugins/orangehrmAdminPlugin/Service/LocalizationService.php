@@ -23,11 +23,15 @@ use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 
 class LocalizationService
 {
     use NormalizerServiceTrait;
+    use DateTimeHelperTrait;
+    use ConfigServiceTrait;
 
     /**
      * @var LocalizationDao|null
@@ -50,18 +54,46 @@ class LocalizationService
      */
     public function getLocalizationDateFormats(): array
     {
+        $date = $this->getDateTimeHelper()->getNow();
+        $dateFormats = [];
+        foreach ($this->getSupportedDateFormats() as $format => $label) {
+            $dateFormats[] = [
+                'id' => $format,
+                'label' => "$label ( " . (clone $date)->format($format) . ' )',
+            ];
+        }
+        return $dateFormats;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSupportedDateFormats(): array
+    {
         return [
-            ['id' => 'Y-m-d', 'label' => 'yyyy-mm-dd ( ' . date('Y-m-d') . ' )'],
-            ['id' => 'd-m-Y', 'label' => 'dd-mm-yyyy ( ' . date('d-m-Y') . ' )'],
-            ['id' => 'm-d-Y', 'label' => 'mm-dd-yyyy ( ' . date('m-d-Y') . ' )'],
-            ['id' => 'Y-d-m', 'label' => 'yyyy-dd-mm ( ' . date('Y-d-m') . ' )'],
-            ['id' => 'm-Y-d', 'label' => 'mm-yyyy-dd ( ' . date('m-Y-d') . ' )'],
-            ['id' => 'd-Y-m', 'label' => 'dd-yyyy-mm ( ' . date('d-Y-m') . ' )'],
-            ['id' => 'Y/m/d', 'label' => 'yyyy/mm/dd ( ' . date('Y/m/d') . ' )'],
-            ['id' => 'Y m d', 'label' => 'yyyy mm dd ( ' . date('Y m d') . ' )'],
-            ['id' => 'Y-M-d', 'label' => 'yyyy-M-dd ( ' . date('Y-M-d') . ' )'],
-            ['id' => 'l, d-M-Y', 'label' => 'DD, dd-M-yyyy ( ' . date('l, d-M-Y') . ' )'],
-            ['id' => 'D, d M Y', 'label' => 'D, dd M yyyy ( ' . date('D, d M Y') . ' )']
+            'Y-m-d' => 'yyyy-mm-dd',
+            'd-m-Y' => 'dd-mm-yyyy',
+            'm-d-Y' => 'mm-dd-yyyy',
+            'Y-d-m' => 'yyyy-dd-mm',
+            'm-Y-d' => 'mm-yyyy-dd',
+            'd-Y-m' => 'dd-yyyy-mm',
+            'Y/m/d' => 'yyyy/mm/dd',
+            'Y m d' => 'yyyy mm dd',
+            'Y-M-d' => 'yyyy-M-dd',
+            'l, d-M-Y' => 'DD, dd-M-yyyy',
+            'D, d M Y' => 'D, dd M yyyy'
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getCurrentDateFormat(): array
+    {
+        $dateFormat = $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
+        return [
+            'id' => $dateFormat,
+            'label' => $this->getSupportedDateFormats()[$dateFormat],
         ];
     }
 

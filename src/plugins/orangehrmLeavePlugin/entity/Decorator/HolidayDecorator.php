@@ -53,7 +53,7 @@ class HolidayDecorator
     public function getDate(): string
     {
         $date = $this->getHoliday()->getDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**

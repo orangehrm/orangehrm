@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Config;
 
+use Conf;
+
 class Config
 {
     public const PLUGINS = 'ohrm_plugins';
@@ -33,6 +35,7 @@ class Config
     public const TEST_DIR = 'ohrm_test_dir';
     public const CONF_FILE_PATH = 'ohrm_conf_file_path';
     public const I18N_ENABLED = 'ohrm_i18n_enabled';
+    public const DATE_FORMATTING_ENABLED = 'ohrm_date_formatting_enabled';
     public const VUE_BUILD_TIMESTAMP = 'ohrm_vue_build_timestamp';
 
     public const MODE_DEV = 'dev';
@@ -50,6 +53,12 @@ class Config
      * @var array
      */
     protected static array $configs = [];
+
+    /**
+     * @var Conf|null
+     */
+    protected static ?Conf $conf = null;
+
     /**
      * @var bool
      */
@@ -127,5 +136,21 @@ class Config
     public static function isInstalled(): bool
     {
         return realpath(self::get(self::CONF_FILE_PATH)) !== false;
+    }
+
+    /**
+     * @param bool $force
+     * @return Conf|null
+     */
+    public static function getConf(bool $force = false): ?Conf
+    {
+        if (!self::isInstalled()) {
+            return null;
+        }
+        if (!self::$conf instanceof Conf || $force) {
+            require_once self::get(self::CONF_FILE_PATH);
+            self::$conf = new Conf();
+        }
+        return self::$conf;
     }
 }

@@ -21,7 +21,15 @@ namespace OrangeHRM\Core\Api\V2\Validator;
 
 class ParamRuleCollection
 {
-    public const DEFAULT_EXCLUDED_PARAM_KEYS = ['_api', '_key', '_controller', '_route', '_route_params'];
+    public const DEFAULT_EXCLUDED_PARAM_KEYS = [
+        '_api',
+        '_key',
+        '_controller',
+        '_route',
+        '_route_params',
+        '_i18nEnabled',
+        '_dateFormattingEnabled'
+    ];
 
     /**
      * @var array<string, ParamRule>

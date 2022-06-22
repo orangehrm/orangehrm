@@ -77,7 +77,7 @@ class EmployeeEducationDecorator
     public function getStartDate(): ?string
     {
         $date = $this->getEmployeeEducation()->getStartDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -86,6 +86,6 @@ class EmployeeEducationDecorator
     public function getEndDate(): ?string
     {
         $date = $this->getEmployeeEducation()->getEndDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 }

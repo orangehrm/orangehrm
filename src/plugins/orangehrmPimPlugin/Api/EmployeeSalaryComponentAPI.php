@@ -38,11 +38,12 @@ use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\EmployeeSalary;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\Model\EmployeeSalaryModel;
-use OrangeHRM\Pim\Service\EmployeeSalaryService;
+use OrangeHRM\Pim\Traits\Service\EmployeeSalaryServiceTrait;
 
 class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
 {
     use ServiceContainerTrait;
+    use EmployeeSalaryServiceTrait;
 
     public const PARAMETER_PAY_GRADE_ID = 'payGradeId';
     public const PARAMETER_SALARY_COMPONENT = 'salaryComponent';
@@ -64,22 +65,6 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_DIRECT_DEPOSIT_ROUTING_NUMBER_MAX_LENGTH = 9;
     public const PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MIN = 0;
     public const PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MAX = 999999999.99;
-
-    /**
-     * @var EmployeeSalaryService|null
-     */
-    protected ?EmployeeSalaryService $employeeSalaryService = null;
-
-    /**
-     * @return EmployeeSalaryService
-     */
-    public function getEmployeeSalaryService(): EmployeeSalaryService
-    {
-        if (!$this->employeeSalaryService instanceof EmployeeSalaryService) {
-            $this->employeeSalaryService = new EmployeeSalaryService();
-        }
-        return $this->employeeSalaryService;
-    }
 
     /**
      * @return PayGradeService
