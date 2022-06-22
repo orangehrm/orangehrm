@@ -1,4 +1,4 @@
-'Performance Tracker List':
+'Performance Tracker Save':
   module: performance
   url: addPerformanceTracker
   permissions:
