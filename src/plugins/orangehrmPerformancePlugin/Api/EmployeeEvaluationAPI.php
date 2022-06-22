@@ -75,12 +75,13 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
         $allowedActions = $this->getAllowedActions($review);
 
         $sendRatings = true;
+        $employeeReviewer = $review->getDecorator()->getEmployeeReviewer();
         // Check if supervisor/admin is accessing API
         if ($this->getAuthUser()->getEmpNumber() !== $review->getEmployee()->getEmpNumber()) {
             // Don't send ratings if employee status is activated / in progress
             if (
-                $review->getDecorator()->getEmployeeReviewer()->getStatus() === Reviewer::STATUS_ACTIVATED ||
-                $review->getDecorator()->getEmployeeReviewer()->getStatus() === Reviewer::STATUS_IN_PROGRESS
+                $employeeReviewer->getStatus() === Reviewer::STATUS_ACTIVATED ||
+                $employeeReviewer->getStatus() === Reviewer::STATUS_IN_PROGRESS
             ) {
                 $sendRatings = false;
             }
@@ -94,6 +95,7 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
             $ratings,
             new ParameterBag([
                 CommonParams::PARAMETER_TOTAL => $ratingCount,
+                self::PARAMETER_GENERAL_COMMENT => $sendRatings ? $employeeReviewer->getComment() : null,
                 self::PARAMETER_KPIS => $this->getKpisForReview(),
                 self::PARAMETER_REVIEWERS => $this->getReviewerForReviewRating(),
                 self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
@@ -235,6 +237,19 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
                 ReviewerGroup::REVIEWER_GROUP_EMPLOYEE,
                 $status
             );
+    }
+
+    /**
+     * @param PerformanceReview $review
+     * @param string|null $comment
+     */
+    protected function updateReviewerComment(PerformanceReview $review, ?string $comment): void
+    {
+        if (!is_null($comment)) {
+            $this->getPerformanceReviewService()
+                ->getPerformanceReviewDao()
+                ->updateReviewerComment($review, ReviewerGroup::REVIEWER_GROUP_EMPLOYEE, $comment);
+        }
     }
 
     /**

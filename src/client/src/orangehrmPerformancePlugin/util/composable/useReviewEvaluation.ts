@@ -63,6 +63,15 @@ export interface AllowedAction {
   name: string;
 }
 
+export interface Review {
+  kpis: Array<{
+    kpiId: number;
+    rating: number;
+    comment: string;
+  }>;
+  generalComment: string;
+}
+
 export default function useReviewEvaluation(http: APIService) {
   const {$t} = usei18n();
 
@@ -113,35 +122,26 @@ export default function useReviewEvaluation(http: APIService) {
   const saveEmployeeReview = (
     reviewId: number,
     complete: boolean,
-    ratings: Array<{
-      kpiId: number;
-      rating: number;
-      comment: string;
-    }>,
+    review: Review,
   ) => {
     return http.request({
       method: 'PUT',
       url: `/api/v2/performance/reviews/${reviewId}/evaluation/employee`,
       data: {
         complete,
-        ratings,
+        ratings: review.kpis,
+        generalComment: review.generalComment,
       },
     });
   };
 
-  const saveSupervisorReview = (
-    reviewId: number,
-    ratings: Array<{
-      kpiId: number;
-      rating: number;
-      comment: string;
-    }>,
-  ) => {
+  const saveSupervisorReview = (reviewId: number, review: Review) => {
     return http.request({
       method: 'PUT',
       url: `/api/v2/performance/reviews/${reviewId}/evaluation/supervisor`,
       data: {
-        ratings,
+        ratings: review.kpis,
+        generalComment: review.generalComment,
       },
     });
   };
@@ -164,19 +164,28 @@ export default function useReviewEvaluation(http: APIService) {
   };
 
   const generateModel = (kpis: KPI[]) => {
-    return kpis.map(kpi => ({
-      kpiId: kpi.id,
-      rating: null,
-      comment: null,
-    }));
+    return {
+      kpis: kpis.map(kpi => ({
+        kpiId: kpi.id,
+        rating: null,
+        comment: null,
+      })),
+      generalComment: null,
+    };
   };
 
-  const generateEvaluationFormData = (evaluationData: EvaluationData[]) => {
-    return evaluationData.map(datum => ({
-      kpiId: datum.kpi.id,
-      rating: datum.rating,
-      comment: datum.comment,
-    }));
+  const generateEvaluationFormData = (
+    evaluationData: EvaluationData[],
+    generalComment: string,
+  ) => {
+    return {
+      kpis: evaluationData.map(datum => ({
+        kpiId: datum.kpi.id,
+        rating: datum.rating,
+        comment: datum.comment,
+      })),
+      generalComment: generalComment,
+    };
   };
 
   const generateReviewerData = (reviewerData: ReviewerData) => {

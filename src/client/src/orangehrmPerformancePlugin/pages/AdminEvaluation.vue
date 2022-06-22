@@ -194,9 +194,9 @@ export default {
       kpis: [],
       rules: [],
       employee: {...reviewerModel},
-      employeeReview: [],
+      employeeReview: {},
       supervisor: {...reviewerModel},
-      supervisorReview: [],
+      supervisorReview: {},
       isLoading: false,
       finalRating: null,
       finalComment: null,
@@ -233,7 +233,10 @@ export default {
         this.employee.actions = this.generateAllowedActions(
           meta.allowedActions,
         );
-        this.employeeReview = this.generateEvaluationFormData(data);
+        this.employeeReview = this.generateEvaluationFormData(
+          data,
+          meta.generalComment,
+        );
         return this.getSupervisorReview(this.reviewId);
       })
       .then(response => {
@@ -243,7 +246,10 @@ export default {
         this.supervisor.actions = this.generateAllowedActions(
           meta.allowedActions,
         );
-        this.supervisorReview = this.generateEvaluationFormData(data);
+        this.supervisorReview = this.generateEvaluationFormData(
+          data,
+          meta.generalComment,
+        );
         return this.getFinalReview(this.reviewId);
       })
       .then(response => {

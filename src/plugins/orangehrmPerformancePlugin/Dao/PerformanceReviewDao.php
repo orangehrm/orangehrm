@@ -667,4 +667,29 @@ class PerformanceReviewDao extends BaseDao
 
         $qb->getQuery()->execute();
     }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @param string $reviewerGroupName
+     * @param string $comment
+     */
+    public function updateReviewerComment(
+        PerformanceReview $performanceReview,
+        string $reviewerGroupName,
+        string $comment
+    ): void {
+        /** @var ReviewerGroup $reviewerGroup */
+        $reviewerGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => $reviewerGroupName]);
+        $qb = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+
+        $qb->update()
+            ->set('reviewer.comment', ':comment')
+            ->setParameter('comment', $comment)
+            ->andWhere($qb->expr()->eq('reviewer.review', ':reviewId'))
+            ->setParameter('reviewId', $performanceReview->getId())
+            ->andWhere('reviewer.group = :reviewerGroup')
+            ->setParameter('reviewerGroup', $reviewerGroup->getId());
+
+        $qb->getQuery()->execute();
+    }
 }

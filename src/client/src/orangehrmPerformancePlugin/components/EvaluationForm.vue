@@ -97,7 +97,7 @@
               type="input"
               :disabled="!editable"
               :rules="rules[index]"
-              :model-value="modelValue[index].rating"
+              :model-value="modelValue.kpis[index].rating"
               @update:modelValue="onUpdateRating($event, index)"
             />
           </oxd-grid-item>
@@ -114,12 +114,31 @@
               type="textarea"
               :disabled="!editable"
               :rules="commentValidators"
-              :model-value="modelValue[index].comment"
+              :model-value="modelValue.kpis[index].comment"
               @update:modelValue="onUpdateComment($event, index)"
             />
           </oxd-grid-item>
           <div class="orangehrm-evaluation-grid-spacer"></div>
         </template>
+      </oxd-grid>
+      <oxd-divider />
+      <oxd-grid :cols="3" class="orangehrm-evaluation-grid">
+        <oxd-grid-item class="orangehrm-evaluation-grid-general">
+          <oxd-text tag="p" class="orangehrm-evaluation-grid-general-label">
+            General Comment
+          </oxd-text>
+        </oxd-grid-item>
+        <oxd-grid-item class="--span-column-2">
+          <oxd-input-field
+            class="orangehrm-evaluation-grid-comment"
+            rows="2"
+            type="textarea"
+            :disabled="!editable"
+            :rules="commentValidators"
+            :model-value="modelValue.generalComment"
+            @update:modelValue="onUpdateGeneralComment($event)"
+          />
+        </oxd-grid-item>
       </oxd-grid>
       <slot></slot>
     </template>
@@ -130,8 +149,12 @@
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
+import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
 
 export default {
+  components: {
+    'oxd-divider': Divider,
+  },
   props: {
     kpis: {
       type: Array,
@@ -162,8 +185,10 @@ export default {
       required: true,
     },
     modelValue: {
-      type: Array,
+      type: Object,
       required: true,
+      validator: value =>
+        Object.hasOwn(value, 'kpis') && Object.hasOwn(value, 'generalComment'),
     },
     collapsed: {
       type: Boolean,
@@ -197,27 +222,34 @@ export default {
     };
 
     const onUpdateRating = (value, index) => {
-      context.emit(
-        'update:modelValue',
-        props.modelValue.map((item, _index) => {
+      context.emit('update:modelValue', {
+        kpis: props.modelValue.kpis.map((item, _index) => {
           if (_index === index) {
             return {...item, rating: value};
           }
           return item;
         }),
-      );
+        generalComment: props.modelValue.generalComment,
+      });
     };
 
     const onUpdateComment = (value, index) => {
-      context.emit(
-        'update:modelValue',
-        props.modelValue.map((item, _index) => {
+      context.emit('update:modelValue', {
+        kpis: props.modelValue.kpis.map((item, _index) => {
           if (_index === index) {
             return {...item, comment: value};
           }
           return item;
         }),
-      );
+        generalComment: props.modelValue.generalComment,
+      });
+    };
+
+    const onUpdateGeneralComment = value => {
+      context.emit('update:modelValue', {
+        kpis: props.modelValue.kpis,
+        generalComment: value,
+      });
     };
 
     const statusOpts = [
@@ -237,6 +269,7 @@ export default {
       profileImgSrc,
       onUpdateRating,
       onUpdateComment,
+      onUpdateGeneralComment,
       commentValidators,
       evaluationLabel,
     };

@@ -64,6 +64,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RATINGS = 'ratings';
     public const PARAMETER_RATING = 'rating';
     public const PARAMETER_COMMENT = 'comment';
+    public const PARAMETER_GENERAL_COMMENT = 'generalComment';
     public const PARAMETER_KPI_ID = 'kpiId';
     public const PARAMETER_REVIEWERS = 'reviewer';
     public const PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
@@ -103,12 +104,13 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         $allowedActions = $this->getAllowedActions($review);
 
         $sendRatings = true;
+        $supervisorReviewer = $review->getDecorator()->getSupervisorReviewer();
         // Check if ESS is accessing API
         if ($this->getAuthUser()->getEmpNumber() === $review->getEmployee()->getEmpNumber()) {
             // Don't send ratings if supervisor status is activated / in progress
             if (
-                $review->getDecorator()->getSupervisorReviewer()->getStatus() === Reviewer::STATUS_ACTIVATED ||
-                $review->getDecorator()->getSupervisorReviewer()->getStatus() === Reviewer::STATUS_IN_PROGRESS
+                $supervisorReviewer->getStatus() === Reviewer::STATUS_ACTIVATED ||
+                $supervisorReviewer->getStatus() === Reviewer::STATUS_IN_PROGRESS
             ) {
                 $sendRatings = false;
             }
@@ -122,6 +124,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
             $ratings,
             new ParameterBag([
                 CommonParams::PARAMETER_TOTAL => $ratingCount,
+                self::PARAMETER_GENERAL_COMMENT => $sendRatings ? $supervisorReviewer->getComment() : null,
                 self::PARAMETER_KPIS => $this->getKpisForReview(),
                 self::PARAMETER_REVIEWERS => $this->getReviewerForReviewRating(),
                 self::PARAMETER_ALLOWED_ACTIONS => $allowedActions,
@@ -304,12 +307,20 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ->getReviewById($reviewId);
 
             $actionAllowed = $this->checkActionAllowed($review);
+
+            // TODO seems to throw when completing. need to check
             if (!$actionAllowed) {
                 throw $this->getForbiddenException();
             }
 
+            $comment = $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_GENERAL_COMMENT,
+            );
+
             $this->setReviewRatingsParams($review);
             $this->updateReviewerStatus($review);
+            $this->updateReviewerComment($review, $comment);
             $this->updateReviewStatus($review);
 
             $reviewRatings = $this->getReviewerRatings($supervisorParamHolder);
@@ -407,6 +418,19 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param PerformanceReview $review
+     * @param string|null $comment
+     */
+    protected function updateReviewerComment(PerformanceReview $review, ?string $comment): void
+    {
+        if (!is_null($comment)) {
+            $this->getPerformanceReviewService()
+                ->getPerformanceReviewDao()
+                ->updateReviewerComment($review, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR, $comment);
+        }
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
@@ -418,6 +442,12 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 new Rule(
                     ReviewReviewerRatingParamRule::class,
                     [$this->getRequest()->getAttributes()->get(self::PARAMETER_REVIEW_ID)]
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_GENERAL_COMMENT,
+                    new Rule(Rules::STRING_TYPE),
                 )
             )
         );

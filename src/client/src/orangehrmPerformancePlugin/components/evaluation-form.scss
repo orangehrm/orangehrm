@@ -78,6 +78,15 @@
         font-size: 0.75rem;
       }
     }
+    &-general {
+      @include oxd-respond-to('md') {
+        display: flex;
+        align-items: center;
+      }
+      &-label {
+        font-weight: 700;
+      }
+    }
     &-spacer {
       padding: 0.5rem 0;
       @include oxd-respond-to('md') {
