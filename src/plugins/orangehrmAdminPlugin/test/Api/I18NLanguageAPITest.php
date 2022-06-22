@@ -78,7 +78,7 @@ class I18NApiTest extends EndpointIntegrationTestCase
         $api->getValidationRuleForCreate();
     }
 
-    public function getOne(): void
+    public function testGetOne(): void
     {
         $api = new I18NLanguageAPI($this->getRequest());
         $this->expectNotImplementedException();
