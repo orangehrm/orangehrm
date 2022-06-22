@@ -120,8 +120,11 @@ export default {
 @import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm {
+  &-background-container {
+    height: 85%;
+  }
   &-container {
-    height: 512px;
+    height: 100%;
     @include oxd-scrollbar();
     overflow: auto;
     position: relative;

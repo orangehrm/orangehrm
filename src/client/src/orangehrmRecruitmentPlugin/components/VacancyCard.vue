@@ -29,21 +29,27 @@
         class="oxd-button--success"
       ></oxd-button>
     </div>
-    <oxd-divider></oxd-divider>
+    <oxd-divider v-show="vacancyDescription"></oxd-divider>
     <div :class="{'orangehrm-vacancy-card-body': isViewDetails}">
       <oxd-text type="toast-message">
-      {{ vacancyDescription }}
+        {{ vacancyDescription }}
       </oxd-text>
     </div>
-    <div class="orangehrm-vacancy-card-footer">
+    <div
+      v-if="vacancyDescription && vacancyDescription.length > descriptionLength"
+      class="orangehrm-vacancy-card-footer"
+    >
       <a @click="viewDetails">
         <oxd-text
-          type="toast-message"
           class="orangehrm-vacancy-card-anchor-tag"
-          >{{
-            isViewDetails ? $t('recruitment.show_more') : $t('recruitment.hide')
-          }}</oxd-text
+          type="toast-message"
         >
+          {{
+            isViewDetails
+              ? $t('recruitment.show_more')
+              : $t('recruitment.show_less')
+          }}
+        </oxd-text>
       </a>
     </div>
   </div>
@@ -51,6 +57,8 @@
 
 <script>
 import OxdDivider from '@ohrm/oxd/core/components/Divider/Divider';
+import useResponsive from '@ohrm/oxd/composables/useResponsive';
+import {toRefs} from 'vue';
 
 export default {
   name: 'VacancyCard',
@@ -71,19 +79,52 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const responsiveState = useResponsive();
+    return {
+      ...toRefs(responsiveState),
+    };
+  },
   data() {
     return {
       viewMore: true,
+      descriptionLength: 0,
     };
   },
   computed: {
     isViewDetails() {
       return this.viewMore;
     },
+    isMobile() {
+      return this.windowWidth < 600;
+    },
+  },
+  watch: {
+    isMobile: function() {
+      this.validDescriptionLength();
+    },
+  },
+  beforeMount() {
+    this.onResize();
+    this.validDescriptionLength();
+    window.addEventListener('resize', this.onResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.onResize);
   },
   methods: {
     viewDetails() {
       return (this.viewMore = !this.viewMore);
+    },
+    validDescriptionLength() {
+      return this.isMobile
+        ? (this.descriptionLength = 150)
+        : this.windowWidth < 1920
+        ? (this.descriptionLength = 300)
+        : (this.descriptionLength = 400);
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth;
     },
   },
 };
@@ -105,19 +146,26 @@ export default {
     display: flex;
     justify-content: space-between;
   }
+
   &-anchor-tag {
     color: $oxd-feedback-danger-color;
     padding-top: 0.5rem;
   }
+
   &-anchor-tag:hover {
     cursor: pointer;
   }
+
   &-body {
     text-align: left;
     justify-content: space-between;
-    height: 30px;
+    max-height: 60px;
     word-break: break-all;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 4;
+    @include oxd-respond-to('md') {
+      max-height: 30px;
+      -webkit-line-clamp: 2;
+    }
     text-overflow: ellipsis;
     overflow: hidden;
     display: -webkit-box;
