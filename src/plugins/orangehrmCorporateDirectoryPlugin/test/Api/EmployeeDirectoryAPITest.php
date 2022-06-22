@@ -20,8 +20,12 @@
 namespace OrangeHRM\Tests\CorporateDirectory\Api;
 
 use Exception;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
@@ -73,5 +77,74 @@ class EmployeeDirectoryAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestGetAll(): array
     {
         return $this->getTestCases('EmployeeDirectoryAPITestCases.yml', 'GetAll');
+    }
+
+    /**
+     * @throws NormalizeException
+     * @throws NotImplementedException
+     * @throws RecordNotFoundException
+     * @throws ForbiddenException
+     */
+    public function testCreate(): void
+    {
+        $api = new EmployeeDirectoryAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    /**
+     * @throws NotImplementedException
+     */
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new EmployeeDirectoryAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    /**
+     * @throws NormalizeException
+     * @throws NotImplementedException
+     * @throws RecordNotFoundException
+     * @throws ForbiddenException
+     */
+    public function testUpdate(): void
+    {
+        $api = new EmployeeDirectoryAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
+    }
+
+    /**
+     * @throws NotImplementedException
+     */
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new EmployeeDirectoryAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
+    }
+
+    /**
+     * @throws NormalizeException
+     * @throws NotImplementedException
+     * @throws RecordNotFoundException
+     * @throws ForbiddenException
+     */
+    public function testDelete(): void
+    {
+        $api = new EmployeeDirectoryAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    /**
+     * @throws NotImplementedException
+     */
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new EmployeeDirectoryAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
     }
 }

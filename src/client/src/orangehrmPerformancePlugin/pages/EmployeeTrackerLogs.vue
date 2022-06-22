@@ -87,7 +87,7 @@
           @click="onClickAdd"
         />
       </div>
-      <oxd-grid ref="scrollerRef" :cols="1" class="orangehrm-container">
+      <div ref="scrollerRef" class="orangehrm-container">
         <oxd-sheet
           v-for="(item, index) in items"
           :key="index"
@@ -113,7 +113,7 @@
           v-if="isLoading"
           class="orangehrm-container-loader"
         />
-      </oxd-grid>
+      </div>
     </div>
     <add-tracker-log-modal
       v-if="showAddTrackerModal"

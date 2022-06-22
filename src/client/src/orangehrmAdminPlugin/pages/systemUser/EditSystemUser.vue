@@ -247,5 +247,3 @@ export default {
   },
 };
 </script>
-
-<style src="./system-user.scss" lang="scss" scoped></style>

@@ -58,3 +58,4 @@ translations:
   - { target: 'FR_Incorrect Dimensions', unitId: incorrect_dimensions, group: general }
   - { target: 'FR_Invalid', unitId: invalid, group: general }
   - { target: 'FR_Or login with', unitId: or_login_with, group: general }
+  - { target: 'FR_Publish', unitId: publish, group: general }
