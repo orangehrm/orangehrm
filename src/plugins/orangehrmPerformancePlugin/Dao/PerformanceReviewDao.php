@@ -93,9 +93,17 @@ class PerformanceReviewDao extends BaseDao
      */
     public function createReview(PerformanceReview $performanceReview, int $reviewerEmpNumber): PerformanceReview
     {
-        $this->persist($performanceReview);
-        $this->saveReviewer($performanceReview, 'Supervisor', $reviewerEmpNumber);
-        $this->saveReviewer($performanceReview, 'Employee', null);
+        $this->beginTransaction();
+        try {
+            $this->commitTransaction();
+            $this->persist($performanceReview);
+            $this->saveReviewer($performanceReview, 'Supervisor', $reviewerEmpNumber);
+            $this->saveReviewer($performanceReview, 'Employee', null);
+        }
+        catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
         return $performanceReview;
     }
 
@@ -113,11 +121,34 @@ class PerformanceReviewDao extends BaseDao
         } else {
             $reviewer->setEmployee($performanceReview->getEmployee());
         }
-        $reviewer->setStatus(Reviewer::STATUS_ACTIVATED);
         $reviewerGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => $reviewerGroupName]);
+        $reviewer->setStatus(Reviewer::STATUS_ACTIVATED);
         $reviewer->setGroup($reviewerGroup);
         $reviewer->setReview($performanceReview);
         $this->persist($reviewer);
+
+        if ($performanceReview->getStatusId() == PerformanceReview::STATUS_ACTIVATED){
+            $this->saveReviewerRating($performanceReview,$reviewerGroup);
+        }
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @param ReviewerGroup $reviewerGroup
+     */
+    private function saveReviewerRating(PerformanceReview $performanceReview, ReviewerGroup $reviewerGroup): void
+    {
+        $reviewer = $this->getReviewerRecord($performanceReview->getId(),$reviewerGroup->getName());
+        $kpiIdArrayForReview = $this->getKpiIdsForReviewId($performanceReview->getId());
+        $kpiIdsForReview = array_column($kpiIdArrayForReview,'id');
+
+        foreach ($kpiIdsForReview as $kpiId){
+            $reviewerRating = new ReviewerRating();
+            $reviewerRating->setPerformanceReview($performanceReview);
+            $reviewerRating->getDecorator()->setKpiByKpiId($kpiId);
+            $reviewerRating->setReviewer($reviewer);
+            $this->persist($reviewer);
+        }
     }
 
     /**
