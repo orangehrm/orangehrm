@@ -1,6 +1,6 @@
 'Performance Tracker List':
   module: performance
-  url: viewPerformanceTracker
+  url: addPerformanceTracker
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
