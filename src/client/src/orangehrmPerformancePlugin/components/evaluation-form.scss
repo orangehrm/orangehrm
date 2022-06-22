@@ -47,6 +47,7 @@
     }
   }
   &-grid {
+    padding-top: 0.5rem;
     @include oxd-respond-to('md') {
       grid-template-columns: 1fr 110px 1fr;
     }

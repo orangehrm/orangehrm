@@ -72,27 +72,27 @@
         />
         <oxd-divider />
         <oxd-form-actions>
-          <oxd-button
-            display-type="ghost"
-            :label="$t('general.back')"
-            @click="onClickBack"
-          />
-          <oxd-button
-            v-show="hasSaveAction"
-            display-type="ghost"
-            type="button"
-            class="orangehrm-left-space"
-            :label="$t('general.save')"
-            @click="onSubmit(false)"
-          />
-          <oxd-button
-            v-show="hasCompleteAction"
-            type="button"
-            display-type="secondary"
-            class="orangehrm-left-space"
-            :label="$t('performance.complete')"
-            @click="onSubmit(true)"
-          />
+          <div class="orangehrm-performance-review-actions">
+            <oxd-button
+              display-type="ghost"
+              :label="$t('general.back')"
+              @click="onClickBack"
+            />
+            <oxd-button
+              v-show="hasSaveAction"
+              display-type="ghost"
+              type="button"
+              :label="$t('general.save')"
+              @click="onSubmit(false)"
+            />
+            <oxd-button
+              v-show="hasCompleteAction"
+              type="button"
+              display-type="secondary"
+              :label="$t('performance.complete')"
+              @click="onSubmit(true)"
+            />
+          </div>
         </oxd-form-actions>
       </evaluation-form>
     </oxd-form>

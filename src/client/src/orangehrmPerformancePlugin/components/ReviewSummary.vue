@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <oxd-grid :cols="3">
+      <oxd-grid :cols="3" class="orangehrm-performance-review-grid">
         <oxd-grid-item class="orangehrm-performance-review-column">
           <oxd-text type="subtitle-2">
             {{ $t('performance.review_status') }}
@@ -155,6 +155,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-performance-review {
   &-title {
     font-size: 14px;
@@ -163,6 +165,13 @@ export default {
 
   &-bold {
     font-weight: 700;
+  }
+
+  &-grid {
+    padding-left: 0.25rem;
+    @include oxd-respond-to('md') {
+      padding-left: 0;
+    }
   }
 
   &-owner {

@@ -46,7 +46,7 @@
         <oxd-icon-button
           v-if="collapsible"
           :with-container="false"
-          :name="isCollapsed ? 'chevron-up' : 'chevron-down'"
+          :name="isCollapsed ? 'chevron-down' : 'chevron-up'"
           @click="toggleForm"
         />
       </div>

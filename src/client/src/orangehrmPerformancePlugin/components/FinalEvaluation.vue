@@ -156,7 +156,6 @@ export default {
           ),
           ...(this.isRequired ? [required] : []),
         ],
-        // TODO add min max rules
         finalComment: [...(this.isRequired ? [required] : [])],
       },
     };
@@ -199,7 +198,12 @@ export default {
   }
 
   &-read {
-    margin-top: 1.2rem;
+    margin-top: 0.3rem;
+    margin-bottom: 1.2rem;
+    @include oxd-respond-to('md') {
+      margin-top: 1.2rem;
+      margin-bottom: 0;
+    }
   }
 }
 </style>
