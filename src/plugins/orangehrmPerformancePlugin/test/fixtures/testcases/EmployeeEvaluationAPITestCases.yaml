@@ -11,8 +11,36 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       reviewId: 2
-    exception:
-      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+    data:
+      []
+    meta:
+      total: 0
+      kpis:
+        0:
+          "id": 4
+          "title": "A"
+          "minRating": 0
+          "maxRating": 100
+        1:
+          "id": 5
+          "title": "B"
+          "minRating": 0
+          "maxRating": 100
+      reviewer:
+        "id": 3
+        "employee":
+          "empNumber": 6
+          "lastName": "Park"
+          "firstName": "Jihoon"
+          "middleName": ''
+          "employeeId": "0006"
+          "terminationId": null
+          "jobTitle":
+            "id": 1
+            "name": "Software Engineer"
+            "deleted": false
+        "status": 1
+      allowedActions: [ ]
 
   'Get all ratings for self review by invalid supervisor':
     userId: 2
