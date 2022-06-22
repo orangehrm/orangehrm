@@ -34,7 +34,7 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/i18n/languages?limit=500',
+      '/api/v2/admin/i18n/languages?limit=0',
     );
     onBeforeMount(() => {
       http.getAll({activeOnly: false}).then(({data}) => {

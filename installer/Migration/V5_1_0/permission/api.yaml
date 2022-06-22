@@ -322,23 +322,6 @@ apiv2_recruitment_candidate_shortlist:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
-
-##########################
-#        I18N
-##########################
-
-apiv2_admin_localization_languages:
-  description: 'API-v2 Admin - Localization Languages'
-  api: OrangeHRM\Admin\Api\I18NLanguageAPI
-  module: admin
-  allowed:
-    read: true
-    create: false
-    update: true
-    delete: false
-  permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
-
 apiv2_recruitment_candidate_schedule_interview:
   description: 'API-v2 Recruitment - Candidate Schedule Interview '
   api: OrangeHRM\Recruitment\Api\CandidateInterviewSchedulingAPI
@@ -431,6 +414,22 @@ apiv2_recruitment_candidate_hire:
   permissions:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+
+##########################
+#        I18N
+##########################
+
+apiv2_admin_localization_languages:
+  description: 'API-v2 Admin - Localization Languages'
+  api: OrangeHRM\Admin\Api\I18NLanguageAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
 
 ##########################
 #   Corporate Directory

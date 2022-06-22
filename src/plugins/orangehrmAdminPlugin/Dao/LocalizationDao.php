@@ -32,14 +32,14 @@ class LocalizationDao extends BaseDao
      */
     public function searchLanguages(I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams): array
     {
-        return $this->getSearchI18NLanguagePaginator($i18NLanguageSearchFilterParams)->getQuery()->execute();
+        return $this->getI18NLanguagePaginator($i18NLanguageSearchFilterParams)->getQuery()->execute();
     }
 
     /**
      * @param I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams
      * @return Paginator
      */
-    private function getSearchI18NLanguagePaginator(
+    private function getI18NLanguagePaginator(
         I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(I18NLanguage::class, 'l');
@@ -62,7 +62,7 @@ class LocalizationDao extends BaseDao
      */
     public function getLanguagesCount(I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams): int
     {
-        return $this->getSearchI18NLanguagePaginator($i18NLanguageSearchFilterParams)->count();
+        return $this->getI18NLanguagePaginator($i18NLanguageSearchFilterParams)->count();
     }
 
     /**

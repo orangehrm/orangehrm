@@ -568,7 +568,7 @@ admin_register_oauth_client: # remove this
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
   methods: [ GET ]
 
-language_packages:
+admin_language_package:
   path: /admin/languagePackage
   controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle
   methods: [ GET ]

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Api;
+namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\I18NLanguageAPI;
 use OrangeHRM\Framework\Services;
@@ -28,12 +28,12 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  * @group Admin
  * @group APIv2
  */
-class I18NApiTest extends EndpointIntegrationTestCase
+class I18NLanguageAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetAll
      */
-    public function testGetAll(TestCaseParams $testCaseParams)
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
         $this->populateFixtures('I18NLanguages.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
