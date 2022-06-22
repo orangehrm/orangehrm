@@ -17,30 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Dto;
+namespace OrangeHRM\Performance\Exception;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use Exception;
 
-class SupervisorEvaluationSearchFilterParams extends FilterParams
+class PerformanceTrackerServiceException extends Exception
 {
-    public const ALLOWED_SORT_FIELDS = [];
-
-    protected int $reviewId;
-    protected string $isSelfEvaluation;
-
     /**
-     * @return int
+     * @return static
      */
-    public function getReviewId(): int
+    public static function cannotEditEmployeeWithLogs(): self
     {
-        return $this->reviewId;
-    }
-
-    /**
-     * @param int $reviewId
-     */
-    public function setReviewId(int $reviewId): void
-    {
-        $this->reviewId = $reviewId;
+        return new self(
+            "The employee cannot be updated since the performance tracker already contains review logs"
+        );
     }
 }

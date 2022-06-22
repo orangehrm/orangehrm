@@ -138,6 +138,7 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/performance/manage/reviews',
     );
+    http.setIgnorePath('/api/v2/performance/manage/reviews');
     return {
       formRef,
       invalid,
@@ -203,7 +204,14 @@ export default {
             activate,
           })
           .then(() => {
-            return this.$toast.saveSuccess();
+            if (activate === true) {
+              return this.$toast.success({
+                title: this.$t('general.success'),
+                message: this.$t('general.successfully_activated'),
+              });
+            } else {
+              return this.$toast.updateSuccess();
+            }
           })
           .then(() => {
             this.onCancel();

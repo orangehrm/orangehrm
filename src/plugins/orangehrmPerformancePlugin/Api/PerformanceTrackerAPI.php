@@ -38,6 +38,7 @@ use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Performance\Api\Model\DetailedPerformanceTrackerModel;
 use OrangeHRM\Performance\Api\Model\PerformanceTrackerModel;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
+use OrangeHRM\Performance\Exception\PerformanceTrackerServiceException;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
@@ -224,10 +225,13 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_REVIEWER_EMP_NUMBERS
         );
-        $this->getPerformanceTrackerService()
-            ->getPerformanceTrackerDao()
-            ->updatePerformanceTracker($performanceTracker, $reviewerEmpNumbers);
-        return new EndpointResourceResult(DetailedPerformanceTrackerModel::class, $performanceTracker);
+        try {
+            $this->getPerformanceTrackerService()
+                ->updateTracker($performanceTracker, $reviewerEmpNumbers);
+            return new EndpointResourceResult(DetailedPerformanceTrackerModel::class, $performanceTracker);
+        } catch (PerformanceTrackerServiceException $e) {
+            throw $this->getBadRequestException($e->getMessage());
+        }
     }
 
     /**

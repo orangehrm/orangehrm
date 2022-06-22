@@ -44,4 +44,32 @@ class ReviewKpiAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('ReviewKpiAPITestCases.yaml', 'GetAll');
     }
+
+    public function testCreate(): void
+    {
+        $api = new ReviewKpiAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new ReviewKpiAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new ReviewKpiAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new ReviewKpiAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
 }

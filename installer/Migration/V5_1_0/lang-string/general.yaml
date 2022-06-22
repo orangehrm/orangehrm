@@ -126,9 +126,6 @@ langStrings:
     value: 'Closed'
     unitId: closed
   -
-    value: 'Deleted'
-    unitId: deleted
-  -
     value: 'File Size'
     unitId: file_size
   -
@@ -155,6 +152,9 @@ langStrings:
   -
     value: 'Or login with'
     unitId: or_login_with
+  -
+    value: 'Successfully Activated'
+    unitId: successfully_activated
   -
     value: 'Publish'
     unitId: publish
