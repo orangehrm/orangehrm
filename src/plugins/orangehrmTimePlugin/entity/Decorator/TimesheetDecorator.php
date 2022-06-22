@@ -44,7 +44,7 @@ class TimesheetDecorator
      */
     public function getStartDate(): string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheet()->getStartDate());
+        return $this->getDateTimeHelper()->formatDate($this->getTimesheet()->getStartDate());
     }
 
     /**
@@ -60,7 +60,7 @@ class TimesheetDecorator
      */
     public function getEndDate(): string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheet()->getEndDate());
+        return $this->getDateTimeHelper()->formatDate($this->getTimesheet()->getEndDate());
     }
 
     /**

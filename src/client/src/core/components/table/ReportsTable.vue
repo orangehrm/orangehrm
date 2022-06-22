@@ -97,7 +97,7 @@ export default {
     const headers = ref([]);
     const colCount = ref(props.columnCount ? props.columnCount : 0);
     const serializedFilters = computed(() => {
-      return {...props.filters, name: props.name};
+      return {...props.filters, name: props.name, _dateFormattingEnabled: true};
     });
 
     const {

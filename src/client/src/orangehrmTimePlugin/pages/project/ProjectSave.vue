@@ -47,6 +47,7 @@
             <oxd-button
               icon-name="plus"
               display-type="text"
+              class="orangehrm-input-field-bottom-space"
               :label="$t('time.add_customer')"
               @click="onClickAddCustomer"
             />

@@ -155,7 +155,7 @@ export default {
     font-size: 0.75rem;
     position: absolute;
     right: 8px;
-    top: 0px;
+    top: -5px;
     &.--green {
       background-color: #93b40f;
     }

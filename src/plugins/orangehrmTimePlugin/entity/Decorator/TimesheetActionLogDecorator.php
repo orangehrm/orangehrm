@@ -55,7 +55,7 @@ class TimesheetActionLogDecorator
      */
     public function getDate(): string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheetActionLog()->getDate());
+        return $this->getDateTimeHelper()->formatDate($this->getTimesheetActionLog()->getDate());
     }
 
     /**

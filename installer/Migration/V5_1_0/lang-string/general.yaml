@@ -155,3 +155,6 @@ langStrings:
   -
     value: 'Successfully Activated'
     unitId: successfully_activated
+  -
+    value: 'Publish'
+    unitId: publish

@@ -26,10 +26,6 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
     public const ALLOWED_SORT_FIELDS = [];
 
     /**
-     * @var string|null
-     */
-    protected ?string $name = null;
-    /**
      * @var int[]|null
      */
     protected ?array $empNumbers = null;
@@ -41,10 +37,6 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
      * @var int|null
      */
     protected ?int $jobTitleId = null;
-    /**
-     * @var int|null
-     */
-    protected ?int $subunitId = null;
     /**
      * @var int|null
      */
@@ -69,22 +61,6 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
     public function setEmpNumbers(?array $empNumbers): void
     {
         $this->empNumbers = $empNumbers;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
     }
 
     /**
@@ -117,22 +93,6 @@ class EmployeeDirectorySearchFilterParams extends FilterParams
     public function setJobTitleId(?int $jobTitleId): void
     {
         $this->jobTitleId = $jobTitleId;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getSubunitId(): ?int
-    {
-        return $this->subunitId;
-    }
-
-    /**
-     * @param int|null $subunitId
-     */
-    public function setSubunitId(?int $subunitId): void
-    {
-        $this->subunitId = $subunitId;
     }
 
     /**

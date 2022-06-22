@@ -74,7 +74,7 @@ class EmpContractDecorator
     public function getStartDate(): ?string
     {
         $date = $this->getEmpContract()->getStartDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -83,7 +83,7 @@ class EmpContractDecorator
     public function getEndDate(): ?string
     {
         $date = $this->getEmpContract()->getEndDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**

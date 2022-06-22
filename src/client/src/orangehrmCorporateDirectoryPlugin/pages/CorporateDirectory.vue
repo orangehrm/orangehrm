@@ -23,7 +23,7 @@
     <oxd-table-filter :filter-title="$t('general.directory')">
       <oxd-form>
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="3">
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.employeeNumber"
@@ -69,10 +69,15 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
-    <div :class="{'orangehrm-corporate-directory': hasCurrentIndex}">
-      <div class="orangehrm-paper-container">
-        <table-header :show-divider="false" :total="total"></table-header>
-        <oxd-grid ref="scrollerRef" :cols="colSize" class="orangehrm-container">
+    <div :class="{'orangehrm-corporate-directory': isEmployeeSelected}">
+      <div class="orangehrm-paper-container orangehrm-full-width">
+        <table-header
+          :selected="0"
+          :total="total"
+          :loading="isLoading"
+          :show-divider="false"
+        ></table-header>
+        <oxd-grid ref="scrollerRef" :cols="colSize" :class="oxdGridClasses">
           <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
             <summary-card
               :employee-designation="employee.employeeJobTitle"
@@ -98,7 +103,7 @@
         <div class="orangehrm-bottom-container"></div>
       </div>
       <div
-        v-if="currentIndex > -1 && isMobile === false"
+        v-if="isEmployeeSelected && isMobile === false"
         class="orangehrm-paper-container orangehrm-corporate-directory-sidebar"
       >
         <oxd-grid-item>
@@ -116,16 +121,17 @@
   </div>
 </template>
 <script>
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
-import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
-import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
-import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
-import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
 import {reactive, toRefs} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
-import {ref} from 'vue';
+import useToast from '@/core/util/composable/useToast';
+import {APIService} from '@/core/util/services/api.service';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import useResponsive from '@ohrm/oxd/composables/useResponsive';
+import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import SummaryCard from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCard';
+import EmployeeDetails from '@/orangehrmCorporateDirectoryPlugin/components/EmployeeDetails';
+import SummaryCardDetails from '@/orangehrmCorporateDirectoryPlugin/components/SummaryCardDetails';
 
 const defaultFilters = {
   employeeNumber: null,
@@ -157,6 +163,9 @@ export default {
 
   setup() {
     const {$t} = usei18n();
+    const {noRecordsFound} = useToast();
+    const responsiveState = useResponsive();
+
     const employeeDataNormalizer = data => {
       return data.map(item => {
         return {
@@ -164,26 +173,30 @@ export default {
           employeeName:
             `${item.firstName} ${item.middleName} ${item.lastName} ` +
             (item.terminationId ? $t('general.past_employee') : ''),
-          employeeJobTitle: item.jobTitle?.title,
+          employeeJobTitle: item.jobTitle?.isDeleted
+            ? `${item.jobTitle?.title} ` + $t('general.deleted')
+            : item.jobTitle?.title,
           employeeSubUnit: item.subunit?.name,
           employeeLocation: item.location?.name,
         };
       });
     };
-    const filters = ref({...defaultFilters});
+
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/directory/employees',
     );
+
     const limit = 8; // this is a static limit since no pagination
     const state = reactive({
-      employees: [],
       total: 0,
-      colSize: 4,
-      windowWidth: 0,
+      offset: 0,
+      employees: [],
       currentIndex: -1,
       isLoading: false,
-      offset: 0,
+      filters: {
+        ...defaultFilters,
+      },
     });
 
     const fetchData = () => {
@@ -192,9 +205,9 @@ export default {
         .getAll({
           limit: limit,
           offset: state.offset,
-          locationId: filters.value.locationId?.id,
-          empNumber: filters.value.employeeNumber?.id,
-          jobTitleId: filters.value.jobTitleId?.id,
+          locationId: state.filters.locationId?.id,
+          empNumber: state.filters.employeeNumber?.id,
+          jobTitleId: state.filters.jobTitleId?.id,
         })
         .then(response => {
           const {data, meta} = response.data;
@@ -204,6 +217,9 @@ export default {
               ...state.employees,
               ...employeeDataNormalizer(data),
             ];
+          }
+          if (state.total === 0) {
+            noRecordsFound();
           }
         })
         .finally(() => (state.isLoading = false));
@@ -216,10 +232,10 @@ export default {
     });
 
     return {
+      fetchData,
       scrollerRef,
       ...toRefs(state),
-      fetchData,
-      filters,
+      ...toRefs(responsiveState),
     };
   },
 
@@ -227,43 +243,46 @@ export default {
     isMobile() {
       return this.windowWidth < 600;
     },
-    hasCurrentIndex() {
+    isEmployeeSelected() {
       return this.currentIndex >= 0;
+    },
+    oxdGridClasses() {
+      return {
+        'orangehrm-container': true,
+        'orangehrm-container-min-display': this.isEmployeeSelected,
+      };
+    },
+    colSize() {
+      if (this.windowWidth >= 1920) {
+        return this.isEmployeeSelected ? 5 : 7;
+      }
+      return this.isEmployeeSelected ? 3 : 4;
     },
   },
 
   beforeMount() {
     this.fetchData();
+  },
 
-    this.onResize();
-    window.addEventListener('resize', this.onResize);
-  },
-  beforeUnmount() {
-    window.removeEventListener('resize', this.onResize);
-  },
   methods: {
     hideEmployeeDetails() {
       this.currentIndex = -1;
-      this.colSize = 4;
     },
     showEmployeeDetails(index) {
       if (this.currentIndex != index) {
         this.currentIndex = index;
-        this.colSize = 3;
       } else {
-        this.currentIndex = -1;
         this.hideEmployeeDetails();
       }
     },
-    onResize() {
-      this.windowWidth = window.innerWidth;
-    },
     triggerSearch() {
+      this.hideEmployeeDetails();
       this.employees = [];
       this.offset = 0;
       this.fetchData();
     },
     triggerReset() {
+      this.hideEmployeeDetails();
       this.employees = [];
       this.filters.employeeNumber = null;
       this.filters.jobTitleId = null;
@@ -274,39 +293,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-corporate-directory {
-  display: block;
-  @include oxd-respond-to('md') {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &-sidebar {
-    margin-left: 16px;
-  }
-}
-
-.orangehrm-container {
-  overflow: auto;
-  height: 512px;
-  position: relative;
-  @include oxd-respond-to('md') {
-    min-width: 678px;
-    margin: 0px;
-  }
-  @include oxd-scrollbar();
-
-  &-loader {
-    margin: 0 auto;
-    background-color: $oxd-white-color;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-}
-</style>
+<style src="./corporate-directory.scss" lang="scss" scoped></style>
