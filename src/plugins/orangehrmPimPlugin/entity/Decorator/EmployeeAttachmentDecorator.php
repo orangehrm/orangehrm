@@ -62,7 +62,7 @@ class EmployeeAttachmentDecorator
     public function getAttachedDate(): string
     {
         $dateTime = $this->getEmployeeAttachment()->getAttachedTime();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($dateTime);
+        return $this->getDateTimeHelper()->formatDate($dateTime);
     }
 
     /**

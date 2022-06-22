@@ -73,7 +73,7 @@ class EmployeeImmigrationRecordDecorator
     public function getIssuedDate(): ?string
     {
         $date = $this->getEmployeeImmigrationRecord()->getIssuedDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -82,7 +82,7 @@ class EmployeeImmigrationRecordDecorator
     public function getExpiryDate(): ?string
     {
         $date = $this->getEmployeeImmigrationRecord()->getExpiryDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -91,7 +91,7 @@ class EmployeeImmigrationRecordDecorator
     public function getReviewDate(): ?string
     {
         $date = $this->getEmployeeImmigrationRecord()->getReviewDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**

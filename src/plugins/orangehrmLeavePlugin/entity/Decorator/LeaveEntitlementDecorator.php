@@ -115,7 +115,7 @@ class LeaveEntitlementDecorator
      */
     public function getFromDate(): string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getFromDate());
+        return $this->getDateTimeHelper()->formatDate($this->getLeaveEntitlement()->getFromDate());
     }
 
     /**
@@ -123,7 +123,7 @@ class LeaveEntitlementDecorator
      */
     public function getToDate(): string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getToDate());
+        return $this->getDateTimeHelper()->formatDate($this->getLeaveEntitlement()->getToDate());
     }
 
     /**
@@ -131,7 +131,7 @@ class LeaveEntitlementDecorator
      */
     public function getCreditedDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getCreditedDate());
+        return $this->getDateTimeHelper()->formatDate($this->getLeaveEntitlement()->getCreditedDate());
     }
 
     /**

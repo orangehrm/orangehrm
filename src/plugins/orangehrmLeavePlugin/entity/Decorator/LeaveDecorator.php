@@ -97,7 +97,7 @@ class LeaveDecorator
      */
     public function getLeaveDate(): string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeave()->getDate());
+        return $this->getDateTimeHelper()->formatDate($this->getLeave()->getDate());
     }
 
     /**

@@ -91,6 +91,6 @@ class TimesheetItemDecorator
      */
     public function getStartDate(): string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheetItem()->getDate());
+        return $this->getDateTimeHelper()->formatDate($this->getTimesheetItem()->getDate());
     }
 }

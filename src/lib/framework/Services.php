@@ -242,6 +242,11 @@ final class Services
      */
     public const EMPLOYEE_SERVICE = 'pim.employee_service';
 
+    /**
+     * @see \OrangeHRM\Pim\Service\EmployeeSalaryService
+     */
+    public const EMPLOYEE_SALARY_SERVICE = 'pim.employee_salary_service';
+
     ///////////////////////////////////////////////////////////////
     /// Time plugin services
     ///////////////////////////////////////////////////////////////

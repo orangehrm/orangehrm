@@ -132,6 +132,7 @@ class ConfigHelper
     {
         return [
             Config::I18N_ENABLED => true,
+            Config::DATE_FORMATTING_ENABLED => false,
         ];
     }
 
