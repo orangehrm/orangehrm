@@ -22,18 +22,18 @@
   <recruitment-status :candidate-id="candidateId"> </recruitment-status>
   <candidate-profile
     :candidate-id="candidateId"
-    :allowed-file-types="allowedFileTypes"
     :max-file-size="maxFileSize"
+    :allowed-file-types="allowedFileTypes"
   ></candidate-profile>
   <history-table :candidate-id="candidateId"></history-table>
 </template>
 
 <script>
-import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
-import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
 import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
+import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
+import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
+
 export default {
-  name: 'CandidateProfileLayout',
   components: {
     'history-table': HistoryTable,
     'candidate-profile': CandidateProfile,
@@ -44,10 +44,6 @@ export default {
       type: Number,
       required: true,
     },
-    action: {
-      type: Object,
-      required: true,
-    },
     allowedFileTypes: {
       type: Array,
       required: true,
@@ -56,13 +52,6 @@ export default {
       type: Number,
       required: true,
     },
-  },
-  data() {
-    return {
-      status: null,
-      isLoading: true,
-      vacancyId: null,
-    };
   },
 };
 </script>

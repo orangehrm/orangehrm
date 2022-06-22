@@ -19,39 +19,39 @@
  -->
 
 <template>
-  <oxd-form :loading="isLoading">
-    <div class="orangehrm-card-container">
-      <slot name="header-title"></slot>
+  <div class="orangehrm-card-container">
+    <oxd-form :loading="isLoading">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('recruitment.application_stage') }}
+      </oxd-text>
       <oxd-divider />
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-group :label="$t('general.name')">
-              <oxd-text tag="p">
-                {{ candidate }}
-              </oxd-text>
-            </oxd-input-group>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-group :label="$t('recruitment.vacancy')">
-              <oxd-text tag="p">
-                {{ vacancy }}
-              </oxd-text>
-            </oxd-input-group>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-group :label="$t('recruitment.hiring_manager')">
-              <oxd-text tag="p">
-                {{ hiringManager }}
-              </oxd-text>
-            </oxd-input-group>
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
+      <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('general.name')">
+            <oxd-text tag="p">
+              {{ candidateName }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('recruitment.vacancy')">
+            <oxd-text tag="p">
+              {{ vacancyName }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('recruitment.hiring_manager')">
+            <oxd-text tag="p">
+              {{ hiringManagerName }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+      </oxd-grid>
       <oxd-divider />
-      <slot name="footer-options"></slot>
-    </div>
-  </oxd-form>
+      <slot name="footer"></slot>
+    </oxd-form>
+  </div>
 </template>
 
 <script>
@@ -64,10 +64,10 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      `/recruitment/status/${props.candidateId}`,
+      window.appGlobal.baseUrl,
+      'api/v2/recruitment/candidates',
     );
 
     return {
@@ -77,20 +77,26 @@ export default {
   data() {
     return {
       isLoading: false,
-      candidate: '',
-      hiringManager: '',
-      vacancy: '',
+      candidateName: '',
+      vacancyName: 'N/A',
+      hiringManagerName: '',
     };
   },
   beforeMount() {
     this.isLoading = true;
-    this.http.getAll().then(({data: {data}}) => {
-      const {candidate, vacancy, manager} = data;
-      this.candidate = candidate;
-      this.vacancy = vacancy;
-      this.hiringManager =
-        (manager.terminationId ? '(Past Employee)' : '') +
-        `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
+    this.http.get(this.candidateId).then(response => {
+      const {data} = response.data;
+      this.candidateName = `${data?.firstName} ${data?.middleName} ${data?.lastName}`;
+      if (data?.vacancy) {
+        this.vacancyName = data?.vacancy.name;
+        this.hiringManagerName = `${data?.vacancy.hiringManager.firstName} ${
+          data?.vacancy.hiringManager.lastName
+        } ${
+          data?.vacancy.hiringManager.terminationId
+            ? this.$t('general.past_employee')
+            : ''
+        }`;
+      }
       this.isLoading = false;
     });
   },
