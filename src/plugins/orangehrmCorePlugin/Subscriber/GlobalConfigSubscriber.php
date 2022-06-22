@@ -21,12 +21,15 @@ namespace OrangeHRM\Core\Subscriber;
 
 use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class GlobalConfigSubscriber extends AbstractEventSubscriber
 {
+    use LoggerTrait;
+
     /**
      * @inheritDoc
      */
@@ -58,6 +61,7 @@ class GlobalConfigSubscriber extends AbstractEventSubscriber
         try {
             Config::set($key, $value);
         } catch (Exception $e) {
+            $this->getLogger()->error($e->getMessage());
         }
     }
 }

@@ -60,7 +60,11 @@ class LocalizationServiceTest extends KernelTestCase
         $formats = $this->localizationService->getLocalizationDateFormats();
         $this->assertCount(11, $formats);
         $this->assertEquals('Y-m-d', $formats[0]['id']);
+        $this->assertEquals('yyyy-mm-dd ( 2022-06-05 )', $formats[0]['label']);
+        $this->assertEquals('l, d-M-Y', $formats[9]['id']);
+        $this->assertEquals('DD, dd-M-yyyy ( Sunday, 05-Jun-2022 )', $formats[9]['label']);
         $this->assertEquals('D, d M Y', $formats[10]['id']);
+        $this->assertEquals('D, dd M yyyy ( Sun, 05 Jun 2022 )', $formats[10]['label']);
     }
 
     public function testGetSupportedLanguages(): void
