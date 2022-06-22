@@ -97,10 +97,9 @@ class PerformanceReviewDao extends BaseDao
         try {
             $this->commitTransaction();
             $this->persist($performanceReview);
-            $this->saveReviewer($performanceReview, 'Supervisor', $reviewerEmpNumber);
-            $this->saveReviewer($performanceReview, 'Employee', null);
-        }
-        catch (Exception $e) {
+            $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR, $reviewerEmpNumber);
+            $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_EMPLOYEE, null);
+        } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
@@ -127,8 +126,8 @@ class PerformanceReviewDao extends BaseDao
         $reviewer->setReview($performanceReview);
         $this->persist($reviewer);
 
-        if ($performanceReview->getStatusId() == PerformanceReview::STATUS_ACTIVATED){
-            $this->saveReviewerRating($performanceReview,$reviewerGroup);
+        if ($performanceReview->getStatusId() == PerformanceReview::STATUS_ACTIVATED) {
+            $this->saveReviewerRating($performanceReview, $reviewerGroup);
         }
     }
 
@@ -138,16 +137,16 @@ class PerformanceReviewDao extends BaseDao
      */
     private function saveReviewerRating(PerformanceReview $performanceReview, ReviewerGroup $reviewerGroup): void
     {
-        $reviewer = $this->getReviewerRecord($performanceReview->getId(),$reviewerGroup->getName());
+        $reviewer = $this->getReviewerRecord($performanceReview->getId(), $reviewerGroup->getName());
         $kpiIdArrayForReview = $this->getKpiIdsForReviewId($performanceReview->getId());
-        $kpiIdsForReview = array_column($kpiIdArrayForReview,'id');
+        $kpiIdsForReview = array_column($kpiIdArrayForReview, 'id');
 
-        foreach ($kpiIdsForReview as $kpiId){
+        foreach ($kpiIdsForReview as $kpiId) {
             $reviewerRating = new ReviewerRating();
             $reviewerRating->setPerformanceReview($performanceReview);
             $reviewerRating->getDecorator()->setKpiByKpiId($kpiId);
             $reviewerRating->setReviewer($reviewer);
-            $this->persist($reviewer);
+            $this->persist($reviewerRating);
         }
     }
 
