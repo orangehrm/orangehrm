@@ -105,16 +105,13 @@ langStrings:
     value: 'Review Period'
     unitId: review_period
   -
-    value: 'Due Date'
-    unitId: due_date
-
-  - value: 'Self Evaluation Status'
+    value: 'Self Evaluation Status'
     unitId: self_evaluation_status
-
-  - value: 'Review Status'
+  -
+    value: 'Review Status'
     unitId: review_status
-
-  - value: 'Evaluate'
+  -
+    value: 'Evaluate'
     unitId: evaluate
   -
     value: 'Employee Reviews'
@@ -167,3 +164,12 @@ langStrings:
   -
     value: 'Edit Tracker Log'
     unitId: edit_tracker_log
+  -
+    value: "Cannot activate review for employees who doesn't have a Job Title with KPI"
+    unitId: cannot_activate_review_for_employee_without_job_title_with_kpi
+  -
+    value: 'Cannot add a past employee as reviewer'
+    unitId: cannot_add_a_past_employee_as_reviewer
+  -
+    value: 'Selected supervisor for reviewer is invalid'
+    unitId: selected_supervisor_for_reviewer_is_invalid
