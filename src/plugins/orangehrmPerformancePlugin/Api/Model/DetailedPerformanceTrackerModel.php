@@ -52,6 +52,8 @@ class DetailedPerformanceTrackerModel implements Normalizable
                 ->getReviewerListByTrackerId($this->performanceTracker->getId())
         );
 
+        $trackerOwnerEditable = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()
+            ->isTrackerOwnerEditable($this->performanceTracker->getId());
         $terminationRecord = $this->performanceTracker->getEmployee()->getEmployeeTerminationRecord();
         return [
             'id' => $this->performanceTracker->getId(),
@@ -68,6 +70,7 @@ class DetailedPerformanceTrackerModel implements Normalizable
                 'terminationId' => $terminationRecord instanceof EmployeeTerminationRecord ? $terminationRecord->getId() : null,
             ],
             'reviewers' => $reviewers,
+            'ownerEditable' =>$trackerOwnerEditable,
         ];
     }
 }

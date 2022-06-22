@@ -142,9 +142,10 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http
-      .get(this.performanceTrackerId) //performace-tracker-id
+      .get(this.performanceTrackerId) //performance-tracker-id
       .then(response => {
         const {data} = response.data;
+        this.isReadOnly = data.ownerEditable === false;
         this.tracker.id = data.id;
         this.tracker.name = data.trackerName;
         this.tracker.employee = data.employee
@@ -169,7 +170,7 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/performance/addPerformanceTracker');
+      navigate('/performance/viewPerformanceTracker');
     },
     onSave() {
       this.isLoading = true;

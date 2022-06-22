@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Performance\Service;
 
+use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+use OrangeHRM\Performance\Exception\PerformanceTrackerServiceException;
 
 class PerformanceTrackerService
 {
@@ -37,5 +39,21 @@ class PerformanceTrackerService
             $this->performanceTrackerDao = new PerformanceTrackerDao();
         }
         return $this->performanceTrackerDao;
+    }
+
+    /**
+     * @param PerformanceTracker $performanceTracker
+     * @param array $reviewerEmpNumbers
+     * @return void
+     * @throws PerformanceTrackerServiceException
+     */
+    public function updateTracker(PerformanceTracker $performanceTracker, array $reviewerEmpNumbers): void
+    {
+        if (! $this->getPerformanceTrackerDao()
+            ->isTrackerOwnerEditable($performanceTracker->getId())
+        ) {
+            throw PerformanceTrackerServiceException::cannotEditEmployeeWithLogs();
+        }
+        $this->getPerformanceTrackerDao()->updatePerformanceTracker($performanceTracker, $reviewerEmpNumbers);
     }
 }
