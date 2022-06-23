@@ -34,6 +34,8 @@ import ScheduleInterview from './pages/ScheduleInterview.vue';
 import ScheduleInterviewHistory from './pages/ScheduleInterviewHistory.vue';
 import ViewCandidate from './pages/ViewCandidate.vue';
 import SaveCandidate from './pages/SaveCandidate.vue';
+import SaveInterviewPassed from './pages/SaveInterviewPass.vue';
+import ActionHistory from './pages/ActionHistory.vue';
 
 export default {
   'view-job-vacancy': ViewJobVacancy,
@@ -54,4 +56,6 @@ export default {
   'shortlist-history': ShortlistHistoryScreen,
   'view-candidate': ViewCandidate,
   'save-candidate': SaveCandidate,
+  'save-interview-passed': SaveInterviewPassed,
+  'action-history': ActionHistory,
 };
