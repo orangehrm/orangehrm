@@ -47,7 +47,7 @@ $createdbStatement = "DROP DATABASE IF EXISTS `{$testDb}`; CREATE DATABASE `{$te
 
 file_put_contents($tempFile, $createdbStatement);
 
-$cmd = "mysqldump -h {$dbHost} --port={$dbPort} -u root -p{$mysqlRootPwd} --add-drop-table --routines --skip-triggers --column-statistics=0 {$dbName} >> {$tempFile}";
+$cmd = "mysqldump -h {$dbHost} --port={$dbPort} -u root -p{$mysqlRootPwd} --add-drop-table --routines --skip-triggers {$dbName} >> {$tempFile}";
 
 $output = '';
 $returnStatus = '';
