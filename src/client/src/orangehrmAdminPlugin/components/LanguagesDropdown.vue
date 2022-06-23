@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,31 +16,39 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Performance\Dto;
-
-use OrangeHRM\Core\Dto\FilterParams;
-
-class SupervisorEvaluationSearchFilterParams extends FilterParams
-{
-    public const ALLOWED_SORT_FIELDS = [];
-
-    protected int $reviewId;
-    protected string $isSelfEvaluation;
-
-    /**
-     * @return int
-     */
-    public function getReviewId(): int
-    {
-        return $this->reviewId;
-    }
-
-    /**
-     * @param int $reviewId
-     */
-    public function setReviewId(int $reviewId): void
-    {
-        $this->reviewId = $reviewId;
-    }
-}
+<template>
+  <oxd-input-field
+    type="select"
+    :label="$t('general.name')"
+    :options="options"
+  />
+</template>
+<script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@ohrm/core/util/services/api.service';
+export default {
+  name: 'LanguagesDropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/i18n/languages?limit=0',
+    );
+    onBeforeMount(() => {
+      http.getAll({activeOnly: false}).then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
+};
+</script>

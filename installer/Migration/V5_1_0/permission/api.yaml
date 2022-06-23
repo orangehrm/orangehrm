@@ -416,6 +416,22 @@ apiv2_recruitment_candidate_hire:
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
 
 ##########################
+#        I18N
+##########################
+
+apiv2_admin_localization_languages:
+  description: 'API-v2 Admin - Localization Languages'
+  api: OrangeHRM\Admin\Api\I18NLanguageAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+
+##########################
 #   Corporate Directory
 ##########################
 

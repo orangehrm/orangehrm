@@ -17,30 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Dto;
+namespace OrangeHRM\Admin\Api\Model;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\I18NLanguage;
 
-class SupervisorEvaluationSearchFilterParams extends FilterParams
+class I18NLanguageModel implements Normalizable
 {
-    public const ALLOWED_SORT_FIELDS = [];
+    use ModelTrait;
 
-    protected int $reviewId;
-    protected string $isSelfEvaluation;
-
-    /**
-     * @return int
-     */
-    public function getReviewId(): int
+    public function __construct(I18NLanguage $i18NLanguage)
     {
-        return $this->reviewId;
-    }
+        $this->setEntity($i18NLanguage);
+        $this->setFilters([
+            'id',
+            'name',
+            'code',
+        ]);
 
-    /**
-     * @param int $reviewId
-     */
-    public function setReviewId(int $reviewId): void
-    {
-        $this->reviewId = $reviewId;
+        $this->setAttributeNames([
+            'id',
+            'name',
+            'code',
+        ]);
     }
 }

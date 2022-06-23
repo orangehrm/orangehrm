@@ -132,7 +132,7 @@ export default {
   },
   methods: {
     onCancel() {
-      navigate('/performance/addPerformanceTracker');
+      navigate('/performance/viewPerformanceTracker');
     },
     onSave() {
       this.isLoading = true;

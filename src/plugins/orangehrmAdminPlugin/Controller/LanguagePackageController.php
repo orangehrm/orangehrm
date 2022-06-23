@@ -17,30 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Dto;
+namespace OrangeHRM\Admin\Controller;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
-class SupervisorEvaluationSearchFilterParams extends FilterParams
+class LanguagePackageController extends AbstractVueController
 {
-    public const ALLOWED_SORT_FIELDS = [];
-
-    protected int $reviewId;
-    protected string $isSelfEvaluation;
-
-    /**
-     * @return int
-     */
-    public function getReviewId(): int
+    public function preRender(Request $request): void
     {
-        return $this->reviewId;
-    }
-
-    /**
-     * @param int $reviewId
-     */
-    public function setReviewId(int $reviewId): void
-    {
-        $this->reviewId = $reviewId;
+        $component = new Component('language-package-list');
+        $this->setComponent($component);
     }
 }

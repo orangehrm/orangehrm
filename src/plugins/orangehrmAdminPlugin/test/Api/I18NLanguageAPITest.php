@@ -17,98 +17,92 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Performance\Api;
+namespace OrangeHRM\Tests\Admin\Api;
 
+use OrangeHRM\Admin\Api\I18NLanguageAPI;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Api\SupervisorEvaluationAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-class SupervisorEvaluationAPITest extends EndpointIntegrationTestCase
+/**
+ * @group Admin
+ * @group APIv2
+ */
+class I18NLanguageAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetAll
-     *
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('SupervisorEvaluationAPITest.yaml');
+        $this->populateFixtures('I18NLanguages.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(SupervisorEvaluationAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(I18NLanguageAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    /**
-     * @return array
-     */
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('SupervisorEvaluationAPITestCases.yaml', 'GetAll');
+        return $this->getTestCases('I18NLanguagesAPITestCase.yml', 'GetAll');
     }
 
     /**
      * @dataProvider dataProviderForTestUpdate
-     *
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('SupervisorEvaluationAPITest.yaml');
+        $this->populateFixtures('I18NLanguages.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(SupervisorEvaluationAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(I18NLanguageAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    /**
-     * @return array
-     */
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('SupervisorEvaluationAPITestCases.yaml', 'Update');
-    }
-
-    public function testDelete(): void
-    {
-        $api = new SupervisorEvaluationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
-    }
-
-    public function testGetValidationRuleForDelete(): void
-    {
-        $api = new SupervisorEvaluationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
+        return $this->getTestCases('I18NLanguagesAPITestCase.yml', 'Update');
     }
 
     public function testCreate(): void
     {
-        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $api = new I18NLanguageAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->create();
     }
 
-    public function testGetValidationRuleForCreate(): void
+    public function testGetValidationRuleForCreate(): array
     {
-        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $api = new I18NLanguageAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForCreate();
     }
 
     public function testGetOne(): void
     {
-        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $api = new I18NLanguageAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getOne();
     }
 
-    public function testGetValidationRuleForgetOne(): void
+    public function testGetValidationRuleForGetOne(): array
     {
-        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $api = new I18NLanguageAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new I18NLanguageAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new I18NLanguageAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
     }
 }
