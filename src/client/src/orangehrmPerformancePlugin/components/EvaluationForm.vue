@@ -125,7 +125,7 @@
       <oxd-grid :cols="3" class="orangehrm-evaluation-grid">
         <oxd-grid-item class="orangehrm-evaluation-grid-general">
           <oxd-text tag="p" class="orangehrm-evaluation-grid-general-label">
-            General Comment
+            {{ $t('performance.general_comment') }}
           </oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="--span-column-2">
