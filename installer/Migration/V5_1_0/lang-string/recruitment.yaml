@@ -152,3 +152,36 @@ langStrings:
 
   - value: 'Candidate History'
     unitId: candidate_history
+  -
+    value: '{employee} added {candidate}'
+    unitId: employee_added_candidate
+  -
+    value: '{employee} assigned the job vacancy {vacancy}'
+    unitId: employee_assigned_vacancy_to_candidate
+  -
+    value: 'Shortlisted for {vacancy} by {employee}'
+    unitId: candidate_shortlisted_for_vacancy_by_employee
+  -
+    value: '{employee} scheduled {interview} on {interviewDate} with {interviewer1}, {interviewer2}, {interviewer3}, {interviewer4}, {interviewer5} for {vacancy}'
+    unitId: employee_schedule_interview_with_interviewers
+  -
+    value: '{employee} marked {interview} as passed for {vacancy}'
+    unitId: employee_marked_interveiw_passed
+  -
+    value: '{employee} marked {interview} as failed for {vacancy}'
+    unitId: employee_marked_interveiw_failed
+  -
+    value: '{employee} offered the job for {vacancy}'
+    unitId: employee_offered_the_job
+  -
+    value: '{employee} marked the offer as declined for {vacancy}'
+    unitId: employee_marked_the_offer_declined
+  -
+    value: '{employee} hired {candidate} for {vacancy}'
+    unitId: employee_hired_the_candidate
+  -
+    value: '{employee} rejected {candidate} from the {vacancy}'
+    unitId: employee_rejected_the_candidate
+  -
+    value: '{employee} removed {candidate} from the {vacancy}'
+    unitId: employee_removed_candidate_from_vacancy

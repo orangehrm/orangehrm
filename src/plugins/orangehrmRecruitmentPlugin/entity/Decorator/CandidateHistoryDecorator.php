@@ -86,6 +86,15 @@ class CandidateHistoryDecorator
     public function getCandidateHistoryAction(): string
     {
         $actionId = $this->candidateHistory->getAction();
-        return ucwords(strtolower(CandidateService::STATUS_MAP[$actionId]));
+        $candidateHistoryMap = array_replace(CandidateService::STATUS_MAP, CandidateService::OTHER_ACTIONS_MAP);
+        return ucwords(strtolower($candidateHistoryMap[$actionId]));
+    }
+
+    public function getPerformedDate(): string
+    {
+        $date = $this->candidateHistory->getPerformedDate();
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+    }
+
     }
 }
