@@ -77,31 +77,10 @@ class AdminEvaluationController extends AbstractVueController implements Capable
     protected function setReviewProps(Component $component, PerformanceReview $performanceReview): void
     {
         $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $performanceReview->getId()));
-        $component->addProp(new Prop('job-title', Prop::TYPE_STRING, $performanceReview->getEmployee()->getJobTitle()->getJobTitleName()));
         $component->addProp(new Prop('status', Prop::TYPE_NUMBER, $performanceReview->getStatusId()));
         $component->addProp(new Prop('review-period-start', Prop::TYPE_STRING, $performanceReview->getDecorator()->getReviewPeriodStart()));
         $component->addProp(new Prop('review-period-end', Prop::TYPE_STRING, $performanceReview->getDecorator()->getReviewPeriodEnd()));
         $component->addProp(new Prop('due-date', Prop::TYPE_STRING, $performanceReview->getDecorator()->getDueDate()));
-
-        $employeeReviewer = $performanceReview->getDecorator()->getEmployeeReviewer();
-        $supervisorReviewer = $performanceReview->getDecorator()->getSupervisorReviewer();
-
-        $component->addProp(
-            new Prop(
-                'employee',
-                Prop::TYPE_OBJECT,
-                $this->getEmployeeService()->getEmployeeAsArray($employeeReviewer->getEmployee()->getEmpNumber())
-            )
-        );
-        $component->addProp(
-            new Prop(
-                'supervisor',
-                Prop::TYPE_OBJECT,
-                $this->getEmployeeService()->getEmployeeAsArray($supervisorReviewer->getEmployee()->getEmpNumber())
-            )
-        );
-        $component->addProp(new Prop('employee-status', Prop::TYPE_NUMBER, $employeeReviewer->getStatus()));
-        $component->addProp(new Prop('supervisor-status', Prop::TYPE_NUMBER, $supervisorReviewer->getStatus()));
     }
 
     /**
