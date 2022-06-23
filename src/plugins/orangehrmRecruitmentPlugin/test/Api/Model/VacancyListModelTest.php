@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\CRecruitment\Api\Model;
+namespace OrangeHRM\Tests\Recruitment\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Entity\Vacancy;
