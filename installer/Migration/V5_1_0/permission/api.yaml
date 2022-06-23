@@ -212,7 +212,7 @@ apiv2_recruitment_vacancy:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_recruitment_vacancy_attachment:
   description: 'API-v2 Recruitment - Vacancy Attachment'
@@ -224,7 +224,7 @@ apiv2_recruitment_vacancy_attachment:
     update: true
     delete: true
   permissions:
-    - { role: Admin,permission: { read: true, create: true, update: true, delete: true, self: true } }
+    - { role: Admin,permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_recruitment_candidates:
   description: 'API-v2 Recruitment - Candidates'
@@ -319,8 +319,8 @@ apiv2_recruitment_candidate_shortlist:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_recruitment_candidate_schedule_interview:
   description: 'API-v2 Recruitment - Candidate Schedule Interview '
@@ -330,10 +330,10 @@ apiv2_recruitment_candidate_schedule_interview:
     read: true
     create: true
     update: true
-    delete: true
+    delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: false } }
 
 apiv2_recruitment_candidate_interview_attachment:
   description: 'API-v2 Recruitment - Candidate Interview Attachment'
@@ -345,9 +345,9 @@ apiv2_recruitment_candidate_interview_attachment:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
-    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: false, self: false } }
-    
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: false } }
+
 apiv2_recruitment_candidate_mark_interview_passed:
   description: 'API-v2 Recruitment - Candidate Mark Interview Passed'
   api: OrangeHRM\Recruitment\Api\CandidateMarkingInterviewPassAPI
@@ -358,9 +358,9 @@ apiv2_recruitment_candidate_mark_interview_passed:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_recruitment_candidate_mark_interview_failed:
   description: 'API-v2 Recruitment - Candidate Mark Interview Failed'
@@ -372,9 +372,9 @@ apiv2_recruitment_candidate_mark_interview_failed:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_recruitment_candidate_offer_job:
   description: 'API-v2 Recruitment - Candidate Offer Job'
@@ -386,8 +386,8 @@ apiv2_recruitment_candidate_offer_job:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_recruitment_candidate_decline_offer:
   description: 'API-v2 Recruitment - Candidate Decline Offer'
@@ -399,8 +399,8 @@ apiv2_recruitment_candidate_decline_offer:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_recruitment_candidate_hire:
   description: 'API-v2 Recruitment - Candidate Hire'
@@ -412,8 +412,8 @@ apiv2_recruitment_candidate_hire:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_recruitment_candidates_history:
   description: 'API-v2 Recruitment - Candidates History'
@@ -425,9 +425,9 @@ apiv2_recruitment_candidates_history:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
-    - { role: HiringManager, permission: { read: true, create: false, update: true, delete: false, self: false } }
-    - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: HiringManager, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false } }
 
 ##########################
 #        I18N
@@ -459,9 +459,9 @@ apiv2_corporate_directory_employees:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false} }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false} }
-    
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
 ##########################
 #        Admin
 ##########################

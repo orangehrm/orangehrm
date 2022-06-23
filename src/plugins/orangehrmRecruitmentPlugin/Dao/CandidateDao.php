@@ -371,7 +371,8 @@ class CandidateDao extends BaseDao
      * @param CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
      * @return Paginator
      */
-    private function getCandidateHistoryPaginator(CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
+    private function getCandidateHistoryPaginator(
+        CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(CandidateHistory::class, 'candidateHistory');
         $this->setSortingAndPaginationParams($q, $candidateHistorySearchFilterParams);
@@ -393,4 +394,17 @@ class CandidateDao extends BaseDao
             ->findOneBy(['candidate' => $candidateId, 'id' => $historyId]);
     }
 
+    /**
+     * @param int $candidateId
+     * @param int $interviewId
+     * @return Interview|null
+     */
+    public function getInterviewByCandidateIdAndInterviewId(int $candidateId, int $interviewId): ?Interview
+    {
+        return $this->getRepository(Interview::class)
+            ->findOneBy([
+                'candidate' => $candidateId,
+                'id' => $interviewId
+            ]);
+    }
 }
