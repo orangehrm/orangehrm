@@ -65,10 +65,10 @@ class VacancyListRestController extends AbstractRestController implements Public
      * @return Response
      * @throws SearchParamException
      */
-    protected function handleGetRequest(Request $request): Response
+    public function handleGetRequest(Request $request): Response
     {
-        $offset = $request->query->get(self::VACANCY_OFFSET);
-        $limit = $request->query->get(self::VACANCY_LIMIT);
+        $offset = $request->query->get(self::VACANCY_OFFSET, 0);
+        $limit = $request->query->get(self::VACANCY_LIMIT, 8);
         $vacancySearchFilterParams = new VacancySearchFilterParams();
         $vacancySearchFilterParams->setStatus($this->default_status);
         $vacancySearchFilterParams->setSortField(self::VACANCY_ID);

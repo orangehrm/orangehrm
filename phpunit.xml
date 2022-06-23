@@ -91,6 +91,7 @@
       <directory>src/plugins/orangehrmRecruitmentPlugin/test/Dao</directory>
       <directory>src/plugins/orangehrmRecruitmentPlugin/test/Api</directory>
       <directory>src/plugins/orangehrmRecruitmentPlugin/test/Entity</directory>
+      <directory>src/plugins/orangehrmRecruitmentPlugin/test/Controller</directory>
     </testsuite>
     <testsuite name="Directory">
       <directory>src/plugins/orangehrmCorporateDirectoryPlugin/test/Dao</directory>
