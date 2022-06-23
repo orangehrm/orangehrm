@@ -1596,9 +1596,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:1.0.6-alpha.7":
-  version: 1.0.6-alpha.7
-  resolution: "@ohrm/oxd@npm:1.0.6-alpha.7"
+"@ohrm/oxd@npm:1.0.6-alpha.8":
+  version: 1.0.6-alpha.8
+  resolution: "@ohrm/oxd@npm:1.0.6-alpha.8"
   dependencies:
     "@revolist/vue3-datagrid": ^3.0.96
     bootstrap-icons: ^1.3.0
@@ -1607,7 +1607,7 @@ __metadata:
     mitt: ^2.1.0
     nanoid: ^3.2.0
     vue: ^3.2.2
-  checksum: c5855562d8e590ada0ca49e0ea4f741fff6f30ab6c8c17ea09f6c0b845ae5cb1bc225ac14ddca5b73ba35f65ffa4ae40bfd8eb8f4a9ec7fe97ec18bb21d563ba
+  checksum: 1be6406171b4bbac5b3b2c77cc9cb3ab62cb486964521c76f083f4b9e6bf08608cc663bdbb3dca6c61f256442ddeb83a61e4f353003d56cf0c34fad8e9c08723
   languageName: node
   linkType: hard
 
@@ -3855,17 +3855,17 @@ __metadata:
   linkType: hard
 
 "browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.17.5, browserslist@npm:^4.18.1":
-  version: 4.18.1
-  resolution: "browserslist@npm:4.18.1"
+  version: 4.20.4
+  resolution: "browserslist@npm:4.20.4"
   dependencies:
-    caniuse-lite: ^1.0.30001280
-    electron-to-chromium: ^1.3.896
+    caniuse-lite: ^1.0.30001349
+    electron-to-chromium: ^1.4.147
     escalade: ^3.1.1
-    node-releases: ^2.0.1
+    node-releases: ^2.0.5
     picocolors: ^1.0.0
   bin:
     browserslist: cli.js
-  checksum: e8d8e3c624f160a7b695b51ce16c154125d535e01ed16e9030c8866ccd0a493bacd3995c019dd95c691a16c7ef86bfd39ace1992dbdf805e02608ea1a2e5023d
+  checksum: 2f3360e70af9fddf6bab157708f8ffe548534fff6a662cda381d5f32ea0163bb61a25271f583332f82b820c3596c36ce1e4de548ac746d6155377ee33027d4a0
   languageName: node
   linkType: hard
 
@@ -4128,10 +4128,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001280":
-  version: 1.0.30001284
-  resolution: "caniuse-lite@npm:1.0.30001284"
-  checksum: a606876723a877ca466d6e63daf2b009f08afdeccfb483f274d5fe3f6335a3dd9473113db11acd1dd5641d1da8c617892ccf0a9f4aa6efb2a2c50a1706f10de0
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001349":
+  version: 1.0.30001358
+  resolution: "caniuse-lite@npm:1.0.30001358"
+  checksum: 23cb5d354b44b1e0d6a24494a5da8d7c0062e9224b8c5316f180588affc66dfd6971e24b76af1f4820c9378764090819d1488b5a8034923af548c8ed071540b9
   languageName: node
   linkType: hard
 
@@ -5674,10 +5674,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.3.896":
-  version: 1.4.10
-  resolution: "electron-to-chromium@npm:1.4.10"
-  checksum: 8081d22d5db1002af542efc4df6021a4f10196a3850465f93462b9a4633d92753b137d323bc85af5d96adb24882d230336e4840d3e889faf0555ad3589c993a0
+"electron-to-chromium@npm:^1.4.147":
+  version: 1.4.163
+  resolution: "electron-to-chromium@npm:1.4.163"
+  checksum: 011024da9ac6f2a00d46240d70622a85f5fd23c5695fad91c3350e4e1830a3146817089ec4e8f6020830f374a05910e617aa096d67df5e8f7578585a356b7f26
   languageName: node
   linkType: hard
 
@@ -10138,10 +10138,10 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"node-releases@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "node-releases@npm:2.0.1"
-  checksum: 4113fdc41979e65416d84e0cf0456c3097a045dfa0a10196689f07c32de854204e3f4e1631bb06f4e903cc68c12455b8525e92e19956f64364b7202ca93846d6
+"node-releases@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "node-releases@npm:2.0.5"
+  checksum: e7823026665c56252497672218741786b4f1d3aeb4aa80bb6251bcc5361806bf96dd4594e40848ed66531c10709e75aa19e622e64fcc881922e318ee3aeac977
   languageName: node
   linkType: hard
 
@@ -10496,7 +10496,7 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@ohrm/oxd": 1.0.6-alpha.7
+    "@ohrm/oxd": 1.0.6-alpha.8
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0

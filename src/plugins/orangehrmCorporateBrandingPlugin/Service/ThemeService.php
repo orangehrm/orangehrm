@@ -118,7 +118,6 @@ class ThemeService
      */
     private function getImageETagAlongWithCache(string $imageKey): ?string
     {
-        /** @var ThemeImage|null $image */
         $image = $this->getCache()->get(
             "admin.theme.$imageKey.image",
             function () use ($imageKey) {
@@ -160,7 +159,7 @@ class ThemeService
     /**
      * @return bool
      */
-    public function getShowSocialMediaImages(): bool
+    public function showSocialMediaImages(): bool
     {
         return $this->getCache()->get(
             self::THEME_SHOW_SOCIAL_MEDIA_IMAGES_CACHE_KEY,

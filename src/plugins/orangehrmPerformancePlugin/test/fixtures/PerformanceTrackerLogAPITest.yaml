@@ -1,10 +1,17 @@
 Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
 
+TerminationReason:
+  - { "id": "1","name": "Other" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "1", "termination_date": "2022-06-21", "note": "" }
+
 Employee:
   - { "emp_number": 1,"employee_id": "0001","emp_lastname": "DS","emp_firstname": "Devi" }
   - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Perera","emp_firstname": "Sharuka" }
   - { "emp_number": 3,"employee_id": "0004","emp_lastname": "Gamage","emp_firstname": "Chenuka" }
+  - { "emp_number": 4,"employee_id": "0005","emp_lastname": "Employee","emp_firstname": "Purged","termination_id":1,"purged_at":"2022-06-21" }
 
 UserRole:
   - {"id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1}
@@ -24,6 +31,7 @@ PerformanceTracker:
 PerformanceTrackerReviewer:
   - {"id": 1,"performance_track_id": 2,"reviewer_id": 2,"added_date": "2022-05-05 18:53:27","status": 1}
   - {"id": 2,"performance_track_id": 3,"reviewer_id": 2,"added_date": "2022-05-05 18:55:27","status": 1}
+  - {"id": 3,"performance_track_id": 2,"reviewer_id": 4,"added_date": "2022-05-05 18:55:27","status": 1}
 
 PerformanceTrackerLog:
   - {id: 1, performance_track_id: 1, reviewer_id: 2, added_date: '2021-12-12', status: 1,achievement: 1, comment: 'test comment by 2', log: 'log by 2',  modified_date: '2022-02-12', user_id: 2}
@@ -31,3 +39,4 @@ PerformanceTrackerLog:
   - {id: 3, performance_track_id: 2, reviewer_id: 3, added_date: '2021-12-12', status: 1,achievement: 1, comment: 'test comment by 3', log: 'log by 3',  modified_date: '2021-12-12', user_id: 3}
   - {id: 4, performance_track_id: 2, reviewer_id: 2, added_date: '2021-12-12', status: 1,achievement: 1, comment: 'test comment by ESS', log: 'log by ESS', user_id: 2}
   - {id: 5, performance_track_id: 2, reviewer_id: 1, added_date: '2021-12-12', status: 1,achievement: 1, comment: 'test comment by Admin', log: 'log by Admin', user_id: 1}
+  - {id: 6, performance_track_id: 2, reviewer_id: 4, added_date: '2021-12-12', status: 1,achievement: 1, comment: 'test comment by Purged Emp', log: 'log by Purged Emp', user_id: null}

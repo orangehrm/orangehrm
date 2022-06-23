@@ -19,12 +19,11 @@
 
 namespace OrangeHRM\ORM;
 
-use Conf;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 use OrangeHRM\Config\Config;
 use OrangeHRM\ORM\Exception\ConfigNotFoundException;
+use OrangeHRM\ORM\Functions\TimeDiff;
 
 class Doctrine
 {
@@ -38,7 +37,6 @@ class Doctrine
     private static ?EntityManager $entityManager = null;
 
     /**
-     * @throws ORMException
      * @throws ConfigNotFoundException
      */
     private function __construct()
@@ -57,16 +55,13 @@ class Doctrine
             $useSimpleAnnotationReader
         );
         $config->setAutoGenerateProxyClasses(true);
-        $config->addCustomStringFunction('TIME_DIFF', 'OrangeHRM\ORM\TimeDiff');
+        $config->addCustomStringFunction('TIME_DIFF', TimeDiff::class);
 
-        $pathToConf = realpath(Config::get(Config::CONF_FILE_PATH));
-        if ($pathToConf === false) {
+        if (!Config::isInstalled()) {
             throw new ConfigNotFoundException('Application not installed');
         }
 
-        //TODO
-        require_once $pathToConf;
-        $conf = new Conf();
+        $conf = Config::getConf();
         $dbUser = $conf->getDbUser();
         $dbPass = $conf->getDbPass();
         $dbHost = $conf->getDbHost();
@@ -79,6 +74,9 @@ class Doctrine
         ];
 
         self::$entityManager = EntityManager::create($conn, $config);
+        self::$entityManager->getConnection()
+            ->getDatabasePlatform()
+            ->registerDoctrineTypeMapping('enum', 'string');
     }
 
     /**

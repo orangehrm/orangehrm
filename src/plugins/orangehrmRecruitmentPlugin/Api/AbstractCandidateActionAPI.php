@@ -38,8 +38,10 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDefaultModel;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
@@ -51,6 +53,7 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
     use AuthUserTrait;
     use DateTimeHelperTrait;
     use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
 
     public const PARAMETER_CANDIDATE_ID = 'candidateId';
     public const PARAMETER_INTERVIEW_ID = 'interviewId';
@@ -105,6 +108,12 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
             );
 
             $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($candidateVacancy);
+
+            if ($this->getResultingState() === WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE) {
+                $employee = new Employee();
+                $this->setCandidateAsEmployee($candidateVacancy, $employee);
+                $this->getEmployeeService()->getEmployeeDao()->saveEmployee($employee);
+            }
 
             $candidateHistory = new CandidateHistory();
             $this->setCandidateHistory($candidateHistory, $candidateVacancy);
@@ -188,6 +197,22 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
         return $this->getRequestParams()->getIntOrNull(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_INTERVIEW_ID
+        );
+    }
+
+
+    /**
+     * @param CandidateVacancy $candidateVacancy
+     * @param Employee $employee
+     */
+    protected function setCandidateAsEmployee(CandidateVacancy $candidateVacancy, Employee $employee)
+    {
+        $employee->setFirstName($candidateVacancy->getCandidate()->getFirstName());
+        $employee->setMiddleName($candidateVacancy->getCandidate()->getMiddleName());
+        $employee->setLastName($candidateVacancy->getCandidate()->getLastName());
+        $employee->setOtherEmail($candidateVacancy->getCandidate()->getEmail());
+        $employee->getDecorator()->setJobTitleById(
+            $candidateVacancy->getVacancy()->getJobTitle()->getId()
         );
     }
 

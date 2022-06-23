@@ -39,25 +39,18 @@ class CandidateInterviewSchedulingAPITest extends EndpointIntegrationTestCase
         TestDataService::truncateSpecificTables([Interview::class]);
     }
 
-    public function testGetOne(): void
-    {
-        $api = new CandidateInterviewSchedulingAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
-    }
-
-    public function testGetValidationRuleForGetOne(): void
-    {
-        $api = new CandidateInterviewSchedulingAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
-    }
-
     public function testGetAll(): void
     {
         $api = new CandidateInterviewSchedulingAPI($this->getRequest());
         $this->expectNotImplementedException();
-        $api->getOne();
+        $api->getAll();
+    }
+
+    public function testGetValidationRuleForGetAll(): void
+    {
+        $api = new CandidateInterviewSchedulingAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetAll();
     }
 
     /**
@@ -76,27 +69,6 @@ class CandidateInterviewSchedulingAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestCreate(): array
     {
         return $this->getTestCases('CandidateScheduleInterviewTestCases.yaml', 'Create');
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new CandidateInterviewSchedulingAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
-    }
-
-    public function testUpdate(): void
-    {
-        $api = new CandidateInterviewSchedulingAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
-    }
-
-    public function testGetValidationRuleForUpdate(): void
-    {
-        $api = new CandidateInterviewSchedulingAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
     }
 
     public function testDelete(): void

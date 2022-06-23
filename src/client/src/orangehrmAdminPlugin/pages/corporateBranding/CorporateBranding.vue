@@ -95,7 +95,7 @@
                 :file="clientLogo.oldAttachment"
                 :rules="rules.clientLogo"
                 :hint="
-                  $t('general.accept_jpg_png_gif_upto_recomended_dimentions', {
+                  $t('general.accept_jpg_png_gif_upto_recommended_dimensions', {
                     fileSize: '1MB',
                     width: 50,
                     height: 50,
@@ -114,7 +114,7 @@
                 :file="clientBanner.oldAttachment"
                 :rules="rules.clientBanner"
                 :hint="
-                  $t('general.accept_jpg_png_gif_upto_recomended_dimentions', {
+                  $t('general.accept_jpg_png_gif_upto_recommended_dimensions', {
                     fileSize: '1MB',
                     width: 182,
                     height: 50,
@@ -133,7 +133,7 @@
                 :file="loginBanner.oldAttachment"
                 :rules="rules.loginBanner"
                 :hint="
-                  $t('general.accept_jpg_png_gif_upto_recomended_dimentions', {
+                  $t('general.accept_jpg_png_gif_upto_recommended_dimensions', {
                     fileSize: '1MB',
                     width: 340,
                     height: 65,
@@ -179,7 +179,7 @@
             <oxd-button
               type="submit"
               display-type="secondary"
-              :label="$t('general.save')"
+              :label="$t('general.publish')"
             />
           </div>
         </oxd-form-actions>
@@ -322,7 +322,7 @@ export default {
         http
           .request({
             method: 'POST',
-            url: '/api/v2/admin/corporateBranding/preview',
+            url: '/api/v2/admin/theme/preview',
             data: {
               ...state.colors,
             },

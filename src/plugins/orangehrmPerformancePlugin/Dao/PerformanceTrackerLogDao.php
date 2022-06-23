@@ -127,6 +127,8 @@ class PerformanceTrackerLogDao extends BaseDao
     {
         $qb = $this->createQueryBuilder(PerformanceTrackerLog::class, 'performanceTrackerLog');
         $qb->select('performanceTrackerLog.id');
+        $qb->leftJoin('performanceTrackerLog.employee', 'employee');
+        $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 }

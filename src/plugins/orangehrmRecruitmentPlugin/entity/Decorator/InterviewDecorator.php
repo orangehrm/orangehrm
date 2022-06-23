@@ -85,13 +85,21 @@ class InterviewDecorator
         $interviewers[] = $employee;
     }
 
+    public function removeInterviewers(): void
+    {
+        $interviewers = $this->interview->getInterviewers();
+        foreach ($interviewers as $interviewer) {
+            $interviewers->removeElement($interviewer);
+        }
+    }
+
     /**
      * @return string
      */
     public function getInterviewDate(): string
     {
         $interviewDate = $this->interview->getInterviewDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($interviewDate);
+        return $this->getDateTimeHelper()->formatDate($interviewDate);
     }
 
     /**

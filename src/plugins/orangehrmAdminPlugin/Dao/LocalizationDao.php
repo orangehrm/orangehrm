@@ -32,27 +32,55 @@ class LocalizationDao extends BaseDao
      */
     public function searchLanguages(I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams): array
     {
-        return $this->getSearchI18NLanguagePaginator($i18NLanguageSearchFilterParams)->getQuery()->execute();
+        return $this->getI18NLanguagePaginator($i18NLanguageSearchFilterParams)->getQuery()->execute();
     }
 
     /**
      * @param I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams
      * @return Paginator
      */
-    private function getSearchI18NLanguagePaginator(
+    private function getI18NLanguagePaginator(
         I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(I18NLanguage::class, 'l');
-        $this->setSortingParams($q, $i18NLanguageSearchFilterParams);
+        $this->setSortingAndPaginationParams($q, $i18NLanguageSearchFilterParams);
 
         if ($i18NLanguageSearchFilterParams->getEnabledOnly()) {
             $q->andWhere('l.enabled = :enabled');
             $q->setParameter('enabled', true);
         }
-        if ($i18NLanguageSearchFilterParams->getAddedOnly()) {
+        if (!is_null($i18NLanguageSearchFilterParams->getAddedOnly())) {
             $q->andWhere('l.added = :added');
-            $q->setParameter('added', true);
+            $q->setParameter('added', $i18NLanguageSearchFilterParams->getAddedOnly());
         }
         return $this->getPaginator($q);
+    }
+
+    /**
+     * @param I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams
+     * @return int
+     */
+    public function getLanguagesCount(I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams): int
+    {
+        return $this->getI18NLanguagePaginator($i18NLanguageSearchFilterParams)->count();
+    }
+
+    /**
+     * @param int $languageId
+     * @return I18NLanguage|null
+     */
+    public function getLanguageById(int $languageId): ?I18NLanguage
+    {
+        return $this->getRepository(I18NLanguage::class)->find($languageId);
+    }
+
+    /**
+     * @param I18NLanguage $i18NLanguage
+     * @return I18NLanguage
+     */
+    public function saveI18NLanguage(I18NLanguage $i18NLanguage): I18NLanguage
+    {
+        $this->persist($i18NLanguage);
+        return $i18NLanguage;
     }
 }

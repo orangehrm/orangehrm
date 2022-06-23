@@ -30,9 +30,12 @@ import {
   numberShouldBeBetweenMinAndMaxValue,
   digitsOnly,
   digitsOnlyWithDecimalPoint,
+  digitsOnlyWithDecimalPointAndMinusSign,
   shouldBeCurrentOrPreviousDate,
   validHexFormat,
   imageShouldHaveDimensions,
+  greaterThanOrEqual,
+  lessThanOrEqual,
   File,
 } from '../rules';
 
@@ -58,6 +61,10 @@ jest.mock('@/core/plugins/i18n/translate', () => {
         'Should be a number between 0-100',
       'general.invalid': 'Invalid',
       'general.incorrect_dimensions': 'Incorrect Dimensions',
+      'general.less_than_or_equal_to_n':
+        'Number should be less than or equal to 100',
+      'general.greater_than_or_equal_to_n':
+        'Number should be greater than or equal to 0',
     };
     return mockStrings[langString];
   };
@@ -651,6 +658,48 @@ describe('core/util/validation/rules::digitsOnlyWithDecimalPoint', () => {
   });
 });
 
+describe('core/util/validation/rules::digitsOnlyWithDecimalPointAndMinusSign', () => {
+  test('digitsOnlyWithDecimalPointAndMinusSign:: with empty string', () => {
+    const result = digitsOnlyWithDecimalPointAndMinusSign('');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('digitsOnlyWithDecimalPointAndMinusSign:: with letters', () => {
+    const result = digitsOnlyWithDecimalPointAndMinusSign('abcdefg');
+    expect(result).toEqual('Should be a number');
+  });
+
+  test('digitsOnlyWithDecimalPointAndMinusSign:: with letters and numbers', () => {
+    const result = digitsOnlyWithDecimalPointAndMinusSign('123abc');
+    expect(result).toEqual('Should be a number');
+  });
+
+  test('digitsOnlyWithDecimalPointAndMinusSign:: with letters and numbers and decimal point', () => {
+    const result = digitsOnlyWithDecimalPointAndMinusSign('123.abc');
+    expect(result).toEqual('Should be a number');
+  });
+
+  test('digitsOnlyWithDecimalPointAndMinusSign:: with decimal number', () => {
+    const result = digitsOnlyWithDecimalPointAndMinusSign('10.5');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('digitsOnlyWithDecimalPointAndMinusSign:: with whole number', () => {
+    const result = digitsOnlyWithDecimalPointAndMinusSign('10');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('digitsOnlyWithDecimalPointAndMinusSign:: with negative whole number', () => {
+    const result = digitsOnlyWithDecimalPointAndMinusSign('-10');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('digitsOnlyWithDecimalPointAndMinusSign:: with negative decimal number', () => {
+    const result = digitsOnlyWithDecimalPointAndMinusSign('-10.231');
+    expect(result).toStrictEqual(true);
+  });
+});
+
 describe('core/util/validation/rules::shouldBeCurrentOrPreviousDate', () => {
   test('shouldBeCurrentOrPreviousDate::empty string', () => {
     let result = shouldBeCurrentOrPreviousDate()('');
@@ -714,6 +763,80 @@ describe('core/util/validation/rules::imageShouldHaveDimensions', () => {
   test('imageShouldHaveDimensions:: should allow null files', async () => {
     mockDomImage(0, 0);
     const result = await imageShouldHaveDimensions(50, 50)(null);
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::lessThanOrEqual', () => {
+  test('lessThanOrEqual:: with empty string', () => {
+    const result = lessThanOrEqual(100)('');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('lessThanOrEqual:: with string', () => {
+    const result = lessThanOrEqual(100)('number');
+    expect(result).toEqual('Number should be less than or equal to 100');
+  });
+
+  test('lessThanOrEqual:: with invalid number', () => {
+    const result = lessThanOrEqual(100)('100.asdas232');
+    expect(result).toEqual('Number should be less than or equal to 100');
+  });
+
+  test('lessThanOrEqual:: with number higher than max', () => {
+    const result = lessThanOrEqual(100)('1000');
+    expect(result).toEqual('Number should be less than or equal to 100');
+  });
+
+  test('lessThanOrEqual:: with decimal number higher than max', () => {
+    const result = lessThanOrEqual(100)('100.1');
+    expect(result).toEqual('Number should be less than or equal to 100');
+  });
+
+  test('lessThanOrEqual:: with number lower than max', () => {
+    const result = lessThanOrEqual(100)('99');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('lessThanOrEqual:: with decimal number lower than max', () => {
+    const result = lessThanOrEqual(100)('99.9');
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::greaterThanOrEqual', () => {
+  test('greaterThanOrEqual:: with empty string', () => {
+    const result = greaterThanOrEqual(0)('');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('greaterThanOrEqual:: with string', () => {
+    const result = greaterThanOrEqual(0)('number');
+    expect(result).toEqual('Number should be greater than or equal to 0');
+  });
+
+  test('greaterThanOrEqual:: with invalid number', () => {
+    const result = greaterThanOrEqual(0)('100.asdas232');
+    expect(result).toEqual('Number should be greater than or equal to 0');
+  });
+
+  test('greaterThanOrEqual:: with number lower than min', () => {
+    const result = greaterThanOrEqual(0)('-100');
+    expect(result).toEqual('Number should be greater than or equal to 0');
+  });
+
+  test('greaterThanOrEqual:: with decimal number lower than max', () => {
+    const result = greaterThanOrEqual(0)('-0.1');
+    expect(result).toEqual('Number should be greater than or equal to 0');
+  });
+
+  test('greaterThanOrEqual:: with number higher than min', () => {
+    const result = greaterThanOrEqual(0)('1');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('greaterThanOrEqual:: with decimal number higher than min', () => {
+    const result = greaterThanOrEqual(0)('0.1');
     expect(result).toStrictEqual(true);
   });
 });

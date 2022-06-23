@@ -88,7 +88,7 @@ class LeaveRequestCommentDecorator
     public function getCreatedAtDate(): string
     {
         $dateTime = $this->getLeaveRequestComment()->getCreatedAt();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($dateTime);
+        return $this->getDateTimeHelper()->formatDate($dateTime);
     }
 
     /**

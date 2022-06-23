@@ -1,0 +1,230 @@
+Create:
+  'without params':
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body: [ ]
+    data: [ ]
+    meta: [ ]
+    invalidOnly: [ 'primaryColor','primaryFontColor','secondaryColor', 'secondaryFontColor', 'primaryGradientStartColor', 'primaryGradientEndColor' ]
+
+  'without primaryColor':
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryFontColor": "#FFFFFF",
+      "secondaryColor": "#76BC21",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientStartColor": "#FF920B",
+      "primaryGradientEndColor": "#F35C17"
+    }
+    invalidOnly: [ 'primaryColor' ]
+
+  'without secondaryColor':
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryColor": "#FF7B1D",
+      "primaryFontColor": "#FFFFFF",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientStartColor": "#FF920B",
+      "primaryGradientEndColor": "#F35C17"
+    }
+    invalidOnly: [ 'secondaryColor' ]
+
+  'without primaryGradientStartColor':
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryColor": "#FF7B1D",
+      "primaryFontColor": "#FFFFFF",
+      "secondaryColor": "#76BC21",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientEndColor": "#F35C17"
+    }
+    invalidOnly: [ 'primaryGradientStartColor' ]
+
+  'without primaryGradientEndColor':
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryColor": "#FF7B1D",
+      "primaryFontColor": "#FFFFFF",
+      "secondaryColor": "#76BC21",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientStartColor": "#FF920B",
+    }
+    invalidOnly: [ 'primaryGradientEndColor' ]
+
+  'valid colors':
+    services:
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryColor": "#FF7B1D",
+      "primaryFontColor": "#FFFFFF",
+      "secondaryColor": "#76BC21",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientStartColor": "#FF920B",
+      "primaryGradientEndColor": "#F35C17"
+    }
+    data: {
+      "--oxd-primary-one-color": "#FF7B1D",
+      "--oxd-primary-font-color": "#FFFFFF",
+      "--oxd-secondary-four-color": "#76BC21",
+      "--oxd-secondary-font-color": "#FFFFFF",
+      "--oxd-primary-gradient-start-color": "#FF920B",
+      "--oxd-primary-gradient-end-color": "#F35C17",
+      "--oxd-primary-one-lighten-5-color": "#ff8a37",
+      "--oxd-primary-one-lighten-30-color": "#ffd4b6",
+      "--oxd-primary-one-darken-5-color": "#ff6c03",
+      "--oxd-primary-one-alpha-10-color": "rgba(255, 123, 29, 0.1)",
+      "--oxd-primary-one-alpha-15-color": "rgba(255, 123, 29, 0.15)",
+      "--oxd-primary-one-alpha-20-color": "rgba(255, 123, 29, 0.2)",
+      "--oxd-primary-one-alpha-50-color": "rgba(255, 123, 29, 0.5)",
+      "--oxd-secondary-four-lighten-5-color": "#84d225",
+      "--oxd-secondary-four-darken-5-color": "#68a61d",
+      "--oxd-secondary-four-alpha-10-color": "rgba(118, 188, 33, 0.1)",
+      "--oxd-secondary-four-alpha-15-color": "rgba(118, 188, 33, 0.15)",
+      "--oxd-secondary-four-alpha-20-color": "rgba(118, 188, 33, 0.2)",
+      "--oxd-secondary-four-alpha-50-color": "rgba(118, 188, 33, 0.5)"
+    }
+    meta: [ ]
+
+  'valid rgba color':
+    services:
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryColor": "rgba(255,123,29,0.26)",
+      "primaryFontColor": "#FFFFFF",
+      "secondaryColor": "#76BC21",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientStartColor": "#FF920B",
+      "primaryGradientEndColor": "#F35C17"
+    }
+    data: {
+      "--oxd-primary-one-color": "rgba(255,123,29,0.26)",
+      "--oxd-primary-font-color": "#FFFFFF",
+      "--oxd-secondary-four-color": "#76BC21",
+      "--oxd-secondary-font-color": "#FFFFFF",
+      "--oxd-primary-gradient-start-color": "#FF920B",
+      "--oxd-primary-gradient-end-color": "#F35C17",
+      "--oxd-primary-one-lighten-5-color": "rgba(255, 138, 55, 0.26)",
+      "--oxd-primary-one-lighten-30-color": "rgba(255, 212, 182, 0.26)",
+      "--oxd-primary-one-darken-5-color": "rgba(255, 108, 3, 0.26)",
+      "--oxd-primary-one-alpha-10-color": "rgba(255, 123, 29, 0.1)",
+      "--oxd-primary-one-alpha-15-color": "rgba(255, 123, 29, 0.15)",
+      "--oxd-primary-one-alpha-20-color": "rgba(255, 123, 29, 0.2)",
+      "--oxd-primary-one-alpha-50-color": "rgba(255, 123, 29, 0.5)",
+      "--oxd-secondary-four-lighten-5-color": "#84d225",
+      "--oxd-secondary-four-darken-5-color": "#68a61d",
+      "--oxd-secondary-four-alpha-10-color": "rgba(118, 188, 33, 0.1)",
+      "--oxd-secondary-four-alpha-15-color": "rgba(118, 188, 33, 0.15)",
+      "--oxd-secondary-four-alpha-20-color": "rgba(118, 188, 33, 0.2)",
+      "--oxd-secondary-four-alpha-50-color": "rgba(118, 188, 33, 0.5)"
+    }
+    meta: [ ]
+
+  'valid rgb color':
+    services:
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryColor": "rgba(255,123,29)",
+      "primaryFontColor": "#FFFFFF",
+      "secondaryColor": "#76BC21",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientStartColor": "#FF920B",
+      "primaryGradientEndColor": "#F35C17"
+    }
+    data: {
+      "--oxd-primary-one-color": "rgba(255,123,29)",
+      "--oxd-primary-font-color": "#FFFFFF",
+      "--oxd-secondary-four-color": "#76BC21",
+      "--oxd-secondary-font-color": "#FFFFFF",
+      "--oxd-primary-gradient-start-color": "#FF920B",
+      "--oxd-primary-gradient-end-color": "#F35C17",
+      "--oxd-primary-one-lighten-5-color": "#ff8a37",
+      "--oxd-primary-one-lighten-30-color": "#ffd4b6",
+      "--oxd-primary-one-darken-5-color": "#ff6c03",
+      "--oxd-primary-one-alpha-10-color": "rgba(255, 123, 29, 0.1)",
+      "--oxd-primary-one-alpha-15-color": "rgba(255, 123, 29, 0.15)",
+      "--oxd-primary-one-alpha-20-color": "rgba(255, 123, 29, 0.2)",
+      "--oxd-primary-one-alpha-50-color": "rgba(255, 123, 29, 0.5)",
+      "--oxd-secondary-four-lighten-5-color": "#84d225",
+      "--oxd-secondary-four-darken-5-color": "#68a61d",
+      "--oxd-secondary-four-alpha-10-color": "rgba(118, 188, 33, 0.1)",
+      "--oxd-secondary-four-alpha-15-color": "rgba(118, 188, 33, 0.15)",
+      "--oxd-secondary-four-alpha-20-color": "rgba(118, 188, 33, 0.2)",
+      "--oxd-secondary-four-alpha-50-color": "rgba(118, 188, 33, 0.5)"
+    }
+    meta: [ ]
+
+  'valid hsla color':
+    services:
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryColor": "hsla(25,100%,56%,0.26)",
+      "primaryFontColor": "#FFFFFF",
+      "secondaryColor": "#76BC21",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientStartColor": "#FF920B",
+      "primaryGradientEndColor": "#F35C17"
+    }
+    data: {
+      "--oxd-primary-one-color": "hsla(25,100%,56%,0.26)",
+      "--oxd-primary-font-color": "#FFFFFF",
+      "--oxd-secondary-four-color": "#76BC21",
+      "--oxd-secondary-font-color": "#FFFFFF",
+      "--oxd-primary-gradient-start-color": "#FF920B",
+      "--oxd-primary-gradient-end-color": "#F35C17",
+      "--oxd-primary-one-lighten-5-color": "rgba(255, 139, 56, 0.26)",
+      "--oxd-primary-one-lighten-30-color": "rgba(255, 213, 184, 0.26)",
+      "--oxd-primary-one-darken-5-color": "rgba(255, 109, 5, 0.26)",
+      "--oxd-primary-one-alpha-10-color": "rgba(255, 124, 31, 0.1)",
+      "--oxd-primary-one-alpha-15-color": "rgba(255, 124, 31, 0.15)",
+      "--oxd-primary-one-alpha-20-color": "rgba(255, 124, 31, 0.2)",
+      "--oxd-primary-one-alpha-50-color": "rgba(255, 124, 31, 0.5)",
+      "--oxd-secondary-four-lighten-5-color": "#84d225",
+      "--oxd-secondary-four-darken-5-color": "#68a61d",
+      "--oxd-secondary-four-alpha-10-color": "rgba(118, 188, 33, 0.1)",
+      "--oxd-secondary-four-alpha-15-color": "rgba(118, 188, 33, 0.15)",
+      "--oxd-secondary-four-alpha-20-color": "rgba(118, 188, 33, 0.2)",
+      "--oxd-secondary-four-alpha-50-color": "rgba(118, 188, 33, 0.5)"
+    }
+    meta: [ ]
+
+  'valid hsl color':
+    services:
+      admin.theme_service: \OrangeHRM\CorporateBranding\Service\ThemeService
+    body: {
+      "primaryColor": "hsl(25,100%,56%)",
+      "primaryFontColor": "#FFFFFF",
+      "secondaryColor": "#76BC21",
+      "secondaryFontColor": "#FFFFFF",
+      "primaryGradientStartColor": "#FF920B",
+      "primaryGradientEndColor": "#F35C17"
+    }
+    data: {
+      "--oxd-primary-one-color": "hsl(25,100%,56%)",
+      "--oxd-primary-font-color": "#FFFFFF",
+      "--oxd-secondary-four-color": "#76BC21",
+      "--oxd-secondary-font-color": "#FFFFFF",
+      "--oxd-primary-gradient-start-color": "#FF920B",
+      "--oxd-primary-gradient-end-color": "#F35C17",
+      "--oxd-primary-one-lighten-5-color": "#ff8b38",
+      "--oxd-primary-one-lighten-30-color": "#ffd5b8",
+      "--oxd-primary-one-darken-5-color": "#ff6d05",
+      "--oxd-primary-one-alpha-10-color": "rgba(255, 124, 31, 0.1)",
+      "--oxd-primary-one-alpha-15-color": "rgba(255, 124, 31, 0.15)",
+      "--oxd-primary-one-alpha-20-color": "rgba(255, 124, 31, 0.2)",
+      "--oxd-primary-one-alpha-50-color": "rgba(255, 124, 31, 0.5)",
+      "--oxd-secondary-four-lighten-5-color": "#84d225",
+      "--oxd-secondary-four-darken-5-color": "#68a61d",
+      "--oxd-secondary-four-alpha-10-color": "rgba(118, 188, 33, 0.1)",
+      "--oxd-secondary-four-alpha-15-color": "rgba(118, 188, 33, 0.15)",
+      "--oxd-secondary-four-alpha-20-color": "rgba(118, 188, 33, 0.2)",
+      "--oxd-secondary-four-alpha-50-color": "rgba(118, 188, 33, 0.5)"
+    }
+    meta: [ ]

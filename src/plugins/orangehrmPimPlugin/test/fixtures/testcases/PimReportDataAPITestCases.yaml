@@ -457,6 +457,7 @@ GetAll:
     services:
       core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
       core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
     query:
       name: 'pim_defined'
       reportId: 12
@@ -1134,6 +1135,7 @@ GetAll:
     services:
       core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
       core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
     query:
       name: 'pim_defined'
       reportId: 23

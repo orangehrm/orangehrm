@@ -184,17 +184,17 @@ performance_review_edit:
   methods: [ GET ]
 
 performance_tracker_list:
-  path: /performance/addPerformanceTracker
+  path: /performance/viewPerformanceTracker
   controller: OrangeHRM\Performance\Controller\TrackerListController::handle
   methods: [ GET ]
 
 add_performance_tracker:
-  path: /performance/savePerformanceTracker
+  path: /performance/addPerformanceTracker
   controller: OrangeHRM\Performance\Controller\SavePerformanceTrackerController::handle
   methods: [ GET ]
 
 edit_performance_tracker:
-  path: /performance/savePerformanceTracker/{id}
+  path: /performance/addPerformanceTracker/{id}
   controller: OrangeHRM\Performance\Controller\SavePerformanceTrackerController::handle
   methods: [ GET ]
 
@@ -216,4 +216,14 @@ performance_review_search:
 performance_employee_tracker_logs:
   path: /performance/addPerformanceTrackerLog/trackId/{id}
   controller: OrangeHRM\Performance\Controller\EmployeeTrackerLogsController::handle
+  methods: [ GET ]
+
+performance_employee_admin_evaluation:
+  path: /performance/reviewEvaluateByAdmin/{id}
+  controller: OrangeHRM\Performance\Controller\AdminEvaluationController::handle
+  methods: [ GET ]
+
+performance_review_evaluate_self:
+  path: /performance/reviewEvaluate/id/{id}
+  controller: OrangeHRM\Performance\Controller\SelfEvaluationController::handle
   methods: [ GET ]

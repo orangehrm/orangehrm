@@ -126,9 +126,6 @@ langStrings:
     value: 'Closed'
     unitId: closed
   -
-    value: 'Deleted'
-    unitId: deleted
-  -
     value: 'File Size'
     unitId: file_size
   -
@@ -145,7 +142,7 @@ langStrings:
     unitId: preview
   -
     value: 'Accepts jpg, .png, .gif up to {fileSize}. Recommended dimensions: {width}px X {height}px'
-    unitId: accept_jpg_png_gif_upto_recomended_dimentions
+    unitId: accept_jpg_png_gif_upto_recommended_dimensions
   -
     value: 'Incorrect Dimensions'
     unitId: incorrect_dimensions
@@ -155,3 +152,27 @@ langStrings:
   -
     value: 'Or login with'
     unitId: or_login_with
+  -
+    value: 'Export'
+    unitId: export
+  -
+    value: 'Translate'
+    unitId: translate
+  -
+    value: 'Successfully Activated'
+    unitId: successfully_activated
+  -
+    value: 'Publish'
+    unitId: publish
+  -
+    value: 'Number should be less than or equal to {maxValue}'
+    unitId: less_than_or_equal_to_n
+  -
+    value: 'Number should be greater than or equal to {minValue}'
+    unitId: greater_than_or_equal_to_n
+  -
+    value: 'Note'
+    unitId: note
+  -
+    value: 'Users will require translate texts manually after creating the language package.'
+    unitId: translate_text_manually

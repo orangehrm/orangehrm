@@ -20,13 +20,10 @@
 namespace OrangeHRM\Core\Api\V2\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
 class WorkflowStateModel implements Normalizable
 {
-    use NormalizerServiceTrait;
-
     private WorkflowStateMachine $workflowStateMachine;
 
     /**

@@ -50,8 +50,8 @@
   }
 
   & img {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 100%;
     display: flex;
     overflow: hidden;
@@ -96,6 +96,7 @@
 
     &-title {
       font-weight: 700;
+      font-size: 21px;
     }
 
     &-subtitle {
@@ -118,12 +119,12 @@
 
     &-icon {
       padding-right: 0.6rem;
-      min-width: 25px;
-      min-height: 25px;
+      min-width: 21px;
+      min-height: 21px;
     }
 
     &-text {
-      font-size: 25px;
+      font-size: 21px;
     }
   }
 
@@ -141,7 +142,7 @@
 }
 
 .--positive {
-  color: $oxd-secondary-four-color;
+  color: $oxd-feedback-success-color;
 }
 
 .--negative {

@@ -19,10 +19,8 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Admin\Dto\EmployeeSalarySearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\EmployeeSalary;
 use OrangeHRM\ORM\Paginator;
@@ -32,104 +30,74 @@ class EmployeeSalaryDao extends BaseDao
     /**
      * @param EmployeeSalary $employeeSalary
      * @return EmployeeSalary
-     * @throws DaoException
      */
     public function saveEmployeeSalary(EmployeeSalary $employeeSalary): EmployeeSalary
     {
-        try {
-            $this->persist($employeeSalary);
-            return $employeeSalary;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($employeeSalary);
+        return $employeeSalary;
     }
 
     /**
      * @param EmpDirectDebit $empDirectDebit
-     * @throws DaoException
      */
     public function deleteEmployeeDirectDebit(EmpDirectDebit $empDirectDebit): void
     {
-        try {
-            $this->remove($empDirectDebit);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->remove($empDirectDebit);
     }
 
     /**
      * @param int $empNumber
      * @param int[] $salaryIds
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployeeSalaries(int $empNumber, array $salaryIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeSalary::class, 'es');
-            $q->delete();
-            $q->andWhere('es.employee = :empNumber')
+        $q = $this->createQueryBuilder(EmployeeSalary::class, 'es');
+        $q->delete();
+        $q->andWhere('es.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
 
-            $q->andWhere($q->expr()->in('es.id', ':ids'))
+        $q->andWhere($q->expr()->in('es.id', ':ids'))
                 ->setParameter('ids', $salaryIds);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $empNumber
      * @param int $salaryId
      * @return EmployeeSalary|null
-     * @throws DaoException
      */
     public function getEmployeeSalary(int $empNumber, int $salaryId): ?EmployeeSalary
     {
-        try {
-            $q = $this->createQueryBuilder(EmployeeSalary::class, 'es');
-            $q->leftJoin('es.directDebit', 'dd');
-            $q->andWhere('es.employee = :empNumber')
+        $q = $this->createQueryBuilder(EmployeeSalary::class, 'es');
+        $q->leftJoin('es.directDebit', 'dd');
+        $q->andWhere('es.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere('es.id = :salaryId')
+        $q->andWhere('es.id = :salaryId')
                 ->setParameter('salaryId', $salaryId);
 
-            return $this->fetchOne($q);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->fetchOne($q);
     }
 
     /**
      * @param EmployeeSalarySearchFilterParams $employeeSalarySearchFilterParams
      * @return EmployeeSalary[]
-     * @throws DaoException
      */
     public function getEmployeeSalaries(EmployeeSalarySearchFilterParams $employeeSalarySearchFilterParams): array
     {
-        try {
-            return $this->getEmployeeSalariesPaginator($employeeSalarySearchFilterParams)
+        return $this->getEmployeeSalariesPaginator($employeeSalarySearchFilterParams)
                 ->getQuery()
                 ->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
     }
 
     /**
      * @param EmployeeSalarySearchFilterParams $employeeSalarySearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getEmployeeSalariesCount(EmployeeSalarySearchFilterParams $employeeSalarySearchFilterParams): int
     {
-        try {
-            return $this->getEmployeeSalariesPaginator($employeeSalarySearchFilterParams)->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getEmployeeSalariesPaginator($employeeSalarySearchFilterParams)->count();
     }
 
     /**

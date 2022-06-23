@@ -45,6 +45,7 @@ class EmployeeDirectoryDetailedModelTest extends TestCase
             'jobTitle' => [
                 'id' => null,
                 'title' => null,
+                'isDeleted' => null,
             ],
             'subunit' => [
                 'id' => null,

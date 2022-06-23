@@ -19,13 +19,13 @@
 
 namespace OrangeHRM\Core\Report\DisplayField\Salary\Dto;
 
+use OrangeHRM\Admin\Dto\EmployeeSalarySearchFilterParams;
 use OrangeHRM\Core\Report\DisplayField\NormalizableDTO;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\Employee;
+use OrangeHRM\Pim\Traits\Service\EmployeeSalaryServiceTrait;
 
 class Salary extends NormalizableDTO
 {
-    use EntityManagerHelperTrait;
+    use EmployeeSalaryServiceTrait;
 
     private ?int $empNumber = null;
 
@@ -42,9 +42,13 @@ class Salary extends NormalizableDTO
      */
     public function toArray(array $fields): ?array
     {
-        /** @var Employee $employee */
-        $employee = $this->getReference(Employee::class, $this->empNumber);
-        return $this->normalizeArray($employee->getSalaries(), $fields);
+        $employeeSalarySearchFilterParams = new EmployeeSalarySearchFilterParams();
+        $employeeSalarySearchFilterParams->setEmpNumber($this->empNumber);
+        $employeeSalarySearchFilterParams->setLimit(0);
+        $employeeSalaries = $this->getEmployeeSalaryService()
+            ->getEmployeeSalaryDao()
+            ->getEmployeeSalaries($employeeSalarySearchFilterParams);
+        return $this->normalizeArray($employeeSalaries, $fields);
     }
 
     /**

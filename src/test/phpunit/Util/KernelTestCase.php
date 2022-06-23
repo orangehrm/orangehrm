@@ -31,6 +31,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Service\I18NHelper;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Service\VacancyService;
 use OrangeHRM\Time\Service\ProjectService;
 
@@ -61,9 +62,16 @@ abstract class KernelTestCase extends TestCase
      * @param array $attributes
      * @return Request
      */
-    protected function getHttpRequest(array $query = [], array $request = [], array $attributes = []): Request
-    {
-        return new Request($query, $request, $attributes);
+    protected function getHttpRequest(
+        array $query = [],
+        array $request = [],
+        array $attributes = [],
+        array $cookies = [],
+        array $files = [],
+        array $server = [],
+        $content = null
+    ): Request {
+        return new Request($query, $request, $attributes, $cookies, $files, $server, $content);
     }
 
     /**
@@ -140,6 +148,7 @@ abstract class KernelTestCase extends TestCase
             $this->getContainer()->set(Services::PROJECT_SERVICE, new ProjectService());
             $this->getContainer()->set(Services::PERFORMANCE_TRACKER_SERVICE, new PerformanceTrackerService());
             $this->getContainer()->set(Services::VACANCY_SERVICE, new VacancyService());
+            $this->getContainer()->set(Services::CANDIDATE_SERVICE, new CandidateService());
         }
     }
 }

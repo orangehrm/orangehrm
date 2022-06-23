@@ -34,6 +34,18 @@ class Migration extends AbstractMigration
     {
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
+
+        $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.action_url ', ':actionUrl')
+            ->setParameter('actionUrl', 'viewPerformanceTracker')
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName('performance'))
+            ->andWhere('screen.name = :name')
+            ->setParameter('name', 'Manage_Trackers')
+            ->executeQuery();
+
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         $this->addValidColumnToRequestResetPassword();
 
         $this->getConnection()->executeStatement(
@@ -142,6 +154,26 @@ class Migration extends AbstractMigration
         $this->insertSelfReviewWorkflowStates();
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
         $this->modifyThemeTable();
+
+        $groupId = $this->getLangStringHelper()->getGroupId('general');
+        $toDeleteLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows Phone Numbers Only', $groupId);
+        $toPreserveLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows numbers and only + - / ( )', $groupId);
+
+        $this->createQueryBuilder()
+            ->update('ohrm_i18n_translate', 'translate')
+            ->set('translate.lang_string_id', ':langStringId')
+            ->setParameter('langStringId', $toPreserveLangStringId)
+            ->andWhere('translate.lang_string_id = :deletedLangStringId')
+            ->setParameter('deletedLangStringId', $toDeleteLangStringId)
+            ->executeQuery();
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_lang_string')
+            ->andWhere('ohrm_i18n_lang_string.id = :id')
+            ->setParameter('id', $toDeleteLangStringId)
+            ->executeQuery();
+
+        $this->modifyTrackerLogsUserForeignKey();
     }
 
     /**
@@ -377,6 +409,19 @@ class Migration extends AbstractMigration
             ->setParameter('currentName', 'custom')
             ->setParameter('newName', 'custom_4x')
             ->executeQuery();
+    }
+
+    private function modifyTrackerLogsUserForeignKey(): void
+    {
+        $this->getSchemaHelper()->dropForeignKeys('ohrm_performance_tracker_log', ['fk_ohrm_performance_tracker_log_1']);
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['user_id'],
+            'ohrm_user',
+            ['id'],
+            'ohrm_performance_tracker_log_modified_by_id',
+            ['onDelete' => 'SET NULL', 'onUpdate' => 'CASCADE']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_performance_tracker_log', $foreignKeyConstraint);
     }
 
     /**

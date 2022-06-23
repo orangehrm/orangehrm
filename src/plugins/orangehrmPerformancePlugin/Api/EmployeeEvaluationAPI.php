@@ -181,7 +181,7 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
     protected function updateReviewerStatus(PerformanceReview $review): void
     {
         $action = $this->getRequestParams()->getBoolean(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_COMPLETE
         );
         $status = !$action ? Reviewer::STATUS_IN_PROGRESS : Reviewer::STATUS_COMPLETED;

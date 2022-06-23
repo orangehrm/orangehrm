@@ -25,6 +25,8 @@ use OrangeHRM\Recruitment\Dao\CandidateDao;
 
 class CandidateService
 {
+    public const RECRUITMENT_CANDIDATE_ACTION_ADD = 16;
+
     public const STATUS_MAP = [
         WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY => 'APPLICATION INITIATED',
         WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST => 'SHORTLISTED',
@@ -37,7 +39,9 @@ class CandidateService
         WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE => 'HIRED',
     ];
 
-    public const RECRUITMENT_CANDIDATE_ACTION_ADD = 16;
+    public const OTHER_ACTIONS_MAP = [
+        self::RECRUITMENT_CANDIDATE_ACTION_ADD => 'ADDED'
+    ];
 
     protected ?CandidateDao $candidateDao = null;
 

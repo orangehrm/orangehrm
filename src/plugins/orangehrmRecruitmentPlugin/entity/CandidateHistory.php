@@ -87,7 +87,7 @@ class CandidateHistory
 
     /**
      * @var DateTime
-     * @ORM\Column(name="performed_date", type="date")
+     * @ORM\Column(name="performed_date", type="datetime")
      */
     private DateTime $performedDate;
 
