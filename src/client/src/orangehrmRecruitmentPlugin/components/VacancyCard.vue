@@ -31,9 +31,13 @@
     </div>
     <oxd-divider v-show="vacancyDescription"></oxd-divider>
     <div :class="{'orangehrm-vacancy-card-body': isViewDetails}">
-      <oxd-text type="toast-message">
-        {{ vacancyDescription }}
-      </oxd-text>
+      <oxd-text type="toast-message"
+        ><pre
+          v-if="vacancyDescription"
+          class="orangehrm-vacancy-card-pre-tag"
+          >{{ vacancyDescription }}</pre
+        ></oxd-text
+      >
     </div>
     <div
       v-if="vacancyDescription && vacancyDescription.length > descriptionLength"
@@ -148,7 +152,7 @@ export default {
   }
 
   &-anchor-tag {
-    color: $oxd-feedback-danger-color;
+    color: $oxd-primary-one-color;
     padding-top: 0.5rem;
   }
 
@@ -159,8 +163,8 @@ export default {
   &-body {
     text-align: left;
     justify-content: space-between;
-    max-height: 60px;
     word-break: break-all;
+    max-height: 60px;
     -webkit-line-clamp: 4;
     @include oxd-respond-to('md') {
       max-height: 30px;
@@ -171,7 +175,14 @@ export default {
     display: -webkit-box;
     -webkit-box-orient: vertical;
   }
-
+  &-pre-tag {
+    margin-top: 0;
+    font-family: $oxd-font-family;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+  }
   &-footer {
     display: flex;
     justify-content: left;

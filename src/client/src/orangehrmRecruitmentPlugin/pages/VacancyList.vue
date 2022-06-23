@@ -23,8 +23,8 @@
     <oxd-grid ref="scrollerRef" class="orangehrm-container">
       <oxd-grid-item v-for="vacancy in vacancies" :key="vacancy">
         <vacancy-card
-          :vacancy-id="vacancy.vacancyId"
           :vacancy-description="vacancy.vacancyDescription"
+          :vacancy-id="vacancy.vacancyId"
           :vacancy-title="vacancy.vacancyTitle"
         ></vacancy-card>
       </oxd-grid-item>
@@ -35,7 +35,19 @@
     </oxd-grid>
   </div>
   <div>
-    <slot name="footer"></slot>
+    <div class="orangehrm-container-img-div">
+      <oxd-text type="toast-message">
+        {{ $t('recruitment.powered_by') }}
+      </oxd-text>
+      <img
+        :src="defaultPic"
+        alt="OrangeHRM Picture"
+        class="orangehrm-container-img"
+      />
+    </div>
+    <div>
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
@@ -54,6 +66,7 @@ export default {
     'oxd-loading-spinner': Spinner,
   },
   setup() {
+    const defaultPic = `${window.appGlobal.baseUrl}/../images/logo.png`;
     const {noRecordsFound} = useToast();
     const vacancyDataNormalizer = data => {
       return data.map(item => {
@@ -108,6 +121,7 @@ export default {
       scrollerRef,
       ...toRefs(state),
       fetchData,
+      defaultPic,
     };
   },
   beforeMount() {
@@ -121,8 +135,9 @@ export default {
 
 .orangehrm {
   &-background-container {
-    height: 85%;
+    height: 80%;
   }
+
   &-container {
     height: 100%;
     @include oxd-scrollbar();
@@ -138,6 +153,21 @@ export default {
       left: 0;
       right: 0;
       bottom: 0;
+    }
+    &-img {
+      height: 40px;
+    }
+    &-img-div {
+      display: block;
+      padding-left: 48px;
+      @include oxd-respond-to('md') {
+        margin-bottom: -32px;
+        padding-left: 120px;
+      }
+      @include oxd-respond-to('xl') {
+        margin-bottom: -32px;
+        padding-left: 120px;
+      }
     }
   }
 }
