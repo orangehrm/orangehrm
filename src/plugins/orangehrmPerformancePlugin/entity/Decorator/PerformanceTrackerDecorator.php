@@ -72,7 +72,7 @@ class PerformanceTrackerDecorator
      */
     public function getAddedDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceTracker()->getAddedDate());
+        return $this->getDateTimeHelper()->formatDate($this->getPerformanceTracker()->getAddedDate());
     }
 
     /**
@@ -80,6 +80,6 @@ class PerformanceTrackerDecorator
      */
     public function getModifiedDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceTracker()->getModifiedDate());
+        return $this->getDateTimeHelper()->formatDate($this->getPerformanceTracker()->getModifiedDate());
     }
 }

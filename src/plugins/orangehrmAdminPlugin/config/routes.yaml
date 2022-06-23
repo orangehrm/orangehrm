@@ -299,6 +299,20 @@ apiv2_admin_localization:
     id: 0
     _api: OrangeHRM\Admin\Api\LocalizationAPI
 
+apiv2_admin_i18n_languages:
+  path: /api/v2/admin/i18n/languages
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NLanguageAPI
+
+apiv2_admin_i18n_language:
+  path: /api/v2/admin/i18n/languages/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NLanguageAPI
+
 ##########################
 #        Files
 ##########################
@@ -544,11 +558,6 @@ admin_localization:
   controller: OrangeHRM\Admin\Controller\LocalizationController::handle
   methods: [ GET ]
 
-admin_language_package: # remove this
-  path: /admin/languagePackage
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
-  methods: [ GET ]
-
 admin_open_id_provider: # remove this
   path: /admin/openIdProvider
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
@@ -557,4 +566,9 @@ admin_open_id_provider: # remove this
 admin_register_oauth_client: # remove this
   path: /admin/registerOAuthClient
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]
+
+admin_language_package:
+  path: /admin/languagePackage
+  controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle
   methods: [ GET ]

@@ -1,0 +1,18 @@
+I18NLanguage:
+  - { "id": "1","name": "Chinese (Simplified, China) - 中文（简体，中国）","code": "zh_Hans_CN","enabled": "1","added": "1","modified_at": null },
+  - { "id": "2","name": "Chinese (Traditional, Taiwan) - 中文（繁體，台灣）","code": "zh_Hant_TW","enabled": "1","added": "1","modified_at": null },
+  - { "id": "3","name": "Dutch - Nederlands","code": "nl","enabled": "0","added": "1","modified_at": null },
+  - { "id": "4","name": "English (United States)","code": "en_US","enabled": "1","added": "0","modified_at": null },
+  - { "id": "5","name": "French - Français","code": "fr","enabled": "0","added": "0","modified_at": null },
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }

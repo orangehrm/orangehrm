@@ -156,17 +156,17 @@ class I18NLanguage
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getModifiedAt(): DateTime
+    public function getModifiedAt(): ?DateTime
     {
         return $this->modifiedAt;
     }
 
     /**
-     * @param DateTime $modifiedAt
+     * @param DateTime|null $modifiedAt
      */
-    public function setModifiedAt(DateTime $modifiedAt): void
+    public function setModifiedAt(?DateTime $modifiedAt): void
     {
         $this->modifiedAt = $modifiedAt;
     }

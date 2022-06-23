@@ -20,6 +20,7 @@ GetOne:
         employeeId: 'E001'
         terminationId: null
       reviewers: [ ]
+      ownerEditable: true
 
   'get one performance tracker with reviewer':
     userId: 1
@@ -59,6 +60,7 @@ GetOne:
           middleName: 'RT'
           employeeId: 'E003'
           terminationId: null
+      ownerEditable: true
 
   'non existent tracker Id':
     userId: 1
@@ -79,6 +81,17 @@ GetAll:
     attributes: [ ]
     data:
       0:
+        id: 4
+        trackerName: 'test tracker4 name'
+        addedDate: '2021-12-10'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 4
+          lastName: 'Sherlock'
+          firstName: 'Sherin'
+          terminationId: null
+      1:
         id: 1
         trackerName: 'test tracker name'
         addedDate: '2011-12-12'
@@ -89,7 +102,7 @@ GetAll:
           lastName: 'Abbey'
           firstName: 'Kayla'
           terminationId: null
-      1:
+      2:
         id: 2
         trackerName: 'test tracker2 name'
         addedDate: '2011-12-12'
@@ -100,7 +113,7 @@ GetAll:
           lastName: 'Abel'
           firstName: 'Ashley'
           terminationId: null
-      2:
+      3:
         id: 3
         trackerName: 'test tracker3 name'
         addedDate: '2011-12-10'
@@ -112,7 +125,7 @@ GetAll:
           firstName: 'Sherin'
           terminationId: null
     meta:
-      total: 3
+      total: 4
 
   'Get all trackers with empNumber':
     userId: 1
@@ -135,6 +148,7 @@ GetAll:
           terminationId: null
     meta:
       total: 1
+
   'Get all trackers and sort by addedDate':
     userId: 1
     services:
@@ -144,6 +158,17 @@ GetAll:
       sortField: 'performanceTracker.addedDate'
     data:
       0:
+        id: 4
+        trackerName: 'test tracker4 name'
+        addedDate: '2021-12-10'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 4
+          lastName: 'Sherlock'
+          firstName: 'Sherin'
+          terminationId: null
+      1:
         id: 1
         trackerName: 'test tracker name'
         addedDate: '2011-12-12'
@@ -154,7 +179,7 @@ GetAll:
           lastName: 'Abbey'
           firstName: 'Kayla'
           terminationId: null
-      1:
+      2:
         id: 2
         trackerName: 'test tracker2 name'
         addedDate: '2011-12-12'
@@ -165,7 +190,7 @@ GetAll:
           lastName: 'Abel'
           firstName: 'Ashley'
           terminationId: null
-      2:
+      3:
         id: 3
         trackerName: 'test tracker3 name'
         addedDate: '2011-12-10'
@@ -177,7 +202,7 @@ GetAll:
           firstName: 'Sherin'
           terminationId: null
     meta:
-      total: 3
+      total: 4
 
 Create:
   'Create performance tracker':
@@ -194,7 +219,7 @@ Create:
       reviewerEmpNumbers: [ 4,2]
     query: [ ]
     data:
-      id: 4
+      id: 5
       trackerName: 'New tracker 345'
       addedDate: '2022-02-03'
       modifiedDate: null
@@ -208,7 +233,7 @@ Create:
         'employeeId': 'E003'
       reviewers:
         0:
-          id: 5
+          id: 6
           empNumber: 4
           lastName: 'Sherlock'
           firstName: 'Sherin'
@@ -216,13 +241,14 @@ Create:
           employeeId: 'E004'
           terminationId: null
         1:
-          id: 6
+          id: 7
           empNumber: 2
           lastName: 'Abel'
           firstName: 'Ashley'
           middleName: 'ST'
           employeeId: 'E002'
           terminationId: null
+      ownerEditable: true
     meta: [ ]
 
 Update:
@@ -255,7 +281,7 @@ Update:
         employeeId: 'E003'
       reviewers:
         0:
-          id: 5
+          id: 6
           empNumber: 1
           lastName: 'Abbey'
           firstName: 'Kayla'
@@ -263,13 +289,14 @@ Update:
           employeeId: 'E001'
           terminationId: null
         1:
-          id: 6
+          id: 7
           empNumber: 2
           lastName: 'Abel'
           firstName: 'Ashley'
           middleName: 'ST'
           employeeId: 'E002'
           terminationId: null
+      ownerEditable: true
     meta: [ ]
 
   'update where existing reviewers details':
@@ -309,14 +336,14 @@ Update:
           employeeId: 'E002'
           terminationId: null
         1:
-          id: 5
+          id: 6
           empNumber: 1
           lastName: 'Abbey'
           firstName: 'Kayla'
           middleName: 'T'
           employeeId: 'E001'
           terminationId: null
-
+      ownerEditable: true
     meta: [ ]
 
   'update with no new reviewers details':
@@ -356,15 +383,33 @@ Update:
           employeeId: 'E005'
           terminationId: null
         1:
-          id: 4
+          id: 6
           empNumber: 4
           lastName: 'Sherlock'
           firstName: 'Sherin'
           middleName: 'Sherin'
           employeeId: 'E004'
           terminationId: null
-
+      ownerEditable: true
     meta: [ ]
+
+  'update tracker with logs':
+    userId: 3
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    now:
+      datetime: '2022-02-03'
+    attributes:
+      id: 4
+    body:
+      trackerName: 'Tracker updated second time'
+      empNumber: 3
+      reviewerEmpNumbers: [ 5,4 ]
+    query: [ ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      messsage: "Cannot activate review for employees who doesn't have a Job Title with KPI"
 
 Delete:
   'delete one':

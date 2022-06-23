@@ -69,4 +69,46 @@ class SupervisorEvaluationAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('SupervisorEvaluationAPITestCases.yaml', 'Update');
     }
+
+    public function testDelete(): void
+    {
+        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
+
+    public function testCreate(): void
+    {
+        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForgetOne(): void
+    {
+        $api = new SupervisorEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
 }

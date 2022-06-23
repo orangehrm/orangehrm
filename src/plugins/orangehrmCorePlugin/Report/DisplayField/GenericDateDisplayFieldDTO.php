@@ -41,6 +41,6 @@ class GenericDateDisplayFieldDTO implements Stringable
      */
     public function toString(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->dateTime);
+        return $this->getDateTimeHelper()->formatDate($this->dateTime);
     }
 }

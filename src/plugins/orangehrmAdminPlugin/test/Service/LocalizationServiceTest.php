@@ -19,19 +19,22 @@
 
 namespace OrangeHRM\Tests\Admin\Service;
 
+use DateTime;
 use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\LocalizationService;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Entity\I18NLanguage;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Admin
  * @group Service
  */
-class LocalizationServiceTest extends TestCase
+class LocalizationServiceTest extends KernelTestCase
 {
     private LocalizationService $localizationService;
 
@@ -46,7 +49,22 @@ class LocalizationServiceTest extends TestCase
 
     public function testGetLocalizationDateFormats(): void
     {
-        $this->assertCount(11, $this->localizationService->getLocalizationDateFormats());
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturnCallback(fn () => new DateTime('2022-06-05'));
+
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
+        $formats = $this->localizationService->getLocalizationDateFormats();
+        $this->assertCount(11, $formats);
+        $this->assertEquals('Y-m-d', $formats[0]['id']);
+        $this->assertEquals('yyyy-mm-dd ( 2022-06-05 )', $formats[0]['label']);
+        $this->assertEquals('l, d-M-Y', $formats[9]['id']);
+        $this->assertEquals('DD, dd-M-yyyy ( Sunday, 05-Jun-2022 )', $formats[9]['label']);
+        $this->assertEquals('D, d M Y', $formats[10]['id']);
+        $this->assertEquals('D, dd M yyyy ( Sun, 05 Jun 2022 )', $formats[10]['label']);
     }
 
     public function testGetSupportedLanguages(): void

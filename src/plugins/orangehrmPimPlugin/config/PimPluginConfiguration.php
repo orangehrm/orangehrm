@@ -21,6 +21,7 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Service\EmployeeSalaryService;
 use OrangeHRM\Pim\Service\EmployeeService;
 
 class PimPluginConfiguration implements PluginConfigurationInterface
@@ -35,6 +36,10 @@ class PimPluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(
             Services::EMPLOYEE_SERVICE,
             EmployeeService::class
+        );
+        $this->getContainer()->register(
+            Services::EMPLOYEE_SALARY_SERVICE,
+            EmployeeSalaryService::class
         );
     }
 }

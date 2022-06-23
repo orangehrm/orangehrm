@@ -43,20 +43,4 @@ class SupervisorEvaluationSearchFilterParams extends FilterParams
     {
         $this->reviewId = $reviewId;
     }
-
-    /**
-     * @return string
-     */
-    public function getIsSelfEvaluation(): string
-    {
-        return $this->isSelfEvaluation;
-    }
-
-    /**
-     * @param string $isSelfEvaluation
-     */
-    public function setIsSelfEvaluation(string $isSelfEvaluation): void
-    {
-        $this->isSelfEvaluation = $isSelfEvaluation;
-    }
 }

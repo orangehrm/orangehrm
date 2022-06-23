@@ -91,7 +91,7 @@ class InterviewDecorator
     public function getInterviewDate(): string
     {
         $interviewDate = $this->interview->getInterviewDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($interviewDate);
+        return $this->getDateTimeHelper()->formatDate($interviewDate);
     }
 
     /**

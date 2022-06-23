@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use Symfony\Component\Yaml\Yaml;
@@ -76,5 +77,39 @@ class LocalizationDaoTest extends TestCase
     public function searchLanguagesDataProvider()
     {
         return $this->getTestCases('searchLanguages');
+    }
+
+    public function testGetLanguagesCount(): void
+    {
+        $i18NLanguageSearchParams = new I18NLanguageSearchFilterParams();
+        $count = $this->i18NDao->getLanguagesCount($i18NLanguageSearchParams);
+        $this->assertEquals(4, $count);
+
+        $i18NLanguageSearchParams->setAddedOnly(true);
+        $count = $this->i18NDao->getLanguagesCount($i18NLanguageSearchParams);
+        $this->assertEquals(2, $count);
+    }
+
+    public function testGetLanguageById(): void
+    {
+        $laguage = $this->i18NDao->getLanguageById(1);
+        $this->assertInstanceOf(I18NLanguage::class, $laguage);
+        $this->assertEquals(1, $laguage->getId());
+        $this->assertEquals('Chinese (Simplified, China) - 中文（简体，中国）', $laguage->getName());
+        $this->assertEquals('zh_Hans_CN', $laguage->getCode());
+    }
+
+    public function testSaveI18NLanguage(): void
+    {
+        $language = new I18NLanguage();
+        $language->setName('Special Langauege');
+        $language->setCode('spec lan');
+        $language->setEnabled(true);
+        $language->setAdded(true);
+
+        $result = $this->i18NDao->saveI18NLanguage($language);
+        $this->assertInstanceOf(I18NLanguage::class, $result);
+        $this->assertEquals('Special Langauege', $result->getName());
+        $this->assertEquals(true, $result->isAdded());
     }
 }

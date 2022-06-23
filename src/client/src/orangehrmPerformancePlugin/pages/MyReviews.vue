@@ -206,7 +206,6 @@ export default {
     actionButtonCellRenderer(...[, , , row]) {
       const cellConfig = {};
       const screenState = inject('screenState');
-
       if (screenState.screenType === 'lg' || screenState.screenType === 'xl') {
         if (row.selfEvaluationStatus === 'Completed') {
           cellConfig.view = viewIcon;

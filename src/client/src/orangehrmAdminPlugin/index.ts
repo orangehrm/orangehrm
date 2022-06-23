@@ -63,6 +63,7 @@ import EmailSubscription from './pages/emailSubscription/EmailSubscription.vue';
 import EditEmailSubscription from './pages/emailSubscription/EditEmailSubscription.vue';
 import LocalizationConfiguration from './pages/localization/LocalizationConfiguration.vue';
 import CorporateBranding from './pages/corporateBranding/CorporateBranding.vue';
+import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/languagePackage.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -112,4 +113,5 @@ export default {
   'email-subscription-edit': EditEmailSubscription,
   'localization-configuration': LocalizationConfiguration,
   'corporate-branding': CorporateBranding,
+  'language-package-list': LanguagePackages,
 };

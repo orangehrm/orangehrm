@@ -154,18 +154,21 @@ class CustomerDaoTest extends KernelTestCase
         $this->assertEmpty($result);
 
         $result = $this->customerDao->getCustomerIdListForProjectAdmin(2);
-        $this->assertEquals([7, 5, 12], $result);
+        sort($result);
+        $this->assertEquals([5, 7, 12], $result);
 
         $result = $this->customerDao->getCustomerIdListForProjectAdmin(5);
         $this->assertEquals([7], $result);
 
         $result = $this->customerDao->getCustomerIdListForProjectAdmin(7);
-        $this->assertEquals([9, 8], $result);
+        sort($result);
+        $this->assertEquals([8, 9], $result);
 
         $result = $this->customerDao->getCustomerIdListForProjectAdmin(9);
         $this->assertEmpty($result);
 
         $result = $this->customerDao->getCustomerIdListForProjectAdmin(5, true);
+        sort($result);
         $this->assertEquals([7, 11], $result);
     }
 

@@ -69,4 +69,46 @@ class EmployeeEvaluationAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('EmployeeEvaluationAPITestCases.yaml', 'Update');
     }
+
+    public function testDelete(): void
+    {
+        $api = new EmployeeEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new EmployeeEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
+
+    public function testCreate(): void
+    {
+        $api = new EmployeeEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new EmployeeEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new EmployeeEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForgetOne(): void
+    {
+        $api = new EmployeeEvaluationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
 }

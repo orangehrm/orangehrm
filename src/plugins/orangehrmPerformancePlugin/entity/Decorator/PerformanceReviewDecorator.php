@@ -99,7 +99,7 @@ class PerformanceReviewDecorator
      */
     public function getDueDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getDueDate());
+        return $this->getDateTimeHelper()->formatDate($this->getPerformanceReview()->getDueDate());
     }
 
     /**
@@ -107,7 +107,7 @@ class PerformanceReviewDecorator
      */
     public function getReviewPeriodStart(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodStart());
+        return $this->getDateTimeHelper()->formatDate($this->getPerformanceReview()->getReviewPeriodStart());
     }
 
     /**
@@ -115,7 +115,7 @@ class PerformanceReviewDecorator
      */
     public function getReviewPeriodEnd(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getReviewPeriodEnd());
+        return $this->getDateTimeHelper()->formatDate($this->getPerformanceReview()->getReviewPeriodEnd());
     }
 
     /**
@@ -123,7 +123,7 @@ class PerformanceReviewDecorator
      */
     public function getCompletedDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceReview()->getCompletedDate());
+        return $this->getDateTimeHelper()->formatDate($this->getPerformanceReview()->getCompletedDate());
     }
 
     /**

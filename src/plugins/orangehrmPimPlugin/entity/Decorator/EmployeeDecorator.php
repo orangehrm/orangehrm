@@ -61,7 +61,7 @@ class EmployeeDecorator
     public function getJoinedDate(): ?string
     {
         $date = $this->getEmployee()->getJoinedDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -70,7 +70,7 @@ class EmployeeDecorator
     public function getDrivingLicenseExpiredDate(): ?string
     {
         $date = $this->getEmployee()->getDrivingLicenseExpiredDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**
@@ -79,7 +79,7 @@ class EmployeeDecorator
     public function getBirthday(): ?string
     {
         $date = $this->getEmployee()->getBirthday();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 
     /**

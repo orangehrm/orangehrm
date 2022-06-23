@@ -31,6 +31,7 @@ use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
+use OrangeHRM\Core\Subscriber\GlobalConfigSubscriber;
 use OrangeHRM\Core\Subscriber\MailerSubscriber;
 use OrangeHRM\Core\Subscriber\ModuleNotAvailableSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
@@ -104,5 +105,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getEventDispatcher()->addSubscriber(new ModuleNotAvailableSubscriber());
         $this->getEventDispatcher()->addSubscriber(new RegistrationEventPersistSubscriber());
         $this->getEventDispatcher()->addSubscriber(new RegistrationEventPublishSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new GlobalConfigSubscriber());
     }
 }

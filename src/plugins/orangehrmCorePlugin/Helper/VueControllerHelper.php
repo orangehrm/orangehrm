@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Helper;
 
+use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Config\Config;
@@ -27,7 +28,6 @@ use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
@@ -40,8 +40,8 @@ class VueControllerHelper
     use UserServiceTrait;
     use MenuServiceTrait;
     use I18NHelperTrait;
-    use ConfigServiceTrait;
     use ThemeServiceTrait;
+    use LocalizationServiceTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -62,20 +62,6 @@ class VueControllerHelper
     public const CLIENT_LOGO_URL = 'clientLogoUrl';
     public const CLIENT_BANNER_URL = 'clientBannerUrl';
     public const THEME_VARIABLES = 'themeVariables';
-
-    public const DATE_FORMAT_MAP = [
-        'Y-m-d' => 'yyyy-mm-dd',
-        'd-m-Y' => 'dd-mm-yyyy',
-        'm-d-Y' => 'mm-dd-yyyy',
-        'Y-d-m' => 'yyyy-dd-mm',
-        'm-Y-d' => 'mm-yyyy-dd',
-        'd-Y-m' => 'dd-yyyy-mm',
-        'Y/m/d' => 'yyyy/mm/dd',
-        'Y m d' => 'yyyy mm dd',
-        'Y-M-d' => 'yyyy-M-dd',
-        'l, d-M-Y' => 'DD, dd-M-yyyy',
-        'D, d M Y' => 'D, dd M yyyy'
-    ];
 
     /**
      * @var Request|null
@@ -162,7 +148,7 @@ class VueControllerHelper
                 self::PRODUCT_VERSION => Config::PRODUCT_VERSION,
                 self::PRODUCT_NAME => Config::PRODUCT_NAME,
                 self::BREADCRUMB => $this->getBreadcrumb(),
-                self::DATE_FORMAT => $this->getDateFormat(),
+                self::DATE_FORMAT => $this->getLocalizationService()->getCurrentDateFormat(),
                 self::CLIENT_LOGO_URL => $clientLogoUrl,
                 self::CLIENT_BANNER_URL => $clientBannerUrl,
                 self::THEME_VARIABLES => $themeVariables,
@@ -285,18 +271,6 @@ class VueControllerHelper
             $breadcrumb['moduleName'] = $this->getI18NHelper()->transBySource($breadcrumb['moduleName']);
         }
         return $breadcrumb;
-    }
-
-    /**
-     * @return array
-     */
-    private function getDateFormat(): array
-    {
-        $dateFormat = $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
-        return [
-            'id' => $dateFormat,
-            'label' => self::DATE_FORMAT_MAP[$dateFormat]
-        ];
     }
 
     /**

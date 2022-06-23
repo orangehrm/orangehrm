@@ -126,9 +126,6 @@ langStrings:
     value: 'Closed'
     unitId: closed
   -
-    value: 'Deleted'
-    unitId: deleted
-  -
     value: 'File Size'
     unitId: file_size
   -
@@ -156,6 +153,15 @@ langStrings:
     value: 'Or login with'
     unitId: or_login_with
   -
+    value: 'Export'
+    unitId: export
+  -
+    value: 'Translate'
+    unitId: translate
+  -
+    value: 'Successfully Activated'
+    unitId: successfully_activated
+  -
     value: 'Publish'
     unitId: publish
   -
@@ -164,3 +170,9 @@ langStrings:
   -
     value: 'Number should be greater than or equal to {minValue}'
     unitId: greater_than_or_equal_to_n
+  -
+    value: 'Note'
+    unitId: note
+  -
+    value: 'Users will require translate texts manually after creating the language package.'
+    unitId: translate_text_manually

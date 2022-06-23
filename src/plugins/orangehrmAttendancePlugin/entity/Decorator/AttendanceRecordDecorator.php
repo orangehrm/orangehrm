@@ -73,7 +73,7 @@ class AttendanceRecordDecorator
      */
     public function getPunchInUTCDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchInUtcTime());
+        return $this->getDateTimeHelper()->formatDate($this->getAttendanceRecord()->getPunchInUtcTime());
     }
 
     /**
@@ -91,7 +91,7 @@ class AttendanceRecordDecorator
      */
     public function getPunchInUserDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchInUserTime());
+        return $this->getDateTimeHelper()->formatDate($this->getAttendanceRecord()->getPunchInUserTime());
     }
 
     /**
@@ -109,7 +109,7 @@ class AttendanceRecordDecorator
      */
     public function getPunchOutUTCDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchOutUtcTime());
+        return $this->getDateTimeHelper()->formatDate($this->getAttendanceRecord()->getPunchOutUtcTime());
     }
 
     /**
@@ -127,7 +127,7 @@ class AttendanceRecordDecorator
      */
     public function getPunchOutUserDate(): ?string
     {
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchOutUserTime());
+        return $this->getDateTimeHelper()->formatDate($this->getAttendanceRecord()->getPunchOutUserTime());
     }
 
     /**

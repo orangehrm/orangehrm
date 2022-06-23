@@ -39,9 +39,8 @@ class MaintenanceServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->maintenanceService = new MaintenanceService();
-        $this->fixture = Config::get(
-            Config::PLUGINS_DIR
-        ) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeMaintenence.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR)
+            . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeMaintenence.yml';
         TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([
             Services::COUNTRY_SERVICE => new CountryService(),
@@ -313,16 +312,17 @@ class MaintenanceServiceTest extends KernelTestCase
     public function testAttendanceRecord(): void
     {
         $result = $this->maintenanceService->accessEmployeeData(1);
-        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchInUtcTime']);
-        $this->assertEquals('Im punched In', $result['AttendanceRecord'][0]['punchInNote']);
-        $this->assertEquals('Asia/Calcutta', $result['AttendanceRecord'][0]['punchInTimeOffset']);
-        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchInUserTime']);
-        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchOutUtcTime']);
-        $this->assertEquals(' Punched Out', $result['AttendanceRecord'][0]['punchOutNote']);
-        $this->assertEquals('Asia/Calcutta', $result['AttendanceRecord'][0]['punchOutTimeOffset']);
-        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchOutUserTime']);
-        $this->assertEquals('PUNCHED IN', $result['AttendanceRecord'][0]['state']);
         $this->assertCount(2, $result['AttendanceRecord']);
+        $index = $result['AttendanceRecord'][0]['punchInUtcTime'] == '2011-05-27 12:10:00' ? 0 : 1;
+        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][$index]['punchInUtcTime']);
+        $this->assertEquals('Im punched In', $result['AttendanceRecord'][$index]['punchInNote']);
+        $this->assertEquals('Asia/Calcutta', $result['AttendanceRecord'][$index]['punchInTimeOffset']);
+        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][$index]['punchInUserTime']);
+        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][$index]['punchOutUtcTime']);
+        $this->assertEquals(' Punched Out', $result['AttendanceRecord'][$index]['punchOutNote']);
+        $this->assertEquals('Asia/Calcutta', $result['AttendanceRecord'][$index]['punchOutTimeOffset']);
+        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][$index]['punchOutUserTime']);
+        $this->assertEquals('PUNCHED IN', $result['AttendanceRecord'][$index]['state']);
     }
 
     public function testTimesheetItem(): void

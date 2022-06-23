@@ -537,7 +537,7 @@ class PerformanceReviewDao extends BaseDao
         $q->select('kpi.id')
             ->andWhere('kpi.jobTitle =:jobTitle')
             ->setParameter('jobTitle', $jobTitleId);
-        return $q->getQuery()->execute();
+        return array_column($q->getQuery()->execute(), 'id');
     }
 
     /**
