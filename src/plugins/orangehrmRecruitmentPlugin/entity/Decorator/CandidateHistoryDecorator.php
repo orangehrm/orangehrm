@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Employee;
@@ -30,6 +31,7 @@ use OrangeHRM\Recruitment\Service\CandidateService;
 class CandidateHistoryDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var CandidateHistory
@@ -94,7 +96,5 @@ class CandidateHistoryDecorator
     {
         $date = $this->candidateHistory->getPerformedDate();
         return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
-    }
-
     }
 }
