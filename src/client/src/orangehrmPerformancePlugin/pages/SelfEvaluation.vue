@@ -141,7 +141,9 @@
 </template>
 
 <script>
+import {provide, readonly} from 'vue';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
+import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {APIService} from '@/core/util/services/api.service';
 import ReviewSummary from '../components/ReviewSummary';
 import FinalEvaluation from '../components/FinalEvaluation';
@@ -193,6 +195,9 @@ export default {
   setup() {
     const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
+
+    const responsiveState = useResponsive();
+    provide('screenState', readonly(responsiveState));
 
     const {
       getAllKpis,

@@ -101,7 +101,9 @@
 </template>
 
 <script>
+import {provide, readonly} from 'vue';
 import useForm from '@ohrm/core/util/composable/useForm';
+import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
 import ReviewSummary from '@/orangehrmPerformancePlugin/components/ReviewSummary';
@@ -156,6 +158,10 @@ export default {
   setup() {
     const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
+
+    const responsiveState = useResponsive();
+    provide('screenState', readonly(responsiveState));
+
     const {
       getAllKpis,
       getEmployeeReview,
