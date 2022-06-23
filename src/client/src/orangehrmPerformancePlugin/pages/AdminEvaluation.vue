@@ -280,7 +280,7 @@ export default {
           this.saveSupervisorReview(this.reviewId, this.supervisorReview)
             .then(() => {
               if (this.hasSupervisorUpdateAction) {
-                this.saveEmployeeReview(
+                return this.saveEmployeeReview(
                   this.reviewId,
                   true,
                   this.employeeReview,
@@ -288,7 +288,7 @@ export default {
               }
             })
             .then(() => {
-              this.finalizeReview(this.reviewId, {
+              return this.finalizeReview(this.reviewId, {
                 complete: complete,
                 finalRating: this.finalRating,
                 finalComment: this.finalComment,

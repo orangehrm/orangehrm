@@ -307,8 +307,6 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 ->getReviewById($reviewId);
 
             $actionAllowed = $this->checkActionAllowed($review);
-
-            // TODO seems to throw when completing. need to check
             if (!$actionAllowed) {
                 throw $this->getForbiddenException();
             }
