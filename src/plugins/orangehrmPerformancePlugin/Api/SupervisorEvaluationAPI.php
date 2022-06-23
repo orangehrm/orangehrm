@@ -377,7 +377,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->updateReviewerStatus(
                 $review,
-                ReviewerGroup::REVIEWER_GROUP_EMPLOYEE,
+                ReviewerGroup::REVIEWER_GROUP_SUPERVISOR,
                 Reviewer::STATUS_IN_PROGRESS
             );
     }

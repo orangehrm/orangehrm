@@ -165,6 +165,66 @@ langStrings:
     value: 'Edit Tracker Log'
     unitId: edit_tracker_log
   -
+    value: 'Performance Review'
+    unitId: performance_review
+  -
+    value: 'Review Summary'
+    unitId: review_summary
+  -
+    value: 'Review Due Date'
+    unitId: review_due_date
+  -
+    value: 'Complete'
+    unitId: complete
+  -
+    value: 'Review Finalization'
+    unitId: review_finalization
+  -
+    value: 'Date of Completion'
+    unitId: date_of_completion
+  -
+    value: 'Final Rating'
+    unitId: final_rating
+  -
+    value: 'Final Comments'
+    unitId: final_comments
+  -
+    value: 'Rating should be greater than or equal to {minValue}'
+    unitId: rating_should_be_greater_than_or_equal_to_minValue
+  -
+    value: 'Rating should be less than or equal to {maxValue}'
+    unitId: rating_should_be_less_than_or_equal_to_maxValue
+  -
+    value: 'Self Evaluation by'
+    unitId: self_evaluation_by
+  -
+    value: 'Supervisor Evaluation by'
+    unitId: supervisor_evaluation_by
+  -
+    value: 'KPIs'
+    unitId: kpis
+  -
+    value: 'KPI'
+    unitId: kpi
+  -
+    value: 'Rating'
+    unitId: rating
+  -
+    value: 'Min'
+    unitId: min
+  -
+    value: 'Max'
+    unitId: max
+  -
+    value: 'Evaluation Activated'
+    unitId: evaluation_activated
+  -
+    value: 'Evaluation In Progress'
+    unitId: evaluation_in_progress
+  -
+    value: 'Evaluation Completed'
+    unitId: evaluation_completed
+  -
     value: "Cannot activate review for employees who doesn't have a Job Title with KPI"
     unitId: cannot_activate_review_for_employee_without_job_title_with_kpi
   -

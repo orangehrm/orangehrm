@@ -593,8 +593,8 @@ class PerformanceReviewDao extends BaseDao
             } else {
                 $this->getEntityManager()->persist($reviewerRating);
             }
-            $this->getEntityManager()->flush();
         }
+        $this->getEntityManager()->flush();
     }
 
     /**
