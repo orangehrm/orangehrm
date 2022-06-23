@@ -95,10 +95,10 @@ class PerformanceReviewDao extends BaseDao
     {
         $this->beginTransaction();
         try {
-            $this->commitTransaction();
             $this->persist($performanceReview);
             $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR, $reviewerEmpNumber);
             $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_EMPLOYEE, null);
+            $this->commitTransaction();
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
@@ -139,9 +139,8 @@ class PerformanceReviewDao extends BaseDao
     {
         $reviewer = $this->getReviewerRecord($performanceReview->getId(), $reviewerGroup->getName());
         $kpiIdArrayForReview = $this->getKpiIdsForReviewId($performanceReview->getId());
-        $kpiIdsForReview = array_column($kpiIdArrayForReview, 'id');
 
-        foreach ($kpiIdsForReview as $kpiId) {
+        foreach ($kpiIdArrayForReview as $kpiId) {
             $reviewerRating = new ReviewerRating();
             $reviewerRating->setPerformanceReview($performanceReview);
             $reviewerRating->getDecorator()->setKpiByKpiId($kpiId);
