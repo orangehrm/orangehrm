@@ -33,10 +33,9 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
-use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryListModel;
 use OrangeHRM\Recruitment\Dto\CandidateHistorySearchFilterParams;
-use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
@@ -126,7 +125,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
             ->getCandidateHistoryRecordByCandidateIdAndHistoryId($this->getCandidateId(), $this->getHistoryId());
 
         $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
-        return new EndpointResourceResult(CandidateHistoryListModel::class, $candidateHistoryRecord);
+        return new EndpointResourceResult(CandidateHistoryDetailedModel::class, $candidateHistoryRecord);
     }
 
     /**
@@ -155,12 +154,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
             ->getCandidateDao()
             ->getCandidateVacancyByCandidateId($this->getCandidateId());
 
-        if (is_null($candidateVacancy) ||
-            !in_array(
-                $candidateVacancy->getStatus(),
-                $this->getEditableCandidateStatuses()
-            )
-        ) {
+        if (is_null($candidateVacancy)) {
             throw $this->getForbiddenException();
         }
 
@@ -177,7 +171,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
             )
         );
         $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistoryRecord);
-        return new EndpointResourceResult(CandidateHistoryListModel::class, $candidateHistoryRecord);
+        return new EndpointResourceResult(CandidateHistoryDetailedModel::class, $candidateHistoryRecord);
     }
 
     /**
@@ -223,18 +217,5 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_HISTORY_ID
         );
-    }
-
-    /**
-     * @return array
-     */
-    private function getEditableCandidateStatuses(): array
-    {
-        $allowedActionIds = CandidateService::STATUS_MAP;
-        unset(
-            $allowedActionIds[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
-            $allowedActionIds[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW]
-        );
-        return $allowedActionIds;
     }
 }
