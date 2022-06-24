@@ -14,13 +14,13 @@ class InterviewActionHistoryController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        if ($request->attributes->has('candidateVacancyId')) {
-            $component = new Component('save-interview-passed');
-            $component->addProp(new Prop(
-                'candidate-id', Prop::TYPE_NUMBER, $request->attributes->get('candidateVacancyId')));
-        } else {
-            $component = new Component('save-interview-passed');
-        }
+        $component = new Component('action-history');
+        $component->addProp(new Prop(
+            'candidate-id', Prop::TYPE_NUMBER, $request->attributes->get('candidateId')
+        ));
+        $component->addProp(new Prop(
+            'history-id', Prop::TYPE_NUMBER, $request->attributes->get('historyId')
+        ));
         $this->setComponent($component);
     }
 }

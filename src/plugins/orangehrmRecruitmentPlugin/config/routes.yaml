@@ -251,8 +251,13 @@ save_recruitment_candidates:
   methods: [ GET ]
 
 save_interview_pass:
-  path: /recruitment/candidate/{candidateVacancyId}/markInteviewPass/{interviewId}
+  path: /recruitment/candidate/{candidateId}/markInteviewPass/{interviewId}
   controller: OrangeHRM\Recruitment\Controller\CandidateVacancyStatusController::handle
+  methods: [ GET ]
+
+view_action_history:
+  path: /recruitment/candidate/{candidateId}/history/{historyId}
+  controller: OrangeHRM\Recruitment\Controller\InterviewActionHistoryController::handle
   methods: [ GET ]
 
 recruitment_module_under_development: # remove this

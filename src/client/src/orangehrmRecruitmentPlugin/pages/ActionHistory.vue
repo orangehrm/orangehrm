@@ -19,157 +19,26 @@
  -->
 
 <template>
-  <div class="orangehrm-background-container">
-    <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title" tag="h6">
-        {{ $t('recruitment.view_action_history') }}
-      </oxd-text>
-      <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                  :label="$t('recruitment.candidate')"
-                  disabled
-                  :value="schedule.candidate"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                  :label="$t('recruitment.vacancy')"
-                  disabled
-                  :value="schedule.vacancy"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                  :label="$t('recruitment.hiring_manager')"
-                  disabled
-                  :value="schedule.hiringManager"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                  :label="$t('recruitment.current_status')"
-                  disabled
-                  :value="schedule.status"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                  :label="$t('recruitment.performed_action')"
-                  disabled
-                  :value="schedule.performedAction"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                  :label="$t('general.performed_by')"
-                  disabled
-                  :value="schedule.performedBy"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                  :label="$t('recruitment.performed_date')"
-                  disabled
-                  :value="getPerformedDate"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-        <oxd-form-row>
-          <oxd-grid :rows ="2" :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item class="orangehrm-save-candidate-page --span-column-2">
-              <oxd-input-field
-                  v-model="interview.note"
-                  :label="$t('general.notes')"
-                  type="textarea"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-        <oxd-divider />
-        <oxd-form-actions>
-          <oxd-button
-              display-type="ghost"
-              :label="$t('general.back')"
-              @click="onBack"
-          />
-          <submit-button :label="$t('general.save')" />
-        </oxd-form-actions>
-      </oxd-form>
-    </div>
-  </div>
+  <view-action-history :candidate-id="candidateId" :history-id="historyId" />
 </template>
 
 <script>
-import {APIService} from "@/core/util/services/api.service";
-
-const interviewModel = {
-  candidate: null,
-  vacancy: null,
-  hiringManager: null,
-  status: null,
-  notes: null,
-};
+import ViewActionHistory from '../components/ViewActionHistory.vue';
 
 export default {
-  name: 'ActionHistory',
+  components: {
+    'view-action-history': ViewActionHistory,
+  },
 
   props: {
     candidateId: {
       type: Number,
       required: true,
     },
+    historyId: {
+      type: Number,
+      required: true,
+    },
   },
-
-  setup() {
-    const http = new APIService(
-        window.appGlobal.baseUrl,
-        '/api/v2/recruitment/candidates',
-    );
-    return {
-      http,
-    };
-  },
-
-  data(){
-    return {
-      isLoading: false,
-      interview: {...interviewModel},
-    }
-  },
-  beforeMount(){
-    this.isLoading = true;
-    this.http
-        .get(this.candidateId)
-        .then(response => {
-          const {data} = response.data;
-          this.interview.candidate = data.addedPerson;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-  },
-  methods: {
-    onSave() {
-      this.loading = true;
-      const payload = {
-        trackerName: this.tracker.name.trim(),
-        empNumber: this.tracker.employee.id,
-        reviewerEmpNumbers: this.tracker.reviewers.map(employee => employee.id),
-      };
-    }
-  }
 };
 </script>
