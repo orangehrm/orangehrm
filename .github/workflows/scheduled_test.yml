@@ -23,6 +23,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ secrets.WORKFLOW_BRANCH }}
+
+      - name: Source info
+        run: |
+          git log -1
+          git remote -v
 
       - name: Install dependencies
         run: |
@@ -78,7 +85,7 @@ jobs:
       - name: Install OrangeHRM
         run: |
           ${{ matrix.php }} installer/cli_install.php
-          ${{ matrix.php }} devTools/general/create-test-db.php root
+          ${{ matrix.php }} devTools/core/console.php i:create-test-db -p root
 
       - name: Run test
         run: |
