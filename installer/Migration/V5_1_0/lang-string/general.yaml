@@ -164,6 +164,3 @@ langStrings:
   -
     value: 'Number should be greater than or equal to {minValue}'
     unitId: greater_than_or_equal_to_n
-  -
-    value: 'Note'
-    unitId: note

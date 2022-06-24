@@ -107,3 +107,8 @@ export default {
   },
 };
 </script>
+<style
+  src="../pages/languagePackage/language-package.scss"
+  lang="scss"
+  scoped
+></style>

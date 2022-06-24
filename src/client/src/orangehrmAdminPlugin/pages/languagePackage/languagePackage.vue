@@ -191,4 +191,4 @@ export default {
   },
 };
 </script>
-<style src="./language-package.scss" lang="scss"></style>
+<style src="./language-package.scss" lang="scss" scoped></style>
