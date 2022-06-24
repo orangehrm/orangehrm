@@ -144,13 +144,14 @@ export default {
           slot: 'title',
           title: this.$t('general.language_packages'),
           sortField: 'languageName',
-          style: {flex: 2},
+          style: {flex: '80%'},
         },
         {
           name: 'actions',
           slot: 'footer',
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
+          style: {flex: '20%'},
           cellConfig: {
             translate: {
               component: 'oxd-button',

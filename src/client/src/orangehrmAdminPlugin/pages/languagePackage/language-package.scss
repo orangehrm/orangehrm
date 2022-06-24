@@ -14,6 +14,8 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 .addlanguage-note{
     background-color: $oxd-interface-gray-lighten-2-color;
     border-radius: 10px;
@@ -27,20 +29,16 @@
 }
 
 .oxd-table-cell-actions{
-    justify-content: end;
-}
-
-.orangehrm-dialog-modal{
-    width: '90%';
-    min-width: '800px';
+    @include oxd-respond-to('xs') {
+        justify-content: end;
+    }  
+    @include oxd-respond-to('lg') {
+        justify-content: unset;
+    }
 }
 
 .orangehrm-information-card-text {
     font-size: $oxd-input-control-font-size;
     color: $oxd-input-control-font-color;
     font-weight: $oxd-input-control-font-weight;
-}
-
-.oxd-table-th{
-    margin-right: 10rem;
 }
