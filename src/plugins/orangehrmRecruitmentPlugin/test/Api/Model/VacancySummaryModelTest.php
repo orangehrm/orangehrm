@@ -22,10 +22,10 @@ namespace OrangeHRM\Tests\Recruitment\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Entity\Vacancy;
-use OrangeHRM\Recruitment\Api\Model\VacancyListModel;
+use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
 use OrangeHRM\Tests\Util\TestCase;
 
-class VacancyListModelTest extends TestCase
+class VacancySummaryModelTest extends TestCase
 {
     /**
      * @return void
@@ -43,7 +43,7 @@ class VacancyListModelTest extends TestCase
         $vacancy->setId(1);
         $vacancy->setName('Title');
         $vacancy->setDescription('Description');
-        $vacancyModel = new VacancyListModel($vacancy);
+        $vacancyModel = new VacancySummaryModel($vacancy);
         $this->assertEquals($resultArray, $vacancyModel->toArray());
     }
 }
