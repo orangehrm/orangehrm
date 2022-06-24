@@ -12,7 +12,7 @@ langStrings:
     value: 'Review Period End Date'
     unitId: review_period_end_date
   -
-    value: 'Due date'
+    value: 'Due Date'
     unitId: due_date
   -
     value: 'Activate'
@@ -233,3 +233,6 @@ langStrings:
   -
     value: 'Selected supervisor for reviewer is invalid'
     unitId: selected_supervisor_for_reviewer_is_invalid
+  -
+    value: 'General Comment'
+    unitId: general_comment

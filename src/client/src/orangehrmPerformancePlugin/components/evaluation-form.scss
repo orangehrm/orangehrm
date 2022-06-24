@@ -47,6 +47,7 @@
     }
   }
   &-grid {
+    padding-top: 0.5rem;
     @include oxd-respond-to('md') {
       grid-template-columns: 1fr 110px 1fr;
     }
@@ -76,6 +77,15 @@
       }
       &-minmax {
         font-size: 0.75rem;
+      }
+    }
+    &-general {
+      @include oxd-respond-to('md') {
+        display: flex;
+        align-items: center;
+      }
+      &-label {
+        font-weight: 700;
       }
     }
     &-spacer {

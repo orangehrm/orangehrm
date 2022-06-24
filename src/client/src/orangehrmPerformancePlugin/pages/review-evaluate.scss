@@ -14,9 +14,30 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-performance-review {
   &-title {
     font-size: 14px;
     font-weight: 800;
+  }
+
+  &-actions {
+    gap: 0.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 120px;
+    margin-left: 60px;
+    ::v-deep(.oxd-button--medium) {
+      width: 100%;
+    }
+    @include oxd-respond-to('md') {
+      margin-left: unset;
+      max-width: unset;
+      ::v-deep(.oxd-button--medium) {
+        width: unset;
+      }
+    }
   }
 }
