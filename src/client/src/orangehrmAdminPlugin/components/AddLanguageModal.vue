@@ -36,7 +36,7 @@
               {{ $t('general.note') }}
             </oxd-text>
             <oxd-text class="orangehrm-information-card-text">
-              {{ $t('general.translate_text_manually') }}
+              {{ $t('admin.translate_text_manually') }}
             </oxd-text>
           </div>
         </div>

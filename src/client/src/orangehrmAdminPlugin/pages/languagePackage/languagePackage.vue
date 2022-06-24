@@ -156,7 +156,7 @@ export default {
             translate: {
               component: 'oxd-button',
               props: {
-                label: this.$t('general.translate'),
+                label: this.$t('admin.translate'),
                 style: 'Text',
                 displayType: 'text',
               },
@@ -164,7 +164,7 @@ export default {
             export: {
               component: 'oxd-button',
               props: {
-                label: this.$t('general.export'),
+                label: this.$t('admin.export'),
                 displayType: 'text',
                 size: 'medium',
               },
