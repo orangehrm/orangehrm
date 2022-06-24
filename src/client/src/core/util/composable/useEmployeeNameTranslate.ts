@@ -20,25 +20,41 @@ import usei18n from '@/core/util/composable/usei18n';
 
 type Employee = {
   firstName: string;
+  middleName: string | null;
   lastName: string;
-  terminationId: number;
+  terminationId: number | null;
 };
 
 export default function useEmployeeNameTranslate() {
   const {$t} = usei18n();
 
-  const translateEmployeeName = (employee: Employee): string => {
+  const translateEmployeeName = (
+    employee: Employee,
+    includeMiddle?: boolean,
+    excludePastEmpTag?: boolean,
+  ): string => {
     if (employee.firstName === 'Purged' && employee.lastName === 'Employee') {
       return $t('general.purged_employee');
     }
 
+    const resolvedMiddleName =
+      typeof includeMiddle === 'boolean' &&
+      includeMiddle &&
+      typeof employee.middleName === 'string'
+        ? ` ${employee.middleName} `
+        : ' ';
+
     if (employee.terminationId) {
-      return `${employee.firstName} ${employee.lastName} ${$t(
-        'general.past_employee',
-      )}`;
+      const resolvedPastEmpTag =
+        typeof excludePastEmpTag === 'undefined'
+          ? ` ${$t('general.past_employee')}`
+          : excludePastEmpTag
+          ? ''
+          : ` ${$t('general.past_employee')}`;
+      return `${employee.firstName}${resolvedMiddleName}${employee.lastName}${resolvedPastEmpTag}`;
     }
 
-    return `${employee.firstName} ${employee.lastName}`;
+    return `${employee.firstName}${resolvedMiddleName}${employee.lastName}`;
   };
 
   return {

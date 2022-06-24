@@ -102,6 +102,7 @@
 <script>
 import {computed, ref} from 'vue';
 import useSort from '@ohrm/core/util/composable/useSort';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
@@ -136,6 +137,8 @@ export default {
     },
   },
   setup(props) {
+    const {$tEmpName} = useEmployeeNameTranslate();
+
     const projectNormalizer = data => {
       return data.map(item => {
         const selectable = props.unselectableIds.findIndex(id => id == item.id);
@@ -146,12 +149,7 @@ export default {
             ? item.customer?.name + ' (Deleted)'
             : item.customer?.name,
           projectAdmins: item.projectAdmins
-            ?.map(projectAdmin => {
-              return projectAdmin.terminationId
-                ? `${projectAdmin.firstName} ${projectAdmin.lastName}` +
-                    ' (Past Employee)'
-                : `${projectAdmin.firstName} ${projectAdmin.lastName}`;
-            })
+            ?.map(projectAdmin => $tEmpName(projectAdmin))
             .join(', '),
           isSelectable: selectable === -1,
         };

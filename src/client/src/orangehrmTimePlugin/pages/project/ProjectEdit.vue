@@ -122,6 +122,7 @@ import {
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import Activities from '@/orangehrmTimePlugin/components/Activities.vue';
 import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
@@ -187,6 +188,7 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
+    const {$tEmpName} = useEmployeeNameTranslate();
     this.http
       .get(this.projectId, {model: 'detailed'})
       .then(response => {
@@ -205,8 +207,13 @@ export default {
             return {
               value: {
                 id: projectAdmin.empNumber,
-                label: `${projectAdmin.firstName} ${projectAdmin.middleName} ${projectAdmin.lastName}`,
-                isPastEmployee: projectAdmin.terminationId ? true : false,
+                label: $tEmpName(projectAdmin, true, true),
+                isPastEmployee:
+                  projectAdmin.terminationId &&
+                  `${projectAdmin.firstName} ${projectAdmin.lastName}` !==
+                    'Purged Employee'
+                    ? true
+                    : false,
               },
             };
           });
