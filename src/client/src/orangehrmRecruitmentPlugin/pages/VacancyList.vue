@@ -79,7 +79,7 @@ export default {
     };
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/recruitment/fetch-vacancy-list',
+      '/api/v2/recruitment/public/vacancies',
     );
     const state = reactive({
       vacancies: [],

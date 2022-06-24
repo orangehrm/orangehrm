@@ -18,25 +18,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Service;
+namespace OrangeHRM\Recruitment\Api\Model;
 
-use OrangeHRM\Recruitment\Dao\VacancyListDao;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Vacancy;
 
-class VacancyListService
+class VacancySummaryModel implements Normalizable
 {
-    /**
-     * @var VacancyListDao | null
-     */
-    private ?VacancyListDao $vacancyListDao = null;
+    use ModelTrait;
 
-    /**
-     * @return VacancyListDao
-     */
-    public function getVacancyListDao(): VacancyListDao
+    public function __construct(Vacancy $vacancy)
     {
-        if (is_null($this->vacancyListDao)) {
-            $this->vacancyListDao = new VacancyListDao();
-        }
-        return $this->vacancyListDao;
+        $this->setEntity($vacancy);
+        $this->setFilters([
+            'id',
+            'name',
+            'description',
+        ]);
+
+        $this->setAttributeNames([
+            'id',
+            'name',
+            'description',
+        ]);
     }
 }

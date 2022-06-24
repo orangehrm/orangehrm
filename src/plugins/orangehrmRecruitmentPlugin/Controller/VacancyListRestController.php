@@ -34,19 +34,16 @@ use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\ORM\ListSorter;
-use OrangeHRM\Recruitment\Api\Model\VacancyListModel;
+use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
-/**
- *
- */
 class VacancyListRestController extends AbstractRestController implements PublicControllerInterface
 {
     use VacancyServiceTrait;
     use NormalizerServiceTrait;
 
-    public const DEFAULT_STATUS = 1;
+    public const ACTIVE_STATUS = 1;
 
     private const VACANCY_ID = 'vacancy.id';
     private const VACANCY_OFFSET = 'offset';
@@ -55,10 +52,7 @@ class VacancyListRestController extends AbstractRestController implements Public
      * @var ValidationDecorator|null
      */
     private ?ValidationDecorator $validationDecorator = null;
-    /**
-     * @var int
-     */
-    private int $default_status = self::DEFAULT_STATUS;
+
 
     /**
      * @param Request $request
@@ -67,10 +61,10 @@ class VacancyListRestController extends AbstractRestController implements Public
      */
     public function handleGetRequest(Request $request): Response
     {
-        $offset = $request->query->get(self::VACANCY_OFFSET, 0);
-        $limit = $request->query->get(self::VACANCY_LIMIT, 8);
+        $offset = $request->getQuery()->get(self::VACANCY_OFFSET, 0);
+        $limit = $request->getQuery()->get(self::VACANCY_LIMIT, 8);
         $vacancySearchFilterParams = new VacancySearchFilterParams();
-        $vacancySearchFilterParams->setStatus($this->default_status);
+        $vacancySearchFilterParams->setStatus(self::ACTIVE_STATUS);
         $vacancySearchFilterParams->setSortField(self::VACANCY_ID);
         $vacancySearchFilterParams->setSortOrder(ListSorter::DESCENDING);
         $vacancySearchFilterParams->setOffset($offset);
@@ -80,7 +74,7 @@ class VacancyListRestController extends AbstractRestController implements Public
 
         return new Response(
             $this->getNormalizerService()
-                ->normalizeArray(VacancyListModel::class, $vacancies),
+                ->normalizeArray(VacancySummaryModel::class, $vacancies),
             [CommonParams::PARAMETER_TOTAL => $count]
         );
     }

@@ -39,7 +39,7 @@ class VacancyListRestControllerTest extends KernelTestCase
     public static function setUpBeforeClass(): void
     {
         $fixture = Config::get(Config::PLUGINS_DIR)
-            .'/orangehrmRecruitmentPlugin/test/fixtures/JobVacancyDao.yaml';
+            .'/orangehrmRecruitmentPlugin/test/fixtures/VacancyListRestController.yaml';
         TestDataService::populate($fixture);
     }
 
@@ -59,5 +59,39 @@ class VacancyListRestControllerTest extends KernelTestCase
         $response = $controller->handleGetRequest($request);
         $iteratableResponse = json_decode($response->formatData(), false);
         $this->assertEquals('Electrical Engineer Officer', $iteratableResponse->data[0]->name);
+    }
+
+    /**
+     * @throws SearchParamException
+     */
+    public function testHandleGetRequestWithLimit5(): void
+    {
+        $this->createKernelWithMockServices([
+            Services::VACANCY_SERVICE => new VacancyService(),
+            Services::NORMALIZER_SERVICE => new NormalizerService(),
+        ]);
+        $controller = new VacancyListRestController();
+        $httpRequest = $this->getHttpRequest(['limit'=> 5]);
+        $request = new Request($httpRequest);
+        $response = $controller->handleGetRequest($request);
+        $iteratableResponse = json_decode($response->formatData(), false);
+        $this->assertEquals('Electrical Engineer Officer', $iteratableResponse->data[0]->name);
+    }
+
+    /**
+     * @throws SearchParamException
+     */
+    public function testHandleGetRequestWithOffset2(): void
+    {
+        $this->createKernelWithMockServices([
+            Services::VACANCY_SERVICE => new VacancyService(),
+            Services::NORMALIZER_SERVICE => new NormalizerService(),
+        ]);
+        $controller = new VacancyListRestController();
+        $httpRequest = $this->getHttpRequest(['offset'=> 2]);
+        $request = new Request($httpRequest);
+        $response = $controller->handleGetRequest($request);
+        $iteratableResponse = json_decode($response->formatData(), false);
+        $this->assertEquals('Charted Engineer', $iteratableResponse->data[0]->name);
     }
 }

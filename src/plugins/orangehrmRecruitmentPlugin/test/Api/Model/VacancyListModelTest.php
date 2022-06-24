@@ -31,7 +31,7 @@ class VacancyListModelTest extends TestCase
      * @return void
      * @throws NormalizeException
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $resultArray = [
             'id' => 1,

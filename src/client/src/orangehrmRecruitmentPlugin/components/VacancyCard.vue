@@ -31,13 +31,11 @@
     </div>
     <oxd-divider v-show="vacancyDescription"></oxd-divider>
     <div :class="{'orangehrm-vacancy-card-body': isViewDetails}">
-      <oxd-text type="toast-message"
-        ><pre
-          v-if="vacancyDescription"
-          class="orangehrm-vacancy-card-pre-tag"
-          >{{ vacancyDescription }}</pre
-        ></oxd-text
-      >
+      <oxd-text type="toast-message">
+        <pre v-if="vacancyDescription" class="orangehrm-vacancy-card-pre-tag">
+          {{ vacancyDescription }}
+        </pre>
+      </oxd-text>
     </div>
     <div
       v-if="vacancyDescription && vacancyDescription.length > descriptionLength"
@@ -109,12 +107,7 @@ export default {
     },
   },
   beforeMount() {
-    this.onResize();
     this.validDescriptionLength();
-    window.addEventListener('resize', this.onResize);
-  },
-  beforeUnmount() {
-    window.removeEventListener('resize', this.onResize);
   },
   methods: {
     viewDetails() {
@@ -124,11 +117,8 @@ export default {
       return this.isMobile
         ? (this.descriptionLength = 150)
         : this.windowWidth < 1920
-        ? (this.descriptionLength = 300)
+        ? (this.descriptionLength = 250)
         : (this.descriptionLength = 400);
-    },
-    onResize() {
-      this.windowWidth = window.innerWidth;
     },
   },
 };
