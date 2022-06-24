@@ -21,8 +21,11 @@ namespace OrangeHRM\Admin\Dao;
 
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\ORM\QueryBuilderWrapper;
+use Doctrine\ORM\Query\Expr;
 
 class LocalizationDao extends BaseDao
 {
@@ -82,5 +85,37 @@ class LocalizationDao extends BaseDao
     {
         $this->persist($i18NLanguage);
         return $i18NLanguage;
+    }
+
+    public function getAllSourceText()
+    {
+        $q = $this->createQueryBuilderWrapper()->getQueryBuilder();
+
+        $q->leftJoin('langString.group', 'module');
+        $q->select(
+            'langString.unitId',
+            'langString.value AS source',
+            'translation.value AS target',
+            'module.name AS groupName',
+        );
+
+        return $q->getQuery()->getArrayResult();
+
+    }
+
+    public function createQueryBuilderWrapper(): QueryBuilderWrapper
+    {
+//        dump('here');
+        $q = $this->createQueryBuilder(I18NLangString::class, 'langString');
+        $q->leftJoin(
+            'langString.translations',
+            'translation',
+            Expr\Join::WITH,
+            'IDENTITY(translation.language) = :langId'
+        );
+
+        $q->setParameter('langId', 1);
+//        dump($q);
+        return $this->getQueryBuilderWrapper($q);
     }
 }

@@ -431,6 +431,18 @@ apiv2_admin_localization_languages:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
 
+apiv2_admin_localization_language_translation:
+  description: 'API-v2 Admin - Target Language Translate'
+  api: OrangeHRM\Admin\Api\I18NTargetLangStringAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+
 ##########################
 #   Corporate Directory
 ##########################
