@@ -85,6 +85,14 @@ class InterviewDecorator
         $interviewers[] = $employee;
     }
 
+    public function removeInterviewers(): void
+    {
+        $interviewers = $this->interview->getInterviewers();
+        foreach ($interviewers as $interviewer) {
+            $interviewers->removeElement($interviewer);
+        }
+    }
+
     /**
      * @return string
      */

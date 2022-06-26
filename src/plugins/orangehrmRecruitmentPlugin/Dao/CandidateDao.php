@@ -28,6 +28,7 @@ use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewInterviewer;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Recruitment\Dto\CandidateHistorySearchFilterParams;
 use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
 
 class CandidateDao extends BaseDao
@@ -343,5 +344,67 @@ class CandidateDao extends BaseDao
             ->andWhere('interviewInterviewer.interviewer = :empNumber')
             ->setParameter('empNumber', $empNumber);
         return $this->getPaginator($q)->count() > 0;
+    }
+
+    /**
+     * @param CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
+     * @return CandidateHistory[]
+     */
+    public function getCandidateHistoryRecords(
+        CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
+    ): array {
+        $qb = $this->getCandidateHistoryPaginator($candidateHistorySearchFilterParams);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
+     * @return int
+     */
+    public function getCandidateHistoryRecordsCount(
+        CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
+    ): int {
+        return $this->getCandidateHistoryPaginator($candidateHistorySearchFilterParams)->count();
+    }
+
+    /**
+     * @param CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
+     * @return Paginator
+     */
+    private function getCandidateHistoryPaginator(
+        CandidateHistorySearchFilterParams $candidateHistorySearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(CandidateHistory::class, 'candidateHistory');
+        $this->setSortingAndPaginationParams($q, $candidateHistorySearchFilterParams);
+        $q->andWhere('candidateHistory.candidate = :candidateId');
+        $q->setParameter('candidateId', $candidateHistorySearchFilterParams->getCandidateId());
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param int $candidateId
+     * @param int $historyId
+     * @return CandidateHistory|null
+     */
+    public function getCandidateHistoryRecordByCandidateIdAndHistoryId(
+        int $candidateId,
+        int $historyId
+    ): ?CandidateHistory {
+        return $this->getRepository(CandidateHistory::class)
+            ->findOneBy(['candidate' => $candidateId, 'id' => $historyId]);
+    }
+
+    /**
+     * @param int $candidateId
+     * @param int $interviewId
+     * @return Interview|null
+     */
+    public function getInterviewByCandidateIdAndInterviewId(int $candidateId, int $interviewId): ?Interview
+    {
+        return $this->getRepository(Interview::class)
+            ->findOneBy([
+                'candidate' => $candidateId,
+                'id' => $interviewId
+            ]);
     }
 }

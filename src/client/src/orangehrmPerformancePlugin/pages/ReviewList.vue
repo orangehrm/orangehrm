@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('performance.employee_reviews')">
@@ -106,6 +107,7 @@
 
 <script>
 import {computed, ref, inject} from 'vue';
+import {navigate} from '@/core/util/helper/navigation';
 import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -339,17 +341,21 @@ export default {
         if (row.statusId === 4) {
           cellConfig.view = viewIcon;
           cellConfig.view.props.title = this.$t('general.view');
+          cellConfig.view.onClick = this.onClickEvaluate;
         } else {
           cellConfig.evaluate = evaluateIcon;
           cellConfig.evaluate.props.title = this.$t('performance.evaluate');
+          cellConfig.evaluate.onClick = this.onClickEvaluate;
         }
       } else {
         if (row.statusId === 4) {
           cellConfig.view = viewLabel;
           cellConfig.view.props.label = this.$t('general.view');
+          cellConfig.view.onClick = this.onClickEvaluate;
         } else {
           cellConfig.evaluate = evaluateLabel;
           cellConfig.evaluate.props.label = this.$t('performance.evaluate');
+          cellConfig.evaluate.onClick = this.onClickEvaluate;
         }
       }
 
@@ -373,6 +379,9 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
+    },
+    onClickEvaluate(item) {
+      navigate('/performance/reviewEvaluateByAdmin/{id}', {id: item.id});
     },
   },
 };

@@ -51,6 +51,7 @@ GetAll:
             "name": "Senior Software Engineer"
             "deleted": false
         "status": 2
+      generalComment: null
       allowedActions:
         0:
           "action": 'save'
@@ -120,6 +121,7 @@ GetAll:
             "name": "Senior Software Engineer"
             "deleted": false
         "status": 2
+      generalComment: null
       allowedActions:
         0:
           "action": 'save'
@@ -169,6 +171,7 @@ GetAll:
             "name": "Senior Software Engineer"
             "deleted": false
         "status" : 4
+      generalComment: null
       allowedActions: []
 
 Update:
