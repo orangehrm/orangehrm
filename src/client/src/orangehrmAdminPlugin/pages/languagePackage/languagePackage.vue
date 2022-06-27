@@ -144,18 +144,19 @@ export default {
           slot: 'title',
           title: this.$t('general.language_packages'),
           sortField: 'languageName',
-          style: {flex: 2},
+          style: {flex: '80%'},
         },
         {
           name: 'actions',
           slot: 'footer',
           title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
+          style: {flex: '20%'},
           cellConfig: {
             translate: {
               component: 'oxd-button',
               props: {
-                label: this.$t('general.translate'),
+                label: this.$t('admin.translate'),
                 style: 'Text',
                 displayType: 'text',
               },
@@ -163,7 +164,7 @@ export default {
             export: {
               component: 'oxd-button',
               props: {
-                label: this.$t('general.export'),
+                label: this.$t('admin.export'),
                 displayType: 'text',
                 size: 'medium',
               },
@@ -190,4 +191,4 @@ export default {
   },
 };
 </script>
-<style src="./language-package.scss" lang="scss"></style>
+<style src="./language-package.scss" lang="scss" scoped></style>
