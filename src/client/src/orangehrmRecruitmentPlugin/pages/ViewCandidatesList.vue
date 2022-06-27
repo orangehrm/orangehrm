@@ -144,6 +144,7 @@
 
 <script>
 import {computed, ref} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
 import useSort from '@ohrm/core/util/composable/useSort';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {navigate} from '@ohrm/core/util/helper/navigation';
@@ -153,14 +154,13 @@ import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDrop
 import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
 import CandidateStatusDropdown from '@/orangehrmRecruitmentPlugin/components/CandidateStatusDropdown';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-import usei18n from '@/core/util/composable/usei18n';
-
 import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
   validDateFormat,
 } from '@/core/util/validation/rules';
 import CandidateAutocomplete from '@/orangehrmRecruitmentPlugin/components/CandidateAutocomplete';
+
 const defaultFilters = {
   jobTitle: null,
   vacancy: null,
@@ -181,7 +181,6 @@ const defaultSortOrder = {
 };
 
 export default {
-  name: 'ViewCandidate',
   components: {
     CandidateAutocomplete,
     'delete-confirmation': DeleteConfirmationDialog,

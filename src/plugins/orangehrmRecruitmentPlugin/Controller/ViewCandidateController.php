@@ -30,7 +30,7 @@ class ViewCandidateController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('view-candidate');
+        $component = new Component('view-candidates-list');
         $this->setComponent($component);
     }
 }

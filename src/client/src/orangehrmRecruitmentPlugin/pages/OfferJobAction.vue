@@ -56,7 +56,7 @@
 import {navigate} from '@/core/util/helper/navigation';
 import CandidateProfileLayout from '@/orangehrmRecruitmentPlugin/components/CandidateProfileLayout';
 export default {
-  name: 'JobOfferedAction',
+  name: 'OfferJobAction',
   components: {
     'candidate-profile-layout': CandidateProfileLayout,
   },

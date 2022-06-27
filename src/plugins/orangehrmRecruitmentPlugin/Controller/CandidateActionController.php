@@ -24,7 +24,8 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
 class CandidateActionController extends AbstractVueController
 {
@@ -33,21 +34,42 @@ class CandidateActionController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        //TODO
+        // TODO: Validate candidateId & actionId & permission
+        $candidateId = $request->query->getInt('candidateId');
+        $actionId = $request->query->getInt('selectedAction');
 
-        $candidateId = $request->get('candidateId');
-        $component = new Component('reject-action');
+        switch ($actionId) {
+            case 2:
+                $component = new Component('shortlist-action');
+                break;
+            case 3:
+                $component = new Component('reject-action');
+                break;
+            case 4:
+                $component = new Component('interview-schedule-action');
+                break;
+            case 5:
+                $component = new Component('interview-passed-action');
+                break;
+            case 6:
+                $component = new Component('interview-failed-action');
+                break;
+            case 7:
+                $component = new Component('offer-job-action');
+                break;
+            case 8:
+                $component = new Component('offer-decline-action');
+                break;
+            case 9:
+                $component = new Component('hire-action');
+                break;
+
+            default:
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+                break;
+        }
+
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));
-        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, 1024 * 1024));
-        $component->addProp(
-            new Prop(
-                'allowed-file-types',
-                Prop::TYPE_ARRAY,
-                RecruitmentAttachmentService::ALLOWED_CANDIDATE_ATTACHMENT_FILE_TYPES
-            )
-        );
-        $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, 1));
-        $component->addProp(new Prop('action', Prop::TYPE_OBJECT, ['id' => 1, 'label' => 'Application initiated']));
         $this->setComponent($component);
     }
 }
