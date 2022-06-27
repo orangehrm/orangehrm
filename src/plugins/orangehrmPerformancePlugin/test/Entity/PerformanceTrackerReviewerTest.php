@@ -35,13 +35,14 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([Employee::class]);
+        TestDataService::truncateSpecificTables([PerformanceTracker::class]);
         TestDataService::truncateSpecificTables([PerformanceTrackerReviewer::class]);
     }
 
     /**
      * @return void
      */
-    public function testerformanceTrackerEntity(): void
+    public function testPerformanceTrackerReviewerEntity(): void
     {
         $employee = new Employee();
         $employee->setEmployeeId('E001');
@@ -59,12 +60,17 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
         $performanceTracker = $this->getRepository(PerformanceTracker::class)->find(1);
 
         $performanceTrackerReviewer = new PerformanceTrackerReviewer();
+        $performanceTrackerReviewer->setId(1);
         $performanceTrackerReviewer->setPerformanceTracker($performanceTracker);
         $performanceTrackerReviewer->getDecorator()->setReviewerByEmpNumber(1);
         $performanceTrackerReviewer->setAddedDate(new DateTime('03/02/2022'));
         $this->persist($performanceTrackerReviewer);
 
+        /** @var PerformanceTrackerReviewer $result */
         $result = $this->getRepository(PerformanceTrackerReviewer::class)->find(1);
-        $this->assertEquals(1, $result->getPerformanceTracker()->getId());
+        $this->assertEquals(1, $result->getId());
+        $this->assertEquals($employee, $result->getReviewer());
+        $this->assertEquals($performanceTracker, $result->getPerformanceTracker());
+        $this->assertEquals(new DateTime('03/02/2022'), $result->getAddedDate());
     }
 }

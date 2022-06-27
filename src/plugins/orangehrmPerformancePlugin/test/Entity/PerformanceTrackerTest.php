@@ -20,8 +20,10 @@
 namespace OrangeHRM\Tests\Performance\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -35,9 +37,10 @@ class PerformanceTrackerTest extends EntityTestCase
     {
         TestDataService::truncateSpecificTables([Employee::class]);
         TestDataService::truncateSpecificTables([PerformanceTracker::class]);
+        TestDataService::truncateSpecificTables([PerformanceTrackerReviewer::class]);
     }
 
-    public function testerformanceTrackerEntity(): void
+    public function testPerformanceTrackerEntity(): void
     {
         $employee = new Employee();
         $employee->setEmployeeId('E001');
@@ -48,12 +51,30 @@ class PerformanceTrackerTest extends EntityTestCase
 
         $performanceTracker = new PerformanceTracker();
         $performanceTracker->setId(1);
-        $performanceTracker->setTrackerName('Devp vue apps');
+        $performanceTracker->setTrackerName('Develop vue apps');
         $performanceTracker->getDecorator()->setEmployeeByEmpNumber(1);
         $performanceTracker->setAddedDate(new DateTime('03/02/2022'));
+        $performanceTracker->setModifiedDate(new DateTime('03/02/2022'));
+        $performanceTracker->setStatus(1);
+        $performanceTracker->setAddedBy($employee);
+        $this->persist($performanceTracker);
+
+        $performanceTrackerReviewer = new PerformanceTrackerReviewer();
+        $performanceTrackerReviewer->getDecorator()->setReviewerByEmpNumber(1);
+        $performanceTrackerReviewer->setPerformanceTracker($performanceTracker);
+        $this->persist($performanceTrackerReviewer);
+
+        $performanceTracker->setPerformanceTrackerReviewer(new ArrayCollection([$performanceTrackerReviewer]));
         $this->persist($performanceTracker);
 
         $result = $this->getRepository(PerformanceTracker::class)->find(1);
-        $this->assertEquals('Devp vue apps', $result->getTrackerName());
+        $this->assertEquals(1, $result->getId());
+        $this->assertEquals('Develop vue apps', $result->getTrackerName());
+        $this->assertEquals($employee, $result->getEmployee());
+        $this->assertEquals(new DateTime('03/02/2022'), $result->getAddedDate());
+        $this->assertEquals(new DateTime('03/02/2022'), $result->getModifiedDate());
+        $this->assertEquals(1, $result->getStatus());
+        $this->assertEquals($performanceTrackerReviewer, $result->getPerformanceTrackerReviewer()[0]);
+        $this->assertEquals($employee, $performanceTracker->getAddedBy());
     }
 }

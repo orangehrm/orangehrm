@@ -204,7 +204,6 @@ class PerformanceTracker
     /**
      * @return ArrayCollection|iterable|PerformanceTrackerReviewer[]
      */
-
     public function getPerformanceTrackerReviewer()
     {
         return $this->performanceTrackerReviewer;
