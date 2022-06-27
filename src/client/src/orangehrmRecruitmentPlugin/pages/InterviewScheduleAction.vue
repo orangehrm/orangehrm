@@ -22,7 +22,6 @@
   <div class="orangehrm-background-container">
     <candidate-action-layout
       v-model:loading="isLoading"
-      :required="true"
       :candidate-id="candidateId"
       :title="$t('recruitment.schedule_interview')"
       @submitValid="onSave"
@@ -84,6 +83,17 @@
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
+
+      <oxd-divider />
+      <required-text></required-text>
+      <oxd-form-actions>
+        <oxd-button
+          display-type="ghost"
+          :label="$t('general.back')"
+          @click="onClickBack"
+        />
+        <submit-button :label="$t('general.save')" />
+      </oxd-form-actions>
     </candidate-action-layout>
   </div>
 </template>
@@ -172,9 +182,10 @@ export default {
         .then(() => {
           return this.$toast.updateSuccess();
         })
-        .then(() => {
-          navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
-        });
+        .then(() => this.onClickBack());
+    },
+    onClickBack() {
+      navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
     },
   },
 };

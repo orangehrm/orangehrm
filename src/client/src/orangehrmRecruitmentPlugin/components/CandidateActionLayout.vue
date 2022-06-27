@@ -59,23 +59,11 @@
       </oxd-form-row>
 
       <slot></slot>
-
-      <oxd-divider />
-      <required-text v-show="required"></required-text>
-      <oxd-form-actions>
-        <oxd-button
-          display-type="ghost"
-          :label="$t('general.back')"
-          @click="onClickBack"
-        />
-        <submit-button :label="$t('general.save')" />
-      </oxd-form-actions>
     </oxd-form>
   </div>
 </template>
 
 <script>
-import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 
 const candidateModel = {
@@ -100,11 +88,6 @@ export default {
     loading: {
       type: Boolean,
       required: true,
-    },
-    required: {
-      type: Boolean,
-      required: false,
-      default: false,
     },
   },
   emits: ['update:loading'],
@@ -164,11 +147,6 @@ export default {
       .finally(() => {
         this.$emit('update:loading', false);
       });
-  },
-  methods: {
-    onClickBack() {
-      navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
-    },
   },
 };
 </script>

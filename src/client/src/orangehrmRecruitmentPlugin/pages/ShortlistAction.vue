@@ -39,6 +39,16 @@
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
+
+      <oxd-divider />
+      <oxd-form-actions>
+        <oxd-button
+          display-type="ghost"
+          :label="$t('general.back')"
+          @click="onClickBack"
+        />
+        <submit-button :label="$t('recruitment.shortlist')" />
+      </oxd-form-actions>
     </candidate-action-layout>
   </div>
 </template>
@@ -92,9 +102,10 @@ export default {
         .then(() => {
           return this.$toast.updateSuccess();
         })
-        .then(() => {
-          navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
-        });
+        .then(() => this.onClickBack());
+    },
+    onClickBack() {
+      navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
     },
   },
 };
