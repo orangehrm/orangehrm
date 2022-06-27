@@ -19,15 +19,15 @@
  -->
 
 <template>
-  <div class="orangehrm-project-admin-input">
+  <div class="orangehrm-recruitment-interviewer-input">
     <employee-autocomplete
-      :label="!showDelete ? $t('time.project_admin') : null"
+      :label="!showDelete ? $t('recruitment.interviewer') : null"
       v-bind="$attrs"
     />
     <oxd-icon-button
       v-if="showDelete"
       name="trash-fill"
-      class="orangehrm-project-delete-icon"
+      class="orangehrm-recruitment-delete-icon"
       :with-container="false"
       @click="remove"
     />
@@ -63,8 +63,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.orangehrm-project {
-  &-admin-input {
+.orangehrm-recruitment {
+  &-interviewer-input {
     display: flex;
     align-items: flex-start;
     ::v-deep(.oxd-input-group__label-wrapper:empty) {

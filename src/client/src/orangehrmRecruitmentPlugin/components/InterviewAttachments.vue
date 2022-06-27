@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <div class="orangehrm-attachment orangehrm-card-container">
+  <div class="orangehrm-card-container">
     <save-attachment
       v-if="showSaveModal"
       :http="http"
