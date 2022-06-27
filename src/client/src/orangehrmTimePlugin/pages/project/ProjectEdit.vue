@@ -211,9 +211,7 @@ export default {
                 isPastEmployee:
                   projectAdmin.terminationId &&
                   `${projectAdmin.firstName} ${projectAdmin.lastName}` !==
-                    'Purged Employee'
-                    ? true
-                    : false,
+                    'Purged Employee',
               },
             };
           });
