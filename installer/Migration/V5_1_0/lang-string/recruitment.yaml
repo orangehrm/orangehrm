@@ -190,7 +190,7 @@ langStrings:
     unitId: hired
   -
     value: 'Application Initiated'
-    unitId: application_initiated
+    unitId: application_initiated_uc
   -
     value: 'Offer Declined'
     unitId: offer_declined
