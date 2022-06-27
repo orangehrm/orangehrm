@@ -25,17 +25,24 @@ type Employee = {
   terminationId: number | null;
 };
 
+type Options = {
+  includeMiddle?: boolean;
+  excludePastEmpTag?: boolean;
+};
+
 export default function useEmployeeNameTranslate() {
   const {$t} = usei18n();
 
   const translateEmployeeName = (
     employee: Employee,
-    includeMiddle?: boolean,
-    excludePastEmpTag?: boolean,
+    options: Options,
   ): string => {
     if (employee.firstName === 'Purged' && employee.lastName === 'Employee') {
       return $t('general.purged_employee');
     }
+
+    const includeMiddle = options.includeMiddle;
+    const excludePastEmpTag = options.excludePastEmpTag;
 
     const resolvedMiddleName =
       typeof includeMiddle === 'boolean' &&
@@ -51,6 +58,7 @@ export default function useEmployeeNameTranslate() {
           : excludePastEmpTag
           ? ''
           : ` ${$t('general.past_employee')}`;
+
       return `${employee.firstName}${resolvedMiddleName}${employee.lastName}${resolvedPastEmpTag}`;
     }
 

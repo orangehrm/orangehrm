@@ -207,7 +207,10 @@ export default {
             return {
               value: {
                 id: projectAdmin.empNumber,
-                label: $tEmpName(projectAdmin, true, true),
+                label: $tEmpName(projectAdmin, {
+                  includeMiddle: true,
+                  excludePastEmpTag: true,
+                }),
                 isPastEmployee:
                   projectAdmin.terminationId &&
                   `${projectAdmin.firstName} ${projectAdmin.lastName}` !==
