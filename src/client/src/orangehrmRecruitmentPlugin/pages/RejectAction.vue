@@ -19,61 +19,83 @@
  -->
 
 <template>
-  <candidate-profile-layout
-    :candidate-id="candidateId"
-    :action="action"
-    :allowed-file-types="allowedFileTypes"
-    :max-file-size="maxFileSize"
-  >
-    <template #form-footer>
-      <div class="orangehrm-form-footer">
-        <oxd-text type="subtitle-2" class="orangehrm-status-title">
-          {{ $t('general.status') }}: {{ action.label }}
-        </oxd-text>
-      </div>
-    </template>
-  </candidate-profile-layout>
+  <div class="orangehrm-background-container">
+    <candidate-action-layout
+      v-model:loading="isLoading"
+      :candidate-id="candidateId"
+      :title="$t('general.reject')"
+      @submitValid="onSave"
+    >
+      <oxd-form-row>
+        <oxd-grid :cols="3">
+          <oxd-grid-item class="--span-column-2">
+            <oxd-input-field
+              v-model="note"
+              :rules="rules.note"
+              :label="$t('general.notes')"
+              :placeholder="$t('general.type_here')"
+              type="textarea"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+    </candidate-action-layout>
+  </div>
 </template>
 
 <script>
-import CandidateProfileLayout from '@/orangehrmRecruitmentPlugin/components/CandidateProfileLayout';
+import {navigate} from '@/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
+import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout.vue';
 
 export default {
-  name: 'RejectAction',
   components: {
-    'candidate-profile-layout': CandidateProfileLayout,
+    'candidate-action-layout': CandidateActionLayout,
   },
   props: {
     candidateId: {
       type: Number,
       required: true,
     },
-    action: {
-      type: Object,
-      required: true,
-    },
-    allowedFileTypes: {
-      type: Array,
-      required: true,
-    },
-    maxFileSize: {
-      type: Number,
-      required: true,
-    },
+  },
+
+  setup(props) {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/recruitment/candidates/${props.candidateId}/reject`,
+    );
+
+    return {
+      http,
+    };
   },
   data() {
     return {
-      data: null,
-      status: null,
-      isLoading: true,
+      isLoading: false,
+      note: null,
+      rules: {
+        note: [shouldNotExceedCharLength(2000)],
+      },
     };
   },
   methods: {
-    getData(data) {
-      this.data = data;
-      this.isLoading = false;
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .request({
+          method: 'PUT',
+          data: {
+            note: this.note,
+          },
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
+        });
     },
   },
 };
 </script>
-<style scoped lang="scss" src="./candidate-profile.scss"></style>
