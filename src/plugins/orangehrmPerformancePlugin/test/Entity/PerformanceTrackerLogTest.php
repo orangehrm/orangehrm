@@ -36,11 +36,13 @@ class PerformanceTrackerLogTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateSpecificTables([Employee::class]);
-        TestDataService::truncateSpecificTables([User::class]);
-        TestDataService::truncateSpecificTables([UserRole::class]);
-        TestDataService::truncateSpecificTables([PerformanceTracker::class]);
-        TestDataService::truncateSpecificTables([PerformanceTrackerLog::class]);
+        TestDataService::truncateSpecificTables([
+            Employee::class,
+            User::class,
+            UserRole::class,
+            PerformanceTracker::class,
+            PerformanceTrackerLog::class
+        ]);
     }
 
     public function testPerformanceTrackerLogEntity(): void

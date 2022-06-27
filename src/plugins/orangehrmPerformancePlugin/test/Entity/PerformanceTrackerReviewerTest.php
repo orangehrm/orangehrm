@@ -34,9 +34,11 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateSpecificTables([Employee::class]);
-        TestDataService::truncateSpecificTables([PerformanceTracker::class]);
-        TestDataService::truncateSpecificTables([PerformanceTrackerReviewer::class]);
+        TestDataService::truncateSpecificTables([
+            Employee::class,
+            PerformanceTracker::class,
+            PerformanceTrackerReviewer::class
+        ]);
     }
 
     /**

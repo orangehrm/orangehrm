@@ -27,15 +27,21 @@ use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Performance
+ * @group Entity
+ */
 class ReviewerRatingTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateSpecificTables([PerformanceReview::class]);
-        TestDataService::truncateSpecificTables([Reviewer::class]);
-        TestDataService::truncateSpecificTables([Kpi::class]);
-        TestDataService::truncateSpecificTables([JobTitle::class]);
-        TestDataService::truncateSpecificTables([ReviewerRating::class]);
+        TestDataService::truncateSpecificTables([
+            PerformanceReview::class,
+            Reviewer::class,
+            Kpi::class,
+            JobTitle::class,
+            ReviewerRating::class
+        ]);
     }
 
     public function testReviewerRatingEntity(): void
