@@ -46,7 +46,10 @@
           :label="$t('general.back')"
           @click="onClickBack"
         />
-        <submit-button :label="$t('recruitment.mark_interview_failed')" />
+        <submit-button
+          display-type="danger"
+          :label="$t('recruitment.mark_interview_failed')"
+        />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
@@ -109,5 +112,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

@@ -37,7 +37,7 @@ class CandidateActionController extends AbstractVueController
         // TODO: Validate candidateId & actionId & permission
         $candidateId = $request->query->getInt('candidateId');
         $actionId = $request->query->getInt('selectedAction');
-        $interviewId = $request->query->getInt('interviewId');
+
         switch ($actionId) {
             case 2:
                 $component = new Component('shortlist-action');
@@ -66,9 +66,11 @@ class CandidateActionController extends AbstractVueController
             default:
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
-        if ($interviewId) {
-            $component->addProp(new Prop('interview-id', Prop::TYPE_NUMBER, $interviewId));
+
+        if ($request->query->has('interviewId')) {
+            $component->addProp(new Prop('interview-id', Prop::TYPE_NUMBER, $request->query->getInt('interviewId')));
         }
+
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));
         $this->setComponent($component);
     }

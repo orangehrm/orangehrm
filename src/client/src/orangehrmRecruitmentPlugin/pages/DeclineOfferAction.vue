@@ -46,7 +46,10 @@
           :label="$t('general.back')"
           @click="onClickBack"
         />
-        <submit-button :label="$t('recruitment.decline_offer')" />
+        <submit-button
+          display-type="danger"
+          :label="$t('recruitment.decline_offer')"
+        />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
@@ -105,5 +108,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

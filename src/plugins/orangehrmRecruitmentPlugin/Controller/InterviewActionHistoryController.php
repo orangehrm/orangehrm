@@ -35,12 +35,12 @@ class InterviewActionHistoryController extends AbstractVueController
         $component->addProp(new Prop(
             'candidate-id',
             Prop::TYPE_NUMBER,
-            $request->attributes->get('candidateId')
+            $request->attributes->getInt('candidateId')
         ));
         $component->addProp(new Prop(
             'history-id',
             Prop::TYPE_NUMBER,
-            $request->attributes->get('historyId')
+            $request->attributes->getInt('historyId')
         ));
         $this->setComponent($component);
     }
