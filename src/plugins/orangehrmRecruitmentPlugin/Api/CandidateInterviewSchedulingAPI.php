@@ -170,7 +170,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             )
         );
         $interview->setInterviewDate(
-            $this->getRequestParams()->getDateTime(
+            $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_INTERVIEW_DATE
             )
@@ -244,8 +244,8 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_INTERVIEW_TIME,
-                    new Rule(Rules::TIME)
-                )
+                    new Rule(Rules::TIME, ['H:i'])
+                ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

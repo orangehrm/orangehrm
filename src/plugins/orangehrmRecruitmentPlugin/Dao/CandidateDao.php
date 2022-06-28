@@ -75,6 +75,10 @@ class CandidateDao extends BaseDao
                 '%' . $candidateSearchFilterParams->getCandidateName() . '%'
             );
         }
+        if (!is_null($candidateSearchFilterParams->getCandidateIds())) {
+            $qb->andWhere($qb->expr()->in('candidate.id', ':candidateIds'))
+                ->setParameter('candidateIds', $candidateSearchFilterParams->getCandidateIds());
+        }
         if (!is_null($candidateSearchFilterParams->getVacancyId())) {
             $qb->andWhere('vacancy.id = :vacancyId')
                 ->setParameter('vacancyId', $candidateSearchFilterParams->getVacancyId());
@@ -406,5 +410,20 @@ class CandidateDao extends BaseDao
                 'candidate' => $candidateId,
                 'id' => $interviewId
             ]);
+    }
+
+    /**
+     * @param int $candidateId
+     * @return array
+     */
+    public function getInterviewIdsByCandidateId(int $candidateId): array
+    {
+        $qb = $this->createQueryBuilder(Interview::class, 'interview');
+        $qb->select('interview.id');
+        $qb->andWhere('interview.candidate = :candidateId');
+        $qb->setParameter('candidateId', $candidateId);
+        $qb->addOrderBy('interview.id', ListSorter::DESCENDING);
+        $result = $qb->getQuery()->getArrayResult();
+        return array_column($result, 'id');
     }
 }
