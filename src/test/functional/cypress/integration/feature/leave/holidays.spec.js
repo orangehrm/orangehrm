@@ -46,6 +46,7 @@ describe('Leave - Holidays', function () {
 
   describe('create snapshot with holiday', function () {
     it('create snapshot with holiday', function () {
+      cy.task('db:restore', {name: 'leavePeriod'});
       cy.loginTo(this.user, '/leave/saveHolidays');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars10.text);
