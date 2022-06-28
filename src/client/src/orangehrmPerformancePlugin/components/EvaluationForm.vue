@@ -55,7 +55,7 @@
     <template v-if="!isCollapsed">
       <oxd-grid :cols="3" class="orangehrm-evaluation-grid">
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
-          <oxd-text type="subtitle-2">{{ $t('performance.kpis') }}</oxd-text>
+          <oxd-text type="subtitle-2">{{ $t('general.kpis') }}</oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
           <oxd-text type="subtitle-2">{{ $t('performance.rating') }}</oxd-text>
