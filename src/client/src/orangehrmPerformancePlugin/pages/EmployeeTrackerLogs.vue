@@ -134,7 +134,7 @@
 import {APIService} from '@/core/util/services/api.service';
 import {reactive, toRefs, computed} from 'vue';
 import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
-import usei18n from '@/core/util/composable/usei18n';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
@@ -185,7 +185,7 @@ export default {
       showNoRecordsFound: false,
     });
 
-    const {$t} = usei18n();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
@@ -207,13 +207,7 @@ export default {
                 return {
                   ...item,
                   reviewerPictureSrc: `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${item.reviewer.empNumber}`,
-                  reviewerName: `${item.reviewer?.firstName} ${
-                    item.reviewer?.lastName
-                  } ${
-                    item.reviewer?.terminationId
-                      ? ` ${$t('general.past_employee')}`
-                      : ''
-                  }`,
+                  reviewerName: $tEmpName(item.reviewer),
                   addedDate: formatDate(
                     parseDate(item.addedDate),
                     jsDateFormat,

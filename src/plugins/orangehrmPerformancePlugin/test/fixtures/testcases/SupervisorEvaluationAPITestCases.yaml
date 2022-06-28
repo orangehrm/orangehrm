@@ -117,8 +117,8 @@ GetAll:
           "employeeId": "0003"
           "terminationId": null
           "jobTitle":
-            "id": 2
-            "name": "Senior Software Engineer"
+            "id": 1
+            "name": "Software Engineer"
             "deleted": false
         "status": 2
       generalComment: null
@@ -167,8 +167,8 @@ GetAll:
           "employeeId": "0003"
           "terminationId": null
           "jobTitle":
-            "id": 2
-            "name": "Senior Software Engineer"
+            "id": 4
+            "name": "Senior QA"
             "deleted": false
         "status" : 4
       generalComment: null

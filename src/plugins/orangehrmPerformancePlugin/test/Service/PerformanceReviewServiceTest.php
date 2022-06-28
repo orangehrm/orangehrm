@@ -19,26 +19,89 @@
 
 namespace OrangeHRM\Tests\Performance\Service;
 
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
+use OrangeHRM\Performance\Exception\ReviewServiceException;
 use OrangeHRM\Performance\Service\PerformanceReviewService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Performance
  * @group Service
  */
-class PerformanceReviewServiceTest extends TestCase
+class PerformanceReviewServiceTest extends KernelTestCase
 {
     private PerformanceReviewService $performanceReviewService;
+    protected string $fixture;
 
     protected function setUp(): void
     {
         $this->performanceReviewService = new PerformanceReviewService();
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceReviewService.yaml';
+        TestDataService::populate($this->fixture);
     }
 
     public function testGetPerformanceReviewDao(): void
     {
         $result = $this->performanceReviewService->getPerformanceReviewDao();
         $this->assertInstanceOf(PerformanceReviewDao::class, $result);
+    }
+
+    public function testGenerateReviewReviewerRatingKey(): void
+    {
+        $this->assertEquals('1_2_3_', $this->performanceReviewService->generateReviewReviewerRatingKey(1, 2, 3));
+    }
+
+    public function testActivateReviewWithException1(): void
+    {
+        // Test activate without job title
+        $performanceReview = new PerformanceReview();
+        $performanceReview->getDecorator()->setEmployeeByEmpNumber(15);
+
+        $this->expectException(ReviewServiceException::class);
+        $this->expectExceptionMessage(ReviewServiceException::activateWithoutJobTitle()->getMessage());
+        $this->performanceReviewService->activateReview($performanceReview, 15);
+    }
+
+    public function testActivateReviewWithException2(): void
+    {
+        // Test activate without KPIs
+        $performanceReview = new PerformanceReview();
+        $performanceReview->getDecorator()->setEmployeeByEmpNumber(16);
+        $performanceReview->getDecorator()->setJobTitleById(5);
+
+        $this->expectException(ReviewServiceException::class);
+        $this->expectExceptionMessage(ReviewServiceException::activateWithoutKPI()->getMessage());
+        $this->performanceReviewService->activateReview($performanceReview, 16);
+    }
+
+    public function testUpdateActivateReviewWithException1(): void
+    {
+        $this->createKernelWithMockServices([Services::EMPLOYEE_SERVICE => new EmployeeService()]);
+
+        $performanceReview = new PerformanceReview();
+        $performanceReview->getDecorator()->setEmployeeByEmpNumber(3);
+        $performanceReview->getDecorator()->setJobTitleById(2);
+
+        $this->expectException(ReviewServiceException::class);
+        $this->expectExceptionMessage(ReviewServiceException::pastEmployeeForReviewer()->getMessage());
+        $this->performanceReviewService->updateActivateReview($performanceReview, 10);
+    }
+
+    public function testUpdateActivateReviewWithException2(): void
+    {
+        $this->createKernelWithMockServices([Services::EMPLOYEE_SERVICE => new EmployeeService()]);
+
+        $performanceReview = new PerformanceReview();
+        $performanceReview->getDecorator()->setEmployeeByEmpNumber(3);
+        $performanceReview->getDecorator()->setJobTitleById(2);
+
+        $this->expectException(ReviewServiceException::class);
+        $this->expectExceptionMessage(ReviewServiceException::invalidSupervisor()->getMessage());
+        $this->performanceReviewService->updateActivateReview($performanceReview, 2);
     }
 }

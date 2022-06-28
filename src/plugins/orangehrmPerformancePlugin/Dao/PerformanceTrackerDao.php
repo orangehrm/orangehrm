@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Performance\Dao;
 
+use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
@@ -29,9 +29,7 @@ use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
-use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
-use PHPUnit\Exception;
 
 class PerformanceTrackerDao extends BaseDao
 {
@@ -203,29 +201,6 @@ class PerformanceTrackerDao extends BaseDao
             ->setParameter('reviewerNumbers', $reviewerNumbers)
             ->getQuery()
             ->execute();
-    }
-
-    public function getReviewerList(PerformanceTrackerReviewerSearchFilterParams $performanceTrackerReviewerSearchFilterParams)
-    {
-        $q = $this->createQueryBuilder(Employee::class, 'employee');
-        $this->setSortingAndPaginationParams($q, $performanceTrackerReviewerSearchFilterParams);
-        if (!is_null($performanceTrackerReviewerSearchFilterParams->getTrackerEmpNumber())) {
-            $q->andWhere('employee.empNumber != :excludeEmployee')
-                ->setParameter('excludeEmployee', $performanceTrackerReviewerSearchFilterParams->getTrackerEmpNumber());
-        }
-        if (!is_null($performanceTrackerReviewerSearchFilterParams->getNameOrId())) {
-            $q->andWhere(
-                $q->expr()->orX(
-                    $q->expr()->like('employee.firstName', ':nameOrId'),
-                    $q->expr()->like('employee.lastName', ':nameOrId'),
-                    $q->expr()->like('employee.middleName', ':nameOrId'),
-                    $q->expr()->like('employee.employeeId', ':nameOrId'),
-                )
-            );
-            $q->setParameter('nameOrId', '%' . $performanceTrackerReviewerSearchFilterParams->getNameOrId() . '%');
-        }
-        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
-        return $q->getQuery()->execute();
     }
 
     /**
