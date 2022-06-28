@@ -32,6 +32,7 @@ class PurgeEmployeeService
     use EntityManagerHelperTrait;
 
     private const GDPR_PURGE_EMPLOYEE = 'gdpr_purge_employee_strategy';
+    private const GDPR_PURGE_CANDIDATE = 'gdpr_purge_candidate_strategy';
 
     private ?PurgeEmployeeDao $employeePurgeDao = null;
     private ?array $purgeableEntities = null;
@@ -65,6 +66,34 @@ class PurgeEmployeeService
                         $infoArray
                     );
                     $purgeStrategy->purge($empNumber);
+                }
+            }
+            $this->getEntityManager()->flush();
+            $this->commitTransaction();
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
+        }
+    }
+
+    /**
+     * @param int $vacancyNumber
+     * @throws TransactionException
+     */
+    public function purgeCandidateData(int $vacancyNumber): void
+    {
+        $this->beginTransaction();
+        try {
+            $purgeableEntities = $this->getPurgeableEntities(self::GDPR_PURGE_CANDIDATE);
+            foreach ($purgeableEntities as $purgeableEntityClassName => $purgeStrategies) {
+                foreach ($purgeStrategies['PurgeStrategy'] as $strategy => $strategyInfoArray) {
+                    $infoArray = new InfoArray($strategyInfoArray);
+                    $purgeStrategy = $this->getPurgeStrategy(
+                        $purgeableEntityClassName,
+                        $strategy,
+                        $infoArray
+                    );
+                    $purgeStrategy->purge($vacancyNumber);
                 }
             }
             $this->getEntityManager()->flush();
