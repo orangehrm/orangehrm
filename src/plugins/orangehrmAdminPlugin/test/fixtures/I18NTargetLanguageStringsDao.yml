@@ -1,0 +1,17 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+
+I18NTargetLanguageString:
+  - { "unitId": "add_job_title","value": "Add Job Title","note": "Note For Add Job Title","target": "添加职称","groupName": "admin"},
+  - { "unitId": "edit_job_title","value": "Edit Job Title","note": "Note For Edit Job Title","target": "编辑职称","groupName": "admin"},
+  - { "unitId": "mail_sent_as","value": "Mail Sent As","note": null,"target": "邮件已发送，作为","groupName": "general"},
+  

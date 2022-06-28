@@ -19,13 +19,14 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NTargetLangStringSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
-use Doctrine\ORM\Query\Expr;
 
 class LocalizationDao extends BaseDao
 {
@@ -87,25 +88,30 @@ class LocalizationDao extends BaseDao
         return $i18NLanguage;
     }
 
-    public function getAllSourceText()
-    {
-        $q = $this->createQueryBuilderWrapper()->getQueryBuilder();
-
-        $q->leftJoin('langString.group', 'module');
+    /**
+     * @param I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return array
+     */
+    public function getNormalizedTranslations(
+        I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+    ): array {
+        $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
         $q->select(
-            'langString.unitId',
-            'langString.value AS source',
+            'langString.id',
+            'langString.value AS value',
+            'langString.note AS note',
             'translation.value AS target',
-            'module.name AS groupName',
         );
-
-        return $q->getQuery()->getArrayResult();
-
+        return $q->getQuery()->execute();
     }
 
-    public function createQueryBuilderWrapper(): QueryBuilderWrapper
-    {
-//        dump('here');
+    /**
+     * @param I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getTranslationsQueryBuilderWrapper(
+        I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+    ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(I18NLangString::class, 'langString');
         $q->leftJoin(
             'langString.translations',
@@ -113,9 +119,49 @@ class LocalizationDao extends BaseDao
             Expr\Join::WITH,
             'IDENTITY(translation.language) = :langId'
         );
+        $q->setParameter('langId', $i18NTargetLangStringSearchFilterParams->getLanguageId());
 
-        $q->setParameter('langId', 1);
-//        dump($q);
+        if (!is_null($i18NTargetLangStringSearchFilterParams->getShowCategory())) {
+            if ($i18NTargetLangStringSearchFilterParams->getShowCategory() === true) {
+                $q->andWhere($q->expr()->isNotNull('translation.translated'));
+            } elseif ($i18NTargetLangStringSearchFilterParams->getShowCategory() === false) {
+                $q->andWhere($q->expr()->isNull('translation.translated'));
+            }
+        }
+
+        if (!empty($i18NTargetLangStringSearchFilterParams->getModuleName())) {
+            $q->andWhere('module.name = :moduleName')
+                ->setParameter('moduleName', $i18NTargetLangStringSearchFilterParams->getModuleName());
+        }
+
+        if (!empty($i18NTargetLangStringSearchFilterParams->getSourceText())) {
+            $q->andWhere($q->expr()->like('langString.value', ':sourceText'))
+                ->setParameter('sourceText', '%' . $i18NTargetLangStringSearchFilterParams->getSourceText() . '%');
+        }
+
+        if (!empty($i18NTargetLangStringSearchFilterParams->getTranslatedText())) {
+            $q->andWhere($q->expr()->like('translation.value', ':translatedText'))
+                ->setParameter(
+                    'translatedText',
+                    '%' . $i18NTargetLangStringSearchFilterParams->getTranslatedText() . '%'
+                );
+        }
+
+        $q->leftJoin('langString.group', 'module');
+
+        $this->setSortingAndPaginationParams($q, $i18NTargetLangStringSearchFilterParams);
+
         return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @param I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return int
+     */
+    public function getTranslationsCount(
+        I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+    ): int {
+        $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($q)->count();
     }
 }

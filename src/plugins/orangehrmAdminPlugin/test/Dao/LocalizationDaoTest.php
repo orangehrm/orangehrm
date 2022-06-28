@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Admin\Dao;
 use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NTargetLangStringSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Tests\Util\TestCase;
@@ -111,5 +112,33 @@ class LocalizationDaoTest extends TestCase
         $this->assertInstanceOf(I18NLanguage::class, $result);
         $this->assertEquals('Special Langauege', $result->getName());
         $this->assertEquals(true, $result->isAdded());
+    }
+
+    public function testGetNormalizedTranslations(): void
+    {
+        $i18NTargetLangStringSearchFilterParams = new I18NTargetLangStringSearchFilterParams();
+        $i18NTargetLangStringSearchFilterParams->setLanguageId('1');
+        $i18NTargetLangStringSearchFilterParams->setSourceText('note');
+        $translates = $this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams);
+
+        $this->assertTrue(is_array($this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams)));
+        $this->assertCount(1, $translates);
+    }
+
+    public function testGetTranslationsCount(): void
+    {
+        $i18NTargetLangStringSearchFilterParams = new I18NTargetLangStringSearchFilterParams();
+        $i18NTargetLangStringSearchFilterParams->setLanguageId(1);
+        $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
+        $this->assertEquals(951, $count);
+
+        $i18NTargetLangStringSearchFilterParams->setModuleName('Admin');
+        $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
+        $this->assertEquals(94, $count);
+
+        $i18NTargetLangStringSearchFilterParams->setModuleName(null);
+        $i18NTargetLangStringSearchFilterParams->setShowCategory(true);
+        $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
+        $this->assertEquals(601, $count);
     }
 }
