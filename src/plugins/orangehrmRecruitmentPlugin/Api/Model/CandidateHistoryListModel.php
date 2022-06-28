@@ -21,11 +21,19 @@ namespace OrangeHRM\Recruitment\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\CandidateHistory;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class CandidateHistoryListModel implements Normalizable
 {
-    use ModelTrait;
+    use ModelTrait {
+        ModelTrait::toArray as entityToArray;
+    }
+
+    use CandidateServiceTrait;
+    use DateTimeHelperTrait;
 
     public function __construct(CandidateHistory $candidateHistory)
     {
@@ -34,12 +42,12 @@ class CandidateHistoryListModel implements Normalizable
             'id',
             'action',
             ['getDecorator', 'getCandidateHistoryAction'],
+            'candidateVacancyName',
             ['getPerformedBy', 'getEmpNumber'],
             ['getPerformedBy', 'getLastName'],
             ['getPerformedBy', 'getFirstName'],
             ['getPerformedBy', 'getMiddleName'],
             ['getPerformedBy', 'getEmployeeTerminationRecord', 'getId'],
-            ['getInterview', 'getId'],
             ['getDecorator', 'getPerformedDate'],
             'note',
         ]);
@@ -48,14 +56,48 @@ class CandidateHistoryListModel implements Normalizable
             'id',
             ['action', 'id'],
             ['action', 'label'],
+            'vacancyName',
             ['performedBy', 'empNumber'],
             ['performedBy', 'lastName'],
             ['performedBy', 'firstName'],
             ['performedBy', 'middleName'],
             ['performedBy', 'terminationId'],
-            ['interview', 'id'],
             'performedDate',
             'note'
         ]);
+    }
+
+    public function toArray(): array
+    {
+        $result = $this->entityToArray();
+        $interview = $this->getEntity()->getInterview();
+
+        if (!is_null($interview)) {
+            $result['interview']['id'] = $interview->getId();
+            $result['interview']['name'] = $interview->getInterviewName();
+            $result['interview']['date'] = $this->getDateTimeHelper()
+                ->formatDateTimeToYmd(
+                    $interview->getInterviewDate()
+                );
+            $result['interview']['time'] = $this->getDateTimeHelper()
+                ->formatDateTimeToTimeString(
+                    $interview->getInterviewTime()
+                );
+            $result['interview']['interviewers'] = array_map(
+                function (Employee $employee) {
+                    return [
+                        'empNumber' => $employee->getEmpNumber(),
+                        'firstName' => $employee->getFirstName(),
+                        'middleName' => $employee->getMiddleName(),
+                        'lastName' => $employee->getLastName(),
+                        'terminationId' => $employee->getEmployeeTerminationRecord(),
+                    ];
+                },
+                [...$interview->getInterviewers()]
+            );
+        } else {
+            $result['interview'] = null;
+        }
+        return $result;
     }
 }

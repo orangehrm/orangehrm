@@ -80,6 +80,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_CANDIDATE_ID,
                 new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
             ),
+            ...$this->getSortingAndPaginationParamsRules(CandidateHistorySearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 

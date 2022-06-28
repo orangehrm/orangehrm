@@ -91,7 +91,8 @@ class CandidateDetailedModel implements Normalizable
                 ],
             'status' => is_null($candidateVacancy) ? null :
                 $candidateVacancy->getDecorator()->getCandidateVacancyStatus(),
-            'hasAttachment' => !is_null($candidateAttachment)
+            'hasAttachment' => !is_null($candidateAttachment),
+            'consentToKeepData' => $this->candidate->isConsentToKeepData()
         ];
     }
 }

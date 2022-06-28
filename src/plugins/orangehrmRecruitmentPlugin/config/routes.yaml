@@ -53,7 +53,7 @@ apiv2_recruitment_candidate:
     id: '\d+'
 
 apiv2_recruitment_candidte_attachment_candidateId:
-  path: /api/v2/recruitment/candidate/attachments/{candidateId}
+  path: /api/v2/recruitment/candidate/{candidateId}/attachment
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:

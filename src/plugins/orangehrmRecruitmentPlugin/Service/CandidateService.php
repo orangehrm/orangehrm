@@ -25,6 +25,7 @@ use OrangeHRM\Recruitment\Dao\CandidateDao;
 
 class CandidateService
 {
+    public const RECRUITMENT_CANDIDATE_VACANCY_REMOVED = 15;
     public const RECRUITMENT_CANDIDATE_ACTION_ADD = 16;
 
     public const STATUS_MAP = [
@@ -40,7 +41,8 @@ class CandidateService
     ];
 
     public const OTHER_ACTIONS_MAP = [
-        self::RECRUITMENT_CANDIDATE_ACTION_ADD => 'ADDED'
+        self::RECRUITMENT_CANDIDATE_ACTION_ADD => 'ADDED',
+        self::RECRUITMENT_CANDIDATE_VACANCY_REMOVED => 'REMOVED'
     ];
 
     protected ?CandidateDao $candidateDao = null;
