@@ -69,8 +69,8 @@ langStrings:
     value: 'Job Offered'
     unitId: job_offered
   -
-    value: 'offered Declined'
-    unitId: offered_declined
+    value: 'offer Declined'
+    unitId: offer_declined
   -
     value: 'Manual'
     unitId: manual
@@ -185,3 +185,15 @@ langStrings:
   -
     value: '{employee} removed {candidate} from the {vacancy}'
     unitId: employee_removed_candidate_from_vacancy
+  -
+    value: 'Shortlist Candidate'
+    unitId: shortlist_candidate
+  -
+    value: 'Rejected'
+    unitId: rejected
+  -
+    value: 'Hired'
+    unitId: hired
+  -
+    value: 'Application Initiated'
+    unitId: application_initiated_uc

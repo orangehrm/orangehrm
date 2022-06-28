@@ -201,9 +201,6 @@ langStrings:
     value: 'Supervisor Evaluation by'
     unitId: supervisor_evaluation_by
   -
-    value: 'KPIs'
-    unitId: kpis
-  -
     value: 'KPI'
     unitId: kpi
   -

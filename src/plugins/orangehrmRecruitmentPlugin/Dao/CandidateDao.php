@@ -407,4 +407,19 @@ class CandidateDao extends BaseDao
                 'id' => $interviewId
             ]);
     }
+
+    /**
+     * @param int $candidateId
+     * @return array
+     */
+    public function getInterviewIdsByCandidateId(int $candidateId): array
+    {
+        $qb = $this->createQueryBuilder(Interview::class, 'interview');
+        $qb->select('interview.id');
+        $qb->andWhere('interview.candidate = :candidateId');
+        $qb->setParameter('candidateId', $candidateId);
+        $qb->addOrderBy('interview.id', ListSorter::DESCENDING);
+        $result = $qb->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
 }

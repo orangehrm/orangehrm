@@ -167,3 +167,6 @@ langStrings:
   -
     value: 'Purged Employee'
     unitId: purged_employee
+  -
+    value: 'hh:mm'
+    unitId: hh_mm
