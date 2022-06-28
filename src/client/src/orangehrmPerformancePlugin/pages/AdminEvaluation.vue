@@ -118,6 +118,7 @@ const reviewerModel = {
     empNumber: null,
     firstName: '',
     lastName: '',
+    middleName: '',
     terminationId: null,
   },
   jobTitle: '',

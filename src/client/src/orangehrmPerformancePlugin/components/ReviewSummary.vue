@@ -164,7 +164,7 @@ export default {
     const reviewDueDate = reviewDateFormat(props.dueDate);
 
     const employeeName = computed(() => {
-      return `${props.employee.firstName} ${props.employee.lastName} ${
+      return `${props.employee.firstName} ${props.employee.middleName ? props.employee.middleName : ''} ${props.employee.lastName} ${
         props.employee.terminationId ? $t('general.past_employee') : ''
       }`;
     });
