@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Performance\Dao;
 
+use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Kpi;
@@ -35,7 +36,6 @@ use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Performance\Dto\SupervisorEvaluationSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
-use PHPUnit\Exception;
 
 class PerformanceReviewDao extends BaseDao
 {
@@ -110,7 +110,6 @@ class PerformanceReviewDao extends BaseDao
      * @param PerformanceReview $performanceReview
      * @param string $reviewerGroupName
      * @param int|null $reviewerEmpNumber
-     * @return void
      */
     private function saveReviewer(PerformanceReview $performanceReview, string $reviewerGroupName, ?int $reviewerEmpNumber)
     {

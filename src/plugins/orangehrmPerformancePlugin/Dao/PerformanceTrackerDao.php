@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Performance\Dao;
 
+use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\PerformanceTracker;
@@ -29,7 +30,6 @@ use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\EmployeeTrackerSearchFilterParams;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
-use PHPUnit\Exception;
 
 class PerformanceTrackerDao extends BaseDao
 {
