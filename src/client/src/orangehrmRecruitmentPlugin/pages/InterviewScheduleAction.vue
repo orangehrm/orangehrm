@@ -127,14 +127,6 @@ export default {
       type: Number,
       required: true,
     },
-    allowedFileTypes: {
-      type: Array,
-      required: true,
-    },
-    maxFileSize: {
-      type: Number,
-      required: true,
-    },
   },
 
   setup(props) {
