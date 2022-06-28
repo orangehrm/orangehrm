@@ -23,7 +23,7 @@
     <candidate-action-layout
       v-model:loading="isLoading"
       :candidate-id="candidateId"
-      :title="$t('recruitment.mark_interview_passed')"
+      :title="$t('recruitment.mark_interview_failed')"
       @submitValid="onSave"
     >
       <oxd-form-row>
@@ -46,7 +46,7 @@
           :label="$t('general.back')"
           @click="onClickBack"
         />
-        <submit-button :label="$t('recruitment.mark_interview_passed')" />
+        <submit-button :label="$t('recruitment.mark_interview_failed')" />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
@@ -75,7 +75,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/recruitment/candidates/${props.candidateId}/interviews/${props.interviewId}/pass`,
+      `api/v2/recruitment/candidates/${props.candidateId}/interviews/${props.interviewId}/fail`,
     );
 
     return {

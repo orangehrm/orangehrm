@@ -19,62 +19,27 @@
  -->
 
 <template>
-  <candidate-profile-layout
-    :candidate-id="candidateId"
-    :action="action"
-    :allowed-file-types="allowedFileTypes"
-    :max-file-size="maxFileSize"
-  >
-    <template #form-footer>
-      <div class="orangehrm-form-footer">
-        <oxd-text type="subtitle-2" class="orangehrm-status-title">
-          {{ $t('general.status') }}: {{ action.label }}
-        </oxd-text>
-      </div>
-    </template>
-  </candidate-profile-layout>
+  <view-action-history :candidate-id="candidateId" :history-id="historyId">
+  </view-action-history>
 </template>
 
 <script>
-import CandidateProfileLayout from '@/orangehrmRecruitmentPlugin/components/CandidateProfileLayout';
+import ViewActionHistory from '../components/ActionHistoryLayout.vue';
+
 export default {
-  name: 'HiredAction',
   components: {
-    'candidate-profile-layout': CandidateProfileLayout,
+    'view-action-history': ViewActionHistory,
   },
+
   props: {
     candidateId: {
       type: Number,
       required: true,
     },
-    action: {
-      type: Object,
-      required: true,
-    },
-    allowedFileTypes: {
-      type: Array,
-      required: true,
-    },
-    maxFileSize: {
+    historyId: {
       type: Number,
       required: true,
     },
   },
-  data() {
-    return {
-      data: null,
-      status: null,
-      isLoading: true,
-      vacancyId: null,
-    };
-  },
-  methods: {
-    getData(data) {
-      this.data = data.stage;
-      this.vacancyId = data.vacancyId;
-      this.isLoading = false;
-    },
-  },
 };
 </script>
-<style scoped lang="scss" src="./candidate-profile.scss"></style>

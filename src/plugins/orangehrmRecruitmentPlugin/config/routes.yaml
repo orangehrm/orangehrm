@@ -254,3 +254,8 @@ recruitment_candidate_action:
   path: /recruitment/changeCandidateVacancyStatus
   controller: OrangeHRM\Recruitment\Controller\CandidateActionController::handle
   methods: [ GET ]
+
+view_action_history:
+  path: /recruitment/candidate/{candidateId}/history/{historyId}
+  controller: OrangeHRM\Recruitment\Controller\InterviewActionHistoryController::handle
+  methods: [ GET ]

@@ -23,7 +23,7 @@
     <candidate-action-layout
       v-model:loading="isLoading"
       :candidate-id="candidateId"
-      :title="$t('recruitment.mark_interview_passed')"
+      :title="$t('recruitment.decline_offer')"
       @submitValid="onSave"
     >
       <oxd-form-row>
@@ -46,7 +46,7 @@
           :label="$t('general.back')"
           @click="onClickBack"
         />
-        <submit-button :label="$t('recruitment.mark_interview_passed')" />
+        <submit-button :label="$t('recruitment.decline_offer')" />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
@@ -66,16 +66,12 @@ export default {
       type: Number,
       required: true,
     },
-    interviewId: {
-      type: Number,
-      required: true,
-    },
   },
 
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/recruitment/candidates/${props.candidateId}/interviews/${props.interviewId}/pass`,
+      `api/v2/recruitment/candidates/${props.candidateId}/job/decline`,
     );
 
     return {
