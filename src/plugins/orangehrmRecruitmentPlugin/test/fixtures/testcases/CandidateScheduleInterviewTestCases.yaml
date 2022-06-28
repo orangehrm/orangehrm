@@ -15,7 +15,7 @@ Create:
     body:
       interviewName: 'Test interview 01'
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3 ]
       note: 'Will be delayed due to the power cuts'
     data:
@@ -73,7 +73,7 @@ Create:
     body:
       interviewName: 'Test interview 01'
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3 ]
       note: 'Will be delayed due to the power cuts'
     data:
@@ -129,7 +129,7 @@ Create:
     body:
       interviewName: 'Test interview 01'
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3 ]
       note: 'Will be delayed due to the power cuts'
     exception:
@@ -150,7 +150,7 @@ Create:
     body:
       interviewName: 'Test interview 01'
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3 ]
       note: 'Will be delayed due to the power cuts'
     exception:
@@ -171,7 +171,7 @@ Create:
     body:
       interviewName: 'Test interview 01'
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3 ]
       note: 'Will be delayed due to the power cuts'
     exception:
@@ -192,7 +192,7 @@ Create:
     body:
       interviewName: 'Test interview 01'
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3 ]
       note: 'Will be delayed due to the power cuts'
     exception:
@@ -213,7 +213,7 @@ Create:
     body:
       interviewName: 'Test interview 01'
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ ]
       note: 'Will be delayed due to the power cuts'
     invalidOnly: [ 'interviewerEmpNumbers' ]
@@ -232,7 +232,7 @@ Create:
     body:
       interviewName: 'Test interview 01'
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3,4,5,6 ]
       note: 'Will be delayed due to the power cuts'
     invalidOnly: [ 'interviewerEmpNumbers' ]
@@ -250,7 +250,7 @@ Create:
       candidateId: 2
     body:
       interviewDate: '2022-10-05'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3,4 ]
       note: 'Will be delayed due to the power cuts'
     invalidOnly: [ 'interviewName' ]
@@ -268,7 +268,7 @@ Create:
       candidateId: 2
     body:
       interviewName: 'Test interview 01'
-      interviewTime: '05:00:00'
+      interviewTime: '05:00'
       interviewerEmpNumbers: [ 1,2,3,4 ]
       note: 'Will be delayed due to the power cuts'
     invalidOnly: [ 'interviewDate' ]

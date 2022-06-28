@@ -25,13 +25,14 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
 {
     use VacancyServiceTrait;
-
+    use I18NHelperTrait;
     /**
      * @inheritDoc
      */
@@ -40,7 +41,7 @@ class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
         $candidateStatus = array_map(function ($key, $value) {
             return [
                 'id' => $key,
-                'label' => ucwords(strtolower($value))
+                $this->getI18NHelper()->transBySource(ucwords(strtolower($value))),
             ];
         }, array_keys(CandidateService::STATUS_MAP), CandidateService::STATUS_MAP);
         return new EndpointResourceResult(ArrayModel::class, $candidateStatus);

@@ -17,10 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
-  <div class="orangehrm-background-container orangehrm-save-candidate-page">
+  <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">
+      <oxd-text class="orangehrm-main-title" tag="h6">
         {{ $t('recruitment.view_action_history') }}
       </oxd-text>
       <oxd-divider />
@@ -31,7 +32,7 @@
               <oxd-input-field
                 :label="$t('recruitment.candidate')"
                 disabled
-                :value="history.candidate"
+                :value="action.candidate"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -42,21 +43,21 @@
               <oxd-input-field
                 :label="$t('recruitment.vacancy')"
                 disabled
-                :value="history.vacancy"
+                :value="action.vacancy"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 :label="$t('recruitment.hiring_manager')"
                 disabled
-                :value="history.manager"
+                :value="action.hiringManager"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 :label="$t('recruitment.current_status')"
                 disabled
-                :value="history.status"
+                :value="action.status"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -67,14 +68,14 @@
               <oxd-input-field
                 :label="$t('recruitment.performed_action')"
                 disabled
-                :value="history.performedAction"
+                :value="action.performedAction"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 :label="$t('general.performed_by')"
                 disabled
-                :value="history.performedBy"
+                :value="action.performedBy"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -86,15 +87,16 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
+        <slot></slot>
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :rows="2" :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item
               class="orangehrm-save-candidate-page --span-column-2"
             >
               <oxd-input-field
+                v-model="action.notes"
                 :label="$t('general.notes')"
                 type="textarea"
-                :v-model="history.note"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -116,19 +118,42 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
 import useDateFormat from '@/core/util/composable/useDateFormat';
-import {formatDate, parseDate} from '@/core/util/helper/datefns';
+
+const actionModel = {
+  candidate: null,
+  vacancy: null,
+  hiringManager: null,
+  status: null,
+  performedAction: null,
+  performedDate: null,
+  performedBy: null,
+  notes: null,
+};
 
 export default {
-  name: 'ShortlistHistoryScreen',
-  setup() {
+  name: 'ViewActionHistory',
+
+  props: {
+    candidateId: {
+      type: Number,
+      required: true,
+    },
+    historyId: {
+      type: Number,
+      required: true,
+    },
+  },
+
+  setup(props) {
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
 
     const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      'recruitment/candidateHistory',
+      window.appGlobal.baseUrl,
+      `/api/v2/recruitment/candidates/${props.candidateId}/history`,
     );
     return {
       http,
@@ -136,25 +161,17 @@ export default {
       jsDateFormat,
     };
   },
+
   data() {
     return {
       isLoading: false,
-      history: {
-        candidate: '',
-        vacancy: '',
-        manager: '',
-        performedAction: '',
-        performedBy: '',
-        performedDate: '',
-        note: '',
-        status: null,
-      },
+      action: {...actionModel},
     };
   },
   computed: {
     getPerformedDate() {
       return formatDate(
-        parseDate(this.history.performedDate),
+        parseDate(this.action.performedDate),
         this.jsDateFormat,
         {locale: this.locale},
       );
@@ -162,46 +179,41 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
-    this.http.getAll().then(({data: {data}}) => {
-      const {
-        candidate,
-        performedAction,
-        vacancy,
-        status,
-        manager,
-        ...rest
-      } = data;
-      const {firstName, lastName, middleName} = candidate;
-      const fullName = `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
-      this.history = {
-        candidate: `${firstName} ${middleName} ${lastName}`,
-        vacancy: vacancy.title,
-        manager:
-          (manager?.terminationId ? this.$t('general.past_employee') : '') +
-          fullName,
-        performedAction: performedAction.label,
-        cid: candidate.id,
-        status: status.label,
-        ...rest,
-      };
-      this.isLoading = false;
-    });
+    this.http
+      .get(this.historyId)
+      .then(response => {
+        const {data} = response.data;
+        (this.action.candidate = `${data.candidate.firstName} ${data.candidate.middleName} ${data.candidate.lastName}`),
+          (this.action.vacancy = data.vacancy.name),
+          (this.action.hiringManager = `${data.vacancy.hiringManager.firstName}
+          ${data.vacancy.hiringManager.middleName} ${data.vacancy.hiringManager.lastName}`),
+          (this.action.status = data.action.label);
+        this.action.performedDate = data.performedDate;
+        this.action.performedAction = data.action.label;
+        (this.action.performedBy = `${data.performedBy.firstName}
+          ${data.performedBy.middleName} ${data.performedBy.lastName}`),
+          (this.action.notes = data.note);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   methods: {
     onSave() {
-      this.isLoading = true;
+      this.loading = true;
       this.http
-        .update(this.history.id, {note: this.history.note})
+        .update(this.historyId, {
+          note: this.action.notes,
+        })
         .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/viewCandidates');
-          this.isLoading = false;
+          this.onBack();
         });
     },
     onBack() {
-      navigate(`/recruitment/addCandidate/${this.history.cid}`);
+      navigate('/recruitment/viewCandidates');
     },
   },
 };

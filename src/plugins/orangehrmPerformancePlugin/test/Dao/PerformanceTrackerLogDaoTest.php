@@ -26,6 +26,10 @@ use OrangeHRM\Performance\Dto\PerformanceTrackerLogSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Performance
+ * @group Dao
+ */
 class PerformanceTrackerLogDaoTest extends KernelTestCase
 {
     protected PerformanceTrackerLogDao $performanceTrackerLogDao;

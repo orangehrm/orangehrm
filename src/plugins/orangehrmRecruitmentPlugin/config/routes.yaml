@@ -215,11 +215,6 @@ recruitment_edit_job_vacancy:
   controller: OrangeHRM\Recruitment\Controller\EditJobVacancyController::handle
   methods: [ GET ]
 
-candidate_shortlist_action:
-  path: /recruitment/addCandidate/{candidateId}
-  controller: OrangeHRM\Recruitment\Controller\CandidateActionController::handle
-  methods: [ GET ]
-
 candidate_schedule_interview:
   path: /recruitment/jobInterview/vacancy/{vacancyId}/action/{actionId}
   controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewController::handle
@@ -250,7 +245,17 @@ save_recruitment_candidates:
   controller: OrangeHRM\Recruitment\Controller\SaveCandidateController::handle
   methods: [ GET ]
 
-recruitment_module_under_development: # remove this
-  path: /recruitment/{screen}
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+view_recruitment_candidate_profile:
+  path: /recruitment/addCandidate/{id}
+  controller: OrangeHRM\Recruitment\Controller\SaveCandidateController::handle
+  methods: [ GET ]
+
+recruitment_candidate_action:
+  path: /recruitment/changeCandidateVacancyStatus
+  controller: OrangeHRM\Recruitment\Controller\CandidateActionController::handle
+  methods: [ GET ]
+
+view_action_history:
+  path: /recruitment/candidate/{candidateId}/history/{historyId}
+  controller: OrangeHRM\Recruitment\Controller\InterviewActionHistoryController::handle
   methods: [ GET ]

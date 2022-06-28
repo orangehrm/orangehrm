@@ -164,3 +164,9 @@ langStrings:
   -
     value: 'Number should be greater than or equal to {minValue}'
     unitId: greater_than_or_equal_to_n
+  -
+    value: 'Purged Employee'
+    unitId: purged_employee
+  -
+    value: 'hh:mm'
+    unitId: hh_mm

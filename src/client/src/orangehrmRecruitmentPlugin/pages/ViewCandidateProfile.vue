@@ -19,44 +19,29 @@
  -->
 
 <template>
-  <candidate-profile-layout
+  <recruitment-status :candidate-id="candidateId"> </recruitment-status>
+  <candidate-profile
     :candidate-id="candidateId"
-    :action="action"
-    :allowed-file-types="allowedFileTypes"
     :max-file-size="maxFileSize"
-  >
-    <template #form-footer>
-      <div class="orangehrm-form-footer">
-        <oxd-text type="subtitle-2" class="orangehrm-status-title">
-          {{ $t('general.status') }}: {{ action.label }}
-        </oxd-text>
-        <oxd-form-actions class="orangehrm-form-buttons">
-          <oxd-button
-            display-type="ghost-danger"
-            :label="$t('general.reject')"
-            @click="onReject"
-          />
-        </oxd-form-actions>
-      </div>
-    </template>
-  </candidate-profile-layout>
+    :allowed-file-types="allowedFileTypes"
+  ></candidate-profile>
+  <history-table :candidate-id="candidateId"></history-table>
 </template>
 
 <script>
-import CandidateProfileLayout from '@/orangehrmRecruitmentPlugin/components/CandidateProfileLayout';
-import {navigate} from '@/core/util/helper/navigation';
+import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
+import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
+import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
+
 export default {
-  name: 'InterviewFailedAction',
   components: {
-    'candidate-profile-layout': CandidateProfileLayout,
+    'history-table': HistoryTable,
+    'candidate-profile': CandidateProfile,
+    'recruitment-status': RecruitmentStatus,
   },
   props: {
     candidateId: {
       type: Number,
-      required: true,
-    },
-    action: {
-      type: Object,
       required: true,
     },
     allowedFileTypes: {
@@ -68,24 +53,5 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      data: null,
-      status: null,
-      isLoading: true,
-      vacancyId: null,
-    };
-  },
-  methods: {
-    getData(data) {
-      this.data = data.stage;
-      this.vacancyId = data.vacancyId;
-      this.isLoading = false;
-    },
-    onReject() {
-      navigate('recruitment/vacancy/action');
-    },
-  },
 };
 </script>
-<style scoped lang="scss" src="./candidate-profile.scss"></style>

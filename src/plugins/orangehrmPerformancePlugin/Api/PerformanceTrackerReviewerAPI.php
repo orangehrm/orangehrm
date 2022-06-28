@@ -34,7 +34,6 @@ use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Authorization\UserRole\ReviewerUserRole;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
 use OrangeHRM\Pim\Api\EmployeeAPI;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
@@ -131,7 +130,7 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CollectionEndpoi
                     new Rule(Rules::LENGTH, [null, EmployeeAPI::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH]),
                 )
             ),
-            ...$this->getSortingAndPaginationParamsRules(PerformanceTrackerReviewerSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules([])
         );
     }
 
