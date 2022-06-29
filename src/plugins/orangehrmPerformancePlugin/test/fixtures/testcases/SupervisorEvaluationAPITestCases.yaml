@@ -117,11 +117,11 @@ GetAll:
           "employeeId": "0003"
           "terminationId": null
           "jobTitle":
-            "id": 1
-            "name": "Software Engineer"
+            "id": 2
+            "name": "Senior Software Engineer"
             "deleted": false
         "status": 2
-      generalComment: null
+      generalComment: ''
       allowedActions:
         0:
           "action": 'save'
@@ -167,11 +167,11 @@ GetAll:
           "employeeId": "0003"
           "terminationId": null
           "jobTitle":
-            "id": 4
-            "name": "Senior QA"
+            "id": 2
+            "name": "Senior Software Engineer"
             "deleted": false
         "status" : 4
-      generalComment: null
+      generalComment: ''
       allowedActions: []
 
 Update:

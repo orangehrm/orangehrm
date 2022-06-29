@@ -43,8 +43,8 @@ use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Api\Model\KpiSummaryModel;
-use OrangeHRM\Performance\Api\Model\ReviewerModel;
 use OrangeHRM\Performance\Api\Model\ReviewerRatingModel;
+use OrangeHRM\Performance\Api\Model\SupervisorReviewerModel;
 use OrangeHRM\Performance\Api\ValidationRules\ReviewReviewerRatingParamRule;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Performance\Dto\SupervisorEvaluationSearchFilterParams;
@@ -230,7 +230,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         );
 
         return $this->getNormalizerService()->normalize(
-            ReviewerModel::class,
+            SupervisorReviewerModel::class,
             $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getReviewerRecord($reviewId, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR)
         );
