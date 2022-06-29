@@ -30,18 +30,11 @@ class DestroyCandidatePurgeStrategy extends PurgeStrategy
     {
         $matchByValues = $this->getMatchByValues($vacancyId);
         $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        $purgeIds = [];
         foreach ($purgeEntities as $purgeEntity) {
             /** @var Candidate $purgeEntity */
             if (!$purgeEntity->isConsentToKeepData()) {
-                $purgeIds[] = $purgeEntity->getId();
+                $this->getEntityManager()->remove($purgeEntity);
             }
-        }
-        if (!empty($purgeIds)) {
-            $candidateClass = Candidate::class;
-            $this->getEntityManager()->createQuery("delete from $candidateClass c where c.id in (:ids)")
-                ->setParameter('ids', $purgeIds)
-                ->execute();
         }
     }
 }
