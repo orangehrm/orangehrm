@@ -27,7 +27,7 @@ class InterviewAttachmentSearchFilterParams extends FilterParams
         'attachment.id',
         'attachment.interviewId',
     ];
-    
+
     /**
      * @var int
      */
