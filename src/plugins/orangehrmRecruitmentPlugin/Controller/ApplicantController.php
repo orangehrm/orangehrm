@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ValidatorException;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Dto\Base64Attachment;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\ValidatorTrait;
@@ -57,6 +58,7 @@ class ApplicantController extends AbstractController implements PublicController
     use validatorTrait;
     use EntityManagerHelperTrait;
     use NormalizerServiceTrait;
+    Use LoggerTrait;
 
     public const PARAMETER_FIRST_NAME = 'firstName';
     public const PARAMETER_MIDDLE_NAME = 'middleName';
@@ -90,19 +92,22 @@ class ApplicantController extends AbstractController implements PublicController
         /** @var UploadedFile $file */
         $file = $request->files->get('resume');
         $attachment = Base64Attachment::createFromUploadedFile($file);
-        $variables['resume'] = [
-            'name' => $attachment->getFilename(),
-            'type' => $attachment->getFileType(),
-            'base64' => $attachment->getBase64Content(),
-            'size' => $attachment->getSize(),
-        ];
+//        $variables[self::PARAMETER_RESUME] = [
+//            'name' => $attachment->getFilename(),
+//            'type' => $attachment->getFileType(),
+//            'base64' => $attachment->getBase64Content(),
+//            'size' => $attachment->getSize(),
+//        ];
         $paramRules = $this->getParamRuleCollection();
         $paramRules->addExcludedParamKey('_token');
         try {
             $this->validate($variables, $paramRules);
         } catch (InvalidParamException $e) {
-            // handle error page
+            var_dump($e->getNormalizedErrorBag());
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
         }
+
         $this->beginTransaction();
         try {
             $applicant = new Candidate();
@@ -110,36 +115,36 @@ class ApplicantController extends AbstractController implements PublicController
             $applicant = $this->getCandidateService()->getCandidateDao()->saveCandidate($applicant);
             $lastInsertApplicantId = $applicant->getId();
 
-            $applicantHistory = new CandidateHistory();
-            $this->setCommonApplicantHistoryAttributes(
-                $applicantHistory,
-                $lastInsertApplicantId
-            );
-            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
-            $vacancyId = $request->request->get(self::PARAMETER_VACANCY_ID);
-            if (!is_null($vacancyId)) {
-                $applicantVacancy = new CandidateVacancy();
-                $this->setApplicantVacancy(
-                    $applicantVacancy,
-                    $lastInsertApplicantId,
-                    CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
-                    (int) $vacancyId
-                );
-                $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($applicantVacancy);
-
-                $applicantHistory = new CandidateHistory();
-                $this->setCommonApplicantHistoryAttributes(
-                    $applicantHistory,
-                    $lastInsertApplicantId,
-                );
-                $applicantHistory->getDecorator()->setVacancyById($vacancyId);
-                $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
-            }
-            $applicantAttachment = new CandidateAttachment();
-            $this->setCandidateAttachment($applicantAttachment, $lastInsertApplicantId, $variables['resume']);
-            $this->getRecruitmentAttachmentService()
-                ->getRecruitmentAttachmentDao()
-                ->saveCandidateAttachment($applicantAttachment);
+//            $applicantHistory = new CandidateHistory();
+//            $this->setCommonApplicantHistoryAttributes(
+//                $applicantHistory,
+//                $lastInsertApplicantId
+//            );
+//            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
+//            $vacancyId = $request->request->get(self::PARAMETER_VACANCY_ID);
+//            if (!is_null($vacancyId)) {
+//                $applicantVacancy = new CandidateVacancy();
+//                $this->setApplicantVacancy(
+//                    $applicantVacancy,
+//                    $lastInsertApplicantId,
+//                    CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
+//                    (int)$vacancyId
+//                );
+//                $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($applicantVacancy);
+//
+//                $applicantHistory = new CandidateHistory();
+//                $this->setCommonApplicantHistoryAttributes(
+//                    $applicantHistory,
+//                    $lastInsertApplicantId,
+//                );
+//                $applicantHistory->getDecorator()->setVacancyById($vacancyId);
+//                $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
+//            }
+//            $applicantAttachment = new CandidateAttachment();
+//            $this->setCandidateAttachment($applicantAttachment, $lastInsertApplicantId, $variables['resume']);
+//            $this->getRecruitmentAttachmentService()
+//                ->getRecruitmentAttachmentDao()
+//                ->saveCandidateAttachment($applicantAttachment);
 
             $this->commitTransaction();
             $applicant = $this->getCandidateService()->getCandidateDao()->getCandidateById($lastInsertApplicantId);
@@ -148,6 +153,8 @@ class ApplicantController extends AbstractController implements PublicController
             );
         } catch (Exception $e) {
             $this->rollBackTransaction();
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             throw new TransactionException($e);
         }
     }
@@ -177,6 +184,7 @@ class ApplicantController extends AbstractController implements PublicController
         $applicant->setConsentToKeepData(
             $request->request->getBoolean(self::PARAMETER_CONSENT_TO_KEEP_DATA),
         );
+        $applicant->setModeOfApplication(Candidate::MODE_OF_APPLICATION_ONLINE);
     }
 
     /**
@@ -223,10 +231,10 @@ class ApplicantController extends AbstractController implements PublicController
     protected function getParamRuleCollection(): ?ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_RESUME,
-                new Rule(Rules::BASE_64_ATTACHMENT)
-            ),
+//            new ParamRule(
+//                self::PARAMETER_RESUME,
+//                new Rule(Rules::BASE_64_ATTACHMENT)
+//            ),
             new ParamRule(
                 self::PARAMETER_FIRST_NAME,
                 new Rule(Rules::STRING_TYPE)
@@ -255,13 +263,13 @@ class ApplicantController extends AbstractController implements PublicController
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_VACANCY_ID,
-                    new Rule(Rules::INT_TYPE)
+                    new Rule(Rules::POSITIVE)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CONSENT_TO_KEEP_DATA,
-                    new Rule(Rules::BOOL_TYPE)
+                    new Rule(Rules::STRING_TYPE)
                 )
             ),
         );
@@ -270,6 +278,7 @@ class ApplicantController extends AbstractController implements PublicController
     /**
      * @param CandidateAttachment $applicantAttachment
      * @param int $applicantId
+     * @param array $resume
      */
     private function setCandidateAttachment(CandidateAttachment $applicantAttachment, int $applicantId, array $resume)
     {
@@ -279,6 +288,7 @@ class ApplicantController extends AbstractController implements PublicController
 
     /**
      * @param CandidateAttachment $applicantAttachment
+     * @param array $resume
      */
     private function setBase64Attachment(CandidateAttachment $applicantAttachment, array $resume): void
     {
