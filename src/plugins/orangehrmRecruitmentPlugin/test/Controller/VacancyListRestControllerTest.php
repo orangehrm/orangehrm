@@ -77,4 +77,38 @@ class VacancyListRestControllerTest extends KernelTestCase
         $iteratableResponse = json_decode($response->formatData(), false);
         $this->assertCount(5, $iteratableResponse->data);
     }
+
+    /**
+     * @throws SearchParamException
+     */
+    public function testHandleGetRequestWithLimit(): void
+    {
+        $this->createKernelWithMockServices([
+            Services::VACANCY_SERVICE => new VacancyService(),
+            Services::NORMALIZER_SERVICE => new NormalizerService(),
+        ]);
+        $controller = new VacancyListRestController();
+        $httpRequest = $this->getHttpRequest(['limit'=> 2]);
+        $request = new Request($httpRequest);
+        $response = $controller->handleGetRequest($request);
+        $iteratableResponse = json_decode($response->formatData(), false);
+        $this->assertCount(2, $iteratableResponse->data);
+    }
+
+    /**
+     * @throws SearchParamException
+     */
+    public function testHandleGetRequestWithOffset(): void
+    {
+        $this->createKernelWithMockServices([
+            Services::VACANCY_SERVICE => new VacancyService(),
+            Services::NORMALIZER_SERVICE => new NormalizerService(),
+        ]);
+        $controller = new VacancyListRestController();
+        $httpRequest = $this->getHttpRequest(['offset'=> 2]);
+        $request = new Request($httpRequest);
+        $response = $controller->handleGetRequest($request);
+        $iteratableResponse = json_decode($response->formatData(), false);
+        $this->assertEquals('Charted Engineer', $iteratableResponse->data[0]->name);
+    }
 }

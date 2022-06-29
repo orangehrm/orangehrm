@@ -46,6 +46,8 @@ class VacancyListRestController extends AbstractRestController implements Public
     public const ACTIVE_STATUS = 1;
 
     private const VACANCY_ID = 'vacancy.id';
+    private const VACANCY_OFFSET = 'offset';
+    private const VACANCY_LIMIT = 'limit';
     /**
      * @var ValidationDecorator|null
      */
@@ -59,10 +61,14 @@ class VacancyListRestController extends AbstractRestController implements Public
      */
     public function handleGetRequest(Request $request): Response
     {
+        $offset = $request->getQuery()->get(self::VACANCY_OFFSET, 0);
+        $limit = $request->getQuery()->get(self::VACANCY_LIMIT, 8);
         $vacancySearchFilterParams = new VacancySearchFilterParams();
         $vacancySearchFilterParams->setStatus(self::ACTIVE_STATUS);
         $vacancySearchFilterParams->setSortField(self::VACANCY_ID);
         $vacancySearchFilterParams->setSortOrder(ListSorter::DESCENDING);
+        $vacancySearchFilterParams->setLimit($limit);
+        $vacancySearchFilterParams->setOffset($offset);
         $vacancies = $this->getVacancyService()->getVacancyDao()->getVacancies($vacancySearchFilterParams);
         $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancySearchFilterParams);
 
@@ -118,6 +124,18 @@ class VacancyListRestController extends AbstractRestController implements Public
     protected function initGetValidationRule(Request $request): ?ParamRuleCollection
     {
         return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_LIMIT,
+                    new Rule(Rules::ZERO_OR_POSITIVE), // Zero for not to limit results
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_OFFSET,
+                    new Rule(Rules::ZERO_OR_POSITIVE)
+                )
+            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_SORT_ORDER,
