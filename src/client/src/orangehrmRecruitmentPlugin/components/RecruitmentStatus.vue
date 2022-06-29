@@ -113,6 +113,7 @@
 <script>
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'RecruitmentStatus',
@@ -127,9 +128,11 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/recruitment/candidates',
     );
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     return {
       http,
+      translateEmpName: $tEmpName,
     };
   },
   data() {
@@ -137,7 +140,7 @@ export default {
       isLoading: false,
       candidateName: '',
       vacancyName: 'N/A',
-      hiringManagerName: '',
+      hiringManagerName: 'N/A',
       status: null,
       statuses: [
         {id: 1, label: this.$t('recruitment.application_initiated')},
@@ -170,13 +173,15 @@ export default {
         this.candidateName = `${data?.firstName} ${data?.middleName} ${data?.lastName}`;
         if (data?.vacancy) {
           this.vacancyName = data?.vacancy.name;
-          this.hiringManagerName = `${data?.vacancy.hiringManager.firstName} ${
-            data?.vacancy.hiringManager.lastName
-          } ${
-            data?.vacancy.hiringManager.terminationId
-              ? this.$t('general.past_employee')
-              : ''
-          }`;
+        }
+        if (data?.vacancy?.hiringManager) {
+          this.hiringManagerName = this.translateEmpName(
+            data.vacancy.hiringManager,
+            {
+              includeMiddle: true,
+              excludePastEmpTag: false,
+            },
+          );
         }
         return this.http.request({
           method: 'GET',

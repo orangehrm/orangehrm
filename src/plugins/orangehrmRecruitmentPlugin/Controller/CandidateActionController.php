@@ -70,13 +70,12 @@ class CandidateActionController extends AbstractVueController
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
 
-        $interviewIds = $this->getCandidateService()->getCandidateDao()->getInterviewIdsByCandidateId($candidateId);
-        if ($actionId == 5 || $actionId == 6) {
-            $component->addProp(new Prop(
-                'interview-id',
-                Prop::TYPE_NUMBER,
-                $interviewIds[0]
-            ));
+        if (
+            $actionId === WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED
+            || $actionId === WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED
+        ) {
+            $interviewIds = $this->getCandidateService()->getCandidateDao()->getInterviewIdsByCandidateId($candidateId);
+            $component->addProp(new Prop('interview-id', Prop::TYPE_NUMBER, $interviewIds[0]));
         }
 
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));

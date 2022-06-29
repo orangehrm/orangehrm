@@ -59,11 +59,11 @@
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              v-model="attachment.description"
+              v-model="attachment.comment"
               type="textarea"
               :label="$t('general.comment')"
               :placeholder="$t('general.type_comment_here')"
-              :rules="rules.description"
+              :rules="rules.comment"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -93,7 +93,7 @@ import {
 
 const attachmentModel = {
   attachment: null,
-  description: '',
+  comment: '',
 };
 
 export default {
@@ -128,7 +128,7 @@ export default {
         ...attachmentModel,
       },
       rules: {
-        description: [shouldNotExceedCharLength(200)],
+        comment: [shouldNotExceedCharLength(200)],
         attachment: [
           maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
@@ -144,7 +144,7 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.currentFile = data.filename;
-        this.attachment.description = data.description;
+        this.attachment.comment = data.comment;
       })
       .finally(() => {
         this.isLoading = false;
