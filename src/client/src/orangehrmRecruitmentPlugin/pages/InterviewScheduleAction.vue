@@ -19,89 +19,166 @@
  -->
 
 <template>
-  <candidate-profile-layout
-    :candidate-id="candidateId"
-    :action="action"
-    :allowed-file-types="allowedFileTypes"
-    :max-file-size="maxFileSize"
-  >
-    <template #form-footer>
-      <div class="orangehrm-form-footer">
-        <oxd-text type="subtitle-2" class="orangehrm-status-title">
-          {{ $t('general.status') }}: {{ action.label }}
-        </oxd-text>
-        <oxd-form-actions class="orangehrm-form-buttons">
-          <oxd-button
-            display-type="ghost-danger"
-            :label="$t('general.reject')"
-            @click="onReject"
-          />
-          <oxd-button
-            display-type="ghost-danger"
-            :label="$t('recruitment.mark_interview_failed')"
-            @click="onFailed"
-          />
-          <oxd-button
-            display-type="secondary"
-            :label="$t('recruitment.mark_interview_passed')"
-            @click="onPassed"
-          />
-        </oxd-form-actions>
-      </div>
-    </template>
-  </candidate-profile-layout>
+  <div class="orangehrm-background-container">
+    <candidate-action-layout
+      v-model:loading="isLoading"
+      :candidate-id="candidateId"
+      :title="$t('recruitment.schedule_interview')"
+      @submitValid="onSave"
+    >
+      <oxd-form-row>
+        <oxd-grid :cols="3">
+          <oxd-grid-item>
+            <oxd-input-field
+              v-model="interview.interviewName"
+              :rules="rules.interviewName"
+              :label="$t('recruitment.interview_title')"
+              required
+            />
+          </oxd-grid-item>
+          <oxd-grid-item class="--offset-row-2">
+            <interviewer-autocomplete
+              v-for="(interviewer, index) in interviewers"
+              :key="interviewer"
+              v-model="interviewers[index]"
+              :show-delete="index > 0"
+              :rules="index === 0 ? rules.interviewerName : []"
+              include-employees="onlyCurrent"
+              required
+              @remove="onRemoveInterviewer(index)"
+            />
+            <oxd-button
+              v-if="interviewers.length < 5"
+              icon-name="plus"
+              display-type="text"
+              class="orangehrm-input-field-bottom-space"
+              :label="$t('general.add_another')"
+              @click="onAddAnother"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item class="--offset-row-2">
+            <date-input
+              v-model="interview.interviewDate"
+              :rules="rules.interviewDate"
+              :label="$t('general.date')"
+              required
+            />
+          </oxd-grid-item>
+          <oxd-grid-item class="--offset-row-2">
+            <time-input
+              v-model="interview.interviewTime"
+              :rules="rules.interviewTime"
+              :label="$t('general.time')"
+            />
+          </oxd-grid-item>
+
+          <oxd-grid-item class="--offset-row-3 --span-column-2">
+            <oxd-input-field
+              v-model="interview.note"
+              :rules="rules.note"
+              :label="$t('general.notes')"
+              :placeholder="$t('general.type_here')"
+              type="textarea"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
+      <oxd-divider />
+      <required-text></required-text>
+      <oxd-form-actions>
+        <oxd-button
+          display-type="ghost"
+          :label="$t('general.back')"
+          @click="onClickBack"
+        />
+        <submit-button :label="$t('general.save')" />
+      </oxd-form-actions>
+    </candidate-action-layout>
+  </div>
 </template>
 
 <script>
+import {
+  required,
+  shouldNotExceedCharLength,
+  validDateFormat,
+  validTimeFormat,
+} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
-import CandidateProfileLayout from '@/orangehrmRecruitmentPlugin/components/CandidateProfileLayout';
+import {APIService} from '@/core/util/services/api.service';
+import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout.vue';
+import InterviewerAutocomplete from '@/orangehrmRecruitmentPlugin/components/InterviewerAutocomplete.vue';
+
+const interviewModel = {
+  interviewName: null,
+  interviewDate: null,
+  interviewTime: null,
+  note: null,
+};
+
 export default {
-  name: 'InterviewScheduleAction',
   components: {
-    'candidate-profile-layout': CandidateProfileLayout,
+    'candidate-action-layout': CandidateActionLayout,
+    'interviewer-autocomplete': InterviewerAutocomplete,
   },
   props: {
     candidateId: {
       type: Number,
       required: true,
     },
-    action: {
-      type: Object,
-      required: true,
-    },
-    allowedFileTypes: {
-      type: Array,
-      required: true,
-    },
-    maxFileSize: {
-      type: Number,
-      required: true,
-    },
+  },
+
+  setup(props) {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/recruitment/candidates/${props.candidateId}/shedule-interview`,
+    );
+
+    return {
+      http,
+    };
   },
   data() {
     return {
-      data: null,
-      status: null,
-      isLoading: true,
-      vacancyId: null,
+      isLoading: false,
+      interview: {...interviewModel},
+      interviewers: [null],
+      rules: {
+        interviewName: [required, shouldNotExceedCharLength(100)],
+        interviewDate: [required, validDateFormat()],
+        interviewTime: [validTimeFormat],
+        interviewerName: [required],
+        note: [shouldNotExceedCharLength(2000)],
+      },
     };
   },
   methods: {
-    getData(data) {
-      this.data = data.stage;
-      this.vacancyId = data.vacancyId;
-      this.isLoading = false;
+    onAddAnother() {
+      if (this.interviewers.length < 5) {
+        this.interviewers.push(null);
+      }
     },
-    onReject() {
-      navigate('recruitment/vacancy/action');
+    onRemoveInterviewer(index) {
+      this.interviewers.splice(index, 1);
     },
-    onPassed() {
-      navigate('recruitment/vacancy/action');
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          ...this.interview,
+          interviewerEmpNumbers: this.interviewers
+            .map(interviewer => interviewer?.id)
+            .filter(Number),
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => this.onClickBack());
     },
-    onFailed() {
-      navigate('recruitment/vacancy/action');
+    onClickBack() {
+      navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
     },
   },
 };
 </script>
-<style scoped lang="scss" src="./candidate-profile.scss"></style>

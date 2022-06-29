@@ -43,7 +43,14 @@ class SaveCandidateController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('save-candidate');
+        if ($request->attributes->has('id')) {
+            $component = new Component('view-candidate-profile');
+            $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
+        } else {
+            $component = new Component('save-candidate');
+        }
+
+        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, 1024 * 1024));
         $component->addProp(
             new Prop(
                 'allowed-file-types',

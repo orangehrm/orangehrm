@@ -245,7 +245,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_INTERVIEW_TIME,
                     new Rule(Rules::TIME, ['H:i'])
-                ),
+                )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

@@ -17,19 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
-  <div>
-    <recruitment-status>
-      <template #header-title>
-        <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('recruitment.application_stage') }}
-        </oxd-text>
-      </template>
-      <template #footer-options>
-        <slot name="form-footer"></slot>
-      </template>
-    </recruitment-status>
-  </div>
+  <recruitment-status :candidate-id="candidateId"> </recruitment-status>
   <candidate-profile
     v-if="candidate"
     :candidate="candidate"

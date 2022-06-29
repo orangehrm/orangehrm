@@ -77,8 +77,8 @@
                 :button-label="$t('general.browse')"
                 :file="resume.oldAttachment"
                 :rules="rules.resume"
-                :url="`recruitment/candidateAttachment/attachId`"
                 :hint="$t('general.accept_custom_format_file')"
+                url="recruitment/candidateAttachment/attachId"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -148,32 +148,36 @@
 </template>
 
 <script>
-import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import {
+  required,
   maxFileSize,
-  shouldBeCurrentOrPreviousDate,
-  shouldNotExceedCharLength,
-  validDateFormat,
   validFileTypes,
+  validDateFormat,
+  validEmailFormat,
   validPhoneNumberFormat,
+  shouldNotExceedCharLength,
+  shouldBeCurrentOrPreviousDate,
 } from '@/core/util/validation/rules';
-import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
-import FileUploadInput from '@/core/components/inputs/FileUploadInput';
-import SubmitButton from '@/core/components/buttons/SubmitButton';
-import {required, validEmailFormat} from '@/core/util/validation/rules';
-import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
-import {parseDate, formatDate} from '@/core/util/helper/datefns';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import SubmitButton from '@/core/components/buttons/SubmitButton';
+import FileUploadInput from '@/core/components/inputs/FileUploadInput';
+import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
+import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 
 export default {
   name: 'SaveCandidate',
   components: {
     'submit-button': SubmitButton,
-    'vacancy-dropdown': VacancyDropdown,
     'full-name-input': FullNameInput,
+    'vacancy-dropdown': VacancyDropdown,
     'file-upload-input': FileUploadInput,
   },
   props: {
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
     allowedFileTypes: {
       type: Array,
       required: true,
@@ -184,13 +188,8 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/recruitment/candidates',
     );
-    const httpAttachments = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/recruitment/candidate/attachments',
-    );
     return {
       http,
-      httpAttachments,
     };
   },
   data() {
@@ -198,13 +197,13 @@ export default {
       isLoading: false,
       candidate: {
         firstName: null,
-        middleName: '',
-        lastName: '',
-        email: '',
+        middleName: null,
+        lastName: null,
+        email: null,
         contactNumber: null,
         keywords: null,
         comment: null,
-        dateOfApplication: '',
+        dateOfApplication: null,
         modeOfApplication: 1,
         consentToKeepData: false,
         status: 1,
@@ -212,9 +211,9 @@ export default {
       },
       resume: {
         id: null,
-        oldAttachment: {},
+        oldAttachment: null,
         newAttachment: null,
-        method: 'replaceCurrent',
+        method: 'keepCurrent',
       },
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
@@ -225,58 +224,40 @@ export default {
         notes: [shouldNotExceedCharLength(250)],
         keywords: [shouldNotExceedCharLength(250)],
         resume: [
-          maxFileSize(1024 * 1024),
+          maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
         applyDate: [validDateFormat(), shouldBeCurrentOrPreviousDate()],
       },
     };
   },
-  beforeMount() {
-    this.setCurrentDateTime();
-  },
   methods: {
     onSave() {
+      let candidateId;
       this.isLoading = true;
       this.http
         .create({...this.candidate, vacancyId: this.candidate.vacancyId?.id})
-        .then(response => {
-          if (!this.resume.newAttachment) {
-            return true;
-          }
-          const {data} = response.data;
-          return this.httpAttachments.create({
-            candidateId: parseInt(data.id),
-            attachment: this.resume.newAttachment,
+        .then(({data}) => {
+          if (!this.resume.newAttachment) return;
+          candidateId = parseInt(data.id);
+          return this.http.request({
+            method: 'POST',
+            url: '/api/v2/recruitment/candidate/attachments',
+            data: {
+              candidateId,
+              attachment: this.resume.newAttachment,
+            },
           });
         })
         .then(() => {
-          this.isLoading = false;
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          navigate('/recruitment/viewCandidates');
+          navigate('/recruitment/addCandidate/{id}', {id: candidateId});
         });
     },
     onCancel() {
       navigate('/recruitment/viewCandidates');
-    },
-    setCurrentDateTime() {
-      return new Promise((resolve, reject) => {
-        this.http
-          .request({method: 'GET', url: '/api/v2/attendance/current-datetime'})
-          .then(res => {
-            const {utcDate, utcTime} = res.data.data;
-            const currentDate = parseDate(
-              `${utcDate} ${utcTime} +00:00`,
-              'yyyy-MM-dd HH:mm xxx',
-            );
-            this.candidate.dateOfApplication =
-              this.date ?? formatDate(currentDate, 'yyyy-MM-dd');
-            resolve();
-          })
-          .catch(error => reject(error));
-      });
     },
   },
 };

@@ -23,7 +23,7 @@
     <candidate-action-layout
       v-model:loading="isLoading"
       :candidate-id="candidateId"
-      :title="$t('recruitment.shortlist_candidate')"
+      :title="$t('recruitment.hire')"
       @submitValid="onSave"
     >
       <oxd-form-row>
@@ -31,7 +31,6 @@
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
               v-model="note"
-              :rules="rules.note"
               :label="$t('general.notes')"
               :placeholder="$t('general.type_here')"
               type="textarea"
@@ -47,17 +46,16 @@
           :label="$t('general.back')"
           @click="onClickBack"
         />
-        <submit-button :label="$t('recruitment.shortlist')" />
+        <submit-button :label="$t('recruitment.hire')" />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
 </template>
 
 <script>
-import {navigate} from '@/core/util/helper/navigation';
+import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout';
 import {APIService} from '@/core/util/services/api.service';
-import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
-import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout.vue';
+import {navigate} from '@/core/util/helper/navigation';
 
 export default {
   components: {
@@ -73,7 +71,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/recruitment/candidates/${props.candidateId}/shortlist`,
+      `api/v2/recruitment/candidates/${props.candidateId}/hire`,
     );
 
     return {
@@ -84,9 +82,6 @@ export default {
     return {
       isLoading: false,
       note: null,
-      rules: {
-        note: [shouldNotExceedCharLength(2000)],
-      },
     };
   },
   methods: {
