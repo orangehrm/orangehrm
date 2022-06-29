@@ -373,7 +373,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             )
         );
         $candidate->setMiddleName(
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_MIDDLE_NAME
             ),
@@ -408,13 +408,14 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_COMMENT
             )
         );
+        $applicationDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DATE_OF_APPLICATION,
+        );
         $candidate->setDateOfApplication(
-            $this->getRequestParams()->getDateTime(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_DATE_OF_APPLICATION,
-                null,
+            $applicationDate instanceof DateTime ?
+                $applicationDate :
                 $this->getDateTimeHelper()->getNow()
-            )
         );
         $candidate->setModeOfApplication(
             $this->getRequestParams()->getInt(
