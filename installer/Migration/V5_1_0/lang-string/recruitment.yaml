@@ -69,7 +69,7 @@ langStrings:
     value: 'Job Offered'
     unitId: job_offered
   -
-    value: 'offer Declined'
+    value: 'Offer Declined'
     unitId: offer_declined
   -
     value: 'Manual'
