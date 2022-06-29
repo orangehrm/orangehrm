@@ -23,6 +23,11 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class InterviewAttachmentSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = [
+        'attachment.id',
+        'attachment.interviewId',
+    ];
+    
     /**
      * @var int
      */

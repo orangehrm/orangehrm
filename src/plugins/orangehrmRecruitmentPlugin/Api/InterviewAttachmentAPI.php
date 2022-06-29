@@ -96,7 +96,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
                 new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
-            )
+            ),
+            ...$this->getSortingAndPaginationParamsRules(InterviewAttachmentSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 

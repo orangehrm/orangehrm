@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <candidate-action-layout
-      v-model:loading="isLoading"
+      :loading="isLoading"
       :candidate-id="candidateId"
       :title="$t('recruitment.view_action_history')"
       @submitValid="onSave"
@@ -51,17 +51,69 @@
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
-      <oxd-form-row>
-        <oxd-grid :rows="2" :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="orangehrm-save-candidate-page --span-column-2">
+
+      <oxd-form-row v-if="isScheduleInterview">
+        <oxd-grid :cols="3">
+          <oxd-grid-item>
             <oxd-input-field
-              v-model="history.notes"
+              v-model="interview.interviewName"
+              :rules="rules.interviewName"
+              :label="$t('recruitment.interview_title')"
+              required
+            />
+          </oxd-grid-item>
+          <oxd-grid-item class="--offset-row-2">
+            <interviewer-autocomplete
+              v-for="(interviewer, index) in interviewers"
+              :key="interviewer"
+              v-model="interviewers[index]"
+              :show-delete="index > 0"
+              :rules="index === 0 ? rules.interviewerName : []"
+              include-employees="onlyCurrent"
+              required
+              @remove="onRemoveInterviewer(index)"
+            />
+            <oxd-button
+              v-if="interviewers.length < 5"
+              icon-name="plus"
+              display-type="text"
+              class="orangehrm-input-field-bottom-space"
+              :label="$t('general.add_another')"
+              @click="onAddAnother"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item class="--offset-row-2">
+            <date-input
+              v-model="interview.interviewDate"
+              :rules="rules.interviewDate"
+              :label="$t('general.date')"
+              required
+            />
+          </oxd-grid-item>
+          <oxd-grid-item class="--offset-row-2">
+            <time-input
+              v-model="interview.interviewTime"
+              :rules="rules.interviewTime"
+              :label="$t('general.time')"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
+      <oxd-form-row>
+        <oxd-grid :cols="3">
+          <oxd-grid-item class="--span-column-2">
+            <oxd-input-field
+              v-model="history.note"
+              :rules="rules.note"
               :label="$t('general.notes')"
+              :placeholder="$t('general.type_here')"
               type="textarea"
             />
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
+
       <oxd-divider />
       <oxd-form-actions>
         <oxd-button
@@ -83,14 +135,21 @@
 </template>
 
 <script>
+import {
+  required,
+  shouldNotExceedCharLength,
+  validDateFormat,
+  validTimeFormat,
+} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
 import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments.vue';
 import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout.vue';
-import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import InterviewerAutocomplete from '@/orangehrmRecruitmentPlugin/components/InterviewerAutocomplete.vue';
 
 const actionHistoryModel = {
   id: null,
@@ -112,10 +171,17 @@ const actionHistoryModel = {
   note: null,
 };
 
+const interviewModel = {
+  interviewName: null,
+  interviewDate: null,
+  interviewTime: null,
+};
+
 export default {
   components: {
     'interview-attachments': InterviewAttachments,
     'candidate-action-layout': CandidateActionLayout,
+    'interviewer-autocomplete': InterviewerAutocomplete,
   },
 
   props: {
@@ -144,7 +210,7 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `/api/v2/recruitment/candidates/${props.candidateId}/history/${props.historyId}`,
+      `/api/v2/recruitment/candidates/${props.candidateId}/history`,
     );
 
     return {
@@ -159,6 +225,15 @@ export default {
     return {
       isLoading: false,
       history: {...actionHistoryModel},
+      interview: {...interviewModel},
+      interviewers: [],
+      rules: {
+        interviewName: [required, shouldNotExceedCharLength(100)],
+        interviewDate: [required, validDateFormat()],
+        interviewTime: [validTimeFormat],
+        interviewerName: [required],
+        note: [shouldNotExceedCharLength(2000)],
+      },
       statuses: [
         {id: 1, label: this.$t('recruitment.application_initiated')},
         {id: 2, label: this.$t('recruitment.shortlisted')},
@@ -193,15 +268,40 @@ export default {
         null
       );
     },
+    isScheduleInterview() {
+      return this.history.interview?.id && this.history.action?.id === 4;
+    },
   },
 
   beforeMount() {
     this.isLoading = true;
     this.http
-      .getAll()
+      .get(this.historyId)
       .then(response => {
         const {data} = response.data;
         this.history = {...data};
+        return this.isScheduleInterview
+          ? this.http.request({
+              method: 'GET',
+              url: `api/v2/recruitment/candidates/${this.candidateId}/interviews/${this.history.interview.id}`,
+            })
+          : null;
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.interview.interviewName = data.name;
+        this.interview.interviewDate = data.interviewDate;
+        this.interview.interviewTime = data.interviewTime;
+        if (Array.isArray(data.interviewers)) {
+          this.interviewers = data.interviewers.map(interviewer => ({
+            id: interviewer.empNumber,
+            label: this.translateEmpName(interviewer, {
+              includeMiddle: true,
+              excludePastEmpTag: true,
+            }),
+            isPastEmployee: interviewer.terminationId ? true : false,
+          }));
+        }
       })
       .finally(() => {
         this.isLoading = false;
@@ -209,11 +309,34 @@ export default {
   },
 
   methods: {
+    onAddAnother() {
+      if (this.interviewers.length < 5) {
+        this.interviewers.push(null);
+      }
+    },
+    onRemoveInterviewer(index) {
+      this.interviewers.splice(index, 1);
+    },
     onSave() {
       this.loading = true;
       this.http
         .update(this.historyId, {
-          note: this.action.notes,
+          note: this.history.note,
+        })
+        .then(() => {
+          return this.isScheduleInterview
+            ? this.http.request({
+                method: 'PUT',
+                url: `api/v2/recruitment/candidates/${this.candidateId}/interviews/${this.history.interview.id}`,
+                data: {
+                  ...this.interview,
+                  note: this.history.note,
+                  interviewerEmpNumbers: this.interviewers
+                    .map(interviewer => interviewer?.id)
+                    .filter(Number),
+                },
+              })
+            : null;
         })
         .then(() => {
           this.loading = false;

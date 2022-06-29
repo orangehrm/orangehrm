@@ -155,7 +155,17 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.data.id, {...this.attachment})
+        .update(this.data.id, {
+          comment: this.attachment.comment,
+          currentAttachment:
+            this.attachment.attachment !== null
+              ? 'replaceCurrent'
+              : 'keepCurrent',
+          attachment:
+            this.attachment.attachment !== null
+              ? this.attachment.attachment
+              : undefined,
+        })
         .then(() => {
           return this.$toast.updateSuccess();
         })

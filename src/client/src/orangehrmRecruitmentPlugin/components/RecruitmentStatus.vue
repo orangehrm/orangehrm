@@ -71,7 +71,7 @@
           <oxd-button
             v-if="hasWorkflow(6)"
             :label="$t('recruitment.mark_interview_failed')"
-            display-type="warn"
+            display-type="danger"
             @click="doWorkflow(6)"
           />
           <oxd-button

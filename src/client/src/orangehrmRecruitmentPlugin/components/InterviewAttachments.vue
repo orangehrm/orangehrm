@@ -87,8 +87,12 @@ import EditInterviewAttachment from '@/orangehrmRecruitmentPlugin/components/Edi
 const attachmentDataNormalizer = data => {
   return data.map(item => {
     return {
-      ...item,
-      size: convertFilesizeToString(item.size, 2),
+      id: item.id,
+      interviewId: item.interviewId,
+      filename: item.attachment?.fileName,
+      size: convertFilesizeToString(item.attachment?.fileSize || 0, 2),
+      fileType: item.attachment?.fileType,
+      comment: item.comment,
     };
   });
 };
@@ -186,7 +190,6 @@ export default {
         },
       ],
       checkedItems: [],
-      isSave: true,
       showSaveModal: false,
       showEditModal: false,
       editModalState: null,
@@ -243,6 +246,7 @@ export default {
     closeModel() {
       this.showSaveModal = false;
       this.showEditModal = false;
+      this.resetDataTable();
     },
     onClickDownload(item) {
       const downUrl = `${window.appGlobal.baseUrl}/recruitment/resume/${item?.id}`;
