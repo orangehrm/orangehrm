@@ -86,6 +86,18 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
+     * @param int $candidateId
+     * @return bool
+     */
+    public function hasCandidateAttachmentByCandidateId(int $candidateId): bool
+    {
+        $qb = $this->createQueryBuilder(CandidateAttachment::class, 'candidateAttachment');
+        $qb->where('candidateAttachment.candidate = :candidateId');
+        $qb->setParameter('candidateId', $candidateId);
+        return $this->count($qb) > 0;
+    }
+
+    /**
      * @param int $attachId
      * @param int $interviewId
      * @return InterviewAttachment|null
@@ -129,14 +141,13 @@ class RecruitmentAttachmentDao extends BaseDao
      * @param int $vacancyId
      * @return int
      */
-    public function getAttachmentCount(int $vacancyId): int
+    public function getVacancyAttachmentsCountByVacancyId(int $vacancyId): int
     {
         $qb = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
         $qb->leftJoin('attachment.vacancy', 'vacancy');
-        $qb->select('count(attachment.id)')
-            ->where('vacancy.id = :vacancyId')
-            ->setParameter('vacancyId', $vacancyId);
-        return $qb->getQuery()->getSingleScalarResult();
+        $qb->where('vacancy.id = :vacancyId');
+        $qb->setParameter('vacancyId', $vacancyId);
+        return $this->count($qb);
     }
 
     public function deleteVacancyAttachments(array $toBeDeletedAttachmentIds): bool

@@ -231,7 +231,7 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
             ->getVacancyAttachmentsByVacancyId($vacancyId);
         $count = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getAttachmentCount($vacancyId);
+            ->getVacancyAttachmentsCountByVacancyId($vacancyId);
         return new EndpointCollectionResult(
             VacancyAttachmentModel::class,
             $attachments,

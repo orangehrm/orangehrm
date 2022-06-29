@@ -67,6 +67,9 @@ class CandidateHistoryListModel implements Normalizable
         ]);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function toArray(): array
     {
         $result = $this->entityToArray();
@@ -76,7 +79,7 @@ class CandidateHistoryListModel implements Normalizable
             $result['interview']['id'] = $interview->getId();
             $result['interview']['name'] = $interview->getInterviewName();
             $result['interview']['date'] = $this->getDateTimeHelper()
-                ->formatDateTimeToYmd(
+                ->formatDate(
                     $interview->getInterviewDate()
                 );
             $result['interview']['time'] = $this->getDateTimeHelper()

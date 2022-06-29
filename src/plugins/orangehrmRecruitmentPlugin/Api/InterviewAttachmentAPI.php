@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Recruitment\Api\Model\InterviewAttachmentModel;
+use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
 use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
@@ -96,7 +97,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
                 new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
-            )
+            ),
+            ...$this->getSortingAndPaginationParamsRules(InterviewAttachmentSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
