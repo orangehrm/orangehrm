@@ -249,7 +249,7 @@ export default {
       this.resetDataTable();
     },
     onClickDownload(item) {
-      const downUrl = `${window.appGlobal.baseUrl}/recruitment/resume/${item?.id}`;
+      const downUrl = `${window.appGlobal.baseUrl}/recruitment/viewInterviewAttachment/interview/${this.interviewId}/attachment/${item.id}`;
       window.open(downUrl, '_blank');
     },
   },
