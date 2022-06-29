@@ -40,8 +40,8 @@ class I18NTargetLangStringAPI extends Endpoint implements CollectionEndpoint
 
     public const PARAMETER_SOURCE_TEXT = 'sourceText';
     public const PARAMETER_TRANSLATED_TEXT = 'translatedText';
-    public const PARAMETER_MODULE_NAME = 'module';
-    public const PARAMETER_SHOW_CATEGORY = 'translated';
+    public const PARAMETER_GROUP_ID = 'groupId';
+    public const PARAMETER_ONLY_TRANSLATED = 'onlyTranslated';
 
     /**
      * @inheritDoc
@@ -65,17 +65,17 @@ class I18NTargetLangStringAPI extends Endpoint implements CollectionEndpoint
             )
         );
 
-        $I18NTargetLangStringSearchFilterParams->setModuleName(
+        $I18NTargetLangStringSearchFilterParams->setGroupId(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::PARAMETER_MODULE_NAME,
+                self::PARAMETER_GROUP_ID,
             )
         );
 
-        $I18NTargetLangStringSearchFilterParams->setShowCategory(
+        $I18NTargetLangStringSearchFilterParams->setOnlyTranslated(
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::PARAMETER_SHOW_CATEGORY,
+                self::PARAMETER_ONLY_TRANSLATED,
             )
         );
 
@@ -121,12 +121,12 @@ class I18NTargetLangStringAPI extends Endpoint implements CollectionEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_MODULE_NAME,
+                    self::PARAMETER_GROUP_ID,
                     new Rule(Rules::STRING_TYPE)
                 )
             ),
             new ParamRule(
-                self::PARAMETER_SHOW_CATEGORY,
+                self::PARAMETER_ONLY_TRANSLATED,
                 new Rule(Rules::BOOL_VAL)
             ),
             ...$this->getSortingAndPaginationParamsRules(I18NTargetLangStringSearchFilterParams::ALLOWED_SORT_FIELDS)

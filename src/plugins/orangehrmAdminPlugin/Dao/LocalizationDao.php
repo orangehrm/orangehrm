@@ -121,17 +121,17 @@ class LocalizationDao extends BaseDao
         );
         $q->setParameter('langId', $i18NTargetLangStringSearchFilterParams->getLanguageId());
 
-        if (!is_null($i18NTargetLangStringSearchFilterParams->getShowCategory())) {
-            if ($i18NTargetLangStringSearchFilterParams->getShowCategory() === true) {
+        if (!is_null($i18NTargetLangStringSearchFilterParams->getOnlyTranslated())) {
+            if ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === true) {
                 $q->andWhere($q->expr()->isNotNull('translation.translated'));
-            } elseif ($i18NTargetLangStringSearchFilterParams->getShowCategory() === false) {
+            } elseif ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === false) {
                 $q->andWhere($q->expr()->isNull('translation.translated'));
             }
         }
 
-        if (!empty($i18NTargetLangStringSearchFilterParams->getModuleName())) {
-            $q->andWhere('module.name = :moduleName')
-                ->setParameter('moduleName', $i18NTargetLangStringSearchFilterParams->getModuleName());
+        if (!empty($i18NTargetLangStringSearchFilterParams->getGroupId())) {
+            $q->andWhere('langString.group = :groupId')
+                ->setParameter('groupId', $i18NTargetLangStringSearchFilterParams->getGroupId());
         }
 
         if (!empty($i18NTargetLangStringSearchFilterParams->getSourceText())) {
@@ -146,8 +146,6 @@ class LocalizationDao extends BaseDao
                     '%' . $i18NTargetLangStringSearchFilterParams->getTranslatedText() . '%'
                 );
         }
-
-        $q->leftJoin('langString.group', 'module');
 
         $this->setSortingAndPaginationParams($q, $i18NTargetLangStringSearchFilterParams);
 
