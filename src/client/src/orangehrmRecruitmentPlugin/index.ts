@@ -37,6 +37,8 @@ import SaveCandidate from './pages/SaveCandidate.vue';
 import VacancyList from './pages/VacancyList.vue';
 import ApplyJobVacancy from './pages/ApplyJobVacancy.vue';
 import ViewActionHistory from './pages/ViewActionHistory.vue';
+import VacancyList from './pages/VacancyList.vue';
+
 
 export default {
   'view-job-vacancy': ViewJobVacancy,
@@ -60,4 +62,5 @@ export default {
   'vacancy-list': VacancyList,
   'apply-job-vacancy': ApplyJobVacancy,
   'view-action-history': ViewActionHistory,
+  'vacancy-list': VacancyList,
 };
