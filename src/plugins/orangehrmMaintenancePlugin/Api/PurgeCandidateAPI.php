@@ -28,25 +28,26 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Maintenance\Api\Model\PurgeEmployeeModel;
-use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
+use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Maintenance\Api\Model\PurgeCandidateModel;
+use OrangeHRM\Maintenance\Service\PurgeService;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
 {
-    private ?PurgeEmployeeService $purgeEmployeeService = null;
+    private ?PurgeService $purgeService = null;
 
     public const PARAMETER_VACANCY_ID = 'vacancyId';
 
     /**
-     * @return PurgeEmployeeService
+     * @return PurgeService
      */
-    public function getPurgeEmployeeService(): PurgeEmployeeService
+    public function getPurgeService(): PurgeService
     {
-        if (is_null($this->purgeEmployeeService)) {
-            $this->purgeEmployeeService = new PurgeEmployeeService();
+        if (is_null($this->purgeService)) {
+            $this->purgeService = new PurgeService();
         }
-        return $this->purgeEmployeeService;
+        return $this->purgeService;
     }
 
     /**
@@ -55,12 +56,12 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
      */
     public function delete(): EndpointResult
     {
-        $vacancyNumber = $this->getRequestParams()->getInt(
+        $vacancyId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_VACANCY_ID
         );
-        $this->getPurgeEmployeeService()->purgeCandidateData($vacancyNumber);
-        return new EndpointResourceResult(PurgeEmployeeModel::class, $vacancyNumber);
+        $this->getPurgeService()->purgeCandidateData($vacancyId);
+        return new EndpointResourceResult(PurgeCandidateModel::class, $vacancyId);
     }
 
     /**
@@ -71,7 +72,8 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_VACANCY_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [Vacancy::class])
             )
         );
     }

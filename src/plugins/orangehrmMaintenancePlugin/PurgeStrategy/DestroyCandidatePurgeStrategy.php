@@ -24,17 +24,24 @@ use OrangeHRM\Entity\Candidate;
 class DestroyCandidatePurgeStrategy extends PurgeStrategy
 {
     /**
-     * @param int $vacancyNumber
+     * @param int $vacancyId
      */
-    public function purge(int $vacancyNumber): void
+    public function purge(int $vacancyId): void
     {
-        $matchByValues = $this->getMatchByValues($vacancyNumber);
+        $matchByValues = $this->getMatchByValues($vacancyId);
         $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
+        $purgeIds = [];
         foreach ($purgeEntities as $purgeEntity) {
             /** @var Candidate $purgeEntity */
             if (!$purgeEntity->isConsentToKeepData()) {
-                $this->getEntityManager()->remove($purgeEntity);
+                $purgeIds[] = $purgeEntity->getId();
             }
+        }
+        if (!empty($purgeIds)) {
+            $candidateClass = Candidate::class;
+            $this->getEntityManager()->createQuery("delete from $candidateClass c where c.id in (:ids)")
+                ->setParameter('ids', $purgeIds)
+                ->execute();
         }
     }
 }
