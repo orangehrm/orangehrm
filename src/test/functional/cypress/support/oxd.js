@@ -26,7 +26,7 @@ const OXD_INPUT_ELEMENTS = {
   textbox: '.oxd-textarea',
   select: '.oxd-select-text-input',
   multiselect: '.oxd-select-text-input',
-  autocomplete: '.oxd-autocomplete-text-input',
+  autoComplete: '.oxd-autocomplete-text-input',
 };
 
 const OXD_TOASTS = {

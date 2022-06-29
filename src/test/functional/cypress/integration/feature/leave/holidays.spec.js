@@ -102,7 +102,7 @@ describe('Leave - Holidays', function () {
           .type(this.strings.chars250.text)
           .isInvalid('Should not exceed 200 characters');
         cy.getOXDInput('Name').setValue('').isInvalid('Required');
-        //cy.getOXDInput('Date').blur().setValue('').isInvalid('Required');
+        //cy.getOXDInput('Date').blur().isInvalid('Required');
         cy.getOXDInput('Full Day/Half Day')
           .selectOption('-- Select --')
           .isInvalid('Required');
