@@ -14,35 +14,28 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-/**
- * Class DestroyReportToPurgeStrategy
- */
-class DestroyReportToPurgeStrategy extends PurgeStrategy
+namespace OrangeHRM\Tests\Maintenance\Api\Model;
+
+use OrangeHRM\Maintenance\Api\Model\PurgeCandidateModel;
+use OrangeHRM\Tests\Util\TestCase;
+
+class PurgeCandidateModelTest extends TestCase
 {
-    /**
-     * @param $employeeNumber
-     * @return mixed|void
-     * @throws DaoException
-     */
-    public function purge($employeeNumber)
+    public function testToArray(): void
     {
-        $matchByValues = array(
-            'subordinateId' => $employeeNumber
-        );
-        $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        foreach ($purgeEntities as $purgeEntity) {
-            $purgeEntity->delete();
-        }
+        $vacancyId = 1;
+        $purgeEmployeeModel = new PurgeCandidateModel($vacancyId);
 
-        $matchByValues = array(
-            'supervisorId' => $employeeNumber
-        );
-        $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        foreach ($purgeEntities as $purgeEntity) {
-            $purgeEntity->delete();
-        }
+        $result = $purgeEmployeeModel->toArray();
+        $expected = [
+            'purged' => [
+                'vacancyId' => 1
+            ]
+        ];
+
+        $this->assertEquals($expected, $result);
     }
 }

@@ -25,6 +25,10 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateAttachment;
+use OrangeHRM\Entity\CandidateHistory;
+use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\EmpContract;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Entity\EmpDirectDebit;
@@ -42,6 +46,9 @@ use OrangeHRM\Entity\EmployeeSkill;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Entity\EmpUsTaxExemption;
 use OrangeHRM\Entity\EmpWorkExperience;
+use OrangeHRM\Entity\Interview;
+use OrangeHRM\Entity\InterviewAttachment;
+use OrangeHRM\Entity\InterviewInterviewer;
 use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Entity\PerformanceReview;
@@ -52,11 +59,11 @@ use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Maintenance\Dao\PurgeEmployeeDao;
+use OrangeHRM\Maintenance\Dao\PurgeDao;
 use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\PurgeStrategy\DestroyPurgeStrategy;
 use OrangeHRM\Maintenance\PurgeStrategy\ReplaceWithValuePurgeStrategy;
-use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
+use OrangeHRM\Maintenance\Service\PurgeService;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -65,37 +72,37 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Maintenance
  * @group Service
  */
-class PurgeEmployeeServiceTest extends KernelTestCase
+class PurgeServiceTest extends KernelTestCase
 {
     use EntityManagerHelperTrait;
 
-    private PurgeEmployeeService $purgeEmployeeService;
+    private PurgeService $purgeService;
     protected string $fixture;
 
     protected function setUp(): void
     {
-        $this->purgeEmployeeService = new PurgeEmployeeService();
+        $this->purgeService = new PurgeService();
         $this->fixture = Config::get(
             Config::PLUGINS_DIR
-        ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeService.yml';
+        ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeService.yml';
         TestDataService::populate($this->fixture);
     }
 
     public function testGetEmployeePurgeDao(): void
     {
-        $purgeEmployeeService = $this->getMockBuilder(PurgeEmployeeService::class)
-            ->onlyMethods(['getPurgeEmployeeDao'])
+        $purgeService = $this->getMockBuilder(PurgeService::class)
+            ->onlyMethods(['getPurgeDao'])
             ->getMock();
-        $purgeEmployeeService->expects($this->once())
-            ->method('getPurgeEmployeeDao');
+        $purgeService->expects($this->once())
+            ->method('getPurgeDao');
 
-        $purgeEmployeeDao = $purgeEmployeeService->getPurgeEmployeeDao();
-        $this->assertInstanceOf(PurgeEmployeeDao::class, $purgeEmployeeDao);
+        $purgeEmployeeDao = $purgeService->getPurgeDao();
+        $this->assertInstanceOf(PurgeDao::class, $purgeEmployeeDao);
     }
 
     public function testGetPurgeableEntities(): void
     {
-        $purgeableEntities = $this->purgeEmployeeService->getPurgeableEntities('gdpr_purge_employee_strategy');
+        $purgeableEntities = $this->purgeService->getPurgeableEntities('gdpr_purge_employee_strategy');
 
         $this->assertCount(27, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
@@ -143,7 +150,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         ];
         $infoArray = new InfoArray($strategyInfoArray);
 
-        $purgeStrategy = $this->purgeEmployeeService->getPurgeStrategy(
+        $purgeStrategy = $this->purgeService->getPurgeStrategy(
             $purgeableEntityClassName,
             $strategy,
             $infoArray
@@ -174,7 +181,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         ];
         $infoArray = new InfoArray($strategyInfoArray);
 
-        $purgeStrategy = $this->purgeEmployeeService->getPurgeStrategy(
+        $purgeStrategy = $this->purgeService->getPurgeStrategy(
             $purgeableEntityClassName,
             $strategy,
             $infoArray
@@ -192,7 +199,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
     public function testPurgeEmployeeData(): void
     {
         $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
-        $this->purgeEmployeeService->purgeEmployeeData(1);
+        $this->purgeService->purgeEmployeeData(1);
 
         $purgedEmployee = $this->getRepository(Employee::class)->findOneBy(['empNumber' => 1]);
         $this->assertEquals('Purged', $purgedEmployee->getFirstName());
@@ -391,11 +398,11 @@ class PurgeEmployeeServiceTest extends KernelTestCase
 
     public function testPurgeEmployeeDataWithTransactionException(): void
     {
-        $purgeEmployeeServiceMock = $this->getMockBuilder(PurgeEmployeeService::class)
+        $purgeServiceMock = $this->getMockBuilder(PurgeService::class)
             ->onlyMethods(['getPurgeableEntities'])
             ->getMock();
 
-        $purgeEmployeeServiceMock->expects($this->once())
+        $purgeServiceMock->expects($this->once())
             ->method('getPurgeableEntities')
             ->willReturnCallback(function () {
                 throw new Exception();
@@ -403,6 +410,120 @@ class PurgeEmployeeServiceTest extends KernelTestCase
 
         $this->expectException(TransactionException::class);
         $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
-        $purgeEmployeeServiceMock->purgeEmployeeData(1);
+        $purgeServiceMock->purgeEmployeeData(1);
+    }
+
+    public function testPurgeCandidateDataForVacancy1(): void
+    {
+        // All candidates have not consented to keep data
+        $this->purgeService->purgeCandidateData(1);
+
+        $candidates = $this->getRepository(Candidate::class);
+        $this->assertEmpty($candidates->findBy(['id' => [1, 4]]));
+        $this->assertCount(6, $candidates->findAll());
+
+        $candidateHistories = $this->getRepository(CandidateHistory::class);
+        $this->assertEmpty($candidateHistories->findBy(['candidate' => [1, 4]]));
+        $this->assertCount(15, $candidateHistories->findAll());
+
+        $candidateVacancies = $this->getRepository(CandidateVacancy::class);
+        $this->assertEmpty($candidateVacancies->findBy(['candidate' => [1, 4]]));
+        $this->assertCount(6, $candidateVacancies->findAll());
+
+        $candidateAttachments = $this->getRepository(CandidateAttachment::class);
+        $this->assertEmpty($candidateAttachments->findBy(['candidate' => [1, 4]]));
+        $this->assertCount(6, $candidateAttachments->findAll());
+    }
+
+    public function testPurgeCandidateDataForVacancy2(): void
+    {
+        // All candidates have consented to keep data
+        $this->purgeService->purgeCandidateData(2);
+
+        $this->assertCount(8, $this->getRepository(Candidate::class)->findAll());
+        $this->assertCount(19, $this->getRepository(CandidateHistory::class)->findAll());
+        $this->assertCount(8, $this->getRepository(CandidateVacancy::class)->findAll());
+        $this->assertCount(8, $this->getRepository(CandidateAttachment::class)->findAll());
+    }
+
+    public function testPurgeCandidateDataForVacancy3(): void
+    {
+        // No candidates have applied for this vacancy
+        $this->purgeService->purgeCandidateData(3);
+
+        $this->assertCount(8, $this->getRepository(Candidate::class)->findAll());
+        $this->assertCount(19, $this->getRepository(CandidateHistory::class)->findAll());
+        $this->assertCount(8, $this->getRepository(CandidateVacancy::class)->findAll());
+        $this->assertCount(8, $this->getRepository(CandidateAttachment::class)->findAll());
+    }
+
+    public function testPurgeCandidateDataForVacancy4(): void
+    {
+        // Candidate 3, 6 have not consented to keep data
+        // Candidate 7 has consented to keep data
+        $this->purgeService->purgeCandidateData(4);
+
+        $candidates = $this->getRepository(Candidate::class);
+        $this->assertEmpty($candidates->findBy(['id' => [3, 6]]));
+        $this->assertCount(1, $candidates->findBy(['id' => 7]));
+        $this->assertCount(6, $candidates->findAll());
+
+        $candidateHistories = $this->getRepository(CandidateHistory::class);
+        $this->assertEmpty($candidateHistories->findBy(['candidate' => [3, 6]]));
+        $this->assertCount(2, $candidateHistories->findBy(['candidate' => 7]));
+        $this->assertCount(15, $candidateHistories->findAll());
+
+        $candidateVacancies = $this->getRepository(CandidateVacancy::class);
+        $this->assertEmpty($candidateVacancies->findBy(['candidate' => [3, 6]]));
+        $this->assertCount(1, $candidateVacancies->findBy(['candidate' => 7]));
+        $this->assertCount(6, $candidateVacancies->findAll());
+
+        $candidateAttachments = $this->getRepository(CandidateAttachment::class);
+        $this->assertEmpty($candidateAttachments->findBy(['candidate' => [3, 6]]));
+        $this->assertCount(1, $candidateAttachments->findBy(['candidate' => 7]));
+        $this->assertCount(6, $candidateAttachments->findAll());
+    }
+
+    public function testPurgeCandidateDataForVacancy5(): void
+    {
+        // Candidate 8 has started interview
+        $this->purgeService->purgeCandidateData(5);
+
+        $candidates = $this->getRepository(Candidate::class);
+        $this->assertEmpty($candidates->findBy(['id' => 8]));
+        $this->assertCount(7, $candidates->findAll());
+
+        $candidateHistories = $this->getRepository(CandidateHistory::class);
+        $this->assertEmpty($candidateHistories->findBy(['candidate' => 8]));
+        $this->assertCount(14, $candidateHistories->findAll());
+
+        $candidateVacancies = $this->getRepository(CandidateVacancy::class);
+        $this->assertEmpty($candidateVacancies->findBy(['candidate' => 8]));
+        $this->assertCount(7, $candidateVacancies->findAll());
+
+        $candidateAttachments = $this->getRepository(CandidateAttachment::class);
+        $this->assertEmpty($candidateAttachments->findBy(['candidate' => 8]));
+        $this->assertCount(7, $candidateAttachments->findAll());
+
+        $this->assertEmpty($this->getRepository(Interview::class)->findAll());
+        $this->assertEmpty($this->getRepository(InterviewAttachment::class)->findAll());
+        $this->assertEmpty($this->getRepository(InterviewInterviewer::class)->findAll());
+    }
+
+    public function testPurgeCandidateDataWithTransactionException(): void
+    {
+        $purgeServiceMock = $this->getMockBuilder(PurgeService::class)
+            ->onlyMethods(['getPurgeableEntities'])
+            ->getMock();
+
+        $purgeServiceMock->expects($this->once())
+            ->method('getPurgeableEntities')
+            ->willReturnCallback(function () {
+                throw new Exception();
+            });
+
+        $this->expectException(TransactionException::class);
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
+        $purgeServiceMock->purgeCandidateData(1);
     }
 }

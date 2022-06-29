@@ -14,27 +14,31 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-/**
- * Class DestroyCandidatePurgeStrategy
- */
-class DestroyCandidatePurgeStrategy extends PurgeStrategy
+namespace OrangeHRM\Maintenance\Api\Model;
+
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+
+class PurgeCandidateModel implements Normalizable
 {
-    /**
-     * @param $vacnacyNumber
-     * @return mixed|void
-     * @throws DaoException
-     */
-    public function purge($vacancyNumber)
+    private int $vacancyId;
+
+    public function __construct(int $vacancyId)
     {
-        $matchByValues = $this->getMatchByValues($vacancyNumber);
-        $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        foreach ($purgeEntities as $purgeEntity) {
-            if (!$purgeEntity->getConsentToKeepData()) {
-                $purgeEntity->delete();
-            }
-        }
+        $this->vacancyId = $vacancyId;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        return [
+            'purged' => [
+                'vacancyId' => $this->vacancyId
+            ]
+        ];
     }
 }

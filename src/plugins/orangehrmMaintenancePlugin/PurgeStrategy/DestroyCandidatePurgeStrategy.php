@@ -14,25 +14,27 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-/**
- * Class DestroyPurgeStrategy
- */
-class DestroyPurgeStrategy extends PurgeStrategy
+namespace OrangeHRM\Maintenance\PurgeStrategy;
+
+use OrangeHRM\Entity\Candidate;
+
+class DestroyCandidatePurgeStrategy extends PurgeStrategy
 {
     /**
-     * @param $employeeNumber
-     * @return mixed|void
-     * @throws DaoException
+     * @param int $vacancyId
      */
-    public function purge($employeeNumber)
+    public function purge(int $vacancyId): void
     {
-        $matchByValues = $this->getMatchByValues($employeeNumber);
+        $matchByValues = $this->getMatchByValues($vacancyId);
         $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
         foreach ($purgeEntities as $purgeEntity) {
-            $purgeEntity->delete();
+            /** @var Candidate $purgeEntity */
+            if (!$purgeEntity->isConsentToKeepData()) {
+                $this->getEntityManager()->remove($purgeEntity);
+            }
         }
     }
 }
