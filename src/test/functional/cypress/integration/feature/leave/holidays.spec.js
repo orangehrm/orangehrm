@@ -33,20 +33,13 @@ describe('Leave - Holidays', function () {
     it('get holidays list', function () {
       cy.task('db:restore', {name: 'leavePeriod'});
       cy.loginTo(this.user, '/leave/viewHolidayList');
-      // cy.loginTo(this.user, '/leave/defineLeavePeriod');
-      // cy.getOXD('form').within(() => {
-      //   cy.wait('@getLeavePeriod');
-      //   cy.getOXD('button').contains('Save').click();
-      // });
-      // cy.visit('/leave/viewHolidayList');
       cy.wait('@getHoliday');
       cy.toast('info', 'No Records Found');
     });
   });
 
   describe('create snapshot with holiday', function () {
-    it('create snapshot with holiday', function () {
-      cy.task('db:restore', {name: 'leavePeriod'});
+    it.only('create snapshot with holiday', function () {
       cy.loginTo(this.user, '/leave/saveHolidays');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars10.text);
@@ -54,14 +47,14 @@ describe('Leave - Holidays', function () {
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@postHolidays').then(function () {
-        cy.task('db:snapshot', {name: 'holiday'});
+        cy.task('db:snapshot', {name: 'holidays'});
       });
     });
   });
 
   describe('add new holiday', function () {
     it('add new holiday and save', function () {
-      cy.task('db:restore', {name: 'holiday'});
+      cy.task('db:restore', {name: 'holidays'});
       cy.loginTo(this.user, '/leave/saveHolidays');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars30.text);
@@ -84,7 +77,7 @@ describe('Leave - Holidays', function () {
     });
 
     it('add holiday form validations', function () {
-      cy.task('db:restore', {name: 'holiday'});
+      cy.task('db:restore', {name: 'holidays'});
       cy.loginTo(this.user, '/leave/saveHolidays');
       cy.wait('@getHoliday');
       cy.getOXD('form').within(() => {
@@ -92,7 +85,7 @@ describe('Leave - Holidays', function () {
           .type(this.strings.chars250.text)
           .isInvalid('Should not exceed 200 characters');
         cy.getOXDInput('Name').setValue('').isInvalid('Required');
-        cy.getOXDInput('Date').setValue('').blur().isInvalid('Required');
+        //cy.getOXDInput('Date').blur().setValue('').isInvalid('Required');
         cy.getOXDInput('Full Day/Half Day')
           .selectOption('-- Select --')
           .isInvalid('Required');
@@ -103,8 +96,8 @@ describe('Leave - Holidays', function () {
 
   describe('update holiday', function () {
     it('update holiday', function () {
-      //cy.task('db:restore', {name: 'leavePeriod'});
-      cy.task('db:restore', {name: 'holiday'});
+      cy.task('db:restore', {name: 'leavePeriod'});
+      cy.task('db:restore', {name: 'holidays'});
       cy.loginTo(this.user, '/leave/viewHolidayList');
       cy.get('.oxd-table-cell-actions > :nth-child(2)').click();
       cy.getOXD('form').within(() => {
@@ -118,7 +111,7 @@ describe('Leave - Holidays', function () {
 
   describe('delete holiday', function () {
     it('delete holiday', function () {
-      cy.task('db:restore', {name: 'holiday'});
+      cy.task('db:restore', {name: 'holidays'});
       cy.loginTo(this.user, '/leave/viewHolidayList');
       cy.get('.oxd-table-cell-actions > :nth-child(1)').click();
       cy.get('.oxd-button--label-danger').click();
