@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text class="orangehrm-main-title" tag="h6">
-        Apply for the position of SDE
+        Apply for the position of "{{ vacancyName }}"
       </oxd-text>
       <oxd-divider />
       <oxd-text class="orangehrm-main-title" tag="h2">
@@ -85,7 +85,7 @@
                 <oxd-input-field
                   v-model="applicant.email"
                   name="email"
-                  :label="$t('general.work_email')"
+                  :label="$t('recruitment.email')"
                   :placeholder="$t('general.type_here')"
                   :rules="rules.email"
                   required
@@ -213,6 +213,7 @@ export default {
     return {
       viewMore: true,
       isLoading: false,
+      vacancyName: null,
       vacancyDescription: null,
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
@@ -238,6 +239,7 @@ export default {
   beforeMount() {
     this.http.get(this.vacancyId).then(response => {
       const {data} = response.data;
+      this.vacancyName = data?.name;
       this.vacancyDescription = data?.description;
     });
   },
