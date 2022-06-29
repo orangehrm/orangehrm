@@ -90,6 +90,7 @@ export default {
   },
   methods: {
     onSave() {
+      let historyId;
       this.isLoading = true;
       this.http
         .request({
@@ -98,10 +99,17 @@ export default {
             note: this.note,
           },
         })
-        .then(() => {
+        .then(response => {
+          const {data} = response.data;
+          historyId = data.id;
           return this.$toast.updateSuccess();
         })
-        .then(() => this.onClickBack());
+        .then(() => {
+          navigate('/recruitment/candidate/{candidateId}/history/{historyId}', {
+            candidateId: this.candidateId,
+            historyId: historyId,
+          });
+        });
     },
     onClickBack() {
       navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});

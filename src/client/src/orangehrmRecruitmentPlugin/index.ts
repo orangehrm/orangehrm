@@ -30,7 +30,7 @@ import ShortlistAction from './pages/ShortlistAction.vue';
 import SaveCandidate from './pages/SaveCandidate.vue';
 import ViewCandidatesList from './pages/ViewCandidatesList.vue';
 import ViewCandidateProfile from './pages/ViewCandidateProfile.vue';
-import PostScheduleActionHistory from './pages/PostScheduleActionHistory.vue';
+import ViewActionHistory from './pages/ViewActionHistory.vue';
 
 export default {
   'view-job-vacancy': ViewJobVacancy,
@@ -47,5 +47,5 @@ export default {
   'offer-job-action': OfferJobAction,
   'offer-decline-action': OfferDeclinedAction,
   'hire-action': HireAction,
-  'post-schedule-action-history': PostScheduleActionHistory,
+  'view-action-history': ViewActionHistory,
 };

@@ -65,6 +65,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 const candidateModel = {
   candidateName: '',
@@ -96,9 +97,11 @@ export default {
       window.appGlobal.baseUrl,
       `/api/v2/recruitment/candidates/${props.candidateId}`,
     );
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     return {
       http,
+      translateEmpName: $tEmpName,
     };
   },
   data() {
@@ -135,13 +138,15 @@ export default {
         this.candidate.candidateName = `${data?.firstName} ${data?.middleName} ${data?.lastName}`;
         if (data?.vacancy) {
           this.candidate.vacancyName = data?.vacancy.name;
-          this.candidate.hiringManagerName = `${
-            data?.vacancy.hiringManager.firstName
-          } ${data?.vacancy.hiringManager.lastName} ${
-            data?.vacancy.hiringManager.terminationId
-              ? this.$t('general.past_employee')
-              : ''
-          }`;
+        }
+        if (data?.vacancy?.hiringManager) {
+          this.candidate.hiringManagerName = this.translateEmpName(
+            data.vacancy.hiringManager,
+            {
+              includeMiddle: true,
+              excludePastEmpTag: false,
+            },
+          );
         }
       })
       .finally(() => {

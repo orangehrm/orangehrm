@@ -215,26 +215,6 @@ recruitment_edit_job_vacancy:
   controller: OrangeHRM\Recruitment\Controller\EditJobVacancyController::handle
   methods: [ GET ]
 
-candidate_schedule_interview:
-  path: /recruitment/jobInterview/vacancy/{vacancyId}/action/{actionId}
-  controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewController::handle
-  methods: [ GET ]
-
-candidate_schedule_interview_history:
-  path: /recruitment/jobInterview/history/{historyId}/interviewer/{id}
-  controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewHistory::handle
-  methods: [ GET ]
-
-candidate_shortlist:
-  path: /recruitment/vacancy/{vacancyId}/action/{actionId}
-  controller: OrangeHRM\Recruitment\Controller\ShortlistCandidateController::handle
-  methods: [ GET ]
-
-view_shortlist_history:
-  path: /recruitment/VacancyStatus/{historyId}
-  controller: OrangeHRM\Recruitment\Controller\ShortlistHistoryController::handle
-  methods: [ GET ]
-
 view_recruitment_candidates:
   path: /recruitment/viewCandidates
   controller: OrangeHRM\Recruitment\Controller\ViewCandidateController::handle

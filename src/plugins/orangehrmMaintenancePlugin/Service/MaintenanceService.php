@@ -67,7 +67,6 @@ class MaintenanceService
         return new $accessStrategy($accessibleEntityClassName, $strategyInfoArray);
     }
 
-
     /**
      * @throws TransactionException
      * @throws \Doctrine\DBAL\Exception
@@ -112,15 +111,6 @@ class MaintenanceService
     }
 
     /**
-     * @return array
-     * @throws DaoException
-     */
-    public function getPurgeEmployeeList(): array
-    {
-        return $this->getMaintenanceDao()->getEmployeePurgingList();
-    }
-
-    /**
      * @param $matchByValues
      * @param $table
      * @return mixed
@@ -129,36 +119,5 @@ class MaintenanceService
     public function extractDataFromEmpNumber($matchByValues, $table): array
     {
         return $this->getMaintenanceDao()->extractDataFromEmpNumber($matchByValues, $table);
-    }
-
-    /**
-     * @param $entity
-     * @return bool
-     * @throws DaoException
-     */
-    public function saveEntity($entity): bool
-    {
-        return $this->getMaintenanceDao()->saveEntity($entity);
-    }
-
-    /**
-     * @return Doctrine_Collection
-     * @throws DaoException
-     */
-    public function getVacancyListToPurge()
-    {
-        //TODO
-        return $this->getMaintenanceDao()->getVacancyListToPurge();
-    }
-
-    /**
-     * @param $vacancyId
-     * @return Doctrine_Collection
-     * @throws DaoException
-     */
-    public function getDeniedCandidatesToKeepDataByVacnacyId($vacancyId)
-    {
-        //TODO
-        return $this->getMaintenanceDao()->getDeniedCandidatesToKeepDataByVacnacyId($vacancyId);
     }
 }

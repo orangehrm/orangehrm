@@ -489,3 +489,19 @@ apiv2_corporate_branding_theme_preview:
     delete: false
   permissions:
     - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
+
+##########################
+#        Maintenance
+##########################
+
+apiv2_maintenance_purge_candidate:
+  description: 'API-v2 Maintenance - Purge Candidate'
+  api: OrangeHRM\Maintenance\Api\PurgeCandidateAPI
+  module: maintenance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: true, self: false } }

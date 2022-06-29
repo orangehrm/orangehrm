@@ -163,6 +163,7 @@ export default {
       this.interviewers.splice(index, 1);
     },
     onSave() {
+      let historyId;
       this.isLoading = true;
       this.http
         .create({
@@ -171,10 +172,17 @@ export default {
             .map(interviewer => interviewer?.id)
             .filter(Number),
         })
-        .then(() => {
+        .then(response => {
+          const {data} = response.data;
+          historyId = data.id;
           return this.$toast.updateSuccess();
         })
-        .then(() => this.onClickBack());
+        .then(() => {
+          navigate('/recruitment/candidate/{candidateId}/history/{historyId}', {
+            candidateId: this.candidateId,
+            historyId: historyId,
+          });
+        });
     },
     onClickBack() {
       navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});

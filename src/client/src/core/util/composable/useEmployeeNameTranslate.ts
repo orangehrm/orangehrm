@@ -35,14 +35,14 @@ export default function useEmployeeNameTranslate() {
 
   const translateEmployeeName = (
     employee: Employee,
-    options: Options,
+    options?: Options,
   ): string => {
     if (employee.firstName === 'Purged' && employee.lastName === 'Employee') {
       return $t('general.purged_employee');
     }
 
-    const includeMiddle = options.includeMiddle;
-    const excludePastEmpTag = options.excludePastEmpTag;
+    const includeMiddle = options?.includeMiddle;
+    const excludePastEmpTag = options?.excludePastEmpTag;
 
     const resolvedMiddleName =
       typeof includeMiddle === 'boolean' &&
