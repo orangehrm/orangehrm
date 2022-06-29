@@ -24,7 +24,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
-use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
+use OrangeHRM\Maintenance\Service\PurgeService;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -61,9 +61,9 @@ class PurgeStrategyTest extends TestCase
 
     public function testGetPurgeEmployeeService(): void
     {
-        $purgeEmployeeService = $this->purgeStrategyMock->getPurgeEmployeeService();
+        $purgeEmployeeService = $this->purgeStrategyMock->getPurgeService();
 
-        $this->assertInstanceOf(PurgeEmployeeService::class, $purgeEmployeeService);
+        $this->assertInstanceOf(PurgeService::class, $purgeEmployeeService);
     }
 
     public function testGetMatchByValues(): void

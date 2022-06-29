@@ -19,103 +19,85 @@
 
 namespace OrangeHRM\Tests\Maintenance\Api;
 
-use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
-use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Maintenance\Api\PurgeEmployeeAPI;
+use OrangeHRM\Maintenance\Api\PurgeCandidateAPI;
 use OrangeHRM\Maintenance\Service\PurgeService;
-use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-/**
- * @group Maintenance
- * @group APIv2
- */
-class PurgeEmployeeAPITest extends EndpointIntegrationTestCase
+class PurgeCandidateAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestDelete
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('PurgeEmployeeAPITest.yml');
+        $this->populateFixtures('PurgeCandidateAPITest.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
         $this->registerMockDateTimeHelper($testCaseParams);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(PurgeEmployeeAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(PurgeCandidateAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
     public function dataProviderForTestDelete(): array
     {
-        return $this->getTestCases('PurgeEmployeeAPITestCases.yml', 'Delete');
+        return $this->getTestCases('PurgeCandidateAPITestCases.yml', 'Delete');
     }
 
     public function testGetPurgeService(): void
     {
-        $api = new PurgeEmployeeAPI($this->getRequest());
+        $api = new PurgeCandidateAPI($this->getRequest());
 
         $this->assertInstanceOf(PurgeService::class, $api->getPurgeService());
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $this->populateFixtures('PurgeEmployeeAPITest.yml');
+        $this->populateFixtures('PurgeCandidateAPITest.yml');
 
         $testCaseParams = new TestCaseParams();
         $testCaseParams->setUserId(1);
-        $this->createKernelWithMockServices([
-            Services::CONFIG_SERVICE => new ConfigService(),
-            Services::USER_SERVICE => new UserService(),
-            Services::EMPLOYEE_SERVICE => new EmployeeService(),
-            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
-        ]);
-        $this->getContainer()->register(Services::USER_ROLE_MANAGER)->setFactory(
-            [UserRoleManagerFactory::class, 'getNewUserRoleManager']
-        );
 
-        $api = new PurgeEmployeeAPI($this->getRequest());
+        $api = new PurgeCandidateAPI($this->getRequest());
         $validationRules = $api->getValidationRuleForDelete();
 
         $this->assertInstanceOf(ParamRuleCollection::class, $validationRules);
 
-        $values = [CommonParams::PARAMETER_EMP_NUMBER => 2];
+        $values = [PurgeCandidateAPI::PARAMETER_VACANCY_ID => 2];
         $this->assertTrue($this->validate($values, $validationRules));
 
         $this->expectInvalidParamException();
-        $values = [CommonParams::PARAMETER_EMP_NUMBER => -1];
+        $values = [PurgeCandidateAPI::PARAMETER_VACANCY_ID => -1];
         $this->validate($values, $validationRules);
     }
 
     public function testGetAll(): void
     {
-        $api = new PurgeEmployeeAPI($this->getRequest());
+        $api = new PurgeCandidateAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getAll();
     }
 
     public function testGetValidationRuleForGetAll(): void
     {
-        $api = new PurgeEmployeeAPI($this->getRequest());
+        $api = new PurgeCandidateAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetAll();
     }
 
     public function testCreate(): void
     {
-        $api = new PurgeEmployeeAPI($this->getRequest());
+        $api = new PurgeCandidateAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->create();
     }
 
     public function testGetValidationRuleForCreate(): void
     {
-        $api = new PurgeEmployeeAPI($this->getRequest());
+        $api = new PurgeCandidateAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForCreate();
     }
