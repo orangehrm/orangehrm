@@ -31,21 +31,16 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
-use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
-use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
-class VacancyListRestController extends AbstractRestController implements PublicControllerInterface
+class VacancyRestController extends AbstractRestController implements PublicControllerInterface
 {
     use VacancyServiceTrait;
     use NormalizerServiceTrait;
 
-    public const ACTIVE_STATUS = 1;
-
-    private const VACANCY_ID = 'vacancy.id';
+    private const VACANCY_ID = 'id';
     /**
      * @var ValidationDecorator|null
      */
@@ -55,21 +50,13 @@ class VacancyListRestController extends AbstractRestController implements Public
     /**
      * @param Request $request
      * @return Response
-     * @throws SearchParamException
      */
     public function handleGetRequest(Request $request): Response
     {
-        $vacancySearchFilterParams = new VacancySearchFilterParams();
-        $vacancySearchFilterParams->setStatus(self::ACTIVE_STATUS);
-        $vacancySearchFilterParams->setSortField(self::VACANCY_ID);
-        $vacancySearchFilterParams->setSortOrder(ListSorter::DESCENDING);
-        $vacancies = $this->getVacancyService()->getVacancyDao()->getVacancies($vacancySearchFilterParams);
-        $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancySearchFilterParams);
-
+        $vacancyId = (int) $request->getAttributes()->get(self::VACANCY_ID);
+        $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($vacancyId);
         return new Response(
-            $this->getNormalizerService()
-                ->normalizeArray(VacancySummaryModel::class, $vacancies),
-            [CommonParams::PARAMETER_TOTAL => $count]
+            $this->getNormalizerService()->normalize(VacancySummaryModel::class, $vacancy)
         );
     }
 
@@ -118,13 +105,10 @@ class VacancyListRestController extends AbstractRestController implements Public
     protected function initGetValidationRule(Request $request): ?ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    CommonParams::PARAMETER_SORT_ORDER,
-                    new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]])
-                ),
-                true
-            )
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
         );
     }
 

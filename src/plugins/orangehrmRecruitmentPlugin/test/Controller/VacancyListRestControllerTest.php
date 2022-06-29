@@ -54,7 +54,7 @@ class VacancyListRestControllerTest extends KernelTestCase
         ]);
 
         $controller = new VacancyListRestController();
-        $httpRequest = $this->getHttpRequest(['limit'=> 1, 'offset'=>0]);
+        $httpRequest = $this->getHttpRequest();
         $request = new Request($httpRequest);
         $response = $controller->handleGetRequest($request);
         $iteratableResponse = json_decode($response->formatData(), false);
@@ -64,34 +64,17 @@ class VacancyListRestControllerTest extends KernelTestCase
     /**
      * @throws SearchParamException
      */
-    public function testHandleGetRequestWithLimit5(): void
+    public function testHandleGetRequestCount(): void
     {
         $this->createKernelWithMockServices([
             Services::VACANCY_SERVICE => new VacancyService(),
             Services::NORMALIZER_SERVICE => new NormalizerService(),
         ]);
         $controller = new VacancyListRestController();
-        $httpRequest = $this->getHttpRequest(['limit'=> 5]);
+        $httpRequest = $this->getHttpRequest();
         $request = new Request($httpRequest);
         $response = $controller->handleGetRequest($request);
         $iteratableResponse = json_decode($response->formatData(), false);
-        $this->assertEquals('Electrical Engineer Officer', $iteratableResponse->data[0]->name);
-    }
-
-    /**
-     * @throws SearchParamException
-     */
-    public function testHandleGetRequestWithOffset2(): void
-    {
-        $this->createKernelWithMockServices([
-            Services::VACANCY_SERVICE => new VacancyService(),
-            Services::NORMALIZER_SERVICE => new NormalizerService(),
-        ]);
-        $controller = new VacancyListRestController();
-        $httpRequest = $this->getHttpRequest(['offset'=> 2]);
-        $request = new Request($httpRequest);
-        $response = $controller->handleGetRequest($request);
-        $iteratableResponse = json_decode($response->formatData(), false);
-        $this->assertEquals('Charted Engineer', $iteratableResponse->data[0]->name);
+        $this->assertCount(5, $iteratableResponse->data);
     }
 }

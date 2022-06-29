@@ -26,7 +26,8 @@
       </oxd-text>
       <oxd-button
         :label="$t('general.apply')"
-        class="oxd-button--success"
+        class="oxd-button"
+        display-type="success"
       ></oxd-button>
     </div>
     <oxd-divider v-show="vacancyDescription"></oxd-divider>
@@ -42,10 +43,7 @@
       class="orangehrm-vacancy-card-footer"
     >
       <a @click="viewDetails">
-        <oxd-text
-          class="orangehrm-vacancy-card-anchor-tag"
-          type="toast-message"
-        >
+        <oxd-text class="orangehrm-vacancy-card-anchor-tag" type="subtitle-2">
           {{
             isViewDetails
               ? $t('recruitment.show_more')
@@ -58,15 +56,11 @@
 </template>
 
 <script>
-import OxdDivider from '@ohrm/oxd/core/components/Divider/Divider';
 import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {toRefs} from 'vue';
 
 export default {
   name: 'VacancyCard',
-  components: {
-    'oxd-divider': OxdDivider,
-  },
   props: {
     vacancyId: {
       type: Number,
@@ -89,36 +83,21 @@ export default {
   },
   data() {
     return {
-      viewMore: true,
-      descriptionLength: 0,
+      viewMore: false,
     };
   },
   computed: {
     isViewDetails() {
-      return this.viewMore;
+      return !this.viewMore;
     },
-    isMobile() {
-      return this.windowWidth < 600;
+    descriptionLength() {
+      if (this.isMobile) return 150;
+      return this.windowWidth < 1920 ? 250 : 400;
     },
-  },
-  watch: {
-    isMobile: function() {
-      this.validDescriptionLength();
-    },
-  },
-  beforeMount() {
-    this.validDescriptionLength();
   },
   methods: {
     viewDetails() {
-      return (this.viewMore = !this.viewMore);
-    },
-    validDescriptionLength() {
-      return this.isMobile
-        ? (this.descriptionLength = 150)
-        : this.windowWidth < 1920
-        ? (this.descriptionLength = 250)
-        : (this.descriptionLength = 400);
+      this.viewMore = !this.viewMore;
     },
   },
 };

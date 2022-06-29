@@ -20,8 +20,8 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-grid ref="scrollerRef" class="orangehrm-container">
-      <oxd-grid-item v-for="vacancy in vacancies" :key="vacancy">
+    <oxd-grid class="orangehrm-container">
+      <oxd-grid-item v-for="vacancy in vacancies?.data" :key="vacancy">
         <vacancy-card
           :vacancy-description="vacancy.vacancyDescription"
           :vacancy-id="vacancy.vacancyId"
@@ -32,6 +32,13 @@
         v-if="isLoading"
         class="orangehrm-container-loader"
       />
+      <div class="orangehrm-bottom-container">
+        <oxd-pagination
+          v-if="showPaginator"
+          v-model:current="currentPage"
+          :length="pages"
+        />
+      </div>
     </oxd-grid>
   </div>
   <div>
@@ -54,10 +61,8 @@
 <script>
 import VacancyCard from '@/orangehrmRecruitmentPlugin/components/VacancyCard';
 import {APIService} from '@/core/util/services/api.service';
-import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
-import {reactive, toRefs} from 'vue';
-import useToast from '@/core/util/composable/useToast';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import usePaginate from '@/core/util/composable/usePaginate';
 
 export default {
   name: 'VacancyList',
@@ -67,7 +72,6 @@ export default {
   },
   setup() {
     const defaultPic = `${window.appGlobal.baseUrl}/../images/logo.png`;
-    const {noRecordsFound} = useToast();
     const vacancyDataNormalizer = data => {
       return data.map(item => {
         return {
@@ -81,51 +85,26 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/recruitment/public/vacancies',
     );
-    const state = reactive({
-      vacancies: [],
-      total: 0,
-      limit: 8,
-      offset: 0,
-      isLoading: false,
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      response,
+      isLoading,
+    } = usePaginate(http, {
+      normalizer: vacancyDataNormalizer,
+      pageSize: 8,
     });
-    const fetchData = () => {
-      state.isLoading = true;
-      http
-        .getAll({
-          limit: state.limit,
-          offset: state.offset,
-        })
-        .then(response => {
-          const {data, meta} = response.data;
-          state.total = meta?.total || 0;
-          if (Array.isArray(data)) {
-            state.vacancies = [
-              ...state.vacancies,
-              ...vacancyDataNormalizer(data),
-            ];
-          }
-          if (state.total === 0) {
-            noRecordsFound();
-          }
-        })
-        .finally(() => (state.isLoading = false));
-    };
-
-    const {scrollerRef} = useInfiniteScroll(() => {
-      if (state.vacancies.length >= state.total) return;
-      state.offset += state.limit;
-      fetchData();
-    });
-
     return {
-      scrollerRef,
-      ...toRefs(state),
-      fetchData,
       defaultPic,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      vacancies: response,
     };
-  },
-  beforeMount() {
-    this.fetchData();
   },
 };
 </script>
