@@ -278,8 +278,8 @@ export default {
     onClickEdit(item) {
       const nextScreen =
         item.action.id == ACTION_INTERVIEW_SCHEDULED
-          ? 'TODO: route to interview edit page'
-          : 'TODO: route to action edit page';
+          ? `recruitment/jobInterview/historyId/${item.id}/interviewId/${item.interview?.id}`
+          : `/recruitment/candidate/${this.candidate.id}/history/${item.id}`;
       navigate(nextScreen);
     },
   },

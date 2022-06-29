@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -34,7 +35,6 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Recruitment\Api\Model\InterviewAttachmentModel;
-use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
 use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
@@ -202,7 +202,18 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $interviewId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_INTERVIEW_ID
+        );
+        $toBeDeletedAttachmentIds = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_IDS
+        );
+        $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->deleteInterviewAttachments($interviewId, $toBeDeletedAttachmentIds);
+        return new EndpointResourceResult(ArrayModel::class, $toBeDeletedAttachmentIds);
     }
 
     /**
@@ -210,7 +221,16 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_INTERVIEW_ID,
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            ),
+        );
     }
 
     /**

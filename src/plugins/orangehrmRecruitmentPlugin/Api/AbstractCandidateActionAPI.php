@@ -168,7 +168,8 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
                 new ParamRule(
                     self::PARAMETER_NOTE,
                     new Rule(Rules::STRING_TYPE)
-                )
+                ),
+                true
             )
         );
     }
