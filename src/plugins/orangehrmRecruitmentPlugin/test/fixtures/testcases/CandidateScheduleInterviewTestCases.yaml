@@ -55,7 +55,8 @@ Create:
       interviewDate: '2022-10-05'
       interviewTime: '05:00'
       note: 'Will be delayed due to the power cuts'
-    meta: [ ]
+    meta:
+      historyId: 1
 
   'Schedule interview - Hiring Manager':
     userId: 2
@@ -113,7 +114,8 @@ Create:
       interviewDate: '2022-10-05'
       interviewTime: '05:00'
       note: 'Will be delayed due to the power cuts'
-    meta: [ ]
+    meta:
+      historyId: 1
 
   'Schedule interview - Non Assigned Hiring Manager/ESS':
     userId: 3

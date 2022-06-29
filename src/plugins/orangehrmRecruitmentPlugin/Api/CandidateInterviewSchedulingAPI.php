@@ -27,6 +27,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -131,10 +132,16 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
 
             $candidateHistory = new CandidateHistory();
             $this->setCandidateHistory($candidateHistory, $candidateVacancy, $interview);
-            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
+            $candidateHistory = $this->getCandidateService()
+                ->getCandidateDao()
+                ->saveCandidateHistory($candidateHistory);
 
             $this->commitTransaction();
-            return new EndpointResourceResult(CandidateInterviewModel::class, $interview);
+            return new EndpointResourceResult(
+                CandidateInterviewModel::class,
+                $interview,
+                new ParameterBag(['historyId' => $candidateHistory->getId()])
+            );
         } catch (RecordNotFoundException|ForbiddenException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
