@@ -24,6 +24,10 @@ use OrangeHRM\ORM\ListSorter;
 
 class CandidateHistorySearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = [
+        'candidateHistory.performedDate',
+    ];
+
     /**
      * @var int
      */

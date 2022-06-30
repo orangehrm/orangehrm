@@ -198,7 +198,9 @@ export default {
         return {
           id: item.id,
           vacancy: item.vacancy?.name,
-          candidate: `${item.firstName} ${item.middleName} ${item.lastName}`,
+          candidate: `${item.firstName} ${item.middleName || ''} ${
+            item.lastName
+          }`,
           manager: item.vacancy
             ? `${item.vacancy.hiringManager.firstName} ${
                 item.vacancy.hiringManager.lastName

@@ -46,9 +46,9 @@ class CandidateDetailedModel implements Normalizable
         $addedPerson = $this->candidate->getAddedPerson();
         $candidateVacancies = $this->candidate->getCandidateVacancy();
         $candidateVacancy = !empty($candidateVacancies) ? $candidateVacancies[0] : null;
-        $candidateAttachment = $this->getRecruitmentAttachmentService()
+        $hasCandidateAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getCandidateAttachmentByCandidateId($this->candidate->getId());
+            ->hasCandidateAttachmentByCandidateId($this->candidate->getId());
         /**
          * @var Vacancy
          */
@@ -86,12 +86,16 @@ class CandidateDetailedModel implements Normalizable
                         'firstName' => $vacancy->getHiringManager()->getFirstName(),
                         'middleName' => $vacancy->getHiringManager()->getMiddleName(),
                         'lastName' => $vacancy->getHiringManager()->getLastName(),
-                        'terminationId' => $vacancy->getHiringManager()->getEmployeeTerminationRecord(),
+                        'terminationId' => is_null($vacancy->getHiringManager()->getEmployeeTerminationRecord()) ?
+                            null :
+                            $vacancy->getHiringManager()->getEmployeeTerminationRecord()->getId()
+                        ,
                     ]
                 ],
             'status' => is_null($candidateVacancy) ? null :
                 $candidateVacancy->getDecorator()->getCandidateVacancyStatus(),
-            'hasAttachment' => !is_null($candidateAttachment)
+            'hasAttachment' => $hasCandidateAttachment,
+            'consentToKeepData' => $this->candidate->isConsentToKeepData()
         ];
     }
 }

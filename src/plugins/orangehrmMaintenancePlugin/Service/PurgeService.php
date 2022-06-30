@@ -21,30 +21,31 @@ namespace OrangeHRM\Maintenance\Service;
 
 use Exception;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Maintenance\Dao\PurgeEmployeeDao;
+use OrangeHRM\Maintenance\Dao\PurgeDao;
 use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
 use OrangeHRM\ORM\Exception\TransactionException;
 use Symfony\Component\Yaml\Yaml;
 
-class PurgeEmployeeService
+class PurgeService
 {
     use EntityManagerHelperTrait;
 
     private const GDPR_PURGE_EMPLOYEE = 'gdpr_purge_employee_strategy';
+    private const GDPR_PURGE_CANDIDATE = 'gdpr_purge_candidate_strategy';
 
-    private ?PurgeEmployeeDao $employeePurgeDao = null;
+    private ?PurgeDao $purgeDao = null;
     private ?array $purgeableEntities = null;
 
     /**
-     * @return PurgeEmployeeDao
+     * @return PurgeDao
      */
-    public function getPurgeEmployeeDao(): PurgeEmployeeDao
+    public function getPurgeDao(): PurgeDao
     {
-        if (is_null($this->employeePurgeDao)) {
-            $this->employeePurgeDao = new PurgeEmployeeDao();
+        if (is_null($this->purgeDao)) {
+            $this->purgeDao = new PurgeDao();
         }
-        return $this->employeePurgeDao;
+        return $this->purgeDao;
     }
 
     /**
@@ -65,6 +66,34 @@ class PurgeEmployeeService
                         $infoArray
                     );
                     $purgeStrategy->purge($empNumber);
+                }
+            }
+            $this->getEntityManager()->flush();
+            $this->commitTransaction();
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
+        }
+    }
+
+    /**
+     * @param int $vacancyId
+     * @throws TransactionException
+     */
+    public function purgeCandidateData(int $vacancyId): void
+    {
+        $this->beginTransaction();
+        try {
+            $purgeableEntities = $this->getPurgeableEntities(self::GDPR_PURGE_CANDIDATE);
+            foreach ($purgeableEntities as $purgeableEntityClassName => $purgeStrategies) {
+                foreach ($purgeStrategies['PurgeStrategy'] as $strategy => $strategyInfoArray) {
+                    $infoArray = new InfoArray($strategyInfoArray);
+                    $purgeStrategy = $this->getPurgeStrategy(
+                        $purgeableEntityClassName,
+                        $strategy,
+                        $infoArray
+                    );
+                    $purgeStrategy->purge($vacancyId);
                 }
             }
             $this->getEntityManager()->flush();

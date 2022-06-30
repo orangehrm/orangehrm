@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Maintenance\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 
@@ -31,26 +30,6 @@ use OrangeHRM\Core\Exception\DaoException;
  */
 class MaintenanceDao extends BaseDao
 {
-    /**
-     * @return Doctrine_Collection
-     * @throws DaoException
-     */
-    public function getEmployeePurgingList(): array
-    {
-        try {
-            $q = Doctrine_Query::create()
-                ->select('empNumber', 'firstName', 'middleName', 'lastName')
-                ->from('Employee')
-                ->where('termination_id IS NOT NULL')
-                ->andwhere('purged_at IS NULL');
-            return $q->execute();
-            // @codeCoverageIgnoreStart
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        // @codeCoverageIgnoreEnd
-    }
-
     /**
      * @param $empNumber
      * @param $table
@@ -72,60 +51,5 @@ class MaintenanceDao extends BaseDao
             ->setParameter('empNumber', $empNumber);
 
         return $qb->getQuery()->execute();
-    }
-
-    /**
-     * @param $enitity
-     * @return bool
-     * @throws DaoException
-     */
-    public function saveEntity($entity): bool
-    {
-        try {
-            $entity->save();
-            return $entity;
-            // @codeCoverageIgnoreStart
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-        // @codeCoverageIgnoreEnd
-    }
-
-    /**
-     * @return Doctrine_Collection
-     * @throws DaoException
-     */
-    public function getVacancyListToPurge()
-    {
-        try {
-            $q = Doctrine_Query::create()
-                ->select('id', 'name')
-                ->from('JobVacancy');
-            return $q->execute();
-            // @codeCoverageIgnoreStart
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        // @codeCoverageIgnoreEnd
-    }
-
-    /**
-     * @throws DaoException
-     */
-    public function getDeniedCandidatesToKeepDataByVacnacyId($vacancyId)
-    {
-        try {
-            $q = Doctrine_Query::create()
-                ->select('*')
-                ->from('JobCandidate l')
-                ->innerJoin('l.CandidateHistory t')
-                ->where("l.consentToKeepData = ?", false)
-                ->andWhere("t.vacancyId = ?", $vacancyId);
-            return $q->execute();
-            // @codeCoverageIgnoreStart
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        // @codeCoverageIgnoreEnd
     }
 }

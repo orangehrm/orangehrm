@@ -101,19 +101,4 @@ class InterviewAttachmentAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('InterviewAttachmentTestCases.yaml', 'Update');
     }
-
-
-    public function testDelete(): void
-    {
-        $api = new InterviewAttachmentAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
-    }
-
-    public function testGetValidationRuleForDelete(): void
-    {
-        $api = new InterviewAttachmentAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
-    }
 }

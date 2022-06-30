@@ -22,7 +22,7 @@ namespace OrangeHRM\Maintenance\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Employee;
 
-class PurgeEmployeeDao extends BaseDao
+class PurgeDao extends BaseDao
 {
     /**
      * @param int $empNumber

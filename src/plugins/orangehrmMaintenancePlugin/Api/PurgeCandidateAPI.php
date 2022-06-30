@@ -19,24 +19,25 @@
 
 namespace OrangeHRM\Maintenance\Api;
 
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Maintenance\Api\Model\PurgeEmployeeModel;
+use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Maintenance\Api\Model\PurgeCandidateModel;
 use OrangeHRM\Maintenance\Service\PurgeService;
 use OrangeHRM\ORM\Exception\TransactionException;
 
-class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
+class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
 {
     private ?PurgeService $purgeService = null;
+
+    public const PARAMETER_VACANCY_ID = 'vacancyId';
 
     /**
      * @return PurgeService
@@ -51,19 +52,16 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @inheritDoc
-     * @throws BadRequestException|TransactionException
+     * @throws TransactionException
      */
     public function delete(): EndpointResult
     {
-        $empNumber = $this->getRequestParams()->getInt(
+        $vacancyId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_EMP_NUMBER
+            self::PARAMETER_VACANCY_ID
         );
-        if ($this->getPurgeService()->getPurgeDao()->isEmployeePurgeable($empNumber)) {
-            $this->getPurgeService()->purgeEmployeeData($empNumber);
-            return new EndpointResourceResult(PurgeEmployeeModel::class, $empNumber);
-        }
-        throw $this->getBadRequestException("Employee Cannot Be Purged");
+        $this->getPurgeService()->purgeCandidateData($vacancyId);
+        return new EndpointResourceResult(PurgeCandidateModel::class, $vacancyId);
     }
 
     /**
@@ -73,8 +71,9 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [false]),
+                self::PARAMETER_VACANCY_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [Vacancy::class])
             )
         );
     }

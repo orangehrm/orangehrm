@@ -14,25 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-/**
- * Class DestroyPurgeStrategy
- */
-class DestroyPurgeStrategy extends PurgeStrategy
+namespace OrangeHRM\Recruitment\Controller;
+
+use Exception;
+use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Framework\Http\RedirectResponse;
+
+class RecruitmentModuleController extends AbstractModuleController
 {
     /**
-     * @param $employeeNumber
-     * @return mixed|void
-     * @throws DaoException
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function purge($employeeNumber)
+    public function handle(): RedirectResponse
     {
-        $matchByValues = $this->getMatchByValues($employeeNumber);
-        $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        foreach ($purgeEntities as $purgeEntity) {
-            $purgeEntity->delete();
-        }
+        $defaultPath = $this->getHomePageService()->getRecruitmentModuleDefaultPath();
+        return $this->redirect($defaultPath);
     }
 }

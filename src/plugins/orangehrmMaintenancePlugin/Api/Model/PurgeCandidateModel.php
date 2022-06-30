@@ -17,35 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Maintenance\Api\Model;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Service\ConfigService;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
-class ScheduleInterviewHistory extends AbstractVueController
+class PurgeCandidateModel implements Normalizable
 {
-    protected ?ConfigService $configService = null;
+    private int $vacancyId;
 
-    public function getConfigService(): ConfigService
+    public function __construct(int $vacancyId)
     {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
+        $this->vacancyId = $vacancyId;
     }
 
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function toArray(): array
     {
-        $component = new Component('schedule-interview-history');
-        $component->addProp(
-            new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes())
-        );
-        $this->setComponent($component);
+        return [
+            'purged' => [
+                'vacancyId' => $this->vacancyId
+            ]
+        ];
     }
 }

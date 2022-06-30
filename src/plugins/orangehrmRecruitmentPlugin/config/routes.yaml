@@ -52,8 +52,8 @@ apiv2_recruitment_candidate:
   requirements:
     id: '\d+'
 
-apiv2_recruitment_candidte_attachment_candidateId:
-  path: /api/v2/recruitment/candidate/attachments/{candidateId}
+apiv2_recruitment_candidate_attachment:
+  path: /api/v2/recruitment/candidate/{candidateId}/attachment
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
@@ -128,7 +128,7 @@ apiv2_recruitment_interviews_attachment:
 apiv2_recruitment_interview_attachments:
   path: /api/v2/recruitment/interviews/{interviewId}/attachments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST ]
+  methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\InterviewAttachmentAPI
 
@@ -180,7 +180,7 @@ apiv2_recrutiment_candidate_history:
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\CandidateHistoryAPI
-    _key: candidateId
+    _key: historyId
 
 ##########################
 #        Files
@@ -194,6 +194,11 @@ recruitment_attachment:
 candidate_attachment:
   path: /recruitment/viewCandidateAttachment/candidateId/{candidateId}
   controller: OrangeHRM\Recruitment\Controller\File\CandidateAttachment::handle
+  methods: [ GET ]
+
+interview_attachment:
+  path: /recruitment/viewInterviewAttachment/interview/{interviewId}/attachment/{attachmentId}
+  controller: OrangeHRM\Recruitment\Controller\File\InterviewAttachment::handle
   methods: [ GET ]
 
 ##########################
@@ -213,26 +218,6 @@ recruitment_add_job_vacancy:
 recruitment_edit_job_vacancy:
   path: /recruitment/addJobVacancy/{id}
   controller: OrangeHRM\Recruitment\Controller\EditJobVacancyController::handle
-  methods: [ GET ]
-
-candidate_schedule_interview:
-  path: /recruitment/jobInterview/vacancy/{vacancyId}/action/{actionId}
-  controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewController::handle
-  methods: [ GET ]
-
-candidate_schedule_interview_history:
-  path: /recruitment/jobInterview/history/{historyId}/interviewer/{id}
-  controller: OrangeHRM\Recruitment\Controller\ScheduleInterviewHistory::handle
-  methods: [ GET ]
-
-candidate_shortlist:
-  path: /recruitment/vacancy/{vacancyId}/action/{actionId}
-  controller: OrangeHRM\Recruitment\Controller\ShortlistCandidateController::handle
-  methods: [ GET ]
-
-view_shortlist_history:
-  path: /recruitment/VacancyStatus/{historyId}
-  controller: OrangeHRM\Recruitment\Controller\ShortlistHistoryController::handle
   methods: [ GET ]
 
 view_recruitment_candidates:

@@ -92,9 +92,12 @@ class CandidateHistoryDecorator
         return ucwords(strtolower($candidateHistoryMap[$actionId]));
     }
 
+    /**
+     * @return string
+     */
     public function getPerformedDate(): string
     {
         $date = $this->candidateHistory->getPerformedDate();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 }

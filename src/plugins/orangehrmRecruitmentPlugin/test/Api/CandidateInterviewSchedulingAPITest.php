@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Recruitment\Api;
 
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewInterviewer;
 use OrangeHRM\Framework\Services;
@@ -37,6 +38,7 @@ class CandidateInterviewSchedulingAPITest extends EndpointIntegrationTestCase
     {
         TestDataService::truncateSpecificTables([InterviewInterviewer::class]);
         TestDataService::truncateSpecificTables([Interview::class]);
+        TestDataService::truncateSpecificTables([CandidateHistory::class]);
     }
 
     public function testGetAll(): void

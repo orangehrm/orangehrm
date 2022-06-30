@@ -17,20 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Tests\Maintenance\Api\Model;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Maintenance\Api\Model\PurgeCandidateModel;
+use OrangeHRM\Tests\Util\TestCase;
 
-class ShortlistCandidateController extends AbstractVueController
+class PurgeCandidateModelTest extends TestCase
 {
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
+    public function testToArray(): void
     {
-        $component = new Component('shortlist-candidate');
-        $this->setComponent($component);
+        $vacancyId = 1;
+        $purgeEmployeeModel = new PurgeCandidateModel($vacancyId);
+
+        $result = $purgeEmployeeModel->toArray();
+        $expected = [
+            'purged' => [
+                'vacancyId' => 1
+            ]
+        ];
+
+        $this->assertEquals($expected, $result);
     }
 }

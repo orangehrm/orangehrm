@@ -20,7 +20,7 @@
 namespace OrangeHRM\Tests\Maintenance\Dao;
 
 use OrangeHRM\Config\Config;
-use OrangeHRM\Maintenance\Dao\PurgeEmployeeDao;
+use OrangeHRM\Maintenance\Dao\PurgeDao;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -30,12 +30,12 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class PurgeEmployeeDaoTest extends TestCase
 {
-    private PurgeEmployeeDao $employeePurgeDao;
+    private PurgeDao $employeePurgeDao;
     protected string $fixture;
 
     protected function setUp(): void
     {
-        $this->employeePurgeDao = new PurgeEmployeeDao();
+        $this->employeePurgeDao = new PurgeDao();
         $this->fixture = Config::get(
             Config::PLUGINS_DIR
         ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeDao.yml';

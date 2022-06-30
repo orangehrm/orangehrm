@@ -174,7 +174,7 @@ class InterviewAttachment
     /**
      * @return resource|string
      */
-    public function getFileContent(): string
+    public function getFileContent()
     {
         return $this->fileContent;
     }

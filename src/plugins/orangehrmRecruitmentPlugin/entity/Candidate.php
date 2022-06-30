@@ -118,7 +118,7 @@ class Candidate
 
     /**
      * @var Employee|null
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="candidates", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="candidates", cascade={"persist"})
      * @ORM\JoinColumn(name="added_person", referencedColumnName="emp_number",nullable=true)
      */
     private ?Employee $addedPerson = null;
@@ -141,10 +141,17 @@ class Candidate
      */
     private iterable $candidateAttachment;
 
+    /**
+     * @var iterable|ArrayCollection
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\CandidateHistory", mappedBy="candidate")
+     */
+    private iterable $candidateHistory;
+
     public function __construct()
     {
         $this->candidateVacancy = new ArrayCollection();
         $this->candidateAttachment = new ArrayCollection();
+        $this->candidateHistory = new ArrayCollection();
     }
 
     /**

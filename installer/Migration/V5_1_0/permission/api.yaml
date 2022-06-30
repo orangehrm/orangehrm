@@ -345,8 +345,9 @@ apiv2_recruitment_candidate_interview_attachment:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
-    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: HiringManager, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Interviewer, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_recruitment_candidate_mark_interview_passed:
   description: 'API-v2 Recruitment - Candidate Mark Interview Passed'
@@ -360,7 +361,7 @@ apiv2_recruitment_candidate_mark_interview_passed:
   permissions:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
-    - { role: Interviewer, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_recruitment_candidate_mark_interview_failed:
   description: 'API-v2 Recruitment - Candidate Mark Interview Failed'
@@ -501,3 +502,19 @@ apiv2_corporate_branding_theme_preview:
     delete: false
   permissions:
     - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
+
+##########################
+#        Maintenance
+##########################
+
+apiv2_maintenance_purge_candidate:
+  description: 'API-v2 Maintenance - Purge Candidate'
+  api: OrangeHRM\Maintenance\Api\PurgeCandidateAPI
+  module: maintenance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: true, self: false } }

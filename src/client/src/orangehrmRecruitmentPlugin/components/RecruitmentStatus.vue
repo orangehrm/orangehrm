@@ -71,7 +71,7 @@
           <oxd-button
             v-if="hasWorkflow(6)"
             :label="$t('recruitment.mark_interview_failed')"
-            display-type="warn"
+            display-type="danger"
             @click="doWorkflow(6)"
           />
           <oxd-button
@@ -113,12 +113,13 @@
 <script>
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'RecruitmentStatus',
   props: {
-    candidateId: {
-      type: Number,
+    candidate: {
+      type: Object,
       required: true,
     },
   },
@@ -127,9 +128,11 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/recruitment/candidates',
     );
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     return {
       http,
+      translateEmpName: $tEmpName,
     };
   },
   data() {
@@ -137,7 +140,7 @@ export default {
       isLoading: false,
       candidateName: '',
       vacancyName: 'N/A',
-      hiringManagerName: '',
+      hiringManagerName: 'N/A',
       status: null,
       statuses: [
         {id: 1, label: this.$t('recruitment.application_initiated')},
@@ -162,26 +165,23 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
+    this.status = this.candidate.status;
+    this.candidateName = `${this.candidate?.firstName} ${this.candidate
+      ?.middleName || ''} ${this.candidate?.lastName}`;
+    if (this.candidate?.vacancy) {
+      this.vacancyName = this.candidate?.vacancy.name;
+      this.hiringManagerName = `${
+        this.candidate?.vacancy.hiringManager.firstName
+      } ${this.candidate?.vacancy.hiringManager.lastName} ${
+        this.candidate?.vacancy.hiringManager.terminationId
+          ? this.$t('general.past_employee')
+          : ''
+      }`;
+    }
     this.http
-      .get(this.candidateId)
-      .then(response => {
-        const {data} = response.data;
-        this.status = data.status;
-        this.candidateName = `${data?.firstName} ${data?.middleName} ${data?.lastName}`;
-        if (data?.vacancy) {
-          this.vacancyName = data?.vacancy.name;
-          this.hiringManagerName = `${data?.vacancy.hiringManager.firstName} ${
-            data?.vacancy.hiringManager.lastName
-          } ${
-            data?.vacancy.hiringManager.terminationId
-              ? this.$t('general.past_employee')
-              : ''
-          }`;
-        }
-        return this.http.request({
-          method: 'GET',
-          url: `api/v2/recruitment/candidates/${this.candidateId}/actions/allowed`,
-        });
+      .request({
+        method: 'GET',
+        url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
       })
       .then(response => {
         const {data} = response.data;
@@ -197,7 +197,7 @@ export default {
     },
     doWorkflow(actionId) {
       navigate('/recruitment/changeCandidateVacancyStatus', undefined, {
-        candidateId: this.candidateId,
+        candidateId: this.candidate?.id,
         selectedAction: actionId,
       });
     },

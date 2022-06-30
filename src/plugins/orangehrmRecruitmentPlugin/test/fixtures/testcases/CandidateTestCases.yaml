@@ -39,6 +39,7 @@ Create:
       vacancy: null
       status: null
       hasAttachment: false
+      consentToKeepData: true
     meta: [ ]
 
   'Add candidate - Without candidate first name':
@@ -104,6 +105,11 @@ GetOne:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 2
     data:
@@ -140,6 +146,8 @@ GetOne:
         id: 2
         label: 'Shortlisted'
       hasAttachment: true
+      consentToKeepData:  true
+
     meta: [ ]
 
   'get candidate by not existing id':
@@ -159,6 +167,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
     data:
@@ -274,6 +287,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       jobTitleId: 2
@@ -334,6 +352,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       jobTitleId: 2
@@ -394,6 +417,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       hiringManagerId: 1
@@ -454,6 +482,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       status: 2
@@ -514,6 +547,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       keywords: 'spring'
@@ -538,6 +576,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       fromDate: '2020-10-09'
@@ -585,6 +628,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       toDate: '2020-10-07'
@@ -622,6 +670,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       fromDate: '2020-10-07'
@@ -706,6 +759,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       fromDate: '2020-10-08'
@@ -719,6 +777,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       methodOfApplication: 2
@@ -766,6 +829,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       candidateId: 5
@@ -803,6 +871,11 @@ GetAll:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       model: 'list'
       candidateName: 'jo'
@@ -851,6 +924,11 @@ Update:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     now:
       datetime: '2022-05-25 08:42:00'
     attributes:
@@ -907,7 +985,8 @@ Update:
           "id": 1,
           "label": "Application Initiated"
         },
-        "hasAttachment": true
+        "hasAttachment": true,
+        "consentToKeepData":  true
       }
     "meta": [ ]
 
@@ -916,6 +995,11 @@ Update:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 100
     body:
@@ -940,6 +1024,11 @@ Update:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     now:
       datetime: '2022-05-25 08:42:00'
     attributes:
@@ -978,7 +1067,8 @@ Update:
         },
         "vacancy": null,
         "status": null,
-        "hasAttachment": true
+        "hasAttachment": true,
+        "consentToKeepData":  true
       }
     "meta": [ ]
 
@@ -987,6 +1077,11 @@ Update:
     services:
       recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     now:
       datetime: '2022-05-25 08:42:00'
     attributes:
@@ -1043,7 +1138,8 @@ Update:
           "id": 1,
           "label": "Application Initiated"
         },
-        "hasAttachment": true
+        "hasAttachment": true,
+        "consentToKeepData":  true
       }
     "meta": [ ]
 
