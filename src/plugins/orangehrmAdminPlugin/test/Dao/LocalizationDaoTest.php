@@ -119,6 +119,9 @@ class LocalizationDaoTest extends TestCase
         $i18NTargetLangStringSearchFilterParams = new I18NTargetLangStringSearchFilterParams();
         $i18NTargetLangStringSearchFilterParams->setLanguageId('1');
         $i18NTargetLangStringSearchFilterParams->setSourceText('note');
+        $i18NTargetLangStringSearchFilterParams->setGroupId(null);
+        $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(null);
+        $i18NTargetLangStringSearchFilterParams->setTranslatedText(null);
         $translates = $this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams);
 
         $this->assertTrue(is_array($this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams)));
@@ -134,7 +137,7 @@ class LocalizationDaoTest extends TestCase
         $i18NTargetLangStringSearchFilterParams->setSourceText(null);
         $i18NTargetLangStringSearchFilterParams->setTranslatedText(null);
         $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
-        $this->assertEquals(951, $count);
+        $this->assertEquals(955, $count);
 
         $i18NTargetLangStringSearchFilterParams->setGroupId('2');
         $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);

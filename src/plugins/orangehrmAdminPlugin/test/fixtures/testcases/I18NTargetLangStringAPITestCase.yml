@@ -1,0 +1,152 @@
+GetAll:
+  'Get all language strings without parameters':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 1
+    data:
+      - id: 1
+        value: 'Add Job Title'
+        note: null
+        target: null
+      - id: 4
+        value: 'Add Location'
+        note: null
+        target: null
+      - id: 3
+        value: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: 'Вече съществува'
+      - id: 2
+        value: 'Use SMTP Authentication'
+        note: null
+        target: 'Добави'
+    meta:
+      total: 4
+  'Get all language strings filter by source text':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 1
+    query:
+      sourceText: 'sc'
+    data:
+      - id: 3
+        value: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: 'Вече съществува'
+    meta:
+      total: 1
+  'Get all language strings filter by translated text':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 3
+    query:
+      translatedText: 'Коментар'
+    data:
+      - id: 4
+        value: 'Add Location'
+        note: null
+        target: 'Коментар'
+    meta:
+      total: 1
+  'Get all language strings filter by module':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 1
+    query:
+      groupId: '2'
+    data:
+      - id: 4
+        value: 'Add Location'
+        note: null
+        target: null
+      - id: 3
+        value: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: 'Вече съществува'
+    meta:
+      total: 2
+  'Get all language strings filter by translated':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 3
+    query:
+      onlyTranslated: true
+    data:
+      - id: 4
+        value: 'Add Location'
+        note: null
+        target: 'Коментар'
+    meta:
+      total: 1
+  'Get all language strings filter by not translated':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 3
+    query:
+      onlyTranslated: false
+    data:
+      - id: 1
+        value: 'Add Job Title'
+        note: null
+        target: null
+      - id: 3
+        value: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: null
+      - id: 2
+        value: 'Use SMTP Authentication'
+        note: null
+        target: null
+    meta:
+      total: 3
+  'Get all language strings filter by module and translated':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 1
+    query:
+      groupId: '2'
+      onlyTranslated: true
+    data:
+      - id: 3
+        value: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: 'Вече съществува'
+    meta:
+      total: 1
+  'Get all language strings filter by module and not translated':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: 2
+    query:
+      groupId: '1'
+      onlyTranslated: false
+    data:
+      - id: 2
+        value: 'Use SMTP Authentication'
+        note: null
+        target: null
+    meta:
+      total: 1
+  'Get all language strings for wrong language id':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: -2
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
