@@ -81,8 +81,7 @@ class Migration extends AbstractMigration
                 ->setParameter('redirectUri', '')
                 ->setParameter('grantTypes', 'password refresh_token')
                 ->setParameter('scope', 'user')
-                ->executeQuery()
-                ->fetchOne();
+                ->executeQuery();
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_rest_api_usage'])) {
