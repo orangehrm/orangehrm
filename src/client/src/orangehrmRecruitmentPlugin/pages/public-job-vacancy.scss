@@ -1,0 +1,152 @@
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm {
+  &-background-container {
+    height: 80%;
+  }
+  &-applicant {
+    &-card {
+      &-pre-tag {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-family: $oxd-font-family;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+      }
+      &-footer {
+        display: flex;
+        justify-content: left;
+      }
+      &-anchor-tag {
+        color: $oxd-primary-one-color;
+        padding-top: 0.5rem;
+      }
+      &-anchor-tag:hover {
+        cursor: pointer;
+      }
+    }
+    &-container {
+      width: 100%;
+      display: block;
+
+      &-row {
+        width: inherit;
+      }
+
+      &-colspan-2 {
+        grid-column: 1 / span 2;
+      }
+
+      &-grid-checkbox {
+        .oxd-input-group {
+          flex-direction: row-reverse;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+
+  &-container {
+    height: 100%;
+    @include oxd-scrollbar();
+    overflow: auto;
+    position: relative;
+    margin: 0;
+
+    &-loader {
+      margin: 0 auto;
+      background-color: $oxd-white-color;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    &-img {
+      height: 40px;
+    }
+
+    &-img-div {
+      display: block;
+      padding-left: 48px;
+      @include oxd-respond-to('md') {
+        margin-bottom: -32px;
+        padding-left: 120px;
+      }
+      @include oxd-respond-to('xl') {
+        margin-bottom: -32px;
+        padding-left: 120px;
+      }
+    }
+  }
+
+  &-card-container {
+    width: 80%;
+    margin: 1rem auto;
+    padding: 0.75rem 1.5rem;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &-paper-container {
+    width: 80%;
+    margin: 1rem auto;
+    padding: 0.75rem 1.5rem;
+  }
+
+  &-vacancy-card {
+    display: block;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-anchor-tag {
+      color: $oxd-primary-one-color;
+      padding-top: 0.5rem;
+    }
+
+    &-anchor-tag:hover {
+      cursor: pointer;
+    }
+
+    &-body {
+      text-align: left;
+      justify-content: space-between;
+      word-break: break-all;
+      max-height: 60px;
+      -webkit-line-clamp: 4;
+      @include oxd-respond-to('md') {
+        max-height: 30px;
+        -webkit-line-clamp: 2;
+      }
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+    &-pre-tag {
+      margin-top: 0;
+      font-family: $oxd-font-family;
+      white-space: pre-wrap;
+      white-space: -moz-pre-wrap;
+      white-space: -o-pre-wrap;
+      word-wrap: break-word;
+    }
+    &-footer {
+      display: flex;
+      justify-content: left;
+    }
+  }
+}
+
+.oxd-brand-banner{
+  height: 32px;
+}

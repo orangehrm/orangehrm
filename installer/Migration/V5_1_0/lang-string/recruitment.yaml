@@ -197,3 +197,12 @@ langStrings:
   -
     value: 'Application Initiated'
     unitId: application_initiated_uc
+  -
+    value: 'Show More'
+    unitId: show_more
+  -
+    value: 'Show Less'
+    unitId: show_less
+  -
+    value: 'Powered By'
+    unitId: 'powered_by'

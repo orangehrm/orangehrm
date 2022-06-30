@@ -28,6 +28,7 @@
         :label="$t('general.apply')"
         class="oxd-button"
         display-type="success"
+        @click="apply"
       ></oxd-button>
     </div>
     <oxd-divider v-show="vacancyDescription"></oxd-divider>
@@ -58,6 +59,7 @@
 <script>
 import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {toRefs} from 'vue';
+import {navigate} from '@/core/util/helper/navigation';
 
 export default {
   name: 'VacancyCard',
@@ -99,62 +101,11 @@ export default {
     viewDetails() {
       this.viewMore = !this.viewMore;
     },
+    apply() {
+      navigate('/recruitment/applyJobVacancy/{id}', {id: this.vacancyId});
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-paper-container {
-  width: 80%;
-  margin: 1rem auto;
-  padding: 0.75rem 1.5rem;
-}
-
-.orangehrm-vacancy-card {
-  display: block;
-
-  &-header {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &-anchor-tag {
-    color: $oxd-primary-one-color;
-    padding-top: 0.5rem;
-  }
-
-  &-anchor-tag:hover {
-    cursor: pointer;
-  }
-
-  &-body {
-    text-align: left;
-    justify-content: space-between;
-    word-break: break-all;
-    max-height: 60px;
-    -webkit-line-clamp: 4;
-    @include oxd-respond-to('md') {
-      max-height: 30px;
-      -webkit-line-clamp: 2;
-    }
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-  }
-  &-pre-tag {
-    margin-top: 0;
-    font-family: $oxd-font-family;
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
-  }
-  &-footer {
-    display: flex;
-    justify-content: left;
-  }
-}
-</style>
+<style src="../pages/public-job-vacancy.scss" lang="scss" scoped></style>

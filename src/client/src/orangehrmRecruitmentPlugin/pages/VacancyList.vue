@@ -109,45 +109,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm {
-  &-background-container {
-    height: 80%;
-  }
-
-  &-container {
-    height: 100%;
-    @include oxd-scrollbar();
-    overflow: auto;
-    position: relative;
-    margin: 0;
-
-    &-loader {
-      margin: 0 auto;
-      background-color: $oxd-white-color;
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-    &-img {
-      height: 40px;
-    }
-    &-img-div {
-      display: block;
-      padding-left: 48px;
-      @include oxd-respond-to('md') {
-        margin-bottom: -32px;
-        padding-left: 120px;
-      }
-      @include oxd-respond-to('xl') {
-        margin-bottom: -32px;
-        padding-left: 120px;
-      }
-    }
-  }
-}
-</style>
+<style src="./public-job-vacancy.scss" lang="scss" scoped></style>

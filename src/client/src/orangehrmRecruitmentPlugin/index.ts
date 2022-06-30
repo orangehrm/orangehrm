@@ -40,7 +40,6 @@ import ViewActionHistory from './pages/ViewActionHistory.vue';
 import VacancyList from './pages/VacancyList.vue';
 import ApplyJobVacancy from './pages/ApplyJobVacancy.vue';
 
-
 export default {
   'view-job-vacancy': ViewJobVacancy,
   'add-job-vacancy': AddJobVacancy,

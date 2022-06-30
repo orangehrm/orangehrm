@@ -21,16 +21,20 @@
 namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 
 class ApplyJobVacancyViewController extends AbstractVueController implements PublicControllerInterface
 {
+    use ThemeServiceTrait;
+
     protected ?ConfigService $configService = null;
 
     public function getConfigService(): ConfigService
@@ -46,9 +50,23 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
      */
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
+        $id = $request->attributes->get('id');
+        $success = $request->attributes->get('success') ?? false;
+
+        $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
+        $bannerUrl = $request->getBasePath()
+            . "/images/ohrm_branding.png?$assetsVersion";
+        if (!is_null($this->getThemeService()->getImageETag('login_banner'))) {
+            $bannerUrl = $request->getBaseUrl()
+                . "/admin/theme/image/loginBanner?$assetsVersion";
+        }
+
         $component = new Component('apply-job-vacancy');
-        $component->addProp(new Prop('vacancy-id', Prop::TYPE_STRING, $id));
+        $component->addProp(new Prop('vacancy-id', Prop::TYPE_NUMBER, $id));
+        $component->addProp(new Prop('success', Prop::TYPE_BOOLEAN, $success));
+        $component->addProp(
+            new Prop('banner-src', Prop::TYPE_STRING, $bannerUrl)
+        );
         $component->addProp(
             new Prop(
                 'allowed-file-types',
@@ -60,7 +78,9 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
         $component->addProp(
             new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('recruitment-applicant')->getValue())
         );
-        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
+        $component->addProp(
+            new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize())
+        );
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }
