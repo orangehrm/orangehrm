@@ -41,7 +41,7 @@ class CandidateStatusAPI extends Endpoint implements CollectionEndpoint
         $candidateStatus = array_map(function ($key, $value) {
             return [
                 'id' => $key,
-                $this->getI18NHelper()->transBySource(ucwords(strtolower($value))),
+                'label' => $this->getI18NHelper()->transBySource(ucwords(strtolower($value))),
             ];
         }, array_keys(CandidateService::STATUS_MAP), CandidateService::STATUS_MAP);
         return new EndpointResourceResult(ArrayModel::class, $candidateStatus);
