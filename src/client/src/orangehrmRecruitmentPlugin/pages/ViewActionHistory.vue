@@ -104,7 +104,7 @@
         <oxd-grid :cols="3">
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
-              v-model="history.note"
+              v-model="interview.note"
               :rules="rules.note"
               :label="$t('general.notes')"
               :placeholder="$t('general.type_here')"
@@ -175,6 +175,7 @@ const interviewModel = {
   interviewName: null,
   interviewDate: null,
   interviewTime: null,
+  note: null,
 };
 
 export default {
@@ -292,6 +293,7 @@ export default {
         this.interview.interviewName = data.name;
         this.interview.interviewDate = data.interviewDate;
         this.interview.interviewTime = data.interviewTime;
+        this.interview.note = data.note;
         if (Array.isArray(data.interviewers)) {
           this.interviewers = data.interviewers.map(interviewer => ({
             id: interviewer.empNumber,
