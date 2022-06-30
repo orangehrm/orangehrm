@@ -308,7 +308,7 @@ export default {
         .then(() => this.validate())
         .then(async () => {
           if (this.invalid === true) return;
-          if(complete){
+          if (complete) {
             const confirmation = await this.$refs.confirmDialog.showDialog();
             if (confirmation !== 'ok') {
               return Promise.reject();

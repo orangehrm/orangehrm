@@ -20,8 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <review-confirm-modal ref="confirmDialog">
-    </review-confirm-modal>
+    <review-confirm-modal ref="confirmDialog"> </review-confirm-modal>
     <div class="orangehrm-card-container">
       <oxd-text tag="h5" class="orangehrm-performance-review-title">
         {{ $t('performance.performance_review') }}
@@ -280,7 +279,7 @@ export default {
         .then(() => this.validate())
         .then(async () => {
           if (this.invalid === true) return;
-          if(complete){
+          if (complete) {
             const confirmation = await this.$refs.confirmDialog.showDialog();
             if (confirmation !== 'ok') {
               return Promise.reject();

@@ -21,9 +21,9 @@
 <template>
   <teleport to="#app">
     <oxd-dialog
-        v-if="show"
-        :style="{maxWidth: '450px'}"
-        @update:show="onCancel"
+      v-if="show"
+      :style="{maxWidth: '450px'}"
+      @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
         <oxd-text type="card-title">
@@ -32,24 +32,21 @@
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          {{
-            $t('performance.confirm_review_submission_message')
-          }}
-
+          {{ $t('performance.confirm_review_submission_message') }}
         </oxd-text>
       </div>
       <div class="orangehrm-modal-footer">
         <oxd-button
-            display-type="ghost"
-            class="orangehrm-button-margin"
-            :label="$t('general.cancel')"
-            @click="onCancel"
+          display-type="ghost"
+          class="orangehrm-button-margin"
+          :label="$t('general.cancel')"
+          @click="onCancel"
         />
         <oxd-button
-            display-type="secondary"
-            class="orangehrm-button-margin"
-            :label="$t('general.ok')"
-            @click="onConfirm"
+          display-type="secondary"
+          class="orangehrm-button-margin"
+          :label="$t('general.ok')"
+          @click="onConfirm"
         />
       </div>
     </oxd-dialog>
