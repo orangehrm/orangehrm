@@ -21,7 +21,7 @@ namespace OrangeHRM\Admin\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class I18NTargetLangStringSearchFilterParams extends FilterParams
+class I18NTranslationSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['langString.value'];
 

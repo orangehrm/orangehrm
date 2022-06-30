@@ -21,7 +21,7 @@ namespace OrangeHRM\Admin\Dao;
 
 use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
-use OrangeHRM\Admin\Dto\I18NTargetLangStringSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
@@ -89,16 +89,16 @@ class LocalizationDao extends BaseDao
     }
 
     /**
-     * @param I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
-     * @return array
+     * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return array e.g. [0 => ['id' => 1, 'source' => 'About', 'note' => null, 'target' => '关于']]
      */
     public function getNormalizedTranslations(
-        I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+        I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
     ): array {
         $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
         $q->select(
             'langString.id',
-            'langString.value AS value',
+            'langString.value AS source',
             'langString.note AS note',
             'translation.value AS target',
         );
@@ -106,11 +106,11 @@ class LocalizationDao extends BaseDao
     }
 
     /**
-     * @param I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
      * @return QueryBuilderWrapper
      */
     private function getTranslationsQueryBuilderWrapper(
-        I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+        I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
     ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(I18NLangString::class, 'langString');
         $q->leftJoin(
@@ -153,11 +153,11 @@ class LocalizationDao extends BaseDao
     }
 
     /**
-     * @param I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
      * @return int
      */
     public function getTranslationsCount(
-        I18NTargetLangStringSearchFilterParams $i18NTargetLangStringSearchFilterParams
+        I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
     ): int {
         $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
         return $this->getPaginator($q)->count();

@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Dto\I18NTargetLangStringSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
@@ -34,7 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 
-class I18NTargetLangStringAPI extends Endpoint implements CollectionEndpoint
+class I18NTranslationAPI extends Endpoint implements CollectionEndpoint
 {
     use LocalizationServiceTrait;
 
@@ -43,56 +43,58 @@ class I18NTargetLangStringAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_GROUP_ID = 'groupId';
     public const PARAMETER_ONLY_TRANSLATED = 'onlyTranslated';
 
+    public const PARAMETER_RULE_SOURCE_TEXT_MAX_LENGTH = 250;
+
     /**
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        $I18NTargetLangStringSearchFilterParams = new I18NTargetLangStringSearchFilterParams();
-        $this->setSortingAndPaginationParams($I18NTargetLangStringSearchFilterParams);
+        $i18NTranslationSearchFilterParams = new I18NTranslationSearchFilterParams();
+        $this->setSortingAndPaginationParams($i18NTranslationSearchFilterParams);
 
-        $I18NTargetLangStringSearchFilterParams->setSourceText(
+        $i18NTranslationSearchFilterParams->setSourceText(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_SOURCE_TEXT,
             )
         );
 
-        $I18NTargetLangStringSearchFilterParams->setTranslatedText(
+        $i18NTranslationSearchFilterParams->setTranslatedText(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_TRANSLATED_TEXT,
             )
         );
 
-        $I18NTargetLangStringSearchFilterParams->setGroupId(
+        $i18NTranslationSearchFilterParams->setGroupId(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_GROUP_ID,
             )
         );
 
-        $I18NTargetLangStringSearchFilterParams->setOnlyTranslated(
+        $i18NTranslationSearchFilterParams->setOnlyTranslated(
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_ONLY_TRANSLATED,
             )
         );
 
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $I18NTargetLangStringSearchFilterParams->setLanguageId($id);
+        $languageId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, 'languageId');
+        $i18NTranslationSearchFilterParams->setLanguageId($languageId);
 
-        $sourceTexts = $this->getLocalizationService()->getLocalizationDao()->getNormalizedTranslations(
-            $I18NTargetLangStringSearchFilterParams
+        $translations = $this->getLocalizationService()->getLocalizationDao()->getNormalizedTranslations(
+            $i18NTranslationSearchFilterParams
         );
 
         $languageCount = $this->getLocalizationService()->getLocalizationDao()->getTranslationsCount(
-            $I18NTargetLangStringSearchFilterParams
+            $i18NTranslationSearchFilterParams
         );
 
         return new EndpointCollectionResult(
             ArrayModel::class,
-            array_values($sourceTexts),
+            array_values($translations),
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $languageCount])
         );
     }
@@ -104,14 +106,15 @@ class I18NTargetLangStringAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID,
+                'languageId',
                 new Rule(Rules::POSITIVE)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SOURCE_TEXT,
-                    new Rule(Rules::STRING_TYPE)
-                )
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_SOURCE_TEXT_MAX_LENGTH])
+                ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -122,14 +125,14 @@ class I18NTargetLangStringAPI extends Endpoint implements CollectionEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_GROUP_ID,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::POSITIVE)
                 )
             ),
             new ParamRule(
                 self::PARAMETER_ONLY_TRANSLATED,
                 new Rule(Rules::BOOL_VAL)
             ),
-            ...$this->getSortingAndPaginationParamsRules(I18NTargetLangStringSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(I18NTranslationSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 

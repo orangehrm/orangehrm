@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Tests\Admin\Api;
 
-use OrangeHRM\Admin\Api\I18NTargetLangStringAPI;
+use OrangeHRM\Admin\Api\I18NTranslationAPI;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -28,49 +28,49 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  * @group Admin
  * @group APIv2
  */
-class I18NTargetLangStringAPITest extends EndpointIntegrationTestCase
+class I18NTranslationAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetAll
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('I18NTargetLangStringDao.yml');
+        $this->populateFixtures('I18NTranslationAPI.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(I18NTargetLangStringAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(I18NTranslationAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('I18NTargetLangStringAPITestCase.yml', 'GetAll');
+        return $this->getTestCases('I18NTranslationAPITestCase.yml', 'GetAll');
     }
 
     public function testCreate(): void
     {
-        $api = new I18NTargetLangStringAPI($this->getRequest());
+        $api = new I18NTranslationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->create();
     }
 
     public function testGetValidationRuleForCreate(): array
     {
-        $api = new I18NTargetLangStringAPI($this->getRequest());
+        $api = new I18NTranslationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForCreate();
     }
 
     public function testDelete(): void
     {
-        $api = new I18NTargetLangStringAPI($this->getRequest());
+        $api = new I18NTranslationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new I18NTargetLangStringAPI($this->getRequest());
+        $api = new I18NTranslationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

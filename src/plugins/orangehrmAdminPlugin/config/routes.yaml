@@ -314,12 +314,11 @@ apiv2_admin_i18n_language:
     _api: OrangeHRM\Admin\Api\I18NLanguageAPI
 
 apiv2_admin_i18n_language_translation:
-  path: /api/v2/admin/i18n/language/{id}/translations
+  path: /api/v2/admin/i18n/languages/{languageId}/translations
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Admin\Api\I18NTargetLangStringAPI
-    _key: 0
+    _api: OrangeHRM\Admin\Api\I18NTranslationAPI
 
 ##########################
 #        Files
