@@ -466,7 +466,7 @@ class PerformanceReviewDao extends BaseDao
         /** @var Reviewer[] $reviewers */
         $reviewers = $q->getQuery()->execute();
 
-        $reviewIds =[];
+        $reviewIds = [];
 
         foreach ($reviewers as $reviewer) {
             $reviewIds[] =$reviewer->getReview()->getId();

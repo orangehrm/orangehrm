@@ -100,6 +100,7 @@ import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import useLocale from '@/core/util/composable/useLocale';
 import usei18n from '@/core/util/composable/usei18n';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'ReviewSummary',
@@ -142,6 +143,7 @@ export default {
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     const statusOpts = [
       {id: 1, label: $t('performance.inactive')},
@@ -164,11 +166,10 @@ export default {
     const reviewDueDate = reviewDateFormat(props.dueDate);
 
     const employeeName = computed(() => {
-      return `${props.employee.firstName} ${
-        props.employee.middleName ? props.employee.middleName : ''
-      } ${props.employee.lastName} ${
-        props.employee.terminationId ? $t('general.past_employee') : ''
-      }`;
+      return $tEmpName(props.employee, {
+        includeMiddle: true,
+        excludePastEmpTag: true,
+      });
     });
 
     return {

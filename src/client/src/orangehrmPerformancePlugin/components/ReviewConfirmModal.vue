@@ -22,6 +22,7 @@
   <teleport to="#app">
     <oxd-dialog
       v-if="show"
+      class="orangehrm-dialog-popup"
       :style="{maxWidth: '450px'}"
       @update:show="onCancel"
     >
