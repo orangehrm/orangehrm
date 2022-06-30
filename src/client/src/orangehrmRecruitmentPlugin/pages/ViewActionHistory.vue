@@ -104,7 +104,7 @@
         <oxd-grid :cols="3">
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
-              v-model="history.note"
+              v-model="interview.note"
               :rules="rules.note"
               :label="$t('general.notes')"
               :placeholder="$t('general.type_here')"
