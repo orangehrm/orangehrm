@@ -21,7 +21,7 @@
   <oxd-dialog @update:show="onCancel">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
-        {{ $t('general.add_language') }}
+        {{ $t('admin.add_language_package') }}
       </oxd-text>
     </div>
     <oxd-divider />
