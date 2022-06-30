@@ -229,13 +229,15 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH]),
             ),
-            new ParamRule(
-                self::PARAMETER_ATTACHMENT,
-                new Rule(
-                    Rules::BASE_64_ATTACHMENT,
-                    [null, null, self::PARAM_RULE_FILE_NAME_MAX_LENGTH]
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ATTACHMENT,
+                    new Rule(
+                        Rules::BASE_64_ATTACHMENT,
+                        [null, null, self::PARAM_RULE_FILE_NAME_MAX_LENGTH]
+                    )
                 )
-            )
+            ),
         );
     }
 }

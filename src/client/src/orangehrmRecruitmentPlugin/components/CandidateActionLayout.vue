@@ -135,7 +135,8 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.candidate.status = data.status;
-        this.candidate.candidateName = `${data?.firstName} ${data?.middleName} ${data?.lastName}`;
+        this.candidate.candidateName = `${data?.firstName} ${data?.middleName ||
+          ''} ${data?.lastName}`;
         if (data?.vacancy) {
           this.candidate.vacancyName = data?.vacancy.name;
         }

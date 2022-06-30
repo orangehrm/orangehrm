@@ -19,21 +19,24 @@
  -->
 
 <template>
-  <recruitment-status :candidate-id="candidateId"> </recruitment-status>
+  <recruitment-status v-if="candidate" :candidate="candidate">
+  </recruitment-status>
   <candidate-profile
-    :candidate-id="candidateId"
-    :max-file-size="maxFileSize"
+    v-if="candidate"
+    :candidate="candidate"
     :allowed-file-types="allowedFileTypes"
+    :max-file-size="maxFileSize"
   ></candidate-profile>
-  <history-table :candidate-id="candidateId"></history-table>
+  <history-table v-if="candidate" :candidate="candidate"></history-table>
 </template>
 
 <script>
-import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
-import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
 import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
-
+import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
+import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
+import {APIService} from '@/core/util/services/api.service';
 export default {
+  name: 'CandidateProfileLayout',
   components: {
     'history-table': HistoryTable,
     'candidate-profile': CandidateProfile,
@@ -44,6 +47,10 @@ export default {
       type: Number,
       required: true,
     },
+    action: {
+      type: Object,
+      required: true,
+    },
     allowedFileTypes: {
       type: Array,
       required: true,
@@ -52,6 +59,28 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/candidates',
+    );
+    return {
+      http,
+    };
+  },
+  data() {
+    return {
+      status: null,
+      isLoading: true,
+      vacancyId: null,
+      candidate: null,
+    };
+  },
+  beforeMount() {
+    this.http.get(this.candidateId).then(({data: {data}}) => {
+      this.candidate = data;
+    });
   },
 };
 </script>

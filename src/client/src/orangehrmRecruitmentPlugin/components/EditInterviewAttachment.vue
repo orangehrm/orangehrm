@@ -143,7 +143,7 @@ export default {
       .get(this.data.id)
       .then(response => {
         const {data} = response.data;
-        this.currentFile = data.filename;
+        this.currentFile = data.attachment.fileName;
         this.attachment.comment = data.comment;
       })
       .finally(() => {

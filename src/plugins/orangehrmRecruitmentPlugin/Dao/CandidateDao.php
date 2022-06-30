@@ -75,6 +75,10 @@ class CandidateDao extends BaseDao
                 '%' . $candidateSearchFilterParams->getCandidateName() . '%'
             );
         }
+        if (!is_null($candidateSearchFilterParams->getCandidateIds())) {
+            $qb->andWhere($qb->expr()->in('candidate.id', ':candidateIds'))
+                ->setParameter('candidateIds', $candidateSearchFilterParams->getCandidateIds());
+        }
         if (!is_null($candidateSearchFilterParams->getVacancyId())) {
             $qb->andWhere('vacancy.id = :vacancyId')
                 ->setParameter('vacancyId', $candidateSearchFilterParams->getVacancyId());
@@ -378,6 +382,7 @@ class CandidateDao extends BaseDao
         $this->setSortingAndPaginationParams($q, $candidateHistorySearchFilterParams);
         $q->andWhere('candidateHistory.candidate = :candidateId');
         $q->setParameter('candidateId', $candidateHistorySearchFilterParams->getCandidateId());
+        $q->addOrderBy('candidateHistory.id', ListSorter::DESCENDING);
         return $this->getPaginator($q);
     }
 

@@ -42,6 +42,7 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
     use UserRoleManagerTrait;
 
     public const PARAMETER_CANDIDATE_ID = 'candidateId';
+    public const MAX_ALLOWED_INTERVIEW_COUNT = 2;
 
     public const STATE_INITIAL = 'INITIAL';
 
@@ -82,6 +83,14 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
             WorkflowStateMachine::FLOW_RECRUITMENT,
             $currentState
         );
+        $interviewCount = $this->getCandidateService()->getCandidateDao()->getInterviewCountByCandidateId($candidateId);
+        if ($interviewCount >= self::MAX_ALLOWED_INTERVIEW_COUNT &&
+            in_array(
+                WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW,
+                array_keys($allowedWorkflowItems)
+            )) {
+            unset($allowedWorkflowItems[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW]);
+        }
 
         ksort($allowedWorkflowItems);
 

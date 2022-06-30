@@ -17,41 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Dto;
+namespace OrangeHRM\Recruitment\Controller;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
+use Exception;
+use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Framework\Http\RedirectResponse;
 
-class CandidateHistorySearchFilterParams extends FilterParams
+class RecruitmentModuleController extends AbstractModuleController
 {
-    public const ALLOWED_SORT_FIELDS = [
-        'candidateHistory.performedDate',
-    ];
-
     /**
-     * @var int
+     * @return RedirectResponse
+     * @throws Exception
      */
-    protected int $candidateId;
-
-    public function __construct()
+    public function handle(): RedirectResponse
     {
-        $this->setSortField('candidateHistory.performedDate');
-        $this->setSortOrder(ListSorter::DESCENDING);
-    }
-
-    /**
-     * @return int
-     */
-    public function getCandidateId(): int
-    {
-        return $this->candidateId;
-    }
-
-    /**
-     * @param int $candidateId
-     */
-    public function setCandidateId(int $candidateId): void
-    {
-        $this->candidateId = $candidateId;
+        $defaultPath = $this->getHomePageService()->getRecruitmentModuleDefaultPath();
+        return $this->redirect($defaultPath);
     }
 }

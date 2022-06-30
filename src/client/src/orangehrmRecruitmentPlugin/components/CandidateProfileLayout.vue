@@ -21,17 +21,19 @@
 <template>
   <recruitment-status :candidate-id="candidateId"> </recruitment-status>
   <candidate-profile
-    :candidate-id="candidateId"
+    v-if="candidate"
+    :candidate="candidate"
     :allowed-file-types="allowedFileTypes"
     :max-file-size="maxFileSize"
   ></candidate-profile>
-  <history-table :candidate-id="candidateId"></history-table>
+  <history-table v-if="candidate" :candidate="candidate"></history-table>
 </template>
 
 <script>
 import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
 import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
 import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
+import {APIService} from '@/core/util/services/api.service';
 export default {
   name: 'CandidateProfileLayout',
   components: {
@@ -57,12 +59,27 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/candidates',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
       status: null,
       isLoading: true,
       vacancyId: null,
+      candidate: null,
     };
+  },
+  beforeMount() {
+    this.http.get(this.candidateId).then(({data: {data}}) => {
+      this.candidate = data;
+    });
   },
 };
 </script>

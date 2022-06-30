@@ -118,8 +118,8 @@ import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTran
 export default {
   name: 'RecruitmentStatus',
   props: {
-    candidateId: {
-      type: Number,
+    candidate: {
+      type: Object,
       required: true,
     },
   },
@@ -165,28 +165,23 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
+    this.status = this.candidate.status;
+    this.candidateName = `${this.candidate?.firstName} ${this.candidate
+      ?.middleName || ''} ${this.candidate?.lastName}`;
+    if (this.candidate?.vacancy) {
+      this.vacancyName = this.candidate?.vacancy.name;
+      this.hiringManagerName = `${
+        this.candidate?.vacancy.hiringManager.firstName
+      } ${this.candidate?.vacancy.hiringManager.lastName} ${
+        this.candidate?.vacancy.hiringManager.terminationId
+          ? this.$t('general.past_employee')
+          : ''
+      }`;
+    }
     this.http
-      .get(this.candidateId)
-      .then(response => {
-        const {data} = response.data;
-        this.status = data.status;
-        this.candidateName = `${data?.firstName} ${data?.middleName} ${data?.lastName}`;
-        if (data?.vacancy) {
-          this.vacancyName = data?.vacancy.name;
-        }
-        if (data?.vacancy?.hiringManager) {
-          this.hiringManagerName = this.translateEmpName(
-            data.vacancy.hiringManager,
-            {
-              includeMiddle: true,
-              excludePastEmpTag: false,
-            },
-          );
-        }
-        return this.http.request({
-          method: 'GET',
-          url: `api/v2/recruitment/candidates/${this.candidateId}/actions/allowed`,
-        });
+      .request({
+        method: 'GET',
+        url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
       })
       .then(response => {
         const {data} = response.data;
@@ -202,7 +197,7 @@ export default {
     },
     doWorkflow(actionId) {
       navigate('/recruitment/changeCandidateVacancyStatus', undefined, {
-        candidateId: this.candidateId,
+        candidateId: this.candidate?.id,
         selectedAction: actionId,
       });
     },

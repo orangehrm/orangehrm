@@ -93,6 +93,11 @@ class CandidateSearchFilterParams extends FilterParams
      */
     protected ?string $candidateName = null;
 
+    /**
+     * @var array|null
+     */
+    protected ?array $candidateIds = null;
+
     public function __construct()
     {
         $this->setSortField('candidate.dateOfApplication');
@@ -289,5 +294,21 @@ class CandidateSearchFilterParams extends FilterParams
     public function setCandidateName(?string $candidateName): void
     {
         $this->candidateName = $candidateName;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getCandidateIds(): ?array
+    {
+        return $this->candidateIds;
+    }
+
+    /**
+     * @param array|null $candidateIds
+     */
+    public function setCandidateIds(?array $candidateIds): void
+    {
+        $this->candidateIds = $candidateIds;
     }
 }
