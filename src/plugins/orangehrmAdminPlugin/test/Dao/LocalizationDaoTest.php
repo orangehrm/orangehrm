@@ -117,46 +117,46 @@ class LocalizationDaoTest extends TestCase
     public function testGetNormalizedTranslations(): void
     {
         $i18NTargetLangStringSearchFilterParams = new I18NTargetLangStringSearchFilterParams();
-        $i18NTargetLangStringSearchFilterParams->setLanguageId('1');
-        $i18NTargetLangStringSearchFilterParams->setSourceText('note');
+        $i18NTargetLangStringSearchFilterParams->setLanguageId(1);
+        $i18NTargetLangStringSearchFilterParams->setSourceText('e');
+        $i18NTargetLangStringSearchFilterParams->setTranslatedText(null);
         $i18NTargetLangStringSearchFilterParams->setGroupId(null);
         $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(null);
-        $i18NTargetLangStringSearchFilterParams->setTranslatedText(null);
         $translates = $this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams);
 
         $this->assertTrue(is_array($this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams)));
-        $this->assertCount(1, $translates);
+        $this->assertCount(3, $translates);
     }
 
     public function testGetTranslationsCount(): void
     {
         $i18NTargetLangStringSearchFilterParams = new I18NTargetLangStringSearchFilterParams();
-        $i18NTargetLangStringSearchFilterParams->setLanguageId(1);
+        $i18NTargetLangStringSearchFilterParams->setLanguageId(2);
         $i18NTargetLangStringSearchFilterParams->setGroupId(null);
         $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(null);
         $i18NTargetLangStringSearchFilterParams->setSourceText(null);
         $i18NTargetLangStringSearchFilterParams->setTranslatedText(null);
         $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
-        $this->assertEquals(955, $count);
+        $this->assertEquals(4, $count);
 
         $i18NTargetLangStringSearchFilterParams->setGroupId('2');
         $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
-        $this->assertEquals(94, $count);
+        $this->assertEquals(2, $count);
 
         $i18NTargetLangStringSearchFilterParams->setGroupId(null);
         $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(true);
         $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
-        $this->assertEquals(601, $count);
+        $this->assertEquals(1, $count);
 
         $i18NTargetLangStringSearchFilterParams->setGroupId(null);
         $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(false);
         $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
-        $this->assertEquals(350, $count);
+        $this->assertEquals(3, $count);
 
         $i18NTargetLangStringSearchFilterParams->setGroupId('1');
         $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(null);
         $i18NTargetLangStringSearchFilterParams->setSourceText('employee');
         $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
-        $this->assertEquals(2, $count);
+        $this->assertEquals(0, $count);
     }
 }
