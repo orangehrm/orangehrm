@@ -50,7 +50,7 @@ class Request
      * Query string parameters ($_GET)
      * @var ParameterBag
      */
-    Protected ParameterBag $query;
+    protected ParameterBag $query;
 
     public function __construct(HttpRequest $httpRequest)
     {
