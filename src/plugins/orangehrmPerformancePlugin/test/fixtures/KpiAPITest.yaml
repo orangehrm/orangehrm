@@ -27,9 +27,33 @@ Kpi:
 
 Employee:
   - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+  - { empNumber: 2, firstName: 'Sharuka', lastName: 'Perera', middleName: 'Anuka', employeeId: '0002',"job_title_code": 1 }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
 
 User:
   - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+
+ReportingMethod:
+  0: {id: 1, name: 'Indirect'}
+  1: {id: 2, name: 'Direct'}
+  2: {id: 3, name: 'HR'}
+
+ReportTo:
+  - { erep_sup_emp_number: 1, erep_sub_emp_number: 2, erep_reporting_mode: 1}
+
+PerformanceReview:
+  - {"id": 1,"status_id": 3,"employee_number": 2,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 1,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-12 19:55:11","final_comment": null,"final_rate": null}
+
+ReviewerGroup:
+  - {"id": 1,"name": "Supervisor","piority": 1}
+  - {"id": 2,"name": "Employee","piority": 2}
+
+Reviewer:
+  - {"id": 1,"review_id": 1,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 2,"review_id": 1,"employee_number": 1,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+
+ReviewerRating:
+  - {id: 1, rating: 2.00, kpi_id: 1,review_id: 1,reviewer_id: 2,comment: "test"}
+  - {id: 2, rating: 2.00, kpi_id: 12,review_id: 1,reviewer_id: 2,comment: "test2"}

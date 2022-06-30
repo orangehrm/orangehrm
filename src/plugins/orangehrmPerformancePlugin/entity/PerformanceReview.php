@@ -94,7 +94,7 @@ class PerformanceReview
     /**
      * @var string|null
      *
-     * @ORM\Column(name="final_comment", type="text", length=65532, nullable=true)
+     * @ORM\Column(name="final_comment", type="text", nullable=true)
      */
     private ?string $finalComment;
 

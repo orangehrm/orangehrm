@@ -458,8 +458,14 @@ class PerformanceReviewDao extends BaseDao
             ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
         $q->andWhere($q->expr()->eq('reviewGroup.name', ':groupName'))
             ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+        $purgedEmployeeReviewIds = $this->getPurgeEmployeeReviewIds();
+        if (! empty($purgedEmployeeReviewIds)) {
+            $q->andWhere($q->expr()->notIn('performanceReview.id', ':purgedRecords'))
+                ->setParameter('purgedRecords', $purgedEmployeeReviewIds);
+        }
         /** @var Reviewer[] $reviewers */
         $reviewers = $q->getQuery()->execute();
+
         $reviewIds =[];
 
         foreach ($reviewers as $reviewer) {
@@ -469,13 +475,26 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
+     * @return array
+     */
+    private function getPurgeEmployeeReviewIds(): array
+    {
+        $q = $this->createQueryBuilder(PerformanceReview::class, 'review');
+        $q->select('review.id')
+            ->leftJoin('review.employee', 'employee')
+            ->andWhere($q->expr()->isNotNull('employee.purgedAt'));
+        return array_column($q->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
      * @return int[]
      */
     public function getReviewIdList(): array
     {
-        // TODO check purged employee permissions
         $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
-        $qb->select('performanceReview.id');
+        $qb->select('performanceReview.id')
+            ->leftJoin('performanceReview.employee', 'employee')
+            ->andWhere($qb->expr()->isNull('employee.purgedAt'));
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
