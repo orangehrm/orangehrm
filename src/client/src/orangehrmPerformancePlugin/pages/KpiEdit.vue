@@ -36,6 +36,7 @@
                 required
                 :rules="rules.title"
                 autcomplete="off"
+                :readonly="isReadOnly"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -56,6 +57,7 @@
                 required
                 autcomplete="off"
                 :rules="rules.minRating"
+                :readonly="isReadOnly"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -65,6 +67,7 @@
                 required
                 autcomplete="off"
                 :rules="rules.maxRating"
+                :readonly="isReadOnly"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -142,6 +145,7 @@ export default {
     return {
       isLoading: false,
       kpi: {...initialKpi},
+      isReadOnly: false,
       rules: {
         title: [required, shouldNotExceedCharLength(100)],
         jobTitle: [required],
@@ -174,6 +178,8 @@ export default {
       .get(this.kpiId)
       .then(response => {
         const {data} = response.data;
+        const {meta} = response.data;
+        this.isReadOnly = meta.editable === false;
         this.kpi.title = data.title;
         this.kpi.jobTitle = !data.jobTitle.deleted
           ? {id: data.jobTitle.id, label: data.jobTitle.name}

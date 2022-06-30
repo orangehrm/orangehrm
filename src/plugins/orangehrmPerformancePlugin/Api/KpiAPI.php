@@ -50,6 +50,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MIN_RATING = 'minRating';
     public const PARAMETER_MAX_RATING = 'maxRating';
     public const PARAMETER_DEFAULT_KPI = 'isDefault';
+    public const PARAMETER_EDITABLE = 'editable';
 
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
 
@@ -63,8 +64,12 @@ class KpiAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $kpi = $this->getKpiService()->getKpiDao()->getKpiById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($kpi, Kpi::class);
-
-        return new EndpointResourceResult(KpiModel::class, $kpi);
+        $editable = $this->getKpiService()->getKpiDao()->isKpiEditable($id);
+        return new EndpointResourceResult(
+            KpiModel::class,
+            $kpi,
+            new ParameterBag([self::PARAMETER_EDITABLE => $editable])
+        );
     }
 
     /**
