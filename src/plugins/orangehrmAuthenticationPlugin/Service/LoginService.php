@@ -22,8 +22,6 @@ namespace OrangeHRM\Authentication\Service;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\LoginLogDao;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\LoginLog;
 
 class LoginService
@@ -49,8 +47,6 @@ class LoginService
     /**
      * @param UserCredential $credentials
      * @return LoginLog
-     * @throws ServiceException
-     * @throws DaoException
      */
     public function addLogin(UserCredential $credentials): LoginLog
     {
