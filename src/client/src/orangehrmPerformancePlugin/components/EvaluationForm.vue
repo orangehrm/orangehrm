@@ -150,7 +150,7 @@ import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
-import useEmployeeNameTranslate from "@/core/util/composable/useEmployeeNameTranslate";
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   components: {
