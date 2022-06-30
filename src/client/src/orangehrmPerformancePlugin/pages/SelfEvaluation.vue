@@ -306,8 +306,16 @@ export default {
     onSubmit(complete = false) {
       this.$nextTick()
         .then(() => this.validate())
-        .then(() => {
+        .then(async () => {
           if (this.invalid === true) return;
+          if(complete){
+            const confirmation = await this.$refs.confirmDialog.showDialog();
+            if (confirmation !== 'ok') {
+              return Promise.reject();
+            }
+          }
+        })
+        .then(() => {
           this.isLoading = true;
           this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
             .then(() => {

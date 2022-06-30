@@ -20,6 +20,8 @@
 
 <template>
   <div class="orangehrm-background-container">
+    <review-confirm-modal ref="confirmDialog">
+    </review-confirm-modal>
     <div class="orangehrm-card-container">
       <oxd-text tag="h5" class="orangehrm-performance-review-title">
         {{ $t('performance.performance_review') }}
@@ -110,6 +112,7 @@ import ReviewSummary from '@/orangehrmPerformancePlugin/components/ReviewSummary
 import FinalEvaluation from '@/orangehrmPerformancePlugin/components/FinalEvaluation';
 import EvaluationForm from '@/orangehrmPerformancePlugin/components/EvaluationForm';
 import useReviewEvaluation from '@/orangehrmPerformancePlugin/util/composable/useReviewEvaluation';
+import ReviewConfirmModal from '@/orangehrmPerformancePlugin/components/ReviewConfirmModal';
 
 const reviewerModel = {
   details: {
@@ -128,6 +131,7 @@ export default {
     'review-summary': ReviewSummary,
     'final-evaluation': FinalEvaluation,
     'evaluation-form': EvaluationForm,
+    'review-confirm-modal': ReviewConfirmModal,
   },
   props: {
     reviewId: {
@@ -274,8 +278,16 @@ export default {
       this.isFinalizeRequired = complete;
       this.$nextTick()
         .then(() => this.validate())
-        .then(() => {
+        .then(async () => {
           if (this.invalid === true) return;
+          if(complete){
+            const confirmation = await this.$refs.confirmDialog.showDialog();
+            if (confirmation !== 'ok') {
+              return Promise.reject();
+            }
+          }
+        })
+        .then(() => {
           this.isLoading = true;
           this.saveSupervisorReview(this.reviewId, this.supervisorReview)
             .then(() => {
