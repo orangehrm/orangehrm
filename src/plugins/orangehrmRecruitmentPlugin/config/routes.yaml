@@ -196,6 +196,11 @@ candidate_attachment:
   controller: OrangeHRM\Recruitment\Controller\File\CandidateAttachment::handle
   methods: [ GET ]
 
+interview_attachment:
+  path: /recruitment/viewInterviewAttachment/interview/{interviewId}/attachment/{attachmentId}
+  controller: OrangeHRM\Recruitment\Controller\File\InterviewAttachment::handle
+  methods: [ GET ]
+
 ##########################
 #        Screens
 ##########################

@@ -51,6 +51,7 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useLocale from '@/core/util/composable/useLocale';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
 import usei18n from '@/core/util/composable/usei18n';
@@ -79,6 +80,7 @@ export default {
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
     const {$t} = usei18n();
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -86,7 +88,8 @@ export default {
     );
 
     const historyDataNormalizer = data => {
-      const candidateName = `${props.candidate?.firstName} ${props.candidate?.lastName}`;
+      const candidateName = `${props.candidate?.firstName} ${props.candidate
+        ?.middleName || ''} ${props.candidate?.lastName}`;
       return data.map(item => {
         let description = null;
         const interview = {
@@ -94,12 +97,18 @@ export default {
           data: '',
           interviewers: '',
         };
-        const performerName = `${item.performedBy.firstName} ${item.performedBy.lastName}`;
+        const performerName = $tEmpName(item.performedBy, {
+          includeMiddle: true,
+          excludePastEmpTag: false,
+        });
         if (item.interview) {
           interview.name = item.interview.name;
           interview.date = item.interview.date;
           const interviewers = item.interview.interviewers.map(interviewer => {
-            return `${interviewer.firstName} ${interviewer.lastName}`;
+            return $tEmpName(interviewer, {
+              includeMiddle: true,
+              excludePastEmpTag: false,
+            });
           });
           interview.interviewers = interviewers.join(', ');
         }
@@ -236,15 +245,15 @@ export default {
         {
           name: 'performedDate',
           slot: 'title',
-          title: 'PerformedDate',
-          style: {flex: '30%'},
+          title: 'Performed Date',
+          style: {flex: '20%'},
         },
-        {name: 'description', title: 'Description', style: {flex: '50%'}},
+        {name: 'description', title: 'Description', style: {flex: '70%'}},
         {
           name: 'actions',
           slot: 'action',
           title: this.$t('general.actions'),
-          style: {flex: '20%'},
+          style: {flex: '10%'},
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.cellRenderer,
         },
@@ -276,11 +285,9 @@ export default {
       };
     },
     onClickEdit(item) {
-      const nextScreen =
-        item.action.id == ACTION_INTERVIEW_SCHEDULED
-          ? `recruitment/jobInterview/historyId/${item.id}/interviewId/${item.interview?.id}`
-          : `/recruitment/candidate/${this.candidate.id}/history/${item.id}`;
-      navigate(nextScreen);
+      navigate(
+        `/recruitment/candidate/${this.candidate.id}/history/${item.id}`,
+      );
     },
   },
 };

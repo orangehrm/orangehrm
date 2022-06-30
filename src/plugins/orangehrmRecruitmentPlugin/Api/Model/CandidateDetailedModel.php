@@ -86,7 +86,10 @@ class CandidateDetailedModel implements Normalizable
                         'firstName' => $vacancy->getHiringManager()->getFirstName(),
                         'middleName' => $vacancy->getHiringManager()->getMiddleName(),
                         'lastName' => $vacancy->getHiringManager()->getLastName(),
-                        'terminationId' => $vacancy->getHiringManager()->getEmployeeTerminationRecord(),
+                        'terminationId' => is_null($vacancy->getHiringManager()->getEmployeeTerminationRecord()) ?
+                            null :
+                            $vacancy->getHiringManager()->getEmployeeTerminationRecord()->getId()
+                        ,
                     ]
                 ],
             'status' => is_null($candidateVacancy) ? null :

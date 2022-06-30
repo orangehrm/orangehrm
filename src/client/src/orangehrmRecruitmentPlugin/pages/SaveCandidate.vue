@@ -161,6 +161,7 @@ import {
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SubmitButton from '@/core/components/buttons/SubmitButton';
+import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
@@ -203,7 +204,7 @@ export default {
         contactNumber: null,
         keywords: null,
         comment: null,
-        dateOfApplication: null,
+        dateOfApplication: formatDate(freshDate(), 'yyyy-MM-dd'),
         modeOfApplication: 1,
         consentToKeepData: false,
         status: 1,
@@ -237,9 +238,9 @@ export default {
       this.isLoading = true;
       this.http
         .create({...this.candidate, vacancyId: this.candidate.vacancyId?.id})
-        .then(({data}) => {
-          if (!this.resume.newAttachment) return;
+        .then(({data: {data}}) => {
           candidateId = parseInt(data.id);
+          if (!this.resume.newAttachment) return;
           return this.http.request({
             method: 'POST',
             url: '/api/v2/recruitment/candidate/attachments',

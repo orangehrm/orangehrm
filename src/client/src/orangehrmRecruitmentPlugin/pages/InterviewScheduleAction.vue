@@ -173,8 +173,8 @@ export default {
             .filter(Number),
         })
         .then(response => {
-          const {data} = response.data;
-          historyId = data.id;
+          const {meta} = response.data;
+          historyId = meta.historyId;
           return this.$toast.updateSuccess();
         })
         .then(() => {

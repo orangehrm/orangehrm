@@ -295,7 +295,7 @@ class RecruitmentAttachmentDao extends BaseDao
         $qb->delete()
             ->andWhere('attachment.id IN (:ids)')
             ->setParameter('ids', $toBeDeletedAttachmentIds)
-            ->andWhere('attachment.interview', 'interviewId')
+            ->andWhere('attachment.interview = :interviewId')
             ->setParameter('interviewId', $interviewId);
         return $qb->getQuery()->execute() > 0;
     }

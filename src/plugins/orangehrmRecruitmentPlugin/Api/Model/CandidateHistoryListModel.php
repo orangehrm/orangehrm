@@ -93,7 +93,9 @@ class CandidateHistoryListModel implements Normalizable
                         'firstName' => $employee->getFirstName(),
                         'middleName' => $employee->getMiddleName(),
                         'lastName' => $employee->getLastName(),
-                        'terminationId' => $employee->getEmployeeTerminationRecord(),
+                        'terminationId' => is_null($employee->getEmployeeTerminationRecord()) ?
+                            null :
+                            $employee->getEmployeeTerminationRecord()->getId(),
                     ];
                 },
                 [...$interview->getInterviewers()]
