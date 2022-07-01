@@ -6,19 +6,19 @@ GetAll:
     attributes:
       languageId: 1
     data:
-      - id: 1
+      - id: 3
         source: 'Add Job Title'
         note: null
         target: '添加位置'
-      - id: 4
+      - id: null
         source: 'Add Location'
         note: null
         target: null
-      - id: 3
+      - id: null
         source: 'Edit Subscriber'
         note: 'Note For Edit Subscriber'
         target: null
-      - id: 2
+      - id: 1
         source: 'Use SMTP Authentication'
         note: null
         target: '使用 SMTP 验证'
@@ -33,7 +33,7 @@ GetAll:
     query:
       sourceText: 'sc'
     data:
-      - id: 3
+      - id: null
         source: 'Edit Subscriber'
         note: 'Note For Edit Subscriber'
         target: null
@@ -48,7 +48,7 @@ GetAll:
     query:
       translatedText: '添加位置'
     data:
-      - id: 1
+      - id: 3
         source: 'Add Job Title'
         note: null
         target: '添加位置'
@@ -63,11 +63,11 @@ GetAll:
     query:
       groupId: 2
     data:
-      - id: 4
+      - id: null
         source: 'Add Location'
         note: null
         target: null
-      - id: 3
+      - id: null
         source: 'Edit Subscriber'
         note: 'Note For Edit Subscriber'
         target: null
@@ -97,15 +97,15 @@ GetAll:
     query:
       onlyTranslated: false
     data:
-      - id: 1
+      - id: null
         source: 'Add Job Title'
         note: null
         target: null
-      - id: 3
+      - id: null
         source: 'Edit Subscriber'
         note: 'Note For Edit Subscriber'
         target: null
-      - id: 2
+      - id: null
         source: 'Use SMTP Authentication'
         note: null
         target: null
@@ -137,11 +137,11 @@ GetAll:
       groupId: 1
       onlyTranslated: false
     data:
-      - id: 1
+      - id: null
         source: 'Add Job Title'
         note: null
         target: null
-      - id: 2
+      - id: null
         source: 'Use SMTP Authentication'
         note: null
         target: null
