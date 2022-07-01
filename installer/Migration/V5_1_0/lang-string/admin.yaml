@@ -38,3 +38,6 @@ langStrings:
   -
     value: 'Users will require translate texts manually after creating the language package.'
     unitId: translate_text_manually
+  -
+    value: 'Add Language Package'
+    unitId: add_language_package

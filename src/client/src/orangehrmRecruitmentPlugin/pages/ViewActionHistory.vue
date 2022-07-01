@@ -175,6 +175,7 @@ const interviewModel = {
   interviewName: null,
   interviewDate: null,
   interviewTime: null,
+  note: null,
 };
 
 export default {
@@ -292,6 +293,7 @@ export default {
         this.interview.interviewName = data.name;
         this.interview.interviewDate = data.interviewDate;
         this.interview.interviewTime = data.interviewTime;
+        this.interview.note = data.note;
         if (Array.isArray(data.interviewers)) {
           this.interviewers = data.interviewers.map(interviewer => ({
             id: interviewer.empNumber,

@@ -22,6 +22,8 @@ namespace OrangeHRM\Performance\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Kpi;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\KpiSearchFilterParams;
 
@@ -136,5 +138,20 @@ class KpiDao extends BaseDao
         }
 
         $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $kpiId
+     * @return bool
+     */
+    public function isKpiEditable(int $kpiId): bool
+    {
+        $q = $this->createQueryBuilder(ReviewerRating::class, 'rating');
+        $q->leftJoin('rating.performanceReview', 'review')
+            ->andWhere('review.statusId > :activatedStatus')
+            ->setParameter('activatedStatus', PerformanceReview::STATUS_ACTIVATED)
+            ->andWhere('rating.kpi = :kpiId')
+            ->setParameter('kpiId', $kpiId);
+        return $this->getPaginator($q)->count() == 0;
     }
 }
