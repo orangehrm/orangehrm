@@ -19,10 +19,14 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class LocalizationDao extends BaseDao
 {
@@ -82,5 +86,80 @@ class LocalizationDao extends BaseDao
     {
         $this->persist($i18NLanguage);
         return $i18NLanguage;
+    }
+
+    /**
+     * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return array e.g. [0 => ['id' => 1, 'source' => 'About', 'note' => null, 'target' => '关于']]
+     */
+    public function getNormalizedTranslations(
+        I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+    ): array {
+        $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
+        $q->select(
+            'translation.id',
+            'langString.value AS source',
+            'langString.note AS note',
+            'translation.value AS target',
+        );
+        return array_values($q->getQuery()->execute());
+    }
+
+    /**
+     * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getTranslationsQueryBuilderWrapper(
+        I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+    ): QueryBuilderWrapper {
+        $q = $this->createQueryBuilder(I18NLangString::class, 'langString');
+        $q->leftJoin(
+            'langString.translations',
+            'translation',
+            Expr\Join::WITH,
+            'IDENTITY(translation.language) = :langId'
+        );
+        $q->setParameter('langId', $i18NTargetLangStringSearchFilterParams->getLanguageId());
+
+        if (!is_null($i18NTargetLangStringSearchFilterParams->getOnlyTranslated())) {
+            if ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === true) {
+                $q->andWhere($q->expr()->isNotNull('translation.translated'));
+            } elseif ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === false) {
+                $q->andWhere($q->expr()->isNull('translation.translated'));
+            }
+        }
+
+        if (!empty($i18NTargetLangStringSearchFilterParams->getGroupId())) {
+            $q->andWhere('langString.group = :groupId')
+                ->setParameter('groupId', $i18NTargetLangStringSearchFilterParams->getGroupId());
+        }
+
+        if (!empty($i18NTargetLangStringSearchFilterParams->getSourceText())) {
+            $q->andWhere($q->expr()->like('langString.value', ':sourceText'))
+                ->setParameter('sourceText', '%' . $i18NTargetLangStringSearchFilterParams->getSourceText() . '%');
+        }
+
+        if (!empty($i18NTargetLangStringSearchFilterParams->getTranslatedText())) {
+            $q->andWhere($q->expr()->like('translation.value', ':translatedText'))
+                ->setParameter(
+                    'translatedText',
+                    '%' . $i18NTargetLangStringSearchFilterParams->getTranslatedText() . '%'
+                );
+        }
+
+        $this->setSortingAndPaginationParams($q, $i18NTargetLangStringSearchFilterParams);
+
+        return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return int
+     */
+    public function getTranslationsCount(
+        I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+    ): int {
+        $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($q)->count();
     }
 }
