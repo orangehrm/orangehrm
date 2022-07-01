@@ -21,7 +21,9 @@
 namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Api\V2\Response;
 use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
@@ -32,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
@@ -39,6 +42,7 @@ class VacancyRestController extends AbstractRestController implements PublicCont
 {
     use VacancyServiceTrait;
     use NormalizerServiceTrait;
+    use EndpointExceptionTrait;
 
     private const VACANCY_ID = 'id';
     /**
@@ -50,11 +54,13 @@ class VacancyRestController extends AbstractRestController implements PublicCont
     /**
      * @param Request $request
      * @return Response
+     * @throws RecordNotFoundException
      */
     public function handleGetRequest(Request $request): Response
     {
         $vacancyId = $request->getAttributes()->getInt(self::VACANCY_ID);
         $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($vacancyId);
+        $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
         return new Response(
             $this->getNormalizerService()->normalize(VacancySummaryModel::class, $vacancy)
         );
