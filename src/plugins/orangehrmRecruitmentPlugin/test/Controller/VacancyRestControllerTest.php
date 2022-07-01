@@ -22,7 +22,9 @@ namespace OrangeHRM\Tests\Recruitment\Controller;
 
 use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Request;
+use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Recruitment\Controller\VacancyRestController;
@@ -79,5 +81,53 @@ class VacancyRestControllerTest extends KernelTestCase
         $response = $controller->handleGetRequest($request);
         $decodedResponse = json_decode($response->formatData(), false);
         $this->assertEquals('Manages Engineers', $decodedResponse->data->description);
+    }
+
+    public function testHandlePutRequest(): void
+    {
+        $request = new Request($this->getHttpRequest());
+        $controller = new VacancyRestController();
+        $this->expectException(NotImplementedException::class);
+        $controller->handlePutRequest($request);
+    }
+
+    public function testInitPutValidationRule(): void
+    {
+        $request = new Request($this->getHttpRequest());
+        $controller = new VacancyRestController();
+        $this->expectException(NotImplementedException::class);
+        $controller->initPutValidationRule($request);
+    }
+
+    public function testHandlePostRequest(): void
+    {
+        $request = new Request($this->getHttpRequest());
+        $controller = new VacancyRestController();
+        $this->expectException(NotImplementedException::class);
+        $controller->handlePutRequest($request);
+    }
+
+    public function testInitPostValidationRule(): void
+    {
+        $request = new Request($this->getHttpRequest());
+        $controller = new VacancyRestController();
+        $this->expectException(NotImplementedException::class);
+        $controller->initPutValidationRule($request);
+    }
+
+    public function testHandleDeleteRequest(): void
+    {
+        $request = new Request($this->getHttpRequest());
+        $controller = new VacancyRestController();
+        $this->expectException(NotImplementedException::class);
+        $controller->handlePutRequest($request);
+    }
+
+    public function testInitDeleteValidationRule(): void
+    {
+        $request = new Request($this->getHttpRequest());
+        $controller = new VacancyRestController();
+        $this->expectException(NotImplementedException::class);
+        $controller->initPutValidationRule($request);
     }
 }

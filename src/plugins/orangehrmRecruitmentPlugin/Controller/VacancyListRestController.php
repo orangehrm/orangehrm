@@ -85,7 +85,7 @@ class VacancyListRestController extends AbstractRestController implements Public
      * @return Response
      * @throws NotImplementedException
      */
-    protected function handlePostRequest(Request $request): Response
+    public function handlePostRequest(Request $request): Response
     {
         throw $this->getNotImplementedException();
     }
@@ -103,7 +103,7 @@ class VacancyListRestController extends AbstractRestController implements Public
      * @return Response
      * @throws NotImplementedException
      */
-    protected function handlePutRequest(Request $request): Response
+    public function handlePutRequest(Request $request): Response
     {
         throw $this->getNotImplementedException();
     }
@@ -113,7 +113,7 @@ class VacancyListRestController extends AbstractRestController implements Public
      * @return Response
      * @throws NotImplementedException
      */
-    protected function handleDeleteRequest(Request $request): Response
+    public function handleDeleteRequest(Request $request): Response
     {
         throw $this->getNotImplementedException();
     }
@@ -163,7 +163,7 @@ class VacancyListRestController extends AbstractRestController implements Public
      * @return ParamRuleCollection|null
      * @throws NotImplementedException
      */
-    protected function initPostValidationRule(Request $request): ?ParamRuleCollection
+    public function initPostValidationRule(Request $request): ?ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
@@ -173,7 +173,7 @@ class VacancyListRestController extends AbstractRestController implements Public
      * @return ParamRuleCollection|null
      * @throws NotImplementedException
      */
-    protected function initPutValidationRule(Request $request): ?ParamRuleCollection
+    public function initPutValidationRule(Request $request): ?ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
@@ -183,7 +183,7 @@ class VacancyListRestController extends AbstractRestController implements Public
      * @return ParamRuleCollection|null
      * @throws NotImplementedException
      */
-    protected function initDeleteValidationRule(Request $request): ?ParamRuleCollection
+    public function initDeleteValidationRule(Request $request): ?ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
