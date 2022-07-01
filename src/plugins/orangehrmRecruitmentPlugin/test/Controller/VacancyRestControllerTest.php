@@ -24,7 +24,6 @@ use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Request;
-use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Recruitment\Controller\VacancyRestController;
