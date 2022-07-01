@@ -1,0 +1,16 @@
+langStrings:
+  -
+    value: 'Purge Candidate Records'
+    unitId: purge_candidate_records
+  -
+    value: 'Purge Candidates'
+    unitId: purge_candidates
+  -
+    value: 'You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone'
+    unitId: purge_candidates_warning
+  -
+    value: 'Purge All'
+    unitId: purge_all
+  -
+    value: 'Selected Candidates'
+    unitId: selected_candidates
