@@ -42,7 +42,7 @@
     </oxd-grid>
   </div>
   <div>
-    <div class="orangehrm-container-img-div">
+    <div class="orangehrm-vacancy-list-footer">
       <oxd-text type="toast-message">
         {{ $t('recruitment.powered_by') }}
       </oxd-text>

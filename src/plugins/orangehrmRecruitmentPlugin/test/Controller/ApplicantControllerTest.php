@@ -47,7 +47,7 @@ class ApplicantControllerTest extends KernelTestCase
     public function setUp(): void
     {
         $fixture = Config::get(Config::PLUGINS_DIR)
-            . '/orangehrmRecruitmentPlugin/test/fixtures/PublicJobCandidate.yaml';
+            . '/orangehrmRecruitmentPlugin/test/fixtures/ApplicantController.yaml';
         TestDataService::populate($fixture);
     }
 
@@ -131,6 +131,15 @@ class ApplicantControllerTest extends KernelTestCase
                 'Zaman',
                 'saif@orangehrmlive.com',
                 '114453645767',
+                'on',
+            ],
+            [
+                3,
+                'Jhony',
+                '',
+                'Deep',
+                'jhony@orangehrmlive.com',
+                '1878648628323',
                 'on',
             ],
         ];

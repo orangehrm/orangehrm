@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
+use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\ORM\ListSorter;
@@ -61,8 +62,8 @@ class VacancyListRestController extends AbstractRestController implements Public
      */
     public function handleGetRequest(Request $request): Response
     {
-        $offset = $request->getQuery()->get(self::VACANCY_OFFSET, 0);
-        $limit = $request->getQuery()->get(self::VACANCY_LIMIT, 8);
+        $offset = $request->getQuery()->get(self::VACANCY_OFFSET, FilterParams::DEFAULT_OFFSET);
+        $limit = $request->getQuery()->get(self::VACANCY_LIMIT, FilterParams::DEFAULT_LIMIT);
         $vacancySearchFilterParams = new VacancySearchFilterParams();
         $vacancySearchFilterParams->setStatus(self::ACTIVE_STATUS);
         $vacancySearchFilterParams->setSortField(self::VACANCY_ID);

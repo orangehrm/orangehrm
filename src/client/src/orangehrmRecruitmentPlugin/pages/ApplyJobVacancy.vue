@@ -24,13 +24,17 @@
       <div class="orangehrm-card-container">
         <div class="orangehrm-card-container-header">
           <oxd-text class="orangehrm-main-title" tag="h6">
-            Apply for the position of "{{ vacancyName }}"
+            {{
+              $t('recruitment.apply_for_position_of_vacancy_name', {
+                vacancyName: vacancyName,
+              })
+            }}
           </oxd-text>
           <img class="oxd-brand-banner" :src="bannerSrc" />
         </div>
         <oxd-divider />
         <oxd-text class="orangehrm-main-title" tag="h2">
-          Description
+          {{ $t('general.description') }}
         </oxd-text>
         <div :class="{'orangehrm-vacancy-card-body': isViewDetails}">
           <oxd-text type="toast-message">
@@ -39,8 +43,7 @@
               class="orangehrm-applicant-card-pre-tag"
             >
           {{ vacancyDescription }}
-        </pre
-            >
+        </pre>
           </oxd-text>
         </div>
         <div v-if="vacancyDescription" class="orangehrm-applicant-card-footer">
@@ -156,7 +159,7 @@
       ></success-dialogue>
     </div>
     <div>
-      <div class="orangehrm-container-img-div">
+      <div class="orangehrm-vacancy-list-footer">
         <oxd-text type="toast-message">
           {{ $t('recruitment.powered_by') }}
         </oxd-text>
@@ -189,6 +192,7 @@ import SubmitButton from '@/core/components/buttons/SubmitButton';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {urlFor} from '@/core/util/helper/url';
+import usei18n from "@/core/util/composable/usei18n";
 
 const applicantModel = {
   firstName: '',
@@ -234,6 +238,12 @@ export default {
     },
   },
   setup() {
+    const {$t} = usei18n();
+    const dialogBoxContent = [
+        $t('recruitment.application_received'),
+        $t('recruitment.your_application_has_been_submitted_successfully'),
+        $t('general.ok'),
+    ];
     const defaultPic = `${window.appGlobal.baseUrl}/../images/logo.png`;
     const applicant = ref({
       ...applicantModel,
@@ -246,16 +256,17 @@ export default {
       applicant,
       http,
       defaultPic,
+      dialogBoxContent,
     };
   },
   data() {
     return {
       title: null,
-      successLabel: null,
       subtitle: null,
+      successLabel: null,
       viewMore: true,
       isLoading: false,
-      vacancyName: null,
+      vacancyName: '',
       vacancyDescription: null,
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
@@ -281,13 +292,13 @@ export default {
   beforeMount() {
     this.http.get(this.vacancyId).then(response => {
       const {data} = response.data;
-      this.vacancyName = data?.name;
+      this.vacancyName = data?.name ?? '';
       this.vacancyDescription = data?.description;
     });
     if (this.success) {
-      this.title = 'Application Received';
-      this.subtitle = 'Your application has been submitted successfully';
-      this.successLabel = 'OK';
+          this.title = this.dialogBoxContent[0],
+          this.subtitle = this.dialogBoxContent[1],
+          this.successLabel = this.dialogBoxContent[2]
     }
   },
   mounted() {

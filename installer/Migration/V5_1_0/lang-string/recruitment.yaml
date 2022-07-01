@@ -198,11 +198,14 @@ langStrings:
     value: 'Application Initiated'
     unitId: application_initiated_uc
   -
-    value: 'Show More'
-    unitId: show_more
-  -
-    value: 'Show Less'
-    unitId: show_less
-  -
     value: 'Powered By'
-    unitId: 'powered_by'
+    unitId: powered_by
+  -
+    value: 'Apply for the position of {vacancyName}'
+    unitId: apply_for_position_of_vacancy_name
+  -
+    value: 'Application Received'
+    unitId: application_received
+  -
+    value: 'Your application has been submitted successfully'
+    unitId: your_application_has_been_submitted_successfully

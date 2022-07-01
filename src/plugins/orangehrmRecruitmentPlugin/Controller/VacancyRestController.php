@@ -53,7 +53,7 @@ class VacancyRestController extends AbstractRestController implements PublicCont
      */
     public function handleGetRequest(Request $request): Response
     {
-        $vacancyId = (int) $request->getAttributes()->get(self::VACANCY_ID);
+        $vacancyId = $request->getAttributes()->getInt(self::VACANCY_ID);
         $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($vacancyId);
         return new Response(
             $this->getNormalizerService()->normalize(VacancySummaryModel::class, $vacancy)

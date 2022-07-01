@@ -182,20 +182,20 @@ apiv2_recrutiment_candidate_history:
     _api: OrangeHRM\Recruitment\Api\CandidateHistoryAPI
     _key: candidateId
 
-apiv2_recruitment_vacancy_list:
+apiv2_recruitment_public_vacancies:
   path: /api/v2/recruitment/public/vacancies
   controller: OrangeHRM\Recruitment\Controller\VacancyListRestController::handle
   methods: [ GET ]
 
-apiv2_recruitment_vacancy_by_id:
+apiv2_recruitment_public_vacancy:
   path: /api/v2/recruitment/public/vacancies/{id}
   controller: OrangeHRM\Recruitment\Controller\VacancyRestController::handle
-  methods: [ GET, POST ]
+  methods: [ GET ]
 
-apiv2_recruitment_applicants:
+recruitment_public_applicants:
   path: /recruitment/public/applicants
   controller: OrangeHRM\Recruitment\Controller\ApplicantController::handle
-  methods: [ GET, POST ]
+  methods: [ POST ]
 
 ##########################
 #        Files
@@ -263,9 +263,4 @@ recruitment_view_vacancy_list:
 recruitment_apply_job_vacancy:
   path: /recruitment/applyJobVacancy/{id}
   controller: OrangeHRM\Recruitment\Controller\ApplyJobVacancyViewController::handle
-  methods: [ GET ]
-
-recruitment_module_under_development: # remove this
-  path: /recruitment/{screen}
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
   methods: [ GET ]

@@ -111,4 +111,14 @@ class VacancyListRestControllerTest extends KernelTestCase
         $iteratableResponse = json_decode($response->formatData(), false);
         $this->assertEquals('Charted Engineer', $iteratableResponse->data[0]->name);
     }
+
+    public function testHandlePostRequest()
+    {
+        $this->createKernelWithMockServices([
+            Services::VACANCY_SERVICE => new VacancyService(),
+            Services::NORMALIZER_SERVICE => new NormalizerService(),
+        ]);
+        $controller = new VacancyListRestController();
+
+    }
 }

@@ -170,3 +170,9 @@ langStrings:
   -
     value: 'hh:mm'
     unitId: hh_mm
+  -
+    value: 'Show More'
+    unitId: show_more
+  -
+    value: 'Show Less'
+    unitId: show_less

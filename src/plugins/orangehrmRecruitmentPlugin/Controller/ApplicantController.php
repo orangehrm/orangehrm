@@ -89,71 +89,15 @@ class ApplicantController extends AbstractController implements PublicController
             throw AuthenticationException::invalidCsrfToken();
         }
 
-        $variables = $request->request->all();
-
         /** @var UploadedFile $file */
         $file = $request->files->get(self::PARAMETER_RESUME);
         $attachment = Base64Attachment::createFromUploadedFile($file);
-        $variables[self::PARAMETER_RESUME] = [
-            'name' => $attachment->getFilename(),
-            'type' => $attachment->getFileType(),
-            'base64' => $attachment->getBase64Content(),
-            'size' => $attachment->getSize(),
-        ];
-        $paramRules = $this->getParamRuleCollection();
-        $paramRules->addExcludedParamKey('_token');
-
-        try {
-            $this->validate($variables, $paramRules);
-        } catch (InvalidParamException $e) {
-            $this->getLogger()->error($e->getMessage());
-            $this->getLogger()->error($e->getTraceAsString());
-        }
-
+        $this->validateParameters($request, $attachment);
         $this->beginTransaction();
         try {
-            $applicant = new Candidate();
-            $this->setApplicant($applicant, $request);
-            $applicant = $this->getCandidateService()->getCandidateDao()->saveCandidate($applicant);
-            $lastInsertApplicantId = $applicant->getId();
-
-            $applicantHistory = new CandidateHistory();
-            $this->setCommonApplicantHistoryAttributes(
-                $applicantHistory,
-                $lastInsertApplicantId,
-                CandidateService::RECRUITMENT_CANDIDATE_ACTION_ADD
-            );
-            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
-
-            $vacancyId = $variables[self::PARAMETER_VACANCY_ID];
-            if (!is_null($vacancyId)) {
-                $applicantVacancy = new CandidateVacancy();
-                $this->setApplicantVacancy(
-                    $applicantVacancy,
-                    $lastInsertApplicantId,
-                    CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
-                    $vacancyId
-                );
-                $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($applicantVacancy);
-
-                $applicantHistory = new CandidateHistory();
-                $this->setCommonApplicantHistoryAttributes(
-                    $applicantHistory,
-                    $lastInsertApplicantId,
-                    CandidateService::RECRUITMENT_CANDIDATE_ACTION_ADD
-                );
-                $applicantHistory->getDecorator()->setVacancyById($vacancyId);
-                $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
-            }
-
-            $applicantAttachment = new CandidateAttachment();
-            $this->setCandidateAttachment($applicantAttachment, $lastInsertApplicantId, $variables['resume']);
-            $this->getRecruitmentAttachmentService()->getRecruitmentAttachmentDao()->saveCandidateAttachment(
-                $applicantAttachment
-            );
-
+            $vacancyId = $request->request->get(self::PARAMETER_VACANCY_ID);
+            $this->processTransaction($request, $attachment, $vacancyId);
             $this->commitTransaction();
-
             return $this->forward(
                 ApplyJobVacancyViewController::class . '::handle',
                 ['success' => true, 'id' => $vacancyId]
@@ -166,6 +110,79 @@ class ApplicantController extends AbstractController implements PublicController
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Base64Attachment $attachment
+     * @return void
+     * @throws ValidatorException
+     */
+    private function validateParameters(Request $request, Base64Attachment $attachment): bool
+    {
+        $variables = $request->request->all();
+        $variables[self::PARAMETER_RESUME] = [
+            'name' => $attachment->getFilename(),
+            'type' => $attachment->getFileType(),
+            'base64' => $attachment->getBase64Content(),
+            'size' => $attachment->getSize(),
+        ];
+        $paramRules = $this->getParamRuleCollection();
+        $paramRules->addExcludedParamKey('_token');
+
+        try {
+            return $this->validate($variables, $paramRules);
+        } catch (InvalidParamException $e) {
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param Base64Attachment $attachment
+     * @param int $vacancyId
+     * @return void
+     */
+    private function processTransaction(Request $request, Base64Attachment $attachment, int $vacancyId): void
+    {
+        $applicant = new Candidate();
+        $this->setApplicant($applicant, $request);
+        $applicant = $this->getCandidateService()->getCandidateDao()->saveCandidate($applicant);
+        $lastInsertApplicantId = $applicant->getId();
+
+        $applicantHistory = new CandidateHistory();
+        $this->setCommonApplicantHistoryAttributes(
+            $applicantHistory,
+            $lastInsertApplicantId,
+            CandidateService::RECRUITMENT_CANDIDATE_ACTION_ADD
+        );
+        $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
+
+        if (!is_null($vacancyId)) {
+            $applicantVacancy = new CandidateVacancy();
+            $this->setApplicantVacancy(
+                $applicantVacancy,
+                $lastInsertApplicantId,
+                CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
+                $vacancyId
+            );
+            $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($applicantVacancy);
+
+            $applicantHistory = new CandidateHistory();
+            $this->setCommonApplicantHistoryAttributes(
+                $applicantHistory,
+                $lastInsertApplicantId,
+                CandidateService::RECRUITMENT_CANDIDATE_ACTION_ADD
+            );
+            $applicantHistory->getDecorator()->setVacancyById($vacancyId);
+            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
+        }
+
+        $applicantAttachment = new CandidateAttachment();
+        $this->setCandidateAttachment($applicantAttachment, $lastInsertApplicantId, $attachment);
+        $this->getRecruitmentAttachmentService()->getRecruitmentAttachmentDao()->saveCandidateAttachment(
+            $applicantAttachment
+        );
+    }
 
     /**
      * @param Candidate $applicant
@@ -277,11 +294,9 @@ class ApplicantController extends AbstractController implements PublicController
                     new Rule(Rules::PHONE)
                 )
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_VACANCY_ID,
-                    new Rule(Rules::POSITIVE)
-                )
+            new ParamRule(
+                self::PARAMETER_VACANCY_ID,
+                new Rule(Rules::POSITIVE)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -295,23 +310,26 @@ class ApplicantController extends AbstractController implements PublicController
     /**
      * @param CandidateAttachment $applicantAttachment
      * @param int $applicantId
-     * @param array $resume
+     * @param Base64Attachment $resume
      */
-    private function setCandidateAttachment(CandidateAttachment $applicantAttachment, int $applicantId, array $resume)
-    {
+    private function setCandidateAttachment(
+        CandidateAttachment $applicantAttachment,
+        int $applicantId,
+        Base64Attachment $resume
+    ) {
         $applicantAttachment->getDecorator()->setCandidateById($applicantId);
         $this->setBase64Attachment($applicantAttachment, $resume);
     }
 
     /**
      * @param CandidateAttachment $applicantAttachment
-     * @param array $resume
+     * @param Base64Attachment $resume
      */
-    private function setBase64Attachment(CandidateAttachment $applicantAttachment, array $resume): void
+    private function setBase64Attachment(CandidateAttachment $applicantAttachment, Base64Attachment $resume): void
     {
-        $applicantAttachment->setFileName($resume['name']);
-        $applicantAttachment->setFileType($resume['type']);
-        $applicantAttachment->setFileSize($resume['size']);
-        $applicantAttachment->setFileContent($resume['base64']);
+        $applicantAttachment->setFileName($resume->getFilename());
+        $applicantAttachment->setFileType($resume->getFileType());
+        $applicantAttachment->setFileSize($resume->getSize());
+        $applicantAttachment->setFileContent($resume->getBase64Content());
     }
 }

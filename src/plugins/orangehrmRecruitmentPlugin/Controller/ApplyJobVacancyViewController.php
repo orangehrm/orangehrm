@@ -24,7 +24,7 @@ use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
-use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
@@ -34,16 +34,7 @@ use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 class ApplyJobVacancyViewController extends AbstractVueController implements PublicControllerInterface
 {
     use ThemeServiceTrait;
-
-    protected ?ConfigService $configService = null;
-
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
+    use ConfigServiceTrait;
 
     /**
      * @inheritDoc
@@ -51,7 +42,7 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
     public function preRender(Request $request): void
     {
         $id = $request->attributes->get('id');
-        $success = $request->attributes->get('success') ?? false;
+        $success = $request->attributes->get('success',false);
 
         $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
         $bannerUrl = $request->getBasePath()

@@ -20,7 +20,7 @@
 
 <template>
   <teleport to="#app">
-    <oxd-dialog
+    <simple-dialog
       v-if="show"
       :with-close="false"
       class="orangehrm-confirmation-dialog orangehrm-dialog-popup"
@@ -42,7 +42,7 @@
           @click="onSuccess"
         />
       </div>
-    </oxd-dialog>
+    </simple-dialog>
   </teleport>
 </template>
 
@@ -51,7 +51,7 @@ import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
   components: {
-    'oxd-dialog': Dialog,
+    'simple-dialog': Dialog,
   },
   props: {
     title: {
@@ -70,15 +70,13 @@ export default {
   data() {
     return {
       show: false,
-      reject: null,
       resolve: null,
     };
   },
   methods: {
     showSuccessDialog() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         this.resolve = resolve;
-        this.reject = reject;
         this.show = true;
       });
     },
