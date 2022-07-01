@@ -119,6 +119,5 @@ class VacancyListRestControllerTest extends KernelTestCase
             Services::NORMALIZER_SERVICE => new NormalizerService(),
         ]);
         $controller = new VacancyListRestController();
-
     }
 }

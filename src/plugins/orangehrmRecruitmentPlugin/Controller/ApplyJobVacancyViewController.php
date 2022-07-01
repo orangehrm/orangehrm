@@ -42,7 +42,7 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
     public function preRender(Request $request): void
     {
         $id = $request->attributes->get('id');
-        $success = $request->attributes->get('success',false);
+        $success = $request->attributes->get('success', false);
 
         $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
         $bannerUrl = $request->getBasePath()

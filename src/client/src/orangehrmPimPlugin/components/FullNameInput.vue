@@ -23,7 +23,7 @@
   <oxd-input-group :label="localizedLabel" :classes="classes">
     <oxd-input-field
       class="orangehrm-firstname"
-      name="firstName"
+      name="First Name"
       :placeholder="$t('general.first_name')"
       :model-value="firstName"
       :rules="rules.firstName"
@@ -32,7 +32,7 @@
     />
     <oxd-input-field
       class="orangehrm-middlename"
-      name="middleName"
+      name="Middle Name"
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
@@ -41,7 +41,7 @@
     />
     <oxd-input-field
       class="orangehrm-lastname"
-      name="lastName"
+      name="Last Name"
       :placeholder="$t('general.last_name')"
       :model-value="lastName"
       :rules="rules.lastName"
