@@ -115,6 +115,10 @@ class VacancyListRestControllerTest extends KernelTestCase
     }
 
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testHandlePutRequest(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -123,6 +127,10 @@ class VacancyListRestControllerTest extends KernelTestCase
         $controller->handlePutRequest($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testInitPutValidationRule(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -131,6 +139,10 @@ class VacancyListRestControllerTest extends KernelTestCase
         $controller->initPutValidationRule($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testHandlePostRequest(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -139,6 +151,10 @@ class VacancyListRestControllerTest extends KernelTestCase
         $controller->handlePutRequest($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testInitPostValidationRule(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -147,6 +163,10 @@ class VacancyListRestControllerTest extends KernelTestCase
         $controller->initPutValidationRule($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testHandleDeleteRequest(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -155,6 +175,10 @@ class VacancyListRestControllerTest extends KernelTestCase
         $controller->handlePutRequest($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testInitDeleteValidationRule(): void
     {
         $request = new Request($this->getHttpRequest());

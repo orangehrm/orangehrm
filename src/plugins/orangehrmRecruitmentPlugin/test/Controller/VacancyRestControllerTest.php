@@ -83,6 +83,10 @@ class VacancyRestControllerTest extends KernelTestCase
         $this->assertEquals('Manages Engineers', $decodedResponse->data->description);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testHandlePutRequest(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -91,6 +95,10 @@ class VacancyRestControllerTest extends KernelTestCase
         $controller->handlePutRequest($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testInitPutValidationRule(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -99,6 +107,10 @@ class VacancyRestControllerTest extends KernelTestCase
         $controller->initPutValidationRule($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testHandlePostRequest(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -107,6 +119,10 @@ class VacancyRestControllerTest extends KernelTestCase
         $controller->handlePutRequest($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testInitPostValidationRule(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -115,6 +131,10 @@ class VacancyRestControllerTest extends KernelTestCase
         $controller->initPutValidationRule($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testHandleDeleteRequest(): void
     {
         $request = new Request($this->getHttpRequest());
@@ -123,6 +143,10 @@ class VacancyRestControllerTest extends KernelTestCase
         $controller->handlePutRequest($request);
     }
 
+    /**
+     * @return void
+     * @throws NotImplementedException
+     */
     public function testInitDeleteValidationRule(): void
     {
         $request = new Request($this->getHttpRequest());
