@@ -97,7 +97,7 @@ class LocalizationDao extends BaseDao
     ): array {
         $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
         $q->select(
-            'langString.id',
+            'translation.id',
             'langString.value AS source',
             'langString.note AS note',
             'translation.value AS target',
