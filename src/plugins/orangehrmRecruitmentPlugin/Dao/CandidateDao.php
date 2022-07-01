@@ -103,6 +103,10 @@ class CandidateDao extends BaseDao
             $qb->andWhere('candidate.modeOfApplication = :modeOfApplication')
                 ->setParameter('modeOfApplication', $candidateSearchFilterParams->getMethodOfApplication());
         }
+        if (!is_null($candidateSearchFilterParams->isConsentToKeepData())) {
+            $qb->andWhere($qb->expr()->eq('candidate.consentToKeepData', ':consentToKeepData'))
+                ->setParameter('consentToKeepData', $candidateSearchFilterParams->isConsentToKeepData());
+        }
         if (!is_null($candidateSearchFilterParams->getFromDate()) && !is_null(
             $candidateSearchFilterParams->getToDate()
         )) {

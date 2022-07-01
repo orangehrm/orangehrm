@@ -98,6 +98,11 @@ class CandidateSearchFilterParams extends FilterParams
      */
     protected ?array $candidateIds = null;
 
+    /**
+     * @var bool|null
+     */
+    protected ?bool $consentToKeepData = null;
+
     public function __construct()
     {
         $this->setSortField('candidate.dateOfApplication');
@@ -310,5 +315,21 @@ class CandidateSearchFilterParams extends FilterParams
     public function setCandidateIds(?array $candidateIds): void
     {
         $this->candidateIds = $candidateIds;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isConsentToKeepData(): ?bool
+    {
+        return $this->consentToKeepData;
+    }
+
+    /**
+     * @param bool|null $consentToKeepData
+     */
+    public function setConsentToKeepData(?bool $consentToKeepData): void
+    {
+        $this->consentToKeepData = $consentToKeepData;
     }
 }
