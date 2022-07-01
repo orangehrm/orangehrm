@@ -26,7 +26,7 @@ use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\Api\PurgeEmployeeAPI;
-use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
+use OrangeHRM\Maintenance\Service\PurgeService;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -56,11 +56,11 @@ class PurgeEmployeeAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('PurgeEmployeeAPITestCases.yml', 'Delete');
     }
 
-    public function testGetPurgeEmployeeService(): void
+    public function testGetPurgeService(): void
     {
         $api = new PurgeEmployeeAPI($this->getRequest());
 
-        $this->assertInstanceOf(PurgeEmployeeService::class, $api->getPurgeEmployeeService());
+        $this->assertInstanceOf(PurgeService::class, $api->getPurgeService());
     }
 
     public function testGetValidationRuleForDelete(): void

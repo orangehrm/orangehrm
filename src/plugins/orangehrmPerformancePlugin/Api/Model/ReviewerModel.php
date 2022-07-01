@@ -39,9 +39,9 @@ class ReviewerModel implements Normalizable
                 ['getEmployee', 'getMiddleName'],
                 ['getEmployee', 'getEmployeeId'],
                 ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
-                ['getEmployee', 'getJobTitle', 'getId'],
-                ['getEmployee', 'getJobTitle', 'getJobTitleName'],
-                ['getEmployee','getJobTitle', 'isDeleted'],
+                ['getReview', 'getJobTitle', 'getId'],
+                ['getReview', 'getJobTitle', 'getJobTitleName'],
+                ['getReview','getJobTitle', 'isDeleted'],
                 'status'
             ]
         );

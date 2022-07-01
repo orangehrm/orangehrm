@@ -24,7 +24,7 @@ type ReviewAction = {
 export const viewIcon: ReviewAction = {
   component: 'oxd-icon-button',
   props: {
-    name: 'file-text-fill',
+    name: 'eye-fill',
     title: 'View',
   },
 };
@@ -40,7 +40,7 @@ export const editIcon: ReviewAction = {
 export const evaluateIcon: ReviewAction = {
   component: 'oxd-icon-button',
   props: {
-    name: 'eye-fill',
+    name: 'file-text-fill',
     title: 'Evaluate',
   },
 };

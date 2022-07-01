@@ -210,17 +210,21 @@ export default {
         if (row.selfEvaluationStatus === 'Completed') {
           cellConfig.view = viewIcon;
           cellConfig.view.props.title = this.$t('general.view');
+          cellConfig.view.onClick = this.onClickEvaluate;
         } else {
           cellConfig.evaluate = evaluateIcon;
           cellConfig.evaluate.props.title = this.$t('performance.evaluate');
+          cellConfig.evaluate.onClick = this.onClickEvaluate;
         }
       } else {
         if (row.selfEvaluationStatus === 'Completed') {
           cellConfig.view = viewLabel;
           cellConfig.view.props.label = this.$t('general.view');
+          cellConfig.view.onClick = this.onClickEvaluate;
         } else {
           cellConfig.evaluate = evaluateLabel;
           cellConfig.evaluate.props.label = this.$t('performance.evaluate');
+          cellConfig.evaluate.onClick = this.onClickEvaluate;
         }
       }
 
@@ -245,8 +249,8 @@ export default {
     onClickView() {
       navigate('/performance/searchKpi');
     },
-    onClickEvaluate() {
-      navigate('/performance/searchKpi');
+    onClickEvaluate(item) {
+      navigate('/performance/reviewEvaluate/id/{id}', {id: item.id});
     },
   },
 };

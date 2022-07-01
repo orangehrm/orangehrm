@@ -44,7 +44,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <vacancy-dropdown
-                v-model="profile.vacancy"
+                v-model="vacancy"
                 :label="$t('recruitment.job_vacancy')"
               />
             </oxd-grid-item>
@@ -75,11 +75,11 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <file-upload-input
-                v-model:newFile="profile.newResume"
-                v-model:method="profile.method"
+                v-model:newFile="attachment.newAttachment"
+                v-model:method="attachment.method"
                 :label="$t('recruitment.resume')"
                 :button-label="$t('general.browse')"
-                :file="profile.oldResume"
+                :file="attachment.oldAttachment"
                 :rules="rules.resume"
                 url="recruitment/resume"
                 :hint="$t('general.accept_custom_format_file')"
@@ -103,7 +103,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <date-input
-                v-model="profile.applicationDate"
+                v-model="profile.dateOfApplication"
                 :label="$t('recruitment.date_of_application')"
                 :rules="rules.applicationDate"
               />
@@ -116,7 +116,7 @@
               class="orangehrm-save-candidate-page --span-column-2"
             >
               <oxd-input-field
-                v-model="profile.notes"
+                v-model="profile.comment"
                 :label="$t('general.notes')"
                 type="textarea"
                 :placeholder="$t('general.type_here')"
@@ -130,7 +130,7 @@
               class="orangehrm-save-candidate-page-full-width orangehrm-save-candidate-page-grid-checkbox"
             >
               <oxd-input-field
-                v-model="profile.keep"
+                v-model="profile.consentToKeepData"
                 type="checkbox"
                 :label="$t('recruitment.consent_to_keep_data')"
               />
@@ -164,6 +164,33 @@ import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDrop
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import DateInput from '@/core/components/inputs/DateInput';
 import {navigate} from '@/core/util/helper/navigation';
+
+const CandidateProfileModel = {
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  email: '',
+  contactNumber: '',
+  comment: '',
+  keywords: '',
+  dateOfApplication: null,
+  consentToKeepData: false,
+  modeOfApplication: 1,
+  status: 1,
+};
+
+const CandidateAttachmentModel = {
+  id: null,
+  oldAttachment: {},
+  newAttachment: null,
+  method: 'replaceCurrent',
+};
+
+const VacancyModel = {
+  id: null,
+  label: '',
+};
+
 export default {
   name: 'CandidateProfile',
   components: {
@@ -173,8 +200,8 @@ export default {
     'full-name-input': FullNameInput,
   },
   props: {
-    candidateId: {
-      type: Number,
+    candidate: {
+      type: Object,
       required: true,
     },
     allowedFileTypes: {
@@ -186,11 +213,8 @@ export default {
       required: true,
     },
   },
-  setup(props) {
-    const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      `/recruitment/candidate/${props.candidateId}`,
-    );
+  setup() {
+    const http = new APIService(window.appGlobal.baseUrl, '/');
 
     return {
       http,
@@ -199,22 +223,9 @@ export default {
   data() {
     return {
       isLoading: false,
-      profile: {
-        firstName: '',
-        middleName: '',
-        lastName: '',
-        email: '',
-        contactNumber: '',
-        oldResume: '',
-        notes: '',
-        keywords: '',
-        newResume: null,
-        vacancy: null,
-        resume: null,
-        method: 'keepCurrent',
-        applicationDate: null,
-        keep: null,
-      },
+      profile: {...CandidateProfileModel},
+      vacancy: {...VacancyModel},
+      attachment: {...CandidateAttachmentModel},
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
@@ -233,32 +244,70 @@ export default {
 
   beforeMount() {
     this.isLoading = true;
-    this.http.getAll().then(({data: {data}}) => {
-      const {resume, candidate, ...rest} = data;
-      this.profile.oldResume = resume?.id ? resume : null;
-      this.profile.newResume = null;
-      this.profile.firstName = candidate.firstName;
-      this.profile.middleName = candidate.middleName;
-      this.profile.lastName = candidate.lastName;
-      this.profile.method = 'keepCurrent';
-      this.profile.vacancy = data.vacancy;
-      this.profile = {
-        ...this.profile,
-        ...rest,
-      };
-      this.isLoading = false;
-    });
+    this.profile.firstName = this.candidate.firstName;
+    this.profile.middleName = this.candidate.middleName;
+    this.profile.lastName = this.candidate.lastName;
+    this.profile.email = this.candidate.email;
+    this.profile.contactNumber = this.candidate.contactNumber;
+    this.profile.keywords = this.candidate.keywords;
+    this.profile.dateOfApplication = this.candidate.dateOfApplication;
+    this.profile.comment = this.candidate.comment;
+    this.profile.consentToKeepData = this.candidate.consentToKeepData;
+    this.vacancy = {
+      id: this.candidate.vacancy?.id,
+      label: this.candidate.vacancy?.name,
+    };
+    if (this.candidate.hasAttachment) {
+      this.http
+        .request({
+          method: 'GET',
+          url: `/api/v2/recruitment/candidate/${this.candidate.id}/attachment`,
+        })
+        .then(({data: {data}}) => {
+          this.attachment.id = data.id;
+          this.attachment.newAttachment = null;
+          this.attachment.oldAttachment = {
+            id: data.id,
+            filename: data.attachment.fileName,
+            fileType: data.attachment.fileType,
+            fileSize: data.attachment.fileSize,
+          };
+          this.attachment.method = 'keepCurrent';
+        });
+    }
+    this.isLoading = false;
   },
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.candidateId, this.profile)
+        .request({
+          method: 'PUT',
+          url: `/api/v2/recruitment/candidates/${this.candidate.id}`,
+          data: {...this.profile, vacancyId: this.vacancy?.id},
+        })
+        .then(() => {
+          if (this.attachment.newAttachment || this.candidate.hasAttachment) {
+            return this.http.request({
+              method: 'PUT',
+              url: `/api/v2/recruitment/candidate/${this.candidate.id}/attachment`,
+              data: {
+                currentAttachment: this.attachment.oldAttachment
+                  ? this.attachment.method
+                  : undefined,
+                attachment: this.attachment.newAttachment
+                  ? this.attachment.newAttachment
+                  : undefined,
+              },
+            });
+          }
+          return true;
+        })
         .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate(`/recruitment/addCandidate/${this.candidateId}`);
+          navigate(`/recruitment/addCandidate/${this.candidate.id}`);
         });
     },
   },

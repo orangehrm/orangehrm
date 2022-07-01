@@ -153,20 +153,20 @@ langStrings:
     value: 'Or login with'
     unitId: or_login_with
   -
-    value: 'Export'
-    unitId: export
-  -
-    value: 'Translate'
-    unitId: translate
-  -
     value: 'Successfully Activated'
     unitId: successfully_activated
   -
     value: 'Publish'
     unitId: publish
   -
-    value: 'Note'
-    unitId: note
+    value: 'Number should be less than or equal to {maxValue}'
+    unitId: less_than_or_equal_to_n
   -
-    value: 'Users will require translate texts manually after creating the language package.'
-    unitId: translate_text_manually
+    value: 'Number should be greater than or equal to {minValue}'
+    unitId: greater_than_or_equal_to_n
+  -
+    value: 'Purged Employee'
+    unitId: purged_employee
+  -
+    value: 'hh:mm'
+    unitId: hh_mm

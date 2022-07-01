@@ -19,12 +19,21 @@
 
 namespace OrangeHRM\Tests\Performance\Dao;
 
+use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\Reviewer;
+use OrangeHRM\Entity\ReviewerGroup;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;
 use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Performance
+ * @group Dao
+ */
 class PerformanceReviewDaoTest extends KernelTestCase
 {
     private PerformanceReviewDao $performanceReviewDao;
@@ -83,5 +92,84 @@ class PerformanceReviewDaoTest extends KernelTestCase
 
         $result3 = $this->performanceReviewDao->getSupervisorRecord($employeeId, $pastSupervisor);
         $this->assertCount(0, $result3);
+    }
+
+    public function testCreateReviewWithTransactionException(): void
+    {
+        $performanceReviewDaoMock = $this->getMockBuilder(PerformanceReviewDao::class)
+            ->onlyMethods(['persist'])
+            ->getMock();
+
+        $performanceReviewDaoMock->expects($this->once())
+            ->method('persist')
+            ->willReturnCallback(function () {
+                throw new Exception();
+            });
+
+        $performanceReview = new PerformanceReview();
+        $performanceReview->setId(1);
+
+        $this->expectException(TransactionException::class);
+        $performanceReviewDaoMock->createReview($performanceReview, 1);
+    }
+
+    public function testUpdateReviewWithTransactionException(): void
+    {
+        $performanceReviewDaoMock = $this->getMockBuilder(PerformanceReviewDao::class)
+            ->onlyMethods(['persist'])
+            ->getMock();
+
+        $performanceReviewDaoMock->expects($this->once())
+            ->method('persist')
+            ->willReturnCallback(function () {
+                throw new Exception();
+            });
+
+        $performanceReview = new PerformanceReview();
+        $performanceReview->setId(1);
+
+        $this->expectException(TransactionException::class);
+        $performanceReviewDaoMock->updateReview($performanceReview, 1);
+    }
+
+    public function testGetPerformanceSelfReviewStatus(): void
+    {
+        $selfReviewer = new Reviewer();
+        $performanceReview = new PerformanceReview();
+
+        $performanceReviewDaoMock = $this->getMockBuilder(PerformanceReviewDao::class)
+            ->onlyMethods(['getPerformanceSelfReviewer'])
+            ->getMock();
+
+        $performanceReviewDaoMock->expects($this->exactly(4))
+            ->method('getPerformanceSelfReviewer')
+            ->willReturn($selfReviewer);
+
+        $selfReviewer->setStatus(Reviewer::STATUS_ACTIVATED);
+        $this->assertEquals('Activated', $performanceReviewDaoMock->getPerformanceSelfReviewStatus($performanceReview));
+
+        $selfReviewer->setStatus(Reviewer::STATUS_IN_PROGRESS);
+        $this->assertEquals('In Progress', $performanceReviewDaoMock->getPerformanceSelfReviewStatus($performanceReview));
+
+        $selfReviewer->setStatus(Reviewer::STATUS_COMPLETED);
+        $this->assertEquals('Completed', $performanceReviewDaoMock->getPerformanceSelfReviewStatus($performanceReview));
+
+        $selfReviewer->setStatus(null);
+        $this->assertEquals('', $performanceReviewDaoMock->getPerformanceSelfReviewStatus($performanceReview));
+    }
+
+    public function testUpdateReviewerComment(): void
+    {
+        /** @var Reviewer $reviewerBefore */
+        $reviewerBefore = $this->getEntityManager()->getRepository(Reviewer::class)->find(1);
+        $this->assertEquals('Test Comment 1', $reviewerBefore->getComment());
+
+        $performanceReview = $this->getEntityManager()->getRepository(PerformanceReview::class)->find(5);
+        $this->performanceReviewDao->updateReviewerComment($performanceReview, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR, 'Edited Comment');
+
+        /** @var Reviewer $reviewerAfter */
+        $reviewerAfter = $this->getEntityManager()->getRepository(Reviewer::class)->findOneBy(['comment' => 'Edited Comment']);
+        $this->assertEquals(1, $reviewerAfter->getId());
+        $this->assertEquals(ReviewerGroup::REVIEWER_GROUP_SUPERVISOR, $reviewerAfter->getGroup()->getName());
     }
 }

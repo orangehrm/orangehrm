@@ -217,3 +217,13 @@ performance_employee_tracker_logs:
   path: /performance/addPerformanceTrackerLog/trackId/{id}
   controller: OrangeHRM\Performance\Controller\EmployeeTrackerLogsController::handle
   methods: [ GET ]
+
+performance_employee_admin_evaluation:
+  path: /performance/reviewEvaluateByAdmin/{id}
+  controller: OrangeHRM\Performance\Controller\AdminEvaluationController::handle
+  methods: [ GET ]
+
+performance_review_evaluate_self:
+  path: /performance/reviewEvaluate/id/{id}
+  controller: OrangeHRM\Performance\Controller\SelfEvaluationController::handle
+  methods: [ GET ]

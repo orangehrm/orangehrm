@@ -1,0 +1,18 @@
+Delete:
+  'with no vacancyId':
+    userId: 1
+    invalidOnly: [ 'vacancyId' ]
+
+  'with non-existent vacancyId':
+    userId: 1
+    body:
+      vacancyId: 100
+    invalidOnly: [ 'vacancyId' ]
+
+  'with existing vacancyId':
+    userId: 1
+    body:
+      vacancyId: 1
+    data:
+      purged:
+        vacancyId: 1

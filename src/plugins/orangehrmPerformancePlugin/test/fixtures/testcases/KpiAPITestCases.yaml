@@ -79,7 +79,7 @@ Create:
       maxRating: 100
       isDefault: null
 
-  'with all valid details':
+  'with all valid details but with review':
     userId: 1
     services:
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
@@ -199,7 +199,7 @@ Update:
       maxRating: 100
       isDefault: null
 
-  'with all valid details':
+  'with all valid details but having reviews':
     userId: 1
     services:
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
@@ -213,13 +213,13 @@ Update:
       isDefault: true
     data:
       id: 2
-      title: 'Positive Commitment'
+      title: 'Capacity Planning'
       jobTitle:
         id: 1
         name: 'Software Architect'
         deleted: false
-      minRating: 0
-      maxRating: 10
+      minRating: 1
+      maxRating: 100
       isDefault: true
 
 GetAll:
@@ -1305,6 +1305,8 @@ GetOne:
       minRating: 1
       maxRating: 10
       isDefault: 1
+    meta:
+      editable: false
 
 Delete:
   'with no ids':

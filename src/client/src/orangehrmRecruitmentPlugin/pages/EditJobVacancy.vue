@@ -67,11 +67,13 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-input-field
-                v-model.number="vacancy.numOfPositions"
-                :label="$t('recruitment.num_of_positions')"
-                :rules="rules.numOfPositions"
-              />
+              <oxd-grid-item>
+                <oxd-input-field
+                  v-model.number="vacancy.numOfPositions"
+                  :label="$t('recruitment.num_of_positions')"
+                  :rules="rules.numOfPositions"
+                />
+              </oxd-grid-item>
             </oxd-grid>
           </oxd-grid-item>
         </oxd-grid>
@@ -93,7 +95,7 @@
           </oxd-grid-item>
         </oxd-grid>
         <br />
-        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+        <oxd-form-row>
           <div class="orangehrm-container orangehrm-container--border">
             <vacancy-link-card
               :label="$t('recruitment.rss_feed_url')"
@@ -104,7 +106,7 @@
               :url="webUrl"
             />
           </div>
-        </oxd-grid>
+        </oxd-form-row>
         <br />
         <oxd-divider />
         <oxd-form-actions>

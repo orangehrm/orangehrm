@@ -23,31 +23,62 @@ namespace OrangeHRM\Recruitment\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class CandidateActionController extends AbstractVueController
 {
+    use CandidateServiceTrait;
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        //TODO
+        // TODO: Validate candidateId & actionId & permission
+        $candidateId = $request->query->getInt('candidateId');
+        $actionId = $request->query->getInt('selectedAction');
 
-        $candidateId = $request->get('candidateId');
-        $component = new Component('reject-action');
+        switch ($actionId) {
+            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST:
+                $component = new Component('shortlist-action');
+                break;
+            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT:
+                $component = new Component('reject-action');
+                break;
+            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW:
+                $component = new Component('interview-schedule-action');
+                break;
+            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED:
+                $component = new Component('interview-passed-action');
+                break;
+            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED:
+                $component = new Component('interview-failed-action');
+                break;
+            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB:
+                $component = new Component('offer-job-action');
+                break;
+            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER:
+                $component = new Component('offer-decline-action');
+                break;
+            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE:
+                $component = new Component('hire-action');
+                break;
+            default:
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+        }
+
+        if (
+            $actionId === WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED
+            || $actionId === WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED
+        ) {
+            $interviewIds = $this->getCandidateService()->getCandidateDao()->getInterviewIdsByCandidateId($candidateId);
+            $component->addProp(new Prop('interview-id', Prop::TYPE_NUMBER, $interviewIds[0]));
+        }
+
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));
-        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, 1024 * 1024));
-        $component->addProp(
-            new Prop(
-                'allowed-file-types',
-                Prop::TYPE_ARRAY,
-                RecruitmentAttachmentService::ALLOWED_CANDIDATE_ATTACHMENT_FILE_TYPES
-            )
-        );
-        $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, 1));
-        $component->addProp(new Prop('action', Prop::TYPE_OBJECT, ['id' => 1, 'label' => 'Application initiated']));
         $this->setComponent($component);
     }
 }

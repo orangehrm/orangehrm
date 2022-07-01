@@ -27,6 +27,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -55,6 +56,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     use EntityManagerHelperTrait;
 
     public const PARAMETER_CANDIDATE_ID = 'candidateId';
+    public const PARAMETER_INTERVIEW_ID = 'interviewId';
     public const PARAMETER_INTERVIEW_NAME = 'interviewName';
     public const PARAMETER_INTERVIEW_DATE = 'interviewDate';
     public const PARAMETER_INTERVIEW_TIME = 'interviewTime';
@@ -130,10 +132,16 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
 
             $candidateHistory = new CandidateHistory();
             $this->setCandidateHistory($candidateHistory, $candidateVacancy, $interview);
-            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
+            $candidateHistory = $this->getCandidateService()
+                ->getCandidateDao()
+                ->saveCandidateHistory($candidateHistory);
 
             $this->commitTransaction();
-            return new EndpointResourceResult(CandidateInterviewModel::class, $interview);
+            return new EndpointResourceResult(
+                CandidateInterviewModel::class,
+                $interview,
+                new ParameterBag(['historyId' => $candidateHistory->getId()])
+            );
         } catch (RecordNotFoundException|ForbiddenException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
@@ -169,7 +177,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             )
         );
         $interview->setInterviewDate(
-            $this->getRequestParams()->getDateTime(
+            $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_INTERVIEW_DATE
             )
@@ -243,7 +251,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_INTERVIEW_TIME,
-                    new Rule(Rules::TIME)
+                    new Rule(Rules::TIME, ['H:i'])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -285,7 +293,14 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $interview = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getInterviewByCandidateIdAndInterviewId(
+                $this->getCandidateId(),
+                $this->getInterviewId()
+            );
+        $this->throwRecordNotFoundExceptionIfNotExist($interview, Interview::class);
+        return new EndpointResourceResult(CandidateInterviewModel::class, $interview);
     }
 
     /**
@@ -293,7 +308,27 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_CANDIDATE_ID,
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
+            ),
+            new ParamRule(
+                self::PARAMETER_INTERVIEW_ID,
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
+            )
+        );
+    }
+
+    /**
+     * @return int
+     */
+    private function getInterviewId(): int
+    {
+        return $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_INTERVIEW_ID
+        );
     }
 
     /**
@@ -301,7 +336,21 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $interview = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getInterviewByCandidateIdAndInterviewId(
+                $this->getCandidateId(),
+                $this->getInterviewId()
+            );
+        $this->throwRecordNotFoundExceptionIfNotExist($interview, Interview::class);
+        $candidateVacancy = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateVacancyByCandidateId($this->getCandidateId());
+
+        $interview->getDecorator()->removeInterviewers();
+        $this->setInterview($interview, $candidateVacancy);
+        $interview = $this->getCandidateService()->getCandidateDao()->saveCandidateInterview($interview);
+        return new EndpointResourceResult(CandidateInterviewModel::class, $interview);
     }
 
     /**
@@ -309,6 +358,12 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_INTERVIEW_ID,
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
+            ),
+            ...$this->getCommonBodyValidationRules()
+        );
     }
 }

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Employee;
@@ -30,6 +31,7 @@ use OrangeHRM\Recruitment\Service\CandidateService;
 class CandidateHistoryDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var CandidateHistory
@@ -86,6 +88,16 @@ class CandidateHistoryDecorator
     public function getCandidateHistoryAction(): string
     {
         $actionId = $this->candidateHistory->getAction();
-        return ucwords(strtolower(CandidateService::STATUS_MAP[$actionId]));
+        $candidateHistoryMap = array_replace(CandidateService::STATUS_MAP, CandidateService::OTHER_ACTIONS_MAP);
+        return ucwords(strtolower($candidateHistoryMap[$actionId]));
+    }
+
+    /**
+     * @return string
+     */
+    public function getPerformedDate(): string
+    {
+        $date = $this->candidateHistory->getPerformedDate();
+        return $this->getDateTimeHelper()->formatDate($date);
     }
 }

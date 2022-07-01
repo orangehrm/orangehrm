@@ -19,28 +19,33 @@
  -->
 
 <template>
-  <div class="orangehrm-attachment orangehrm-card-container">
-    <save-attachment
+  <div class="orangehrm-attachment">
+    <save-interview-attachment
       v-if="showSaveModal"
       :http="http"
+      :max-file-size="maxFileSize"
       :allowed-file-types="allowedFileTypes"
       @close="closeModel"
-    ></save-attachment>
-    <edit-attachment
+    ></save-interview-attachment>
+    <edit-interview-attachment
       v-else-if="showEditModal"
-      :data="editModalState"
       :http="http"
+      :data="editModalState"
+      :max-file-size="maxFileSize"
       :allowed-file-types="allowedFileTypes"
       @close="closeModel"
-    ></edit-attachment>
+    ></edit-interview-attachment>
     <template v-else>
-      <div
-        class="orangehrm-horizontal-padding
-        orangehrm-vertical-padding"
-      >
-        <profile-action-header @click="onClickAdd">
+      <div class="orangehrm-attachment-header">
+        <oxd-text tag="h6" class="orangehrm-main-title">
           {{ $t('general.attachments') }}
-        </profile-action-header>
+        </oxd-text>
+        <oxd-button
+          icon-name="plus"
+          display-type="text"
+          :label="$t('general.add')"
+          @click="onClickAdd"
+        />
       </div>
       <table-header
         :selected="checkedItems.length"
@@ -54,12 +59,17 @@
           :headers="headers"
           :items="items?.data"
           :clickable="false"
+          :selectable="true"
           :loading="isLoading"
           row-decorator="oxd-table-decorator-card"
         />
       </div>
-      <div v-if="showPaginator" class="orangehrm-bottom-container">
-        <oxd-pagination v-model:current="currentPage" :length="pages" />
+      <div class="orangehrm-bottom-container">
+        <oxd-pagination
+          v-if="showPaginator"
+          v-model:current="currentPage"
+          :length="pages"
+        />
       </div>
     </template>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
@@ -70,16 +80,19 @@
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {convertFilesizeToString} from '@ohrm/core/util/helper/filesize';
-import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
-import SaveAttachment from '@/orangehrmPimPlugin/components/SaveAttachment';
-import EditAttachment from '@/orangehrmPimPlugin/components/EditAttachment';
+import SaveInterviewAttachment from '@/orangehrmRecruitmentPlugin/components/SaveInterviewAttachment.vue';
+import EditInterviewAttachment from '@/orangehrmRecruitmentPlugin/components/EditInterviewAttachment.vue';
 
 const attachmentDataNormalizer = data => {
   return data.map(item => {
     return {
-      ...item,
-      size: convertFilesizeToString(item.size, 2),
+      id: item.id,
+      interviewId: item.interviewId,
+      filename: item.attachment?.fileName,
+      size: convertFilesizeToString(item.attachment?.fileSize || 0, 2),
+      fileType: item.attachment?.fileType,
+      comment: item.comment,
     };
   });
 };
@@ -87,21 +100,28 @@ const attachmentDataNormalizer = data => {
 export default {
   name: 'InterviewAttachments',
   components: {
-    'profile-action-header': ProfileActionHeader,
     'delete-confirmation': DeleteConfirmationDialog,
-    'save-attachment': SaveAttachment,
-    'edit-attachment': EditAttachment,
+    'save-interview-attachment': SaveInterviewAttachment,
+    'edit-interview-attachment': EditInterviewAttachment,
   },
   props: {
+    interviewId: {
+      type: Number,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
     allowedFileTypes: {
       type: Array,
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      `recruitment/interviewAttachments/interviewer`,
+      window.appGlobal.baseUrl,
+      `api/v2/recruitment/interviews/${props.interviewId}/attachments`,
     );
     const {
       showPaginator,
@@ -170,7 +190,6 @@ export default {
         },
       ],
       checkedItems: [],
-      isSave: true,
       showSaveModal: false,
       showEditModal: false,
       editModalState: null,
@@ -227,9 +246,10 @@ export default {
     closeModel() {
       this.showSaveModal = false;
       this.showEditModal = false;
+      this.resetDataTable();
     },
     onClickDownload(item) {
-      const downUrl = `${window.appGlobal.baseUrl}/recruitment/resume/${item?.id}`;
+      const downUrl = `${window.appGlobal.baseUrl}/recruitment/viewInterviewAttachment/interview/${this.interviewId}/attachment/${item.id}`;
       window.open(downUrl, '_blank');
     },
   },
@@ -237,7 +257,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.orangehrm-card-container {
-  padding: 1.2rem 0 !important;
+.orangehrm-attachment {
+  border-radius: 1.2rem;
+  background-color: $oxd-white-color;
+  &-header {
+    display: flex;
+    overflow-wrap: break-word;
+    align-items: center;
+    padding: 25px;
+    button {
+      margin-left: 1rem;
+      white-space: nowrap;
+    }
+  }
 }
 </style>

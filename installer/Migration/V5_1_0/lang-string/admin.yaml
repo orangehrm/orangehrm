@@ -29,3 +29,15 @@ langStrings:
   -
     value: 'Social Media Images'
     unitId: social_media_images
+  -
+    value: 'Export'
+    unitId: export
+  -
+    value: 'Translate'
+    unitId: translate
+  -
+    value: 'Users will require translate texts manually after creating the language package.'
+    unitId: translate_text_manually
+  -
+    value: 'Add Language Package'
+    unitId: add_language_package

@@ -60,14 +60,14 @@ class Reviewer
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="completed_date", type="datetime",nullable=true)
+     * @ORM\Column(name="completed_date", type="datetime", nullable=true)
      */
     private ?DateTime $completedDate;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="comment", type="text", length=65532,nullable=true)
+     * @ORM\Column(name="comment", type="text", nullable=true)
      */
     private ?string $comment;
 

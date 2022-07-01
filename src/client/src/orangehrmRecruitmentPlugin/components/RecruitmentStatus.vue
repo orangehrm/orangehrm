@@ -19,80 +19,215 @@
  -->
 
 <template>
-  <oxd-form :loading="isLoading">
-    <div class="orangehrm-card-container">
-      <slot name="header-title"></slot>
+  <div class="orangehrm-card-container">
+    <oxd-form :loading="isLoading">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('recruitment.application_stage') }}
+      </oxd-text>
       <oxd-divider />
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-group :label="$t('general.name')">
-              <oxd-text tag="p">
-                {{ candidate }}
-              </oxd-text>
-            </oxd-input-group>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-group :label="$t('recruitment.vacancy')">
-              <oxd-text tag="p">
-                {{ vacancy }}
-              </oxd-text>
-            </oxd-input-group>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-group :label="$t('recruitment.hiring_manager')">
-              <oxd-text tag="p">
-                {{ hiringManager }}
-              </oxd-text>
-            </oxd-input-group>
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
+      <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('general.name')">
+            <oxd-text tag="p">
+              {{ candidateName }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('recruitment.vacancy')">
+            <oxd-text tag="p">
+              {{ vacancyName }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input-group :label="$t('recruitment.hiring_manager')">
+            <oxd-text tag="p">
+              {{ hiringManagerName }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+      </oxd-grid>
       <oxd-divider />
-      <slot name="footer-options"></slot>
-    </div>
-  </oxd-form>
+      <div class="orangehrm-recruitment">
+        <div class="orangehrm-recruitment-status">
+          <oxd-text type="subtitle-2">
+            {{ $t('general.status') }}: {{ recruitmentStatus }}
+          </oxd-text>
+        </div>
+        <div class="orangehrm-recruitment-actions">
+          <oxd-button
+            v-if="hasWorkflow(3)"
+            :label="$t('general.reject')"
+            display-type="danger"
+            @click="doWorkflow(3)"
+          />
+          <oxd-button
+            v-if="hasWorkflow(8)"
+            :label="$t('recruitment.offer_declined')"
+            display-type="danger"
+            @click="doWorkflow(8)"
+          />
+          <oxd-button
+            v-if="hasWorkflow(6)"
+            :label="$t('recruitment.mark_interview_failed')"
+            display-type="danger"
+            @click="doWorkflow(6)"
+          />
+          <oxd-button
+            v-if="hasWorkflow(2)"
+            :label="$t('recruitment.shortlist')"
+            display-type="success"
+            @click="doWorkflow(2)"
+          />
+          <oxd-button
+            v-if="hasWorkflow(4)"
+            :label="$t('recruitment.schedule_interview')"
+            display-type="success"
+            @click="doWorkflow(4)"
+          />
+          <oxd-button
+            v-if="hasWorkflow(5)"
+            :label="$t('recruitment.mark_interview_passed')"
+            display-type="success"
+            @click="doWorkflow(5)"
+          />
+          <oxd-button
+            v-if="hasWorkflow(7)"
+            :label="$t('recruitment.offer_job')"
+            display-type="success"
+            @click="doWorkflow(7)"
+          />
+          <oxd-button
+            v-if="hasWorkflow(9)"
+            :label="$t('recruitment.hire')"
+            display-type="success"
+            @click="doWorkflow(9)"
+          />
+        </div>
+      </div>
+    </oxd-form>
+  </div>
 </template>
 
 <script>
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+
 export default {
   name: 'RecruitmentStatus',
   props: {
-    candidateId: {
-      type: Number,
+    candidate: {
+      type: Object,
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const http = new APIService(
-      'https://c81c3149-4936-41d9-ab3d-e25f1bff2934.mock.pstmn.io',
-      `/recruitment/status/${props.candidateId}`,
+      window.appGlobal.baseUrl,
+      'api/v2/recruitment/candidates',
     );
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     return {
       http,
+      translateEmpName: $tEmpName,
     };
   },
   data() {
     return {
       isLoading: false,
-      candidate: '',
-      hiringManager: '',
-      vacancy: '',
+      candidateName: '',
+      vacancyName: 'N/A',
+      hiringManagerName: 'N/A',
+      status: null,
+      statuses: [
+        {id: 1, label: this.$t('recruitment.application_initiated')},
+        {id: 2, label: this.$t('recruitment.shortlisted')},
+        {id: 3, label: this.$t('recruitment.rejected')},
+        {id: 4, label: this.$t('recruitment.interview_scheduled')},
+        {id: 5, label: this.$t('recruitment.interview_passed')},
+        {id: 6, label: this.$t('recruitment.interview_failed')},
+        {id: 7, label: this.$t('recruitment.job_offered')},
+        {id: 8, label: this.$t('recruitment.offer_declined')},
+        {id: 9, label: this.$t('recruitment.hired')},
+      ],
+      actions: [],
     };
+  },
+  computed: {
+    recruitmentStatus() {
+      return (
+        this.statuses.find(item => item.id === this.status?.id)?.label || null
+      );
+    },
   },
   beforeMount() {
     this.isLoading = true;
-    this.http.getAll().then(({data: {data}}) => {
-      const {candidate, vacancy, manager} = data;
-      this.candidate = candidate;
-      this.vacancy = vacancy;
-      this.hiringManager =
-        (manager.terminationId ? '(Past Employee)' : '') +
-        `${manager.firstName} ${manager.middleName} ${manager.lastName}`;
-      this.isLoading = false;
-    });
+    this.status = this.candidate.status;
+    this.candidateName = `${this.candidate?.firstName} ${this.candidate
+      ?.middleName || ''} ${this.candidate?.lastName}`;
+    if (this.candidate?.vacancy) {
+      this.vacancyName = this.candidate?.vacancy.name;
+      this.hiringManagerName = `${
+        this.candidate?.vacancy.hiringManager.firstName
+      } ${this.candidate?.vacancy.hiringManager.lastName} ${
+        this.candidate?.vacancy.hiringManager.terminationId
+          ? this.$t('general.past_employee')
+          : ''
+      }`;
+    }
+    this.http
+      .request({
+        method: 'GET',
+        url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.actions = [...data];
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+  methods: {
+    hasWorkflow(actionId) {
+      return this.actions.findIndex(actions => actions.id == actionId) > -1;
+    },
+    doWorkflow(actionId) {
+      navigate('/recruitment/changeCandidateVacancyStatus', undefined, {
+        candidateId: this.candidate?.id,
+        selectedAction: actionId,
+      });
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-recruitment {
+  display: flex;
+  justify-content: space-between;
+  &-actions {
+    gap: 0.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 120px;
+    margin-left: 60px;
+    justify-content: flex-end;
+    ::v-deep(.oxd-button--medium) {
+      width: 100%;
+    }
+    @include oxd-respond-to('md') {
+      margin-left: unset;
+      max-width: unset;
+      ::v-deep(.oxd-button--medium) {
+        width: unset;
+      }
+    }
+  }
+}
+</style>

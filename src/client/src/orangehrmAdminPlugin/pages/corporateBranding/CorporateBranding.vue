@@ -238,24 +238,6 @@ export default {
     const {saveSuccess} = useToast();
     const {formRef, invalid, validate} = useForm();
 
-    const rules = {
-      color: [required, validHexFormat],
-      clientLogo: [
-        maxFileSize(1024 * 1024),
-        imageShouldHaveDimensions(50, 50),
-        validFileTypes(props.allowedImageTypes),
-      ],
-      clientBanner: [
-        maxFileSize(1024 * 1024),
-        imageShouldHaveDimensions(182, 50),
-        validFileTypes(props.allowedImageTypes),
-      ],
-      loginBanner: [
-        maxFileSize(1024 * 1024),
-        imageShouldHaveDimensions(340, 65),
-        validFileTypes(props.allowedImageTypes),
-      ],
-    };
     const state = reactive({
       isLoading: false,
       colors: {
@@ -272,6 +254,31 @@ export default {
       },
       showSocialMediaImages: true,
     });
+
+    const rules = {
+      color: [required, validHexFormat],
+      clientLogo: [
+        v =>
+          state.clientLogo.method === 'replaceCurrent' ? required(v) : true,
+        maxFileSize(1024 * 1024),
+        imageShouldHaveDimensions(50, 50),
+        validFileTypes(props.allowedImageTypes),
+      ],
+      clientBanner: [
+        v =>
+          state.clientBanner.method === 'replaceCurrent' ? required(v) : true,
+        maxFileSize(1024 * 1024),
+        imageShouldHaveDimensions(182, 50),
+        validFileTypes(props.allowedImageTypes),
+      ],
+      loginBanner: [
+        v =>
+          state.loginBanner.method === 'replaceCurrent' ? required(v) : true,
+        maxFileSize(1024 * 1024),
+        imageShouldHaveDimensions(340, 65),
+        validFileTypes(props.allowedImageTypes),
+      ],
+    };
 
     const onFormSubmit = () => {
       const getAttachment = fileUploadModel => {

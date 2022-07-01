@@ -48,7 +48,7 @@ class AddTestTranslationCommand extends Command
             $output->writeln('Added test translation strings to 5.0 ' . $module . ' module strings.');
         }
 
-        $modules = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth','performance','maintenance'];
+        $modules = ['admin', 'general','performance','recruitment'];
         foreach ($modules as $module) {
             $this->translationTestTool->execute($module, 'V5_1_0');
             $output->writeln('Added test translation strings to 5.1 ' . $module . ' module strings.');

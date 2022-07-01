@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Performance\Dao;
 
+use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Kpi;
@@ -35,7 +36,6 @@ use OrangeHRM\Performance\Dto\ReviewEmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Performance\Dto\SupervisorEvaluationSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
-use PHPUnit\Exception;
 
 class PerformanceReviewDao extends BaseDao
 {
@@ -93,9 +93,16 @@ class PerformanceReviewDao extends BaseDao
      */
     public function createReview(PerformanceReview $performanceReview, int $reviewerEmpNumber): PerformanceReview
     {
-        $this->persist($performanceReview);
-        $this->saveReviewer($performanceReview, 'Supervisor', $reviewerEmpNumber);
-        $this->saveReviewer($performanceReview, 'Employee', null);
+        $this->beginTransaction();
+        try {
+            $this->persist($performanceReview);
+            $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR, $reviewerEmpNumber);
+            $this->saveReviewer($performanceReview, ReviewerGroup::REVIEWER_GROUP_EMPLOYEE, null);
+            $this->commitTransaction();
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
         return $performanceReview;
     }
 
@@ -103,7 +110,6 @@ class PerformanceReviewDao extends BaseDao
      * @param PerformanceReview $performanceReview
      * @param string $reviewerGroupName
      * @param int|null $reviewerEmpNumber
-     * @return void
      */
     private function saveReviewer(PerformanceReview $performanceReview, string $reviewerGroupName, ?int $reviewerEmpNumber)
     {
@@ -113,11 +119,33 @@ class PerformanceReviewDao extends BaseDao
         } else {
             $reviewer->setEmployee($performanceReview->getEmployee());
         }
-        $reviewer->setStatus(Reviewer::STATUS_ACTIVATED);
         $reviewerGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => $reviewerGroupName]);
+        $reviewer->setStatus(Reviewer::STATUS_ACTIVATED);
         $reviewer->setGroup($reviewerGroup);
         $reviewer->setReview($performanceReview);
         $this->persist($reviewer);
+
+        if ($performanceReview->getStatusId() == PerformanceReview::STATUS_ACTIVATED) {
+            $this->saveReviewerRating($performanceReview, $reviewerGroup);
+        }
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @param ReviewerGroup $reviewerGroup
+     */
+    private function saveReviewerRating(PerformanceReview $performanceReview, ReviewerGroup $reviewerGroup): void
+    {
+        $reviewer = $this->getReviewerRecord($performanceReview->getId(), $reviewerGroup->getName());
+        $kpiIdArrayForReview = $this->getKpiIdsForReviewId($performanceReview->getId());
+
+        foreach ($kpiIdArrayForReview as $kpiId) {
+            $reviewerRating = new ReviewerRating();
+            $reviewerRating->setPerformanceReview($performanceReview);
+            $reviewerRating->getDecorator()->setKpiByKpiId($kpiId);
+            $reviewerRating->setReviewer($reviewer);
+            $this->persist($reviewerRating);
+        }
     }
 
     /**
@@ -430,9 +458,15 @@ class PerformanceReviewDao extends BaseDao
             ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
         $q->andWhere($q->expr()->eq('reviewGroup.name', ':groupName'))
             ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+        $purgedEmployeeReviewIds = $this->getPurgeEmployeeReviewIds();
+        if (! empty($purgedEmployeeReviewIds)) {
+            $q->andWhere($q->expr()->notIn('performanceReview.id', ':purgedRecords'))
+                ->setParameter('purgedRecords', $purgedEmployeeReviewIds);
+        }
         /** @var Reviewer[] $reviewers */
         $reviewers = $q->getQuery()->execute();
-        $reviewIds =[];
+
+        $reviewIds = [];
 
         foreach ($reviewers as $reviewer) {
             $reviewIds[] =$reviewer->getReview()->getId();
@@ -441,13 +475,26 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
+     * @return array
+     */
+    private function getPurgeEmployeeReviewIds(): array
+    {
+        $q = $this->createQueryBuilder(PerformanceReview::class, 'review');
+        $q->select('review.id')
+            ->leftJoin('review.employee', 'employee')
+            ->andWhere($q->expr()->isNotNull('employee.purgedAt'));
+        return array_column($q->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
      * @return int[]
      */
     public function getReviewIdList(): array
     {
-        // TODO check purged employee permissions
         $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
-        $qb->select('performanceReview.id');
+        $qb->select('performanceReview.id')
+            ->leftJoin('performanceReview.employee', 'employee')
+            ->andWhere($qb->expr()->isNull('employee.purgedAt'));
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
@@ -593,8 +640,8 @@ class PerformanceReviewDao extends BaseDao
             } else {
                 $this->getEntityManager()->persist($reviewerRating);
             }
-            $this->getEntityManager()->flush();
         }
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -630,6 +677,31 @@ class PerformanceReviewDao extends BaseDao
         $qb->update()
             ->set('reviewer.status', ':status')
             ->setParameter('status', $status)
+            ->andWhere($qb->expr()->eq('reviewer.review', ':reviewId'))
+            ->setParameter('reviewId', $performanceReview->getId())
+            ->andWhere('reviewer.group = :reviewerGroup')
+            ->setParameter('reviewerGroup', $reviewerGroup->getId());
+
+        $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param PerformanceReview $performanceReview
+     * @param string $reviewerGroupName
+     * @param string $comment
+     */
+    public function updateReviewerComment(
+        PerformanceReview $performanceReview,
+        string $reviewerGroupName,
+        string $comment
+    ): void {
+        /** @var ReviewerGroup $reviewerGroup */
+        $reviewerGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => $reviewerGroupName]);
+        $qb = $this->createQueryBuilder(Reviewer::class, 'reviewer');
+
+        $qb->update()
+            ->set('reviewer.comment', ':comment')
+            ->setParameter('comment', $comment)
             ->andWhere($qb->expr()->eq('reviewer.review', ':reviewId'))
             ->setParameter('reviewId', $performanceReview->getId())
             ->andWhere('reviewer.group = :reviewerGroup')

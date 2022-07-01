@@ -31,22 +31,22 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Maintenance\Api\Model\PurgeEmployeeModel;
-use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
+use OrangeHRM\Maintenance\Service\PurgeService;
 use OrangeHRM\ORM\Exception\TransactionException;
 
 class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
 {
-    private ?PurgeEmployeeService $purgeEmployeeService = null;
+    private ?PurgeService $purgeService = null;
 
     /**
-     * @return PurgeEmployeeService
+     * @return PurgeService
      */
-    public function getPurgeEmployeeService(): PurgeEmployeeService
+    public function getPurgeService(): PurgeService
     {
-        if (is_null($this->purgeEmployeeService)) {
-            $this->purgeEmployeeService = new PurgeEmployeeService();
+        if (is_null($this->purgeService)) {
+            $this->purgeService = new PurgeService();
         }
-        return $this->purgeEmployeeService;
+        return $this->purgeService;
     }
 
     /**
@@ -59,8 +59,8 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_BODY,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        if ($this->getPurgeEmployeeService()->getPurgeEmployeeDao()->isEmployeePurgeable($empNumber)) {
-            $this->getPurgeEmployeeService()->purgeEmployeeData($empNumber);
+        if ($this->getPurgeService()->getPurgeDao()->isEmployeePurgeable($empNumber)) {
+            $this->getPurgeService()->purgeEmployeeData($empNumber);
             return new EndpointResourceResult(PurgeEmployeeModel::class, $empNumber);
         }
         throw $this->getBadRequestException("Employee Cannot Be Purged");
