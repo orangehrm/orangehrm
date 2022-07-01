@@ -49,6 +49,7 @@ export interface Reviewer {
   empNumber: number;
   firstName: string;
   lastName: string;
+  middleName: string;
   terminationId: number;
   jobTitle: JobTitle;
 }
@@ -194,6 +195,7 @@ export default function useReviewEvaluation(http: APIService) {
         empNumber: reviewerData.employee.empNumber,
         firstName: reviewerData.employee.firstName,
         lastName: reviewerData.employee.lastName,
+        middleName: reviewerData.employee.middleName,
         terminationId: reviewerData.employee.terminationId,
       },
       jobTitle: reviewerData.employee.jobTitle.name,

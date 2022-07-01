@@ -174,7 +174,7 @@ export default {
           case ACTION_JOB_OFFERED:
             description = $t('recruitment.employee_offered_the_job', {
               employee: performerName,
-              vacancy: item.vacancyNam,
+              vacancy: item.vacancyName,
             });
             break;
           case ACTION_OFFER_DECLINED:

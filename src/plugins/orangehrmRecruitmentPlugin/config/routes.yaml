@@ -205,6 +205,11 @@ interview_attachment:
 #        Screens
 ##########################
 
+recruitment_module:
+  path: /recruitment/viewRecruitmentModule
+  controller: OrangeHRM\Recruitment\Controller\ViewCandidateController::handle
+  methods: [ GET ]
+
 recruitment_view_job_vacancy:
   path: /recruitment/viewJobVacancy
   controller: OrangeHRM\Recruitment\Controller\ViewJobVacancyController::handle

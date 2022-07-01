@@ -50,6 +50,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MIN_RATING = 'minRating';
     public const PARAMETER_MAX_RATING = 'maxRating';
     public const PARAMETER_DEFAULT_KPI = 'isDefault';
+    public const PARAMETER_EDITABLE = 'editable';
 
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
 
@@ -63,8 +64,12 @@ class KpiAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $kpi = $this->getKpiService()->getKpiDao()->getKpiById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($kpi, Kpi::class);
-
-        return new EndpointResourceResult(KpiModel::class, $kpi);
+        $editable = $this->getKpiService()->getKpiDao()->isKpiEditable($id);
+        return new EndpointResourceResult(
+            KpiModel::class,
+            $kpi,
+            new ParameterBag([self::PARAMETER_EDITABLE => $editable])
+        );
     }
 
     /**
@@ -125,10 +130,10 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $kpi = new Kpi();
-        $this->setKpi($kpi);
+        $this->setKpi($kpi, false);
 
         try {
-            $kpi = $this->getKpiService()->saveKpi($kpi);
+            $kpi = $this->getKpiService()->saveKpi($kpi, false);
             return new EndpointResourceResult(KpiModel::class, $kpi);
         } catch (KpiServiceException $e) {
             throw $this->getBadRequestException($e->getMessage());
@@ -138,14 +143,30 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     /**
      * @param Kpi $kpi
      */
-    private function setKpi(Kpi $kpi): void
+    private function setKpi(Kpi $kpi, bool $restrictedUpdate): void
     {
-        $kpi->setTitle(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_TITLE
-            )
-        );
+        if (!$restrictedUpdate) {
+            $kpi->setTitle(
+                $this->getRequestParams()->getString(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_TITLE
+                )
+            );
+
+            $kpi->setMinRating(
+                $this->getRequestParams()->getInt(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_MIN_RATING
+                )
+            );
+            $kpi->setMaxRating(
+                $this->getRequestParams()->getInt(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_MAX_RATING
+                )
+            );
+        }
+
         $jobTitleId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_JOB_TITLE_CODE
@@ -153,18 +174,6 @@ class KpiAPI extends Endpoint implements CrudEndpoint
 
         $kpi->getDecorator()->setJobTitleById($jobTitleId);
 
-        $kpi->setMinRating(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_MIN_RATING
-            )
-        );
-        $kpi->setMaxRating(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_MAX_RATING
-            )
-        );
         $kpi->setDefaultKpi(
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_BODY,
@@ -227,8 +236,8 @@ class KpiAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $kpi = $this->getKpiService()->getKpiDao()->getKpiById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($kpi, Kpi::class);
-        $this->setKpi($kpi);
-
+        $restrictedEdit = $this->getKpiService()->getKpiDao()->isKpiEditable($id);
+        $this->setKpi($kpi, $restrictedEdit);
         try {
             $this->getKpiService()->saveKpi($kpi);
             return new EndpointResourceResult(KpiModel::class, $kpi);

@@ -150,6 +150,7 @@ import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   components: {
@@ -204,6 +205,7 @@ export default {
 
   setup(props, context) {
     const {$t} = usei18n();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const isCollapsed = ref(props.collapsed);
     const commentValidators = [shouldNotExceedCharLength(2000)];
 
@@ -212,9 +214,10 @@ export default {
     });
 
     const employeeName = computed(() => {
-      return `${props.employee.firstName} ${props.employee.lastName} ${
-        props.employee.terminationId ? $t('general.past_employee') : ''
-      }`;
+      return $tEmpName(props.employee, {
+        includeMiddle: false,
+        excludePastEmpTag: true,
+      });
     });
 
     const toggleForm = () => {

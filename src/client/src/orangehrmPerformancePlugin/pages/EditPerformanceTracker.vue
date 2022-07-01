@@ -115,7 +115,7 @@ export default {
     return {
       isLoading: false,
       tracker: {...trackerModel},
-      isReadOnly: false, // TODO:: have to configure based on logs required
+      isReadOnly: false,
       rules: {
         tracker: [required, shouldNotExceedCharLength(200)],
         employee: [
