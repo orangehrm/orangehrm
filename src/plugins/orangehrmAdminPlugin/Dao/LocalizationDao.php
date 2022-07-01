@@ -102,7 +102,7 @@ class LocalizationDao extends BaseDao
             'langString.note AS note',
             'translation.value AS target',
         );
-        return $q->getQuery()->execute();
+        return array_values($q->getQuery()->execute());
     }
 
     /**

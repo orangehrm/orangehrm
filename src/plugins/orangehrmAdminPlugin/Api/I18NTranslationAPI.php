@@ -81,7 +81,7 @@ class I18NTranslationAPI extends Endpoint implements CollectionEndpoint
             )
         );
 
-        $languageId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, 'languageId');
+        $languageId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_LANGUAGE_ID);
         $i18NTranslationSearchFilterParams->setLanguageId($languageId);
 
         $translations = $this->getLocalizationService()->getLocalizationDao()->getNormalizedTranslations(
@@ -106,14 +106,14 @@ class I18NTranslationAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                'languageId',
+                CommonParams::PARAMETER_LANGUAGE_ID,
                 new Rule(Rules::POSITIVE)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SOURCE_TEXT,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_SOURCE_TEXT_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_SOURCE_TEXT_MAX_LENGTH])
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

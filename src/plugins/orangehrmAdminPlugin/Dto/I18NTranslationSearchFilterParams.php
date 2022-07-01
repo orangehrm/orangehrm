@@ -81,7 +81,6 @@ class I18NTranslationSearchFilterParams extends FilterParams
 
     /**
      * @param string|null $sourceText
-     * @return void
      */
     public function setSourceText(?string $sourceText): void
     {
@@ -98,7 +97,6 @@ class I18NTranslationSearchFilterParams extends FilterParams
 
     /**
      * @param string|null $translatedText
-     * @return void
      */
     public function setTranslatedText(?string $translatedText): void
     {
