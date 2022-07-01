@@ -124,7 +124,7 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
                 new Rule(Rules::POSITIVE),
                 new Rule(Rules::ENTITY_ID_EXISTS, [Vacancy::class])
             ),
-            ...$this->getSortingAndPaginationParamsRules(CandidateSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules([])
         );
     }
 
