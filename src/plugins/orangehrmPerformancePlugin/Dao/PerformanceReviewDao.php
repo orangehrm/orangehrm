@@ -584,6 +584,7 @@ class PerformanceReviewDao extends BaseDao
         $q->select('kpi.id')
             ->andWhere('kpi.jobTitle =:jobTitle')
             ->setParameter('jobTitle', $jobTitleId);
+        $q->andWhere($q->expr()->isNull('kpi.deletedAt'));
         return array_column($q->getQuery()->execute(), 'id');
     }
 

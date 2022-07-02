@@ -216,7 +216,7 @@ export default {
     const employeeName = computed(() => {
       return $tEmpName(props.employee, {
         includeMiddle: false,
-        excludePastEmpTag: true,
+        excludePastEmpTag: false,
       });
     });
 

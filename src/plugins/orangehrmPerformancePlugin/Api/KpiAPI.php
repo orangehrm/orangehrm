@@ -130,7 +130,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $kpi = new Kpi();
-        $this->setKpi($kpi, false);
+        $this->setKpi($kpi, true);
 
         try {
             $kpi = $this->getKpiService()->saveKpi($kpi, false);
@@ -143,9 +143,10 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     /**
      * @param Kpi $kpi
      */
-    private function setKpi(Kpi $kpi, bool $restrictedUpdate): void
+    private function setKpi(Kpi $kpi, bool $notRestrictedUpdate): void
     {
-        if (!$restrictedUpdate) {
+        if ($notRestrictedUpdate) {
+
             $kpi->setTitle(
                 $this->getRequestParams()->getString(
                     RequestParams::PARAM_TYPE_BODY,
@@ -236,8 +237,8 @@ class KpiAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $kpi = $this->getKpiService()->getKpiDao()->getKpiById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($kpi, Kpi::class);
-        $restrictedEdit = $this->getKpiService()->getKpiDao()->isKpiEditable($id);
-        $this->setKpi($kpi, $restrictedEdit);
+        $editable = $this->getKpiService()->getKpiDao()->isKpiEditable($id);
+        $this->setKpi($kpi, $editable);
         try {
             $this->getKpiService()->saveKpi($kpi);
             return new EndpointResourceResult(KpiModel::class, $kpi);
