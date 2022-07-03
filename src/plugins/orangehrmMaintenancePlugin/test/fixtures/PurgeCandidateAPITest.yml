@@ -69,22 +69,22 @@ Vacancy:
   - {"id": 5,"job_title_code": 2,"hiring_manager_id": 1,"name": "QA 3","description": "","no_of_positions": null,"status": 1,"published_in_feed":1,"defined_time": "2022-06-29 14:58:15","updated_time": "2022-06-29 14:58:15"}
 
 Candidate:
-  - {"id": 1,"first_name": "Devi for SE 1","middle_name": "","last_name": "DS","email": "devids@test.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-28","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
-  - {"id": 2,"first_name": "Shar for SE 2","middle_name": "","last_name": "Per","email": "shar@per.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-28","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 1}
-  - {"id": 3,"first_name": "Chen for QA 2","middle_name": "","last_name": "Ga","email": "chan@ga.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-28","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
-  - {"id": 4,"first_name": "Ani for SE 1","middle_name": "","last_name": "Sapra","email": "devi2@devi.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-28","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
-  - {"id": 5,"first_name": "Devi for SE 2","middle_name": "","last_name": "DS","email": "devi@ds.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-28","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 1}
-  - {"id": 6,"first_name": "Devi for QA 2","middle_name": "","last_name": "DS","email": "devi@ds.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-28","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
+  - {"id": 1,"first_name": "Devi for SE 1","middle_name": "","last_name": "DS","email": "devids@test.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-22","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
+  - {"id": 2,"first_name": "Shar for SE 2","middle_name": "","last_name": "Per","email": "shar@per.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-23","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 1}
+  - {"id": 3,"first_name": "Chen for QA 2","middle_name": "","last_name": "Ga","email": "chan@ga.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-24","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
+  - {"id": 4,"first_name": "Ani for SE 1","middle_name": "","last_name": "Sapra","email": "devi2@devi.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-25","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
+  - {"id": 5,"first_name": "Devi for SE 2","middle_name": "","last_name": "DS","email": "devi@ds.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-26","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 1}
+  - {"id": 6,"first_name": "Devi for QA 2","middle_name": "","last_name": "DS","email": "devi@ds.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-27","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
   - {"id": 7,"first_name": "Shar for QA 2","middle_name": "","last_name": "Per","email": "shar@per.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-28","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 1}
   - {"id": 8,"first_name": "Devi for QA 3","middle_name": "","last_name": "DS","email": "devi@ds.com","contact_number": "","status": 1,"comment": "","mode_of_application": 1,"date_of_application": "2022-06-29","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": 1,"consent_to_keep_data": 0}
 
 CandidateVacancy:
-  - {"id": 1,"candidate_id": 1,"vacancy_id": 1,"status": "APPLICATION INITIATED","applied_date": "2022-06-28"}
-  - {"id": 2,"candidate_id": 2,"vacancy_id": 2,"status": "APPLICATION INITIATED","applied_date": "2022-06-28"}
-  - {"id": 3,"candidate_id": 3,"vacancy_id": 4,"status": "APPLICATION INITIATED","applied_date": "2022-06-28"}
-  - {"id": 4,"candidate_id": 4,"vacancy_id": 1,"status": "APPLICATION INITIATED","applied_date": "2022-06-28"}
-  - {"id": 5,"candidate_id": 5,"vacancy_id": 2,"status": "APPLICATION INITIATED","applied_date": "2022-06-28"}
-  - {"id": 6,"candidate_id": 6,"vacancy_id": 4,"status": "APPLICATION INITIATED","applied_date": "2022-06-28"}
+  - {"id": 1,"candidate_id": 1,"vacancy_id": 1,"status": "APPLICATION INITIATED","applied_date": "2022-06-22"}
+  - {"id": 2,"candidate_id": 2,"vacancy_id": 2,"status": "APPLICATION INITIATED","applied_date": "2022-06-23"}
+  - {"id": 3,"candidate_id": 3,"vacancy_id": 4,"status": "APPLICATION INITIATED","applied_date": "2022-06-24"}
+  - {"id": 4,"candidate_id": 4,"vacancy_id": 1,"status": "APPLICATION INITIATED","applied_date": "2022-06-25"}
+  - {"id": 5,"candidate_id": 5,"vacancy_id": 2,"status": "APPLICATION INITIATED","applied_date": "2022-06-26"}
+  - {"id": 6,"candidate_id": 6,"vacancy_id": 4,"status": "APPLICATION INITIATED","applied_date": "2022-06-27"}
   - {"id": 7,"candidate_id": 7,"vacancy_id": 4,"status": "APPLICATION INITIATED","applied_date": "2022-06-28"}
   - {"id": 8,"candidate_id": 8,"vacancy_id": 5,"status": "INTERVIEW PASSED","applied_date": "2022-06-29"}
 

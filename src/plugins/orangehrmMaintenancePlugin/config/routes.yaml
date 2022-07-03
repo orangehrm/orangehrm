@@ -12,6 +12,13 @@ apiv2_maintenance_purge_candidate:
   defaults:
     _api: OrangeHRM\Maintenance\Api\PurgeCandidateAPI
 
+apiv2_maintenance_candidates:
+  path: /api/v2/maintenance/candidates
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Maintenance\Api\PurgeCandidateAPI
+
 maintainence_employee_json:
   path: /maintenance/accessEmployeeData/{empNumber}
   controller: OrangeHRM\Maintenance\Controller\File\AccessEmployeeFileController::handle
@@ -33,5 +40,5 @@ purge_employee:
 
 maintainence_candidate_records:
   path: /maintenance/purgeCandidateData
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  controller: OrangeHRM\Maintenance\Controller\PurgeCandidateController::handle
   methods: [ GET ]
