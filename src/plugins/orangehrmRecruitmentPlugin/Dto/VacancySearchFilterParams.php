@@ -50,6 +50,11 @@ class VacancySearchFilterParams extends FilterParams
      */
     protected ?int $status = null;
 
+    /**
+     * @var string|null
+     */
+    protected ?string $name = null;
+
     public function __construct()
     {
         $this->setSortField('vacancy.name');
@@ -118,5 +123,21 @@ class VacancySearchFilterParams extends FilterParams
     public function setStatus(?int $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
     }
 }
