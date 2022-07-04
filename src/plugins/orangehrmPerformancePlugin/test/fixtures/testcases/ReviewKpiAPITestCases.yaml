@@ -73,13 +73,8 @@ GetAll:
       0:
         "id": 5
         "title": "B"
-        "jobTitle":
-          "id": 3
-          "name": "QA"
-          "deleted": false
         "minRating": 0
         "maxRating": 100
-        "isDefault": null
     meta:
       total: 1
 
@@ -99,32 +94,17 @@ GetAll:
       0:
         "id": 2
         "title": "Code Coverage"
-        "jobTitle":
-          "id": 1
-          "name": "Software Engineer"
-          "deleted": false
         "minRating": 0
         "maxRating": 100
-        "isDefault": null
       1:
         "id": 3
         "title": "Code Stability"
-        "jobTitle":
-          "id": 1
-          "name": "Software Engineer"
-          "deleted": false
         "minRating": 0
         "maxRating": 100
-        "isDefault": null
       2:
         "id": 1
         "title": "Velocity"
-        "jobTitle":
-          "id": 1
-          "name": "Software Engineer"
-          "deleted": false
         "minRating": 0
         "maxRating": 100
-        "isDefault": null
     meta:
       total: 3
