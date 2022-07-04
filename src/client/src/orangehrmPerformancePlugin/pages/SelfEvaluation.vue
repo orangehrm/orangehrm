@@ -151,7 +151,7 @@ import FinalEvaluation from '../components/FinalEvaluation';
 import EvaluationForm from '../components/EvaluationForm';
 import useForm from '@ohrm/core/util/composable/useForm';
 import useReviewEvaluation from '@/orangehrmPerformancePlugin/util/composable/useReviewEvaluation';
-import ReviewConfirmModal from "@/orangehrmPerformancePlugin/components/ReviewConfirmModal";
+import ReviewConfirmModal from '@/orangehrmPerformancePlugin/components/ReviewConfirmModal';
 
 const reviewerModel = {
   details: {
@@ -310,14 +310,14 @@ export default {
       this.$nextTick()
         .then(() => this.validate())
         .then(async () => {
-            if (this.invalid === true) return;
-            if (complete) {
-              const confirmation = await this.$refs.confirmDialog.showDialog();
-              if (confirmation !== 'ok') {
-                return Promise.reject();
-              }
+          if (this.invalid === true) return;
+          if (complete) {
+            const confirmation = await this.$refs.confirmDialog.showDialog();
+            if (confirmation !== 'ok') {
+              return Promise.reject();
             }
-          })
+          }
+        })
         .then(() => {
           this.isLoading = true;
           this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)

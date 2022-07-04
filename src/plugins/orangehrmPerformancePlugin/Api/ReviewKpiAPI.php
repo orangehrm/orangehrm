@@ -32,7 +32,8 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceReview;
-use OrangeHRM\Performance\Api\Model\KpiModel;
+use OrangeHRM\Entity\ReviewerGroup;
+use OrangeHRM\Performance\Api\Model\KpiSummaryModel;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
@@ -57,12 +58,12 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
         );
         $this->setSortingAndPaginationParams($reviewKpiParamHolder);
         $reviewKpis = $this->getPerformanceReviewService()->getPerformanceReviewDao()
-            ->getKpisForReview($reviewKpiParamHolder);
+            ->getKpisForReview($reviewKpiParamHolder, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
         $reviewCount = $this->getPerformanceReviewService()->getPerformanceReviewDao()
-            ->getKpisForReviewCount($reviewKpiParamHolder);
+            ->getKpisForReviewCount($reviewKpiParamHolder, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
 
         return new EndpointCollectionResult(
-            KpiModel::class,
+            KpiSummaryModel::class,
             $reviewKpis,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $reviewCount])
         );

@@ -215,7 +215,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         return $this->getNormalizerService()->normalizeArray(
             KpiSummaryModel::class,
             $this->getPerformanceReviewService()->getPerformanceReviewDao()
-                ->getKpisForReview($reviewKpiParamHolder)
+                ->getKpisForReview($reviewKpiParamHolder, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR)
         );
     }
 
