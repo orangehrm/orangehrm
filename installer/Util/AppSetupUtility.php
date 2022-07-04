@@ -409,27 +409,32 @@ class AppSetupUtility
                 return;
             }
             $ohrmDbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD];
-            Connection::getConnection()->executeStatement(
-                $this->getUserCreationQuery($dbName, $ohrmDbUser, $ohrmDbPassword, 'localhost')
-            );
-            Connection::getConnection()->executeStatement(
-                $this->getUserCreationQuery($dbName, $ohrmDbUser, $ohrmDbPassword, '%')
-            );
+            $queries = [
+                ...$this->getUserCreationQueries($dbName, $ohrmDbUser, $ohrmDbPassword, 'localhost'),
+                ...$this->getUserCreationQueries($dbName, $ohrmDbUser, $ohrmDbPassword, '%'),
+                'FLUSH PRIVILEGES;'
+            ];
+            foreach ($queries as $query) {
+                Connection::getConnection()->executeStatement($query);
+            }
         }
     }
 
-    protected function getUserCreationQuery(
+    protected function getUserCreationQueries(
         string $dbName,
         string $ohrmDbUser,
         ?string $ohrmDbPassword,
         string $grantHost
-    ) {
+    ): array {
         $conn = Connection::getConnection();
         $dbName = $conn->quoteIdentifier($dbName);
         $ohrmDbUser = $conn->quote($ohrmDbUser);
-        $queryIdentifiedBy = empty($ohrmDbPassword) ? '' : "IDENTIFIED BY " . $conn->quote($ohrmDbPassword);
-        return "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE " .
+
+        $queryIdentifiedBy = is_null($ohrmDbPassword) ? '' : "IDENTIFIED BY " . $conn->quote($ohrmDbPassword);
+        $createQuery = "CREATE USER $ohrmDbUser@'$grantHost' $queryIdentifiedBy;";
+        $grantQuery = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE " .
             "ON $dbName.* TO $ohrmDbUser@'$grantHost' $queryIdentifiedBy;";
+        return [$createQuery, $grantQuery];
     }
 
     public function writeConfFile(): void
