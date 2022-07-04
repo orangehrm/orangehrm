@@ -154,7 +154,7 @@ Update:
     services:
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
     attributes:
-      id: 1
+      id: 2
     body:
       title: 'Sharing Knowledge'
       jobTitleId: 1
@@ -177,7 +177,7 @@ Update:
       maxRating: 100
     invalidOnly: ['jobTitleId']
 
-  'with all valid details except is default':
+  'with all valid details except is default and being used in review':
     userId: 1
     services:
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
@@ -190,16 +190,16 @@ Update:
       maxRating: 100
     data:
       id: 1
-      title: 'Sharing Knowledge'
+      title: 'Code Clarity'
       jobTitle:
         id: 2
         name: 'Software Engineer'
         deleted: false
-      minRating: 0
-      maxRating: 100
+      minRating: 1
+      maxRating: 10
       isDefault: null
 
-  'with all valid details but having reviews':
+  'with all valid details and not having reviews':
     userId: 1
     services:
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
@@ -213,13 +213,13 @@ Update:
       isDefault: true
     data:
       id: 2
-      title: 'Capacity Planning'
+      title: 'Positive Commitment'
       jobTitle:
         id: 1
         name: 'Software Architect'
         deleted: false
-      minRating: 1
-      maxRating: 100
+      minRating: 0
+      maxRating: 10
       isDefault: true
 
 GetAll:
