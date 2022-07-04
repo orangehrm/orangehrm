@@ -20,6 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
+    <review-confirm-modal ref="confirmDialog"> </review-confirm-modal>
     <div class="orangehrm-card-container">
       <oxd-text tag="h5" class="orangehrm-performance-review-title">
         {{ $t('performance.performance_review') }}
@@ -138,6 +139,7 @@ import FinalEvaluation from '../components/FinalEvaluation';
 import EvaluationForm from '../components/EvaluationForm';
 import useForm from '@ohrm/core/util/composable/useForm';
 import useReviewEvaluation from '@/orangehrmPerformancePlugin/util/composable/useReviewEvaluation';
+import ReviewConfirmModal from '@/orangehrmPerformancePlugin/components/ReviewConfirmModal';
 
 const reviewerModel = {
   details: {
@@ -157,6 +159,7 @@ export default {
     'review-summary': ReviewSummary,
     'final-evaluation': FinalEvaluation,
     'evaluation-form': EvaluationForm,
+    'review-confirm-modal': ReviewConfirmModal,
   },
   props: {
     reviewId: {
@@ -294,21 +297,24 @@ export default {
         .then(async () => {
           if (this.invalid === true) return;
           if (complete) {
-            const confirmation = await this.$refs.confirmDialog.showDialog();
-            if (confirmation !== 'ok') {
-              return Promise.reject();
-            }
-          }
-        })
-        .then(() => {
-          this.isLoading = true;
-          this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
-            .then(() => {
-              return this.$toast.saveSuccess();
-            })
-            .finally(() => {
-              reloadPage();
+            this.$refs.confirmDialog.showDialog().then(confirmation => {
+              if (confirmation === 'ok') {
+                this.submitReview(true);
+              }
             });
+          } else {
+            this.submitReview(false);
+          }
+        });
+    },
+    submitReview(complete = false) {
+      this.isLoading = true;
+      this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .finally(() => {
+          reloadPage();
         });
     },
     onClickCancel() {
