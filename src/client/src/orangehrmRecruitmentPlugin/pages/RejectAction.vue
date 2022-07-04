@@ -44,10 +44,10 @@
       <oxd-form-actions>
         <oxd-button
           display-type="ghost"
-          :label="$t('general.back')"
+          :label="$t('general.cancel')"
           @click="onClickBack"
         />
-        <submit-button display-type="danger" :label="$t('general.reject')" />
+        <submit-button />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
@@ -91,7 +91,6 @@ export default {
   },
   methods: {
     onSave() {
-      let historyId;
       this.isLoading = true;
       this.http
         .request({
@@ -100,16 +99,11 @@ export default {
             note: this.note,
           },
         })
-        .then(response => {
-          const {data} = response.data;
-          historyId = data.id;
+        .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/candidate/{candidateId}/history/{historyId}', {
-            candidateId: this.candidateId,
-            historyId: historyId,
-          });
+          navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
         });
     },
     onClickBack() {
