@@ -49,7 +49,7 @@ class LoginLogDaoTest extends KernelTestCase
             ->getMock();
         $dateTimeHelper->expects($this->atLeastOnce())
             ->method('getNow')
-            ->willReturnCallback(fn() => new DateTime('2022-07-04 10:56:56'));
+            ->willReturn(new DateTime('2022-07-04 10:56:56'));
         $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
 
         $loginLog = new LoginLog();

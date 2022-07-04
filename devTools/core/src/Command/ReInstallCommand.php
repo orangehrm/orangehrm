@@ -66,9 +66,9 @@ class ReInstallCommand extends Command
         $kernel->handleRequest($request);
 
         /** @var Organization $org */
-        $org = $this->tryClosure(fn() => $this->getRepository(Organization::class)->find(1));
+        $org = $this->tryClosure(fn () => $this->getRepository(Organization::class)->find(1));
         /** @var User $user */
-        $user = $this->tryClosure(fn() => $this->getRepository(User::class)->findOneBy(['createdBy' => null]));
+        $user = $this->tryClosure(fn () => $this->getRepository(User::class)->findOneBy(['createdBy' => null]));
 
         $organizationName = $org ? $org->getName() : 'OrangeHRM';
         $countryCode = $org ? $org->getCountry() : 'US';
