@@ -72,23 +72,24 @@
           :status="status"
           :is-required="isFinalizeRequired"
         />
-        <oxd-divider />
-        <oxd-form-actions>
+        <oxd-form-actions v-show="hasActions">
+          <oxd-divider />
           <div class="orangehrm-performance-review-actions">
             <oxd-button
+              v-if="hasCancelAction"
               display-type="ghost"
-              :label="$t('general.back')"
-              @click="onClickBack"
+              :label="$t('general.cancel')"
+              @click="onClickCancel"
             />
             <oxd-button
-              v-show="hasSaveAction"
+              v-if="hasSaveAction"
               display-type="ghost"
               type="button"
               :label="$t('general.save')"
               @click="onSubmit(false)"
             />
             <oxd-button
-              v-show="hasCompleteAction"
+              v-if="hasCompleteAction"
               type="button"
               display-type="secondary"
               :label="$t('performance.complete')"
@@ -102,9 +103,7 @@
 </template>
 
 <script>
-import {provide, readonly} from 'vue';
 import useForm from '@ohrm/core/util/composable/useForm';
-import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
 import ReviewSummary from '@/orangehrmPerformancePlugin/components/ReviewSummary';
@@ -162,9 +161,6 @@ export default {
   setup() {
     const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
-
-    const responsiveState = useResponsive();
-    provide('screenState', readonly(responsiveState));
 
     const {
       getAllKpis,
@@ -224,6 +220,17 @@ export default {
     },
     hasCompleteAction() {
       return this.supervisor.actions.has('complete');
+    },
+    hasCancelAction() {
+      return this.status !== 4;
+    },
+    hasActions() {
+      return (
+        this.hasSupervisorUpdateAction ||
+        this.hasSaveAction ||
+        this.hasCompleteAction ||
+        this.hasCancelAction
+      );
     },
   },
   beforeMount() {
@@ -315,7 +322,7 @@ export default {
             });
         });
     },
-    onClickBack() {
+    onClickCancel() {
       navigate(
         this.isReviewer
           ? '/performance/searchEvaluatePerformancReview'

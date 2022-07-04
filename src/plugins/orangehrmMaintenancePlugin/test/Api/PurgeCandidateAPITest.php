@@ -74,18 +74,43 @@ class PurgeCandidateAPITest extends EndpointIntegrationTestCase
         $this->validate($values, $validationRules);
     }
 
-    public function testGetAll(): void
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $api = new PurgeCandidateAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
+        $this->populateFixtures('PurgeCandidateAPITest.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(PurgeCandidateAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('PurgeCandidateAPITestCases.yml', 'GetAll');
     }
 
     public function testGetValidationRuleForGetAll(): void
     {
+        $this->populateFixtures('PurgeCandidateAPITest.yml');
+
+        $testCaseParams = new TestCaseParams();
+        $testCaseParams->setUserId(1);
+
         $api = new PurgeCandidateAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
+        $validationRules = $api->getValidationRuleForGetAll();
+
+        $this->assertInstanceOf(ParamRuleCollection::class, $validationRules);
+
+        $values = [PurgeCandidateAPI::PARAMETER_VACANCY_ID => 2];
+        $this->assertTrue($this->validate($values, $validationRules));
+
+        $this->expectInvalidParamException();
+        $values = [PurgeCandidateAPI::PARAMETER_VACANCY_ID => -1];
+        $this->validate($values, $validationRules);
     }
 
     public function testCreate(): void

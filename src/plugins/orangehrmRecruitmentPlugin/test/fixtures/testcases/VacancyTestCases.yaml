@@ -540,3 +540,103 @@ GetAll:
           terminationId: null
     meta:
       total: 6
+
+  'Get All Vacancies by name Tech':
+    userId: 1
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+    query:
+      name: 'tech'
+    data:
+      - id: 5
+        name: 'Assistant Technical Supervisor'
+        description: 'Oversees technical assistant'
+        numOfPositions: 9
+        status: 1
+        isPublished: true
+        jobTitle:
+          id: 2
+          title: 'Supervisor'
+          isDeleted: false
+        hiringManager:
+          id: 3
+          firstName: 'Renukshan'
+          middleName: 'RT'
+          lastName: 'Saputhanthri'
+          terminationId: null
+      - id: 3
+        name: 'Part-Time Technical Assistant'
+        description: ''
+        numOfPositions: 1
+        status: 2
+        isPublished: true
+        jobTitle:
+          id: 1
+          title: 'Technical Assistant'
+          isDeleted: false
+        hiringManager:
+          id: 1
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+      - id: 2
+        name: 'Senior Technical Supervisor'
+        description: 'Oversees technical assistant'
+        numOfPositions: 3
+        status: 1
+        isPublished: true
+        jobTitle:
+          id: 2
+          title: 'Supervisor'
+          isDeleted: false
+        hiringManager:
+          id: 2
+          firstName: 'Ashley'
+          middleName: 'ST'
+          lastName: 'Abel'
+          terminationId: null
+      - id: 1
+        name: 'Technical Assistant Intern'
+        description: 'Assists the engineers'
+        numOfPositions: 2
+        status: 1
+        isPublished: true
+        jobTitle:
+          id: 1
+          title: 'Technical Assistant'
+          isDeleted: false
+        hiringManager:
+          id: 1
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+    meta:
+      total: 4
+
+  'Get All Vacancies by name - char':
+    userId: 1
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+    query:
+      name: 'char'
+    data:
+      - id: 4
+        name: 'Charted Engineer'
+        description: 'Manages Engineers'
+        numOfPositions: 4
+        status: 1
+        isPublished: true
+        jobTitle:
+          id: 3
+          title: 'Engineering Manager'
+          isDeleted: false
+        hiringManager:
+          id: 4
+          firstName: 'Sherin'
+          middleName: 'Sherin'
+          lastName: 'Sherin'
+          terminationId: null
+    meta:
+      total: 1
