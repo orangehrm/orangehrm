@@ -144,22 +144,22 @@
 
 <script>
 import {computed, ref} from 'vue';
-import usei18n from '@/core/util/composable/usei18n';
-import useSort from '@ohrm/core/util/composable/useSort';
-import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {navigate} from '@ohrm/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
-import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
-import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
-import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
-import CandidateStatusDropdown from '@/orangehrmRecruitmentPlugin/components/CandidateStatusDropdown';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {
+  validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
-  validDateFormat,
 } from '@/core/util/validation/rules';
+import usei18n from '@/core/util/composable/usei18n';
+import useSort from '@ohrm/core/util/composable/useSort';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
+import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import CandidateAutocomplete from '@/orangehrmRecruitmentPlugin/components/CandidateAutocomplete';
+import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
+import CandidateStatusDropdown from '@/orangehrmRecruitmentPlugin/components/CandidateStatusDropdown';
 
 const defaultFilters = {
   jobTitle: null,
@@ -172,6 +172,7 @@ const defaultFilters = {
   fromDate: null,
   toDate: null,
 };
+
 const defaultSortOrder = {
   'vacancy.name': 'DEFAULT',
   'candidate.lastName': 'DEFAULT',
@@ -182,12 +183,11 @@ const defaultSortOrder = {
 
 export default {
   components: {
-    CandidateAutocomplete,
+    'vacancy-dropdown': VacancyDropdown,
+    'jobtitle-dropdown': JobtitleDropdown,
     'delete-confirmation': DeleteConfirmationDialog,
     'candidate-autocomplete': CandidateAutocomplete,
     'hiring-manager-dropdown': HiringManagerDropdown,
-    'vacancy-dropdown': VacancyDropdown,
-    'jobtitle-dropdown': JobtitleDropdown,
     'candidate-status-dropdown': CandidateStatusDropdown,
   },
 
