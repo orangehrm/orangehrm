@@ -23,7 +23,7 @@
     <candidate-action-layout
       v-model:loading="isLoading"
       :candidate-id="candidateId"
-      :title="$t('general.reject')"
+      :title="$t('general.reject_candidate')"
       @submitValid="onSave"
     >
       <oxd-form-row>

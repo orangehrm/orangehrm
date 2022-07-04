@@ -23,7 +23,7 @@
     <candidate-action-layout
       v-model:loading="isLoading"
       :candidate-id="candidateId"
-      :title="$t('recruitment.hire')"
+      :title="$t('recruitment.hire_candidate')"
       @submitValid="onSave"
     >
       <oxd-form-row>
