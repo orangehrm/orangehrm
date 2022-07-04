@@ -31,6 +31,7 @@ import SaveCandidate from './pages/SaveCandidate.vue';
 import ViewCandidatesList from './pages/ViewCandidatesList.vue';
 import ViewCandidateProfile from './pages/ViewCandidateProfile.vue';
 import ViewActionHistory from './pages/ViewActionHistory.vue';
+import ViewInterviewAttachments from './pages/ViewInterviewAttachments.vue';
 
 export default {
   'view-job-vacancy': ViewJobVacancy,
@@ -48,4 +49,5 @@ export default {
   'offer-decline-action': OfferDeclinedAction,
   'hire-action': HireAction,
   'view-action-history': ViewActionHistory,
+  'view-interview-attachments': ViewInterviewAttachments,
 };

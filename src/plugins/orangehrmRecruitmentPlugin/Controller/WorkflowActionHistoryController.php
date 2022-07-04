@@ -23,20 +23,9 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Service\ConfigService;
 
-class InterviewActionHistoryController extends AbstractVueController
+class WorkflowActionHistoryController extends AbstractVueController
 {
-    protected ?ConfigService $configService = null;
-
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
-
     /**
      * @inheritDoc
      */
@@ -45,10 +34,6 @@ class InterviewActionHistoryController extends AbstractVueController
         $component = new Component('view-action-history');
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $request->attributes->getInt('candidateId')));
         $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, $request->attributes->getInt('historyId')));
-        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, 1024 * 1024));
-        $component->addProp(
-            new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes())
-        );
         $this->setComponent($component);
     }
 }
