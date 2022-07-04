@@ -127,6 +127,7 @@ jobs:
           sed -i 's/useSameDbUserForOrangeHRM: y/useSameDbUserForOrangeHRM: n/g' installer/cli_install_config.yaml
           sed -i 's/orangehrmDatabaseUser: ~/orangehrmDatabaseUser: orangehrm_2/g' installer/cli_install_config.yaml
           sed -i 's/orangehrmDatabasePassword: ~/orangehrmDatabasePassword: 0rang3h!m/g' installer/cli_install_config.yaml
+          sed -i 's/databaseName: orangehrm_mysql/databaseName: db/g' installer/cli_install_config.yaml
           php7.4 installer/cli_install.php
 
       - name: Install OrangeHRM with existing database
@@ -137,7 +138,7 @@ jobs:
           sed -i 's/privilegedDatabaseUser: root/privilegedDatabaseUser: orangehrm_2/g' installer/cli_install_config.yaml
           sed -i 's/privilegedDatabasePassword: root/privilegedDatabasePassword: 0rang3h!m/g' installer/cli_install_config.yaml
           sed -i 's/databaseName: orangehrm_mysql/databaseName: db/g' installer/cli_install_config.yaml
-          mysql -u root -proot -e "CREATE DATABASE db"
+          mysql -u root -proot -h 127.0.0.1 -e "CREATE DATABASE db;"
           php7.4 installer/cli_install.php
 
       - name: Check dev tool reinstall command

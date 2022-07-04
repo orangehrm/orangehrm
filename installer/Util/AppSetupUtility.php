@@ -432,8 +432,8 @@ class AppSetupUtility
 
         $queryIdentifiedBy = is_null($ohrmDbPassword) ? '' : "IDENTIFIED BY " . $conn->quote($ohrmDbPassword);
         $createQuery = "CREATE USER $ohrmDbUser@'$grantHost' $queryIdentifiedBy;";
-        $grantQuery = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE " .
-            "ON $dbName.* TO $ohrmDbUser@'$grantHost' $queryIdentifiedBy;";
+        $grantQuery = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, REFERENCES, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE " .
+            "ON $dbName.* TO $ohrmDbUser@'$grantHost';";
         return [$createQuery, $grantQuery];
     }
 
