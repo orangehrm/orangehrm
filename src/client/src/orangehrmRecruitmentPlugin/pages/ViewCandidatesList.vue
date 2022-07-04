@@ -360,7 +360,7 @@ export default {
         view: {
           onClick: this.onClickEdit,
           props: {
-            name: 'eye',
+            name: 'eye-fill',
           },
         },
       };
