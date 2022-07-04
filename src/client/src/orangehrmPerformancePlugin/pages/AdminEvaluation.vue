@@ -285,41 +285,44 @@ export default {
       this.isFinalizeRequired = complete;
       this.$nextTick()
         .then(() => this.validate())
-        .then(async () => {
+        .then(() => {
           if (this.invalid === true) return;
           if (complete) {
-            const confirmation = await this.$refs.confirmDialog.showDialog();
-            if (confirmation !== 'ok') {
-              return Promise.reject();
-            }
+            this.$refs.confirmDialog.showDialog().then(confirmation => {
+              if (confirmation === 'ok') {
+                this.submitReview(true);
+              }
+            });
+          } else {
+            this.submitReview(false);
+          }
+        });
+    },
+    submitReview(complete = false) {
+      this.isLoading = true;
+      this.saveSupervisorReview(this.reviewId, this.supervisorReview)
+        .then(() => {
+          if (this.hasSupervisorUpdateAction) {
+            return this.saveEmployeeReview(
+              this.reviewId,
+              true,
+              this.employeeReview,
+            );
           }
         })
         .then(() => {
-          this.isLoading = true;
-          this.saveSupervisorReview(this.reviewId, this.supervisorReview)
-            .then(() => {
-              if (this.hasSupervisorUpdateAction) {
-                return this.saveEmployeeReview(
-                  this.reviewId,
-                  true,
-                  this.employeeReview,
-                );
-              }
-            })
-            .then(() => {
-              return this.finalizeReview(this.reviewId, {
-                complete: complete,
-                finalRating: this.finalRating,
-                finalComment: this.finalComment,
-                completedDate: this.completedDate,
-              });
-            })
-            .then(() => {
-              return this.$toast.saveSuccess();
-            })
-            .finally(() => {
-              reloadPage();
-            });
+          return this.finalizeReview(this.reviewId, {
+            complete: complete,
+            finalRating: this.finalRating,
+            finalComment: this.finalComment,
+            completedDate: this.completedDate,
+          });
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .finally(() => {
+          reloadPage();
         });
     },
     onClickCancel() {

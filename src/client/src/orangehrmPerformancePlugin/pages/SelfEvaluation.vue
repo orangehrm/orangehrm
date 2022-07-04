@@ -297,21 +297,24 @@ export default {
         .then(async () => {
           if (this.invalid === true) return;
           if (complete) {
-            const confirmation = await this.$refs.confirmDialog.showDialog();
-            if (confirmation !== 'ok') {
-              return Promise.reject();
-            }
-          }
-        })
-        .then(() => {
-          this.isLoading = true;
-          this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
-            .then(() => {
-              return this.$toast.saveSuccess();
-            })
-            .finally(() => {
-              reloadPage();
+            this.$refs.confirmDialog.showDialog().then(confirmation => {
+              if (confirmation === 'ok') {
+                this.submitReview(true);
+              }
             });
+          } else {
+            this.submitReview(false);
+          }
+        });
+    },
+    submitReview(complete = false) {
+      this.isLoading = true;
+      this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .finally(() => {
+          reloadPage();
         });
     },
     onClickCancel() {
