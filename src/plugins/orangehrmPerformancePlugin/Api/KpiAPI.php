@@ -146,7 +146,6 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     private function setKpi(Kpi $kpi, bool $notRestrictedUpdate): void
     {
         if ($notRestrictedUpdate) {
-
             $kpi->setTitle(
                 $this->getRequestParams()->getString(
                     RequestParams::PARAM_TYPE_BODY,
