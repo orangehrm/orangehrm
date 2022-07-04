@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\DevTools\Command;
 
-use Conf;
+use Closure;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
@@ -34,8 +34,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Throwable;
 
-class ReInstall extends Command
+class ReInstallCommand extends Command
 {
     use EntityManagerHelperTrait;
 
@@ -65,27 +66,34 @@ class ReInstall extends Command
         $kernel->handleRequest($request);
 
         /** @var Organization $org */
-        $org = $this->getRepository(Organization::class)->find(1);
-        $organizationName = $org->getName();
-        $countryCode = $org->getCountry();
-
+        $org = $this->tryClosure(fn() => $this->getRepository(Organization::class)->find(1));
         /** @var User $user */
-        $user = $this->getRepository(User::class)->findOneBy(['createdBy' => null]);
-        $adminUsername = $user->getUserName();
-        $adminHashedPassword = $user->getUserPassword();
-        $firstName = $user->getEmployee()->getFirstName();
-        $lastName = $user->getEmployee()->getLastName();
-        $email = $user->getEmployee()->getWorkEmail();
-        $contact = $user->getEmployee()->getWorkTelephone();
+        $user = $this->tryClosure(fn() => $this->getRepository(User::class)->findOneBy(['createdBy' => null]));
 
+        $organizationName = $org ? $org->getName() : 'OrangeHRM';
+        $countryCode = $org ? $org->getCountry() : 'US';
 
-        $pathToConf = Config::get(Config::CONF_FILE_PATH);
-        require_once $pathToConf;
-        $conf = new Conf();
+        if ($user instanceof User) {
+            $adminUsername = $user->getUserName();
+            $adminHashedPassword = $user->getUserPassword();
+            $firstName = $user->getEmployee()->getFirstName();
+            $lastName = $user->getEmployee()->getLastName();
+            $email = $user->getEmployee()->getWorkEmail();
+            $contact = $user->getEmployee()->getWorkTelephone();
+        } else {
+            $adminUsername = 'Admin';
+            $firstName = 'Admin';
+            $lastName = 'Employee';
+            $email = 'admin@example.com';
+            $contact = null;
+        }
+
+        $conf = Config::getConf();
         $dbName = $conf->getDbName();
-
-        $sm = $this->getEntityManager()->getConnection()->createSchemaManager();
-        $sm->dropDatabase($dbName);
+        $this->tryClosure(function () use ($dbName) {
+            $sm = $this->getEntityManager()->getConnection()->createSchemaManager();
+            $sm->dropDatabase($dbName);
+        });
 
         // DB configs
         StateContainer::getInstance()->storeDbInfo(
@@ -113,15 +121,32 @@ class ReInstall extends Command
         $appSetupUtility->runMigrations('3.3.3', Config::PRODUCT_VERSION);
         $appSetupUtility->insertSystemConfiguration();
 
-        /** @var User $user */
-        $qb = Connection::getConnection()->createQueryBuilder()
-            ->update('ohrm_user', 'user')
-            ->set('user.user_password', ':hashedPassword')
-            ->setParameter('hashedPassword', $adminHashedPassword);
-        $qb->where($qb->expr()->isNull('user.created_by'))
-            ->executeQuery();
+        if (isset($adminHashedPassword)) {
+            /** @var User $user */
+            $qb = Connection::getConnection()->createQueryBuilder()
+                ->update('ohrm_user', 'user')
+                ->set('user.user_password', ':hashedPassword')
+                ->setParameter('hashedPassword', $adminHashedPassword);
+            $qb->where($qb->expr()->isNull('user.created_by'))
+                ->executeQuery();
+        } else {
+            $io->note("Username: $adminUsername, Password: admin123");
+        }
 
         $io->success('Done');
         return Command::SUCCESS;
+    }
+
+    /**
+     * @param Closure $fn
+     * @return mixed|null
+     */
+    private function tryClosure(Closure $fn)
+    {
+        try {
+            return $fn();
+        } catch (Throwable $e) {
+        }
+        return null;
     }
 }
