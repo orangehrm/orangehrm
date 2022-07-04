@@ -155,6 +155,7 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
@@ -190,7 +191,7 @@ export default {
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
-
+    const {$tEmpName} = useEmployeeNameTranslate();
     const reviewListDateFormat = date =>
       formatDate(parseDate(date), jsDateFormat, {locale});
 
@@ -207,12 +208,14 @@ export default {
         const reviewer = item.reviewer?.employee;
         return {
           id: item.id,
-          employee: `${employee?.firstName} ${employee?.lastName} ${
-            employee?.terminationId ? ` ${$t('general.past_employee')}` : ''
-          }`,
-          reviewer: `${reviewer?.firstName} ${reviewer?.lastName} ${
-            reviewer?.terminationId ? ` ${$t('general.past_employee')}` : ''
-          }`,
+          employee: $tEmpName(employee, {
+            includeMiddle: false,
+            excludePastEmpTag: false,
+          }),
+          reviewer: $tEmpName(reviewer, {
+            includeMiddle: false,
+            excludePastEmpTag: false,
+          }),
           jobTitle: item.jobTitle?.name,
           reviewPeriod: {
             reviewPeriodStart: reviewListDateFormat(item.reviewPeriodStart),
