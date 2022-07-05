@@ -409,8 +409,7 @@ class PerformanceReviewDao extends BaseDao
      */
     private function getKpisForReviewQueryBuilderWrapper(
         ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
-    ): QueryBuilderWrapper
-    {
+    ): QueryBuilderWrapper {
         $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
         $qb->leftJoin('reviewerRating.performanceReview', 'performanceReview')
             ->leftJoin('reviewerRating.reviewer', 'reviewer')
