@@ -68,7 +68,9 @@
               :key="interviewer"
               v-model="interviewers[index]"
               :show-delete="index > 0"
-              :rules="index === 0 ? rules.interviewerName : []"
+              :rules="
+                rules.interviewerName.filter((_, i) => index === 0 || i > 0)
+              "
               include-employees="onlyCurrent"
               required
               @remove="onRemoveInterviewer(index)"
@@ -214,7 +216,16 @@ export default {
         interviewName: [required, shouldNotExceedCharLength(100)],
         interviewDate: [required, validDateFormat()],
         interviewTime: [validTimeFormat],
-        interviewerName: [required],
+        interviewerName: [
+          required,
+          value => {
+            return this.interviewers.filter(
+              interviewer => interviewer && interviewer.id === value?.id,
+            ).length < 2
+              ? true
+              : this.$t('general.already_exists');
+          },
+        ],
         note: [shouldNotExceedCharLength(2000)],
       },
       statuses: [
