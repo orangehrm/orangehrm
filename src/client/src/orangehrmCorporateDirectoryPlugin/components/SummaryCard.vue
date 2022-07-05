@@ -32,13 +32,13 @@
       <oxd-icon name="arrow-right"></oxd-icon>
     </div>
     <div :class="nameClasses">
-      <oxd-text type="card-title">
+      <oxd-text type="toast-title">
         {{ employeeName }}
       </oxd-text>
     </div>
     <profile-picture :id="employeeId"></profile-picture>
     <div v-if="employeeDesignation" :class="designationClasses">
-      <oxd-text type="toast-title">
+      <oxd-text type="toast-message">
         {{ employeeDesignation }}
       </oxd-text>
     </div>
@@ -111,53 +111,42 @@ export default {
     hasDefaultSlot() {
       return !!this.$slots.default;
     },
+    addClassesOrNot() {
+      return this.showBackButton
+        ? !this.showBackButton
+        : !this.employeeOnMobile;
+    },
     bodyClasses() {
       return {
         'orangehrm-directory-card-body': true,
-        'orangehrm-directory-card-body--change-body-height': !this
-          .showBackButton
-          ? !(this.employeeOnMobile || this.showBackButton)
-          : !(this.employeeOnMobile && this.showBackButton),
+        'orangehrm-directory-card-body-change-height': this.addClassesOrNot,
       };
     },
     nameClasses() {
       return {
         'orangehrm-directory-card-name': true,
-        'orangehrm-directory-card-name--change-name-height': !this
-          .showBackButton
-          ? !(this.employeeOnMobile || this.showBackButton)
-          : !(this.employeeOnMobile && this.showBackButton),
-        '--break-words': !this.showBackButton
-          ? !(this.employeeOnMobile || this.showBackButton)
-          : !(this.employeeOnMobile && this.showBackButton),
+        'orangehrm-directory-card-name-change-height': this.addClassesOrNot,
+        '--break-words': this.addClassesOrNot,
       };
     },
     designationClasses() {
       return {
         'orangehrm-directory-card-designation': true,
-        'orangehrm-directory-card-designation--change-designation-height': !this
-          .showBackButton
-          ? !(this.employeeOnMobile || this.showBackButton)
-          : !(this.employeeOnMobile && this.showBackButton),
-        '--break-words': !this.showBackButton
-          ? !(this.employeeOnMobile || this.showBackButton)
-          : !(this.employeeOnMobile && this.showBackButton),
+        'orangehrm-directory-card-designation-change-height': this
+          .addClassesOrNot,
+        '--break-words': this.addClassesOrNot,
       };
     },
     subunitClasses() {
       return {
         'orangehrm-directory-card-subunit': true,
-        '--break-words': !this.showBackButton
-          ? !(this.employeeOnMobile || this.showBackButton)
-          : !(this.employeeOnMobile && this.showBackButton),
+        '--break-words': this.addClassesOrNot,
       };
     },
     locationClasses() {
       return {
         'orangehrm-directory-card-location': true,
-        '--break-words': !this.showBackButton
-          ? !(this.employeeOnMobile || this.showBackButton)
-          : !(this.employeeOnMobile && this.showBackButton),
+        '--break-words': this.addClassesOrNot,
       };
     },
   },
@@ -178,7 +167,7 @@ export default {
   &-height {
     height: auto;
     @include oxd-respond-to('md') {
-      height: 260px;
+      height: 256px;
       overflow: hidden;
     }
   }
@@ -190,20 +179,20 @@ export default {
     justify-content: space-between;
     height: auto;
 
-    &--change-name-height {
-      height: 30px;
+    &-change-height {
+      height: 28px;
     }
   }
 
   &-designation {
     padding-top: 1rem;
-    padding-bottom: 0.75rem;
+    padding-bottom: 1rem;
     text-align: center;
     justify-content: space-between;
     height: auto;
 
-    &--change-designation-height {
-      height: 30px;
+    &-change-height {
+      height: 20px;
     }
   }
 
@@ -217,8 +206,8 @@ export default {
     border-radius: 0.5rem;
     height: auto;
 
-    &--change-body-height {
-      height: 64px;
+    &-change-height {
+      height: 72px;
     }
 
     min-width: 168px;
@@ -234,11 +223,11 @@ export default {
 
   &-subunit {
     margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
   }
 
   &-location {
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
     margin-bottom: 0.25rem;
   }
 }
