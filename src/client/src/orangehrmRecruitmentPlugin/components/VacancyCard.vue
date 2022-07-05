@@ -89,6 +89,9 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      return this.windowWidth < 600;
+    },
     isViewDetails() {
       return !this.viewMore;
     },

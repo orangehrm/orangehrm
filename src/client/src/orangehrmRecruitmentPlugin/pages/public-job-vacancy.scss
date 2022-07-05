@@ -15,7 +15,6 @@
 // Boston, MA  02110-1301, USA
 
 @import '@ohrm/oxd/styles/_mixins.scss';
-@import '@/core/styles/mixins.scss';
 
 .orangehrm {
   &-background-container {
@@ -143,8 +142,6 @@
         margin-top: 0;
         font-family: $oxd-font-family;
         white-space: pre-wrap;
-        white-space: -moz-pre-wrap;
-        white-space: -o-pre-wrap;
         word-wrap: break-word;
       }
 

@@ -27,9 +27,9 @@
       @update:show="onSuccess"
     >
       <div class="orangehrm-modal-header">
-        <oxd-text type="card-title">{{
-          $t('recruitment.application_received')
-        }}</oxd-text>
+        <oxd-text type="card-title">
+          {{ $t('recruitment.application_received') }}
+        </oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="card-body">
