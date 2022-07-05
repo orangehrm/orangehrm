@@ -33,6 +33,7 @@ import ViewCandidateProfile from './pages/ViewCandidateProfile.vue';
 import ViewActionHistory from './pages/ViewActionHistory.vue';
 import VacancyList from './pages/VacancyList.vue';
 import ApplyJobVacancy from './pages/ApplyJobVacancy.vue';
+import ViewInterviewAttachments from './pages/ViewInterviewAttachments.vue';
 
 export default {
   'view-job-vacancy': ViewJobVacancy,
@@ -52,4 +53,5 @@ export default {
   'view-action-history': ViewActionHistory,
   'vacancy-list': VacancyList,
   'apply-job-vacancy': ApplyJobVacancy,
+  'view-interview-attachments': ViewInterviewAttachments,
 };

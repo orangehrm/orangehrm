@@ -17,38 +17,45 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Maintenance\Controller;
 
+use OrangeHRM\Authentication\Controller\AdminPrivilegeController;
+use OrangeHRM\Authentication\Controller\Traits\AdministratorAccessTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Service\ConfigService;
 
-class InterviewActionHistoryController extends AbstractVueController
+class PurgeCandidateController extends AbstractVueController implements AdminPrivilegeController
 {
-    protected ?ConfigService $configService = null;
-
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
+    use AuthUserTrait;
+    use AdministratorAccessTrait;
+    use ConfigServiceTrait;
 
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('view-action-history');
-        $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $request->attributes->getInt('candidateId')));
-        $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, $request->attributes->getInt('historyId')));
-        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, 1024 * 1024));
+        $component = new Component('purge-candidate');
+
         $component->addProp(
-            new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes())
+            new Prop('instance-identifier', Prop::TYPE_STRING, $this->getConfigService()->getInstanceIdentifier())
         );
+
         $this->setComponent($component);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function handle(Request $request)
+    {
+        if (!$this->getAuthUser()->getHasAdminAccess()) {
+            return $this->forwardToAdministratorAccess($request);
+        }
+        return parent::handle($request);
     }
 }

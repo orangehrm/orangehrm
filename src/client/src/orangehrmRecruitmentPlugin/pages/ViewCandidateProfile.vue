@@ -24,19 +24,19 @@
   <candidate-profile
     v-if="candidate"
     :candidate="candidate"
-    :allowed-file-types="allowedFileTypes"
     :max-file-size="maxFileSize"
+    :allowed-file-types="allowedFileTypes"
   ></candidate-profile>
   <history-table v-if="candidate" :candidate="candidate"></history-table>
 </template>
 
 <script>
+import {APIService} from '@/core/util/services/api.service';
 import RecruitmentStatus from '@/orangehrmRecruitmentPlugin/components/RecruitmentStatus';
 import CandidateProfile from '@/orangehrmRecruitmentPlugin/components/CandidateProfile';
 import HistoryTable from '@/orangehrmRecruitmentPlugin/components/HistoryTable';
-import {APIService} from '@/core/util/services/api.service';
+
 export default {
-  name: 'CandidateProfileLayout',
   components: {
     'history-table': HistoryTable,
     'candidate-profile': CandidateProfile,
@@ -47,16 +47,12 @@ export default {
       type: Number,
       required: true,
     },
-    action: {
-      type: Object,
+    maxFileSize: {
+      type: Number,
       required: true,
     },
     allowedFileTypes: {
       type: Array,
-      required: true,
-    },
-    maxFileSize: {
-      type: Number,
       required: true,
     },
   },
@@ -71,9 +67,6 @@ export default {
   },
   data() {
     return {
-      status: null,
-      isLoading: true,
-      vacancyId: null,
       candidate: null,
     };
   },

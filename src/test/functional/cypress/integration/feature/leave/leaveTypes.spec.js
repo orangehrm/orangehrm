@@ -93,7 +93,10 @@ describe('Leave - leave types', function () {
     it('update leave type', function () {
       cy.task('db:restore', {name: 'leaveTypes'});
       cy.loginTo(this.user, '/leave/leaveTypeList');
-      cy.get(':nth-child(2) > .oxd-icon').click();
+      cy.wait('@getLeaveTypes');
+      cy.get(
+        '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(2)',
+      ).click();
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').clear().type(this.strings.chars30.text);
         cy.getOXD('button').contains('Save').click();
@@ -107,8 +110,10 @@ describe('Leave - leave types', function () {
     it('delete leave type', function () {
       cy.task('db:restore', {name: 'leaveTypes'});
       cy.loginTo(this.user, '/leave/leaveTypeList');
-      cy.get('.oxd-table-cell-actions > :nth-child(1)').click();
-      cy.get('.oxd-button--label-danger').click();
+      cy.get(
+        '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(1)',
+      ).click();
+      cy.getOXD('button').contains('Yes, Delete').click();
       cy.wait('@deleteLeaveType');
       cy.toast('success', 'Successfully Deleted');
     });

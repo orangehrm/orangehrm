@@ -124,13 +124,6 @@
         <submit-button :label="$t('general.save')" />
       </oxd-form-actions>
     </candidate-action-layout>
-    <br />
-    <interview-attachments
-      v-if="history.interview.id"
-      :max-file-size="maxFileSize"
-      :interview-id="history.interview.id"
-      :allowed-file-types="allowedFileTypes"
-    ></interview-attachments>
   </div>
 </template>
 
@@ -147,7 +140,6 @@ import {APIService} from '@/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments.vue';
 import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout.vue';
 import InterviewerAutocomplete from '@/orangehrmRecruitmentPlugin/components/InterviewerAutocomplete.vue';
 
@@ -175,12 +167,10 @@ const interviewModel = {
   interviewName: null,
   interviewDate: null,
   interviewTime: null,
-  note: null,
 };
 
 export default {
   components: {
-    'interview-attachments': InterviewAttachments,
     'candidate-action-layout': CandidateActionLayout,
     'interviewer-autocomplete': InterviewerAutocomplete,
   },
@@ -192,14 +182,6 @@ export default {
     },
     historyId: {
       type: Number,
-      required: true,
-    },
-    maxFileSize: {
-      type: Number,
-      required: true,
-    },
-    allowedFileTypes: {
-      type: Array,
       required: true,
     },
   },
@@ -293,7 +275,7 @@ export default {
         this.interview.interviewName = data.name;
         this.interview.interviewDate = data.interviewDate;
         this.interview.interviewTime = data.interviewTime;
-        this.interview.note = data.note;
+        this.history.note = data.note;
         if (Array.isArray(data.interviewers)) {
           this.interviewers = data.interviewers.map(interviewer => ({
             id: interviewer.empNumber,

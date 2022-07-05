@@ -262,7 +262,12 @@ recruitment_candidate_action:
 
 view_action_history:
   path: /recruitment/candidate/{candidateId}/history/{historyId}
-  controller: OrangeHRM\Recruitment\Controller\InterviewActionHistoryController::handle
+  controller: OrangeHRM\Recruitment\Controller\WorkflowActionHistoryController::handle
+  methods: [ GET ]
+
+view_interview_attachments:
+  path: /recruitment/interviews/{interviewId}/attachments
+  controller: OrangeHRM\Recruitment\Controller\InterviewAttachmentsController::handle
   methods: [ GET ]
 
 recruitment_view_vacancy_list:

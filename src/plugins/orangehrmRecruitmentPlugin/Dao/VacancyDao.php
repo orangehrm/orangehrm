@@ -84,6 +84,11 @@ class VacancyDao extends BaseDao
                     $vacancySearchFilterParamHolder->getStatus()
                 );
         }
+        if (!is_null($vacancySearchFilterParamHolder->getName())) {
+            $q->andWhere(
+                $q->expr()->like('vacancy.name', ':name')
+            )->setParameter('name', '%' . $vacancySearchFilterParamHolder->getName() . '%');
+        }
 
         return $this->getPaginator($q);
     }

@@ -89,10 +89,10 @@
       <oxd-form-actions>
         <oxd-button
           display-type="ghost"
-          :label="$t('general.back')"
+          :label="$t('general.cancel')"
           @click="onClickBack"
         />
-        <submit-button :label="$t('general.save')" />
+        <submit-button />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
@@ -163,7 +163,6 @@ export default {
       this.interviewers.splice(index, 1);
     },
     onSave() {
-      let historyId;
       this.isLoading = true;
       this.http
         .create({
@@ -172,16 +171,11 @@ export default {
             .map(interviewer => interviewer?.id)
             .filter(Number),
         })
-        .then(response => {
-          const {meta} = response.data;
-          historyId = meta.historyId;
+        .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/candidate/{candidateId}/history/{historyId}', {
-            candidateId: this.candidateId,
-            historyId: historyId,
-          });
+          navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
         });
     },
     onClickBack() {

@@ -17,49 +17,53 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
-  <div class="orangehrm-label-link-wrapper">
-    <oxd-text class="orangehrm-text-label" tag="p">{{ label }} : </oxd-text>
-    <a :href="url" target="_blank" class="orangehrm-vacancy-link">
-      {{ url }}
-    </a>
-  </div>
+  <oxd-input-field
+    type="autocomplete"
+    :label="$t('recruitment.vacancy')"
+    :clear="false"
+    :create-options="loadVacancies"
+  >
+  </oxd-input-field>
 </template>
 
 <script>
+import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'VacancyLinkCard',
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
+  name: 'VacancyAutocomplete',
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/recruitment/vacancies',
+    );
+    return {
+      http,
+    };
+  },
+  methods: {
+    async loadVacancies(searchParam) {
+      return new Promise(resolve => {
+        if (searchParam.trim()) {
+          this.http
+            .getAll({
+              name: searchParam.trim(),
+            })
+            .then(({data}) => {
+              resolve(
+                data.data.map(vacancy => {
+                  return {
+                    id: vacancy.id,
+                    label: vacancy.name,
+                  };
+                }),
+              );
+            });
+        } else {
+          resolve([]);
+        }
+      });
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.orangehrm-label-link-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
-.orangehrm-text-label {
-  font-size: 12px;
-  font-weight: 600;
-  padding-right: 0.2rem;
-  color: $oxd-interface-gray-darken-1-color;
-}
-.orangehrm-vacancy-link {
-  font-size: 12px;
-  font-weight: 600;
-  margin-left: 1rem;
-  text-decoration: none;
-  word-break: break-all;
-  font-family: $oxd-font-family;
-  color: $oxd-primary-one-color;
-}
-</style>

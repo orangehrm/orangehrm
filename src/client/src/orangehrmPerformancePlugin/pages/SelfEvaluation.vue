@@ -69,8 +69,8 @@
             <div class="orangehrm-performance-review-actions">
               <oxd-button
                 display-type="ghost"
-                :label="$t('general.back')"
-                @click="onClickBack"
+                :label="$t('general.cancel')"
+                @click="onClickCancel"
               />
               <oxd-button
                 v-show="hasSaveAction"
@@ -124,16 +124,6 @@
             :status="status"
             :is-required="false"
           />
-          <oxd-divider />
-          <oxd-form-actions>
-            <div class="orangehrm-performance-review-actions">
-              <oxd-button
-                display-type="ghost"
-                :label="$t('general.back')"
-                @click="onClickBack"
-              />
-            </div>
-          </oxd-form-actions>
         </evaluation-form>
       </div>
     </oxd-form>
@@ -141,9 +131,7 @@
 </template>
 
 <script>
-import {provide, readonly} from 'vue';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
-import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {APIService} from '@/core/util/services/api.service';
 import ReviewSummary from '../components/ReviewSummary';
 import FinalEvaluation from '../components/FinalEvaluation';
@@ -195,9 +183,6 @@ export default {
   setup() {
     const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
-
-    const responsiveState = useResponsive();
-    provide('screenState', readonly(responsiveState));
 
     const {
       getAllKpis,
@@ -326,7 +311,7 @@ export default {
             });
         });
     },
-    onClickBack() {
+    onClickCancel() {
       navigate('/performance/myPerformanceReview');
     },
   },

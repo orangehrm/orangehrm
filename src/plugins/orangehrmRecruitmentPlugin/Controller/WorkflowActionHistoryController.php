@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,50 +16,24 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
-<template>
-  <div class="orangehrm-label-link-wrapper">
-    <oxd-text class="orangehrm-text-label" tag="p">{{ label }} : </oxd-text>
-    <a :href="url" target="_blank" class="orangehrm-vacancy-link">
-      {{ url }}
-    </a>
-  </div>
-</template>
 
-<script>
-export default {
-  name: 'VacancyLinkCard',
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  },
-};
-</script>
+namespace OrangeHRM\Recruitment\Controller;
 
-<style lang="scss" scoped>
-.orangehrm-label-link-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class WorkflowActionHistoryController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('view-action-history');
+        $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $request->attributes->getInt('candidateId')));
+        $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, $request->attributes->getInt('historyId')));
+        $this->setComponent($component);
+    }
 }
-.orangehrm-text-label {
-  font-size: 12px;
-  font-weight: 600;
-  padding-right: 0.2rem;
-  color: $oxd-interface-gray-darken-1-color;
-}
-.orangehrm-vacancy-link {
-  font-size: 12px;
-  font-weight: 600;
-  margin-left: 1rem;
-  text-decoration: none;
-  word-break: break-all;
-  font-family: $oxd-font-family;
-  color: $oxd-primary-one-color;
-}
-</style>

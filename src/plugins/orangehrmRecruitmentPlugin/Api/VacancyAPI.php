@@ -49,6 +49,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public const FILTER_VACANCY_ID = 'vacancyId';
     public const FILTER_HIRING_MANAGER_ID = 'hiringManagerId';
     public const FILTER_STATUS = 'status';
+    public const FILTER_NAME = 'name';
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
@@ -116,6 +117,12 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_STATUS
             )
         );
+        $vacancyParamHolder->setName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_NAME
+            )
+        );
         $vacancies = $this->getVacancyService()->getVacancyDao()->getVacancies($vacancyParamHolder);
         $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancyParamHolder);
         return new EndpointCollectionResult(
@@ -153,6 +160,13 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::FILTER_STATUS,
                     new Rule(Rules::POSITIVE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [0, self::PARAMETER_RULE_NAME_MAX_LENGTH])
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(VacancySearchFilterParams::ALLOWED_SORT_FIELDS)

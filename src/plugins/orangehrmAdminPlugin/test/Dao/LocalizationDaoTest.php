@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Admin\Dao;
 use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Tests\Util\TestCase;
@@ -43,7 +44,7 @@ class LocalizationDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->i18NDao = new LocalizationDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/I18NDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LocalizationDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -92,24 +93,70 @@ class LocalizationDaoTest extends TestCase
 
     public function testGetLanguageById(): void
     {
-        $laguage = $this->i18NDao->getLanguageById(1);
-        $this->assertInstanceOf(I18NLanguage::class, $laguage);
-        $this->assertEquals(1, $laguage->getId());
-        $this->assertEquals('Chinese (Simplified, China) - 中文（简体，中国）', $laguage->getName());
-        $this->assertEquals('zh_Hans_CN', $laguage->getCode());
+        $language = $this->i18NDao->getLanguageById(1);
+        $this->assertInstanceOf(I18NLanguage::class, $language);
+        $this->assertEquals(1, $language->getId());
+        $this->assertEquals('Chinese (Simplified, China) - 中文（简体，中国）', $language->getName());
+        $this->assertEquals('zh_Hans_CN', $language->getCode());
     }
 
     public function testSaveI18NLanguage(): void
     {
         $language = new I18NLanguage();
-        $language->setName('Special Langauege');
+        $language->setName('Special Language');
         $language->setCode('spec lan');
         $language->setEnabled(true);
         $language->setAdded(true);
 
         $result = $this->i18NDao->saveI18NLanguage($language);
         $this->assertInstanceOf(I18NLanguage::class, $result);
-        $this->assertEquals('Special Langauege', $result->getName());
+        $this->assertEquals('Special Language', $result->getName());
         $this->assertEquals(true, $result->isAdded());
+    }
+
+    public function testGetNormalizedTranslations(): void
+    {
+        $i18NTargetLangStringSearchFilterParams = new I18NTranslationSearchFilterParams();
+        $i18NTargetLangStringSearchFilterParams->setLanguageId(1);
+        $i18NTargetLangStringSearchFilterParams->setSourceText('e');
+        $i18NTargetLangStringSearchFilterParams->setTranslatedText(null);
+        $i18NTargetLangStringSearchFilterParams->setGroupId(null);
+        $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(null);
+        $translates = $this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams);
+
+        $this->assertTrue(is_array($this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams)));
+        $this->assertCount(3, $translates);
+    }
+
+    public function testGetTranslationsCount(): void
+    {
+        $i18NTargetLangStringSearchFilterParams = new I18NTranslationSearchFilterParams();
+        $i18NTargetLangStringSearchFilterParams->setLanguageId(2);
+        $i18NTargetLangStringSearchFilterParams->setGroupId(null);
+        $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(null);
+        $i18NTargetLangStringSearchFilterParams->setSourceText(null);
+        $i18NTargetLangStringSearchFilterParams->setTranslatedText(null);
+        $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
+        $this->assertEquals(4, $count);
+
+        $i18NTargetLangStringSearchFilterParams->setGroupId('2');
+        $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
+        $this->assertEquals(2, $count);
+
+        $i18NTargetLangStringSearchFilterParams->setGroupId(null);
+        $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(true);
+        $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
+        $this->assertEquals(1, $count);
+
+        $i18NTargetLangStringSearchFilterParams->setGroupId(null);
+        $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(false);
+        $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
+        $this->assertEquals(3, $count);
+
+        $i18NTargetLangStringSearchFilterParams->setGroupId('1');
+        $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(null);
+        $i18NTargetLangStringSearchFilterParams->setSourceText('employee');
+        $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
+        $this->assertEquals(0, $count);
     }
 }

@@ -19,22 +19,30 @@
 
 namespace OrangeHRM\Maintenance\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Maintenance\Api\Model\PurgeCandidateListModel;
 use OrangeHRM\Maintenance\Api\Model\PurgeCandidateModel;
 use OrangeHRM\Maintenance\Service\PurgeService;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
 {
+    use CandidateServiceTrait;
+
     private ?PurgeService $purgeService = null;
 
     public const PARAMETER_VACANCY_ID = 'vacancyId';
@@ -83,7 +91,26 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
      */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $candidateSearchFilterParamHolder = new CandidateSearchFilterParams();
+
+        $candidateSearchFilterParamHolder->setVacancyId(
+            $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::PARAMETER_VACANCY_ID
+            )
+        );
+        $candidateSearchFilterParamHolder->setConsentToKeepData(false);
+
+        $this->setSortingAndPaginationParams($candidateSearchFilterParamHolder);
+
+        $candidates = $this->getCandidateService()->getCandidateDao()->getCandidatesList($candidateSearchFilterParamHolder);
+        $count = $this->getCandidateService()->getCandidateDao()->getCandidatesCount($candidateSearchFilterParamHolder);
+
+        return new EndpointCollectionResult(
+            PurgeCandidateListModel::class,
+            $candidates,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
     /**
@@ -91,7 +118,14 @@ class PurgeCandidateAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_VACANCY_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [Vacancy::class])
+            ),
+            ...$this->getSortingAndPaginationParamsRules([])
+        );
     }
 
     /**
