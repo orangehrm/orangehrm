@@ -85,7 +85,6 @@
               :employee-location="employee.employeeLocation"
               :employee-name="employee.employeeName"
               :employee-sub-unit="employee.employeeSubUnit"
-              :employee-on-mobile="notOnMobile"
               @click="showEmployeeDetails(index)"
             >
               <employee-details
@@ -175,7 +174,7 @@ export default {
             `${item.firstName} ${item.middleName} ${item.lastName} ` +
             (item.terminationId ? $t('general.past_employee') : ''),
           employeeJobTitle: item.jobTitle?.isDeleted
-            ? `${item.jobTitle?.title} (${$t('general.deleted')})`
+            ? `${item.jobTitle?.title} ` + $t('general.deleted')
             : item.jobTitle?.title,
           employeeSubUnit: item.subunit?.name,
           employeeLocation: item.location?.name,
@@ -194,7 +193,6 @@ export default {
       offset: 0,
       employees: [],
       currentIndex: -1,
-      notOnMobile: true,
       isLoading: false,
       filters: {
         ...defaultFilters,
@@ -261,11 +259,7 @@ export default {
       return this.isEmployeeSelected ? 3 : 4;
     },
   },
-  watch: {
-    isMobile() {
-      this.notOnMobile = !this.isMobile;
-    },
-  },
+
   beforeMount() {
     this.fetchData();
   },
@@ -273,14 +267,10 @@ export default {
   methods: {
     hideEmployeeDetails() {
       this.currentIndex = -1;
-      this.notOnMobile = true;
     },
     showEmployeeDetails(index) {
       if (this.currentIndex != index) {
         this.currentIndex = index;
-        if (this.isMobile) {
-          this.notOnMobile = false;
-        }
       } else {
         this.hideEmployeeDetails();
       }
