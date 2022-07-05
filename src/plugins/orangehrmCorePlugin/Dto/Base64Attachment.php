@@ -121,8 +121,8 @@ class Base64Attachment
     public static function createFromUploadedFile(UploadedFile $uploadedFile): self
     {
         return new self(
-            $uploadedFile->getFilename(),
-            $uploadedFile->getType(),
+            $uploadedFile->getClientOriginalName(),
+            $uploadedFile->getClientMimeType(),
             base64_encode($uploadedFile->getContent()),
             $uploadedFile->getSize()
         );

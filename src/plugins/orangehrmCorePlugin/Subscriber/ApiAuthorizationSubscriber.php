@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Subscriber;
 
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
@@ -55,6 +56,10 @@ class ApiAuthorizationSubscriber extends AbstractEventSubscriber
      */
     public function onControllerEvent(ControllerEvent $event)
     {
+        if ($this->getControllerInstance($event) instanceof PublicControllerInterface) {
+            return;
+        }
+
         if (!$this->getControllerInstance($event) instanceof AbstractRestController) {
             return;
         }

@@ -31,6 +31,8 @@ import SaveCandidate from './pages/SaveCandidate.vue';
 import ViewCandidatesList from './pages/ViewCandidatesList.vue';
 import ViewCandidateProfile from './pages/ViewCandidateProfile.vue';
 import ViewActionHistory from './pages/ViewActionHistory.vue';
+import VacancyList from './pages/VacancyList.vue';
+import ApplyJobVacancy from './pages/ApplyJobVacancy.vue';
 import ViewInterviewAttachments from './pages/ViewInterviewAttachments.vue';
 
 export default {
@@ -49,5 +51,7 @@ export default {
   'offer-decline-action': OfferDeclinedAction,
   'hire-action': HireAction,
   'view-action-history': ViewActionHistory,
+  'vacancy-list': VacancyList,
+  'apply-job-vacancy': ApplyJobVacancy,
   'view-interview-attachments': ViewInterviewAttachments,
 };
