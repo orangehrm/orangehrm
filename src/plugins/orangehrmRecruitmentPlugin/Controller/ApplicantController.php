@@ -303,7 +303,7 @@ class ApplicantController extends AbstractController implements PublicController
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CONSENT_TO_KEEP_DATA,
-                    new Rule(Rules::BOOL_TYPE)
+                    new Rule(Rules::BOOL_VAL)
                 )
             ),
         );
