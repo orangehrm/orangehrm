@@ -85,7 +85,7 @@
               :employee-location="employee.employeeLocation"
               :employee-name="employee.employeeName"
               :employee-sub-unit="employee.employeeSubUnit"
-              :employee-on-mobile="!notOnMobile"
+              :employee-on-mobile="notOnMobile"
               @click="showEmployeeDetails(index)"
             >
               <employee-details

@@ -112,9 +112,7 @@ export default {
       return !!this.$slots.default;
     },
     addClassesOrNot() {
-      return this.showBackButton
-        ? !this.showBackButton
-        : !this.employeeOnMobile;
+      return this.showBackButton ? !this.showBackButton : this.employeeOnMobile;
     },
     bodyClasses() {
       return {
