@@ -31,34 +31,28 @@
     >
       <oxd-icon name="arrow-right"></oxd-icon>
     </div>
-    <div class="orangehrm-directory-card-header --break-words">
+    <div :class="nameClasses">
       <oxd-text type="card-title">
         {{ employeeName }}
       </oxd-text>
     </div>
     <profile-picture :id="employeeId"></profile-picture>
-    <div
-      v-if="employeeDesignation"
-      class="orangehrm-directory-card-header --break-words"
-    >
+    <div v-if="employeeDesignation" :class="designationClasses">
       <oxd-text type="toast-title">
         {{ employeeDesignation }}
       </oxd-text>
     </div>
-    <div
-      v-show="employeeSubUnit || employeeLocation"
-      class="orangehrm-directory-card-body"
-    >
+    <div v-show="employeeSubUnit && employeeLocation" :class="bodyClasses">
       <span class="orangehrm-directory-card-icon">
         <oxd-icon name="geo-alt-fill"></oxd-icon>
       </span>
       <span>
-        <div class="orangehrm-directory-card-subunit --break-words">
+        <div :class="subunitClasses">
           <oxd-text type="toast-message">
             {{ employeeSubUnit }}
           </oxd-text>
         </div>
-        <div class="orangehrm-directory-card-location --break-words">
+        <div :class="locationClasses">
           <oxd-text type="toast-message">
             {{ employeeLocation }}
           </oxd-text>
@@ -107,11 +101,64 @@ export default {
       type: Boolean,
       default: false,
     },
+    employeeOnMobile: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['hide-details'],
   computed: {
     hasDefaultSlot() {
       return !!this.$slots.default;
+    },
+    bodyClasses() {
+      return {
+        'orangehrm-directory-card-body': true,
+        'orangehrm-directory-card-body--change-body-height': !this
+          .showBackButton
+          ? !(this.employeeOnMobile || this.showBackButton)
+          : !(this.employeeOnMobile && this.showBackButton),
+      };
+    },
+    nameClasses() {
+      return {
+        'orangehrm-directory-card-name': true,
+        'orangehrm-directory-card-name--change-name-height': !this
+          .showBackButton
+          ? !(this.employeeOnMobile || this.showBackButton)
+          : !(this.employeeOnMobile && this.showBackButton),
+        '--break-words': !this.showBackButton
+          ? !(this.employeeOnMobile || this.showBackButton)
+          : !(this.employeeOnMobile && this.showBackButton),
+      };
+    },
+    designationClasses() {
+      return {
+        'orangehrm-directory-card-designation': true,
+        'orangehrm-directory-card-designation--change-designation-height': !this
+          .showBackButton
+          ? !(this.employeeOnMobile || this.showBackButton)
+          : !(this.employeeOnMobile && this.showBackButton),
+        '--break-words': !this.showBackButton
+          ? !(this.employeeOnMobile || this.showBackButton)
+          : !(this.employeeOnMobile && this.showBackButton),
+      };
+    },
+    subunitClasses() {
+      return {
+        'orangehrm-directory-card-subunit': true,
+        '--break-words': !this.showBackButton
+          ? !(this.employeeOnMobile || this.showBackButton)
+          : !(this.employeeOnMobile && this.showBackButton),
+      };
+    },
+    locationClasses() {
+      return {
+        'orangehrm-directory-card-location': true,
+        '--break-words': !this.showBackButton
+          ? !(this.employeeOnMobile || this.showBackButton)
+          : !(this.employeeOnMobile && this.showBackButton),
+      };
     },
   },
 };
@@ -136,12 +183,28 @@ export default {
     }
   }
 
-  &-header {
+  &-name {
     padding-top: 1rem;
     padding-bottom: 0.75rem;
     text-align: center;
     justify-content: space-between;
-    height: 30px;
+    height: auto;
+
+    &--change-name-height {
+      height: 30px;
+    }
+  }
+
+  &-designation {
+    padding-top: 1rem;
+    padding-bottom: 0.75rem;
+    text-align: center;
+    justify-content: space-between;
+    height: auto;
+
+    &--change-designation-height {
+      height: 30px;
+    }
   }
 
   &-body {
@@ -152,7 +215,12 @@ export default {
     margin-top: -0.25rem;
     background-color: $oxd-background-white-shadow-color;
     border-radius: 0.5rem;
-    height: 64px;
+    height: auto;
+
+    &--change-body-height {
+      height: 64px;
+    }
+
     min-width: 168px;
   }
 

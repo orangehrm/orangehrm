@@ -34,9 +34,9 @@
     <oxd-divider v-show="vacancyDescription"></oxd-divider>
     <div :class="{'orangehrm-vacancy-card-body': isViewDetails}">
       <oxd-text type="toast-message">
-        <pre v-if="vacancyDescription" class="orangehrm-vacancy-card-pre-tag">
-          {{ vacancyDescription }}
-        </pre>
+        <pre v-if="vacancyDescription" class="orangehrm-vacancy-card-pre-tag">{{
+          vacancyDescription
+        }}</pre>
       </oxd-text>
     </div>
     <div

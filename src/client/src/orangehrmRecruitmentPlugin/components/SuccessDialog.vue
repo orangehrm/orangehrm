@@ -27,16 +27,20 @@
       @update:show="onSuccess"
     >
       <div class="orangehrm-modal-header">
-        <oxd-text type="card-title">{{ title }}</oxd-text>
+        <oxd-text type="card-title">{{
+          $t('recruitment.application_received')
+        }}</oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="card-body">
-          {{ subtitle }}
+          {{
+            $t('recruitment.your_application_has_been_submitted_successfully')
+          }}
         </oxd-text>
       </div>
       <div class="orangehrm-modal-footer">
         <oxd-button
-          :label="successLabel"
+          :label="$t('general.ok')"
           display-type="text"
           class="orangehrm-button-margin"
           @click="onSuccess"
@@ -50,22 +54,9 @@
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
+  name: 'SuccessDialog',
   components: {
     'simple-dialog': Dialog,
-  },
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    subtitle: {
-      type: String,
-      required: true,
-    },
-    successLabel: {
-      type: String,
-      required: true,
-    },
   },
   data() {
     return {

@@ -41,9 +41,7 @@
             <pre
               v-if="vacancyDescription"
               class="orangehrm-applicant-card-pre-tag"
-            >
-          {{ vacancyDescription }}
-        </pre
+              >{{ vacancyDescription }}</pre
             >
           </oxd-text>
         </div>
@@ -152,12 +150,7 @@
           </div>
         </oxd-form>
       </div>
-      <success-dialogue
-        ref="showDialogueModal"
-        :title="title"
-        :success-label="successLabel"
-        :subtitle="subtitle"
-      ></success-dialogue>
+      <success-dialogue ref="showDialogueModal"></success-dialogue>
     </div>
     <div>
       <div class="orangehrm-vacancy-list-footer">
@@ -193,7 +186,6 @@ import SubmitButton from '@/core/components/buttons/SubmitButton';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {urlFor} from '@/core/util/helper/url';
-import usei18n from '@/core/util/composable/usei18n';
 
 const applicantModel = {
   firstName: '',
@@ -239,12 +231,6 @@ export default {
     },
   },
   setup() {
-    const {$t} = usei18n();
-    const dialogBoxContent = [
-      $t('recruitment.application_received'),
-      $t('recruitment.your_application_has_been_submitted_successfully'),
-      $t('general.ok'),
-    ];
     const defaultPic = `${window.appGlobal.baseUrl}/../images/logo.png`;
     const applicant = ref({
       ...applicantModel,
@@ -257,7 +243,6 @@ export default {
       applicant,
       http,
       defaultPic,
-      dialogBoxContent,
     };
   },
   data() {
@@ -296,11 +281,6 @@ export default {
       this.vacancyName = data?.name ?? '';
       this.vacancyDescription = data?.description;
     });
-    if (this.success) {
-      (this.title = this.dialogBoxContent[0]),
-        (this.subtitle = this.dialogBoxContent[1]),
-        (this.successLabel = this.dialogBoxContent[2]);
-    }
   },
   mounted() {
     if (this.success) {

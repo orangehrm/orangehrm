@@ -15,11 +15,13 @@
 // Boston, MA  02110-1301, USA
 
 @import '@ohrm/oxd/styles/_mixins.scss';
+@import '@/core/styles/mixins.scss';
 
 .orangehrm {
   &-background-container {
     height: 80%;
   }
+
   &-applicant {
     &-card {
       &-pre-tag {
@@ -31,18 +33,22 @@
         white-space: -o-pre-wrap;
         word-wrap: break-word;
       }
+
       &-footer {
         display: flex;
         justify-content: left;
       }
+
       &-anchor-tag {
         color: $oxd-primary-one-color;
         padding-top: 0.5rem;
       }
+
       &-anchor-tag:hover {
         cursor: pointer;
       }
     }
+
     &-container {
       width: 100%;
       display: block;
@@ -94,6 +100,10 @@
     &-header {
       display: flex;
       justify-content: space-between;
+      flex-direction: column-reverse;;
+      @include oxd-respond-to('md') {
+        flex-direction: row;
+      }
     }
   }
 
@@ -105,64 +115,69 @@
 
   &-vacancy {
     &-card {
-    display: block;
+      display: block;
 
-    &-header {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &-anchor-tag {
-      color: $oxd-primary-one-color;
-      padding-top: 0.5rem;
-    }
-
-    &-anchor-tag:hover {
-      cursor: pointer;
-    }
-
-    &-body {
-      text-align: left;
-      justify-content: space-between;
-      word-break: break-all;
-      max-height: 60px;
-      -webkit-line-clamp: 4;
-      @include oxd-respond-to('md') {
-        max-height: 30px;
-        -webkit-line-clamp: 2;
+      &-header {
+        display: flex;
+        justify-content: space-between;
       }
-      text-overflow: ellipsis;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-    }
-    &-pre-tag {
-      margin-top: 0;
-      font-family: $oxd-font-family;
-      white-space: pre-wrap;
-      white-space: -moz-pre-wrap;
-      white-space: -o-pre-wrap;
-      word-wrap: break-word;
-    }
-    &-footer {
-      display: flex;
-      justify-content: left;
-    }
-  }
-    &-list-footer{
-        padding-left: 48px;
+
+      &-anchor-tag {
+        color: $oxd-primary-one-color;
+        padding-top: 0.5rem;
+      }
+
+      &-anchor-tag:hover {
+        cursor: pointer;
+      }
+
+      &-body {
+        @include truncate(4,15px,#ffff );
         @include oxd-respond-to('md') {
-          margin-bottom: -32px;
-          padding-left: 120px;
+          @include truncate(2,15px,#ffff );
         }
-        @include oxd-respond-to('xl') {
-          margin-bottom: -32px;
-          padding-left: 120px;
-        }
+
+      }
+
+      &-pre-tag {
+        margin-top: 0;
+        font-family: $oxd-font-family;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+      }
+
+      &-footer {
+        display: flex;
+        justify-content: left;
+      }
+    }
+
+    &-list-footer {
+      padding-top: 8px;
+      padding-left: 40px;
+      @include oxd-respond-to('md') {
+        margin-bottom: -32px;
+        padding-left: 120px;
+      }
+      @include oxd-respond-to('xl') {
+        margin-bottom: -32px;
+        padding-left: 120px;
+      }
     }
   }
 }
 
-.oxd-brand-banner{
+.oxd-brand-banner {
   height: 32px;
+  flex: 1;
+  margin-bottom: 8px;
+  @include oxd-respond-to('md') {
+    flex: 0;
+    margin-bottom: 0;
+  }  @include oxd-respond-to('xl') {
+    flex: 0;
+    margin-bottom: 0;
+  }
 }

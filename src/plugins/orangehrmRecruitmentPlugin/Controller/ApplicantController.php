@@ -113,12 +113,13 @@ class ApplicantController extends AbstractController implements PublicController
     /**
      * @param Request $request
      * @param Base64Attachment $attachment
-     * @return void
+     * @return bool|null
      * @throws ValidatorException
      */
-    private function validateParameters(Request $request, Base64Attachment $attachment): bool
+    private function validateParameters(Request $request, Base64Attachment $attachment): ?bool
     {
         $variables = $request->request->all();
+        $variables[self::PARAMETER_CONSENT_TO_KEEP_DATA] = $request->request->getBoolean(self::PARAMETER_CONSENT_TO_KEEP_DATA);
         $variables[self::PARAMETER_RESUME] = [
             'name' => $attachment->getFilename(),
             'type' => $attachment->getFileType(),
@@ -133,6 +134,7 @@ class ApplicantController extends AbstractController implements PublicController
         } catch (InvalidParamException $e) {
             $this->getLogger()->error($e->getMessage());
             $this->getLogger()->error($e->getTraceAsString());
+            return false;
         }
     }
 
@@ -301,7 +303,7 @@ class ApplicantController extends AbstractController implements PublicController
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CONSENT_TO_KEEP_DATA,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::BOOL_TYPE)
                 )
             ),
         );

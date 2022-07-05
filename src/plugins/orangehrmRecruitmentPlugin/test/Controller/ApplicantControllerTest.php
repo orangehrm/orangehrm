@@ -131,7 +131,7 @@ class ApplicantControllerTest extends KernelTestCase
                 'Zaman',
                 'saif@orangehrmlive.com',
                 '114453645767',
-                'on',
+                'true',
             ],
             [
                 3,
@@ -140,7 +140,7 @@ class ApplicantControllerTest extends KernelTestCase
                 'Deep',
                 'jhony@orangehrmlive.com',
                 '1878648628323',
-                'on',
+                'false',
             ],
         ];
     }
