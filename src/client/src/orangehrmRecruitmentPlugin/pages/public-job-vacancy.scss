@@ -158,10 +158,6 @@
         margin-bottom: -32px;
         padding-left: 120px;
       }
-      @include oxd-respond-to('xl') {
-        margin-bottom: -32px;
-        padding-left: 120px;
-      }
     }
   }
 }
@@ -171,9 +167,6 @@
   flex: 1;
   margin-bottom: 8px;
   @include oxd-respond-to('md') {
-    flex: 0;
-    margin-bottom: 0;
-  }  @include oxd-respond-to('xl') {
     flex: 0;
     margin-bottom: 0;
   }
