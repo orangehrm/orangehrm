@@ -162,7 +162,6 @@
 
           <oxd-form-actions v-if="editable">
             <required-text></required-text>
-            <oxd-button display-type="ghost" :label="$t('general.cancel')" />
             <submit-button :label="$t('general.save')" />
           </oxd-form-actions>
         </oxd-form>
