@@ -98,7 +98,6 @@ const attachmentDataNormalizer = data => {
 };
 
 export default {
-  name: 'InterviewAttachments',
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
     'save-interview-attachment': SaveInterviewAttachment,
