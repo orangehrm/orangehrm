@@ -21,21 +21,21 @@ namespace OrangeHRM\Performance\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\Kpi;
+use OrangeHRM\Entity\ReviewerRating;
 
 class KpiSummaryModel implements Normalizable
 {
     use ModelTrait;
 
-    public function __construct(Kpi $kpi)
+    public function __construct(ReviewerRating $reviewerRating)
     {
-        $this->setEntity($kpi);
+        $this->setEntity($reviewerRating);
         $this->setFilters(
             [
-                'id',
-                'title',
-                'minRating',
-                'maxRating',
+                ['getKpi','getId'],
+                ['getKpi','getTitle'],
+                ['getKpi','getMinRating'],
+                ['getKpi','getMaxRating'],
             ]
         );
         $this->setAttributeNames(

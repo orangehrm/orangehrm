@@ -104,7 +104,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_REVIEWER_EMP_NUMBERS
         );
-        $this->setPerformanceTrackerParams($performanceTracker);
+        $this->setPerformanceTrackerParams($performanceTracker, true);
         $performanceTracker->setAddedDate($this->getDateTimeHelper()->getNow());
         $performanceTracker->setStatus(PerformanceTracker::STATUS_TRACKER_NOT_DELETED);
         $this->getPerformanceTrackerService()
@@ -116,13 +116,15 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     /**
      * @param PerformanceTracker $performanceTracker
      */
-    private function setPerformanceTrackerParams(PerformanceTracker $performanceTracker): void
+    private function setPerformanceTrackerParams(PerformanceTracker $performanceTracker, bool $notRestrictedUpdate): void
     {
         $performanceTracker->setTrackerName(
             $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_TRACKER_NAME)
         );
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_EMP_NUMBER);
-        $performanceTracker->getDecorator()->setEmployeeByEmpNumber($empNumber);
+        if ($notRestrictedUpdate) {
+            $performanceTracker->getDecorator()->setEmployeeByEmpNumber($empNumber);
+        }
         $performanceTracker->getDecorator()->setAddedByByEmpNumber($this->getAuthUser()->getEmpNumber());
     }
 
@@ -219,15 +221,17 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
             ->getPerformanceTrackerDao()
             ->getPerformanceTracker($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTracker, PerformanceTracker::class);
-        $this->setPerformanceTrackerParams($performanceTracker);
+        $trackerOwnerEditable =$this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()->isTrackerOwnerEditable($performanceTracker->getId());
+        $this->setPerformanceTrackerParams($performanceTracker, $trackerOwnerEditable);
         $performanceTracker->setModifiedDate($this->getDateTimeHelper()->getNow());
         $reviewerEmpNumbers = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_REVIEWER_EMP_NUMBERS
         );
         try {
-            $this->getPerformanceTrackerService()
-                ->updateTracker($performanceTracker, $reviewerEmpNumbers);
+            $this->getPerformanceTrackerService()->getPerformanceTrackerDao()
+                ->updatePerformanceTracker($performanceTracker, $reviewerEmpNumbers);
             return new EndpointResourceResult(DetailedPerformanceTrackerModel::class, $performanceTracker);
         } catch (PerformanceTrackerServiceException $e) {
             throw $this->getBadRequestException($e->getMessage());
