@@ -208,14 +208,8 @@ export default {
         const reviewer = item.reviewer?.employee;
         return {
           id: item.id,
-          employee: $tEmpName(employee, {
-            includeMiddle: false,
-            excludePastEmpTag: false,
-          }),
-          reviewer: $tEmpName(reviewer, {
-            includeMiddle: false,
-            excludePastEmpTag: false,
-          }),
+          employee: $tEmpName(employee),
+          reviewer: $tEmpName(reviewer),
           jobTitle: item.jobTitle?.name,
           reviewPeriod: {
             reviewPeriodStart: reviewListDateFormat(item.reviewPeriodStart),

@@ -385,42 +385,41 @@ class PerformanceReviewDao extends BaseDao
 
     /**
      * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
-     * @param string $reviewerGroupName
      * @return Kpi[]
      */
-    public function getKpisForReview(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams, string $reviewerGroupName): array
+    public function getKpisForReview(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): array
     {
-        $qb = $this->getKpisForReviewQueryBuilderWrapper($reviewKpiSearchFilterParams, $reviewerGroupName)->getQueryBuilder();
+        $qb = $this->getKpisForReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
         return $qb->getQuery()->execute();
     }
 
     /**
      * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
-     * @param string $reviewerGroupName
      * @return int
      */
-    public function getKpisForReviewCount(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams, string $reviewerGroupName): int
+    public function getKpisForReviewCount(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): int
     {
-        $qb = $this->getKpisForReviewQueryBuilderWrapper($reviewKpiSearchFilterParams, $reviewerGroupName)->getQueryBuilder();
+        $qb = $this->getKpisForReviewQueryBuilderWrapper($reviewKpiSearchFilterParams)->getQueryBuilder();
         return $this->getPaginator($qb)->count();
     }
 
     /**
      * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
-     * @param string $reviewerGroupName
      * @return QueryBuilderWrapper
      */
-    private function getKpisForReviewQueryBuilderWrapper(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams, string $reviewerGroupName): QueryBuilderWrapper
+    private function getKpisForReviewQueryBuilderWrapper(
+        ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
+    ): QueryBuilderWrapper
     {
-        $reviewerGroup = $this->getRepository(ReviewerGroup::class)->findOneBy(['name' => $reviewerGroupName]);
         $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
         $qb->leftJoin('reviewerRating.performanceReview', 'performanceReview')
             ->leftJoin('reviewerRating.reviewer', 'reviewer')
             ->leftJoin('reviewerRating.kpi', 'kpi')
+            ->leftJoin('reviewer.group', 'reviewerGroup')
             ->andWhere('performanceReview.id = :reviewId')
             ->setParameter('reviewId', $reviewKpiSearchFilterParams->getReviewId())
-            ->andWhere('reviewer.group = :group')
-            ->setParameter('group', $reviewerGroup);
+            ->andWhere('reviewerGroup.name = :groupName')
+            ->setParameter('groupName', $reviewKpiSearchFilterParams->getReviewerGroupName());
         $this->setSortingAndPaginationParams($qb, $reviewKpiSearchFilterParams);
         return $this->getQueryBuilderWrapper($qb);
     }

@@ -56,11 +56,12 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_REVIEW_ID
             )
         );
+        $reviewKpiParamHolder->setReviewerGroupName(ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
         $this->setSortingAndPaginationParams($reviewKpiParamHolder);
         $reviewKpis = $this->getPerformanceReviewService()->getPerformanceReviewDao()
-            ->getKpisForReview($reviewKpiParamHolder, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+            ->getKpisForReview($reviewKpiParamHolder);
         $reviewCount = $this->getPerformanceReviewService()->getPerformanceReviewDao()
-            ->getKpisForReviewCount($reviewKpiParamHolder, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+            ->getKpisForReviewCount($reviewKpiParamHolder);
 
         return new EndpointCollectionResult(
             KpiSummaryModel::class,

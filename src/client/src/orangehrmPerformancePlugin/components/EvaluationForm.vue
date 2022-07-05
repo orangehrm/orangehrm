@@ -227,10 +227,7 @@ export default {
     });
 
     const employeeName = computed(() => {
-      return $tEmpName(props.employee, {
-        includeMiddle: false,
-        excludePastEmpTag: false,
-      });
+      return $tEmpName(props.employee);
     });
 
     const toggleForm = () => {
