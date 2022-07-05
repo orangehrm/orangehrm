@@ -237,5 +237,5 @@ langStrings:
     value: 'Confirm Review Submission'
     unitId: confirm_review_submission
   -
-    value: 'The review will be made read-only after completion. This action cannot be undone. Are you sure you want to complete?'
+    value: 'The review will be made read-only after completion. This action cannot be undone. Are you sure you want to continue?'
     unitId: confirm_review_submission_message
