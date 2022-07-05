@@ -230,14 +230,14 @@ export default {
       },
       statuses: [
         {id: 1, label: this.$t('recruitment.application_initiated')},
-        {id: 2, label: this.$t('recruitment.shortlisted')},
-        {id: 3, label: this.$t('recruitment.rejected')},
+        {id: 2, label: this.$t('recruitment.shortlist')},
+        {id: 3, label: this.$t('recruitment.reject')},
         {id: 4, label: this.$t('recruitment.interview_scheduled')},
         {id: 5, label: this.$t('recruitment.interview_passed')},
         {id: 6, label: this.$t('recruitment.interview_failed')},
         {id: 7, label: this.$t('recruitment.job_offered')},
-        {id: 8, label: this.$t('recruitment.offer_declined')},
-        {id: 9, label: this.$t('recruitment.hired')},
+        {id: 8, label: this.$t('recruitment.decline_offer')},
+        {id: 9, label: this.$t('recruitment.hire')},
       ],
     };
   },
