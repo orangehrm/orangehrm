@@ -91,13 +91,16 @@
 
 <script>
 import {computed, ref} from 'vue';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-import {navigate} from '@/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
 import useSort from '@/core/util/composable/useSort';
+import {navigate} from '@/core/util/helper/navigation';
+import useLocale from '@/core/util/composable/useLocale';
+import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import usei18n from '@/core/util/composable/usei18n';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
 const defaultFilters = {
   empNumber: null,
@@ -125,16 +128,25 @@ export default {
   },
 
   setup() {
-    const {$t} = usei18n();
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
+    const {$tEmpName} = useEmployeeNameTranslate();
+
     const trackerNormalizer = data => {
       return data.map(row => {
         return {
           id: row.id,
           tracker: row.trackerName,
-          addDate: row.addedDate,
-          modifiedDate: row.modifiedDate,
-          empName: `${row.employee?.firstName} ${row.employee?.lastName}
-          ${row.employee?.terminationId ? $t('general.past_employee') : ''}`,
+          addDate: formatDate(parseDate(row.addedDate), jsDateFormat, {
+            locale,
+          }),
+          modifiedDate: formatDate(parseDate(row.modifiedDate), jsDateFormat, {
+            locale,
+          }),
+          empName: $tEmpName(row.employee, {
+            includeMiddle: false,
+            excludePastEmpTag: false,
+          }),
         };
       });
     };
