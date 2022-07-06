@@ -750,19 +750,25 @@ describe('core/util/validation/rules::imageShouldHaveDimensions', () => {
 
   test('imageShouldHaveDimensions:: Invalid file dimensions', async () => {
     mockDomImage(100, 75);
-    const result = await imageShouldHaveDimensions(50, 50)(createMockFile());
+    const result = await imageShouldHaveDimensions(50 / 50)(createMockFile());
     expect(result).toStrictEqual('Incorrect Dimensions');
   });
 
   test('imageShouldHaveDimensions:: Valid file dimensions', async () => {
     mockDomImage(50, 50);
-    const result = await imageShouldHaveDimensions(50, 50)(createMockFile());
+    const result = await imageShouldHaveDimensions(50 / 50)(createMockFile());
     expect(result).toStrictEqual(true);
   });
 
   test('imageShouldHaveDimensions:: should allow null files', async () => {
-    mockDomImage(0, 0);
-    const result = await imageShouldHaveDimensions(50, 50)(null);
+    const result = await imageShouldHaveDimensions(50 / 50)(null);
+    expect(result).toStrictEqual(true);
+  });
+
+  test('imageShouldHaveDimensions:: ignore SVG size validation', async () => {
+    const result = await imageShouldHaveDimensions(50 / 50)(
+      createMockFile('image/svg+xml', '', 'mock.svg'),
+    );
     expect(result).toStrictEqual(true);
   });
 });

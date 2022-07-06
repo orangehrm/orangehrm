@@ -552,21 +552,17 @@ export const validHexFormat = function(value: string): boolean | string {
 
 /**
  * Validate image dimensions
- * @param {number} width in pixels
- * @param {number} height in pixels
+ * @param {number} aspectRatio width/height
  * @returns {Promise<boolean|string>}
  */
-export const imageShouldHaveDimensions = function(
-  width: number,
-  height: number,
-) {
+export const imageShouldHaveDimensions = function(aspectRatio: number) {
   return function(file: File | null): Promise<boolean | string> {
     return new Promise(resolve => {
-      if (file === null) return resolve(true);
+      if (file === null || file.type === 'image/svg+xml') return resolve(true);
       const image = new Image();
       image.src = `data:${file.type};base64, ${file.base64}`;
       image.decode().then(() => {
-        if (image.width === width && image.height === height) {
+        if (Math.abs(image.width / image.height - aspectRatio) < 0.05) {
           resolve(true);
         } else {
           resolve(translate('general.incorrect_dimensions'));

@@ -27,6 +27,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Theme
 {
+    public const ALLOWED_IMAGE_TYPES = [
+        'image/gif',
+        'image/jpeg',
+        'image/jpg',
+        'image/pjpeg',
+        'image/png',
+        'image/x-png',
+        'image/svg+xml',
+    ];
+    public const ALLOWED_IMAGE_EXTENSIONS = [
+        'gif',
+        'jpeg',
+        'jpg',
+        'png',
+        'svg',
+    ];
+    public const CLIENT_LOGO_ASPECT_RATIO = 1; // 50 x 50
+    public const CLIENT_BANNER_ASPECT_RATIO = 45 / 12; // 182 x 50
+    public const LOGIN_BANNER_ASPECT_RATIO = 85 / 16; // 340 x 65
+
     /**
      * @var int
      *

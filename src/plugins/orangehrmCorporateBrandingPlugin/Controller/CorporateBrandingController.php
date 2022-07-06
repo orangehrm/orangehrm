@@ -22,7 +22,7 @@ namespace OrangeHRM\CorporateBranding\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\EmpPicture;
+use OrangeHRM\Entity\Theme;
 use OrangeHRM\Framework\Http\Request;
 
 class CorporateBrandingController extends AbstractVueController
@@ -33,7 +33,12 @@ class CorporateBrandingController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('corporate-branding');
-        $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
+        $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, Theme::ALLOWED_IMAGE_TYPES));
+        $component->addProp(new Prop('aspect-ratios', Prop::TYPE_OBJECT, [
+            'clientLogo' => Theme::CLIENT_LOGO_ASPECT_RATIO,
+            'clientBanner' => Theme::CLIENT_BANNER_ASPECT_RATIO,
+            'loginBanner' => Theme::LOGIN_BANNER_ASPECT_RATIO,
+        ]));
         $this->setComponent($component);
     }
 }
