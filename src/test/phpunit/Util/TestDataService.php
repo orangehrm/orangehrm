@@ -20,7 +20,6 @@
 namespace OrangeHRM\Tests\Util;
 
 use DateTime;
-use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\MappingException;
 use Exception;
@@ -280,8 +279,8 @@ class TestDataService
             $query = '';
 
             try {
-                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
-                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 Doctrine::getEntityManager()->beginTransaction();
 
                 foreach ($tableNames as $tableName) {
@@ -301,7 +300,7 @@ class TestDataService
                 echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
                     "\nQuery: [" . $query . "]\n" . 'Fixture: ' . self::$lastFixture . "\n\n";
             } finally {
-                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
+                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
             }
 
             // Clear table cache
@@ -316,11 +315,11 @@ class TestDataService
     }
 
     /**
-     * @return Connection
+     * @return PDO
      */
-    private static function _getDbConnection(): Connection
+    private static function _getDbConnection(): PDO
     {
-        return Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
+        return Doctrine::getEntityManager()->getConnection()->getNativeConnection();
     }
 
     /**
