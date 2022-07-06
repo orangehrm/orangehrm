@@ -136,7 +136,7 @@ class SchemaHelper
 
     /**
      * @param string $tableName
-     * @param string[] $foreignKeys
+     * @param string[]|ForeignKeyConstraint[] $foreignKeys
      */
     public function dropForeignKeys(string $tableName, array $foreignKeys): void
     {

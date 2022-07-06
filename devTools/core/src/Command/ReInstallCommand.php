@@ -122,7 +122,6 @@ class ReInstallCommand extends Command
         $appSetupUtility->insertSystemConfiguration();
 
         if (isset($adminHashedPassword)) {
-            /** @var User $user */
             $qb = Connection::getConnection()->createQueryBuilder()
                 ->update('ohrm_user', 'user')
                 ->set('user.user_password', ':hashedPassword')

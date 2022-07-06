@@ -22,9 +22,15 @@ namespace OrangeHRM\Installer\Util;
 use Doctrine\DBAL\Connection as DBALConnection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Logger\Logger;
+use OrangeHRM\Framework\Services;
+use Throwable;
 
 class Connection
 {
+    use ServiceContainerTrait;
+
     /**
      * @var DBALConnection|null
      */
@@ -44,6 +50,14 @@ class Connection
         ];
         self::$connection = DriverManager::getConnection($connectionParams);
         self::$connection->getDatabasePlatform()->registerDoctrineTypeMapping('enum', Types::STRING);
+
+        try {
+            /** @var Logger $logger */
+            $logger = $this->getContainer()->get(Services::LOGGER);
+            $systemConfig = new SystemConfig();
+            $logger->info('Instance details: ' . json_encode($systemConfig->getSystemDetails()));
+        } catch (Throwable $e) {
+        }
     }
 
     /**
