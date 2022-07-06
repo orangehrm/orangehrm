@@ -168,9 +168,6 @@ langStrings:
     value: 'Purged Employee'
     unitId: purged_employee
   -
-    value: 'hh:mm'
-    unitId: hh_mm
-  -
     value: 'Show More'
     unitId: show_more
   -
