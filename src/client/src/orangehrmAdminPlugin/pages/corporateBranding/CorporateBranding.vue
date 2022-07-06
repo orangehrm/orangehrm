@@ -235,6 +235,10 @@ export default {
       type: Object,
       required: true,
     },
+    aspectRatioTolerance: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props) {
     const http = new APIService(window.appGlobal.baseUrl, `api/v2/admin/theme`);
@@ -265,21 +269,30 @@ export default {
         v =>
           state.clientLogo.method === 'replaceCurrent' ? required(v) : true,
         maxFileSize(1024 * 1024),
-        imageShouldHaveDimensions(props.aspectRatios.clientLogo),
+        imageShouldHaveDimensions(
+          props.aspectRatios.clientLogo,
+          props.aspectRatioTolerance,
+        ),
         validFileTypes(props.allowedImageTypes),
       ],
       clientBanner: [
         v =>
           state.clientBanner.method === 'replaceCurrent' ? required(v) : true,
         maxFileSize(1024 * 1024),
-        imageShouldHaveDimensions(props.aspectRatios.clientBanner),
+        imageShouldHaveDimensions(
+          props.aspectRatios.clientBanner,
+          props.aspectRatioTolerance,
+        ),
         validFileTypes(props.allowedImageTypes),
       ],
       loginBanner: [
         v =>
           state.loginBanner.method === 'replaceCurrent' ? required(v) : true,
         maxFileSize(1024 * 1024),
-        imageShouldHaveDimensions(props.aspectRatios.loginBanner),
+        imageShouldHaveDimensions(
+          props.aspectRatios.loginBanner,
+          props.aspectRatioTolerance,
+        ),
         validFileTypes(props.allowedImageTypes),
       ],
     };

@@ -20,6 +20,7 @@
 namespace OrangeHRM\CorporateBranding\Api\ValidationRules;
 
 use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
+use OrangeHRM\Entity\Theme;
 
 class ImageAspectRatio extends AbstractRule
 {
@@ -52,7 +53,7 @@ class ImageAspectRatio extends AbstractRule
         list($imageWidth, $imageHeight) = getimagesizefromstring($content);
 
         $calcRatio = $imageWidth / $imageHeight;
-        if (abs($calcRatio - $this->aspectRatio) > 0.05) {
+        if (abs($calcRatio - $this->aspectRatio) > Theme::IMAGE_ASPECT_RATIO_TOLERANCE) {
             return false;
         }
 

@@ -39,6 +39,7 @@ class CorporateBrandingController extends AbstractVueController
             'clientBanner' => Theme::CLIENT_BANNER_ASPECT_RATIO,
             'loginBanner' => Theme::LOGIN_BANNER_ASPECT_RATIO,
         ]));
+        $component->addProp(new Prop('aspect-ratio-tolerance', Prop::TYPE_NUMBER, Theme::IMAGE_ASPECT_RATIO_TOLERANCE));
         $this->setComponent($component);
     }
 }

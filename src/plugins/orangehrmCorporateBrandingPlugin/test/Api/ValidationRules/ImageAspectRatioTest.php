@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\CorporateBranding\test\Api\ValidationRules;
+namespace OrangeHRM\Tests\CorporateBranding\Api\ValidationRules;
 
 use OrangeHRM\CorporateBranding\Api\ValidationRules\ImageAspectRatio;
 use OrangeHRM\Tests\Util\TestCase;

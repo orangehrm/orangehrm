@@ -44,8 +44,9 @@ class Theme
         'svg',
     ];
     public const CLIENT_LOGO_ASPECT_RATIO = 1; // 50 x 50
-    public const CLIENT_BANNER_ASPECT_RATIO = 45 / 12; // 182 x 50
-    public const LOGIN_BANNER_ASPECT_RATIO = 85 / 16; // 340 x 65
+    public const CLIENT_BANNER_ASPECT_RATIO = 91 / 25; // 182 x 50
+    public const LOGIN_BANNER_ASPECT_RATIO = 68 / 13; // 340 x 65
+    public const IMAGE_ASPECT_RATIO_TOLERANCE = 0.1;
 
     /**
      * @var int
