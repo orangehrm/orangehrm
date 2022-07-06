@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <div class="orangehrm-paper-container">
+    <div class="orangehrm-card-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
           {{ $t('recruitment.candidate_profile') }}
@@ -33,143 +33,138 @@
         />
       </div>
 
-      <oxd-divider
-        v-show="!isLoading"
-        class="orangehrm-horizontal-margin orangehrm-clear-margins"
-      />
+      <oxd-divider v-show="!isLoading" />
 
-      <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-        <oxd-form :loading="isLoading" @submitValid="onSave">
-          <oxd-form-row>
-            <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <full-name-input
-                  v-model:first-name="profile.firstName"
-                  v-model:middle-name="profile.middleName"
-                  v-model:last-name="profile.lastName"
-                  :rules="rules"
-                  :label="$t('general.full_name')"
-                  :disabled="!editable"
-                  required
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-          <oxd-form-row>
-            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <vacancy-dropdown
-                  v-model="vacancy"
-                  :label="$t('recruitment.job_vacancy')"
-                  :readonly="!editable"
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-          <oxd-form-row>
-            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <oxd-input-field
-                  v-model="profile.email"
-                  :label="$t('general.email')"
-                  :placeholder="$t('general.type_here')"
-                  :rules="rules.email"
-                  :disabled="!editable"
-                  required
-                />
-              </oxd-grid-item>
-              <oxd-grid-item>
-                <oxd-input-field
-                  v-model="profile.contactNumber"
-                  :label="$t('recruitment.contact_number')"
-                  :placeholder="$t('general.type_here')"
-                  :rules="rules.contactNumber"
-                  :disabled="!editable"
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
+      <oxd-form :loading="isLoading" @submitValid="onSave">
+        <oxd-form-row>
+          <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <full-name-input
+                v-model:first-name="profile.firstName"
+                v-model:middle-name="profile.middleName"
+                v-model:last-name="profile.lastName"
+                :rules="rules"
+                :label="$t('general.full_name')"
+                :disabled="!editable"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <vacancy-dropdown
+                v-model="vacancy"
+                :label="$t('recruitment.job_vacancy')"
+                :readonly="!editable"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="profile.email"
+                :label="$t('general.email')"
+                :placeholder="$t('general.type_here')"
+                :rules="rules.email"
+                :disabled="!editable"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="profile.contactNumber"
+                :label="$t('recruitment.contact_number')"
+                :placeholder="$t('general.type_here')"
+                :rules="rules.contactNumber"
+                :disabled="!editable"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
-          <oxd-divider></oxd-divider>
-          <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <file-upload-input
-                  v-model:newFile="attachment.newAttachment"
-                  v-model:method="attachment.method"
-                  :label="$t('recruitment.resume')"
-                  :button-label="$t('general.browse')"
-                  :file="attachment.oldAttachment"
-                  :rules="rules.resume"
-                  :hint="$t('general.accept_custom_format_file')"
-                  :disabled="!editable"
-                  url="recruitment/resume"
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-          <oxd-divider></oxd-divider>
+        <oxd-divider></oxd-divider>
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <file-upload-input
+                v-model:newFile="attachment.newAttachment"
+                v-model:method="attachment.method"
+                :label="$t('recruitment.resume')"
+                :button-label="$t('general.browse')"
+                :file="attachment.oldAttachment"
+                :rules="rules.resume"
+                :hint="$t('general.accept_custom_format_file')"
+                :disabled="!editable"
+                url="recruitment/resume"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-divider></oxd-divider>
 
-          <oxd-form-row>
-            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-              <oxd-grid-item
-                class="orangehrm-save-candidate-page --span-column-2"
-              >
-                <oxd-input-field
-                  v-model="profile.keywords"
-                  :label="$t('recruitment.keywords')"
-                  :placeholder="
-                    `${$t('recruitment.enter_comma_seperated_words')}...`
-                  "
-                  :rules="rules.keywords"
-                  :disabled="!editable"
-                />
-              </oxd-grid-item>
-              <oxd-grid-item>
-                <date-input
-                  v-model="profile.dateOfApplication"
-                  :label="$t('recruitment.date_of_application')"
-                  :rules="rules.applicationDate"
-                  :disabled="!editable"
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-          <oxd-form-row>
-            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-              <oxd-grid-item
-                class="orangehrm-save-candidate-page --span-column-2"
-              >
-                <oxd-input-field
-                  v-model="profile.comment"
-                  :label="$t('general.notes')"
-                  type="textarea"
-                  :placeholder="$t('general.type_here')"
-                  :disabled="!editable"
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-          <oxd-form-row>
-            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-              <oxd-grid-item class="orangehrm-candidate-grid-checkbox">
-                <oxd-input-field
-                  v-model="profile.consentToKeepData"
-                  type="checkbox"
-                  :label="$t('recruitment.consent_to_keep_data')"
-                  :disabled="!editable"
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-          <oxd-divider v-show="editable" />
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item
+              class="orangehrm-save-candidate-page --span-column-2"
+            >
+              <oxd-input-field
+                v-model="profile.keywords"
+                :label="$t('recruitment.keywords')"
+                :placeholder="
+                  `${$t('recruitment.enter_comma_seperated_words')}...`
+                "
+                :rules="rules.keywords"
+                :disabled="!editable"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <date-input
+                v-model="profile.dateOfApplication"
+                :label="$t('recruitment.date_of_application')"
+                :rules="rules.applicationDate"
+                :disabled="!editable"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item
+              class="orangehrm-save-candidate-page --span-column-2"
+            >
+              <oxd-input-field
+                v-model="profile.comment"
+                :label="$t('general.notes')"
+                type="textarea"
+                :placeholder="$t('general.type_here')"
+                :disabled="!editable"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="orangehrm-candidate-grid-checkbox">
+              <oxd-input-field
+                v-model="profile.consentToKeepData"
+                type="checkbox"
+                :label="$t('recruitment.consent_to_keep_data')"
+                :disabled="!editable"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-divider v-show="editable" />
 
-          <oxd-form-actions v-if="editable">
-            <required-text></required-text>
-            <submit-button :label="$t('general.save')" />
-          </oxd-form-actions>
-        </oxd-form>
-      </div>
+        <oxd-form-actions v-if="editable">
+          <required-text></required-text>
+          <submit-button :label="$t('general.save')" />
+        </oxd-form-actions>
+      </oxd-form>
     </div>
   </div>
 </template>
@@ -344,6 +339,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.orangehrm-header-container {
+  padding: 0;
+}
 .orangehrm-candidate-grid-checkbox {
   .oxd-input-group {
     flex-direction: row-reverse;
