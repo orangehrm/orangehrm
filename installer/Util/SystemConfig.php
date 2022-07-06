@@ -497,6 +497,42 @@ class SystemConfig
     }
 
     /**
+     * @return array
+     */
+    public function isGdExtensionEnabled(): array
+    {
+        if (extension_loaded('gd')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::ACCEPTABLE
+            ];
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function isIntlExtensionEnabled(): array
+    {
+        if (extension_loaded('intl')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::ACCEPTABLE
+            ];
+        }
+    }
+
+    /**
      * @return bool
      */
     public function checkPDOExtensionEnabled(): bool

@@ -105,7 +105,15 @@ class SystemCheckAPI extends AbstractInstallerRestController
                         [
                             'label' => 'Zip extension status',
                             'value' => $systemConfig->isZipExtensionEnabled()
-                        ]
+                        ],
+                        [
+                            'label' => 'Intl extension status',
+                            'value' => $systemConfig->isIntlExtensionEnabled()
+                        ],
+                        [
+                            'label' => 'GD extension status',
+                            'value' => $systemConfig->isGdExtensionEnabled()
+                        ],
                     ]
                 ]
             ],
