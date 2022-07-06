@@ -89,8 +89,10 @@
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
+
+          <oxd-divider></oxd-divider>
           <oxd-form-row>
-            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <file-upload-input
                   v-model:newFile="attachment.newAttachment"
@@ -99,13 +101,15 @@
                   :button-label="$t('general.browse')"
                   :file="attachment.oldAttachment"
                   :rules="rules.resume"
-                  url="recruitment/resume"
                   :hint="$t('general.accept_custom_format_file')"
                   :disabled="!editable"
+                  url="recruitment/resume"
                 />
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
+          <oxd-divider></oxd-divider>
+
           <oxd-form-row>
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item

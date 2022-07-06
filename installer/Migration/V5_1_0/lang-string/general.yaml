@@ -173,3 +173,6 @@ langStrings:
   -
     value: 'Show Less'
     unitId: show_less
+  -
+    value: 'Upload {fileName}'
+    unitId: upload_n_file

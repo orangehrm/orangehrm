@@ -62,7 +62,7 @@
     <oxd-input-field
       v-bind="$attrs"
       type="file"
-      :label="label"
+      :label="fieldLabel"
       :model-value="newFile"
       :disabled="disabled"
       :placeholder="$t('general.no_file_selected')"
@@ -122,6 +122,13 @@ export default {
     fileSelected() {
       return this.file && Object.keys(this.file).length > 0;
     },
+    fieldLabel() {
+      return this.method === 'replaceCurrent' && this.fileSelected
+        ? this.$t('general.upload_n_file', {
+            fileName: this.label,
+          })
+        : this.label;
+    },
   },
   methods: {
     downloadFile() {
@@ -154,6 +161,7 @@ export default {
     font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-word;
   }
   &-options {
     display: flex;
