@@ -64,7 +64,8 @@ export default {
                 data.data.map(candidate => {
                   return {
                     id: candidate.id,
-                    label: `${candidate.firstName} ${candidate.middleName} ${candidate.lastName}`,
+                    label: `${candidate.firstName} ${candidate.middleName ||
+                      ''} ${candidate.lastName}`,
                     _candidate: candidate,
                   };
                 }),

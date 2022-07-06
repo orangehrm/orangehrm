@@ -31,6 +31,7 @@
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
               v-model="note"
+              :rules="rules.note"
               :label="$t('general.notes')"
               :placeholder="$t('general.type_here')"
               type="textarea"
@@ -53,6 +54,7 @@
 </template>
 
 <script>
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
@@ -86,6 +88,9 @@ export default {
     return {
       isLoading: false,
       note: null,
+      rules: {
+        note: [shouldNotExceedCharLength(2000)],
+      },
     };
   },
   methods: {
