@@ -122,7 +122,8 @@
     & img {
       width: 100%;
       max-width: 275px;
-      height: 65px;
+      height: auto;
+      max-height: 65px;
     }
     @include oxd-respond-to('md') {
       width: 80%;
