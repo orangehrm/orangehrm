@@ -23,7 +23,6 @@ use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
@@ -136,7 +135,6 @@ class LocalizationService
      * @param int $languageId
      * @param array $rows
      * @return void
-     * @throws BadRequestException
      */
     public function saveAndUpdateTranslatedStringsFromRows(int $languageId, array $rows)
     {
@@ -148,7 +146,6 @@ class LocalizationService
      * @param int $languageId
      * @param array $rows
      * @return array
-     * @throws BadRequestException
      */
     protected function createTranslatedItemsFromRows(int $languageId, array $rows): array
     {
@@ -156,10 +153,6 @@ class LocalizationService
         foreach ($rows as $row) {
             if (!(isset($row['langStringId']))) {
                 throw new LogicException('langStringId is required attribute');
-            }
-
-            if ($row['langStringId'] < 0) {
-                throw new BadRequestException('langStringId cannot be negative');
             }
 
             $itemKey = $this->generateLangStringLanguageKey(

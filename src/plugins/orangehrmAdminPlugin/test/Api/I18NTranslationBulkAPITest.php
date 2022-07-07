@@ -17,10 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Api;
+namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\I18NTranslationBulkAPI;
-use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -66,8 +65,8 @@ class I18NTranslationBulkAPITest extends EndpointIntegrationTestCase
     {
         $this->populateFixtures('I18NTranslationAPI.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(I18NTranslationBulkAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }

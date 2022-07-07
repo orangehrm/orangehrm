@@ -45,6 +45,7 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_LANGUAGE_ID = 'languageId';
     public const PARAMETER_DATA = 'data';
     public const PARAMETER_TRANSLATED_VALUE = 'translatedValue';
+    public const PARAMETER_LANG_STRING_ID = 'langStringId';
 
     /**
      * @inheritDoc
@@ -117,6 +118,13 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
                     Rules::EACH,
                     [
                         new Rules\Composite\AllOf(
+                            new Rule(
+                                Rules::KEY,
+                                [
+                                    self::PARAMETER_LANG_STRING_ID,
+                                    new Rules\Composite\AllOf(new Rule(Rules::POSITIVE))
+                                ]
+                            ),
                             new Rule(
                                 Rules::KEY,
                                 [

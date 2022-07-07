@@ -312,9 +312,6 @@ apiv2_admin_i18n_language:
   methods: [ PUT ]
   defaults:
     _api: OrangeHRM\Admin\Api\I18NLanguageAPI
-    _key: id
-  requirements:
-    id: '\d+'
 
 apiv2_admin_i18n_language_translations:
   path: /api/v2/admin/i18n/languages/{languageId}/translations

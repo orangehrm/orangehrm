@@ -5,6 +5,8 @@ Update:
       admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
     attributes:
       languageId: 1
+    now:
+      datetime: '2022-07-25'
     body:
       data:
         - langStringId: 2
@@ -48,8 +50,8 @@ Update:
         - langStringId: 1
           translatedValue: Translated
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'langStringId cannot be negative'
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
   'Update translated lang string with wrong language id and lang string id':
     userId: 1
