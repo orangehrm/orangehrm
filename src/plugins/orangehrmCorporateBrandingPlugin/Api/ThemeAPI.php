@@ -34,6 +34,7 @@ use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\CorporateBranding\Api\Model\ThemeModel;
 use OrangeHRM\CorporateBranding\Api\Traits\VariablesParamRuleCollection;
+use OrangeHRM\CorporateBranding\Api\ValidationRules\ImageAspectRatio;
 use OrangeHRM\CorporateBranding\Dto\PartialTheme;
 use OrangeHRM\CorporateBranding\Service\ThemeService;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
@@ -214,31 +215,49 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
         if (is_null($currentClientLogo)) {
             $paramRules->addParamValidation(
                 $this->getValidationDecorator()->notRequiredParamRule(
-                    $this->getAttachmentParamRule(self::PARAMETER_CLIENT_LOGO)
+                    $this->getAttachmentParamRule(
+                        self::PARAMETER_CLIENT_LOGO,
+                        Theme::CLIENT_LOGO_ASPECT_RATIO
+                    )
                 )
             );
         } elseif ($currentClientLogo === self::REPLACE_CURRENT) {
-            $paramRules->addParamValidation($this->getAttachmentParamRule(self::PARAMETER_CLIENT_LOGO));
+            $paramRules->addParamValidation(
+                $this->getAttachmentParamRule(self::PARAMETER_CLIENT_LOGO, Theme::CLIENT_LOGO_ASPECT_RATIO)
+            );
         }
 
         if (is_null($currentClientBanner)) {
             $paramRules->addParamValidation(
                 $this->getValidationDecorator()->notRequiredParamRule(
-                    $this->getAttachmentParamRule(self::PARAMETER_CLIENT_BANNER)
+                    $this->getAttachmentParamRule(
+                        self::PARAMETER_CLIENT_BANNER,
+                        Theme::CLIENT_BANNER_ASPECT_RATIO
+                    )
                 )
             );
         } elseif ($currentClientBanner === self::REPLACE_CURRENT) {
-            $paramRules->addParamValidation($this->getAttachmentParamRule(self::PARAMETER_CLIENT_BANNER));
+            $paramRules->addParamValidation(
+                $this->getAttachmentParamRule(
+                    self::PARAMETER_CLIENT_BANNER,
+                    Theme::CLIENT_BANNER_ASPECT_RATIO
+                )
+            );
         }
 
         if (is_null($currentLoginBanner)) {
             $paramRules->addParamValidation(
                 $this->getValidationDecorator()->notRequiredParamRule(
-                    $this->getAttachmentParamRule(self::PARAMETER_LOGIN_BANNER)
+                    $this->getAttachmentParamRule(
+                        self::PARAMETER_LOGIN_BANNER,
+                        Theme::LOGIN_BANNER_ASPECT_RATIO
+                    )
                 )
             );
         } elseif ($currentLoginBanner === self::REPLACE_CURRENT) {
-            $paramRules->addParamValidation($this->getAttachmentParamRule(self::PARAMETER_LOGIN_BANNER));
+            $paramRules->addParamValidation(
+                $this->getAttachmentParamRule(self::PARAMETER_LOGIN_BANNER, Theme::LOGIN_BANNER_ASPECT_RATIO)
+            );
         }
 
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
@@ -249,11 +268,15 @@ class ThemeAPI extends Endpoint implements ResourceEndpoint
      * @param string $paramKey
      * @return ParamRule
      */
-    private function getAttachmentParamRule(string $paramKey): ParamRule
+    private function getAttachmentParamRule(string $paramKey, float $aspectRatio): ParamRule
     {
         return new ParamRule(
             $paramKey,
-            new Rule(Rules::BASE_64_ATTACHMENT, [null, null, self::PARAM_RULE_FILE_NAME_MAX_LENGTH])
+            new Rule(
+                Rules::BASE_64_ATTACHMENT,
+                [Theme::ALLOWED_IMAGE_TYPES, Theme::ALLOWED_IMAGE_EXTENSIONS, self::PARAM_RULE_FILE_NAME_MAX_LENGTH]
+            ),
+            new Rule(ImageAspectRatio::class, [$aspectRatio]),
         );
     }
 

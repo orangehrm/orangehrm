@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Registration\Helper;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\ORM\Doctrine;
+use PDO;
 
 class SystemConfigurationHelper
 {
@@ -61,11 +62,11 @@ class SystemConfigurationHelper
     }
 
     /**
-     * @return array
+     * @return string|null
      */
     public function getServerDetails()
     {
-        return $_SERVER['SERVER_SOFTWARE'];
+        return $_SERVER['SERVER_SOFTWARE'] ?? null;
     }
 
     /**
@@ -102,11 +103,11 @@ class SystemConfigurationHelper
      * Return MySQL server version
      * @return string
      */
-    public function getMySqlServerVersion()
+    public function getMySqlServerVersion(): string
     {
-        return Doctrine::getEntityManager()->getConnection()
-            ->getWrappedConnection()
-            ->query('SELECT @@version')
-            ->fetchOne();
+        return Doctrine::getEntityManager()
+                ->getConnection()
+                ->getNativeConnection()
+                ->getAttribute(PDO::ATTR_SERVER_VERSION) ?? '';
     }
 }

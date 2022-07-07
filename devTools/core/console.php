@@ -39,9 +39,9 @@ use OrangeHRM\DevTools\Command\AddDataGroupCommand;
 use OrangeHRM\DevTools\Command\AddRolePermissionCommand;
 use OrangeHRM\DevTools\Command\AddTestTranslationCommand;
 use OrangeHRM\DevTools\Command\EventDispatcherDebugCommand;
-use OrangeHRM\DevTools\Command\PHPFixCodingStandards;
-use OrangeHRM\DevTools\Command\ReInstall;
-use OrangeHRM\DevTools\Command\ResetInstallation;
+use OrangeHRM\DevTools\Command\PHPFixCodingStandardsCommand;
+use OrangeHRM\DevTools\Command\ReInstallCommand;
+use OrangeHRM\DevTools\Command\ResetInstallationCommand;
 use OrangeHRM\DevTools\Command\TranslationCreate;
 use OrangeHRM\DevTools\Command\AddLangStrings;
 use OrangeHRM\Framework\ServiceContainer;
@@ -53,12 +53,12 @@ $application = new Application();
 
 $application->add(new AddDataGroupCommand());
 $application->add(new AddRolePermissionCommand());
-$application->add(new PHPFixCodingStandards());
+$application->add(new PHPFixCodingStandardsCommand());
 $application->add(new EventDispatcherDebugCommand());
 $application->add(new TranslationCreate());
 $application->add(new AddTestTranslationCommand());
-$application->add(new ResetInstallation());
-$application->add(new ReInstall());
+$application->add(new ResetInstallationCommand());
+$application->add(new ReInstallCommand());
 $application->add(new AddLangStrings());
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)

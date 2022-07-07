@@ -19,13 +19,16 @@
 
 namespace OrangeHRM\Tests\Authentication\Entity;
 
+use DateTime;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\LoginLog;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group @Authentication
- * @group @Entity
+ * @group Authentication
+ * @group Entity
  */
 class LoginLogTest extends EntityTestCase
 {
@@ -36,6 +39,14 @@ class LoginLogTest extends EntityTestCase
 
     public function testLoginLogEntity(): void
     {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturn(new DateTime('2022-07-04 10:56:56'));
+        $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
+
         $loginLog = new LoginLog();
         $loginLog->setUserId(1);
         $loginLog->setUserName('username');
@@ -49,5 +60,6 @@ class LoginLogTest extends EntityTestCase
         $this->assertEquals('username', $loginLog->getUserName());
         $this->assertEquals('Admin', $loginLog->getUserRoleName());
         $this->assertEquals(0, $loginLog->getUserRolePredefined());
+        $this->assertEquals('2022-07-04 10:56', $loginLog->getLoginTime()->format('Y-m-d H:i'));
     }
 }
