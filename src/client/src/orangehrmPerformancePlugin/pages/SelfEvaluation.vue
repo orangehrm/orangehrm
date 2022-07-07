@@ -271,6 +271,7 @@ export default {
         this.employeeReview = this.generateEvaluationFormData(
           data,
           meta.generalComment,
+          this.employeeReview.kpis,
         );
         return this.getSupervisorReview(this.reviewId);
       })
@@ -284,6 +285,7 @@ export default {
         this.supervisorReview = this.generateEvaluationFormData(
           data,
           meta.generalComment,
+          this.supervisorReview.kpis,
         );
         return this.status === 4 ? this.getFinalReview(this.reviewId) : {};
       })

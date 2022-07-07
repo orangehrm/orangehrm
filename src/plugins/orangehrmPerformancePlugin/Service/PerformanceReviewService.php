@@ -130,7 +130,7 @@ class PerformanceReviewService
             $reviewerRating->setReviewer($reviewer);
             $reviewerRating->getDecorator()->setKpiByKpiId($row['kpiId']);
             $reviewerRating->setComment($row['comment']);
-            $reviewerRating->setRating($row['rating'] ?: null);
+            $reviewerRating->setRating($row['rating'] === '' ? null : $row['rating']);
             $reviewerRating->setPerformanceReview($review);
             $ratings[$itemKey] = $reviewerRating;
         }
