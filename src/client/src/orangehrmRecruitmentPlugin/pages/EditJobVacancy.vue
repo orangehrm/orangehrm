@@ -95,18 +95,20 @@
           </oxd-grid-item>
         </oxd-grid>
         <br />
-        <oxd-form-row>
-          <div class="orangehrm-container orangehrm-container--border">
-            <vacancy-link-card
-              :label="$t('recruitment.rss_feed_url')"
-              :url="rssFeedUrl"
-            />
-            <vacancy-link-card
-              :label="$t('recruitment.web_page_url')"
-              :url="webUrl"
-            />
-          </div>
-        </oxd-form-row>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="orangehrm-grid-item-span-2">
+            <div class="orangehrm-vacancy-links">
+              <vacancy-link-card
+                :label="$t('recruitment.rss_feed_url')"
+                :url="rssFeedUrl"
+              />
+              <vacancy-link-card
+                :label="$t('recruitment.web_page_url')"
+                :url="webUrl"
+              />
+            </div>
+          </oxd-grid-item>
+        </oxd-grid>
         <br />
         <oxd-divider />
         <oxd-form-actions>
@@ -298,6 +300,8 @@ const VacancyAttachmentModel = {
   method: 'keepCurrent',
 };
 
+const basePath = `${window.location.protocol}//${window.location.host}${window.appGlobal.baseUrl}`;
+
 const attachmentNormalizer = data => {
   return data.map(item => {
     return {
@@ -439,8 +443,8 @@ export default {
       ],
       attachments: [],
       checkedItems: [],
-      rssFeedUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.rss`,
-      webUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.html`,
+      rssFeedUrl: `${basePath}/recruitmentApply/jobs.rss`,
+      webUrl: `${basePath}/recruitment/jobs.html`,
     };
   },
   created() {

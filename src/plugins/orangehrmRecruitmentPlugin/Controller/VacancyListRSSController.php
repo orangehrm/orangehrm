@@ -89,14 +89,13 @@ class VacancyListRSSController extends AbstractController implements PublicContr
         $image->appendChild($dom->createElement('title', $siteName));
         $image->appendChild($dom->createElement('link', $baseUrl . '/recruitmentApply/jobs.html'));
 
-
         foreach ($this->getPublishedVacancies() as $vacancy) {
             $item = $dom->createElement('item');
             $channel->appendChild($item);
             $title = $item->appendChild($dom->createElement('title'));
             $title->appendChild($dom->createCDATASection($vacancy->getName()));
             $item->appendChild(
-                $dom->createElement('link', $baseUrl . '/recruitmentApply/applyVacancy/id/' . $vacancy->getId())
+                $dom->createElement('link', $baseUrl . '/recruitment/applyJobVacancy/' . $vacancy->getId())
             );
             $description = $item->appendChild($dom->createElement('description'));
             $description->appendChild($dom->createCDATASection($vacancy->getDescription()));

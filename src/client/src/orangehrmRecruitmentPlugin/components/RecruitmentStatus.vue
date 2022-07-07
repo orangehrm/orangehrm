@@ -169,9 +169,9 @@ export default {
     this.candidateName = `${this.candidate?.firstName} ${this.candidate
       ?.middleName || ''} ${this.candidate?.lastName}`;
     if (this.candidate?.vacancy) {
-      this.vacancyName = this.candidate?.vacancy.name;
+      this.vacancyName = this.candidate.vacancy.name;
       this.hiringManagerName = this.translateEmpName(
-        data.vacancy.hiringManager,
+        this.candidate.vacancy.hiringManager,
         {
           includeMiddle: true,
           excludePastEmpTag: false,
