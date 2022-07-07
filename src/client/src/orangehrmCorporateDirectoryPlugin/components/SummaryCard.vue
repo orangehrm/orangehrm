@@ -19,11 +19,7 @@
  -->
 
 <template>
-  <oxd-sheet
-    :class="{'orangehrm-directory-card-height': hasDefaultSlot}"
-    :gutters="false"
-    class="orangehrm-directory-card"
-  >
+  <oxd-sheet :gutters="false" class="orangehrm-directory-card">
     <div
       v-show="showBackButton"
       class="orangehrm-directory-card-top"
@@ -31,39 +27,37 @@
     >
       <oxd-icon name="arrow-right"></oxd-icon>
     </div>
-    <div class="orangehrm-directory-card-header --break-words">
-      <oxd-text type="card-title">
-        {{ employeeName }}
-      </oxd-text>
-    </div>
+    <oxd-text tag="p" :class="cardTitleClasses">
+      {{ employeeName }}
+    </oxd-text>
     <profile-picture :id="employeeId"></profile-picture>
-    <div
-      v-if="employeeDesignation"
-      class="orangehrm-directory-card-header --break-words"
-    >
-      <oxd-text type="toast-title">
-        {{ employeeDesignation }}
-      </oxd-text>
-    </div>
+    <oxd-text v-show="employeeDesignation" tag="p" :class="cardSubTitleClasses">
+      {{ employeeDesignation }}
+    </oxd-text>
     <div
       v-show="employeeSubUnit || employeeLocation"
       class="orangehrm-directory-card-body"
     >
-      <span class="orangehrm-directory-card-icon">
-        <oxd-icon name="geo-alt-fill"></oxd-icon>
-      </span>
-      <span>
-        <div class="orangehrm-directory-card-subunit --break-words">
-          <oxd-text type="toast-message">
-            {{ employeeSubUnit }}
-          </oxd-text>
-        </div>
-        <div class="orangehrm-directory-card-location --break-words">
-          <oxd-text type="toast-message">
-            {{ employeeLocation }}
-          </oxd-text>
-        </div>
-      </span>
+      <oxd-icon
+        class="orangehrm-directory-card-icon"
+        name="geo-alt-fill"
+      ></oxd-icon>
+      <div>
+        <oxd-text
+          v-show="employeeSubUnit"
+          tag="p"
+          :class="cardDescriptionClasses"
+        >
+          {{ employeeSubUnit }}
+        </oxd-text>
+        <oxd-text
+          v-show="employeeLocation"
+          tag="p"
+          :class="cardDescriptionClasses"
+        >
+          {{ employeeLocation }}
+        </oxd-text>
+      </div>
     </div>
     <slot></slot>
   </oxd-sheet>
@@ -113,6 +107,24 @@ export default {
     hasDefaultSlot() {
       return !!this.$slots.default;
     },
+    cardTitleClasses() {
+      return {
+        'orangehrm-directory-card-header': true,
+        '--break-words': !this.hasDefaultSlot,
+      };
+    },
+    cardSubTitleClasses() {
+      return {
+        'orangehrm-directory-card-subtitle': true,
+        '--break-words': !this.hasDefaultSlot,
+      };
+    },
+    cardDescriptionClasses() {
+      return {
+        'orangehrm-directory-card-description': true,
+        '--break-words': !this.hasDefaultSlot,
+      };
+    },
   },
 };
 </script>
@@ -122,65 +134,64 @@ export default {
 
 .orangehrm-directory-card {
   height: auto;
+  cursor: pointer;
   overflow: hidden;
   padding: 0.5rem 1rem;
-  @include oxd-respond-to('md') {
-    min-height: 280px;
-  }
 
-  &-height {
-    height: auto;
-    @include oxd-respond-to('md') {
-      height: 260px;
-      overflow: hidden;
+  &-header {
+    font-size: 14px;
+    min-height: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+    word-break: break-word;
+    &.--break-words {
+      @include truncate(2, 1, #fff);
     }
   }
 
-  &-header {
-    padding-top: 1rem;
-    padding-bottom: 0.75rem;
+  &-subtitle {
+    font-size: 12px;
+    font-weight: 700;
     text-align: center;
-    justify-content: space-between;
-    height: 30px;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+    word-break: break-word;
+    &.--break-words {
+      @include truncate(1, 1, #fff);
+    }
+  }
+
+  &-description {
+    font-size: 12px;
+    text-align: left;
+    word-break: break-word;
+    &.--break-words {
+      @include truncate(1, 1, #fff);
+    }
+    &:first-of-type {
+      margin-bottom: 0.25rem;
+    }
   }
 
   &-body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.25rem;
-    margin-top: -0.25rem;
-    background-color: $oxd-background-white-shadow-color;
+    padding: 0.5rem;
     border-radius: 0.5rem;
-    height: 64px;
-    min-width: 168px;
+    background-color: $oxd-background-white-shadow-color;
   }
 
   &-icon {
-    margin: 0 0.25rem 0 0;
-    color: $oxd-interface-gray-darken-1-color;
     font-size: 24px;
-    display: flex;
-    justify-content: center;
+    margin-right: 0.5rem;
+    color: $oxd-interface-gray-darken-1-color;
   }
 
-  &-subunit {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
+  @include oxd-respond-to('md') {
+    min-height: 260px;
   }
-
-  &-location {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-  }
-}
-
-.--break-words {
-  overflow: hidden;
-  word-break: break-all;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 }
 </style>
