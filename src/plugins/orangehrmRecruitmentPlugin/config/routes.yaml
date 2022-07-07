@@ -279,3 +279,12 @@ recruitment_apply_job_vacancy:
   path: /recruitment/applyJobVacancy/{id}
   controller: OrangeHRM\Recruitment\Controller\ApplyJobVacancyViewController::handle
   methods: [ GET ]
+
+##########################
+#        RSS Feed
+##########################
+
+view_rss_feed:
+  path: /recruitmentApply/jobs.rss
+  controller: OrangeHRM\Recruitment\Controller\VacancyListRSSController::handle
+  methods: [ GET ]

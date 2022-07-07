@@ -200,4 +200,15 @@ class VacancyDao extends BaseDao
             ->setParameter('empNumber', $empNumber);
         return $this->getPaginator($q)->count() > 0;
     }
+
+    /**
+     * @return Vacancy[]
+     */
+    public function getPublishedVacancyList(): array
+    {
+        $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
+        $qb->where('vacancy.isPublished = :isPublished');
+        $qb->setParameter('isPublished', true);
+        return $qb->getQuery()->execute();
+    }
 }
