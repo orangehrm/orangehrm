@@ -65,7 +65,7 @@ class ReviewReviewerRatingParamRule extends AbstractRule
             $kpi = $this->getKpiService()->getKpiDao()->getKpiById($kpiId);
             $userRating = $rating[SupervisorEvaluationAPI::PARAMETER_RATING];
 
-            if($userRating === null || trim($userRating) === '') {
+            if ($userRating === null || trim($userRating) === '') {
                 continue;
             }
 

@@ -23,6 +23,7 @@ use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
@@ -57,7 +58,9 @@ class SelfEvaluationController extends AdminEvaluationController
     {
         $id = $request->attributes->getInt('id');
         $review = $this->getPerformanceReviewService()->getPerformanceReviewDao()->getPerformanceReviewById($id);
-        if (is_null($review)) {
+        if (is_null($review)
+            || ($review->getEmployee() instanceof Employee
+                && !is_null($review->getEmployee()->getPurgedAt()))) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
         return $this->getUserRoleManagerHelper()->isSelfByEmpNumber($review->getEmployee()->getEmpNumber());
