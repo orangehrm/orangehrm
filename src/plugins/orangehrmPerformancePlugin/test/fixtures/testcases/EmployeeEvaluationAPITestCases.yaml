@@ -58,7 +58,7 @@ GetAll:
     exception:
       class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
 
-  'Get all ratings for review that has no self reviewer ratings':
+  'Get all ratings for review that has empty self reviewer ratings':
     userId: 5
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
@@ -71,9 +71,26 @@ GetAll:
     attributes:
       reviewId: 1
     data:
-      []
+      0:
+        "id": 7
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 1
+      1:
+        "id": 8
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 2
+      2:
+        "id": 9
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 3
     meta:
-      total: 0
+      total: 3
       kpis:
         0:
           "id": 2

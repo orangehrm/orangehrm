@@ -19,12 +19,22 @@
  -->
 
 <template>
-  <div class="orangehrm-background-container orangehrm-save-candidate-page">
+  <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('recruitment.candidate_profile') }}
-      </oxd-text>
-      <oxd-divider />
+      <div class="orangehrm-header-container">
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('recruitment.candidate_profile') }}
+        </oxd-text>
+        <oxd-switch-input
+          v-if="!isLoading"
+          v-model="editable"
+          :option-label="$t('general.edit')"
+          label-position="left"
+        />
+      </div>
+
+      <oxd-divider v-show="!isLoading" />
+
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
@@ -35,6 +45,7 @@
                 v-model:last-name="profile.lastName"
                 :rules="rules"
                 :label="$t('general.full_name')"
+                :disabled="!editable"
                 required
               />
             </oxd-grid-item>
@@ -46,6 +57,7 @@
               <vacancy-dropdown
                 v-model="vacancy"
                 :label="$t('recruitment.job_vacancy')"
+                :readonly="!editable"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -58,6 +70,7 @@
                 :label="$t('general.email')"
                 :placeholder="$t('general.type_here')"
                 :rules="rules.email"
+                :disabled="!editable"
                 required
               />
             </oxd-grid-item>
@@ -67,12 +80,15 @@
                 :label="$t('recruitment.contact_number')"
                 :placeholder="$t('general.type_here')"
                 :rules="rules.contactNumber"
+                :disabled="!editable"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
+
+        <oxd-divider></oxd-divider>
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <file-upload-input
                 v-model:newFile="attachment.newAttachment"
@@ -81,12 +97,15 @@
                 :button-label="$t('general.browse')"
                 :file="attachment.oldAttachment"
                 :rules="rules.resume"
-                url="recruitment/resume"
                 :hint="$t('general.accept_custom_format_file')"
+                :disabled="!editable"
+                url="recruitment/resume"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
+        <oxd-divider></oxd-divider>
+
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item
@@ -99,6 +118,7 @@
                   `${$t('recruitment.enter_comma_seperated_words')}...`
                 "
                 :rules="rules.keywords"
+                :disabled="!editable"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -106,6 +126,7 @@
                 v-model="profile.dateOfApplication"
                 :label="$t('recruitment.date_of_application')"
                 :rules="rules.applicationDate"
+                :disabled="!editable"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -120,27 +141,27 @@
                 :label="$t('general.notes')"
                 type="textarea"
                 :placeholder="$t('general.type_here')"
+                :disabled="!editable"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item
-              class="orangehrm-save-candidate-page-full-width orangehrm-save-candidate-page-grid-checkbox"
-            >
+            <oxd-grid-item class="orangehrm-candidate-grid-checkbox">
               <oxd-input-field
                 v-model="profile.consentToKeepData"
                 type="checkbox"
                 :label="$t('recruitment.consent_to_keep_data')"
+                :disabled="!editable"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-divider />
-        <required-text></required-text>
-        <oxd-form-actions>
-          <oxd-button display-type="ghost" :label="$t('general.cancel')" />
+        <oxd-divider v-show="editable" />
+
+        <oxd-form-actions v-if="editable">
+          <required-text></required-text>
           <submit-button :label="$t('general.save')" />
         </oxd-form-actions>
       </oxd-form>
@@ -149,21 +170,22 @@
 </template>
 
 <script>
-import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
-import {APIService} from '@/core/util/services/api.service';
 import {
-  shouldNotExceedCharLength,
   required,
-  validDateFormat,
-  validPhoneNumberFormat,
-  validEmailFormat,
   maxFileSize,
   validFileTypes,
+  validDateFormat,
+  validEmailFormat,
+  validPhoneNumberFormat,
+  shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
-import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
-import FileUploadInput from '@/core/components/inputs/FileUploadInput';
-import DateInput from '@/core/components/inputs/DateInput';
 import {navigate} from '@/core/util/helper/navigation';
+import DateInput from '@/core/components/inputs/DateInput';
+import {APIService} from '@/core/util/services/api.service';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import FileUploadInput from '@/core/components/inputs/FileUploadInput';
+import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
+import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 
 const CandidateProfileModel = {
   firstName: '',
@@ -195,9 +217,10 @@ export default {
   name: 'CandidateProfile',
   components: {
     DateInput,
+    'oxd-switch-input': SwitchInput,
+    'full-name-input': FullNameInput,
     'vacancy-dropdown': VacancyDropdown,
     'file-upload-input': FileUploadInput,
-    'full-name-input': FullNameInput,
   },
   props: {
     candidate: {
@@ -222,6 +245,7 @@ export default {
   },
   data() {
     return {
+      editable: false,
       isLoading: false,
       profile: {...CandidateProfileModel},
       vacancy: {...VacancyModel},
@@ -315,12 +339,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.orangehrm-save-candidate-page {
-  &-grid-checkbox {
-    .oxd-input-group {
-      flex-direction: row-reverse;
-      justify-content: flex-end;
-    }
+.orangehrm-header-container {
+  padding: 0;
+}
+.orangehrm-candidate-grid-checkbox {
+  .oxd-input-group {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
   }
 }
 </style>

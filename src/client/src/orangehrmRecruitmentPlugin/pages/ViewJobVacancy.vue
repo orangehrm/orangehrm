@@ -108,13 +108,12 @@
 <script>
 import {computed, ref} from 'vue';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
 import usei18n from '@/core/util/composable/usei18n';
-
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown.vue';
 import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
 

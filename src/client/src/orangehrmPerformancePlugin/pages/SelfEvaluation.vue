@@ -20,6 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
+    <review-confirm-modal ref="confirmDialog"> </review-confirm-modal>
     <div class="orangehrm-card-container">
       <oxd-text tag="h5" class="orangehrm-performance-review-title">
         {{ $t('performance.performance_review') }}
@@ -69,8 +70,8 @@
             <div class="orangehrm-performance-review-actions">
               <oxd-button
                 display-type="ghost"
-                :label="$t('general.back')"
-                @click="onClickBack"
+                :label="$t('general.cancel')"
+                @click="onClickCancel"
               />
               <oxd-button
                 v-show="hasSaveAction"
@@ -124,16 +125,6 @@
             :status="status"
             :is-required="false"
           />
-          <oxd-divider />
-          <oxd-form-actions>
-            <div class="orangehrm-performance-review-actions">
-              <oxd-button
-                display-type="ghost"
-                :label="$t('general.back')"
-                @click="onClickBack"
-              />
-            </div>
-          </oxd-form-actions>
         </evaluation-form>
       </div>
     </oxd-form>
@@ -141,15 +132,14 @@
 </template>
 
 <script>
-import {provide, readonly} from 'vue';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
-import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {APIService} from '@/core/util/services/api.service';
 import ReviewSummary from '../components/ReviewSummary';
 import FinalEvaluation from '../components/FinalEvaluation';
 import EvaluationForm from '../components/EvaluationForm';
 import useForm from '@ohrm/core/util/composable/useForm';
 import useReviewEvaluation from '@/orangehrmPerformancePlugin/util/composable/useReviewEvaluation';
+import ReviewConfirmModal from '@/orangehrmPerformancePlugin/components/ReviewConfirmModal';
 
 const reviewerModel = {
   details: {
@@ -169,6 +159,7 @@ export default {
     'review-summary': ReviewSummary,
     'final-evaluation': FinalEvaluation,
     'evaluation-form': EvaluationForm,
+    'review-confirm-modal': ReviewConfirmModal,
   },
   props: {
     reviewId: {
@@ -195,9 +186,6 @@ export default {
   setup() {
     const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
-
-    const responsiveState = useResponsive();
-    provide('screenState', readonly(responsiveState));
 
     const {
       getAllKpis,
@@ -309,24 +297,27 @@ export default {
         .then(async () => {
           if (this.invalid === true) return;
           if (complete) {
-            const confirmation = await this.$refs.confirmDialog.showDialog();
-            if (confirmation !== 'ok') {
-              return Promise.reject();
-            }
-          }
-        })
-        .then(() => {
-          this.isLoading = true;
-          this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
-            .then(() => {
-              return this.$toast.saveSuccess();
-            })
-            .finally(() => {
-              reloadPage();
+            this.$refs.confirmDialog.showDialog().then(confirmation => {
+              if (confirmation === 'ok') {
+                this.submitReview(true);
+              }
             });
+          } else {
+            this.submitReview(false);
+          }
         });
     },
-    onClickBack() {
+    submitReview(complete = false) {
+      this.isLoading = true;
+      this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .finally(() => {
+          reloadPage();
+        });
+    },
+    onClickCancel() {
       navigate('/performance/myPerformanceReview');
     },
   },

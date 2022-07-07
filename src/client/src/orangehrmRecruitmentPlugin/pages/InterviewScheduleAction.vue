@@ -42,7 +42,9 @@
               :key="interviewer"
               v-model="interviewers[index]"
               :show-delete="index > 0"
-              :rules="index === 0 ? rules.interviewerName : []"
+              :rules="
+                rules.interviewerName.filter((_, i) => index === 0 || i > 0)
+              "
               include-employees="onlyCurrent"
               required
               @remove="onRemoveInterviewer(index)"
@@ -89,10 +91,10 @@
       <oxd-form-actions>
         <oxd-button
           display-type="ghost"
-          :label="$t('general.back')"
+          :label="$t('general.cancel')"
           @click="onClickBack"
         />
-        <submit-button :label="$t('general.save')" />
+        <submit-button />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
@@ -148,7 +150,16 @@ export default {
         interviewName: [required, shouldNotExceedCharLength(100)],
         interviewDate: [required, validDateFormat()],
         interviewTime: [validTimeFormat],
-        interviewerName: [required],
+        interviewerName: [
+          required,
+          value => {
+            return this.interviewers.filter(
+              interviewer => interviewer && interviewer.id === value?.id,
+            ).length < 2
+              ? true
+              : this.$t('general.already_exists');
+          },
+        ],
         note: [shouldNotExceedCharLength(2000)],
       },
     };
@@ -163,7 +174,6 @@ export default {
       this.interviewers.splice(index, 1);
     },
     onSave() {
-      let historyId;
       this.isLoading = true;
       this.http
         .create({
@@ -172,16 +182,11 @@ export default {
             .map(interviewer => interviewer?.id)
             .filter(Number),
         })
-        .then(response => {
-          const {meta} = response.data;
-          historyId = meta.historyId;
+        .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/candidate/{candidateId}/history/{historyId}', {
-            candidateId: this.candidateId,
-            historyId: historyId,
-          });
+          navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
         });
     },
     onClickBack() {

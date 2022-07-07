@@ -55,18 +55,17 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
+              <date-input
                 v-model="filters.fromDate"
-                type="date"
                 :label="$t('recruitment.date_of_application')"
                 :placeholder="$t('general.from')"
                 :rules="rules.fromDate"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="orangehrm-candidate-page-date">
-              <oxd-input-field
+            <oxd-grid-item>
+              <date-input
                 v-model="filters.toDate"
-                type="date"
+                label="&nbsp"
                 :placeholder="$t('general.to')"
                 :rules="rules.toDate"
               />
@@ -144,22 +143,26 @@
 
 <script>
 import {computed, ref} from 'vue';
-import usei18n from '@/core/util/composable/usei18n';
-import useSort from '@ohrm/core/util/composable/useSort';
-import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {navigate} from '@ohrm/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
-import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
-import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
-import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
-import CandidateStatusDropdown from '@/orangehrmRecruitmentPlugin/components/CandidateStatusDropdown';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {
+  validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
-  validDateFormat,
 } from '@/core/util/validation/rules';
+import usei18n from '@/core/util/composable/usei18n';
+import useSort from '@ohrm/core/util/composable/useSort';
+import useLocale from '@/core/util/composable/useLocale';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
+import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import CandidateAutocomplete from '@/orangehrmRecruitmentPlugin/components/CandidateAutocomplete';
+import HiringManagerDropdown from '@/orangehrmRecruitmentPlugin/components/HiringManagerDropdown';
+import CandidateStatusDropdown from '@/orangehrmRecruitmentPlugin/components/CandidateStatusDropdown';
 
 const defaultFilters = {
   jobTitle: null,
@@ -172,6 +175,7 @@ const defaultFilters = {
   fromDate: null,
   toDate: null,
 };
+
 const defaultSortOrder = {
   'vacancy.name': 'DEFAULT',
   'candidate.lastName': 'DEFAULT',
@@ -182,17 +186,20 @@ const defaultSortOrder = {
 
 export default {
   components: {
-    CandidateAutocomplete,
+    'vacancy-dropdown': VacancyDropdown,
+    'jobtitle-dropdown': JobtitleDropdown,
     'delete-confirmation': DeleteConfirmationDialog,
     'candidate-autocomplete': CandidateAutocomplete,
     'hiring-manager-dropdown': HiringManagerDropdown,
-    'vacancy-dropdown': VacancyDropdown,
-    'jobtitle-dropdown': JobtitleDropdown,
     'candidate-status-dropdown': CandidateStatusDropdown,
   },
 
   setup() {
     const {$t} = usei18n();
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
+    const {$tEmpName} = useEmployeeNameTranslate();
+
     const candidateDataNormalizer = data => {
       return data.map(item => {
         return {
@@ -201,16 +208,17 @@ export default {
           candidate: `${item.firstName} ${item.middleName || ''} ${
             item.lastName
           }`,
-          manager: item.vacancy
-            ? `${item.vacancy.hiringManager.firstName} ${
-                item.vacancy.hiringManager.lastName
-              } ${
-                item.vacancy.hiringManager.terminationId
-                  ? $t('general.past_employee')
-                  : ''
-              }`
+          manager: item?.vacancy?.hiringManager
+            ? $tEmpName(item.vacancy.hiringManager, {
+                includeMiddle: true,
+                excludePastEmpTag: false,
+              })
             : '',
-          dateOfApplication: item.dateOfApplication,
+          dateOfApplication: formatDate(
+            parseDate(item.dateOfApplication),
+            jsDateFormat,
+            {locale},
+          ),
           status: item.status?.label,
           resume: item.hasAttachment,
         };
@@ -360,7 +368,7 @@ export default {
         view: {
           onClick: this.onClickEdit,
           props: {
-            name: 'eye',
+            name: 'eye-fill',
           },
         },
       };
@@ -444,14 +452,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.orangehrm-candidate-page {
-  &-date {
-    .oxd-input-group {
-      height: 100%;
-      justify-content: center;
-    }
-  }
-}
-</style>

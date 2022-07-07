@@ -105,7 +105,7 @@ langStrings:
     value: 'Mark Interview Passed'
     unitId: mark_interview_passed
   -
-    value: 'Decline offer'
+    value: 'Decline Offer'
     unitId: decline_offer
   -
     value: 'Hire'
@@ -197,3 +197,21 @@ langStrings:
   -
     value: 'Application Initiated'
     unitId: application_initiated_uc
+  -
+    value: 'Powered By'
+    unitId: powered_by
+  -
+    value: 'Apply for the position of {vacancyName}'
+    unitId: apply_for_position_of_vacancy_name
+  -
+    value: 'Application Received'
+    unitId: application_received
+  -
+    value: 'Your application has been submitted successfully'
+    unitId: your_application_has_been_submitted_successfully
+  -
+    value: 'Hire Candidate'
+    unitId: hire_candidate
+  -
+    value: 'Reject Candidate'
+    unitId: reject_candidate

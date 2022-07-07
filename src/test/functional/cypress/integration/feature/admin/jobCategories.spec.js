@@ -99,7 +99,7 @@ describe('Admin - Job Category', function () {
       cy.loginTo(this.user, '/admin/jobCategory');
       cy.wait('@getJobCategories');
       cy.get(
-        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(1)',
+        '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(1)',
       ).click();
       cy.getOXD('button').contains('Yes, Delete').click();
       cy.wait('@getJobCategories');
@@ -108,9 +108,7 @@ describe('Admin - Job Category', function () {
     it('Bulk Delete job categories', function () {
       cy.loginTo(this.user, '/admin/jobCategory');
       cy.wait('@getJobCategories');
-      cy.get(
-        '.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
-      ).click();
+      cy.get('.oxd-table-header .oxd-checkbox-input').click();
       cy.getOXD('button').contains('Delete Selected').click();
       cy.getOXD('button').contains('Yes, Delete').click();
       cy.wait('@getJobCategories');

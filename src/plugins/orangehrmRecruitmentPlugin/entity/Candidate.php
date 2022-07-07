@@ -34,6 +34,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Candidate
 {
     use DecoratorTrait;
+    public const MODE_OF_APPLICATION_OFFLINE = 1;
+    public const MODE_OF_APPLICATION_ONLINE = 2;
 
     /**
      * @var int
@@ -78,7 +80,7 @@ class Candidate
      * @var int
      * @ORM\Column(name="status", type="integer", length=4)
      */
-    private int $status;
+    private int $status = 1;
 
     /**
      * @var string|null

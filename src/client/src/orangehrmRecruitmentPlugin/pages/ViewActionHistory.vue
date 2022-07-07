@@ -68,7 +68,9 @@
               :key="interviewer"
               v-model="interviewers[index]"
               :show-delete="index > 0"
-              :rules="index === 0 ? rules.interviewerName : []"
+              :rules="
+                rules.interviewerName.filter((_, i) => index === 0 || i > 0)
+              "
               include-employees="onlyCurrent"
               required
               @remove="onRemoveInterviewer(index)"
@@ -124,13 +126,6 @@
         <submit-button :label="$t('general.save')" />
       </oxd-form-actions>
     </candidate-action-layout>
-    <br />
-    <interview-attachments
-      v-if="history.interview.id"
-      :max-file-size="maxFileSize"
-      :interview-id="history.interview.id"
-      :allowed-file-types="allowedFileTypes"
-    ></interview-attachments>
   </div>
 </template>
 
@@ -147,7 +142,6 @@ import {APIService} from '@/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import InterviewAttachments from '@/orangehrmRecruitmentPlugin/components/InterviewAttachments.vue';
 import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout.vue';
 import InterviewerAutocomplete from '@/orangehrmRecruitmentPlugin/components/InterviewerAutocomplete.vue';
 
@@ -175,12 +169,10 @@ const interviewModel = {
   interviewName: null,
   interviewDate: null,
   interviewTime: null,
-  note: null,
 };
 
 export default {
   components: {
-    'interview-attachments': InterviewAttachments,
     'candidate-action-layout': CandidateActionLayout,
     'interviewer-autocomplete': InterviewerAutocomplete,
   },
@@ -192,14 +184,6 @@ export default {
     },
     historyId: {
       type: Number,
-      required: true,
-    },
-    maxFileSize: {
-      type: Number,
-      required: true,
-    },
-    allowedFileTypes: {
-      type: Array,
       required: true,
     },
   },
@@ -232,19 +216,28 @@ export default {
         interviewName: [required, shouldNotExceedCharLength(100)],
         interviewDate: [required, validDateFormat()],
         interviewTime: [validTimeFormat],
-        interviewerName: [required],
+        interviewerName: [
+          required,
+          value => {
+            return this.interviewers.filter(
+              interviewer => interviewer && interviewer.id === value?.id,
+            ).length < 2
+              ? true
+              : this.$t('general.already_exists');
+          },
+        ],
         note: [shouldNotExceedCharLength(2000)],
       },
       statuses: [
         {id: 1, label: this.$t('recruitment.application_initiated')},
-        {id: 2, label: this.$t('recruitment.shortlisted')},
-        {id: 3, label: this.$t('recruitment.rejected')},
+        {id: 2, label: this.$t('recruitment.shortlist')},
+        {id: 3, label: this.$t('recruitment.reject')},
         {id: 4, label: this.$t('recruitment.interview_scheduled')},
         {id: 5, label: this.$t('recruitment.interview_passed')},
         {id: 6, label: this.$t('recruitment.interview_failed')},
         {id: 7, label: this.$t('recruitment.job_offered')},
-        {id: 8, label: this.$t('recruitment.offer_declined')},
-        {id: 9, label: this.$t('recruitment.hired')},
+        {id: 8, label: this.$t('recruitment.decline_offer')},
+        {id: 9, label: this.$t('recruitment.hire')},
       ],
     };
   },
@@ -293,7 +286,7 @@ export default {
         this.interview.interviewName = data.name;
         this.interview.interviewDate = data.interviewDate;
         this.interview.interviewTime = data.interviewTime;
-        this.interview.note = data.note;
+        this.history.note = data.note;
         if (Array.isArray(data.interviewers)) {
           this.interviewers = data.interviewers.map(interviewer => ({
             id: interviewer.empNumber,
