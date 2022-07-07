@@ -19,26 +19,6 @@ Update:
     meta:
       total: 2
 
-  'Update translated lang string - new lang string':
-    userId: 1
-    services:
-      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
-    attributes:
-      languageId: 1
-    body:
-      data:
-        - langStringId: 20
-          translatedValue: Информация за проекта
-        - langStringId: 75
-          translatedValue: Начална дата трябва да бъде преди крайната дата
-    data:
-      - langStringId: 20
-        translatedValue: Информация за проекта
-      - langStringId: 75
-        translatedValue: Начална дата трябва да бъде преди крайната дата
-    meta:
-      total: 2
-
   'Update translated lang string with wrong language id':
     userId: 1
     services:

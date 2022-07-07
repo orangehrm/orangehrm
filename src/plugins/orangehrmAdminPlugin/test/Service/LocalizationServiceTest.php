@@ -54,7 +54,7 @@ class LocalizationServiceTest extends KernelTestCase
             ->getMock();
         $dateTimeHelper->expects($this->atLeastOnce())
             ->method('getNow')
-            ->willReturnCallback(fn() => new DateTime('2022-06-05'));
+            ->willReturnCallback(fn () => new DateTime('2022-06-05'));
 
         $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
         $formats = $this->localizationService->getLocalizationDateFormats();
