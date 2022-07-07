@@ -184,7 +184,7 @@ export default {
         isPublished: [required],
       },
       rssFeedUrl: `${basePath}/recruitmentApply/jobs.rss`,
-      webUrl: `${basePath}/recruitment/jobs.html`,
+      webUrl: `${basePath}/recruitmentApply/jobs.html`,
     };
   },
   created() {

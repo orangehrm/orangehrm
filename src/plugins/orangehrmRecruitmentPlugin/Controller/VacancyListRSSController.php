@@ -25,6 +25,8 @@ use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class VacancyListRSSController extends AbstractController implements PublicControllerInterface
@@ -45,6 +47,10 @@ class VacancyListRSSController extends AbstractController implements PublicContr
             ->getPublishedVacancyList();
     }
 
+    /**
+     * @return RedirectResponse|Response|null
+     * @throws DOMException
+     */
     public function handle()
     {
         $response = $this->getResponse();
@@ -95,7 +101,7 @@ class VacancyListRSSController extends AbstractController implements PublicContr
             $title = $item->appendChild($dom->createElement('title'));
             $title->appendChild($dom->createCDATASection($vacancy->getName()));
             $item->appendChild(
-                $dom->createElement('link', $baseUrl . '/recruitment/applyJobVacancy/' . $vacancy->getId())
+                $dom->createElement('link', $baseUrl . '/recruitmentApply/applyVacancy/id/' . $vacancy->getId())
             );
             $description = $item->appendChild($dom->createElement('description'));
             $description->appendChild($dom->createCDATASection($vacancy->getDescription()));

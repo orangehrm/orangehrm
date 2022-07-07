@@ -105,7 +105,7 @@ export default {
       this.viewMore = !this.viewMore;
     },
     apply() {
-      navigate('/recruitment/applyJobVacancy/{id}', {id: this.vacancyId});
+      navigate('/recruitmentApply/applyVacancy/id/{id}', {id: this.vacancyId});
     },
   },
 };

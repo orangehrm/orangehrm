@@ -444,7 +444,7 @@ export default {
       attachments: [],
       checkedItems: [],
       rssFeedUrl: `${basePath}/recruitmentApply/jobs.rss`,
-      webUrl: `${basePath}/recruitment/jobs.html`,
+      webUrl: `${basePath}/recruitmentApply/jobs.html`,
     };
   },
   created() {
