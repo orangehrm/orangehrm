@@ -33,10 +33,12 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
 class I18NTranslationAPI extends Endpoint implements CollectionEndpoint
 {
     use LocalizationServiceTrait;
+    use EntityManagerHelperTrait;
 
     public const PARAMETER_LANGUAGE_ID = 'languageId';
     public const PARAMETER_SOURCE_TEXT = 'sourceText';

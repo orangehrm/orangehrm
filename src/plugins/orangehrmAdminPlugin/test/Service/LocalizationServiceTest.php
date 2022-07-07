@@ -54,7 +54,7 @@ class LocalizationServiceTest extends KernelTestCase
             ->getMock();
         $dateTimeHelper->expects($this->atLeastOnce())
             ->method('getNow')
-            ->willReturnCallback(fn () => new DateTime('2022-06-05'));
+            ->willReturnCallback(fn() => new DateTime('2022-06-05'));
 
         $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
         $formats = $this->localizationService->getLocalizationDateFormats();
@@ -121,5 +121,10 @@ class LocalizationServiceTest extends KernelTestCase
         $this->assertCount(1, $languages);
         $this->assertEquals('Valerian', $languages[0]['label']);
         $this->assertEquals('VLR', $languages[0]['id']);
+    }
+
+    public function testGenerateLangStringLanguageKey(): void
+    {
+        $this->assertEquals('1_2_', $this->localizationService->generateLangStringLanguageKey(1, 2));
     }
 }

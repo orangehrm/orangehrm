@@ -23,9 +23,12 @@ use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Entity\I18NTranslation;
+use SebastianBergmann\Type\LogicException;
 
 class LocalizationService
 {
@@ -127,5 +130,60 @@ class LocalizationService
     {
         $languages = $this->searchLanguages($i18NLanguageSearchParams);
         return $this->getNormalizerService()->normalizeArray(I18NLanguageModel::class, $languages);
+    }
+
+    /**
+     * @param int $languageId
+     * @param array $rows
+     * @return void
+     * @throws BadRequestException
+     */
+    public function saveAndUpdateTranslatedStringsFromRows(int $languageId, array $rows)
+    {
+        $i18NTranslations = $this->createTranslatedItemsFromRows($languageId, $rows);
+        $this->getLocalizationDao()->saveAndUpdateTranslatedLangString($i18NTranslations);
+    }
+
+    /**
+     * @param int $languageId
+     * @param array $rows
+     * @return array
+     * @throws BadRequestException
+     */
+    protected function createTranslatedItemsFromRows(int $languageId, array $rows): array
+    {
+        $i18NTranslations = [];
+        foreach ($rows as $row) {
+            if (!(isset($row['langStringId']))) {
+                throw new LogicException('langStringId is required attribute');
+            }
+
+            if ($row['langStringId'] < 0) {
+                throw new BadRequestException('langStringId cannot be negative');
+            }
+
+            $itemKey = $this->generateLangStringLanguageKey(
+                $languageId,
+                $row['langStringId'],
+            );
+            $i18NTranslation = new I18NTranslation();
+            $i18NTranslation->getDecorator()->setLangStringById($row['langStringId']);
+            $i18NTranslation->getDecorator()->setLanguageById($languageId);
+            $i18NTranslation->setValue($row['translatedValue']);
+            $i18NTranslation->setCustomized(true);
+            $i18NTranslations[$itemKey] = $i18NTranslation;
+        }
+        return $i18NTranslations;
+    }
+
+    /**
+     * @param int $languageId
+     * @param int $langStringId
+     * @return string
+     */
+    public function generateLangStringLanguageKey(int $languageId, int $langStringId): string
+    {
+        return $languageId . '_' .
+            $langStringId . '_';
     }
 }

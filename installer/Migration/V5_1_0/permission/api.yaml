@@ -458,6 +458,18 @@ apiv2_admin_localization_translations:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
 
+apiv2_admin_localization_bulk_translations:
+  description: 'API-v2 Admin - Localization Bulk Translations'
+  api: OrangeHRM\Admin\Api\I18NTranslationBulkAPI
+  module: admin
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+
 ##########################
 #   Corporate Directory
 ##########################
