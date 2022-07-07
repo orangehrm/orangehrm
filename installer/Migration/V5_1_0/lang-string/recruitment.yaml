@@ -51,7 +51,7 @@ langStrings:
     value: 'Candidate'
     unitId: candidate
   -
-    value: 'Application initiated'
+    value: 'Application Initiated'
     unitId: application_initiated
   -
     value: 'Shortlisted'
@@ -96,7 +96,7 @@ langStrings:
     value: 'Application Stage'
     unitId: application_stage
   -
-    value: 'Offer job'
+    value: 'Offer Job'
     unitId: offer_job
   -
     value: 'Mark Interview Failed'
@@ -194,9 +194,6 @@ langStrings:
   -
     value: 'Hired'
     unitId: hired
-  -
-    value: 'Application Initiated'
-    unitId: application_initiated_uc
   -
     value: 'Powered By'
     unitId: powered_by
