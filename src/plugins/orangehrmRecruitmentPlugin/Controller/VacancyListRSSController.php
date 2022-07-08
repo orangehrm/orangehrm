@@ -27,7 +27,10 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class VacancyListRSSController extends AbstractController implements PublicControllerInterface
 {
@@ -55,21 +58,33 @@ class VacancyListRSSController extends AbstractController implements PublicContr
     {
         $response = $this->getResponse();
         $response->headers->set(self::CONTENT_TYPE_KEY, self::CONTENT_TYPE_XML);
-        $response->setContent($this->generateXMLFeed());
+        $response->setContent($this->generateRSSFeed());
         return $response;
     }
 
     /**
+     * @return string
      * @throws DOMException
      */
-    public function generateXMLFeed()
+    public function generateRSSFeed(): string
     {
         $siteName = 'Active Job Vacancies';
         $siteDescription = '';
         $language = 'en-us';
         $logoUrl = '';
 
-        $baseUrl = $this->getCurrentRequest()->getSchemeAndHttpHost() . $this->getCurrentRequest()->getBaseUrl();
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        $rssFeedUrl = $urlGenerator->generate(
+            'view_rss_feed',
+            [],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+        $webUrl = $urlGenerator->generate(
+            'recruitment_view_vacancy_list',
+            [],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
         $currentDateTime = $this->getDateTimeHelper()->getNow();
 
         $dom = new DOMDocument('1.0', 'UTF-8');
@@ -85,7 +100,7 @@ class VacancyListRSSController extends AbstractController implements PublicContr
         $channel = $dom->createElement('channel');
         $root->appendChild($channel);
         $channel->appendChild($dom->createElement('title', $siteName));
-        $channel->appendChild($dom->createElement('link', $baseUrl . '/recruitmentApply/jobs.rss'));
+        $channel->appendChild($dom->createElement('link', $rssFeedUrl));
         $channel->appendChild($dom->createElement('description', $siteDescription));
         $channel->appendChild($dom->createElement('pubDate', $currentDateTime->format(DATE_RSS)));
         $channel->appendChild($dom->createElement('language', $language));
@@ -93,19 +108,22 @@ class VacancyListRSSController extends AbstractController implements PublicContr
         $channel->appendChild($image);
         $image->appendChild($dom->createElement('url', $logoUrl));
         $image->appendChild($dom->createElement('title', $siteName));
-        $image->appendChild($dom->createElement('link', $baseUrl . '/recruitmentApply/jobs.html'));
+        $image->appendChild($dom->createElement('link', $webUrl));
 
         foreach ($this->getPublishedVacancies() as $vacancy) {
             $item = $dom->createElement('item');
             $channel->appendChild($item);
             $title = $item->appendChild($dom->createElement('title'));
             $title->appendChild($dom->createCDATASection($vacancy->getName()));
-            $item->appendChild(
-                $dom->createElement('link', $baseUrl . '/recruitmentApply/applyVacancy/id/' . $vacancy->getId())
+            $recruitmentApplyUrl = $urlGenerator->generate(
+                'recruitment_apply_job_vacancy',
+                ['id' => $vacancy->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
+            $item->appendChild($dom->createElement('link', $recruitmentApplyUrl));
             $description = $item->appendChild($dom->createElement('description'));
             $description->appendChild($dom->createCDATASection($vacancy->getDescription()));
-            $item->appendChild($dom->createElement('pubDate', $vacancy->getDefinedTime()->format(DATE_RSS)));
+            $item->appendChild($dom->createElement('pubDate', $vacancy->getUpdatedTime()->format(DATE_RSS)));
         }
         return $dom->saveXML();
     }
