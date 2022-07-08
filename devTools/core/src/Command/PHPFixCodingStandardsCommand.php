@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class PHPFixCodingStandards extends Command
+class PHPFixCodingStandardsCommand extends Command
 {
     protected static $defaultName = 'php-cs-fix';
 

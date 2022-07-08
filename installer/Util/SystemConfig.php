@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Config\Config;
 use PDO;
 use Symfony\Component\Filesystem\Filesystem;
+use Throwable;
 
 class SystemConfig
 {
@@ -105,7 +106,6 @@ class SystemConfig
     /**
      * MYSQL Client Check
      * @return array
-     * @throws \Doctrine\DBAL\Exception
      */
     public function isMySqlClientCompatible(): array
     {
@@ -137,7 +137,6 @@ class SystemConfig
     /**
      * MYSQL Server Check
      * @return array
-     * @throws \Doctrine\DBAL\Exception
      */
     public function isMySqlServerCompatible(): array
     {
@@ -182,7 +181,6 @@ class SystemConfig
     /**
      * MYSQL InnoDB Support Check
      * @return array|void
-     * @throws \Doctrine\DBAL\Exception
      */
     public function isInnoDBSupport()
     {
@@ -499,6 +497,42 @@ class SystemConfig
     }
 
     /**
+     * @return array
+     */
+    public function isGdExtensionEnabled(): array
+    {
+        if (extension_loaded('gd')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::ACCEPTABLE
+            ];
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function isIntlExtensionEnabled(): array
+    {
+        if (extension_loaded('intl')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::ACCEPTABLE
+            ];
+        }
+    }
+
+    /**
      * @return bool
      */
     public function checkPDOExtensionEnabled(): bool
@@ -661,17 +695,16 @@ class SystemConfig
 
     /**
      * Return web server details
-     * @return string
+     * @return string|null
      */
-    public function getWebServerDetails(): string
+    public function getWebServerDetails(): ?string
     {
-        return $_SERVER['SERVER_SOFTWARE'];
+        return $_SERVER['SERVER_SOFTWARE'] ?? null;
     }
 
     /**
      * Return MySql client version
      * @return string
-     * @throws \Doctrine\DBAL\Exception
      */
     public function getMysqlClientVersion(): string
     {
@@ -681,7 +714,6 @@ class SystemConfig
     /**
      * Return MySql server version
      * @return string
-     * @throws \Doctrine\DBAL\Exception
      */
     public function getMysqlServerVersion(): string
     {
@@ -691,7 +723,6 @@ class SystemConfig
     /**
      * Return MySql host info
      * @return string
-     * @throws \Doctrine\DBAL\Exception
      */
     public function getMySqlHostInfo(): string
     {
@@ -713,20 +744,18 @@ class SystemConfig
 
     /**
      * @return PDO|null
-     * @throws \Doctrine\DBAL\Exception
      */
     private function getPDOConnection(): ?PDO
     {
-        $conn = DatabaseServerConnection::getConnection()->getWrappedConnection();
-        if ($conn instanceof \Doctrine\DBAL\Driver\PDO\Connection) {
-            return $conn->getWrappedConnection();
+        try {
+            return DatabaseServerConnection::getConnection()->getNativeConnection();
+        } catch (Throwable $e) {
         }
         return null;
     }
 
     /**
      * @return array
-     * @throws \Doctrine\DBAL\Exception
      */
     public function getSystemDetails(): array
     {
