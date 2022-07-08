@@ -21,9 +21,6 @@
 <template>
   <div class="orangehrm-paper-container">
     <div class="orangehrm-header-container">
-      <oxd-text tag="h6" :class="classes">
-        {{ $t('maintenance.selected_candidates') }}
-      </oxd-text>
       <oxd-button
         v-show="total > 0"
         :label="$t('maintenance.purge_all')"
@@ -138,17 +135,17 @@ export default {
         {
           name: 'name',
           title: this.$t('recruitment.candidate_name'),
-          style: {flex: 1},
+          style: {flex: '45%'},
         },
         {
           name: 'date',
           title: this.$t('recruitment.date_of_application'),
-          style: {flex: 1},
+          style: {flex: '45%'},
         },
         {
           name: 'status',
           title: this.$t('general.status'),
-          style: {flex: 1},
+          style: {flex: '10%'},
         },
       ],
     };

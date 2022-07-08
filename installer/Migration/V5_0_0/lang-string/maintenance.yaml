@@ -6,7 +6,7 @@ langStrings:
     value: 'Past Employee'
     unitId: past_employee
   -
-    value: 'Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier: {instanceIdentifier})"'
+    value: 'Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to data@orangehrm.com with the subject "Purge Records (Instance Identifier: {instanceIdentifier})"'
     unitId: gdpr_note
   -
     value: 'Purge'
