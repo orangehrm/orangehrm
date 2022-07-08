@@ -66,7 +66,7 @@ class VacancyListRSSController extends AbstractController implements PublicContr
      * @return string
      * @throws DOMException
      */
-    public function generateRSSFeed(): string
+    private function generateRSSFeed(): string
     {
         $siteName = 'Active Job Vacancies';
         $siteDescription = '';

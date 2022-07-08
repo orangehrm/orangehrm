@@ -209,6 +209,7 @@ class VacancyDao extends BaseDao
         $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
         $qb->where('vacancy.isPublished = :isPublished');
         $qb->setParameter('isPublished', true);
+        $qb->addOrderBy('vacancy.updatedTime', ListSorter::DESCENDING);
         return $qb->getQuery()->execute();
     }
 }

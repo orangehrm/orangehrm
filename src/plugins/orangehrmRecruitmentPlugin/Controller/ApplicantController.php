@@ -70,6 +70,8 @@ class ApplicantController extends AbstractController implements PublicController
     public const PARAMETER_VACANCY_ID = 'vacancyId';
     public const PARAMETER_CONSENT_TO_KEEP_DATA = 'consentToKeepData';
 
+    public const PARAMETER_RULE_NAME_MAX_LENGTH = 30;
+
     /**
      * @var ValidationDecorator|null
      */
@@ -273,18 +275,21 @@ class ApplicantController extends AbstractController implements PublicController
             ),
             new ParamRule(
                 self::PARAMETER_FIRST_NAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_MIDDLE_NAME,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
                 ),
                 true
             ),
             new ParamRule(
                 self::PARAMETER_LAST_NAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_EMAIL,
