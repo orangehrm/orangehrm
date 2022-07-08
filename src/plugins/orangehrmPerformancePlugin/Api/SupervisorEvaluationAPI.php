@@ -447,7 +447,8 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_GENERAL_COMMENT,
                     new Rule(Rules::STRING_TYPE),
-                )
+                ),
+                true
             )
         );
     }

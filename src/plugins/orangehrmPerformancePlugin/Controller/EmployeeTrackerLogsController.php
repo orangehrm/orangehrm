@@ -58,7 +58,10 @@ class EmployeeTrackerLogsController extends AbstractVueController implements Cap
     public function isCapable(Request $request): bool
     {
         $id = $request->attributes->getInt('id');
-        if (is_null($this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTracker($id))) {
+        $performanceTracker = $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getPerformanceTracker($id);
+        if (is_null($performanceTracker) || !is_null($performanceTracker->getEmployee()->getPurgedAt())) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
         return $this->getUserRoleManager()->isEntityAccessible(PerformanceTracker::class, $id);

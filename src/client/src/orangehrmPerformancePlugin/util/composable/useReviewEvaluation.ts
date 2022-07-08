@@ -116,7 +116,11 @@ export default function useReviewEvaluation(http: APIService) {
     return http.request({
       method: 'PUT',
       url: `/api/v2/performance/reviews/${reviewId}/evaluation/final`,
-      data: {...reviewData},
+      data: {
+        ...reviewData,
+        finalComment:
+          reviewData.finalComment === '' ? null : reviewData.finalComment,
+      },
     });
   };
 
@@ -178,13 +182,17 @@ export default function useReviewEvaluation(http: APIService) {
   const generateEvaluationFormData = (
     evaluationData: EvaluationData[],
     generalComment: string,
+    kpis: Array<{kpiId: number}>,
   ) => {
     return {
-      kpis: evaluationData.map(datum => ({
-        kpiId: datum.kpi.id,
-        rating: datum.rating,
-        comment: datum.comment,
-      })),
+      kpis: kpis.map(({kpiId}) => {
+        const _kpi = evaluationData.find(datum => datum.kpi.id === kpiId);
+        return {
+          kpiId,
+          rating: _kpi?.rating,
+          comment: _kpi?.comment,
+        };
+      }),
       generalComment: generalComment,
     };
   };

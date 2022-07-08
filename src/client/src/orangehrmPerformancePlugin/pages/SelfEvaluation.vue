@@ -65,23 +65,24 @@
           :status="employee.status"
           :title="$t('performance.self_evaluation_by')"
         >
-          <oxd-divider />
-          <oxd-form-actions>
+          <oxd-form-actions v-show="hasActions">
+            <oxd-divider />
             <div class="orangehrm-performance-review-actions">
               <oxd-button
+                v-if="hasCancelAction"
                 display-type="ghost"
                 :label="$t('general.cancel')"
                 @click="onClickCancel"
               />
               <oxd-button
-                v-show="hasSaveAction"
+                v-if="hasSaveAction"
                 display-type="ghost"
                 type="button"
                 :label="$t('general.save')"
                 @click="onSubmit(false)"
               />
               <oxd-button
-                v-show="hasCompleteAction"
+                v-if="hasCompleteAction"
                 type="button"
                 display-type="secondary"
                 :label="$t('performance.complete')"
@@ -240,6 +241,14 @@ export default {
     hasCompleteAction() {
       return this.employee.actions.has('complete');
     },
+    hasCancelAction() {
+      return !(this.status === 4 || this.employee?.status === 3);
+    },
+    hasActions() {
+      return (
+        this.hasSaveAction || this.hasCancelAction || this.hasCompleteAction
+      );
+    },
   },
   beforeMount() {
     this.isLoading = true;
@@ -262,6 +271,7 @@ export default {
         this.employeeReview = this.generateEvaluationFormData(
           data,
           meta.generalComment,
+          this.employeeReview.kpis,
         );
         return this.getSupervisorReview(this.reviewId);
       })
@@ -275,6 +285,7 @@ export default {
         this.supervisorReview = this.generateEvaluationFormData(
           data,
           meta.generalComment,
+          this.supervisorReview.kpis,
         );
         return this.status === 4 ? this.getFinalReview(this.reviewId) : {};
       })
