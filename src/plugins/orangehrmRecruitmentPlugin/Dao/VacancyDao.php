@@ -20,11 +20,10 @@
 
 namespace OrangeHRM\Recruitment\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 
