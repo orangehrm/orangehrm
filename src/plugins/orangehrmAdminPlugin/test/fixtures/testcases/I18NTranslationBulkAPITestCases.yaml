@@ -3,6 +3,9 @@ Update:
     userId: 1
     services:
       admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+      i18n.i18n_service: OrangeHRM\I18N\Service\I18NService
+    factories:
+      core.cache: [ '\OrangeHRM\Tests\Util\Mock\MockCacheService', 'getCache' ]
     attributes:
       languageId: 1
     now:
@@ -13,13 +16,8 @@ Update:
           translatedValue: Add Job Title Translated
         - langStringId: 1
           translatedValue: Translated
-    data:
-      - langStringId: 2
-        translatedValue: Add Job Title Translated
-      - langStringId: 1
-        translatedValue: Translated
-    meta:
-      total: 2
+    data: []
+    meta: []
 
   'Update translated lang string with wrong language id':
     userId: 1
@@ -82,3 +80,62 @@ Update:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
+
+  'Update translated lang string - different user - ess':
+    userId: 2
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 1
+    body:
+      data:
+        - langStringId: 2
+          translatedValue: Add Job Title Translated
+    exception:
+      class: '\OrangeHRM\ORM\Exception\TransactionException'
+
+  'Update translated lang string - different user - supervisor':
+    userId: 3
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 1
+    body:
+      data:
+        - langStringId: 2
+          translatedValue: Add Job Title Translated
+    exception:
+      class: '\OrangeHRM\ORM\Exception\TransactionException'
+
+  'Update translated lang string - already translated and available lang string':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+      i18n.i18n_service: OrangeHRM\I18N\Service\I18NService
+    factories:
+      core.cache: [ '\OrangeHRM\Tests\Util\Mock\MockCacheService', 'getCache' ]
+    attributes:
+      languageId: 1
+    now:
+      datetime: '2022-07-25'
+    body:
+      data:
+        - langStringId: 2
+          translatedValue: 使用 SMTP 验证 Translated
+        - langStringId: 1
+          translatedValue: 添加位置 Translated
+    data: []
+    meta: []
+
+  'Update translated lang string with non existing lang string id':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 1
+    body:
+      data:
+        - langStringId: 1000
+          translatedValue: Add Job Title Translated
+    exception:
+      class: '\OrangeHRM\ORM\Exception\TransactionException'

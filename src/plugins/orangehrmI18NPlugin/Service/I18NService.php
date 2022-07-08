@@ -339,4 +339,13 @@ class I18NService
         }
         return $this->getTranslator()->trans($sourceLangString, $parameters, null, $langCode);
     }
+
+    /**
+     * @param string $langCode
+     * @return void
+     */
+    public function cleanCacheByLangCode(string $langCode): void
+    {
+        $this->getCache()->clear($this->generateCacheKeyPrefixForLang($langCode));
+    }
 }

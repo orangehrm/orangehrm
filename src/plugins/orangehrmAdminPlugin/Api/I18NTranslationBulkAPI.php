@@ -25,7 +25,6 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -65,7 +64,6 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
 
     /**
      * @inheritDoc
-     * @throws BadRequestException
      * @throws TransactionException
      */
     public function update(): EndpointCollectionResult
@@ -84,21 +82,14 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
 
             $this->getLocalizationService()
                 ->saveAndUpdateTranslatedStringsFromRows($languageId, $translatedDataValues);
-        } catch (BadRequestException $e) {
-            $this->rollBackTransaction();
-            throw $e;
+
+            $this->commitTransaction();
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
 
-        $this->commitTransaction();
-
-        return new EndpointCollectionResult(
-            ArrayModel::class,
-            array_values($translatedDataValues),
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($translatedDataValues)])
-        );
+        return new EndpointCollectionResult(ArrayModel::class,[]);
     }
 
     /**

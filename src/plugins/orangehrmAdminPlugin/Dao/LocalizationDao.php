@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
@@ -170,10 +168,7 @@ class LocalizationDao extends BaseDao
     }
 
     /**
-     * @param array $i18NTranslations
-     * @return void
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @param I18NTranslation[] $i18NTranslations
      */
     public function saveAndUpdateTranslatedLangString(array $i18NTranslations): void
     {
