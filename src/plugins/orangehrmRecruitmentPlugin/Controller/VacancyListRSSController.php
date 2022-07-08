@@ -25,7 +25,6 @@ use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Vacancy;
-use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
@@ -41,20 +40,10 @@ class VacancyListRSSController extends AbstractController implements PublicContr
     public const CONTENT_TYPE_XML = 'text/xml';
 
     /**
-     * @return Vacancy[]
-     */
-    private function getPublishedVacancies(): array
-    {
-        return $this->getVacancyService()
-            ->getVacancyDao()
-            ->getPublishedVacancyList();
-    }
-
-    /**
-     * @return RedirectResponse|Response|null
+     * @return Response
      * @throws DOMException
      */
-    public function handle()
+    public function handle(): Response
     {
         $response = $this->getResponse();
         $response->headers->set(self::CONTENT_TYPE_KEY, self::CONTENT_TYPE_XML);
@@ -126,5 +115,15 @@ class VacancyListRSSController extends AbstractController implements PublicContr
             $item->appendChild($dom->createElement('pubDate', $vacancy->getUpdatedTime()->format(DATE_RSS)));
         }
         return $dom->saveXML();
+    }
+
+    /**
+     * @return Vacancy[]
+     */
+    private function getPublishedVacancies(): array
+    {
+        return $this->getVacancyService()
+            ->getVacancyDao()
+            ->getPublishedVacancyList();
     }
 }

@@ -29,7 +29,7 @@ use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group CorporateBranding
+ * @group Recruitment
  * @group Controller
  */
 class VacancyListRSSControllerTest extends KernelTestCase
@@ -41,7 +41,7 @@ class VacancyListRSSControllerTest extends KernelTestCase
         TestDataService::populate($fixture);
     }
 
-    public function testGenerateRSSFeed()
+    public function testGenerateRSSFeed(): void
     {
         $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
             ->onlyMethods(['generate'])
