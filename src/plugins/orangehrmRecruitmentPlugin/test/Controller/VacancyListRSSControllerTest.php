@@ -63,10 +63,17 @@ class VacancyListRSSControllerTest extends KernelTestCase
                 ]
             );
 
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturnCallback(fn () => new \DateTime('2020-10-10', new \DateTimeZone('+13:00')));
+
         $this->createKernelWithMockServices([
             Services::VACANCY_SERVICE => new VacancyService(),
             Services::URL_GENERATOR => $urlGenerator,
-            Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()
+            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper
         ]);
         $controller = new VacancyListRSSController();
         $response = $controller->handle();
