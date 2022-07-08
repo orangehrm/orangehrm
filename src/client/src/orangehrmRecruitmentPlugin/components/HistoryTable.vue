@@ -19,29 +19,33 @@
  -->
 
 <template>
-  <div class="orangehrm-card-container">
+  <div class="orangehrm-paper-container">
     <div class="orangehrm-header-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('recruitment.candidate_history') }}
       </oxd-text>
     </div>
     <table-header
-      :selected="checkedItems.length"
+      :selected="0"
       :total="total"
       :loading="isLoading"
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
-        v-model:selected="checkedItems"
         :headers="headers"
         :items="items?.data"
         :clickable="false"
+        :selectable="false"
         :loading="isLoading"
         row-decorator="oxd-table-decorator-card"
       />
     </div>
-    <div v-if="showPaginator" class="orangehrm-bottom-container">
-      <oxd-pagination v-model:current="currentPage" :length="pages" />
+    <div class="orangehrm-bottom-container">
+      <oxd-pagination
+        v-if="showPaginator"
+        v-model:current="currentPage"
+        :length="pages"
+      />
     </div>
   </div>
 </template>
@@ -77,9 +81,9 @@ export default {
     },
   },
   setup(props) {
+    const {$t} = usei18n();
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
-    const {$t} = usei18n();
     const {$tEmpName} = useEmployeeNameTranslate();
 
     const http = new APIService(
@@ -239,6 +243,7 @@ export default {
       items: response,
     };
   },
+
   data() {
     return {
       headers: [
@@ -248,22 +253,35 @@ export default {
           title: 'Performed Date',
           style: {flex: '20%'},
         },
-        {name: 'description', title: 'Description', style: {flex: '70%'}},
+        {name: 'description', title: 'Description', style: {flex: '60%'}},
         {
           name: 'actions',
           slot: 'action',
           title: this.$t('general.actions'),
-          style: {flex: '10%'},
+          style: {flex: '20%'},
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.cellRenderer,
         },
       ],
-      checkedItems: [],
     };
   },
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
+
+      if (
+        row.action?.id === ACTION_INTERVIEW_SCHEDULED ||
+        row.action?.id === ACTION_INTERVIEW_PASSED ||
+        row.action?.id === ACTION_INTERVIEW_FAILED
+      ) {
+        cellConfig.attachment = {
+          onClick: this.onClckAttachment,
+          props: {
+            name: 'paperclip',
+          },
+        };
+      }
+
       if (
         row.action?.id != ACTION_ASSIGNED_VACANCY &&
         row.action?.id != ACTION_ADDED &&
@@ -276,6 +294,7 @@ export default {
           },
         };
       }
+
       return {
         props: {
           header: {
@@ -284,10 +303,15 @@ export default {
         },
       };
     },
+
     onClickEdit(item) {
       navigate(
         `/recruitment/candidate/${this.candidate.id}/history/${item.id}`,
       );
+    },
+
+    onClckAttachment(item) {
+      navigate(`/recruitment/interviews/${item.interview?.id}/attachments`);
     },
   },
 };

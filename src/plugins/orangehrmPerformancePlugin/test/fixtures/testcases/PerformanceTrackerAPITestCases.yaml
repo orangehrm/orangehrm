@@ -403,13 +403,33 @@ Update:
     attributes:
       id: 4
     body:
-      trackerName: 'Tracker updated second time'
+      trackerName: 'Tracker updated third time'
       empNumber: 3
-      reviewerEmpNumbers: [ 5,4 ]
+      reviewerEmpNumbers: [ 5 ]
     query: [ ]
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      messsage: "Cannot activate review for employees who doesn't have a Job Title with KPI"
+    data:
+      id: 4
+      trackerName: 'Tracker updated third time'
+      addedDate: '2021-12-10'
+      modifiedDate: '2022-02-03'
+      status: 1
+      employee:
+        empNumber: 4
+        lastName: 'Sherlock'
+        firstName: 'Sherin'
+        terminationId: null
+        middleName: 'Sherin'
+        employeeId: 'E004'
+      reviewers:
+        0:
+          id: 6
+          empNumber: 5
+          lastName: 'Gandhi'
+          firstName: 'mahatma'
+          middleName: 'Gandhi'
+          employeeId: 'E005'
+          terminationId: null
+      ownerEditable: false
 
 Delete:
   'delete one':

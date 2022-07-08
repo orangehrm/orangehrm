@@ -28,6 +28,7 @@ use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\Dto\Table;
+use PDO;
 
 class SchemaHelper
 {
@@ -136,7 +137,7 @@ class SchemaHelper
 
     /**
      * @param string $tableName
-     * @param string[] $foreignKeys
+     * @param string[]|ForeignKeyConstraint[] $foreignKeys
      */
     public function dropForeignKeys(string $tableName, array $foreignKeys): void
     {
@@ -194,11 +195,11 @@ class SchemaHelper
     }
 
     /**
-     * @return \Doctrine\DBAL\Driver\Connection
+     * @return PDO
      */
-    private function getWrappedConnection(): \Doctrine\DBAL\Driver\Connection
+    private function getNativeConnection(): PDO
     {
-        return $this->getConnection()->getWrappedConnection();
+        return $this->getConnection()->getNativeConnection();
     }
 
     /**
@@ -206,7 +207,7 @@ class SchemaHelper
      */
     public function disableConstraints(): void
     {
-        $pdo = $this->getWrappedConnection();
+        $pdo = $this->getNativeConnection();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=0;');
     }
 
@@ -215,7 +216,7 @@ class SchemaHelper
      */
     public function enableConstraints(): void
     {
-        $pdo = $this->getWrappedConnection();
+        $pdo = $this->getNativeConnection();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
 

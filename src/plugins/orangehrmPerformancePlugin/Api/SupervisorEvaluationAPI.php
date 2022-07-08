@@ -211,6 +211,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_REVIEW_ID
             )
         );
+        $reviewKpiParamHolder->setReviewerGroupName(ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
         $this->setSortingAndPaginationParams($reviewKpiParamHolder);
         return $this->getNormalizerService()->normalizeArray(
             KpiSummaryModel::class,
@@ -446,7 +447,8 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_GENERAL_COMMENT,
                     new Rule(Rules::STRING_TYPE),
-                )
+                ),
+                true
             )
         );
     }

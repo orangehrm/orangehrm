@@ -39,7 +39,11 @@ export interface LanguageOptions {
   resourceUrl: string;
 }
 
-export type TranslateAPI = (key: string, fallback?: string) => string;
+export type TranslateAPI = (
+  key: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  parameters: {[key: string]: any},
+) => string;
 
 export const langStrings: Record<string, IntlMessageFormat> = {};
 

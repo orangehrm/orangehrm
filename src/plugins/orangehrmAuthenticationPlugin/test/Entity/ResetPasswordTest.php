@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,8 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Tests\Authentication\Entity;
+
+use DateTime;
 use OrangeHRM\Core\Service\DateTimeHelperService;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\ResetPasswordRequest;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EntityTestCase;
@@ -31,8 +32,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class ResetPasswordTest extends EntityTestCase
 {
-    use DateTimeHelperTrait;
-
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([ResetPasswordRequest::class]);
@@ -44,7 +43,7 @@ class ResetPasswordTest extends EntityTestCase
         $resetPassword = new ResetPasswordRequest();
         $resetPassword->setId(1);
         $resetPassword->setResetCode('reset');
-        $resetPassword->setResetRequestDate($this->getDateTimeHelper()->getNow());
+        $resetPassword->setResetRequestDate(new DateTime('2022-07-04 10:56:56'));
         $resetPassword->setResetEmail('reset@gmail.com');
         $resetPassword->setExpired(1);
         $this->persist($resetPassword);
@@ -55,5 +54,6 @@ class ResetPasswordTest extends EntityTestCase
         $this->assertEquals('reset', $resetPassword->getResetCode());
         $this->assertEquals('reset@gmail.com', $resetPassword->getResetEmail());
         $this->assertEquals(1, $resetPassword->getExpired());
+        $this->assertEquals('2022-07-04 10:56', $resetPassword->getResetRequestDate()->format('Y-m-d H:i'));
     }
 }

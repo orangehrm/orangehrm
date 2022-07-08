@@ -24,7 +24,7 @@
       {{ $t('performance.review_finalization') }}
     </oxd-text>
     <br />
-    <oxd-grid :cols="3" class="orangehrm-performance-review-grid">
+    <oxd-grid :cols="4" class="orangehrm-performance-review-grid">
       <oxd-grid-item>
         <oxd-text type="subtitle-2">
           {{ $t('performance.date_of_completion') }}
@@ -59,7 +59,7 @@
         </oxd-text>
         <oxd-input-field
           v-if="editable"
-          rows="2"
+          rows="1"
           type="textarea"
           :model-value="finalComment"
           :rules="rules.finalComment"
@@ -94,7 +94,7 @@ export default {
       required: false,
     },
     finalRating: {
-      type: String,
+      type: Number,
       default: null,
       required: false,
     },
@@ -163,47 +163,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-performance-review {
-  &-grid {
-    @include oxd-respond-to('md') {
-      grid-template-columns: 1fr 110px 1fr;
-    }
-
-    ::v-deep(.oxd-textarea) {
-      min-height: unset;
-      height: 58px;
-    }
-
-    ::v-deep(.oxd-input) {
-      font-size: 1.2rem;
-      height: 58px;
-    }
-
-    &-rating {
-      ::v-deep(.oxd-input) {
-        text-align: center;
-      }
-    }
-  }
-  &-title {
-    font-size: 14px;
-    font-weight: 800;
-  }
-
-  &-bold {
-    font-weight: 700;
-  }
-
-  &-read {
-    margin-top: 0.3rem;
-    margin-bottom: 1.2rem;
-    @include oxd-respond-to('md') {
-      margin-top: 1.2rem;
-      margin-bottom: 0;
-    }
-  }
-}
-</style>
+<style src="./final-evaluation.scss" lang="scss" scoped></style>

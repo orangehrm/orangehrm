@@ -19,15 +19,18 @@
 
 namespace OrangeHRM\Tests\Authentication\Dao;
 
+use DateTime;
 use OrangeHRM\Authentication\Dao\LoginLogDao;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\LoginLog;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Authentication
  * @group Dao
  */
-class LoginLogDaoTest extends TestCase
+class LoginLogDaoTest extends KernelTestCase
 {
     /**
      * @var LoginLogDao
@@ -41,6 +44,14 @@ class LoginLogDaoTest extends TestCase
 
     public function testSaveLoginLog(): void
     {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturn(new DateTime('2022-07-04 10:56:56'));
+        $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
+
         $loginLog = new LoginLog();
         $loginLog->setUserId(1);
         $loginLog->setUserName('Admin');
@@ -53,5 +64,6 @@ class LoginLogDaoTest extends TestCase
         $this->assertEquals('Admin', $result->getUserName());
         $this->assertEquals('Admin', $result->getUserRoleName());
         $this->assertEquals(1, $result->getUserRolePredefined());
+        $this->assertEquals('2022-07-04 10:56', $result->getLoginTime()->format('Y-m-d H:i'));
     }
 }

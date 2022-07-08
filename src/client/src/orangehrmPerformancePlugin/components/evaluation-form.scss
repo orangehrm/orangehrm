@@ -21,10 +21,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    &-title {
-      display: flex;
-      align-items: center;
+    &-grid {
+      width: 100%;
     }
+  }
+  &-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
     &-profile-image {
       width: 40px;
       height: 40px;
@@ -36,20 +40,13 @@
     }
     &-name {
       margin-left: 1rem;
-    }
-    &-action {
-      display: flex;
-      text-align: right;
-      align-items: center;
-      .oxd-icon {
-        margin-left: 1rem;
-      }
+      word-break: break-word;
     }
   }
   &-grid {
     padding-top: 0.5rem;
     @include oxd-respond-to('md') {
-      grid-template-columns: 1fr 110px 1fr;
+      grid-template-columns: calc(100% / 3) 110px 1fr 0.5fr;
     }
     &-header {
       display: none;
@@ -92,6 +89,12 @@
       padding: 0.5rem 0;
       @include oxd-respond-to('md') {
         display: none;
+      }
+    }
+    &-spacer-md {
+      display: none;
+      @include oxd-respond-to('md') {
+        display: block;
       }
     }
     ::v-deep(.oxd-textarea) {
