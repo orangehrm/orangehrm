@@ -165,6 +165,8 @@ import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
+const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
+
 export default {
   components: {
     'oxd-divider': Divider,
@@ -223,7 +225,9 @@ export default {
     const commentValidators = [shouldNotExceedCharLength(2000)];
 
     const profileImgSrc = computed(() => {
-      return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`;
+      return props.employee.empNumber
+        ? `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`
+        : defaultPic;
     });
 
     const employeeName = computed(() => {

@@ -21,13 +21,14 @@ namespace OrangeHRM\Performance\Controller;
 
 use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
-use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -64,7 +65,12 @@ class AdminEvaluationController extends AbstractVueController implements Capable
     public function isCapable(Request $request): bool
     {
         $id = $request->attributes->getInt('id');
-        if (is_null($this->getPerformanceReviewService()->getPerformanceReviewDao()->getPerformanceReviewById($id))) {
+        $performanceReview = $this->getPerformanceReviewService()
+            ->getPerformanceReviewDao()
+            ->getPerformanceReviewById($id);
+        if (is_null($performanceReview)
+            || ($performanceReview->getEmployee() instanceof Employee
+                && !is_null($performanceReview->getEmployee()->getPurgedAt()))) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
         return $this->getUserRoleManager()->isEntityAccessible(PerformanceReview::class, $id, null, ['ESS']);
