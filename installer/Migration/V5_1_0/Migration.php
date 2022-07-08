@@ -174,6 +174,19 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->modifyTrackerLogsUserForeignKey();
+
+        $maintenanceModuleId = $this->getDataGroupHelper()->getModuleIdByName('maintenance');
+        $maintenanceModuleScreenId = $this->getDataGroupHelper()
+            ->getScreenIdByModuleAndUrl($maintenanceModuleId, 'viewMaintenanceModule');
+        $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menu_item')
+            ->set('menu_item.screen_id', ':screenId')
+            ->setParameter('screenId', $maintenanceModuleScreenId)
+            ->andWhere('menu_item.menu_title = :menuTitle')
+            ->setParameter('menuTitle', 'Maintenance')
+            ->andWhere('level = :level')
+            ->setParameter('level', 1)
+            ->executeQuery();
     }
 
     /**
