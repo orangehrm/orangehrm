@@ -68,7 +68,7 @@ class VacancyListRSSControllerTest extends KernelTestCase
             ->getMock();
         $dateTimeHelper->expects($this->atLeastOnce())
             ->method('getNow')
-            ->willReturnCallback(fn () => new \DateTime('2020-10-10', new \DateTimeZone('+13:00')));
+            ->willReturnCallback(fn () => new \DateTime('2020-10-10'));
 
         $this->createKernelWithMockServices([
             Services::VACANCY_SERVICE => new VacancyService(),
@@ -87,9 +87,9 @@ class VacancyListRSSControllerTest extends KernelTestCase
         $this->assertCount(4, $result['channel']['item']);
         $this->assertEquals('Assistant Technical Supervisor', $result['channel']['item'][0]['title']);
         $this->assertEquals('Oversees technical assistant', $result['channel']['item'][0]['description']);
-        $this->assertEquals('Sat, 10 Oct 2020 03:48:00 +1300', $result['channel']['item'][0]['pubDate']);
+        $this->assertEquals('Sat, 10 Oct 2020 03:48:00 +0000', $result['channel']['item'][0]['pubDate']);
         $this->assertEquals('Part-Time Technical Assistant', $result['channel']['item'][3]['title']);
         $this->assertEquals([], $result['channel']['item'][3]['description']);
-        $this->assertEquals('Thu, 08 Oct 2020 03:48:00 +1300', $result['channel']['item'][3]['pubDate']);
+        $this->assertEquals('Thu, 08 Oct 2020 03:48:00 +0000', $result['channel']['item'][3]['pubDate']);
     }
 }

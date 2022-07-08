@@ -115,7 +115,7 @@ class VacancyListRSSController extends AbstractController implements PublicContr
             $item->appendChild(
                 $dom->createElement(
                     'pubDate',
-                    $vacancy->getUpdatedTime()->setTimezone($currentDateTime->getTimezone())->format(DATE_RSS)
+                    $vacancy->getUpdatedTime()->format(DATE_RSS)
                 )
             );
         }
