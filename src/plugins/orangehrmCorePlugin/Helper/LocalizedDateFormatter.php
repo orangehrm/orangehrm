@@ -104,8 +104,10 @@ class LocalizedDateFormatter
         array_push($search, ...self::SHORT_DAYS);
         array_push(
             $replace,
-            ...
-            array_map(fn (string $day) => $this->getI18NHelper()->transBySource($day), self::SHORT_DAYS)
+            ...array_map(
+                fn (string $day) => $this->getI18NHelper()->transBySource($day),
+                self::SHORT_DAYS
+            )
         );
     }
 
@@ -122,8 +124,10 @@ class LocalizedDateFormatter
         array_push($search, ...self::LONG_DAYS);
         array_push(
             $replace,
-            ...
-            array_map(fn (string $day) => $this->getI18NHelper()->transBySource($day), self::LONG_DAYS)
+            ...array_map(
+                fn (string $day) => $this->getI18NHelper()->transBySource($day),
+                self::LONG_DAYS
+            )
         );
     }
 
@@ -140,8 +144,10 @@ class LocalizedDateFormatter
         array_push($search, ...self::SHORT_MONTHS);
         array_push(
             $replace,
-            ...
-            array_map(fn (string $day) => $this->getI18NHelper()->transBySource($day), self::SHORT_MONTHS)
+            ...array_map(
+                fn (string $day) => $this->getI18NHelper()->transBySource($day),
+                self::SHORT_MONTHS
+            )
         );
     }
 
@@ -158,8 +164,10 @@ class LocalizedDateFormatter
         array_push($search, ...self::LONG_MONTHS);
         array_push(
             $replace,
-            ...
-            array_map(fn (string $day) => $this->getI18NHelper()->transBySource($day), self::LONG_MONTHS)
+            ...array_map(
+                fn (string $day) => $this->getI18NHelper()->transBySource($day),
+                self::LONG_MONTHS
+            )
         );
     }
 }

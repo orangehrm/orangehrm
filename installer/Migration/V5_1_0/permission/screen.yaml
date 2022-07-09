@@ -2,16 +2,16 @@
   module: performance
   url: addPerformanceTracker
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true } }
 
 'Download Corporate Branding Images':
   module: admin
   url: theme
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true } }
 
 'View Maintenance Module':
   module: maintenance
   url: viewMaintenanceModule
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Admin, permission: { read: true } }
