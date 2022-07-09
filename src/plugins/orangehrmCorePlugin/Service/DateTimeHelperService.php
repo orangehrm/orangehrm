@@ -24,6 +24,7 @@ use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Helper\LocalizedDateFormatter;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class DateTimeHelperService
@@ -31,6 +32,20 @@ class DateTimeHelperService
     use ConfigServiceTrait;
 
     public const TIMEZONE_UTC = '+0000';
+
+    private ?LocalizedDateFormatter $dateFormatter = null;
+
+    /**
+     * @return LocalizedDateFormatter
+     */
+    public function getDateFormatter(): LocalizedDateFormatter
+    {
+        if (!$this->dateFormatter instanceof LocalizedDateFormatter) {
+            $this->dateFormatter = new LocalizedDateFormatter();
+        }
+        return $this->dateFormatter;
+    }
+
 
     /**
      * Format given \DateTime object to Y-m-d string.
@@ -164,6 +179,6 @@ class DateTimeHelperService
             return $this->formatDateTimeToYmd($dateTime);
         }
         $dateFormat = $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
-        return $dateTime->format($dateFormat);
+        return $this->getDateFormatter()->formatDate($dateTime, $dateFormat);
     }
 }
