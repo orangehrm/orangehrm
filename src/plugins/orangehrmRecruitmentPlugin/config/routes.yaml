@@ -222,7 +222,7 @@ interview_attachment:
 
 recruitment_module:
   path: /recruitment/viewRecruitmentModule
-  controller: OrangeHRM\Recruitment\Controller\ViewCandidateController::handle
+  controller: OrangeHRM\Recruitment\Controller\RecruitmentModuleController::handle
   methods: [ GET ]
 
 recruitment_view_job_vacancy:
