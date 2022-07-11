@@ -151,38 +151,27 @@ class ApplicantController extends AbstractController implements PublicController
         $applicant = new Candidate();
         $this->setApplicant($applicant, $request);
         $applicant = $this->getCandidateService()->getCandidateDao()->saveCandidate($applicant);
-        $lastInsertApplicantId = $applicant->getId();
+        $applicantId = $applicant->getId();
 
         $applicantHistory = new CandidateHistory();
         $this->setCommonApplicantHistoryAttributes(
             $applicantHistory,
-            $lastInsertApplicantId,
-            CandidateService::RECRUITMENT_CANDIDATE_ACTION_ADD
+            $applicantId,
+            CandidateService::RECRUITMENT_CANDIDATE_ACTION_APPLIED
         );
         $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
 
-        if (!is_null($vacancyId)) {
-            $applicantVacancy = new CandidateVacancy();
-            $this->setApplicantVacancy(
-                $applicantVacancy,
-                $lastInsertApplicantId,
-                CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
-                $vacancyId
-            );
-            $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($applicantVacancy);
-
-            $applicantHistory = new CandidateHistory();
-            $this->setCommonApplicantHistoryAttributes(
-                $applicantHistory,
-                $lastInsertApplicantId,
-                CandidateService::RECRUITMENT_CANDIDATE_ACTION_ADD
-            );
-            $applicantHistory->getDecorator()->setVacancyById($vacancyId);
-            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
-        }
+        $applicantVacancy = new CandidateVacancy();
+        $this->setApplicantVacancy(
+            $applicantVacancy,
+            $applicantId,
+            CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
+            $vacancyId
+        );
+        $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($applicantVacancy);
 
         $applicantAttachment = new CandidateAttachment();
-        $this->setCandidateAttachment($applicantAttachment, $lastInsertApplicantId, $attachment);
+        $this->setCandidateAttachment($applicantAttachment, $applicantId, $attachment);
         $this->getRecruitmentAttachmentService()->getRecruitmentAttachmentDao()->saveCandidateAttachment(
             $applicantAttachment
         );
@@ -337,6 +326,6 @@ class ApplicantController extends AbstractController implements PublicController
         $applicantAttachment->setFileName($resume->getFilename());
         $applicantAttachment->setFileType($resume->getFileType());
         $applicantAttachment->setFileSize($resume->getSize());
-        $applicantAttachment->setFileContent($resume->getBase64Content());
+        $applicantAttachment->setFileContent($resume->getContent());
     }
 }

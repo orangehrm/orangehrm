@@ -186,6 +186,9 @@ langStrings:
     value: '{employee} removed {candidate} from the {vacancy}'
     unitId: employee_removed_candidate_from_vacancy
   -
+    value: '{candidate} applied for the vacancy {vacancy}'
+    unitId: candidate_applied_for_the_vacancy
+  -
     value: 'Shortlist Candidate'
     unitId: shortlist_candidate
   -
