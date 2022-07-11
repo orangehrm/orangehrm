@@ -78,6 +78,11 @@ class Migration extends AbstractMigration
             ->setParameter('name', 'Search Performance Review')
             ->executeQuery();
 
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'this_page_is_being_developed',
+            $this->getLangHelper()->getGroupIdByName('general')
+        );
+
         $groups = ['recruitment', 'performance'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
