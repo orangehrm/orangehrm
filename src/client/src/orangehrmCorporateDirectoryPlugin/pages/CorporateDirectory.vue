@@ -72,8 +72,8 @@
           :loading="false"
           :show-divider="false"
         ></table-header>
-        <div class="orangehrm-container">
-          <oxd-grid ref="scrollerRef" :cols="colSize">
+        <div ref="scrollerRef" class="orangehrm-container">
+          <oxd-grid :cols="colSize">
             <oxd-grid-item
               v-for="(employee, index) in employees"
               :key="employee"
@@ -199,7 +199,8 @@ export default {
       'api/v2/directory/employees',
     );
 
-    const limit = 8;
+    const limit = 14;
+
     const state = reactive({
       total: 0,
       offset: 0,
