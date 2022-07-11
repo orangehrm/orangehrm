@@ -17,20 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Util\Mock;
+namespace OrangeHRM\Maintenance\Controller;
 
-use OrangeHRM\Core\Service\CacheService;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Framework\Http\RedirectResponse;
 
-class MockCacheService extends CacheService
+class MaintenanceModuleController extends AbstractModuleController
 {
     /**
-     * @param string $namespace
-     * @return AdapterInterface
+     * @return RedirectResponse
      */
-    public static function getCache(string $namespace = 'orangehrm'): AdapterInterface
+    public function handle(): RedirectResponse
     {
-        return new ArrayAdapter();
+        return $this->redirect('maintenance/purgeEmployee');
     }
 }

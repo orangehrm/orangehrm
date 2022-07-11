@@ -17,20 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Util\Mock;
+namespace OrangeHRM\Performance\Menu;
 
-use OrangeHRM\Core\Service\CacheService;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use OrangeHRM\Core\Menu\MenuConfigurator;
+use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
+use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Screen;
 
-class MockCacheService extends CacheService
+class KpiMenuConfigurator implements MenuConfigurator
 {
+    use ModuleScreenHelperTrait;
+
     /**
-     * @param string $namespace
-     * @return AdapterInterface
+     * @inheritDoc
      */
-    public static function getCache(string $namespace = 'orangehrm'): AdapterInterface
+    public function configure(Screen $screen): ?MenuItem
     {
-        return new ArrayAdapter();
+        $this->getCurrentModuleAndScreen()->overrideScreen('searchKpi');
+        return null;
     }
 }

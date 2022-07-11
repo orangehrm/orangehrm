@@ -45,6 +45,16 @@ class Migration extends AbstractMigration
             ->setParameter('name', 'Manage_Trackers')
             ->executeQuery();
 
+        $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.action_url ', ':actionUrl')
+            ->setParameter('actionUrl', 'searchEvaluatePerformanceReview')
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName('performance'))
+            ->andWhere('screen.name = :name')
+            ->setParameter('name', 'Search Evaluate Performance')
+            ->executeQuery();
+
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         $this->addValidColumnToRequestResetPassword();
 
@@ -109,13 +119,13 @@ class Migration extends AbstractMigration
         $this->insertModuleDefaultPage(
             $performanceModuleId,
             $this->getDataGroupHelper()->getUserRoleIdByName('Admin'),
-            'performance/searchEvaluatePerformancReview',
+            'performance/searchEvaluatePerformanceReview',
             20
         );
         $this->insertModuleDefaultPage(
             $performanceModuleId,
             $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'),
-            'performance/searchEvaluatePerformancReview',
+            'performance/searchEvaluatePerformanceReview',
             10
         );
         $this->insertModuleDefaultPage(
@@ -128,7 +138,7 @@ class Migration extends AbstractMigration
         $reviewListScreenId = $this->getDataGroupHelper()
             ->getScreenIdByModuleAndUrl(
                 $performanceModuleId,
-                'searchEvaluatePerformancReview',
+                'searchEvaluatePerformanceReview',
             );
 
         $this->createQueryBuilder()
@@ -174,6 +184,22 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->modifyTrackerLogsUserForeignKey();
+
+        $maintenanceModuleId = $this->getDataGroupHelper()->getModuleIdByName('maintenance');
+        $maintenanceModuleScreenId = $this->getDataGroupHelper()
+            ->getScreenIdByModuleAndUrl($maintenanceModuleId, 'viewMaintenanceModule');
+        $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menu_item')
+            ->set('menu_item.screen_id', ':screenId')
+            ->setParameter('screenId', $maintenanceModuleScreenId)
+            ->andWhere('menu_item.menu_title = :menuTitle')
+            ->setParameter('menuTitle', 'Maintenance')
+            ->andWhere('level = :level')
+            ->setParameter('level', 1)
+            ->executeQuery();
+
+        $this->updateRecruitmentMenuItems();
+        $this->updatePerformanceMenuItems();
     }
 
     /**
@@ -452,5 +478,88 @@ class Migration extends AbstractMigration
             $this->translationHelper = new TranslationHelper($this->getConnection());
         }
         return $this->translationHelper;
+    }
+
+    /**
+     * @param string $module
+     * @param string|null $screenUrl
+     * @param string $menuConfiguratorClassName
+     */
+    private function updateMenuConfigurator(string $module, ?string $screenUrl, string $menuConfiguratorClassName): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.menu_configurator', ':menuConfiguratorClassName')
+            ->setParameter('menuConfiguratorClassName', $menuConfiguratorClassName)
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName($module));
+        if (!is_null($screenUrl)) {
+            $qb->andWhere('screen.action_url = :screenUrl')
+                ->setParameter('screenUrl', $screenUrl);
+        }
+        $qb->executeQuery();
+    }
+
+    private function updateRecruitmentMenuItems(): void
+    {
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'addJobVacancy',
+            'OrangeHRM\\Recruitment\\Menu\\VacancyMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'addCandidate',
+            'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'changeCandidateVacancyStatus',
+            'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'candidateHistory',
+            'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'interviewAttachments',
+            'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
+        );
+    }
+
+    private function updatePerformanceMenuItems(): void
+    {
+        $this->updateMenuConfigurator(
+            'performance',
+            'saveKpi',
+            'OrangeHRM\\Performance\\Menu\\KpiMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'addPerformanceTracker',
+            'OrangeHRM\\Performance\\Menu\\PerformanceTrackerMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'addPerformanceTrackerLog',
+            'OrangeHRM\\Performance\\Menu\\PerformanceTrackerLogMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'saveReview',
+            'OrangeHRM\\Performance\\Menu\\ManageReviewMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'reviewEvaluate',
+            'OrangeHRM\\Performance\\Menu\\MyReviewMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'reviewEvaluateByAdmin',
+            'OrangeHRM\\Performance\\Menu\\AdminReviewMenuConfigurator'
+        );
     }
 }

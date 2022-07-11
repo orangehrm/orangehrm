@@ -171,7 +171,7 @@ class MenuServiceTest extends KernelTestCase
             [
                 'id' => 96,
                 'name' => 'Maintenance',
-                'url' => '/maintenance/purgeEmployee',
+                'url' => '/maintenance/viewMaintenanceModule',
                 'icon' => 'maintenance',
             ],
             [

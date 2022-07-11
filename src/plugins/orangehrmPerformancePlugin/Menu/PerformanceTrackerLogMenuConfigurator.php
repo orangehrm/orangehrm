@@ -17,20 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Util\Mock;
+namespace OrangeHRM\Performance\Menu;
 
-use OrangeHRM\Core\Service\CacheService;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use OrangeHRM\Core\Menu\MenuConfigurator;
+use OrangeHRM\Core\Traits\ControllerTrait;
+use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
+use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Screen;
+use OrangeHRM\Framework\Http\Request;
 
-class MockCacheService extends CacheService
+class PerformanceTrackerLogMenuConfigurator implements MenuConfigurator
 {
+    use ModuleScreenHelperTrait;
+    use ControllerTrait;
+
     /**
-     * @param string $namespace
-     * @return AdapterInterface
+     * @inheritDoc
      */
-    public static function getCache(string $namespace = 'orangehrm'): AdapterInterface
+    public function configure(Screen $screen): ?MenuItem
     {
-        return new ArrayAdapter();
+        $screen = 'viewEmployeePerformanceTrackerList';
+        $request = $this->getCurrentRequest();
+        if ($request instanceof Request) {
+            $mode = $request->query->get('mode');
+            if ($mode == 'my') {
+                $screen = 'viewMyPerformanceTrackerList';
+            }
+        }
+        $this->getCurrentModuleAndScreen()->overrideScreen($screen);
+        return null;
     }
 }

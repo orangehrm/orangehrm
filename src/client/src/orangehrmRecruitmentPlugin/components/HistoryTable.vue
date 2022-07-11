@@ -275,7 +275,7 @@ export default {
         row.action?.id === ACTION_INTERVIEW_FAILED
       ) {
         cellConfig.attachment = {
-          onClick: this.onClckAttachment,
+          onClick: this.onClickAttachment,
           props: {
             name: 'paperclip',
           },
@@ -305,13 +305,16 @@ export default {
     },
 
     onClickEdit(item) {
-      navigate(
-        `/recruitment/candidate/${this.candidate.id}/history/${item.id}`,
-      );
+      navigate('/recruitment/candidateHistory/{candidateId}/{historyId}', {
+        candidateId: this.candidate.id,
+        historyId: item.id,
+      });
     },
 
-    onClckAttachment(item) {
-      navigate(`/recruitment/interviews/${item.interview?.id}/attachments`);
+    onClickAttachment(item) {
+      navigate('/recruitment/interviewAttachments/{interviewId}', {
+        interviewId: item.interview?.id,
+      });
     },
   },
 };

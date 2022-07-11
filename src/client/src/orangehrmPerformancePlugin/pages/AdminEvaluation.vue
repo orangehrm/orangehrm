@@ -330,7 +330,7 @@ export default {
     onClickCancel() {
       navigate(
         this.isReviewer
-          ? '/performance/searchEvaluatePerformancReview'
+          ? '/performance/searchEvaluatePerformanceReview'
           : '/performance/searchPerformanceReview',
       );
     },

@@ -292,7 +292,7 @@ export default {
       this.$refs.applicantForm.$el.submit();
     },
     onCancel() {
-      navigate('/recruitment/jobs.html');
+      navigate('/recruitmentApply/jobs.html');
     },
     viewDetails() {
       this.viewMore = !this.viewMore;
@@ -300,7 +300,7 @@ export default {
     showDialogue() {
       this.$refs.showDialogueModal.showSuccessDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          navigate('/recruitment/jobs.html');
+          navigate('/recruitmentApply/jobs.html');
         }
       });
     },
