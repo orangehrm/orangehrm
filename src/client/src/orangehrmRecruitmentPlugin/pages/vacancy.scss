@@ -74,12 +74,14 @@
   flex: 1;
   padding-right: 0.2rem;
 }
-.orangehrm-container--border {
-  border-radius: $oxd-border-radius;
-}
 .orangehrm-attachment-header {
   justify-content: flex-start;
 }
 .orangehrm-attachment-header__title {
   margin-right: 1rem;
+}
+.orangehrm-vacancy-links {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: $oxd-interface-gray-lighten-2-color;
 }

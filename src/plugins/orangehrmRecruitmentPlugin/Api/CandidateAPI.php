@@ -98,6 +98,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         self::MODEL_CANDIDATE_LIST => CandidateListModel::class,
     ];
 
+    public const PARAMETER_RULE_NAME_MAX_LENGTH = 30;
+
     /**
      * @inheritDoc
      * @throws BadRequestException
@@ -491,18 +493,21 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         return [
             new ParamRule(
                 self::PARAMETER_FIRST_NAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_MIDDLE_NAME,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
                 ),
                 true
             ),
             new ParamRule(
                 self::PARAMETER_LAST_NAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_EMAIL,

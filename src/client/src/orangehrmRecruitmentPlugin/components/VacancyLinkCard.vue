@@ -46,6 +46,9 @@ export default {
 .orangehrm-label-link-wrapper {
   display: flex;
   flex-wrap: wrap;
+  &:first-of-type {
+    margin-bottom: 0.25rem;
+  }
 }
 .orangehrm-text-label {
   font-size: 12px;

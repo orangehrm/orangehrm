@@ -169,14 +169,14 @@ export default {
     this.candidateName = `${this.candidate?.firstName} ${this.candidate
       ?.middleName || ''} ${this.candidate?.lastName}`;
     if (this.candidate?.vacancy) {
-      this.vacancyName = this.candidate?.vacancy.name;
-      this.hiringManagerName = `${
-        this.candidate?.vacancy.hiringManager.firstName
-      } ${this.candidate?.vacancy.hiringManager.lastName} ${
-        this.candidate?.vacancy.hiringManager.terminationId
-          ? this.$t('general.past_employee')
-          : ''
-      }`;
+      this.vacancyName = this.candidate.vacancy.name;
+      this.hiringManagerName = this.translateEmpName(
+        this.candidate.vacancy.hiringManager,
+        {
+          includeMiddle: true,
+          excludePastEmpTag: false,
+        },
+      );
     }
     this.http
       .request({
