@@ -20,10 +20,7 @@
 namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\I18NTranslationBulkAPI;
-use OrangeHRM\Admin\Service\LocalizationService;
-use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\I18N\Service\I18NService;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 

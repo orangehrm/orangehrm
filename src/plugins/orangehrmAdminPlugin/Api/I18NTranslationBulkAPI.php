@@ -21,12 +21,10 @@ namespace OrangeHRM\Admin\Api;
 
 use Exception;
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
-use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -89,7 +87,7 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
             throw new TransactionException($e);
         }
 
-        return new EndpointCollectionResult(ArrayModel::class,[]);
+        return new EndpointCollectionResult(ArrayModel::class, []);
     }
 
     /**
