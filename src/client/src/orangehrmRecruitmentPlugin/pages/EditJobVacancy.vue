@@ -518,7 +518,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          navigate(`/recruitment/addJobVacancy/${this.vacancyId}`);
+          navigate('/recruitment/addJobVacancy/{id}', {id: this.vacancyId});
         });
     },
     onSaveAttachment() {

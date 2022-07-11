@@ -260,13 +260,13 @@ recruitment_candidate_action:
   controller: OrangeHRM\Recruitment\Controller\CandidateActionController::handle
   methods: [ GET ]
 
-recruitment_view_action_history: # todo
-  path: /recruitment/candidate/{candidateId}/history/{historyId}
+recruitment_view_action_history:
+  path: /recruitment/candidateHistory/{candidateId}/{historyId}
   controller: OrangeHRM\Recruitment\Controller\WorkflowActionHistoryController::handle
   methods: [ GET ]
 
-recruitment_view_interview_attachments: # todo
-  path: /recruitment/interviews/{interviewId}/attachments
+recruitment_view_interview_attachments:
+  path: /recruitment/interviewAttachments/{interviewId}
   controller: OrangeHRM\Recruitment\Controller\InterviewAttachmentsController::handle
   methods: [ GET ]
 

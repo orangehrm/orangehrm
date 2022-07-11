@@ -15,3 +15,27 @@
   url: viewMaintenanceModule
   permissions:
     - { role: Admin, permission: { read: true } }
+
+'Change Candidate Vacancy Status':
+  module: recruitment
+  url: changeCandidateVacancyStatus
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: HiringManager, permission: { read: true } }
+    - { role: Interviewer, permission: { read: true } }
+
+'View Candidate History':
+  module: recruitment
+  url: candidateHistory
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: HiringManager, permission: { read: true } }
+    - { role: Interviewer, permission: { read: true } }
+
+'View Candidate Interview Attachments':
+  module: recruitment
+  url: interviewAttachments
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: HiringManager, permission: { read: true } }
+    - { role: Interviewer, permission: { read: true } }

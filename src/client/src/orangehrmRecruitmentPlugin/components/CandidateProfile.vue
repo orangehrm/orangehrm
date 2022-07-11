@@ -331,7 +331,7 @@ export default {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate(`/recruitment/addCandidate/${this.candidate.id}`);
+          navigate('/recruitment/addCandidate/{id}', {id: this.candidate.id});
         });
     },
   },

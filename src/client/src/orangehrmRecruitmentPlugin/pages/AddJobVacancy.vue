@@ -220,7 +220,7 @@ export default {
       this.http.create({...this.vacancy}).then(response => {
         const {data} = response.data;
         this.$toast.saveSuccess();
-        navigate(`/recruitment/addJobVacancy/${data.id}`);
+        navigate('/recruitment/addJobVacancy/{id}', {id: data.id});
       });
     },
   },

@@ -517,16 +517,14 @@ class Migration extends AbstractMigration
             'changeCandidateVacancyStatus',
             'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
         );
-
-        // TODO
         $this->updateMenuConfigurator(
             'recruitment',
-            'candidate',
+            'candidateHistory',
             'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
         );
         $this->updateMenuConfigurator(
             'recruitment',
-            'interviews',
+            'interviewAttachments',
             'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
         );
     }
