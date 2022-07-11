@@ -179,6 +179,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $vacancy = new Vacancy();
+        $vacancy->setDefinedTime($this->getDateTimeHelper()->getNow());
         $this->setVacancy($vacancy);
         $vacancy = $this->getVacancyService()->getVacancyDao()->saveJobVacancy($vacancy);
 
@@ -214,10 +215,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_IS_PUBLISHED
             )
         );
-        $vacancy->setDefinedTime($this->getDateTimeHelper()->getNow());
-
         $vacancy->setUpdatedTime($this->getDateTimeHelper()->getNow());
-
         $vacancy->setStatus(
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_BODY,
@@ -257,12 +255,12 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_STATUS,
                 new Rule(Rules::INT_TYPE),
-                new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_STATUS_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_STATUS_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_JOB_TITLE_ID,

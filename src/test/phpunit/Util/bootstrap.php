@@ -24,6 +24,7 @@ use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\CoreFixtureService;
 
 define('ENVIRONMENT', 'test');
+date_default_timezone_set('UTC');
 
 require realpath(__DIR__ . '/../../../vendor/autoload.php');
 

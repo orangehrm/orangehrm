@@ -20,11 +20,10 @@
 
 namespace OrangeHRM\Recruitment\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 
@@ -199,5 +198,17 @@ class VacancyDao extends BaseDao
             ->andWhere('vacancy.hiringManager = :empNumber')
             ->setParameter('empNumber', $empNumber);
         return $this->getPaginator($q)->count() > 0;
+    }
+
+    /**
+     * @return Vacancy[]
+     */
+    public function getPublishedVacancyList(): array
+    {
+        $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
+        $qb->where('vacancy.isPublished = :isPublished');
+        $qb->setParameter('isPublished', true);
+        $qb->addOrderBy('vacancy.updatedTime', ListSorter::DESCENDING);
+        return $qb->getQuery()->execute();
     }
 }
