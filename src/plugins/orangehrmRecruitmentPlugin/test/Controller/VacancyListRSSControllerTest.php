@@ -53,7 +53,7 @@ class VacancyListRSSControllerTest extends KernelTestCase
             ->willReturnMap(
                 [
                     [
-                        'view_rss_feed',
+                        'recruitment_rss_feed',
                         'http://localhost/orangeHrm/orangehrm/web/index.php/recruitmentApply/jobs.rss'
                     ],
                     [
