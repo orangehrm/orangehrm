@@ -19,19 +19,21 @@
  -->
 
 <template>
-  <div class="orangehrm-paper-container">
-    <div class="orangehrm-header-container">
-      <oxd-text tag="h6" :class="classes">
-        {{ $t('maintenance.selected_candidates') }}
-      </oxd-text>
+  <purge-candidate-records @search="onClickSearch" />
+  <div v-if="vacancy" class="orangehrm-paper-container">
+    <div v-show="total > 0" class="orangehrm-header-container">
       <oxd-button
-        v-show="total > 0"
         :label="$t('maintenance.purge_all')"
         display-type="secondary"
-        @click="$emit('purge')"
+        @click="onClickPurge"
       />
     </div>
-    <table-header :total="total" :loading="isLoading || loading"></table-header>
+    <table-header
+      :total="total"
+      :selected="0"
+      :show-divider="total > 0"
+      :loading="isLoading || loading"
+    ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
         :headers="headers"
@@ -53,42 +55,47 @@
 </template>
 
 <script>
-import {computed} from 'vue';
+import {computed, ref} from 'vue';
+import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
-import useLocale from '@/core/util/composable/useLocale';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import CandidateRecords from '@/orangehrmMaintenancePlugin/components/CandidateRecords';
 
 export default {
   name: 'SelectedCandidates',
+
+  components: {
+    'purge-candidate-records': CandidateRecords,
+  },
+
   props: {
-    vacancyId: {
-      type: Number,
-      required: true,
-    },
     loading: {
       type: Boolean,
       default: false,
     },
   },
+
   emits: ['purge'],
-  setup(props) {
+
+  setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/maintenance/candidates',
     );
-
-    const {$tEmpName} = useEmployeeNameTranslate();
-    const {jsDateFormat} = useDateFormat();
+    const vacancy = ref(null);
     const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     const serializedFilters = computed(() => {
       return {
-        vacancyId: props.vacancyId,
+        vacancyId: vacancy.value,
       };
     });
+
     const purgeCandidateNormalizer = data => {
       return data.map(item => {
         return {
@@ -108,6 +115,7 @@ export default {
         };
       });
     };
+
     const {
       total,
       pages,
@@ -121,10 +129,12 @@ export default {
       query: serializedFilters,
       normalizer: purgeCandidateNormalizer,
     });
+
     return {
       http,
       total,
       pages,
+      vacancy,
       isLoading,
       currentPage,
       showPaginator,
@@ -132,51 +142,43 @@ export default {
       execQuery,
     };
   },
+
   data() {
     return {
       headers: [
         {
           name: 'name',
           title: this.$t('recruitment.candidate_name'),
-          style: {flex: 1},
+          style: {flex: '45%'},
         },
         {
           name: 'date',
           title: this.$t('recruitment.date_of_application'),
-          style: {flex: 1},
+          style: {flex: '45%'},
         },
         {
           name: 'status',
           title: this.$t('general.status'),
-          style: {flex: 1},
+          style: {flex: '10%'},
         },
       ],
     };
   },
-  computed: {
-    classes() {
-      return {
-        'orangehrm-main-title': true,
-        'orangehrm-selected-candidate-text': this.total > 0,
-      };
+
+  methods: {
+    onClickSearch(vacancy) {
+      this.vacancy = vacancy;
+      this.execQuery();
     },
-  },
-  watch: {
-    vacancyId(value) {
-      if (value !== null) {
-        this.execQuery();
-      }
+    onClickPurge() {
+      if (this.vacancy) this.$emit('purge', this.vacancy);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.orangehrm-header-container {
-  flex-direction: column;
-  align-items: flex-start;
-}
-.orangehrm-selected-candidate-text {
-  padding-bottom: 0.6rem;
+.orangehrm-paper-container {
+  margin-top: 1rem;
 }
 </style>

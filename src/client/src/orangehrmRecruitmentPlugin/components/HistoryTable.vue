@@ -256,13 +256,13 @@ export default {
         {
           name: 'description',
           title: this.$t('general.description'),
-          style: {flex: '60%'},
+          style: {flex: '65%'},
         },
         {
           name: 'actions',
           slot: 'action',
           title: this.$t('general.actions'),
-          style: {flex: '20%'},
+          style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.cellRenderer,
         },
@@ -274,19 +274,6 @@ export default {
       const cellConfig = {};
 
       if (
-        row.action?.id === ACTION_INTERVIEW_SCHEDULED ||
-        row.action?.id === ACTION_INTERVIEW_PASSED ||
-        row.action?.id === ACTION_INTERVIEW_FAILED
-      ) {
-        cellConfig.attachment = {
-          onClick: this.onClickAttachment,
-          props: {
-            name: 'paperclip',
-          },
-        };
-      }
-
-      if (
         row.action?.id != ACTION_ASSIGNED_VACANCY &&
         row.action?.id != ACTION_ADDED &&
         row.action?.id != ACTION_REMOVED
@@ -295,6 +282,19 @@ export default {
           onClick: this.onClickEdit,
           props: {
             name: 'pencil-fill',
+          },
+        };
+      }
+
+      if (
+        row.action?.id === ACTION_INTERVIEW_SCHEDULED ||
+        row.action?.id === ACTION_INTERVIEW_PASSED ||
+        row.action?.id === ACTION_INTERVIEW_FAILED
+      ) {
+        cellConfig.attachment = {
+          onClick: this.onClckAttachment,
+          props: {
+            name: 'paperclip',
           },
         };
       }
