@@ -21,7 +21,6 @@
 namespace OrangeHRM\Recruitment\Controller\PublicController;
 
 use Exception;
-use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
@@ -33,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\ValidatorException;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Dto\Base64Attachment;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -43,18 +43,20 @@ use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Recruitment\Api\CandidateAPI;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ApplicantController extends AbstractController implements PublicControllerInterface
 {
     use CandidateServiceTrait;
+    use VacancyServiceTrait;
     use RecruitmentAttachmentServiceTrait;
     use ValidatorTrait;
     use EntityManagerHelperTrait;
@@ -62,6 +64,7 @@ class ApplicantController extends AbstractController implements PublicController
     use LoggerTrait;
     use DateTimeHelperTrait;
     use CsrfTokenManagerTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_FIRST_NAME = 'firstName';
     public const PARAMETER_MIDDLE_NAME = 'middleName';
@@ -80,36 +83,38 @@ class ApplicantController extends AbstractController implements PublicController
     private ?ValidationDecorator $validationDecorator = null;
 
     /**
-     * @throws AuthenticationException
-     * @throws ValidatorException
-     * @throws TransactionException
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
-
-    public function handle(Request $request): Response
+    public function handle(Request $request)
     {
         $token = $request->request->get('_token');
         if (!$this->getCsrfTokenManager()->isValid('recruitment-applicant', $token)) {
-            throw AuthenticationException::invalidCsrfToken();
+            return $this->handleBadRequest();
         }
 
-        /** @var UploadedFile $file */
+        /** @var UploadedFile|null $file */
         $file = $request->files->get(self::PARAMETER_RESUME);
+        if (!$file instanceof UploadedFile) {
+            return $this->handleBadRequest();
+        }
         $attachment = Base64Attachment::createFromUploadedFile($file);
-        $this->validateParameters($request, $attachment);
+        if (!$this->validateParameters($request, $attachment)) {
+            return $this->handleBadRequest();
+        }
+
         $this->beginTransaction();
         try {
             $vacancyId = $request->request->get(self::PARAMETER_VACANCY_ID);
             $this->processTransaction($request, $attachment, $vacancyId);
             $this->commitTransaction();
-            return $this->forward(
-                ApplyJobVacancyViewController::class . '::handle',
-                ['success' => true, 'id' => $vacancyId]
-            );
+            $this->getAuthUser()->addFlash('flash.applicant_success', true);
+            return $this->redirect("/recruitmentApply/applyVacancy/id/$vacancyId");
         } catch (Exception $e) {
             $this->rollBackTransaction();
             $this->getLogger()->error($e->getMessage());
             $this->getLogger()->error($e->getTraceAsString());
-            throw new TransactionException($e);
+            return $this->handleBadRequest();
         }
     }
 
@@ -132,6 +137,11 @@ class ApplicantController extends AbstractController implements PublicController
         ];
         $paramRules = $this->getParamRuleCollection();
         $paramRules->addExcludedParamKey('_token');
+
+        $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($variables[self::PARAMETER_VACANCY_ID]);
+        if (!$vacancy->isPublished()) {
+            return false;
+        }
 
         try {
             return $this->validate($variables, $paramRules);
@@ -267,7 +277,8 @@ class ApplicantController extends AbstractController implements PublicController
                 new ParamRule(
                     self::PARAMETER_CONTACT_NUMBER,
                     new Rule(Rules::PHONE)
-                )
+                ),
+                true
             ),
             new ParamRule(
                 self::PARAMETER_VACANCY_ID,
