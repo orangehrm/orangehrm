@@ -25,7 +25,6 @@ translations:
     - { target: 無効, unitId: invalid, group: general }
     - { target: 受け入れます。DOCX、DOC、。ODT、PDFファイル、。rtfファイル、。txtの最大1MBまで, unitId: accept_custom_format_file, group: general }
     - { target: キーワード, unitId: keywords, group: recruitment }
-    - { target: 拒否され, unitId: rejected, group: recruitment }
     - { target: 再開する, unitId: resume, group: recruitment }
     - { target: 金, unitId: fri, group: general }
     - { target: モン, unitId: mon, group: general }

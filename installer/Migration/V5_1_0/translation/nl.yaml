@@ -25,7 +25,6 @@ translations:
     - { target: Onjuist, unitId: invalid, group: general }
     - { target: 'Bestanden .docx, .doc, .odt, .pdf, .rtf, .txt tot 1MB worden geaccepteerd', unitId: accept_custom_format_file, group: general }
     - { target: Sleutelwoorden, unitId: keywords, group: recruitment }
-    - { target: Afgewezen, unitId: rejected, group: recruitment }
     - { target: CV, unitId: resume, group: recruitment }
     - { target: Log, unitId: log, group: performance }
     - { target: Beoordelaar, unitId: reviewer, group: performance }

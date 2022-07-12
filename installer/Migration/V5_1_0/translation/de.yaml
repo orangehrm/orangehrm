@@ -25,7 +25,6 @@ translations:
     - { target: Ungültig, unitId: invalid, group: general }
     - { target: 'Es werden .docx, .doc, .odt, .pdf, .rtf und .txt bis zu 1MB akzeptiert', unitId: accept_custom_format_file, group: general }
     - { target: Schlüsselwörter, unitId: keywords, group: recruitment }
-    - { target: abgelehnt, unitId: rejected, group: recruitment }
     - { target: 'Wieder aufnehmen / Lebenslauf', unitId: resume, group: recruitment }
     - { target: Leistungsbeurteiler, unitId: performance_trackers, group: performance }
     - { target: Protokoll, unitId: log, group: performance }

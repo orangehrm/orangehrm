@@ -25,7 +25,6 @@ translations:
     - { target: 无效, unitId: invalid, group: general }
     - { target: '接受.docx，.doc，.odt，.pdf，.rtf，.txt, 最大1MB', unitId: accept_custom_format_file, group: general }
     - { target: 关键词, unitId: keywords, group: recruitment }
-    - { target: 已拒绝, unitId: rejected, group: recruitment }
     - { target: 恢复, unitId: resume, group: recruitment }
     - { target: 性能追踪器, unitId: performance_trackers, group: performance }
     - { target: 日志, unitId: log, group: performance }

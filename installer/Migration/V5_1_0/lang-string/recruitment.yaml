@@ -189,9 +189,6 @@ langStrings:
     value: 'Shortlist Candidate'
     unitId: shortlist_candidate
   -
-    value: 'Rejected'
-    unitId: rejected
-  -
     value: 'Hired'
     unitId: hired
   -

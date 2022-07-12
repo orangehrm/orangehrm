@@ -25,7 +25,6 @@ translations:
     - { target: 'Non Valide', unitId: invalid, group: general }
     - { target: 'Accepte les extensions .docx, .doc, .odt, .pdf, .rtf, .txt jusqu''à 1 Mo', unitId: accept_custom_format_file, group: general }
     - { target: Mots-clés, unitId: keywords, group: recruitment }
-    - { target: Rejeté, unitId: rejected, group: recruitment }
     - { target: CV, unitId: resume, group: recruitment }
     - { target: 'Gestionnaires de Performance', unitId: performance_trackers, group: performance }
     - { target: Historique, unitId: log, group: performance }

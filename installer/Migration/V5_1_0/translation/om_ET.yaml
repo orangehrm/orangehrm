@@ -25,7 +25,6 @@ translations:
     - { target: 'Sirrii Miti', unitId: invalid, group: general }
     - { target: '.docx, .doc, .odt, .pdf, .rtf, .txt, fi hanga MB 1 tii fudhata', unitId: accept_custom_format_file, group: general }
     - { target: Jechabeekamtuu, unitId: keywords, group: recruitment }
-    - { target: 'Kan Dhorkame', unitId: rejected, group: recruitment }
     - { target: 'Ragaa Barumsaa', unitId: resume, group: recruitment }
     - { target: Jim, unitId: fri, group: general }
     - { target: Wix, unitId: mon, group: general }

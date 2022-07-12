@@ -250,10 +250,14 @@ export default {
         {
           name: 'performedDate',
           slot: 'title',
-          title: 'Performed Date',
+          title: this.$t('recruitment.performed_date'),
           style: {flex: '20%'},
         },
-        {name: 'description', title: 'Description', style: {flex: '60%'}},
+        {
+          name: 'description',
+          title: this.$t('general.description'),
+          style: {flex: '60%'},
+        },
         {
           name: 'actions',
           slot: 'action',

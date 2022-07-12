@@ -25,7 +25,6 @@ translations:
     - { target: Ugyldig, unitId: invalid, group: general }
     - { target: 'Accepterer. Docx,. Doc,. Odt,. Pdf,. Rtf,. Txt op til 1 MB', unitId: accept_custom_format_file, group: general }
     - { target: Nøgleord, unitId: keywords, group: recruitment }
-    - { target: Afvist, unitId: rejected, group: recruitment }
     - { target: Genoptag, unitId: resume, group: recruitment }
     - { target: Fre, unitId: fri, group: general }
     - { target: Man, unitId: mon, group: general }

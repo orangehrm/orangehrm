@@ -25,7 +25,6 @@ translations:
     - { target: Невалиден, unitId: invalid, group: general }
     - { target: 'Приема. DOCX, DOC, ODT, PDF, RTF, TXT до 1MB', unitId: accept_custom_format_file, group: general }
     - { target: 'Ключови думи', unitId: keywords, group: recruitment }
-    - { target: Отхвърлено, unitId: rejected, group: recruitment }
     - { target: Резюме, unitId: resume, group: recruitment }
     - { target: Пт, unitId: fri, group: general }
     - { target: Пн, unitId: mon, group: general }

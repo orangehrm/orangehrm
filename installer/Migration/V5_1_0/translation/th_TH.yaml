@@ -25,7 +25,6 @@ translations:
     - { target: ไม่ถูกต้อง, unitId: invalid, group: general }
     - { target: 'ยอมรับ. docx,. doc,. odt,. pdf,. rtf,. txt ถึง 1MB', unitId: accept_custom_format_file, group: general }
     - { target: คำหลัก, unitId: keywords, group: recruitment }
-    - { target: ถูกปฏิเสธ, unitId: rejected, group: recruitment }
     - { target: ดำเนินการต่อ, unitId: resume, group: recruitment }
     - { target: วันศุกร์, unitId: fri, group: general }
     - { target: วันจันทร์, unitId: mon, group: general }

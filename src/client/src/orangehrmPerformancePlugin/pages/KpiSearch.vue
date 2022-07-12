@@ -226,7 +226,7 @@ export default {
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
-      if(row.isDeletable){
+      if (row.isDeletable) {
         cellConfig.delete = {
           onClick: this.onClickDelete,
           component: 'oxd-icon-button',
@@ -240,7 +240,7 @@ export default {
         props: {
           name: 'pencil-fill',
         },
-      }
+      };
       return {
         props: {
           header: {

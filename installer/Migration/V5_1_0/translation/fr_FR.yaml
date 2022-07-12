@@ -25,7 +25,6 @@ translations:
     - { target: Invalide, unitId: invalid, group: general }
     - { target: 'Accepte. Docx,. Doc,. Odt,. Pdf,. Rtf,. Txt jusqu''à 1 Mo', unitId: accept_custom_format_file, group: general }
     - { target: Mots-clés, unitId: keywords, group: recruitment }
-    - { target: Rejeté, unitId: rejected, group: recruitment }
     - { target: Reprendre, unitId: resume, group: recruitment }
     - { target: Ven., unitId: fri, group: general }
     - { target: Lun., unitId: mon, group: general }
