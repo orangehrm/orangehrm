@@ -20,15 +20,8 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <purge-candidate-records @search="onClickSearch" />
+    <selected-candidates :loading="isLoading" @purge="onClickPurge" />
     <br />
-    <selected-candidates
-      v-show="showPurgeableCandidates"
-      :vacancy-id="vacancyId"
-      :loading="isLoading"
-      @purge="onClickPurge"
-    />
-    <br v-if="showPurgeableCandidates" />
     <maintenance-note :instance-identifier="instanceIdentifier" />
 
     <purge-confirmation
@@ -45,18 +38,16 @@
 <script>
 import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import CandidateRecords from '@/orangehrmMaintenancePlugin/components/CandidateRecords';
+import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
 import MaintenanceNote from '@/orangehrmMaintenancePlugin/components/MaintenanceNote';
 import SelectedCandidates from '@/orangehrmMaintenancePlugin/components/SelectedCandidates';
-import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
 
 export default {
   name: 'PurgeCandidate',
   components: {
-    'purge-confirmation': ConfirmationDialog,
-    'purge-candidate-records': CandidateRecords,
-    'selected-candidates': SelectedCandidates,
     'maintenance-note': MaintenanceNote,
+    'purge-confirmation': ConfirmationDialog,
+    'selected-candidates': SelectedCandidates,
   },
   props: {
     instanceIdentifier: {
@@ -77,27 +68,22 @@ export default {
   data() {
     return {
       isLoading: false,
-      vacancyId: null,
-      showPurgeableCandidates: false,
     };
   },
   methods: {
-    onClickSearch(vacancy) {
-      this.showPurgeableCandidates = true;
-      this.vacancyId = vacancy;
-    },
-    onClickPurge() {
+    onClickPurge(vacancy) {
+      const vacancyId = vacancy;
       this.$refs.purgeDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          this.purgeCandidates();
+          this.purgeCandidates(vacancyId);
         }
       });
     },
-    purgeCandidates() {
+    purgeCandidates(vacancyId) {
       this.isLoading = true;
       this.http
         .deleteAll({
-          vacancyId: this.vacancyId,
+          vacancyId,
         })
         .then(() => {
           return this.$toast.success({
