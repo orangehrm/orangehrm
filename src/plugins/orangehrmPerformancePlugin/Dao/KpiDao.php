@@ -180,5 +180,4 @@ class KpiDao extends BaseDao
             ->setParameter('kpiId', $kpiId);
         return $this->getPaginator($q)->count() == 0;
     }
-
 }

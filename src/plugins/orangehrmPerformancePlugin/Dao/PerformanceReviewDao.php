@@ -594,8 +594,8 @@ class PerformanceReviewDao extends BaseDao
             ->setParameter('reviewId', $reviewId)
             ->andWhere('reviewerGroup.name = :groupName')
             ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
-        
-        return array_column($qb->getQuery()->execute(),'id');
+
+        return array_column($qb->getQuery()->execute(), 'id');
     }
 
     /**
