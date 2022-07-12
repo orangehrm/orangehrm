@@ -126,6 +126,7 @@ export default {
           minRating: item.minRating,
           maxRating: item.maxRating,
           isDefault: item.isDefault ? $t('general.yes') : '',
+          isDeletable: item.deletable,
         };
       });
     };
@@ -216,27 +217,38 @@ export default {
           title: this.$t('general.actions'),
           style: {flex: '10%'},
           cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
+          cellRenderer: this.cellRenderer,
         },
       ],
       checkedItems: [],
     };
   },
   methods: {
+    cellRenderer(...[, , , row]) {
+      const cellConfig = {};
+      if(row.isDeletable){
+        cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
+      cellConfig.edit = {
+        onClick: this.onClickEdit,
+        props: {
+          name: 'pencil-fill',
+        },
+      }
+      return {
+        props: {
+          header: {
+            cellConfig,
+          },
+        },
+      };
+    },
     onClickAdd() {
       navigate('/performance/saveKpi');
     },

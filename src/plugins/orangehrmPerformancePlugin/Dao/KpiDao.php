@@ -111,12 +111,23 @@ class KpiDao extends BaseDao
      */
     public function deleteKpi(array $toBeDeletedKpiIds): int
     {
+        $qb = $this->createQueryBuilder(ReviewerRating::class, 'rating');
+        $qb->select('kpi.id')
+            ->leftJoin('rating.kpi', 'kpi')
+            ->leftJoin('rating.performanceReview', 'review')
+            ->andWhere('review.statusId > :inactiveStatus')
+            ->setParameter('inactiveStatus', PerformanceReview::STATUS_INACTIVE)
+            ->distinct('kpi.id');
+
+        $nonDeletableKpiIds = array_column($qb->getQuery()->execute(), 'id');
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
         $q->update()
             ->set('kpi.deletedAt', ':deletedAt')
             ->setParameter('deletedAt', $this->getDateTimeHelper()->getNow())
             ->where($q->expr()->in('kpi.id', ':ids'))
-            ->setParameter('ids', $toBeDeletedKpiIds);
+            ->setParameter('ids', $toBeDeletedKpiIds)
+            ->andWhere($q->expr()->notIn('kpi.id', ':nonDeletableKpiIds'))
+            ->setParameter('nonDeletableKpiIds', $nonDeletableKpiIds);
         return $q->getQuery()->execute();
     }
 
@@ -154,4 +165,20 @@ class KpiDao extends BaseDao
             ->setParameter('kpiId', $kpiId);
         return $this->getPaginator($q)->count() == 0;
     }
+
+    /**
+     * @param int $kpiId
+     * @return bool
+     */
+    public function isKpiDeletable(int $kpiId): bool
+    {
+        $q = $this->createQueryBuilder(ReviewerRating::class, 'rating');
+        $q->leftJoin('rating.performanceReview', 'review')
+            ->andWhere('review.statusId > :inactiveStatus')
+            ->setParameter('inactiveStatus', PerformanceReview::STATUS_INACTIVE)
+            ->andWhere('rating.kpi = :kpiId')
+            ->setParameter('kpiId', $kpiId);
+        return $this->getPaginator($q)->count() == 0;
+    }
+
 }

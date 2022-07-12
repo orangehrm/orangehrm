@@ -22,13 +22,20 @@ namespace OrangeHRM\Performance\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Kpi;
+use OrangeHRM\Performance\Traits\Service\KpiServiceTrait;
 
 class KpiModel implements Normalizable
 {
-    use ModelTrait;
+    use ModelTrait {
+        ModelTrait::toArray as entityToArray;
+    }
+    use KpiServiceTrait;
+
+    private Kpi $kpi;
 
     public function __construct(Kpi $kpi)
     {
+        $this->kpi = $kpi;
         $this->setEntity($kpi);
         $this->setFilters(
             [
@@ -54,5 +61,15 @@ class KpiModel implements Normalizable
                 'isDefault',
             ]
         );
+    }
+
+    public function toArray(): array
+    {
+        $deletable = $this->getKpiService()->getKpiDao()->isKpiDeletable(
+            $this->kpi->getId()
+        );
+        $result = $this->entityToArray();
+        $result['deletable'] = $deletable;
+        return $result;
     }
 }

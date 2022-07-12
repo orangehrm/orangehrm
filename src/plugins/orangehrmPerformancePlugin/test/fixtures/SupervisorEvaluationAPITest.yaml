@@ -228,6 +228,8 @@ ReviewerRating:
   - { id: 12, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 2,comment: null }
   - { id: 13, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 2,comment: null }
   - { id: 14, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 15, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 7,comment: null }
+  - { id: 16, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 8,comment: null }
 
 ReportingMethod:
   0: {id: 1, name: 'Indirect'}

@@ -584,13 +584,18 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getKpiIdsForReviewId(int $reviewId): array
     {
-        $jobTitleId = $this->getReviewById($reviewId)->getJobTitle()->getId();
-        $q = $this->createQueryBuilder(Kpi::class, 'kpi');
-        $q->select('kpi.id')
-            ->andWhere('kpi.jobTitle =:jobTitle')
-            ->setParameter('jobTitle', $jobTitleId);
-        $q->andWhere($q->expr()->isNull('kpi.deletedAt'));
-        return array_column($q->getQuery()->execute(), 'id');
+        $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
+        $qb->select('kpi.id')
+            ->leftJoin('reviewerRating.performanceReview', 'performanceReview')
+            ->leftJoin('reviewerRating.reviewer', 'reviewer')
+            ->leftJoin('reviewerRating.kpi', 'kpi')
+            ->leftJoin('reviewer.group', 'reviewerGroup')
+            ->andWhere('performanceReview.id = :reviewId')
+            ->setParameter('reviewId', $reviewId)
+            ->andWhere('reviewerGroup.name = :groupName')
+            ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+        
+        return array_column($qb->getQuery()->execute(),'id');
     }
 
     /**
