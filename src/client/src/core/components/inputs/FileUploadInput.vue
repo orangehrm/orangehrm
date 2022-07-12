@@ -134,7 +134,7 @@ export default {
     downloadFile() {
       let downUrl;
       if (typeof this.url === 'function') {
-        downUrl = this.url(this.props);
+        downUrl = this.url(this.$props);
       } else {
         if (!this.file?.id) return;
         downUrl = `${window.appGlobal.baseUrl}/${this.url}/${this.file.id}`;
