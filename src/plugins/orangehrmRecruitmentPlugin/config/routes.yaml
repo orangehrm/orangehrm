@@ -184,17 +184,17 @@ apiv2_recrutiment_candidate_history:
 
 apiv2_recruitment_public_vacancies:
   path: /api/v2/recruitment/public/vacancies
-  controller: OrangeHRM\Recruitment\Controller\VacancyListRestController::handle
+  controller: OrangeHRM\Recruitment\Controller\PublicController\VacancyListRestController::handle
   methods: [ GET ]
 
 apiv2_recruitment_public_vacancy:
   path: /api/v2/recruitment/public/vacancies/{id}
-  controller: OrangeHRM\Recruitment\Controller\VacancyRestController::handle
+  controller: OrangeHRM\Recruitment\Controller\PublicController\VacancyRestController::handle
   methods: [ GET ]
 
 recruitment_public_applicants:
   path: /recruitment/public/applicants
-  controller: OrangeHRM\Recruitment\Controller\ApplicantController::handle
+  controller: OrangeHRM\Recruitment\Controller\PublicController\ApplicantController::handle
   methods: [ POST ]
 
 ##########################
@@ -276,12 +276,12 @@ recruitment_view_interview_attachments:
 
 recruitment_view_vacancy_list:
   path: /recruitmentApply/jobs.html
-  controller: OrangeHRM\Recruitment\Controller\VacancyListViewController::handle
+  controller: OrangeHRM\Recruitment\Controller\PublicController\VacancyListViewController::handle
   methods: [ GET ]
 
 recruitment_apply_job_vacancy:
   path: /recruitmentApply/applyVacancy/id/{id}
-  controller: OrangeHRM\Recruitment\Controller\ApplyJobVacancyViewController::handle
+  controller: OrangeHRM\Recruitment\Controller\PublicController\ApplyJobVacancyViewController::handle
   methods: [ GET ]
 
 ##########################
@@ -290,5 +290,5 @@ recruitment_apply_job_vacancy:
 
 recruitment_rss_feed:
   path: /recruitmentApply/jobs.rss
-  controller: OrangeHRM\Recruitment\Controller\VacancyListRSSController::handle
+  controller: OrangeHRM\Recruitment\Controller\PublicController\VacancyListRSSController::handle
   methods: [ GET ]

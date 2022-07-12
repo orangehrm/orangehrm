@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Recruitment\Controller\PublicController;
 
 use DOMDocument;
 use DOMException;

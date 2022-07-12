@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Recruitment\Controller\PublicController;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;

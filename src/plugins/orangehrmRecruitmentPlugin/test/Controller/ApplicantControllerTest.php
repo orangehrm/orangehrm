@@ -29,7 +29,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Controller\ApplicantController;
+use OrangeHRM\Recruitment\Controller\PublicController\ApplicantController;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 use OrangeHRM\Tests\Util\KernelTestCase;
