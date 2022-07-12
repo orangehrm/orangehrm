@@ -52,15 +52,7 @@ class ApplicantControllerTest extends KernelTestCase
     }
 
     /**
-     * @param int $vacancyId
-     * @param string $firstName
-     * @param string $middleName
-     * @param string $lastName
-     * @param string $email
-     * @param string $contactNumber
-     * @param string $consentToKeepData
      * @dataProvider dataProviderForController
-     * @return void
      */
     public function testHandle(
         int $vacancyId,
@@ -68,7 +60,7 @@ class ApplicantControllerTest extends KernelTestCase
         string $middleName,
         string $lastName,
         string $email,
-        string $contactNumber,
+        ?string $contactNumber,
         string $consentToKeepData
     ): void {
         $q = $this->createQueryBuilder(Candidate::class, 'candidate');

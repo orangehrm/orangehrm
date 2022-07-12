@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Service\EmailService;
@@ -29,6 +29,8 @@ use OrangeHRM\Framework\Http\Request;
 
 class RequestPasswordController extends AbstractVueController implements PublicControllerInterface
 {
+    use CsrfTokenManagerTrait;
+
     protected ?EmailService $emailService = null;
 
     /**
@@ -47,11 +49,14 @@ class RequestPasswordController extends AbstractVueController implements PublicC
      */
     public function preRender(Request $request): void
     {
-        $csrfTokenManager = new CsrfTokenManager();
         if ($this->getEmailService()->isConfigSet()) {
             $component = new Component('request-reset-password');
             $component->addProp(
-                new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('request-reset-password')->getValue())
+                new Prop(
+                    'token',
+                    Prop::TYPE_STRING,
+                    $this->getCsrfTokenManager()->getToken('request-reset-password')->getValue()
+                )
             );
         } else {
             $component = new Component('email-configuration-warning');

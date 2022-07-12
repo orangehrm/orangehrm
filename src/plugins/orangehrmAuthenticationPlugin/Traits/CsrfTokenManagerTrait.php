@@ -14,35 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Csrf;
+namespace OrangeHRM\Authentication\Traits;
 
+use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
-use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManager as BaseCsrfTokenManager;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
-class CsrfTokenManager extends BaseCsrfTokenManager
+trait CsrfTokenManagerTrait
 {
     use ServiceContainerTrait;
 
-    public function __construct()
-    {
-        /** @var TokenStorageInterface $storage */
-        $storage = $this->getContainer()->get(Services::CSRF_TOKEN_STORAGE);
-        parent::__construct(new TokenGenerator(), $storage);
-    }
-
     /**
-     * @param string $id
-     * @param string|null $value
-     * @return bool
+     * @return CsrfTokenManager
      */
-    public function isValid(string $id, ?string $value): bool
+    protected function getCsrfTokenManager(): CsrfTokenManager
     {
-        return $this->isTokenValid(new CsrfToken($id, $value));
+        return $this->getContainer()->get(Services::CSRF_TOKEN_MANAGER);
     }
 }

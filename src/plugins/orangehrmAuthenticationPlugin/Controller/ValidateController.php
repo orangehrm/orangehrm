@@ -20,11 +20,11 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Authentication\Service\LoginService;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -40,6 +40,7 @@ class ValidateController extends AbstractController implements PublicControllerI
 {
     use AuthUserTrait;
     use ServiceContainerTrait;
+    use CsrfTokenManagerTrait;
 
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
@@ -104,9 +105,8 @@ class ValidateController extends AbstractController implements PublicControllerI
         $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
 
         try {
-            $csrfTokenManager = new CsrfTokenManager();
             $token = $request->get('_token');
-            if (!$csrfTokenManager->isValid('login', $token)) {
+            if (!$this->getCsrfTokenManager()->isValid('login', $token)) {
                 throw AuthenticationException::invalidCsrfToken();
             }
 
