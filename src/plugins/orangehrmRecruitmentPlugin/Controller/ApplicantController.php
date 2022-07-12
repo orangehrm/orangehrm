@@ -153,14 +153,6 @@ class ApplicantController extends AbstractController implements PublicController
         $applicant = $this->getCandidateService()->getCandidateDao()->saveCandidate($applicant);
         $applicantId = $applicant->getId();
 
-        $applicantHistory = new CandidateHistory();
-        $this->setCommonApplicantHistoryAttributes(
-            $applicantHistory,
-            $applicantId,
-            CandidateService::RECRUITMENT_CANDIDATE_ACTION_APPLIED
-        );
-        $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
-
         $applicantVacancy = new CandidateVacancy();
         $this->setApplicantVacancy(
             $applicantVacancy,
@@ -169,6 +161,14 @@ class ApplicantController extends AbstractController implements PublicController
             $vacancyId
         );
         $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($applicantVacancy);
+
+        $applicantHistory = new CandidateHistory();
+        $applicantHistory->getDecorator()->setCandidateById($applicantId);
+        $applicantHistory->setAction(CandidateService::RECRUITMENT_CANDIDATE_ACTION_APPLIED);
+        $applicantHistory->setPerformedDate($this->getDateTimeHelper()->getNow());
+        $applicantHistory->getDecorator()->setVacancyById($vacancyId);
+        $applicantHistory->setCandidateVacancyName($applicantVacancy->getVacancy()->getName());
+        $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($applicantHistory);
 
         $applicantAttachment = new CandidateAttachment();
         $this->setCandidateAttachment($applicantAttachment, $applicantId, $attachment);
@@ -222,22 +222,6 @@ class ApplicantController extends AbstractController implements PublicController
         $candidateVacancy->getDecorator()->setVacancyById($vacancyId);
         $candidateVacancy->setStatus($status);
         $candidateVacancy->setAppliedDate($this->getDateTimeHelper()->getNow());
-    }
-
-    /**
-     * @param CandidateHistory $applicantHistory
-     * @param int $applicantId
-     * @param int $action
-     * @return void
-     */
-    private function setCommonApplicantHistoryAttributes(
-        CandidateHistory $applicantHistory,
-        int $applicantId,
-        int $action
-    ): void {
-        $applicantHistory->getDecorator()->setCandidateById($applicantId);
-        $applicantHistory->setAction($action);
-        $applicantHistory->setPerformedDate($this->getDateTimeHelper()->getNow());
     }
 
 
