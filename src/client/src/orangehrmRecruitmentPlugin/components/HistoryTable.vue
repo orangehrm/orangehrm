@@ -71,6 +71,7 @@ const ACTION_OFFER_DECLINED = 8;
 const ACTION_HIRED = 9;
 const ACTION_REMOVED = 15;
 const ACTION_ADDED = 16;
+const ACTION_APPLIED = 17;
 
 export default {
   name: 'HistoryTable',
@@ -118,6 +119,12 @@ export default {
         }
 
         switch (item?.action.id) {
+          case ACTION_APPLIED:
+            description = $t('recruitment.candidate_applied_for_the_vacancy', {
+              candidate: candidateName,
+              vacancy: item.vacancyName,
+            });
+            break;
           case ACTION_ADDED:
             description = $t('recruitment.employee_added_candidate', {
               employee: performerName,
@@ -272,7 +279,8 @@ export default {
       if (
         row.action?.id != ACTION_ASSIGNED_VACANCY &&
         row.action?.id != ACTION_ADDED &&
-        row.action?.id != ACTION_REMOVED
+        row.action?.id != ACTION_REMOVED &&
+        row.action?.id != ACTION_APPLIED
       ) {
         cellConfig.edit = {
           onClick: this.onClickEdit,
@@ -288,7 +296,7 @@ export default {
         row.action?.id === ACTION_INTERVIEW_FAILED
       ) {
         cellConfig.attachment = {
-          onClick: this.onClckAttachment,
+          onClick: this.onClickAttachment,
           props: {
             name: 'paperclip',
           },

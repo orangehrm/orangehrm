@@ -18,6 +18,7 @@
  */
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Subscriber\AdministratorAccessSubscriber;
 use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
@@ -25,6 +26,7 @@ use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
+use Symfony\Component\Security\Csrf\TokenStorage\NativeSessionTokenStorage;
 
 class AuthenticationPluginConfiguration implements PluginConfigurationInterface
 {
@@ -41,5 +43,8 @@ class AuthenticationPluginConfiguration implements PluginConfigurationInterface
         $dispatcher->addSubscriber(new AdministratorAccessSubscriber());
         $this->getContainer()->register(Services::AUTH_USER)
             ->setFactory([AuthUser::class, 'getInstance']);
+
+        $this->getContainer()->register(Services::CSRF_TOKEN_STORAGE, NativeSessionTokenStorage::class);
+        $this->getContainer()->register(Services::CSRF_TOKEN_MANAGER, CsrfTokenManager::class);
     }
 }

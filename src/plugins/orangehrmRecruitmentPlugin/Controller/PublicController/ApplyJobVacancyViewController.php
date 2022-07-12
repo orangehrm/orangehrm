@@ -15,15 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Recruitment\Controller\PublicController;
 
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
@@ -35,6 +36,8 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
 {
     use ThemeServiceTrait;
     use ConfigServiceTrait;
+    use CsrfTokenManagerTrait;
+    use AuthUserTrait;
 
     /**
      * @inheritDoc
@@ -42,7 +45,11 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
     public function preRender(Request $request): void
     {
         $id = $request->attributes->get('id');
-        $success = $request->attributes->get('success', false);
+        $success = false;
+        if ($this->getAuthUser()->hasFlash('flash.applicant_success')) {
+            $flash = $this->getAuthUser()->getFlash('flash.applicant_success');
+            $success = $flash[0] ?? false;
+        }
 
         $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
         $bannerUrl = $request->getBasePath()
@@ -65,9 +72,12 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
                 RecruitmentAttachmentService::ALLOWED_CANDIDATE_ATTACHMENT_FILE_TYPES
             )
         );
-        $csrfTokenManager = new CsrfTokenManager();
         $component->addProp(
-            new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('recruitment-applicant')->getValue())
+            new Prop(
+                'token',
+                Prop::TYPE_STRING,
+                $this->getCsrfTokenManager()->getToken('recruitment-applicant')->getValue()
+            )
         );
         $component->addProp(
             new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize())

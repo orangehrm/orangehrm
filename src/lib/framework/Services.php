@@ -150,6 +150,17 @@ final class Services
      */
     public const AUTH_USER = 'auth.user';
 
+    /**
+     * @see \OrangeHRM\Authentication\Csrf\CsrfTokenManager
+     */
+    public const CSRF_TOKEN_MANAGER = 'auth.csrf_token_manager';
+
+    /**
+     * @see \Symfony\Component\Security\Csrf\TokenStorage\NativeSessionTokenStorage
+     * @see \Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface
+     */
+    public const CSRF_TOKEN_STORAGE = 'auth.csrf_token_storage';
+
     ///////////////////////////////////////////////////////////////
     /// Admin plugin services
     ///////////////////////////////////////////////////////////////

@@ -26,7 +26,7 @@ use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Controller\VacancyRestController;
+use OrangeHRM\Recruitment\Controller\PublicController\VacancyRestController;
 use OrangeHRM\Recruitment\Service\VacancyService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;

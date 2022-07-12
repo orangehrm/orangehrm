@@ -20,11 +20,11 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Authentication\Service\LoginService;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -37,6 +37,7 @@ class AdministratorVerifyController extends AbstractController
 {
     use AuthUserTrait;
     use UserRoleManagerTrait;
+    use CsrfTokenManagerTrait;
 
     public const PARAMETER_PASSWORD = 'password';
 
@@ -81,9 +82,8 @@ class AdministratorVerifyController extends AbstractController
         $credentials = new UserCredential($username, $password);
 
         try {
-            $csrfTokenManager = new CsrfTokenManager();
             $token = $request->request->get('_token');
-            if (!$csrfTokenManager->isValid('administrator-access', $token)) {
+            if (!$this->getCsrfTokenManager()->isValid('administrator-access', $token)) {
                 throw AuthenticationException::invalidCsrfToken();
             }
             $success = $this->getAuthenticationService()->setCredentials($credentials, []);

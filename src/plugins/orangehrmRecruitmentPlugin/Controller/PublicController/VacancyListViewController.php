@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,32 +18,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Csrf;
+namespace OrangeHRM\Recruitment\Controller\PublicController;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Services;
-use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManager as BaseCsrfTokenManager;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
-class CsrfTokenManager extends BaseCsrfTokenManager
+class VacancyListViewController extends AbstractVueController implements PublicControllerInterface
 {
-    use ServiceContainerTrait;
-
-    public function __construct()
+    public function preRender(Request $request): void
     {
-        /** @var TokenStorageInterface $storage */
-        $storage = $this->getContainer()->get(Services::CSRF_TOKEN_STORAGE);
-        parent::__construct(new TokenGenerator(), $storage);
-    }
-
-    /**
-     * @param string $id
-     * @param string|null $value
-     * @return bool
-     */
-    public function isValid(string $id, ?string $value): bool
-    {
-        return $this->isTokenValid(new CsrfToken($id, $value));
+        $component = new Component('vacancy-list');
+        $this->setComponent($component);
+        $this->setTemplate('no_header.html.twig');
     }
 }

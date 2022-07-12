@@ -45,9 +45,7 @@ class CandidateListModel implements Normalizable
     {
         $candidateVacancies = $this->candidate->getCandidateVacancy();
         $candidateVacancy = !empty($candidateVacancies) ? $candidateVacancies[0] : null;
-        /**
-         * @var Vacancy
-         */
+        /** @var Vacancy|null $vacancy */
         $vacancy = !is_null($candidateVacancy) ? $candidateVacancy->getVacancy() : null;
         $candidateAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()

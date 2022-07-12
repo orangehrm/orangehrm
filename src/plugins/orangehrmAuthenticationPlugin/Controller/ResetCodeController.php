@@ -19,8 +19,8 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Service\ResetPasswordService;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Vue\Component;
@@ -30,6 +30,8 @@ use OrangeHRM\Framework\Http\Request;
 
 class ResetCodeController extends AbstractVueController implements PublicControllerInterface
 {
+    use CsrfTokenManagerTrait;
+
     protected ?ResetPasswordService $resetPasswordService = null;
 
     /**
@@ -48,8 +50,6 @@ class ResetCodeController extends AbstractVueController implements PublicControl
      */
     public function preRender(Request $request): void
     {
-        $csrfTokenManager = new CsrfTokenManager();
-
         $resetCode = $request->attributes->get('resetCode');
         $user = $this->getResetPasswordService()->validateUrl($resetCode);
 
@@ -59,7 +59,11 @@ class ResetCodeController extends AbstractVueController implements PublicControl
                 new Prop('username', Prop::TYPE_STRING, $user->getUserName())
             );
             $component->addProp(
-                new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('reset-password')->getValue())
+                new Prop(
+                    'token',
+                    Prop::TYPE_STRING,
+                    $this->getCsrfTokenManager()->getToken('reset-password')->getValue()
+                )
             );
         } else {
             $component = new Component('reset-password-error');

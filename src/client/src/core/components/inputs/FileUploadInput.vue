@@ -91,7 +91,7 @@ export default {
       default: '',
     },
     url: {
-      type: String,
+      type: [String, Function],
       required: true,
     },
     method: {
@@ -132,8 +132,13 @@ export default {
   },
   methods: {
     downloadFile() {
-      if (!this.file?.id) return;
-      const downUrl = `${window.appGlobal.baseUrl}/${this.url}/${this.file.id}`;
+      let downUrl;
+      if (typeof this.url === 'function') {
+        downUrl = this.url(this.$props);
+      } else {
+        if (!this.file?.id) return;
+        downUrl = `${window.appGlobal.baseUrl}/${this.url}/${this.file.id}`;
+      }
       window.open(downUrl, '_blank');
     },
   },
