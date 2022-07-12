@@ -296,7 +296,7 @@ export default {
         row.action?.id === ACTION_INTERVIEW_FAILED
       ) {
         cellConfig.attachment = {
-          onClick: this.onClckAttachment,
+          onClick: this.onClickAttachment,
           props: {
             name: 'paperclip',
           },
