@@ -99,6 +99,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     ];
 
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 30;
+    public const PARAMETER_RULE_KEYWORDS_MAX_LENGTH = 250;
+    public const PARAMETER_RULE_COMMENT_MAX_LENGTH = 250;
 
     /**
      * @inheritDoc
@@ -529,14 +531,16 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_KEYWORDS,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_KEYWORDS_MAX_LENGTH])
                 ),
                 true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_COMMENT,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_COMMENT_MAX_LENGTH])
                 ),
                 true
             ),
