@@ -127,11 +127,13 @@
               <oxd-grid :cols="3" class="orangehrm-full-width-grid">
                 <oxd-grid-item class="orangehrm-applicant-container-colspan-2">
                   <oxd-input-field
-                      v-model="applicant.keywords"
-                      name="keywords"
-                      :label="$t('recruitment.keywords')"
-                      :placeholder="`${$t('recruitment.enter_comma_seperated_words')}...`"
-                      :rules="rules.keywords"
+                    v-model="applicant.keywords"
+                    name="keywords"
+                    :label="$t('recruitment.keywords')"
+                    :placeholder="
+                      `${$t('recruitment.enter_comma_seperated_words')}...`
+                    "
+                    :rules="rules.keywords"
                   />
                 </oxd-grid-item>
               </oxd-grid>
@@ -140,12 +142,12 @@
               <oxd-grid :cols="3" class="orangehrm-full-width-grid">
                 <oxd-grid-item class="orangehrm-applicant-container-colspan-2">
                   <oxd-input-field
-                      v-model="applicant.comment"
-                      name="comment"
-                      :label="$t('general.notes')"
-                      type="textarea"
-                      :placeholder="$t('general.type_here')"
-                      :rules="rules.comment"
+                    v-model="applicant.comment"
+                    name="comment"
+                    :label="$t('general.notes')"
+                    type="textarea"
+                    :placeholder="$t('general.type_here')"
+                    :rules="rules.comment"
                   />
                 </oxd-grid-item>
               </oxd-grid>
