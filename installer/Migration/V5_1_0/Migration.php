@@ -200,6 +200,8 @@ class Migration extends AbstractMigration
 
         $this->updateRecruitmentMenuItems();
         $this->updatePerformanceMenuItems();
+
+        $this->modifyEmployeeTrackerScreenRolePermission($performanceModuleId);
     }
 
     /**
@@ -448,6 +450,34 @@ class Migration extends AbstractMigration
             ['onDelete' => 'SET NULL', 'onUpdate' => 'CASCADE']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_performance_tracker_log', $foreignKeyConstraint);
+    }
+
+    /**
+     * @param int $performanceModuleId
+     */
+    private function modifyEmployeeTrackerScreenRolePermission(int $performanceModuleId): void
+    {
+        $employeeTrackerScreenId = $this->getDataGroupHelper()
+            ->getScreenIdByModuleAndUrl(
+                $performanceModuleId,
+                'viewEmployeePerformanceTrackerList',
+            );
+
+        $this->createQueryBuilder()
+            ->update('ohrm_user_role_screen', 'userRoleScreen')
+            ->set('userRoleScreen.user_role_id', ':userRoleId')
+            ->setParameter(
+                'userRoleId',
+                $this->getDataGroupHelper()->getUserRoleIdByName('Reviewer')
+            )
+            ->andWhere('userRoleScreen.screen_id = :screenId')
+            ->andWhere('userRoleScreen.user_role_id = :oldUserRoleId')
+            ->setParameter('screenId', $employeeTrackerScreenId)
+            ->setParameter(
+                'oldUserRoleId',
+                $this->getDataGroupHelper()->getUserRoleIdByName('ESS')
+            )
+            ->executeQuery();
     }
 
     /**
