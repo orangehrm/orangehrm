@@ -46,7 +46,7 @@ translations:
     - { target: Min, unitId: min, group: performance }
     - { target: Active, unitId: active, group: general }
     - { target: 'Add Candidate', unitId: add_candidate, group: recruitment }
-    - { target: 'Application Initiated', unitId: application_initiated_uc, group: recruitment }
+    - { target: 'Application Initiated', unitId: application_initiated, group: recruitment }
     - { target: Candidate, unitId: candidate, group: recruitment }
     - { target: 'Candidate Name', unitId: candidate_name, group: recruitment }
     - { target: Closed, unitId: closed, group: general }

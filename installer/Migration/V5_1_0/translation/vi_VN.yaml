@@ -37,7 +37,7 @@ translations:
     - { target: Min, unitId: min, group: performance }
     - { target: 'Hoạt động', unitId: active, group: general }
     - { target: 'Thêm ứng cử viên', unitId: add_candidate, group: recruitment }
-    - { target: 'Ứng dụng khởi động', unitId: application_initiated_uc, group: recruitment }
+    - { target: 'Ứng dụng khởi động', unitId: application_initiated, group: recruitment }
     - { target: 'Ứng cử viên', unitId: candidate, group: recruitment }
     - { target: 'Tên Ưng Viên', unitId: candidate_name, group: recruitment }
     - { target: 'Đóng cửa', unitId: closed, group: general }

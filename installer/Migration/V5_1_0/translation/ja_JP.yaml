@@ -37,7 +37,7 @@ translations:
     - { target: ミン, unitId: min, group: performance }
     - { target: アクティブ, unitId: active, group: general }
     - { target: 候補を追加します。, unitId: add_candidate, group: recruitment }
-    - { target: アプリケーション開始, unitId: application_initiated_uc, group: recruitment }
+    - { target: アプリケーション開始, unitId: application_initiated, group: recruitment }
     - { target: 候補者, unitId: candidate, group: recruitment }
     - { target: 候補者名, unitId: candidate_name, group: recruitment }
     - { target: 閉じた, unitId: closed, group: general }

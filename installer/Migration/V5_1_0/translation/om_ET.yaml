@@ -37,7 +37,7 @@ translations:
     - { target: 'Inni Xiqqaan', unitId: min, group: performance }
     - { target: 'Ka''aa', unitId: active, group: general }
     - { target: 'Dorgomaa Dabali', unitId: add_candidate, group: recruitment }
-    - { target: 'Iyyatni Kan Onnatame', unitId: application_initiated_uc, group: recruitment }
+    - { target: 'Iyyatni Kan Onnatame', unitId: application_initiated, group: recruitment }
     - { target: Dorgomaa, unitId: candidate, group: recruitment }
     - { target: 'Maqaa Dorgomaa', unitId: candidate_name, group: recruitment }
     - { target: Cufameera, unitId: closed, group: general }

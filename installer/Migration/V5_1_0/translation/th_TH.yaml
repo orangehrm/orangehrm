@@ -37,7 +37,7 @@ translations:
     - { target: ต่ำสุด, unitId: min, group: performance }
     - { target: ที่ใช้งานอยู่, unitId: active, group: general }
     - { target: เพิ่มผู้สมัคร, unitId: add_candidate, group: recruitment }
-    - { target: เริ่มต้นสมัครงาน, unitId: application_initiated_uc, group: recruitment }
+    - { target: เริ่มต้นสมัครงาน, unitId: application_initiated, group: recruitment }
     - { target: ผู้สมัคร, unitId: candidate, group: recruitment }
     - { target: ชื่อผู้สมัคร, unitId: candidate_name, group: recruitment }
     - { target: ปิด, unitId: closed, group: general }

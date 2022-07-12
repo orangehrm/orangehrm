@@ -44,7 +44,7 @@ translations:
     - { target: 最小, unitId: min, group: performance }
     - { target: 活跃, unitId: active, group: general }
     - { target: 添加候选人, unitId: add_candidate, group: recruitment }
-    - { target: 启动的申请, unitId: application_initiated_uc, group: recruitment }
+    - { target: 启动的申请, unitId: application_initiated, group: recruitment }
     - { target: 候选人, unitId: candidate, group: recruitment }
     - { target: 候选人姓名, unitId: candidate_name, group: recruitment }
     - { target: 关闭, unitId: closed, group: general }

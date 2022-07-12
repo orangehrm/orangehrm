@@ -37,7 +37,7 @@ translations:
     - { target: Minimum, unitId: min, group: performance }
     - { target: Aktiv, unitId: active, group: general }
     - { target: 'Tilføj kandidat', unitId: add_candidate, group: recruitment }
-    - { target: 'Ansøgning initieret', unitId: application_initiated_uc, group: recruitment }
+    - { target: 'Ansøgning initieret', unitId: application_initiated, group: recruitment }
     - { target: Kandidat, unitId: candidate, group: recruitment }
     - { target: 'Kandidatens navn', unitId: candidate_name, group: recruitment }
     - { target: Lukket, unitId: closed, group: general }

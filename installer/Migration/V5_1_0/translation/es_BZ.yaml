@@ -37,7 +37,7 @@ translations:
     - { target: Min, unitId: min, group: performance }
     - { target: Activo, unitId: active, group: general }
     - { target: 'Añadir candidato', unitId: add_candidate, group: recruitment }
-    - { target: 'Iniciada la aplicación', unitId: application_initiated_uc, group: recruitment }
+    - { target: 'Iniciada la aplicación', unitId: application_initiated, group: recruitment }
     - { target: Candidato, unitId: candidate, group: recruitment }
     - { target: 'Nombre del candidato', unitId: candidate_name, group: recruitment }
     - { target: Cerrado, unitId: closed, group: general }

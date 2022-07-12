@@ -37,7 +37,7 @@ translations:
     - { target: Мин., unitId: min, group: performance }
     - { target: Активен, unitId: active, group: general }
     - { target: 'Добави кандидат', unitId: add_candidate, group: recruitment }
-    - { target: 'Заявление Иницииран', unitId: application_initiated_uc, group: recruitment }
+    - { target: 'Заявление Иницииран', unitId: application_initiated, group: recruitment }
     - { target: Кандидат, unitId: candidate, group: recruitment }
     - { target: 'Името на Кандидата', unitId: candidate_name, group: recruitment }
     - { target: Затворен, unitId: closed, group: general }

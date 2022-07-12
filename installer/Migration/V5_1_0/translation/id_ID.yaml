@@ -37,7 +37,7 @@ translations:
     - { target: Min, unitId: min, group: performance }
     - { target: Aktif, unitId: active, group: general }
     - { target: 'Tambahkan Calon', unitId: add_candidate, group: recruitment }
-    - { target: 'Aplikasi Diprakarsai', unitId: application_initiated_uc, group: recruitment }
+    - { target: 'Aplikasi Diprakarsai', unitId: application_initiated, group: recruitment }
     - { target: Calon, unitId: candidate, group: recruitment }
     - { target: 'Calon Nama', unitId: candidate_name, group: recruitment }
     - { target: Tutup, unitId: closed, group: general }
