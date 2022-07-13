@@ -212,7 +212,7 @@ export default {
         name: this.vacancy.name,
         jobTitleId: this.vacancy.jobTitle.id,
         employeeId: this.vacancy.hiringManager.id,
-        numOfPositions: this.vacancy.numOfPositions,
+        numOfPositions: this.vacancy.numOfPositions || null,
         description: this.vacancy.description,
         status: this.vacancy.status ? 1 : 2,
         isPublished: this.vacancy.isPublished,

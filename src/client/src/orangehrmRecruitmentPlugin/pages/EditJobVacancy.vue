@@ -458,7 +458,7 @@ export default {
         this.currentName = data.name;
         this.vacancy.name = data.name;
         this.vacancy.description = data.description;
-        this.vacancy.numOfPositions = data.numOfPositions;
+        this.vacancy.numOfPositions = data.numOfPositions || '';
         this.vacancy.status = data.status === 1 ? true : false;
         this.vacancy.isPublished = data.isPublished;
         this.vacancy.hiringManager = {
@@ -507,7 +507,7 @@ export default {
         name: this.vacancy.name,
         jobTitleId: this.vacancy.jobTitle.id,
         employeeId: this.vacancy.hiringManager.id,
-        numOfPositions: this.vacancy.numOfPositions,
+        numOfPositions: this.vacancy.numOfPositions || null,
         description: this.vacancy.description,
         status: this.vacancy.status ? 1 : 2,
         isPublished: this.vacancy.isPublished,

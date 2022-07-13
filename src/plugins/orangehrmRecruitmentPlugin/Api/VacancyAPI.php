@@ -204,7 +204,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             )
         );
         $vacancy->setNumOfPositions(
-            $this->getRequestParams()->getInt(
+            $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_NUM_OF_POSITIONS
             )
