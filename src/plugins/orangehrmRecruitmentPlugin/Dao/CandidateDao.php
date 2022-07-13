@@ -431,4 +431,44 @@ class CandidateDao extends BaseDao
         $result = $qb->getQuery()->getArrayResult();
         return array_column($result, 'id');
     }
+
+    /**
+     * @return int []
+     */
+    public function getCandidateHistoryIdList(): array
+    {
+        $q = $this->createQueryBuilder(CandidateHistory::class, 'history');
+        $q->select('history.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int []
+     */
+    public function getCandidateHistoryIdListForHiringManager(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(CandidateHistory::class, 'history');
+        $q->leftJoin('history.vacancy', 'vacancy');
+        $q->select('history.id');
+        $q->andWhere('vacancy.hiringManager = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int []
+     */
+    public function getCandidateHistoryIdListForInterviewer(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(CandidateHistory::class, 'history');
+        $q->select('history.id');
+        $q->andWhere($q->expr()->in('history.candidate', ':ids'));
+        $q->setParameter('ids', $this->getCandidateListForInterviewer($empNumber));
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
 }

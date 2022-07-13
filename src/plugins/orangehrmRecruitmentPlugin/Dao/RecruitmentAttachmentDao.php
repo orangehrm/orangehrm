@@ -267,19 +267,27 @@ class RecruitmentAttachmentDao extends BaseDao
      */
     public function getInterviewAttachmentListForInterviewer(int $empNumber): array
     {
+        $q = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
+        $q->leftJoin('attachment.interview', 'interview');
+        $q->select('attachment.id');
+        $q->andWhere('interview IN (:ids)');
+        $q->andWhere($q->expr()->in('interview', ':ids'));
+        $q->setParameter('ids', $this->getAccessibleInterviewIdsForInterviewer($empNumber));
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int []
+     */
+    private function getAccessibleInterviewIdsForInterviewer(int $empNumber): array
+    {
         $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewInterviewer');
         $q->leftJoin('interviewInterviewer.interview', 'interview');
         $q->select('interview.id');
         $q->andWhere('interviewInterviewer.interviewer = :empNumber');
         $q->setParameter('empNumber', $empNumber);
-        $result = $q->getQuery()->getArrayResult();
-        $accessibleInterviewIds = array_column($result, 'id');
-
-        $q = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
-        $q->leftJoin('attachment.interview', 'interview');
-        $q->select('attachment.id');
-        $q->andWhere('interview IN (:ids)');
-        $q->setParameter('ids', $accessibleInterviewIds);
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
     }
