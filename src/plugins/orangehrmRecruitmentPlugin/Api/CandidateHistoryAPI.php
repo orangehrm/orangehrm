@@ -194,6 +194,7 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_NOTE,
                     new Rule(Rules::STRING_TYPE)
                 ),
+                true
             )
         );
     }
