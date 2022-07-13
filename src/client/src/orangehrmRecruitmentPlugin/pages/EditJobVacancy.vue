@@ -167,7 +167,7 @@
             :label="$t('general.cancel')"
             @click="updateVisibility"
           />
-          <submit-button :label="$t('general.upload')" />
+          <submit-button :label="$t('general.save')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -219,7 +219,7 @@
             :label="$t('general.cancel')"
             @click="updateVisibility"
           />
-          <submit-button :label="$t('general.upload')" />
+          <submit-button :label="$t('general.save')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
