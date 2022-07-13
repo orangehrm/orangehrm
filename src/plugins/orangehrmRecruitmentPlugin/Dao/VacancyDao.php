@@ -21,6 +21,8 @@
 namespace OrangeHRM\Recruitment\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;
@@ -96,16 +98,11 @@ class VacancyDao extends BaseDao
     /**
      * Retrieve vacancy list
      * @returns doctrine collection
-     * @throws DaoException
      */
     public function saveJobVacancy(Vacancy $jobVacancy): Vacancy
     {
-        try {
-            $this->persist($jobVacancy);
-            return $jobVacancy;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($jobVacancy);
+        return $jobVacancy;
     }
 
     /**
@@ -141,12 +138,7 @@ class VacancyDao extends BaseDao
         $qr->delete()
             ->andWhere('v.id IN (:ids)')
             ->setParameter('ids', $toBeDeletedVacancyIds);
-
-        $result = $qr->getQuery()->execute();
-        if ($result > 0) {
-            return true;
-        }
-        return false;
+        return $qr->getQuery()->execute() > 0;
     }
 
     /**
@@ -210,5 +202,28 @@ class VacancyDao extends BaseDao
         $qb->setParameter('isPublished', true);
         $qb->addOrderBy('vacancy.updatedTime', ListSorter::DESCENDING);
         return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $jobTitleId
+     * @return JobTitle|null
+     */
+    public function isActiveJobVacancy(int $jobTitleId): ?JobTitle
+    {
+        return $this->getRepository(JobTitle::class)->findOneBy(['id' => $jobTitleId, 'isDeleted' => false]);
+    }
+
+    /**
+     * @param int $hiringManagerId
+     * @return Employee|null
+     */
+    public function isActiveHiringManger(int $hiringManagerId): ?Employee
+    {
+        return $this->getRepository(Employee::class)->findOneBy(
+            [
+                'empNumber' => $hiringManagerId,
+                'employeeTerminationRecord' => null
+            ]
+        );
     }
 }

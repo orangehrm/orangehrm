@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -188,9 +189,35 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param Vacancy $vacancy
+     * @throws BadRequestException
      */
     private function setVacancy(Vacancy $vacancy): void
     {
+        $jobTitleId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_JOB_TITLE_ID
+        );
+        if (!$this->getVacancyService()->getVacancyDao()->isActiveJobVacancy($jobTitleId) instanceof JobTitle) {
+            throw $this->getBadRequestException('Please Select An Active Job Title');
+        }
+
+        $hiringManagerId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_EMPLOYEE_ID
+        );
+        if (!$this->getVacancyService()->getVacancyDao()->isActiveHiringManger($hiringManagerId) instanceof Employee) {
+            throw $this->getBadRequestException('Employee No Longer Exists');
+        }
+
+        $vacancy->getDecorator()->setJobTitleById($jobTitleId);
+        $vacancy->getDecorator()->setEmployeeById($hiringManagerId);
+
+        $vacancy->getDecorator()->setEmployeeById(
+            $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_EMPLOYEE_ID
+            )
+        );
         $vacancy->setName(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
@@ -220,18 +247,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_STATUS
-            )
-        );
-        $vacancy->getDecorator()->setJobTitleById(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_JOB_TITLE_ID
-            )
-        );
-        $vacancy->getDecorator()->setEmployeeById(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_EMPLOYEE_ID
             )
         );
     }

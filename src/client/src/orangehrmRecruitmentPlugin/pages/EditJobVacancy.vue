@@ -39,6 +39,7 @@
             <jobtitle-dropdown
               v-model="vacancy.jobTitle"
               :rules="rules.jobTitle"
+              required
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -466,10 +467,12 @@ export default {
           label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
           isPastEmployee: data.hiringManager.terminationId ? true : false,
         };
-        this.vacancy.jobTitle = {
-          id: data.jobTitle.id,
-          label: data.jobTitle.title,
-        };
+        this.vacancy.jobTitle = data.jobTitle.isDeleted
+          ? null
+          : {
+              id: data.jobTitle.id,
+              label: data.jobTitle.title,
+            };
         return this.http.getAll({limit: 0});
       })
       .then(response => {
