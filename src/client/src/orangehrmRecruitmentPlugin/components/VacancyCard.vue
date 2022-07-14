@@ -19,15 +19,15 @@
  -->
 
 <template>
-  <div class="orangehrm-paper-container">
+  <div class="orangehrm-card-container">
     <div class="orangehrm-vacancy-card-header">
       <oxd-text type="card-title">
         {{ vacancyTitle }}
       </oxd-text>
       <oxd-button
         :label="$t('general.apply')"
+        display-type="secondary"
         class="oxd-button"
-        display-type="success"
         @click="apply"
       ></oxd-button>
     </div>
@@ -46,9 +46,7 @@
       <a @click="viewDetails">
         <oxd-text class="orangehrm-vacancy-card-anchor-tag" type="subtitle-2">
           {{
-            isViewDetails
-              ? $t('recruitment.show_more')
-              : $t('recruitment.show_less')
+            isViewDetails ? $t('general.show_more') : $t('general.show_less')
           }}
         </oxd-text>
       </a>
@@ -57,9 +55,9 @@
 </template>
 
 <script>
-import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {toRefs} from 'vue';
 import {navigate} from '@/core/util/helper/navigation';
+import useResponsive from '@ohrm/oxd/composables/useResponsive';
 
 export default {
   name: 'VacancyCard',
