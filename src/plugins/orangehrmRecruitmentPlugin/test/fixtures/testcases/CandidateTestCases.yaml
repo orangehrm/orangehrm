@@ -30,12 +30,6 @@ Create:
       keywords: 'spring-boot,angular,vue'
       modeOfApplication: 1
       dateOfApplication: '2022-05-12'
-      addedPerson:
-        id: 1
-        firstName: 'Kayla'
-        middleName: 'T'
-        lastName: 'Abbey'
-        terminationId: null
       vacancy: null
       status: null
       hasAttachment: false
@@ -123,12 +117,6 @@ GetOne:
       keywords: 'c,c++,java'
       modeOfApplication: 2
       dateOfApplication: '2020-10-08'
-      addedPerson:
-        id: 1
-        firstName: 'Kayla'
-        middleName: 'T'
-        lastName: 'Abbey'
-        terminationId: null
       vacancy:
         id: 3
         name: 'Part-Time Technical Assistant'
@@ -958,13 +946,6 @@ Update:
         "keywords": "php,html,css,js",
         "modeOfApplication": 1,
         "dateOfApplication": "2020-10-08",
-        "addedPerson": {
-          "id": 2 ,
-          "firstName": "Ashley",
-          "middleName": "ST",
-          "lastName": "Abel",
-          "terminationId": null
-        },
         "vacancy": {
           "id": 3,
           "name": "Part-Time Technical Assistant",
@@ -1058,13 +1039,6 @@ Update:
         "keywords": "php,html,css,js",
         "modeOfApplication": 1,
         "dateOfApplication": "2020-10-08",
-        "addedPerson": {
-          "id": 2 ,
-          "firstName": "Ashley",
-          "middleName": "ST",
-          "lastName": "Abel",
-          "terminationId": null
-        },
         "vacancy": null,
         "status": null,
         "hasAttachment": true,
@@ -1111,13 +1085,6 @@ Update:
         "keywords": "Spring-boot,symfony,laravel",
         "modeOfApplication": 1,
         "dateOfApplication": "2020-10-09",
-        "addedPerson": {
-          "id": 3 ,
-          "firstName": "Renukshan",
-          "middleName": "RT",
-          "lastName": "Saputhanthri",
-          "terminationId": null
-        },
         "vacancy": {
           "id": 3,
           "name": "Part-Time Technical Assistant",

@@ -22,14 +22,18 @@ namespace OrangeHRM\Admin\Dao;
 use Doctrine\ORM\Query\Expr;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
+use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
+use OrangeHRM\Entity\I18NTranslation;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class LocalizationDao extends BaseDao
 {
+    use LocalizationServiceTrait;
+
     /**
      * @param I18NLanguageSearchFilterParams $i18NLanguageSearchFilterParams
      * @return array
@@ -97,7 +101,7 @@ class LocalizationDao extends BaseDao
     ): array {
         $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
         $q->select(
-            'translation.id',
+            'langString.id AS langStringId',
             'langString.value AS source',
             'langString.note AS note',
             'translation.value AS target',
@@ -161,5 +165,54 @@ class LocalizationDao extends BaseDao
     ): int {
         $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
         return $this->getPaginator($q)->count();
+    }
+
+    /**
+     * @param I18NTranslation[] $i18NTranslations
+     */
+    public function saveAndUpdateTranslatedLangString(array $i18NTranslations): void
+    {
+        $q = $this->createQueryBuilder(I18NTranslation::class, 'translation');
+
+        /** @var I18NTranslation $i18NTranslation */
+        foreach (array_values($i18NTranslations) as $i => $i18NTranslation) {
+            $languageIdParamKey = 'languageId_' . $i;
+            $langStringIdParamKey = 'langStringId_' . $i;
+
+            $languageId = $i18NTranslation->getLanguage()->getId();
+            $langStringId = $i18NTranslation->getLangString()->getId();
+
+            $q->orWhere(
+                $q->expr()->andX(
+                    $q->expr()->eq('translation.langString', ':' . $langStringIdParamKey),
+                    $q->expr()->eq('translation.language', ':' . $languageIdParamKey),
+                )
+            );
+            $q->setParameter($languageIdParamKey, $languageId);
+            $q->setParameter($langStringIdParamKey, $langStringId);
+        }
+
+        /** @var array<string, I18NTranslation> $updatableTranslationValues */
+        $updatableTranslationValues = [];
+        foreach ($q->getQuery()->execute() as $updatableTranslationValue) {
+            $itemKey = $this->getLocalizationService()->generateLangStringLanguageKey(
+                $updatableTranslationValue->getLanguage()->getId(),
+                $updatableTranslationValue->getLangString()->getId(),
+            );
+            $updatableTranslationValues[$itemKey] = $updatableTranslationValue;
+        }
+
+        foreach ($i18NTranslations as $key => $i18NTranslation) {
+            if (isset($updatableTranslationValues[$key])) {
+                $updatableTranslationValues[$key]->setValue($i18NTranslation->getValue());
+
+                //update
+                $this->getEntityManager()->persist($updatableTranslationValues[$key]);
+                continue;
+            }
+            //create
+            $this->getEntityManager()->persist($i18NTranslation);
+        }
+        $this->getEntityManager()->flush();
     }
 }

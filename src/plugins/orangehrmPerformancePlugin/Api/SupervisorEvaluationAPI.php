@@ -106,7 +106,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         $sendRatings = true;
         $supervisorReviewer = $review->getDecorator()->getSupervisorReviewer();
         // Check if ESS is accessing API
-        if ($this->getAuthUser()->getEmpNumber() === $review->getEmployee()->getEmpNumber()) {
+        if (!$this->isAdminAccessingApi() && $this->getAuthUser()->getEmpNumber() === $review->getEmployee()->getEmpNumber()) {
             // Don't send ratings if supervisor status is activated / in progress
             if (
                 $supervisorReviewer->getStatus() === Reviewer::STATUS_ACTIVATED ||
@@ -357,7 +357,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
      */
     private function getPerformanceReviewStatus(PerformanceReview $performanceReview): int
     {
-        if ($this->getAuthUser()->getEmpNumber() === $performanceReview->getEmployee()->getEmpNumber()) {
+        if (!$this->isAdminAccessingApi() && $this->getAuthUser()->getEmpNumber() === $performanceReview->getEmployee()->getEmpNumber()) {
             $selfReviewer = $this->getPerformanceReviewService()
                 ->getPerformanceReviewDao()
                 ->getPerformanceSelfReviewer($performanceReview);
@@ -451,5 +451,15 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 true
             )
         );
+    }
+
+    private function isAdminAccessingApi(): bool
+    {
+        $permission = $this->getUserRoleManager()->getDataGroupPermissions(
+            'apiv2_performance_review_supervisor_evaluation',
+            ['ESS', 'Supervisor']
+        );
+
+        return $permission->canRead() || $permission->canUpdate();
     }
 }

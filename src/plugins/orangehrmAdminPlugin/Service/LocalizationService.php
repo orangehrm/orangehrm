@@ -26,12 +26,17 @@ use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\I18NTranslation;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Service\I18NService;
 
 class LocalizationService
 {
     use NormalizerServiceTrait;
     use DateTimeHelperTrait;
     use ConfigServiceTrait;
+    use ServiceContainerTrait;
 
     /**
      * @var LocalizationDao|null
@@ -47,6 +52,14 @@ class LocalizationService
             $this->localizationDao = new LocalizationDao();
         }
         return $this->localizationDao;
+    }
+
+    /**
+     * @return I18NService
+     */
+    private function getI18NService(): I18NService
+    {
+        return $this->getContainer()->get(Services::I18N_SERVICE);
     }
 
     /**
@@ -127,5 +140,56 @@ class LocalizationService
     {
         $languages = $this->searchLanguages($i18NLanguageSearchParams);
         return $this->getNormalizerService()->normalizeArray(I18NLanguageModel::class, $languages);
+    }
+
+    /**
+     * @param int $languageId
+     * @param array $rows e.g. [['langStringId'=> 1, 'translatedValue' => 'Employee'], ['langStringId'=> 2, 'translatedValue' => 'Admin']]
+     * @return void
+     */
+    public function saveAndUpdateTranslatedStringsFromRows(int $languageId, array $rows): void
+    {
+        $language = $this->getLocalizationDao()->getLanguageById($languageId);
+        $i18NTranslations = $this->createTranslatedItemsFromRows($languageId, $rows);
+        $this->getLocalizationDao()->saveAndUpdateTranslatedLangString($i18NTranslations);
+        $this->getI18NService()->cleanCacheByLangCode($language->getCode());
+    }
+
+    /**
+     * @param int $languageId
+     * @param array $rows
+     * @return I18NTranslation[]
+     */
+    protected function createTranslatedItemsFromRows(int $languageId, array $rows): array
+    {
+        $i18NTranslations = [];
+        foreach ($rows as $row) {
+            if (!(isset($row['langStringId']))) {
+                throw new \LogicException('langStringId is required attribute');
+            }
+
+            $itemKey = $this->generateLangStringLanguageKey(
+                $languageId,
+                $row['langStringId'],
+            );
+            $i18NTranslation = new I18NTranslation();
+            $i18NTranslation->getDecorator()->setLangStringById($row['langStringId']);
+            $i18NTranslation->getDecorator()->setLanguageById($languageId);
+            $i18NTranslation->setValue($row['translatedValue']);
+            $i18NTranslation->setCustomized(true);
+            $i18NTranslations[$itemKey] = $i18NTranslation;
+        }
+        return $i18NTranslations;
+    }
+
+    /**
+     * @param int $languageId
+     * @param int $langStringId
+     * @return string
+     */
+    public function generateLangStringLanguageKey(int $languageId, int $langStringId): string
+    {
+        return $languageId . '_' .
+            $langStringId . '_';
     }
 }

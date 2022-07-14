@@ -20,14 +20,19 @@
 namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class SaveCandidateController extends AbstractVueController
 {
+    use CandidateServiceTrait;
+
     protected ?ConfigService $configService = null;
 
     public function getConfigService(): ConfigService
@@ -44,8 +49,14 @@ class SaveCandidateController extends AbstractVueController
     public function preRender(Request $request): void
     {
         if ($request->attributes->has('id')) {
+            $id = $request->attributes->getInt('id');
+
+            if (is_null($this->getCandidateService()->getCandidateDao()->getCandidateById($id))) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+
             $component = new Component('view-candidate-profile');
-            $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
+            $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $id));
         } else {
             $component = new Component('save-candidate');
         }

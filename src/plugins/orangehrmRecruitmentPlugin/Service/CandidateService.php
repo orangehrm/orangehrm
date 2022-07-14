@@ -27,6 +27,7 @@ class CandidateService
 {
     public const RECRUITMENT_CANDIDATE_VACANCY_REMOVED = 15;
     public const RECRUITMENT_CANDIDATE_ACTION_ADD = 16;
+    public const RECRUITMENT_CANDIDATE_ACTION_APPLIED = 17;
 
     public const STATUS_MAP = [
         WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY => 'APPLICATION INITIATED',
@@ -42,7 +43,8 @@ class CandidateService
 
     public const OTHER_ACTIONS_MAP = [
         self::RECRUITMENT_CANDIDATE_ACTION_ADD => 'ADDED',
-        self::RECRUITMENT_CANDIDATE_VACANCY_REMOVED => 'REMOVED'
+        self::RECRUITMENT_CANDIDATE_VACANCY_REMOVED => 'REMOVED',
+        self::RECRUITMENT_CANDIDATE_ACTION_APPLIED => 'APPLIED'
     ];
 
     protected ?CandidateDao $candidateDao = null;

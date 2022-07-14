@@ -19,14 +19,21 @@
 
 namespace OrangeHRM\Authentication\Csrf;
 
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManager as BaseCsrfTokenManager;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 class CsrfTokenManager extends BaseCsrfTokenManager
 {
+    use ServiceContainerTrait;
+
     public function __construct()
     {
-        parent::__construct(new TokenGenerator());
+        /** @var TokenStorageInterface $storage */
+        $storage = $this->getContainer()->get(Services::CSRF_TOKEN_STORAGE);
+        parent::__construct(new TokenGenerator(), $storage);
     }
 
     /**

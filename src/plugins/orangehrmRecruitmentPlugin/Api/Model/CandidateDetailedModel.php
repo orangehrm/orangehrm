@@ -43,7 +43,6 @@ class CandidateDetailedModel implements Normalizable
      */
     public function toArray(): array
     {
-        $addedPerson = $this->candidate->getAddedPerson();
         $candidateVacancies = $this->candidate->getCandidateVacancy();
         $candidateVacancy = !empty($candidateVacancies) ? $candidateVacancies[0] : null;
         $hasCandidateAttachment = $this->getRecruitmentAttachmentService()
@@ -65,13 +64,6 @@ class CandidateDetailedModel implements Normalizable
             'keywords' => $this->candidate->getKeywords(),
             'modeOfApplication' => $this->candidate->getModeOfApplication(),
             'dateOfApplication' => $this->candidate->getDecorator()->getDateOfApplication(),
-            'addedPerson' => [
-                'id' => $addedPerson->getEmpNumber(),
-                'firstName' => $addedPerson->getFirstName(),
-                'middleName' => $addedPerson->getMiddleName(),
-                'lastName' => $addedPerson->getLastName(),
-                'terminationId' => $addedPerson->getEmployeeTerminationRecord()
-            ],
             'vacancy' => is_null($vacancy) ? null :
                 [
                     'id' => $vacancy->getId(),

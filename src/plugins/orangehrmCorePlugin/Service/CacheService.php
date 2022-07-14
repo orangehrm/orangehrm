@@ -27,18 +27,19 @@ use Symfony\Contracts\Cache\CacheInterface;
 class CacheService
 {
     /**
-     * @var AdapterInterface|null
+     * @var array<string, AdapterInterface>
      */
-    private static ?AdapterInterface $cache = null;
+    private static array $cache = [];
 
     /**
+     * @param string $namespace
      * @return AdapterInterface|CacheInterface
      */
-    public static function getCache(): AdapterInterface
+    public static function getCache(string $namespace = 'orangehrm'): AdapterInterface
     {
-        if (!self::$cache instanceof AdapterInterface) {
-            self::$cache = new FilesystemAdapter('orangehrm', 0, Config::get(Config::CACHE_DIR));
+        if (!isset($cache[$namespace])) {
+            self::$cache[$namespace] = new FilesystemAdapter($namespace, 0, Config::get(Config::CACHE_DIR));
         }
-        return self::$cache;
+        return self::$cache[$namespace];
     }
 }

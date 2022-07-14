@@ -18,12 +18,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Recruitment\Controller\PublicController;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Api\V2\Response;
 use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
@@ -33,18 +31,24 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
+use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
+use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
-class VacancyRestController extends AbstractRestController implements PublicControllerInterface
+class VacancyListRestController extends AbstractRestController implements PublicControllerInterface
 {
     use VacancyServiceTrait;
     use NormalizerServiceTrait;
-    use EndpointExceptionTrait;
 
-    private const VACANCY_ID = 'id';
+    public const ACTIVE_STATUS = 1;
+
+    private const VACANCY_ID = 'vacancy.id';
+    private const VACANCY_OFFSET = 'offset';
+    private const VACANCY_LIMIT = 'limit';
     /**
      * @var ValidationDecorator|null
      */
@@ -54,15 +58,25 @@ class VacancyRestController extends AbstractRestController implements PublicCont
     /**
      * @param Request $request
      * @return Response
-     * @throws RecordNotFoundException
+     * @throws SearchParamException
      */
     public function handleGetRequest(Request $request): Response
     {
-        $vacancyId = $request->getAttributes()->getInt(self::VACANCY_ID);
-        $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($vacancyId);
-        $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
+        $offset = $request->getQuery()->get(self::VACANCY_OFFSET, FilterParams::DEFAULT_OFFSET);
+        $limit = $request->getQuery()->get(self::VACANCY_LIMIT, FilterParams::DEFAULT_LIMIT);
+        $vacancySearchFilterParams = new VacancySearchFilterParams();
+        $vacancySearchFilterParams->setStatus(self::ACTIVE_STATUS);
+        $vacancySearchFilterParams->setSortField(self::VACANCY_ID);
+        $vacancySearchFilterParams->setSortOrder(ListSorter::DESCENDING);
+        $vacancySearchFilterParams->setLimit($limit);
+        $vacancySearchFilterParams->setOffset($offset);
+        $vacancies = $this->getVacancyService()->getVacancyDao()->getVacancies($vacancySearchFilterParams);
+        $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancySearchFilterParams);
+
         return new Response(
-            $this->getNormalizerService()->normalize(VacancySummaryModel::class, $vacancy)
+            $this->getNormalizerService()
+                ->normalizeArray(VacancySummaryModel::class, $vacancies),
+            [CommonParams::PARAMETER_TOTAL => $count]
         );
     }
 
@@ -111,17 +125,32 @@ class VacancyRestController extends AbstractRestController implements PublicCont
     protected function initGetValidationRule(Request $request): ?ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_LIMIT,
+                    new Rule(Rules::ZERO_OR_POSITIVE), // Zero for not to limit results
+                )
             ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_OFFSET,
+                    new Rule(Rules::ZERO_OR_POSITIVE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_SORT_ORDER,
+                    new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]])
+                ),
+                true
+            )
         );
     }
 
     /**
      * @return ValidationDecorator
      */
-    public function getValidationDecorator(): ValidationDecorator
+    protected function getValidationDecorator(): ValidationDecorator
     {
         if (!$this->validationDecorator instanceof ValidationDecorator) {
             $this->validationDecorator = new ValidationDecorator();

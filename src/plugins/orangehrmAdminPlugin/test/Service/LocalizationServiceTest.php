@@ -122,4 +122,9 @@ class LocalizationServiceTest extends KernelTestCase
         $this->assertEquals('Valerian', $languages[0]['label']);
         $this->assertEquals('VLR', $languages[0]['id']);
     }
+
+    public function testGenerateLangStringLanguageKey(): void
+    {
+        $this->assertEquals('1_2_', $this->localizationService->generateLangStringLanguageKey(1, 2));
+    }
 }

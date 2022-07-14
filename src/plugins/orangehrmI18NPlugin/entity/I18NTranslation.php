@@ -22,14 +22,19 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\I18NTranslationDecorator;
 
 /**
+ * @method I18NTranslationDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_i18n_translate", uniqueConstraints={@ORM\UniqueConstraint(name="translateUniqueId", columns={"lang_string_id", "language_id"})})
  * @ORM\Entity
  */
 class I18NTranslation
 {
     use DateTimeHelperTrait;
+    use DecoratorTrait;
 
     /**
      * @var int

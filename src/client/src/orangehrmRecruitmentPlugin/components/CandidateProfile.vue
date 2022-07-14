@@ -99,7 +99,7 @@
                 :rules="rules.resume"
                 :hint="$t('general.accept_custom_format_file')"
                 :disabled="!editable"
-                url="recruitment/resume"
+                :url="getResumeUrl"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -180,6 +180,7 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
+import {urlFor} from '@ohrm/core/util/helper/url';
 import DateInput from '@/core/components/inputs/DateInput';
 import {APIService} from '@/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
@@ -331,8 +332,14 @@ export default {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate(`/recruitment/addCandidate/${this.candidate.id}`);
+          navigate('/recruitment/addCandidate/{id}', {id: this.candidate.id});
         });
+    },
+    getResumeUrl() {
+      return urlFor(
+        '/recruitment/viewCandidateAttachment/candidateId/{candidateId}',
+        {candidateId: this.candidate.id},
+      );
     },
   },
 };

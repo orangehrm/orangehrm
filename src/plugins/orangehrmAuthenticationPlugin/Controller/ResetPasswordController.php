@@ -19,21 +19,21 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\ResetPasswordService;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 
 class ResetPasswordController extends AbstractController implements PublicControllerInterface
 {
-    protected ?ResetPasswordService $resetPasswordService = null;
+    use CsrfTokenManagerTrait;
 
+    protected ?ResetPasswordService $resetPasswordService = null;
 
     /**
      * @return ResetPasswordService
@@ -49,14 +49,12 @@ class ResetPasswordController extends AbstractController implements PublicContro
     /**
      * @param Request $request
      * @return RedirectResponse
-     * @throws DaoException
      */
     public function handle(Request $request): RedirectResponse
     {
-        $csrfTokenManager = new CsrfTokenManager();
         $token = $request->request->get('_token');
 
-        if (!$csrfTokenManager->isValid('reset-password', $token)) {
+        if (!$this->getCsrfTokenManager()->isValid('reset-password', $token)) {
             throw AuthenticationException::invalidCsrfToken();
         }
         $username = $request->request->get('username');

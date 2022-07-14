@@ -125,6 +125,35 @@
             </oxd-form-row>
             <oxd-form-row>
               <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+                <oxd-grid-item class="orangehrm-applicant-container-colspan-2">
+                  <oxd-input-field
+                    v-model="applicant.keywords"
+                    name="keywords"
+                    :label="$t('recruitment.keywords')"
+                    :placeholder="
+                      `${$t('recruitment.enter_comma_seperated_words')}...`
+                    "
+                    :rules="rules.keywords"
+                  />
+                </oxd-grid-item>
+              </oxd-grid>
+            </oxd-form-row>
+            <oxd-form-row>
+              <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+                <oxd-grid-item class="orangehrm-applicant-container-colspan-2">
+                  <oxd-input-field
+                    v-model="applicant.comment"
+                    name="comment"
+                    :label="$t('general.notes')"
+                    type="textarea"
+                    :placeholder="$t('general.type_here')"
+                    :rules="rules.comment"
+                  />
+                </oxd-grid-item>
+              </oxd-grid>
+            </oxd-form-row>
+            <oxd-form-row>
+              <oxd-grid :cols="3" class="orangehrm-full-width-grid">
                 <oxd-grid-item
                   class="orangehrm-applicant-container-colspan-2 orangehrm-applicant-container-grid-checkbox"
                 >
@@ -195,6 +224,8 @@ const applicantModel = {
   email: '',
   consentToKeepData: false,
   resume: null,
+  keywords: null,
+  comment: null,
 };
 
 export default {
@@ -262,6 +293,8 @@ export default {
           maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
+        comment: [shouldNotExceedCharLength(250)],
+        keywords: [shouldNotExceedCharLength(250)],
         contactNumber: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
       },
@@ -292,7 +325,7 @@ export default {
       this.$refs.applicantForm.$el.submit();
     },
     onCancel() {
-      navigate('/recruitment/jobs.html');
+      navigate('/recruitmentApply/jobs.html');
     },
     viewDetails() {
       this.viewMore = !this.viewMore;
@@ -300,7 +333,7 @@ export default {
     showDialogue() {
       this.$refs.showDialogueModal.showSuccessDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          navigate('/recruitment/jobs.html');
+          navigate('/recruitmentApply/jobs.html');
         }
       });
     },

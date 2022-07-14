@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Recruitment\Controller\PublicController;
 
 use DOMDocument;
 use DOMException;
@@ -65,7 +65,7 @@ class VacancyListRSSController extends AbstractController implements PublicContr
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
         $rssFeedUrl = $urlGenerator->generate(
-            'view_rss_feed',
+            'recruitment_rss_feed',
             [],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

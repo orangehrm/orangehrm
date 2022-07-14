@@ -32,7 +32,7 @@ Vacancy:
   - { id: 3, job_title_code: 1, hiring_manager_id: 1, name: 'Part-Time Technical Assistant', description: '', no_of_positions: 1, status: 2, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
   - { id: 4, job_title_code: 3, hiring_manager_id: 4, name: 'Charted Engineer', description: 'Manages Engineers', no_of_positions: 4, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
   - { id: 5, job_title_code: 2, hiring_manager_id: 3, name: 'Assistant Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 9, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
-  - { id: 6, job_title_code: 4, hiring_manager_id: 1, name: 'Electrical Engineer Officer', description: 'Engineer', no_of_positions: 10, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 6, job_title_code: 4, hiring_manager_id: 1, name: 'Electrical Engineer Officer', description: 'Engineer', no_of_positions: 10, status: 1, published_in_feed: 0, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
 
 Candidate:
   - { "id": "1","first_name": "Peter","middle_name": "Jhon","last_name": "Smith","email": "petersmith@gmail.com","contact_number": "+1 876-345-1505","status": "1","comment": "","mode_of_application": "2","date_of_application": "2020-10-07","cv_file_id": null,"cv_text_version": null,"keywords": null,"added_person": null,"consent_to_keep_data": "1" },

@@ -174,7 +174,7 @@ export default {
 
   methods: {
     onClickView(item) {
-      navigate('/performance/addPerformanceTrackerLog/trackId/{id}', {
+      navigate('/performance/addPerformanceTrackerLog/trackId/{id}?mode=my', {
         id: item.id,
       });
     },

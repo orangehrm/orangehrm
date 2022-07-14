@@ -39,7 +39,7 @@
           <oxd-grid-item class="--offset-row-2">
             <interviewer-autocomplete
               v-for="(interviewer, index) in interviewers"
-              :key="interviewer"
+              :key="index"
               v-model="interviewers[index]"
               :show-delete="index > 0"
               :rules="
