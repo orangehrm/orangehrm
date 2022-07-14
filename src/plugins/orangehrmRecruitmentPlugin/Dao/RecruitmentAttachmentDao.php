@@ -270,7 +270,6 @@ class RecruitmentAttachmentDao extends BaseDao
         $q = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
         $q->leftJoin('attachment.interview', 'interview');
         $q->select('attachment.id');
-        $q->andWhere('interview IN (:ids)');
         $q->andWhere($q->expr()->in('interview', ':ids'));
         $q->setParameter('ids', $this->getAccessibleInterviewIdsForInterviewer($empNumber));
         $result = $q->getQuery()->getArrayResult();

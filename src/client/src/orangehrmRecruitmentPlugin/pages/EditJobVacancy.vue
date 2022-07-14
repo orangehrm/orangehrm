@@ -469,7 +469,7 @@ export default {
         this.vacancy.name = data.name;
         this.vacancy.description = data.description;
         this.vacancy.numOfPositions = data.numOfPositions || '';
-        this.vacancy.status = data.status === 1 ? true : false;
+        this.vacancy.status = data.status === 1;
         this.vacancy.isPublished = data.isPublished;
         this.vacancy.hiringManager = {
           id: data.hiringManager.id,

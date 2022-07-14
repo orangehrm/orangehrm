@@ -134,9 +134,9 @@ class VacancyDao extends BaseDao
 
     public function deleteVacancies(array $toBeDeletedVacancyIds): bool
     {
-        $qr = $this->createQueryBuilder(Vacancy::class, 'v');
+        $qr = $this->createQueryBuilder(Vacancy::class, 'vacancy');
         $qr->delete()
-            ->andWhere('v.id IN (:ids)')
+            ->andWhere($qr->expr()->in('vacancy.id', ':ids'))
             ->setParameter('ids', $toBeDeletedVacancyIds);
         return $qr->getQuery()->execute() > 0;
     }
@@ -206,24 +206,29 @@ class VacancyDao extends BaseDao
 
     /**
      * @param int $jobTitleId
-     * @return JobTitle|null
+     * @return bool
      */
-    public function isActiveJobVacancy(int $jobTitleId): ?JobTitle
+    public function isActiveJobVacancy(int $jobTitleId): bool
     {
-        return $this->getRepository(JobTitle::class)->findOneBy(['id' => $jobTitleId, 'isDeleted' => false]);
+        return $this->getRepository(JobTitle::class)->findOneBy(
+            [
+                    'id' => $jobTitleId,
+                    'isDeleted' => false
+                ]
+        ) instanceof JobTitle;
     }
 
     /**
      * @param int $hiringManagerId
-     * @return Employee|null
+     * @return bool
      */
-    public function isActiveHiringManger(int $hiringManagerId): ?Employee
+    public function isActiveHiringManger(int $hiringManagerId): bool
     {
         return $this->getRepository(Employee::class)->findOneBy(
             [
-                'empNumber' => $hiringManagerId,
-                'employeeTerminationRecord' => null
-            ]
-        );
+                    'empNumber' => $hiringManagerId,
+                    'employeeTerminationRecord' => null
+                ]
+        ) instanceof Employee;
     }
 }

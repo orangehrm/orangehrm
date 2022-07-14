@@ -63,7 +63,7 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
 
     public function isCapable(Request $request): bool
     {
-        if ($request->attributes->getInt('candidateId') && $request->attributes->getInt('historyId')) {
+        if ($request->attributes->has('candidateId') && $request->attributes->has('historyId')) {
             $candidateId = $request->attributes->getInt('candidateId');
             $historyId = $request->attributes->getInt('historyId');
             if (!$this->getUserRoleManager()->isEntityAccessible(Candidate::class, $candidateId)) {

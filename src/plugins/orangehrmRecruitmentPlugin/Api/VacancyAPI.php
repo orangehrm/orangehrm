@@ -197,7 +197,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_JOB_TITLE_ID
         );
-        if (!$this->getVacancyService()->getVacancyDao()->isActiveJobVacancy($jobTitleId) instanceof JobTitle) {
+        if (!$this->getVacancyService()->getVacancyDao()->isActiveJobVacancy($jobTitleId)) {
             throw $this->getBadRequestException('Please Select An Active Job Title');
         }
 
@@ -205,7 +205,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_EMPLOYEE_ID
         );
-        if (!$this->getVacancyService()->getVacancyDao()->isActiveHiringManger($hiringManagerId) instanceof Employee) {
+        if (!$this->getVacancyService()->getVacancyDao()->isActiveHiringManger($hiringManagerId)) {
             throw $this->getBadRequestException('Employee No Longer Exists');
         }
 
