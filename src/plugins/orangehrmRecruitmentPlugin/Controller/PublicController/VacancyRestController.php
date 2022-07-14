@@ -60,7 +60,9 @@ class VacancyRestController extends AbstractRestController implements PublicCont
     {
         $vacancyId = $request->getAttributes()->getInt(self::VACANCY_ID);
         $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($vacancyId);
-        $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
+        if (!$vacancy instanceof Vacancy || !$vacancy->getDecorator()->isActiveAndPublished()) {
+            throw $this->getRecordNotFoundException();
+        }
         return new Response(
             $this->getNormalizerService()->normalize(VacancySummaryModel::class, $vacancy)
         );

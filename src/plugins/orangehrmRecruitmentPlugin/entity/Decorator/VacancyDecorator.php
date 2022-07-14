@@ -20,7 +20,6 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Vacancy;
@@ -28,7 +27,6 @@ use OrangeHRM\Entity\Vacancy;
 class VacancyDecorator
 {
     use EntityManagerHelperTrait;
-    use DateTimeHelperTrait;
 
     /**
      * @var Vacancy
@@ -36,7 +34,7 @@ class VacancyDecorator
     protected Vacancy $vacancy;
 
     /**
-     * @param  Vacancy  $vacancy
+     * @param Vacancy $vacancy
      */
     public function __construct(Vacancy $vacancy)
     {
@@ -44,7 +42,7 @@ class VacancyDecorator
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      */
     public function setJobTitleById(int $id): void
     {
@@ -56,13 +54,13 @@ class VacancyDecorator
     /**
      * @return Vacancy
      */
-    public function getVacancy(): Vacancy
+    protected function getVacancy(): Vacancy
     {
         return $this->vacancy;
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      */
     public function setEmployeeById(int $id): void
     {
@@ -71,7 +69,7 @@ class VacancyDecorator
     }
 
     /**
-     * @param  bool|null  $isPublished
+     * @param bool|null $isPublished
      */
     public function setIsPublished(?bool $isPublished)
     {
@@ -80,5 +78,13 @@ class VacancyDecorator
         }
 
         $this->getVacancy()->setIsPublished($isPublished);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActiveAndPublished(): bool
+    {
+        return $this->getVacancy()->isPublished() && $this->getVacancy()->getStatus() === Vacancy::STATUS_ACTIVE;
     }
 }

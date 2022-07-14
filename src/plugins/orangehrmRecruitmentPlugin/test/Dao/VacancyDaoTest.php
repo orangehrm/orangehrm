@@ -147,7 +147,7 @@ class VacancyDaoTest extends KernelTestCase
     public function testSearchVacanciesCount(): void
     {
         $vacancyParamHolder = new VacancySearchFilterParams();
-        $vacanciesCount = $this->vacancyDao->searchVacanciesCount($vacancyParamHolder);
+        $vacanciesCount = $this->vacancyDao->getVacanciesCount($vacancyParamHolder);
         $this->assertEquals(6, $vacanciesCount);
     }
 }

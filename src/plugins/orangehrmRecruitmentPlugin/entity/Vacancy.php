@@ -35,6 +35,9 @@ class Vacancy
 {
     use DecoratorTrait;
 
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_CLOSED = 2;
+
     /**
      * @var int
      *

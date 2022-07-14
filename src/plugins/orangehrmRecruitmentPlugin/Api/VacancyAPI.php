@@ -125,7 +125,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             )
         );
         $vacancies = $this->getVacancyService()->getVacancyDao()->getVacancies($vacancyParamHolder);
-        $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancyParamHolder);
+        $count = $this->getVacancyService()->getVacancyDao()->getVacanciesCount($vacancyParamHolder);
         return new EndpointCollectionResult(
             VacancyModel::class,
             $vacancies,
