@@ -125,9 +125,11 @@ class KpiDao extends BaseDao
             ->set('kpi.deletedAt', ':deletedAt')
             ->setParameter('deletedAt', $this->getDateTimeHelper()->getNow())
             ->where($q->expr()->in('kpi.id', ':ids'))
-            ->setParameter('ids', $toBeDeletedKpiIds)
-            ->andWhere($q->expr()->notIn('kpi.id', ':nonDeletableKpiIds'))
-            ->setParameter('nonDeletableKpiIds', $nonDeletableKpiIds);
+            ->setParameter('ids', $toBeDeletedKpiIds);
+        if (! empty($nonDeletableKpiIds)) {
+            $q->andWhere($q->expr()->notIn('kpi.id', ':nonDeletableKpiIds'))
+                ->setParameter('nonDeletableKpiIds', $nonDeletableKpiIds);
+        }
         return $q->getQuery()->execute();
     }
 

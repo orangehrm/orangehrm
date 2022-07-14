@@ -31,11 +31,8 @@ class KpiModel implements Normalizable
     }
     use KpiServiceTrait;
 
-    private Kpi $kpi;
-
     public function __construct(Kpi $kpi)
     {
-        $this->kpi = $kpi;
         $this->setEntity($kpi);
         $this->setFilters(
             [
@@ -66,7 +63,7 @@ class KpiModel implements Normalizable
     public function toArray(): array
     {
         $deletable = $this->getKpiService()->getKpiDao()->isKpiDeletable(
-            $this->kpi->getId()
+            $this->getEntity()->getId()
         );
         $result = $this->entityToArray();
         $result['deletable'] = $deletable;
