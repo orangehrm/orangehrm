@@ -86,16 +86,16 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_KEYWORDS = 'keywords';
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_DATE_OF_APPLICATION = 'dateOfApplication';
-    public const PARAMETER_MODE_OF_APPLICATION = 'modeOfApplication';
     public const PARAMETER_CONSENT_TO_KEEP_DATA = 'consentToKeepData';
-    public const PARAMETER_STATUS = 'status';
 
     public const MODEL_DEFAULT = 'default';
     public const MODEL_CANDIDATE_LIST = 'list';
+    public const MODEL_CANDIDATE_DETAILED = 'detailed';
 
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => CandidateModel::class,
         self::MODEL_CANDIDATE_LIST => CandidateListModel::class,
+        self::MODEL_CANDIDATE_DETAILED => CandidateDetailedModel::class,
     ];
 
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 30;
@@ -219,7 +219,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         $toDate = $this->getToDateFilterParam();
 
         if (($fromDate && $toDate) && $fromDate >= $toDate) {
-            throw $this->getBadRequestException("From Date Should Be Earlier Than To Date");
+            throw $this->getBadRequestException('From Date Should Be Earlier Than To Date');
         }
     }
 
@@ -245,6 +245,19 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             self::MODEL_DEFAULT,
         );
         return self::MODEL_MAP[$model];
+    }
+
+    /**
+     * @return ParamRule
+     */
+    protected function getModelClassParamRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::FILTER_MODEL,
+                new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+            ),
+        );
     }
 
     /**
@@ -281,7 +294,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_STATUS,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::IN, [array_keys(CandidateService::STATUS_MAP)])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -316,12 +329,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 ),
                 true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_MODEL,
-                    new Rule(Rules::STRING_TYPE)
-                ),
-            ),
+            $this->getModelClassParamRule(),
             ...$this->getSortingAndPaginationParamsRules(CandidateSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -358,7 +366,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
 
             $this->commitTransaction();
             $candidate = $this->getCandidateService()->getCandidateDao()->getCandidateById($lastInsertedCandidateId);
-            return new EndpointResourceResult(CandidateDetailedModel::class, $candidate);
+            return new EndpointResourceResult($this->getModelClass(), $candidate);
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
@@ -421,18 +429,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 $applicationDate :
                 $this->getDateTimeHelper()->getNow()
         );
-        $candidate->setModeOfApplication(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_MODE_OF_APPLICATION
-            )
-        );
-        $candidate->setStatus(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_STATUS
-            )
-        );
+        $candidate->setModeOfApplication(Candidate::MODE_OF_APPLICATION_MANUAL);
         $candidate->setConsentToKeepData(
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_BODY,
@@ -484,7 +481,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(...$this->getCommonBodyValidationRules());
+        return new ParamRuleCollection($this->getModelClassParamRule(), ...$this->getCommonBodyValidationRules());
     }
 
     /**
@@ -550,20 +547,12 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::API_DATE)
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_MODE_OF_APPLICATION,
-                new Rule(Rules::POSITIVE)
-            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CONSENT_TO_KEEP_DATA,
                     new Rule(Rules::BOOL_TYPE)
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_STATUS,
-                new Rule(Rules::POSITIVE)
-            )
         ];
     }
 
@@ -644,7 +633,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $this->performCandidateVacancyUpdateCriteria($candidateId, $candidateVacancy);
 
             $this->commitTransaction();
-            return new EndpointResourceResult(CandidateDetailedModel::class, $candidate);
+            return new EndpointResourceResult($this->getModelClass(), $candidate);
         } catch (RecordNotFoundException $e) {
             $this->rollBackTransaction();
             throw $e;
@@ -665,6 +654,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::POSITIVE),
                 new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
             ),
+            $this->getModelClassParamRule(),
             ...$this->getCommonBodyValidationRules(),
         );
     }

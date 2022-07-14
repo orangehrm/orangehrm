@@ -6,6 +6,8 @@ Create:
       recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
     now:
       datetime: '2022-05-25 08:42:00'
+    query:
+      model: detailed
     body:
       firstName: 'Snoop'
       middleName: 'Doggy'
@@ -15,10 +17,8 @@ Create:
       keywords: 'spring-boot,angular,vue'
       comment: 'happy to apply'
       dateOfApplication: '2022-05-12'
-      modeOfApplication: 1
       consentToKeepData: true
       vacancyId: 2
-      status: 1
     data:
       id: 6
       firstName: 'Snoop'
@@ -49,10 +49,8 @@ Create:
       keywords: 'spring-boot,angular,vue'
       comment: 'happy to apply'
       dateOfApplication: '2022-05-12'
-      modeOfApplication: 1
       consentToKeepData: true
       vacancyId: 2
-      status: 1
     invalidOnly: [ 'firstName' ]
 
   'Add candidate - without candidate last name':
@@ -68,10 +66,8 @@ Create:
       keywords: 'spring-boot,angular,vue'
       comment: 'happy to apply'
       dateOfApplication: '2022-05-12'
-      modeOfApplication: 1
       consentToKeepData: true
       vacancyId: 2
-      status: 1
     invalidOnly: [ 'lastName' ]
 
   'Add candidate - without candidate email':
@@ -87,10 +83,8 @@ Create:
       keywords: 'spring-boot,angular,vue'
       comment: 'happy to apply'
       dateOfApplication: '2022-05-12'
-      modeOfApplication: 1
       consentToKeepData: true
       vacancyId: 2
-      status: 1
     invalidOnly: [ 'email' ]
 
 GetOne:
@@ -921,6 +915,8 @@ Update:
       datetime: '2022-05-25 08:42:00'
     attributes:
       id: 3
+    query:
+      model: detailed
     body:
       "firstName": "Richard"
       "middleName": "Edward"
@@ -931,9 +927,7 @@ Update:
       "keywords": "php,html,css,js"
       "comment": "happy to apply"
       "dateOfApplication": "2020-10-08"
-      "modeOfApplication": 1
       "consentToKeepData": true
-      "status": 1
     data:
       {
         "id": 3,
@@ -993,9 +987,7 @@ Update:
       "keywords": "php,html,css,js"
       "comment": "happy to apply"
       "dateOfApplication": "2020-10-08"
-      "modeOfApplication": 1
       "consentToKeepData": true
-      "status": 1
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
@@ -1014,6 +1006,8 @@ Update:
       datetime: '2022-05-25 08:42:00'
     attributes:
       id: 3
+    query:
+      model: detailed
     body:
       "firstName": "Richard"
       "middleName": "Edward"
@@ -1024,9 +1018,7 @@ Update:
       "keywords": "php,html,css,js"
       "comment": "happy to apply"
       "dateOfApplication": "2020-10-08"
-      "modeOfApplication": 1
       "consentToKeepData": true
-      "status": 1
     data:
       {
         "id": 3,
@@ -1060,6 +1052,8 @@ Update:
       datetime: '2022-05-25 08:42:00'
     attributes:
       id: 4
+    query:
+      model: detailed
     body:
       "firstName": "John"
       "middleName": "Edward"
@@ -1070,9 +1064,7 @@ Update:
       "keywords": "Spring-boot,symfony,laravel"
       "comment": "happy to apply"
       "dateOfApplication": "2020-10-09"
-      "modeOfApplication": 1
       "consentToKeepData": true
-      "status": 1
     data:
       {
         "id": 4,

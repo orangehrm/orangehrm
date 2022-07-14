@@ -36,12 +36,6 @@ class CandidateModel implements Normalizable
             'middleName',
             'lastName',
             'email',
-            'contactNumber',
-            'status',
-            'comment',
-            'modeOfApplication',
-            ['getDecorator','getDateOfApplication'],
-            'keywords',
         ]);
 
         $this->setAttributeNames([
@@ -50,12 +44,6 @@ class CandidateModel implements Normalizable
             'middleName',
             'lastName',
             'email',
-            'contactNumber',
-            'status',
-            'comment',
-            'modeOfApplication',
-            'dateOfApplication',
-            'keywords',
         ]);
     }
 }

@@ -198,8 +198,6 @@ const CandidateProfileModel = {
   keywords: '',
   dateOfApplication: null,
   consentToKeepData: false,
-  modeOfApplication: 1,
-  status: 1,
 };
 
 const CandidateAttachmentModel = {

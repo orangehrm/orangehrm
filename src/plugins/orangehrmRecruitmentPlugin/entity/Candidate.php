@@ -36,7 +36,7 @@ class Candidate
 {
     use DecoratorTrait;
 
-    public const MODE_OF_APPLICATION_OFFLINE = 1;
+    public const MODE_OF_APPLICATION_MANUAL = 1;
     public const MODE_OF_APPLICATION_ONLINE = 2;
 
     /**
@@ -81,6 +81,7 @@ class Candidate
     /**
      * @var int
      * @ORM\Column(name="status", type="integer", length=4)
+     * @deprecated
      */
     private int $status = 1;
 
@@ -258,6 +259,7 @@ class Candidate
 
     /**
      * @return int
+     * @deprecated
      */
     public function getStatus(): int
     {
@@ -266,6 +268,7 @@ class Candidate
 
     /**
      * @param int $status
+     * @deprecated
      */
     public function setStatus(int $status): void
     {

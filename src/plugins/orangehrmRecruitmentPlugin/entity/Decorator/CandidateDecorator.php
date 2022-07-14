@@ -56,16 +56,4 @@ class CandidateDecorator
     {
         return $this->candidate->getDateOfApplication()->format('Y-m-d');
     }
-
-    /**
-     * @return array
-     */
-    public function getStatus(): array
-    {
-        $status = $this->candidate->getStatus();
-        return [
-            'id' => $status,
-            'label' => ucwords(strtolower(CandidateService::STATUS_MAP[$status]))
-        ];
-    }
 }
