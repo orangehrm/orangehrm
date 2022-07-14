@@ -137,9 +137,10 @@ class PerformanceReviewDao extends BaseDao
     private function saveReviewerRating(PerformanceReview $performanceReview, ReviewerGroup $reviewerGroup): void
     {
         $reviewer = $this->getReviewerRecord($performanceReview->getId(), $reviewerGroup->getName());
-        $kpiIdArrayForReview = $this->getKpiIdsForReviewId($performanceReview->getId());
+        $jobTitleId = $this->getReviewById($performanceReview->getId())->getJobTitle()->getId();
+        $kpiIdArrayForJobTitle = $this->getKpiIdsForJobTitleId($jobTitleId);
 
-        foreach ($kpiIdArrayForReview as $kpiId) {
+        foreach ($kpiIdArrayForJobTitle as $kpiId) {
             $reviewerRating = new ReviewerRating();
             $reviewerRating->setPerformanceReview($performanceReview);
             $reviewerRating->getDecorator()->setKpiByKpiId($kpiId);
@@ -584,7 +585,26 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getKpiIdsForReviewId(int $reviewId): array
     {
-        $jobTitleId = $this->getReviewById($reviewId)->getJobTitle()->getId();
+        $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
+        $qb->select('kpi.id')
+            ->leftJoin('reviewerRating.performanceReview', 'performanceReview')
+            ->leftJoin('reviewerRating.reviewer', 'reviewer')
+            ->leftJoin('reviewerRating.kpi', 'kpi')
+            ->leftJoin('reviewer.group', 'reviewerGroup')
+            ->andWhere('performanceReview.id = :reviewId')
+            ->setParameter('reviewId', $reviewId)
+            ->andWhere('reviewerGroup.name = :groupName')
+            ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+
+        return array_column($qb->getQuery()->execute(), 'id');
+    }
+
+    /**
+     * @param int $jobTitleId
+     * @return array
+     */
+    public function getKpiIdsForJobTitleId(int $jobTitleId): array
+    {
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
         $q->select('kpi.id')
             ->andWhere('kpi.jobTitle =:jobTitle')

@@ -75,7 +75,7 @@ class TranslationGenerateTool
      */
     private function getTranslation(TranslationUnit $transUnit): ?array
     {
-        $groups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
+        $groups = ['admin', 'general','maintenance', 'recruitment', 'performance'];
         $langStrings = [];
         foreach ($groups as $group) {
             $filepath2 = 'installer/Migration/V5_1_0/lang-string/' . $group . '.yaml';
