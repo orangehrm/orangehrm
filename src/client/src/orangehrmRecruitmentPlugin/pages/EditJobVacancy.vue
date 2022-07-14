@@ -368,7 +368,16 @@ export default {
       rules: {
         jobTitle: [required],
         name: [required, shouldNotExceedCharLength(50)],
-        hiringManager: [required],
+        hiringManager: [
+          required,
+          v => {
+            if (v?.isPastEmployee) {
+              return this.$t('general.invalid');
+            } else {
+              return true;
+            }
+          },
+        ],
         numOfPositions: [max(99), digitsOnly],
         description: [],
         status: [required],
