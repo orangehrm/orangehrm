@@ -208,7 +208,7 @@ class VacancyDao extends BaseDao
      * @param int $jobTitleId
      * @return bool
      */
-    public function isActiveJobVacancy(int $jobTitleId): bool
+    public function isActiveJobTitle(int $jobTitleId): bool
     {
         return $this->getRepository(JobTitle::class)->findOneBy(
             [
