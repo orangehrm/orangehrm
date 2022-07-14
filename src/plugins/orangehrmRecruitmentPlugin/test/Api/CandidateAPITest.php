@@ -19,12 +19,10 @@
 
 namespace OrangeHRM\Tests\Recruitment\Api;
 
-use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Recruitment\Api\CandidateAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Recruitment
