@@ -594,3 +594,8 @@ admin_language_package:
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
   #controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle ## Uncomment this in 5.2 release
   methods: [ GET ]
+
+admin_language_translation:
+  path: /admin/languageTranslation/{languageId}
+  controller: OrangeHRM\Admin\Controller\LanguageTranslationController::handle
+  methods: [ GET ]
