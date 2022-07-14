@@ -23,6 +23,7 @@ JobTitle:
   1: { id: 2, jobTitleName: 'Supervisor', jobDescription: 'Oversees technical assistant', isDeleted: '0' }
   2: { id: 3, jobTitleName: 'Engineering Manager', jobDescription: 'Manages Engineers', isDeleted: '0' }
   3: { id: 4, jobTitleName: 'Engineering Officer', jobDescription: 'Engineer', isDeleted: '0' }
+  4: { id: 5, jobTitleName: 'DevOps Engineer', jobDescription: 'DevOps Engineer', isDeleted: '1' }
 
 Vacancy:
   - { id: 1, job_title_code: 1, hiring_manager_id: 1, name: 'Technical Assistant Intern', description: 'Assists the engineers', no_of_positions: 2, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
