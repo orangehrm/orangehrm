@@ -21,16 +21,20 @@
     height: 80%;
   }
 
+  &-vacancy-description {
+    font-size: $oxd-input-control-font-size;
+    font-weight: 700;
+  }
+
   &-applicant {
     &-card {
       &-pre-tag {
         margin-top: 0;
         margin-bottom: 0;
-        font-family: $oxd-font-family;
+        font-weight: 400;
         white-space: pre-wrap;
-        white-space: -moz-pre-wrap;
-        white-space: -o-pre-wrap;
         word-wrap: break-word;
+        font-family: $oxd-font-family;
       }
 
       &-footer {
@@ -39,12 +43,9 @@
       }
 
       &-anchor-tag {
-        color: $oxd-primary-one-color;
-        padding-top: 0.5rem;
-      }
-
-      &-anchor-tag:hover {
         cursor: pointer;
+        padding-top: 0.5rem;
+        color: $oxd-primary-one-color;
       }
     }
 
@@ -99,16 +100,24 @@
     &-header {
       display: flex;
       justify-content: space-between;
-      flex-direction: column-reverse;;
+      flex-direction: column-reverse;
       @include oxd-respond-to('md') {
         flex-direction: row;
+      }
+
+      & .orangehrm-main-title {
+        word-break: break-word;
+        @include oxd-respond-to('md') {
+          align-self: center;
+        }
       }
     }
   }
 
   &-paper-container {
     width: 80%;
-    margin: 1rem auto;
+    background: unset;
+    margin: 0rem auto;
     padding: 0.75rem 1.5rem;
   }
 
@@ -118,24 +127,27 @@
 
       &-header {
         display: flex;
+        align-items: center;
+        word-break: break-word;
         justify-content: space-between;
+        & button {
+          flex-shrink: 0;
+        }
       }
 
       &-anchor-tag {
-        color: $oxd-primary-one-color;
-        padding-top: 0.5rem;
-      }
-
-      &-anchor-tag:hover {
         cursor: pointer;
+        font-weight: 600;
+        padding-top: 0.5rem;
+        color: $oxd-primary-one-color;
+        font-size: $oxd-input-control-font-size;
       }
 
       &-body {
-        @include truncate(4,15px,#ffff );
+        @include truncate(4, 15px, #ffff);
         @include oxd-respond-to('md') {
-          @include truncate(2,15px,#ffff );
+          @include truncate(2, 15px, #ffff);
         }
-
       }
 
       &-pre-tag {
@@ -151,23 +163,27 @@
       }
     }
 
-    &-list-footer {
-      padding-top: 8px;
-      padding-left: 40px;
-      @include oxd-respond-to('md') {
-        margin-bottom: -32px;
-        padding-left: 120px;
-      }
+    &-list-poweredby {
+      font-size: 12px;
+      margin-bottom: 0.5rem;
     }
   }
 }
 
 .oxd-brand-banner {
-  height: 32px;
   flex: 1;
+  height: 32px;
   margin-bottom: 8px;
   @include oxd-respond-to('md') {
     flex: 0;
     margin-bottom: 0;
+  }
+}
+
+.orangehrm-container {
+  padding: 0;
+  height: 72vh;
+  @include oxd-respond-to('md') {
+    height: 75vh;
   }
 }

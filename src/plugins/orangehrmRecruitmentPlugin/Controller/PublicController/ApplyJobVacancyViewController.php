@@ -44,7 +44,7 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
      */
     public function preRender(Request $request): void
     {
-        $id = $request->attributes->get('id');
+        $id = $request->attributes->getInt('id');
         $success = false;
         if ($this->getAuthUser()->hasFlash('flash.applicant_success')) {
             $flash = $this->getAuthUser()->getFlash('flash.applicant_success');
@@ -54,9 +54,9 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
         $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
         $bannerUrl = $request->getBasePath()
             . "/images/ohrm_branding.png?$assetsVersion";
-        if (!is_null($this->getThemeService()->getImageETag('login_banner'))) {
+        if (!is_null($this->getThemeService()->getImageETag('client_banner'))) {
             $bannerUrl = $request->getBaseUrl()
-                . "/admin/theme/image/loginBanner?$assetsVersion";
+                . "/admin/theme/image/clientBanner?" . $assetsVersion;
         }
 
         $component = new Component('apply-job-vacancy');
