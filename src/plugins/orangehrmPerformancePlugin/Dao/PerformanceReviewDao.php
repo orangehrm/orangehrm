@@ -137,9 +137,10 @@ class PerformanceReviewDao extends BaseDao
     private function saveReviewerRating(PerformanceReview $performanceReview, ReviewerGroup $reviewerGroup): void
     {
         $reviewer = $this->getReviewerRecord($performanceReview->getId(), $reviewerGroup->getName());
-        $kpiIdArrayForReview = $this->getKpiIdsForReviewId($performanceReview->getId());
+        $jobTitleId = $this->getReviewById($performanceReview->getId())->getJobTitle()->getId();
+        $kpiIdArrayForJobTitle = $this->getKpiIdsForJobTitleId($jobTitleId);
 
-        foreach ($kpiIdArrayForReview as $kpiId) {
+        foreach ($kpiIdArrayForJobTitle as $kpiId) {
             $reviewerRating = new ReviewerRating();
             $reviewerRating->setPerformanceReview($performanceReview);
             $reviewerRating->getDecorator()->setKpiByKpiId($kpiId);
@@ -596,6 +597,20 @@ class PerformanceReviewDao extends BaseDao
             ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
 
         return array_column($qb->getQuery()->execute(), 'id');
+    }
+
+    /**
+     * @param int $jobTitleId
+     * @return array
+     */
+    public function getKpiIdsForJobTitleId(int $jobTitleId): array
+    {
+        $q = $this->createQueryBuilder(Kpi::class, 'kpi');
+        $q->select('kpi.id')
+            ->andWhere('kpi.jobTitle =:jobTitle')
+            ->setParameter('jobTitle', $jobTitleId);
+        $q->andWhere($q->expr()->isNull('kpi.deletedAt'));
+        return array_column($q->getQuery()->execute(), 'id');
     }
 
     /**
