@@ -44,7 +44,7 @@
       class="orangehrm-vacancy-card-footer"
     >
       <a @click="viewDetails">
-        <oxd-text class="orangehrm-vacancy-card-anchor-tag" type="subtitle-2">
+        <oxd-text tag="p" class="orangehrm-vacancy-card-anchor-tag">
           {{
             isViewDetails ? $t('general.show_more') : $t('general.show_less')
           }}

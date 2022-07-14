@@ -31,19 +31,32 @@
         </oxd-text>
         <img class="oxd-brand-banner" :src="bannerSrc" />
       </div>
-      <oxd-divider />
-      <oxd-text class="orangehrm-vacancy-description" tag="p">
-        {{ $t('general.description') }}
-      </oxd-text>
-      <oxd-text
-        v-show="vacancyDescription"
-        class="orangehrm-vacancy-description"
-        tag="p"
-      >
-        <pre class="orangehrm-applicant-card-pre-tag"
-          >{{ vacancyDescription }}
-        </pre>
-      </oxd-text>
+      <template v-if="vacancyDescription">
+        <oxd-divider />
+        <oxd-text class="orangehrm-vacancy-description" tag="p">
+          {{ $t('general.description') }}
+        </oxd-text>
+        <oxd-text tag="p" :class="descriptionClasses">
+          <pre class="orangehrm-applicant-card-pre-tag"
+            >{{ vacancyDescription }}
+        </pre
+          >
+        </oxd-text>
+        <div
+          v-if="vacancyDescription.length > descriptionLength"
+          class="orangehrm-vacancy-card-footer"
+        >
+          <oxd-text
+            tag="p"
+            class="orangehrm-vacancy-card-anchor-tag"
+            @click="onToggleMore"
+          >
+            {{
+              isViewDetails ? $t('general.show_less') : $t('general.show_more')
+            }}
+          </oxd-text>
+        </div>
+      </template>
       <oxd-divider />
       <oxd-form
         ref="applicantForm"
@@ -183,7 +196,7 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import {ref, toRefs} from 'vue';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import SuccessDialog from '@/orangehrmRecruitmentPlugin/components/SuccessDialog';
 import {
@@ -198,6 +211,7 @@ import SubmitButton from '@/core/components/buttons/SubmitButton';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {urlFor} from '@/core/util/helper/url';
+import useResponsive from '@ohrm/oxd/composables/useResponsive';
 
 const applicantModel = {
   firstName: '',
@@ -245,18 +259,21 @@ export default {
     },
   },
   setup() {
-    const defaultPic = `${window.appGlobal.baseUrl}/../images/logo.png`;
+    const defaultPic = `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`;
     const applicant = ref({
       ...applicantModel,
     });
+    const responsiveState = useResponsive();
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/recruitment/public/vacancies',
     );
+
     return {
-      applicant,
       http,
+      applicant,
       defaultPic,
+      ...toRefs(responsiveState),
     };
   },
   data() {
@@ -281,11 +298,25 @@ export default {
         contactNumber: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
       },
+      isViewDetails: true,
     };
   },
   computed: {
     submitUrl() {
       return urlFor('/recruitment/public/applicants');
+    },
+    descriptionClasses() {
+      return {
+        'orangehrm-vacancy-description': true,
+        'orangehrm-vacancy-card-body': !this.isViewDetails,
+      };
+    },
+    isMobile() {
+      return this.windowWidth < 600;
+    },
+    descriptionLength() {
+      if (this.isMobile) return 150;
+      return this.windowWidth < 1920 ? 250 : 400;
     },
   },
   beforeMount() {
@@ -313,6 +344,9 @@ export default {
           navigate('/recruitmentApply/jobs.html');
         }
       });
+    },
+    onToggleMore() {
+      this.isViewDetails = !this.isViewDetails;
     },
   },
 };

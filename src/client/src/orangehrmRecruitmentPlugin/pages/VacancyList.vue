@@ -58,7 +58,7 @@ export default {
     'oxd-loading-spinner': Spinner,
   },
   setup() {
-    const defaultPic = `${window.appGlobal.baseUrl}/../images/logo.png`;
+    const defaultPic = `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`;
     const vacancyDataNormalizer = data => {
       return data.map(item => {
         return {

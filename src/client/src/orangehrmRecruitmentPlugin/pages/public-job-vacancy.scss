@@ -106,11 +106,12 @@
       }
 
       & .orangehrm-main-title {
-        align-self: center;
         word-break: break-word;
+        @include oxd-respond-to('md') {
+          align-self: center;
+        }
       }
     }
-
   }
 
   &-paper-container {
@@ -135,12 +136,11 @@
       }
 
       &-anchor-tag {
-        color: $oxd-primary-one-color;
-        padding-top: 0.5rem;
-      }
-
-      &-anchor-tag:hover {
         cursor: pointer;
+        font-weight: 600;
+        padding-top: 0.5rem;
+        color: $oxd-primary-one-color;
+        font-size: $oxd-input-control-font-size;
       }
 
       &-body {
@@ -163,7 +163,7 @@
       }
     }
 
-    &-list-poweredby{
+    &-list-poweredby {
       font-size: 12px;
       margin-bottom: 0.5rem;
     }
@@ -182,5 +182,8 @@
 
 .orangehrm-container {
   padding: 0;
-  height: 75vh;
+  height: 72vh;
+  @include oxd-respond-to('md') {
+    height: 75vh;
+  }
 }
