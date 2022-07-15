@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text class="orangehrm-main-title" tag="h6">
-        {{ $t('performance.add_review') }}
+        {{ $t('performance.edit_review') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form ref="formRef" :loading="isLoading">
@@ -207,6 +207,7 @@ export default {
               label: `${data.employee.firstName} ${
                 data.employee.middleName ? data.employee.middleName : ''
               } ${data.employee.lastName}`,
+              isPastEmployee: data.employee.terminationId ? true : false,
             }
           : null;
         this.review.supervisorReviewer = data.reviewer.employee
@@ -217,6 +218,9 @@ export default {
                   ? data.reviewer.employee.middleName
                   : ''
               } ${data.reviewer.employee.lastName}`,
+              isPastEmployee: data.reviewer.employee.terminationId
+                ? true
+                : false,
             }
           : null;
         this.review.startDate = data.reviewPeriodStart;
@@ -234,6 +238,14 @@ export default {
     onSave(activate = false) {
       this.validate().then(() => {
         if (this.invalid === true) return;
+        if (this.review.supervisorReviewer.isPastEmployee) {
+          return this.$toast.warn({
+            title: this.$t('general.warning'),
+            message: this.$t(
+              'performance.cannot_add_a_past_employee_as_a_reviewer',
+            ),
+          });
+        }
         this.isLoading = true;
         this.http
           .update(this.reviewId, {
