@@ -333,6 +333,10 @@ class PerformanceTrackerDao extends BaseDao
         $qb = $this->createQueryBuilder(PerformanceTrackerReviewer::class, 'trackerReviewer');
         $qb->andWhere($qb->expr()->eq('trackerReviewer.reviewer', ':empNumber'))
             ->setParameter('empNumber', $empNumber);
+
+        $qb->leftJoin('trackerReviewer.performanceTracker', 'performanceTracker');
+        $qb->andWhere($qb->expr()->eq('performanceTracker.status', ':status'))
+            ->setParameter('status', PerformanceTracker::STATUS_TRACKER_NOT_DELETED);
         return $this->getPaginator($qb)->count() > 0;
     }
 
