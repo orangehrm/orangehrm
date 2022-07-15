@@ -23,7 +23,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Controller\VacancyListRSSController;
+use OrangeHRM\Recruitment\Controller\PublicController\VacancyListRSSController;
 use OrangeHRM\Recruitment\Service\VacancyService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -53,7 +53,7 @@ class VacancyListRSSControllerTest extends KernelTestCase
             ->willReturnMap(
                 [
                     [
-                        'view_rss_feed',
+                        'recruitment_rss_feed',
                         'http://localhost/orangeHrm/orangehrm/web/index.php/recruitmentApply/jobs.rss'
                     ],
                     [

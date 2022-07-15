@@ -76,4 +76,21 @@ class LanguageHelper
         }
         return $this->groupIds[$groupName];
     }
+
+    /**
+     * @param string $unitId
+     * @param int|null $groupId
+     */
+    public function deleteLangStringByUnitId(string $unitId, ?int $groupId = null)
+    {
+        $qb = $this->getConnection()->createQueryBuilder()
+            ->delete('ohrm_i18n_lang_string')
+            ->andWhere('ohrm_i18n_lang_string.unit_id = :unitId')
+            ->setParameter('unitId', $unitId);
+        if (!is_null($groupId)) {
+            $qb->andWhere('ohrm_i18n_lang_string.group_id = :groupId')
+                ->setParameter('groupId', $groupId);
+        }
+        $qb->executeQuery();
+    }
 }

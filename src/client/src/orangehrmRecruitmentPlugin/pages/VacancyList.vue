@@ -19,42 +19,29 @@
  -->
 
 <template>
-  <div class="orangehrm-background-container">
-    <oxd-grid class="orangehrm-container">
-      <oxd-grid-item v-for="vacancy in vacancies?.data" :key="vacancy">
-        <vacancy-card
-          :vacancy-description="vacancy.vacancyDescription"
-          :vacancy-id="vacancy.vacancyId"
-          :vacancy-title="vacancy.vacancyTitle"
-        ></vacancy-card>
-      </oxd-grid-item>
-      <oxd-loading-spinner
-        v-if="isLoading"
-        class="orangehrm-container-loader"
-      />
-      <div class="orangehrm-bottom-container">
-        <oxd-pagination
-          v-if="showPaginator"
-          v-model:current="currentPage"
-          :length="pages"
-        />
-      </div>
-    </oxd-grid>
+  <div class="orangehrm-container">
+    <vacancy-card
+      v-for="vacancy in vacancies?.data"
+      :key="vacancy"
+      :vacancy-id="vacancy.vacancyId"
+      :vacancy-title="vacancy.vacancyTitle"
+      :vacancy-description="vacancy.vacancyDescription"
+    ></vacancy-card>
+    <oxd-loading-spinner v-if="isLoading" class="orangehrm-container-loader" />
+    <div v-if="showPaginator" class="orangehrm-bottom-container">
+      <oxd-pagination v-model:current="currentPage" :length="pages" />
+    </div>
   </div>
-  <div>
-    <div class="orangehrm-vacancy-list-footer">
-      <oxd-text type="toast-message">
-        {{ $t('recruitment.powered_by') }}
-      </oxd-text>
-      <img
-        :src="defaultPic"
-        alt="OrangeHRM Picture"
-        class="orangehrm-container-img"
-      />
-    </div>
-    <div>
-      <slot name="footer"></slot>
-    </div>
+  <div class="orangehrm-paper-container">
+    <oxd-text tag="p" class="orangehrm-vacancy-list-poweredby">
+      {{ $t('recruitment.powered_by') }}
+    </oxd-text>
+    <img
+      :src="defaultPic"
+      alt="OrangeHRM Picture"
+      class="orangehrm-container-img"
+    />
+    <slot name="footer"></slot>
   </div>
 </template>
 
@@ -71,7 +58,7 @@ export default {
     'oxd-loading-spinner': Spinner,
   },
   setup() {
-    const defaultPic = `${window.appGlobal.baseUrl}/../images/logo.png`;
+    const defaultPic = `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`;
     const vacancyDataNormalizer = data => {
       return data.map(item => {
         return {

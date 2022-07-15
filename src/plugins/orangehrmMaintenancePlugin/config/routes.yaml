@@ -28,12 +28,17 @@ maintainence_employee_json:
 #        Screens
 ##########################
 
+maintainence_module:
+  path: /maintenance/viewMaintenanceModule
+  controller: OrangeHRM\Maintenance\Controller\MaintenanceModuleController::handle
+  methods: [ GET ]
+
 maintainence_access_employee_screen:
   path: /maintenance/accessEmployeeData
   controller: OrangeHRM\Maintenance\Controller\AccessEmployeeController::handle
   methods: [GET]
 
-purge_employee:
+maintainence_purge_employee:
   path: /maintenance/purgeEmployee
   controller: OrangeHRM\Maintenance\Controller\PurgeEmployeeController::handle
   methods: [GET]

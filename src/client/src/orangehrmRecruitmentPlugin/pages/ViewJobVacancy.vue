@@ -112,6 +112,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
 import usei18n from '@/core/util/composable/usei18n';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown.vue';
@@ -140,6 +141,7 @@ export default {
 
   setup() {
     const {$t} = usei18n();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const filters = ref({...defaultFilters});
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -165,11 +167,7 @@ export default {
             ? item.jobTitle.title + $t('general.deleted')
             : item.jobTitle?.title,
 
-          hiringManager: `${item.hiringManager?.firstName} ${
-            item.hiringManager?.lastName
-          } ${
-            item.hiringManager.terminationId ? $t('general.past_employee') : ''
-          }`,
+          hiringManager: $tEmpName(item.hiringManager),
           status:
             item.status == 1 ? $t('general.active') : $t('general.closed'),
         };

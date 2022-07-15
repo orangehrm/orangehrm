@@ -313,12 +313,19 @@ apiv2_admin_i18n_language:
   defaults:
     _api: OrangeHRM\Admin\Api\I18NLanguageAPI
 
-apiv2_admin_i18n_language_translation:
+apiv2_admin_i18n_language_translations:
   path: /api/v2/admin/i18n/languages/{languageId}/translations
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Admin\Api\I18NTranslationAPI
+
+apiv2_admin_i18n_language_bulk_translations:
+  path: /api/v2/admin/i18n/languages/{languageId}/translations/bulk
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NTranslationBulkAPI
 
 ##########################
 #        Files

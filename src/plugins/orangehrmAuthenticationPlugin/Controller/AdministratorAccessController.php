@@ -20,7 +20,7 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -35,6 +35,7 @@ class AdministratorAccessController extends AbstractVueController
     use AuthUserTrait;
     use EntityManagerHelperTrait;
     use UserRoleManagerTrait;
+    use CsrfTokenManagerTrait;
 
     protected ?HomePageService $homePageService = null;
 
@@ -95,9 +96,12 @@ class AdministratorAccessController extends AbstractVueController
             new Prop('username', Prop::TYPE_STRING, $username)
         );
 
-        $csrfTokenManager = new CsrfTokenManager();
         $component->addProp(
-            new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('administrator-access')->getValue())
+            new Prop(
+                'token',
+                Prop::TYPE_STRING,
+                $this->getCsrfTokenManager()->getToken('administrator-access')->getValue()
+            )
         );
 
         $this->setTemplate('no_header.html.twig');

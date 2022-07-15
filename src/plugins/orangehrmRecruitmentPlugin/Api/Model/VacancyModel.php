@@ -36,7 +36,7 @@ class VacancyModel implements Normalizable
             'description',
             'numOfPositions',
             'status',
-            'isPublished',
+            ['isPublished'],
             ['getJobTitle', 'getId'],
             ['getJobTitle', 'getJobTitleName'],
             ['getJobTitle', 'isDeleted'],

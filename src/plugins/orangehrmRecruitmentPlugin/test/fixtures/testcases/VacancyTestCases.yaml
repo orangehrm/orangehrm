@@ -99,6 +99,24 @@ Create:
       status: 1
     invalidOnly: [ 'jobTitleId' ]
 
+  'Add new Vacancy - Deleted Job Title':
+    userId: 1
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+    now:
+      datetime: '2022-05-25 08:42:00'
+    body:
+      name: 'DevOps Engineer'
+      employeeId: 3
+      jobTitleId: 5
+      numOfPositions: 2
+      description: 'Only apply Mechatronic engineers'
+      isPublished: true
+      status: 1
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Please Select An Active Job Title'
+
 Update:
   'Update existing vacancy - Admin':
     userId: 1
@@ -152,6 +170,24 @@ Update:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
+
+  'Update Vacancy - Deleted Job Title':
+    userId: 1
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+    attributes:
+      id: 6
+    body:
+      name: 'DevOps Engineer'
+      employeeId: 3
+      jobTitleId: 5
+      numOfPositions: 2
+      description: 'Only apply Mechatronic engineers'
+      isPublished: true
+      status: 1
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Please Select An Active Job Title'
 
 Delete:
   'Update non-existing vacancy':

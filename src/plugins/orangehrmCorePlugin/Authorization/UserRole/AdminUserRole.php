@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Interview;
@@ -103,6 +104,8 @@ class AdminUserRole extends AbstractUserRole
                 return $this->getAccessibleInterviewIds($requiredPermissions);
             case InterviewAttachment::class:
                 return $this->getAccessibleInterviewAttachmentIds($requiredPermissions);
+            case CandidateHistory::class:
+                return $this->getAccessibleCandidateHistoryIds($requiredPermissions);
             default:
                 return [];
         }
@@ -274,5 +277,16 @@ class AdminUserRole extends AbstractUserRole
         return $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->getVacancyAttachmentIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleCandidateHistoryIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateHistoryIdList();
     }
 }

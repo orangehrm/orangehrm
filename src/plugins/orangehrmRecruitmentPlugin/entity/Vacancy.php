@@ -216,7 +216,7 @@ class Vacancy
     /**
      * @return bool
      */
-    public function getIsPublished(): bool
+    public function isPublished(): bool
     {
         return $this->isPublished;
     }

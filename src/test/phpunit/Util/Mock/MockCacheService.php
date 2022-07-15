@@ -26,9 +26,10 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
 class MockCacheService extends CacheService
 {
     /**
+     * @param string $namespace
      * @return AdapterInterface
      */
-    public static function getCache(): AdapterInterface
+    public static function getCache(string $namespace = 'orangehrm'): AdapterInterface
     {
         return new ArrayAdapter();
     }

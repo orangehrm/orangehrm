@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,19 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Controller;
+namespace OrangeHRM\Performance\Menu;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Controller\PublicControllerInterface;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Menu\MenuConfigurator;
+use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
+use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Screen;
 
-class VacancyListViewController extends AbstractVueController implements PublicControllerInterface
+class MyReviewMenuConfigurator implements MenuConfigurator
 {
-    public function preRender(Request $request): void
+    use ModuleScreenHelperTrait;
+
+    /**
+     * @inheritDoc
+     */
+    public function configure(Screen $screen): ?MenuItem
     {
-        $component = new Component('vacancy-list');
-        $this->setComponent($component);
-        $this->setTemplate('no_header.html.twig');
+        $this->getCurrentModuleAndScreen()->overrideScreen('myPerformanceReview');
+        return null;
     }
 }

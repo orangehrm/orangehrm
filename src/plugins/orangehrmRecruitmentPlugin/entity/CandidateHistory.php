@@ -20,12 +20,13 @@
 namespace OrangeHRM\Entity;
 
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\CandidateHistoryDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @method CandidateHistoryDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_job_candidate_history")
  * @ORM\Entity
  */
@@ -100,6 +101,7 @@ class CandidateHistory
     /**
      * @var string|null
      * @ORM\Column(name="interviewers", type="text", nullable=true)
+     * @deprecated
      */
     private ?string $interviewers = null;
 
@@ -249,6 +251,7 @@ class CandidateHistory
 
     /**
      * @return string|null
+     * @deprecated
      */
     public function getInterviewers(): ?string
     {
@@ -257,6 +260,7 @@ class CandidateHistory
 
     /**
      * @param string|null $interviewers
+     * @deprecated
      */
     public function setInterviewers(?string $interviewers): void
     {

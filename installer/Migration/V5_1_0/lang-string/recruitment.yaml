@@ -51,7 +51,7 @@ langStrings:
     value: 'Candidate'
     unitId: candidate
   -
-    value: 'Application initiated'
+    value: 'Application Initiated'
     unitId: application_initiated
   -
     value: 'Shortlisted'
@@ -96,7 +96,7 @@ langStrings:
     value: 'Application Stage'
     unitId: application_stage
   -
-    value: 'Offer job'
+    value: 'Offer Job'
     unitId: offer_job
   -
     value: 'Mark Interview Failed'
@@ -186,23 +186,20 @@ langStrings:
     value: '{employee} removed {candidate} from the {vacancy}'
     unitId: employee_removed_candidate_from_vacancy
   -
+    value: '{candidate} applied for the vacancy {vacancy}'
+    unitId: candidate_applied_for_the_vacancy
+  -
     value: 'Shortlist Candidate'
     unitId: shortlist_candidate
-  -
-    value: 'Rejected'
-    unitId: rejected
   -
     value: 'Hired'
     unitId: hired
   -
-    value: 'Application Initiated'
-    unitId: application_initiated_uc
-  -
     value: 'Powered By'
     unitId: powered_by
   -
-    value: 'Apply for the position of {vacancyName}'
-    unitId: apply_for_position_of_vacancy_name
+    value: 'Apply for {vacancyName}'
+    unitId: apply_for_n_vacancy
   -
     value: 'Application Received'
     unitId: application_received

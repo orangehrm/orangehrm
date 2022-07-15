@@ -71,6 +71,7 @@ const ACTION_OFFER_DECLINED = 8;
 const ACTION_HIRED = 9;
 const ACTION_REMOVED = 15;
 const ACTION_ADDED = 16;
+const ACTION_APPLIED = 17;
 
 export default {
   name: 'HistoryTable',
@@ -118,6 +119,12 @@ export default {
         }
 
         switch (item?.action.id) {
+          case ACTION_APPLIED:
+            description = $t('recruitment.candidate_applied_for_the_vacancy', {
+              candidate: candidateName,
+              vacancy: item.vacancyName,
+            });
+            break;
           case ACTION_ADDED:
             description = $t('recruitment.employee_added_candidate', {
               employee: performerName,
@@ -250,15 +257,19 @@ export default {
         {
           name: 'performedDate',
           slot: 'title',
-          title: 'Performed Date',
+          title: this.$t('recruitment.performed_date'),
           style: {flex: '20%'},
         },
-        {name: 'description', title: 'Description', style: {flex: '60%'}},
+        {
+          name: 'description',
+          title: this.$t('general.description'),
+          style: {flex: '65%'},
+        },
         {
           name: 'actions',
           slot: 'action',
           title: this.$t('general.actions'),
-          style: {flex: '20%'},
+          style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.cellRenderer,
         },
@@ -270,27 +281,28 @@ export default {
       const cellConfig = {};
 
       if (
-        row.action?.id === ACTION_INTERVIEW_SCHEDULED ||
-        row.action?.id === ACTION_INTERVIEW_PASSED ||
-        row.action?.id === ACTION_INTERVIEW_FAILED
-      ) {
-        cellConfig.attachment = {
-          onClick: this.onClckAttachment,
-          props: {
-            name: 'paperclip',
-          },
-        };
-      }
-
-      if (
         row.action?.id != ACTION_ASSIGNED_VACANCY &&
         row.action?.id != ACTION_ADDED &&
-        row.action?.id != ACTION_REMOVED
+        row.action?.id != ACTION_REMOVED &&
+        row.action?.id != ACTION_APPLIED
       ) {
         cellConfig.edit = {
           onClick: this.onClickEdit,
           props: {
             name: 'pencil-fill',
+          },
+        };
+      }
+
+      if (
+        row.action?.id === ACTION_INTERVIEW_SCHEDULED ||
+        row.action?.id === ACTION_INTERVIEW_PASSED ||
+        row.action?.id === ACTION_INTERVIEW_FAILED
+      ) {
+        cellConfig.attachment = {
+          onClick: this.onClickAttachment,
+          props: {
+            name: 'paperclip',
           },
         };
       }
@@ -305,13 +317,16 @@ export default {
     },
 
     onClickEdit(item) {
-      navigate(
-        `/recruitment/candidate/${this.candidate.id}/history/${item.id}`,
-      );
+      navigate('/recruitment/candidateHistory/{candidateId}/{historyId}', {
+        candidateId: this.candidate.id,
+        historyId: item.id,
+      });
     },
 
-    onClckAttachment(item) {
-      navigate(`/recruitment/interviews/${item.interview?.id}/attachments`);
+    onClickAttachment(item) {
+      navigate('/recruitment/interviewAttachments/{interviewId}', {
+        interviewId: item.interview?.id,
+      });
     },
   },
 };
