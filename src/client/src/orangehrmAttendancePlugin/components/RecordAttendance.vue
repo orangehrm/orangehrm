@@ -115,6 +115,7 @@
 <script>
 import {
   required,
+  validDateFormat,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {
@@ -171,12 +172,13 @@ export default {
       ? `/api/v2/attendance/employees/${props.employeeId}/records`
       : '/api/v2/attendance/records';
     const http = new APIService(window.appGlobal.baseUrl, apiPath);
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
     return {
       http,
-      jsDateFormat,
       locale,
+      jsDateFormat,
+      userDateFormat,
     };
   },
   data() {
@@ -184,7 +186,11 @@ export default {
       isLoading: false,
       attendanceRecord: {...attendanceRecordModal},
       rules: {
-        date: [required, promiseDebounce(this.validateDate, 500)],
+        date: [
+          required,
+          validDateFormat(this.userDateFormat),
+          promiseDebounce(this.validateDate, 500),
+        ],
         time: [required, promiseDebounce(this.validateDate, 500)],
         note: [shouldNotExceedCharLength(250)],
       },
@@ -295,6 +301,9 @@ export default {
     },
     validateDate() {
       if (!this.attendanceRecord.date || !this.attendanceRecord.time) {
+        return true;
+      }
+      if (parseDate(this.attendanceRecord.date) === null) {
         return true;
       }
       const tzOffset = (new Date().getTimezoneOffset() / 60) * -1;

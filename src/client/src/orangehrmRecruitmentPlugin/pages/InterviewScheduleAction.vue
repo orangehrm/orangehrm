@@ -111,6 +111,7 @@ import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout.vue';
 import InterviewerAutocomplete from '@/orangehrmRecruitmentPlugin/components/InterviewerAutocomplete.vue';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const interviewModel = {
   interviewName: null,
@@ -136,9 +137,11 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/recruitment/candidates/${props.candidateId}/shedule-interview`,
     );
+    const {userDateFormat} = useDateFormat();
 
     return {
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -148,7 +151,7 @@ export default {
       interviewers: [null],
       rules: {
         interviewName: [required, shouldNotExceedCharLength(100)],
-        interviewDate: [required, validDateFormat()],
+        interviewDate: [required, validDateFormat(this.userDateFormat)],
         interviewTime: [validTimeFormat],
         interviewerName: [
           required,

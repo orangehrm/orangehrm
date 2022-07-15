@@ -187,6 +187,7 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const CandidateProfileModel = {
   firstName: '',
@@ -239,9 +240,11 @@ export default {
   },
   setup() {
     const http = new APIService(window.appGlobal.baseUrl, '/');
+    const {userDateFormat} = useDateFormat();
 
     return {
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -258,7 +261,7 @@ export default {
         email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
         contactNumber: [validPhoneNumberFormat, shouldNotExceedCharLength(25)],
         keywords: [shouldNotExceedCharLength(250)],
-        applicationDate: [validDateFormat()],
+        applicationDate: [validDateFormat(this.userDateFormat)],
         resume: [
           maxFileSize(1024 * 1024),
           validFileTypes(this.allowedFileTypes),

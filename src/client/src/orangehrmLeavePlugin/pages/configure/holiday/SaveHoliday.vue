@@ -108,6 +108,7 @@ import {
   validDateFormat,
 } from '@ohrm/core/util/validation/rules';
 import {yearRange} from '@ohrm/core/util/helper/year-range';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const holidayModel = {
   name: '',
@@ -129,8 +130,11 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/leave/holidays',
     );
+    const {userDateFormat} = useDateFormat();
+
     return {
       http,
+      userDateFormat,
     };
   },
 
@@ -141,7 +145,7 @@ export default {
       holiday: {...holidayModel},
       rules: {
         name: [required, shouldNotExceedCharLength(200)],
-        date: [required, validDateFormat()],
+        date: [required, validDateFormat(this.userDateFormat)],
         length: [required],
       },
       errors: [],

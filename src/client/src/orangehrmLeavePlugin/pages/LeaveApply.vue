@@ -173,6 +173,7 @@ import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
 import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
 import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 import useForm from '@ohrm/core/util/composable/useForm';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const leaveModel = {
   type: null,
@@ -215,12 +216,14 @@ export default {
     );
     const {serializeBody, validateOverlapLeaves} = useLeaveValidators(http);
     const {formRef, reset} = useForm();
+    const {userDateFormat} = useDateFormat();
 
     return {
       http,
       reset,
       formRef,
       serializeBody,
+      userDateFormat,
       validateOverlapLeaves,
     };
   },
@@ -231,10 +234,10 @@ export default {
       leave: {...leaveModel},
       rules: {
         type: [required],
-        fromDate: [required, validDateFormat()],
+        fromDate: [required, validDateFormat(this.userDateFormat)],
         toDate: [
           required,
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.leave.fromDate,
             this.$t('general.to_date_should_be_after_from_date'),

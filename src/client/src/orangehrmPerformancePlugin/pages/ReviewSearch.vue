@@ -134,6 +134,7 @@ import {APIService} from '@/core/util/services/api.service';
 import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
+  validDateFormat,
 } from '@/core/util/validation/rules';
 import {
   viewIcon,
@@ -189,7 +190,7 @@ export default {
   },
   setup(props) {
     const {$t} = usei18n();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
     const {$tEmpName} = useEmployeeNameTranslate();
     const reviewListDateFormat = date =>
@@ -293,6 +294,7 @@ export default {
       filters,
       sortDefinition,
       statusOpts,
+      userDateFormat,
     };
   },
   data() {
@@ -348,6 +350,7 @@ export default {
       checkedItems: [],
       rules: {
         fromDate: [
+          validDateFormat(this.userDateFormat),
           startDateShouldBeBeforeEndDate(
             () => this.filters.toDate,
             this.$t('general.from_date_should_be_before_to_date'),
@@ -355,6 +358,7 @@ export default {
           ),
         ],
         toDate: [
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.filters.fromDate,
             this.$t('general.to_date_should_be_after_from_date'),

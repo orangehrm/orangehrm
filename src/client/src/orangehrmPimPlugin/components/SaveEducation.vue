@@ -110,6 +110,7 @@ import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@ohrm/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const educationModel = {
   educationId: null,
@@ -141,6 +142,14 @@ export default {
 
   emits: ['close'],
 
+  setup() {
+    const {userDateFormat} = useDateFormat();
+
+    return {
+      userDateFormat,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
@@ -151,9 +160,9 @@ export default {
         major: [shouldNotExceedCharLength(100)],
         score: [shouldNotExceedCharLength(25)],
         year: [shouldNotExceedCharLength(4), digitsOnly],
-        startDate: [validDateFormat()],
+        startDate: [validDateFormat(this.userDateFormat)],
         endDate: [
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(() => this.education.startDate),
         ],
       },
