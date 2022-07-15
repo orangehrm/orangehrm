@@ -40,19 +40,13 @@
             </oxd-grid-item>
             <br />
             <oxd-grid-item>
-              <module-list-dropdown/>
+              <module-list-dropdown />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="filters.sourceText"
-                :label="$t('admin.source_text')"
-              />
+              <oxd-input-field :label="$t('admin.source_text')" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                v-model="filters.translatedText"
-                :label="$t('admin.translated_text')"
-              />
+              <oxd-input-field :label="$t('admin.translated_text')" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -80,7 +74,7 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
-    <div class="orangehrm-paper-container">
+    <!-- <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <div>
           <oxd-button
@@ -117,42 +111,49 @@
           :length="pages"
         />
       </div>
-    </div>
+    </div> -->
+    <oxd-form ref="formRef">
+      <edit-translations :langstrings="langstrings"></edit-translations>
+    </oxd-form>
   </div>
 </template>
 
 <script>
 import {computed, ref} from 'vue';
 import useSort from '@ohrm/core/util/composable/useSort';
+import useForm from '@ohrm/core/util/composable/useForm';
+import Input from '@ohrm/oxd/core/components/Input/Input';
 import {APIService} from '@/core/util/services/api.service';
 import Button from '@ohrm/oxd/core/components/Button/Button';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import CardTable from '@ohrm/oxd/core/components/CardTable/CardTable';
 import ModuleListDropdown from '@/orangehrmAdminPlugin/components/ModuleListDropdown.vue';
+import EditTranslationModal from '@/orangehrmAdminPlugin/components/EditTranslationModal.vue';
+import useLanguageTranslations from '@/orangehrmAdminPlugin/util/composable/useLanguageTranslations';
 
-const translationNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      sourceText: item.sourceText,
-      translatedText: item.translatedText,
-    };
-  });
-};
-
+// const translationNormalizer = data => {
+//   return data.map(item => {
+//     return {
+//       id: item.id,
+//       source: item.source,
+//       target: item.target,
+//     };
+//   });
+// };
 const defaultFilters = {
   sourceText: null,
   translatedText: null,
 };
 
 const defaultSortOrder = {
-  sourceText: 'ASC',
+  'langString.value': 'DEFAULT',
 };
 
 export default {
   name: 'LanguageTranslationList',
   components: {
     'module-list-dropdown': ModuleListDropdown,
+    'edit-translations': EditTranslationModal,
   },
   props: {
     languageId: {
@@ -176,52 +177,60 @@ export default {
       sortDefinition: defaultSortOrder,
     });
 
-    const serializedFilters = computed(() => {
-      return {
-        sourceText: filters.value.sourceText,
-        translatedText: filters.value.translatedText,
-        sortField: sortField.value,
-        sortOrder: sortOrder.value,
-      };
-    });
+    const {formRef, invalid, validate} = useForm();
 
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      `/api/v2/admin/i18n/languages/${props.languageId}/translations`,
-    );
+    // const serializedFilters = computed(() => {
+    //   return {
+    //     sourceText: filters.value.sourceText,
+    //     translatedText: filters.value.translatedText,
+    //     sortField: sortField.value,
+    //     sortOrder: sortOrder.value,
+    //   };
+    // });
 
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http, {
-      query: serializedFilters,
-      normalizer: translationNormalizer,
-    });
+    // const http = new APIService(
+    //   window.appGlobal.baseUrl,
+    //   `/api/v2/admin/i18n/languages/${props.languageId}/translations`,
+    // );
+    const http = new APIService(window.appGlobal.baseUrl, '');
 
-    onSort(execQuery);
+    // const {
+    //   showPaginator,
+    //   currentPage,
+    //   total,
+    //   pages,
+    //   pageSize,
+    //   response,
+    //   isLoading,
+    //   execQuery,
+    // } = usePaginate(http, {
+    //   query: serializedFilters,
+    // });
 
+    const {getAllTranslations} = useLanguageTranslations(http);
+
+    // onSort(execQuery);
     return {
       http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
-      filters,
-      sortDefinition,
+      invalid,
+      formRef,
+      validate,
+      getAllTranslations,
+      // showPaginator,
+      // currentPage,
+      // isLoading,
+      // total,
+      // pages,
+      // pageSize,
+      // execQuery,
+      // items: response,
+      // filters,
+      // sortDefinition,
     };
   },
   data() {
     return {
+      langstrings: [],
       category: null,
       languageTranslation: {
         languagePackage: this.languagePackage,
@@ -232,18 +241,19 @@ export default {
           name: 'source',
           slot: 'title',
           title: this.$t('admin.source_text'),
-          sortField: 'sourceText',
-          style: {flex: 3},
+          // sortField: 'langString.value',
+          style: {flex: '20%'},
         },
         {
           name: 'note',
           title: this.$t('admin.source_note'),
-          style: {flex: 2},
+          style: {flex: '20%'},
         },
         {
           name: 'target',
           title: this.$t('admin.translated_text'),
-          style: {flex: 2},
+          style: {flex: '20%'},
+          cellRenderer: this.inputRenderer,
         },
         {
           name: 'actions',
@@ -251,6 +261,7 @@ export default {
           title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
+          cellRenderer: this.actionsRenderer,
           cellConfig: {
             edit: {
               props: {
@@ -267,6 +278,18 @@ export default {
       ],
     };
   },
+  beforeMount() {
+    this.isLoading = true;
+    this.getAllTranslations(this.languageId)
+      .then(response => {
+        const {data} = response.data;
+        this.langstrings = [...data];
+        console.log(data);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
   method: {
     async filterItems() {
       await this.execQuery();
@@ -275,7 +298,6 @@ export default {
       this.filters = {...defaultFilters};
       this.filterItems();
     },
-  }
+  },
 };
 </script>
-<style lang=""></style>
