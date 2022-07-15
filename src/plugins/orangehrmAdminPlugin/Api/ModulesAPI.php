@@ -43,6 +43,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_PERFORMANCE = 'performance';
     public const PARAMETER_MAINTENANCE = 'maintenance';
     public const PARAMETER_MOBILE = 'mobile';
+    public const PARAMETER_DIRECTORY = 'directory';
 
     /**
      * @var ModuleService|null
@@ -68,7 +69,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
         self::PARAMETER_RECRUITMENT => false,
         self::PARAMETER_PERFORMANCE => false,
         self::PARAMETER_MAINTENANCE => false,
-        self::PARAMETER_MOBILE => false
+        self::PARAMETER_MOBILE => false,
+        self::PARAMETER_DIRECTORY => false,
     ];
 
     /**
@@ -290,6 +292,10 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_MOBILE,
+                new Rule(Rules::BOOL_TYPE),
+            ),
+            new ParamRule(
+                self::PARAMETER_DIRECTORY,
                 new Rule(Rules::BOOL_TYPE),
             ),
         );
