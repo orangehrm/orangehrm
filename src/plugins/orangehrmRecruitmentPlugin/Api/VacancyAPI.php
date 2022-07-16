@@ -62,7 +62,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 100;
     public const PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH = 13;
-    public const PARAMETER_RULE_STATUS_MAX_LENGTH = 4;
 
     /**
      * @inheritDoc
@@ -113,7 +112,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             )
         );
         $vacancyParamHolder->setStatus(
-            $this->getRequestParams()->getIntOrNull(
+            $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_STATUS
             )
@@ -160,7 +159,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_STATUS,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::BOOL_TYPE)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -236,17 +235,19 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_NUM_OF_POSITIONS
             )
         );
-        $vacancy->getDecorator()->setIsPublished(
-            $this->getRequestParams()->getBooleanOrNull(
+        $vacancy->setIsPublished(
+            $this->getRequestParams()->getBoolean(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_IS_PUBLISHED
+                self::PARAMETER_IS_PUBLISHED,
+                true
             )
         );
         $vacancy->setUpdatedTime($this->getDateTimeHelper()->getNow());
         $vacancy->setStatus(
-            $this->getRequestParams()->getInt(
+            $this->getRequestParams()->getBoolean(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_STATUS
+                self::PARAMETER_STATUS,
+                true
             )
         );
     }
@@ -274,8 +275,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_STATUS,
-                new Rule(Rules::INT_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_STATUS_MAX_LENGTH])
+                new Rule(Rules::BOOL_TYPE),
             ),
             new ParamRule(
                 self::PARAMETER_JOB_TITLE_ID,

@@ -13,14 +13,14 @@ InvalidEmail:
  03: {firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '0777-754075', keywords: 'java,mysql,oracle', dateOfApplication: '2010-06-04', email: 'nodot@domaincom', comment: 'missing first name', vacancy: '', resume: ''}
 
 InvalidContactNumber:
- 01: {id: 14, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: 'invalid', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'mail@domain.com', comment: 'missing first name'}
- 02: {id: 15, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '970@908', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'mail@domain.com', comment: 'missing first name'}
- 03: {id: 16, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '8976 0,2', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'mail@domain.com', comment: 'missing first name'}
+ 01: {id: 14, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: 'invalid', keywords: 'java,mysql,oracle', status: 0, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'mail@domain.com', comment: 'missing first name'}
+ 02: {id: 15, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '970@908', keywords: 'java,mysql,oracle', status: 0, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'mail@domain.com', comment: 'missing first name'}
+ 03: {id: 16, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '8976 0,2', keywords: 'java,mysql,oracle', status: 0, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'mail@domain.com', comment: 'missing first name'}
 
 InvalidDate:
- 01: {id: 17, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '123456', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '123456', email: 'mail@domain.com', comment: 'missing first name'}
- 02: {id: 18, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '123456', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '2010-02-30', email: 'mail@domain.com', comment: 'missing first name'}
- 02: {id: 18, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '123456', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '2011-13-16', email: 'mail@domain.com', comment: 'missing first name'}
+ 01: {id: 17, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '123456', keywords: 'java,mysql,oracle', status: 0, modeOfApplication: 2, dateOfApplication: '123456', email: 'mail@domain.com', comment: 'missing first name'}
+ 02: {id: 18, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '123456', keywords: 'java,mysql,oracle', status: 0, modeOfApplication: 2, dateOfApplication: '2010-02-30', email: 'mail@domain.com', comment: 'missing first name'}
+ 02: {id: 18, firstName: 'Irshad', middleName: 'Mohomed', lastName: 'Ahamed', contactNumber: '123456', keywords: 'java,mysql,oracle', status: 0, modeOfApplication: 2, dateOfApplication: '2011-13-16', email: 'mail@domain.com', comment: 'missing first name'}
 
 ValidCandidate:
  only_mandatory_fields: { firstName: 'Iresha', middleName: '', lastName: 'Illapperuma', contactNumber: '', keywords: '', dateOfApplication: '', email: 'mail@domain.com', comment: 'missing first name', vacancy: '', resume: ''}

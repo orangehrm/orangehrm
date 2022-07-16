@@ -64,7 +64,7 @@ class VacancyListRestController extends AbstractRestController implements Public
         $offset = $request->getQuery()->get(self::VACANCY_OFFSET, FilterParams::DEFAULT_OFFSET);
         $limit = $request->getQuery()->get(self::VACANCY_LIMIT, FilterParams::DEFAULT_LIMIT);
         $vacancySearchFilterParams = new VacancySearchFilterParams();
-        $vacancySearchFilterParams->setStatus(Vacancy::STATUS_ACTIVE);
+        $vacancySearchFilterParams->setStatus(true);
         $vacancySearchFilterParams->setIsPublished(true);
         $vacancySearchFilterParams->setSortField(self::VACANCY_ID);
         $vacancySearchFilterParams->setSortOrder(ListSorter::DESCENDING);

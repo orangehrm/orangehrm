@@ -35,9 +35,6 @@ class Vacancy
 {
     use DecoratorTrait;
 
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_CLOSED = 2;
-
     /**
      * @var int
      *
@@ -201,17 +198,17 @@ class Vacancy
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getStatus(): int
+    public function getStatus(): bool
     {
         return $this->status;
     }
 
     /**
-     * @param int $status
+     * @param bool $status
      */
-    public function setStatus(int $status): void
+    public function setStatus(bool $status): void
     {
         $this->status = $status;
     }

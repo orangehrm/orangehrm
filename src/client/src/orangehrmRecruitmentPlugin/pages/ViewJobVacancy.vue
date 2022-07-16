@@ -168,8 +168,7 @@ export default {
             : item.jobTitle?.title,
 
           hiringManager: $tEmpName(item.hiringManager),
-          status:
-            item.status == 1 ? $t('general.active') : $t('general.closed'),
+          status: item.status ? $t('general.active') : $t('general.closed'),
         };
       });
     };
@@ -261,8 +260,8 @@ export default {
         },
       ],
       statusOptions: [
-        {id: 1, param: 'active', label: this.$t('general.active')},
-        {id: 2, param: 'closed', label: this.$t('general.closed')},
+        {id: true, param: 'active', label: this.$t('general.active')},
+        {id: false, param: 'closed', label: this.$t('general.closed')},
       ],
       vacancies: [],
       checkedItems: [],

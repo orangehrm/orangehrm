@@ -69,22 +69,10 @@ class VacancyDecorator
     }
 
     /**
-     * @param bool|null $isPublished
-     */
-    public function setIsPublished(?bool $isPublished)
-    {
-        if (!is_null($isPublished)) {
-            $isPublished = $isPublished == 1;
-        }
-
-        $this->getVacancy()->setIsPublished($isPublished);
-    }
-
-    /**
      * @return bool
      */
     public function isActiveAndPublished(): bool
     {
-        return $this->getVacancy()->isPublished() && $this->getVacancy()->getStatus() === Vacancy::STATUS_ACTIVE;
+        return $this->getVacancy()->isPublished() && $this->getVacancy()->getStatus();
     }
 }

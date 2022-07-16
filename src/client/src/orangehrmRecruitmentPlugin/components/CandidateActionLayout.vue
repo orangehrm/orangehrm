@@ -92,10 +92,10 @@ export default {
     },
   },
   emits: ['update:loading'],
-  setup(props) {
+  setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `/api/v2/recruitment/candidates/${props.candidateId}`,
+      `/api/v2/recruitment/candidates`,
     );
     const {$tEmpName} = useEmployeeNameTranslate();
 
@@ -131,10 +131,10 @@ export default {
   beforeMount() {
     this.$emit('update:loading', true);
     this.http
-      .getAll()
+      .get(this.candidateId)
       .then(response => {
         const {data} = response.data;
-        this.candidate.status = data.status;
+        this.candidate.status = data.status; // TODO
         this.candidate.candidateName = `${data?.firstName} ${data?.middleName ||
           ''} ${data?.lastName}`;
         if (data?.vacancy) {

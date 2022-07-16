@@ -46,9 +46,9 @@ class VacancySearchFilterParams extends FilterParams
     private ?int $empNumber = null;
 
     /**
-     * @var int|null
+     * @var bool|null
      */
-    private ?int $status = null;
+    private ?bool $status = null;
 
     /**
      * @var string|null
@@ -115,17 +115,17 @@ class VacancySearchFilterParams extends FilterParams
     }
 
     /**
-     * @return int|null
+     * @return bool|null
      */
-    public function getStatus(): ?int
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
     /**
-     * @param  int|null  $status
+     * @param bool|null $status
      */
-    public function setStatus(?int $status): void
+    public function setStatus(?bool $status): void
     {
         $this->status = $status;
     }

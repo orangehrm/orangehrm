@@ -199,7 +199,7 @@ class VacancyDao extends BaseDao
         $qb->andWhere('vacancy.isPublished = :isPublished')
             ->setParameter('isPublished', true)
             ->andWhere('vacancy.status = :status')
-            ->setParameter('status', Vacancy::STATUS_ACTIVE);
+            ->setParameter('status', true);
         $qb->addOrderBy('vacancy.updatedTime', ListSorter::DESCENDING);
         return $qb->getQuery()->execute();
     }

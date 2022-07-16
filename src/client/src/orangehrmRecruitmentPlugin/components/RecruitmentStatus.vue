@@ -165,7 +165,7 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
-    this.status = this.candidate.status;
+    this.status = this.candidate.status; // TODO
     this.candidateName = `${this.candidate?.firstName} ${this.candidate
       ?.middleName || ''} ${this.candidate?.lastName}`;
     if (this.candidate?.vacancy) {
@@ -196,10 +196,14 @@ export default {
       return this.actions.findIndex(actions => actions.id == actionId) > -1;
     },
     doWorkflow(actionId) {
-      navigate('/recruitment/changeCandidateVacancyStatus', undefined, {
-        candidateId: this.candidate?.id,
-        selectedAction: actionId,
-      });
+      navigate(
+        '/recruitment/changeCandidateVacancyStatus',
+        {},
+        {
+          candidateId: this.candidate?.id,
+          selectedAction: actionId,
+        },
+      );
     },
   },
 };
