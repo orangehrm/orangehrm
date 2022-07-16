@@ -206,7 +206,9 @@ export default {
           id: item.id,
           vacancy:
             item.vacancy?.name +
-            (item.vacancy?.status === false ? $t('general.closed') : ''),
+            (item.vacancy?.status === false
+              ? ` (${$t('general.closed')})`
+              : ''),
           candidate: `${item.firstName} ${item.middleName || ''} ${
             item.lastName
           }`,

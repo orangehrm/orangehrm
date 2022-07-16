@@ -36,14 +36,14 @@
         <oxd-grid-item>
           <oxd-input-group :label="$t('recruitment.vacancy')">
             <oxd-text tag="p">
-              {{ vacancyName }}
+              {{ vacancyName ? vacancyName : 'N/A' }}
             </oxd-text>
           </oxd-input-group>
         </oxd-grid-item>
         <oxd-grid-item>
           <oxd-input-group :label="$t('recruitment.hiring_manager')">
             <oxd-text tag="p">
-              {{ hiringManagerName }}
+              {{ hiringManagerName ? hiringManagerName : 'N/A' }}
             </oxd-text>
           </oxd-input-group>
         </oxd-grid-item>
@@ -138,10 +138,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      candidateName: '',
-      vacancyName: 'N/A',
-      hiringManagerName: 'N/A',
-      status: null,
       statuses: [
         {id: 1, label: this.$t('recruitment.application_initiated')},
         {id: 2, label: this.$t('recruitment.shortlisted')},
@@ -159,25 +155,29 @@ export default {
   computed: {
     recruitmentStatus() {
       return (
-        this.statuses.find(item => item.id === this.status?.id)?.label || null
+        this.statuses.find(item => item.id === this.candidate.status?.id)
+          ?.label || null
       );
+    },
+    candidateName() {
+      return `${this.candidate.firstName} ${this.candidate?.middleName || ''} ${
+        this.candidate.lastName
+      }`;
+    },
+    vacancyName() {
+      return this.candidate.vacancy?.name;
+    },
+    hiringManagerName() {
+      return this.candidate.vacancy?.hiringManager
+        ? this.translateEmpName(this.candidate.vacancy.hiringManager, {
+            includeMiddle: true,
+            excludePastEmpTag: false,
+          })
+        : undefined;
     },
   },
   beforeMount() {
     this.isLoading = true;
-    this.status = this.candidate.status; // TODO
-    this.candidateName = `${this.candidate?.firstName} ${this.candidate
-      ?.middleName || ''} ${this.candidate?.lastName}`;
-    if (this.candidate?.vacancy) {
-      this.vacancyName = this.candidate.vacancy.name;
-      this.hiringManagerName = this.translateEmpName(
-        this.candidate.vacancy.hiringManager,
-        {
-          includeMiddle: true,
-          excludePastEmpTag: false,
-        },
-      );
-    }
     this.http
       .request({
         method: 'GET',
