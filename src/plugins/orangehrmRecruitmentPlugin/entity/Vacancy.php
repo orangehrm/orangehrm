@@ -48,49 +48,49 @@ class Vacancy
     /**
      * @var JobTitle
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle", inversedBy="vacancies", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=false)
      */
     private JobTitle $jobTitle;
 
     /**
      * @var Employee|null
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="vacancies", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="hiring_manager_id", referencedColumnName="emp_number",nullable=true)
+     * @ORM\JoinColumn(name="hiring_manager_id", referencedColumnName="emp_number", nullable=true)
      */
     private ?Employee $hiringManager;
 
     /**
      * @var string
-     * @ORM\Column(name="name",type="string",length=100)
+     * @ORM\Column(name="name", type="string", length=100)
      */
     private string $name;
     /**
      * @var string |null
-     * @ORM\Column(name="description",type="text",nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private ?string $description;
 
     /**
      * @var int |null
-     * @ORM\Column(name="no_of_positions",type="integer",length=13,nullable=true)
+     * @ORM\Column(name="no_of_positions", type="integer", length=13,nullable=true)
      */
-    private ?int $numOfPositions;
-
-    /**
-     * @var int
-     * @ORM\Column(name="status",type="integer",length=4)
-     */
-    private int $status;
+    private ?int $numOfPositions = null;
 
     /**
      * @var bool
-     * @ORM\Column(name="published_in_feed",type="boolean",options={"default":0})
+     * @ORM\Column(name="status",type="boolean", options={"default":1})
+     */
+    private bool $status = true;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="published_in_feed", type="boolean", options={"default":0})
      */
     private bool $isPublished = false;
 
     /**
      * @var DateTime
-     * @ORM\Column(name="defined_time",type="datetime")
+     * @ORM\Column(name="defined_time", type="datetime")
      */
     private DateTime $definedTime;
 

@@ -38,7 +38,7 @@ export default {
       'api/v2/recruitment/vacancies',
     );
     onBeforeMount(() => {
-      http.getAll().then(({data}) => {
+      http.getAll({model: 'summary'}).then(({data}) => {
         options.value = data.data.map(item => {
           return {
             id: item.id,

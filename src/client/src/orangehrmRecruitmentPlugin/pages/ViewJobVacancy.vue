@@ -155,6 +155,7 @@ export default {
         status: filters.value.status?.id,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
+        model: 'detailed',
       };
     });
 

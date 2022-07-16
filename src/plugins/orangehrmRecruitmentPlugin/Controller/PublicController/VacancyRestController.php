@@ -35,7 +35,7 @@ use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Vacancy;
-use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
+use OrangeHRM\Recruitment\Api\Model\VacancyModel;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class VacancyRestController extends AbstractRestController implements PublicControllerInterface
@@ -64,7 +64,7 @@ class VacancyRestController extends AbstractRestController implements PublicCont
             throw $this->getRecordNotFoundException();
         }
         return new Response(
-            $this->getNormalizerService()->normalize(VacancySummaryModel::class, $vacancy)
+            $this->getNormalizerService()->normalize(VacancyModel::class, $vacancy)
         );
     }
 

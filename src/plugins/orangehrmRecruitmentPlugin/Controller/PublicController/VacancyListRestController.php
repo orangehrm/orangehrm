@@ -34,9 +34,8 @@ use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\ListSorter;
-use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
+use OrangeHRM\Recruitment\Api\Model\VacancyModel;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
@@ -75,7 +74,7 @@ class VacancyListRestController extends AbstractRestController implements Public
 
         return new Response(
             $this->getNormalizerService()
-                ->normalizeArray(VacancySummaryModel::class, $vacancies),
+                ->normalizeArray(VacancyModel::class, $vacancies),
             [CommonParams::PARAMETER_TOTAL => $count]
         );
     }

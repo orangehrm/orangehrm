@@ -37,7 +37,9 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Recruitment\Api\Model\VacancyDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\VacancyModel;
+use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
@@ -51,6 +53,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public const FILTER_HIRING_MANAGER_ID = 'hiringManagerId';
     public const FILTER_STATUS = 'status';
     public const FILTER_NAME = 'name';
+    public const FILTER_MODEL = 'model';
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
@@ -63,6 +66,16 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 100;
     public const PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH = 13;
 
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_SUMMARY = 'summary';
+    public const MODEL_DETAILED = 'detailed';
+
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => VacancyModel::class,
+        self::MODEL_SUMMARY => VacancySummaryModel::class,
+        self::MODEL_DETAILED => VacancyDetailedModel::class,
+    ];
+
     /**
      * @inheritDoc
      */
@@ -74,7 +87,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         );
         $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
-        return new EndpointResourceResult(VacancyModel::class, $vacancy);
+        return new EndpointResourceResult(VacancyDetailedModel::class, $vacancy);
     }
 
     /**
@@ -126,7 +139,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         $vacancies = $this->getVacancyService()->getVacancyDao()->getVacancies($vacancyParamHolder);
         $count = $this->getVacancyService()->getVacancyDao()->getVacanciesCount($vacancyParamHolder);
         return new EndpointCollectionResult(
-            VacancyModel::class,
+            $this->getModelClass(),
             $vacancies,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
@@ -169,7 +182,34 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [0, self::PARAMETER_RULE_NAME_MAX_LENGTH])
                 )
             ),
+            $this->getModelClassParamRule(),
             ...$this->getSortingAndPaginationParamsRules(VacancySearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
+    {
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT,
+        );
+        return self::MODEL_MAP[$model];
+    }
+
+    /**
+     * @return ParamRule
+     */
+    protected function getModelClassParamRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::FILTER_MODEL,
+                new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+            ),
         );
     }
 
@@ -183,7 +223,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         $this->setVacancy($vacancy);
         $vacancy = $this->getVacancyService()->getVacancyDao()->saveJobVacancy($vacancy);
 
-        return new EndpointResourceResult(VacancyModel::class, $vacancy);
+        return new EndpointResourceResult(VacancyDetailedModel::class, $vacancy);
     }
 
     /**
@@ -318,7 +358,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
         $this->setVacancy($vacancy);
         $this->getVacancyService()->getVacancyDao()->saveJobVacancy($vacancy);
-        return new EndpointResourceResult(VacancyModel::class, $vacancy);
+        return new EndpointResourceResult(VacancyDetailedModel::class, $vacancy);
     }
 
     /**
