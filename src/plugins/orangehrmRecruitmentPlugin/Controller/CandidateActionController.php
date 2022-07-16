@@ -23,6 +23,7 @@ namespace OrangeHRM\Recruitment\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
@@ -37,9 +38,12 @@ class CandidateActionController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        // TODO: Validate candidateId & actionId & permission
         $candidateId = $request->query->getInt('candidateId');
         $actionId = $request->query->getInt('selectedAction');
+        $candidate = $this->getCandidateService()->getCandidateDao()->getCandidateById($candidateId);
+        if (!$candidate instanceof Candidate) {
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+        }
 
         switch ($actionId) {
             case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST:
