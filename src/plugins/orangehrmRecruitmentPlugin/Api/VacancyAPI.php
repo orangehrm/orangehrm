@@ -169,11 +169,9 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::POSITIVE)
                 )
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_STATUS,
-                    new Rule(Rules::BOOL_TYPE)
-                )
+            new ParamRule(
+                self::FILTER_STATUS,
+                new Rule(Rules::BOOL_VAL)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

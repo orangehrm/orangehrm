@@ -58,6 +58,7 @@
                 v-model="vacancy"
                 :label="$t('recruitment.job_vacancy')"
                 :readonly="!editable"
+                :status="true"
               />
             </oxd-grid-item>
           </oxd-grid>
