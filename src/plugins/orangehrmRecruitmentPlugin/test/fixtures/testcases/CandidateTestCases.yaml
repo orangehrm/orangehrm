@@ -114,6 +114,7 @@ GetOne:
       vacancy:
         id: 3
         name: 'Part-Time Technical Assistant'
+        status: false
         jobTitle:
           id: 1
           title: 'Technical Assistant'
@@ -167,6 +168,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -200,6 +202,7 @@ GetAll:
           "vacancy": {
             "id": 3,
             "name": "Part-Time Technical Assistant",
+            "status": false,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -223,6 +226,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -246,6 +250,7 @@ GetAll:
           "vacancy": {
             "id": 1,
             "name": "Technical Assistant Intern",
+            "status": true,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -288,6 +293,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -311,6 +317,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -353,6 +360,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -376,6 +384,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -418,6 +427,7 @@ GetAll:
           "vacancy": {
             "id": 3,
             "name": "Part-Time Technical Assistant",
+            "status": false,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -441,6 +451,7 @@ GetAll:
           "vacancy": {
             "id": 1,
             "name": "Technical Assistant Intern",
+            "status": true,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -483,6 +494,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -506,6 +518,7 @@ GetAll:
           "vacancy": {
             "id": 3,
             "name": "Part-Time Technical Assistant",
+            "status": false,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -577,6 +590,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -629,6 +643,7 @@ GetAll:
           "vacancy": {
             "id": 1,
             "name": "Technical Assistant Intern",
+            "status": true,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -672,6 +687,7 @@ GetAll:
           "vacancy": {
             "id": 3,
             "name": "Part-Time Technical Assistant",
+            "status": false,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -695,6 +711,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -718,6 +735,7 @@ GetAll:
           "vacancy": {
             "id": 1,
             "name": "Technical Assistant Intern",
+            "status": true,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -788,6 +806,7 @@ GetAll:
           "vacancy": {
             "id": 3,
             "name": "Part-Time Technical Assistant",
+            "status": false,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -830,6 +849,7 @@ GetAll:
           "vacancy": {
             "id": 2,
             "name": "Senior Technical Supervisor",
+            "status": true,
             "hiringManager": {
               "id": 2,
               "firstName": "Ashley",
@@ -882,6 +902,7 @@ GetAll:
           "vacancy": {
             "id": 3,
             "name": "Part-Time Technical Assistant",
+            "status": false,
             "hiringManager": {
               "id": 1,
               "firstName": "Kayla",
@@ -943,6 +964,7 @@ Update:
         "vacancy": {
           "id": 3,
           "name": "Part-Time Technical Assistant",
+          "status": false,
           "jobTitle": {
             "id": 1,
             "title": "Technical Assistant",
@@ -1080,6 +1102,7 @@ Update:
         "vacancy": {
           "id": 3,
           "name": "Part-Time Technical Assistant",
+          "status": false,
           "jobTitle": {
             "id": 1,
             "title": "Technical Assistant",

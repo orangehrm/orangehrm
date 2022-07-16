@@ -204,7 +204,9 @@ export default {
       return data.map(item => {
         return {
           id: item.id,
-          vacancy: item.vacancy?.name,
+          vacancy:
+            item.vacancy?.name +
+            (item.vacancy?.status === false ? $t('general.closed') : ''),
           candidate: `${item.firstName} ${item.middleName || ''} ${
             item.lastName
           }`,
