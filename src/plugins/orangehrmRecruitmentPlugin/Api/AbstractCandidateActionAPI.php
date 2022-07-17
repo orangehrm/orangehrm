@@ -93,9 +93,17 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
                 ->getCandidateVacancyByCandidateId($candidateId);
             $this->throwRecordNotFoundExceptionIfNotExist($candidateVacancy, CandidateVacancy::class);
 
+            $vacancy = $candidateVacancy->getVacancy();
+
+            $rolesToExclude = [];
+            if (!$this->isAuthUserHiringManager($vacancy)) {
+                $rolesToExclude = ['HiringManager'];
+            }
+
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_RECRUITMENT,
-                $candidateVacancy->getStatus()
+                $candidateVacancy->getStatus(),
+                $rolesToExclude
             );
             if (
                 !in_array($this->getResultingState(), array_keys($allowedWorkflowItems))
@@ -152,6 +160,16 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
         if (!is_null($this->getInterviewId())) {
             $candidateHistory->getDecorator()->setInterviewByInterviewId($this->getInterviewId());
         }
+    }
+
+    /**
+     * @param Vacancy $vacancy
+     * @return bool
+     */
+    private function isAuthUserHiringManager(Vacancy $vacancy): bool
+    {
+        $hiringMangerEmpNumber = $vacancy->getHiringManager()->getEmpNumber();
+        return $hiringMangerEmpNumber === $this->getAuthUser()->getEmpNumber();
     }
 
     /**
