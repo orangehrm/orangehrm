@@ -432,9 +432,6 @@ apiv2_recruitment_candidates_history:
     - { role: HiringManager, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false } }
 
-apiv2_admin_job_title:
-
-
 ##########################
 #        I18N
 ##########################
