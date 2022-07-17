@@ -120,6 +120,14 @@ export const digitsOnly = function(value: string): boolean | string {
   );
 };
 
+export const numericOnly = function(value: string): boolean | string {
+  return (
+    value == '' ||
+    (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
+    translate('general.should_be_a_numeric_value')
+  );
+};
+
 export const digitsOnlyWithDecimalPoint = function(
   value: string,
 ): boolean | string {

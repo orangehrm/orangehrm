@@ -274,7 +274,7 @@ import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import {
   required,
   shouldNotExceedCharLength,
-  digitsOnly,
+  numericOnly,
   max,
   validFileTypes,
   maxFileSize,
@@ -372,7 +372,7 @@ export default {
           required,
           v => (v?.isPastEmployee ? this.$t('general.invalid') : true),
         ],
-        numOfPositions: [max(99), digitsOnly],
+        numOfPositions: [max(99), numericOnly],
         description: [],
         status: [required],
         isPublished: [required],
