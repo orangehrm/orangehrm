@@ -45,6 +45,7 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
     use AuthUserTrait;
 
     public const PARAMETER_CANDIDATE_ID = 'candidateId';
+
     public const MAX_ALLOWED_INTERVIEW_COUNT = 2;
 
     public const STATE_INITIAL = 'INITIAL';
@@ -80,10 +81,23 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
             ->getCandidateDao()
             ->getCandidateVacancyByCandidateId($candidateId);
 
+        if (!is_null($candidateVacancy)) {
+            /**
+             * if vacancy is closed, no action is allowed to perform on candidates, assigned to the vacancy
+             */
+            if (!$candidateVacancy->getVacancy()->getStatus()) {
+                return new EndpointCollectionResult(
+                    ArrayModel::class,
+                    [],
+                    new ParameterBag([CommonParams::PARAMETER_TOTAL => 0])
+                );
+            }
+        }
+
         $currentState = is_null($candidateVacancy) ? self::STATE_INITIAL : $candidateVacancy->getStatus();
 
         $rolesToExclude = [];
-        if (!$this->isHiringManager($candidateVacancy)) {
+        if (!is_null($candidateVacancy) && !$this->isHiringManager($candidateVacancy)) {
             $rolesToExclude = ['HiringManager'];
         }
 

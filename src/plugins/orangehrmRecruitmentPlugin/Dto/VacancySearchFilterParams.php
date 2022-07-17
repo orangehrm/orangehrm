@@ -38,11 +38,6 @@ class VacancySearchFilterParams extends FilterParams
     /**
      * @var int|null
      */
-    private ?int $vacancyId = null;
-
-    /**
-     * @var int|null
-     */
     private ?int $empNumber = null;
 
     /**
@@ -63,13 +58,12 @@ class VacancySearchFilterParams extends FilterParams
     /**
      * @var array|null
      */
-    protected ?array $vacancyIds = null;
+    private ?array $vacancyIds = null;
 
     public function __construct()
     {
         $this->setSortField('vacancy.name');
     }
-
 
     /**
      * @return int|null
@@ -149,5 +143,21 @@ class VacancySearchFilterParams extends FilterParams
     public function setIsPublished(?bool $isPublished): void
     {
         $this->isPublished = $isPublished;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getVacancyIds(): ?array
+    {
+        return $this->vacancyIds;
+    }
+
+    /**
+     * @param array|null $vacancyIds
+     */
+    public function setVacancyIds(?array $vacancyIds): void
+    {
+        $this->vacancyIds = $vacancyIds;
     }
 }

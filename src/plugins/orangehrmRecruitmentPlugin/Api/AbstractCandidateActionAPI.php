@@ -39,6 +39,7 @@ use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -94,6 +95,10 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
             $this->throwRecordNotFoundExceptionIfNotExist($candidateVacancy, CandidateVacancy::class);
 
             $vacancy = $candidateVacancy->getVacancy();
+
+            if (!$vacancy->getStatus()) {
+                throw $this->getForbiddenException();
+            }
 
             $rolesToExclude = [];
             if (!$this->isAuthUserHiringManager($vacancy)) {
