@@ -68,6 +68,7 @@ class CandidateDetailedModel implements Normalizable
                 [
                     'id' => $vacancy->getId(),
                     'name' => $vacancy->getName(),
+                    'status' => $vacancy->getStatus(),
                     'jobTitle' => [
                         'id' => $vacancy->getJobTitle()->getId(),
                         'title' => $vacancy->getJobTitle()->getJobTitleName(),

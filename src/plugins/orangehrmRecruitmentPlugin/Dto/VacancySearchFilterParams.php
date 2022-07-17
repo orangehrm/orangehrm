@@ -33,27 +33,32 @@ class VacancySearchFilterParams extends FilterParams
     /**
      * @var int|null
      */
-    protected ?int $jobTitleId = null;
+    private ?int $jobTitleId = null;
 
     /**
      * @var int|null
      */
-    protected ?int $vacancyId = null;
+    private ?int $vacancyId = null;
 
     /**
      * @var int|null
      */
-    protected ?int $empNumber = null;
+    private ?int $empNumber = null;
 
     /**
-     * @var int|null
+     * @var bool|null
      */
-    protected ?int $status = null;
+    private ?bool $status = null;
 
     /**
      * @var string|null
      */
-    protected ?string $name = null;
+    private ?string $name = null;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $isPublished = null;
 
     /**
      * @var array|null
@@ -99,17 +104,17 @@ class VacancySearchFilterParams extends FilterParams
     }
 
     /**
-     * @return int|null
+     * @return bool|null
      */
-    public function getStatus(): ?int
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
     /**
-     * @param int|null $status
+     * @param bool|null $status
      */
-    public function setStatus(?int $status): void
+    public function setStatus(?bool $status): void
     {
         $this->status = $status;
     }
@@ -131,18 +136,18 @@ class VacancySearchFilterParams extends FilterParams
     }
 
     /**
-     * @return array|null
+     * @return bool|null
      */
-    public function getVacancyIds(): ?array
+    public function isPublished(): ?bool
     {
-        return $this->vacancyIds;
+        return $this->isPublished;
     }
 
     /**
-     * @param array|null $vacancyIds
+     * @param bool|null $isPublished
      */
-    public function setVacancyIds(?array $vacancyIds): void
+    public function setIsPublished(?bool $isPublished): void
     {
-        $this->vacancyIds = $vacancyIds;
+        $this->isPublished = $isPublished;
     }
 }

@@ -78,6 +78,7 @@ Create:
       minRating: 0
       maxRating: 100
       isDefault: null
+      deletable: true
 
   'with all valid details but with review':
     userId: 1
@@ -99,6 +100,7 @@ Create:
       minRating: 0
       maxRating: 10
       isDefault: true
+      deletable: true
 
 Update:
   'without params':
@@ -198,6 +200,7 @@ Update:
       minRating: 1
       maxRating: 10
       isDefault: null
+      deletable: false
 
   'with all valid details and not having reviews':
     userId: 1
@@ -221,6 +224,7 @@ Update:
       minRating: 0
       maxRating: 10
       isDefault: true
+      deletable: true
 
 GetAll:
   'without query params':
@@ -238,7 +242,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 2,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 2,
@@ -250,7 +255,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 1,
@@ -262,7 +268,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 10,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": false
       },
       {
         "id": 12,
@@ -274,7 +281,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 55,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": false
       },
       {
         "id": 13,
@@ -286,7 +294,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 40,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 10,
@@ -298,7 +307,8 @@ GetAll:
         },
         "minRating": 0,
         "maxRating": 20,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 4,
@@ -306,11 +316,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 1,
         "maxRating": 50,
-        "isDefault": true
+        "isDefault": true,
+        "deletable": true
       },
       {
         "id": 5,
@@ -322,7 +333,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 6,
@@ -334,7 +346,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 25,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": true
       },
       {
         "id": 3,
@@ -346,7 +359,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 5,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 8,
@@ -358,7 +372,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 9,
@@ -366,11 +381,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 0,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       }
     ]
     meta:
@@ -394,7 +410,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 2,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 2,
@@ -406,7 +423,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 1,
@@ -418,7 +436,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 10,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": false
       },
       {
         "id": 12,
@@ -430,7 +449,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 55,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": false
       },
       {
         "id": 13,
@@ -442,7 +462,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 40,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 10,
@@ -454,7 +475,8 @@ GetAll:
         },
         "minRating": 0,
         "maxRating": 20,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 4,
@@ -462,11 +484,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 1,
         "maxRating": 50,
-        "isDefault": true
+        "isDefault": true,
+        "deletable": true
       },
       {
         "id": 5,
@@ -478,7 +501,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 6,
@@ -490,7 +514,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 25,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": true
       },
       {
         "id": 3,
@@ -502,7 +527,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 5,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 8,
@@ -514,7 +540,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 9,
@@ -522,11 +549,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 0,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       }
     ]
     meta:
@@ -546,11 +574,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 0,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 8,
@@ -562,7 +591,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 3,
@@ -574,7 +604,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 5,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 6,
@@ -586,7 +617,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 25,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": true
       },
       {
         "id": 5,
@@ -598,7 +630,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 4,
@@ -606,11 +639,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 1,
         "maxRating": 50,
-        "isDefault": true
+        "isDefault": true,
+        "deletable": true
       },
       {
         "id": 10,
@@ -622,7 +656,8 @@ GetAll:
         },
         "minRating": 0,
         "maxRating": 20,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 13,
@@ -634,7 +669,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 40,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 12,
@@ -646,7 +682,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 55,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": false
       },
       {
         "id": 1,
@@ -658,7 +695,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 10,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": false
       },
       {
         "id": 2,
@@ -670,7 +708,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 11,
@@ -682,7 +721,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 2,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       }
     ]
     meta:
@@ -706,7 +746,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 25,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": true
       },
       {
         "id": 10,
@@ -718,7 +759,8 @@ GetAll:
         },
         "minRating": 0,
         "maxRating": 20,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 8,
@@ -730,7 +772,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 5,
@@ -742,7 +785,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 13,
@@ -754,7 +798,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 40,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 3,
@@ -766,7 +811,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 5,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 4,
@@ -774,11 +820,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 1,
         "maxRating": 50,
-        "isDefault": true
+        "isDefault": true,
+        "deletable": true
       },
       {
         "id": 9,
@@ -786,11 +833,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 0,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       }
       {
         "id": 1,
@@ -802,7 +850,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 10,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": false
       },
       {
         "id": 12,
@@ -814,7 +863,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 55,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": false
       },
       {
         "id": 11,
@@ -826,7 +876,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 2,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 2,
@@ -838,7 +889,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       }
     ]
     meta:
@@ -862,7 +914,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 2,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 2,
@@ -874,7 +927,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 1,
@@ -886,7 +940,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 10,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": false
       },
       {
         "id": 12,
@@ -898,7 +953,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 55,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": false
       },
       {
         "id": 4,
@@ -906,11 +962,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 1,
         "maxRating": 50,
-        "isDefault": true
+        "isDefault": true,
+        "deletable": true
       },
       {
         "id": 9,
@@ -918,11 +975,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 0,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       }
       {
         "id": 13,
@@ -934,7 +992,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 40,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 3,
@@ -946,7 +1005,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 5,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 5,
@@ -958,7 +1018,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 10,
@@ -970,7 +1031,8 @@ GetAll:
         },
         "minRating": 0,
         "maxRating": 20,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 8,
@@ -982,7 +1044,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 6,
@@ -994,7 +1057,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 25,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": true
       }
     ]
     meta:
@@ -1017,7 +1081,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 2,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 2,
@@ -1029,7 +1094,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 100,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 1,
@@ -1041,7 +1107,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 10,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": false
       },
       {
         "id": 12,
@@ -1053,7 +1120,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 55,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": false
       },
       {
         "id": 13,
@@ -1065,7 +1133,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 40,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       }
     ]
     meta:
@@ -1089,7 +1158,8 @@ GetAll:
         },
         "minRating": 0,
         "maxRating": 20,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 4,
@@ -1097,11 +1167,12 @@ GetAll:
         "jobTitle": {
           "id": 4,
           "name": "Sales Person",
-            "deleted": true
+          "deleted": true
         },
         "minRating": 1,
         "maxRating": 50,
-        "isDefault": true
+        "isDefault": true,
+        "deletable": true
       },
       {
         "id": 5,
@@ -1113,7 +1184,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 10,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 6,
@@ -1125,7 +1197,8 @@ GetAll:
         },
         "minRating": 5,
         "maxRating": 25,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": true
       },
       {
         "id": 3,
@@ -1137,7 +1210,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 5,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
     ]
     meta:
@@ -1163,7 +1237,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 50,
-        "isDefault": true
+        "isDefault": true,
+        "deletable": true
       },
       {
         "id": 10,
@@ -1175,7 +1250,8 @@ GetAll:
         },
         "minRating": 0,
         "maxRating": 20,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 13,
@@ -1187,7 +1263,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 40,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": true
       },
       {
         "id": 12,
@@ -1199,7 +1276,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 55,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": false
       },
       {
         "id": 1,
@@ -1211,7 +1289,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 10,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": false
       }
     ]
     meta:
@@ -1234,7 +1313,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 10,
-        "isDefault": 1
+        "isDefault": 1,
+        "deletable": false
       },
       {
         "id": 12,
@@ -1246,7 +1326,8 @@ GetAll:
         },
         "minRating": 1,
         "maxRating": 55,
-        "isDefault": null
+        "isDefault": null,
+        "deletable": false
       }
     ]
     meta:
@@ -1305,6 +1386,7 @@ GetOne:
       minRating: 1
       maxRating: 10
       isDefault: 1
+      deletable: false
     meta:
       editable: false
 

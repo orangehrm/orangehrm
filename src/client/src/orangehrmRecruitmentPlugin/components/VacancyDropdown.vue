@@ -31,8 +31,12 @@ import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 export default {
   name: 'VacancyDropdown',
-
   props: {
+    status: {
+      type: Boolean,
+      required: false,
+      default: null,
+    },
     excludeInterviewers: {
       type: Boolean,
       required: false,
@@ -46,16 +50,19 @@ export default {
       'api/v2/recruitment/vacancies',
     );
     onBeforeMount(() => {
-      http
-        .getAll({excludeInterviewers: props.excludeInterviewers})
-        .then(({data}) => {
-          options.value = data.data.map(item => {
-            return {
-              id: item.id,
-              label: item.name,
-            };
-          });
+      const params = {model: 'summary'};
+      if (props.status !== null) {
+        params.status = props.status;
+      }
+      params.excludeInterviewers = props.excludeInterviewers;
+      http.getAll(params).then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
         });
+      });
     });
     return {
       options,

@@ -59,7 +59,7 @@ class ApplicantControllerTest extends KernelTestCase
     public function setUp(): void
     {
         $fixture = Config::get(Config::PLUGINS_DIR)
-            . '/orangehrmRecruitmentPlugin/test/fixtures/ApplicantController.yaml';
+            . '/orangehrmRecruitmentPlugin/test/fixtures/ApplicantControllerTest.yaml';
         TestDataService::truncateSpecificTables(
             [
                 VacancyAttachment::class,
@@ -408,6 +408,18 @@ class ApplicantControllerTest extends KernelTestCase
                 null,
                 ['responseStatusCode' => 400],
                 ['excludeUploadedFile' => true]
+            ],
+            [
+                100, // Not existing job vacancy
+                'Linda',
+                null,
+                'Anderson',
+                'linda@example.com',
+                '1878648628323',
+                false,
+                null,
+                null,
+                ['responseStatusCode' => 400]
             ],
         ];
     }

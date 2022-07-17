@@ -1,34 +1,13 @@
 translations:
-    - { target: 'Toon actie geschiedenis', unitId: view_action_history, group: recruitment }
-    - { target: 'Interview naam', unitId: interview_title, group: recruitment }
-    - { target: 'Interview plannen', unitId: schedule_interview, group: recruitment }
-    - { target: 'Shortlist', unitId: shortlist, group: recruitment }
-    - { target: 'Huidige status', unitId: current_status, group: recruitment }
-    - { target: 'Uitgevoerde actie', unitId: performed_action, group: recruitment }
-    - { target: 'Uitvoerdatum', unitId: performed_date, group: recruitment }
-    - { target: 'Toon actie geschiedenis', unitId: view_action_history, group: recruitment }
-    - { target: 'Vacature', unitId: vacancy, group: recruitment }
-    - { target: 'Personeelsmanager', unitId: hiring_manager, group: recruitment }
-    - { target: 'Naam kandidaat', unitId: candidate_name, group: recruitment }
-    - { target: 'Sleutelwoorden', unitId: keywords, group: recruitment }
-    - { target: 'Sollicitatiedatum', unitId: date_of_application, group: recruitment }
-    - { target: 'Wijze van solliciteren', unitId: method_of_application, group: recruitment }
-    - { target: 'Kandidaat', unitId: candidate, group: recruitment }
-    - { target: 'Shortlisted', unitId: shortlisted, group: recruitment }
-    - { target: 'Interview gepland', unitId: interview_scheduled, group: recruitment }
-    - { target: 'Interview geslaagd', unitId: interview_passed, group: recruitment }
-    - { target: 'Interview gefaald', unitId: interview_failed, group: recruitment }
-    - { target: 'Functie aangeboden', unitId: job_offered, group: recruitment }
-    - { target: 'Handmatig', unitId: manual, group: recruitment }
-    - { target: 'Online', unitId: online, group: recruitment }
-    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
-    - { target: 'CV', unitId: resume, group: recruitment }
-    - { target: 'Kandidaat toevoegen', unitId: add_candidate, group: recruitment }
+    - { target: 'Beoordeling toevoegen', unitId: add_review, group: performance }
     - { target: april, unitId: april, group: general }
     - { target: augustus, unitId: august, group: general }
+    - { target: 'Huidige status', unitId: current_status, group: recruitment }
     - { target: december, unitId: december, group: general }
+    - { target: Verwijderen, unitId: delete, group: performance }
     - { target: februari, unitId: february, group: general }
     - { target: vrijdag, unitId: friday, group: general }
+    - { target: 'Volledige naam', unitId: full_name, group: general }
     - { target: januari, unitId: january, group: general }
     - { target: juli, unitId: july, group: general }
     - { target: juni, unitId: june, group: general }
@@ -43,6 +22,16 @@ translations:
     - { target: donderdag, unitId: thursday, group: general }
     - { target: dinsdag, unitId: tuesday, group: general }
     - { target: woensdag, unitId: wednesday, group: general }
+    - { target: Onjuist, unitId: invalid, group: general }
+    - { target: 'Bestanden .docx, .doc, .odt, .pdf, .rtf, .txt tot 1MB worden geaccepteerd', unitId: accept_custom_format_file, group: general }
+    - { target: Sleutelwoorden, unitId: keywords, group: recruitment }
+    - { target: CV, unitId: resume, group: recruitment }
+    - { target: Log, unitId: log, group: performance }
+    - { target: Beoordelaar, unitId: reviewer, group: performance }
+    - { target: 'Datum toegevoegd', unitId: added_date, group: performance }
+    - { target: 'Datum gemodificeerd', unitId: modified_date, group: performance }
+    - { target: 'Werknemer kan niet toegevoegd worden als zijn eigen beoordelaar', unitId: employee_cannot_be_assigned_as_his_own_reviewer, group: performance }
+    - { target: 'Naam tracker', unitId: tracker_name, group: performance }
     - { target: vrij, unitId: fri, group: general }
     - { target: maan, unitId: mon, group: general }
     - { target: zat, unitId: sat, group: general }
@@ -50,43 +39,65 @@ translations:
     - { target: don, unitId: thu, group: general }
     - { target: din, unitId: tue, group: general }
     - { target: woe, unitId: wed, group: general }
-    - { target: Jan, unitId: jan, group: general }
-    - { target: Feb, unitId: feb, group: general }
-    - { target: Mar, unitId: mar, group: general }
-    - { target: Apr, unitId: apr, group: general }
-    - { target: Jun, unitId: jun, group: general }
-    - { target: Jul, unitId: jul, group: general }
-    - { target: Aug, unitId: aug, group: general }
-    - { target: Sep, unitId: sep, group: general }
-    - { target: Oct, unitId: oct, group: general }
-    - { target: Nov, unitId: nov, group: general }
-    - { target: Dec, unitId: dec, group: general }
-    - { target: 'Datum toegevoegd', unitId: added_date, group: performance }
-    - { target: 'Datum gemodificeerd', unitId: modified_date, group: performance }
-    - { target: 'Mijn prestatie trackers lijst', unitId: my_performance_trackers, group: performance }
-    - { target: 'Naam tracker', unitId: tracker_name, group: performance }
-    - { target: 'マークのインタビューに失敗しました', unitId: mark_interview_failed, group: recruitment }
-    - { target: 'マークのインタビューでは、渡された', unitId: mark_interview_passed, group: recruitment }
-    - { target: '雇う', unitId: hire, group: recruitment }
-    - { target: 'Key Prestatie Indicatoren voor Functienaam', unitId: key_performance_indicators_for_job_title, group: performance }
+    - { target: Max, unitId: max, group: performance }
+    - { target: Min, unitId: min, group: performance }
+    - { target: Actief, unitId: active, group: general }
+    - { target: 'Kandidaat toevoegen', unitId: add_candidate, group: recruitment }
+    - { target: 'Applicatie geïnitieerd', unitId: application_initiated, group: recruitment }
+    - { target: Kandidaat, unitId: candidate, group: recruitment }
+    - { target: 'Naam kandidaat', unitId: candidate_name, group: recruitment }
+    - { target: Gesloten, unitId: closed, group: general }
+    - { target: Sollicitatiedatum, unitId: date_of_application, group: recruitment }
+    - { target: 'Aanbod afwijzen', unitId: decline_offer, group: recruitment }
+    - { target: Aannemen, unitId: hire, group: recruitment }
+    - { target: Aangenomen, unitId: hired, group: recruitment }
+    - { target: Personeelsmanager, unitId: hiring_manager, group: recruitment }
+    - { target: 'Interview gefaald', unitId: interview_failed, group: recruitment }
+    - { target: 'Interview geslaagd', unitId: interview_passed, group: recruitment }
+    - { target: 'Interview gepland', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Interview naam', unitId: interview_title, group: recruitment }
+    - { target: 'Functie aangeboden', unitId: job_offered, group: recruitment }
+    - { target: Vacature, unitId: job_vacancy, group: recruitment }
+    - { target: Handmatig, unitId: manual, group: recruitment }
+    - { target: 'Markeer Interview als gefaald', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Markeer Interview als geslaagd', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Wijze van solliciteren', unitId: method_of_application, group: recruitment }
+    - { target: 'Aantal functies', unitId: num_of_positions, group: recruitment }
+    - { target: 'Aanbod afgewezen', unitId: offer_declined, group: recruitment }
+    - { target: Online, unitId: online, group: recruitment }
+    - { target: 'Uitgevoerde actie', unitId: performed_action, group: recruitment }
+    - { target: Uitvoerdatum, unitId: performed_date, group: recruitment }
+    - { target: 'RSS Feed URL', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Interview plannen', unitId: schedule_interview, group: recruitment }
+    - { target: Shortlist, unitId: shortlist, group: recruitment }
+    - { target: Shortlisted, unitId: shortlisted, group: recruitment }
+    - { target: Vacature, unitId: vacancy, group: recruitment }
+    - { target: Vacaturenaam, unitId: vacancy_name, group: recruitment }
+    - { target: 'Toon actie geschiedenis', unitId: view_action_history, group: recruitment }
+    - { target: 'Web pagina URL', unitId: web_page_url, group: recruitment }
+    - { target: 'Sollicitatie ontvangen', unitId: application_received, group: recruitment }
+    - { target: KPI, unitId: kpi, group: performance }
+    - { target: 'Verval datum', unitId: due_date, group: performance }
+    - { target: 'Beoordelings periode', unitId: review_period, group: performance }
+    - { target: 'Status beoordeling', unitId: review_status, group: performance }
+    - { target: 'Beoordeling Overzicht', unitId: performance_review, group: performance }
+    - { target: Activeren, unitId: activate, group: performance }
+    - { target: Evalueren, unitId: evaluate, group: performance }
     - { target: 'Key Prestatie Indicator', unitId: key_performance_indicator, group: performance }
     - { target: 'Min Prijs', unitId: min_rate, group: performance }
     - { target: 'Max Prijs', unitId: max_rate, group: performance }
     - { target: 'Is Standaard', unitId: is_default, group: performance }
-    - { target: 'KPI toevoegen', unitId: add_key_performance_indicator, group: performance }
+    - { target: 'Vervaldatum Beoordeling', unitId: review_due_date, group: performance }
+    - { target: 'Eind beoordeling', unitId: final_rating, group: performance }
+    - { target: Voltooid, unitId: complete, group: performance }
+    - { target: Score, unitId: rating, group: performance }
+    - { target: 'Key Prestatie Indicatoren voor Functienaam', unitId: key_performance_indicators_for_job_title, group: performance }
     - { target: 'Minimale rating', unitId: minimum_rating, group: performance }
     - { target: 'Maximum Score', unitId: maximum_rating, group: performance }
     - { target: 'Maak standaard Schaal', unitId: make_default_scale, group: performance }
-    - { target: 'De maximale rating zou groter moeten zijn dan de minimale rating', unitId: maximum_rating_should_be_greater_than_minimum_rating, group: performance }
-    - { target: 'Datum toegevoegd', unitId: added_date, group: performance }
-    - { target: 'Datum gemodificeerd', unitId: modified_date, group: performance }
-    - { target: 'Geactiveerd', unitId: activated, group: performance }
+    - { target: Inactief, unitId: inactive, group: performance }
+    - { target: Geactiveerd, unitId: activated, group: performance }
+    - { target: 'Kan beoordeling niet activeren zonder KPIs', unitId: cannot_activate_review_without_kpi, group: performance }
+    - { target: 'Kan geen beoordeling activeren voor werknemers die geen functietitel en/of onderafdeling hebben ', unitId: cannot_activate_review_without_job_title_subdivision, group: performance }
     - { target: 'Wordt uitgevoerd', unitId: in_progress, group: performance }
-    - { target: 'Voltooid', unitId: completed, group: performance }
-    - { target: 'Beoordelings periode', unitId: review_period, group: performance }
-    - { target: 'Verval datum', unitId: due_date, group: performance }
-    - { target: 'Evalueren', unitId: evaluate, group: performance }
-    - { target: 'Status beoordeling', unitId: review_status, group: performance }
-    - { target: 'Beoordelaar', unitId: reviewer, group: performance }
-    - { target: 'Zoek Beoordelingen', unitId: manage_performance_reviews, group: performance }
-    - { target: 'Inactief', unitId: inactive, group: performance }
+    - { target: Voltooid, unitId: completed, group: performance }

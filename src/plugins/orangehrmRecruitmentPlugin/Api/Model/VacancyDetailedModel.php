@@ -21,29 +21,47 @@ namespace OrangeHRM\Recruitment\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\Vacancy;
 
-class CandidateModel implements Normalizable
+class VacancyDetailedModel implements Normalizable
 {
     use ModelTrait;
 
-    public function __construct(Candidate $candidate)
+    public function __construct(Vacancy $vacancy)
     {
-        $this->setEntity($candidate);
+        $this->setEntity($vacancy);
         $this->setFilters([
             'id',
-            'firstName',
-            'middleName',
-            'lastName',
-            'email',
+            'name',
+            'description',
+            'numOfPositions',
+            'status',
+            ['isPublished'],
+            ['getJobTitle', 'getId'],
+            ['getJobTitle', 'getJobTitleName'],
+            ['getJobTitle', 'isDeleted'],
+            ['getHiringManager', 'getEmpNumber'],
+            ['getHiringManager', 'getFirstName'],
+            ['getHiringManager', 'getMiddleName'],
+            ['getHiringManager', 'getLastName'],
+            ['getHiringManager', 'getEmployeeTerminationRecord', 'getId'],
         ]);
 
         $this->setAttributeNames([
             'id',
-            'firstName',
-            'middleName',
-            'lastName',
-            'email',
+            'name',
+            'description',
+            'numOfPositions',
+            'status',
+            'isPublished',
+            ['jobTitle', 'id'],
+            ['jobTitle', 'title'],
+            ['jobTitle', 'isDeleted'],
+            ['hiringManager', 'id'],
+            ['hiringManager', 'firstName'],
+            ['hiringManager', 'middleName'],
+            ['hiringManager', 'lastName'],
+            ['hiringManager', 'terminationId'],
         ]);
     }
 }

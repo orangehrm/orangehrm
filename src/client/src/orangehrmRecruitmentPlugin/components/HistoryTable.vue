@@ -257,10 +257,14 @@ export default {
         {
           name: 'performedDate',
           slot: 'title',
-          title: 'Performed Date',
+          title: this.$t('recruitment.performed_date'),
           style: {flex: '20%'},
         },
-        {name: 'description', title: 'Description', style: {flex: '65%'}},
+        {
+          name: 'description',
+          title: this.$t('general.description'),
+          style: {flex: '65%'},
+        },
         {
           name: 'actions',
           slot: 'action',
@@ -271,6 +275,11 @@ export default {
         },
       ],
     };
+  },
+  watch: {
+    candidate() {
+      this.execQuery();
+    },
   },
   methods: {
     cellRenderer(...[, , , row]) {

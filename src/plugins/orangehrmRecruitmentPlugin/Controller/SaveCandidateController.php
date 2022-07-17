@@ -23,7 +23,7 @@ use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
-use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
@@ -35,17 +35,8 @@ use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 class SaveCandidateController extends AbstractVueController implements CapableViewController
 {
     use CandidateServiceTrait;
+    use ConfigServiceTrait;
     use UserRoleManagerTrait;
-
-    protected ?ConfigService $configService = null;
-
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
 
     /**
      * @inheritDoc
@@ -65,7 +56,9 @@ class SaveCandidateController extends AbstractVueController implements CapableVi
             $component = new Component('save-candidate');
         }
 
-        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, 1024 * 1024));
+        $component->addProp(
+            new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize())
+        );
         $component->addProp(
             new Prop(
                 'allowed-file-types',

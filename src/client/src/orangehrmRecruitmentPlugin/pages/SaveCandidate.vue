@@ -45,6 +45,7 @@
               <vacancy-dropdown
                 v-model="candidate.vacancyId"
                 :exclude-interviewers="true"
+                :status="true"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -208,9 +209,7 @@ export default {
         keywords: null,
         comment: null,
         dateOfApplication: formatDate(freshDate(), 'yyyy-MM-dd'),
-        modeOfApplication: 1,
         consentToKeepData: false,
-        status: 1,
         vacancyId: null,
       },
       resume: {

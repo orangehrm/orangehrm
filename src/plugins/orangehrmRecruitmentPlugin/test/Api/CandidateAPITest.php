@@ -19,12 +19,10 @@
 
 namespace OrangeHRM\Tests\Recruitment\Api;
 
-use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Recruitment\Api\CandidateAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Recruitment
@@ -37,8 +35,7 @@ class CandidateAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        TestDataService::truncateSpecificTables([Candidate::class]);
-        $this->populateFixtures('JobCandidateDao.yaml');
+        $this->populateFixtures('CandidateAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -56,7 +53,7 @@ class CandidateAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('JobCandidateDao.yaml');
+        $this->populateFixtures('CandidateAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -74,7 +71,7 @@ class CandidateAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('JobCandidateDao.yaml');
+        $this->populateFixtures('CandidateAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -92,7 +89,7 @@ class CandidateAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('JobCandidateDao.yaml');
+        $this->populateFixtures('CandidateAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -110,7 +107,7 @@ class CandidateAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('JobCandidateDao.yaml');
+        $this->populateFixtures('CandidateAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
