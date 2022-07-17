@@ -363,7 +363,7 @@ apiv2_recruitment_candidate_mark_interview_passed:
   permissions:
     - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
     - { role: HiringManager, permission: { read: false, create: false, update: true, delete: false } }
-    - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Interviewer, permission: { read: true, create: false, update: true, delete: false } }
 
 apiv2_recruitment_candidate_mark_interview_failed:
   description: 'API-v2 Recruitment - Candidate Mark Interview Failed'
