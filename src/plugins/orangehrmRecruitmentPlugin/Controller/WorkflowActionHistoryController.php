@@ -45,17 +45,6 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
         $candidateId = $request->attributes->getInt('candidateId');
         $historyId = $request->attributes->getInt('historyId');
 
-        if (is_null($this->getCandidateService()->getCandidateDao()->getCandidateById($candidateId)) ||
-            is_null(
-                $this->getCandidateService()->getCandidateDao()->getCandidateHistoryRecordByCandidateIdAndHistoryId(
-                    $candidateId,
-                    $historyId
-                )
-            )
-        ) {
-            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
-        }
-
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));
         $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, $historyId));
         $this->setComponent($component);
@@ -66,16 +55,16 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
         if ($request->attributes->has('candidateId') && $request->attributes->has('historyId')) {
             $candidateId = $request->attributes->getInt('candidateId');
             $historyId = $request->attributes->getInt('historyId');
-            if (!$this->getUserRoleManager()->isEntityAccessible(Candidate::class, $candidateId)) {
-                return false;
-            }
-            if (!$this->getUserRoleManager()->isEntityAccessible(CandidateHistory::class, $historyId)) {
-                return false;
-            }
             if (!$this->getCandidateService()
                     ->getCandidateDao()
                     ->getCandidateHistoryRecordByCandidateIdAndHistoryId($candidateId, $historyId)
                 instanceof CandidateHistory) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+            if (!$this->getUserRoleManager()->isEntityAccessible(Candidate::class, $candidateId)) {
+                return false;
+            }
+            if (!$this->getUserRoleManager()->isEntityAccessible(CandidateHistory::class, $historyId)) {
                 return false;
             }
             return true;

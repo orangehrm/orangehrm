@@ -214,7 +214,7 @@ export default {
         employeeId: this.vacancy.hiringManager.id,
         numOfPositions: this.vacancy.numOfPositions || null,
         description: this.vacancy.description,
-        status: this.vacancy.status ? 1 : 2,
+        status: this.vacancy.status,
         isPublished: this.vacancy.isPublished,
       };
       this.http.create({...this.vacancy}).then(response => {

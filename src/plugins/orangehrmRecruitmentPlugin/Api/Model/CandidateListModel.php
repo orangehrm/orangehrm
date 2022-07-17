@@ -61,6 +61,7 @@ class CandidateListModel implements Normalizable
                 [
                     'id' => $vacancy->getId(),
                     'name' => $vacancy->getName(),
+                    'status' => $vacancy->getStatus(),
                     'hiringManager' => [
                         'id' => $vacancy->getHiringManager()->getEmpNumber(),
                         'firstName' => $vacancy->getHiringManager()->getFirstName(),

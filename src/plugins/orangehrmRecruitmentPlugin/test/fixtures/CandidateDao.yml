@@ -13,8 +13,8 @@ JobVacancy:
   0: {id: 1, jobTitleCode: 1, hiringManagerId: 1, name: 'Software Engineer 2011', description: 'SE for 2011', noOfPositions: 2, status: 1, publishedInFeed: 1, definedTime: '2011-06-03 10:20:15', updatedTime: '2011-06-03 10:20:15'}
   1: {id: 2, jobTitleCode: 2, hiringManagerId: 2, name: 'Software Architect 2011', description: 'Architect for 2011', noOfPositions: 1, status: 1, publishedInFeed: 0, definedTime: '2011-06-05 11:54:35', updatedTime: '2011-06-05 11:54:35'}
   2: {id: 3, jobTitleCode: 2, hiringManagerId: 3, name: 'Software Architect 2010', description: 'Architect for 2011', noOfPositions: 1, status: 1, publishedInFeed: 1, definedTime: '2011-06-07 14:58:35', updatedTime: '2011-06-07 14:58:35'}
-  3: {id: 4, jobTitleCode: 1, hiringManagerId: 4, name: 'Software Architect 2012', description: 'Architect for 2012', noOfPositions: 1, status: 2, publishedInFeed: 1, definedTime: '2011-06-09 19:16:29', updatedTime: '2011-06-09 19:16:29'}
-  4: {id: 5, jobTitleCode: 1, hiringManagerId: 1, name: 'Accountant Grade 1', description: 'Accountant grade 1', noOfPositions: 1, status: 2, publishedInFeed: 1, definedTime: '2011-06-09 17:16:29', updatedTime: '2011-06-09 18:16:29'}
+  3: {id: 4, jobTitleCode: 1, hiringManagerId: 4, name: 'Software Architect 2012', description: 'Architect for 2012', noOfPositions: 1, status: 0, publishedInFeed: 1, definedTime: '2011-06-09 19:16:29', updatedTime: '2011-06-09 19:16:29'}
+  4: {id: 5, jobTitleCode: 1, hiringManagerId: 1, name: 'Accountant Grade 1', description: 'Accountant grade 1', noOfPositions: 1, status: 0, publishedInFeed: 1, definedTime: '2011-06-09 17:16:29', updatedTime: '2011-06-09 18:16:29'}
 
 JobCandidate:
   0: {id: 1, firstName: 'Yasitha', lastName: 'Pandi', contactNumber: '0372243567', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 1, dateOfApplication: '2011-06-03', email: 'namal@gmail.com', addedPerson: 1}
@@ -26,7 +26,7 @@ JobCandidate:
   7: {id: 7, firstName: 'Kamal', middleName: 'S', lastName: 'Karunarathne', contactNumber: '0777-555555', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
   8: {id: 8, firstName: 'Kamal', lastName: 'Karunarathne', contactNumber: '0777-754075', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
   9: {id: 9, firstName: 'Kamal', lastName: 'Karunarathne', contactNumber: '0777-555555', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
-  10: {id: 10, firstName: 'Namal', lastName: 'Karunarathne', contactNumber: '0777-555666', keywords: 'surveryer, qc', status: 2, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}
+  10: {id: 10, firstName: 'Namal', lastName: 'Karunarathne', contactNumber: '0777-555666', keywords: 'surveryer, qc', status: 0, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}
   11: {id: 11, firstName: ' John ', middleName: ' Denis ', lastName: ' Connor ', contactNumber: '0777-555666', keywords: 'coder, developer', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'john_connor@mymail.com'}
  
 JobCandidateVacancy:

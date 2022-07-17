@@ -20,31 +20,35 @@
 namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\Interview;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class InterviewAttachmentsController extends AbstractVueController
 {
-    protected ?ConfigService $configService = null;
-
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
+    use ConfigServiceTrait;
+    use CandidateServiceTrait;
 
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
+        $interviewId = $request->attributes->getInt('interviewId');
+        $interview = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getInterviewById($interviewId);
+        if (!$interview instanceof Interview) {
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+        }
         $component = new Component('view-interview-attachments');
-        $component->addProp(new Prop('interview-id', Prop::TYPE_NUMBER, $request->attributes->getInt('interviewId')));
-        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, 1024 * 1024));
+        $component->addProp(new Prop('interview-id', Prop::TYPE_NUMBER, $interviewId));
+        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
         $component->addProp(
             new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes())
         );

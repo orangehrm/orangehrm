@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_1_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
@@ -207,6 +208,19 @@ class Migration extends AbstractMigration
         $this->updatePerformanceMenuItems();
 
         $this->modifyEmployeeTrackerScreenRolePermission($performanceModuleId);
+
+        $this->createQueryBuilder()
+            ->update('ohrm_job_vacancy', 'vacancy')
+            ->set('vacancy.status', ':newClosedStatus')
+            ->setParameter('newClosedStatus', 0)
+            ->andWhere('vacancy.status = :closedStatus')
+            ->setParameter('closedStatus', 2)
+            ->executeQuery();
+        $this->getSchemaHelper()->changeColumn(
+            'ohrm_job_vacancy',
+            'status',
+            ['Type' => Type::getType(Types::BOOLEAN), 'Default' => true, 'Notnull' => true]
+        );
     }
 
     /**

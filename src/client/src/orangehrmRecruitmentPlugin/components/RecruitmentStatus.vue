@@ -36,14 +36,14 @@
         <oxd-grid-item>
           <oxd-input-group :label="$t('recruitment.vacancy')">
             <oxd-text tag="p">
-              {{ vacancyName }}
+              {{ vacancyName ? vacancyName : 'N/A' }}
             </oxd-text>
           </oxd-input-group>
         </oxd-grid-item>
         <oxd-grid-item>
           <oxd-input-group :label="$t('recruitment.hiring_manager')">
             <oxd-text tag="p">
-              {{ hiringManagerName }}
+              {{ hiringManagerName ? hiringManagerName : 'N/A' }}
             </oxd-text>
           </oxd-input-group>
         </oxd-grid-item>
@@ -138,10 +138,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      candidateName: '',
-      vacancyName: 'N/A',
-      hiringManagerName: 'N/A',
-      status: null,
       statuses: [
         {id: 1, label: this.$t('recruitment.application_initiated')},
         {id: 2, label: this.$t('recruitment.shortlisted')},
@@ -159,47 +155,63 @@ export default {
   computed: {
     recruitmentStatus() {
       return (
-        this.statuses.find(item => item.id === this.status?.id)?.label || null
+        this.statuses.find(item => item.id === this.candidate.status?.id)
+          ?.label || null
       );
+    },
+    candidateName() {
+      return `${this.candidate.firstName} ${this.candidate?.middleName || ''} ${
+        this.candidate.lastName
+      }`;
+    },
+    vacancyName() {
+      return this.candidate.vacancy?.name;
+    },
+    hiringManagerName() {
+      return this.candidate.vacancy?.hiringManager
+        ? this.translateEmpName(this.candidate.vacancy.hiringManager, {
+            includeMiddle: true,
+            excludePastEmpTag: false,
+          })
+        : undefined;
+    },
+  },
+  watch: {
+    candidate() {
+      this.getAllowedActions();
     },
   },
   beforeMount() {
-    this.isLoading = true;
-    this.status = this.candidate.status;
-    this.candidateName = `${this.candidate?.firstName} ${this.candidate
-      ?.middleName || ''} ${this.candidate?.lastName}`;
-    if (this.candidate?.vacancy) {
-      this.vacancyName = this.candidate.vacancy.name;
-      this.hiringManagerName = this.translateEmpName(
-        this.candidate.vacancy.hiringManager,
-        {
-          includeMiddle: true,
-          excludePastEmpTag: false,
-        },
-      );
-    }
-    this.http
-      .request({
-        method: 'GET',
-        url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.actions = [...data];
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    this.getAllowedActions();
   },
   methods: {
     hasWorkflow(actionId) {
       return this.actions.findIndex(actions => actions.id == actionId) > -1;
     },
     doWorkflow(actionId) {
-      navigate('/recruitment/changeCandidateVacancyStatus', undefined, {
-        candidateId: this.candidate?.id,
-        selectedAction: actionId,
-      });
+      navigate(
+        '/recruitment/changeCandidateVacancyStatus',
+        {},
+        {
+          candidateId: this.candidate?.id,
+          selectedAction: actionId,
+        },
+      );
+    },
+    getAllowedActions() {
+      this.isLoading = true;
+      this.http
+        .request({
+          method: 'GET',
+          url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.actions = [...data];
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 };

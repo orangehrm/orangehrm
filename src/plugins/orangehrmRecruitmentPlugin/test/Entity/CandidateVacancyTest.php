@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Recruitment\Entity;
 
 use DateTime;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateVacancy;
@@ -38,6 +39,9 @@ class CandidateVacancyTest extends EntityTestCase
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([CandidateVacancy::class]);
+        $fixture = Config::get(Config::PLUGINS_DIR)
+            .'/orangehrmRecruitmentPlugin/test/fixtures/CandidateVacancy.yml';
+        TestDataService::populate($fixture);
     }
 
     public function testCandidateVacancyEntity(): void
