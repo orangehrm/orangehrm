@@ -71,11 +71,11 @@ class VacancyDao extends BaseDao
                     $vacancySearchFilterParamHolder->getEmpNumber()
                 );
         }
-        if (!is_null($vacancySearchFilterParamHolder->getVacancyId())) {
-            $q->andWhere('vacancy.id = :vacancyId')
+        if (!is_null($vacancySearchFilterParamHolder->getVacancyIds())) {
+            $q->andWhere($q->expr()->in('vacancy.id', ':vacancyIds'))
                 ->setParameter(
-                    'vacancyId',
-                    $vacancySearchFilterParamHolder->getVacancyId()
+                    'vacancyIds',
+                    $vacancySearchFilterParamHolder->getVacancyIds()
                 );
         }
         if (!is_null($vacancySearchFilterParamHolder->getStatus())) {

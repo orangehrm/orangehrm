@@ -204,6 +204,11 @@ GetOne:
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 1
     data:
@@ -225,6 +230,51 @@ GetOne:
         terminationId: null
     meta: [ ]
 
+  'Get vacancy by ID - Hiring Manager':
+    userId: 2
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    data:
+      id: 2
+      name: 'Senior Technical Supervisor'
+      description: 'Oversees technical assistant'
+      numOfPositions: 3
+      status: 1
+      isPublished: true
+      jobTitle:
+        id: 2
+        title: 'Supervisor'
+        isDeleted: false
+      hiringManager:
+        id: 2
+        firstName: 'Ashley'
+        middleName: 'ST'
+        lastName: 'Abel'
+        terminationId: null
+    meta: [ ]
+
+  'Get vacancy by ID - Hiring Manager - non-accessible vacancy':
+    userId: 2
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
   'Get vacancy by not-existing ID - Admin':
     userId: 1
     services:
@@ -235,11 +285,61 @@ GetOne:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
+  'Get vacancy by ID - Interviewer':
+    userId: 5
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 3
+    data:
+      id: 3
+      name: 'Part-Time Technical Assistant'
+      description: ''
+      numOfPositions: 1
+      status: 2
+      isPublished: true
+      jobTitle:
+        id: 1
+        title: 'Technical Assistant'
+        isDeleted: false
+      hiringManager:
+        id: 1
+        firstName: 'Kayla'
+        middleName: 'T'
+        lastName: 'Abbey'
+        terminationId: null
+    meta: [ ]
+
+  'Get vacancy by ID - Interviewer - non-accessible vacancy':
+    userId: 5
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
 GetAll:
   'Get All Vacancies without filters  - Admin':
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       - id: 5
         name: 'Assistant Technical Supervisor'
@@ -340,10 +440,151 @@ GetAll:
     meta:
       total: 6
 
+  'Get All Vacancies without filters  - Hiring Manager':
+    userId: 2
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data:
+      - id: 2
+        name: 'Senior Technical Supervisor'
+        description: 'Oversees technical assistant'
+        numOfPositions: 3
+        status: 1
+        isPublished: true
+        jobTitle:
+          id: 2
+          title: 'Supervisor'
+          isDeleted: false
+        hiringManager:
+          id: 2
+          firstName: 'Ashley'
+          middleName: 'ST'
+          lastName: 'Abel'
+          terminationId: null
+    meta:
+      total: 1
+
+  'Get All Vacancies without filters  - Hiring Manager + Interviewer - include Interviewer role':
+    userId: 4
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      excludeInterviewers: false
+    data:
+      - id: 4
+        name: 'Charted Engineer'
+        description: 'Manages Engineers'
+        numOfPositions: 4
+        status: 1
+        isPublished: true
+        jobTitle:
+          id: 3
+          title: 'Engineering Manager'
+          isDeleted: false
+        hiringManager:
+          id: 4
+          firstName: 'Sherin'
+          middleName: 'Sherin'
+          lastName: 'Sherin'
+          terminationId: null
+      - id: 3
+        name: 'Part-Time Technical Assistant'
+        description: ''
+        numOfPositions: 1
+        status: 2
+        isPublished: true
+        jobTitle:
+          id: 1
+          title: 'Technical Assistant'
+          isDeleted: false
+        hiringManager:
+          id: 1
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+    meta:
+      total: 2
+
+  'Get All Vacancies without filters  - Hiring Manager + Interviewer - exclude Interviewer role':
+    userId: 4
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      excludeInterviewers: true
+    data:
+      - id: 4
+        name: 'Charted Engineer'
+        description: 'Manages Engineers'
+        numOfPositions: 4
+        status: 1
+        isPublished: true
+        jobTitle:
+          id: 3
+          title: 'Engineering Manager'
+          isDeleted: false
+        hiringManager:
+          id: 4
+          firstName: 'Sherin'
+          middleName: 'Sherin'
+          lastName: 'Sherin'
+          terminationId: null
+    meta:
+      total: 1
+
+  'Get All Vacancies without filters  - Interviewer':
+    userId: 5
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data:
+      - id: 3
+        name: 'Part-Time Technical Assistant'
+        description: ''
+        numOfPositions: 1
+        status: 2
+        isPublished: true
+        jobTitle:
+          id: 1
+          title: 'Technical Assistant'
+          isDeleted: false
+        hiringManager:
+          id: 1
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+    meta:
+      total: 1
+
   'Get All Vacancies - filter by job title':
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       jobTitleId: 2
     data:
@@ -386,6 +627,11 @@ GetAll:
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       vacancyId: 5
     data:
@@ -412,6 +658,11 @@ GetAll:
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       hiringManagerId: 1
     data:
@@ -470,6 +721,11 @@ GetAll:
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       status: 2
     data:
@@ -496,6 +752,11 @@ GetAll:
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
     data:
@@ -538,6 +799,11 @@ GetAll:
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
       offset: 1
@@ -581,6 +847,11 @@ GetAll:
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'tech'
     data:
@@ -655,6 +926,11 @@ GetAll:
     userId: 1
     services:
       recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'char'
     data:

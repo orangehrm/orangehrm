@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Vacancy;
@@ -45,12 +46,14 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
 {
     use VacancyServiceTrait;
     use DateTimeHelperTrait;
+    use UserRoleManagerTrait;
 
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_VACANCY_ID = 'vacancyId';
     public const FILTER_HIRING_MANAGER_ID = 'hiringManagerId';
     public const FILTER_STATUS = 'status';
     public const FILTER_NAME = 'name';
+    public const FILTER_EXCLUDE_INTERVIEWERS = 'excludeInterviewers';
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
@@ -83,7 +86,12 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(new ParamRule(CommonParams::PARAMETER_ID));
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Vacancy::class])
+            )
+        );
     }
 
     /**
@@ -93,6 +101,28 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     {
         $vacancyParamHolder = new VacancySearchFilterParams();
         $this->setSortingAndPaginationParams($vacancyParamHolder);
+
+        $vacancyId = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_VACANCY_ID
+        );
+
+        $excludeInterviewers = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_EXCLUDE_INTERVIEWERS,
+        );
+
+        if (!is_null($vacancyId)) {
+            $vacancyParamHolder->setVacancyIds([$vacancyId]);
+        } else {
+            $rolesToExclude = [];
+            if ($excludeInterviewers) {
+                $rolesToExclude = ['Interviewer'];
+            }
+            $accessibleVacancyIds = $this->getUserRoleManager()
+                ->getAccessibleEntityIds(Vacancy::class, null, null, $rolesToExclude);
+            $vacancyParamHolder->setVacancyIds($accessibleVacancyIds);
+        }
 
         $vacancyParamHolder->setJobTitleId(
             $this->getRequestParams()->getIntOrNull(
@@ -104,12 +134,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_HIRING_MANAGER_ID
-            )
-        );
-        $vacancyParamHolder->setVacancyId(
-            $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_VACANCY_ID
             )
         );
         $vacancyParamHolder->setStatus(
@@ -142,7 +166,8 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_VACANCY_ID,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Vacancy::class])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -169,6 +194,10 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [0, self::PARAMETER_RULE_NAME_MAX_LENGTH])
                 )
+            ),
+            new ParamRule(
+                self::FILTER_EXCLUDE_INTERVIEWERS,
+                new Rule(Rules::BOOL_VAL),
             ),
             ...$this->getSortingAndPaginationParamsRules(VacancySearchFilterParams::ALLOWED_SORT_FIELDS)
         );

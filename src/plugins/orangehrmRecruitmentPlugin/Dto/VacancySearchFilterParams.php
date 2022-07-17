@@ -55,6 +55,11 @@ class VacancySearchFilterParams extends FilterParams
      */
     protected ?string $name = null;
 
+    /**
+     * @var array|null
+     */
+    protected ?array $vacancyIds = null;
+
     public function __construct()
     {
         $this->setSortField('vacancy.name');
@@ -70,27 +75,11 @@ class VacancySearchFilterParams extends FilterParams
     }
 
     /**
-     * @param  int|null  $jobTitleId
+     * @param int|null $jobTitleId
      */
     public function setJobTitleId(?int $jobTitleId): void
     {
         $this->jobTitleId = $jobTitleId;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getVacancyId(): ?int
-    {
-        return $this->vacancyId;
-    }
-
-    /**
-     * @param  int|null  $vacancyId
-     */
-    public function setVacancyId(?int $vacancyId): void
-    {
-        $this->vacancyId = $vacancyId;
     }
 
     /**
@@ -102,7 +91,7 @@ class VacancySearchFilterParams extends FilterParams
     }
 
     /**
-     * @param  int|null  $empNumber
+     * @param int|null $empNumber
      */
     public function setEmpNumber(?int $empNumber): void
     {
@@ -118,7 +107,7 @@ class VacancySearchFilterParams extends FilterParams
     }
 
     /**
-     * @param  int|null  $status
+     * @param int|null $status
      */
     public function setStatus(?int $status): void
     {
@@ -139,5 +128,21 @@ class VacancySearchFilterParams extends FilterParams
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getVacancyIds(): ?array
+    {
+        return $this->vacancyIds;
+    }
+
+    /**
+     * @param array|null $vacancyIds
+     */
+    public function setVacancyIds(?array $vacancyIds): void
+    {
+        $this->vacancyIds = $vacancyIds;
     }
 }

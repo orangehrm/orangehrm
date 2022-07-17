@@ -31,21 +31,31 @@ import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 export default {
   name: 'VacancyDropdown',
-  setup() {
+
+  props: {
+    excludeInterviewers: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  setup(props) {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/recruitment/vacancies',
     );
     onBeforeMount(() => {
-      http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
-          return {
-            id: item.id,
-            label: item.name,
-          };
+      http
+        .getAll({excludeInterviewers: props.excludeInterviewers})
+        .then(({data}) => {
+          options.value = data.data.map(item => {
+            return {
+              id: item.id,
+              label: item.name,
+            };
+          });
         });
-      });
     });
     return {
       options,
