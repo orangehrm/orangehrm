@@ -272,6 +272,11 @@ export default {
       ],
     };
   },
+  watch: {
+    candidate() {
+      this.execQuery();
+    },
+  },
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};

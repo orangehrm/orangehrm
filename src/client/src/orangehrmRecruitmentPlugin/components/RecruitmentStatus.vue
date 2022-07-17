@@ -176,20 +176,13 @@ export default {
         : undefined;
     },
   },
+  watch: {
+    candidate() {
+      this.getAllowedActions();
+    },
+  },
   beforeMount() {
-    this.isLoading = true;
-    this.http
-      .request({
-        method: 'GET',
-        url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.actions = [...data];
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    this.getAllowedActions();
   },
   methods: {
     hasWorkflow(actionId) {
@@ -204,6 +197,21 @@ export default {
           selectedAction: actionId,
         },
       );
+    },
+    getAllowedActions() {
+      this.isLoading = true;
+      this.http
+        .request({
+          method: 'GET',
+          url: `api/v2/recruitment/candidates/${this.candidate?.id}/actions/allowed`,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.actions = [...data];
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 };
