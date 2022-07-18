@@ -43,8 +43,7 @@
       :title="$t('maintenance.purge_employee')"
       :subtitle="$t('maintenance.purge_employee_warning')"
       :cancel-label="$t('general.no_cancel')"
-      :confirmation-label="$t('maintenance.yes_purge')"
-      icon=""
+      :confirm-label="$t('maintenance.yes_purge')"
     ></purge-confirmation>
   </div>
 </template>

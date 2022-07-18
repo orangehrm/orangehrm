@@ -239,3 +239,9 @@ langStrings:
   -
     value: 'The review will be made read-only after completion. This action cannot be undone. Are you sure you want to continue?'
     unitId: confirm_review_submission_message
+  -
+    value: 'Cannot add a past employee as a reviewer'
+    unitId: cannot_add_a_past_employee_as_a_reviewer
+  -
+    value: 'Edit Review'
+    unitId: edit_review

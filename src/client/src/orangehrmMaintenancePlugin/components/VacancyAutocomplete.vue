@@ -25,6 +25,9 @@
     :clear="false"
     :create-options="loadVacancies"
   >
+    <template #option="{data}">
+      <span>{{ data.label }}</span>
+    </template>
   </oxd-input-field>
 </template>
 

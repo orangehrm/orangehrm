@@ -212,3 +212,6 @@ langStrings:
   -
     value: 'Reject Candidate'
     unitId: reject_candidate
+  -
+    value: 'This action will remove previous vacancy. Are you sure you want to continue?'
+    unitId: candidate_vacancy_change_message

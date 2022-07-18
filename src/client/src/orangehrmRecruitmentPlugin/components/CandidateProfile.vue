@@ -167,6 +167,15 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
+
+    <confirmation-dialog
+      ref="confirmDialog"
+      :title="$t('general.confirmation_required')"
+      :subtitle="$t('recruitment.candidate_vacancy_change_message')"
+      :cancel-label="$t('general.no_cancel')"
+      :confirm-label="$t('general.yes_confirm')"
+      confirm-button-type="secondary"
+    ></confirmation-dialog>
   </div>
 </template>
 
@@ -188,6 +197,7 @@ import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
 
 const CandidateProfileModel = {
   firstName: '',
@@ -221,6 +231,7 @@ export default {
     'full-name-input': FullNameInput,
     'vacancy-dropdown': VacancyDropdown,
     'file-upload-input': FileUploadInput,
+    'confirmation-dialog': ConfirmationDialog,
   },
   props: {
     candidate: {
@@ -306,6 +317,18 @@ export default {
   },
   methods: {
     onSave() {
+      if (
+        this.candidate.vacancy?.id &&
+        this.candidate.vacancy?.id !== this.vacancy?.id
+      ) {
+        this.$refs.confirmDialog.showDialog().then(confirmation => {
+          if (confirmation === 'ok') this.updateCandidate();
+        });
+      } else {
+        this.updateCandidate();
+      }
+    },
+    updateCandidate() {
       this.isLoading = true;
       this.http
         .request({

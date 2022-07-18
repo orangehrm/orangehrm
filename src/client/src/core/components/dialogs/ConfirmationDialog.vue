@@ -36,14 +36,14 @@
       <div class="orangehrm-modal-footer">
         <oxd-button
           :label="cancelLabel"
-          display-type="text"
+          :display-type="cancelButtonType"
           class="orangehrm-button-margin"
           @click="onCancel"
         />
         <oxd-button
-          :label="confirmationLabel"
           :icon-name="icon"
-          display-type="label-danger"
+          :label="confirmLabel"
+          :display-type="confirmButtonType"
           class="orangehrm-button-margin"
           @click="onConfirm"
         />
@@ -72,13 +72,24 @@ export default {
       type: String,
       required: true,
     },
-    confirmationLabel: {
+    confirmLabel: {
       type: String,
       required: true,
     },
     icon: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
+    },
+    confirmButtonType: {
+      type: String,
+      required: false,
+      default: 'label-danger',
+    },
+    cancelButtonType: {
+      type: String,
+      required: false,
+      default: 'text',
     },
   },
   data() {

@@ -182,3 +182,9 @@ langStrings:
   -
     value: 'Should be a numeric value'
     unitId: should_be_a_numeric_value
+  -
+    value: 'Confirmation Required'
+    unitId: confirmation_required
+  -
+    value: 'Yes, Confirm'
+    unitId: yes_confirm
