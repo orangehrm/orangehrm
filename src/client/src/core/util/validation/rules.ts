@@ -70,14 +70,17 @@ export const shouldNotExceedCharLength = function(charLength: number) {
   };
 };
 
-export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
+export const validDateFormat = function(
+  displayFormat = 'yyyy-mm-dd',
+  dateFormat = 'yyyy-MM-dd',
+) {
   return function(value: string): boolean | string {
     if (!value) return true;
     const parsed = parseDate(value, dateFormat);
     return parsed
       ? true
       : translate('general.should_be_a_valid_date_in_x_format', {
-          format: dateFormat,
+          format: displayFormat,
         });
   };
 };

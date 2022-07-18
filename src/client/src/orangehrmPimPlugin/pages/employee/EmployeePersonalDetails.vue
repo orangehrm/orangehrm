@@ -83,6 +83,7 @@
             <oxd-grid-item>
               <date-input
                 v-model="employee.drivingLicenseExpiredDate"
+                :rules="rules.drivingLicenseExpiredDate"
                 :label="$t('pim.license_expiry_date')"
               />
             </oxd-grid-item>
@@ -134,6 +135,7 @@
               <date-input
                 v-model="employee.birthday"
                 :label="$t('pim.date_of_birth')"
+                :rules="rules.birthday"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
@@ -197,7 +199,9 @@ import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import {
   required,
   shouldNotExceedCharLength,
+  validDateFormat,
 } from '@ohrm/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const employeeModel = {
   firstName: '',
@@ -252,9 +256,11 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.empNumber}/personal-details`,
     );
+    const {userDateFormat} = useDateFormat();
 
     return {
       http,
+      userDateFormat,
     };
   },
 
@@ -273,6 +279,8 @@ export default {
         sinNumber: [shouldNotExceedCharLength(30)],
         nickname: [shouldNotExceedCharLength(30)],
         militaryService: [shouldNotExceedCharLength(30)],
+        birthday: [validDateFormat(this.userDateFormat)],
+        drivingLicenseExpiredDate: [validDateFormat(this.userDateFormat)],
       },
       maritalStatuses: [
         {id: 'Single', label: 'Single'},

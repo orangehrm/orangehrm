@@ -100,8 +100,7 @@
               <date-input
                 v-model="candidate.dateOfApplication"
                 :label="$t('recruitment.date_of_application')"
-                :rules="rules.date"
-                :placeholder="$t('general.date_format')"
+                :rules="rules.applyDate"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -165,6 +164,7 @@ import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 export default {
   name: 'SaveCandidate',
@@ -189,8 +189,11 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/recruitment/candidates',
     );
+    const {userDateFormat} = useDateFormat();
+
     return {
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -226,7 +229,10 @@ export default {
           maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
-        applyDate: [validDateFormat(), shouldBeCurrentOrPreviousDate()],
+        applyDate: [
+          validDateFormat(this.userDateFormat),
+          shouldBeCurrentOrPreviousDate(),
+        ],
       },
     };
   },

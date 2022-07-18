@@ -276,13 +276,14 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.empNumber}/job-details`,
     );
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
     return {
       http,
-      jsDateFormat,
       locale,
+      jsDateFormat,
+      userDateFormat,
     };
   },
 
@@ -295,9 +296,10 @@ export default {
       termination: null,
       showTerminateModal: false,
       rules: {
-        startDate: [validDateFormat()],
+        joinedDate: [validDateFormat(this.userDateFormat)],
+        startDate: [validDateFormat(this.userDateFormat)],
         endDate: [
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(() => this.contract.startDate),
         ],
         contractAttachment: [

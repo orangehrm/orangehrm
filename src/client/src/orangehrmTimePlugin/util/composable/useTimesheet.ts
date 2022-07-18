@@ -44,6 +44,7 @@ export default function useTimesheet(
   state.date = date ? date : formatDate(freshDate(), 'yyyy-MM-dd');
 
   const loadTimesheet = (date: string | null): void => {
+    if (date && parseDate(date) === null) return;
     state.isLoading = true;
     fetchTimesheet(date, empNumber)
       .then(response => {
