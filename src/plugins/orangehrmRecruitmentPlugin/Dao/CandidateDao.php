@@ -471,4 +471,19 @@ class CandidateDao extends BaseDao
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
     }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getVacancyIdListForInterviewer(int $empNumber): array
+    {
+        $q = $this->createQueryBuilder(CandidateVacancy::class, 'candidateVacancy');
+        $q->leftJoin('candidateVacancy.vacancy', 'vacancy');
+        $q->select('vacancy.id');
+        $q->andWhere($q->expr()->in('candidateVacancy.candidate', ':ids'));
+        $q->setParameter('ids', $this->getCandidateListForInterviewer($empNumber));
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
 }

@@ -19,66 +19,59 @@
 
 namespace OrangeHRM\Tests\Recruitment\Api;
 
-use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Recruitment\Api\CandidateAllowedActionAPI;
+use OrangeHRM\Recruitment\Api\EmployeeListAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Recruitment
  * @group APIv2
  */
-class CandidateAllowedActionAPITest extends EndpointIntegrationTestCase
+class EmployeeListAPITest extends EndpointIntegrationTestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml');
-    }
-
     /**
      * @dataProvider dataProviderForTestGetAll
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CandidateAllowedActions.yaml', null, true);
+        $this->populateFixtures('EmployeeList.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CandidateAllowedActionAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeListAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('CandidateAllowedActionsTestCases.yaml', 'GetAll');
+        return $this->getTestCases('EmployeeListAPITestCases.yaml', 'GetAll');
     }
 
     public function testCreate(): void
     {
-        $api = new CandidateAllowedActionAPI($this->getRequest());
+        $api = new EmployeeListAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->create();
     }
 
     public function testGetValidationRuleForCreate(): void
     {
-        $api = new CandidateAllowedActionAPI($this->getRequest());
+        $api = new EmployeeListAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForCreate();
     }
 
     public function testDelete(): void
     {
-        $api = new CandidateAllowedActionAPI($this->getRequest());
+        $api = new EmployeeListAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new CandidateAllowedActionAPI($this->getRequest());
+        $api = new EmployeeListAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

@@ -38,11 +38,6 @@ class VacancySearchFilterParams extends FilterParams
     /**
      * @var int|null
      */
-    private ?int $vacancyId = null;
-
-    /**
-     * @var int|null
-     */
     private ?int $empNumber = null;
 
     /**
@@ -60,11 +55,15 @@ class VacancySearchFilterParams extends FilterParams
      */
     private ?bool $isPublished = null;
 
+    /**
+     * @var array|null
+     */
+    private ?array $vacancyIds = null;
+
     public function __construct()
     {
         $this->setSortField('vacancy.name');
     }
-
 
     /**
      * @return int|null
@@ -75,27 +74,11 @@ class VacancySearchFilterParams extends FilterParams
     }
 
     /**
-     * @param  int|null  $jobTitleId
+     * @param int|null $jobTitleId
      */
     public function setJobTitleId(?int $jobTitleId): void
     {
         $this->jobTitleId = $jobTitleId;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getVacancyId(): ?int
-    {
-        return $this->vacancyId;
-    }
-
-    /**
-     * @param  int|null  $vacancyId
-     */
-    public function setVacancyId(?int $vacancyId): void
-    {
-        $this->vacancyId = $vacancyId;
     }
 
     /**
@@ -107,7 +90,7 @@ class VacancySearchFilterParams extends FilterParams
     }
 
     /**
-     * @param  int|null  $empNumber
+     * @param int|null $empNumber
      */
     public function setEmpNumber(?int $empNumber): void
     {
@@ -160,5 +143,21 @@ class VacancySearchFilterParams extends FilterParams
     public function setIsPublished(?bool $isPublished): void
     {
         $this->isPublished = $isPublished;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getVacancyIds(): ?array
+    {
+        return $this->vacancyIds;
+    }
+
+    /**
+     * @param array|null $vacancyIds
+     */
+    public function setVacancyIds(?array $vacancyIds): void
+    {
+        $this->vacancyIds = $vacancyIds;
     }
 }

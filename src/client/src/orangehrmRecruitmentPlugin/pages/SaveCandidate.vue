@@ -42,7 +42,11 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <vacancy-dropdown v-model="candidate.vacancyId" :status="true" />
+              <vacancy-dropdown
+                v-model="candidate.vacancyId"
+                :exclude-interviewers="true"
+                :status="true"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
