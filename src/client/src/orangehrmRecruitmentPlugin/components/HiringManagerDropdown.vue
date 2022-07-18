@@ -29,21 +29,26 @@
 <script>
 import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'HiringManagerDropdown',
   setup() {
     const options = ref([]);
+    const {$tEmpName} = useEmployeeNameTranslate();
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/recruitment/hiring-managers',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
+        options.value = data.data.map(hiringManager => {
           return {
-            id: item.empNumber,
-            label: `${item.firstName} ${item.lastName}`,
+            id: hiringManager.empNumber,
+            label: $tEmpName(hiringManager, {
+              includeMiddle: false,
+              excludePastEmpTag: false,
+            }),
           };
         });
       });
