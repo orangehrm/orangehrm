@@ -19,13 +19,9 @@
 
 namespace OrangeHRM\Core\Service;
 
-use Doctrine\Common\Collections\Collection;
 use OrangeHRM\Core\Dao\ModuleDao;
+use OrangeHRM\Entity\Module;
 
-/**
- * Module Service: Manages module entries in ohrm_module
- *
- */
 class ModuleService
 {
     /**
