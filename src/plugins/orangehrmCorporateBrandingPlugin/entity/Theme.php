@@ -42,6 +42,7 @@ class Theme
         'jpg',
         'png',
         'svg',
+        'jfif',
     ];
     public const CLIENT_LOGO_ASPECT_RATIO = 1; // 50 x 50
     public const CLIENT_BANNER_ASPECT_RATIO = 91 / 25; // 182 x 50

@@ -23,6 +23,7 @@ namespace OrangeHRM\Tests\Recruitment\Controller;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Framework\Services;
@@ -39,13 +40,10 @@ class VacancyRestControllerTest extends KernelTestCase
     public static function setUpBeforeClass(): void
     {
         $fixture = Config::get(Config::PLUGINS_DIR)
-            .'/orangehrmRecruitmentPlugin/test/fixtures/VacancyListRestController.yaml';
+            . '/orangehrmRecruitmentPlugin/test/fixtures/VacancyRestController.yaml';
         TestDataService::populate($fixture);
     }
 
-    /**
-     * @return void
-     */
     public function testHandleGetRequest(): void
     {
         $this->createKernelWithMockServices([
@@ -54,32 +52,53 @@ class VacancyRestControllerTest extends KernelTestCase
         ]);
 
         $controller = new VacancyRestController();
-        $httpRequest = $this->getHttpRequest([], [], ['id'=>1]);
+        $httpRequest = $this->getHttpRequest([], [], ['id' => 1]);
         $request = new Request($httpRequest);
         $response = $controller->handleGetRequest($request);
         $decodedResponse = json_decode($response->formatData(), false);
         $this->assertEquals('Technical Assistant Intern', $decodedResponse->data->name);
 
-        $controller = new VacancyRestController();
-        $httpRequest = $this->getHttpRequest([], [], ['id'=>2]);
+        $httpRequest = $this->getHttpRequest([], [], ['id' => 2]);
         $request = new Request($httpRequest);
         $response = $controller->handleGetRequest($request);
         $decodedResponse = json_decode($response->formatData(), false);
         $this->assertNotEquals('Technical Assistant Intern', $decodedResponse->data->name);
 
-        $controller = new VacancyRestController();
-        $httpRequest = $this->getHttpRequest([], [], ['id'=>3]);
+        $httpRequest = $this->getHttpRequest([], [], ['id' => 3]);
         $request = new Request($httpRequest);
         $response = $controller->handleGetRequest($request);
         $decodedResponse = json_decode($response->formatData(), false);
         $this->assertEquals('', $decodedResponse->data->description);
 
-        $controller = new VacancyRestController();
-        $httpRequest = $this->getHttpRequest([], [], ['id'=>4]);
+        $httpRequest = $this->getHttpRequest([], [], ['id' => 4]);
         $request = new Request($httpRequest);
         $response = $controller->handleGetRequest($request);
         $decodedResponse = json_decode($response->formatData(), false);
         $this->assertEquals('Manages Engineers', $decodedResponse->data->description);
+
+        $httpRequest = $this->getHttpRequest([], [], ['id' => 5]); // Closed & Published
+        $request = new Request($httpRequest);
+        try {
+            $controller->handleGetRequest($request);
+        } catch (RecordNotFoundException $e) {
+            $this->assertEquals(RecordNotFoundException::DEFAULT_ERROR_MESSAGE, $e->getMessage());
+        }
+
+        $httpRequest = $this->getHttpRequest([], [], ['id' => 6]); // Active & Not published
+        $request = new Request($httpRequest);
+        try {
+            $controller->handleGetRequest($request);
+        } catch (RecordNotFoundException $e) {
+            $this->assertEquals(RecordNotFoundException::DEFAULT_ERROR_MESSAGE, $e->getMessage());
+        }
+
+        $httpRequest = $this->getHttpRequest([], [], ['id' => 7]); // Closed & Not published
+        $request = new Request($httpRequest);
+        try {
+            $controller->handleGetRequest($request);
+        } catch (RecordNotFoundException $e) {
+            $this->assertEquals(RecordNotFoundException::DEFAULT_ERROR_MESSAGE, $e->getMessage());
+        }
     }
 
     /**

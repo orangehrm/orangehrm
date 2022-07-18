@@ -58,6 +58,7 @@
                 v-model="vacancy"
                 :label="$t('recruitment.job_vacancy')"
                 :readonly="!editable"
+                :status="true"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -179,7 +180,6 @@ import {
   validPhoneNumberFormat,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
-import {navigate} from '@/core/util/helper/navigation';
 import {urlFor} from '@ohrm/core/util/helper/url';
 import DateInput from '@/core/components/inputs/DateInput';
 import {APIService} from '@/core/util/services/api.service';
@@ -198,8 +198,6 @@ const CandidateProfileModel = {
   keywords: '',
   dateOfApplication: null,
   consentToKeepData: false,
-  modeOfApplication: 1,
-  status: 1,
 };
 
 const CandidateAttachmentModel = {
@@ -237,6 +235,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update'],
   setup() {
     const http = new APIService(window.appGlobal.baseUrl, '/');
 
@@ -332,7 +331,9 @@ export default {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/addCandidate/{id}', {id: this.candidate.id});
+          this.$emit('update');
+          this.isLoading = false;
+          this.editable = false;
         });
     },
     getResumeUrl() {

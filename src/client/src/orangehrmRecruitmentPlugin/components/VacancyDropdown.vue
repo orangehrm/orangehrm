@@ -31,14 +31,25 @@ import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 export default {
   name: 'VacancyDropdown',
-  setup() {
+  props: {
+    status: {
+      type: Boolean,
+      required: false,
+      default: null,
+    },
+  },
+  setup(props) {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/recruitment/vacancies',
     );
     onBeforeMount(() => {
-      http.getAll().then(({data}) => {
+      const params = {model: 'summary'};
+      if (props.status !== null) {
+        params.status = props.status;
+      }
+      http.getAll(params).then(({data}) => {
         options.value = data.data.map(item => {
           return {
             id: item.id,

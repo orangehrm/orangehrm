@@ -92,10 +92,10 @@ export default {
     },
   },
   emits: ['update:loading'],
-  setup(props) {
+  setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `/api/v2/recruitment/candidates/${props.candidateId}`,
+      `/api/v2/recruitment/candidates`,
     );
     const {$tEmpName} = useEmployeeNameTranslate();
 
@@ -110,7 +110,7 @@ export default {
       statuses: [
         {id: 1, label: this.$t('recruitment.application_initiated')},
         {id: 2, label: this.$t('recruitment.shortlisted')},
-        {id: 3, label: this.$t('recruitment.rejected')},
+        {id: 3, label: this.$t('leave.rejected')},
         {id: 4, label: this.$t('recruitment.interview_scheduled')},
         {id: 5, label: this.$t('recruitment.interview_passed')},
         {id: 6, label: this.$t('recruitment.interview_failed')},
@@ -131,7 +131,7 @@ export default {
   beforeMount() {
     this.$emit('update:loading', true);
     this.http
-      .getAll()
+      .get(this.candidateId)
       .then(response => {
         const {data} = response.data;
         this.candidate.status = data.status;

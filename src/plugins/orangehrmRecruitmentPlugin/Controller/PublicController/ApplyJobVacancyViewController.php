@@ -29,8 +29,11 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class ApplyJobVacancyViewController extends AbstractVueController implements PublicControllerInterface
 {
@@ -38,13 +41,22 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
     use ConfigServiceTrait;
     use CsrfTokenManagerTrait;
     use AuthUserTrait;
+    use VacancyServiceTrait;
 
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $id = $request->attributes->get('id');
+        $id = $request->attributes->getInt('id');
+        $vacancy = $this->getVacancyService()
+            ->getVacancyDao()
+            ->getVacancyById($id);
+        if (!$vacancy instanceof Vacancy || !$vacancy->getDecorator()->isActiveAndPublished()) {
+            $this->setResponse($this->handleBadRequest());
+            return;
+        }
+
         $success = false;
         if ($this->getAuthUser()->hasFlash('flash.applicant_success')) {
             $flash = $this->getAuthUser()->getFlash('flash.applicant_success');
@@ -54,9 +66,9 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
         $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
         $bannerUrl = $request->getBasePath()
             . "/images/ohrm_branding.png?$assetsVersion";
-        if (!is_null($this->getThemeService()->getImageETag('login_banner'))) {
+        if (!is_null($this->getThemeService()->getImageETag('client_banner'))) {
             $bannerUrl = $request->getBaseUrl()
-                . "/admin/theme/image/loginBanner?$assetsVersion";
+                . "/admin/theme/image/clientBanner?$assetsVersion";
         }
 
         $component = new Component('apply-job-vacancy');
@@ -84,5 +96,13 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
         );
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function handleBadRequest(?Response $response = null): Response
+    {
+        return ($response ?? $this->getResponse())->setStatusCode(Response::HTTP_BAD_REQUEST);
     }
 }

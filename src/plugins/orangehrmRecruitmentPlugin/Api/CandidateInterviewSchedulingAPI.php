@@ -66,7 +66,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_INTERVIEW_NAME_MAX_LENGTH = 100;
     public const PARAMETER_RULE_INTERVIEWERS_MIN_COUNT = 1;
     public const PARAMETER_RULE_INTERVIEWERS_MAX_COUNT = 5;
-    public const PARAMETER_RULE_NOTE_MAX_LENGTH = 100;
+    public const PARAMETER_RULE_NOTE_MAX_LENGTH = 2000;
 
     public const MAXIMUM_ALLOWED_INTERVIEWS_COUNT = 2;
 

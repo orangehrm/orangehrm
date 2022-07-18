@@ -42,6 +42,7 @@ use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
@@ -139,15 +140,15 @@ class ApplicantController extends AbstractController implements PublicController
         $paramRules->addExcludedParamKey('_token');
 
         $vacancy = $this->getVacancyService()->getVacancyDao()->getVacancyById($variables[self::PARAMETER_VACANCY_ID]);
-        if (!$vacancy->isPublished()) {
+        if (!$vacancy instanceof Vacancy || !$vacancy->getDecorator()->isActiveAndPublished()) {
             return false;
         }
 
         try {
             return $this->validate($variables, $paramRules);
         } catch (InvalidParamException $e) {
-            $this->getLogger()->error($e->getMessage());
-            $this->getLogger()->error($e->getTraceAsString());
+            $this->getLogger()->warning($e->getMessage());
+            $this->getLogger()->warning($e->getTraceAsString());
             return false;
         }
     }
