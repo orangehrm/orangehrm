@@ -2,7 +2,7 @@ GetAll:
   'with name or id when name given - Admin':
     userId: 1
     services:
-      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       nameOrId: 'admin'
     data: [
@@ -21,7 +21,7 @@ GetAll:
   'with name or id when id given - Admin':
     userId: 1
     services:
-      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       nameOrId: '2'
     data: [
@@ -40,7 +40,7 @@ GetAll:
   'with name or id when nonexistent id given - Admin':
     userId: 1
     services:
-      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       nameOrId: '10'
     data: [ ]
@@ -50,7 +50,7 @@ GetAll:
   'with name or id when name given - ESS':
     userId: 2
     services:
-      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       nameOrId: 'admin'
     data: [
@@ -69,7 +69,7 @@ GetAll:
   'with name or id when id given - ESS':
     userId: 2
     services:
-      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       nameOrId: '2'
     data: [
@@ -88,7 +88,7 @@ GetAll:
   'with name or id when nonexistent id given - ESS':
     userId: 2
     services:
-      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       nameOrId: '10'
     data: [ ]

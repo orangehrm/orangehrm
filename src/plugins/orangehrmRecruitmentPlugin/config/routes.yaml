@@ -182,8 +182,8 @@ apiv2_recruitment_candidate_history:
     _api: OrangeHRM\Recruitment\Api\CandidateHistoryAPI
     _key: historyId
 
-apiv2_recruitment_employee_list:
-  path: /api/v2/recruitment/employee-list
+apiv2_recruitment_interviewers:
+  path: /api/v2/recruitment/interviewers
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:

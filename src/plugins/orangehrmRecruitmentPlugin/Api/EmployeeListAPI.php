@@ -30,13 +30,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Recruitment\Api\Model\EmployeeListModel;
-use OrangeHRM\Recruitment\Dto\EmployeeListSearchFilterParams;
-use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
+use OrangeHRM\Pim\Api\Model\EmployeeModel;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeListAPI extends EndPoint implements CollectionEndpoint
 {
-    use VacancyServiceTrait;
+    use EmployeeServiceTrait;
 
     public const FILTER_NAME_OR_ID = 'nameOrId';
 
@@ -47,20 +47,21 @@ class EmployeeListAPI extends EndPoint implements CollectionEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $employeeListParamHolder = new EmployeeListSearchFilterParams();
-        $this->setSortingAndPaginationParams($employeeListParamHolder);
+        $employeeFilterParamHolder = new EmployeeSearchFilterParams();
+        $this->setSortingAndPaginationParams($employeeFilterParamHolder);
 
-        $employeeListParamHolder->setNameOrId(
+        $employeeFilterParamHolder->setNameOrId(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_NAME_OR_ID
             )
         );
-        $employees = $this->getVacancyService()->getVacancyDao()->getEmployeeList($employeeListParamHolder);
+        $employees = $this->getEmployeeService()->getEmployeeList($employeeFilterParamHolder);
+        $count = $this->getEmployeeService()->getEmployeeCount($employeeFilterParamHolder);
         return new EndpointCollectionResult(
-            EmployeeListModel::class,
+            EmployeeModel::class,
             $employees,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($employees)])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
@@ -77,6 +78,7 @@ class EmployeeListAPI extends EndPoint implements CollectionEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH]),
                 )
             ),
+            ...$this->getSortingAndPaginationParamsRules(EmployeeSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
