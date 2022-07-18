@@ -1,3 +1,8 @@
+Subunit:
+  - { id: 1, name: 'Organization', description: 'company description', lft: 1, rgt: 14, level: 0 }
+  - { id: 2, name: 'Open Source', description: 'department description', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'Development', description: 'sub department description', lft: 6, rgt: 7, level: 1 }
+
 JobTitle:
   - { id: 1, job_title: 'Software Engineer - Intern', is_deleted: 0 }
 
