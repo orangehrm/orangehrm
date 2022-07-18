@@ -26,6 +26,7 @@ use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Recruitment\Dto\EmployeeListSearchFilterParams;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 
 class VacancyDao extends BaseDao
@@ -230,5 +231,27 @@ class VacancyDao extends BaseDao
                     'employeeTerminationRecord' => null
                 ]
         ) instanceof Employee;
+    }
+
+    /**
+     * @return Employee[]
+     */
+    public function getEmployeeList(EmployeeListSearchFilterParams $employeeListSearchFilterParams): array
+    {
+        $qb = $this->createQueryBuilder(Employee::class, 'employee');
+        if (!is_null($employeeListSearchFilterParams->getNameOrId())) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('employee.firstName', ':nameOrId'),
+                    $qb->expr()->like('employee.lastName', ':nameOrId'),
+                    $qb->expr()->like('employee.middleName', ':nameOrId'),
+                    $qb->expr()->like('employee.employeeId', ':nameOrId'),
+                )
+            );
+            $qb->setParameter('nameOrId', '%' . $employeeListSearchFilterParams->getNameOrId() . '%');
+        }
+        $qb->andWhere($qb->expr()->isNull('employee.employeeTerminationRecord'));
+        $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
+        return $qb->getQuery()->execute();
     }
 }

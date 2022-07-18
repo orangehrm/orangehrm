@@ -23,6 +23,7 @@
     <employee-autocomplete
       :label="!showDelete ? $t('recruitment.interviewer') : null"
       v-bind="$attrs"
+      apiPath="/api/v2/recruitment/employee-list"
     />
     <oxd-icon-button
       v-if="showDelete"
