@@ -21,7 +21,6 @@ namespace OrangeHRM\Tests\Core\Service;
 
 use Exception;
 use OrangeHRM\Core\Dao\ConfigDao;
-use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Tests\Util\KernelTestCase;
