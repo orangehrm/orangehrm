@@ -31,10 +31,9 @@ class PerformanceReviewSaveController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $id = $request->attributes->getInt('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('edit-review');
-            $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $id));
+            $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('add-review');
         }
