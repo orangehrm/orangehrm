@@ -93,7 +93,6 @@ class WorkShiftDao extends BaseDao
             return $workShift;
         } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw $e;
             throw new TransactionException($e);
         }
     }
@@ -109,7 +108,7 @@ class WorkShiftDao extends BaseDao
             $employeeWorkShift = new EmployeeWorkShift();
             $employee = $this->getRepository(Employee::class)->find($empNumber);
             $employeeWorkShift->setWorkShift($workShift);
-            $employeeWorkShift->setEmployee($employee); // TODO
+            $employeeWorkShift->setEmployee($employee);
             $this->getEntityManager()->persist($employeeWorkShift);
         }
         $this->getEntityManager()->flush();

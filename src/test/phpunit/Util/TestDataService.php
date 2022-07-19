@@ -349,7 +349,7 @@ class TestDataService
         foreach ($aliasArray as $alias) {
             try {
                 $tableNames[] = self::_getTableName($alias);
-                Doctrine::getEntityManager()->clear();
+                Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
             } catch (MappingException $e) {
                 echo __FILE__ . ':' . __LINE__ . ') Skipping unknown table alias: ' . $alias . "\n";
             }
