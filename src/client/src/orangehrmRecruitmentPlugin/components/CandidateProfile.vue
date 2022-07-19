@@ -273,7 +273,7 @@ export default {
         keywords: [shouldNotExceedCharLength(250)],
         applicationDate: [validDateFormat(this.userDateFormat)],
         resume: [
-          maxFileSize(1024 * 1024),
+          maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
       },
