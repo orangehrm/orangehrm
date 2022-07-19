@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Migration\V5_1_0;
 
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
@@ -224,6 +225,23 @@ class Migration extends AbstractMigration
 
         $this->getDataGroupHelper()->addDataGroupPermissions('apiv2_admin_job_title', 'Interviewer', true);
         $this->getDataGroupHelper()->addDataGroupPermissions('apiv2_admin_job_title', 'HiringManager', true);
+
+        $addCandidateScreenId = $this->getDataGroupHelper()->getScreenIdByModuleAndUrl(
+            $this->getDataGroupHelper()->getModuleIdByName('recruitment'),
+            'addCandidate'
+        );
+        $this->createQueryBuilder()
+            ->update('ohrm_user_role_screen', 'screen_permission')
+            ->set('screen_permission.can_read', ':cannot')
+            ->set('screen_permission.can_create', ':cannot')
+            ->set('screen_permission.can_update', ':cannot')
+            ->set('screen_permission.can_delete', ':cannot')
+            ->andWhere('screen_permission.screen_id = :screenId')
+            ->andWhere('screen_permission.user_role_id = :userRoleId')
+            ->setParameter('cannot', false, ParameterType::BOOLEAN)
+            ->setParameter('screenId', $addCandidateScreenId)
+            ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName('Interviewer'))
+            ->executeQuery();
     }
 
     /**

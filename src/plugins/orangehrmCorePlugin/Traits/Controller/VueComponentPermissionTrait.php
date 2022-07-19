@@ -14,17 +14,17 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Controller\Traits;
+namespace OrangeHRM\Core\Traits\Controller;
 
 use LogicException;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-trait PermissionTrait
+trait VueComponentPermissionTrait
 {
     use UserRoleManagerTrait;
 
@@ -36,9 +36,7 @@ trait PermissionTrait
         $permissions = $this->getUserRoleManagerHelper()
             ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
         if (!$this instanceof AbstractVueController) {
-            throw new LogicException(
-                PermissionTrait::class . ' should use in instanceof' . AbstractVueController::class
-            );
+            throw new LogicException(self::class . ' should use in instanceof' . AbstractVueController::class);
         }
         $this->getContext()->set(
             VueControllerHelper::PERMISSIONS,
