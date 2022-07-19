@@ -25,7 +25,9 @@ use OrangeHRM\Entity\Project;
 
 class ProjectDetailedModel implements Normalizable
 {
-    use ModelTrait;
+    use ModelTrait {
+        ModelTrait::toArray as entityToArray;
+    }
 
     public function __construct(Project $project)
     {
@@ -37,7 +39,6 @@ class ProjectDetailedModel implements Normalizable
             ['getCustomer', 'getId'],
             ['getCustomer', 'getName'],
             ['getCustomer', 'isDeleted'],
-            ['getProjectAdmins', ['getEmpNumber', 'getLastName', 'getFirstName', 'getMiddleName','getEmployeeTerminationRecord']],
             ['isDeleted'],
         ]);
 
@@ -48,8 +49,29 @@ class ProjectDetailedModel implements Normalizable
             ['customer', 'id'],
             ['customer', 'name'],
             ['customer', 'deleted'],
-            ['projectAdmins', ['empNumber', 'lastName', 'firstName', 'middleName','terminationId']],
             'deleted',
         ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        $normalizedProject = $this->entityToArray();
+        $normalizedProject['projectAdmins'] = [];
+        /** @var Project $project */
+        $project = $this->getEntity();
+        foreach ($project->getProjectAdmins() as $projectAdmin) {
+            $normalizedProjectAdmin = [];
+            $normalizedProjectAdmin['empNumber'] = $projectAdmin->getEmpNumber();
+            $normalizedProjectAdmin['lastName'] = $projectAdmin->getLastName();
+            $normalizedProjectAdmin['firstName'] = $projectAdmin->getFirstName();
+            $normalizedProjectAdmin['middleName'] = $projectAdmin->getMiddleName();
+            $normalizedProjectAdmin['terminationId'] = $projectAdmin->getEmployeeTerminationRecord() ?
+                $projectAdmin->getEmployeeTerminationRecord()->getId() : null;
+            $normalizedProject['projectAdmins'][] = $normalizedProjectAdmin;
+        }
+        return $normalizedProject;
     }
 }
