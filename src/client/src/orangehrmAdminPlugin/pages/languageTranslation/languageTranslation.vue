@@ -26,21 +26,22 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="languageTranslation.languagePackage"
+                v-model="languagePackage"
                 :label="$t('admin.language_package')"
-                :disabled="!editable"
+                disabled
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="languageTranslation.sourceLanguage"
+                v-model="sourceLanguage"
                 :label="$t('admin.source_language')"
-                :disabled="!editable"
+                disabled
               />
             </oxd-grid-item>
             <br />
             <oxd-grid-item>
-              <module-list-dropdown />
+              <!-- change name -->
+              <group-list-dropdown />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field :label="$t('admin.source_text')" />
@@ -51,10 +52,17 @@
             <oxd-grid-item>
               <oxd-input-field
                 type="select"
-                :label="$t('general.show')"
+                :label="$t('admin.show')"
                 :options="showCategory"
               />
             </oxd-grid-item>
+            <!-- <oxd-grid-item>
+              <oxd-input-field
+                type="select"
+                :label="$t('general.order')"
+                :options="showOrder"
+              />
+            </oxd-grid-item> -->
           </oxd-grid>
         </oxd-form-row>
         <oxd-divider />
@@ -74,52 +82,44 @@
       </oxd-form>
     </oxd-table-filter>
     <br />
-    <!-- <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
-        <div>
-          <oxd-button
-            display-type="secondary"
-            label="Save All"
-          ></oxd-button>
-          <oxd-button
-            display-type="ghost"
-            label="Cancel"
-          ></oxd-button>
+    <div class="orangehrm-paper-container">
+      <oxd-form>
+        <oxd-form-actions>
+          <div class="orangehrm-header-container">
+            <div>
+              <oxd-button
+                display-type="secondary"
+                :label="$t('general.save')"
+                type="reset"
+              />
+              <oxd-button
+                class="orangehrm-left-space"
+                display-type="ghost"
+                :label="$t('general.cancel')"
+                type="submit"
+              />
+            </div>
+          </div>
+        </oxd-form-actions>
+        <table-header :total="total" :selected="0"></table-header>
+        <edit-translations
+          v-if="items?.data"
+          v-model:langstrings="items.data"
+        ></edit-translations>
+        <div v-else class="orangehrm-loader">
+          <oxd-loading-spinner />
         </div>
-      </div>
-      <table-header
-        :loading="isLoading"
-        :total="total"
-        :selected="0"
-      ></table-header>
-      <div class="orangehrm-container">
-        <oxd-card-table
-          ref="cardTable"
-          v-model:order="sortDefinition"
-          :headers="headers"
-          :items="items?.data"
-          :selectable="false"
-          :clickable="false"
-          :loading="isLoading"
-          row-decorator="oxd-table-decorator-card"
-        />
-      </div>
-      <div class="orangehrm-bottom-container">
-        <oxd-pagination
-          v-if="showPaginator"
-          v-model:current="currentPage"
-          :length="pages"
-        />
-      </div>
-    </div> -->
-    <oxd-form ref="formRef">
-      <edit-translations :langstrings="langstrings"></edit-translations>
-    </oxd-form>
+        <div class="orangehrm-bottom-container">
+          <oxd-pagination v-model:current="currentPage" :length="pages" />
+        </div>
+      </oxd-form>
+    </div>
   </div>
 </template>
 
 <script>
 import {computed, ref} from 'vue';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useSort from '@ohrm/core/util/composable/useSort';
 import useForm from '@ohrm/core/util/composable/useForm';
 import Input from '@ohrm/oxd/core/components/Input/Input';
@@ -127,7 +127,7 @@ import {APIService} from '@/core/util/services/api.service';
 import Button from '@ohrm/oxd/core/components/Button/Button';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import CardTable from '@ohrm/oxd/core/components/CardTable/CardTable';
-import ModuleListDropdown from '@/orangehrmAdminPlugin/components/ModuleListDropdown.vue';
+import GroupListDropdown from '@/orangehrmAdminPlugin/components/GroupListDropdown.vue';
 import EditTranslationModal from '@/orangehrmAdminPlugin/components/EditTranslationModal.vue';
 import useLanguageTranslations from '@/orangehrmAdminPlugin/util/composable/useLanguageTranslations';
 
@@ -152,8 +152,9 @@ const defaultSortOrder = {
 export default {
   name: 'LanguageTranslationList',
   components: {
-    'module-list-dropdown': ModuleListDropdown,
+    'group-list-dropdown': GroupListDropdown,
     'edit-translations': EditTranslationModal,
+    'oxd-loading-spinner': Spinner,
   },
   props: {
     languageId: {
@@ -188,24 +189,22 @@ export default {
     //   };
     // });
 
-    // const http = new APIService(
-    //   window.appGlobal.baseUrl,
-    //   `/api/v2/admin/i18n/languages/${props.languageId}/translations`,
-    // );
-    const http = new APIService(window.appGlobal.baseUrl, '');
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `/api/v2/admin/i18n/languages/${props.languageId}/translations`,
+    );
+    // const http = new APIService(window.appGlobal.baseUrl, '');
 
-    // const {
-    //   showPaginator,
-    //   currentPage,
-    //   total,
-    //   pages,
-    //   pageSize,
-    //   response,
-    //   isLoading,
-    //   execQuery,
-    // } = usePaginate(http, {
-    //   query: serializedFilters,
-    // });
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http);
 
     const {getAllTranslations} = useLanguageTranslations(http);
 
@@ -216,80 +215,48 @@ export default {
       formRef,
       validate,
       getAllTranslations,
-      // showPaginator,
-      // currentPage,
-      // isLoading,
-      // total,
-      // pages,
-      // pageSize,
-      // execQuery,
-      // items: response,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
       // filters,
       // sortDefinition,
     };
   },
   data() {
     return {
-      langstrings: [],
+      // langstrings: [],
       category: null,
       languageTranslation: {
         languagePackage: this.languagePackage,
         sourceLanguage: this.sourceLanguage,
       },
-      headers: [
-        {
-          name: 'source',
-          slot: 'title',
-          title: this.$t('admin.source_text'),
-          // sortField: 'langString.value',
-          style: {flex: '20%'},
-        },
-        {
-          name: 'note',
-          title: this.$t('admin.source_note'),
-          style: {flex: '20%'},
-        },
-        {
-          name: 'target',
-          title: this.$t('admin.translated_text'),
-          style: {flex: '20%'},
-          cellRenderer: this.inputRenderer,
-        },
-        {
-          name: 'actions',
-          slot: 'footer',
-          title: this.$t('general.actions'),
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellRenderer: this.actionsRenderer,
-          cellConfig: {
-            edit: {
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
       showCategory: [
         {id: 1, label: this.$t('admin.all')},
         {id: 2, label: this.$t('admin.translated')},
         {id: 3, label: this.$t('admin.not_translated')},
       ],
+      showOrder: [
+        {id: 1, label: this.$t('admin.ascending')},
+        {id: 2, label: this.$t('admin.decending')},
+      ],
     };
   },
-  beforeMount() {
-    this.isLoading = true;
-    this.getAllTranslations(this.languageId)
-      .then(response => {
-        const {data} = response.data;
-        this.langstrings = [...data];
-        console.log(data);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
-  },
+  // beforeMount() {
+  //   this.isLoading = true;
+  //   this.getAllTranslations(this.languageId)
+  //     .then(response => {
+  //       const {data} = response.data;
+  //       this.langstrings = [...data];
+  //     })
+  //     .finally(() => {
+  //       this.isLoading = false;
+  //     });
+  // },
   method: {
     async filterItems() {
       await this.execQuery();
@@ -301,3 +268,14 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.orangehrm-header-container {
+  flex: auto;
+}
+.orangehrm-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+}
+</style>

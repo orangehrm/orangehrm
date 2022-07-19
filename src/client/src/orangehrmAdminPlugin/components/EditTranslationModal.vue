@@ -19,116 +19,100 @@
  -->
 
 <template>
-  <div class="orangehrm-paper-container">
-    <div class="orangehrm-table-header">
-      <div>
-        <oxd-button
-          display-type="secondary"
-          :label="$t('general.save')"
-          type="reset"
-        />
-        <oxd-button
-          class="orangehrm-left-space"
-          display-type="ghost"
-          :label="$t('general.cancel')"
-          type="submit"
-        />
-      </div>
-    </div>
-    <table-header
-      :loading="isLoading"
-      :total="total"
-      :selected="0"
-    ></table-header>
-    <oxd-grid :cols="3" class="orangehrm-evaluation-grid">
-      <template
-        v-for="langstrings in langstrings"
-        :key="langstrings.langStringId"
-      >
-        <oxd-grid-item class="orangehrm-evaluation-grid-kpi">
-          <!-- <oxd-text
-            class="orangehrm-evaluation-grid-kpi-header"
-            type="subtitle-2"
-          >
-            {{ $t('admin.source_text') }}
-          </oxd-text> -->
-          <oxd-text
-            :title="langstrings.source"
-            tag="p"
-            class="orangehrm-evaluation-grid-kpi-label"
-          >
-            {{ langstrings.source }}
+  <div class="orangehrm-translation-container">
+    <oxd-divider />
+    <oxd-grid :cols="3">
+      <oxd-grid-item>
+        <oxd-text type="card-title">{{ $t('admin.source_text') }}</oxd-text>
+      </oxd-grid-item>
+      <oxd-grid-item>
+        <oxd-text type="card-title">{{ $t('admin.source_note') }}</oxd-text>
+      </oxd-grid-item>
+      <oxd-grid-item>
+        <oxd-text type="card-title">{{ $t('admin.translated_text') }}</oxd-text>
+      </oxd-grid-item>
+      <template v-for="(langstring, index) in langstrings" :key="index">
+        <oxd-grid-item>
+          <oxd-text :title="langstring.source">
+            {{ langstring.source }}
           </oxd-text>
         </oxd-grid-item>
         <oxd-grid-item>
-          <!-- <oxd-text
-            class="orangehrm-evaluation-grid-kpi-header"
-            type="subtitle-2"
-          >
-            {{ $t('admin.source_note') }}
-          </oxd-text> -->
-          <oxd-text
-            :title="langstrings.source"
-            tag="p"
-            class="orangehrm-evaluation-grid-kpi-label"
-          >
-            {{ langstrings.note }}
+          <oxd-text :title="langstring.source">
+            {{ langstring.note }}
           </oxd-text>
         </oxd-grid-item>
         <oxd-grid-item>
-          <!-- <oxd-text
-            class="orangehrm-evaluation-grid-kpi-header"
-            type="subtitle-2"
-          >
-            {{ $t('admin.translated_text') }}
-          </oxd-text> -->
           <oxd-input-field
-            class="orangehrm-evaluation-grid-comment"
-            rows="2"
-            type="textarea"
-            :placeholder="langstrings.target"
-            :disabled="!editable"
+            type="input"
+            :placeholder="langstring.target"
+            :model-value="langstring.target"
+            @update:modelValue="onUpdateTranslation($event, index)"
           />
         </oxd-grid-item>
-        <oxd-grid-item
-          class="orangehrm-evaluation-grid-spacer-md"
-        ></oxd-grid-item>
       </template>
     </oxd-grid>
+    <oxd-divider />
   </div>
 </template>
 <script>
+import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
+
 export default {
+  components: {
+    'oxd-divider': Divider,
+  },
   props: {
     langstrings: {
       type: Array,
       required: true,
     },
   },
-  setup(props) {
-    console.log('langstring');
-    console.log(props);
+
+  emit: ['update:langstrings'],
+
+  setup(props, context) {
+    const onUpdateTranslation = (value, index) => {
+      context.emit(
+        'update:langstrings',
+        props.langstrings.map((item, _index) => {
+          if (_index === index) {
+            return {...item, target: value};
+          }
+          return item;
+        }),
+      );
+    };
+    return {onUpdateTranslation};
   },
 };
 </script>
 <style lang="scss" scoped>
+.orangehrm-translation-container {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
 .orangehrm-table-header {
   background-color: #fff;
   padding: 0.6rem;
   border-top-right-radius: 1.2rem;
   border-top-left-radius: 1.2rem;
 }
+
 .orangehrm-table-footer {
   background-color: #fff;
   padding: 1.2rem;
   border-bottom-right-radius: 1.2rem;
   border-bottom-left-radius: 1.2rem;
 }
+
 .orangehrm-container {
   background-color: #e8eaef;
   border-radius: unset;
   padding: 0.5rem;
 }
+
 ::v-deep(.card-footer-slot) {
   .oxd-table-cell-actions {
     justify-content: flex-end;

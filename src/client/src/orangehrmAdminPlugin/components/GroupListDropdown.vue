@@ -30,12 +30,12 @@ import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
-  name: 'ModuleListDropdown',
+  name: 'GroupListDropdown',
   setup() {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/i18n/languages',
+      '/api/v2/admin/i18n/groups',
     );
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
