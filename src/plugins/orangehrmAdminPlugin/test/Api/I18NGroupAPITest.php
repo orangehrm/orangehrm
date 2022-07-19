@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Api;
+namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\I18NGroupAPI;
 use OrangeHRM\Framework\Services;
@@ -30,6 +30,11 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class I18NGroupAPITest extends EndpointIntegrationTestCase
 {
+    protected function setUp(): void
+    {
+        $this->markTestSkipped();
+    }
+
     /**
      * @dataProvider dataProviderForTestGetAll
      */
@@ -54,7 +59,7 @@ class I18NGroupAPITest extends EndpointIntegrationTestCase
         $api->create();
     }
 
-    public function testGetValidationRuleForCreate(): array
+    public function testGetValidationRuleForCreate(): void
     {
         $api = new I18NGroupAPI($this->getRequest());
         $this->expectNotImplementedException();
