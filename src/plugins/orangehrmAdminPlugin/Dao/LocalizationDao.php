@@ -20,10 +20,12 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Doctrine\ORM\Query\Expr;
+use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\I18NGroup;
 use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Entity\I18NTranslation;
@@ -214,5 +216,35 @@ class LocalizationDao extends BaseDao
             $this->getEntityManager()->persist($i18NTranslation);
         }
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param I18NGroupSearchFilterParams $i18NGroupSearchFilterParams
+     * @return array e.g. [0 => ['id' => 1, 'name' => 'admin', 'title' => 'Admin']]
+     */
+    public function searchGroups(I18NGroupSearchFilterParams $i18NGroupSearchFilterParams): array
+    {
+        return $this->getI18NGroupPaginator($i18NGroupSearchFilterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param I18NGroupSearchFilterParams $i18NGroupSearchFilterParams
+     * @return Paginator
+     */
+    private function getI18NGroupPaginator(I18NGroupSearchFilterParams $i18NGroupSearchFilterParams): Paginator
+    {
+        $q = $this->createQueryBuilder(I18NGroup::class, 'g');
+        $this->setSortingAndPaginationParams($q, $i18NGroupSearchFilterParams);
+
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param I18NGroupSearchFilterParams $i18NGroupSearchFilterParams
+     * @return int
+     */
+    public function getI18NGroupCount(I18NGroupSearchFilterParams $i18NGroupSearchFilterParams): int
+    {
+        return $this->getI18NGroupPaginator($i18NGroupSearchFilterParams)->count();
     }
 }

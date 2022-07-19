@@ -21,6 +21,7 @@ namespace OrangeHRM\Tests\Admin\Dao;
 
 use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
+use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Config\Config;
@@ -158,5 +159,21 @@ class LocalizationDaoTest extends TestCase
         $i18NTargetLangStringSearchFilterParams->setSourceText('employee');
         $count = $this->i18NDao->getTranslationsCount($i18NTargetLangStringSearchFilterParams);
         $this->assertEquals(0, $count);
+    }
+
+    public function testSearchGroups(): void
+    {
+        $i18NGroupSearchFilterParams = new I18NGroupSearchFilterParams();
+        $groups = $this->i18NDao->searchGroups($i18NGroupSearchFilterParams);
+
+        $this->assertTrue(is_array($this->i18NDao->searchGroups($i18NGroupSearchFilterParams)));
+        $this->assertCount('2', $groups);
+    }
+
+    public function testGetI18NGroupCount(): void
+    {
+        $i18NGroupSearchFilterParams = new I18NGroupSearchFilterParams();
+        $count = $this->i18NDao->getI18NGroupCount($i18NGroupSearchFilterParams);
+        $this->assertEquals('2', $count);
     }
 }

@@ -57,14 +57,14 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
 
         $i18NLanguageSearchParams->setEnabledOnly(true);
         $this->setSortingAndPaginationParams($i18NLanguageSearchParams);
-        $i18languages = $this->getLocalizationService()->getLocalizationDao()->searchLanguages(
+        $i18NLanguages = $this->getLocalizationService()->getLocalizationDao()->searchLanguages(
             $i18NLanguageSearchParams
         );
         $count = $this->getLocalizationService()->getLocalizationDao()->getLanguagesCount($i18NLanguageSearchParams);
 
         return new EndpointCollectionResult(
             I18NLanguageModel::class,
-            $i18languages,
+            $i18NLanguages,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }

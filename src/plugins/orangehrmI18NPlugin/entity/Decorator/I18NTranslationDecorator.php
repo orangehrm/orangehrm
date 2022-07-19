@@ -41,7 +41,7 @@ class I18NTranslationDecorator
     /**
      * @return I18NTranslation
      */
-    public function getI18NTranslation(): I18NTranslation
+    protected function getI18NTranslation(): I18NTranslation
     {
         return $this->i18NTranslation;
     }
