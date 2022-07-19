@@ -41,3 +41,7 @@ langStrings:
   -
     value: 'Add Language Package'
     unitId: add_language_package
+  -
+    value: 'Directory Module'
+    unitId: directory_module
+

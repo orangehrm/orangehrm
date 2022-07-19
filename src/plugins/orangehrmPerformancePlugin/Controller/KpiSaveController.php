@@ -34,7 +34,7 @@ class KpiSaveController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $id = $request->attributes->get('id');
+        $id = $request->attributes->getInt('id');
         if ($id) {
             $component = new Component('kpi-edit');
             $component->addProp(new Prop('kpi-id', Prop::TYPE_NUMBER, $id));

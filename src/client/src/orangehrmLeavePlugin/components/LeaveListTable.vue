@@ -158,14 +158,14 @@ export default {
     });
     const checkedItems = ref([]);
     const {$t} = usei18n();
-    const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
 
     const rules = {
-      fromDate: [required],
+      fromDate: [required, validDateFormat(userDateFormat)],
       toDate: [
         required,
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
           $t('general.to_date_should_be_after_from_date'),

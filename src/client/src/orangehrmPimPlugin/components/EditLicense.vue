@@ -88,6 +88,7 @@ import {
   endDateShouldBeAfterStartDate,
 } from '@ohrm/core/util/validation/rules';
 import {yearRange} from '@ohrm/core/util/helper/year-range';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const licenseModel = {
   name: '',
@@ -112,6 +113,14 @@ export default {
 
   emits: ['close'],
 
+  setup() {
+    const {userDateFormat} = useDateFormat();
+
+    return {
+      userDateFormat,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
@@ -119,9 +128,9 @@ export default {
       yearArray: [...yearRange()],
       rules: {
         licenseNo: [shouldNotExceedCharLength(50)],
-        issuedDate: [validDateFormat()],
+        issuedDate: [validDateFormat(this.userDateFormat)],
         expiryDate: [
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.license.issuedDate,
             this.$t('pim.expiry_date_should_be_after_issued_date'),

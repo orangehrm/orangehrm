@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -29,10 +28,6 @@ use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 
-/**
- * VacancyDao for CRUD operation
- *
- */
 class VacancyDao extends BaseDao
 {
     /**
@@ -71,11 +66,11 @@ class VacancyDao extends BaseDao
                     $vacancySearchFilterParamHolder->getEmpNumber()
                 );
         }
-        if (!is_null($vacancySearchFilterParamHolder->getVacancyId())) {
-            $q->andWhere('vacancy.id = :vacancyId')
+        if (!is_null($vacancySearchFilterParamHolder->getVacancyIds())) {
+            $q->andWhere($q->expr()->in('vacancy.id', ':vacancyIds'))
                 ->setParameter(
-                    'vacancyId',
-                    $vacancySearchFilterParamHolder->getVacancyId()
+                    'vacancyIds',
+                    $vacancySearchFilterParamHolder->getVacancyIds()
                 );
         }
         if (!is_null($vacancySearchFilterParamHolder->getStatus())) {
@@ -90,13 +85,16 @@ class VacancyDao extends BaseDao
                 $q->expr()->like('vacancy.name', ':name')
             )->setParameter('name', '%' . $vacancySearchFilterParamHolder->getName() . '%');
         }
+        if (!is_null($vacancySearchFilterParamHolder->isPublished())) {
+            $q->andWhere('vacancy.isPublished = :isPublished')
+                ->setParameter('isPublished', $vacancySearchFilterParamHolder->isPublished());
+        }
 
         return $this->getPaginator($q);
     }
 
 
     /**
-     * Retrieve vacancy list
      * @returns doctrine collection
      */
     public function saveJobVacancy(Vacancy $jobVacancy): Vacancy
@@ -109,7 +107,7 @@ class VacancyDao extends BaseDao
      * @param $vacancySearchFilterParamHolder
      * @return int
      */
-    public function searchVacanciesCount($vacancySearchFilterParamHolder): int
+    public function getVacanciesCount($vacancySearchFilterParamHolder): int
     {
         return $this->getVacanciesPaginator($vacancySearchFilterParamHolder)->count();
     }
@@ -198,8 +196,10 @@ class VacancyDao extends BaseDao
     public function getPublishedVacancyList(): array
     {
         $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
-        $qb->where('vacancy.isPublished = :isPublished');
-        $qb->setParameter('isPublished', true);
+        $qb->andWhere('vacancy.isPublished = :isPublished')
+            ->setParameter('isPublished', true)
+            ->andWhere('vacancy.status = :status')
+            ->setParameter('status', true);
         $qb->addOrderBy('vacancy.updatedTime', ListSorter::DESCENDING);
         return $qb->getQuery()->execute();
     }

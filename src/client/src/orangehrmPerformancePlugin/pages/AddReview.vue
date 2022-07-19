@@ -118,6 +118,7 @@ import {
   validDateFormat,
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const reviewModel = {
   employee: null,
@@ -134,6 +135,7 @@ export default {
   },
   setup() {
     const {formRef, invalid, validate} = useForm();
+    const {userDateFormat} = useDateFormat();
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/performance/manage/reviews',
@@ -144,6 +146,7 @@ export default {
       invalid,
       validate,
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -155,7 +158,7 @@ export default {
         supervisorReviewer: [required],
         startDate: [
           required,
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           startDateShouldBeBeforeEndDate(
             () => this.review.endDate,
             this.$t(
@@ -165,7 +168,7 @@ export default {
         ],
         endDate: [
           required,
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.review.startDate,
             this.$t(

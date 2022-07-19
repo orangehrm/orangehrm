@@ -105,10 +105,10 @@ export default {
 
     const rules = {
       operator: [required],
-      valueXOnly: [required, validDateFormat()],
+      valueXOnly: [required, validDateFormat(userDateFormat)],
       valueX: [
         required,
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(
           () => props.valueY,
           $t('general.from_date_should_be_before_to_date'),
@@ -116,7 +116,7 @@ export default {
       ],
       valueY: [
         required,
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         endDateShouldBeAfterStartDate(
           () => props.valueX,
           $t('general.to_date_should_be_after_from_date'),

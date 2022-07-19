@@ -35,7 +35,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\ORM\ListSorter;
-use OrangeHRM\Recruitment\Api\Model\VacancySummaryModel;
+use OrangeHRM\Recruitment\Api\Model\VacancyModel;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
@@ -43,8 +43,6 @@ class VacancyListRestController extends AbstractRestController implements Public
 {
     use VacancyServiceTrait;
     use NormalizerServiceTrait;
-
-    public const ACTIVE_STATUS = 1;
 
     private const VACANCY_ID = 'vacancy.id';
     private const VACANCY_OFFSET = 'offset';
@@ -65,17 +63,18 @@ class VacancyListRestController extends AbstractRestController implements Public
         $offset = $request->getQuery()->get(self::VACANCY_OFFSET, FilterParams::DEFAULT_OFFSET);
         $limit = $request->getQuery()->get(self::VACANCY_LIMIT, FilterParams::DEFAULT_LIMIT);
         $vacancySearchFilterParams = new VacancySearchFilterParams();
-        $vacancySearchFilterParams->setStatus(self::ACTIVE_STATUS);
+        $vacancySearchFilterParams->setStatus(true);
+        $vacancySearchFilterParams->setIsPublished(true);
         $vacancySearchFilterParams->setSortField(self::VACANCY_ID);
         $vacancySearchFilterParams->setSortOrder(ListSorter::DESCENDING);
         $vacancySearchFilterParams->setLimit($limit);
         $vacancySearchFilterParams->setOffset($offset);
         $vacancies = $this->getVacancyService()->getVacancyDao()->getVacancies($vacancySearchFilterParams);
-        $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancySearchFilterParams);
+        $count = $this->getVacancyService()->getVacancyDao()->getVacanciesCount($vacancySearchFilterParams);
 
         return new Response(
             $this->getNormalizerService()
-                ->normalizeArray(VacancySummaryModel::class, $vacancies),
+                ->normalizeArray(VacancyModel::class, $vacancies),
             [CommonParams::PARAMETER_TOTAL => $count]
         );
     }

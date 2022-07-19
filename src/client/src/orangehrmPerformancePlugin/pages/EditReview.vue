@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text class="orangehrm-main-title" tag="h6">
-        {{ $t('performance.add_review') }}
+        {{ $t('performance.edit_review') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form ref="formRef" :loading="isLoading">
@@ -118,6 +118,7 @@ import {
   validDateFormat,
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const reviewModel = {
   employee: null,
@@ -140,6 +141,7 @@ export default {
   },
   setup() {
     const {formRef, invalid, validate} = useForm();
+    const {userDateFormat} = useDateFormat();
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/performance/manage/reviews',
@@ -150,6 +152,7 @@ export default {
       invalid,
       validate,
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -161,7 +164,7 @@ export default {
         supervisorReviewer: [required],
         startDate: [
           required,
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           startDateShouldBeBeforeEndDate(
             () => this.review.endDate,
             this.$t(
@@ -171,7 +174,7 @@ export default {
         ],
         endDate: [
           required,
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.review.startDate,
             this.$t(
@@ -204,6 +207,7 @@ export default {
               label: `${data.employee.firstName} ${
                 data.employee.middleName ? data.employee.middleName : ''
               } ${data.employee.lastName}`,
+              isPastEmployee: data.employee.terminationId ? true : false,
             }
           : null;
         this.review.supervisorReviewer = data.reviewer.employee
@@ -214,6 +218,9 @@ export default {
                   ? data.reviewer.employee.middleName
                   : ''
               } ${data.reviewer.employee.lastName}`,
+              isPastEmployee: data.reviewer.employee.terminationId
+                ? true
+                : false,
             }
           : null;
         this.review.startDate = data.reviewPeriodStart;
@@ -231,6 +238,14 @@ export default {
     onSave(activate = false) {
       this.validate().then(() => {
         if (this.invalid === true) return;
+        if (this.review.supervisorReviewer.isPastEmployee) {
+          return this.$toast.warn({
+            title: this.$t('general.warning'),
+            message: this.$t(
+              'performance.cannot_add_a_past_employee_as_a_reviewer',
+            ),
+          });
+        }
         this.isLoading = true;
         this.http
           .update(this.reviewId, {

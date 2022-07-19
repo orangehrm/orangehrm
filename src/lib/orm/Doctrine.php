@@ -20,7 +20,7 @@
 namespace OrangeHRM\ORM;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\ORMSetup;
 use OrangeHRM\Config\Config;
 use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 use OrangeHRM\ORM\Functions\TimeDiff;
@@ -47,7 +47,7 @@ class Doctrine
         $cache = null;
         $useSimpleAnnotationReader = false;
         $paths = $this->getPaths();
-        $config = Setup::createAnnotationMetadataConfiguration(
+        $config = ORMSetup::createAnnotationMetadataConfiguration(
             $paths,
             $isDevMode,
             $proxyDir,

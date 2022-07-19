@@ -127,6 +127,7 @@ import {
   endDateShouldBeAfterStartDate,
 } from '@ohrm/core/util/validation/rules';
 import {yearRange} from '@ohrm/core/util/helper/year-range';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const immigrationModel = {
   number: '',
@@ -159,6 +160,14 @@ export default {
 
   emits: ['close'],
 
+  setup() {
+    const {userDateFormat} = useDateFormat();
+
+    return {
+      userDateFormat,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
@@ -167,14 +176,15 @@ export default {
       rules: {
         number: [required, shouldNotExceedCharLength(30)],
         expiryDate: [
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.immigration.issuedDate,
             this.$t('pim.expiry_date_should_be_after_issued_date'),
           ),
         ],
         status: [shouldNotExceedCharLength(30)],
-        reviewDate: [validDateFormat()],
+        issuedDate: [validDateFormat(this.userDateFormat)],
+        reviewDate: [validDateFormat(this.userDateFormat)],
         comment: [shouldNotExceedCharLength(250)],
       },
       immigrationTypeClasses: {

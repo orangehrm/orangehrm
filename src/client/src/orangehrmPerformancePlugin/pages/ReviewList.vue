@@ -111,6 +111,7 @@ import {navigate} from '@/core/util/helper/navigation';
 import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
+  validDateFormat,
 } from '@/core/util/validation/rules';
 import {
   viewIcon,
@@ -162,7 +163,7 @@ export default {
   },
   setup(props) {
     const {$t} = usei18n();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
     const reviewListDateFormat = date =>
@@ -264,6 +265,7 @@ export default {
       items: response,
       filters,
       sortDefinition,
+      userDateFormat,
     };
   },
   data() {
@@ -316,6 +318,7 @@ export default {
       ],
       rules: {
         fromDate: [
+          validDateFormat(this.userDateFormat),
           startDateShouldBeBeforeEndDate(
             () => this.filters.toDate,
             this.$t('general.from_date_should_be_before_to_date'),
@@ -323,6 +326,7 @@ export default {
           ),
         ],
         toDate: [
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.filters.fromDate,
             this.$t('general.to_date_should_be_after_from_date'),

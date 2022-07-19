@@ -274,7 +274,7 @@ import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import {
   required,
   shouldNotExceedCharLength,
-  digitsOnly,
+  numericOnly,
   max,
   validFileTypes,
   maxFileSize,
@@ -372,7 +372,7 @@ export default {
           required,
           v => (v?.isPastEmployee ? this.$t('general.invalid') : true),
         ],
-        numOfPositions: [max(99), digitsOnly],
+        numOfPositions: [max(99), numericOnly],
         description: [],
         status: [required],
         isPublished: [required],
@@ -463,7 +463,7 @@ export default {
         this.vacancy.name = data.name;
         this.vacancy.description = data.description;
         this.vacancy.numOfPositions = data.numOfPositions || '';
-        this.vacancy.status = data.status === 1;
+        this.vacancy.status = data.status;
         this.vacancy.isPublished = data.isPublished;
         this.vacancy.hiringManager = {
           id: data.hiringManager.id,
@@ -515,7 +515,7 @@ export default {
         employeeId: this.vacancy.hiringManager.id,
         numOfPositions: this.vacancy.numOfPositions || null,
         description: this.vacancy.description,
-        status: this.vacancy.status ? 1 : 2,
+        status: this.vacancy.status,
         isPublished: this.vacancy.isPublished,
       };
       this.http

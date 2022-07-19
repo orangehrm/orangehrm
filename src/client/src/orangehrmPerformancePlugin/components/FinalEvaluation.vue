@@ -115,7 +115,7 @@ export default {
   emits: ['update:finalRating', 'update:finalComment', 'update:completedDate'],
   setup(props) {
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
 
     const editable = computed(() => props.status !== 4);
     const formattedCompletedDate = computed(() =>
@@ -124,6 +124,7 @@ export default {
 
     return {
       editable,
+      userDateFormat,
       formattedCompletedDate,
     };
   },
@@ -132,7 +133,7 @@ export default {
     return {
       rules: {
         completedDate: [
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           ...(this.isRequired ? [required] : []),
         ],
         finalRating: [

@@ -26,6 +26,7 @@
     :candidate="candidate"
     :max-file-size="maxFileSize"
     :allowed-file-types="allowedFileTypes"
+    @update="onCandidateUpdate"
   ></candidate-profile>
   <history-table v-if="candidate" :candidate="candidate"></history-table>
 </template>
@@ -71,9 +72,14 @@ export default {
     };
   },
   beforeMount() {
-    this.http.get(this.candidateId).then(({data: {data}}) => {
-      this.candidate = data;
-    });
+    this.onCandidateUpdate();
+  },
+  methods: {
+    onCandidateUpdate() {
+      this.http.get(this.candidateId).then(({data: {data}}) => {
+        this.candidate = data;
+      });
+    },
   },
 };
 </script>

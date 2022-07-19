@@ -184,6 +184,7 @@ import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
 import LeaveAssignConfirmModal from '@/orangehrmLeavePlugin/components/LeaveAssignConfirmModal';
 import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 import useForm from '@ohrm/core/util/composable/useForm';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const leaveModel = {
   employee: null,
@@ -232,11 +233,14 @@ export default {
       validateOverlapLeaves,
     } = useLeaveValidators(http);
     const {formRef, reset} = useForm();
+    const {userDateFormat} = useDateFormat();
+
     return {
       http,
       reset,
       formRef,
       serializeBody,
+      userDateFormat,
       validateLeaveBalance,
       validateOverlapLeaves,
     };
@@ -248,10 +252,10 @@ export default {
       leave: {...leaveModel},
       rules: {
         type: [required],
-        fromDate: [required, validDateFormat()],
+        fromDate: [required, validDateFormat(this.userDateFormat)],
         toDate: [
           required,
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.leave.fromDate,
             this.$t('general.to_date_should_be_after_from_date'),

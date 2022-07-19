@@ -134,7 +134,7 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
   shouldNotExceedCharLength,
-  digitsOnly,
+  numericOnly,
   max,
 } from '@ohrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
@@ -178,7 +178,7 @@ export default {
         jobTitle: [required],
         name: [required, shouldNotExceedCharLength(50)],
         hiringManager: [required],
-        numOfPositions: [max(99), digitsOnly],
+        numOfPositions: [max(99), numericOnly],
         description: [],
         status: [required],
         isPublished: [required],
@@ -214,7 +214,7 @@ export default {
         employeeId: this.vacancy.hiringManager.id,
         numOfPositions: this.vacancy.numOfPositions || null,
         description: this.vacancy.description,
-        status: this.vacancy.status ? 1 : 2,
+        status: this.vacancy.status,
         isPublished: this.vacancy.isPublished,
       };
       this.http.create({...this.vacancy}).then(response => {

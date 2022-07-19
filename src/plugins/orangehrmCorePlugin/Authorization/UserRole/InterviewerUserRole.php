@@ -23,6 +23,7 @@ use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
@@ -37,6 +38,8 @@ class InterviewerUserRole extends AbstractUserRole
     protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
         switch ($entityType) {
+            case Vacancy::class:
+                return $this->getAccessibleVacancyIds($requiredPermissions);
             case Candidate::class:
                 return $this->getAccessibleCandidateIds($requiredPermissions);
             case Interview::class:
@@ -92,5 +95,16 @@ class InterviewerUserRole extends AbstractUserRole
         return $this->getCandidateService()
             ->getCandidateDao()
             ->getCandidateHistoryIdListForInterviewer($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleVacancyIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getVacancyIdListForInterviewer($this->getEmployeeNumber());
     }
 }

@@ -87,13 +87,14 @@
 
 <script>
 import {computed, ref} from 'vue';
-import {required} from '@/core/util/validation/rules';
+import {required, validDateFormat} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import {yearRange} from '@/core/util/helper/year-range';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
@@ -119,8 +120,10 @@ export default {
   },
 
   setup(props) {
+    const {userDateFormat} = useDateFormat();
+
     const rules = {
-      date: [required],
+      date: [required, validDateFormat(userDateFormat)],
     };
 
     const filters = ref({

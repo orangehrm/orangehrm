@@ -58,6 +58,7 @@
 import {APIService} from '@/core/util/services/api.service';
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {required, validDateFormat} from '@ohrm/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 export default {
   name: 'AddTimesheetModal',
@@ -78,8 +79,11 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/time/add-timesheet`,
     );
+    const {userDateFormat} = useDateFormat();
+
     return {
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -87,7 +91,7 @@ export default {
       isLoading: false,
       date: null,
       rules: {
-        date: [required, validDateFormat()],
+        date: [required, validDateFormat(this.userDateFormat)],
       },
     };
   },

@@ -58,6 +58,7 @@
                 v-model="vacancy"
                 :label="$t('recruitment.job_vacancy')"
                 :readonly="!editable"
+                :status="true"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -166,6 +167,15 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
+
+    <confirmation-dialog
+      ref="confirmDialog"
+      :title="$t('general.confirmation_required')"
+      :subtitle="$t('recruitment.candidate_vacancy_change_message')"
+      :cancel-label="$t('general.no_cancel')"
+      :confirm-label="$t('general.yes_confirm')"
+      confirm-button-type="secondary"
+    ></confirmation-dialog>
   </div>
 </template>
 
@@ -179,7 +189,6 @@ import {
   validPhoneNumberFormat,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
-import {navigate} from '@/core/util/helper/navigation';
 import {urlFor} from '@ohrm/core/util/helper/url';
 import DateInput from '@/core/components/inputs/DateInput';
 import {APIService} from '@/core/util/services/api.service';
@@ -187,6 +196,8 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
 
 const CandidateProfileModel = {
   firstName: '',
@@ -198,8 +209,6 @@ const CandidateProfileModel = {
   keywords: '',
   dateOfApplication: null,
   consentToKeepData: false,
-  modeOfApplication: 1,
-  status: 1,
 };
 
 const CandidateAttachmentModel = {
@@ -222,6 +231,7 @@ export default {
     'full-name-input': FullNameInput,
     'vacancy-dropdown': VacancyDropdown,
     'file-upload-input': FileUploadInput,
+    'confirmation-dialog': ConfirmationDialog,
   },
   props: {
     candidate: {
@@ -237,11 +247,14 @@ export default {
       required: true,
     },
   },
+  emits: ['update'],
   setup() {
     const http = new APIService(window.appGlobal.baseUrl, '/');
+    const {userDateFormat} = useDateFormat();
 
     return {
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -258,7 +271,7 @@ export default {
         email: [required, validEmailFormat, shouldNotExceedCharLength(50)],
         contactNumber: [validPhoneNumberFormat, shouldNotExceedCharLength(25)],
         keywords: [shouldNotExceedCharLength(250)],
-        applicationDate: [validDateFormat()],
+        applicationDate: [validDateFormat(this.userDateFormat)],
         resume: [
           maxFileSize(1024 * 1024),
           validFileTypes(this.allowedFileTypes),
@@ -304,6 +317,18 @@ export default {
   },
   methods: {
     onSave() {
+      if (
+        this.candidate.vacancy?.id &&
+        this.candidate.vacancy?.id !== this.vacancy?.id
+      ) {
+        this.$refs.confirmDialog.showDialog().then(confirmation => {
+          if (confirmation === 'ok') this.updateCandidate();
+        });
+      } else {
+        this.updateCandidate();
+      }
+    },
+    updateCandidate() {
       this.isLoading = true;
       this.http
         .request({
@@ -332,7 +357,9 @@ export default {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          navigate('/recruitment/addCandidate/{id}', {id: this.candidate.id});
+          this.$emit('update');
+          this.isLoading = false;
+          this.editable = false;
         });
     },
     getResumeUrl() {

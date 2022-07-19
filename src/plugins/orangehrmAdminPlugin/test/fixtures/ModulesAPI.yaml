@@ -1,0 +1,18 @@
+Module:
+  - { id: 1, name: 'admin', status: 1, displayName: 'Admin' }
+  - { id: 2, name: 'pim', status: 1, displayName: 'PIM' }
+  - { id: 3, name: 'leave', status: 1, displayName: 'Leave' }
+  - { id: 4, name: 'time', status: 1, displayName: 'Time' }
+  - { id: 5, name: 'recruitment', status: 1, displayName: 'Recruitment' }
+  - { id: 6, name: 'performance', status: 1, displayName: 'Performance' }
+  - { id: 7, name: 'directory', status: 1, displayName: 'Directory' }
+  - { id: 8, name: 'maintenance', status: 0, displayName: 'Maintenance' }
+
+Employee:
+  - { empNumber: 1, emp_firstname: 'Lynda', emp_lastname: 'Jane', employee_id: '0001' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'lynda', user_password: 'admin123' }
