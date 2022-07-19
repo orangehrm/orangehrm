@@ -34,18 +34,19 @@ class EmpPicture
     use DecoratorTrait;
 
     public const ALLOWED_IMAGE_TYPES = [
-        "image/gif",
-        "image/jpeg",
-        "image/jpg",
-        "image/pjpeg",
-        "image/png",
-        "image/x-png"
+        'image/gif',
+        'image/jpeg',
+        'image/jpg',
+        'image/pjpeg',
+        'image/png',
+        'image/x-png'
     ];
     public const ALLOWED_IMAGE_EXTENSIONS = [
-        "gif",
-        "jpeg",
-        "jpg",
-        "png"
+        'gif',
+        'jpeg',
+        'jpg',
+        'jfif',
+        'png',
     ];
 
     /**

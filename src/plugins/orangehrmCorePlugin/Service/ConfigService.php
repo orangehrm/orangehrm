@@ -21,28 +21,17 @@ namespace OrangeHRM\Core\Service;
 
 use DateTime;
 use OrangeHRM\Core\Dao\ConfigDao;
-use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Config;
-use OrangeHRM\Framework\Logger;
 
-/**
- * Config Service: Manages configuration entries in hs_hr_config
- *
- */
 class ConfigService
 {
     use DateTimeHelperTrait;
 
     public const FALLBACK_LANGUAGE_CODE = 'en_US';
 
-    /**
-     * @var ConfigDao|null
-     */
-    protected ?ConfigDao $configDao = null;
-
-    public const KEY_PIM_SHOW_DEPRECATED = "pim_show_deprecated_fields";
+    public const KEY_PIM_SHOW_DEPRECATED = 'pim_show_deprecated_fields';
     public const KEY_PIM_SHOW_SSN = 'pim_show_ssn';
     public const KEY_PIM_SHOW_SIN = 'pim_show_sin';
     public const KEY_PIM_SHOW_TAX_EXEMPTIONS = 'pim_show_tax_exemptions';
@@ -52,69 +41,70 @@ class ConfigService
     public const KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE = 'admin.localization.default_language';
     public const KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE = 'admin.localization.use_browser_language';
     public const KEY_ADMIN_LOCALIZATION_DEFAULT_DATE_FORMAT = 'admin.localization.default_date_format';
-//    const KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE = 'leave.nonLeapYearLeavePeriodStartDate';
-//    const KEY_IS_LEAVE_PERIOD_START_ON_FEB_29 = 'leave.isLeavePeriodStartOnFeb29th';
-//    public const KEY_LEAVE_PERIOD_START_DATE = 'leave.leavePeriodStartDate';
     public const KEY_INCLUDE_SUPERVISOR_CHAIN = 'include_supervisor_chain';
     public const KEY_THEME_NAME = 'themeName';
     public const KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME = 'admin.default_workshift_start_time';
     public const KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME = 'admin.default_workshift_end_time';
-//    const KEY_AUTH_LOGINS = 'auth.logins';
     public const KEY_OPENID_PROVIDER_ADDED = 'openId.provider.added';
     public const KEY_OPEN_SOURCE_INTEGRATIONS = 'open_source_integrations';
-    public const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
-    public const KEY_INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
+    public const KEY_INSTANCE_IDENTIFIER = 'instance.identifier';
+    public const KEY_INSTANCE_IDENTIFIER_CHECKSUM = 'instance.identifier_checksum';
     public const KEY_SENDMAIL_PATH = 'email_config.sendmail_path';
 
     public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
     public const ALLOWED_FILE_TYPES = [
-        "text/plain",
-        "text/rtf",
-        "text/csv",
-        "application/csv",
-        "application/rtf",
-        "application/pdf",
-        "application/msword",
-        "application/vnd.ms-excel",
-        "application/vnd.ms-powerpoint",
-        "application/vnd.oasis.opendocument.text",
-        "application/vnd.oasis.opendocument.spreadsheet",
-        "application/vnd.oasis.opendocument.presentation",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-        "application/vnd.openxmlformats-officedocument.presentationml.slideshow",
-        "image/x-png",
-        "image/gif",
-        "image/jpeg",
-        "image/jpg",
-        "image/pjpeg",
-        "image/png"
+        'text/plain',
+        'text/rtf',
+        'text/csv',
+        'application/csv',
+        'application/rtf',
+        'application/pdf',
+        'application/msword',
+        'application/vnd.ms-excel',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.oasis.opendocument.text',
+        'application/vnd.oasis.opendocument.spreadsheet',
+        'application/vnd.oasis.opendocument.presentation',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+        'image/x-png',
+        'image/gif',
+        'image/jpeg',
+        'image/jpg',
+        'image/pjpeg',
+        'image/png',
     ];
     public const ALLOWED_FILE_EXTENSIONS = [
-        "txt",
-        "csv",
-        "rtf",
-        "pdf",
-        "doc",
-        "xls",
-        "ppt",
-        "odt",
-        "ods",
-        "odp",
-        "docx",
-        "xlsx",
-        "pptx",
-        "pps",
-        "ppsx",
-        "gif",
-        "jpeg",
-        "jpg",
-        "png"
+        'txt',
+        'csv',
+        'rtf',
+        'pdf',
+        'doc',
+        'xls',
+        'ppt',
+        'odt',
+        'ods',
+        'odp',
+        'docx',
+        'xlsx',
+        'pptx',
+        'pps',
+        'ppsx',
+        'gif',
+        'jpeg',
+        'jpg',
+        'jfif',
+        'png',
     ];
 
     /**
-     * Get ConfigDao
+     * @var ConfigDao|null
+     */
+    protected ?ConfigDao $configDao = null;
+
+    /**
      * @return ConfigDao
      */
     public function getConfigDao(): ConfigDao
@@ -127,7 +117,6 @@ class ConfigService
     }
 
     /**
-     * Set ConfigDao
      * @param ConfigDao $configDao
      * @return void
      */
@@ -139,40 +128,25 @@ class ConfigService
     /**
      * @param string $key
      * @return string|null
-     * @throws CoreServiceException
      */
     protected function _getConfigValue(string $key): ?string
     {
-        try {
-            return $this->getConfigDao()->getValue($key);
-        } catch (DaoException $e) {
-            Logger::getLogger()->error($e->getMessage());
-            Logger::getLogger()->error($e->getTraceAsString());
-            throw new CoreServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getConfigDao()->getValue($key);
     }
 
     /**
      * @param string $key
      * @param string $value
      * @return Config
-     * @throws CoreServiceException
      */
     protected function _setConfigValue(string $key, string $value): Config
     {
-        try {
-            return $this->getConfigDao()->setValue($key, $value);
-        } catch (DaoException $e) {
-            Logger::getLogger()->error($e->getMessage());
-            Logger::getLogger()->error($e->getTraceAsString());
-            throw new CoreServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getConfigDao()->setValue($key, $value);
     }
 
     /**
      * Get Value: Whether timesheet period has been set
      * @return bool Returns true if timesheet period has been set
-     * @throws CoreServiceException
      */
     public function isTimesheetPeriodDefined(): bool
     {
@@ -183,7 +157,6 @@ class ConfigService
     /**
      * Return is Supervisor Chain supported
      * @return bool is Supervisor Chain supported
-     * @throws CoreServiceException
      */
     public function isSupervisorChainSupported(): bool
     {
@@ -194,7 +167,6 @@ class ConfigService
     /**
      * Set Supervisor Chain supported
      * @param bool $value true or false
-     * @throws CoreServiceException
      */
     public function setSupervisorChainSupported(bool $value): void
     {
@@ -205,7 +177,6 @@ class ConfigService
     /**
      * Set show deprecated fields config value
      * @param bool $value true or false
-     * @throws CoreServiceException
      */
     public function setShowPimDeprecatedFields(bool $value): void
     {
@@ -215,7 +186,6 @@ class ConfigService
 
     /**
      * @return bool
-     * @throws CoreServiceException
      */
     public function showPimDeprecatedFields(): bool
     {
@@ -225,7 +195,6 @@ class ConfigService
 
     /**
      * @param bool $value
-     * @throws CoreServiceException
      */
     public function setShowPimSSN(bool $value): void
     {
@@ -236,7 +205,6 @@ class ConfigService
     /**
      * Show PIM Deprecated Fields
      * @return bool
-     * @throws CoreServiceException
      */
     public function showPimSSN(): bool
     {
@@ -246,7 +214,6 @@ class ConfigService
 
     /**
      * @param bool $value
-     * @throws CoreServiceException
      */
     public function setShowPimSIN(bool $value): void
     {
@@ -257,7 +224,6 @@ class ConfigService
     /**
      * Show PIM Deprecated Fields
      * @return bool
-     * @throws CoreServiceException
      */
     public function showPimSIN(): bool
     {
@@ -268,7 +234,6 @@ class ConfigService
     /**
      * @param bool $value
      * @return void
-     * @throws CoreServiceException
      */
     public function setShowPimTaxExemptions(bool $value): void
     {
@@ -278,7 +243,6 @@ class ConfigService
 
     /**
      * @return bool
-     * @throws CoreServiceException
      */
     public function showPimTaxExemptions(): bool
     {
@@ -288,7 +252,6 @@ class ConfigService
 
     /**
      * @param string $value
-     * @throws CoreServiceException
      */
     public function setThemeName(string $value): void
     {
@@ -297,7 +260,6 @@ class ConfigService
 
     /**
      * @return string
-     * @throws CoreServiceException
      */
     public function getThemeName(): string
     {
@@ -306,7 +268,6 @@ class ConfigService
 
     /**
      * @param string $value
-     * @throws CoreServiceException
      */
     public function setAdminLocalizationDefaultLanguage(string $value): void
     {
@@ -323,7 +284,6 @@ class ConfigService
 
     /**
      * @param string $value
-     * @throws CoreServiceException
      */
     public function setAdminLocalizationDefaultDateFormat(string $value): void
     {
@@ -355,48 +315,6 @@ class ConfigService
         $langCode = $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE);
         return empty($langCode) ? self::FALLBACK_LANGUAGE_CODE : $langCode;
     }
-
-//    /**
-//     * @return string
-//     * @throws CoreServiceException
-//     */
-//    public function getNonLeapYearLeavePeriodStartDate():string {
-//        return $this->_getConfigValue(self::KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE);
-//    }
-//
-//    /**
-//     * @param string $startDate
-//     * @throws CoreServiceException
-//     */
-//    public function setNonLeapYearLeavePeriodStartDate(string $startDate):void {
-//        $this->_setConfigValue(self::KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE, $startDate);
-//    }
-
-//    public function getIsLeavePeriodStartOnFeb29th(): {
-//        return $this->_getConfigValue(self::KEY_IS_LEAVE_PERIOD_START_ON_FEB_29);
-//    }
-//
-//    public function setIsLeavePeriodStartOnFeb29th($value) {
-//        $this->_setConfigValue(self::KEY_IS_LEAVE_PERIOD_START_ON_FEB_29, $value);
-//    }
-//
-//    /**
-//     * @return string
-//     * @throws CoreServiceException
-//     */
-//    public function getLeavePeriodStartDate(): string
-//    {
-//        return $this->_getConfigValue(self::KEY_LEAVE_PERIOD_START_DATE);
-//    }
-//
-//    /**
-//     * @param string $startDate
-//     * @throws CoreServiceException
-//     */
-//    public function setLeavePeriodStartDate(string $startDate): void
-//    {
-//        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_START_DATE, $startDate);
-//    }
 
     /**
      * Get default workshift start time
@@ -455,19 +373,9 @@ class ConfigService
         return $this->getConfigDao()->getAllValues();
     }
 
-//     public function incrementLogins() {
-//        $currentValue = (int)$this->_getConfigValue(self::KEY_AUTH_LOGINS);
-//        $this->_setConfigValue(self::KEY_AUTH_LOGINS, ++$currentValue);
-//    }
-//
-//    public function getLogins() {
-//        $this->_getConfigValue(self::KEY_AUTH_LOGINS);
-//    }
-
     /**
      * Get openId provider added value
      * @return string
-     * @throws CoreServiceException
      */
     public function getOpenIdProviderAdded(): string
     {
@@ -477,7 +385,6 @@ class ConfigService
     /**
      * Set openId provider added value
      * @param string $value
-     * @throws CoreServiceException
      */
     public function setOpenIdProviderAdded($value = 'off'): void
     {
@@ -488,7 +395,6 @@ class ConfigService
      * Get Opensource integrations XML as a string
      *
      * @return string
-     * @throws CoreServiceException
      */
     public function getIntegrationsConfigValue(): string
     {
@@ -499,7 +405,6 @@ class ConfigService
      * Set Opensource integrations XML as a string
      *
      * @param string $value
-     * @throws CoreServiceException
      */
     public function setIntegrationsConfigValue(string $value): void
     {
@@ -509,7 +414,6 @@ class ConfigService
     /**
      * Set the instance identifier value
      * @param string $value
-     * @throws CoreServiceException
      */
     public function setInstanceIdentifier(string $value): void
     {
@@ -519,7 +423,6 @@ class ConfigService
     /**
      * Get instance identifier value
      * @return string
-     * @throws CoreServiceException
      */
     public function getInstanceIdentifier(): string
     {
@@ -529,7 +432,6 @@ class ConfigService
     /**
      * Set the instance identifier checksum value
      * @param string $value
-     * @throws CoreServiceException
      */
     public function setInstanceIdentifierChecksum(string $value): void
     {
@@ -539,7 +441,6 @@ class ConfigService
     /**
      * Get instance identifier checksum value
      * @return string
-     * @throws CoreServiceException
      */
     public function getInstanceIdentifierChecksum(): string
     {
@@ -548,7 +449,6 @@ class ConfigService
 
     /**
      * @return string|null
-     * @throws CoreServiceException
      */
     public function getSendmailPath(): ?string
     {
@@ -581,7 +481,6 @@ class ConfigService
 
     /**
      * @return string|null
-     * @throws CoreServiceException
      */
     public function getTimeSheetPeriodConfig(): ?string
     {
@@ -590,7 +489,6 @@ class ConfigService
 
     /**
      * @param string $value
-     * @throws CoreServiceException
      */
     public function setTimeSheetPeriodConfig(string $value): void
     {
@@ -599,7 +497,6 @@ class ConfigService
 
     /**
      * @param bool $value
-     * @throws CoreServiceException
      */
     public function setTimeSheetPeriodSetValue(bool $value): void
     {
@@ -608,7 +505,6 @@ class ConfigService
 
     /**
      * @return string|null
-     * @throws CoreServiceException
      */
     public function getTimesheetTimeFormatConfig(): ?string
     {
