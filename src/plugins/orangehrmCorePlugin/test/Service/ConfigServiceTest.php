@@ -235,7 +235,7 @@ class ConfigServiceTest extends KernelTestCase
             $this->configService->setShowPimTaxExemptions(false);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof CoreServiceException);
+            $this->assertTrue($e instanceof DaoException);
         }
     }
 
@@ -276,7 +276,7 @@ class ConfigServiceTest extends KernelTestCase
             $returnVal = $this->configService->showPimTaxExemptions();
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof CoreServiceException);
+            $this->assertTrue($e instanceof DaoException);
         }
     }
 
