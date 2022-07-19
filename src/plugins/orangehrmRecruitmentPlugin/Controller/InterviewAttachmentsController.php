@@ -19,20 +19,23 @@
 
 namespace OrangeHRM\Recruitment\Controller;
 
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
-class InterviewAttachmentsController extends AbstractVueController
+class InterviewAttachmentsController extends AbstractVueController implements CapableViewController
 {
     use ConfigServiceTrait;
     use CandidateServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
@@ -48,10 +51,21 @@ class InterviewAttachmentsController extends AbstractVueController
         }
         $component = new Component('view-interview-attachments');
         $component->addProp(new Prop('interview-id', Prop::TYPE_NUMBER, $interviewId));
-        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
+        $component->addProp(
+            new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize())
+        );
         $component->addProp(
             new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes())
         );
         $this->setComponent($component);
+    }
+
+    public function isCapable(Request $request): bool
+    {
+        $interviewId = $request->attributes->getInt('interviewId');
+        if (!$this->getUserRoleManager()->isEntityAccessible(Interview::class, $interviewId)) {
+            return false;
+        }
+        return true;
     }
 }

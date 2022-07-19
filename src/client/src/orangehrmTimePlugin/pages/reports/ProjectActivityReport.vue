@@ -103,6 +103,7 @@ import ReportsTable from '@/core/components/table/ReportsTable';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const defaultFilters = {
   project: null,
@@ -150,11 +151,12 @@ export default {
     });
 
     const {$t} = usei18n();
+    const {userDateFormat} = useDateFormat();
 
     const rules = {
       project: [required],
       fromDate: [
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
           $t('general.from_date_should_be_before_to_date'),
@@ -162,7 +164,7 @@ export default {
         ),
       ],
       toDate: [
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
           $t('general.to_date_should_be_after_from_date'),

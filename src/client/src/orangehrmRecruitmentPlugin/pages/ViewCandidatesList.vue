@@ -197,7 +197,7 @@ export default {
   setup() {
     const {$t} = usei18n();
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
 
     const candidateDataNormalizer = data => {
@@ -230,7 +230,7 @@ export default {
     const filters = ref({...defaultFilters});
     const rules = {
       fromDate: [
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
           $t('general.from_date_should_be_before_to_date'),
@@ -238,7 +238,7 @@ export default {
         ),
       ],
       toDate: [
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
           $t('general.to_date_should_be_after_from_date'),

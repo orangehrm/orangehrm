@@ -226,6 +226,12 @@ export default {
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
+      cellConfig.edit = {
+        onClick: this.onClickEdit,
+        props: {
+          name: 'pencil-fill',
+        },
+      };
       if (row.isDeletable) {
         cellConfig.delete = {
           onClick: this.onClickDelete,
@@ -235,12 +241,6 @@ export default {
           },
         };
       }
-      cellConfig.edit = {
-        onClick: this.onClickEdit,
-        props: {
-          name: 'pencil-fill',
-        },
-      };
       return {
         props: {
           header: {

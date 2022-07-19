@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="select"
-    :label="$t('recruitment.job_vacancy')"
+    :label="$t('recruitment.vacancy')"
     :options="options"
   />
 </template>
@@ -37,6 +37,11 @@ export default {
       required: false,
       default: null,
     },
+    excludeInterviewers: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   setup(props) {
     const options = ref([]);
@@ -49,6 +54,7 @@ export default {
       if (props.status !== null) {
         params.status = props.status;
       }
+      params.excludeInterviewers = props.excludeInterviewers;
       http.getAll(params).then(({data}) => {
         options.value = data.data.map(item => {
           return {

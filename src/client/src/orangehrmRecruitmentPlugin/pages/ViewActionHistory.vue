@@ -190,7 +190,7 @@ export default {
 
   setup(props) {
     const {locale} = useLocale();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
 
     const http = new APIService(
@@ -202,6 +202,7 @@ export default {
       http,
       locale,
       jsDateFormat,
+      userDateFormat,
       translateEmpName: $tEmpName,
     };
   },
@@ -214,7 +215,7 @@ export default {
       interviewers: [],
       rules: {
         interviewName: [required, shouldNotExceedCharLength(100)],
-        interviewDate: [required, validDateFormat()],
+        interviewDate: [required, validDateFormat(this.userDateFormat)],
         interviewTime: [validTimeFormat],
         interviewerName: [
           required,

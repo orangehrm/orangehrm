@@ -54,7 +54,7 @@ class I18NTranslationAPITest extends EndpointIntegrationTestCase
         $api->create();
     }
 
-    public function testGetValidationRuleForCreate(): array
+    public function testGetValidationRuleForCreate(): void
     {
         $api = new I18NTranslationAPI($this->getRequest());
         $this->expectNotImplementedException();

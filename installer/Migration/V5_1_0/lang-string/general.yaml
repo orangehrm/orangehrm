@@ -179,3 +179,12 @@ langStrings:
   -
     value: 'This page is currently under development for OrangeHRM OS {version}.'
     unitId: this_page_is_being_developed
+  -
+    value: 'Should be a numeric value'
+    unitId: should_be_a_numeric_value
+  -
+    value: 'Confirmation Required'
+    unitId: confirmation_required
+  -
+    value: 'Yes, Confirm'
+    unitId: yes_confirm

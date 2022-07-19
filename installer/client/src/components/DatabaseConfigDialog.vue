@@ -133,6 +133,7 @@ export default {
   }
   &-table {
     margin-bottom: 2em;
+    table-layout: fixed;
   }
 }
 </style>

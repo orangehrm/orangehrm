@@ -102,6 +102,7 @@ import {
   maxCurrency,
 } from '@ohrm/core/util/validation/rules';
 import {yearRange} from '@ohrm/core/util/helper/year-range';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const membershipModel = {
   membershipId: [],
@@ -136,6 +137,14 @@ export default {
 
   emits: ['close'],
 
+  setup() {
+    const {userDateFormat} = useDateFormat();
+
+    return {
+      userDateFormat,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
@@ -143,8 +152,9 @@ export default {
       yearArray: [...yearRange()],
       rules: {
         membership: [required],
+        subscriptionCommenceDate: [validDateFormat(this.userDateFormat)],
         subscriptionRenewalDate: [
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.membership.subscriptionCommenceDate,
             this.$t('pim.renewal_date_should_be_after_the_commencing_date'),

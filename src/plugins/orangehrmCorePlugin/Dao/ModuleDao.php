@@ -51,7 +51,7 @@ class ModuleDao extends BaseDao
             if (in_array($module->getName(), $modules)
                 && array_key_exists($module->getName(), $modules)
                 && $module->getStatus() !== $modules[$module->getName()]) {
-                $module->setStatus($modules[$module->getName()] ? true : false);
+                $module->setStatus((bool) $modules[$module->getName()]);
                 $this->getEntityManager()->persist($module);
             }
         }

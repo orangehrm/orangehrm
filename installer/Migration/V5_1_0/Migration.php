@@ -221,6 +221,9 @@ class Migration extends AbstractMigration
             'status',
             ['Type' => Type::getType(Types::BOOLEAN), 'Default' => true, 'Notnull' => true]
         );
+
+        $this->getDataGroupHelper()->addDataGroupPermissions('apiv2_admin_job_title', 'Interviewer', true);
+        $this->getDataGroupHelper()->addDataGroupPermissions('apiv2_admin_job_title', 'HiringManager', true);
     }
 
     /**

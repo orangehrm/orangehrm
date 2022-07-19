@@ -104,7 +104,7 @@
 
 <script>
 import {computed, ref} from 'vue';
-import {required} from '@/core/util/validation/rules';
+import {required, validDateFormat} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
@@ -139,10 +139,6 @@ export default {
   },
 
   setup(props) {
-    const rules = {
-      date: [required],
-    };
-
     const filters = ref({
       date: props.date ? props.date : formatDate(freshDate(), 'yyyy-MM-dd'),
       employee: props.employee
@@ -165,8 +161,12 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/attendance/employees/${props.employee.empNumber}/records`,
     );
-    const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
+
+    const rules = {
+      date: [required, validDateFormat(userDateFormat)],
+    };
 
     const attendanceRecordNormalizer = data => {
       return data.map(item => {

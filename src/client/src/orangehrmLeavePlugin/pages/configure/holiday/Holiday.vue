@@ -139,7 +139,7 @@ export default {
       };
     });
 
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
     const dataNormalizer = data => {
       return data.map(item => {
@@ -182,6 +182,7 @@ export default {
       execQuery,
       items: response,
       filters,
+      userDateFormat,
     };
   },
 
@@ -189,10 +190,10 @@ export default {
     return {
       yearArray: [...yearRange(201)],
       rules: {
-        fromDate: [required, validDateFormat()],
+        fromDate: [required, validDateFormat(this.userDateFormat)],
         toDate: [
           required,
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.filters.fromDate,
             this.$t('general.to_date_should_be_after_from_date'),

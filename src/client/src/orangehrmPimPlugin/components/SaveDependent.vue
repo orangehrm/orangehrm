@@ -89,6 +89,7 @@ import {
   validDateFormat,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const dependentModel = {
   name: '',
@@ -109,6 +110,14 @@ export default {
 
   emits: ['close'],
 
+  setup() {
+    const {userDateFormat} = useDateFormat();
+
+    return {
+      userDateFormat,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
@@ -117,7 +126,7 @@ export default {
         name: [required, shouldNotExceedCharLength(100)],
         relationshipType: [required],
         relationship: [required, shouldNotExceedCharLength(100)],
-        dateOfBirth: [validDateFormat()],
+        dateOfBirth: [validDateFormat(this.userDateFormat)],
       },
       relationshipOptions: [
         {id: 'child', label: this.$t('pim.child')},

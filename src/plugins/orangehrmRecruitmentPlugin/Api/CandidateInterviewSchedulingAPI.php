@@ -259,7 +259,8 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_NOTE,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NOTE_MAX_LENGTH])
-                )
+                ),
+                true
             ),
             new ParamRule(
                 self::PARAMETER_INTERVIEWERS,
