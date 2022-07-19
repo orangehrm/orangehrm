@@ -170,7 +170,7 @@ class Project
     }
 
     /**
-     * @return iterable
+     * @return iterable|Employee[]
      */
     public function getProjectAdmins(): iterable
     {
