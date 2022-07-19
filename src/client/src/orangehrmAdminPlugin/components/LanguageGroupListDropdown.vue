@@ -40,7 +40,10 @@ export default {
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
         options.value = data.data.map(item => {
-          return {};
+          return {
+            id: item.id,
+            label: item.title,
+          };
         });
       });
     });

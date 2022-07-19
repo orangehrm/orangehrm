@@ -92,7 +92,6 @@ export default {
   padding-left: 25px;
   padding-right: 25px;
 }
-
 .orangehrm-table-header {
   background-color: #fff;
   padding: 0.6rem;

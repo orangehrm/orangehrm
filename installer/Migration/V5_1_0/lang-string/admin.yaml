@@ -77,3 +77,15 @@ langStrings:
   -
     value: 'Translate Language Package'
     unitId: translate_language_package
+  -
+    value: 'Directory Module'
+    unitId: directory_module
+  -
+    value: 'Order'
+    unitId: order
+  -
+    value: 'Ascending'
+    unitId: ascending
+  -
+    value: 'Descending'
+    unitId: descending
