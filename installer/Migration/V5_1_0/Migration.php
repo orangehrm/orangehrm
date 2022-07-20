@@ -84,6 +84,7 @@ class Migration extends AbstractMigration
             $this->getLangHelper()->getGroupIdByName('general')
         );
 
+        $this->updateLangStringVersion('5.0.0');
         $groups = ['recruitment', 'performance'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
@@ -94,6 +95,12 @@ class Migration extends AbstractMigration
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_lang_string')
+            ->andWhere('ohrm_i18n_lang_string.group_id = :groupId')
+            ->setParameter('groupId', $this->getLangHelper()->getGroupIdByName('directory'))
+            ->executeQuery();
 
         $langCodes = [
             'bg_BG',
@@ -119,6 +126,7 @@ class Migration extends AbstractMigration
         foreach ($langCodes as $langCode) {
             $this->getTranslationHelper()->addTranslations($langCode);
         }
+        $this->updateLangStringVersion($this->getVersion());
 
         $performanceModuleId = $this->getDataGroupHelper()->getModuleIdByName('performance');
 
@@ -224,6 +232,20 @@ class Migration extends AbstractMigration
 
         $this->getDataGroupHelper()->addDataGroupPermissions('apiv2_admin_job_title', 'Interviewer', true);
         $this->getDataGroupHelper()->addDataGroupPermissions('apiv2_admin_job_title', 'HiringManager', true);
+    }
+
+
+    /**
+     * @param string $version
+     */
+    private function updateLangStringVersion(string $version): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'lang_string')
+            ->set('lang_string.version', ':version')
+            ->setParameter('version', $version);
+        $qb->andWhere($qb->expr()->isNull('lang_string.version'))
+            ->executeQuery();
     }
 
     /**

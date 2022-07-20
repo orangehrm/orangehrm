@@ -189,6 +189,10 @@ apiv2_recruitment_interviewers:
   defaults:
     _api: OrangeHRM\Recruitment\Api\EmployeeListAPI
 
+##########################
+#     Public APIs
+##########################
+
 apiv2_recruitment_public_vacancies:
   path: /api/v2/recruitment/public/vacancies
   controller: OrangeHRM\Recruitment\Controller\PublicController\VacancyListRestController::handle
@@ -198,11 +202,6 @@ apiv2_recruitment_public_vacancy:
   path: /api/v2/recruitment/public/vacancies/{id}
   controller: OrangeHRM\Recruitment\Controller\PublicController\VacancyRestController::handle
   methods: [ GET ]
-
-recruitment_public_applicants:
-  path: /recruitment/public/applicants
-  controller: OrangeHRM\Recruitment\Controller\PublicController\ApplicantController::handle
-  methods: [ POST ]
 
 ##########################
 #        Files
@@ -290,6 +289,11 @@ recruitment_apply_job_vacancy:
   path: /recruitmentApply/applyVacancy/id/{id}
   controller: OrangeHRM\Recruitment\Controller\PublicController\ApplyJobVacancyViewController::handle
   methods: [ GET ]
+
+recruitment_public_applicants:
+  path: /recruitment/public/applicants
+  controller: OrangeHRM\Recruitment\Controller\PublicController\ApplicantController::handle
+  methods: [ POST ]
 
 ##########################
 #        RSS Feed
