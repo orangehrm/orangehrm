@@ -1,6 +1,9 @@
 name: Scheduled Test
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '0 2 * * *'
 
@@ -21,10 +24,16 @@ jobs:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 --name="database"
 
+    env:
+      WORKFLOW_BRANCH: ${{ secrets.WORKFLOW_BRANCH }}
     steps:
       - uses: actions/checkout@v2
+        if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
           ref: ${{ secrets.WORKFLOW_BRANCH }}
+
+      - uses: actions/checkout@v2
+        if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
       - name: Source info
         run: |
@@ -33,9 +42,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd src
-          php7.4 -f /usr/bin/composer install
-          php7.4 -f /usr/bin/composer dump-autoload -o
+          php7.4 -f /usr/bin/composer install -d src
+          php7.4 -f /usr/bin/composer install -d devTools/core
 
       - name: Install OrangeHRM
         run: |
@@ -78,9 +86,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd src
-          php7.4 -f /usr/bin/composer install
-          php7.4 -f /usr/bin/composer dump-autoload -o
+          php7.4 -f /usr/bin/composer install -d src
+          php7.4 -f /usr/bin/composer install -d devTools/core
 
       - name: Install OrangeHRM
         run: |
