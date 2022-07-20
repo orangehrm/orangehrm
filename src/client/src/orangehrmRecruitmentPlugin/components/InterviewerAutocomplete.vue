@@ -22,11 +22,12 @@
   <div class="orangehrm-recruitment-interviewer-input">
     <employee-autocomplete
       :label="!showDelete ? $t('recruitment.interviewer') : null"
+      :disabled="disabled"
       v-bind="$attrs"
       api-path="/api/v2/recruitment/interviewers"
     />
     <oxd-icon-button
-      v-if="showDelete"
+      v-if="showDelete && !disabled"
       name="trash-fill"
       class="orangehrm-recruitment-delete-icon"
       :with-container="false"
@@ -52,6 +53,11 @@ export default {
     includeEmployee: {
       type: String,
       default: 'currentAndPast',
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   emits: ['remove'],
