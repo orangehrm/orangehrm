@@ -284,41 +284,13 @@ export default {
       },
     };
   },
-
+  watch: {
+    candidate() {
+      this.fetchCandidate();
+    },
+  },
   beforeMount() {
-    this.isLoading = true;
-    this.profile.firstName = this.candidate.firstName;
-    this.profile.middleName = this.candidate.middleName;
-    this.profile.lastName = this.candidate.lastName;
-    this.profile.email = this.candidate.email;
-    this.profile.contactNumber = this.candidate.contactNumber;
-    this.profile.keywords = this.candidate.keywords;
-    this.profile.dateOfApplication = this.candidate.dateOfApplication;
-    this.profile.comment = this.candidate.comment;
-    this.profile.consentToKeepData = this.candidate.consentToKeepData;
-    this.vacancy = {
-      id: this.candidate.vacancy?.id,
-      label: this.candidate.vacancy?.name,
-    };
-    if (this.candidate.hasAttachment) {
-      this.http
-        .request({
-          method: 'GET',
-          url: `/api/v2/recruitment/candidate/${this.candidate.id}/attachment`,
-        })
-        .then(({data: {data}}) => {
-          this.attachment.id = data.id;
-          this.attachment.newAttachment = null;
-          this.attachment.oldAttachment = {
-            id: data.id,
-            filename: data.attachment.fileName,
-            fileType: data.attachment.fileType,
-            fileSize: data.attachment.fileSize,
-          };
-          this.attachment.method = 'keepCurrent';
-        });
-    }
-    this.isLoading = false;
+    this.fetchCandidate();
   },
   methods: {
     onSave() {
@@ -372,6 +344,43 @@ export default {
         '/recruitment/viewCandidateAttachment/candidateId/{candidateId}',
         {candidateId: this.candidate.id},
       );
+    },
+    fetchCandidate() {
+      this.isLoading = true;
+      this.profile.firstName = this.candidate.firstName;
+      this.profile.middleName = this.candidate.middleName;
+      this.profile.lastName = this.candidate.lastName;
+      this.profile.email = this.candidate.email;
+      this.profile.contactNumber = this.candidate.contactNumber;
+      this.profile.keywords = this.candidate.keywords;
+      this.profile.dateOfApplication = this.candidate.dateOfApplication;
+      this.profile.comment = this.candidate.comment;
+      this.profile.consentToKeepData = this.candidate.consentToKeepData;
+      this.vacancy = {
+        id: this.candidate.vacancy?.id,
+        label: this.candidate.vacancy?.name,
+      };
+      if (this.candidate.hasAttachment) {
+        this.http
+          .request({
+            method: 'GET',
+            url: `/api/v2/recruitment/candidate/${this.candidate.id}/attachment`,
+          })
+          .then(({data: {data}}) => {
+            this.attachment.id = data.id;
+            this.attachment.newAttachment = null;
+            this.attachment.oldAttachment = {
+              id: data.id,
+              filename: data.attachment.fileName,
+              fileType: data.attachment.fileType,
+              fileSize: data.attachment.fileSize,
+            };
+            this.attachment.method = 'keepCurrent';
+          });
+      } else {
+        this.attachment = {...CandidateAttachmentModel};
+      }
+      this.isLoading = false;
     },
   },
 };
