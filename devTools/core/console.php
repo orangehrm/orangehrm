@@ -29,7 +29,8 @@ $ composer install -d devTools/core\n
 ";
 
 if (!($pathToAutoload && $pathToDevAutoload)) {
-    die(sprintf($errorMessage, realpath(__DIR__ . '/../../')));
+    echo sprintf($errorMessage, realpath(__DIR__ . '/../../'));
+    exit(1);
 }
 
 require_once $pathToAutoload;

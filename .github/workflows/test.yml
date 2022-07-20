@@ -31,10 +31,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd src
-          php7.4 -f /usr/bin/composer install
-          php7.4 -f /usr/bin/composer dump-autoload -o
-          cd client
+          php7.4 -f /usr/bin/composer install -d src
+          php7.4 -f /usr/bin/composer install -d devTools/core
+          cd src/client
           yarn install
 
       - name: Install OrangeHRM
