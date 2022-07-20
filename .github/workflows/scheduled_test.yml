@@ -50,14 +50,10 @@ jobs:
         run: |
           php7.4 installer/cli_install.php
 
-#      - name: Create Test DB on MySQL 8.0
-#        if: ${{ matrix.database == 'mysql:8.0' }}
-#        run: php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
-
       - name: Create Test DB
-        if: ${{ matrix.database != 'mysql:8.0' }}
-        # run: php7.4 devTools/core/console.php i:create-test-db -p root
-        run: php7.4 devTools/general/create-test-db.php root
+        run: |
+          mysqldump -V
+          php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
 
       - name: Config sql_mode
         if: ${{ matrix.database == 'mysql:5.7' || matrix.database == 'mysql:8.0' }}
@@ -103,8 +99,8 @@ jobs:
       - name: Install OrangeHRM
         run: |
           ${{ matrix.php }} installer/cli_install.php
-          # ${{ matrix.php }} devTools/core/console.php i:create-test-db -p root
-          ${{ matrix.php }} devTools/general/create-test-db.php root
+          mysqldump -V
+          ${{ matrix.php }} devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
 
       - name: Run test
         run: |
