@@ -67,16 +67,17 @@
               v-for="(interviewer, index) in interviewers"
               :key="index"
               v-model="interviewers[index]"
-              :show-delete="index > 0"
+              :show-delete="index > 0 && editable"
               :rules="
                 rules.interviewerName.filter((_, i) => index === 0 || i > 0)
               "
               include-employees="onlyCurrent"
               required
+              :disabled="!editable"
               @remove="onRemoveInterviewer(index)"
             />
             <oxd-button
-              v-if="interviewers.length < 5"
+              v-if="editable && interviewers.length < 5"
               icon-name="plus"
               display-type="text"
               class="orangehrm-input-field-bottom-space"
@@ -185,6 +186,11 @@ export default {
     historyId: {
       type: Number,
       required: true,
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
 

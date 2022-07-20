@@ -26,7 +26,7 @@
           {{ $t('recruitment.candidate_profile') }}
         </oxd-text>
         <oxd-switch-input
-          v-if="!isLoading"
+          v-if="!isLoading && updatable"
           v-model="editable"
           :option-label="$t('general.edit')"
           label-position="left"
@@ -245,6 +245,11 @@ export default {
     maxFileSize: {
       type: Number,
       required: true,
+    },
+    updatable: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   emits: ['update'],
