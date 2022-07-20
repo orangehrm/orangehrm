@@ -56,6 +56,7 @@
             v-if="screen !== 'default'"
             :employee-id="employeeId"
             :allowed-file-types="allowedFileTypes"
+            :max-file-size="maxFileSize"
             :screen="screen"
           ></profile-attachments>
         </div>
@@ -92,6 +93,10 @@ export default {
     },
     allowedFileTypes: {
       type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
       required: true,
     },
     screen: {

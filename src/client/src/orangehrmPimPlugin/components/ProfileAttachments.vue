@@ -25,6 +25,7 @@
       v-if="showSaveModal"
       :http="http"
       :allowed-file-types="allowedFileTypes"
+      :max-file-size="maxFileSize"
       @close="onSaveModalClose"
     ></save-attachment>
     <edit-attachment
@@ -32,6 +33,7 @@
       :data="editModalState"
       :http="http"
       :allowed-file-types="allowedFileTypes"
+      :max-file-size="maxFileSize"
       @close="onEditModalClose"
     ></edit-attachment>
     <template v-else>
@@ -98,6 +100,10 @@ export default {
     },
     allowedFileTypes: {
       type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
       required: true,
     },
     screen: {

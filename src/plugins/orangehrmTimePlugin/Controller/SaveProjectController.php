@@ -23,17 +23,17 @@ use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\Controller\VueComponentPermissionTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Time\Controller\Traits\PermissionTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class SaveProjectController extends AbstractVueController implements CapableViewController
 {
-    use PermissionTrait;
+    use VueComponentPermissionTrait;
     use UserRoleManagerTrait;
     use ProjectServiceTrait;
 

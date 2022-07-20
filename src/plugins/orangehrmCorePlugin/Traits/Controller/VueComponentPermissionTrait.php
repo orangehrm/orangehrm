@@ -17,23 +17,30 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Core\Traits\Controller;
 
-use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use LogicException;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Helper\VueControllerHelper;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-/**
- * Class FormatWithEmployeeName
- */
-class FormatWithEmployeeName implements ValueFormatter
+trait VueComponentPermissionTrait
 {
-    use EmployeeServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
-     * @param $entityValue
-     * @return null|String
+     * @param array $dataGroups
      */
-    public function getFormattedValue($entityValue): ?string
+    protected function setPermissions(array $dataGroups)
     {
-        return $this->getEmployeeService()->getEmployeeByEmpNumber($entityValue)->getFullName();
+        $permissions = $this->getUserRoleManagerHelper()
+            ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
+        if (!$this instanceof AbstractVueController) {
+            throw new LogicException(self::class . ' should use in instanceof' . AbstractVueController::class);
+        }
+        $this->getContext()->set(
+            VueControllerHelper::PERMISSIONS,
+            $permissions->toArray()
+        );
     }
 }

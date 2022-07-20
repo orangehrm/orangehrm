@@ -452,6 +452,7 @@ class AppSetupUtility
 
         $fs = new Filesystem();
         $fs->dumpFile(Config::get(Config::CONF_FILE_PATH), str_replace($search, $replace, $template));
+        clearstatcache(true);
     }
 
     /**

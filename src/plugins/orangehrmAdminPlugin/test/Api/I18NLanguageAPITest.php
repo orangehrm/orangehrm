@@ -30,6 +30,11 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class I18NLanguageAPITest extends EndpointIntegrationTestCase
 {
+    protected function setUp(): void
+    {
+        $this->markTestSkipped();
+    }
+
     /**
      * @dataProvider dataProviderForTestGetAll
      */

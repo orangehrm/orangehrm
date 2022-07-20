@@ -57,7 +57,9 @@ class WorkShiftServiceTest extends TestCase
         $workShift->setHoursPerDay(8.00);
         $workShift->setStartTime(new DateTime('08:00:00'));
         $workShift->setEndTime(new DateTime('17:00:00'));
-        $workShiftDao = $this->getMockBuilder(WorkShiftDao::class)->getMock();
+        $workShiftDao = $this->getMockBuilder(WorkShiftDao::class)
+            ->onlyMethods(['saveWorkShift'])
+            ->getMock();
         $workShiftDao->expects($this->once())
             ->method('saveWorkShift')
             ->with($workShift, [])

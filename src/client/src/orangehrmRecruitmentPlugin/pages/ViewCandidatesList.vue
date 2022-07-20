@@ -103,7 +103,10 @@
     </oxd-table-filter>
     <br />
     <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
+      <div
+        v-if="$can.create('recruitment_candidates')"
+        class="orangehrm-header-container"
+      >
         <oxd-button
           :label="$t('general.add')"
           icon-name="plus"
@@ -115,6 +118,7 @@
         :selected="checkedItems.length"
         :total="total"
         :loading="isLoading"
+        :show-divider="$can.create('recruitment_candidates')"
         @delete="onClickDeleteSelected"
       ></table-header>
       <div class="orangehrm-container">
