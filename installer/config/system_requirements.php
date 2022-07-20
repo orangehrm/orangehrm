@@ -26,13 +26,13 @@ return [
 
     'mysqlversion' => [
         'min' => '5.5',
-        'max' => '8.0',
+        'max' => '5.7',
         'excludeRange' => [],
     ],
 
     'mariadbversion' => [
         'min' => '5.5',
-        'max' => '10.7',
+        'max' => '10.8',
         'excludeRange' => [],
     ],
 
