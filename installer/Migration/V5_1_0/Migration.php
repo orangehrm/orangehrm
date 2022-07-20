@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Installer\Migration\V5_1_0;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
