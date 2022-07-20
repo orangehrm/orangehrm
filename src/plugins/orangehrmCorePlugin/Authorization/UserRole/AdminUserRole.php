@@ -39,6 +39,7 @@ use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Recruitment\Dto\CandidateActionHistory;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
@@ -106,6 +107,8 @@ class AdminUserRole extends AbstractUserRole
                 return $this->getAccessibleInterviewAttachmentIds($requiredPermissions);
             case CandidateHistory::class:
                 return $this->getAccessibleCandidateHistoryIds($requiredPermissions);
+            case CandidateActionHistory::class:
+                return $this->getAccessibleCandidateActionHistoryIds($requiredPermissions);
             default:
                 return [];
         }
@@ -288,5 +291,15 @@ class AdminUserRole extends AbstractUserRole
         return $this->getCandidateService()
             ->getCandidateDao()
             ->getCandidateHistoryIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleCandidateActionHistoryIds(array $requiredPermissions = []): array
+    {
+        $candidateActionHistory = new CandidateActionHistory();
+        return $candidateActionHistory->getAccessibleCandidateActionHistoryIds();
     }
 }

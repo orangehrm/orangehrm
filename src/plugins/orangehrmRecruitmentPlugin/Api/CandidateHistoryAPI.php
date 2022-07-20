@@ -31,16 +31,22 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
+use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryListModel;
+use OrangeHRM\Recruitment\Dto\CandidateActionHistory;
 use OrangeHRM\Recruitment\Dto\CandidateHistorySearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
 {
     use CandidateServiceTrait;
+    use UserRoleManagerTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_CANDIDATE_ID = 'candidateId';
     public const PARAMETER_HISTORY_ID = 'historyId';
@@ -56,6 +62,19 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
         $candidateHistorySearchFilterParams = new CandidateHistorySearchFilterParams();
         $this->setSortingAndPaginationParams($candidateHistorySearchFilterParams);
         $candidateHistorySearchFilterParams->setCandidateId($this->getCandidateId());
+        $candidateVacancy = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateVacancyByCandidateId($this->getCandidateId());
+        $rolesToExclude = [];
+        if ($candidateVacancy instanceof CandidateVacancy) {
+            $hiringMangerEmpNumber = $candidateVacancy->getVacancy()->getHiringManager()->getEmpNumber();
+            if ($hiringMangerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+                $rolesToExclude = ['HiringManager'];
+            }
+        }
+        $accessibleActionHistoryIds = $this->getUserRoleManager()
+            ->getAccessibleEntityIds(CandidateActionHistory::class, null, null, $rolesToExclude);
+        $candidateHistorySearchFilterParams->setActionIds($accessibleActionHistoryIds);
 
         $candidateHistoryRecords = $this->getCandidateService()
             ->getCandidateDao()

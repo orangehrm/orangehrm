@@ -431,7 +431,7 @@ apiv2_recruitment_candidates_history:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: HiringManager, permission: { read: true, create: false, update: true, delete: false } }
-    - { role: Interviewer, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Interviewer, permission: { read: true, create: false, update: true, delete: false } }
 
 apiv2_recruitment_employee_list:
   description: 'API-v2 Recruitment - Employee List'
