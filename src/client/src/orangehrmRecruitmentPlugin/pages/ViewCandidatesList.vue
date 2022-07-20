@@ -197,7 +197,6 @@ export default {
     'hiring-manager-dropdown': HiringManagerDropdown,
     'candidate-status-dropdown': CandidateStatusDropdown,
   },
-
   setup() {
     const {$t} = usei18n();
     const {locale} = useLocale();
@@ -228,6 +227,7 @@ export default {
           ),
           status: item.status?.label,
           resume: item.hasAttachment,
+          isSelectable: item.deletable,
         };
       });
     };
@@ -365,13 +365,6 @@ export default {
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {
-        delete: {
-          onClick: this.onClickDelete,
-          component: 'oxd-icon-button',
-          props: {
-            name: 'trash',
-          },
-        },
         view: {
           onClick: this.onClickEdit,
           props: {
@@ -379,7 +372,15 @@ export default {
           },
         },
       };
-
+      if (row.isSelectable) {
+        cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
       if (row.resume) {
         cellConfig.download = {
           onClick: this.onDownload,

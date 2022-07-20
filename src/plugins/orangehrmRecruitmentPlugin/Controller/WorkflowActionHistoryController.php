@@ -23,11 +23,13 @@ use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
+use OrangeHRM\Entity\Interview;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
@@ -35,6 +37,7 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
 {
     use UserRoleManagerTrait;
     use CandidateServiceTrait;
+    use AuthUserTrait;
 
     /**
      * @inheritDoc
@@ -45,13 +48,33 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
         $candidateId = $request->attributes->getInt('candidateId');
         $historyId = $request->attributes->getInt('historyId');
 
+        $candidateHistory = $this->getCandidateService()
+            ->getCandidateDao()->
+            getCandidateHistoryRecordByCandidateIdAndHistoryId($candidateId, $historyId);
+
+        if ($candidateHistory instanceof CandidateHistory && $candidateHistory->getInterview() instanceof Interview) {
+            $rolesToExclude = [];
+            $hiringManagerEmpNumber = $candidateHistory->getVacancy()->getHiringManager()->getEmpNumber();
+            if ($hiringManagerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+                $rolesToExclude = ['HiringManager', 'Interviewer'];
+            }
+            $editable = $this->getUserRoleManager()->isEntityAccessible(
+                Candidate::class,
+                $candidateId,
+                null,
+                $rolesToExclude
+            );
+            $component->addProp(new Prop('editable', Prop::TYPE_BOOLEAN, $editable));
+        }
+
         $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $candidateId));
         $component->addProp(new Prop('history-id', Prop::TYPE_NUMBER, $historyId));
         $this->setComponent($component);
     }
 
-    public function isCapable(Request $request): bool
-    {
+    public function isCapable(
+        Request $request
+    ): bool {
         if ($request->attributes->has('candidateId') && $request->attributes->has('historyId')) {
             $candidateId = $request->attributes->getInt('candidateId');
             $historyId = $request->attributes->getInt('historyId');

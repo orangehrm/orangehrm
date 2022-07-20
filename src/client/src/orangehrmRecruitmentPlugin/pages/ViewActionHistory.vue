@@ -73,10 +73,11 @@
               "
               include-employees="onlyCurrent"
               required
+              :disabled="!editable"
               @remove="onRemoveInterviewer(index)"
             />
             <oxd-button
-              v-if="interviewers.length < 5"
+              v-if="interviewers.length < 5 && editable"
               icon-name="plus"
               display-type="text"
               class="orangehrm-input-field-bottom-space"
@@ -185,6 +186,11 @@ export default {
     historyId: {
       type: Number,
       required: true,
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
 

@@ -386,6 +386,8 @@ class CandidateDao extends BaseDao
         $this->setSortingAndPaginationParams($q, $candidateHistorySearchFilterParams);
         $q->andWhere('candidateHistory.candidate = :candidateId');
         $q->setParameter('candidateId', $candidateHistorySearchFilterParams->getCandidateId());
+        $q->andWhere($q->expr()->in('candidateHistory.action', ':actionIds'));
+        $q->setParameter('actionIds', $candidateHistorySearchFilterParams->getActionIds());
         $q->addOrderBy('candidateHistory.id', ListSorter::DESCENDING);
         return $this->getPaginator($q);
     }

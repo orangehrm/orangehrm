@@ -19,60 +19,38 @@
 
 namespace OrangeHRM\Recruitment\Dto;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Recruitment\Service\CandidateService;
 
-class CandidateHistorySearchFilterParams extends FilterParams
+class CandidateActionHistory
 {
-    public const ALLOWED_SORT_FIELDS = [
-        'candidateHistory.performedDate',
-    ];
-
     /**
-     * @var array
+     * @return int[]
      */
-    private array $actionIds;
-
-    /**
-     * @var int
-     */
-    protected int $candidateId;
-
-    public function __construct()
+    public function getAccessibleCandidateActionHistoryIds(): array
     {
-        $this->setSortField('candidateHistory.performedDate');
-        $this->setSortOrder(ListSorter::DESCENDING);
+        return array_keys(
+            array_replace(
+                CandidateService::STATUS_MAP,
+                CandidateService::OTHER_ACTIONS_MAP
+            )
+        );
     }
 
     /**
-     * @return int
+     * @return int[]
      */
-    public function getCandidateId(): int
+    public function getAccessibleCandidateHistoryIdsForInterviewer(): array
     {
-        return $this->candidateId;
-    }
-
-    /**
-     * @param int $candidateId
-     */
-    public function setCandidateId(int $candidateId): void
-    {
-        $this->candidateId = $candidateId;
-    }
-
-    /**
-     * @return array
-     */
-    public function getActionIds(): array
-    {
-        return $this->actionIds;
-    }
-
-    /**
-     * @param array $actionIds
-     */
-    public function setActionIds(array $actionIds): void
-    {
-        $this->actionIds = $actionIds;
+        $actionHistory = array_replace(
+            CandidateService::STATUS_MAP,
+            CandidateService::OTHER_ACTIONS_MAP
+        );
+        unset(
+            $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB],
+            $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER],
+            $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE],
+        );
+        return array_keys($actionHistory);
     }
 }

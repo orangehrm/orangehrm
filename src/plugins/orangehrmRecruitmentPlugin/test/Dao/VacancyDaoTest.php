@@ -140,8 +140,10 @@ class VacancyDaoTest extends KernelTestCase
 
     public function testGetVacanciesGroupByHiringManagers(): void
     {
-        $vacancies = $this->vacancyDao->getVacanciesGroupByHiringManagers();
-        $this->assertCount(4, $vacancies);
+        $vacancySearchFilterParams = new VacancySearchFilterParams();
+        $vacancySearchFilterParams->setVacancyIds([1,2,3,4]);
+        $vacancies = $this->vacancyDao->getVacancyListGroupByHiringManager($vacancySearchFilterParams);
+        $this->assertCount(3, $vacancies);
     }
 
     public function testSearchVacanciesCount(): void

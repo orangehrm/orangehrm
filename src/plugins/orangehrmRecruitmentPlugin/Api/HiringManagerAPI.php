@@ -26,26 +26,43 @@ use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class HiringManagerAPI extends Endpoint implements CollectionEndpoint
 {
     use VacancyServiceTrait;
+    use EmployeeServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        $vacancies = $this->getVacancyService()->getVacancyDao()->getVacanciesGroupByHiringManagers();
-        $hiringManagers = array_map(function ($vacancy) {
-            return $vacancy->getHiringManager();
+        $accessibleVacancyIds = $this->getUserRoleManager()->getAccessibleEntityIds(Vacancy::class);
+        $vacancySearchFilterParams = new VacancySearchFilterParams();
+        $vacancySearchFilterParams->setVacancyIds($accessibleVacancyIds);
+        $vacancies = $this->getVacancyService()
+            ->getVacancyDao()
+            ->getVacancyListGroupByHiringManager($vacancySearchFilterParams);
+        $hiringManagerEmpNumbers = array_map(function ($vacancy) {
+            return $vacancy->getHiringManager()->getEmpNumber();
         }, $vacancies);
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $this->setSortingAndPaginationParams($employeeSearchFilterParams);
+        $employeeSearchFilterParams->setEmployeeNumbers($hiringManagerEmpNumbers);
+        $hiringManagers = $this->getEmployeeService()->getEmployeeList($employeeSearchFilterParams);
+        $count = $this->getEmployeeService()->getEmployeeCount($employeeSearchFilterParams);
         return new EndpointCollectionResult(
             EmployeeModel::class,
             $hiringManagers,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($hiringManagers)])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
@@ -54,7 +71,9 @@ class HiringManagerAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            ...$this->getSortingAndPaginationParamsRules(EmployeeSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
     }
 
     /**
