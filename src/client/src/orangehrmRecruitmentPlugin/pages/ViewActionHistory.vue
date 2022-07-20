@@ -67,7 +67,7 @@
               v-for="(interviewer, index) in interviewers"
               :key="index"
               v-model="interviewers[index]"
-              :show-delete="index > 0 && editable"
+              :show-delete="index > 0"
               :rules="
                 rules.interviewerName.filter((_, i) => index === 0 || i > 0)
               "
@@ -77,7 +77,7 @@
               @remove="onRemoveInterviewer(index)"
             />
             <oxd-button
-              v-if="editable && interviewers.length < 5"
+              v-if="interviewers.length < 5 && editable"
               icon-name="plus"
               display-type="text"
               class="orangehrm-input-field-bottom-space"
