@@ -44,7 +44,6 @@ use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\Mock\ArrayCsrfTokenStorage;
-use OrangeHRM\Tests\Util\Mock\MockAuthUser;
 use OrangeHRM\Tests\Util\TestDataService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -112,19 +111,12 @@ class ApplicantControllerTest extends KernelTestCase
             ->getMock();
         $dateTimeHelper->method('getNow')
             ->willReturn(new DateTime('2021-10-04'));
-        $authUser = $this->getMockBuilder(MockAuthUser::class)
-            ->onlyMethods(['addFlash'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $authUser->method('addFlash')
-            ->with('flash.applicant_success', true);
         $this->createKernelWithMockServices([
             Services::CANDIDATE_SERVICE => new CandidateService(),
             Services::RECRUITMENT_ATTACHMENT_SERVICE => new RecruitmentAttachmentService(),
             Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
             Services::NORMALIZER_SERVICE => new NormalizerService(),
             Services::CONFIG_SERVICE => new ConfigService(),
-            Services::AUTH_USER => $authUser,
         ]);
         $this->getContainer()->register(Services::CSRF_TOKEN_STORAGE, ArrayCsrfTokenStorage::class);
         $this->getContainer()->register(Services::CSRF_TOKEN_MANAGER, CsrfTokenManager::class);
@@ -169,7 +161,7 @@ class ApplicantControllerTest extends KernelTestCase
             $this->assertEquals($expected['responseStatusCode'], $response->getStatusCode());
             return;
         }
-        $this->assertEquals("/recruitmentApply/applyVacancy/id/$vacancyId", $response->getTargetUrl());
+        $this->assertEquals("/recruitmentApply/applyVacancy/id/$vacancyId?success=true", $response->getTargetUrl());
 
         $this->assertEquals($candidateCount + 1, $this->getRepository(Candidate::class)->count([]));
         $this->assertEquals($candidateVacancyCount + 1, $this->getRepository(CandidateVacancy::class)->count([]));
@@ -382,19 +374,6 @@ class ApplicantControllerTest extends KernelTestCase
                 null,
                 str_repeat('Lengthy', 36), // more than 250 chars
                 ['responseStatusCode' => 400]
-            ],
-            [
-                3,
-                'Linda',
-                null,
-                'Anderson',
-                'linda@example.com',
-                null,
-                false,
-                null,
-                null,
-                ['responseStatusCode' => 400],
-                ['token' => 'invalid-csrf-token']
             ],
             [
                 3,
