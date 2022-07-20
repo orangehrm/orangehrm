@@ -27,6 +27,7 @@ use Doctrine\DBAL\Types\Types;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Tests\Util\CoreFixtureService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -114,7 +115,13 @@ class CreateTestDatabaseCommand extends Command
             return Command::FAILURE;
         }
 
-        $this->io->success('Done');
+        $this->io->success("Test db {$this->testConf->getDbName()} created");
+
+        $coreFixtureService = new CoreFixtureService();
+        $coreFixtureService->saveToFixtures();
+
+        $this->io->success('Core fixtures generated.');
+
         return Command::SUCCESS;
     }
 

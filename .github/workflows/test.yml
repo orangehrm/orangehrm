@@ -39,7 +39,8 @@ jobs:
       - name: Install OrangeHRM
         run: |
           php7.4 installer/cli_install.php
-          php7.4 devTools/core/console.php i:create-test-db -p root
+          # php7.4 devTools/core/console.php i:create-test-db -p root
+          php7.4 devTools/general/create-test-db.php root
 
       - name: Run Jest
         run: |
