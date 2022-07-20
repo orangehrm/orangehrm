@@ -57,11 +57,11 @@ class HiringManagerAPI extends Endpoint implements CollectionEndpoint
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeSearchFilterParams);
         $employeeSearchFilterParams->setEmployeeNumbers($hiringManagerEmpNumbers);
-        $hiringMangers = $this->getEmployeeService()->getEmployeeList($employeeSearchFilterParams);
+        $hiringManagers = $this->getEmployeeService()->getEmployeeList($employeeSearchFilterParams);
         $count = $this->getEmployeeService()->getEmployeeCount($employeeSearchFilterParams);
         return new EndpointCollectionResult(
             EmployeeModel::class,
-            $hiringMangers,
+            $hiringManagers,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }

@@ -38,7 +38,6 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
 {
     use UserRoleManagerTrait;
     use CandidateServiceTrait;
-    use VueComponentPermissionTrait;
     use AuthUserTrait;
 
     /**
