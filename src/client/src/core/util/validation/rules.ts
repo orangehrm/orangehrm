@@ -614,3 +614,12 @@ export const lessThanOrEqual = function(maxValue: number, message?: string) {
     return parseFloat(value) <= maxValue || resolvedMessage;
   };
 };
+
+export const openAndCloseBraces = function(value: string) {
+  if (value === null || value === '') {
+    return true;
+  }
+  if (/\{/g.test(value)) {
+    return /(\{?(.?\})\}?)$/g.test(value) ? true : translate('general.invalid');
+  }
+};

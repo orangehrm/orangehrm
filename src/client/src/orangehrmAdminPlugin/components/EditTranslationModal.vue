@@ -21,32 +21,51 @@
 <template>
   <div class="orangehrm-translation-container">
     <oxd-divider />
-    <oxd-grid :cols="3">
-      <oxd-grid-item>
+    <oxd-grid :cols="3" class="orangehrm-translation-grid">
+      <oxd-grid-item class="orangehrm-translation-grid-header">
         <oxd-text type="card-title">{{ $t('admin.source_text') }}</oxd-text>
       </oxd-grid-item>
-      <oxd-grid-item>
+      <oxd-grid-item class="orangehrm-translation-grid-header">
         <oxd-text type="card-title">{{ $t('admin.source_note') }}</oxd-text>
       </oxd-grid-item>
-      <oxd-grid-item>
+      <oxd-grid-item class="orangehrm-translation-grid-header">
         <oxd-text type="card-title">{{ $t('admin.translated_text') }}</oxd-text>
       </oxd-grid-item>
       <template v-for="(langstring, index) in langstrings" :key="index">
-        <oxd-grid-item>
+        <oxd-grid-item class="orangehrm-translation-grid-text">
+          <oxd-text
+            class="orangehrm-translation-grid-langstring-header"
+            type="card-title"
+          >
+            {{ $t('admin.source_text') }}
+          </oxd-text>
           <oxd-text :title="langstring.source">
             {{ langstring.source }}
           </oxd-text>
         </oxd-grid-item>
-        <oxd-grid-item>
+        <oxd-grid-item class="orangehrm-translation-grid-text">
+          <oxd-text
+            class="orangehrm-translation-grid-langstring-header"
+            type="card-title"
+          >
+            {{ $t('admin.source_note') }}
+          </oxd-text>
           <oxd-text :title="langstring.source">
             {{ langstring.note }}
           </oxd-text>
         </oxd-grid-item>
-        <oxd-grid-item>
+        <oxd-grid-item class="orangehrm-translation-grid-text">
+          <oxd-text
+            class="orangehrm-translation-grid-langstring-header"
+            type="card-title"
+          >
+            {{ $t('admin.translated_text') }}
+          </oxd-text>
           <oxd-input-field
             type="input"
             :placeholder="langstring.target"
             :model-value="langstring.target"
+            :rules="rules.langString"
             @update:modelValue="onUpdateTranslation($event, index)"
           />
         </oxd-grid-item>
@@ -57,6 +76,7 @@
 </template>
 <script>
 import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
+import {openAndCloseBraces} from '@/core/util/validation/rules';
 
 export default {
   components: {
@@ -69,9 +89,15 @@ export default {
     },
   },
 
-  emit: ['update:langstrings'],
+  emits: ['update:langstrings'],
 
   setup(props, context) {
+    const bracketValidations = value => {
+      return value;
+    };
+
+    const values = bracketValidations();
+
     const onUpdateTranslation = (value, index) => {
       context.emit(
         'update:langstrings',
@@ -83,38 +109,18 @@ export default {
         }),
       );
     };
-    return {onUpdateTranslation};
+    return {
+      onUpdateTranslation,
+      values,
+    };
+  },
+  data() {
+    return {
+      rules: {
+        langString: [openAndCloseBraces],
+      },
+    };
   },
 };
 </script>
-<style lang="scss" scoped>
-.orangehrm-translation-container {
-  padding-left: 25px;
-  padding-right: 25px;
-}
-.orangehrm-table-header {
-  background-color: #fff;
-  padding: 0.6rem;
-  border-top-right-radius: 1.2rem;
-  border-top-left-radius: 1.2rem;
-}
-
-.orangehrm-table-footer {
-  background-color: #fff;
-  padding: 1.2rem;
-  border-bottom-right-radius: 1.2rem;
-  border-bottom-left-radius: 1.2rem;
-}
-
-.orangehrm-container {
-  background-color: #e8eaef;
-  border-radius: unset;
-  padding: 0.5rem;
-}
-
-::v-deep(.card-footer-slot) {
-  .oxd-table-cell-actions {
-    justify-content: flex-end;
-  }
-}
-</style>
+<style src="./edit-translation-modal.scss" lang="scss" scoped></style>
