@@ -225,13 +225,18 @@ class CandidateDao extends BaseDao
 
     /**
      * @param int $candidateId
+     * @param int $vacancyId
      * @return int
      */
-    public function getInterviewCountByCandidateId(int $candidateId): int
+    public function getInterviewCountByCandidateIdAndVacancyId(int $candidateId, int $vacancyId): int
     {
-        $qb = $this->createQueryBuilder(Interview::class, 'interview');
-        $qb->where('interview.candidate = :candidateId')
+        $qb = $this->createQueryBuilder(CandidateHistory::class, 'candidateHistory');
+        $qb->andWhere('candidateHistory.candidate = :candidateId')
             ->setParameter('candidateId', $candidateId);
+        $qb->andWhere('candidateHistory.vacancy = :vacancyId')
+            ->setParameter('vacancyId', $vacancyId);
+        $qb->andWhere('candidateHistory.action = :actionId')
+            ->setParameter('actionId', WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW);
         return $this->getPaginator($qb)->count();
     }
 

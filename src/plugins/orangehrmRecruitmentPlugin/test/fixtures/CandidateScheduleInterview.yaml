@@ -50,3 +50,7 @@ CandidateVacancy:
 Interview:
   - {"id":"1","candidate_vacancy_id":"5","candidate_id":"5","interview_name":"Test interview 01","interview_date":"2022-10-05","interview_time":"05:00:00","note":"Will be delayed due to the power cuts"}
   - {"id":"2","candidate_vacancy_id":"5","candidate_id":"5","interview_name":"Test interview 02","interview_date":"2022-10-07","interview_time":"05:00:00","note":"Will be delayed due to the power cuts"}
+
+CandidateHistory:
+  - {"id":"1","candidate_id":"5","vacancy_id":"2","candidate_vacancy_name":"Senior Technical Supervisor","interview_id":1,"action":"4","performed_by":"1","performed_date":"2020-10-08 07:52:31","note":null,"interviewers":null},
+  - {"id":"2","candidate_id":"5","vacancy_id":"2","candidate_vacancy_name":"Senior Technical Supervisor","interview_id":2,"action":"4","performed_by":"1","performed_date":"2020-10-08 07:55:54","note":null,"interviewers":null}
