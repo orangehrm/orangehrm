@@ -357,10 +357,16 @@ export default {
       this.profile.dateOfApplication = this.candidate.dateOfApplication;
       this.profile.comment = this.candidate.comment;
       this.profile.consentToKeepData = this.candidate.consentToKeepData;
-      this.vacancy = {
-        id: this.candidate.vacancy?.id,
-        label: this.candidate.vacancy?.name,
-      };
+      const {vacancy} = this.candidate;
+      if (vacancy) {
+        this.vacancy = {
+          id: vacancy.id,
+          label:
+            vacancy.status === false
+              ? vacancy.name + ` (${this.$t('general.closed')})`
+              : vacancy.name,
+        };
+      }
       if (this.candidate.hasAttachment) {
         this.http
           .request({
