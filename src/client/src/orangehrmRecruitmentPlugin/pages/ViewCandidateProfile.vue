@@ -26,7 +26,6 @@
     :candidate="candidate"
     :max-file-size="maxFileSize"
     :updatable="updatable"
-    :allowed-to-update="allowedToUpdate"
     @update="onCandidateUpdate"
   ></candidate-profile>
   <history-table v-if="candidate" :candidate="candidate"></history-table>

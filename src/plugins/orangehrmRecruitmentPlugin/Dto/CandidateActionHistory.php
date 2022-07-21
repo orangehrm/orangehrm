@@ -50,6 +50,7 @@ class CandidateActionHistory
             $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB],
             $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER],
             $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE],
+            $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT]
         );
         return array_keys($actionHistory);
     }

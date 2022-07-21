@@ -36,10 +36,12 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDetailedModel;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryListModel;
 use OrangeHRM\Recruitment\Dto\CandidateActionHistory;
 use OrangeHRM\Recruitment\Dto\CandidateHistorySearchFilterParams;
+use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
@@ -147,7 +149,30 @@ class CandidateHistoryAPI extends Endpoint implements CrudEndpoint
             ->getCandidateHistoryRecordByCandidateIdAndHistoryId($this->getCandidateId(), $this->getHistoryId());
 
         $this->throwRecordNotFoundExceptionIfNotExist($candidateHistoryRecord, CandidateHistory::class);
-        return new EndpointResourceResult(CandidateHistoryDetailedModel::class, $candidateHistoryRecord);
+        $vacancy = $candidateHistoryRecord->getVacancy();
+        $disabled = false;
+        if ($candidateHistoryRecord->getAction() === WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST &&
+            (
+                !is_null($vacancy) &&
+                $vacancy->getHiringManager()->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()
+            )
+        ) {
+            $rolesToExclude = ['HiringManager'];
+            $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+                WorkflowStateMachine::FLOW_RECRUITMENT,
+                CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY],
+                $rolesToExclude
+            );
+            $disabled = !in_array(
+                WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST,
+                array_keys($allowedWorkflowItems)
+            );
+        }
+        return new EndpointResourceResult(
+            CandidateHistoryDetailedModel::class,
+            $candidateHistoryRecord,
+            new ParameterBag(['disabled' => $disabled])
+        );
     }
 
     /**
