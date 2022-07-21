@@ -74,6 +74,12 @@ class CandidateHistoryListModel implements Normalizable
     {
         $result = $this->entityToArray();
         $interview = $this->getEntity()->getInterview();
+        $candidateId = $this->getEntity()->getCandidate()->getId();
+        $currentVacancyId = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCurrentVacancyIdByCandidateId($candidateId);
+        $vacancy = $this->getEntity()->getVacancy();
+        $result['editable'] = !is_null($vacancy) && $currentVacancyId == $vacancy->getId();
 
         if (!is_null($interview)) {
             $result['interview']['id'] = $interview->getId();
