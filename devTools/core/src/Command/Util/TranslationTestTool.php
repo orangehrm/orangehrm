@@ -61,8 +61,12 @@ class TranslationTestTool
         $filepath2 = 'installer/Migration/'.$version.'/lang-string/' . $groupName . '.yaml';
         $yml2 = Yaml::parseFile($filepath2);
         $langStrings = array_shift($yml2);
+        $deletedStrings = [
+            'Allows Phone Numbers Only',
+            'This page is currently under development for OrangeHRM OS 5.0.'
+        ];
         foreach ($langStrings as $langString) {
-            if (! ($langString['value'] == 'Allows Phone Numbers Only')) {
+            if (! in_array($langString['value'], $deletedStrings)) {
                 $sourceObj = new TranslationUnit('tr_' . $langString['value'], null, $langString['value'], );
                 $this->saveTranslationRecord($groupName, $sourceObj, $language);
             }
