@@ -173,7 +173,7 @@
       :title="$t('general.confirmation_required')"
       :subtitle="$t('recruitment.candidate_vacancy_change_message')"
       :cancel-label="$t('general.no_cancel')"
-      :confirm-label="$t('general.yes_confirm')"
+      :confirm-label="$t('leave.yes_confirm')"
       confirm-button-type="secondary"
     ></confirmation-dialog>
   </div>

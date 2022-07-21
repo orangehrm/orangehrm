@@ -70,7 +70,7 @@
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <oxd-input-field
-                  v-model.number="vacancy.numOfPositions"
+                  v-model="vacancy.numOfPositions"
                   :label="$t('recruitment.num_of_positions')"
                   :rules="rules.numOfPositions"
                 />
@@ -270,14 +270,13 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
-
 import {
   required,
-  shouldNotExceedCharLength,
   numericOnly,
-  max,
-  validFileTypes,
   maxFileSize,
+  validFileTypes,
+  shouldNotExceedCharLength,
+  numberShouldBeBetweenMinAndMaxValue,
 } from '@ohrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
@@ -372,7 +371,14 @@ export default {
           required,
           v => (v?.isPastEmployee ? this.$t('general.invalid') : true),
         ],
-        numOfPositions: [max(99), numericOnly],
+        numOfPositions: [
+          value => {
+            if (value === null || value === '') return true;
+            return typeof numericOnly(value) === 'string'
+              ? numericOnly(value)
+              : numberShouldBeBetweenMinAndMaxValue(1, 99)(value);
+          },
+        ],
         description: [],
         status: [required],
         isPublished: [required],
@@ -513,7 +519,9 @@ export default {
         name: this.vacancy.name,
         jobTitleId: this.vacancy.jobTitle.id,
         employeeId: this.vacancy.hiringManager.id,
-        numOfPositions: this.vacancy.numOfPositions || null,
+        numOfPositions: this.vacancy.numOfPositions
+          ? parseInt(this.vacancy.numOfPositions)
+          : null,
         description: this.vacancy.description,
         status: this.vacancy.status,
         isPublished: this.vacancy.isPublished,
