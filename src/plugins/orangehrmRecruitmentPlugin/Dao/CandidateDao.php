@@ -326,6 +326,7 @@ class CandidateDao extends BaseDao
         $q->leftJoin('interview.candidate', 'candidate');
         $q->select('candidate.id');
         $q->andWhere('interviewerInterview.interviewer = :empNumber');
+        $q->andWhere($q->expr()->isNotNull('interview.candidateVacancy'));
         $q->setParameter('empNumber', $empNumber);
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
