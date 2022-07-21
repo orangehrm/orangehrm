@@ -37,6 +37,7 @@ import {
   greaterThanOrEqual,
   lessThanOrEqual,
   File,
+  openAndCloseBraces,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -844,5 +845,27 @@ describe('core/util/validation/rules::greaterThanOrEqual', () => {
   test('greaterThanOrEqual:: with decimal number higher than min', () => {
     const result = greaterThanOrEqual(0)('0.1');
     expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::openAndCloseBraces', () => {
+  test('openAndCloseBraces:: without close brace', () => {
+    const result = openAndCloseBraces('{abcd');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('openAndCloseBraces:: with close brace', () => {
+    const result = openAndCloseBraces('{abcd}');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('openAndCloseBraces:: multiple strings with close brace', () => {
+    const result = openAndCloseBraces('{abcd} {pqrs}');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('openAndCloseBraces:: without close brace - multiple string', () => {
+    const result = openAndCloseBraces('{abcd} {pqrs');
+    expect(result).toStrictEqual('Invalid');
   });
 });

@@ -207,6 +207,7 @@ class LocalizationDao extends BaseDao
         foreach ($i18NTranslations as $key => $i18NTranslation) {
             if (isset($updatableTranslationValues[$key])) {
                 $updatableTranslationValues[$key]->setValue($i18NTranslation->getValue());
+                $updatableTranslationValues[$key]->setCustomized($i18NTranslation->isCustomized());
 
                 //update
                 $this->getEntityManager()->persist($updatableTranslationValues[$key]);

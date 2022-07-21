@@ -38,20 +38,23 @@
                 disabled
               />
             </oxd-grid-item>
-            <br />
+          </oxd-grid>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <language-group-list-dropdown v-model="filters.groupId" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                :label="$t('admin.source_text')"
                 v-model="filters.sourceText"
+                :label="$t('admin.source_text')"
+                :rules="commentValidators"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                :label="$t('admin.translated_text')"
                 v-model="filters.translatedText"
+                :label="$t('admin.translated_text')"
+                :rules="commentValidators"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -90,31 +93,32 @@
     </oxd-table-filter>
     <br />
     <div class="orangehrm-paper-container">
-      <oxd-form>
+      <oxd-form :loading="isLoading" @submitValid="onSubmitLangString">
         <div class="orangehrm-header-container">
           <oxd-pagination v-model:current="currentPage" :length="pages" />
         </div>
-        <table-header :total="total" :selected="0"></table-header>
+        <table-header
+          :loading="isLoading"
+          :total="total"
+          :selected="0"
+        ></table-header>
         <edit-translations
-          v-if="items?.data && !isLoading"
+          v-if="items?.data"
           v-model:langstrings="items.data"
         ></edit-translations>
-        <div v-else class="orangehrm-loader">
-          <oxd-loading-spinner />
-        </div>
         <oxd-form-actions>
           <div class="orangehrm-bottom-container">
             <div>
               <oxd-button
                 display-type="secondary"
                 :label="$t('general.save')"
-                type="reset"
+                type="submit"
               />
               <oxd-button
                 class="orangehrm-left-space"
                 display-type="ghost"
                 :label="$t('general.cancel')"
-                type="submit"
+                @click="onClickCancel"
               />
             </div>
           </div>
@@ -127,9 +131,10 @@
 <script>
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
+import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import GroupListDropdown from '@/orangehrmAdminPlugin/components/LanguageGroupListDropdown.vue';
 import EditTranslationModal from '@/orangehrmAdminPlugin/components/EditTranslationModal.vue';
 
@@ -146,7 +151,6 @@ export default {
   components: {
     'language-group-list-dropdown': GroupListDropdown,
     'edit-translations': EditTranslationModal,
-    'oxd-loading-spinner': Spinner,
   },
   props: {
     languageId: {
@@ -165,6 +169,7 @@ export default {
 
   setup(props) {
     const {$t} = usei18n();
+    const commentValidators = [shouldNotExceedCharLength(250)];
 
     const translationOptions = ref([
       {id: 1, label: $t('admin.all'), value: null},
@@ -177,7 +182,11 @@ export default {
       {id: 'DESC', label: $t('admin.descending')},
     ]);
 
-    const filters = ref({...defaultFilters, sortOrder: sortOptions.value[0]});
+    const filters = ref({
+      ...defaultFilters,
+      sortOrder: sortOptions.value[0],
+      onlyTranslated: translationOptions.value[0],
+    });
 
     const serializedFilters = computed(() => {
       return {
@@ -199,7 +208,7 @@ export default {
       currentPage,
       total,
       pages,
-      response,
+      response: items,
       isLoading,
       execQuery,
     } = usePaginate(http, {query: serializedFilters});
@@ -213,18 +222,48 @@ export default {
       execQuery();
     };
 
+    const onSubmitLangString = () => {
+      isLoading.value = true;
+      http
+        .request({
+          method: `PUT`,
+          url: `/api/v2/admin/i18n/languages/${props.languageId}/translations/bulk`,
+          data: {
+            data: items.value.data.map(item => {
+              return {
+                langStringId: item.langStringId,
+                translatedValue: item.target,
+              };
+            }),
+          },
+        })
+        .then(() => {
+          isLoading.value = false;
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        });
+    };
+
+    const onClickCancel = () => {
+      reloadPage();
+    };
+
     return {
       showPaginator,
       currentPage,
       isLoading,
       total,
       pages,
-      items: response,
+      items,
       filters,
       translationOptions,
       sortOptions,
       onReset,
       onSubmit,
+      onSubmitLangString,
+      onClickCancel,
+      commentValidators,
     };
   },
 };

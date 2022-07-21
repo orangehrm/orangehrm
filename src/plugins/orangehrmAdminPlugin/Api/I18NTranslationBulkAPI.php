@@ -118,7 +118,10 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
                                 Rules::KEY,
                                 [
                                     self::PARAMETER_TRANSLATED_VALUE,
-                                    new Rules\Composite\AllOf(new Rule(Rules::STRING_TYPE))
+                                    new Rules\Composite\OneOf(
+                                        new Rule(Rules::NOT_REQUIRED, [true]),
+                                        new Rule(Rules::STRING_TYPE)
+                                    )
                                 ]
                             ),
                         )
