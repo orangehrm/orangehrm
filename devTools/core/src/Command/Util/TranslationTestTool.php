@@ -189,6 +189,14 @@ class TranslationTestTool
                 ->setParameter('enabled', 1)
                 ->setParameter('added', 0)
                 ->executeQuery();
+        }else{
+            $this->createQueryBuilder()
+                ->update('ohrm_i18n_language','language')
+                ->set('enabled',':setTrue')
+                ->setParameter('setTrue',1)
+                ->andWhere('language.code = :langCode')
+                ->setParameter('langCode',$langCode)
+                ->executeQuery();
         }
     }
 }
