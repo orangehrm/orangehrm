@@ -50,7 +50,7 @@
       </oxd-grid>
       <oxd-divider />
       <div class="orangehrm-recruitment">
-        <div class="orangehrm-recruitment-status">
+        <div v-if="recruitmentStatus" class="orangehrm-recruitment-status">
           <oxd-text type="subtitle-2">
             {{ $t('general.status') }}: {{ recruitmentStatus }}
           </oxd-text>
@@ -165,7 +165,11 @@ export default {
       }`;
     },
     vacancyName() {
-      return this.candidate.vacancy?.name;
+      const {vacancy} = this.candidate;
+      if (!vacancy) return null;
+      return vacancy.status === false
+        ? vacancy.name + ` (${this.$t('general.closed')})`
+        : vacancy.name;
     },
     hiringManagerName() {
       return this.candidate.vacancy?.hiringManager
@@ -240,6 +244,12 @@ export default {
         width: unset;
       }
     }
+  }
+}
+::v-deep(.oxd-input-group) {
+  margin-bottom: 1rem;
+  @include oxd-respond-to('md') {
+    margin-bottom: 0;
   }
 }
 </style>

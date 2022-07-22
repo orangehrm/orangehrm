@@ -78,10 +78,18 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
         if ($request->attributes->has('candidateId') && $request->attributes->has('historyId')) {
             $candidateId = $request->attributes->getInt('candidateId');
             $historyId = $request->attributes->getInt('historyId');
-            if (!$this->getCandidateService()
-                    ->getCandidateDao()
-                    ->getCandidateHistoryRecordByCandidateIdAndHistoryId($candidateId, $historyId)
-                instanceof CandidateHistory) {
+            $candidateHistory = $this->getCandidateService()
+                ->getCandidateDao()
+                ->getCandidateHistoryRecordByCandidateIdAndHistoryId($candidateId, $historyId);
+            $currentVacancyId = $this->getCandidateService()
+                ->getCandidateDao()
+                ->getCurrentVacancyIdByCandidateId($candidateId);
+            if (!is_null($candidateHistory->getVacancy()) &&
+                $currentVacancyId != $candidateHistory->getVacancy()->getId()
+            ) {
+                return false;
+            }
+            if (!$candidateHistory instanceof CandidateHistory) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
             }
             if (!$this->getUserRoleManager()->isEntityAccessible(Candidate::class, $candidateId)) {

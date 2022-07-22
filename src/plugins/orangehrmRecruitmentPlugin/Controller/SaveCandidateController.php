@@ -104,7 +104,10 @@ class SaveCandidateController extends AbstractVueController implements CapableVi
                 return false;
             }
             return true;
+        } elseif (!$this->getUserRoleManager()->getDataGroupPermissions(['recruitment_candidates'])->canCreate()) {
+            return false;
+        } else {
+            return true;
         }
-        return true;
     }
 }

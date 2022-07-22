@@ -56,7 +56,7 @@ Create:
       interviewTime: '05:00'
       note: 'Will be delayed due to the power cuts'
     meta:
-      historyId: 1
+      historyId: 3
 
   'Schedule interview - Hiring Manager':
     userId: 2
@@ -115,7 +115,7 @@ Create:
       interviewTime: '05:00'
       note: 'Will be delayed due to the power cuts'
     meta:
-      historyId: 1
+      historyId: 3
 
   'Schedule interview - Non Assigned Hiring Manager/ESS':
     userId: 3
@@ -157,7 +157,7 @@ Create:
       note: 'Will be delayed due to the power cuts'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'You Can not Schedule More Than Two Interviews Per Candidate'
+      message: 'You Can not Schedule More Than Two Interviews Per Candidate For The Same Vacancy'
 
   'Schedule Interview - not shortlisted candidate':
     userId: 1

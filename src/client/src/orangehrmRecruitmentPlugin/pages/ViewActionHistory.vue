@@ -112,6 +112,7 @@
               :label="$t('general.notes')"
               :placeholder="$t('general.type_here')"
               type="textarea"
+              :disabled="disabled"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -124,7 +125,7 @@
           :label="$t('general.back')"
           @click="onClickBack"
         />
-        <submit-button :label="$t('general.save')" />
+        <submit-button v-if="!disabled" :label="$t('general.save')" />
       </oxd-form-actions>
     </candidate-action-layout>
   </div>
@@ -246,6 +247,7 @@ export default {
         {id: 8, label: this.$t('recruitment.decline_offer')},
         {id: 9, label: this.$t('recruitment.hire')},
       ],
+      disabled: false,
     };
   },
 
@@ -279,8 +281,9 @@ export default {
     this.http
       .get(this.historyId)
       .then(response => {
-        const {data} = response.data;
+        const {data, meta} = response.data;
         this.history = {...data};
+        this.disabled = meta.disabled;
         return this.isScheduleInterview
           ? this.http.request({
               method: 'GET',
@@ -289,20 +292,22 @@ export default {
           : null;
       })
       .then(response => {
-        const {data} = response.data;
-        this.interview.interviewName = data.name;
-        this.interview.interviewDate = data.interviewDate;
-        this.interview.interviewTime = data.interviewTime;
-        this.history.note = data.note;
-        if (Array.isArray(data.interviewers)) {
-          this.interviewers = data.interviewers.map(interviewer => ({
-            id: interviewer.empNumber,
-            label: this.translateEmpName(interviewer, {
-              includeMiddle: true,
-              excludePastEmpTag: true,
-            }),
-            isPastEmployee: interviewer.terminationId ? true : false,
-          }));
+        if (response) {
+          const {data} = response.data;
+          this.interview.interviewName = data.name;
+          this.interview.interviewDate = data.interviewDate;
+          this.interview.interviewTime = data.interviewTime;
+          this.history.note = data.note;
+          if (Array.isArray(data.interviewers)) {
+            this.interviewers = data.interviewers.map(interviewer => ({
+              id: interviewer.empNumber,
+              label: this.translateEmpName(interviewer, {
+                includeMiddle: true,
+                excludePastEmpTag: true,
+              }),
+              isPastEmployee: interviewer.terminationId ? true : false,
+            }));
+          }
         }
       })
       .finally(() => {
