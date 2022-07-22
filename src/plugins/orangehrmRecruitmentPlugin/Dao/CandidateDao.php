@@ -110,8 +110,8 @@ class CandidateDao extends BaseDao
                 ->setParameter('consentToKeepData', $candidateSearchFilterParams->isConsentToKeepData());
         }
         if (!is_null($candidateSearchFilterParams->getFromDate()) && !is_null(
-            $candidateSearchFilterParams->getToDate()
-        )) {
+                $candidateSearchFilterParams->getToDate()
+            )) {
             $qb->andWhere(
                 $qb->expr()->between(
                     'candidate.dateOfApplication',
@@ -343,6 +343,7 @@ class CandidateDao extends BaseDao
         $q->select('interview.id');
         $q->andWhere('interviewInterviewer.interviewer = :empNumber');
         $q->setParameter('empNumber', $empNumber);
+        $q->andWhere($q->expr()->isNotNull('interview.candidateVacancy'));
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
     }
@@ -356,9 +357,12 @@ class CandidateDao extends BaseDao
         if (is_null($empNumber)) {
             return false;
         }
-        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewInterviewer')
-            ->andWhere('interviewInterviewer.interviewer = :empNumber')
-            ->setParameter('empNumber', $empNumber);
+        $q = $this->createQueryBuilder(InterviewInterviewer::class, 'interviewInterviewer');
+        $q->leftJoin('interviewInterviewer.interview', 'interview');
+        $q->andWhere('interviewInterviewer.interviewer = :empNumber');
+        $q->setParameter('empNumber', $empNumber);
+        $q->andWhere($q->expr()->isNotNull('interview.candidateVacancy'));
+
         return $this->getPaginator($q)->count() > 0;
     }
 
