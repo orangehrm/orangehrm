@@ -619,7 +619,11 @@ export const openAndCloseBraces = function(value: string) {
   if (value === null || value === '') {
     return true;
   }
-  if (/\{/g.test(value)) {
-    return /(\{?(.?\})\}?)$/g.test(value) ? true : translate('general.invalid');
-  }
+  return value.split('').reduce((accumulator, currentValue) => {
+    if (currentValue === '{') accumulator++;
+    if (currentValue === '}') accumulator--;
+    return accumulator;
+  }, 0) !== 0
+    ? 'invalid'
+    : true;
 };

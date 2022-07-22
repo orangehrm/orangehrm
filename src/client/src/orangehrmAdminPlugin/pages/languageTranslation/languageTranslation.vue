@@ -139,8 +139,8 @@ import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
-import GroupListDropdown from '@/orangehrmAdminPlugin/components/LanguageGroupListDropdown.vue';
 import EditTranslationModal from '@/orangehrmAdminPlugin/components/EditTranslationModal.vue';
+import GroupListDropdown from '@/orangehrmAdminPlugin/components/LanguageGroupListDropdown.vue';
 
 const defaultFilters = {
   sourceText: null,
@@ -245,8 +245,6 @@ export default {
         })
         .then(() => {
           isLoading.value = false;
-        })
-        .then(() => {
           return this.$toast.saveSuccess();
         });
     };
