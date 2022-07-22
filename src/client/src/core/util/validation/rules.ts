@@ -624,6 +624,6 @@ export const openAndCloseBraces = function(value: string) {
     if (currentValue === '}') accumulator--;
     return accumulator;
   }, 0) !== 0
-    ?  translate('general.invalid')
+    ? translate('general.invalid')
     : true;
 };
