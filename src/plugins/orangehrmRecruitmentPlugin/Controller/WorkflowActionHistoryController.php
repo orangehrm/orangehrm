@@ -30,7 +30,9 @@ use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Interview;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Recruitment\Dto\CandidateActionHistory;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class WorkflowActionHistoryController extends AbstractVueController implements CapableViewController
@@ -78,17 +80,10 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
         if ($request->attributes->has('candidateId') && $request->attributes->has('historyId')) {
             $candidateId = $request->attributes->getInt('candidateId');
             $historyId = $request->attributes->getInt('historyId');
+
             $candidateHistory = $this->getCandidateService()
                 ->getCandidateDao()
                 ->getCandidateHistoryRecordByCandidateIdAndHistoryId($candidateId, $historyId);
-            $currentVacancyId = $this->getCandidateService()
-                ->getCandidateDao()
-                ->getCurrentVacancyIdByCandidateId($candidateId);
-            if (!is_null($candidateHistory->getVacancy()) &&
-                $currentVacancyId != $candidateHistory->getVacancy()->getId()
-            ) {
-                return false;
-            }
             if (!$candidateHistory instanceof CandidateHistory) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
             }
@@ -97,6 +92,28 @@ class WorkflowActionHistoryController extends AbstractVueController implements C
             }
             if (!$this->getUserRoleManager()->isEntityAccessible(CandidateHistory::class, $historyId)) {
                 return false;
+            }
+            if ($candidateHistory->getVacancy() instanceof Vacancy) {
+                $rolesToExclude = [];
+                $hiringManagerEmpNumber = $candidateHistory->getVacancy()->getHiringManager()->getEmpNumber();
+                if ($hiringManagerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+                    $rolesToExclude = ['HiringManager'];
+                }
+                $accessibleActionHistoryIds = $this->getUserRoleManager()->getAccessibleEntityIds(
+                    CandidateActionHistory::class,
+                    null,
+                    null,
+                    $rolesToExclude
+                );
+                if (!in_array($candidateHistory->getAction(), $accessibleActionHistoryIds)) {
+                    return false;
+                }
+                $currentVacancyId = $this->getCandidateService()
+                    ->getCandidateDao()
+                    ->getCurrentVacancyIdByCandidateId($candidateId);
+                if ($currentVacancyId != $candidateHistory->getVacancy()->getId()) {
+                    return false;
+                }
             }
             return true;
         }
