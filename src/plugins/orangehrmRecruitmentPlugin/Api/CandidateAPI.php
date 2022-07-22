@@ -730,6 +730,16 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      */
     private function removeVacancy(CandidateVacancy $candidateVacancy)
     {
+        $candidateHistoryRecords = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateHistoryByCandidateIdAndVacancyId(
+                $candidateVacancy->getCandidate()->getId(),
+                $candidateVacancy->getVacancy()->getId()
+            );
+        foreach ($candidateHistoryRecords as $candidateHistoryRecord) {
+            $candidateHistoryRecord->setVacancy(null);
+            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistoryRecord);
+        }
         $this->getCandidateService()->getCandidateDao()->deleteCandidateVacancy(
             $candidateVacancy->getCandidate()->getId()
         );
@@ -739,7 +749,6 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $candidateVacancy->getCandidate()->getId(),
             CandidateService::RECRUITMENT_CANDIDATE_VACANCY_REMOVED
         );
-        $candidateHistory->getDecorator()->setVacancyById($candidateVacancy->getVacancy()->getId());
         $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
         $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
     }
