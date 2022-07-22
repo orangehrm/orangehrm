@@ -868,4 +868,14 @@ describe('core/util/validation/rules::openAndCloseBraces', () => {
     const result = openAndCloseBraces('{abcd} {pqrs');
     expect(result).toStrictEqual('Invalid');
   });
+
+  test('openAndCloseBraces:: without braces', () => {
+    const result = openAndCloseBraces('abcd pqrs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('openAndCloseBraces:: multiple strings with close brace', () => {
+    const result = openAndCloseBraces('abcd {pqrs}');
+    expect(result).toStrictEqual(true);
+  });
 });
