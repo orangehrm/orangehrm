@@ -110,8 +110,8 @@ class CandidateDao extends BaseDao
                 ->setParameter('consentToKeepData', $candidateSearchFilterParams->isConsentToKeepData());
         }
         if (!is_null($candidateSearchFilterParams->getFromDate()) && !is_null(
-                $candidateSearchFilterParams->getToDate()
-            )) {
+            $candidateSearchFilterParams->getToDate()
+        )) {
             $qb->andWhere(
                 $qb->expr()->between(
                     'candidate.dateOfApplication',
@@ -233,6 +233,8 @@ class CandidateDao extends BaseDao
     public function getInterviewCountByCandidateIdAndVacancyId(int $candidateId, int $vacancyId): int
     {
         $qb = $this->createQueryBuilder(CandidateHistory::class, 'candidateHistory');
+        $qb->leftJoin('candidateHistory.interview', 'interview');
+        $qb->andWhere($qb->expr()->isNotNull('interview.candidateVacancy'));
         $qb->andWhere('candidateHistory.candidate = :candidateId')
             ->setParameter('candidateId', $candidateId);
         $qb->andWhere('candidateHistory.vacancy = :vacancyId')
@@ -518,5 +520,20 @@ class CandidateDao extends BaseDao
         } catch (Exception $exception) {
             return null;
         }
+    }
+
+    /**
+     * @param int $candidateId
+     * @param int $vacancyId
+     * @return CandidateHistory[]
+     */
+    public function getCandidateHistoryByCandidateIdAndVacancyId(int $candidateId, int $vacancyId): array
+    {
+        $q = $this->createQueryBuilder(CandidateHistory::class, 'candidateHistory');
+        $q->andWhere('candidateHistory.candidate = :candidateId');
+        $q->setParameter('candidateId', $candidateId);
+        $q->andWhere('candidateHistory.vacancy = :vacancyId');
+        $q->setParameter('vacancyId', $vacancyId);
+        return $q->getQuery()->execute();
     }
 }
