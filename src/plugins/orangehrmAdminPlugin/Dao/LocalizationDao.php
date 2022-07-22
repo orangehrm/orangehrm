@@ -129,6 +129,7 @@ class LocalizationDao extends BaseDao
 
         if (!is_null($i18NTargetLangStringSearchFilterParams->getOnlyTranslated())) {
             if ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === true) {
+                $q->andWhere($q->expr()->isNotNull('translation.value'));
                 $q->andWhere($q->expr()->isNotNull('translation.translated'));
             } elseif ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === false) {
                 $q->andWhere($q->expr()->isNull('translation.translated'));

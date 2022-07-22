@@ -45,12 +45,15 @@
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-translation-grid-text">
           <oxd-text
-            class="orangehrm-translation-grid-langstring-header"
+            class="orangehrm-translation-grid-langstring-header-note"
             type="card-title"
           >
             {{ $t('admin.source_note') }}
           </oxd-text>
-          <oxd-text :title="langstring.source">
+          <oxd-text
+            :title="langstring.source"
+            class="orangehrm-translation-grid-header"
+          >
             {{ langstring.note }}
           </oxd-text>
         </oxd-grid-item>
@@ -68,6 +71,7 @@
             :rules="rules.langString"
             @update:modelValue="onUpdateTranslation($event, index)"
           />
+          <oxd-divider class="orangehrm-translation-grid-langstring-header" />
         </oxd-grid-item>
       </template>
     </oxd-grid>

@@ -95,7 +95,11 @@
     <div class="orangehrm-paper-container">
       <oxd-form :loading="isLoading" @submitValid="onSubmitLangString">
         <div class="orangehrm-header-container">
-          <oxd-pagination v-model:current="currentPage" :length="pages" />
+          <oxd-pagination
+            v-if="showPaginator"
+            v-model:current="currentPage"
+            :length="pages"
+          />
         </div>
         <table-header
           :loading="isLoading"
@@ -106,7 +110,7 @@
           v-if="items?.data"
           v-model:langstrings="items.data"
         ></edit-translations>
-        <oxd-form-actions>
+        <oxd-form-actions v-if="total > 0">
           <div class="orangehrm-bottom-container">
             <div>
               <oxd-button
@@ -229,12 +233,14 @@ export default {
           method: `PUT`,
           url: `/api/v2/admin/i18n/languages/${props.languageId}/translations/bulk`,
           data: {
-            data: items.value.data.map(item => {
-              return {
-                langStringId: item.langStringId,
-                translatedValue: item.target,
-              };
-            }),
+            data: items.value.data
+              .filter(item => item.target !== '' && item.target !== null)
+              .map(item => {
+                return {
+                  langStringId: item.langStringId,
+                  translatedValue: item.target,
+                };
+              }),
           },
         })
         .then(() => {

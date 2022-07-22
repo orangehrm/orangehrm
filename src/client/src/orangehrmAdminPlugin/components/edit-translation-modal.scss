@@ -41,16 +41,27 @@
         @include oxd-respond-to('lg') {
           display: none;
         }
+        &-note {
+            display: none;
+        }
       }
     }
     &-text {
-      ::v-deep(.oxd-text--p) {
-        font-size: 12px;
-      }
+      font-size: 0.75rem;
     }
+
   }
 }
 .oxd-text--card-title {
-  padding-top: 25px;
-  padding-bottom: 25px;
+  @include oxd-respond-to('lg') {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+    padding-top: 0.5rem;
+    padding-bottom: 0.4rem;
+}
+.note{
+  @include oxd-respond-to('lg') {
+    display: none;
+  }
 }
