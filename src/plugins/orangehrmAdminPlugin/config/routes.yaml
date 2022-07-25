@@ -596,6 +596,6 @@ admin_language_package:
   methods: [ GET ]
 
 admin_language_translation:
-  path: /admin/languageTranslation/{languageId}
+  path: /admin/languageCustomization/{languageId}
   controller: OrangeHRM\Admin\Controller\LanguageTranslationController::handle
   methods: [ GET ]

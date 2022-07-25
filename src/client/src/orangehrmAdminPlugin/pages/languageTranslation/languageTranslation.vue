@@ -47,14 +47,12 @@
               <oxd-input-field
                 v-model="filters.sourceText"
                 :label="$t('admin.source_text')"
-                :rules="commentValidators"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.translatedText"
                 :label="$t('admin.translated_text')"
-                :rules="commentValidators"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -93,7 +91,11 @@
     </oxd-table-filter>
     <br />
     <div class="orangehrm-paper-container">
-      <oxd-form :loading="isLoading" @submitValid="onSubmitLangString">
+      <oxd-form
+        :loading="isLoading"
+        @submitValid="onSubmitLangString"
+        @reset="onReset"
+      >
         <div class="orangehrm-header-container">
           <oxd-pagination
             v-if="showPaginator"
@@ -122,7 +124,7 @@
                 class="orangehrm-left-space"
                 display-type="ghost"
                 :label="$t('general.cancel')"
-                @click="onClickCancel"
+                type="reset"
               />
             </div>
           </div>
@@ -135,11 +137,9 @@
 <script>
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
-import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
-import EditTranslationModal from '@/orangehrmAdminPlugin/components/EditTranslationModal.vue';
+import EditTranslationTable from '@/orangehrmAdminPlugin/components/EditTranslationTable.vue';
 import GroupListDropdown from '@/orangehrmAdminPlugin/components/LanguageGroupListDropdown.vue';
 
 const defaultFilters = {
@@ -154,7 +154,7 @@ export default {
   name: 'LanguageTranslationList',
   components: {
     'language-group-list-dropdown': GroupListDropdown,
-    'edit-translations': EditTranslationModal,
+    'edit-translations': EditTranslationTable,
   },
   props: {
     languageId: {
@@ -173,7 +173,6 @@ export default {
 
   setup(props) {
     const {$t} = usei18n();
-    const commentValidators = [shouldNotExceedCharLength(250)];
 
     const translationOptions = ref([
       {id: 1, label: $t('admin.all'), value: null},
@@ -249,10 +248,6 @@ export default {
         });
     };
 
-    const onClickCancel = () => {
-      reloadPage();
-    };
-
     return {
       showPaginator,
       currentPage,
@@ -266,20 +261,12 @@ export default {
       onReset,
       onSubmit,
       onSubmitLangString,
-      onClickCancel,
-      commentValidators,
     };
   },
 };
 </script>
 <style lang="scss" scoped>
 .orangehrm-header-container {
-  flex-direction: row-reverse;
-}
-.orangehrm-loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80px;
+  justify-content: end;
 }
 </style>

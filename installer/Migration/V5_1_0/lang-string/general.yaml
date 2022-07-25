@@ -185,3 +185,12 @@ langStrings:
   -
     value: 'Confirmation Required'
     unitId: confirmation_required
+  -
+    value: 'Yes, Confirm'
+    unitId: yes_confirm
+  -
+    value: 'Ascending'
+    unitId: ascending
+  -
+    value: 'Descending'
+    unitId: descending

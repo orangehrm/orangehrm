@@ -192,7 +192,7 @@ export default {
     },
     onClickTranslate($event) {
       const id = $event.id ? $event.id : $event.item?.id;
-      navigate('/admin/languageTranslation/{id}', {id});
+      navigate('/admin/languageCustomization/{id}', {id});
     },
   },
 };

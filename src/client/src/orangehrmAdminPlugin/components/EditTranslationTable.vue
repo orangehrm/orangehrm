@@ -51,7 +51,7 @@
             {{ $t('admin.source_note') }}
           </oxd-text>
           <oxd-text
-            :title="langstring.source"
+            :title="langstring.note"
             class="orangehrm-translation-grid-header"
           >
             {{ langstring.note }}
@@ -79,13 +79,9 @@
   </div>
 </template>
 <script>
-import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
-import {openAndCloseBraces} from '@/core/util/validation/rules';
+import {validLangString} from '@/core/util/validation/rules';
 
 export default {
-  components: {
-    'oxd-divider': Divider,
-  },
   props: {
     langstrings: {
       type: Array,
@@ -96,12 +92,6 @@ export default {
   emits: ['update:langstrings'],
 
   setup(props, context) {
-    const bracketValidations = value => {
-      return value;
-    };
-
-    const values = bracketValidations();
-
     const onUpdateTranslation = (value, index) => {
       context.emit(
         'update:langstrings',
@@ -115,16 +105,11 @@ export default {
     };
     return {
       onUpdateTranslation,
-      values,
-    };
-  },
-  data() {
-    return {
       rules: {
-        langString: [openAndCloseBraces],
+        langString: [validLangString],
       },
     };
   },
 };
 </script>
-<style src="./edit-translation-modal.scss" lang="scss" scoped></style>
+<style src="./edit-translation-table.scss" lang="scss" scoped></style>

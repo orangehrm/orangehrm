@@ -27,7 +27,7 @@
       grid-template-columns: 1fr;
     }
     @include oxd-respond-to('lg') {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
     }
     &-header {
       display: none;
@@ -42,14 +42,13 @@
           display: none;
         }
         &-note {
-            display: none;
+          display: none;
         }
       }
     }
     &-text {
       font-size: 0.75rem;
     }
-
   }
 }
 .oxd-text--card-title {
@@ -57,10 +56,10 @@
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
   }
-    padding-top: 0.5rem;
-    padding-bottom: 0.4rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.4rem;
 }
-.note{
+.note {
   @include oxd-respond-to('lg') {
     display: none;
   }
