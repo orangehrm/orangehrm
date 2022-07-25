@@ -75,7 +75,7 @@ use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
  * @OA\Schema(
  *     schema="RecordNotFoundException",
  *     type="object",
- *     example={"error":{"status":"404","message":"Record Not Found"}}
+ *     example={"error" : {"status" : "404", "message" : "Record Not Found"}}
  * )
  */
 abstract class AbstractRestController extends AbstractController

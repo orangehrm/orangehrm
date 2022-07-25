@@ -33,13 +33,13 @@ use OrangeHRM\Entity\JobTitle;
  *     @OA\Property(property="description", type="string"),
  *     @OA\Property(property="note", type="string"),
  *     @OA\Property(
- *     property="jobSpecification",
- *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="fileName", type="string"),
- *     @OA\Property(property="fileType", type="string"),
- *     @OA\Property(property="fileSize", type="integer")
- * )
+ *         property="jobSpecification",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="fileName", type="string"),
+ *         @OA\Property(property="fileType", type="string"),
+ *         @OA\Property(property="fileSize", type="integer")
+ *     )
  * )
  */
 class JobTitleModel implements Normalizable
