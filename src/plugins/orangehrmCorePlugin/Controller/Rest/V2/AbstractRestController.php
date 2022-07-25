@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Controller\Rest\V2;
 
 use Error;
 use Exception;
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
@@ -36,6 +37,47 @@ use OrangeHRM\Framework\Http\Request as HttpRequest;
 use OrangeHRM\Framework\Http\Response as HttpResponse;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
+/**
+ * @OA\OpenApi(openapi="3.1.0")
+ * @OA\Info(
+ *     title="OrangeHRM Open Source : REST API v2 docs",
+ *     version="2.1.0",
+ * )
+ * @OA\Server(
+ *     url="{orangehrm-url}",
+ *     variables={
+ *         @OA\ServerVariable(
+ *             serverVariable="orangehrm-url",
+ *             default="https://opensource-demo.orangehrmlive.com/index.php"
+ *         )
+ *     }
+ * )
+ *
+ * @OA\SecurityScheme(
+ *     securityScheme="Cookie (HTTPS)",
+ *     type="apiKey",
+ *     in="cookie",
+ *     name="orangehrm"
+ * )
+ * @OA\SecurityScheme(
+ *     securityScheme="Cookie (HTTP)",
+ *     type="apiKey",
+ *     in="cookie",
+ *     name="_orangehrm"
+ * )
+ *
+ * @OA\Tag(name="Admin")
+ * @OA\Tag(name="PIM")
+ * @OA\Tag(name="Leave")
+ * @OA\Tag(name="Time")
+ * @OA\Tag(name="Attendance")
+ *
+ * @OA\Schema(
+ *     schema="RecordNotFoundException",
+ *     type="object",
+ *     example={"error":{"status":"404","message":"Record Not Found"}}
+ * )
+ */
 abstract class AbstractRestController extends AbstractController
 {
     use LoggerTrait;
@@ -205,8 +247,10 @@ abstract class AbstractRestController extends AbstractController
             $response->setContent(
                 Response::formatError(
                     [
-                        'error' => ['status' => '400',
-                        'message' => $this->getI18NHelper()->transBySource($e->getMessage())]
+                        'error' => [
+                            'status' => '400',
+                            'message' => $this->getI18NHelper()->transBySource($e->getMessage())
+                        ]
                     ]
                 )
             );

@@ -19,10 +19,29 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\JobTitle;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-JobTitleModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="title", type="string"),
+ *     @OA\Property(property="description", type="string"),
+ *     @OA\Property(property="note", type="string"),
+ *     @OA\Property(
+ *     property="jobSpecification",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="fileName", type="string"),
+ *     @OA\Property(property="fileType", type="string"),
+ *     @OA\Property(property="fileSize", type="integer")
+ * )
+ * )
+ */
 class JobTitleModel implements Normalizable
 {
     use ModelTrait;

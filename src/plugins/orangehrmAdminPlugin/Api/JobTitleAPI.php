@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Admin\Api\Model\JobTitleModel;
 use OrangeHRM\Admin\Dto\JobTitleSearchFilterParams;
 use OrangeHRM\Admin\Service\JobTitleService;
@@ -65,14 +66,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public const JOB_SPECIFICATION_REPLACE_CURRENT = 'replaceCurrent';
 
     /**
-     * @param JobTitleService $jobTitleService
-     */
-    public function setJobTitleService(JobTitleService $jobTitleService)
-    {
-        $this->jobTitleService = $jobTitleService;
-    }
-
-    /**
      * @return JobTitleService
      */
     public function getJobTitleService(): JobTitleService
@@ -84,6 +77,12 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/job-titles/{id}",
+     *     tags={"Admin"},
+     *     @OA\Response(response="200", description="Success")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -108,6 +107,16 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/job-titles",
+     *     tags={"Admin"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(ref="#/components/schemas/Admin-JobTitleModel")
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -147,6 +156,12 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/job-titles",
+     *     tags={"Admin"},
+     *     @OA\Response(response="200", description="Success")
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -296,6 +311,12 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/job-titles/{id}",
+     *     tags={"Admin"},
+     *     @OA\Response(response="200", description="Success")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
@@ -390,6 +411,12 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/admin/job-titles",
+     *     tags={"Admin"},
+     *     @OA\Response(response="200", description="Success")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
