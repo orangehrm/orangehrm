@@ -37,9 +37,8 @@ class ConfigHelper
             Config::BASE_DIR => $pathToProjectBase,
             Config::SRC_DIR => $pathToSrcDir,
             'ohrm_lib_dir' => realpath($pathToSrcDir . '/lib'),
-            'ohrm_log_dir' => realpath($pathToSrcDir . '/log'),
-            'ohrm_data_dir' => realpath($pathToSrcDir . '/data'),
-            'ohrm_config_dir' => realpath($pathToSrcDir . '/config'),
+            Config::LOG_DIR => realpath($pathToSrcDir . '/log'),
+            Config::CONFIG_DIR => realpath($pathToSrcDir . '/config'),
             Config::PLUGINS_DIR => realpath($pathToSrcDir . '/plugins'),
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
             Config::CACHE_DIR => realpath($pathToSrcDir . '/cache'),
@@ -55,7 +54,7 @@ class ConfigHelper
      */
     private function getPluginConfigs(): array
     {
-        $pluginsDir = $this->get('ohrm_plugins_dir');
+        $pluginsDir = $this->get(Config::PLUGINS_DIR);
 
         $pluginAbsPaths = [];
         $plugins = [];
@@ -78,8 +77,8 @@ class ConfigHelper
 
         return [
             Config::PLUGINS => $plugins,
-            'ohrm_plugin_paths' => $pluginAbsPaths,
-            'ohrm_plugin_configs' => $pluginConfigs,
+            Config::PLUGIN_PATHS => $pluginAbsPaths,
+            Config::PLUGIN_CONFIGS => $pluginConfigs,
         ];
     }
 
