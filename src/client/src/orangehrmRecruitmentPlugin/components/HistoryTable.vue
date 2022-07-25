@@ -289,7 +289,8 @@ export default {
         row.action?.id != ACTION_ASSIGNED_VACANCY &&
         row.action?.id != ACTION_ADDED &&
         row.action?.id != ACTION_REMOVED &&
-        row.action?.id != ACTION_APPLIED
+        row.action?.id != ACTION_APPLIED &&
+        row.editable
       ) {
         cellConfig.edit = {
           onClick: this.onClickEdit,
@@ -300,9 +301,10 @@ export default {
       }
 
       if (
-        row.action?.id === ACTION_INTERVIEW_SCHEDULED ||
-        row.action?.id === ACTION_INTERVIEW_PASSED ||
-        row.action?.id === ACTION_INTERVIEW_FAILED
+        (row.action?.id === ACTION_INTERVIEW_SCHEDULED ||
+          row.action?.id === ACTION_INTERVIEW_PASSED ||
+          row.action?.id === ACTION_INTERVIEW_FAILED) &&
+        row.editable
       ) {
         cellConfig.attachment = {
           onClick: this.onClickAttachment,

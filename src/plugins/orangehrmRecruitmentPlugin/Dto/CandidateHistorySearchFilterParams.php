@@ -29,6 +29,11 @@ class CandidateHistorySearchFilterParams extends FilterParams
     ];
 
     /**
+     * @var array
+     */
+    private array $actionIds;
+
+    /**
      * @var int
      */
     protected int $candidateId;
@@ -53,5 +58,21 @@ class CandidateHistorySearchFilterParams extends FilterParams
     public function setCandidateId(int $candidateId): void
     {
         $this->candidateId = $candidateId;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActionIds(): array
+    {
+        return $this->actionIds;
+    }
+
+    /**
+     * @param array $actionIds
+     */
+    public function setActionIds(array $actionIds): void
+    {
+        $this->actionIds = $actionIds;
     }
 }

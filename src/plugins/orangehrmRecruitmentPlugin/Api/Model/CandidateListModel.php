@@ -20,13 +20,18 @@
 namespace OrangeHRM\Recruitment\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
 class CandidateListModel implements Normalizable
 {
     use RecruitmentAttachmentServiceTrait;
+    use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @var Candidate
@@ -47,6 +52,25 @@ class CandidateListModel implements Normalizable
         $candidateVacancy = !empty($candidateVacancies) ? $candidateVacancies[0] : null;
         /** @var Vacancy|null $vacancy */
         $vacancy = !is_null($candidateVacancy) ? $candidateVacancy->getVacancy() : null;
+        $rolesToExclude = [];
+        $deletable = true;
+        if ($vacancy instanceof Vacancy &&
+            $vacancy->getHiringManager()->getEmpNumber() !== $this->getAuthUser()->getEmpNumber()
+        ) {
+            $rolesToExclude = ['HiringManager', 'Interviewer'];
+        }
+        if ($candidateVacancy instanceof CandidateVacancy &&
+            !in_array(
+                $candidateVacancy->getCandidate()->getId(),
+                $this->getUserRoleManager()->getAccessibleEntityIds(
+                    Candidate::class,
+                    null,
+                    null,
+                    $rolesToExclude
+                )
+            )) {
+            $deletable = false;
+        }
         $candidateAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->getCandidateAttachmentByCandidateId($this->candidate->getId());
@@ -72,7 +96,8 @@ class CandidateListModel implements Normalizable
                 ],
             'status' => is_null($candidateVacancy) ? null :
                 $candidateVacancy->getDecorator()->getCandidateVacancyStatus(),
-            'hasAttachment' => !is_null($candidateAttachment)
+            'hasAttachment' => !is_null($candidateAttachment),
+            'deletable' => $deletable
         ];
     }
 }

@@ -106,15 +106,18 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
             $currentState,
             $rolesToExclude
         );
-        $interviewCount = $this->getCandidateService()->getCandidateDao()->getInterviewCountByCandidateId($candidateId);
-        if ($interviewCount >= self::MAX_ALLOWED_INTERVIEW_COUNT &&
-            in_array(
-                WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW,
-                array_keys($allowedWorkflowItems)
-            )) {
-            unset($allowedWorkflowItems[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW]);
+        if (!is_null($candidateVacancy)) {
+            $interviewCount = $this->getCandidateService()
+                ->getCandidateDao()
+                ->getInterviewCountByCandidateIdAndVacancyId($candidateId, $candidateVacancy->getVacancy()->getId());
+            if ($interviewCount >= self::MAX_ALLOWED_INTERVIEW_COUNT &&
+                in_array(
+                    WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW,
+                    array_keys($allowedWorkflowItems)
+                )) {
+                unset($allowedWorkflowItems[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW]);
+            }
         }
-
         ksort($allowedWorkflowItems);
 
         $actionableStates = array_map(function ($item) {

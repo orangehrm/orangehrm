@@ -181,7 +181,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": false
+          "hasAttachment": false,
+          "deletable": true,
         },
         {
           "id": 4,
@@ -191,7 +192,8 @@ GetAll:
           "dateOfApplication": "2020-10-09",
           "vacancy": null,
           "status": null,
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         },
         {
           "id": 2,
@@ -215,7 +217,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         },
         {
           "id": 3,
@@ -239,7 +242,8 @@ GetAll:
             "id": 1,
             "label": "Application Initiated"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         },
         {
           "id": 1,
@@ -263,7 +267,8 @@ GetAll:
             "id": 1,
             "label": "Application Initiated"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     "meta":
@@ -306,7 +311,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": false
+          "hasAttachment": false,
+          "deletable": true,
         },
         {
           "id": 3,
@@ -330,7 +336,8 @@ GetAll:
             "id": 1,
             "label": "Application Initiated"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ],
     meta:
@@ -373,7 +380,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": false
+          "hasAttachment": false,
+          "deletable": true,
         },
         {
           "id": 3,
@@ -397,7 +405,8 @@ GetAll:
             "id": 1,
             "label": "Application Initiated"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ],
     meta:
@@ -440,7 +449,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         },
         {
           "id": 1,
@@ -464,7 +474,8 @@ GetAll:
             "id": 1,
             "label": "Application Initiated"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     meta:
@@ -507,7 +518,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": false
+          "hasAttachment": false,
+          "deletable": true,
         },
         {
           "id": 2,
@@ -531,7 +543,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     meta:
@@ -560,7 +573,8 @@ GetAll:
           "dateOfApplication": "2020-10-09",
           "vacancy": null,
           "status": null,
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     meta:
@@ -603,7 +617,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": false
+          "hasAttachment": false,
+          "deletable": true,
         },
         {
           "id": 4,
@@ -613,7 +628,8 @@ GetAll:
           "dateOfApplication": "2020-10-09",
           "vacancy": null,
           "status": null,
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     meta:
@@ -656,7 +672,8 @@ GetAll:
             "id": 1,
             "label": "Application Initiated"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     meta:
@@ -700,7 +717,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         },
         {
           "id": 3,
@@ -724,7 +742,8 @@ GetAll:
             "id": 1,
             "label": "Application Initiated"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         },
         {
           "id": 1,
@@ -748,7 +767,8 @@ GetAll:
             "id": 1,
             "label": "Application Initiated"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     meta:
@@ -795,7 +815,8 @@ GetAll:
           "dateOfApplication": "2020-10-09",
           "vacancy": null,
           "status": null,
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         },
         {
           "id": 2,
@@ -819,7 +840,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     meta:
@@ -862,7 +884,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": false
+          "hasAttachment": false,
+          "deletable": true,
         }
       ]
     meta:
@@ -891,7 +914,8 @@ GetAll:
           "dateOfApplication": "2020-10-09",
           "vacancy": null,
           "status": null,
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         },
         {
           "id": 2,
@@ -915,7 +939,8 @@ GetAll:
             "id": 2,
             "label": "Shortlisted"
           },
-          "hasAttachment": true
+          "hasAttachment": true,
+          "deletable": true,
         }
       ]
     meta:

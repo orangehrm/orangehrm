@@ -112,19 +112,16 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             ) {
                 throw $this->getForbiddenException();
             }
-
             $numberOfInterviewsScheduled = $this->getCandidateService()
                 ->getCandidateDao()
-                ->getInterviewCountByCandidateId($candidateId);
-
+                ->getInterviewCountByCandidateIdAndVacancyId($candidateId, $candidateVacancy->getVacancy()->getId());
             if ($numberOfInterviewsScheduled >= self::MAXIMUM_ALLOWED_INTERVIEWS_COUNT) {
-                throw $this->getBadRequestException('You Can not Schedule More Than Two Interviews Per Candidate');
+                throw $this->getBadRequestException('You Can not Schedule More Than Two Interviews Per Candidate For The Same Vacancy');
             }
 
             $interview = new Interview();
             $this->setInterview($interview, $candidateVacancy);
             $interview = $this->getCandidateService()->getCandidateDao()->saveCandidateInterview($interview);
-
             $candidateVacancy->setStatus(
                 CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW]
             );
@@ -316,7 +313,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
+                new Rule(Rules::POSITIVE)
             )
         );
     }
@@ -362,7 +359,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
+                new Rule(Rules::POSITIVE),
             ),
             ...$this->getCommonBodyValidationRules()
         );

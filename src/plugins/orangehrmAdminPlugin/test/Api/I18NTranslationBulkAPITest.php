@@ -30,6 +30,11 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class I18NTranslationBulkAPITest extends EndpointIntegrationTestCase
 {
+    protected function setUp(): void
+    {
+        $this->markTestSkipped();
+    }
+
     public function testGetOne(): void
     {
         $api = new I18NTranslationBulkAPI($this->getRequest());

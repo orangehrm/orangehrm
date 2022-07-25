@@ -1,3 +1,25 @@
+New & Changed Features for OrangeHRM ver 5.1
+    New Feature
+    -----------
+    - New UI/UX in compliance with the Orange eXperience Design (OXD) Standards
+        - Performance, Recruitment, Corporate Directory, Corporate Branding
+    - Date format support
+    - Supported Environments
+        - PHP - 7.4 to 8.1
+        - MariaDB - 5.5 to 10.8
+        - MySQL - 5.5 to 5.7
+
+    Backward Compatibility Break
+    ----------------------------
+    - Users are required to configure their corporate branding once they upgraded from 4.x instance to 5.1 version.
+      Corporate branding is facilitated with additional enhancements.
+
+    Bug Fixes
+    ---------
+    - https://github.com/orangehrm/orangehrm/issues/1299
+    - https://github.com/orangehrm/orangehrm/issues/1272
+    - https://github.com/orangehrm/orangehrm/issues/1305
+
 New & Changed Features for OrangeHRM ver 5.0
     New Feature
     -----------

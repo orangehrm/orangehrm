@@ -103,7 +103,10 @@
     </oxd-table-filter>
     <br />
     <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
+      <div
+        v-if="$can.create('recruitment_candidates')"
+        class="orangehrm-header-container"
+      >
         <oxd-button
           :label="$t('general.add')"
           icon-name="plus"
@@ -115,6 +118,7 @@
         :selected="checkedItems.length"
         :total="total"
         :loading="isLoading"
+        :show-divider="$can.create('recruitment_candidates')"
         @delete="onClickDeleteSelected"
       ></table-header>
       <div class="orangehrm-container">
@@ -193,7 +197,6 @@ export default {
     'hiring-manager-dropdown': HiringManagerDropdown,
     'candidate-status-dropdown': CandidateStatusDropdown,
   },
-
   setup() {
     const {$t} = usei18n();
     const {locale} = useLocale();
@@ -224,6 +227,7 @@ export default {
           ),
           status: item.status?.label,
           resume: item.hasAttachment,
+          isSelectable: item.deletable,
         };
       });
     };
@@ -361,13 +365,6 @@ export default {
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {
-        delete: {
-          onClick: this.onClickDelete,
-          component: 'oxd-icon-button',
-          props: {
-            name: 'trash',
-          },
-        },
         view: {
           onClick: this.onClickEdit,
           props: {
@@ -375,7 +372,15 @@ export default {
           },
         },
       };
-
+      if (row.isSelectable) {
+        cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
       if (row.resume) {
         cellConfig.download = {
           onClick: this.onDownload,

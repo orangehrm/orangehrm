@@ -25,7 +25,7 @@
     v-if="candidate"
     :candidate="candidate"
     :max-file-size="maxFileSize"
-    :allowed-file-types="allowedFileTypes"
+    :updatable="updatable"
     @update="onCandidateUpdate"
   ></candidate-profile>
   <history-table v-if="candidate" :candidate="candidate"></history-table>
@@ -55,6 +55,11 @@ export default {
     allowedFileTypes: {
       type: Array,
       required: true,
+    },
+    updatable: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   setup() {

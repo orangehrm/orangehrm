@@ -26,7 +26,7 @@
           {{ $t('recruitment.candidate_profile') }}
         </oxd-text>
         <oxd-switch-input
-          v-if="!isLoading"
+          v-if="!isLoading && updatable"
           v-model="editable"
           :option-label="$t('general.edit')"
           label-position="left"
@@ -58,6 +58,7 @@
                 v-model="vacancy"
                 :label="$t('recruitment.job_vacancy')"
                 :readonly="!editable"
+                :exclude-interviewers="true"
                 :status="true"
               />
             </oxd-grid-item>
@@ -173,7 +174,7 @@
       :title="$t('general.confirmation_required')"
       :subtitle="$t('recruitment.candidate_vacancy_change_message')"
       :cancel-label="$t('general.no_cancel')"
-      :confirm-label="$t('general.yes_confirm')"
+      :confirm-label="$t('leave.yes_confirm')"
       confirm-button-type="secondary"
     ></confirmation-dialog>
   </div>
@@ -246,6 +247,11 @@ export default {
       type: Number,
       required: true,
     },
+    updatable: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   emits: ['update'],
   setup() {
@@ -273,47 +279,19 @@ export default {
         keywords: [shouldNotExceedCharLength(250)],
         applicationDate: [validDateFormat(this.userDateFormat)],
         resume: [
-          maxFileSize(1024 * 1024),
+          maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
       },
     };
   },
-
+  watch: {
+    candidate() {
+      this.fetchCandidate();
+    },
+  },
   beforeMount() {
-    this.isLoading = true;
-    this.profile.firstName = this.candidate.firstName;
-    this.profile.middleName = this.candidate.middleName;
-    this.profile.lastName = this.candidate.lastName;
-    this.profile.email = this.candidate.email;
-    this.profile.contactNumber = this.candidate.contactNumber;
-    this.profile.keywords = this.candidate.keywords;
-    this.profile.dateOfApplication = this.candidate.dateOfApplication;
-    this.profile.comment = this.candidate.comment;
-    this.profile.consentToKeepData = this.candidate.consentToKeepData;
-    this.vacancy = {
-      id: this.candidate.vacancy?.id,
-      label: this.candidate.vacancy?.name,
-    };
-    if (this.candidate.hasAttachment) {
-      this.http
-        .request({
-          method: 'GET',
-          url: `/api/v2/recruitment/candidate/${this.candidate.id}/attachment`,
-        })
-        .then(({data: {data}}) => {
-          this.attachment.id = data.id;
-          this.attachment.newAttachment = null;
-          this.attachment.oldAttachment = {
-            id: data.id,
-            filename: data.attachment.fileName,
-            fileType: data.attachment.fileType,
-            fileSize: data.attachment.fileSize,
-          };
-          this.attachment.method = 'keepCurrent';
-        });
-    }
-    this.isLoading = false;
+    this.fetchCandidate();
   },
   methods: {
     onSave() {
@@ -367,6 +345,49 @@ export default {
         '/recruitment/viewCandidateAttachment/candidateId/{candidateId}',
         {candidateId: this.candidate.id},
       );
+    },
+    fetchCandidate() {
+      this.isLoading = true;
+      this.profile.firstName = this.candidate.firstName;
+      this.profile.middleName = this.candidate.middleName;
+      this.profile.lastName = this.candidate.lastName;
+      this.profile.email = this.candidate.email;
+      this.profile.contactNumber = this.candidate.contactNumber;
+      this.profile.keywords = this.candidate.keywords;
+      this.profile.dateOfApplication = this.candidate.dateOfApplication;
+      this.profile.comment = this.candidate.comment;
+      this.profile.consentToKeepData = this.candidate.consentToKeepData;
+      const {vacancy} = this.candidate;
+      if (vacancy) {
+        this.vacancy = {
+          id: vacancy.id,
+          label:
+            vacancy.status === false
+              ? vacancy.name + ` (${this.$t('general.closed')})`
+              : vacancy.name,
+        };
+      }
+      if (this.candidate.hasAttachment) {
+        this.http
+          .request({
+            method: 'GET',
+            url: `/api/v2/recruitment/candidate/${this.candidate.id}/attachment`,
+          })
+          .then(({data: {data}}) => {
+            this.attachment.id = data.id;
+            this.attachment.newAttachment = null;
+            this.attachment.oldAttachment = {
+              id: data.id,
+              filename: data.attachment.fileName,
+              fileType: data.attachment.fileType,
+              fileSize: data.attachment.fileSize,
+            };
+            this.attachment.method = 'keepCurrent';
+          });
+      } else {
+        this.attachment = {...CandidateAttachmentModel};
+      }
+      this.isLoading = false;
     },
   },
 };

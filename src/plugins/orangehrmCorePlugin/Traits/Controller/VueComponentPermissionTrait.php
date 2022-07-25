@@ -14,29 +14,33 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Controller;
+namespace OrangeHRM\Core\Traits\Controller;
 
+use LogicException;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Helper\VueControllerHelper;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-class PerformanceReviewSaveController extends AbstractVueController
+trait VueComponentPermissionTrait
 {
+    use UserRoleManagerTrait;
+
     /**
-     * @inheritDoc
+     * @param array $dataGroups
      */
-    public function preRender(Request $request): void
+    protected function setPermissions(array $dataGroups)
     {
-        if ($request->attributes->has('id')) {
-            $component = new Component('edit-review');
-            $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
-        } else {
-            $component = new Component('add-review');
+        $permissions = $this->getUserRoleManagerHelper()
+            ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
+        if (!$this instanceof AbstractVueController) {
+            throw new LogicException(self::class . ' should use in instanceof' . AbstractVueController::class);
         }
-        $this->setComponent($component);
+        $this->getContext()->set(
+            VueControllerHelper::PERMISSIONS,
+            $permissions->toArray()
+        );
     }
 }

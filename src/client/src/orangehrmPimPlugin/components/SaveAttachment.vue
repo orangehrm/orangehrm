@@ -98,6 +98,10 @@ export default {
       type: Array,
       required: true,
     },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
   },
 
   emits: ['close'],
@@ -112,7 +116,7 @@ export default {
         description: [shouldNotExceedCharLength(200)],
         attachment: [
           required,
-          maxFileSize(1024 * 1024),
+          maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
       },

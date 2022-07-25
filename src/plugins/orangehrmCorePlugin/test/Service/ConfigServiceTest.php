@@ -21,7 +21,6 @@ namespace OrangeHRM\Tests\Core\Service;
 
 use Exception;
 use OrangeHRM\Core\Dao\ConfigDao;
-use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -235,7 +234,7 @@ class ConfigServiceTest extends KernelTestCase
             $this->configService->setShowPimTaxExemptions(false);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof CoreServiceException);
+            $this->assertTrue($e instanceof DaoException);
         }
     }
 
@@ -276,7 +275,7 @@ class ConfigServiceTest extends KernelTestCase
             $returnVal = $this->configService->showPimTaxExemptions();
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof CoreServiceException);
+            $this->assertTrue($e instanceof DaoException);
         }
     }
 

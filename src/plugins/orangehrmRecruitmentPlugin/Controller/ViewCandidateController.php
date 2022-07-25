@@ -20,11 +20,14 @@
 namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Controller\VueComponentPermissionTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
 class ViewCandidateController extends AbstractVueController
 {
+    use VueComponentPermissionTrait;
+
     /**
      * @inheritDoc
      */
@@ -32,5 +35,6 @@ class ViewCandidateController extends AbstractVueController
     {
         $component = new Component('view-candidates-list');
         $this->setComponent($component);
+        $this->setPermissions(['recruitment_candidates']);
     }
 }

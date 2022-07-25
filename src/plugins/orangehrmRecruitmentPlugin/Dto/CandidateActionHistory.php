@@ -17,38 +17,41 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Recruitment\Api;
+namespace OrangeHRM\Recruitment\Dto;
 
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
-use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Recruitment\Service\CandidateService;
 
-class CandidateMarkingInterviewPassAPI extends AbstractCandidateActionAPI
+class CandidateActionHistory
 {
     /**
-     * @inheritDoc
+     * @return int[]
      */
-    public function getValidationRuleForUpdate(): ParamRuleCollection
+    public function getAccessibleCandidateActionHistoryIds(): array
     {
-        $paramRuleCollection = parent::getValidationRuleForUpdate();
-        $paramRuleCollection->addParamValidation(
-            new ParamRule(
-                self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [Interview::class])
-            ),
+        return array_keys(
+            array_replace(
+                CandidateService::STATUS_MAP,
+                CandidateService::OTHER_ACTIONS_MAP
+            )
         );
-        return $paramRuleCollection;
     }
 
     /**
-     * @inheritDoc
+     * @return int[]
      */
-    public function getResultingState(): int
+    public function getAccessibleCandidateHistoryIdsForInterviewer(): array
     {
-        return WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED;
+        $actionHistory = array_replace(
+            CandidateService::STATUS_MAP,
+            CandidateService::OTHER_ACTIONS_MAP
+        );
+        unset(
+            $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB],
+            $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER],
+            $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE],
+            $actionHistory[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT]
+        );
+        return array_keys($actionHistory);
     }
 }

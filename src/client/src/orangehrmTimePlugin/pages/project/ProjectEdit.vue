@@ -211,10 +211,7 @@ export default {
                   includeMiddle: true,
                   excludePastEmpTag: true,
                 }),
-                isPastEmployee:
-                  projectAdmin.terminationId &&
-                  `${projectAdmin.firstName} ${projectAdmin.lastName}` !==
-                    'Purged Employee',
+                isPastEmployee: projectAdmin.terminationId ? true : false,
               },
             };
           });

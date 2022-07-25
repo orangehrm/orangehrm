@@ -28,7 +28,9 @@
 
 <script>
 import {ref, onBeforeMount} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
 import {APIService} from '@/core/util/services/api.service';
+
 export default {
   name: 'VacancyDropdown',
   props: {
@@ -45,6 +47,7 @@ export default {
   },
   setup(props) {
     const options = ref([]);
+    const {$t} = usei18n();
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/recruitment/vacancies',
@@ -59,7 +62,10 @@ export default {
         options.value = data.data.map(item => {
           return {
             id: item.id,
-            label: item.name,
+            label:
+              item.status === false
+                ? `${item.name} (${$t('general.closed')})`
+                : item.name,
           };
         });
       });

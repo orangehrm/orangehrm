@@ -14,29 +14,11 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Controller;
+require realpath(__DIR__ . '/../src/vendor/autoload.php');
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Config\Config;
 
-class PerformanceReviewSaveController extends AbstractVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        if ($request->attributes->has('id')) {
-            $component = new Component('edit-review');
-            $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
-        } else {
-            $component = new Component('add-review');
-        }
-        $this->setComponent($component);
-    }
-}
+echo Config::PRODUCT_MODE;

@@ -14,29 +14,18 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Controller;
+namespace OrangeHRM\DevTools\Command\Util\Platforms;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-
-class PerformanceReviewSaveController extends AbstractVueController
+class MySQL57Platform extends \Doctrine\DBAL\Platforms\MySQL57Platform
 {
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function hasNativeJsonType(): bool
     {
-        if ($request->attributes->has('id')) {
-            $component = new Component('edit-review');
-            $component->addProp(new Prop('review-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
-        } else {
-            $component = new Component('add-review');
-        }
-        $this->setComponent($component);
+        return false;
     }
 }

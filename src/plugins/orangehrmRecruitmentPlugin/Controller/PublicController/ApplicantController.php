@@ -21,7 +21,6 @@
 namespace OrangeHRM\Recruitment\Controller\PublicController;
 
 use Exception;
-use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -32,7 +31,6 @@ use OrangeHRM\Core\Api\V2\Validator\ValidatorException;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Dto\Base64Attachment;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -64,8 +62,6 @@ class ApplicantController extends AbstractController implements PublicController
     use NormalizerServiceTrait;
     use LoggerTrait;
     use DateTimeHelperTrait;
-    use CsrfTokenManagerTrait;
-    use AuthUserTrait;
 
     public const PARAMETER_FIRST_NAME = 'firstName';
     public const PARAMETER_MIDDLE_NAME = 'middleName';
@@ -89,11 +85,6 @@ class ApplicantController extends AbstractController implements PublicController
      */
     public function handle(Request $request)
     {
-        $token = $request->request->get('_token');
-        if (!$this->getCsrfTokenManager()->isValid('recruitment-applicant', $token)) {
-            return $this->handleBadRequest();
-        }
-
         /** @var UploadedFile|null $file */
         $file = $request->files->get(self::PARAMETER_RESUME);
         if (!$file instanceof UploadedFile) {
@@ -109,8 +100,7 @@ class ApplicantController extends AbstractController implements PublicController
             $vacancyId = $request->request->get(self::PARAMETER_VACANCY_ID);
             $this->processTransaction($request, $attachment, $vacancyId);
             $this->commitTransaction();
-            $this->getAuthUser()->addFlash('flash.applicant_success', true);
-            return $this->redirect("/recruitmentApply/applyVacancy/id/$vacancyId");
+            return $this->redirect("/recruitmentApply/applyVacancy/id/$vacancyId?success=true");
         } catch (Exception $e) {
             $this->rollBackTransaction();
             $this->getLogger()->error($e->getMessage());

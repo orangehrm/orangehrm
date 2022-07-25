@@ -24,7 +24,6 @@ use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
@@ -40,7 +39,6 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
     use ThemeServiceTrait;
     use ConfigServiceTrait;
     use CsrfTokenManagerTrait;
-    use AuthUserTrait;
     use VacancyServiceTrait;
 
     /**
@@ -57,12 +55,6 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
             return;
         }
 
-        $success = false;
-        if ($this->getAuthUser()->hasFlash('flash.applicant_success')) {
-            $flash = $this->getAuthUser()->getFlash('flash.applicant_success');
-            $success = $flash[0] ?? false;
-        }
-
         $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
         $bannerUrl = $request->getBasePath()
             . "/images/ohrm_branding.png?$assetsVersion";
@@ -73,7 +65,7 @@ class ApplyJobVacancyViewController extends AbstractVueController implements Pub
 
         $component = new Component('apply-job-vacancy');
         $component->addProp(new Prop('vacancy-id', Prop::TYPE_NUMBER, $id));
-        $component->addProp(new Prop('success', Prop::TYPE_BOOLEAN, $success));
+        $component->addProp(new Prop('success', Prop::TYPE_BOOLEAN, $request->query->getBoolean('success', false)));
         $component->addProp(
             new Prop('banner-src', Prop::TYPE_STRING, $bannerUrl)
         );

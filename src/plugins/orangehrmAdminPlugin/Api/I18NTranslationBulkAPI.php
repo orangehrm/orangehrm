@@ -95,6 +95,7 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        throw $this->getNotImplementedException(); // TODO:: this line should remove in 5.2 release
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_LANGUAGE_ID,

@@ -25,17 +25,17 @@ use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group @Admin
- * @group @Entity
+ * @group Admin
+ * @group Entity
  */
 class WorkShiftTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateTables([WorkShift::class]);
+        TestDataService::truncateSpecificTables([WorkShift::class]);
     }
 
-    public function testCountryEntity(): void
+    public function testEntity(): void
     {
         $workShift = new WorkShift();
         $workShift->setName("TEST");

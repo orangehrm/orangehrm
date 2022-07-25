@@ -26,6 +26,7 @@ use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 
 class VacancyDao extends BaseDao
@@ -36,16 +37,27 @@ class VacancyDao extends BaseDao
      */
     public function getVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder): array
     {
-        $qb = $this->getVacanciesPaginator($vacancySearchFilterParamHolder);
+        $qb = $this->getVacancyListPaginator($vacancySearchFilterParamHolder);
         return $qb->getQuery()->execute();
     }
 
     /**
-     * @param VacancySearchFilterParams $vacancySearchFilterParamHolder
+     * @param VacancySearchFilterParams $vacancySearchFilterParams
      * @return Paginator
      */
-    protected function getVacanciesPaginator(VacancySearchFilterParams $vacancySearchFilterParamHolder): Paginator
+    private function getVacancyListPaginator(VacancySearchFilterParams $vacancySearchFilterParams): Paginator
     {
+        $q = $this->getVacanciesQueryBuilderWrapper($vacancySearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param VacancySearchFilterParams $vacancySearchFilterParamHolder
+     * @return QueryBuilderWrapper
+     */
+    protected function getVacanciesQueryBuilderWrapper(
+        VacancySearchFilterParams $vacancySearchFilterParamHolder
+    ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
         $q->leftJoin('vacancy.jobTitle', 'jobTitle');
         $q->leftJoin('vacancy.hiringManager', 'hiringManager');
@@ -89,8 +101,7 @@ class VacancyDao extends BaseDao
             $q->andWhere('vacancy.isPublished = :isPublished')
                 ->setParameter('isPublished', $vacancySearchFilterParamHolder->isPublished());
         }
-
-        return $this->getPaginator($q);
+        return $this->getQueryBuilderWrapper($q);
     }
 
 
@@ -109,7 +120,7 @@ class VacancyDao extends BaseDao
      */
     public function getVacanciesCount($vacancySearchFilterParamHolder): int
     {
-        return $this->getVacanciesPaginator($vacancySearchFilterParamHolder)->count();
+        return $this->getVacancyListPaginator($vacancySearchFilterParamHolder)->count();
     }
 
     /**
@@ -140,12 +151,12 @@ class VacancyDao extends BaseDao
     }
 
     /**
-     * @return Vacancy[]
+     * @param VacancySearchFilterParams $vacancySearchFilterParams
+     * @return array
      */
-    public function getVacanciesGroupByHiringManagers(): array
+    public function getVacancyListGroupByHiringManager(VacancySearchFilterParams $vacancySearchFilterParams): array
     {
-        $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
-        $qb->leftJoin('vacancy.hiringManager', 'hiringManager');
+        $qb = $this->getVacanciesQueryBuilderWrapper($vacancySearchFilterParams)->getQueryBuilder();
         $qb->groupBy('hiringManager.empNumber');
         return $qb->getQuery()->execute();
     }
