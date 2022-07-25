@@ -615,7 +615,7 @@ export const lessThanOrEqual = function(maxValue: number, message?: string) {
   };
 };
 
-export const openAndCloseBraces = function(value: string) {
+export const validLangString = function(value: string) {
   if (value === null || value === '') {
     return true;
   }

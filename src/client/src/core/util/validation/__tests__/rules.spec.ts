@@ -37,7 +37,7 @@ import {
   greaterThanOrEqual,
   lessThanOrEqual,
   File,
-  openAndCloseBraces,
+  validLangString,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -848,34 +848,34 @@ describe('core/util/validation/rules::greaterThanOrEqual', () => {
   });
 });
 
-describe('core/util/validation/rules::openAndCloseBraces', () => {
-  test('openAndCloseBraces:: without close brace', () => {
-    const result = openAndCloseBraces('{abcd');
+describe('core/util/validation/rules::validLangString', () => {
+  test('validLangString:: without close brace', () => {
+    const result = validLangString('{abcd');
     expect(result).toStrictEqual('Invalid');
   });
 
-  test('openAndCloseBraces:: with close brace', () => {
-    const result = openAndCloseBraces('{abcd}');
+  test('validLangString:: with close brace', () => {
+    const result = validLangString('{abcd}');
     expect(result).toStrictEqual(true);
   });
 
-  test('openAndCloseBraces:: multiple strings with close brace', () => {
-    const result = openAndCloseBraces('{abcd} {pqrs}');
+  test('validLangString:: multiple strings with close brace', () => {
+    const result = validLangString('{abcd} {pqrs}');
     expect(result).toStrictEqual(true);
   });
 
-  test('openAndCloseBraces:: without close brace - multiple string', () => {
-    const result = openAndCloseBraces('{abcd} {pqrs');
+  test('validLangString:: without close brace - multiple string', () => {
+    const result = validLangString('{abcd} {pqrs');
     expect(result).toStrictEqual('Invalid');
   });
 
-  test('openAndCloseBraces:: without braces', () => {
-    const result = openAndCloseBraces('abcd pqrs');
+  test('validLangString:: without braces', () => {
+    const result = validLangString('abcd pqrs');
     expect(result).toStrictEqual(true);
   });
 
-  test('openAndCloseBraces:: multiple strings with close brace', () => {
-    const result = openAndCloseBraces('abcd {pqrs}');
+  test('validLangString:: multiple strings with close brace', () => {
+    const result = validLangString('abcd {pqrs}');
     expect(result).toStrictEqual(true);
   });
 });

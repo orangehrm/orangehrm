@@ -80,9 +80,3 @@ langStrings:
   -
     value: 'Order'
     unitId: order
-  -
-    value: 'Ascending'
-    unitId: ascending
-  -
-    value: 'Descending'
-    unitId: descending
