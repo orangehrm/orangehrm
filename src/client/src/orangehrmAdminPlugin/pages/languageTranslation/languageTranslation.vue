@@ -137,6 +137,7 @@
 <script>
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
+import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import EditTranslationTable from '@/orangehrmAdminPlugin/components/EditTranslationTable.vue';
@@ -173,6 +174,8 @@ export default {
 
   setup(props) {
     const {$t} = usei18n();
+
+    const {saveSuccess} = useToast();
 
     const translationOptions = ref([
       {id: 1, label: $t('admin.all'), value: null},
@@ -233,7 +236,7 @@ export default {
           url: `/api/v2/admin/i18n/languages/${props.languageId}/translations/bulk`,
           data: {
             data: items.value.data
-              .filter(item => item.target !== '' && item.target !== null)
+              .filter(item => item?.modified == true)
               .map(item => {
                 return {
                   langStringId: item.langStringId,
@@ -244,7 +247,7 @@ export default {
         })
         .then(() => {
           isLoading.value = false;
-          return this.$toast.saveSuccess();
+          return saveSuccess();
         });
     };
 
