@@ -22,6 +22,7 @@ namespace OrangeHRM\Admin\Service;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\PasswordHash;
@@ -80,19 +81,17 @@ class UserService
     }
 
     /**
-     * Save System User
-     *
-     * @param User $systemUser
-     * @param bool $changePassword
+     * @param User $user
      * @return User|null
      */
-    public function saveSystemUser(User $systemUser, bool $changePassword = false): ?User
+    public function saveSystemUser(User $user): ?User
     {
-        if ($changePassword) {
-            $systemUser->setUserPassword($this->hashPassword($systemUser->getUserPassword()));
+        if (!is_null($user->getDecorator()->getNonHashedPassword()) &&
+            !(Config::PRODUCT_MODE === Config::MODE_DEMO && is_null($user->getCreatedBy()))) {
+            $user->setUserPassword($this->hashPassword($user->getDecorator()->getNonHashedPassword()));
         }
 
-        return $this->getSystemUserDao()->saveSystemUser($systemUser);
+        return $this->getSystemUserDao()->saveSystemUser($user);
     }
 
     /**
@@ -252,8 +251,8 @@ class UserService
                 return $user;
             } elseif ($this->checkForOldHash($credentials->getPassword(), $hash)) {
                 // password matches, but in old format. Need to update hash
-                $user->setUserPassword($credentials->getPassword());
-                return $this->saveSystemUser($user, true);
+                $user->getDecorator()->setNonHashedPassword($credentials->getPassword());
+                return $this->saveSystemUser($user);
             }
         }
 

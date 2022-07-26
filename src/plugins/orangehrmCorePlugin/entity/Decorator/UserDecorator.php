@@ -34,6 +34,11 @@ class UserDecorator
     private User $user;
 
     /**
+     * @var string|null
+     */
+    private ?string $nonHashedPassword = null;
+
+    /**
      * @param User $user
      */
     public function __construct(User $user)
@@ -75,5 +80,21 @@ class UserDecorator
     public function isAdmin(): bool
     {
         return $this->getUser()->getUserRole()->getName() === 'Admin';
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNonHashedPassword(): ?string
+    {
+        return $this->nonHashedPassword;
+    }
+
+    /**
+     * @param string|null $nonHashedPassword
+     */
+    public function setNonHashedPassword(?string $nonHashedPassword): void
+    {
+        $this->nonHashedPassword = $nonHashedPassword;
     }
 }

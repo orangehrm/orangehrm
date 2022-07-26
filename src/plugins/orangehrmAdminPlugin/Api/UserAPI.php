@@ -148,7 +148,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
         $user->setDateEntered($this->getDateTimeHelper()->getNow());
         $user->setCreatedBy($this->getAuthUser()->getUserId());
 
-        $user = $this->getUserService()->saveSystemUser($user, true);
+        $user = $this->getUserService()->saveSystemUser($user);
         return new EndpointResourceResult(UserModel::class, $user);
     }
 
@@ -169,7 +169,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
         $user->getDecorator()->setEmployeeByEmpNumber($empNumber);
         if ($changePassword) {
             $password = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PASSWORD);
-            $user->setUserPassword($password);
+            $user->getDecorator()->setNonHashedPassword($password);
         }
     }
 
@@ -264,7 +264,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
         $this->setUserParams($user, $changePassword);
         $user->setDateModified($this->getDateTimeHelper()->getNow());
         $user->setModifiedUserId($this->getAuthUser()->getUserId());
-        $user = $this->getUserService()->saveSystemUser($user, $changePassword);
+        $user = $this->getUserService()->saveSystemUser($user);
         return new EndpointResourceResult(UserModel::class, $user);
     }
 
