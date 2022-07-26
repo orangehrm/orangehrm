@@ -30,6 +30,14 @@
           :message="error?.message || ''"
           type="error"
         ></oxd-alert>
+        <oxd-sheet
+          v-if="isDemoMode"
+          type="gray-lighten-2"
+          class="orangehrm-demo-credentials"
+        >
+          <oxd-text tag="p">Username : Admin</oxd-text>
+          <oxd-text tag="p">Password : admin123</oxd-text>
+        </oxd-sheet>
       </div>
       <oxd-form
         ref="loginForm"
@@ -109,11 +117,13 @@ import {navigate, reloadPage} from '@ohrm/core/util/helper/navigation';
 import LoginLayout from '../components/LoginLayout';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 
 export default {
   components: {
     'oxd-icon': Icon,
     'oxd-alert': Alert,
+    'oxd-sheet': Sheet,
     'login-layout': LoginLayout,
   },
 
@@ -129,6 +139,10 @@ export default {
     showSocialMedia: {
       type: Boolean,
       default: true,
+    },
+    isDemoMode: {
+      type: Boolean,
+      default: false,
     },
   },
 

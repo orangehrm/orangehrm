@@ -80,7 +80,7 @@ class LoginController extends AbstractVueController implements PublicControllerI
             )
         );
         $component->addProp(
-            new Prop('login-logo-src', Prop::TYPE_STRING, $request->getBasePath() . "/images/ohrm_logo.png")
+            new Prop('login-logo-src', Prop::TYPE_STRING, $request->getBasePath() . '/images/ohrm_logo.png')
         );
 
         $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
@@ -96,6 +96,7 @@ class LoginController extends AbstractVueController implements PublicControllerI
         $component->addProp(
             new Prop('show-social-media', Prop::TYPE_BOOLEAN, $this->getThemeService()->showSocialMediaImages())
         );
+        $component->addProp(new Prop('is-demo-mode', Prop::TYPE_BOOLEAN, Config::PRODUCT_MODE === Config::MODE_DEMO));
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }

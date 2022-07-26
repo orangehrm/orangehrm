@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Admin\Service;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Utility\PasswordHash;
@@ -111,13 +112,16 @@ class UserServiceTest extends KernelTestCase
 
     public function testSaveSystemUserWithPasswordChange(): void
     {
+        if (Config::PRODUCT_MODE === Config::MODE_DEMO) {
+            $this->markTestSkipped();
+        }
         $password = 'y28#$!!';
 
         $user = new User();
         $user->setId(1);
         $user->setUserRole($this->getUserRole());
         $user->setUserName('admin_user');
-        $user->setUserPassword($password);
+        $user->getDecorator()->setNonHashedPassword($password);
 
         $dao = $this->getMockBuilder(UserDao::class)->getMock();
 
@@ -127,7 +131,7 @@ class UserServiceTest extends KernelTestCase
 
         $this->systemUserService->setSystemUserDao($dao);
 
-        $result = $this->systemUserService->saveSystemUser($user, true);
+        $result = $this->systemUserService->saveSystemUser($user);
 
         // check password is hashed before saving
         $this->assertNotEquals($password, $result->getUserPassword());
@@ -333,6 +337,9 @@ class UserServiceTest extends KernelTestCase
 
     public function testGetCredentialsOldHash(): void
     {
+        if (Config::PRODUCT_MODE === Config::MODE_DEMO) {
+            $this->markTestSkipped();
+        }
         $userId = 3838;
         $userName = 'adminUser1';
         $password = 'isd#@!';
