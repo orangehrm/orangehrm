@@ -36,7 +36,7 @@ use OrangeHRM\Entity\JobTitle;
  *         property="jobSpecification",
  *         type="object",
  *         @OA\Property(property="id", type="integer"),
- *         @OA\Property(property="fileName", type="string"),
+ *         @OA\Property(property="filename", type="string"),
  *         @OA\Property(property="fileType", type="string"),
  *         @OA\Property(property="fileSize", type="integer")
  *     )
