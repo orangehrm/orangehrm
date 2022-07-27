@@ -458,12 +458,10 @@ class ReportGeneratorDao extends BaseDao
      */
     public function getDisplayFields(): array
     {
-
         $displayGroupIds = array_column($this->getAllDisplayFieldGroupIds(), 'id');
 
         $displayFieldArray = [];
         foreach ($displayGroupIds as $displayGroupId) {
-
             $displayFieldsForGroupId = $this->getDisplayFieldsForDisplayFieldGroupId($displayGroupId);
             $displayFieldsForGroup['field_group_id'] = $displayGroupId;
             $displayFieldsForGroup['fields'] = $displayFieldsForGroupId;
