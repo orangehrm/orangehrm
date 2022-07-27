@@ -48,16 +48,20 @@
     }
     &-text {
       font-size: 0.75rem;
+      @include oxd-respond-to('lg') {
+        .oxd-input-group{
+          flex-direction: column-reverse;
+        }
+      }
     }
   }
 }
 .oxd-text--card-title {
   @include oxd-respond-to('lg') {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 1rem;
   }
   padding-top: 0.5rem;
-  padding-bottom: 0.4rem;
+  padding-bottom: 0.5rem;
 }
 .note {
   @include oxd-respond-to('lg') {

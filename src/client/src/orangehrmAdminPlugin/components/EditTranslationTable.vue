@@ -93,10 +93,18 @@ export default {
 
   setup(props, context) {
     const onUpdateTranslation = (value, index) => {
-      props.langstrings[index].target = value;
-      props.langstrings[index].modified = true;
-      context.emit('update:langstrings', props.langstrings);
+      context.emit(
+        'update:langstrings',
+
+        props.langstrings.map((item, _index) => {
+          if (_index === index) {
+            return {...item, target: value, modified: true};
+          }
+          return item;
+        }),
+      );
     };
+
     return {
       onUpdateTranslation,
       rules: {

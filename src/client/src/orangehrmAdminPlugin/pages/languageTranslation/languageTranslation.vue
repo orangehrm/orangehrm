@@ -95,6 +95,7 @@
         :loading="isLoading"
         @submitValid="onSubmitLangString"
         @reset="onReset"
+        v-if="total > 0"
       >
         <div class="orangehrm-header-container">
           <oxd-pagination
@@ -112,7 +113,7 @@
           v-if="items?.data"
           v-model:langstrings="items.data"
         ></edit-translations>
-        <oxd-form-actions v-if="total > 0">
+        <oxd-form-actions>
           <div class="orangehrm-bottom-container">
             <div>
               <oxd-button
@@ -236,7 +237,7 @@ export default {
           url: `/api/v2/admin/i18n/languages/${props.languageId}/translations/bulk`,
           data: {
             data: items.value.data
-              .filter(item => item?.modified == true)
+              .filter(item => item.target !== null && item.modified == true)
               .map(item => {
                 return {
                   langStringId: item.langStringId,
