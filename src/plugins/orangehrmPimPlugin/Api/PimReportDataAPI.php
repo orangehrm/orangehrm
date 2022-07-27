@@ -52,6 +52,7 @@ class PimReportDataAPI extends ReportDataAPI
     protected function getReport(): EndpointAwareReport
     {
         $reportName = $this->getReportName();
+
         if (!isset(PimReportAPI::PIM_REPORT_MAP[$reportName])) {
             throw $this->getBadRequestException('Invalid report name');
         }

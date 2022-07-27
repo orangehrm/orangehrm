@@ -58,7 +58,7 @@ abstract class AbstractDisplayField
      *
      * @ORM\Column(name="is_sortable", type="boolean", options={"default":0})
      */
-    protected bool $sortable = false;
+        protected bool $sortable = false;
 
     /**
      * @var string|null

@@ -432,4 +432,57 @@ class ReportGeneratorDao extends BaseDao
             ->setParameter('order', 1);
         return $q->getQuery()->execute();
     }
+
+    /**
+     * @return array
+     */
+    public function getDisplayFieldGroups(): array
+    {
+        $q = $this->createQueryBuilder(DisplayFieldGroup::class, 'displayFieldGroup');
+        $q->select('displayFieldGroup.id,displayFieldGroup.name');
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllDisplayFieldGroupIds(): array
+    {
+        $q = $this->createQueryBuilder(DisplayFieldGroup::class, 'displayFieldGroup');
+        $q->select('displayFieldGroup.id');
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @return array
+     */
+    public function getDisplayFields(): array
+    {
+
+        $displayGroupIds = array_column($this->getAllDisplayFieldGroupIds(), 'id');
+
+        $displayFieldArray = [];
+        foreach ($displayGroupIds as $displayGroupId) {
+
+            $displayFieldsForGroupId = $this->getDisplayFieldsForDisplayFieldGroupId($displayGroupId);
+            $displayFieldsForGroup['field_group_id'] = $displayGroupId;
+            $displayFieldsForGroup['fields'] = $displayFieldsForGroupId;
+            $displayFieldArray[] = $displayFieldsForGroup;
+        }
+        return $displayFieldArray;
+    }
+
+    /**
+     * @param int $displayFieldGroupId
+     * @return array
+     */
+    public function getDisplayFieldsForDisplayFieldGroupId(int $displayFieldGroupId): array
+    {
+        $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
+        $q->select('displayField.id,displayField.label')
+            ->leftJoin('displayField.displayFieldGroup', 'displayFieldGroup')
+            ->andWhere('displayFieldGroup.id = :groupId')
+            ->setParameter('groupId', $displayFieldGroupId);
+        return $q->getQuery()->execute();
+    }
 }

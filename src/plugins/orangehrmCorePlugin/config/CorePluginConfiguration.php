@@ -29,6 +29,7 @@ use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Core\Service\TextHelperService;
+use OrangeHRM\Core\Service\ReportGeneratorService;
 use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\GlobalConfigSubscriber;
@@ -85,6 +86,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(Services::USER_ROLE_MANAGER_HELPER, UserRoleManagerHelper::class);
         $this->getContainer()->register(Services::CACHE)->setFactory([CacheService::class, 'getCache']);
         $this->getContainer()->register(Services::MENU_SERVICE, MenuService::class);
+        $this->getContainer()->register(Services::REPORT_GENERATOR_SERVICE, ReportGeneratorService::class);
 
         $this->registerCoreSubscribers();
     }
