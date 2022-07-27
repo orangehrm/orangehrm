@@ -37,6 +37,7 @@ class CustomFieldDao extends BaseDao
     /**
      * @param CustomField $customField
      * @return CustomField
+     * @throws TransactionException
      */
     public function saveCustomField(CustomField $customField): CustomField
     {
@@ -137,20 +138,27 @@ class CustomFieldDao extends BaseDao
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function deleteCustomFields(array $toDeleteIds): int
     {
+        $this->beginTransaction();
         try {
             $this->deleteDisplayFieldsOfCustomFields($toDeleteIds);
             $q = $this->createQueryBuilder(CustomField::class, 'cf');
             $q->delete()->andWhere($q->expr()->in('cf.fieldNum', ':ids'))->setParameter('ids', $toDeleteIds);
+            $this->commitTransaction();
             return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
         }
     }
 
+    /**
+     * @param array $toDeleteCustomFieldIds
+     * @return void
+     */
     public function deleteDisplayFieldsOfCustomFields(array $toDeleteCustomFieldIds): void
     {
         foreach ($toDeleteCustomFieldIds as $toDeleteCustomFieldId) {
