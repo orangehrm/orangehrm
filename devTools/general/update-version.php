@@ -22,6 +22,7 @@ $rootPath = dirname(__FILE__) . "/../../";
 $files = [
     'build/build.xml',
     'src/lib/config/Config.php',
+    'src/plugins/orangehrmCorePlugin/test/fixtures/testcases/AboutOrganizationTestCase.yaml',
 ];
 
 if ($argc != 3) {
