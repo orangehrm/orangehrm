@@ -19,8 +19,20 @@
 
 namespace OrangeHRM\Framework\Http;
 
+use BadFunctionCallException;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class Request extends HttpRequest
 {
+    /**
+     * @inheritDoc
+     * @deprecated
+     */
+    public function get(string $key, $default = null)
+    {
+        throw new BadFunctionCallException(
+            'Internal method since Symfony 5.4, use explicit request parameters from the appropriate public property (attributes, query, request) instead. ' .
+            'See more https://symfony.com/blog/new-in-symfony-5-4-controller-changes'
+        );
+    }
 }

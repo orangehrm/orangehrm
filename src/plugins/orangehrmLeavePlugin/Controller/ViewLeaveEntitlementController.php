@@ -45,7 +45,7 @@ class ViewLeaveEntitlementController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('leave-view-entitlement');
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->query->get('empNumber');
         if (!is_null($empNumber)) {
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
@@ -74,7 +74,7 @@ class ViewLeaveEntitlementController extends AbstractVueController
      */
     protected function addLeaveTypeProp(Request $request, Component $component): void
     {
-        $leaveTypeId = $request->get('leaveTypeId');
+        $leaveTypeId = $request->query->get('leaveTypeId');
         if (!is_null($leaveTypeId)) {
             $leaveType = $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId);
             $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
@@ -87,8 +87,8 @@ class ViewLeaveEntitlementController extends AbstractVueController
      */
     protected function addLeavePeriodProp(Request $request, Component $component): void
     {
-        $startDate = $request->get('startDate');
-        $endDate = $request->get('endDate');
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
         if ($startDate && $endDate) {
             $leavePeriod = [
                 'id' => "${startDate}_${endDate}",

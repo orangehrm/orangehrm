@@ -51,8 +51,8 @@ class EmployeeAttachmentController extends AbstractFileController
      */
     public function handle(Request $request): Response
     {
-        $empNumber = $request->get('empNumber');
-        $attachId = $request->get('attachId');
+        $empNumber = $request->attributes->get('empNumber');
+        $attachId = $request->attributes->get('attachId');
 
         $response = $this->getResponse();
 

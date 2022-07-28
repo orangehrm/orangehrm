@@ -30,7 +30,7 @@ class CandidateAttachment extends AbstractFileController
 
     public function handle(Request $request): Response
     {
-        $candidateId = $request->get('candidateId');
+        $candidateId = $request->attributes->get('candidateId');
         $response = $this->getResponse();
 
         if ($candidateId) {

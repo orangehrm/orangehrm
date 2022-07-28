@@ -44,7 +44,7 @@ class EmpUsTaxExemptionController extends BaseViewEmployeeController
      */
     public function preRender(Request $request): void
     {
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->attributes->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-tax-exemption');
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
