@@ -37,6 +37,7 @@ import {
   greaterThanOrEqual,
   lessThanOrEqual,
   File,
+  validLangString,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -843,6 +844,38 @@ describe('core/util/validation/rules::greaterThanOrEqual', () => {
 
   test('greaterThanOrEqual:: with decimal number higher than min', () => {
     const result = greaterThanOrEqual(0)('0.1');
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::validLangString', () => {
+  test('validLangString:: without close brace', () => {
+    const result = validLangString('{abcd');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validLangString:: with close brace', () => {
+    const result = validLangString('{abcd}');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validLangString:: multiple strings with close brace', () => {
+    const result = validLangString('{abcd} {pqrs}');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validLangString:: without close brace - multiple string', () => {
+    const result = validLangString('{abcd} {pqrs');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validLangString:: without braces', () => {
+    const result = validLangString('abcd pqrs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validLangString:: multiple strings with close brace', () => {
+    const result = validLangString('abcd {pqrs}');
     expect(result).toStrictEqual(true);
   });
 });

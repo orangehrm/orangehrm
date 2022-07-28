@@ -129,7 +129,10 @@ class LocalizationDao extends BaseDao
 
         if (!is_null($i18NTargetLangStringSearchFilterParams->getOnlyTranslated())) {
             if ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === true) {
+                $q->andWhere($q->expr()->isNotNull('translation.value'));
                 $q->andWhere($q->expr()->isNotNull('translation.translated'));
+                $q->andWhere($q->expr()->notIn('translation.value', ':translated'));
+                $q->setParameter('translated', '');
             } elseif ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === false) {
                 $q->andWhere($q->expr()->isNull('translation.translated'));
             }
@@ -207,6 +210,7 @@ class LocalizationDao extends BaseDao
         foreach ($i18NTranslations as $key => $i18NTranslation) {
             if (isset($updatableTranslationValues[$key])) {
                 $updatableTranslationValues[$key]->setValue($i18NTranslation->getValue());
+                $updatableTranslationValues[$key]->setCustomized($i18NTranslation->isCustomized());
 
                 //update
                 $this->getEntityManager()->persist($updatableTranslationValues[$key]);

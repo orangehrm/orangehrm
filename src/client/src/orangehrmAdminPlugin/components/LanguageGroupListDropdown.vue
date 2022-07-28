@@ -21,28 +21,28 @@
 <template>
   <oxd-input-field
     type="select"
-    :label="$t('general.name')"
+    :label="$t('admin.module')"
     :options="options"
-    required
   />
 </template>
 <script>
 import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
+
 export default {
-  name: 'LanguagesDropdown',
+  name: 'GroupListDropdown',
   setup() {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/i18n/languages?limit=0',
+      '/api/v2/admin/i18n/groups',
     );
     onBeforeMount(() => {
-      http.getAll({activeOnly: false}).then(({data}) => {
+      http.getAll().then(({data}) => {
         options.value = data.data.map(item => {
           return {
             id: item.id,
-            label: item.name,
+            label: item.title,
           };
         });
       });

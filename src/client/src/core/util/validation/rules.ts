@@ -614,3 +614,16 @@ export const lessThanOrEqual = function(maxValue: number, message?: string) {
     return parseFloat(value) <= maxValue || resolvedMessage;
   };
 };
+
+export const validLangString = function(value: string) {
+  if (value === null || value === '') {
+    return true;
+  }
+  return value.split('').reduce((accumulator, currentValue) => {
+    if (currentValue === '{') accumulator++;
+    if (currentValue === '}') accumulator--;
+    return accumulator;
+  }, 0) !== 0
+    ? translate('general.invalid')
+    : true;
+};
