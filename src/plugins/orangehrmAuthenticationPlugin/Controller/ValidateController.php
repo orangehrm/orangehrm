@@ -96,8 +96,8 @@ class ValidateController extends AbstractController implements PublicControllerI
 
     public function handle(Request $request): RedirectResponse
     {
-        $username = $request->get(self::PARAMETER_USERNAME, '');
-        $password = $request->get(self::PARAMETER_PASSWORD, '');
+        $username = $request->request->get(self::PARAMETER_USERNAME, '');
+        $password = $request->request->get(self::PARAMETER_PASSWORD, '');
         $credentials = new UserCredential($username, $password);
 
         /** @var UrlGenerator $urlGenerator */
@@ -105,7 +105,7 @@ class ValidateController extends AbstractController implements PublicControllerI
         $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
 
         try {
-            $token = $request->get('_token');
+            $token = $request->request->get('_token');
             if (!$this->getCsrfTokenManager()->isValid('login', $token)) {
                 throw AuthenticationException::invalidCsrfToken();
             }
