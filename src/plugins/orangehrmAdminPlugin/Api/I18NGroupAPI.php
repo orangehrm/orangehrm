@@ -58,7 +58,6 @@ class I18NGroupAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException(); // TODO:: this line should remove in 5.2 release
         return new ParamRuleCollection(
             ...$this->getSortingAndPaginationParamsRules(I18NGroupSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
