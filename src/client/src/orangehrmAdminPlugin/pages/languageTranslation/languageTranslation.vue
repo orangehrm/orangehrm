@@ -92,10 +92,10 @@
     <br />
     <div class="orangehrm-paper-container">
       <oxd-form
+        v-if="total > 0"
         :loading="isLoading"
         @submitValid="onSubmitLangString"
         @reset="onReset"
-        v-if="total > 0"
       >
         <div class="orangehrm-header-container">
           <oxd-pagination
