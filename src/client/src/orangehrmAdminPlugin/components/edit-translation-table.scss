@@ -48,11 +48,6 @@
     }
     &-text {
       font-size: 0.75rem;
-      @include oxd-respond-to('lg') {
-        .oxd-input-group{
-          flex-direction: column-reverse;
-        }
-      }
     }
   }
 }

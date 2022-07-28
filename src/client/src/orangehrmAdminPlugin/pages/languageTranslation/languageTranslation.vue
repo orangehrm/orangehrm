@@ -185,8 +185,8 @@ export default {
     ]);
 
     const sortOptions = ref([
-      {id: 'ASC', label: $t('admin.ascending')},
-      {id: 'DESC', label: $t('admin.descending')},
+      {id: 'ASC', label: $t('general.ascending')},
+      {id: 'DESC', label: $t('general.descending')},
     ]);
 
     const filters = ref({
