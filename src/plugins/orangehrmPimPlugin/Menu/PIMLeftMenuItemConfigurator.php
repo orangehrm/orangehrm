@@ -14,25 +14,32 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+namespace OrangeHRM\Pim\Menu;
 
-use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Core\Menu\MenuConfigurator;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Core\Traits\ControllerTrait;
+use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
+use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Screen;
 
-class ViewMyDetailsController extends AbstractModuleController
+class PIMLeftMenuItemConfigurator implements MenuConfigurator
 {
+    use MenuServiceTrait;
+    use ControllerTrait;
     use AuthUserTrait;
 
     /**
-     * @return RedirectResponse
+     * @inheritDoc
      */
-    public function handle(): RedirectResponse
+    public function configure(Screen $screen): ?MenuItem
     {
-        $empNumber = $this->getAuthUser()->getEmpNumber();
-        return $this->redirect("/pim/viewPersonalDetails/empNumber/$empNumber");
+        if ($this->getAuthUser()->getEmpNumber() == $this->getCurrentRequest()->attributes->get('empNumber')) {
+            return $this->getMenuService()->getMenuDao()->getMenuItemByTitle('My Info', 1);
+        }
+        return null;
     }
 }
