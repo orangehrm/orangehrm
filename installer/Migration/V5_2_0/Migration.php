@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Migration\V5_2_0;
 
+use Doctrine\DBAL\Connection;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -30,6 +31,8 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
+
         $this->getSchemaHelper()->changeColumn(
             'ohrm_i18n_translate',
             'value',
@@ -40,6 +43,8 @@ class Migration extends AbstractMigration
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
+
+        $this->updatePimLeftMenuConfigurators();
     }
 
     /**
@@ -61,5 +66,31 @@ class Migration extends AbstractMigration
             );
         }
         return $this->langStringHelper;
+    }
+
+    private function updatePimLeftMenuConfigurators(): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.menu_configurator', ':menuConfiguratorClassName')
+            ->setParameter('menuConfiguratorClassName', 'OrangeHRM\\Pim\\Menu\\PIMLeftMenuItemConfigurator')
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName('pim'));
+        $qb->andWhere($qb->expr()->in('screen.action_url', ':screenUrls'))
+            ->setParameter('screenUrls', [
+                'viewPersonalDetails',
+                'contactDetails',
+                'viewEmergencyContacts',
+                'viewDependents',
+                'viewImmigration',
+                'viewJobDetails',
+                'viewSalaryList',
+                'viewUsTaxExemptions',
+                'viewReportToDetails',
+                'viewQualifications',
+                'viewMemberships',
+                'viewPhotograph',
+            ], Connection::PARAM_STR_ARRAY);
+        $qb->executeQuery();
     }
 }
