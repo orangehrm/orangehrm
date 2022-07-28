@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Installer\Migration\V5_2_0;
 
-use OrangeHRM\Installer\Migration\V5_1_0\LangStringHelper;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
