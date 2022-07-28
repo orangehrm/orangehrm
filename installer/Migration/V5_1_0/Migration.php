@@ -481,13 +481,6 @@ class Migration extends AbstractMigration
             ->setParameter('currentName', 'custom')
             ->setParameter('newName', 'custom_4x')
             ->executeQuery();
-
-        //TODO::This Should Move To 5.2 Migration
-        $this->getSchemaHelper()->changeColumn(
-            'ohrm_i18n_translate',
-            'value',
-            ['Notnull' => false, 'Default' => null]
-        );
     }
 
     private function modifyTrackerLogsUserForeignKey(): void

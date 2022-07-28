@@ -447,6 +447,58 @@ apiv2_recruitment_employee_list:
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 ##########################
+#        I18N
+##########################
+
+apiv2_admin_localization_languages:
+  description: 'API-v2 Admin - Localization Languages'
+  api: OrangeHRM\Admin\Api\I18NLanguageAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+
+apiv2_admin_localization_translations:
+  description: 'API-v2 Admin - Localization Translations'
+  api: OrangeHRM\Admin\Api\I18NTranslationAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+
+apiv2_admin_localization_bulk_translations:
+  description: 'API-v2 Admin - Localization Bulk Translations'
+  api: OrangeHRM\Admin\Api\I18NTranslationBulkAPI
+  module: admin
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+
+apiv2_admin_localization_groups:
+  description: 'API-v2 Admin - Localization Groups'
+  api: OrangeHRM\Admin\Api\I18NGroupAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+
+##########################
 #   Corporate Directory
 ##########################
 
@@ -505,4 +557,4 @@ apiv2_maintenance_purge_candidate:
     update: false
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: true, self: false } }
