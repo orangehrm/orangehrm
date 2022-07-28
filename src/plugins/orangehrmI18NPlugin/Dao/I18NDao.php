@@ -74,15 +74,4 @@ class I18NDao extends BaseDao
         $q->setParameter('langId', $language->getId());
         return $this->getQueryBuilderWrapper($q);
     }
-
-    /**
-     * @return I18NLanguage[]
-     */
-    public function getI18Languages(): array
-    {
-        $qb = $this->createQueryBuilder(I18NLanguage::class, 'i18language');
-        $qb->where('i18language.added = :added');
-        $qb->setParameter('added', true);
-        return $qb->getQuery()->execute();
-    }
 }

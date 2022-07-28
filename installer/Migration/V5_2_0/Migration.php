@@ -37,7 +37,7 @@ class Migration extends AbstractMigration
             ['Notnull' => false, 'Default' => null]
         );
 
-        $oldGroups = ['admin', 'general', 'maintenance'];
+        $oldGroups = ['admin', 'general'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
