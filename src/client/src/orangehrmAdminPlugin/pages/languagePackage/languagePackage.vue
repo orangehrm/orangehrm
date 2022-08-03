@@ -47,7 +47,6 @@
           :clickable="false"
           :loading="isLoading"
           row-decorator="oxd-table-decorator-card"
-          @click="onClickTranslate"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -156,11 +155,11 @@ export default {
           cellConfig: {
             translate: {
               component: 'oxd-button',
+              onClick: this.onClickTranslate,
               props: {
                 label: this.$t('admin.translate'),
                 style: 'Text',
                 displayType: 'text',
-                onClick: this.onClickTranslate,
               },
             },
             export: {
@@ -190,9 +189,8 @@ export default {
     async reloadLanguages() {
       await this.execQuery();
     },
-    onClickTranslate($event) {
-      const id = $event.id ? $event.id : $event.item?.id;
-      navigate('/admin/languageCustomization/{id}', {id});
+    onClickTranslate(item) {
+      navigate('/admin/languageCustomization/{id}', {id: item.id});
     },
   },
 };
