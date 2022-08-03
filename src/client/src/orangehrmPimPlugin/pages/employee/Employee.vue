@@ -27,6 +27,7 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.employee"
+                :rules="rules.employee"
                 :params="{
                   includeEmployees: filters.includeEmployees?.param,
                 }"
@@ -49,6 +50,7 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.supervisor"
+                :rules="rules.supervisor"
                 :label="$t('pim.supervisor_name')"
               />
             </oxd-grid-item>
@@ -136,6 +138,7 @@ import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 import useSort from '@ohrm/core/util/composable/useSort';
+import {validSelection} from '@/core/util/validation/rules';
 
 const userdataNormalizer = data => {
   return data.map(item => {
@@ -200,7 +203,7 @@ export default {
     const serializedFilters = computed(() => {
       return {
         model: 'detailed',
-        empNumber: filters.value.employee?.id,
+        nameOrId: filters.value.employee?.id || filters.value.employee,
         employeeId: filters.value.employeeId,
         empStatusId: filters.value.empStatusId?.id,
         includeEmployees: filters.value.includeEmployees?.param,
@@ -251,6 +254,10 @@ export default {
   data() {
     return {
       checkedItems: [],
+      rules: {
+        employee: [],
+        supervisor: [validSelection],
+      },
     };
   },
   computed: {

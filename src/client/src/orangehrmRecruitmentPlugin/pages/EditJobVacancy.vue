@@ -274,6 +274,7 @@ import {
   required,
   numericOnly,
   maxFileSize,
+  validSelection,
   validFileTypes,
   shouldNotExceedCharLength,
   numberShouldBeBetweenMinAndMaxValue,
@@ -369,6 +370,7 @@ export default {
         name: [required, shouldNotExceedCharLength(50)],
         hiringManager: [
           required,
+          validSelection,
           v => (v?.isPastEmployee ? this.$t('general.invalid') : true),
         ],
         numOfPositions: [

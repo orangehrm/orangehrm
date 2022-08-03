@@ -24,7 +24,7 @@
       {{ $t('maintenance.purge_candidate_records') }}
     </oxd-text>
     <oxd-divider />
-    <oxd-form @submit="$emit('search', vacancy.id)">
+    <oxd-form @submitValid="$emit('search', vacancy.id)">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import {required} from '@/core/util/validation/rules';
+import {required, validSelection} from '@/core/util/validation/rules';
 import RequiredText from '@/core/components/labels/RequiredText';
 import VacancyAutocomplete from '@/orangehrmMaintenancePlugin/components/VacancyAutocomplete';
 
@@ -65,7 +65,7 @@ export default {
     return {
       vacancy: null,
       rules: {
-        vacancy: [required],
+        vacancy: [required, validSelection],
       },
     };
   },

@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import {required} from '@/core/util/validation/rules';
+import {required, validSelection} from '@/core/util/validation/rules';
 import LeaveEntitlementTable from '@/orangehrmLeavePlugin/components/LeaveEntitlementTable';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
@@ -84,7 +84,7 @@ export default {
   data() {
     return {
       rules: {
-        employee: [required],
+        employee: [required, validSelection],
       },
     };
   },

@@ -43,7 +43,10 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <candidate-autocomplete v-model="filters.candidate" />
+              <candidate-autocomplete
+                v-model="filters.candidate"
+                :rules="rules.candidate"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -148,6 +151,7 @@
 <script>
 import {computed, ref} from 'vue';
 import {
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -233,6 +237,7 @@ export default {
     };
     const filters = ref({...defaultFilters});
     const rules = {
+      candidate: [validSelection],
       fromDate: [
         validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(

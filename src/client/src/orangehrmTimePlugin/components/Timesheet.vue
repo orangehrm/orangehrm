@@ -236,6 +236,7 @@
 
 <script>
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
+import {validSelection} from '@/core/util/validation/rules';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
 import {parseDate, parseTimeInSeconds} from '@ohrm/core/util/helper/datefns';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
@@ -290,7 +291,10 @@ export default {
       showCommentModal: false,
       commentModalState: null,
       rules: {
-        project: [v => v !== null || this.$t('time.select_a_project')],
+        project: [
+          validSelection,
+          v => v !== null || this.$t('time.select_a_project'),
+        ],
         activity: [
           v => v !== null || this.$t('time.select_an_activity'),
           v =>

@@ -39,7 +39,10 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-autocomplete v-model="filters.empNumber" />
+              <employee-autocomplete
+                v-model="filters.empNumber"
+                :rules="rules.employee"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -117,6 +120,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import useSort from '@ohrm/core/util/composable/useSort';
+import {validSelection} from '@/core/util/validation/rules';
 
 const defaultFilters = {
   username: '',
@@ -267,6 +271,9 @@ export default {
         {id: 2, label: this.$t('general.disabled')},
       ],
       checkedItems: [],
+      rules: {
+        employee: [validSelection],
+      },
     };
   },
 

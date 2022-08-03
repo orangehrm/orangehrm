@@ -48,6 +48,7 @@
               <oxd-grid-item>
                 <project-autocomplete
                   v-model="filters.project"
+                  :rules="rules.project"
                   :label="$t('time.project_name')"
                   :only-allowed="false"
                 />
@@ -115,6 +116,7 @@
 import {computed, ref} from 'vue';
 import {
   required,
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -151,7 +153,8 @@ export default {
     const {userDateFormat} = useDateFormat();
 
     const rules = {
-      employee: [required],
+      project: [validSelection],
+      employee: [required, validSelection],
       fromDate: [
         validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(
