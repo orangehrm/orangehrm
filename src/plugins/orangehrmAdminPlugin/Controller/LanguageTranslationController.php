@@ -31,8 +31,8 @@ class LanguageTranslationController extends AbstractVueController
 
     public function preRender(Request $request): void
     {
-        $languageId = $request->attributes->getInt('languageId');
         if ($request->attributes->has('languageId')) {
+            $languageId = $request->attributes->getInt('languageId');
             $component = new Component('language-translation-edit');
             $component->addProp(new Prop('language-id', Prop::TYPE_NUMBER, $languageId));
             $language = $this->getLocalizationService()->getLocalizationDao()
