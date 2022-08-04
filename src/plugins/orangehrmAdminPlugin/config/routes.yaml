@@ -603,3 +603,13 @@ admin_language_translation:
   path: /admin/languageCustomization/{languageId}
   controller: OrangeHRM\Admin\Controller\LanguageTranslationController::handle
   methods: [ GET ]
+
+admin_ldap_setup:
+  path: /admin/ldap
+  controller: OrangeHRM\Admin\Controller\LdapController::handle
+  methods: [ GET ]
+
+admin_ldap_test_connection:
+  path: /api/v2/admin/ldap/connect
+  controller: OrangeHRM\Admin\Controller\LdapController::testConnection
+  methods: [ POST ]
