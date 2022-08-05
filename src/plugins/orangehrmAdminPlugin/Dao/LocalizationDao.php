@@ -90,6 +90,7 @@ class LocalizationDao extends BaseDao
      */
     public function saveI18NLanguage(I18NLanguage $i18NLanguage): I18NLanguage
     {
+        $i18NLanguage->getModifiedAt();
         $this->persist($i18NLanguage);
         return $i18NLanguage;
     }
@@ -211,6 +212,7 @@ class LocalizationDao extends BaseDao
             if (isset($updatableTranslationValues[$key])) {
                 $updatableTranslationValues[$key]->setValue($i18NTranslation->getValue());
                 $updatableTranslationValues[$key]->setCustomized($i18NTranslation->isCustomized());
+                $updatableTranslationValues[$key]->setModifiedAt($i18NTranslation->getModifiedAt());
 
                 //update
                 $this->getEntityManager()->persist($updatableTranslationValues[$key]);

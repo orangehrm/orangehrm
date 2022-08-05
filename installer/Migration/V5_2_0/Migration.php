@@ -47,8 +47,9 @@ class Migration extends AbstractMigration
             ->setParameter('translateValue', null)
             ->executeQuery();
 
-        $this->getConnection()->executeStatement(
-            'ALTER TABLE ohrm_i18n_translate DROP COLUMN translated'
+        $this->getSchemaHelper()->dropColumn(
+            'ohrm_i18n_translate',
+            'translated'
         );
 
         $oldGroups = ['admin', 'general'];

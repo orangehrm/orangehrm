@@ -175,8 +175,11 @@ class LocalizationService
             $i18NTranslation = new I18NTranslation();
             $i18NTranslation->getDecorator()->setLangStringById($row['langStringId']);
             $i18NTranslation->getDecorator()->setLanguageById($languageId);
-            $i18NTranslation->setValue($row['translatedValue']);
+            $i18NTranslation->setValue(
+                empty($row['translatedValue']) ? null : $row['translatedValue']
+            );
             $i18NTranslation->setCustomized(true);
+            $i18NTranslation->setModifiedAt($this->getDateTimeHelper()->getNow());
             $i18NTranslations[$itemKey] = $i18NTranslation;
         }
         return $i18NTranslations;
