@@ -160,7 +160,7 @@ export default {
   },
   props: {
     languageId: {
-      type: String,
+      type: Number,
       required: true,
     },
     languagePackage: {

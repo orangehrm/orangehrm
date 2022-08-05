@@ -144,7 +144,7 @@
 
 <script>
 import {computed, ref} from 'vue';
-import {required} from '@/core/util/validation/rules';
+import {required, validSelection} from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
@@ -194,7 +194,7 @@ export default {
       ...(props.leavePeriod && {leavePeriod: props.leavePeriod}),
     });
     const rules = ref({
-      employee: [required],
+      employee: [required, validSelection],
       leavePeriod: [required],
       leaveType: [required],
     });

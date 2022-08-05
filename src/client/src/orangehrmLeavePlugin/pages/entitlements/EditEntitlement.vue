@@ -88,15 +88,15 @@
 </template>
 
 <script>
-import {APIService} from '@ohrm/core/util/services/api.service';
+import useLocale from '@/core/util/composable/useLocale';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-import {required, max} from '@/core/util/validation/rules';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
-import useLocale from '@/core/util/composable/useLocale';
+import {required, max, validSelection} from '@/core/util/validation/rules';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 
 const leaveEntitlementModel = {
   employee: null,
@@ -144,7 +144,7 @@ export default {
       isLoading: false,
       leaveEntitlement: {...leaveEntitlementModel},
       rules: {
-        employee: [required],
+        employee: [required, validSelection],
         leaveType: [required],
         leavePeriod: [required],
         entitlement: [

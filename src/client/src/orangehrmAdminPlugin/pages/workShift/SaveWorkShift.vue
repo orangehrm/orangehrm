@@ -75,6 +75,7 @@
             <oxd-grid-item>
               <work-shift-employee-autocomplete
                 v-model="workShift.empNumbers"
+                :rules="rules.empNumbers"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -99,10 +100,11 @@
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {
-  endTimeShouldBeAfterStartTime,
   required,
-  shouldNotExceedCharLength,
+  validSelection,
   validTimeFormat,
+  shouldNotExceedCharLength,
+  endTimeShouldBeAfterStartTime,
 } from '@ohrm/core/util/validation/rules';
 import {diffInTime} from '@/core/util/helper/datefns';
 import WorkShiftEmployeeAutocomplete from '@/orangehrmAdminPlugin/components/WorkShiftEmployeeAutocomplete';
@@ -150,6 +152,7 @@ export default {
             this.$t('general.to_time_should_be_after_from_time'),
           ),
         ],
+        empNumbers: [validSelection],
       },
     };
   },
