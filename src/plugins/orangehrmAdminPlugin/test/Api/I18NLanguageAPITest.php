@@ -55,6 +55,7 @@ class I18NLanguageAPITest extends EndpointIntegrationTestCase
         $this->populateFixtures('I18NLanguagesAPI.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(I18NLanguageAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
