@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-candidate-page">
     <oxd-table-filter :filter-title="$t('general.candidates')">
-      <oxd-form @submitValid="filterItems">
+      <oxd-form @submitValid="filterItems" @reset="onReset">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -91,16 +91,11 @@
 
         <oxd-form-actions>
           <oxd-button
+            type="reset"
             display-type="ghost"
             :label="$t('general.reset')"
-            @click="onClickReset"
           />
-          <oxd-button
-            class="orangehrm-left-space"
-            display-type="secondary"
-            :label="$t('general.search')"
-            type="submit"
-          />
+          <submit-button :label="$t('general.search')" />
         </oxd-form-actions>
       </oxd-form>
     </oxd-table-filter>
@@ -179,7 +174,7 @@ const defaultFilters = {
   status: null,
   keywords: null,
   application: null,
-  candidate: '',
+  candidate: null,
   fromDate: null,
   toDate: null,
 };
@@ -458,7 +453,7 @@ export default {
     async filterItems() {
       await this.execQuery();
     },
-    onClickReset() {
+    onReset() {
       this.filters = {...defaultFilters};
       this.filterItems();
     },
