@@ -20,8 +20,10 @@
 namespace OrangeHRM\Admin\Service;
 
 use Exception;
+use LogicException;
 use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -194,5 +196,17 @@ class LocalizationService
     {
         return $languageId . '_' .
             $langStringId . '_';
+    }
+
+    public function exportLanguagePackage(string $languageId)
+    {
+        $i18NTargetLangStringSearchFilterParams
+            = new I18NTranslationSearchFilterParams();
+        $i18NTargetLangStringSearchFilterParams->setLanguageId($languageId);
+        $i18NTargetLangStringSearchFilterParams->setLimit(0);
+        $translations = $this->localizationDao->getNormalizedTranslations(
+            $i18NTargetLangStringSearchFilterParams
+        );
+        dump($translations);
     }
 }
