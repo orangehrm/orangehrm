@@ -203,6 +203,7 @@ class LocalizationService
         $i18NTargetLangStringSearchFilterParams
             = new I18NTranslationSearchFilterParams();
         $i18NTargetLangStringSearchFilterParams->setLanguageId($languageId);
+        $i18NTargetLangStringSearchFilterParams->setOnlyTranslated(true);
         $i18NTargetLangStringSearchFilterParams->setLimit(0);
         $translations = $this->localizationDao->getNormalizedTranslations(
             $i18NTargetLangStringSearchFilterParams

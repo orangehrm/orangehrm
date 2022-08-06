@@ -160,8 +160,8 @@ export default {
                 label: this.$t('admin.translate'),
                 style: 'Text',
                 displayType: 'text',
-                onClick: this.onClickTranslate,
               },
+              onClick: this.onClickTranslate,
             },
             export: {
               component: 'oxd-button',
@@ -170,6 +170,7 @@ export default {
                 displayType: 'text',
                 size: 'medium',
               },
+              onClick: this.onClickExport,
             },
           },
         },
@@ -193,6 +194,10 @@ export default {
     onClickTranslate($event) {
       const id = $event.id ? $event.id : $event.item?.id;
       navigate('/admin/languageCustomization/{id}', {id});
+    },
+    onClickExport(item) {
+      const url = `${window.appGlobal.baseUrl}/admin/viewLanguagePackage/languageId/${item.id}`;
+      window.open(url, '_blank');
     },
   },
 };
