@@ -102,7 +102,7 @@ class SaveEmployeeReportController extends AbstractVueController
                         'fields' => array_map(
                             fn (array $field) => [
                                 'id' => $field['id'],
-                                'label' => $this->getI18NHelper()->transBySource($field['label']),
+                                'label' => $field['label'],
                             ],
                             $displayField['fields']
                         )

@@ -88,20 +88,24 @@ class CustomFieldDao extends BaseDao
     public function addCustomFieldToDisplayField(CustomField $customField): void
     {
         $customFieldName = 'Custom Fields';
-        $customFieldDisplayFieldGroupId = $this->getRepository(DisplayFieldGroup::class)->findOneBy(['name' => $customFieldName]);
+        $customFieldDisplayFieldGroup = $this->getRepository(DisplayFieldGroup::class)
+            ->findOneBy(['name' => $customFieldName]);
         $displayFieldName = 'hs_hr_employee.custom' . $customField->getFieldNum();
         $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
         $q->andWhere('displayField.name = :name')->setParameter('name', $displayFieldName);
-        $displayField = $this->getRepository(DisplayField::class)->findOneBy(['name' => $displayFieldName, 'displayFieldGroup' => $customFieldDisplayFieldGroupId]);
+        $displayField = $this->getRepository(DisplayField::class)
+            ->findOneBy(['name' => $displayFieldName, 'displayFieldGroup' => $customFieldDisplayFieldGroup]);
         $reportGroup = $this->getRepository(ReportGroup::class)->findOneBy(['name' => 'pim']);
         if (!$displayField instanceof DisplayField) {
             $displayField = new DisplayField();
             $displayField->setName($displayFieldName);
             $displayField->setReportGroup($reportGroup);
-            $displayField->setDisplayFieldGroup($customFieldDisplayFieldGroupId);
+            $displayField->setDisplayFieldGroup($customFieldDisplayFieldGroup);
             $displayField->setFieldAlias('customField' . $customField->getFieldNum());
             $displayField->setElementType('label');
-            $displayField->setElementProperty('<xml><getter>customField' . $customField->getFieldNum() . '</getter></xml>');
+            $displayField->setElementProperty(
+                '<xml><getter>customField' . $customField->getFieldNum() . '</getter></xml>'
+            );
             $displayField->setWidth(200);
             $displayField->setSortable(false);
             $displayField->setExportable(true);

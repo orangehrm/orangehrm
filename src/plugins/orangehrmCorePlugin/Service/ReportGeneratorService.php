@@ -122,7 +122,11 @@ class ReportGeneratorService
 
         foreach ($displayFields as $displayField) {
             $column = new Column($displayField->getFieldAlias());
-            $column->setName($this->getI18NHelper()->transBySource($displayField->getLabel()));
+            if ($displayField->getDisplayFieldGroup()->getId() != 16) {
+                $column->setName($this->getI18NHelper()->transBySource($displayField->getLabel()));
+            } else {
+                $column->setName($displayField->getLabel());
+            }
             $column->setSize($displayField->getWidth());
             if ($displayField->isValueList()) {
                 $column->addCellProperties(['type' => 'list']);

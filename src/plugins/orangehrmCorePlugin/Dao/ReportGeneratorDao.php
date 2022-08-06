@@ -30,12 +30,15 @@ use OrangeHRM\Entity\SelectedDisplayField;
 use OrangeHRM\Entity\SelectedDisplayFieldGroup;
 use OrangeHRM\Entity\SelectedFilterField;
 use OrangeHRM\Entity\SummaryDisplayField;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 
 class ReportGeneratorDao extends BaseDao
 {
+    use I18NHelperTrait;
+
     /**
      * @param int $reportId
      * @return DisplayField[]
@@ -434,7 +437,7 @@ class ReportGeneratorDao extends BaseDao
     }
 
     /**
-     * @return array
+     * @return DisplayFieldGroup[]
      */
     public function getDisplayFieldGroups(): array
     {
@@ -446,11 +449,11 @@ class ReportGeneratorDao extends BaseDao
     /**
      * @return array
      */
-    public function getAllDisplayFieldGroupIds(): array
+    private function getAllDisplayFieldGroupIds(): array
     {
         $q = $this->createQueryBuilder(DisplayFieldGroup::class, 'displayFieldGroup');
         $q->select('displayFieldGroup.id');
-        return $q->getQuery()->execute();
+        return array_column($q->getQuery()->execute(), 'id');
     }
 
     /**
@@ -458,29 +461,39 @@ class ReportGeneratorDao extends BaseDao
      */
     public function getDisplayFields(): array
     {
-        $displayGroupIds = array_column($this->getAllDisplayFieldGroupIds(), 'id');
-
+        $displayGroupIds = $this->getAllDisplayFieldGroupIds();
+        $displayFields = $this->getAllDisplayFields();
         $displayFieldArray = [];
+
         foreach ($displayGroupIds as $displayGroupId) {
-            $displayFieldsForGroupId = $this->getDisplayFieldsForDisplayFieldGroupId($displayGroupId);
-            $displayFieldsForGroup['field_group_id'] = $displayGroupId;
-            $displayFieldsForGroup['fields'] = $displayFieldsForGroupId;
-            $displayFieldArray[] = $displayFieldsForGroup;
+            $displayFieldsForGroup = [];
+            foreach ($displayFields as $displayField) {
+                if ($displayField->getDisplayFieldGroup()->getId() == $displayGroupId) {
+                    $displayFieldItem =[];
+                    $displayFieldItem['id'] = $displayField->getId();
+                    if ($displayGroupId != 16) {
+                        $displayFieldItem['label'] = $this->getI18NHelper()->transBySource($displayField->getLabel());
+                    } else {
+                        $displayFieldItem['label'] = $displayField->getLabel();
+                    }
+                    $displayFieldsForGroup[] = $displayFieldItem;
+                }
+            }
+            $displayFieldGroup['field_group_id'] = $displayGroupId;
+            $displayFieldGroup['fields'] = $displayFieldsForGroup;
+            $displayFieldArray[] = $displayFieldGroup;
         }
         return $displayFieldArray;
     }
 
     /**
-     * @param int $displayFieldGroupId
-     * @return array
+     * @return DisplayField[]
      */
-    public function getDisplayFieldsForDisplayFieldGroupId(int $displayFieldGroupId): array
+    private function getAllDisplayFields(): array
     {
         $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
-        $q->select('displayField.id,displayField.label')
-            ->leftJoin('displayField.displayFieldGroup', 'displayFieldGroup')
-            ->andWhere('displayFieldGroup.id = :groupId')
-            ->setParameter('groupId', $displayFieldGroupId);
+        $q->andWhere($q->expr()->isNotNull('displayFieldGroup.id'))
+                ->leftJoin('displayField.displayFieldGroup', 'displayFieldGroup');
         return $q->getQuery()->execute();
     }
 }
