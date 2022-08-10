@@ -42,30 +42,18 @@ class SaveEmployeeReportController extends AbstractVueController
             $component = new Component("employee-report-save");
         }
 
-        $selectionCriteria = [
-            ["id" => 8, "key" => "employee_name", "label" => "Employee Name"],
-            ["id" => 9, "key" => "pay_grade", "label" => "Pay Grade"],
-            ["id" => 10, "key" => "education", "label" => "Education"],
-            ["id" => 11, "key" => "employment_status", "label" => "Employment Status"],
-            ["id" => 12, "key" => "service_period", "label" => "Service Period"],
-            ["id" => 13, "key" => "joined_date", "label" => "Joined Date"],
-            ["id" => 14, "key" => "job_title", "label" => "Job Title"],
-            ["id" => 15, "key" => "language", "label" => "Language"],
-            ["id" => 16, "key" => "skill", "label" => "Skill"],
-            ["id" => 17, "key" => "age_group", "label" => "Age Group"],
-            ["id" => 18, "key" => "sub_unit", "label" => "Sub Unit"],
-            ["id" => 19, "key" => "gender", "label" => "Gender"],
-            ["id" => 20, "key" => "location", "label" => "Location"],
-        ];
+        $selectionCriteria = $this->getReportGeneratorService()->getReportGeneratorDao()
+            ->getAllFilterFields();
         $component->addProp(
             new Prop(
                 'selection-criteria',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn (array $criteria) => [
-                        'id' => $criteria['id'],
-                        'key' => $criteria['key'],
-                        'label' => $this->getI18NHelper()->transBySource($criteria['label'])
+                    fn ($criteria) => [
+                        'id' => $criteria->getId(),
+                        'key' => $criteria->getName(),
+                        'label' => $this->getI18NHelper()
+                            ->transBySource(ucwords(str_replace('_', ' ', $criteria->getName())))
                     ],
                     $selectionCriteria
                 )
@@ -73,24 +61,23 @@ class SaveEmployeeReportController extends AbstractVueController
         );
 
         $displayFieldGroups = $this->getReportGeneratorService()
-            ->getReportGeneratorDao()->getDisplayFieldGroups();
+            ->getReportGeneratorDao()->getAllDisplayFieldGroups();
 
         $component->addProp(
             new Prop(
                 'display-field-groups',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn (array $displayFieldGroup) => [
-                        'id' => $displayFieldGroup['id'],
-                        'label' => $this->getI18NHelper()->transBySource($displayFieldGroup['name'])
+                    fn ($displayFieldGroup) => [
+                        'id' => $displayFieldGroup->getId(),
+                        'label' => $this->getI18NHelper()->transBySource($displayFieldGroup->getName())
                     ],
                     $displayFieldGroups
                 )
             )
         );
 
-        $displayFields = $this->getReportGeneratorService()->getReportGeneratorDao()
-            ->getDisplayFields();
+        $displayFields = $this->getReportGeneratorService()->getDisplayFields();
 
         $component->addProp(
             new Prop(

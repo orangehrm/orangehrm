@@ -44,13 +44,13 @@ class ReportGeneratorDaoTest extends KernelTestCase
 
     public function testGetDisplayFieldGroups(): void
     {
-        $displayFieldGroups = $this->reportGeneratorDao->getDisplayFieldGroups();
+        $displayFieldGroups = $this->reportGeneratorDao->getAllDisplayFieldGroups();
         $this->assertCount(16, $displayFieldGroups);
     }
 
-    public function testGetDisplayFields(): void
+    public function testGetAllDisplayFields(): void
     {
-        $displayFields = $this->reportGeneratorDao->getDisplayFields();
+        $displayFields = $this->reportGeneratorDao->getAllDisplayFields();
         $this->assertCount(16, $displayFields);
         $this->assertIsArray($displayFields);
         $this->assertEquals(1, $displayFields[0]['field_group_id']);
@@ -59,5 +59,14 @@ class ReportGeneratorDaoTest extends KernelTestCase
         $this->assertEquals(2, $displayFields[1]['field_group_id']);
         $this->assertEquals(20, $displayFields[1]['fields'][0]['id']);
         $this->assertEquals('Address', $displayFields[1]['fields'][0]['label']);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetAllFilterFields(): void
+    {
+        $filterFields = $this->reportGeneratorDao->getAllFilterFields();
+        $this->assertCount(13, $filterFields);
     }
 }

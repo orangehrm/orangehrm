@@ -122,7 +122,7 @@ class ReportGeneratorService
 
         foreach ($displayFields as $displayField) {
             $column = new Column($displayField->getFieldAlias());
-            if ($displayField->getDisplayFieldGroup()->getId() != 16) {
+            if ($displayField->getDisplayFieldGroup()->getName() != 'Custom Fields') {
                 $column->setName($this->getI18NHelper()->transBySource($displayField->getLabel()));
             } else {
                 $column->setName($displayField->getLabel());
@@ -506,5 +506,38 @@ class ReportGeneratorService
                 }
             }
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getDisplayFields(): array
+    {
+        $displayFieldGroups = $this->getReportGeneratorDao()->getAllDisplayFieldGroups();
+        $displayFields = $this->getReportGeneratorDao()->getAllDisplayFields();
+        $displayFieldArray = [];
+
+        foreach ($displayFieldGroups as $displayFieldGroup) {
+            $displayFieldsForGroup = [];
+            foreach ($displayFields as $displayField) {
+                if ($displayField->getDisplayFieldGroup()->getName() == $displayFieldGroup->getName()) {
+                    $displayFieldItem = [];
+                    $displayFieldItem['id'] = $displayField->getId();
+                    if ($displayFieldGroup->getName() != 'Custom Fields') {
+                        $displayFieldItem['label'] = $this->getI18NHelper()->transBySource($displayField->getLabel());
+                    } else {
+                        $displayFieldItem['label'] = $displayField->getLabel();
+                    }
+                    $displayFieldsForGroup[] = $displayFieldItem;
+                }
+            }
+
+            $displayFieldGroupWithDisplayFields['field_group_id'] = $displayFieldGroup->getId();
+
+            $displayFieldGroupWithDisplayFields['fields'] = $displayFieldsForGroup;
+            $displayFieldArray[] = $displayFieldGroupWithDisplayFields;
+        }
+
+        return $displayFieldArray;
     }
 }
