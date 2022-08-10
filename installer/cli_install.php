@@ -64,6 +64,7 @@ $dbUser = $cliConfig['database']['privilegedDatabaseUser'];
 $dbPassword = $cliConfig['database']['privilegedDatabasePassword'];
 $dbName = $cliConfig['database']['databaseName'];
 $useSameDbUserForOrangeHRM = $cliConfig['database']['useSameDbUserForOrangeHRM'] == 'y';
+$enableDataEncryption = $cliConfig['database']['enableDataEncryption'] == 'y';
 
 $organizationName = $cliConfig['organization']['name'];
 $countryCode = $cliConfig['organization']['country'];
@@ -127,5 +128,8 @@ echo "Create OrangeHRM database user\n";
 $appSetupUtility->createDBUser();
 echo "Creating configuration files\n";
 $appSetupUtility->writeConfFile();
+if ($enableDataEncryption) {
+    $appSetupUtility->writeKeyFile();
+}
 
 echo "Done\n";

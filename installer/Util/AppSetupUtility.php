@@ -469,6 +469,19 @@ class AppSetupUtility
         clearstatcache(true);
     }
 
+    public function writeKeyFile(): void
+    {
+        $cryptKey = '';
+        for ($i = 0; $i < 4; $i++) {
+            $cryptKey .= md5(rand(10000000, 99999999));
+        }
+        $cryptKey = str_shuffle($cryptKey);
+
+        $fs = new Filesystem();
+        $fs->dumpFile(__DIR__ . '/../../lib/confs/cryptokeys/key.ohrm', $cryptKey);
+        clearstatcache(true);
+    }
+
     /**
      * @param string $fromVersion
      * @param string|null $toVersion null for latest version
