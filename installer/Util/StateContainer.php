@@ -36,6 +36,7 @@ class StateContainer
     public const ORANGEHRM_DB_PASSWORD = 'ohrmDbPassword';
     public const IS_SET_DB_INFO = 'isSetDbInfo';
     public const INSTALLATION_DB_TYPE = 'dbType';
+    public const ENABLE_DATA_ENCRYPTION = 'enableDataEncryption';
 
     public const CURRENT_VERSION = 'currentVersion';
 
@@ -142,7 +143,8 @@ class StateContainer
         string $dbPort,
         UserCredential $dbUserCredential,
         string $dbName,
-        ?UserCredential $ohrmDbUserCredential = null
+        ?UserCredential $ohrmDbUserCredential = null,
+        bool $enableDataEncryption = false
     ): void {
         $this->clearDbInfo();
         $this->getSession()->set(self::DB_NAME, $dbName);
@@ -150,6 +152,7 @@ class StateContainer
         $this->getSession()->set(self::DB_PASSWORD, $dbUserCredential->getPassword() ?? '');
         $this->getSession()->set(self::DB_HOST, $dbHost);
         $this->getSession()->set(self::DB_PORT, $dbPort);
+        $this->getSession()->set(self::ENABLE_DATA_ENCRYPTION, $enableDataEncryption);
         if ($ohrmDbUserCredential instanceof UserCredential) {
             $this->getSession()->set(self::ORANGEHRM_DB_USER, $ohrmDbUserCredential->getUsername());
             $this->getSession()->set(self::ORANGEHRM_DB_PASSWORD, $ohrmDbUserCredential->getPassword() ?? '');
@@ -168,6 +171,7 @@ class StateContainer
             self::DB_PASSWORD => $this->getSession()->get(self::DB_PASSWORD),
             self::DB_HOST => $this->getSession()->get(self::DB_HOST),
             self::DB_PORT => $this->getSession()->get(self::DB_PORT),
+            self::ENABLE_DATA_ENCRYPTION => $this->getSession()->get(self::ENABLE_DATA_ENCRYPTION),
         ];
         if ($this->getSession()->has(self::ORANGEHRM_DB_USER)) {
             $dbInfo[self::ORANGEHRM_DB_USER] = $this->getSession()->get(self::ORANGEHRM_DB_USER);
@@ -188,6 +192,7 @@ class StateContainer
         $this->getSession()->remove(self::DB_PORT);
         $this->getSession()->remove(self::ORANGEHRM_DB_USER);
         $this->getSession()->remove(self::ORANGEHRM_DB_PASSWORD);
+        $this->getSession()->remove(self::ENABLE_DATA_ENCRYPTION);
         $this->getSession()->set(self::IS_SET_DB_INFO, false);
     }
 
