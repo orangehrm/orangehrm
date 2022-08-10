@@ -139,6 +139,7 @@
 import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import useToast from '@/core/util/composable/useToast';
+import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import EditTranslationTable from '@/orangehrmAdminPlugin/components/EditTranslationTable.vue';
@@ -247,9 +248,9 @@ export default {
           },
         })
         .then(() => {
-          isLoading.value = false;
           return saveSuccess();
-        });
+        })
+        .then(() => reloadPage());
     };
 
     return {

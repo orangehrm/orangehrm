@@ -92,9 +92,7 @@ function createI18n(options: LanguageOptions) {
             method: 'GET',
             headers: {
               Accept: 'application/json',
-              'Content-Type': 'application/json',
-              'Cache-Control':
-                'public, only-if-cached, stale-while-revalidate, max-age=60',
+              contentType: 'application/json',
             },
           })
           .then((response: AxiosResponse<LanguageResponse>) => {
