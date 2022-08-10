@@ -16,8 +16,4 @@
  * Boston, MA  02110-1301, USA
  */
 
-// Import commands.js using ES2015 syntax:
 import './commands';
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
