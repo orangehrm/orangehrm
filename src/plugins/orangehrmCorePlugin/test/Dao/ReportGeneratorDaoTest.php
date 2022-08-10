@@ -51,14 +51,7 @@ class ReportGeneratorDaoTest extends KernelTestCase
     public function testGetAllDisplayFields(): void
     {
         $displayFields = $this->reportGeneratorDao->getAllDisplayFields();
-        $this->assertCount(16, $displayFields);
-        $this->assertIsArray($displayFields);
-        $this->assertEquals(1, $displayFields[0]['field_group_id']);
-        $this->assertEquals(9, $displayFields[0]['fields'][0]['id']);
-        $this->assertEquals('Employee Id', $displayFields[0]['fields'][0]['label']);
-        $this->assertEquals(2, $displayFields[1]['field_group_id']);
-        $this->assertEquals(20, $displayFields[1]['fields'][0]['id']);
-        $this->assertEquals('Address', $displayFields[1]['fields'][0]['label']);
+        $this->assertCount(105, $displayFields);
     }
 
     /**
