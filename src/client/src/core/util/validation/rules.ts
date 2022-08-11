@@ -614,3 +614,25 @@ export const lessThanOrEqual = function(maxValue: number, message?: string) {
     return parseFloat(value) <= maxValue || resolvedMessage;
   };
 };
+
+export const validLangString = function(value: string) {
+  if (value === null || value === '') {
+    return true;
+  }
+  return value.split('').reduce((accumulator, currentValue) => {
+    if (currentValue === '{') accumulator++;
+    if (currentValue === '}') accumulator--;
+    return accumulator;
+  }, 0) !== 0
+    ? translate('general.invalid')
+    : true;
+};
+
+/**
+ * Validate autocomplete selection
+ * @param {string|object|null} value
+ * @returns {boolean|string}
+ */
+export const validSelection = function(value: string | object | null) {
+  return typeof value === 'string' ? translate('general.invalid') : true;
+};

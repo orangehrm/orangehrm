@@ -28,7 +28,7 @@ class EmployeeQualificationsController extends BaseViewEmployeeController
 {
     public function preRender(Request $request): void
     {
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->attributes->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-qualifications');
             $fluencies = array_map(

@@ -31,10 +31,10 @@
         <project-autocomplete
           v-model="project"
           :rules="rules.project"
-          :label="$t('time.project_name')"
-          required
           :only-allowed="false"
+          :label="$t('time.project_name')"
           :exclude-project-ids="[projectId]"
+          required
         />
       </oxd-form-row>
       <template v-if="activities && activities.length > 0">
@@ -70,7 +70,7 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
-import {required} from '@ohrm/core/util/validation/rules';
+import {required, validSelection} from '@ohrm/core/util/validation/rules';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 
 export default {
@@ -101,6 +101,7 @@ export default {
       rules: {
         project: [
           required,
+          validSelection,
           () => {
             if (this.activities !== null && this.activities.length === 0) {
               return this.$t('time.no_assigned_activities');

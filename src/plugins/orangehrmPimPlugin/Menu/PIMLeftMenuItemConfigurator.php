@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -14,41 +14,32 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
- *
+ * Boston, MA 02110-1301, USA
  */
 
-$rootPath = dirname(__FILE__) . "/../../";
-$confPath = $rootPath . "lib/confs/Conf.php";
+namespace OrangeHRM\Pim\Menu;
 
-require_once $confPath;
+use OrangeHRM\Core\Menu\MenuConfigurator;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ControllerTrait;
+use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
+use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Screen;
 
-$c = new Conf();
+class PIMLeftMenuItemConfigurator implements MenuConfigurator
+{
+    use MenuServiceTrait;
+    use ControllerTrait;
+    use AuthUserTrait;
 
-try {
-    $dsn = "mysql:dbname={$c->dbname};host={$c->dbhost};port={$c->dbport}";
-    $pdo = new PDO($dsn, $c->dbuser, $c->dbpass);
-    
-    $result = $pdo->query('SHOW TABLES');
-    
-    $tables = $result->fetchAll(PDO::FETCH_COLUMN, 0);
-
-    if (count($tables) > 0) {
-        $pdo->exec("SET foreign_key_checks = 0");
-
-        echo "Dropping tables:\n";
-        foreach ($tables as $table) {
-
-            echo "{$table}\n";
-            $pdo->exec("DROP TABLE " . $table);
+    /**
+     * @inheritDoc
+     */
+    public function configure(Screen $screen): ?MenuItem
+    {
+        if ($this->getAuthUser()->getEmpNumber() == $this->getCurrentRequest()->attributes->get('empNumber')) {
+            return $this->getMenuService()->getMenuDao()->getMenuItemByTitle('My Info', 1);
         }
-        $pdo->exec("SET foreign_key_checks = 1");
-    
-    } else {
-        echo "No tables found in DB " . $c->dbname . "\n";
+        return null;
     }
-
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage() . "\n";
 }
-

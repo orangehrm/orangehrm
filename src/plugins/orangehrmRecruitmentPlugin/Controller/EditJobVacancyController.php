@@ -31,7 +31,7 @@ class EditJobVacancyController extends AbstractVueController
 
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
+        $id = $request->attributes->get('id');
         $component = new Component('edit-job-vacancy');
         $component->addProp(new Prop('vacancy-id', Prop::TYPE_STRING, $id));
         $component->addProp(new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes()));

@@ -27,6 +27,7 @@
             <oxd-grid-item>
               <report-autocomplete
                 v-model="filters.report"
+                :rules="rules.report"
               ></report-autocomplete>
             </oxd-grid-item>
           </oxd-grid>
@@ -94,6 +95,7 @@
 
 <script>
 import {computed, ref} from 'vue';
+import {validSelection} from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {navigate} from '@ohrm/core/util/helper/navigation';
@@ -201,6 +203,9 @@ export default {
         },
       ],
       checkedItems: [],
+      rules: {
+        report: [validSelection],
+      },
     };
   },
 

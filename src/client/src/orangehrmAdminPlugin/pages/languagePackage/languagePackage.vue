@@ -155,6 +155,7 @@ export default {
           cellConfig: {
             translate: {
               component: 'oxd-button',
+              onClick: this.onClickTranslate,
               props: {
                 label: this.$t('admin.translate'),
                 style: 'Text',
@@ -187,6 +188,9 @@ export default {
     },
     async reloadLanguages() {
       await this.execQuery();
+    },
+    onClickTranslate(item) {
+      navigate('/admin/languageCustomization/{id}', {id: item.id});
     },
   },
 };

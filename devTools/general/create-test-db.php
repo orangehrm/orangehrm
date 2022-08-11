@@ -17,6 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
+$errorMessage = "
+Use new command.\n
+$ cd %s
+$ php ./devTools/core/console.php i:create-test-db
+\n";
+die(sprintf($errorMessage, realpath(__DIR__ . '/../../')));
+
 $rootPath = dirname(__FILE__) . "/../../";
 $confPath = $rootPath . "lib/confs/Conf.php";
 $pathToAutoload = realpath(__DIR__ . '/../../src/vendor/autoload.php');
@@ -36,10 +43,10 @@ $tempFile = tempnam(sys_get_temp_dir(), 'ohrmtestdb');
 
 
 if ($argc > 1) {
-	$mysqlRootPwd = $argv[1];
+    $mysqlRootPwd = $argv[1];
 } else {
-	$mysqlRootPwd = "";
-	echo "Please enter mysql root password when prompted.\n";
+    $mysqlRootPwd = "";
+    echo "Please enter mysql root password when prompted.\n";
 }
 
 

@@ -80,6 +80,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import {APIService} from '@/core/util/services/api.service';
 import {
   required,
+  validSelection,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 
@@ -111,6 +112,7 @@ export default {
         tracker: [required, shouldNotExceedCharLength(200)],
         employee: [
           required,
+          validSelection,
           value => {
             if (value === null) {
               return true;
@@ -126,7 +128,7 @@ export default {
             );
           },
         ],
-        reviewers: [required],
+        reviewers: [required, validSelection],
       },
     };
   },

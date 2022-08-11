@@ -30,8 +30,8 @@ class InterviewAttachment extends AbstractFileController
 
     public function handle(Request $request): Response
     {
-        $interviewId = $request->get('interviewId');
-        $attachmentId = $request->get('attachmentId');
+        $interviewId = $request->attributes->get('interviewId');
+        $attachmentId = $request->attributes->get('attachmentId');
         $response = $this->getResponse();
 
         if ($interviewId && $attachmentId) {

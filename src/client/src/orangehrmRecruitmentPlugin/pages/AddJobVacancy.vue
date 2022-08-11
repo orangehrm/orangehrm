@@ -132,6 +132,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {
   required,
   numericOnly,
+  validSelection,
   shouldNotExceedCharLength,
   numberShouldBeBetweenMinAndMaxValue,
 } from '@ohrm/core/util/validation/rules';
@@ -176,7 +177,7 @@ export default {
       rules: {
         jobTitle: [required],
         name: [required, shouldNotExceedCharLength(50)],
-        hiringManager: [required],
+        hiringManager: [required, validSelection],
         numOfPositions: [
           value => {
             if (value === null || value === '') return true;

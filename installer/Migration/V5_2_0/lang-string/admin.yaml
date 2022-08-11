@@ -1,0 +1,73 @@
+langStrings:
+  -
+    value: 'Language Package'
+    unitId: language_package
+  -
+    value: 'Source Language'
+    unitId: source_language
+  -
+    value: 'Module'
+    unitId: module
+  -
+    value: 'Source Text'
+    unitId: source_text
+  -
+    value: 'Translated Text'
+    unitId: translated_text
+  -
+    value: 'Source Note'
+    unitId: source_note
+  -
+    value: 'Show'
+    unitId: show
+  -
+    value: 'All'
+    unitId: all
+  -
+    value: 'Translated'
+    unitId: translated
+  -
+    value: 'Not Translated'
+    unitId: not_translated
+  -
+    value: 'Translate Language Package'
+    unitId: translate_language_package
+  -
+    value: 'Directory Module'
+    unitId: directory_module
+  -
+    value: 'Language Package'
+    unitId: language_package
+  -
+    value: 'Source Language'
+    unitId: source_language
+  -
+    value: 'Module'
+    unitId: module
+  -
+    value: 'Source Text'
+    unitId: source_text
+  -
+    value: 'Translated Text'
+    unitId: translated_text
+  -
+    value: 'Source Note'
+    unitId: source_note
+  -
+    value: 'Show'
+    unitId: show
+  -
+    value: 'All'
+    unitId: all
+  -
+    value: 'Translated'
+    unitId: translated
+  -
+    value: 'Not Translated'
+    unitId: not_translated
+  -
+    value: 'Translate Language Package'
+    unitId: translate_language_package
+  -
+    value: 'Order'
+    unitId: order

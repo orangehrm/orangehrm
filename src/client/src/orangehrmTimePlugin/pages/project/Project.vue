@@ -25,18 +25,23 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <customer-autocomplete v-model="filters.customer" />
+              <customer-autocomplete
+                v-model="filters.customer"
+                :rules="rules.customer"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <project-autocomplete
                 v-model="filters.project"
                 :exclude-customer-name="true"
+                :rules="rules.project"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <project-admin-autocomplete
                 v-model="filters.projectAdmin"
                 :show-delete="false"
+                :rules="rules.projectAdmin"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -101,11 +106,12 @@
 
 <script>
 import {computed, ref} from 'vue';
+import {validSelection} from '@/core/util/validation/rules';
 import useSort from '@ohrm/core/util/composable/useSort';
-import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
@@ -210,6 +216,11 @@ export default {
   data() {
     return {
       checkedItems: [],
+      rules: {
+        project: [validSelection],
+        customer: [validSelection],
+        projectAdmin: [validSelection],
+      },
     };
   },
   computed: {

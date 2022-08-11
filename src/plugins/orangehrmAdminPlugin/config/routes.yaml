@@ -591,6 +591,10 @@ admin_register_oauth_client: # remove this
 
 admin_language_package:
   path: /admin/languagePackage
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
-  #controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle ## Uncomment this in 5.2 release
+  controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle
+  methods: [ GET ]
+
+admin_language_translation:
+  path: /admin/languageCustomization/{languageId}
+  controller: OrangeHRM\Admin\Controller\LanguageTranslationController::handle
   methods: [ GET ]

@@ -30,7 +30,7 @@ class VacancyAttachment extends AbstractFileController
 
     public function handle(Request $request): Response
     {
-        $attachId = $request->get('attachId');
+        $attachId = $request->attributes->get('attachId');
         $response = $this->getResponse();
 
         if ($attachId) {

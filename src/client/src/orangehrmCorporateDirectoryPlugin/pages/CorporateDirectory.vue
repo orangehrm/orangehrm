@@ -27,6 +27,7 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.employeeNumber"
+                :rules="rules.employee"
                 api-path="api/v2/directory/employees"
               />
             </oxd-grid-item>
@@ -137,6 +138,7 @@ import {reactive, toRefs} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
+import {validSelection} from '@/core/util/validation/rules';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
@@ -177,6 +179,10 @@ export default {
     const {$t} = usei18n();
     const {noRecordsFound} = useToast();
     const responsiveState = useResponsive();
+
+    const rules = {
+      employee: [validSelection],
+    };
 
     const employeeDataNormalizer = data => {
       return data.map(item => {
@@ -245,6 +251,7 @@ export default {
     });
 
     return {
+      rules,
       fetchData,
       scrollerRef,
       ...toRefs(state),

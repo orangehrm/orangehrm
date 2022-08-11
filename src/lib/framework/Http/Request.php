@@ -19,8 +19,35 @@
 
 namespace OrangeHRM\Framework\Http;
 
+use BadFunctionCallException;
+use OrangeHRM\Config\Config;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class Request extends HttpRequest
 {
+    /**
+     * @inheritDoc
+     * @deprecated
+     */
+    public function get(string $key, $default = null)
+    {
+        if (Config::PRODUCT_MODE == Config::MODE_DEV) {
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+            if (count($backtrace) > 0 && isset($backtrace[0]['file'])) {
+                $callerFile = $backtrace[0]['file'];
+                $callerFile = str_replace(Config::get(Config::BASE_DIR), '', $callerFile);
+                if (!in_array($callerFile, [
+                    '/src/vendor/symfony/http-foundation/Request.php',
+                    '/src/vendor/symfony/http-kernel/EventListener/ProfilerListener.php',
+                    '/src/vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php',
+                ])) {
+                    throw new BadFunctionCallException(
+                        'Internal method since Symfony 5.4, use explicit request parameters from the appropriate public property (attributes, query, request) instead. ' .
+                        'See more https://symfony.com/blog/new-in-symfony-5-4-controller-changes'
+                    );
+                }
+            }
+        }
+        return parent::get($key, $default);
+    }
 }

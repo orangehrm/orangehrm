@@ -69,6 +69,7 @@
 <script>
 import {
   required,
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@/core/util/validation/rules';
@@ -173,6 +174,7 @@ export default {
         ),
       ],
       statuses: [required],
+      employee: [validSelection],
     };
 
     const serializedFilters = computed(() => {
