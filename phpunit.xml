@@ -92,11 +92,13 @@
       <directory>src/plugins/orangehrmRecruitmentPlugin/test/Controller</directory>
     </testsuite>
     <testsuite name="Directory">
-      <directory>src/plugins/orangehrmCorporateDirectoryPlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmCorporateDirectoryPlugin/test/Api</directory>
+      <directory>src/plugins/orangehrmCorporateDirectoryPlugin/test</directory>
     </testsuite>
     <testsuite name="CorporateBranding">
       <directory>src/plugins/orangehrmCorporateBrandingPlugin/test</directory>
+    </testsuite>
+    <testsuite name="LDAP">
+      <directory>src/plugins/orangehrmLDAPAuthenticationPlugin/test</directory>
     </testsuite>
   </testsuites>
 </phpunit>

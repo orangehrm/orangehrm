@@ -17,38 +17,22 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\LDAP\Service;
+namespace OrangeHRM\Tests\LDAP\Dto;
 
-use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use Symfony\Component\Ldap\Ldap;
+use InvalidArgumentException;
+use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\Tests\Util\TestCase;
 
-class LDAPAuthService
+class LDAPSettingTest extends TestCase
 {
-    use ConfigServiceTrait;
-
-    private LDAP $ldap;
-
-    /**
-     * @return Ldap
-     */
-    public function getConnection(): Ldap
+    public function testFromString(): void
     {
-        $ldapSetting = $this->getConfigService()->getLDAPSetting();
-        return $this->ldap ??= Ldap::create('ext_ldap', [
-            'host' => $ldapSetting->getHost(),
-            'port' => $ldapSetting->getPort(),
-            'encryption' => $ldapSetting->getEncryption(),
-            'version' => $ldapSetting->getVersion(),
-            'optReferrals' => $ldapSetting->isOptReferrals(),
-        ]);
-    }
-
-    /**
-     * @param UserCredential $credential
-     */
-    public function bind(UserCredential $credential): void
-    {
-        $this->getConnection()->bind($credential->getUsername(), $credential->getPassword());
+        $setting = new LDAPSetting('example.com', 1389, 'OpenLDAP', 'tls', 'dc=example,dc=com');
+        $this->assertEquals(
+            '{"host":"example.com","port":1389,"encryption":"tls","implementation":"OpenLDAP","version":"3","optReferrals":false,"bindAnonymously":true,"bindUserDN":null,"bindUserPassword":null,"baseDN":"dc=example,dc=com","searchScope":"sub"}',
+            (string)$setting
+        );
+        $this->expectException(InvalidArgumentException::class);
+        new LDAPSetting('example.com', 1389, 'OpenLDAP', 'invalid', 'dc=example,dc=com');
     }
 }

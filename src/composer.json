@@ -102,7 +102,8 @@
             "OrangeHRM\\Tests\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin/test",
             "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test",
             "OrangeHRM\\Tests\\CorporateDirectory\\": "./plugins/orangehrmCorporateDirectoryPlugin/test",
-            "OrangeHRM\\Tests\\CorporateBranding\\": "./plugins/orangehrmCorporateBrandingPlugin/test"
+            "OrangeHRM\\Tests\\CorporateBranding\\": "./plugins/orangehrmCorporateBrandingPlugin/test",
+            "OrangeHRM\\Tests\\LDAP\\": "./plugins/orangehrmLDAPAuthenticationPlugin/test"
         }
     },
     "scripts": {
