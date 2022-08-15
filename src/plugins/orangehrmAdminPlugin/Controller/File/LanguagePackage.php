@@ -19,14 +19,18 @@
 
 namespace OrangeHRM\Admin\Controller\File;
 
+use Exception;
 use OrangeHRM\Admin\Service\LocalizationService;
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
 class LanguagePackage extends AbstractFileController
 {
+    use TextHelperTrait;
+
     /**
      * @var LocalizationService|null
      */
@@ -53,14 +57,28 @@ class LanguagePackage extends AbstractFileController
         $response = $this->getResponse();
 
         if ($languageId) {
-            $language = $this->getLocalizationService()->getLocalizationDao()->getLanguageById($languageId);
-            dump($language);
-            if(!($language instanceof I18NLanguage) || !$language->isEnabled()) {
-                $this->redirect('admin/languagePackage');
+            $language = $this->getLocalizationService()->getLocalizationDao()
+                ->getLanguageById($languageId);
+
+            if (!($language instanceof I18NLanguage)
+                || !$language->isEnabled()
+            ) {
+                throw new Exception('I18NLanguage Error');
             }
 
-            $zipFilePath = $this->getLocalizationService()->exportLanguagePackage($languageId);
+            $xliffContent = $this->getLocalizationService()
+                ->exportLanguagePackage($languageId, $language->getCode());
 
+            $fileName = sprintf('i18-%s.xml', $language->getCode());
+
+            $this->setCommonHeadersToResponse(
+                $fileName,
+                'application/xml',
+                $this->getTextHelper()->strLength($xliffContent, '8bit'),
+                $response
+            );
+            $response->setContent($xliffContent);
+            return $response;
         }
         return $this->handleBadRequest();
     }

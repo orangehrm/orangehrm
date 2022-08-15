@@ -114,6 +114,25 @@ class LocalizationDao extends BaseDao
 
     /**
      * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return array
+     */
+    public function getNormalizedTranslationsForExport(
+        I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+    ): array {
+        $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
+        $q->select(
+            'langString.id AS langStringId',
+            'langString.unitId AS unitId',
+            'langString.value AS source',
+            'langString.note AS note',
+            'langString.version AS version',
+            'translation.value AS target',
+        );
+        return array_values($q->getQuery()->execute());
+    }
+
+    /**
+     * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
      * @return QueryBuilderWrapper
      */
     private function getTranslationsQueryBuilderWrapper(

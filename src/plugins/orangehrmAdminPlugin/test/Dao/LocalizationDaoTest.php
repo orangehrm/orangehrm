@@ -25,6 +25,7 @@ use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\I18NLangString;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -127,6 +128,7 @@ class LocalizationDaoTest extends TestCase
 
         $this->assertTrue(is_array($this->i18NDao->getNormalizedTranslations($i18NTargetLangStringSearchFilterParams)));
         $this->assertCount(3, $translates);
+        $this->assertInstanceOf(I18NLangString::class, $translates);
     }
 
     public function testGetTranslationsCount(): void
