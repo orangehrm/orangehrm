@@ -108,6 +108,7 @@
 import {computed, ref} from 'vue';
 import {
   required,
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -175,7 +176,7 @@ export default {
 
     const rules = {
       project: [required],
-      activity: [required],
+      activity: [required, validSelection],
       fromDate: [
         validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(

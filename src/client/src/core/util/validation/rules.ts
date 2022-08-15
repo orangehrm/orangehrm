@@ -627,3 +627,12 @@ export const validLangString = function(value: string) {
     ? translate('general.invalid')
     : true;
 };
+
+/**
+ * Validate autocomplete selection
+ * @param {string|object|null} value
+ * @returns {boolean|string}
+ */
+export const validSelection = function(value: string | object | null) {
+  return typeof value === 'string' ? translate('general.invalid') : true;
+};

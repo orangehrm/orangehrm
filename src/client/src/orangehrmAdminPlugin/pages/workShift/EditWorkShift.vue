@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{
-        $t('admin.edit_work_shift')
-      }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('admin.edit_work_shift') }}
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -74,6 +74,7 @@
             <oxd-grid-item>
               <work-shift-employee-autocomplete
                 v-model="workShift.empNumbers"
+                :rules="rules.empNumbers"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -98,10 +99,11 @@
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {
-  endTimeShouldBeAfterStartTime,
   required,
-  shouldNotExceedCharLength,
+  validSelection,
   validTimeFormat,
+  shouldNotExceedCharLength,
+  endTimeShouldBeAfterStartTime,
 } from '@ohrm/core/util/validation/rules';
 import {diffInTime} from '@/core/util/helper/datefns';
 import WorkShiftEmployeeAutocomplete from '@/orangehrmAdminPlugin/components/WorkShiftEmployeeAutocomplete';
@@ -148,6 +150,7 @@ export default {
             'To time should be after from time',
           ),
         ],
+        empNumbers: [validSelection],
       },
     };
   },
