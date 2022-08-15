@@ -29,7 +29,6 @@ use OrangeHRM\Admin\Service\LocalizationService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
-use OrangeHRM\Entity\I18NGroup;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -159,5 +158,9 @@ class LocalizationServiceTest extends KernelTestCase
 
         $this->assertEquals('application/xml', $response->headers->get('content-type'));
         $this->assertEquals('2.0', $result['@attributes']['version']);
+        $this->assertCount(3, $result['file']['group']);
+        $this->assertEquals('Add Location', $result['file']['group'][0]['unit'][0]['segment']['source']);
+        $this->assertEquals('编辑订阅者', $result['file']['group'][0]['unit'][1]['segment']['target']);
+        $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
     }
 }

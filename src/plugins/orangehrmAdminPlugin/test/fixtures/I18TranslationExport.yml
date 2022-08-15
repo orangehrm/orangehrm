@@ -26,7 +26,7 @@ I18NLangString:
   - { "id": 2, "unit_id": 'use_smtp_authentication', "group_id ": 1, "value": 'Use SMTP Authentication', "note": null, "version": 5.0.0 }
   - { "id": 3, "unit_id": 'edit_subscriber', "group_id ": 2, "value": 'Edit Subscriber', "note": 'Note For Edit Subscriber', "version": 5.0.0 }
   - { "id": 4, "unit_id": 'add_location', "group_id ": 2, "value": 'Add Location', "note": null, "version": 5.0.0 }
-  - { "id": 5, "unit_id": 'symbols_value', "group_id ": 1, "value": '<([{\|/?!~#@$%^&*)-=_+;>}]', "note": null, "version": 5.0.0 }
+  - { "id": 5, "unit_id": 'symbols_value', "group_id ": 3, "value": '([{\|/?!~#@$%^&*)-=_+;><}]', "note": null, "version": 5.0.0 }
 
 I18NTranslation:
   - { "id": 1, "lang_string_id": 1, "language_id": 1, "value": '添加职位', "translated": 1, "customized": '0', "version": null, "modified_at": null }
@@ -41,6 +41,6 @@ I18NTranslation:
   - { "id": 10, "lang_string_id": 4, "language_id": 1, "value": '編輯訂閱者', "translated": 1, "customized": '0', "version": null, "modified_at": null }
   - { "id": 11, "lang_string_id": 4, "language_id": 2, "value": '使用 SMTP 验证', "translated": 1, "customized": '0', "version": null, "modified_at": null }
   - { "id": 12, "lang_string_id": 4, "language_id": 3, "value": 'ස්ථානය එක් කරන්න', "translated": 1, "customized": '0', "version": null, "modified_at": null }
-  - { "id": 13, "lang_string_id": 5, "language_id": 1, "value": '<([{\|/?!~#@$%^&*)-=_+;>}]', "translated": 1, "customized": '0', "version": null, "modified_at": null }
-  - { "id": 14, "lang_string_id": 5, "language_id": 2, "value": '<([{\|/?!~#@$%^&*)-=_+;>}]', "translated": 1, "customized": '0', "version": null, "modified_at": null }
-  - { "id": 15, "lang_string_id": 5, "language_id": 3, "value": 'V<([{\|/?!~#@$%^&*)-=_+;>}]', "translated": 1, "customized": '0', "version": null, "modified_at": null }
+  - { "id": 13, "lang_string_id": 5, "language_id": 1, "value": '([{\|/?!~#@$%^&*)-=_+;><}]', "translated": 1, "customized": '0', "version": null, "modified_at": null }
+  - { "id": 14, "lang_string_id": 5, "language_id": 2, "value": '([{\|/?!~#@$%^&*)-=_+;><}]', "translated": 1, "customized": '0', "version": null, "modified_at": null }
+  - { "id": 15, "lang_string_id": 5, "language_id": 3, "value": '([{\|/?!~#@$%^&*)-=_+;><}]', "translated": 1, "customized": '0', "version": null, "modified_at": null }

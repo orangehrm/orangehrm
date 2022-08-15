@@ -161,7 +161,6 @@ export default {
                 style: 'Text',
                 displayType: 'text',
               },
-              onClick: this.onClickTranslate,
             },
             export: {
               component: 'oxd-button',

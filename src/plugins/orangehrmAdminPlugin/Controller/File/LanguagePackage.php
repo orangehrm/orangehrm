@@ -41,7 +41,7 @@ class LanguagePackage extends AbstractFileController
      */
     public function getLocalizationService(): LocalizationService
     {
-        if(!$this->localizationService instanceof LocalizationService) {
+        if (!$this->localizationService instanceof LocalizationService) {
             $this->localizationService = new LocalizationService();
         }
         return $this->localizationService;

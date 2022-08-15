@@ -223,7 +223,7 @@ class LocalizationService
      * @return DOMDocument
      * @throws \DOMException
      */
-    public function getXliffXmlSources($i18nGroups ,$langCode, $languageId): DOMDocument
+    public function getXliffXmlSources($i18nGroups, $langCode, $languageId): DOMDocument
     {
         $xml = new DOMDocument('1.0', 'UTF-8');
         $xml->formatOutput = true;
@@ -253,8 +253,7 @@ class LocalizationService
                 $group->setAttribute('name', $i18nGroup->getName());
 
 
-                foreach ($translations as $translation)
-                {
+                foreach ($translations as $translation) {
                     $unit = $xml->createElement('unit');
                     $group->appendChild($unit);
                     $unit->setAttribute('id', $translation['unitId']);
