@@ -210,7 +210,6 @@ class LocalizationService
     {
         $i18NGroupSearchFilterParams = new I18NGroupSearchFilterParams();
         $i18nGroups = $this->getLocalizationDao()->searchGroups($i18NGroupSearchFilterParams);
-
         $i18nSources = $this->getXliffXmlSources($i18nGroups, $langCode, $languageId);
 
         return $i18nSources->saveXML();
@@ -264,8 +263,8 @@ class LocalizationService
                     $source = $xml->createElement('source');
                     $target = $xml->createElement('target');
 
-                    $source->appendChild(new \DOMText(htmlentities($translation['source'])));
-                    $target->appendChild(new \DOMText(htmlentities($translation['target'])));
+                    $source->appendChild(new \DOMText(htmlspecialchars($translation['source'], ENT_XML1, 'utf-8')));
+                    $target->appendChild(new \DOMText(htmlspecialchars($translation['target'], ENT_XML1, 'utf-8')));
 
                     $segment->appendChild($source);
                     $segment->appendChild($target);
