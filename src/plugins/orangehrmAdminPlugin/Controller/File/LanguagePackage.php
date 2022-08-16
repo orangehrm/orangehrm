@@ -19,8 +19,7 @@
 
 namespace OrangeHRM\Admin\Controller\File;
 
-use Exception;
-use OrangeHRM\Admin\Service\LocalizationService;
+use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Entity\I18NLanguage;
@@ -30,22 +29,7 @@ use OrangeHRM\Framework\Http\Response;
 class LanguagePackage extends AbstractFileController
 {
     use TextHelperTrait;
-
-    /**
-     * @var LocalizationService|null
-     */
-    protected ?LocalizationService $localizationService = null;
-
-    /**
-     * @return LocalizationService
-     */
-    public function getLocalizationService(): LocalizationService
-    {
-        if (!$this->localizationService instanceof LocalizationService) {
-            $this->localizationService = new LocalizationService();
-        }
-        return $this->localizationService;
-    }
+    use LocalizationServiceTrait;
 
     /**
      * @param Request $request
@@ -53,23 +37,24 @@ class LanguagePackage extends AbstractFileController
      */
     public function handle(Request $request): Response
     {
-        $languageId = $request->attributes->get('languageId');
         $response = $this->getResponse();
 
-        if ($languageId) {
+        if ($request->attributes->get('languageId')) {
+            $languageId = $request->attributes->getInt('languageId');
             $language = $this->getLocalizationService()->getLocalizationDao()
                 ->getLanguageById($languageId);
 
             if (!($language instanceof I18NLanguage)
-                || !$language->isEnabled()
+                || !($language->isAdded()
+                    && $language->isEnabled())
             ) {
-                throw new Exception('I18NLanguage Error');
+                return $this->handleBadRequest($response);
             }
 
             $xliffContent = $this->getLocalizationService()
-                ->exportLanguagePackage($languageId, $language->getCode());
+                ->exportLanguagePackage($language);
 
-            $fileName = sprintf('i18-%s.xml', $language->getCode());
+            $fileName = sprintf('i18n-%s.xml', $language->getCode());
 
             $this->setCommonHeadersToResponse(
                 $fileName,

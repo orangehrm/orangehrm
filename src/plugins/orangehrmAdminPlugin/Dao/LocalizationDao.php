@@ -127,7 +127,7 @@ class LocalizationDao extends BaseDao
             'langString.version AS version',
             'translation.value AS target',
         );
-        return array_values($q->getQuery()->execute());
+        return $q->getQuery()->execute();
     }
 
     /**

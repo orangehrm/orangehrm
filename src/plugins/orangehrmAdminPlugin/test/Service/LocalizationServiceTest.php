@@ -51,7 +51,7 @@ class LocalizationServiceTest extends KernelTestCase
         $this->localizationService = new LocalizationService();
 
         $fixture = Config::get(Config::PLUGINS_DIR)
-            . '/orangehrmAdminPlugin/test/fixtures/I18TranslationExport.yml';
+            . '/orangehrmAdminPlugin/test/fixtures/I18NTranslationExport.yml';
         TestDataService::populate($fixture);
     }
 
@@ -145,6 +145,9 @@ class LocalizationServiceTest extends KernelTestCase
 
     public function testGetXliffXmlSources(): void
     {
+        $this->createKernelWithMockServices([
+            Services::LOCALIZATION_SERVICE => new LocalizationService(),
+        ]);
         $controller = new LanguagePackage();
         $request = $this->getHttpRequest([], [], ['languageId' => '1']);
         $response =  $controller->handle($request);
@@ -159,7 +162,7 @@ class LocalizationServiceTest extends KernelTestCase
         $this->assertEquals('Add Location', $result['file']['group'][0]['unit'][0]['segment']['source']);
         $this->assertEquals('编辑订阅者', $result['file']['group'][0]['unit'][1]['segment']['target']);
         $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
-        $this->assertEquals('([{\|/?!~#@$%^&amp;*)-=_+;&gt;&lt;}]', $result['file']['group'][2]['unit']['segment']['target']);
+        $this->assertEquals('([{\|/?!~#@$%^&amp;*)-=_+;&quot;&gt;&lt;}]', $result['file']['group'][2]['unit']['segment']['target']);
 
         $request = $this->getHttpRequest([], [], ['languageId' => '3']);
         $response =  $controller->handle($request);
@@ -171,6 +174,19 @@ class LocalizationServiceTest extends KernelTestCase
         $this->assertCount(3, $result['file']['group']);
         $this->assertEquals('Use SMTP Authentication', $result['file']['group'][1]['unit'][1]['segment']['source']);
         $this->assertEquals('ස්ථානය එක් කරන්න', $result['file']['group'][0]['unit'][0]['segment']['target']);
+        $this->assertEquals('වාක්‍යාංශ  ප්‍රතික්ෂේප කරති  සැණින් ඇකිළුනේය නාම විශේෂණ', $result['file']['group'][0]['unit'][1]['segment']['target']);
         $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
+
+        $request = $this->getHttpRequest([], [], ['languageId' => '22']);
+        $response =  $controller->handle($request);
+
+        $xml =  simplexml_load_string($response->getContent());
+        $json = json_encode($xml);
+        $result = json_decode($json, true);
+
+        $this->assertCount(3, $result['file']['group']);
+        $this->assertEquals('Add Location', $result['file']['group'][0]['unit'][0]['segment']['source']);
+        $this->assertEquals('يقبل jpg و .png و .gif و .svg حتى {fileSize}. الأبعاد الموصى بها: {width} px X {height} px', $result['file']['group'][1]['unit'][0]['segment']['target']);
+        $this->assertCount(2, $result['file']['group'][1]['unit'][1]);
     }
 }

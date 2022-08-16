@@ -71,6 +71,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
 import AddLanguageModal from '@/orangehrmAdminPlugin/components/AddLanguageModal.vue';
+import {urlFor} from '@/core/util/helper/url';
 
 const defaultFilters = {
   languageName: '',
@@ -194,7 +195,9 @@ export default {
       navigate('/admin/languageCustomization/{id}', {id: item.id});
     },
     onClickExport(item) {
-      const url = `${window.appGlobal.baseUrl}/admin/viewLanguagePackage/languageId/${item.id}`;
+      const url = urlFor('/admin/viewLanguagePackage/languageId/{languageId}', {
+        languageId: item.id,
+      });
       window.open(url, '_blank');
     },
   },

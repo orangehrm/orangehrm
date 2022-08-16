@@ -31,6 +31,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\I18NGroup;
+use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Entity\I18NTranslation;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Service\I18NService;
@@ -201,28 +202,25 @@ class LocalizationService
     }
 
     /**
-     * @param string $languageId
-     * @param string $langCode
-     * @return false|string
-     * @throws \DOMException
+     * @param I18NLanguage $language
+     * @return String
      */
-    public function exportLanguagePackage(string $languageId, string $langCode)
+    public function exportLanguagePackage(I18NLanguage $language): String
     {
         $i18NGroupSearchFilterParams = new I18NGroupSearchFilterParams();
         $i18nGroups = $this->getLocalizationDao()->searchGroups($i18NGroupSearchFilterParams);
-        $i18nSources = $this->getXliffXmlSources($i18nGroups, $langCode, $languageId);
+        $i18nSources = $this->getXliffXmlSources($i18nGroups, $language);
 
         return $i18nSources->saveXML();
     }
 
     /**
-     * @param $i18nGroups
-     * @param $langCode
-     * @param $languageId
+     * @param array $i18nGroups
+     * @param I18NLanguage $language
      * @return DOMDocument
      * @throws \DOMException
      */
-    public function getXliffXmlSources($i18nGroups, $langCode, $languageId): DOMDocument
+    private function getXliffXmlSources(array $i18nGroups, I18NLanguage $language): DOMDocument
     {
         $xml = new DOMDocument('1.0', 'UTF-8');
         $xml->formatOutput = true;
@@ -231,7 +229,7 @@ class LocalizationService
         $xml->appendChild($root);
         $root->setAttribute('version', '2.0');
         $root->setAttribute('srcLang', 'en_US');
-        $root->setAttribute('trgLang', $langCode);
+        $root->setAttribute('trgLang', $language->getCode());
         $root->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:2.0');
         $root->setAttribute('date', @date('Y-m-d\TH:i:s\Z'));
 
@@ -242,7 +240,7 @@ class LocalizationService
             if ($i18nGroup instanceof I18NGroup) {
                 $i18NTargetLangStringSearchFilterParams
                     = new I18NTranslationSearchFilterParams();
-                $i18NTargetLangStringSearchFilterParams->setLanguageId($languageId);
+                $i18NTargetLangStringSearchFilterParams->setLanguageId($language->getId());
                 $i18NTargetLangStringSearchFilterParams->setLimit(0);
                 $i18NTargetLangStringSearchFilterParams->setGroupId($i18nGroup->getId());
                 $translations = $this->localizationDao->getNormalizedTranslationsForExport($i18NTargetLangStringSearchFilterParams);
@@ -263,8 +261,8 @@ class LocalizationService
                     $source = $xml->createElement('source');
                     $target = $xml->createElement('target');
 
-                    $source->appendChild(new \DOMText(htmlspecialchars($translation['source'], ENT_XML1, 'utf-8')));
-                    $target->appendChild(new \DOMText(htmlspecialchars($translation['target'], ENT_XML1, 'utf-8')));
+                    $source->appendChild(new \DOMText(htmlspecialchars($translation['source'])));
+                    $target->appendChild(new \DOMText(htmlspecialchars($translation['target'])));
 
                     $segment->appendChild($source);
                     $segment->appendChild($target);
