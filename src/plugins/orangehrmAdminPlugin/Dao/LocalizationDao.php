@@ -90,7 +90,6 @@ class LocalizationDao extends BaseDao
      */
     public function saveI18NLanguage(I18NLanguage $i18NLanguage): I18NLanguage
     {
-        $i18NLanguage->getModifiedAt();
         $this->persist($i18NLanguage);
         return $i18NLanguage;
     }
@@ -149,8 +148,7 @@ class LocalizationDao extends BaseDao
 
         if (!is_null($i18NTargetLangStringSearchFilterParams->getOnlyTranslated())) {
             if ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === true) {
-                $q->andWhere($q->expr()->notIn('translation.value', ':translated'));
-                $q->setParameter('translated', '');
+                $q->andWhere($q->expr()->isNotNull('translation.value'));
             } elseif ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === false) {
                 $q->andWhere($q->expr()->isNull('translation.value'));
             }

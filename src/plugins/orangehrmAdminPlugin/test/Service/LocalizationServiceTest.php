@@ -159,6 +159,7 @@ class LocalizationServiceTest extends KernelTestCase
         $this->assertEquals('Add Location', $result['file']['group'][0]['unit'][0]['segment']['source']);
         $this->assertEquals('编辑订阅者', $result['file']['group'][0]['unit'][1]['segment']['target']);
         $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
+        $this->assertEquals('([{\|/?!~#@$%^&amp;*)-=_+;&gt;&lt;}]', $result['file']['group'][2]['unit']['segment']['target']);
 
         $request = $this->getHttpRequest([], [], ['languageId' => '3']);
         $response =  $controller->handle($request);
