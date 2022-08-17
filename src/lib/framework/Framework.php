@@ -21,6 +21,7 @@ namespace OrangeHRM\Framework;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
+use OrangeHRM\Authentication\Auth\AuthProviderChain;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Subscriber\LoggerSubscriber;
 use OrangeHRM\Framework\Event\EventDispatcher;
@@ -80,6 +81,7 @@ class Framework extends HttpKernel
         ServiceContainer::getContainer()->set(Services::HTTP_KERNEL, $this);
         ServiceContainer::getContainer()->register(Services::DOCTRINE)
             ->setFactory([Doctrine::class, 'getEntityManager']);
+        ServiceContainer::getContainer()->register(Services::AUTH_PROVIDER_CHAIN, AuthProviderChain::class);
     }
 
     protected function configureLogger(): void
