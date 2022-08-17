@@ -156,6 +156,11 @@ final class Services
     public const AUTH_USER = 'auth.user';
 
     /**
+     * @see \OrangeHRM\Authentication\Auth\AuthProviderChain
+     */
+    public const AUTH_PROVIDER_CHAIN = 'auth.provider_chain';
+
+    /**
      * @see \OrangeHRM\Authentication\Csrf\CsrfTokenManager
      */
     public const CSRF_TOKEN_MANAGER = 'auth.csrf_token_manager';
