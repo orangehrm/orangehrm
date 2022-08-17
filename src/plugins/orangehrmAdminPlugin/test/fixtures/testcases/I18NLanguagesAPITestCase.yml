@@ -3,6 +3,8 @@ GetAll:
     userId: 1
     services:
       admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    now:
+      datetime: '2022-07-25'
     data:
       - id: 1
         name: 'Chinese (Simplified, China) - 中文（简体，中国）'
@@ -19,6 +21,8 @@ GetAll:
     userId: 1
     services:
       admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    now:
+      datetime: '2022-07-25'
     query:
       sortOrder: DESC
     data:
@@ -40,6 +44,8 @@ Update:
     userId: 1
     services:
       admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    now:
+      datetime: '2022-07-25'
     attributes:
       id: 1
     data:

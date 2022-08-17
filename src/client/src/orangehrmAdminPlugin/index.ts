@@ -63,7 +63,7 @@ import EmailSubscription from './pages/emailSubscription/EmailSubscription.vue';
 import EditEmailSubscription from './pages/emailSubscription/EditEmailSubscription.vue';
 import LocalizationConfiguration from './pages/localization/LocalizationConfiguration.vue';
 import CorporateBranding from './pages/corporateBranding/CorporateBranding.vue';
-import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/languagePackage.vue';
+import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/LanguagePackage.vue';
 import EditLanguagePackage from '@/orangehrmAdminPlugin/pages/languageTranslation/languageTranslation.vue';
 
 export default {
