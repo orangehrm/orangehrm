@@ -1,0 +1,8 @@
+server:
+  host: ~
+  port: 389
+  encryption: none
+  adminDN: cn=admin,dc=example,dc=org
+  adminPassword: admin
+  configAdminDN: cn=admin,cn=config
+  configAdminPassword: admin

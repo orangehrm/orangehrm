@@ -21,27 +21,44 @@ namespace OrangeHRM\LDAP\Service;
 
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Ldap\Adapter\AdapterInterface;
+use Symfony\Component\Ldap\Adapter\ConnectionInterface;
+use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
+use Symfony\Component\Ldap\Adapter\ExtLdap\Connection;
+use Symfony\Component\Ldap\Adapter\ExtLdap\EntryManager;
+use Symfony\Component\Ldap\Adapter\QueryInterface;
 
 class LDAPAuthService
 {
     use ConfigServiceTrait;
 
-    private LDAP $ldap;
+    private ?AdapterInterface $adapter = null;
 
     /**
-     * @return Ldap
+     * @return ConnectionInterface|Connection
      */
-    public function getConnection(): Ldap
+    public function getConnection(): ConnectionInterface
     {
-        $ldapSetting = $this->getConfigService()->getLDAPSetting();
-        return $this->ldap ??= Ldap::create('ext_ldap', [
-            'host' => $ldapSetting->getHost(),
-            'port' => $ldapSetting->getPort(),
-            'encryption' => $ldapSetting->getEncryption(),
-            'version' => $ldapSetting->getVersion(),
-            'optReferrals' => $ldapSetting->isOptReferrals(),
-        ]);
+        return $this->getAdapter()->getConnection();
+    }
+
+    /**
+     * @return AdapterInterface
+     * @internal
+     */
+    public function getAdapter(): AdapterInterface
+    {
+        if (!$this->adapter instanceof AdapterInterface) {
+            $ldapSetting = $this->getConfigService()->getLDAPSetting();
+            $this->adapter = new Adapter([
+                'host' => $ldapSetting->getHost(),
+                'port' => $ldapSetting->getPort(),
+                'encryption' => $ldapSetting->getEncryption(),
+                'version' => $ldapSetting->getVersion(),
+                'referrals' => $ldapSetting->isOptReferrals(),
+            ]);
+        }
+        return $this->adapter;
     }
 
     /**
@@ -50,5 +67,35 @@ class LDAPAuthService
     public function bind(UserCredential $credential): void
     {
         $this->getConnection()->bind($credential->getUsername(), $credential->getPassword());
+    }
+
+    /**
+     * @param string $dn
+     * @param string $query
+     * @param array $options
+     * @return QueryInterface
+     */
+    public function query(string $dn, string $query, array $options = []): QueryInterface
+    {
+        return $this->getAdapter()->createQuery($dn, $query, $options);
+    }
+
+    /**
+     * @param string $subject
+     * @param string $ignore
+     * @param int $flags
+     * @return string
+     */
+    public function escape(string $subject, string $ignore = '', int $flags = 0): string
+    {
+        return $this->getAdapter()->escape($subject, $ignore, $flags);
+    }
+
+    /**
+     * @return EntryManager
+     */
+    public function getEntryManager(): EntryManager
+    {
+        return $this->getAdapter()->getEntryManager();
     }
 }
