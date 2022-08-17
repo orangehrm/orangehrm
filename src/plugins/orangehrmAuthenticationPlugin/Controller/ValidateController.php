@@ -19,10 +19,10 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Auth\AuthProviderChain;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
-use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Authentication\Service\LoginService;
 use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
@@ -46,11 +46,6 @@ class ValidateController extends AbstractController implements PublicControllerI
     public const PARAMETER_PASSWORD = 'password';
 
     /**
-     * @var AuthenticationService|null
-     */
-    protected ?AuthenticationService $authenticationService = null;
-
-    /**
      * @var null|LoginService
      */
     protected ?LoginService $loginService = null;
@@ -59,17 +54,6 @@ class ValidateController extends AbstractController implements PublicControllerI
      * @var HomePageService|null
      */
     protected ?HomePageService $homePageService = null;
-
-    /**
-     * @return AuthenticationService
-     */
-    public function getAuthenticationService(): AuthenticationService
-    {
-        if (!$this->authenticationService instanceof AuthenticationService) {
-            $this->authenticationService = new AuthenticationService();
-        }
-        return $this->authenticationService;
-    }
 
     /**
      * @return HomePageService
@@ -93,7 +77,6 @@ class ValidateController extends AbstractController implements PublicControllerI
         return $this->loginService;
     }
 
-
     public function handle(Request $request): RedirectResponse
     {
         $username = $request->request->get(self::PARAMETER_USERNAME, '');
@@ -110,7 +93,10 @@ class ValidateController extends AbstractController implements PublicControllerI
                 throw AuthenticationException::invalidCsrfToken();
             }
 
-            $success = $this->getAuthenticationService()->setCredentials($credentials, []);
+            /** @var AuthProviderChain $authProviderChain */
+            $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
+            $success = $authProviderChain->authenticate($credentials);
+
             if (!$success) {
                 throw AuthenticationException::invalidCredentials();
             }
