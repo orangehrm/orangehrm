@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Admin\Dao;
 
+use OrangeHRM\Admin\Dao\CompanyStructureDao;
 use OrangeHRM\Admin\Dao\OrganizationDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Organization;
@@ -33,6 +34,7 @@ use Exception;
 class OrganizationDaoTest extends TestCase
 {
     private OrganizationDao $organizationDao;
+    private CompanyStructureDao $companyStructureDao;
     protected string $fixture;
 
     /**
@@ -42,6 +44,7 @@ class OrganizationDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->organizationDao = new OrganizationDao();
+        $this->companyStructureDao = new CompanyStructureDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
         TestDataService::populate($this->fixture);
     }
@@ -71,5 +74,8 @@ class OrganizationDaoTest extends TestCase
         $this->assertTrue($result instanceof Organization);
         $this->assertEquals("OrangeHRM", $result->getName());
         $this->assertEquals("1234", $result->getTaxId());
+
+        $updatedSubunit = $this->companyStructureDao->getSubunitById(1);
+        $this->assertEquals('OrangeHRM', $updatedSubunit->getName());
     }
 }

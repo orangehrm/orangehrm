@@ -212,6 +212,7 @@ class AppSetupUtility
     {
         $this->insertCsrfKey();
         $this->insertOrganizationInfo();
+        $this->insertSubunitOrganizationName();
         $this->setDefaultLanguage();
         $this->insertAdminEmployee();
         $this->insertAdminUser();
@@ -236,6 +237,18 @@ class AppSetupUtility
             ])
             ->setParameter('name', $instanceData[StateContainer::INSTANCE_ORG_NAME])
             ->setParameter('countryCode', $instanceData[StateContainer::INSTANCE_COUNTRY_CODE])
+            ->executeQuery();
+    }
+
+    protected function insertSubunitOrganizationName(): void
+    {
+        $instanceData = StateContainer::getInstance()->getInstanceData();
+        Connection::getConnection()->createQueryBuilder()
+            ->update('ohrm_subunit', 'subunit')
+            ->set('subunit.name', ':organizationName')
+            ->setParameter('organizationName', $instanceData[StateContainer::INSTANCE_ORG_NAME])
+            ->andWhere('subunit.level = :topLevel')
+            ->setParameter('topLevel', 0)
             ->executeQuery();
     }
 

@@ -58,6 +58,7 @@ class Migration extends AbstractMigration
         }
 
         $this->updatePimLeftMenuConfigurators();
+        $this->updateOrganizationStructure();
     }
 
     /**
@@ -105,5 +106,23 @@ class Migration extends AbstractMigration
                 'viewPhotograph',
             ], Connection::PARAM_STR_ARRAY);
         $qb->executeQuery();
+    }
+
+    private function updateOrganizationStructure(): void
+    {
+        $q = $this->createQueryBuilder();
+        $q->select('orgInfo.name')
+            ->from('ohrm_organization_gen_info', 'orgInfo');
+        $organizationName = $q->executeQuery()->fetchOne();
+
+        if ($organizationName != null) {
+            $this->createQueryBuilder()
+                ->update('ohrm_subunit', 'subunit')
+                ->set('subunit.name', ':organizationName')
+                ->setParameter('organizationName', $organizationName)
+                ->andWhere('subunit.level = :topLevel')
+                ->setParameter('topLevel', 0)
+                ->executeQuery();
+        }
     }
 }
