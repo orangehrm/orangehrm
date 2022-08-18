@@ -18,13 +18,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Dao;
+namespace OrangeHRM\Tests\Core\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\ReportGeneratorDao;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Core
+ * @group Dao
+ */
 class ReportGeneratorDaoTest extends KernelTestCase
 {
     /**

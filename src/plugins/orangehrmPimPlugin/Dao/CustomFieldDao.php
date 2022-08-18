@@ -85,7 +85,7 @@ class CustomFieldDao extends BaseDao
      * @param CustomField $customField
      * @return void
      */
-    public function addCustomFieldToDisplayField(CustomField $customField): void
+    private function addCustomFieldToDisplayField(CustomField $customField): void
     {
         $customFieldName = 'Custom Fields';
         $customFieldDisplayFieldGroup = $this->getRepository(DisplayFieldGroup::class)
@@ -163,15 +163,21 @@ class CustomFieldDao extends BaseDao
      * @param array $toDeleteCustomFieldIds
      * @return void
      */
-    public function deleteDisplayFieldsOfCustomFields(array $toDeleteCustomFieldIds): void
+    private function deleteDisplayFieldsOfCustomFields(array $toDeleteCustomFieldIds): void
     {
+        if (empty($toDeleteCustomFieldIds)) {
+            return;
+        }
+        $displayFieldNames = [];
         foreach ($toDeleteCustomFieldIds as $toDeleteCustomFieldId) {
             $customField = $this->getCustomFieldById($toDeleteCustomFieldId);
-            $displayFieldName = 'hs_hr_employee.custom' . $customField->getFieldNum();
-            $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
-            $q->delete()->andWhere('displayField.name = :displayFieldName')->setParameter('displayFieldName', $displayFieldName);
-            $q->getQuery()->execute();
+            $displayFieldNames[] = 'hs_hr_employee.custom' . $customField->getFieldNum();
         }
+        $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
+        $q->delete()
+            ->andWhere($q->expr()->in('displayField.name', ':displayFieldNames'))
+            ->setParameter('displayFieldNames', $displayFieldNames);
+        $q->getQuery()->execute();
     }
 
     /**
