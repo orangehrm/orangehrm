@@ -23,17 +23,17 @@ use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ValidatorTrait;
+use OrangeHRM\LDAP\Api\Model\LDAPConfigModel;
 use OrangeHRM\LDAP\Api\Traits\LDAPDataMapParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
+use Symfony\Component\Ldap\Adapter\QueryInterface;
 
 class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
 {
@@ -41,11 +41,10 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
     use ValidatorTrait;
     use LDAPDataMapParamRuleCollection;
 
-    public const PARAMETER_ENABLED = 'enabled';
+    public const PARAMETER_ENABLED = 'enable';
     public const PARAMETER_HOSTNAME = 'hostname';
     public const PARAMETER_PORT = 'port';
     public const PARAMETER_ENCRYPTION = 'encryption';
-    public const PARAMETER_PROTOCOL = 'protocol';
     public const PARAMETER_LDAP_IMPLEMENTATION = 'ldapImplementation';
 
     public const PARAMETER_BIND_ANONYMOUSLY = 'bindAnonymously';
@@ -56,8 +55,8 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_USER_NAME_ATTRIBUTE = 'userNameAttribute';
 
     public const PARAMETER_DATA_MAPPING = 'dataMapping';
-    public const PARAMETER_FIRST_NAME = 'firstName';
-    public const PARAMETER_LAST_NAME = 'lastName';
+    public const PARAMETER_FIRST_NAME = 'firstname';
+    public const PARAMETER_LAST_NAME = 'lastname';
     public const PARAMETER_USER_STATUS = 'userStatus';
     public const PARAMETER_WORK_EMAIL = 'workEmail';
     public const PARAMETER_EMPLOYEE_ID = 'employeeId';
@@ -69,7 +68,15 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE = 'groupMembershipAttribute';
     public const PARAMETER_SYNC_INTERVAL = 'syncInterval';
 
-    public const PARAM_RULE_ATTRIBUTE_MAX_LENGTH = 100;
+
+    public const ENCRYPTION_NONE = 'none';
+    public const ENCRYPTION_TLS = 'tls';
+    public const ENCRYPTION_SSL = 'ssl';
+
+    public const LDAP_IMPLEMENTATION_OPEN_LDAP = 'OpenLDAP';
+    public const LDAP_IMPLEMENTATION_ACTIVE_DIRECTORY = 'ActiveDirectory';
+
+    public const PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH = 100;
 
 
     /**
@@ -93,11 +100,11 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
      */
     public function create(): EndpointResult
     {
-//        $dataMapping = $this->getRequestParams()->getArray(
-//            RequestParams::PARAM_TYPE_BODY,
-//            self::PARAMETER_DATA_MAPPING
-//        );
-//        $this->validate($dataMapping, $this->getParamRuleCollection());
+        $dataMapping = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DATA_MAPPING
+        );
+        $this->validate($dataMapping, $this->getParamRuleCollection());
 
         $LDAPSettings = new LDAPSetting(
             $this->getRequestParams()->getString(
@@ -116,19 +123,15 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_ENCRYPTION
             ),
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_BASE_DISTINGUISHED_NAME
-            ),
+            )
         );
 
         $this->setConfigAttributes($LDAPSettings);
-
-        $this->getConfigService()->getConfigDao()->setValue(
-            ConfigService::KEY_LDAP_SETTINGS,
-            (string)$LDAPSettings
-        );
-        return new EndpointResourceResult(ArrayModel::class, $LDAPSettings);
+        $this->getConfigService()->setLDAPSetting($LDAPSettings->getEncodedAttributes());
+        return new EndpointResourceResult(LDAPConfigModel::class, $LDAPSettings);
     }
 
     /**
@@ -155,10 +158,22 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
                 )
             );
         }
-        $LDAPSetting->setBaseDN(
+        $LDAPSetting->setUserNameAttribute(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_USER_NAME_ATTRIBUTE
+            )
+        );
+        $LDAPSetting->setBaseDN(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_BASE_DISTINGUISHED_NAME
+            )
+        );
+        $LDAPSetting->setEnable(
+            $this->getRequestParams()->getBoolean(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_ENABLED
             )
         );
         $LDAPSetting->setSearchScope(
@@ -167,34 +182,10 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_SEARCH_SCOPE
             )
         );
-        $LDAPSetting->setFirstName(
-            $this->getRequestParams()->getString(
+        $LDAPSetting->setDataMapping(
+            $this->getRequestParams()->getArray(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_FIRST_NAME
-            )
-        );
-        $LDAPSetting->setLastName(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_LAST_NAME
-            )
-        );
-        $LDAPSetting->setUserStatus(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_USER_STATUS
-            )
-        );
-        $LDAPSetting->setWorkEmail(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_WORK_EMAIL
-            )
-        );
-        $LDAPSetting->setEmployeeId(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_EMPLOYEE_ID
+                self::PARAMETER_DATA_MAPPING
             )
         );
         $LDAPSetting->setGroupObjectClass(
@@ -247,28 +238,38 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_HOSTNAME,
-                new Rule(Rules::BOOL_TYPE)
+                new Rule(Rules::STRING_TYPE)
             ),
             new ParamRule(
                 self::PARAMETER_PORT,
                 new Rule(Rules::NUMBER)
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_ENCRYPTION,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
-                )
-            ),
             new ParamRule(
-                self::PARAMETER_PROTOCOL,
+                self::PARAMETER_ENCRYPTION,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(
+                    Rules::IN,
+                    [
+                        [
+                            self::ENCRYPTION_NONE,
+                            self::ENCRYPTION_TLS,
+                            self::ENCRYPTION_SSL
+                        ]
+                    ]
+                )
             ),
             new ParamRule(
                 self::PARAMETER_LDAP_IMPLEMENTATION,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(
+                    Rules::IN,
+                    [
+                        [
+                            self::LDAP_IMPLEMENTATION_OPEN_LDAP,
+                            self::LDAP_IMPLEMENTATION_ACTIVE_DIRECTORY
+                        ]
+                    ]
+                )
             ),
             new ParamRule(
                 self::PARAMETER_BIND_ANONYMOUSLY,
@@ -278,57 +279,62 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
                 new ParamRule(
                     self::PARAMETER_DISTINGUISHED_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DISTINGUISHED_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_BASE_DISTINGUISHED_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
                 )
             ),
             new ParamRule(
                 self::PARAMETER_SEARCH_SCOPE,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(
+                    Rules::IN,
+                    [
+                        [QueryInterface::SCOPE_SUB, QueryInterface::SCOPE_ONE]
+                    ]
+                )
             ),
             new ParamRule(
                 self::PARAMETER_USER_NAME_ATTRIBUTE,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_GROUP_OBJECT_CLASS,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_GROUP_OBJECT_FILTER,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_GROUP_NAME_ATTRIBUTE,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_GROUP_MEMBERS_ATTRIBUTE,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_ATTRIBUTE_MAX_LENGTH])
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_SYNC_INTERVAL,

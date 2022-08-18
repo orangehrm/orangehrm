@@ -28,7 +28,6 @@ class LDAPSetting
     private string $host;
     private int $port;
     private string $encryption;
-    private string $protocol;
     private string $implementation;
     private string $version = '3';
     private bool $optReferrals = false;
@@ -37,16 +36,12 @@ class LDAPSetting
     private ?string $bindUserDN = null;
     private ?string $bindUserPassword = null;
 
-    private string $baseDN;
+    private ?string $baseDN = null;
     private string $searchScope = QueryInterface::SCOPE_SUB;
 
     private string $userNameAttribute;
 
-    private string $firstName;
-    private string $lastName;
-    private ?string $userStatus = null;
-    private ?string $workEmail = null;
-    private ?string $employeeId = null;
+    private array $dataMapping;
 
     private string $groupObjectClass;
     private string $groupObjectFilter;
@@ -61,9 +56,9 @@ class LDAPSetting
      * @param int $port
      * @param string $implementation
      * @param string $encryption
-     * @param string $baseDN
+     * @param string|null $baseDN
      */
-    public function __construct(string $host, int $port, string $implementation, string $encryption, string $baseDN)
+    public function __construct(string $host, int $port, string $implementation, string $encryption, ?string $baseDN)
     {
         $this->setHost($host);
         $this->setPort($port);
@@ -93,11 +88,15 @@ class LDAPSetting
         $setting->setBindUserDN($config['bindUserDN']);
         $setting->setBindUserPassword($config['bindUserPassword']);
         $setting->setSearchScope($config['searchScope']);
-        $setting->setFirstName($config['dataMapping']['firstName']);
-        $setting->setLastName($config['dataMapping']['lastName']);
-        $setting->setUserStatus($config['dataMapping']['userStatus']);
-        $setting->setWorkEmail($config['dataMapping']['workEmail']);
-        $setting->setEmployeeId($config['dataMapping']['employeeId']);
+        $setting->setUserNameAttribute($config['userNameAttribute']);
+        $setting->setDataMapping($config['dataMapping']);
+        $setting->setGroupObjectClass($config['groupObjectClass']);
+        $setting->setGroupObjectFilter($config['groupObjectFilter']);
+        $setting->setGroupNameAttribute($config['groupNameAttribute']);
+        $setting->setGroupMembersAttribute($config['groupMembersAttribute']);
+        $setting->setGroupMembershipAttribute($config['groupMembershipAttribute']);
+        $setting->setSyncInterval($config['syncInterval']);
+
         return $setting;
     }
 
@@ -110,7 +109,27 @@ class LDAPSetting
             'host' => $this->getHost(),
             'port' => $this->getPort(),
             'encryption' => $this->getEncryption(),
-            'protocol' => $this->getProtocol(),
+            'implementation' => $this->getImplementation(),
+            'version' => $this->getVersion(),
+            'optReferrals' => $this->isOptReferrals(),
+            'bindAnonymously'=>$this->isBindAnonymously(),
+            'bindUserDN'=>$this->getBindUserDN(),
+            'bindUserPassword' => $this->getBindUserPassword(),
+            'baseDN' => $this->getBaseDN(),
+            'searchScope' => $this->getSearchScope()
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncodedAttributes(): string
+    {
+        return json_encode([
+            'enable' => $this->isEnable(),
+            'host' => $this->getHost(),
+            'port' => $this->getPort(),
+            'encryption' => $this->getEncryption(),
             'implementation' => $this->getImplementation(),
             'version' => $this->getVersion(),
             'optReferrals' => $this->isOptReferrals(),
@@ -119,13 +138,7 @@ class LDAPSetting
             'bindUserPassword' => $this->getBindUserPassword(),
             'baseDN' => $this->getBaseDN(),
             'searchScope' => $this->getSearchScope(),
-            'dataMapping' => [
-                'firstName' => $this->getFirstName(),
-                'lastName' => $this->getLastName(),
-                'userStatus' => $this->getUserStatus(),
-                'workEmail' => $this->getWorkEmail(),
-                'employeeId' => $this->getEmployeeId()
-            ],
+            'dataMapping' => $this->getDataMapping(),
             'groupObjectClass' => $this->getGroupObjectClass(),
             'groupObjectFilter' => $this->getGroupObjectFilter(),
             'groupNameAttribute' => $this->getGroupNameAttribute(),
@@ -199,6 +212,9 @@ class LDAPSetting
      */
     public function setImplementation(string $implementation): void
     {
+        if (!in_array($implementation, ['OpenLDAP', 'ActiveDirectory'])) {
+            throw new InvalidArgumentException("Invalid implementation: `$implementation` type");
+        }
         $this->implementation = $implementation;
     }
 
@@ -352,86 +368,6 @@ class LDAPSetting
     /**
      * @return string
      */
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName(string $firstName): void
-    {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @param string $lastName
-     */
-    public function setLastName(string $lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserStatus(): string
-    {
-        return $this->userStatus;
-    }
-
-    /**
-     * @param string $userStatus
-     */
-    public function setUserStatus(string $userStatus): void
-    {
-        $this->userStatus = $userStatus;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWorkEmail(): string
-    {
-        return $this->workEmail;
-    }
-
-    /**
-     * @param string $workEmail
-     */
-    public function setWorkEmail(string $workEmail): void
-    {
-        $this->workEmail = $workEmail;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmployeeId(): string
-    {
-        return $this->employeeId;
-    }
-
-    /**
-     * @param string $employeeId
-     */
-    public function setEmployeeId(string $employeeId): void
-    {
-        $this->employeeId = $employeeId;
-    }
-
-    /**
-     * @return string
-     */
     public function getGroupObjectClass(): string
     {
         return $this->groupObjectClass;
@@ -526,18 +462,18 @@ class LDAPSetting
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getProtocol(): string
+    public function getDataMapping(): array
     {
-        return $this->protocol;
+        return $this->dataMapping;
     }
 
     /**
-     * @param string $protocol
+     * @param array $dataMapping
      */
-    public function setProtocol(string $protocol): void
+    public function setDataMapping(array $dataMapping): void
     {
-        $this->protocol = $protocol;
+        $this->dataMapping = $dataMapping;
     }
 }

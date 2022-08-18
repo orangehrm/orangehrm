@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\LDAP\Api\Traits;
 
+use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -29,6 +30,11 @@ use OrangeHRM\LDAP\Api\LDAPConfigAPI;
 trait LDAPDataMapParamRuleCollection
 {
     use ValidatorTrait;
+
+    /**
+     * @var ValidationDecorator|null
+     */
+    private ?ValidationDecorator $validationDecorator = null;
 
     /**
      * @return ParamRuleCollection
@@ -44,6 +50,38 @@ trait LDAPDataMapParamRuleCollection
                 LDAPConfigAPI::PARAMETER_LAST_NAME,
                 new Rule(Rules::STRING_TYPE),
             ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_USER_STATUS,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_WORK_EMAIL,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMPLOYEE_ID,
+                    new Rule(Rules::EMAIL),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+                )
+            ),
         );
+    }
+
+    /**
+     * @return ValidationDecorator
+     */
+    protected function getValidationDecorator(): ValidationDecorator
+    {
+        if (!$this->validationDecorator instanceof ValidationDecorator) {
+            $this->validationDecorator = new ValidationDecorator();
+        }
+        return $this->validationDecorator;
     }
 }
