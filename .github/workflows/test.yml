@@ -45,7 +45,7 @@ jobs:
       - name: Configure LDAP server
         run: |
           cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/fixtures
-          docker run --detach --name openldap \
+          docker run --detach --rm --name openldap \
             --network ${{ job.container.network }} \
             -p 389:1389 \
             -e LDAP_ADMIN_USERNAME=admin \
@@ -80,6 +80,10 @@ jobs:
         with:
           name: coverage
           path: coverage.tar.xz
+
+      - name: Stop LDAP container
+        if: ${{ always() }}
+        run: docker stop openldap
 
   composer_check:
     runs-on: ubuntu-20.04
