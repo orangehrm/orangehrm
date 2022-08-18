@@ -86,9 +86,12 @@ class UserService
      */
     public function saveSystemUser(User $user): ?User
     {
-        if (!is_null($user->getDecorator()->getNonHashedPassword()) &&
-            !(Config::PRODUCT_MODE === Config::MODE_DEMO && is_null($user->getCreatedBy()))) {
+        if ((Config::PRODUCT_MODE === Config::MODE_DEMO && is_null($user->getCreatedBy()))) {
+            return $user;
+        }
+        if (!is_null($user->getDecorator()->getNonHashedPassword())) {
             $user->setUserPassword($this->hashPassword($user->getDecorator()->getNonHashedPassword()));
+            $user->getDecorator()->setNonHashedPassword(null);
         }
 
         return $this->getSystemUserDao()->saveSystemUser($user);
@@ -210,19 +213,6 @@ class UserService
     }
 
     /**
-     * Updates the password of given user
-     *
-     * @param int $userId User ID of the user
-     * @param string $password Non-encrypted password
-     * @return bool
-     * @throws DaoException
-     */
-    public function updatePassword(int $userId, string $password): bool
-    {
-        return $this->getSystemUserDao()->updatePassword($userId, $this->hashPassword($password));
-    }
-
-    /**
      * @param string $roleName
      * @param bool $includeInactive
      * @param bool $includeTerminated
@@ -307,6 +297,10 @@ class UserService
         $user = $this->getUserRoleManager()->getUser();
         if ($user instanceof User) {
             $undeletableIds[] = $user->getId();
+        }
+        if (Config::PRODUCT_MODE === Config::MODE_DEMO &&
+            ($defaultAdminUser = $this->getSystemUserDao()->getDefaultAdminUser()) instanceof User) {
+            $undeletableIds[] = $defaultAdminUser->getId();
         }
 
         return $undeletableIds;

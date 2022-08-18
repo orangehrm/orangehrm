@@ -473,11 +473,20 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
             throw $this->getBadRequestException('Not allowed to delete employees');
         }
 
+        $undeletableIds = $this->getEmployeeService()->getUndeletableEmpNumbers();
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
-                new Rule(Rules::ARRAY_TYPE)
-            )
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(Rules::POSITIVE),
+                            new Rule(Rules::NOT_IN, [$undeletableIds])
+                        )
+                    ]
+                )
+            ),
         );
     }
 }

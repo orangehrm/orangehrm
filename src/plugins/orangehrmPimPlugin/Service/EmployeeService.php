@@ -20,13 +20,17 @@
 namespace OrangeHRM\Pim\Service;
 
 use DateTime;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Registration\Event\RegistrationEvent;
 use OrangeHRM\Core\Service\IDGeneratorService;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Event\EmployeeAddedEvent;
@@ -39,6 +43,8 @@ class EmployeeService
     use EventDispatcherTrait;
     use ConfigServiceTrait;
     use NormalizerServiceTrait;
+    use AuthUserTrait;
+    use UserServiceTrait;
 
     /**
      * @var EmployeeDao|null
@@ -322,5 +328,18 @@ class EmployeeService
     public function getAvailableEmployeesForWorkShift(EmployeeSearchFilterParams $employeeSearchParamHolder): array
     {
         return $this->getEmployeeDao()->getAvailableEmployeeListForWorkShift($employeeSearchParamHolder);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getUndeletableEmpNumbers(): array
+    {
+        $undeletableIds = [$this->getAuthUser()->getEmpNumber()];
+        if (Config::PRODUCT_MODE === Config::MODE_DEMO &&
+            ($user = $this->getUserService()->getSystemUserDao()->getDefaultAdminUser()) instanceof User) {
+            $undeletableIds[] = $user->getId();
+        }
+        return $undeletableIds;
     }
 }

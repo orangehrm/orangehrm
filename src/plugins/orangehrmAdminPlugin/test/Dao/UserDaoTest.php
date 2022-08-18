@@ -137,15 +137,6 @@ class UserDaoTest extends TestCase
         $this->assertEquals(3, $this->systemUserDao->getAdminUserCount(false, false));
     }
 
-    public function testUpdatePassword(): void
-    {
-        $this->assertEquals(1, $this->systemUserDao->updatePassword(1, 'samantha2'));
-
-        $userObject = TestDataService::fetchObject('User', 1);
-
-        $this->assertEquals('samantha2', $userObject->getUserPassword());
-    }
-
     public function testGetSystemUserIdList(): void
     {
         $result = $this->systemUserDao->getSystemUserIdList();

@@ -33,20 +33,13 @@ use OrangeHRM\ORM\Paginator;
 class UserDao extends BaseDao
 {
     /**
-     * Save System User
-     *
      * @param User $systemUser
      * @return User
-     * @throws DaoException
      */
     public function saveSystemUser(User $systemUser): User
     {
-        try {
-            $this->persist($systemUser);
-            return $systemUser;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($systemUser);
+        return $systemUser;
     }
 
     /**

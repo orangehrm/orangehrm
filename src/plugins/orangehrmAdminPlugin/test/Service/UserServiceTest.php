@@ -246,36 +246,6 @@ class UserServiceTest extends KernelTestCase
         $this->assertFalse($result);
     }
 
-    public function testUpdatePassword(): void
-    {
-        $userId = 3;
-        $password = 'sadf&^#@!';
-        $hashedPassword = '939adfiasdfasdfas';
-
-        $mockHasher = $this->getMockBuilder(PasswordHash::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['hash'])
-            ->getMock();
-        $mockHasher->expects($this->once())
-            ->method('hash')
-            ->with($password)
-            ->will($this->returnValue($hashedPassword));
-
-        $mockDao = $this->getMockBuilder(UserDao::class)
-            ->onlyMethods(['updatePassword'])
-            ->getMock();
-        $mockDao->expects($this->once())
-            ->method('updatePassword')
-            ->with($userId, $hashedPassword)
-            ->will($this->returnValue(true));
-
-        $this->systemUserService->setSystemUserDao($mockDao);
-        $this->systemUserService->setPasswordHasher($mockHasher);
-        $result = $this->systemUserService->updatePassword($userId, $password);
-
-        $this->assertTrue($result);
-    }
-
     public function testGetCredentialsUserNotFound(): void
     {
         $userName = 'adminUser1';
