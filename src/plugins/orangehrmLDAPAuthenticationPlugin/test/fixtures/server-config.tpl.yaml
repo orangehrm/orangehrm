@@ -1,5 +1,5 @@
 server:
-  host: ~
+  host: 0.0.0.0
   port: 389
   encryption: none
   adminDN: cn=admin,dc=example,dc=org

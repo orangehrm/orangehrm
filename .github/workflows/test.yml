@@ -7,7 +7,7 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     services:
       mysql:
@@ -17,6 +17,20 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      openldap:
+        image: bitnami/openldap:latest
+        env:
+          LDAP_ADMIN_USERNAME: admin
+          LDAP_ADMIN_PASSWORD: admin
+          LDAP_ROOT: dc=example,dc=org
+          LDAP_CONFIG_ADMIN_ENABLED: yes
+          LDAP_CONFIG_ADMIN_USERNAME: admin
+          LDAP_CONFIG_ADMIN_PASSWORD: admin
+          LDAP_SKIP_DEFAULT_TREE: yes
+        volumes:
+          - ${{ github.workspace }}/src/plugins/orangehrmLDAPAuthenticationPlugin/test/fixtures/ldifs:/ldifs
+        ports:
+          - 389:1389
 
     steps:
       - uses: actions/checkout@v2
@@ -41,6 +55,8 @@ jobs:
           php7.4 installer/cli_install.php
           mysqldump -V
           php7.4 devTools/core/console.php i:create-test-db -p root
+          cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/fixtures
+          cat server-config.tpl.yaml > server-config.yaml
 
       - name: Run Jest
         run: |
