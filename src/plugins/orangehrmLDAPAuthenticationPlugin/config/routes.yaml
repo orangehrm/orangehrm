@@ -1,0 +1,6 @@
+apiv2_ldap_configuration:
+  path: /api/v2/ldap/ldap-config
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\LDAP\Api\LDAPConfigAPI

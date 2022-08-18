@@ -24,9 +24,11 @@ use Symfony\Component\Ldap\Adapter\QueryInterface;
 
 class LDAPSetting
 {
+    private bool $enable;
     private string $host;
     private int $port;
     private string $encryption;
+    private string $protocol;
     private string $implementation;
     private string $version = '3';
     private bool $optReferrals = false;
@@ -37,6 +39,22 @@ class LDAPSetting
 
     private string $baseDN;
     private string $searchScope = QueryInterface::SCOPE_SUB;
+
+    private string $userNameAttribute;
+
+    private string $firstName;
+    private string $lastName;
+    private ?string $userStatus = null;
+    private ?string $workEmail = null;
+    private ?string $employeeId = null;
+
+    private string $groupObjectClass;
+    private string $groupObjectFilter;
+    private string $groupNameAttribute;
+    private string $groupMembersAttribute;
+    private string $groupMembershipAttribute;
+    private string $syncInterval;
+
 
     /**
      * @param string $host
@@ -62,13 +80,24 @@ class LDAPSetting
     public static function fromString(string $string): self
     {
         $config = json_decode($string);
-        $setting = new self($config['host'], $config['port'], $config['implementation'], $config['encryption'], $config['baseDN']);
+        $setting = new self(
+            $config['host'],
+            $config['port'],
+            $config['implementation'],
+            $config['encryption'],
+            $config['baseDN']
+        );
         $setting->setVersion($config['version']);
         $setting->setOptReferrals($config['optReferrals']);
         $setting->setBindAnonymously($config['bindAnonymously']);
         $setting->setBindUserDN($config['bindUserDN']);
         $setting->setBindUserPassword($config['bindUserPassword']);
         $setting->setSearchScope($config['searchScope']);
+        $setting->setFirstName($config['dataMapping']['firstName']);
+        $setting->setLastName($config['dataMapping']['lastName']);
+        $setting->setUserStatus($config['dataMapping']['userStatus']);
+        $setting->setWorkEmail($config['dataMapping']['workEmail']);
+        $setting->setEmployeeId($config['dataMapping']['employeeId']);
         return $setting;
     }
 
@@ -81,6 +110,7 @@ class LDAPSetting
             'host' => $this->getHost(),
             'port' => $this->getPort(),
             'encryption' => $this->getEncryption(),
+            'protocol' => $this->getProtocol(),
             'implementation' => $this->getImplementation(),
             'version' => $this->getVersion(),
             'optReferrals' => $this->isOptReferrals(),
@@ -89,6 +119,19 @@ class LDAPSetting
             'bindUserPassword' => $this->getBindUserPassword(),
             'baseDN' => $this->getBaseDN(),
             'searchScope' => $this->getSearchScope(),
+            'dataMapping' => [
+                'firstName' => $this->getFirstName(),
+                'lastName' => $this->getLastName(),
+                'userStatus' => $this->getUserStatus(),
+                'workEmail' => $this->getWorkEmail(),
+                'employeeId' => $this->getEmployeeId()
+            ],
+            'groupObjectClass' => $this->getGroupObjectClass(),
+            'groupObjectFilter' => $this->getGroupObjectFilter(),
+            'groupNameAttribute' => $this->getGroupNameAttribute(),
+            'groupMembersAttribute' => $this->getGroupMembersAttribute(),
+            'groupMembershipAttribute' => $this->getGroupMembershipAttribute(),
+            'syncInterval' => $this->getSyncInterval()
         ]);
     }
 
@@ -272,5 +315,229 @@ class LDAPSetting
             throw new InvalidArgumentException("Invalid search scope: `$searchScope`");
         }
         $this->searchScope = $searchScope;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnable(): bool
+    {
+        return $this->enable;
+    }
+
+    /**
+     * @param bool $enable
+     */
+    public function setEnable(bool $enable): void
+    {
+        $this->enable = $enable;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserNameAttribute(): string
+    {
+        return $this->userNameAttribute;
+    }
+
+    /**
+     * @param string $userNameAttribute
+     */
+    public function setUserNameAttribute(string $userNameAttribute): void
+    {
+        $this->userNameAttribute = $userNameAttribute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName(string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName(string $lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserStatus(): string
+    {
+        return $this->userStatus;
+    }
+
+    /**
+     * @param string $userStatus
+     */
+    public function setUserStatus(string $userStatus): void
+    {
+        $this->userStatus = $userStatus;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorkEmail(): string
+    {
+        return $this->workEmail;
+    }
+
+    /**
+     * @param string $workEmail
+     */
+    public function setWorkEmail(string $workEmail): void
+    {
+        $this->workEmail = $workEmail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmployeeId(): string
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * @param string $employeeId
+     */
+    public function setEmployeeId(string $employeeId): void
+    {
+        $this->employeeId = $employeeId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupObjectClass(): string
+    {
+        return $this->groupObjectClass;
+    }
+
+    /**
+     * @param string $groupObjectClass
+     */
+    public function setGroupObjectClass(string $groupObjectClass): void
+    {
+        $this->groupObjectClass = $groupObjectClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupObjectFilter(): string
+    {
+        return $this->groupObjectFilter;
+    }
+
+    /**
+     * @param string $groupObjectFilter
+     */
+    public function setGroupObjectFilter(string $groupObjectFilter): void
+    {
+        $this->groupObjectFilter = $groupObjectFilter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupNameAttribute(): string
+    {
+        return $this->groupNameAttribute;
+    }
+
+    /**
+     * @param string $groupNameAttribute
+     */
+    public function setGroupNameAttribute(string $groupNameAttribute): void
+    {
+        $this->groupNameAttribute = $groupNameAttribute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupMembersAttribute(): string
+    {
+        return $this->groupMembersAttribute;
+    }
+
+    /**
+     * @param string $groupMembersAttribute
+     */
+    public function setGroupMembersAttribute(string $groupMembersAttribute): void
+    {
+        $this->groupMembersAttribute = $groupMembersAttribute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupMembershipAttribute(): string
+    {
+        return $this->groupMembershipAttribute;
+    }
+
+    /**
+     * @param string $groupMembershipAttribute
+     */
+    public function setGroupMembershipAttribute(string $groupMembershipAttribute): void
+    {
+        $this->groupMembershipAttribute = $groupMembershipAttribute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSyncInterval(): string
+    {
+        return $this->syncInterval;
+    }
+
+    /**
+     * @param string $syncInterval
+     */
+    public function setSyncInterval(string $syncInterval): void
+    {
+        $this->syncInterval = $syncInterval;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProtocol(): string
+    {
+        return $this->protocol;
+    }
+
+    /**
+     * @param string $protocol
+     */
+    public function setProtocol(string $protocol): void
+    {
+        $this->protocol = $protocol;
     }
 }
