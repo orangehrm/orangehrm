@@ -283,23 +283,20 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
                 self::PARAMETER_SMTP_PORT
             )
         );
+        $emailConfiguration->setSmtpUsername(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_SMTP_USERNAME
+            )
+        );
 
         $password = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SMTP_PASSWORD
         );
 
-        $emailConfiguration->setSmtpPassword($password);
-
-        if (! is_null($password)) {
-            $emailConfiguration->setSmtpUsername(
-                $this->getRequestParams()->getStringOrNull(
-                    RequestParams::PARAM_TYPE_BODY,
-                    self::PARAMETER_SMTP_USERNAME
-                )
-            );
-        } else {
-            $emailConfiguration->setSmtpUsername(null);
+        if (!is_null($password)) {
+            $emailConfiguration->setSmtpPassword($password);
         }
 
         $emailConfiguration->setSmtpAuthType(
