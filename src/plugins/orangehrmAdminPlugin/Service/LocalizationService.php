@@ -203,9 +203,9 @@ class LocalizationService
 
     /**
      * @param I18NLanguage $language
-     * @return String
+     * @return string
      */
-    public function exportLanguagePackage(I18NLanguage $language): String
+    public function exportLanguagePackage(I18NLanguage $language): string
     {
         $i18NGroupSearchFilterParams = new I18NGroupSearchFilterParams();
         $i18nGroups = $this->getLocalizationDao()->searchGroups($i18NGroupSearchFilterParams);
@@ -215,7 +215,7 @@ class LocalizationService
     }
 
     /**
-     * @param array $i18nGroups
+     * @param I18NGroup[] $i18nGroups
      * @param I18NLanguage $language
      * @return DOMDocument
      * @throws \DOMException

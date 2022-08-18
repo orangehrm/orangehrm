@@ -249,6 +249,11 @@ final class Services
      */
     public const WORK_WEEK_SERVICE = 'leave.work_week_service';
 
+    /**
+     * @see \OrangeHRM\Leave\Service\LeaveListService
+     */
+    public const LEAVE_LIST_SERVICE= 'leave.leave_list_service';
+
     ///////////////////////////////////////////////////////////////
     /// Pim plugin services
     ///////////////////////////////////////////////////////////////

@@ -25,6 +25,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Service\HolidayService;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeaveEntitlementService;
+use OrangeHRM\Leave\Service\LeaveListService;
 use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Leave\Service\LeaveRequestService;
 use OrangeHRM\Leave\Service\LeaveTypeService;
@@ -73,6 +74,10 @@ class LeavePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(
             Services::WORK_WEEK_SERVICE,
             WorkWeekService::class
+        );
+        $this->getContainer()->register(
+            Services::LEAVE_LIST_SERVICE,
+            LeaveListService::class
         );
 
         $this->getEventDispatcher()->addSubscriber(new LeaveEventSubscriber());
