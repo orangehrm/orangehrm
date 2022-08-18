@@ -3,7 +3,7 @@ Employee:
   - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
   - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
   - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
-  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": ""}
   - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
 
 UserRole:
