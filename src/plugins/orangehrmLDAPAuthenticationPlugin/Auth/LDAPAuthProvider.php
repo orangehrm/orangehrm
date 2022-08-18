@@ -21,18 +21,18 @@ namespace OrangeHRM\LDAP\Auth;
 
 use OrangeHRM\Authentication\Auth\AbstractAuthProvider;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\LDAP\Service\LDAPAuthService;
+use OrangeHRM\LDAP\Service\LDAPService;
 
 class LDAPAuthProvider extends AbstractAuthProvider
 {
-    private LDAPAuthService $ldapAuthService;
+    private LDAPService $ldapAuthService;
 
     /**
-     * @return LDAPAuthService
+     * @return LDAPService
      */
-    private function getLdapAuthService(): LDAPAuthService
+    private function getLdapAuthService(): LDAPService
     {
-        return $this->ldapAuthService ??= new LDAPAuthService();
+        return $this->ldapAuthService ??= new LDAPService();
     }
 
     /**

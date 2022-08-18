@@ -23,7 +23,7 @@ use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
-use OrangeHRM\LDAP\Service\LDAPAuthService;
+use OrangeHRM\LDAP\Service\LDAPService;
 use OrangeHRM\Tests\LDAP\LDAPConnectionHelperTrait;
 use OrangeHRM\Tests\LDAP\LDAPServerConfig;
 use OrangeHRM\Tests\LDAP\LDAPUsersFixture;
@@ -31,7 +31,7 @@ use OrangeHRM\Tests\Util\KernelTestCase;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 
-class LDAPAuthServiceAnonBindTest extends KernelTestCase
+class LDAPServiceAnonBindTest extends KernelTestCase
 {
     use LDAPConnectionHelperTrait;
 
@@ -72,7 +72,7 @@ class LDAPAuthServiceAnonBindTest extends KernelTestCase
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
 
-        $ldapAuthService = new LDAPAuthService();
+        $ldapAuthService = new LDAPService();
         $ldapAuthService->bind(
             new UserCredential(self::$serverConfig->configAdminDN, self::$serverConfig->configAdminPassword)
         );
@@ -125,7 +125,7 @@ class LDAPAuthServiceAnonBindTest extends KernelTestCase
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
 
-        $ldapAuthService = new LDAPAuthService();
+        $ldapAuthService = new LDAPService();
         $ldapAuthService->bind(new UserCredential());
         $this->assertTrue(true);
     }
@@ -148,7 +148,7 @@ class LDAPAuthServiceAnonBindTest extends KernelTestCase
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
 
-        $ldapAuthService = new LDAPAuthService();
+        $ldapAuthService = new LDAPService();
         $ldapAuthService->bind(new UserCredential());
 
         $this->expectException(LdapException::class);
@@ -176,7 +176,7 @@ class LDAPAuthServiceAnonBindTest extends KernelTestCase
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
 
-        $ldapAuthService = new LDAPAuthService();
+        $ldapAuthService = new LDAPService();
         $ldapAuthService->bind(new UserCredential(self::$serverConfig->adminDN, self::$serverConfig->adminPassword));
 
         $this->expectException(LdapException::class);

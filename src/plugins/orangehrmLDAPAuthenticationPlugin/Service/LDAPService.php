@@ -28,7 +28,7 @@ use Symfony\Component\Ldap\Adapter\ExtLdap\Connection;
 use Symfony\Component\Ldap\Adapter\ExtLdap\EntryManager;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
 
-class LDAPAuthService
+class LDAPService
 {
     use ConfigServiceTrait;
 
