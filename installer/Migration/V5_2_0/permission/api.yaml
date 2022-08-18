@@ -12,7 +12,5 @@ apiv2_leave_leaves_list:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }

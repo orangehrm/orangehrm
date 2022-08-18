@@ -46,17 +46,21 @@ class LeaveListDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Leave::class, 'leaveList');
         $q->leftJoin('leaveList.employee', 'employee');
+        $q->leftJoin('leaveList.leaveType', 'type');
         $this->setSortingAndPaginationParams($q, $leaveListSearchFilterParams);
 
         $q->select(
             'leaveList.id',
-            'leaveList.date',
             'leaveList.lengthHours',
             'leaveList.status',
             'employee.empNumber',
             'employee.firstName',
             'employee.lastName',
             'employee.employeeId',
+            'type.name AS leaveType',
+            'leaveList.startTime',
+            'leaveList.endTime',
+            'leaveList.durationType',
         );
         $q->andWhere('leaveList.date = :date')->setParameter('date', $leaveListSearchFilterParams->getDate());
 
