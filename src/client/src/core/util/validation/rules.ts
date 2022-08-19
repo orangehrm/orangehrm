@@ -638,7 +638,15 @@ export const validSelection = function(value: string | object | null) {
 };
 
 export const validHostnameFormat = function(value: string): boolean | string {
-  const fqdnRegex = /^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?)*\.?$/;
+  let fqdnRegex;
+
+  // If first character is number, treat as ip address. else hostname
+  if (/^\d+$/.test(value.charAt(0))) {
+    fqdnRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+  } else {
+    fqdnRegex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$/;
+  }
+
   return !value || fqdnRegex.test(value) || translate('general.invalid');
 };
 
