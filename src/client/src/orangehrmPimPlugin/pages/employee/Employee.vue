@@ -202,10 +202,13 @@ export default {
           empStatus: item.empStatus?.name,
           subunit: item.subunit?.name,
           supervisor: item.supervisors
-              ? item.supervisors
-                  .map(supervisor => `${supervisor.firstName} ${supervisor.lastName}`)
-                  .join(',')
-              : '',
+            ? item.supervisors
+                .map(
+                  supervisor =>
+                    `${supervisor.firstName} ${supervisor.lastName}`,
+                )
+                .join(',')
+            : '',
           isSelectable: selectable === -1,
         };
       });
