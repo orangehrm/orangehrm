@@ -24,6 +24,7 @@ use Symfony\Component\Ldap\Adapter\QueryInterface;
 
 class LDAPSetting
 {
+    private bool $enable;
     private string $host;
     private int $port;
     private string $encryption;
@@ -35,17 +36,29 @@ class LDAPSetting
     private ?string $bindUserDN = null;
     private ?string $bindUserPassword = null;
 
-    private string $baseDN;
+    private ?string $baseDN = null;
     private string $searchScope = QueryInterface::SCOPE_SUB;
+
+    private string $userNameAttribute;
+
+    private array $dataMapping;
+
+    private string $groupObjectClass;
+    private string $groupObjectFilter;
+    private string $groupNameAttribute;
+    private string $groupMembersAttribute;
+    private string $groupMembershipAttribute;
+    private string $syncInterval;
+
 
     /**
      * @param string $host
      * @param int $port
      * @param string $implementation
      * @param string $encryption
-     * @param string $baseDN
+     * @param string|null $baseDN
      */
-    public function __construct(string $host, int $port, string $implementation, string $encryption, string $baseDN)
+    public function __construct(string $host, int $port, string $implementation, string $encryption, ?string $baseDN)
     {
         $this->setHost($host);
         $this->setPort($port);
@@ -62,13 +75,28 @@ class LDAPSetting
     public static function fromString(string $string): self
     {
         $config = json_decode($string);
-        $setting = new self($config['host'], $config['port'], $config['implementation'], $config['encryption'], $config['baseDN']);
+        $setting = new self(
+            $config['host'],
+            $config['port'],
+            $config['implementation'],
+            $config['encryption'],
+            $config['baseDN']
+        );
         $setting->setVersion($config['version']);
         $setting->setOptReferrals($config['optReferrals']);
         $setting->setBindAnonymously($config['bindAnonymously']);
         $setting->setBindUserDN($config['bindUserDN']);
         $setting->setBindUserPassword($config['bindUserPassword']);
         $setting->setSearchScope($config['searchScope']);
+        $setting->setUserNameAttribute($config['userNameAttribute']);
+        $setting->setDataMapping($config['dataMapping']);
+        $setting->setGroupObjectClass($config['groupObjectClass']);
+        $setting->setGroupObjectFilter($config['groupObjectFilter']);
+        $setting->setGroupNameAttribute($config['groupNameAttribute']);
+        $setting->setGroupMembersAttribute($config['groupMembersAttribute']);
+        $setting->setGroupMembershipAttribute($config['groupMembershipAttribute']);
+        $setting->setSyncInterval($config['syncInterval']);
+
         return $setting;
     }
 
@@ -84,11 +112,39 @@ class LDAPSetting
             'implementation' => $this->getImplementation(),
             'version' => $this->getVersion(),
             'optReferrals' => $this->isOptReferrals(),
+            'bindAnonymously'=>$this->isBindAnonymously(),
+            'bindUserDN'=>$this->getBindUserDN(),
+            'bindUserPassword' => $this->getBindUserPassword(),
+            'baseDN' => $this->getBaseDN(),
+            'searchScope' => $this->getSearchScope()
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncodedAttributes(): string
+    {
+        return json_encode([
+            'enable' => $this->isEnable(),
+            'host' => $this->getHost(),
+            'port' => $this->getPort(),
+            'encryption' => $this->getEncryption(),
+            'implementation' => $this->getImplementation(),
+            'version' => $this->getVersion(),
+            'optReferrals' => $this->isOptReferrals(),
             'bindAnonymously' => $this->isBindAnonymously(),
             'bindUserDN' => $this->getBindUserDN(),
             'bindUserPassword' => $this->getBindUserPassword(),
             'baseDN' => $this->getBaseDN(),
             'searchScope' => $this->getSearchScope(),
+            'dataMapping' => $this->getDataMapping(),
+            'groupObjectClass' => $this->getGroupObjectClass(),
+            'groupObjectFilter' => $this->getGroupObjectFilter(),
+            'groupNameAttribute' => $this->getGroupNameAttribute(),
+            'groupMembersAttribute' => $this->getGroupMembersAttribute(),
+            'groupMembershipAttribute' => $this->getGroupMembershipAttribute(),
+            'syncInterval' => $this->getSyncInterval()
         ]);
     }
 
@@ -156,6 +212,9 @@ class LDAPSetting
      */
     public function setImplementation(string $implementation): void
     {
+        if (!in_array($implementation, ['OpenLDAP', 'ActiveDirectory'])) {
+            throw new InvalidArgumentException("Invalid implementation: `$implementation` type");
+        }
         $this->implementation = $implementation;
     }
 
@@ -272,5 +331,149 @@ class LDAPSetting
             throw new InvalidArgumentException("Invalid search scope: `$searchScope`");
         }
         $this->searchScope = $searchScope;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnable(): bool
+    {
+        return $this->enable;
+    }
+
+    /**
+     * @param bool $enable
+     */
+    public function setEnable(bool $enable): void
+    {
+        $this->enable = $enable;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserNameAttribute(): string
+    {
+        return $this->userNameAttribute;
+    }
+
+    /**
+     * @param string $userNameAttribute
+     */
+    public function setUserNameAttribute(string $userNameAttribute): void
+    {
+        $this->userNameAttribute = $userNameAttribute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupObjectClass(): string
+    {
+        return $this->groupObjectClass;
+    }
+
+    /**
+     * @param string $groupObjectClass
+     */
+    public function setGroupObjectClass(string $groupObjectClass): void
+    {
+        $this->groupObjectClass = $groupObjectClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupObjectFilter(): string
+    {
+        return $this->groupObjectFilter;
+    }
+
+    /**
+     * @param string $groupObjectFilter
+     */
+    public function setGroupObjectFilter(string $groupObjectFilter): void
+    {
+        $this->groupObjectFilter = $groupObjectFilter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupNameAttribute(): string
+    {
+        return $this->groupNameAttribute;
+    }
+
+    /**
+     * @param string $groupNameAttribute
+     */
+    public function setGroupNameAttribute(string $groupNameAttribute): void
+    {
+        $this->groupNameAttribute = $groupNameAttribute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupMembersAttribute(): string
+    {
+        return $this->groupMembersAttribute;
+    }
+
+    /**
+     * @param string $groupMembersAttribute
+     */
+    public function setGroupMembersAttribute(string $groupMembersAttribute): void
+    {
+        $this->groupMembersAttribute = $groupMembersAttribute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupMembershipAttribute(): string
+    {
+        return $this->groupMembershipAttribute;
+    }
+
+    /**
+     * @param string $groupMembershipAttribute
+     */
+    public function setGroupMembershipAttribute(string $groupMembershipAttribute): void
+    {
+        $this->groupMembershipAttribute = $groupMembershipAttribute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSyncInterval(): string
+    {
+        return $this->syncInterval;
+    }
+
+    /**
+     * @param string $syncInterval
+     */
+    public function setSyncInterval(string $syncInterval): void
+    {
+        $this->syncInterval = $syncInterval;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDataMapping(): array
+    {
+        return $this->dataMapping;
+    }
+
+    /**
+     * @param array $dataMapping
+     */
+    public function setDataMapping(array $dataMapping): void
+    {
+        $this->dataMapping = $dataMapping;
     }
 }
