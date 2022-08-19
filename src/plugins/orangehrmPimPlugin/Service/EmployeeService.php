@@ -25,10 +25,10 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Registration\Event\RegistrationEvent;
 use OrangeHRM\Core\Service\IDGeneratorService;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Pim\Dao\EmployeeDao;
@@ -43,8 +43,8 @@ class EmployeeService
     use EventDispatcherTrait;
     use ConfigServiceTrait;
     use NormalizerServiceTrait;
-    use AuthUserTrait;
     use UserServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @var EmployeeDao|null
@@ -335,7 +335,7 @@ class EmployeeService
      */
     public function getUndeletableEmpNumbers(): array
     {
-        $undeletableIds = [$this->getAuthUser()->getEmpNumber()];
+        $undeletableIds = [$this->getUserRoleManager()->getUser()->getEmpNumber()];
         if (Config::PRODUCT_MODE === Config::MODE_DEMO &&
             ($user = $this->getUserService()->getSystemUserDao()->getDefaultAdminUser()) instanceof User) {
             $undeletableIds[] = $user->getEmpNumber();
