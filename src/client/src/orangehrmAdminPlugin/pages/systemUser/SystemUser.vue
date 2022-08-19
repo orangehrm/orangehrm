@@ -121,6 +121,7 @@ import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {validSelection} from '@/core/util/validation/rules';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 const defaultFilters = {
   username: '',
@@ -149,6 +150,7 @@ export default {
   },
 
   setup(props) {
+    const {$tEmpName} = useEmployeeNameTranslate();
     const userdataNormalizer = data => {
       return data.map(item => {
         const selectable = props.unselectableIds.findIndex(id => id == item.id);
@@ -156,8 +158,7 @@ export default {
           id: item.id,
           userName: item.userName,
           role: item.userRole?.displayName,
-          empName: `${item.employee?.firstName} ${item.employee?.lastName}
-          ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
+          empName: $tEmpName(item.employee, {includeMiddle: false}),
           status: item.status ? 'Enabled' : 'Disabled',
           isSelectable: selectable === -1,
         };

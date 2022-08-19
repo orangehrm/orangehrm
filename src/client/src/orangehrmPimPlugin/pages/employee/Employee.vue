@@ -139,27 +139,7 @@ import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/Employment
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {validSelection} from '@/core/util/validation/rules';
-
-const userdataNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.empNumber,
-      employeeId: item.employeeId,
-      firstAndMiddleName: `${item.firstName} ${item.middleName}`,
-      lastName: item.lastName + (item.terminationId ? ' (Past Employee)' : ''),
-      jobTitle: item.jobTitle?.isDeleted
-        ? item.jobTitle.title + ' (Deleted)'
-        : item.jobTitle?.title,
-      empStatus: item.empStatus?.name,
-      subunit: item.subunit?.name,
-      supervisor: item.supervisors
-        ? item.supervisors
-            .map(supervisor => `${supervisor.firstName} ${supervisor.lastName}`)
-            .join(',')
-        : '',
-    };
-  });
-};
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   employee: null,
@@ -195,7 +175,42 @@ export default {
     'include-employee-dropdown': IncludeEmployeeDropdown,
   },
 
-  setup() {
+  props: {
+    unselectableEmpNumbers: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
+  setup(props) {
+    const {$t} = usei18n();
+    const dataNormalizer = data => {
+      return data.map(item => {
+        const selectable = props.unselectableEmpNumbers.findIndex(
+          empNumber => empNumber == item.empNumber,
+        );
+        return {
+          id: item.empNumber,
+          employeeId: item.employeeId,
+          firstAndMiddleName: `${item.firstName} ${item.middleName}`,
+          lastName:
+            item.lastName +
+            (item.terminationId ? ` ${$t('general.past_employee')}` : ''),
+          jobTitle: item.jobTitle?.isDeleted
+            ? item.jobTitle.title + $t('general.deleted')
+            : item.jobTitle?.title,
+          empStatus: item.empStatus?.name,
+          subunit: item.subunit?.name,
+          supervisor: item.supervisors
+              ? item.supervisors
+                  .map(supervisor => `${supervisor.firstName} ${supervisor.lastName}`)
+                  .join(',')
+              : '',
+          isSelectable: selectable === -1,
+        };
+      });
+    };
+
     const filters = ref({...defaultFilters});
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -232,7 +247,7 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilters,
-      normalizer: userdataNormalizer,
+      normalizer: dataNormalizer,
     });
 
     onSort(execQuery);
@@ -354,6 +369,12 @@ export default {
     },
     onClickDelete(item, $event) {
       $event.stopImmediatePropagation();
+      const isSelectable = this.unselectableEmpNumbers.findIndex(
+        empNumber => empNumber == item.id,
+      );
+      if (isSelectable > -1) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
