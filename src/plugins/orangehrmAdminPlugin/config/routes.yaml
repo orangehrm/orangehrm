@@ -604,12 +604,12 @@ admin_language_translation:
   controller: OrangeHRM\Admin\Controller\LanguageTranslationController::handle
   methods: [ GET ]
 
-admin_ldap_setup:
-  path: /admin/ldap
-  controller: OrangeHRM\Admin\Controller\LdapController::handle
+admin_ldap_configuration:
+  path: /admin/ldapConfiguration
+  controller: OrangeHRM\Admin\Controller\LdapConfigurationController::handle
   methods: [ GET ]
 
 admin_ldap_test_connection:
   path: /api/v2/admin/ldap/connect
-  controller: OrangeHRM\Admin\Controller\LdapController::testConnection
+  controller: OrangeHRM\Admin\Controller\LdapConfigurationController::testConnection
   methods: [ POST ]

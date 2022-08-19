@@ -24,10 +24,8 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use Symfony\Component\Ldap\Ldap;
-use Symfony\Component\Ldap\Exception\LdapException;
 
-class LdapController extends AbstractVueController
+class LdapConfigurationController extends AbstractVueController
 {
     /**
      * @inheritDoc
@@ -51,45 +49,19 @@ class LdapController extends AbstractVueController
         $distinguishedPassword = $request->request->get('distinguishedPassword');
 
         $response = new Response();
-
-        try {
-            $ldap = Ldap::create('ext_ldap', [
-                'host' => $hostname,
-                'port' => $port,
-                'encryption' => $encryption ?: 'none',
-            ]);
-
-            $ldap->bind($distinguishedName, $distinguishedPassword);
-
-            $response->setContent(
-                json_encode([
-                    "data" => [
-                        "message" => "Successfully connected"
-                    ],
-                    "meta" => []
-                ])
-            );
-        } catch (LdapException $e) {
-            $response->setContent(
-                json_encode([
-                    "error" => [
-                        "error" => true,
-                        "message" => $e->getMessage()
-                    ],
-                ])
-            );
-        } catch (\Exception $e) {
-            // die(var_dump($e));
-            $response->setContent(
-                json_encode([
-                    "error" => [
-                        "error" => true,
-                        "message" => $e->getMessage()
-                    ],
-                ])
-            );
-        }
-
+        $response->setContent(
+            json_encode([
+                "data" => [
+                    "message" => "Successfully connected",
+                    "hostname" => $hostname,
+                    "port" => $port,
+                    "encryption" => $encryption,
+                    "distinguishedName" => $distinguishedName,
+                    "distinguishedPassword" => $distinguishedPassword
+                ],
+                "meta" => []
+            ])
+        );
         $response->setStatusCode(Response::HTTP_OK);
         return $response->send();
     }

@@ -636,3 +636,29 @@ export const validLangString = function(value: string) {
 export const validSelection = function(value: string | object | null) {
   return typeof value === 'string' ? translate('general.invalid') : true;
 };
+
+export const validHostnameFormat = function(value: string): boolean | string {
+  const fqdnRegex = /^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?)*\.?$/;
+  return !value || fqdnRegex.test(value) || translate('general.invalid');
+};
+
+export const validPortRange = function(
+  charLength: number,
+  rangeFrom: number,
+  rangeTo: number,
+) {
+  return function(value: string): boolean | string {
+    return (
+      !value ||
+      (/^\d+$/.test(value) &&
+        !Number.isNaN(parseFloat(value)) &&
+        String(value).length <= charLength &&
+        parseInt(value) >= rangeFrom &&
+        parseInt(value) <= rangeTo) ||
+      translate('general.enter_valid_port_between_a_to_b', {
+        minValue: rangeFrom,
+        maxValue: rangeTo,
+      })
+    );
+  };
+};
