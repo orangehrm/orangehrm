@@ -505,10 +505,10 @@ class ConfigService
     }
 
     /**
-     * @param LDAPSetting $ldapSetting
+     * @param string $ldapSetting
      */
-    public function setLDAPSetting(LDAPSetting $ldapSetting): void
+    public function setLDAPSetting(string $ldapSetting): void
     {
-        $this->_setConfigValue(self::KEY_LDAP_SETTINGS, (string)$ldapSetting);
+        $this->_setConfigValue(self::KEY_LDAP_SETTINGS, $ldapSetting);
     }
 }

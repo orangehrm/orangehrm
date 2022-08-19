@@ -1,0 +1,15 @@
+##########################
+#        LDAP
+##########################
+
+apiv2_admin_ldap_config:
+  description: 'API-v2 Admin   - LDAP Configurations'
+  api: OrangeHRM\LDAP\Api\LDAPConfigAPI
+  module: admin
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
