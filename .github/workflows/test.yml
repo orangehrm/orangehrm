@@ -7,7 +7,7 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     services:
       mysql:
@@ -40,7 +40,24 @@ jobs:
         run: |
           php7.4 installer/cli_install.php
           mysqldump -V
-          php7.4 devTools/core/console.php i:create-test-db -p root
+          php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
+
+      - name: Configure LDAP server
+        run: |
+          cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/fixtures
+          docker run --detach --rm --name openldap \
+            --network ${{ job.container.network }} \
+            -p 389:1389 \
+            -e LDAP_ADMIN_USERNAME=admin \
+            -e LDAP_ADMIN_PASSWORD=admin \
+            -e LDAP_ROOT=dc=example,dc=org \
+            -e LDAP_CONFIG_ADMIN_ENABLED=yes \
+            -e LDAP_CONFIG_ADMIN_USERNAME=admin \
+            -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
+            -e LDAP_SKIP_DEFAULT_TREE=yes \
+            -v $PWD/ldifs:/ldifs \
+            bitnami/openldap:latest
+          cat server-config.tpl.yaml > server-config.yaml
 
       - name: Run Jest
         run: |
@@ -63,6 +80,10 @@ jobs:
         with:
           name: coverage
           path: coverage.tar.xz
+
+      - name: Stop LDAP container
+        if: ${{ always() }}
+        run: docker stop openldap
 
   composer_check:
     runs-on: ubuntu-20.04
