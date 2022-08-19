@@ -19,17 +19,19 @@
 
 namespace OrangeHRM\Leave\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
+use OrangeHRM\Leave\Service\Model\LeaveListModal;
 use OrangeHRM\Leave\Traits\Service\LeaveListServiceTrait;
 
 class LeaveListAPI extends Endpoint implements CollectionEndpoint
@@ -51,14 +53,16 @@ class LeaveListAPI extends Endpoint implements CollectionEndpoint
         );
 
         $leaveListSearchFilterParams->setDate($startDate);
-        $leaveListSearchFilterParams->setLimit(10);
 
         $empLeaveList = $this->getLeaveListService()->getLeaveListDao()
             ->getEmployeeOnLeaveList($leaveListSearchFilterParams);
+        $employeeCount = $this->getLeaveListService()->getLeaveListDao()
+            ->getEmployeeOnLeaveCount($leaveListSearchFilterParams);
 
         return new EndpointCollectionResult(
-            ArrayModel::class,
-            $empLeaveList
+            LeaveListModal::class,
+            $empLeaveList,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $employeeCount])
         );
     }
 

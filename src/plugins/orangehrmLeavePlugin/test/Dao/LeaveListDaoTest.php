@@ -22,6 +22,7 @@ namespace Dao;
 use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Leave\Dao\LeaveListDao;
 use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -47,18 +48,25 @@ class LeaveListDaoTest extends KernelTestCase
     {
         $leaveListSearchFilterParams = new LeaveListSearchFilterParams();
         $leaveListSearchFilterParams->setDate(new DateTime('2022-09-01'));
-
         $employeeOnLeave = $this->leaveListDao->getEmployeeOnLeaveList($leaveListSearchFilterParams);
 
         $this->assertCount(1, $employeeOnLeave);
-        $this->assertTrue(is_array($this->leaveListDao->getEmployeeOnLeaveList($leaveListSearchFilterParams)));
-        $this->assertEquals('Kayla', $employeeOnLeave[0]['firstName']);
-        $this->assertEquals('0004', $employeeOnLeave[0]['employeeId']);
+        $this->assertInstanceOf(Leave::class, $employeeOnLeave[0]);
+        $this->assertEquals('0004', $employeeOnLeave[0]->getEmployee()->getEmployeeId());
+        $this->assertEquals('0004', $employeeOnLeave[0]->getEmployee()->getEmpNumber());
+        $this->assertEquals(null, $employeeOnLeave[0]->getDecorator()->getEndTime());
+        $this->assertEquals(null, $employeeOnLeave[0]->getDecorator()->getStartTime());
 
-        $leaveListSearchFilterParams->setDate(new DateTime('2022-10-29'));
+        $leaveListSearchFilterParams->setDate(new DateTime('2022-12-08'));
         $employeeOnLeave = $this->leaveListDao->getEmployeeOnLeaveList($leaveListSearchFilterParams);
         $this->assertCount(1, $employeeOnLeave);
-        $this->assertEquals('1', $employeeOnLeave[0]['status']);
-        $this->assertEquals('4.00', $employeeOnLeave[0]['lengthHours']);
+        $this->assertEquals('Linda', $employeeOnLeave[0]->getEmployee()->getFirstName());
+        $this->assertEquals('full_day', $employeeOnLeave[0]->getDecorator()->getLeaveDuration());
+        $this->assertEquals('2022-12-08', $employeeOnLeave[0]->getDecorator()->getLeaveDate());
+
+        $leaveListSearchFilterParams->setDate(new DateTime('2022-09-30'));
+        $employeeOnLeave = $this->leaveListDao->getEmployeeOnLeaveList($leaveListSearchFilterParams);
+        $this->assertEquals('14:00', $employeeOnLeave[0]->getDecorator()->getEndTime());
+        $this->assertEquals('09:00', $employeeOnLeave[0]->getDecorator()->getStartTime());
     }
 }

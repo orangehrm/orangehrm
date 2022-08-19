@@ -47,23 +47,26 @@ class LeaveListDao extends BaseDao
         $q = $this->createQueryBuilder(Leave::class, 'leaveList');
         $q->leftJoin('leaveList.employee', 'employee');
         $q->leftJoin('leaveList.leaveType', 'type');
+
         $this->setSortingAndPaginationParams($q, $leaveListSearchFilterParams);
 
-        $q->select(
-            'leaveList.id',
-            'leaveList.lengthHours',
-            'leaveList.status',
-            'employee.empNumber',
-            'employee.firstName',
-            'employee.lastName',
-            'employee.employeeId',
-            'type.name AS leaveType',
-            'leaveList.startTime',
-            'leaveList.endTime',
-            'leaveList.durationType',
-        );
         $q->andWhere('leaveList.date = :date')->setParameter('date', $leaveListSearchFilterParams->getDate());
+        $q->andWhere($q->expr()->orX(
+            $q->expr()->eq('leaveList.status', ':pending'),
+            $q->expr()->eq('leaveList.status', ':approved')
+        ))
+        ->setParameter('pending', Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL)
+        ->setParameter('approved', Leave::LEAVE_STATUS_LEAVE_APPROVED);
 
         return $this->getPaginator($q);
+    }
+
+    /**
+     * @param LeaveListSearchFilterParams $leaveListSearchFilterParams
+     * @return int
+     */
+    public function getEmployeeOnLeaveCount(LeaveListSearchFilterParams $leaveListSearchFilterParams): int
+    {
+        return $this->getLeaveListPaginator($leaveListSearchFilterParams)->count();
     }
 }
