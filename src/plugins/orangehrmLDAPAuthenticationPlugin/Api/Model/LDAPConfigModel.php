@@ -43,15 +43,13 @@ class LDAPConfigModel implements Normalizable
     {
         return [
             'enable' => $this->LDAPSetting->isEnable(),
-            'host' => $this->LDAPSetting->getHost(),
+            'hostname' => $this->LDAPSetting->getHost(),
             'port' => $this->LDAPSetting->getPort(),
             'encryption' => $this->LDAPSetting->getEncryption(),
             'implementation' => $this->LDAPSetting->getImplementation(),
-            'version' => $this->LDAPSetting->getVersion(),
-            'optReferrals' => $this->LDAPSetting->isOptReferrals(),
             'bindAnonymously' => $this->LDAPSetting->isBindAnonymously(),
-            'bindUserDN' => $this->LDAPSetting->getBindUserDN(),
-            'baseDN' => $this->LDAPSetting->getBaseDN(),
+            'distinguishedName' => $this->LDAPSetting->getBindUserDN(),
+            'baseDistinguishedName' => $this->LDAPSetting->getBaseDN(),
             'searchScope' => $this->LDAPSetting->getSearchScope(),
             'userNameAttribute' => $this->LDAPSetting->getUserNameAttribute(),
             'dataMapping' => $this->LDAPSetting->getDataMapping(),

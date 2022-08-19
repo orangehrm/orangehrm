@@ -115,7 +115,7 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
         );
 
         $this->setConfigAttributes($ldapSettings);
-        $this->getConfigService()->setLDAPSetting($ldapSettings->getEncodedAttributes());
+        $this->getConfigService()->setLDAPSetting($ldapSettings);
         return new EndpointResourceResult(LDAPConfigModel::class, $ldapSettings);
     }
 
@@ -356,7 +356,6 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $ldapSettings = $this->getConfigService()->getLDAPSetting();
-        $this->throwRecordNotFoundExceptionIfNotExist($ldapSettings, LDAPSetting::class);
         return new EndpointResourceResult(LDAPConfigModel::class, $ldapSettings);
     }
 

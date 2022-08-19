@@ -24,11 +24,11 @@ use Symfony\Component\Ldap\Adapter\QueryInterface;
 
 class LDAPSetting
 {
-    private bool $enable;
-    private string $host;
-    private int $port;
-    private string $encryption;
-    private string $implementation;
+    private bool $enable = false;
+    private string $host = 'localhost';
+    private int $port = 389;
+    private string $encryption = 'none';
+    private string $implementation = 'OpenLDAP';
     private string $version = '3';
     private bool $optReferrals = false;
 
@@ -36,19 +36,26 @@ class LDAPSetting
     private ?string $bindUserDN = null;
     private ?string $bindUserPassword = null;
 
-    private ?string $baseDN = null;
+    private ?string $baseDN = 'dc=example,dc=com';
     private string $searchScope = QueryInterface::SCOPE_SUB;
 
-    private string $userNameAttribute;
+    private string $userNameAttribute = 'cn';
 
-    private array $dataMapping;
+    private array $dataMapping = [
+        "firstname" => "givenName",
+        "middlename" => "",
+        "lastname" => "sn",
+        "userStatus" => null,
+        "workEmail" => null,
+        "employeeId" => null
+    ];
 
-    private string $groupObjectClass;
-    private string $groupObjectFilter;
-    private string $groupNameAttribute;
-    private string $groupMembersAttribute;
-    private string $groupMembershipAttribute;
-    private string $syncInterval;
+    private string $groupObjectClass = 'group';
+    private string $groupObjectFilter = '(&(objectClass=group)(cn=*))';
+    private string $groupNameAttribute = 'cn';
+    private string $groupMembersAttribute = 'member';
+    private string $groupMembershipAttribute = 'memberOf';
+    private int $syncInterval = 60;
 
 
     /**
@@ -107,26 +114,6 @@ class LDAPSetting
     public function __toString(): string
     {
         return json_encode([
-            'host' => $this->getHost(),
-            'port' => $this->getPort(),
-            'encryption' => $this->getEncryption(),
-            'implementation' => $this->getImplementation(),
-            'version' => $this->getVersion(),
-            'optReferrals' => $this->isOptReferrals(),
-            'bindAnonymously'=>$this->isBindAnonymously(),
-            'bindUserDN'=>$this->getBindUserDN(),
-            'bindUserPassword' => $this->getBindUserPassword(),
-            'baseDN' => $this->getBaseDN(),
-            'searchScope' => $this->getSearchScope()
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEncodedAttributes(): string
-    {
-        return json_encode([
             'enable' => $this->isEnable(),
             'host' => $this->getHost(),
             'port' => $this->getPort(),
@@ -139,7 +126,7 @@ class LDAPSetting
             'bindUserPassword' => $this->getBindUserPassword(),
             'baseDN' => $this->getBaseDN(),
             'searchScope' => $this->getSearchScope(),
-            'userNameAttribute'=>$this->getUserNameAttribute(),
+            'userNameAttribute' => $this->getUserNameAttribute(),
             'dataMapping' => $this->getDataMapping(),
             'groupObjectClass' => $this->getGroupObjectClass(),
             'groupObjectFilter' => $this->getGroupObjectFilter(),
@@ -448,17 +435,17 @@ class LDAPSetting
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getSyncInterval(): string
+    public function getSyncInterval(): int
     {
         return $this->syncInterval;
     }
 
     /**
-     * @param string $syncInterval
+     * @param int $syncInterval
      */
-    public function setSyncInterval(string $syncInterval): void
+    public function setSyncInterval(int $syncInterval): void
     {
         $this->syncInterval = $syncInterval;
     }

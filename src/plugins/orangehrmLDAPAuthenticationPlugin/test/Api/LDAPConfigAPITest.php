@@ -54,7 +54,7 @@ class LDAPConfigAPITest extends EndpointIntegrationTestCase
 
     public static function saveLDAPConfigPreHook(): void
     {
-        $ldapSettings = new LDAPSetting('localhost', 389, 'OpenLDAP', 'none', null);
+        $ldapSettings = new LDAPSetting('localhost', 389, 'OpenLDAP', 'ssl', null);
         $ldapSettings->setVersion(3);
         $ldapSettings->setOptReferrals(false);
         $ldapSettings->setBindAnonymously(true);
@@ -64,6 +64,7 @@ class LDAPConfigAPITest extends EndpointIntegrationTestCase
         $ldapSettings->setUserNameAttribute('cn');
         $ldapSettings->setDataMapping([
             "firstname" => "givenName",
+            "middlename" => "something",
             "lastname" => "sn",
             "userStatus" => null,
             "workEmail" => null,
@@ -79,7 +80,7 @@ class LDAPConfigAPITest extends EndpointIntegrationTestCase
 
         $config = new Config();
         $config->setName(ConfigService::KEY_LDAP_SETTINGS);
-        $config->setValue($ldapSettings->getEncodedAttributes());
+        $config->setValue((string)$ldapSettings);
         Doctrine::getEntityManager()->persist($config);
         Doctrine::getEntityManager()->flush($config);
     }

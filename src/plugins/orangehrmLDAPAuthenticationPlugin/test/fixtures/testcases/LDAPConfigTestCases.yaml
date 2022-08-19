@@ -35,15 +35,13 @@ Update:
     data:
       {
         "enable": false,
-        "host": "localhost",
+        "hostname": "localhost",
         "port": 389,
         "encryption": "none",
         "implementation": "OpenLDAP",
-        "version": "3",
-        "optReferrals": false,
         "bindAnonymously": false,
-        "bindUserDN": "cn=admin,dc=example,dc=org",
-        "baseDN": null,
+        "distinguishedName": "cn=admin,dc=example,dc=org",
+        "baseDistinguishedName": null,
         "searchScope": "sub",
         "userNameAttribute": "cn",
         "dataMapping": {
@@ -98,15 +96,13 @@ Update:
     data:
       {
         "enable": false,
-        "host": "localhost",
+        "hostname": "localhost",
         "port": 389,
         "encryption": "none",
         "implementation": "OpenLDAP",
-        "version": "3",
-        "optReferrals": false,
         "bindAnonymously": true,
-        "bindUserDN": null,
-        "baseDN": null,
+        "distinguishedName": null,
+        "baseDistinguishedName": null,
         "searchScope": "sub",
         "userNameAttribute": "cn",
         "dataMapping": {
@@ -237,9 +233,33 @@ GetOne:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
     attributes: [ ]
     query: [ ]
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
+    data:
+      {
+        "enable": false,
+        "hostname": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "implementation": "OpenLDAP",
+        "bindAnonymously": true,
+        "distinguishedName": null,
+        "baseDistinguishedName": 'dc=example,dc=com',
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "middlename": "",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": 60
+      }
 
   'Get LDAP Config':
     userId: 1
@@ -252,19 +272,18 @@ GetOne:
     data:
       {
         "enable": false,
-        "host": "localhost",
+        "hostname": "localhost",
         "port": 389,
-        "encryption": "none",
+        "encryption": "ssl",
         "implementation": "OpenLDAP",
-        "version": "3",
-        "optReferrals": false,
         "bindAnonymously": true,
-        "bindUserDN": null,
-        "baseDN": null,
+        "distinguishedName": null,
+        "baseDistinguishedName": null,
         "searchScope": "sub",
         "userNameAttribute": "cn",
         "dataMapping": {
           "firstname": "givenName",
+          "middlename": "something",
           "lastname": "sn",
           "userStatus": null,
           "workEmail": null,
@@ -275,6 +294,6 @@ GetOne:
         "groupNameAttribute": "cn",
         "groupMembersAttribute": "member",
         "groupMembershipAttribute": "memberOf",
-        "syncInterval": "60"
+        "syncInterval": 60
       }
     meta: [ ]

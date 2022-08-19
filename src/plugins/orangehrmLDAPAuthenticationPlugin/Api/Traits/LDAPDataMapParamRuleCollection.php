@@ -68,14 +68,14 @@ trait LDAPDataMapParamRuleCollection
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_WORK_EMAIL,
-                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMPLOYEE_ID,
-                    new Rule(Rules::EMAIL),
+                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
                 )
             ),
