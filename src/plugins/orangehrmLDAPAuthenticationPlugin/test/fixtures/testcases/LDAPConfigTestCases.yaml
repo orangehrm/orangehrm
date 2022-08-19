@@ -1,0 +1,229 @@
+Create:
+  'Save LDAP Config - Bind User':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": false,
+        "hostname": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "ldapImplementation": "OpenLDAP",
+        "bindAnonymously": false,
+        "distinguishedName": "cn=admin,dc=example,dc=org",
+        "distinguishedPassword": "admin",
+        "baseDistinguishedName": null,
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": "60"
+      }
+    data:
+      {
+        "enable": false,
+        "host": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "implementation": "OpenLDAP",
+        "version": "3",
+        "optReferrals": false,
+        "bindAnonymously": false,
+        "bindUserDN": "cn=admin,dc=example,dc=org",
+        "baseDN": null,
+        "searchScope": "sub",
+        "dataMapping": {
+          "firstname": "givenName",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": "60"
+      }
+    meta: [ ]
+
+  'Save LDAP Config - Bind Anonymously':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": false,
+        "hostname": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "ldapImplementation": "OpenLDAP",
+        "bindAnonymously": true,
+        "distinguishedName": "cn=admin,dc=example,dc=org",
+        "distinguishedPassword": "admin",
+        "baseDistinguishedName": null,
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": "60"
+      }
+    data:
+      {
+        "enable": false,
+        "host": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "implementation": "OpenLDAP",
+        "version": "3",
+        "optReferrals": false,
+        "bindAnonymously": true,
+        "bindUserDN": null,
+        "baseDN": null,
+        "searchScope": "sub",
+        "dataMapping": {
+          "firstname": "givenName",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": "60"
+      }
+    meta: [ ]
+
+  'Save LDAP Config - Invalid encryption':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": false,
+        "hostname": "localhost",
+        "port": 389,
+        "encryption": "invalid",
+        "ldapImplementation": "OpenLDAP",
+        "bindAnonymously": true,
+        "distinguishedName": "cn=admin,dc=example,dc=org",
+        "distinguishedPassword": "admin",
+        "baseDistinguishedName": null,
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": "60"
+      }
+    invalidOnly: [ "encryption" ]
+
+  'Save LDAP Config - Invalid LDAP Implementation':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": false,
+        "hostname": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "ldapImplementation": "invalid",
+        "bindAnonymously": true,
+        "distinguishedName": "cn=admin,dc=example,dc=org",
+        "distinguishedPassword": "admin",
+        "baseDistinguishedName": null,
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": "60"
+      }
+    invalidOnly: [ "ldapImplementation" ]
+
+  'Save LDAP Config - Invalid Search Scope':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body:
+      {
+        "enable": false,
+        "hostname": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "ldapImplementation": "OpenLDAP",
+        "bindAnonymously": true,
+        "distinguishedName": "cn=admin,dc=example,dc=org",
+        "distinguishedPassword": "admin",
+        "baseDistinguishedName": null,
+        "searchScope": "invalid",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": "60"
+      }
+    invalidOnly: [ "searchScope" ]
