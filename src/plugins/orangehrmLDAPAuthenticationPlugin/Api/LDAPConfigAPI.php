@@ -79,6 +79,10 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const LDAP_IMPLEMENTATION_ACTIVE_DIRECTORY = 'ActiveDirectory';
 
     public const PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH = 100;
+    public const PARAMETER_RULE_HOST_NAME_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_DISTINGUISHED_PASSWORD_MAX_LENGTH  = 255;
+    public const PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
 
     /**
      * @inheritDoc
@@ -136,12 +140,14 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
                     self::PARAMETER_DISTINGUISHED_NAME
                 )
             );
-            $ldapSetting->setBindUserPassword(
-                $this->getRequestParams()->getString(
-                    RequestParams::PARAM_TYPE_BODY,
-                    self::PARAMETER_DISTINGUISHED_PASSWORD
-                )
+
+            $password = $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_DISTINGUISHED_PASSWORD
             );
+            if (!is_null($password)) {
+                $ldapSetting->setBindUserPassword($password);
+            }
         }
         $ldapSetting->setUserNameAttribute(
             $this->getRequestParams()->getString(
@@ -223,7 +229,8 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_HOSTNAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_HOST_NAME_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_PORT,
@@ -264,21 +271,21 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
                 new ParamRule(
                     self::PARAMETER_DISTINGUISHED_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_DISTINGUISHED_NAME_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DISTINGUISHED_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_DISTINGUISHED_PASSWORD_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_BASE_DISTINGUISHED_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH])
                 )
             ),
             new ParamRule(

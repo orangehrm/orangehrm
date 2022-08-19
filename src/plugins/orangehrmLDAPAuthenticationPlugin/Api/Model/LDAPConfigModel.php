@@ -46,7 +46,7 @@ class LDAPConfigModel implements Normalizable
             'hostname' => $this->LDAPSetting->getHost(),
             'port' => $this->LDAPSetting->getPort(),
             'encryption' => $this->LDAPSetting->getEncryption(),
-            'implementation' => $this->LDAPSetting->getImplementation(),
+            'ldapImplementation' => $this->LDAPSetting->getImplementation(),
             'bindAnonymously' => $this->LDAPSetting->isBindAnonymously(),
             'distinguishedName' => $this->LDAPSetting->getBindUserDN(),
             'baseDistinguishedName' => $this->LDAPSetting->getBaseDN(),

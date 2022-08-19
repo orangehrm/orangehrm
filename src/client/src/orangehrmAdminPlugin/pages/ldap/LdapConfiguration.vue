@@ -33,7 +33,7 @@
       </div>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading">
         <oxd-text tag="p" class="orangehrm-subtitle">
           {{ $t('admin.server_settings') }}
         </oxd-text>
@@ -113,6 +113,7 @@
                 v-model="configuration.distinguishedPassword"
                 type="password"
                 :label="$t('general.password')"
+                :placeholder="passwordPlaceHolder"
                 :rules="rules.distinguishedPassword"
                 required
               />
@@ -277,10 +278,22 @@
             :label="$t('admin.test_connection')"
             @click="onClickTest"
           />
-          <submit-button />
+          <oxd-button
+            type="button"
+            class="orangehrm-left-space"
+            display-type="secondary"
+            :label="$t('general.save')"
+            @click="onClickSave"
+          />
         </oxd-form-actions>
       </oxd-form>
     </div>
+
+    <test-ldap-connection-modal
+      v-if="testModalState"
+      :data="testModalState"
+      @close="onCloseTestModal"
+    ></test-ldap-connection-modal>
   </div>
 </template>
 
@@ -293,8 +306,11 @@ import {
   shouldNotExceedCharLength,
   numberShouldBeBetweenMinAndMaxValue,
 } from '@/core/util/validation/rules';
+import useForm from '@/core/util/composable/useForm';
+import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import TestLdapConnectionModalVue from '@/orangehrmAdminPlugin/components/TestLdapConnectionModal';
 
 const configurationModel = {
   enable: false,
@@ -305,7 +321,7 @@ const configurationModel = {
   bindAnonymously: true,
   distinguishedName: 'cn=admin,dc=example,dc=org',
   distinguishedPassword: 'admin',
-  baseDistinguishedName: null,
+  baseDistinguishedName: 'dc=example,dc=com',
   searchScope: null,
   userNameAttribute: 'cn',
   syncInterval: 60,
@@ -328,6 +344,7 @@ const dataMappingModel = {
 export default {
   components: {
     'oxd-switch-input': SwitchInput,
+    'test-ldap-connection-modal': TestLdapConnectionModalVue,
   },
 
   setup() {
@@ -335,8 +352,13 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/admin/ldap-config',
     );
+    const {formRef, invalid, validate} = useForm();
+
     return {
       http,
+      formRef,
+      invalid,
+      validate,
     };
   },
 
@@ -363,17 +385,17 @@ export default {
           label: this.$t('admin.subtree'),
         },
         {
-          id: 'oneLevel',
+          id: 'one',
           label: this.$t('admin.one_level'),
         },
       ],
       ldapImplementationOptions: [
         {
-          id: 'openldap',
+          id: 'OpenLDAP',
           label: this.$t('admin.open_ldap_v3'),
         },
         {
-          id: 'activeDirectory',
+          id: 'ActiveDirectory',
           label: this.$t('admin.ms_active_directory'),
         },
       ],
@@ -384,9 +406,12 @@ export default {
           shouldNotExceedCharLength(255),
         ],
         port: [required, validPortRange(5, 0, 65535)],
-        distinguishedName: [required, shouldNotExceedCharLength(100)],
-        distinguishedPassword: [required, shouldNotExceedCharLength(100)],
-        baseDistinguishedName: [required, shouldNotExceedCharLength(100)],
+        distinguishedName: [required, shouldNotExceedCharLength(255)],
+        distinguishedPassword: [
+          v => !!this.passwordPlaceHolder || required(v),
+          shouldNotExceedCharLength(255),
+        ],
+        baseDistinguishedName: [required, shouldNotExceedCharLength(255)],
         userNameAttribute: [required, shouldNotExceedCharLength(100)],
         firstnameAttribute: [required, shouldNotExceedCharLength(100)],
         lastnameAttribute: [required, shouldNotExceedCharLength(100)],
@@ -405,77 +430,87 @@ export default {
         groupMembersAttribute: [shouldNotExceedCharLength(100)],
         groupMembershipAttribute: [shouldNotExceedCharLength(100)],
       },
+      testModalState: null,
+      passwordPlaceHolder: null,
     };
   },
   beforeMount() {
-    // TODO: uncomment after API added
-    // this.isLoading = true;
-    // this.http
-    //   .getAll()
-    //   .then(response => {
-    //     const {data} = response.data;
-    //     this.configuration = {
-    //       ...data,
-    //       encryption: this.encryptionOptions.find(
-    //         option => option.id === data.encryption,
-    //       ),
-    //       searchScope:
-    //         this.searchScopeOptions.find(
-    //           option => option.id === data.searchScope,
-    //         ) || this.searchScopeOptions[0],
-    //       ldapImplementation:
-    //         this.ldapImplementationOptions.find(
-    //           option => option.id === data.ldapImplementation,
-    //         ) || this.ldapImplementationOptions[0],
-    //     };
-    //   })
-    //   .finally(() => {
-    //     this.isLoading = false;
-    //   });
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.configuration = {
+          ...data,
+          distinguishedPassword: null,
+          encryption: this.encryptionOptions.find(
+            option => option.id === data.encryption,
+          ),
+          searchScope:
+            this.searchScopeOptions.find(
+              option => option.id === data.searchScope,
+            ) || this.searchScopeOptions[0],
+          ldapImplementation:
+            this.ldapImplementationOptions.find(
+              option => option.id === data.ldapImplementation,
+            ) || this.ldapImplementationOptions[0],
+        };
+        this.passwordPlaceHolder = data.bindAnonymously ? null : '******';
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .create({
-          ...this.configuration,
-          encryption: this.configuration.encryption?.id,
-          searchScope: this.configuration.searchScope?.id,
-          ldapImplementation: this.configuration.ldapImplementation?.id,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        });
-    },
     onClickTest() {
-      // TODO
-      // this.isLoading = true;
-      // this.http
-      //   .request({
-      //     method: 'POST',
-      //     url: 'api/v2/admin/ldap/connect',
-      //     data: {
-      //       ...this.configuration,
-      //       ldapImplementation: this.configuration.ldapImplementation?.id,
-      //       encryption: this.configuration.encryption?.id,
-      //       searchScope: this.configuration.searchScope?.id,
-      //     },
-      //   })
-      //   .then(response => {
-      //     const {data, error} = response.data;
-      //     if (data) {
-      //       this.$toast.success({
-      //         title: this.$t('general.success'),
-      //         message: 'LDAP server connected!',
-      //       });
-      //     } else {
-      //       this.$toast.warn({
-      //         title: this.$t('general.warning'),
-      //         message: error.message,
-      //       });
-      //     }
-      //   })
-      //   .finally(() => (this.isLoading = false));
+      this.validate().then(() => {
+        if (this.invalid === true) return;
+        this.isLoading = true;
+        this.http
+          .request({
+            method: 'POST',
+            url: 'api/v2/admin/ldap/connect',
+            data: {
+              ...this.configuration,
+              enable: undefined,
+              port: parseInt(this.configuration.port),
+              syncInterval: parseInt(this.configuration.syncInterval),
+              encryption: this.configuration.encryption?.id || 'none',
+              searchScope: this.configuration.searchScope?.id,
+              ldapImplementation: this.configuration.ldapImplementation?.id,
+            },
+          })
+          .then(response => {
+            const {data} = response.data;
+            this.testModalState = data;
+          })
+          .finally(() => (this.isLoading = false));
+      });
+    },
+    onClickSave() {
+      this.validate().then(() => {
+        if (this.invalid === true) return;
+        this.isLoading = true;
+        this.http
+          .request({
+            method: 'PUT',
+            data: {
+              ...this.configuration,
+              port: parseInt(this.configuration.port),
+              syncInterval: parseInt(this.configuration.syncInterval),
+              encryption: this.configuration.encryption?.id || 'none',
+              searchScope: this.configuration.searchScope?.id,
+              ldapImplementation: this.configuration.ldapImplementation?.id,
+            },
+          })
+          .then(() => {
+            return this.$toast.updateSuccess();
+          })
+          .finally(() => reloadPage());
+      });
+    },
+    onCloseTestModal() {
+      this.testModalState = null;
     },
   },
 };

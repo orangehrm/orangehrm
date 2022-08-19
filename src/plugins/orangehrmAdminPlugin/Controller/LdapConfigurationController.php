@@ -42,22 +42,65 @@ class LdapConfigurationController extends AbstractVueController
      */
     public function testConnection(Request $request): Response
     {
-        $hostname = $request->request->get('hostname');
-        $port = $request->request->getInt('port');
-        $encryption = $request->request->get('encryption');
         $distinguishedName = $request->request->get('distinguishedName');
-        $distinguishedPassword = $request->request->get('distinguishedPassword');
+        $baseDistinguishedName = $request->request->get('baseDistinguishedName');
 
         $response = new Response();
         $response->setContent(
             json_encode([
                 "data" => [
-                    "message" => "Successfully connected",
-                    "hostname" => $hostname,
-                    "port" => $port,
-                    "encryption" => $encryption,
-                    "distinguishedName" => $distinguishedName,
-                    "distinguishedPassword" => $distinguishedPassword
+                    [
+                        "category" => "Login",
+                        "checks" => [
+                            [
+                                "label" => "Authentication",
+                                "value" => [
+                                    "message" => "Ok (Connected in 5ms)",
+                                    "status" => 1
+                                ]
+                            ],
+                            [
+                                "label" => "Base DN",
+                                "value" => [
+                                    "message" => $baseDistinguishedName,
+                                    "status" => 1
+                                ]
+                            ],
+                            [
+                                "label" => "User DN",
+                                "value" => [
+                                    "message" => $distinguishedName,
+                                    "status" => 1
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        "category" => "Lookup",
+                        "checks" => [
+                            [
+                                "label" => "User lookup",
+                                "value" => [
+                                    "message" => "Ok",
+                                    "status" => 1
+                                ]
+                            ],
+                            [
+                                "label" => "User groups",
+                                "value" => [
+                                    "message" => "2 Found",
+                                    "status" => 1
+                                ]
+                            ],
+                            [
+                                "label" => "Users",
+                                "value" => [
+                                    "message" => '150 Found',
+                                    "status" => 1
+                                ]
+                            ]
+                        ]
+                    ],
                 ],
                 "meta" => []
             ])

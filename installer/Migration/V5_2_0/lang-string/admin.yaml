@@ -179,3 +179,6 @@ langStrings:
   -
     value: 'MS Active Directory'
     unitId: ms_active_directory
+  -
+    value: 'Connection Status'
+    unitId: connection_status
