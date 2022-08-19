@@ -17,40 +17,37 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\LDAP\Auth;
+namespace OrangeHRM\Tests\LDAP;
 
-use OrangeHRM\Authentication\Auth\AbstractAuthProvider;
-use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\LDAP\Service\LDAPService;
+use Symfony\Component\Yaml\Yaml;
 
-class LDAPAuthProvider extends AbstractAuthProvider
+trait LDAPConnectionHelperTrait
 {
-    private LDAPService $ldapAuthService;
+    private static LDAPServerConfig $config;
 
     /**
-     * @return LDAPService
+     * @return bool
      */
-    private function getLdapAuthService(): LDAPService
+    public static function isLDAPServerConfigured(): bool
     {
-        return $this->ldapAuthService ??= new LDAPService();
+        return realpath(self::getLDAPServerConfigFilePath());
     }
 
     /**
-     * @inheritDoc
+     * @return LDAPServerConfig
      */
-    public function authenticate(UserCredential $credential): bool
+    public static function getLDAPServerConfig(): LDAPServerConfig
     {
-        $ldap = $this->getLdapAuthService()->getConnection();
-        // TODO:: authenticate
-        // IF user not there in the OrangeHRM can fetch and create user and employee
-        return false;
+        return self::$config ??= LDAPServerConfig::fromArray(
+            Yaml::parseFile(self::getLDAPServerConfigFilePath())['server']
+        );
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    public function getPriority(): int
+    public static function getLDAPServerConfigFilePath(): string
     {
-        return 5000;
+        return __DIR__ . '/fixtures/server-config.yaml';
     }
 }
