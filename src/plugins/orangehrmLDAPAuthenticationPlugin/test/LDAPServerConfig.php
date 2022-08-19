@@ -17,38 +17,28 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\LDAP\Service;
+namespace OrangeHRM\Tests\LDAP;
 
-use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use Symfony\Component\Ldap\Ldap;
-
-class LDAPAuthService
+class LDAPServerConfig
 {
-    use ConfigServiceTrait;
-
-    private LDAP $ldap;
-
-    /**
-     * @return Ldap
-     */
-    public function getConnection(): Ldap
-    {
-        $ldapSetting = $this->getConfigService()->getLDAPSetting();
-        return $this->ldap ??= Ldap::create('ext_ldap', [
-            'host' => $ldapSetting->getHost(),
-            'port' => $ldapSetting->getPort(),
-            'encryption' => $ldapSetting->getEncryption(),
-            'version' => $ldapSetting->getVersion(),
-            'optReferrals' => $ldapSetting->isOptReferrals(),
-        ]);
-    }
+    public string $host;
+    public int $port;
+    public string $encryption;
+    public string $adminDN;
+    public string $adminPassword;
+    public string $configAdminDN;
+    public string $configAdminPassword;
 
     /**
-     * @param UserCredential $credential
+     * @param array $serverConfig
+     * @return static
      */
-    public function bind(UserCredential $credential): void
+    public static function fromArray(array $serverConfig): self
     {
-        $this->getConnection()->bind($credential->getUsername(), $credential->getPassword());
+        $config = new LDAPServerConfig();
+        foreach ($serverConfig as $key => $value) {
+            $config->$key = $value;
+        }
+        return $config;
     }
 }
