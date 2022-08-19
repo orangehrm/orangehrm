@@ -60,34 +60,6 @@ class UserServiceTest extends KernelTestCase
         return $userRole;
     }
 
-    /**
-     * @covers \OrangeHRM\Admin\Service\UserService::getNonPredefinedUserRoles
-     */
-    public function testGetNonPredefinedUserRoles(): void
-    {
-        $userRoles = [];
-
-        for ($i = 0; $i < 2; $i++) {
-            $userRole = new UserRole();
-            $userRole->setId($i + 1);
-            $userRole->setName("test name" . ($i + 1));
-            $userRole->setIsAssignable(1);
-            $userRole->setIsPredefined(0);
-            $userRoles[] = $userRole;
-        }
-
-        $dao = $this->getMockBuilder(UserDao::class)->getMock();
-
-        $dao->expects($this->once())
-            ->method('getNonPredefinedUserRoles')
-            ->will($this->returnValue($userRoles));
-
-        $this->systemUserService->setSystemUserDao($dao);
-        $result = $this->systemUserService->getNonPredefinedUserRoles();
-
-        $this->assertEquals($userRoles, $result);
-    }
-
     public function testSaveSystemUserNoPasswordChange(): void
     {
         $password = 'y28#$!!';

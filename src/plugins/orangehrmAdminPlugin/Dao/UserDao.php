@@ -19,11 +19,9 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -43,66 +41,31 @@ class UserDao extends BaseDao
     }
 
     /**
-     * Check is existing user according to user name
-     *
      * @param UserCredential $credentials
      * @param int|null $userId
      * @return User|null
-     * @throws DaoException
      */
     public function isExistingSystemUser(UserCredential $credentials, ?int $userId = null): ?User
     {
-        try {
-            $query = $this->createQueryBuilder(User::class, 'u');
-            $query->andWhere('u.userName = :username');
-            $query->setParameter('username', $credentials->getUsername());
-            if (!empty($userId)) {
-                $query->andWhere('u.id = :userId');
-                $query->setParameter('userId', $userId);
-            }
-
-            return $query->getQuery()->getOneOrNullResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $query = $this->createQueryBuilder(User::class, 'u');
+        $query->andWhere('u.userName = :username');
+        $query->setParameter('username', $credentials->getUsername());
+        if (!empty($userId)) {
+            $query->andWhere('u.id = :userId');
+            $query->setParameter('userId', $userId);
         }
+
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     /**
      * Get System User for given User Id
      * @param int $userId
      * @return User|null
-     * @throws DaoException
      */
     public function getSystemUser(int $userId): ?User
     {
-        try {
-            $user = $this->getRepository(User::class)->find($userId);
-            if ($user instanceof User) {
-                return $user;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * Get System Users
-     *
-     * @return User[]
-     * @throws DaoException
-     */
-    public function getSystemUsers(): array
-    {
-        try {
-            $query = $this->createQueryBuilder(User::class, 'u');
-            $query->andWhere('u.deleted = :deleted');
-            $query->setParameter('deleted', false);
-
-            return $query->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(User::class)->find($userId);
     }
 
     /**
@@ -124,21 +87,16 @@ class UserDao extends BaseDao
      * Soft Delete System Users
      * @param array $deletedIds
      * @return int
-     * @throws DaoException
      */
     public function deleteSystemUsers(array $deletedIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(User::class, 'u');
-            $q->update()
+        $q = $this->createQueryBuilder(User::class, 'u');
+        $q->update()
                 ->set('u.deleted', ':deleted')
                 ->setParameter('deleted', true)
                 ->where($q->expr()->in('u.id', ':ids'))
                 ->setParameter('ids', $deletedIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -156,54 +114,13 @@ class UserDao extends BaseDao
     /**
      * @param string $roleName
      * @return UserRole|null
-     * @throws DaoException
      */
     public function getUserRole(string $roleName): ?UserRole
     {
-        try {
-            $query = $this->createQueryBuilder(UserRole::class, 'ur');
-            $query->andWhere('ur.name = :name');
-            $query->setParameter('name', $roleName);
-            return $query->getQuery()->getOneOrNullResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * @param int $id
-     * @return UserRole|null
-     * @throws DaoException
-     */
-    public function getUserRoleById(int $id): ?UserRole
-    {
-        try {
-            $userRole = $this->getRepository(UserRole::class)->find($id);
-            if ($userRole instanceof UserRole) {
-                return $userRole;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * @return UserRole[]
-     * @throws DaoException
-     */
-    public function getNonPredefinedUserRoles(): array
-    {
-        try {
-            $query = $this->createQueryBuilder(UserRole::class, 'ur');
-            $query->andWhere('ur.isPredefined = :isPredefined');
-            $query->setParameter('isPredefined', false);
-            $query->addOrderBy('ur.name', ListSorter::ASCENDING);
-
-            return $query->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e);
-        }
+        $query = $this->createQueryBuilder(UserRole::class, 'ur');
+        $query->andWhere('ur.name = :name');
+        $query->setParameter('name', $roleName);
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -211,16 +128,11 @@ class UserDao extends BaseDao
      *
      * @param UserSearchFilterParams $userSearchParamHolder
      * @return int
-     * @throws DaoException
      */
     public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
-        try {
-            $paginator = $this->getSearchUserPaginator($userSearchParamHolder);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchUserPaginator($userSearchParamHolder);
+        return $paginator->count();
     }
 
     /**
@@ -228,16 +140,11 @@ class UserDao extends BaseDao
      *
      * @param UserSearchFilterParams $userSearchParamHolder
      * @return array
-     * @throws DaoException
      */
     public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
-        try {
-            $paginator = $this->getSearchUserPaginator($userSearchParamHolder);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchUserPaginator($userSearchParamHolder);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -275,83 +182,32 @@ class UserDao extends BaseDao
     }
 
     /**
-     * @param bool $enabledOnly
-     * @param bool $undeletedOnly
-     * @return int
-     */
-    public function getAdminUserCount(bool $enabledOnly = true, bool $undeletedOnly = true): int
-    {
-        $q = $this->createQueryBuilder(User::class, 'u');
-        $q->leftJoin('u.userRole', 'ur');
-        $q->andWhere('ur.name = :userRoleName');
-        $q->setParameter('userRoleName', 'Admin');
-        if ($enabledOnly) {
-            $q->andWhere('u.status = :status');
-            $q->setParameter('status', true);
-        }
-        if ($undeletedOnly) {
-            $q->andWhere('u.deleted = :deleted');
-            $q->setParameter('deleted', false);
-        }
-
-        $paginator = new Paginator($q);
-        return $paginator->count();
-    }
-
-    /**
-     * @param int $userId
-     * @param string $password
-     * @return bool
-     * @throws DaoException
-     */
-    public function updatePassword(int $userId, string $password): bool
-    {
-        try {
-            $q = $this->createQueryBuilder(User::class, 'u');
-            $q->update()
-                ->set('u.userPassword', ':userPassword')
-                ->setParameter('userPassword', $password)
-                ->where('u.id = :id')
-                ->setParameter('id', $userId);
-            $result = $q->getQuery()->execute();
-            return !($result < 1);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
      * @param string $roleName
      * @param bool $includeInactive
      * @param bool $includeTerminated
      * @return Employee[]
-     * @throws DaoException
      */
     public function getEmployeesByUserRole(
         string $roleName,
         bool $includeInactive = false,
         bool $includeTerminated = false
     ): array {
-        try {
-            $q = $this->createQueryBuilder(Employee::class, 'e');
-            $q->innerJoin('e.users', 'u');
-            $q->leftJoin('u.userRole', 'r');
-            $q->andWhere('r.name = :roleName');
-            $q->setParameter('roleName', $roleName);
+        $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q->innerJoin('e.users', 'u');
+        $q->leftJoin('u.userRole', 'r');
+        $q->andWhere('r.name = :roleName');
+        $q->setParameter('roleName', $roleName);
 
-            if (!$includeInactive) {
-                $q->andWhere('u.deleted = :deleted');
-                $q->setParameter('deleted', false);
-            }
-
-            if (!$includeTerminated) {
-                $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
-            }
-
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        if (!$includeInactive) {
+            $q->andWhere('u.deleted = :deleted');
+            $q->setParameter('deleted', false);
         }
+
+        if (!$includeTerminated) {
+            $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
+        }
+
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -380,11 +236,7 @@ class UserDao extends BaseDao
      */
     public function getUserByUserName(string $username): ?User
     {
-        $user = $this->getRepository(User::class)->findOneBy(['userName' => $username]);
-        if ($user instanceof User) {
-            return $user;
-        }
-        return null;
+        return $this->getRepository(User::class)->findOneBy(['userName' => $username]);
     }
 
     /**

@@ -23,7 +23,6 @@ use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\Employee;
@@ -98,18 +97,6 @@ class UserService
     }
 
     /**
-     * Check is existing user according to user name
-     * @param string $userName
-     * @param int $userId
-     * @return User|null
-     */
-    public function isExistingSystemUser(string $userName, int $userId): ?User
-    {
-        $credentials = new UserCredential($userName);
-        return $this->getSystemUserDao()->isExistingSystemUser($credentials, $userId);
-    }
-
-    /**
      * Get System User for given User Id
      * @param int $userId
      * @return User|null
@@ -120,19 +107,9 @@ class UserService
     }
 
     /**
-     * Get System Users
-     * @return User[]
-     */
-    public function getSystemUsers(): array
-    {
-        return $this->getSystemUserDao()->getSystemUsers();
-    }
-
-    /**
      * Soft Delete System Users
      * @param array $deletedIds
      * @return int
-     * @throws DaoException
      */
     public function deleteSystemUsers(array $deletedIds): int
     {
@@ -147,25 +124,6 @@ class UserService
     public function getUserRole(string $roleName): ?UserRole
     {
         return $this->getSystemUserDao()->getUserRole($roleName);
-    }
-
-    /**
-     * @param int $id
-     * @return UserRole|null
-     * @throws DaoException
-     */
-    public function getUserRoleById(int $id): ?UserRole
-    {
-        return $this->getSystemUserDao()->getUserRoleById($id);
-    }
-
-    /**
-     * @return UserRole[]
-     * @throws DaoException
-     */
-    public function getNonPredefinedUserRoles(): array
-    {
-        return $this->getSystemUserDao()->getNonPredefinedUserRoles();
     }
 
     /**
@@ -190,7 +148,6 @@ class UserService
      * @param int $userId
      * @param string $password
      * @return bool
-     * @throws DaoException
      */
     public function isCurrentPassword(int $userId, string $password): bool
     {
@@ -203,10 +160,8 @@ class UserService
         $hash = $systemUser->getUserPassword();
         if ($this->checkPasswordHash($password, $hash)) {
             return true;
-        } else {
-            if ($this->checkForOldHash($password, $hash)) {
-                return true;
-            }
+        } elseif ($this->checkForOldHash($password, $hash)) {
+            return true;
         }
 
         return false;
@@ -217,7 +172,6 @@ class UserService
      * @param bool $includeInactive
      * @param bool $includeTerminated
      * @return Employee[]
-     * @throws DaoException
      */
     public function getEmployeesByUserRole(
         string $roleName,
@@ -230,7 +184,6 @@ class UserService
     /**
      * @param UserCredential $credentials
      * @return User|null
-     * @throws DaoException
      */
     public function getCredentials(UserCredential $credentials): ?User
     {
@@ -254,7 +207,7 @@ class UserService
      * @param string $password
      * @return string hashed password
      */
-    public function hashPassword(string $password): string
+    private function hashPassword(string $password): string
     {
         return $this->getPasswordHasher()->hash($password);
     }
@@ -265,7 +218,7 @@ class UserService
      * @param string $hash
      * @return bool
      */
-    public function checkPasswordHash(string $password, string $hash): bool
+    private function checkPasswordHash(string $password, string $hash): bool
     {
         return $this->getPasswordHasher()->verify($password, $hash);
     }
@@ -277,15 +230,9 @@ class UserService
      * @param string $hash
      * @return bool
      */
-    public function checkForOldHash(string $password, string $hash): bool
+    private function checkForOldHash(string $password, string $hash): bool
     {
-        $valid = false;
-
-        if ($hash == md5($password)) {
-            $valid = true;
-        }
-
-        return $valid;
+        return $hash == md5($password);
     }
 
     /**
