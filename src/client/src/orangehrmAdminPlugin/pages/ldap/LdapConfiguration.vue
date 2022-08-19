@@ -294,6 +294,10 @@
       :data="testModalState"
       @close="onCloseTestModal"
     ></ldap-test-connection-modal>
+
+    <br />
+
+    <ldap-sync-connection v-if="showSync"></ldap-sync-connection>
   </div>
 </template>
 
@@ -310,6 +314,7 @@ import useForm from '@/core/util/composable/useForm';
 import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import LdapSyncConnection from '@/orangehrmAdminPlugin/components/LdapSyncConnection';
 import LdapTestConnectionModal from '@/orangehrmAdminPlugin/components/LdapTestConnectionModal';
 
 const configurationModel = {
@@ -344,7 +349,15 @@ const dataMappingModel = {
 export default {
   components: {
     'oxd-switch-input': SwitchInput,
+    'ldap-sync-connection': LdapSyncConnection,
     'ldap-test-connection-modal': LdapTestConnectionModal,
+  },
+
+  props: {
+    showSync: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup() {

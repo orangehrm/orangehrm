@@ -182,3 +182,15 @@ langStrings:
   -
     value: 'Connection Status'
     unitId: connection_status
+  -
+    value: 'Sync Connection'
+    unitId: sync_connection
+  -
+    value: 'Force Sync'
+    unitId: force_sync
+  -
+    value: 'Last synced on'
+    unitId: last_synced_on
+  -
+    value: 'Synchronization Successful'
+    unitId: synchronization_successful

@@ -22,17 +22,23 @@ namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class LdapConfigurationController extends AbstractVueController
 {
+    use ConfigServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('ldap-configuration');
+        $ldapSettings = $this->getConfigService()->getLDAPSetting();
+        $component->addProp(new Prop('show-sync', Prop::TYPE_BOOLEAN, $ldapSettings->isEnable()));
         $this->setComponent($component);
     }
 
@@ -101,6 +107,25 @@ class LdapConfigurationController extends AbstractVueController
                             ]
                         ]
                     ],
+                ],
+                "meta" => []
+            ])
+        );
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function syncConnection(): Response
+    {
+        $response = new Response();
+        $response->setContent(
+            json_encode([
+                "data" => [
+                    "timestamp" => time()
                 ],
                 "meta" => []
             ])

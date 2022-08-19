@@ -613,3 +613,8 @@ admin_ldap_test_connection:
   path: /api/v2/admin/ldap/connect
   controller: OrangeHRM\Admin\Controller\LdapConfigurationController::testConnection
   methods: [ POST ]
+
+admin_ldap_sync_connection:
+  path: /api/v2/admin/ldap/sync
+  controller: OrangeHRM\Admin\Controller\LdapConfigurationController::syncConnection
+  methods: [ GET, POST ]
