@@ -51,7 +51,7 @@
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
-  name: 'TestLdapConnectionModal',
+  name: 'LdapTestConnectionModal',
   components: {
     'oxd-dialog': Dialog,
   },

@@ -289,11 +289,11 @@
       </oxd-form>
     </div>
 
-    <test-ldap-connection-modal
+    <ldap-test-connection-modal
       v-if="testModalState"
       :data="testModalState"
       @close="onCloseTestModal"
-    ></test-ldap-connection-modal>
+    ></ldap-test-connection-modal>
   </div>
 </template>
 
@@ -310,7 +310,7 @@ import useForm from '@/core/util/composable/useForm';
 import {reloadPage} from '@/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
-import TestLdapConnectionModalVue from '@/orangehrmAdminPlugin/components/TestLdapConnectionModal';
+import LdapTestConnectionModal from '@/orangehrmAdminPlugin/components/LdapTestConnectionModal';
 
 const configurationModel = {
   enable: false,
@@ -344,7 +344,7 @@ const dataMappingModel = {
 export default {
   components: {
     'oxd-switch-input': SwitchInput,
-    'test-ldap-connection-modal': TestLdapConnectionModalVue,
+    'ldap-test-connection-modal': LdapTestConnectionModal,
   },
 
   setup() {
