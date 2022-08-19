@@ -348,25 +348,6 @@ class UserServiceTest extends KernelTestCase
         $this->assertNull($result);
     }
 
-    public function testHashPassword(): void
-    {
-        $password = 'sadf&^#@!';
-        $hashedPassword = '939adfiasdfasdfas';
-
-        $mockHasher = $this->getMockBuilder(PasswordHash::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['hash'])
-            ->getMock();
-        $mockHasher->expects($this->once())
-            ->method('hash')
-            ->with($password)
-            ->will($this->returnValue($hashedPassword));
-
-        $this->systemUserService->setPasswordHasher($mockHasher);
-        $result = $this->systemUserService->hashPassword($password);
-        $this->assertEquals($hashedPassword, $result);
-    }
-
     public function testGetUndeletableUserIds(): void
     {
         $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
