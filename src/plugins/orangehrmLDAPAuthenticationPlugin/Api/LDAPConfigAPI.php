@@ -19,11 +19,12 @@
 
 namespace OrangeHRM\LDAP\Api;
 
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -35,7 +36,7 @@ use OrangeHRM\LDAP\Api\Traits\LDAPDataMapParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
 
-class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
+class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
 {
     use ConfigServiceTrait;
     use ValidatorTrait;
@@ -56,6 +57,7 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
 
     public const PARAMETER_DATA_MAPPING = 'dataMapping';
     public const PARAMETER_FIRST_NAME = 'firstname';
+    public const PARAMETER_MIDDLE_NAME = 'middlename';
     public const PARAMETER_LAST_NAME = 'lastname';
     public const PARAMETER_USER_STATUS = 'userStatus';
     public const PARAMETER_WORK_EMAIL = 'workEmail';
@@ -78,27 +80,10 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
 
     public const PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH = 100;
 
-
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetAll(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function create(): EndpointResult
+    public function update(): EndpointResult
     {
         $dataMapping = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
@@ -106,7 +91,7 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
         );
         $this->validate($dataMapping, $this->getParamRuleCollection());
 
-        $LDAPSettings = new LDAPSetting(
+        $ldapSettings = new LDAPSetting(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_HOSTNAME
@@ -129,96 +114,96 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
             )
         );
 
-        $this->setConfigAttributes($LDAPSettings);
-        $this->getConfigService()->setLDAPSetting($LDAPSettings->getEncodedAttributes());
-        return new EndpointResourceResult(LDAPConfigModel::class, $LDAPSettings);
+        $this->setConfigAttributes($ldapSettings);
+        $this->getConfigService()->setLDAPSetting($ldapSettings->getEncodedAttributes());
+        return new EndpointResourceResult(LDAPConfigModel::class, $ldapSettings);
     }
 
     /**
-     * @param LDAPSetting $LDAPSetting
+     * @param LDAPSetting $ldapSetting
      */
-    private function setConfigAttributes(LDAPSetting $LDAPSetting): void
+    private function setConfigAttributes(LDAPSetting $ldapSetting): void
     {
         $bindAnonymously = $this->getRequestParams()->getBoolean(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_BIND_ANONYMOUSLY
         );
-        $LDAPSetting->setBindAnonymously($bindAnonymously);
+        $ldapSetting->setBindAnonymously($bindAnonymously);
         if (!$bindAnonymously) {
-            $LDAPSetting->setBindUserDN(
+            $ldapSetting->setBindUserDN(
                 $this->getRequestParams()->getString(
                     RequestParams::PARAM_TYPE_BODY,
                     self::PARAMETER_DISTINGUISHED_NAME
                 )
             );
-            $LDAPSetting->setBindUserPassword(
+            $ldapSetting->setBindUserPassword(
                 $this->getRequestParams()->getString(
                     RequestParams::PARAM_TYPE_BODY,
                     self::PARAMETER_DISTINGUISHED_PASSWORD
                 )
             );
         }
-        $LDAPSetting->setUserNameAttribute(
+        $ldapSetting->setUserNameAttribute(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_USER_NAME_ATTRIBUTE
             )
         );
-        $LDAPSetting->setBaseDN(
+        $ldapSetting->setBaseDN(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_BASE_DISTINGUISHED_NAME
             )
         );
-        $LDAPSetting->setEnable(
+        $ldapSetting->setEnable(
             $this->getRequestParams()->getBoolean(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_ENABLED
             )
         );
-        $LDAPSetting->setSearchScope(
+        $ldapSetting->setSearchScope(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SEARCH_SCOPE
             )
         );
-        $LDAPSetting->setDataMapping(
+        $ldapSetting->setDataMapping(
             $this->getRequestParams()->getArray(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_DATA_MAPPING
             )
         );
-        $LDAPSetting->setGroupObjectClass(
+        $ldapSetting->setGroupObjectClass(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_GROUP_OBJECT_CLASS
             )
         );
-        $LDAPSetting->setGroupObjectFilter(
+        $ldapSetting->setGroupObjectFilter(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_GROUP_OBJECT_FILTER
             )
         );
-        $LDAPSetting->setGroupNameAttribute(
+        $ldapSetting->setGroupNameAttribute(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_GROUP_NAME_ATTRIBUTE
             )
         );
-        $LDAPSetting->setGroupMembersAttribute(
+        $ldapSetting->setGroupMembersAttribute(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_GROUP_MEMBERS_ATTRIBUTE
             )
         );
-        $LDAPSetting->setGroupMembershipAttribute(
+        $ldapSetting->setGroupMembershipAttribute(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE
             )
         );
-        $LDAPSetting->setSyncInterval(
+        $ldapSetting->setSyncInterval(
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SYNC_INTERVAL
@@ -229,9 +214,9 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForCreate(): ParamRuleCollection
+    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
+        $paramRules = new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_ENABLED,
                 new Rule(Rules::BOOL_TYPE)
@@ -345,6 +330,8 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
                 new Rule(Rules::ARRAY_TYPE)
             )
         );
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 
     /**
@@ -361,5 +348,25 @@ class LDAPConfigAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOne(): EndpointResult
+    {
+        $ldapSettings = $this->getConfigService()->getLDAPSetting();
+        $this->throwRecordNotFoundExceptionIfNotExist($ldapSettings, LDAPSetting::class);
+        return new EndpointResourceResult(LDAPConfigModel::class, $ldapSettings);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        $paramRules = new ParamRuleCollection();
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 }

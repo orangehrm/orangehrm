@@ -74,7 +74,7 @@ class LDAPSetting
      */
     public static function fromString(string $string): self
     {
-        $config = json_decode($string);
+        $config = json_decode($string, true);
         $setting = new self(
             $config['host'],
             $config['port'],
@@ -96,6 +96,7 @@ class LDAPSetting
         $setting->setGroupMembersAttribute($config['groupMembersAttribute']);
         $setting->setGroupMembershipAttribute($config['groupMembershipAttribute']);
         $setting->setSyncInterval($config['syncInterval']);
+        $setting->setEnable($config['enable']);
 
         return $setting;
     }
@@ -138,6 +139,7 @@ class LDAPSetting
             'bindUserPassword' => $this->getBindUserPassword(),
             'baseDN' => $this->getBaseDN(),
             'searchScope' => $this->getSearchScope(),
+            'userNameAttribute'=>$this->getUserNameAttribute(),
             'dataMapping' => $this->getDataMapping(),
             'groupObjectClass' => $this->getGroupObjectClass(),
             'groupObjectFilter' => $this->getGroupObjectFilter(),

@@ -497,11 +497,15 @@ class ConfigService
     }
 
     /**
-     * @return LDAPSetting
+     * @return LDAPSetting|null
      */
-    public function getLDAPSetting(): LDAPSetting
+    public function getLDAPSetting(): ?LDAPSetting
     {
-        return LDAPSetting::fromString($this->_getConfigValue(self::KEY_LDAP_SETTINGS));
+        $ldapSetting = $this->_getConfigValue(self::KEY_LDAP_SETTINGS);
+        if (is_null($ldapSetting)) {
+            return null;
+        }
+        return LDAPSetting::fromString($ldapSetting);
     }
 
     /**

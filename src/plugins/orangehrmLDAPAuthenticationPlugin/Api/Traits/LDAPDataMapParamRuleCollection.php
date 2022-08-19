@@ -46,6 +46,14 @@ trait LDAPDataMapParamRuleCollection
                 LDAPConfigAPI::PARAMETER_FIRST_NAME,
                 new Rule(Rules::STRING_TYPE),
             ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MIDDLE_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+                ),
+                true
+            ),
             new ParamRule(
                 LDAPConfigAPI::PARAMETER_LAST_NAME,
                 new Rule(Rules::STRING_TYPE),

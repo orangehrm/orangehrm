@@ -1,4 +1,4 @@
-Create:
+Update:
   'Save LDAP Config - Bind User':
     userId: 1
     services:
@@ -45,6 +45,7 @@ Create:
         "bindUserDN": "cn=admin,dc=example,dc=org",
         "baseDN": null,
         "searchScope": "sub",
+        "userNameAttribute": "cn",
         "dataMapping": {
           "firstname": "givenName",
           "lastname": "sn",
@@ -107,6 +108,7 @@ Create:
         "bindUserDN": null,
         "baseDN": null,
         "searchScope": "sub",
+        "userNameAttribute": "cn",
         "dataMapping": {
           "firstname": "givenName",
           "lastname": "sn",
@@ -227,3 +229,52 @@ Create:
         "syncInterval": "60"
       }
     invalidOnly: [ "searchScope" ]
+
+GetOne:
+  'Get LDAP Config - No saved configurations':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Get LDAP Config':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\LDAP\Api\LDAPConfigAPITest', 'saveLDAPConfigPreHook' ]
+    attributes: [ ]
+    query: [ ]
+    data:
+      {
+        "enable": false,
+        "host": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "implementation": "OpenLDAP",
+        "version": "3",
+        "optReferrals": false,
+        "bindAnonymously": true,
+        "bindUserDN": null,
+        "baseDN": null,
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": "60"
+      }
+    meta: [ ]

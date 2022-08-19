@@ -19,8 +19,12 @@
 
 namespace OrangeHRM\Tests\LDAP\Api;
 
+use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Entity\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\LDAP\Api\LDAPConfigAPI;
+use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
@@ -30,36 +34,72 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class LDAPConfigAPITest extends EndpointIntegrationTestCase
 {
-    public function testGetAll(): void
-    {
-        $api = new LDAPConfigAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new LDAPConfigAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
-    }
-
     /**
-     * @dataProvider dataProviderForTestCreate
+     * @dataProvider dataProviderForTestGetOne
      */
-    public function testCreate(TestCaseParams $testCaseParams): void
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
         $this->populateFixtures('LDAPConfig.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(LDAPConfigAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'create', $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function dataProviderForTestCreate(): array
+    public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('LDAPConfigTestCases.yaml', 'Create');
+        return $this->getTestCases('LDAPConfigTestCases.yaml', 'GetOne');
+    }
+
+    public static function saveLDAPConfigPreHook(): void
+    {
+        $ldapSettings = new LDAPSetting('localhost', 389, 'OpenLDAP', 'none', null);
+        $ldapSettings->setVersion(3);
+        $ldapSettings->setOptReferrals(false);
+        $ldapSettings->setBindAnonymously(true);
+        $ldapSettings->setBindUserDN(null);
+        $ldapSettings->setBindUserPassword(null);
+        $ldapSettings->setSearchScope('sub');
+        $ldapSettings->setUserNameAttribute('cn');
+        $ldapSettings->setDataMapping([
+            "firstname" => "givenName",
+            "lastname" => "sn",
+            "userStatus" => null,
+            "workEmail" => null,
+            "employeeId" => null
+        ]);
+        $ldapSettings->setGroupObjectClass('group');
+        $ldapSettings->setGroupObjectFilter("(&(objectClass=group)(cn=*))");
+        $ldapSettings->setGroupNameAttribute('cn');
+        $ldapSettings->setGroupMembersAttribute('member');
+        $ldapSettings->setGroupMembershipAttribute('memberOf');
+        $ldapSettings->setSyncInterval(60);
+        $ldapSettings->setEnable(false);
+
+        $config = new Config();
+        $config->setName(ConfigService::KEY_LDAP_SETTINGS);
+        $config->setValue($ldapSettings->getEncodedAttributes());
+        Doctrine::getEntityManager()->persist($config);
+        Doctrine::getEntityManager()->flush($config);
+    }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('LDAPConfig.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(LDAPConfigAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('LDAPConfigTestCases.yaml', 'Update');
     }
 
     public function testDelete(): void

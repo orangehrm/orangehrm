@@ -53,6 +53,7 @@ class LDAPConfigModel implements Normalizable
             'bindUserDN' => $this->LDAPSetting->getBindUserDN(),
             'baseDN' => $this->LDAPSetting->getBaseDN(),
             'searchScope' => $this->LDAPSetting->getSearchScope(),
+            'userNameAttribute' => $this->LDAPSetting->getUserNameAttribute(),
             'dataMapping' => $this->LDAPSetting->getDataMapping(),
             'groupObjectClass' => $this->LDAPSetting->getGroupObjectClass(),
             'groupObjectFilter' => $this->LDAPSetting->getGroupObjectFilter(),
