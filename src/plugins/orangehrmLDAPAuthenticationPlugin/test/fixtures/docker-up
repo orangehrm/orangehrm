@@ -1,0 +1,12 @@
+docker run --detach --name openldap \
+  --network orangehrm-os-dev-environment_php-dev \
+  --restart=always \
+  --env LDAP_ADMIN_USERNAME=admin \
+  --env LDAP_ADMIN_PASSWORD=admin \
+  --env LDAP_ROOT=dc=example,dc=org \
+  --env LDAP_CONFIG_ADMIN_ENABLED=yes \
+  --env LDAP_CONFIG_ADMIN_USERNAME=admin \
+  --env LDAP_CONFIG_ADMIN_PASSWORD=admin \
+  --env LDAP_SKIP_DEFAULT_TREE=yes \
+  -v $PWD/ldifs:/ldifs \
+  bitnami/openldap:latest
