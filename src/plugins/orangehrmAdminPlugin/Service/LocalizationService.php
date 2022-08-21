@@ -19,14 +19,19 @@
 
 namespace OrangeHRM\Admin\Service;
 
+use DOMDocument;
 use Exception;
 use OrangeHRM\Admin\Dao\LocalizationDao;
+use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
+use OrangeHRM\Admin\Dto\I18NTranslationSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\I18NGroup;
+use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Entity\I18NTranslation;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Service\I18NService;
@@ -175,8 +180,11 @@ class LocalizationService
             $i18NTranslation = new I18NTranslation();
             $i18NTranslation->getDecorator()->setLangStringById($row['langStringId']);
             $i18NTranslation->getDecorator()->setLanguageById($languageId);
-            $i18NTranslation->setValue($row['translatedValue']);
+            $i18NTranslation->setValue(
+                empty($row['translatedValue']) ? null : $row['translatedValue']
+            );
             $i18NTranslation->setCustomized(true);
+            $i18NTranslation->setModifiedAt($this->getDateTimeHelper()->getNow());
             $i18NTranslations[$itemKey] = $i18NTranslation;
         }
         return $i18NTranslations;
@@ -191,5 +199,76 @@ class LocalizationService
     {
         return $languageId . '_' .
             $langStringId . '_';
+    }
+
+    /**
+     * @param I18NLanguage $language
+     * @return String
+     */
+    public function exportLanguagePackage(I18NLanguage $language): String
+    {
+        $i18NGroupSearchFilterParams = new I18NGroupSearchFilterParams();
+        $i18nGroups = $this->getLocalizationDao()->searchGroups($i18NGroupSearchFilterParams);
+        $i18nSources = $this->getXliffXmlSources($i18nGroups, $language);
+
+        return $i18nSources->saveXML();
+    }
+
+    /**
+     * @param array $i18nGroups
+     * @param I18NLanguage $language
+     * @return DOMDocument
+     * @throws \DOMException
+     */
+    private function getXliffXmlSources(array $i18nGroups, I18NLanguage $language): DOMDocument
+    {
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->formatOutput = true;
+
+        $root = $xml->createElement('xliff');
+        $xml->appendChild($root);
+        $root->setAttribute('version', '2.0');
+        $root->setAttribute('srcLang', 'en_US');
+        $root->setAttribute('trgLang', $language->getCode());
+        $root->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:2.0');
+        $root->setAttribute('date', @date('Y-m-d\TH:i:s\Z'));
+
+        $file = $xml->createElement('file');
+        $root->appendChild($file);
+
+        foreach ($i18nGroups as  $i18nGroup) {
+            if ($i18nGroup instanceof I18NGroup) {
+                $i18NTargetLangStringSearchFilterParams
+                    = new I18NTranslationSearchFilterParams();
+                $i18NTargetLangStringSearchFilterParams->setLanguageId($language->getId());
+                $i18NTargetLangStringSearchFilterParams->setLimit(0);
+                $i18NTargetLangStringSearchFilterParams->setGroupId($i18nGroup->getId());
+                $translations = $this->localizationDao->getNormalizedTranslationsForExport($i18NTargetLangStringSearchFilterParams);
+
+                $group = $xml->createElement('group');
+                $file->appendChild($group);
+                $group->setAttribute('name', $i18nGroup->getName());
+
+
+                foreach ($translations as $translation) {
+                    $unit = $xml->createElement('unit');
+                    $group->appendChild($unit);
+                    $unit->setAttribute('id', $translation['unitId']);
+
+                    $segment = $xml->createElement('segment');
+                    $unit->appendChild($segment);
+
+                    $source = $xml->createElement('source');
+                    $target = $xml->createElement('target');
+
+                    $source->appendChild(new \DOMText(htmlspecialchars($translation['source'])));
+                    $target->appendChild(new \DOMText(htmlspecialchars($translation['target'])));
+
+                    $segment->appendChild($source);
+                    $segment->appendChild($target);
+                }
+            }
+        }
+        return $xml;
     }
 }

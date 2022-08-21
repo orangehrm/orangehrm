@@ -17,31 +17,54 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Controller;
+namespace OrangeHRM\Admin\Controller\File;
 
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 
-class LanguageTranslationController extends AbstractVueController
+class LanguagePackage extends AbstractFileController
 {
+    use TextHelperTrait;
     use LocalizationServiceTrait;
 
-    public function preRender(Request $request): void
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function handle(Request $request): Response
     {
-        if ($request->attributes->has('languageId')) {
+        $response = $this->getResponse();
+
+        if ($request->attributes->get('languageId')) {
             $languageId = $request->attributes->getInt('languageId');
-            $component = new Component('language-translation-edit');
-            $component->addProp(new Prop('language-id', Prop::TYPE_NUMBER, $languageId));
             $language = $this->getLocalizationService()->getLocalizationDao()
                 ->getLanguageById($languageId);
-            $languagePackage = $language->getName();
-            $sourceLanguage = 'English (United States)';
-            $component->addProp(new Prop('language-package', Prop::TYPE_STRING, $languagePackage));
-            $component->addProp(new Prop('source-language', Prop::TYPE_STRING, $sourceLanguage));
-            $this->setComponent($component);
+
+            if (!($language instanceof I18NLanguage)
+                || !($language->isAdded()
+                    && $language->isEnabled())
+            ) {
+                return $this->handleBadRequest($response);
+            }
+
+            $xliffContent = $this->getLocalizationService()
+                ->exportLanguagePackage($language);
+
+            $fileName = sprintf('i18n-%s.xml', $language->getCode());
+
+            $this->setCommonHeadersToResponse(
+                $fileName,
+                'application/xml',
+                $this->getTextHelper()->strLength($xliffContent, '8bit'),
+                $response
+            );
+            $response->setContent($xliffContent);
+            return $response;
         }
+        return $this->handleBadRequest();
     }
 }

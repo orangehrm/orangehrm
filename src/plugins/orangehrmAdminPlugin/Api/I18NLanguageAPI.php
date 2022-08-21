@@ -34,11 +34,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\I18NLanguage;
 
 class I18NLanguageAPI extends Endpoint implements CrudEndpoint
 {
     use LocalizationServiceTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_ACTIVE_ONLY = 'activeOnly';
 
@@ -140,6 +142,7 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
         $language = $this->getLocalizationService()->getLocalizationDao()->getLanguageById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($language, I18NLanguage::class);
         $language->setAdded(true);
+        $language->setModifiedAt($this->getDateTimeHelper()->getNow());
         $this->getLocalizationService()->getLocalizationDao()->saveI18NLanguage($language);
         return new EndpointResourceResult(I18NLanguageModel::class, $language);
     }

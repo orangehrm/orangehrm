@@ -24,6 +24,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Installer\Util\V1\Dto\LangString;
 use OrangeHRM\Installer\Util\V1\LanguageHelper;
 
+//TODO:: need to refactor this class
 class LangStringHelper
 {
     private Connection $connection;

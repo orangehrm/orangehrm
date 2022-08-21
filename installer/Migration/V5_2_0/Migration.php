@@ -39,6 +39,19 @@ class Migration extends AbstractMigration
             ['Notnull' => false, 'Default' => null]
         );
 
+        $this->createQueryBuilder()
+            ->update('ohrm_i18n_translate', 'translate')
+            ->set('translate.value', ':translateValue')
+            ->where('translate.value', ':currentValue')
+            ->setParameter('currentValue', '')
+            ->setParameter('translateValue', null)
+            ->executeQuery();
+
+        $this->getSchemaHelper()->dropColumn(
+            'ohrm_i18n_translate',
+            'translated'
+        );
+
         $oldGroups = ['admin', 'general'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);

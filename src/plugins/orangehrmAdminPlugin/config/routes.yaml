@@ -343,6 +343,11 @@ admin_job_specification_attachment:
   controller: OrangeHRM\Admin\Controller\File\JobSpecification::handle
   methods: [ GET ]
 
+admin_language_package_attachment:
+  path: /admin/viewLanguagePackage/languageId/{languageId}
+  controller: OrangeHRM\Admin\Controller\File\LanguagePackage::handle
+  methods: [ GET ]
+
 ##########################
 #        Screens
 ##########################
