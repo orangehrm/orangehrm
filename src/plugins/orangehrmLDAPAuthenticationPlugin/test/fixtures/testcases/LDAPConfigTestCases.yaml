@@ -1,4 +1,4 @@
-Create:
+Update:
   'Save LDAP Config - Bind User':
     userId: 1
     services:
@@ -35,16 +35,15 @@ Create:
     data:
       {
         "enable": false,
-        "host": "localhost",
+        "hostname": "localhost",
         "port": 389,
         "encryption": "none",
-        "implementation": "OpenLDAP",
-        "version": "3",
-        "optReferrals": false,
+        "ldapImplementation": "OpenLDAP",
         "bindAnonymously": false,
-        "bindUserDN": "cn=admin,dc=example,dc=org",
-        "baseDN": null,
+        "distinguishedName": "cn=admin,dc=example,dc=org",
+        "baseDistinguishedName": null,
         "searchScope": "sub",
+        "userNameAttribute": "cn",
         "dataMapping": {
           "firstname": "givenName",
           "lastname": "sn",
@@ -97,16 +96,15 @@ Create:
     data:
       {
         "enable": false,
-        "host": "localhost",
+        "hostname": "localhost",
         "port": 389,
         "encryption": "none",
-        "implementation": "OpenLDAP",
-        "version": "3",
-        "optReferrals": false,
+        "ldapImplementation": "OpenLDAP",
         "bindAnonymously": true,
-        "bindUserDN": null,
-        "baseDN": null,
+        "distinguishedName": null,
+        "baseDistinguishedName": null,
         "searchScope": "sub",
+        "userNameAttribute": "cn",
         "dataMapping": {
           "firstname": "givenName",
           "lastname": "sn",
@@ -227,3 +225,75 @@ Create:
         "syncInterval": "60"
       }
     invalidOnly: [ "searchScope" ]
+
+GetOne:
+  'Get LDAP Config - No saved configurations':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    data:
+      {
+        "enable": false,
+        "hostname": "localhost",
+        "port": 389,
+        "encryption": "none",
+        "ldapImplementation": "OpenLDAP",
+        "bindAnonymously": true,
+        "distinguishedName": null,
+        "baseDistinguishedName": 'dc=example,dc=com',
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "middlename": "",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": 60
+      }
+
+  'Get LDAP Config':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\LDAP\Api\LDAPConfigAPITest', 'saveLDAPConfigPreHook' ]
+    attributes: [ ]
+    query: [ ]
+    data:
+      {
+        "enable": false,
+        "hostname": "localhost",
+        "port": 389,
+        "encryption": "ssl",
+        "ldapImplementation": "OpenLDAP",
+        "bindAnonymously": true,
+        "distinguishedName": null,
+        "baseDistinguishedName": null,
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "dataMapping": {
+          "firstname": "givenName",
+          "middlename": "something",
+          "lastname": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "groupObjectClass": "group",
+        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
+        "groupNameAttribute": "cn",
+        "groupMembersAttribute": "member",
+        "groupMembershipAttribute": "memberOf",
+        "syncInterval": 60
+      }
+    meta: [ ]

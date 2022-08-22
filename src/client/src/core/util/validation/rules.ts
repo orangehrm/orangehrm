@@ -636,3 +636,37 @@ export const validLangString = function(value: string) {
 export const validSelection = function(value: string | object | null) {
   return typeof value === 'string' ? translate('general.invalid') : true;
 };
+
+export const validHostnameFormat = function(value: string): boolean | string {
+  let fqdnRegex;
+
+  // If first character is number, treat as ip address. else hostname
+  if (/^\d+$/.test(value.charAt(0))) {
+    fqdnRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+  } else {
+    fqdnRegex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$/;
+  }
+
+  return !value || fqdnRegex.test(value) || translate('general.invalid');
+};
+
+export const validPortRange = function(
+  charLength: number,
+  rangeFrom: number,
+  rangeTo: number,
+) {
+  return function(value: string): boolean | string {
+    return (
+      !value ||
+      (/^\d+$/.test(value) &&
+        !Number.isNaN(parseFloat(value)) &&
+        String(value).length <= charLength &&
+        parseInt(value) >= rangeFrom &&
+        parseInt(value) <= rangeTo) ||
+      translate('general.enter_valid_port_between_a_to_b', {
+        minValue: rangeFrom,
+        maxValue: rangeTo,
+      })
+    );
+  };
+};
