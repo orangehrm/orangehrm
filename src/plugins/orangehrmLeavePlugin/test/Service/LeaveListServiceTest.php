@@ -17,12 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\test\Service;
+namespace OrangeHRM\Tests\Leave\Service;
 
 use OrangeHRM\Leave\Dao\LeaveListDao;
 use OrangeHRM\Leave\Service\LeaveListService;
 use OrangeHRM\Tests\Util\TestCase;
 
+/**
+ * @group Leave
+ * @group Service
+ */
 class LeaveListServiceTest extends TestCase
 {
     private LeaveListService $leaveListService;
