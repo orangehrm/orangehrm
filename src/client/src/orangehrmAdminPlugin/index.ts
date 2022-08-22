@@ -65,6 +65,7 @@ import LocalizationConfiguration from './pages/localization/LocalizationConfigur
 import CorporateBranding from './pages/corporateBranding/CorporateBranding.vue';
 import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/LanguagePackage.vue';
 import EditLanguagePackage from '@/orangehrmAdminPlugin/pages/languageTranslation/languageTranslation.vue';
+import LdapConfiguration from './pages/ldap/LdapConfiguration.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -116,4 +117,5 @@ export default {
   'corporate-branding': CorporateBranding,
   'language-package-list': LanguagePackages,
   'language-translation-edit': EditLanguagePackage,
+  'ldap-configuration': LdapConfiguration,
 };
