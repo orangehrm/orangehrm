@@ -60,34 +60,6 @@ class UserServiceTest extends KernelTestCase
         return $userRole;
     }
 
-    /**
-     * @covers \OrangeHRM\Admin\Service\UserService::getNonPredefinedUserRoles
-     */
-    public function testGetNonPredefinedUserRoles(): void
-    {
-        $userRoles = [];
-
-        for ($i = 0; $i < 2; $i++) {
-            $userRole = new UserRole();
-            $userRole->setId($i + 1);
-            $userRole->setName("test name" . ($i + 1));
-            $userRole->setIsAssignable(1);
-            $userRole->setIsPredefined(0);
-            $userRoles[] = $userRole;
-        }
-
-        $dao = $this->getMockBuilder(UserDao::class)->getMock();
-
-        $dao->expects($this->once())
-            ->method('getNonPredefinedUserRoles')
-            ->will($this->returnValue($userRoles));
-
-        $this->systemUserService->setSystemUserDao($dao);
-        $result = $this->systemUserService->getNonPredefinedUserRoles();
-
-        $this->assertEquals($userRoles, $result);
-    }
-
     public function testSaveSystemUserNoPasswordChange(): void
     {
         $password = 'y28#$!!';
@@ -246,36 +218,6 @@ class UserServiceTest extends KernelTestCase
         $this->assertFalse($result);
     }
 
-    public function testUpdatePassword(): void
-    {
-        $userId = 3;
-        $password = 'sadf&^#@!';
-        $hashedPassword = '939adfiasdfasdfas';
-
-        $mockHasher = $this->getMockBuilder(PasswordHash::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['hash'])
-            ->getMock();
-        $mockHasher->expects($this->once())
-            ->method('hash')
-            ->with($password)
-            ->will($this->returnValue($hashedPassword));
-
-        $mockDao = $this->getMockBuilder(UserDao::class)
-            ->onlyMethods(['updatePassword'])
-            ->getMock();
-        $mockDao->expects($this->once())
-            ->method('updatePassword')
-            ->with($userId, $hashedPassword)
-            ->will($this->returnValue(true));
-
-        $this->systemUserService->setSystemUserDao($mockDao);
-        $this->systemUserService->setPasswordHasher($mockHasher);
-        $result = $this->systemUserService->updatePassword($userId, $password);
-
-        $this->assertTrue($result);
-    }
-
     public function testGetCredentialsUserNotFound(): void
     {
         $userName = 'adminUser1';
@@ -404,25 +346,6 @@ class UserServiceTest extends KernelTestCase
         $result = $this->systemUserService->getCredentials($credentials);
 
         $this->assertNull($result);
-    }
-
-    public function testHashPassword(): void
-    {
-        $password = 'sadf&^#@!';
-        $hashedPassword = '939adfiasdfasdfas';
-
-        $mockHasher = $this->getMockBuilder(PasswordHash::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['hash'])
-            ->getMock();
-        $mockHasher->expects($this->once())
-            ->method('hash')
-            ->with($password)
-            ->will($this->returnValue($hashedPassword));
-
-        $this->systemUserService->setPasswordHasher($mockHasher);
-        $result = $this->systemUserService->hashPassword($password);
-        $this->assertEquals($hashedPassword, $result);
     }
 
     public function testGetUndeletableUserIds(): void

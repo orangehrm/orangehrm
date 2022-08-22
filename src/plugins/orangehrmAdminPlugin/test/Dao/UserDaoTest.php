@@ -108,42 +108,12 @@ class UserDaoTest extends TestCase
         $this->assertNull($result);
     }
 
-    public function testGetSystemUsers(): void
-    {
-        $result = $this->systemUserDao->getSystemUsers();
-        $this->assertEquals(3, count($result));
-    }
-
-    public function testDeleteSystemUsers(): void
-    {
-        $this->systemUserDao->deleteSystemUsers([1, 2, 3]);
-        $result = $this->systemUserDao->getSystemUsers();
-        $this->assertEquals(0, count($result));
-    }
-
     public function testGetAssignableUserRoles(): void
     {
         $result = $this->systemUserDao->getAssignableUserRoles();
         $this->assertEquals($result[0]->getName(), 'Admin');
         $this->assertEquals($result[1]->getName(), 'Admin2');
         $this->assertEquals(7, count($result));
-    }
-
-    public function testGetAdminUserCount(): void
-    {
-        $this->assertEquals(1, $this->systemUserDao->getAdminUserCount());
-        $this->assertEquals(2, $this->systemUserDao->getAdminUserCount(false));
-        $this->assertEquals(2, $this->systemUserDao->getAdminUserCount(true, false));
-        $this->assertEquals(3, $this->systemUserDao->getAdminUserCount(false, false));
-    }
-
-    public function testUpdatePassword(): void
-    {
-        $this->assertEquals(1, $this->systemUserDao->updatePassword(1, 'samantha2'));
-
-        $userObject = TestDataService::fetchObject('User', 1);
-
-        $this->assertEquals('samantha2', $userObject->getUserPassword());
     }
 
     public function testGetSystemUserIdList(): void
@@ -169,22 +139,6 @@ class UserDaoTest extends TestCase
         $this->assertTrue(is_array($result));
         $this->assertEquals(1, count($result));
         $this->assertEquals(1, $result[0]);
-    }
-
-    /**
-     * @covers \OrangeHRM\Admin\Dao\UserDao::getNonPredefinedUserRoles
-     */
-    public function testGetNonPredefinedUserRoles(): void
-    {
-        $userRoleNames = ['Admin2', 'TestAdmin', 'UserRole1', 'UserRole2', 'UserRole3'];
-
-        $useRoles = $this->systemUserDao->getNonPredefinedUserRoles();
-        $this->assertEquals(count($userRoleNames), count($useRoles));
-        for ($i = 0; $i < count($userRoleNames); $i++) {
-            $userRole = $useRoles[$i];
-            $this->assertTrue($userRole instanceof UserRole);
-            $this->assertEquals($userRoleNames[$i], $userRole->getName());
-        }
     }
 
     public function testGetEmployeesByUserRole(): void
