@@ -39,6 +39,8 @@ import {
   File,
   validLangString,
   validSelection,
+  validHostnameFormat,
+  validPortRange,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -67,6 +69,8 @@ jest.mock('@/core/plugins/i18n/translate', () => {
         'Number should be less than or equal to 100',
       'general.greater_than_or_equal_to_n':
         'Number should be greater than or equal to 0',
+      'general.enter_valid_port_between_a_to_b':
+        'Enter a valid port number between 0 to 65535',
     };
     return mockStrings[langString];
   };
@@ -900,5 +904,92 @@ describe('core/util/validation/rules::validSelection', () => {
   test('validSelection:: with empty array value', () => {
     const result = validSelection([]);
     expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::validHostnameFormat', () => {
+  test('validHostnameFormat:: without top level domain', () => {
+    const result = validHostnameFormat('localhost');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: with top level domain', () => {
+    const result = validHostnameFormat('orangehrm.com');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: with sub domain', () => {
+    const result = validHostnameFormat('osohrm.orangehrm.com');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: valid local ip', () => {
+    const result = validHostnameFormat('127.0.0.1');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: valid ipv4 ip', () => {
+    const result = validHostnameFormat('8.8.8.8');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: hostname with invalid characters', () => {
+    const result = validHostnameFormat('orangehrm_company.com');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: hostname with space characters', () => {
+    const result = validHostnameFormat('orangehrm com');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: hostname with protocol', () => {
+    const result = validHostnameFormat('http://orangehrm.com');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: hostname with invalid ip', () => {
+    const result = validHostnameFormat('555.555.555.555');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: hostname with incomplete ip', () => {
+    const result = validHostnameFormat('1.1.1');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: with null value', () => {
+    const result = validSelection(null);
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::validPortRange', () => {
+  const _validPortRange = validPortRange(5, 0, 65535);
+
+  test('validPortRange:: with port value in range', () => {
+    const result = _validPortRange('389');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPortRange:: with port value out of range', () => {
+    const result = _validPortRange('150000');
+    expect(result).toStrictEqual(
+      'Enter a valid port number between 0 to 65535',
+    );
+  });
+
+  test('validPortRange:: with invalid port value', () => {
+    const result = _validPortRange('port9');
+    expect(result).toStrictEqual(
+      'Enter a valid port number between 0 to 65535',
+    );
+  });
+
+  test('validPortRange:: with negative value', () => {
+    const result = _validPortRange('-333');
+    expect(result).toStrictEqual(
+      'Enter a valid port number between 0 to 65535',
+    );
   });
 });
