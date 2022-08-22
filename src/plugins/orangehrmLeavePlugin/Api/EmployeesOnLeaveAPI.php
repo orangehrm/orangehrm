@@ -34,7 +34,7 @@ use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
 use OrangeHRM\Leave\Service\Model\LeaveListModal;
 use OrangeHRM\Leave\Traits\Service\LeaveListServiceTrait;
 
-class LeaveListAPI extends Endpoint implements CollectionEndpoint
+class EmployeesOnLeaveAPI extends Endpoint implements CollectionEndpoint
 {
     use LeaveListServiceTrait;
 

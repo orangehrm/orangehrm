@@ -3,7 +3,7 @@
 ##########################
 apiv2_leave_leaves_list:
   description: 'API-v2 Leave - Employees On Leave'
-  api: OrangeHRM\Leave\Api\LeaveListAPI
+  api: OrangeHRM\Leave\Api\EmployeesOnLeaveAPI
   module: leave
   allowed:
     read: true
