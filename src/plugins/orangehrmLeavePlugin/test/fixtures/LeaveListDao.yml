@@ -43,7 +43,7 @@ LeaveEntitlement:
   - { "id": 7,"emp_number": "2","no_of_days": "7.0","days_used": "1.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
   - { "id": 8,"emp_number": "3","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
   - { "id": 9,"emp_number": "1","no_of_days": "20.0","days_used": "12.5000","leave_type_id": "2","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","credited_date": "2022-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
-  - { "id": 10,"emp_number": "5","no_of_days": "7.0","days_used": "4.5000","leave_type_id": "4","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","credited_date": "2022-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
+  - { "id": 10,"emp_number": "5","no_of_days": "10.0","days_used": "1.5000","leave_type_id": "4","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","credited_date": "2022-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
   - { "id": 11,"emp_number": "5","no_of_days": "14.0","days_used": "0.0000","leave_type_id": "5","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","credited_date": "2022-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
 
 LeaveRequest:
@@ -65,6 +65,9 @@ LeaveRequest:
   - { "id": "16","leave_type_id": "1","date_applied": "2022-11-04","emp_number": "1" }
   - { "id": "17","leave_type_id": "2","date_applied": "2022-11-04","emp_number": "1" }
   - { "id": "18","leave_type_id": "6","date_applied": "2022-12-01","emp_number": "2" }
+  - { "id": "19","leave_type_id": "6","date_applied": "2022-12-01","emp_number": "3" }
+  - { "id": "20","leave_type_id": "6","date_applied": "2022-12-01","emp_number": "4" }
+  - { "id": "21","leave_type_id": "5","date_applied": "2022-12-01","emp_number": "5" }
 
 Leave:
   - { "id": "1","date": "2022-09-01","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "1","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
@@ -134,6 +137,9 @@ Leave:
   - { "id": "65","date": "2022-12-06","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "66","date": "2022-12-07","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "67","date": "2022-12-08","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "68","date": "2023-01-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "19","leave_type_id": "6","emp_number": "3","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "69","date": "2023-01-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "19","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "70","date": "2023-01-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "19","leave_type_id": "5","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
 
 LeaveLeaveEntitlement:
   - { "id": "1","leave_id": "1","entitlement_id": "1","length_days": "1.0000" }
@@ -177,6 +183,9 @@ LeaveLeaveEntitlement:
   - { "id": "48","leave_id": "65","entitlement_id": "3","length_days": "1.0000" }
   - { "id": "49","leave_id": "66","entitlement_id": "3","length_days": "1.0000" }
   - { "id": "50","leave_id": "67","entitlement_id": "3","length_days": "0.5000" }
+  - { "id": "51","leave_id": "68","entitlement_id": "4","length_days": "1.0000" }
+  - { "id": "52","leave_id": "69","entitlement_id": "1","length_days": "1.0000" }
+  - { "id": "53","leave_id": "70","entitlement_id": "11","length_days": "1.0000" }
 
 LeaveStatus:
   - { "id": "1","status": "-1","name": "REJECTED" }

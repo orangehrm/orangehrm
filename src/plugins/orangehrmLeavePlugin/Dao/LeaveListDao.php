@@ -53,10 +53,12 @@ class LeaveListDao extends BaseDao
         $q->andWhere('leaveList.date = :date')->setParameter('date', $leaveListSearchFilterParams->getDate());
         $q->andWhere($q->expr()->orX(
             $q->expr()->eq('leaveList.status', ':pending'),
-            $q->expr()->eq('leaveList.status', ':approved')
+            $q->expr()->eq('leaveList.status', ':approved'),
+            $q->expr()->eq('leaveList.status', ':taken'),
         ))
         ->setParameter('pending', Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL)
-        ->setParameter('approved', Leave::LEAVE_STATUS_LEAVE_APPROVED);
+        ->setParameter('approved', Leave::LEAVE_STATUS_LEAVE_APPROVED)
+        ->setParameter('taken', Leave::LEAVE_STATUS_LEAVE_TAKEN);
 
         return $this->getPaginator($q);
     }

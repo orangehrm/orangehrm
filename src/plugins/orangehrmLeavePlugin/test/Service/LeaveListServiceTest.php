@@ -17,22 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Service;
+namespace OrangeHRM\Leave\test\Service;
 
 use OrangeHRM\Leave\Dao\LeaveListDao;
+use OrangeHRM\Leave\Service\LeaveListService;
+use OrangeHRM\Tests\Util\TestCase;
 
-class LeaveListService
+class LeaveListServiceTest extends TestCase
 {
-    /**
-     * @var LeaveListDao
-     */
-    private LeaveListDao $leaveListDao;
+    private LeaveListService $leaveListService;
 
-    /**
-     * @return LeaveListDao
-     */
-    public function getLeaveListDao(): LeaveListDao
+    protected function setUp(): void
     {
-        return $this->leaveListDao ??= new LeaveListDao();
+        $this->leaveListService = new LeaveListService();
+    }
+
+    public function testGetLeaveListDao(): void
+    {
+        $this->assertTrue($this->leaveListService->getLeaveListDao() instanceof LeaveListDao);
     }
 }

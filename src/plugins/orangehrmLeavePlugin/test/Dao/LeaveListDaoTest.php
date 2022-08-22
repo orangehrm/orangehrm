@@ -17,12 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Dao;
+namespace OrangeHRM\Tests\Leave\Dao;
 
 use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Leave;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveListDao;
 use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -46,6 +48,10 @@ class LeaveListDaoTest extends KernelTestCase
 
     public function testGetEmployeeOnLeaveList(): void
     {
+        $this->createKernelWithMockServices([
+            Services::DATETIME_HELPER_SERVICE =>  new DateTimeHelperService(),
+        ]);
+
         $leaveListSearchFilterParams = new LeaveListSearchFilterParams();
         $leaveListSearchFilterParams->setDate(new DateTime('2022-09-01'));
         $employeeOnLeave = $this->leaveListDao->getEmployeeOnLeaveList($leaveListSearchFilterParams);
@@ -68,5 +74,27 @@ class LeaveListDaoTest extends KernelTestCase
         $employeeOnLeave = $this->leaveListDao->getEmployeeOnLeaveList($leaveListSearchFilterParams);
         $this->assertEquals('14:00', $employeeOnLeave[0]->getDecorator()->getEndTime());
         $this->assertEquals('09:00', $employeeOnLeave[0]->getDecorator()->getStartTime());
+
+        $leaveListSearchFilterParams->setDate(new DateTime('2023-01-03'));
+        $leaveListSearchFilterParams->setLimit(2);
+        $leaveListSearchFilterParams->setOffset(1);
+        $employeeOnLeave = $this->leaveListDao->getEmployeeOnLeaveList($leaveListSearchFilterParams);
+        $this->assertCount(2, $employeeOnLeave);
+    }
+
+    public function testGetEmployeeOnLeaveCount(): void
+    {
+        $this->createKernelWithMockServices([
+            Services::DATETIME_HELPER_SERVICE =>  new DateTimeHelperService(),
+        ]);
+
+        $leaveListSearchFilterParams = new LeaveListSearchFilterParams();
+        $leaveListSearchFilterParams->setDate(new DateTime('2022-09-01'));
+        $count = $this->leaveListDao->getEmployeeOnLeaveCount($leaveListSearchFilterParams);
+        $this->assertEquals(1, $count);
+
+        $leaveListSearchFilterParams->setDate(new DateTime('2023-01-03'));
+        $count = $this->leaveListDao->getEmployeeOnLeaveCount($leaveListSearchFilterParams);
+        $this->assertEquals(3, $count);
     }
 }

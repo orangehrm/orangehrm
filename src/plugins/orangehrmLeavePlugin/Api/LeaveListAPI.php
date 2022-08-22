@@ -47,6 +47,7 @@ class LeaveListAPI extends Endpoint implements CollectionEndpoint
     {
         $leaveListSearchFilterParams = new LeaveListSearchFilterParams();
 
+        $this->setSortingAndPaginationParams($leaveListSearchFilterParams);
         $startDate = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_QUERY,
             self::FROM_DATE,
@@ -75,7 +76,8 @@ class LeaveListAPI extends Endpoint implements CollectionEndpoint
             new ParamRule(
                 self::FROM_DATE,
                 new Rule(Rules::DATE)
-            )
+            ),
+            ... $this->getSortingAndPaginationParamsRules(LeaveListSearchFilterParams::ALLOWED_SORT_FIELDS),
         );
     }
 

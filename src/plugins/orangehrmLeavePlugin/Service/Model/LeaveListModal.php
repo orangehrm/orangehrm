@@ -43,6 +43,7 @@ class LeaveListModal implements Normalizable
             ['getEmployee','getFirstName'],
             ['getEmployee','getMiddleName'],
             ['getEmployee','getEmployeeId'],
+            ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
             ['getDecorator', 'getLeaveDuration'],
             ['getDecorator', 'getEndTime'],
             ['getDecorator', 'getStartTime'],
@@ -57,11 +58,13 @@ class LeaveListModal implements Normalizable
             ['employee','firstName'],
             ['employee','middleName'],
             ['employee','employeeId'],
+            ['employee','terminationId'],
             'duration',
             'endTime',
             'startTime',
         ];
 
+        //TODO:: will change this to evaluate using data-group permission
         if ($this->getAuthUser()->getUserRoleName() === 'Admin') {
             $filter[] = ['getLeaveType', 'getId'];
             $filter[] = ['getLeaveType', 'getName'];
