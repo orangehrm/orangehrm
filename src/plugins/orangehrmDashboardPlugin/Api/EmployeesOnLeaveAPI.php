@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Api;
+namespace OrangeHRM\Dashboard\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
@@ -30,14 +30,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Dashboard\Api\Model\LeaveListModal;
 use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
-use OrangeHRM\Leave\Service\Model\LeaveListModal;
 use OrangeHRM\Leave\Traits\Service\LeaveListServiceTrait;
 
 class EmployeesOnLeaveAPI extends Endpoint implements CollectionEndpoint
 {
     use LeaveListServiceTrait;
 
+    //TODO-change to date
     public const FROM_DATE = 'fromDate';
 
     /**

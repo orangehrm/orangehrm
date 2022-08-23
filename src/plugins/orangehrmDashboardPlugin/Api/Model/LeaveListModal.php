@@ -17,19 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Service\Model;
+namespace OrangeHRM\Dashboard\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Leave;
 
 class LeaveListModal implements Normalizable
 {
     use ModelTrait;
     use ConfigServiceTrait;
-    use AuthUserTrait;
+//    use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     public function __construct(Leave $leave)
     {
@@ -65,7 +67,7 @@ class LeaveListModal implements Normalizable
         ];
 
         //TODO:: will change this to evaluate using data-group permission
-        if ($this->getAuthUser()->getUserRoleName() === 'Admin') {
+        if ($this->getUserRoleManager()->getUser()->getUserRole()->getName() === 'Admin') {
             $filter[] = ['getLeaveType', 'getId'];
             $filter[] = ['getLeaveType', 'getName'];
 

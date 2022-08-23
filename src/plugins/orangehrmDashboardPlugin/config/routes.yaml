@@ -1,3 +1,14 @@
+apiv2_dashboard_employees_on_leave:
+  path: /api/v2/dashboard/employees/leaves
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeesOnLeaveAPI
+
+##########################
+#        Screens
+##########################
+
 dashboard_module_under_development: # remove this
   path: /dashboard/{screen}
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle

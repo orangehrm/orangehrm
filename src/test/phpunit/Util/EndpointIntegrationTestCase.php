@@ -234,13 +234,15 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
             ->getMock();
         $authUser->method('getUserId')
             ->willReturn($testCaseParams->getUserId());
+        /** @var User $user */
+        $user = $this->getEntityReference(
+            User::class,
+            $testCaseParams->getUserId()
+        );
         $authUser->method('getEmpNumber')
-            ->willReturn(
-                $this->getEntityReference(
-                    User::class,
-                    $testCaseParams->getUserId()
-                )->getEmployee()->getEmpNumber()
-            );
+            ->willReturn($user->getEmployee()->getEmpNumber());
+        $authUser->method('getUserRoleName')
+            ->willReturn($user->getUserRole()->getName());
         return $authUser;
     }
 
