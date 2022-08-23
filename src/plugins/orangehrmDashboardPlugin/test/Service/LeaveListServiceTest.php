@@ -19,8 +19,7 @@
 
 namespace OrangeHRM\Tests\Leave\Service;
 
-use OrangeHRM\Leave\Dao\LeaveListDao;
-use OrangeHRM\Leave\Service\LeaveListService;
+use OrangeHRM\Dashboard\Dao\EmployeeOnLeaveDao;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
@@ -29,15 +28,15 @@ use OrangeHRM\Tests\Util\TestCase;
  */
 class LeaveListServiceTest extends TestCase
 {
-    private LeaveListService $leaveListService;
+    private \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService $leaveListService;
 
     protected function setUp(): void
     {
-        $this->leaveListService = new LeaveListService();
+        $this->leaveListService = new \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService();
     }
 
     public function testGetLeaveListDao(): void
     {
-        $this->assertTrue($this->leaveListService->getLeaveListDao() instanceof LeaveListDao);
+        $this->assertTrue($this->leaveListService->getEmployeeOnLeaveDao() instanceof EmployeeOnLeaveDao);
     }
 }

@@ -3,7 +3,7 @@
 ##########################
 apiv2_dashboard_employees_on_leave:
   description: 'API-v2 Dashboard - Employees On Leave'
-  api: OrangeHRM\Dashboard\Api\EmployeesOnLeaveAPI
+  api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveAPI
   module: dashboard
   allowed:
     read: true

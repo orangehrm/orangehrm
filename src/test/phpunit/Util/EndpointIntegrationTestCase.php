@@ -229,7 +229,7 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
     protected function getMockAuthUser(TestCaseParams $testCaseParams): MockAuthUser
     {
         $authUser = $this->getMockBuilder(MockAuthUser::class)
-            ->onlyMethods(['getUserId', 'getEmpNumber'])
+            ->onlyMethods(['getUserId', 'getEmpNumber', 'getUserRoleName'])
             ->disableOriginalConstructor()
             ->getMock();
         $authUser->method('getUserId')

@@ -17,17 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Dao;
+namespace OrangeHRM\Dashboard\Dao;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
-use OrangeHRM\Leave\Traits\Service\LeaveListServiceTrait;
 
-class LeaveListDao extends BaseDao
+class EmployeeOnLeaveDao extends BaseDao
 {
-    use LeaveListServiceTrait;
+    use EmployeeOnLeaveServiceTrait;
 
     /**
      * @param LeaveListSearchFilterParams $leaveListSearchFilterParams

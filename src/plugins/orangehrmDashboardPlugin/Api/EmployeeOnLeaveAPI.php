@@ -30,16 +30,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Dashboard\Api\Model\LeaveListModal;
+use OrangeHRM\Dashboard\Api\Model\EmployeeOnLeaveModal;
+use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
 use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
-use OrangeHRM\Leave\Traits\Service\LeaveListServiceTrait;
 
-class EmployeesOnLeaveAPI extends Endpoint implements CollectionEndpoint
+class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
 {
-    use LeaveListServiceTrait;
+    use EmployeeOnLeaveServiceTrait;
 
-    //TODO-change to date
-    public const FROM_DATE = 'fromDate';
+    public const DATE = 'date';
 
     /**
      * @inheritDoc
@@ -51,18 +50,18 @@ class EmployeesOnLeaveAPI extends Endpoint implements CollectionEndpoint
         $this->setSortingAndPaginationParams($leaveListSearchFilterParams);
         $startDate = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_QUERY,
-            self::FROM_DATE,
+            self::DATE,
         );
 
         $leaveListSearchFilterParams->setDate($startDate);
 
-        $empLeaveList = $this->getLeaveListService()->getLeaveListDao()
+        $empLeaveList = $this->getEmployeeOnLeaveService()->getEmployeeOnLeaveDao()
             ->getEmployeeOnLeaveList($leaveListSearchFilterParams);
-        $employeeCount = $this->getLeaveListService()->getLeaveListDao()
+        $employeeCount = $this->getEmployeeOnLeaveService()->getEmployeeOnLeaveDao()
             ->getEmployeeOnLeaveCount($leaveListSearchFilterParams);
 
         return new EndpointCollectionResult(
-            LeaveListModal::class,
+            EmployeeOnLeaveModal::class,
             $empLeaveList,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $employeeCount])
         );
@@ -75,7 +74,7 @@ class EmployeesOnLeaveAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::FROM_DATE,
+                self::DATE,
                 new Rule(Rules::DATE)
             ),
             ... $this->getSortingAndPaginationParamsRules(LeaveListSearchFilterParams::ALLOWED_SORT_FIELDS),

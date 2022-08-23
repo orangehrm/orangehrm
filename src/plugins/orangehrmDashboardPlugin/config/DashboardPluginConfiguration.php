@@ -17,22 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Service;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Framework\Services;
 
-use OrangeHRM\Leave\Dao\LeaveListDao;
-
-class LeaveListService
+class DashboardPluginConfiguration implements PluginConfigurationInterface
 {
-    /**
-     * @var LeaveListDao
-     */
-    private LeaveListDao $leaveListDao;
+    use ServiceContainerTrait;
 
     /**
-     * @return LeaveListDao
+     * @inheritDoc
      */
-    public function getLeaveListDao(): LeaveListDao
+    public function initialize(Request $request): void
     {
-        return $this->leaveListDao ??= new LeaveListDao();
+        $this->getContainer()->register(
+            Services::EMPLOYEE_ON_LEAVE_SERVICE,
+            EmployeeOnLeaveService::class
+        );
     }
 }

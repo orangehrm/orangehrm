@@ -249,11 +249,6 @@ final class Services
      */
     public const WORK_WEEK_SERVICE = 'leave.work_week_service';
 
-    /**
-     * @see \OrangeHRM\Leave\Service\LeaveListService
-     */
-    public const LEAVE_LIST_SERVICE= 'leave.leave_list_service';
-
     ///////////////////////////////////////////////////////////////
     /// Pim plugin services
     ///////////////////////////////////////////////////////////////
@@ -352,4 +347,12 @@ final class Services
      * @see \OrangeHRM\Performance\Service\PerformanceTrackerLogService
      */
     public const PERFORMANCE_TRACKER_LOG_SERVICE = 'performance.performance_tracker_log_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Dashboard plugin services
+    ///////////////////////////////////////////////////////////////
+    /**
+     * @see \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+     */
+    public const EMPLOYEE_ON_LEAVE_SERVICE= 'dashboard.employee_on_leave_service';
 }

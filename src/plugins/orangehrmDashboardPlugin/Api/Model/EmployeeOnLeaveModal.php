@@ -26,11 +26,10 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Leave;
 
-class LeaveListModal implements Normalizable
+class EmployeeOnLeaveModal implements Normalizable
 {
     use ModelTrait;
     use ConfigServiceTrait;
-//    use AuthUserTrait;
     use UserRoleManagerTrait;
 
     public function __construct(Leave $leave)

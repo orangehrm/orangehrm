@@ -17,21 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Traits\Service;
+namespace OrangeHRM\Dashboard\Traits\Service;
 
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Leave\Service\LeaveListService;
 
-trait LeaveListServiceTrait
+trait EmployeeOnLeaveServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @return LeaveListService
+     * @return EmployeeOnLeaveService
      */
-    protected function getLeaveListService(): LeaveListService
-    {
-        return $this->getContainer()->get(Services::LEAVE_LIST_SERVICE);
-    }
+   protected function getEmployeeOnLeaveService(): EmployeeOnLeaveService
+   {
+       return $this->getContainer()->get(Services::EMPLOYEE_ON_LEAVE_SERVICE);
+   }
 }

@@ -1,0 +1,124 @@
+GetAll:
+  'Get all employees on leave in specific day - Admin User':
+    userId: 1
+    query:
+      date: '2022-12-08'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data:
+      - id: 67
+        date: '2022-12-08'
+        lengthHours: 8.0
+        employee:
+          empNumber: 2
+          lastName: 'Anderson'
+          firstName: 'Linda'
+          middleName: 'Jane'
+          employeeId: '0002'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 6
+          name: Medical
+    meta:
+      total: 1
+  'Get all employees on leave in specific day - multiple employee':
+    userId: 1
+    query:
+      date: '2023-01-03'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data:
+      0:
+        id: 68
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 3
+          lastName: 'Duval'
+          firstName: 'Alice'
+          middleName: ''
+          employeeId: '0003'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 6
+          name: Medical
+      1:
+        id: 69
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 4
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: ''
+          employeeId: '0004'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 6
+          name: Medical
+      2:
+        id: 70
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 5
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: ''
+          employeeId: '0005'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 5
+          name: CAN - Vacation
+    meta:
+      total: 3
+  'Get all employees on leave in specific day - ESS User':
+    userId: 2
+    query:
+      date: '2022-09-23'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data:
+      0:
+        id: 2
+        date: '2022-09-23'
+        lengthHours: 4.0
+        employee:
+          empNumber: 4
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: ''
+          employeeId: '0004'
+          terminationId: null
+        duration: 'half_day_afternoon'
+        endTime: null
+        startTime: null
+    meta:
+      total: 1
