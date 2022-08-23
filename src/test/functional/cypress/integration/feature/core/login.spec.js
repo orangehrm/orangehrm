@@ -20,6 +20,7 @@ describe('Core - Login Page', function () {
   beforeEach(function () {
     cy.task('db:reset');
     cy.intercept('POST', '**/auth/validate').as('postLogin');
+    cy.intercept('GET', '**/core/i18n/messages').as('getLangStrings');
     cy.fixture('user').then(({admin}) => {
       this.user = admin;
     });
@@ -27,6 +28,7 @@ describe('Core - Login Page', function () {
 
   it('should login as admin', function () {
     cy.visit('/auth/login');
+    cy.wait('@getLangStrings');
     cy.getOXD('form').within(() => {
       cy.getOXDInput('Username').type(this.user.username);
       cy.getOXDInput('Password').type(this.user.password);
@@ -40,6 +42,7 @@ describe('Core - Login Page', function () {
 
   it('login form validations should work', function () {
     cy.visit('/auth/login');
+    cy.wait('@getLangStrings');
     cy.getOXD('button').contains('Login').click();
     cy.getOXDInput('Username').isInvalid('Required');
     cy.getOXDInput('Password').isInvalid('Required');

@@ -300,7 +300,7 @@ export default {
 
   watch: {
     'leave.employee': function(employee) {
-      if (employee) {
+      if (employee?.id) {
         this.http
           .request({
             method: 'GET',
