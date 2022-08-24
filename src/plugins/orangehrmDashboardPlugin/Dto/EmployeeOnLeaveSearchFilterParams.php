@@ -17,12 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Dto;
+namespace OrangeHRM\Dashboard\Dto;
 
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
 
-class LeaveListSearchFilterParams extends FilterParams
+class EmployeeOnLeaveSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['leaveList.date'];
 

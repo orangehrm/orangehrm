@@ -29,8 +29,7 @@ use OrangeHRM\Entity\Leave;
 class EmployeeOnLeaveModal implements Normalizable
 {
     use ModelTrait;
-    use ConfigServiceTrait;
-    use UserRoleManagerTrait;
+    use AuthUserTrait;
 
     public function __construct(Leave $leave)
     {
@@ -66,7 +65,7 @@ class EmployeeOnLeaveModal implements Normalizable
         ];
 
         //TODO:: will change this to evaluate using data-group permission
-        if ($this->getUserRoleManager()->getUser()->getUserRole()->getName() === 'Admin') {
+        if ($this->getAuthUser()->getUserRoleName() === 'Admin') {
             $filter[] = ['getLeaveType', 'getId'];
             $filter[] = ['getLeaveType', 'getName'];
 

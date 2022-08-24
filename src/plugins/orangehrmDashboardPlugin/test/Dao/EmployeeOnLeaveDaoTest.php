@@ -24,9 +24,9 @@ use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Dashboard\Dao\EmployeeOnLeaveDao;
+use OrangeHRM\Dashboard\Dto\EmployeeOnLeaveSearchFilterParams;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -52,7 +52,7 @@ class EmployeeOnLeaveDaoTest extends KernelTestCase
             Services::DATETIME_HELPER_SERVICE =>  new DateTimeHelperService(),
         ]);
 
-        $leaveListSearchFilterParams = new LeaveListSearchFilterParams();
+        $leaveListSearchFilterParams = new EmployeeOnLeaveSearchFilterParams();
         $leaveListSearchFilterParams->setDate(new DateTime('2022-09-01'));
         $employeeOnLeave = $this->employeeOnLeaveDao->getEmployeeOnLeaveList($leaveListSearchFilterParams);
 
@@ -88,7 +88,7 @@ class EmployeeOnLeaveDaoTest extends KernelTestCase
             Services::DATETIME_HELPER_SERVICE =>  new DateTimeHelperService(),
         ]);
 
-        $leaveListSearchFilterParams = new LeaveListSearchFilterParams();
+        $leaveListSearchFilterParams = new EmployeeOnLeaveSearchFilterParams();
         $leaveListSearchFilterParams->setDate(new DateTime('2022-09-01'));
         $count = $this->employeeOnLeaveDao->getEmployeeOnLeaveCount($leaveListSearchFilterParams);
         $this->assertEquals(1, $count);

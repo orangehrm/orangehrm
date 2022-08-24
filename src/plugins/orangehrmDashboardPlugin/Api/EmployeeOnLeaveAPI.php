@@ -30,13 +30,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Dashboard\Api\Model\EmployeeOnLeaveModal;
+use OrangeHRM\Dashboard\Dto\EmployeeOnLeaveSearchFilterParams;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
-use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
 
 class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
 {
     use EmployeeOnLeaveServiceTrait;
+    use DateTimeHelperTrait;
 
     public const DATE = 'date';
 
@@ -45,20 +47,22 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $leaveListSearchFilterParams = new LeaveListSearchFilterParams();
+        $employeeOnLeaveSearchFilterParams = new EmployeeOnLeaveSearchFilterParams();
 
-        $this->setSortingAndPaginationParams($leaveListSearchFilterParams);
-        $startDate = $this->getRequestParams()->getDateTime(
+        $this->setSortingAndPaginationParams($employeeOnLeaveSearchFilterParams);
+        $date = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_QUERY,
             self::DATE,
+            null,
+            $this->getDateTimeHelper()->getNow()
         );
 
-        $leaveListSearchFilterParams->setDate($startDate);
+        $employeeOnLeaveSearchFilterParams->setDate($date);
 
         $empLeaveList = $this->getEmployeeOnLeaveService()->getEmployeeOnLeaveDao()
-            ->getEmployeeOnLeaveList($leaveListSearchFilterParams);
+            ->getEmployeeOnLeaveList($employeeOnLeaveSearchFilterParams);
         $employeeCount = $this->getEmployeeOnLeaveService()->getEmployeeOnLeaveDao()
-            ->getEmployeeOnLeaveCount($leaveListSearchFilterParams);
+            ->getEmployeeOnLeaveCount($employeeOnLeaveSearchFilterParams);
 
         return new EndpointCollectionResult(
             EmployeeOnLeaveModal::class,
@@ -75,9 +79,9 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::DATE,
-                new Rule(Rules::DATE)
+                new Rule(Rules::API_DATE)
             ),
-            ... $this->getSortingAndPaginationParamsRules(LeaveListSearchFilterParams::ALLOWED_SORT_FIELDS),
+            ... $this->getSortingAndPaginationParamsRules(EmployeeOnLeaveSearchFilterParams::ALLOWED_SORT_FIELDS),
         );
     }
 

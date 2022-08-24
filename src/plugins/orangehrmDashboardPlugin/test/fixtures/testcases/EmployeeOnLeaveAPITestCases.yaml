@@ -3,13 +3,10 @@ GetAll:
     userId: 1
     query:
       date: '2022-12-08'
+    now:
+      datetime: '2022-07-25'
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       - id: 67
         date: '2022-12-08'
@@ -33,13 +30,10 @@ GetAll:
     userId: 1
     query:
       date: '2023-01-03'
+    now:
+      datetime: '2022-07-25'
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       0:
         id: 68
@@ -98,13 +92,10 @@ GetAll:
     userId: 2
     query:
       date: '2022-09-23'
+    now:
+      datetime: '2022-07-25'
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       0:
         id: 2

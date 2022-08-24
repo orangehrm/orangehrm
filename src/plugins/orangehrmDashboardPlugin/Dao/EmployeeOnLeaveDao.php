@@ -19,30 +19,30 @@
 
 namespace OrangeHRM\Dashboard\Dao;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Dashboard\Dto\EmployeeOnLeaveSearchFilterParams;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
 use OrangeHRM\Entity\Leave;
-use OrangeHRM\Leave\Dto\LeaveListSearchFilterParams;
+use OrangeHRM\ORM\Paginator;
 
 class EmployeeOnLeaveDao extends BaseDao
 {
     use EmployeeOnLeaveServiceTrait;
 
     /**
-     * @param LeaveListSearchFilterParams $leaveListSearchFilterParams
+     * @param EmployeeOnLeaveSearchFilterParams $leaveListSearchFilterParams
      * @return array
      */
-    public function getEmployeeOnLeaveList(LeaveListSearchFilterParams $leaveListSearchFilterParams): array
+    public function getEmployeeOnLeaveList(EmployeeOnLeaveSearchFilterParams $leaveListSearchFilterParams): array
     {
         return $this->getLeaveListPaginator($leaveListSearchFilterParams)->getQuery()->execute();
     }
 
     /**
-     * @param LeaveListSearchFilterParams $leaveListSearchFilterParams
+     * @param EmployeeOnLeaveSearchFilterParams $leaveListSearchFilterParams
      * @return Paginator
      */
-    public function getLeaveListPaginator(LeaveListSearchFilterParams $leaveListSearchFilterParams): Paginator
+    private function getLeaveListPaginator(EmployeeOnLeaveSearchFilterParams $leaveListSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(Leave::class, 'leaveList');
         $q->leftJoin('leaveList.employee', 'employee');
@@ -64,10 +64,10 @@ class EmployeeOnLeaveDao extends BaseDao
     }
 
     /**
-     * @param LeaveListSearchFilterParams $leaveListSearchFilterParams
+     * @param EmployeeOnLeaveSearchFilterParams $leaveListSearchFilterParams
      * @return int
      */
-    public function getEmployeeOnLeaveCount(LeaveListSearchFilterParams $leaveListSearchFilterParams): int
+    public function getEmployeeOnLeaveCount(EmployeeOnLeaveSearchFilterParams $leaveListSearchFilterParams): int
     {
         return $this->getLeaveListPaginator($leaveListSearchFilterParams)->count();
     }

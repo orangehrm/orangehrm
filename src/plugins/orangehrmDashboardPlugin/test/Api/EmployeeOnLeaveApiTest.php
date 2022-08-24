@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Dashboard\test\Api;
+namespace OrangeHRM\Tests\Dashboard\Api;
 
 use OrangeHRM\Dashboard\Api\EmployeeOnLeaveAPI;
 use OrangeHRM\Framework\Services;
