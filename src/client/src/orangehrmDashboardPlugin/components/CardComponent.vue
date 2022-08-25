@@ -36,7 +36,8 @@
       </div>
     </div>
     <oxd-divider />
-    <div class="orangehrm-dashboard-widget-body">
+    <oxd-loading-spinner v-if="loading" class="orangehrm-dashboard-widget-loader" />
+    <div class="orangehrm-dashboard-widget-body" v-if="!loading">
       <slot name="body"></slot>
       <div
         v-if="!hasBodySlot"
@@ -52,18 +53,19 @@
         </oxd-text>
       </div>
     </div>
-    <oxd-loading-spinner v-if="isLoading" class="orangehrm-container-loader" />
   </oxd-sheet>
 </template>
 <script>
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
+import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 
 export default {
   name: 'WidgetCard',
   components: {
     'oxd-sheet': Sheet,
     'oxd-icon': Icon,
+    'oxd-loading-spinner': Spinner,
   },
   props: {
     iconName: {
@@ -104,6 +106,7 @@ export default {
 @import '@ohrm/oxd/styles/_mixins.scss';
 .orangehrm-dashboard-widget {
   height: 390px;
+  min-width: 348px;
   max-width: 348px;
   padding: 0.75rem;
   margin-bottom: 1.5rem;
@@ -139,6 +142,12 @@ export default {
 
   &-img {
     width: 60%;
+  }
+
+  &-loader {
+    overflow: auto;
+    margin: 8rem auto;
+    background-color: $oxd-white-color;
   }
 }
 </style>
