@@ -68,9 +68,11 @@ class EmployeeOnLeaveModal implements Normalizable
         if ($this->getAuthUser()->getUserRoleName() === 'Admin') {
             $filter[] = ['getLeaveType', 'getId'];
             $filter[] = ['getLeaveType', 'getName'];
+            $filter[] = ['getLeaveType', 'isDeleted'];
 
             $attributeNames[] = ['leaveType', 'id'];
             $attributeNames[] = ['leaveType', 'name'];
+            $attributeNames[] = ['leaveType', 'deleted'];
         }
 
         $this->setFilters($filter);

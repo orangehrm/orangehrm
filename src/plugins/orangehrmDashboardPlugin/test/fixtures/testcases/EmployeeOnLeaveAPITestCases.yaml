@@ -24,6 +24,7 @@ GetAll:
         leaveType:
           id: 6
           name: Medical
+          deleted: false
     meta:
       total: 1
   'Get all employees on leave in specific day - multiple employee':
@@ -52,6 +53,7 @@ GetAll:
         leaveType:
           id: 6
           name: Medical
+          deleted: false
       1:
         id: 69
         date: '2023-01-03'
@@ -69,6 +71,7 @@ GetAll:
         leaveType:
           id: 6
           name: Medical
+          deleted: false
       2:
         id: 70
         date: '2023-01-03'
@@ -86,6 +89,7 @@ GetAll:
         leaveType:
           id: 5
           name: CAN - Vacation
+          deleted: false
     meta:
       total: 3
   'Get all employees on leave in specific day - ESS User':
@@ -113,3 +117,84 @@ GetAll:
         startTime: null
     meta:
       total: 1
+  'Get all employees on leave in specific day - limit, offset':
+    userId: 2
+    query:
+      date: '2023-01-03'
+      limit: 2
+      offset: 2
+    now:
+      datetime: '2022-07-25'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+    data:
+      0:
+        id: 70
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 5
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: ''
+          employeeId: '0005'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+    meta:
+      total: 3
+  'Get all employees on leave in specific day - sortOrder, sortField':
+    userId: 2
+    query:
+      date: '2023-01-03'
+      sortOrder: 'DESC'
+    now:
+      datetime: '2022-07-25'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+    data:
+      0:
+        id: 68
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 3
+          lastName: 'Duval'
+          firstName: 'Alice'
+          middleName: ''
+          employeeId: '0003'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+      1:
+        id: 69
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 4
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: ''
+          employeeId: '0004'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+      2:
+        id: 70
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 5
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: ''
+          employeeId: '0005'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+    meta:
+      total: 3
