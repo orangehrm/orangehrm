@@ -24,20 +24,20 @@
       <div class="orangehrm-dashboard-widget-name">
         <oxd-icon
           class="orangehrm-dashboard-widget-icon"
-          :name="iconName"
+          :name="icon"
         ></oxd-icon>
-        <slot name="widget-settings"></slot>
-        <oxd-text v-show="widgetName" type="card-title">
-          {{ widgetName }}
+        <oxd-text v-show="title" type="card-title">
+          {{ title }}
         </oxd-text>
       </div>
-      <div>
-        <slot v-if="hasActionSlot" name="action"></slot>
-      </div>
+      <slot v-if="hasActionSlot" name="action"></slot>
     </div>
     <oxd-divider />
-    <oxd-loading-spinner v-if="loading" class="orangehrm-dashboard-widget-loader" />
-    <div class="orangehrm-dashboard-widget-body" v-if="!loading">
+    <oxd-loading-spinner
+      v-if="loading"
+      class="orangehrm-dashboard-widget-loader"
+    />
+    <div v-if="!loading" class="orangehrm-dashboard-widget-body">
       <slot name="body"></slot>
       <div
         v-if="!hasBodySlot"
@@ -61,24 +61,24 @@ import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 
 export default {
-  name: 'WidgetCard',
+  name: 'BaseWidget',
   components: {
     'oxd-sheet': Sheet,
     'oxd-icon': Icon,
     'oxd-loading-spinner': Spinner,
   },
   props: {
-    iconName: {
+    icon: {
       type: String,
       required: true,
     },
-    widgetName: {
+    title: {
       type: String,
       default: '',
     },
     emptyContentText: {
       type: String,
-      default: '',
+      required: true,
     },
     loading: {
       type: Boolean,
@@ -102,52 +102,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-.orangehrm-dashboard-widget {
-  height: 390px;
-  min-width: 348px;
-  max-width: 348px;
-  padding: 0.75rem;
-  margin-bottom: 1.5rem;
-
-  &-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &-name {
-    display: flex;
-    align-items: center;
-  }
-
-  &-icon {
-    margin-right: 0.5rem;
-  }
-
-  &-body {
-    &-nocontent {
-      text-align: center;
-      font-size: 10px;
-      margin-top: 2.5rem;
-    }
-  }
-
-  &-watermark {
-    width: 175px;
-    margin: 60px auto auto;
-    text-align: center;
-  }
-
-  &-img {
-    width: 60%;
-  }
-
-  &-loader {
-    overflow: auto;
-    margin: 8rem auto;
-    background-color: $oxd-white-color;
-  }
-}
-</style>
+<style src="./base-widget.scss" lang="scss" scoped></style>

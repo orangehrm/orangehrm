@@ -19,9 +19,7 @@
  -->
 
 <template>
-  <div>
-    <oxd-icon name="gear-fill" @click="$emit('show-actions', true)"></oxd-icon>
-  </div>
+  <oxd-icon :name="icon" @click="$emit('show-actions', true)"></oxd-icon>
 </template>
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
@@ -31,7 +29,12 @@ export default {
   components: {
     'oxd-icon': Icon,
   },
+  props: {
+    icon: {
+      type: String,
+      required: true,
+    },
+  },
   emits: ['show-actions'],
 };
 </script>
-<style lang=""></style>

@@ -22,27 +22,27 @@
   <div class="orangehrm-dashboard-container">
     <oxd-grid :cols="3">
       <oxd-grid-item>
-        <widget-card
-          icon-name="house-door-fill"
-          widget-name="test widget 1"
+        <base-widget
+          icon="house-door-fill"
+          title="test widget 1"
           empty-content-text="No Test Contetnt Here"
         >
           <template #action>
-            <action-button name="settingsButton"></action-button>
+            <action-button icon="gear-fill"></action-button>
           </template>
-        </widget-card>
+        </base-widget>
       </oxd-grid-item>
     </oxd-grid>
   </div>
 </template>
 <script>
-import WidgetCard from '@/orangehrmDashboardPlugin/components/CardComponent.vue';
+import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
 import ActionButton from '@/orangehrmDashboardPlugin/components/ActionButton';
 
 export default {
   name: 'Dashboard',
   components: {
-    'widget-card': WidgetCard,
+    'base-widget': BaseWidget,
     'action-button': ActionButton,
   },
 };
