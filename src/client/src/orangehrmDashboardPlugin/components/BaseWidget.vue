@@ -37,7 +37,7 @@
       v-if="loading"
       class="orangehrm-dashboard-widget-loader"
     />
-    <div v-if="!loading" class="orangehrm-dashboard-widget-body">
+    <div v-else class="orangehrm-dashboard-widget-body">
       <slot name="body"></slot>
       <div
         v-if="!hasBodySlot"
