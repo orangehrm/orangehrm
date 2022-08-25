@@ -49,7 +49,7 @@
           class="orangehrm-dashboard-widget-img"
         />
         <oxd-text tag="p">
-          {{ emptyContentText }}
+          {{ $t('general.not_available') }}
         </oxd-text>
       </div>
     </div>
@@ -73,10 +73,6 @@ export default {
       required: true,
     },
     title: {
-      type: String,
-      default: '',
-    },
-    emptyContentText: {
       type: String,
       required: true,
     },

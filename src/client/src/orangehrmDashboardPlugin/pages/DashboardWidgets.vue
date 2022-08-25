@@ -22,11 +22,7 @@
   <div class="orangehrm-dashboard-container">
     <oxd-grid :cols="3">
       <oxd-grid-item>
-        <base-widget
-          icon="house-door-fill"
-          title="test widget 1"
-          empty-content-text="No Test Contetnt Here"
-        >
+        <base-widget icon="house-door-fill" title="test widget 1">
           <template #action>
             <action-button icon="gear-fill"></action-button>
           </template>
