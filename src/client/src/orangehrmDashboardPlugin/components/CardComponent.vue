@@ -20,20 +20,39 @@
 
 <template>
   <oxd-sheet :gutters="false" class="orangehrm-dashboard-widget">
-    <div v-show="showNoContent">
-      <div></div>
-      <oxd-text>
-        {{ noContentText }}
-      </oxd-text>
-    </div>
-    <div >
-      <oxd-icon :name="iconName"></oxd-icon>
-      <oxd-text v-show="widgetName">
-        {{ widgetName }}
-      </oxd-text>
-      <oxd-icon name="setting" v-show="showSettings"></oxd-icon>
+    <div class="orangehrm-dashboard-widget-header">
+      <div class="orangehrm-dashboard-widget-name">
+        <oxd-icon
+          class="orangehrm-dashboard-widget-icon"
+          :name="iconName"
+        ></oxd-icon>
+        <slot name="widget-settings"></slot>
+        <oxd-text v-show="widgetName" type="card-title">
+          {{ widgetName }}
+        </oxd-text>
+      </div>
+      <div>
+        <slot v-if="hasActionSlot" name="action"></slot>
+      </div>
     </div>
     <oxd-divider />
+    <div class="orangehrm-dashboard-widget-body">
+      <slot name="body"></slot>
+      <div
+        v-if="!hasBodySlot"
+        class="orangehrm-dashboard-widget-body-nocontent"
+      >
+        <img
+          :src="defaultPic"
+          alt="No Content"
+          class="orangehrm-dashboard-widget-img"
+        />
+        <oxd-text tag="p">
+          {{ emptyContentText }}
+        </oxd-text>
+      </div>
+    </div>
+    <oxd-loading-spinner v-if="isLoading" class="orangehrm-container-loader" />
   </oxd-sheet>
 </template>
 <script>
@@ -55,22 +74,71 @@ export default {
       type: String,
       default: '',
     },
-    showSettings: {
+    emptyContentText: {
+      type: String,
+      default: '',
+    },
+    loading: {
       type: Boolean,
       default: false,
     },
-    noContentText: {
-      type: String,
-    }
-  }
+  },
+  setup() {
+    const defaultPic = `${window.appGlobal.baseUrl}/../images/dashboard_empty_widget_watermark.png`;
+
+    return {
+      defaultPic,
+    };
+  },
+  computed: {
+    hasBodySlot() {
+      return !!this.$slots.body;
+    },
+    hasActionSlot() {
+      return !!this.$slots.action;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
 @import '@ohrm/oxd/styles/_mixins.scss';
+.orangehrm-dashboard-widget {
+  height: 390px;
+  max-width: 348px;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
 
-.orangehrm-dashboard-widget{
-  height: 4rem;
-  overflow: hidden;
-  padding: 0.5rem;
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-name {
+    display: flex;
+    align-items: center;
+  }
+
+  &-icon {
+    margin-right: 0.5rem;
+  }
+
+  &-body {
+    &-nocontent {
+      text-align: center;
+      font-size: 10px;
+      margin-top: 2.5rem;
+    }
+  }
+
+  &-watermark {
+    width: 175px;
+    margin: 60px auto auto;
+    text-align: center;
+  }
+
+  &-img {
+    width: 60%;
+  }
 }
 </style>

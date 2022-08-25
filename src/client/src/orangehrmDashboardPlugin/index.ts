@@ -19,5 +19,5 @@
 import Dashboard from '@/orangehrmDashboardPlugin/pages/DashboardWidgets.vue';
 
 export default {
-  'dashboard': Dashboard,
+  dashboard: Dashboard,
 };

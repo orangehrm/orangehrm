@@ -19,41 +19,19 @@
  -->
 
 <template>
-  <div class="orangehrm-dashboard-container">
-    <oxd-grid :cols="3">
-      <oxd-grid-item>
-        <widget-card
-          icon-name="house-door-fill"
-          widget-name="test widget 1"
-          empty-content-text="No Test Contetnt Here"
-        >
-          <template #action>
-            <action-button name="settingsButton"></action-button>
-          </template>
-        </widget-card>
-      </oxd-grid-item>
-    </oxd-grid>
+  <div>
+    <oxd-icon name="gear-fill" @click="$emit('show-actions', true)"></oxd-icon>
   </div>
 </template>
 <script>
-import WidgetCard from '@/orangehrmDashboardPlugin/components/CardComponent.vue';
-import ActionButton from '@/orangehrmDashboardPlugin/components/ActionButton';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 
 export default {
-  name: 'Dashboard',
+  name: 'ActionButton',
   components: {
-    'widget-card': WidgetCard,
-    'action-button': ActionButton,
+    'oxd-icon': Icon,
   },
+  emits: ['show-actions'],
 };
 </script>
-<style lang="scss" scoped>
-.orangehrm-dashboard-container {
-  box-sizing: border-box;
-}
-::v-deep(.oxd-grid-3) {
-  width: max-content;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>
+<style lang=""></style>
