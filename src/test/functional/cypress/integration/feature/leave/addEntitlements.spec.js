@@ -49,7 +49,7 @@ describe('Leave - Entitlements', function () {
   });
 
   describe('create snapshot with leave period', function () {
-    it.only('create snapshot with leave period', function () {
+    it('create snapshot with leave period', function () {
       cy.loginTo(user.admin, '/leave/defineLeavePeriod');
       cy.getOXD('form').within(() => {
         cy.wait('@getLeavePeriod');
@@ -306,7 +306,7 @@ describe('Leave - Entitlements', function () {
       });
     });
 
-    it.only('Validate add entitlement form entitlements field', function () {
+    it('Validate add entitlement form entitlements field', function () {
       cy.task('db:restore', {name: 'leavePeriods'});
       cy.loginTo(user.admin, '/leave/addLeaveEntitlement');
       cy.getOXD('form').within(() => {
