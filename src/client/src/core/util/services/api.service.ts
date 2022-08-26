@@ -147,58 +147,60 @@ export class APIService {
       },
     );
 
-    // Additional interceptors for caching
-    this._http.interceptors.request.use(
-      (config: AxiosRequestConfig) => {
-        if (config.url) {
-          const url = config.url;
-          const cachedEtag = this._cacheStorage.getItem(url);
-          if (cachedEtag) {
-            config.headers = {
-              ...config.headers,
-              // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
-              'If-None-Match': cachedEtag,
-            };
+    if (process.env.NODE_ENV !== 'development') {
+      // Additional interceptors for caching
+      this._http.interceptors.request.use(
+        (config: AxiosRequestConfig) => {
+          if (config.url) {
+            const url = config.url;
+            const cachedEtag = this._cacheStorage.getItem(url);
+            if (cachedEtag) {
+              config.headers = {
+                ...config.headers,
+                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
+                'If-None-Match': cachedEtag,
+              };
+            }
           }
-        }
-        return config;
-      },
-      (error: AxiosError): Promise<AxiosError> => {
-        return Promise.reject(error);
-      },
-    );
-    this._http.interceptors.response.use(
-      (response: AxiosResponse) => {
-        const {config, headers} = response;
-        if (config.url && headers) {
-          const url = config.url;
-          const etag = headers['etag'];
-          const cachedEtag = this._cacheStorage.getItem(url);
-          if (etag && etag !== cachedEtag) {
-            this._cacheStorage.removeItem(url);
-            this._cacheStorage.setItem(url, etag);
+          return config;
+        },
+        (error: AxiosError): Promise<AxiosError> => {
+          return Promise.reject(error);
+        },
+      );
+      this._http.interceptors.response.use(
+        (response: AxiosResponse) => {
+          const {config, headers} = response;
+          if (config.url && headers) {
+            const url = config.url;
+            const etag = headers['etag'];
+            const cachedEtag = this._cacheStorage.getItem(url);
+            if (etag && etag !== cachedEtag) {
+              this._cacheStorage.removeItem(url);
+              this._cacheStorage.setItem(url, etag);
 
-            if (cachedEtag) this._cacheStorage.removeItem(cachedEtag);
-            this._cacheStorage.setItem(etag, JSON.stringify(response.data));
+              if (cachedEtag) this._cacheStorage.removeItem(cachedEtag);
+              this._cacheStorage.setItem(etag, JSON.stringify(response.data));
+            }
           }
-        }
-        return response;
-      },
-      (error: AxiosError) => {
-        if (error.response?.status === 304) {
-          const etag = error.response.headers['etag'];
-          const cacheData = this._cacheStorage.getItem(etag);
-          if (cacheData) {
-            return Promise.resolve({
-              ...error.response,
-              status: 200,
-              data: JSON.parse(cacheData),
-            });
+          return response;
+        },
+        (error: AxiosError) => {
+          if (error.response?.status === 304) {
+            const etag = error.response.headers['etag'];
+            const cacheData = this._cacheStorage.getItem(etag);
+            if (cacheData) {
+              return Promise.resolve({
+                ...error.response,
+                status: 200,
+                data: JSON.parse(cacheData),
+              });
+            }
           }
-        }
-        return Promise.reject(error);
-      },
-    );
+          return Promise.reject(error);
+        },
+      );
+    }
   }
 
   public get http() {
