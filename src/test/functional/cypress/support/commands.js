@@ -29,11 +29,9 @@ Cypress.Commands.add(
   'loginTo',
   ({username, password}, url, options = undefined) => {
     cy.visit(url, options);
-    cy.intercept('GET', '**/core/i18n/messages').as('getLangStrings');
     cy.get('input[name=username]').setValue(username);
     cy.get('input[name=password]').setValue(password);
     cy.get('form').submit();
-    cy.wait('@getLangStrings');
   },
 );
 

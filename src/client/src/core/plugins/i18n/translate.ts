@@ -93,6 +93,9 @@ function createI18n(options: LanguageOptions) {
             headers: {
               Accept: 'application/json',
               contentType: 'application/json',
+              ...(process.env.NODE_ENV === 'development' && {
+                'Cache-Control': 'public,  max-age=60',
+              }),
             },
           })
           .then((response: AxiosResponse<LanguageResponse>) => {

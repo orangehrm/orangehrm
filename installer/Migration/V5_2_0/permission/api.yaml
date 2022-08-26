@@ -1,0 +1,15 @@
+##########################
+#        Dashboard
+##########################
+apiv2_dashboard_employees_on_leave:
+  description: 'API-v2 Dashboard - Employees On Leave'
+  api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }

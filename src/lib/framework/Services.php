@@ -347,4 +347,12 @@ final class Services
      * @see \OrangeHRM\Performance\Service\PerformanceTrackerLogService
      */
     public const PERFORMANCE_TRACKER_LOG_SERVICE = 'performance.performance_tracker_log_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Dashboard plugin services
+    ///////////////////////////////////////////////////////////////
+    /**
+     * @see \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+     */
+    public const EMPLOYEE_ON_LEAVE_SERVICE= 'dashboard.employee_on_leave_service';
 }

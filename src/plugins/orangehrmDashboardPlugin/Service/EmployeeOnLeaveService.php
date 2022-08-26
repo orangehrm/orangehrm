@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,32 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-describe('Core - Login Page', function () {
-  beforeEach(function () {
-    cy.task('db:reset');
-    cy.intercept('POST', '**/auth/validate').as('postLogin');
-    cy.fixture('user').then(({admin}) => {
-      this.user = admin;
-    });
-  });
+namespace OrangeHRM\Dashboard\Service;
 
-  it('should login as admin', function () {
-    cy.visit('/auth/login');
-    cy.getOXD('form').within(() => {
-      cy.getOXDInput('Username').type(this.user.username);
-      cy.getOXDInput('Password').type(this.user.password);
-      cy.getOXD('button').contains('Login').click();
-    });
-    cy.wait('@postLogin')
-      .its('response.headers')
-      .should('have.property', 'location')
-      .and('match', /pim\/viewPimModule/);
-  });
+use OrangeHRM\Dashboard\Dao\EmployeeOnLeaveDao;
 
-  it('login form validations should work', function () {
-    cy.visit('/auth/login');
-    cy.getOXD('button').contains('Login').click();
-    cy.getOXDInput('Username').isInvalid('Required');
-    cy.getOXDInput('Password').isInvalid('Required');
-  });
-});
+class EmployeeOnLeaveService
+{
+    /**
+     * @var EmployeeOnLeaveDao
+     */
+    private EmployeeOnLeaveDao $employeeOnLeaveDao;
+
+    /**
+     * @return EmployeeOnLeaveDao
+     */
+    public function getEmployeeOnLeaveDao(): EmployeeOnLeaveDao
+    {
+        return $this->employeeOnLeaveDao ??= new EmployeeOnLeaveDao();
+    }
+}
