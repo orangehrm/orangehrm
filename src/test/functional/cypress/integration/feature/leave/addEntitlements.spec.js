@@ -104,8 +104,8 @@ describe('Leave - Entitlements', function () {
     });
   });
 
-  // eslint-disable-next-line jest/no-disabled-tests
   describe('create snapshot with sub unit', function () {
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('Add sub unit', function () {
       cy.loginTo(user.admin, '/admin/viewCompanyStructure');
       cy.get('[type="checkbox"]').check();
