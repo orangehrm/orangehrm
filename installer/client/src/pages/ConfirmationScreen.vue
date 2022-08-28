@@ -61,14 +61,14 @@
       v-if="database.enableDataEncryption"
       class="confirmation-text-info"
     >
-      Data Encryption is on. Employee Social Security Number and Employee Basic
-      Salary would be encrypted.
+      Data Encryption Is On. Employee Social Security Number and Employee Basic
+      Salary Will Be Encrypted.
     </oxd-text>
     <oxd-text
       v-if="database.enableDataEncryption"
       class="confirmation-text-info"
     >
-      Please backup encryption key located at lib/confs/cryptokeys/
+      Please backup encryption key located at lib/confs/cryptokeys/key.ohrm
     </oxd-text>
     <br />
     <br />
