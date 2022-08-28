@@ -32,7 +32,7 @@ class EmployeeListener extends BaseListener
     public function preUpdate(Employee $employee, PreUpdateEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled() && $eventArgs->hasChangedField('ssnNumber')) {
-            $employee->setSsnNumber($this->cryptographer->encrypt($employee->getSsnNumber()));
+            $employee->setSsnNumber($this->getCryptographer()->encrypt($employee->getSsnNumber()));
         }
     }
 
@@ -43,7 +43,7 @@ class EmployeeListener extends BaseListener
     public function postUpdate(Employee $employee, LifecycleEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled()) {
-            $employee->setSsnNumber($this->cryptographer->decrypt($employee->getSsnNumber()));
+            $employee->setSsnNumber($this->getCryptographer()->decrypt($employee->getSsnNumber()));
         }
     }
 
@@ -54,7 +54,7 @@ class EmployeeListener extends BaseListener
     public function postLoad(Employee $employee, LifecycleEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled()) {
-            $employee->setSsnNumber($this->cryptographer->decrypt($employee->getSsnNumber()));
+            $employee->setSsnNumber($this->getCryptographer()->decrypt($employee->getSsnNumber()));
         }
     }
 }

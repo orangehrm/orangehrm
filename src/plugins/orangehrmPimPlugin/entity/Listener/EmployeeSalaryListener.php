@@ -32,7 +32,7 @@ class EmployeeSalaryListener extends BaseListener
     public function prePersist(EmployeeSalary $employeeSalary, LifecycleEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled()) {
-            $employeeSalary->setAmount($this->cryptographer->encrypt($employeeSalary->getAmount()));
+            $employeeSalary->setAmount($this->getCryptographer()->encrypt($employeeSalary->getAmount()));
         }
     }
 
@@ -43,7 +43,7 @@ class EmployeeSalaryListener extends BaseListener
     public function preUpdate(EmployeeSalary $employeeSalary, PreUpdateEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled() && $eventArgs->hasChangedField('amount')) {
-            $employeeSalary->setAmount($this->cryptographer->encrypt($employeeSalary->getAmount()));
+            $employeeSalary->setAmount($this->getCryptographer()->encrypt($employeeSalary->getAmount()));
         }
     }
 
@@ -54,7 +54,7 @@ class EmployeeSalaryListener extends BaseListener
     public function postUpdate(EmployeeSalary $employeeSalary, LifecycleEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled()) {
-            $employeeSalary->setAmount($this->cryptographer->decrypt($employeeSalary->getAmount()));
+            $employeeSalary->setAmount($this->getCryptographer()->decrypt($employeeSalary->getAmount()));
         }
     }
 
@@ -65,7 +65,7 @@ class EmployeeSalaryListener extends BaseListener
     public function postLoad(EmployeeSalary $employeeSalary, LifecycleEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled()) {
-            $employeeSalary->setAmount($this->cryptographer->decrypt($employeeSalary->getAmount()));
+            $employeeSalary->setAmount($this->getCryptographer()->decrypt($employeeSalary->getAmount()));
         }
     }
 }

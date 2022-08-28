@@ -33,10 +33,15 @@ abstract class BaseListener
         }
     }
 
+    protected function getCryptographer(): Cryptographer
+    {
+        return $this->cryptographer;
+    }
+
     /**
      * @return bool
      */
-    public function encryptionEnabled(): bool
+    protected function encryptionEnabled(): bool
     {
         return !is_null($this->cryptographer);
     }

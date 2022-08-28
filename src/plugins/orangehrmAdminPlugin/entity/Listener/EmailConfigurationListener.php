@@ -32,7 +32,7 @@ class EmailConfigurationListener extends BaseListener
     public function prePersist(EmailConfiguration $emailConfiguration, LifecycleEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled()) {
-            $emailConfiguration->setSmtpPassword($this->cryptographer->encrypt($emailConfiguration->getSmtpPassword()));
+            $emailConfiguration->setSmtpPassword($this->getCryptographer()->encrypt($emailConfiguration->getSmtpPassword()));
         }
     }
 
@@ -43,7 +43,7 @@ class EmailConfigurationListener extends BaseListener
     public function preUpdate(EmailConfiguration $emailConfiguration, PreUpdateEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled() && $eventArgs->hasChangedField('smtpPassword')) {
-            $emailConfiguration->setSmtpPassword($this->cryptographer->encrypt($emailConfiguration->getSmtpPassword()));
+            $emailConfiguration->setSmtpPassword($this->getCryptographer()->encrypt($emailConfiguration->getSmtpPassword()));
         }
     }
 
@@ -54,7 +54,7 @@ class EmailConfigurationListener extends BaseListener
     public function postUpdate(EmailConfiguration $emailConfiguration, LifecycleEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled()) {
-            $emailConfiguration->setSmtpPassword($this->cryptographer->decrypt($emailConfiguration->getSmtpPassword()));
+            $emailConfiguration->setSmtpPassword($this->getCryptographer()->decrypt($emailConfiguration->getSmtpPassword()));
         }
     }
 
@@ -65,7 +65,7 @@ class EmailConfigurationListener extends BaseListener
     public function postLoad(EmailConfiguration $emailConfiguration, LifecycleEventArgs $eventArgs): void
     {
         if ($this->encryptionEnabled()) {
-            $emailConfiguration->setSmtpPassword($this->cryptographer->decrypt($emailConfiguration->getSmtpPassword()));
+            $emailConfiguration->setSmtpPassword($this->getCryptographer()->decrypt($emailConfiguration->getSmtpPassword()));
         }
     }
 }
