@@ -24,6 +24,8 @@ use Doctrine\DBAL\Types\Types;
 use Exception;
 use InvalidArgumentException;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Exception\KeyHandlerException;
+use OrangeHRM\Core\Utility\KeyHandler;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
@@ -469,17 +471,13 @@ class AppSetupUtility
         clearstatcache(true);
     }
 
+    /**
+     * @throws KeyHandlerException
+     */
     public function writeKeyFile(): void
     {
-        $cryptKey = '';
-        for ($i = 0; $i < 4; $i++) {
-            $cryptKey .= md5(rand(10000000, 99999999));
-        }
-        $cryptKey = str_shuffle($cryptKey);
-
-        $fs = new Filesystem();
-        $fs->dumpFile(__DIR__ . '/../../lib/confs/cryptokeys/key.ohrm', $cryptKey);
-        clearstatcache(true);
+        $keyHandler = new KeyHandler();
+        $keyHandler::createKey();
     }
 
     /**

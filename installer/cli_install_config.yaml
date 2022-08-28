@@ -1,25 +1,25 @@
 database:
-  hostName: 127.0.0.1
+  hostName: mysql55
   hostPort: 3306
-  databaseName: orangehrm_mysql
+  databaseName: 52dev
   privilegedDatabaseUser: root
   privilegedDatabasePassword: root
   useSameDbUserForOrangeHRM: y # y/n, if this field `n` fill `orangehrmDatabaseUser` and `orangehrmDatabasePassword`
   orangehrmDatabaseUser: ~
   orangehrmDatabasePassword: ~
   isExistingDatabase: n # y/n
-  enableDataEncryption: n # y/n
+  enableDataEncryption: y # y/n
 
 organization:
-  name: OrangeHRM
+  name: OHRM
   country: US
 
 admin:
-  adminUserName: Admin
-  adminPassword: Ohrm@1423
-  adminEmployeeFirstName: OrangeHRM
+  adminUserName: admin
+  adminPassword: admin@OHRM123
+  adminEmployeeFirstName: Devi
   adminEmployeeLastName: Admin
-  workEmail: admin@example.com
+  workEmail: devi@admin.com
   contactNumber: ~
 
 license:
