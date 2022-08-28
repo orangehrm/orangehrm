@@ -36,7 +36,8 @@
         "symfony/translation": "~5.4",
         "symfony/polyfill-intl-messageformatter": "^1.24",
         "symfony/process": "^5.4",
-        "scssphp/scssphp": "^1.10"
+        "scssphp/scssphp": "^1.10",
+        "phpseclib/phpseclib": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
