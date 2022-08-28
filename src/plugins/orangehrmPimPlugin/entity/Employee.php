@@ -30,6 +30,7 @@ use OrangeHRM\Entity\Decorator\EmployeeDecorator;
  *
  * @ORM\Table(name="hs_hr_employee")
  * @ORM\Entity
+ * @ORM\EntityListeners({"OrangeHRM\Entity\Listener\EmployeeListener"})
  */
 class Employee
 {
