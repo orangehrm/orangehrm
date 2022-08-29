@@ -23,13 +23,18 @@ use InvalidArgumentException;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\Tests\Util\TestCase;
 
+/**
+ * @group Admin
+ * @group LDAP
+ * @group Dto
+ */
 class LDAPSettingTest extends TestCase
 {
     public function testFromString(): void
     {
         $setting = new LDAPSetting('example.com', 1389, 'OpenLDAP', 'tls');
         $this->assertEquals(
-            '{"enable":false,"host":"example.com","port":1389,"encryption":"tls","implementation":"OpenLDAP","version":"3","optReferrals":false,"bindAnonymously":true,"bindUserDN":null,"bindUserPassword":null,"baseDN":"dc=example,dc=com","searchScope":"sub","userNameAttribute":"cn","dataMapping":{"firstname":"givenName","middlename":"","lastname":"sn","userStatus":null,"workEmail":null,"employeeId":null},"groupObjectClass":"group","groupObjectFilter":"(&(objectClass=group)(cn=*))","groupNameAttribute":"cn","groupMembersAttribute":"member","groupMembershipAttribute":"memberOf","syncInterval":60}',
+            '{"enable":false,"host":"example.com","port":1389,"encryption":"tls","implementation":"OpenLDAP","version":"3","optReferrals":false,"bindAnonymously":true,"bindUserDN":null,"bindUserPassword":null,"userLookupSettings":[],"groupObjectClass":"group","groupObjectFilter":"(&(objectClass=group)(cn=*))","groupNameAttribute":"cn","groupMembersAttribute":"member","groupMembershipAttribute":"memberOf","dataMapping":{"firstName":"givenName","middleName":null,"lastName":"sn","workEmail":null,"employeeId":null,"userStatus":null},"syncInterval":60}',
             (string)$setting
         );
         $this->expectException(InvalidArgumentException::class);

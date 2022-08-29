@@ -157,10 +157,10 @@ class LDAPUserDataMapping
     public function setAttributeNames(array $dataMapping): void
     {
         $this->setFirstNameAttribute($dataMapping['firstName']);
-        $this->setMiddleNameAttribute($dataMapping['middleName']);
+        $this->setMiddleNameAttribute($dataMapping['middleName'] ?? null);
         $this->setLastNameAttribute($dataMapping['lastName']);
-        $this->setWorkEmailAttribute($dataMapping['workEmail']);
-        $this->setEmployeeIdAttribute($dataMapping['employeeId']);
-        $this->setUserStatusAttribute($dataMapping['userStatus']);
+        $this->setWorkEmailAttribute($dataMapping['workEmail'] ?? null);
+        $this->setEmployeeIdAttribute($dataMapping['employeeId'] ?? null);
+        $this->setUserStatusAttribute($dataMapping['userStatus'] ?? null);
     }
 }

@@ -55,9 +55,6 @@ class LDAPConfigModel implements Normalizable
             'bindAnonymously' => $this->LDAPSetting->isBindAnonymously(),
             'bindUserDN' => $this->LDAPSetting->getBindUserDN(),
             'userLookupSettings' => $userLookupSettings,
-//            'baseDistinguishedName' => $this->LDAPSetting->getBaseDN(), TODO::remove
-//            'searchScope' => $this->LDAPSetting->getSearchScope(),
-//            'userNameAttribute' => $this->LDAPSetting->getUserNameAttribute(),
             'dataMapping' => $this->LDAPSetting->getDataMapping()->toArray(),
             'groupObjectClass' => $this->LDAPSetting->getGroupObjectClass(),
             'groupObjectFilter' => $this->LDAPSetting->getGroupObjectFilter(),

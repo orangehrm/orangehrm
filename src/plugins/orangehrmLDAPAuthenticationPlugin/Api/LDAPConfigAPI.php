@@ -289,27 +289,6 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH])
                 )
             ),
-// TODO
-//            $this->getValidationDecorator()->notRequiredParamRule(
-//                new ParamRule(
-//                    self::PARAMETER_BASE_DISTINGUISHED_NAME,
-//                    new Rule(Rules::STRING_TYPE),
-//                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH])
-//                )
-//            ),
-//            new ParamRule(
-//                self::PARAMETER_SEARCH_SCOPE,
-//                new Rule(Rules::STRING_TYPE),
-//                new Rule(
-//                    Rules::IN,
-//                    [[QueryInterface::SCOPE_SUB, QueryInterface::SCOPE_ONE]]
-//                )
-//            ),
-//            new ParamRule(
-//                self::PARAMETER_USER_NAME_ATTRIBUTE,
-//                new Rule(Rules::STRING_TYPE),
-//                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-//            ),
             new ParamRule(
                 self::PARAMETER_GROUP_OBJECT_CLASS,
                 new Rule(Rules::STRING_TYPE),
