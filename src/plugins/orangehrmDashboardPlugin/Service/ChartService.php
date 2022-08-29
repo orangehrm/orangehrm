@@ -17,30 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Dashboard\Service\ChartService;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Dashboard\Service;
 
-class DashboardPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Dashboard\Dao\ChartDao;
+
+class ChartService
 {
-    use ServiceContainerTrait;
+    /**
+     * @var ChartDao
+     */
+    private ChartDao $chartDao;
 
     /**
-     * @inheritDoc
+     * @return ChartDao
      */
-    public function initialize(Request $request): void
+    public function getChartDao(): ChartDao
     {
-        $this->getContainer()->register(
-            Services::EMPLOYEE_ON_LEAVE_SERVICE,
-            EmployeeOnLeaveService::class
-        );
-
-        $this->getContainer()->register(
-            Services::CHART_SERVICE,
-            ChartService::class
-        );
+        return $this->chartDao ??=new ChartDao();
     }
+
 }

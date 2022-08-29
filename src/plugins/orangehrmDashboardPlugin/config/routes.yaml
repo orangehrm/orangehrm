@@ -5,6 +5,13 @@ apiv2_dashboard_employees_on_leave:
   defaults:
     _api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveAPI
 
+apiv2_dashboard_employees_by_subunit:
+  path: /api/v2/dashboard/employees/subunit
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeeDistributionBySubunitAPI
+
 ##########################
 #       Mock API
 ##########################

@@ -354,5 +354,10 @@ final class Services
     /**
      * @see \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
      */
-    public const EMPLOYEE_ON_LEAVE_SERVICE= 'dashboard.employee_on_leave_service';
+    public const EMPLOYEE_ON_LEAVE_SERVICE = 'dashboard.employee_on_leave_service';
+
+    /**
+     * @see \OrangeHRM\Dashboard\Service\ChartService
+     */
+    public const CHART_SERVICE = 'dashboard.chart_service';
 }
