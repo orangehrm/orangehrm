@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,33 +16,40 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-describe('Core - Login Page', function () {
-  beforeEach(function () {
-    cy.task('db:reset');
-    cy.intercept('POST', '**/auth/validate').as('postLogin');
-    cy.fixture('user').then(({admin}) => {
-      this.user = admin;
-    });
-  });
+<template>
+  <div class="orangehrm-dashboard-container">
+    <oxd-grid :cols="3">
+      <oxd-grid-item>
+        <base-widget icon="house-door-fill" title="test widget 1">
+          <template #action>
+            <action-button icon="gear-fill"></action-button>
+          </template>
+        </base-widget>
+      </oxd-grid-item>
+    </oxd-grid>
+  </div>
+</template>
+<script>
+import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
+import ActionButton from '@/orangehrmDashboardPlugin/components/ActionButton';
 
-  it('should login as admin', function () {
-    cy.visit('/auth/login');
-    cy.getOXD('form').within(() => {
-      cy.getOXDInput('Username').type(this.user.username);
-      cy.getOXDInput('Password').type(this.user.password);
-      cy.getOXD('button').contains('Login').click();
-    });
-    cy.wait('@postLogin')
-      .its('response.headers')
-      .should('have.property', 'location')
-      .and('match', /dashboard\/index/);
-  });
-
-  it('login form validations should work', function () {
-    cy.visit('/auth/login');
-    cy.getOXD('button').contains('Login').click();
-    cy.getOXDInput('Username').isInvalid('Required');
-    cy.getOXDInput('Password').isInvalid('Required');
-  });
-});
+export default {
+  name: 'Dashboard',
+  components: {
+    'base-widget': BaseWidget,
+    'action-button': ActionButton,
+  },
+};
+</script>
+<style lang="scss" scoped>
+.orangehrm-dashboard-container {
+  box-sizing: border-box;
+}
+::v-deep(.oxd-grid-3) {
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

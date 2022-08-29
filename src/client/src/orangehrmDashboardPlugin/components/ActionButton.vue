@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,33 +16,25 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-describe('Core - Login Page', function () {
-  beforeEach(function () {
-    cy.task('db:reset');
-    cy.intercept('POST', '**/auth/validate').as('postLogin');
-    cy.fixture('user').then(({admin}) => {
-      this.user = admin;
-    });
-  });
+<template>
+  <oxd-icon :name="icon" @click="$emit('show-actions', true)"></oxd-icon>
+</template>
+<script>
+import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 
-  it('should login as admin', function () {
-    cy.visit('/auth/login');
-    cy.getOXD('form').within(() => {
-      cy.getOXDInput('Username').type(this.user.username);
-      cy.getOXDInput('Password').type(this.user.password);
-      cy.getOXD('button').contains('Login').click();
-    });
-    cy.wait('@postLogin')
-      .its('response.headers')
-      .should('have.property', 'location')
-      .and('match', /dashboard\/index/);
-  });
-
-  it('login form validations should work', function () {
-    cy.visit('/auth/login');
-    cy.getOXD('button').contains('Login').click();
-    cy.getOXDInput('Username').isInvalid('Required');
-    cy.getOXDInput('Password').isInvalid('Required');
-  });
-});
+export default {
+  name: 'ActionButton',
+  components: {
+    'oxd-icon': Icon,
+  },
+  props: {
+    icon: {
+      type: String,
+      required: true,
+    },
+  },
+  emits: ['show-actions'],
+};
+</script>

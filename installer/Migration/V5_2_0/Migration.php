@@ -59,6 +59,8 @@ class Migration extends AbstractMigration
 
         $this->updatePimLeftMenuConfigurators();
         $this->updateOrganizationStructure();
+        $this->updateHomePage('Admin', 'dashboard/index');
+        $this->updateHomePage('ESS', 'dashboard/index');
     }
 
     /**
@@ -124,5 +126,20 @@ class Migration extends AbstractMigration
                 ->setParameter('topLevel', 0)
                 ->executeQuery();
         }
+    }
+
+    /**
+     * @param string $userRole
+     * @param string $url
+     */
+    private function updateHomePage(string $userRole, string $url): void
+    {
+        $this->createQueryBuilder()
+            ->update('ohrm_home_page', 'homePage')
+            ->set('homePage.action', ':url')
+            ->setParameter('url', $url)
+            ->andWhere('homePage.user_role_id = :userRoleId')
+            ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName($userRole))
+            ->executeQuery();
     }
 }

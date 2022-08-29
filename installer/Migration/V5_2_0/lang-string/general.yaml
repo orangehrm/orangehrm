@@ -8,3 +8,6 @@ langStrings:
   -
     value: 'Descending'
     unitId: descending
+  -
+    value: 'Not Available'
+    unitId: not_available

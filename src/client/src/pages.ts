@@ -30,6 +30,7 @@ import PerformancePages from '@/orangehrmPerformancePlugin';
 import CorporateDirectoryPages from '@/orangehrmCorporateDirectoryPlugin';
 import authenticationPages from '@/orangehrmAuthenticationPlugin';
 import languagePages from '@/orangehrmAdminPlugin';
+import dashboardPages from '@/orangehrmDashboardPlugin';
 
 export default {
   ...AdminPages,
@@ -46,4 +47,5 @@ export default {
   ...CorporateDirectoryPages,
   ...authenticationPages,
   ...languagePages,
+  ...dashboardPages,
 };
