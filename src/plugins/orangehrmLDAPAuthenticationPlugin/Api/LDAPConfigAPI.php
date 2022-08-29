@@ -34,7 +34,7 @@ use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\LDAP\Api\Model\LDAPConfigModel;
 use OrangeHRM\LDAP\Api\Traits\LDAPDataMapParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
-use Symfony\Component\Ldap\Adapter\QueryInterface;
+use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 
 class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
 {
@@ -49,16 +49,20 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_LDAP_IMPLEMENTATION = 'ldapImplementation';
 
     public const PARAMETER_BIND_ANONYMOUSLY = 'bindAnonymously';
-    public const PARAMETER_DISTINGUISHED_NAME = 'distinguishedName';
-    public const PARAMETER_DISTINGUISHED_PASSWORD = 'distinguishedPassword';
-    public const PARAMETER_BASE_DISTINGUISHED_NAME = 'baseDistinguishedName';
+    public const PARAMETER_BIND_USER_DISTINGUISHED_NAME = 'bindUserDN';
+    public const PARAMETER_BIND_USER_PASSWORD = 'bindUserPassword';
+
+    public const PARAMETER_USER_LOOKUP_SETTINGS = 'userLookupSettings';
+    public const PARAMETER_BASE_DISTINGUISHED_NAME = 'baseDN';
     public const PARAMETER_SEARCH_SCOPE = 'searchScope';
     public const PARAMETER_USER_NAME_ATTRIBUTE = 'userNameAttribute';
+    public const PARAMETER_USER_UNIQUE_ID_ATTRIBUTE = 'userUniqueIdAttribute';
+    public const PARAMETER_USER_SEARCH_FILTER = 'userSearchFilter';
 
     public const PARAMETER_DATA_MAPPING = 'dataMapping';
-    public const PARAMETER_FIRST_NAME = 'firstname';
-    public const PARAMETER_MIDDLE_NAME = 'middlename';
-    public const PARAMETER_LAST_NAME = 'lastname';
+    public const PARAMETER_FIRST_NAME = 'firstName';
+    public const PARAMETER_MIDDLE_NAME = 'middleName';
+    public const PARAMETER_LAST_NAME = 'lastName';
     public const PARAMETER_USER_STATUS = 'userStatus';
     public const PARAMETER_WORK_EMAIL = 'workEmail';
     public const PARAMETER_EMPLOYEE_ID = 'employeeId';
@@ -70,7 +74,6 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE = 'groupMembershipAttribute';
     public const PARAMETER_SYNC_INTERVAL = 'syncInterval';
 
-
     public const ENCRYPTION_NONE = 'none';
     public const ENCRYPTION_TLS = 'tls';
     public const ENCRYPTION_SSL = 'ssl';
@@ -80,8 +83,8 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
 
     public const PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH = 100;
     public const PARAMETER_RULE_HOST_NAME_MAX_LENGTH = 255;
-    public const PARAMETER_RULE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
-    public const PARAMETER_RULE_DISTINGUISHED_PASSWORD_MAX_LENGTH  = 255;
+    public const PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH = 255;
     public const PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
 
     /**
@@ -94,6 +97,13 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_DATA_MAPPING
         );
         $this->validate($dataMapping, $this->getParamRuleCollection());
+
+        $userLookupSettings = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_USER_LOOKUP_SETTINGS
+        );
+        // TODO
+        //$this->validate($userLookupSettings, $this->getParamRuleCollectionForUserLookupSettings());
 
         $ldapSettings = new LDAPSetting(
             $this->getRequestParams()->getString(
@@ -112,13 +122,11 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_ENCRYPTION
             ),
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_BASE_DISTINGUISHED_NAME
-            )
         );
 
         $this->setConfigAttributes($ldapSettings);
+        $this->setDataMappingAttributes($ldapSettings, $dataMapping);
+        $this->setUserLookupSettings($ldapSettings, $userLookupSettings);
         $this->getConfigService()->setLDAPSetting($ldapSettings);
         return new EndpointResourceResult(LDAPConfigModel::class, $ldapSettings);
     }
@@ -137,46 +145,26 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             $ldapSetting->setBindUserDN(
                 $this->getRequestParams()->getString(
                     RequestParams::PARAM_TYPE_BODY,
-                    self::PARAMETER_DISTINGUISHED_NAME
+                    self::PARAMETER_BIND_USER_DISTINGUISHED_NAME
                 )
             );
 
             $password = $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_DISTINGUISHED_PASSWORD
+                self::PARAMETER_BIND_USER_PASSWORD
             );
             if (!is_null($password)) {
                 $ldapSetting->setBindUserPassword($password);
             }
+        } else {
+            $ldapSetting->setBindUserDN(null);
+            $ldapSetting->setBindUserPassword(null);
         }
-        $ldapSetting->setUserNameAttribute(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_USER_NAME_ATTRIBUTE
-            )
-        );
-        $ldapSetting->setBaseDN(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_BASE_DISTINGUISHED_NAME
-            )
-        );
+
         $ldapSetting->setEnable(
             $this->getRequestParams()->getBoolean(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_ENABLED
-            )
-        );
-        $ldapSetting->setSearchScope(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_SEARCH_SCOPE
-            )
-        );
-        $ldapSetting->setDataMapping(
-            $this->getRequestParams()->getArray(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_DATA_MAPPING
             )
         );
         $ldapSetting->setGroupObjectClass(
@@ -218,6 +206,26 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @param LDAPSetting $ldapSetting
+     * @param array $dataMapping
+     */
+    private function setDataMappingAttributes(LDAPSetting $ldapSetting, array $dataMapping): void
+    {
+        $ldapSetting->getDataMapping()->setAttributeNames($dataMapping);
+    }
+
+    /**
+     * @param LDAPSetting $ldapSetting
+     * @param array $userLookupSettings
+     */
+    private function setUserLookupSettings(LDAPSetting $ldapSetting, array $userLookupSettings): void
+    {
+        foreach ($userLookupSettings as $userLookupSetting) {
+            $ldapSetting->addUserLookupSetting(LDAPUserLookupSetting::createFromArray($userLookupSetting));
+        }
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
@@ -225,7 +233,7 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
         $paramRules = new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_ENABLED,
-                new Rule(Rules::BOOL_TYPE)
+                new Rule(Rules::BOOL_VAL)
             ),
             new ParamRule(
                 self::PARAMETER_HOSTNAME,
@@ -265,44 +273,43 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_BIND_ANONYMOUSLY,
-                new Rule(Rules::BOOL_TYPE)
+                new Rule(Rules::BOOL_VAL)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_DISTINGUISHED_NAME,
+                    self::PARAMETER_BIND_USER_DISTINGUISHED_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_DISTINGUISHED_NAME_MAX_LENGTH])
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_DISTINGUISHED_PASSWORD,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_DISTINGUISHED_PASSWORD_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_BASE_DISTINGUISHED_NAME,
+                    self::PARAMETER_BIND_USER_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH])
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_SEARCH_SCOPE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(
-                    Rules::IN,
-                    [
-                        [QueryInterface::SCOPE_SUB, QueryInterface::SCOPE_ONE]
-                    ]
-                )
-            ),
-            new ParamRule(
-                self::PARAMETER_USER_NAME_ATTRIBUTE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-            ),
+// TODO
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(
+//                    self::PARAMETER_BASE_DISTINGUISHED_NAME,
+//                    new Rule(Rules::STRING_TYPE),
+//                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH])
+//                )
+//            ),
+//            new ParamRule(
+//                self::PARAMETER_SEARCH_SCOPE,
+//                new Rule(Rules::STRING_TYPE),
+//                new Rule(
+//                    Rules::IN,
+//                    [[QueryInterface::SCOPE_SUB, QueryInterface::SCOPE_ONE]]
+//                )
+//            ),
+//            new ParamRule(
+//                self::PARAMETER_USER_NAME_ATTRIBUTE,
+//                new Rule(Rules::STRING_TYPE),
+//                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+//            ),
             new ParamRule(
                 self::PARAMETER_GROUP_OBJECT_CLASS,
                 new Rule(Rules::STRING_TYPE),
@@ -335,7 +342,11 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             new ParamRule(
                 self::PARAMETER_DATA_MAPPING,
                 new Rule(Rules::ARRAY_TYPE)
-            )
+            ),
+            new ParamRule(
+                self::PARAMETER_USER_LOOKUP_SETTINGS,
+                new Rule(Rules::ARRAY_TYPE)
+            ),
         );
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
         return $paramRules;

@@ -18,6 +18,7 @@
  */
 
 use OrangeHRM\Authentication\Auth\AuthProviderChain;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
@@ -27,14 +28,14 @@ use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
 class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterface
 {
     use ServiceContainerTrait;
+    use ConfigServiceTrait;
 
     /**
      * @inheritDoc
      */
     public function initialize(Request $request): void
     {
-        // TODO:: check LDAP enabled
-        if (true) {
+        if ($this->getConfigService()->getLDAPSetting()->isEnable()) {
             /** @var AuthProviderChain $authProviderChain */
             $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
             $authProviderChain->addProvider(new LDAPAuthProvider());
