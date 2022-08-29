@@ -35,7 +35,7 @@ describe('Core - Login Page', function () {
     cy.wait('@postLogin')
       .its('response.headers')
       .should('have.property', 'location')
-      .and('match', /pim\/viewPimModule/);
+      .and('match', /dashboard\/index/);
   });
 
   it('login form validations should work', function () {
