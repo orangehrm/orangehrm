@@ -11,3 +11,6 @@ langStrings:
   -
     value: 'Not Available'
     unitId: not_available
+  -
+    value: 'Employee Distribution by Sub Unit'
+    unitId: employee_distribution_by_sub_unit

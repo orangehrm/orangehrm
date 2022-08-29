@@ -20,9 +20,9 @@
 
 <template>
   <base-widget
+    icon="pie-chart-fill"
     :loading="isLoading"
-    icon="house-door-fill"
-    title="Employee Distribution by Subunit"
+    :title="$t('general.employee_distribution_by_sub_unit')"
   >
     <oxd-pie-chart
       :data="dataset"
