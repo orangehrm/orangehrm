@@ -6,8 +6,18 @@ apiv2_dashboard_employees_on_leave:
     _api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveAPI
 
 ##########################
+#       Mock API
+##########################
+
+apiv2_dashboard_employees_subunit_distribution:
+  path: /api/v2/dashboard/employees/subunit
+  controller: OrangeHRM\Dashboard\Controller\DashboardDataMockController::getEmployeeSubunitDistribution
+  methods: [ GET ]
+
+##########################
 #        Screens
 ##########################
+
 dashboard_widget:
   path: /dashboard/index
   controller: OrangeHRM\Dashboard\Controller\DashboardController::handle

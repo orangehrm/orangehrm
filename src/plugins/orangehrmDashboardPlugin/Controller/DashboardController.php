@@ -27,7 +27,7 @@ class DashboardController extends AbstractVueController
 {
     public function preRender(Request $request): void
     {
-        $component = new Component('dashboard');
+        $component = new Component('view-dashboard');
         $this->setComponent($component);
     }
 }

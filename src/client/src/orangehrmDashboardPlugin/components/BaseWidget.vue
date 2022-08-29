@@ -38,7 +38,7 @@
       class="orangehrm-dashboard-widget-loader"
     />
     <div v-else class="orangehrm-dashboard-widget-body">
-      <slot name="body"></slot>
+      <slot></slot>
       <div
         v-if="!hasBodySlot"
         class="orangehrm-dashboard-widget-body-nocontent"
@@ -55,6 +55,7 @@
     </div>
   </oxd-sheet>
 </template>
+
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
@@ -90,7 +91,7 @@ export default {
   },
   computed: {
     hasBodySlot() {
-      return !!this.$slots.body;
+      return !!this.$slots.default;
     },
     hasActionSlot() {
       return !!this.$slots.action;
@@ -98,4 +99,5 @@ export default {
   },
 };
 </script>
+
 <style src="./base-widget.scss" lang="scss" scoped></style>

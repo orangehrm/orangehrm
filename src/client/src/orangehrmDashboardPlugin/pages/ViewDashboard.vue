@@ -19,37 +19,31 @@
  -->
 
 <template>
-  <div class="orangehrm-dashboard-container">
-    <oxd-grid :cols="3">
-      <oxd-grid-item>
-        <base-widget icon="house-door-fill" title="test widget 1">
-          <template #action>
-            <action-button icon="gear-fill"></action-button>
-          </template>
-        </base-widget>
-      </oxd-grid-item>
-    </oxd-grid>
-  </div>
+  <oxd-grid class="orangehrm-dashboard-grid" :cols="3">
+    <oxd-grid-item class="orangehrm-dashboard-widget">
+      <employee-subunit-widget></employee-subunit-widget>
+    </oxd-grid-item>
+  </oxd-grid>
 </template>
+
 <script>
-import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
-import ActionButton from '@/orangehrmDashboardPlugin/components/ActionButton';
+import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/EmployeeSubunitWidget.vue';
 
 export default {
-  name: 'Dashboard',
   components: {
-    'base-widget': BaseWidget,
-    'action-button': ActionButton,
+    'employee-subunit-widget': EmployeeSubunitWidget,
   },
 };
 </script>
+
 <style lang="scss" scoped>
-.orangehrm-dashboard-container {
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-dashboard-grid {
+  margin: 0 auto;
   box-sizing: border-box;
-}
-::v-deep(.oxd-grid-3) {
-  width: max-content;
-  margin-left: auto;
-  margin-right: auto;
+  @include oxd-respond-to('md') {
+    width: fit-content;
+  }
 }
 </style>

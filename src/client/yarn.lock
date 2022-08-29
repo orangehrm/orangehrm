@@ -1596,18 +1596,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:1.0.7-alpha.1":
-  version: 1.0.7-alpha.1
-  resolution: "@ohrm/oxd@npm:1.0.7-alpha.1"
+"@ohrm/oxd@npm:1.0.7-alpha.2":
+  version: 1.0.7-alpha.2
+  resolution: "@ohrm/oxd@npm:1.0.7-alpha.2"
   dependencies:
     "@revolist/vue3-datagrid": ^3.0.96
     bootstrap-icons: ^1.3.0
+    chart.js: ^3.9.1
     core-js: ^3.6.5
     date-fns: ^2.22.1
     mitt: ^2.1.0
     nanoid: ^3.2.0
     vue: ^3.2.2
-  checksum: e4f57b2a646204f8620ac1271e25bca0590c04a10cea606c6263916ebc36ca6f6e9d9c548daca6d4195dc0682368b4a70563513c3c6ad53cd5a1f30f5adac7ff
+  checksum: 279dc1529740bd21fa5306f8ca50a4fdf77331ffb6ebbcb82f1c02c47dd59de539053e9d556aec382da7626fce9ce76077371cb461c78c6efc1dc2826171eb26
   languageName: node
   linkType: hard
 
@@ -4206,6 +4207,13 @@ __metadata:
   version: 0.7.0
   resolution: "chardet@npm:0.7.0"
   checksum: b71a4ee4648489291af86418b96247824a8c1ee4f4f95d6268967fb40e9fbf70500e72fb737d5186a23cf98c8a02b91d68cb2f426d7428e92883af9d31a037ec
+  languageName: node
+  linkType: hard
+
+"chart.js@npm:^3.9.1":
+  version: 3.9.1
+  resolution: "chart.js@npm:3.9.1"
+  checksum: 8bbd6702f0fd9c77d8638b27e16cfef14145fb340ffb18ab011ddff7e9a0ee6bfdc55e178fdd8ba08f4b39ce35dea1a525935d67a6af6928ef88e0c071e85f1e
   languageName: node
   linkType: hard
 
@@ -10496,7 +10504,7 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@ohrm/oxd": 1.0.7-alpha.1
+    "@ohrm/oxd": 1.0.7-alpha.2
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0

@@ -15,12 +15,15 @@
 // Boston, MA  02110-1301, USA
 
 @import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-dashboard-widget {
+  width: auto;
   height: 390px;
-  min-width: 348px;
-  max-width: 348px;
+  margin: 0 auto;
+  max-width: 350px;
   padding: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
 
   &-header {
     display: flex;
@@ -38,11 +41,13 @@
   }
 
   &-body {
+    overflow: auto;
     &-nocontent {
-      text-align: center;
       font-size: 10px;
+      text-align: center;
       margin-top: 2.5rem;
     }
+    @include oxd-scrollbar();
   }
 
   &-watermark {
