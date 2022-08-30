@@ -71,12 +71,16 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
-        const colors = Object.values(CHART_COLORS);
+        const colors = Object.values(CHART_COLORS).reverse();
         this.dataset = data.map((item, index) => {
           return {
             label: item.label,
             value: item.employeeCount,
-            color: colors[index],
+            color:
+              //TODO: check lang string
+              item.label === 'Unassigned'
+                ? CHART_COLORS.COLOR_TART_ORANGE
+                : colors[index],
           };
         });
       })

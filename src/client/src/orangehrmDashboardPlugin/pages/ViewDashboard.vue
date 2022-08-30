@@ -20,7 +20,10 @@
 
 <template>
   <oxd-grid class="orangehrm-dashboard-grid" :cols="3">
-    <oxd-grid-item class="orangehrm-dashboard-widget">
+    <oxd-grid-item
+      v-if="$can.read('admin_widgets')"
+      class="orangehrm-dashboard-widget"
+    >
       <employee-subunit-widget></employee-subunit-widget>
     </oxd-grid-item>
   </oxd-grid>
