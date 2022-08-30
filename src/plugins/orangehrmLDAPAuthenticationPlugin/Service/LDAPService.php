@@ -32,7 +32,7 @@ class LDAPService
 {
     use ConfigServiceTrait;
 
-    private ?AdapterInterface $adapter = null;
+    protected ?AdapterInterface $adapter = null;
 
     /**
      * @return ConnectionInterface|Connection
