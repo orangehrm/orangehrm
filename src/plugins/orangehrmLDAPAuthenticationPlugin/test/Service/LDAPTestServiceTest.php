@@ -30,8 +30,9 @@ use OrangeHRM\Tests\LDAP\LDAPServerConfig;
 use OrangeHRM\Tests\LDAP\LDAPUsersFixture;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use Symfony\Component\Ldap\Exception\ConnectionException;
+use Symfony\Component\Ldap\Exception\InvalidCredentialsException;
 
-class LDAPTestServiceAnonBindTest extends KernelTestCase
+class LDAPTestServiceTest extends KernelTestCase
 {
     use LDAPConnectionHelperTrait;
 
@@ -87,10 +88,10 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
         $configEntry = $query->execute()->toArray()[0];
 
         /**
-         * Enable anonymous binding
+         * Disable anonymous binding
          */
-        if ($configEntry->hasAttribute('olcDisallows')) {
-            $ldapAuthService->getEntryManager()->removeAttributeValues($configEntry, 'olcDisallows', ['bind_anon']);
+        if (!$configEntry->hasAttribute('olcDisallows')) {
+            $ldapAuthService->getEntryManager()->addAttributeValues($configEntry, 'olcDisallows', ['bind_anon']);
         }
 
         /**
@@ -113,12 +114,49 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
         $fixture->load();
     }
 
+    public function testConnection(): void
+    {
+        $ldapSettings = new LDAPSetting('172.18.0.4', 1389, 'OpenLDAP', 'none', '');
+        $ldapTestService = new LDAPTestService($ldapSettings);
+        $ldapTestService->test(new UserCredential('cn=admin,dc=example,dc=org', 'admin'));
+        $this->assertTrue(true);
+    }
+
     public function testAnonymousConnection(): void
     {
         $ldapSettings = new LDAPSetting('172.18.0.4', 1389, 'OpenLDAP', 'none', '');
         $ldapTestService = new LDAPTestService($ldapSettings);
+        $this->expectException(ConnectionException::class);
+        $this->expectExceptionMessage("Inappropriate authentication");
         $ldapTestService->test(new UserCredential());
-        $this->assertTrue(true);
+    }
+
+    public function testInvalidUserName(): void
+    {
+        $ldapSettings = new LDAPSetting('172.18.0.4', 1389, 'OpenLDAP', 'none', '');
+        $ldapTestService = new LDAPTestService($ldapSettings);
+        $this->expectException(InvalidCredentialsException::class);
+        $this->expectExceptionMessage("Invalid credentials");
+        $ldapTestService->test(new UserCredential('cn=admin,dc=example,dc=or', 'admin'));
+    }
+
+    public function testInvalidUserNameSyntax(): void
+    {
+        $ldapSettings = new LDAPSetting('172.18.0.4', 1389, 'OpenLDAP', 'none', '');
+        $ldapTestService = new LDAPTestService($ldapSettings);
+        $this->expectException(ConnectionException::class);
+        $this->expectExceptionMessage("Invalid DN syntax");
+        $ldapTestService->test(new UserCredential('invalid', 'admin'));
+    }
+
+
+    public function testInvalidPassword(): void
+    {
+        $ldapSettings = new LDAPSetting('172.18.0.4', 1389, 'OpenLDAP', 'none', '');
+        $ldapTestService = new LDAPTestService($ldapSettings);
+        $this->expectException(InvalidCredentialsException::class);
+        $this->expectExceptionMessage("Invalid credentials");
+        $ldapTestService->test(new UserCredential('cn=admin,dc=example,dc=org', 'invalid'));
     }
 
     public function testInvalidHost(): void
@@ -127,7 +165,7 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
         $this->expectExceptionMessage("Can't contact LDAP server");
-        $ldapTestService->test(new UserCredential());
+        $ldapTestService->test(new UserCredential('cn=admin,dc=example,dc=org', 'admin'));
     }
 
     public function testInvalidPort(): void
@@ -136,7 +174,7 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
         $this->expectExceptionMessage("Can't contact LDAP server");
-        $ldapTestService->test(new UserCredential());
+        $ldapTestService->test(new UserCredential('cn=admin,dc=example,dc=org', 'admin'));
     }
 
     public function testEncryptionWithPort(): void
@@ -145,6 +183,6 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
         $this->expectExceptionMessage("Can't contact LDAP server");
-        $ldapTestService->test(new UserCredential());
+        $ldapTestService->test(new UserCredential('cn=admin,dc=example,dc=org', 'admin'));
     }
 }
