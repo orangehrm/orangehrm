@@ -52,7 +52,7 @@ class Cryptographer
 
         $rijndael->setKeyLength(self::KEY_LENGTH);
         $rijndael->setBlockLength(self::BLOCK_LENGTH);
-        $rijndael->setKey($this->getMySQLKey());
+        $rijndael->setKey($this->generateKey());
 
         $encrypt = $rijndael->encrypt($value);
 
@@ -73,7 +73,7 @@ class Cryptographer
         $aes = new AES(self::MODE);
 
         $aes->setKeyLength(self::KEY_LENGTH);
-        $aes->setKey($this->getMySQLKey());
+        $aes->setKey($this->generateKey());
 
         return $aes->decrypt($encryptedValue);
     }
@@ -81,14 +81,14 @@ class Cryptographer
     /**
      * @return string
      */
-    private function getMySQLKey(): string
+    private function generateKey(): string
     {
-        $mysqlKey = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+        $generatedKey = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
 
         for ($a = 0; $a < strlen($this->key); $a++) {
-            $mysqlKey[$a % 16] = chr(ord($mysqlKey[$a % 16]) ^ ord($this->key[$a]));
+            $generatedKey[$a % 16] = chr(ord($generatedKey[$a % 16]) ^ ord($this->key[$a]));
         }
 
-        return $mysqlKey;
+        return $generatedKey;
     }
 }
