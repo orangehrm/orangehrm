@@ -42,7 +42,7 @@ class KeyHandler
         try {
             $cryptKey = '';
             for ($i = 0; $i < 4; $i++) {
-                $cryptKey .= md5(rand(10000000, 99999999));
+                $cryptKey .= md5(random_int(10000000, 99999999));
             }
             $cryptKey = str_shuffle($cryptKey);
 
