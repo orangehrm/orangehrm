@@ -53,6 +53,21 @@ class ChartDaoTest extends KernelTestCase
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $employeeSearchFilterParams->setSubunitId(2);
         $count =  $this->chartDao->getEmployeeCount($employeeSearchFilterParams);
-        $this->assertEquals(3, $count);
+        $this->assertEquals(6, $count);
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $count =  $this->chartDao->getEmployeeCount($employeeSearchFilterParams);
+        $this->assertEquals(2, $count);
+    }
+
+    public function testGetEmployeeDistributionBySubunit(): void
+    {
+        $this->createKernelWithMockServices([
+            Services::COMPANY_STRUCTURE_SERVICE => new CompanyStructureService()
+        ]);
+
+        $result = $this->chartDao->getEmployeeDistributionBySubunit();
+        $this->assertTrue(is_array($this->chartDao->getEmployeeDistributionBySubunit()));
+        $this->assertCount(4, $result);
     }
 }

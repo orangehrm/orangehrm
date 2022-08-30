@@ -17,27 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Dashboard\Service;
+namespace OrangeHRM\Dashboard\Api\Model;
 
-use OrangeHRM\Dashboard\Dao\EmployeeOnLeaveDao;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
-/**
- * @group Dashboard
- * @group Service
- */
-class LeaveListServiceTest extends TestCase
+class SubunitCountModal implements Normalizable
 {
-    private EmployeeOnLeaveService $dashboardService;
+    use ModelTrait;
 
-    protected function setUp(): void
+    public function __construct(SubunitCountPair $subunitCountPair)
     {
-        $this->dashboardService = new EmployeeOnLeaveService();
-    }
-
-    public function testGetLeaveListDao(): void
-    {
-        $this->assertTrue($this->dashboardService->getEmployeeOnLeaveDao() instanceof EmployeeOnLeaveDao);
+        $this->setEntity($subunitCountPair);
+        $this->setFilters(
+            [
+                ['getSubunit', 'getName'],
+                ['getCount'],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                ['subunit', 'name'],
+                ['subunit', 'count'],
+            ]
+        );
     }
 }

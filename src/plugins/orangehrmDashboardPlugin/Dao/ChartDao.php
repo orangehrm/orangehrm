@@ -19,10 +19,11 @@
 
 namespace OrangeHRM\Dashboard\Dao;
 
-use OrangeHRM\Entity\Subunit;
 use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Subunit;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
@@ -45,10 +46,9 @@ class ChartDao extends BaseDao
     }
 
     /**
-     * @param EmployeeSearchFilterParams $employeeSearchFilterParams
-     * @return array
+     * @return SubunitCountPair[]
      */
-    public function getEmployeeDistributionBySubunit(EmployeeSearchFilterParams $employeeSearchFilterParams): array
+    public function getEmployeeDistributionBySubunit(): array
     {
         $q = $this->createQueryBuilder(Subunit::class, 'subunit');
         $q->andWhere('subunit.level = :level');
@@ -56,27 +56,28 @@ class ChartDao extends BaseDao
 
         $subunits = $q->getQuery()->execute();
 
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $unassigned = $this->getEmployeeCount($employeeSearchFilterParams);
+
         $employeeCount = [];
-        foreach ($subunits as $subunit){
-            $result = [];
-            $count = 0;
+        foreach ($subunits as $subunit) {
+            $employeeSearchFilterParams->setSubunitId($subunit->getId());
+            $count = $this->getEmployeeCount($employeeSearchFilterParams);
 
-            $subunitChains = $this->getCompanyStructureService()->getSubunitChainById($subunit->getId());
-            $result['subunit'] = $subunit->getName();
+            $employeeCount[] = new SubunitCountPair($subunit, $count);
+        }
 
-            foreach ($subunitChains as $subunitChain){
-                $employeeSearchFilterParams->setSubunitId(4);
-                $count = $count + $this->getEmployeeCount($employeeSearchFilterParams);
-            }
-            $result['count'] = $count;
-            $employeeCount[] = $result;
+        if ($unassigned > 0) {
+            $subunit = new Subunit();
+            $subunit->setName('Unassigned');
+            $employeeSearchFilterParams->setSubunitId(null);
+            $employeeCount[] = new SubunitCountPair($subunit, $unassigned);
         }
         return $employeeCount;
     }
 
     /**
      * @param EmployeeSearchFilterParams $employeeSearchFilterParams
-     *
      * @return int
      */
     public function getEmployeeCount(EmployeeSearchFilterParams $employeeSearchFilterParams): int
@@ -90,7 +91,7 @@ class ChartDao extends BaseDao
      * @param EmployeeSearchFilterParams $employeeSearchFilterParams
      * @return QueryBuilderWrapper
      */
-    public function getEmployeeDistributionQueryBuilderWrapper(EmployeeSearchFilterParams $employeeSearchFilterParams): QueryBuilderWrapper
+    private function getEmployeeDistributionQueryBuilderWrapper(EmployeeSearchFilterParams $employeeSearchFilterParams): QueryBuilderWrapper
     {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->leftJoin('employee.subDivision', 'subunit');
@@ -99,6 +100,11 @@ class ChartDao extends BaseDao
             $q->andWhere($q->expr()->in('subunit.id', ':subunitId'))
                 ->setParameter('subunitId', $employeeSearchFilterParams->getSubunitIdChain());
         }
+
+        if (is_null($employeeSearchFilterParams->getSubunitId())) {
+            $q->andWhere($q->expr()->isNull('employee.subDivision'));
+        }
+
         return $this->getQueryBuilderWrapper($q);
     }
 }

@@ -25,12 +25,12 @@ use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Dashboard\Api\Model\SubunitCountModal;
 use OrangeHRM\Dashboard\Traits\Service\ChartServiceTrait;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
 class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEndpoint
 {
-
     use ChartServiceTrait;
 
     /**
@@ -38,13 +38,11 @@ class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEnd
      */
     public function getAll(): EndpointResult
     {
-        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
-
-        $subunitCount = $this->getChartService()->getChartDao()->getEmployeeDistributionBySubunit($employeeSearchFilterParams);
+        $subunitCount = $this->getChartService()->getChartDao()->getEmployeeDistributionBySubunit();
 
         return new EndpointCollectionResult(
-            ArrayModel::class,
-            $subunitCount
+            SubunitCountModal::class,
+            $subunitCount,
         );
     }
 

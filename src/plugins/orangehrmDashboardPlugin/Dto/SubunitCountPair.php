@@ -17,27 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Dashboard\Service;
+namespace OrangeHRM\Dashboard\Dto;
 
-use OrangeHRM\Dashboard\Dao\EmployeeOnLeaveDao;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Entity\Subunit;
 
-/**
- * @group Dashboard
- * @group Service
- */
-class LeaveListServiceTest extends TestCase
+class SubunitCountPair
 {
-    private EmployeeOnLeaveService $dashboardService;
+    private Subunit $subunit;
+    private int $count;
 
-    protected function setUp(): void
+    /**
+     * @param Subunit $subunit
+     * @param int     $count
+     */
+    public function __construct(Subunit $subunit, int $count)
     {
-        $this->dashboardService = new EmployeeOnLeaveService();
+        $this->subunit = $subunit;
+        $this->count = $count;
     }
 
-    public function testGetLeaveListDao(): void
+    /**
+     * @return Subunit
+     */
+    public function getSubunit(): Subunit
     {
-        $this->assertTrue($this->dashboardService->getEmployeeOnLeaveDao() instanceof EmployeeOnLeaveDao);
+        return $this->subunit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCount(): int
+    {
+        return $this->count;
     }
 }

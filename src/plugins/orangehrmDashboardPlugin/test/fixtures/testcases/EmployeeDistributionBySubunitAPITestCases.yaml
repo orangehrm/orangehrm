@@ -1,0 +1,23 @@
+GetAll:
+  'Get all subunit count - Admin User':
+    userId: 1
+    services:
+      dashboard.chart_service: \OrangeHRM\Dashboard\Service\ChartService
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    data:
+      0:
+        subunit:
+          name: Engineering
+          count: 6
+      1:
+        subunit:
+          name: QA
+          count: 0
+      2:
+        subunit:
+          name: Agriculture
+          count: 2
+      3:
+        subunit:
+          name: Unassigned
+          count: 2

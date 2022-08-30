@@ -19,25 +19,25 @@
 
 namespace OrangeHRM\Tests\Dashboard\Service;
 
-use OrangeHRM\Dashboard\Dao\EmployeeOnLeaveDao;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
+use OrangeHRM\Dashboard\Dao\ChartDao;
+use OrangeHRM\Dashboard\Service\ChartService;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
  * @group Dashboard
  * @group Service
  */
-class LeaveListServiceTest extends TestCase
+class ChartServiceTest extends TestCase
 {
-    private EmployeeOnLeaveService $dashboardService;
+    private ChartService $chartService;
 
     protected function setUp(): void
     {
-        $this->dashboardService = new EmployeeOnLeaveService();
+        $this->chartService = new ChartService();
     }
 
-    public function testGetLeaveListDao(): void
+    public function testGetChartDao(): void
     {
-        $this->assertTrue($this->dashboardService->getEmployeeOnLeaveDao() instanceof EmployeeOnLeaveDao);
+        $this->assertTrue($this->chartService->getChartDao() instanceof ChartDao);
     }
 }

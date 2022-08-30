@@ -11,7 +11,12 @@ Employee:
   2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', work_station: 4}
   3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', work_station: 4}
   4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', middleName: 'K', work_station: 5}
-  5: {empNumber: 6, firstName: 'Jane', lastName: 'Edward', work_station: 2}
+  5: {empNumber: 6, firstName: 'Adalwin', lastName: 'Collings', work_station: 2}
+  6: { empNumber: 7, firstName: 'Grace', lastName: 'Fiona', middleName: 'Hamilton', work_station: 2 }
+  7: { empNumber: 8, firstName: 'Haq', lastName: 'Aaliyah', work_station: 5}
+  8: { empNumber: 9, firstName: 'Harmony', lastName: 'Rebecca', work_station: null }
+  9: { empNumber: 10, firstName: 'Manning', lastName: 'Maggie', middleName: 'K', work_station: 5 }
+  10: { empNumber: 11, firstName: 'Shaheen', lastName: 'Sania', work_station: null }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
@@ -24,4 +29,4 @@ User:
   - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:53","created_by": "1" }
   - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Duval","user_password": "Duval","deleted": "0","status": "1","date_entered": "2022-09-15 16:48:40","created_by": "1" }
   - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": "0","status": "1","date_entered": "2022-09-15 20:05:27","created_by": "1" }
-  - { "id": 6, "user_role_id": 2, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": "0","status": "1","date_entered": "2022-09-15 20:50:02","created_by": "1" }
+  - { "id": 6, "user_role_id": 3, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": "0","status": "1","date_entered": "2022-09-15 20:50:02","created_by": "1" }
