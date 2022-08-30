@@ -26,7 +26,7 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Leave;
 
-class EmployeeOnLeaveModal implements Normalizable
+class EmployeeOnLeaveModel implements Normalizable
 {
     use ModelTrait;
     use AuthUserTrait;

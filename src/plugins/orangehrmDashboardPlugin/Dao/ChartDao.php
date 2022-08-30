@@ -19,32 +19,15 @@
 
 namespace OrangeHRM\Dashboard\Dao;
 
-use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Subunit;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
-use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
 class ChartDao extends BaseDao
 {
-    use SubunitIdChainTrait;
-
-    protected ?CompanyStructureService $companyStructureService = null;
-
-    /**
-     * @return CompanyStructureService
-     */
-    protected function getCompanyStructureService(): CompanyStructureService
-    {
-        if (!$this->companyStructureService instanceof CompanyStructureService) {
-            $this->companyStructureService = new CompanyStructureService();
-        }
-        return $this->companyStructureService;
-    }
-
     /**
      * @return SubunitCountPair[]
      */
@@ -57,7 +40,6 @@ class ChartDao extends BaseDao
         $subunits = $q->getQuery()->execute();
 
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
-        $unassigned = $this->getEmployeeCount($employeeSearchFilterParams);
 
         $employeeCount = [];
         foreach ($subunits as $subunit) {
@@ -67,23 +49,28 @@ class ChartDao extends BaseDao
             $employeeCount[] = new SubunitCountPair($subunit, $count);
         }
 
-        if ($unassigned > 0) {
-            $subunit = new Subunit();
-            $subunit->setName('Unassigned');
-            $employeeSearchFilterParams->setSubunitId(null);
-            $employeeCount[] = new SubunitCountPair($subunit, $unassigned);
-        }
         return $employeeCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUnassignedEmployeeCount(): int
+    {
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        return $this->getEmployeeCount($employeeSearchFilterParams);
     }
 
     /**
      * @param EmployeeSearchFilterParams $employeeSearchFilterParams
      * @return int
      */
-    public function getEmployeeCount(EmployeeSearchFilterParams $employeeSearchFilterParams): int
-    {
+    private function getEmployeeCount(
+        EmployeeSearchFilterParams $employeeSearchFilterParams
+    ): int {
         $qb = $this->getEmployeeDistributionQueryBuilderWrapper(
-            $employeeSearchFilterParams)->getQueryBuilder();
+            $employeeSearchFilterParams
+        )->getQueryBuilder();
         return $this->getPaginator($qb)->count();
     }
 

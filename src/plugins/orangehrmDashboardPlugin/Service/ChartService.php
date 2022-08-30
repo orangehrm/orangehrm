@@ -20,6 +20,8 @@
 namespace OrangeHRM\Dashboard\Service;
 
 use OrangeHRM\Dashboard\Dao\ChartDao;
+use OrangeHRM\Dashboard\Dto\EmployeeDistributionBySubunit;
+use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
 class ChartService
 {
@@ -33,7 +35,36 @@ class ChartService
      */
     public function getChartDao(): ChartDao
     {
-        return $this->chartDao ??=new ChartDao();
+        return $this->chartDao ??= new ChartDao();
     }
 
+    public function getEmployeeDistributionBySubunit(int $limit = 8): EmployeeDistributionBySubunit
+    {
+        $subunitCountPairs = $this->getChartDao()
+            ->getEmployeeDistributionBySubunit();
+        usort(
+            $subunitCountPairs,
+            static function (SubunitCountPair $x, SubunitCountPair $y) {
+                return $x->getCount() < $y->getCount();
+            }
+        );
+
+        $otherArray = [];
+        if (count($subunitCountPairs) > $limit) {
+            $otherArray = array_slice($subunitCountPairs, $limit);
+            $subunitCountPairs = array_slice($subunitCountPairs, 0, $limit);
+        }
+
+        $otherCount = 0;
+        foreach ($otherArray as $subunitCountPair) {
+            $otherCount += $subunitCountPair->getCount();
+        }
+
+        return new EmployeeDistributionBySubunit(
+            $subunitCountPairs,
+            $otherCount,
+            $this->getChartDao()->getUnassignedEmployeeCount(),
+            $limit
+        );
+    }
 }

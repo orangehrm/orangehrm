@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
-class SubunitCountModal implements Normalizable
+class EmployeeDistributionBySubunitModel implements Normalizable
 {
     use ModelTrait;
 
@@ -32,14 +32,16 @@ class SubunitCountModal implements Normalizable
         $this->setEntity($subunitCountPair);
         $this->setFilters(
             [
+                ['getSubunit', 'getId'],
                 ['getSubunit', 'getName'],
                 ['getCount'],
             ]
         );
         $this->setAttributeNames(
             [
+                ['subunit', 'id'],
                 ['subunit', 'name'],
-                ['subunit', 'count'],
+                'count'
             ]
         );
     }
