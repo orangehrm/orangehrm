@@ -21,12 +21,25 @@
 namespace OrangeHRM\Dashboard\Controller;
 
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Admin\Service\CompanyStructureService;
 
 class DashboardDataMockController extends AbstractController
 {
+    protected ?LocationService $locationService = null;
     protected ?CompanyStructureService $companyStructureService = null;
+
+    /**
+     * @return LocationService
+     */
+    protected function getLocationService(): LocationService
+    {
+        if (!$this->locationService instanceof LocationService) {
+            $this->locationService = new LocationService();
+        }
+        return $this->locationService;
+    }
 
     /**
      * @return CompanyStructureService
@@ -84,6 +97,54 @@ class DashboardDataMockController extends AbstractController
         $response->setContent(
             json_encode([
                 "data" => $subunits,
+                "meta" => []
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @return Response
+     */
+    public function getEmployeeLocationDistribution(): Response
+    {
+        $response = new Response();
+
+        // Add fake data and sort 
+        $locations = array_map(function ($value) {
+            return [
+                ...$value,
+                "employeeCount" => rand(0, 1000),
+            ];
+        }, $this->getLocationService()->getAccessibleLocationsArray());
+
+        usort($locations, function ($item1, $item2) {
+            return $item2['employeeCount'] <=> $item1['employeeCount'];
+        });
+
+        // Limit Subunits to 8
+        if (count($locations) > 8) {
+            $otherLocations = array_splice($locations, 8);
+            array_push($locations, [
+                "id" => 9999,
+                "label" => "Other",
+                "employeeCount" => array_sum(array_column($otherLocations, 'employeeCount')),
+            ]);
+        }
+
+        array_push($locations,  [
+            "id" => 9999,
+            "_indent" => 1,
+            "label" => "Unassigned",
+            "employeeCount" => rand(0, 1000),
+        ]);
+
+
+        $response->setContent(
+            json_encode([
+                "data" => $locations,
                 "meta" => []
             ])
         );

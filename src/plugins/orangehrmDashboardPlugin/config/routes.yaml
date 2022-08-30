@@ -21,6 +21,11 @@ apiv2_dashboard_employees_subunit_distribution:
   controller: OrangeHRM\Dashboard\Controller\DashboardDataMockController::getEmployeeSubunitDistribution
   methods: [ GET ]
 
+apiv2_dashboard_employees_location_distribution:
+  path: /api/v2/dashboard/employees/location
+  controller: OrangeHRM\Dashboard\Controller\DashboardDataMockController::getEmployeeLocationDistribution
+  methods: [ GET ]
+
 ##########################
 #        Screens
 ##########################
