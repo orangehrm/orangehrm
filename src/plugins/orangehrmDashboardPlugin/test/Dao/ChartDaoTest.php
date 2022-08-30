@@ -53,12 +53,12 @@ class ChartDaoTest extends KernelTestCase
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $employeeSearchFilterParams->setSubunitId(2);
         $count =  $this->chartDao->getUnassignedEmployeeCount();
-        $this->assertEquals(2, $count);
+        $this->assertEquals(3, $count);
 
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $employeeSearchFilterParams->setSubunitId(null);
         $count =  $this->chartDao->getUnassignedEmployeeCount();
-        $this->assertEquals(2, $count);
+        $this->assertEquals(3, $count);
     }
 
     public function testGetEmployeeDistributionBySubunit(): void
@@ -68,7 +68,12 @@ class ChartDaoTest extends KernelTestCase
         ]);
 
         $result = $this->chartDao->getEmployeeDistributionBySubunit();
+
         $this->assertTrue(is_array($this->chartDao->getEmployeeDistributionBySubunit()));
-        $this->assertCount(3, $result);
+        $this->assertCount(11, $result);
+        $this->assertEquals(3, $result[0]->getCount());
+        $this->assertEquals('Engineering', $result[1]->getSubunit()->getName());
+        $this->assertEquals(7, $result[2]->getSubunit()->getId());
+        $this->assertEquals(1, $result[3]->getSubunit()->getLevel());
     }
 }

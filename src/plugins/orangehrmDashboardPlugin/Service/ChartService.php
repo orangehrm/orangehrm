@@ -38,6 +38,10 @@ class ChartService
         return $this->chartDao ??= new ChartDao();
     }
 
+    /**
+     * @param int $limit
+     * @return EmployeeDistributionBySubunit
+     */
     public function getEmployeeDistributionBySubunit(int $limit = 8): EmployeeDistributionBySubunit
     {
         $subunitCountPairs = $this->getChartDao()

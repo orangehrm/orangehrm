@@ -7,17 +7,44 @@ GetAll:
     data:
       0:
         subunit:
+          id: 3
           name: Engineering
-          count: 6
+        count: 6
       1:
         subunit:
-          name: QA
-          count: 0
+          id: 2
+          name: Administration
+        count: 3
       2:
         subunit:
-          name: Agriculture
-          count: 2
+          id: 7
+          name: Sales Executive
+        count: 3
       3:
         subunit:
-          name: Unassigned
-          count: 2
+          id: 10
+          name: Client Services
+        count: 2
+      4:
+        subunit:
+          id: 13
+          name: Human Resources
+        count: 2
+      5:
+        subunit:
+          id: 12
+          name: Finance
+        count: 1
+      6:
+        subunit:
+          id: 18
+          name: Special Unit 1
+        count: 1
+      7:
+        subunit:
+          id: 19
+          name: Special Unit 2
+        count: 1
+    meta:
+      otherEmployeeCount: 1
+      unassignedEmployeeCount: 3
