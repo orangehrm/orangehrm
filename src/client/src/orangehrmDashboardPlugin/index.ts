@@ -16,8 +16,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Dashboard from '@/orangehrmDashboardPlugin/pages/DashboardWidgets.vue';
+import ViewDashboard from '@/orangehrmDashboardPlugin/pages/ViewDashboard.vue';
 
 export default {
-  dashboard: Dashboard,
+  'view-dashboard': ViewDashboard,
 };

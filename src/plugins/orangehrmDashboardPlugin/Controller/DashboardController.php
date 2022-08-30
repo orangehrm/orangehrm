@@ -22,12 +22,29 @@ namespace OrangeHRM\Dashboard\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Helper\VueControllerHelper;
 
 class DashboardController extends AbstractVueController
 {
+    use AuthUserTrait;
+
     public function preRender(Request $request): void
     {
-        $component = new Component('dashboard');
+        $component = new Component('view-dashboard');
         $this->setComponent($component);
+
+        // TODO: Rebase data group permisssions
+        $this->getContext()->set(
+            VueControllerHelper::PERMISSIONS,
+            [
+                'admin_widgets' => [
+                    'canRead' => $this->getAuthUser()->getUserRoleName() === 'Admin',
+                    'canCreate' => false,
+                    'canUpdate' => false,
+                    'canDelete' => false
+                ]
+            ]
+        );
     }
 }
