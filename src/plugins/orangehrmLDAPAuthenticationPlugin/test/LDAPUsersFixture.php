@@ -168,6 +168,39 @@ class LDAPUsersFixture
             $this->adapter->getEntryManager()->add($entry);
         }
 
+        $entry = new Entry(
+            'uid=Abbey+sn=Kayla,ou=admin,ou=users,dc=example,dc=org',
+            [
+                'objectClass' => [
+                    'inetOrgPerson',
+                    'organizationalPerson',
+                    'person',
+                    'top',
+                ],
+                'cn' => ['Abbey'],
+                'givenName' => ['Abbey'],
+                'displayName' => ['Abbey Kayla'],
+                'userPassword' => ['Abbey'],
+            ]
+        );
+        $this->adapter->getEntryManager()->add($entry);
+
+        $entry = new Entry(
+            'cn=Paul+sn=Collings,ou=admin,ou=users,dc=example,dc=org',
+            [
+                'objectClass' => [
+                    'inetOrgPerson',
+                    'organizationalPerson',
+                    'person',
+                    'top',
+                ],
+                'givenName' => ['Paul'],
+                'displayName' => ['Paul Collings'],
+                'userPassword' => ['Paul'],
+            ]
+        );
+        $this->adapter->getEntryManager()->add($entry);
+
         $users = ['David.Morris', 'Garry.White', 'Jasmine.Morgan', 'John.Smith', 'Kevin.Mathews'];
         foreach ($users as $user) {
             $names = explode('.', $user);

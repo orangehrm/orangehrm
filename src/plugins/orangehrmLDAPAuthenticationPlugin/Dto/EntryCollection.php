@@ -17,28 +17,40 @@
  * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Authentication\Auth\AuthProviderChain;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
+namespace OrangeHRM\LDAP\Dto;
 
-class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterface
+use Countable;
+
+class EntryCollection implements Countable
 {
-    use ServiceContainerTrait;
-    use ConfigServiceTrait;
+    private array $entryCollectionLookupSettingPairArray;
+    private ?int $count = null;
+
+    public function __construct(EntryCollectionLookupSettingPair ...$entryCollectionLookupSettingPairArray)
+    {
+        $this->entryCollectionLookupSettingPairArray = $entryCollectionLookupSettingPairArray;
+    }
 
     /**
      * @inheritDoc
      */
-    public function initialize(Request $request): void
+    public function count(): int
     {
-        if ($this->getConfigService()->getLDAPSetting()->isEnable()) {
-            /** @var AuthProviderChain $authProviderChain */
-            $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
-            $authProviderChain->addProvider(new LDAPAuthProvider());
+        if (is_null($this->count)) {
+            $this->count = 0;
+            foreach ($this->entryCollectionLookupSettingPairArray as $collection) {
+                $this->count += $collection->getCollection()->count();
+            }
         }
+
+        return $this->count;
+    }
+
+    /**
+     * @return EntryCollectionLookupSettingPair[]
+     */
+    public function getCollections(): array
+    {
+        return $this->entryCollectionLookupSettingPairArray;
     }
 }

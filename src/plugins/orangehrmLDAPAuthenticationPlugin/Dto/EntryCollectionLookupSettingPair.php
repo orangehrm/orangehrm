@@ -17,28 +17,38 @@
  * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Authentication\Auth\AuthProviderChain;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
+namespace OrangeHRM\LDAP\Dto;
 
-class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterface
+use Symfony\Component\Ldap\Adapter\CollectionInterface;
+
+class EntryCollectionLookupSettingPair
 {
-    use ServiceContainerTrait;
-    use ConfigServiceTrait;
+    private CollectionInterface $collection;
+    private LDAPUserLookupSetting $lookupSetting;
 
     /**
-     * @inheritDoc
+     * @param CollectionInterface $collection
+     * @param LDAPUserLookupSetting $lookupSetting
      */
-    public function initialize(Request $request): void
+    public function __construct(CollectionInterface $collection, LDAPUserLookupSetting $lookupSetting)
     {
-        if ($this->getConfigService()->getLDAPSetting()->isEnable()) {
-            /** @var AuthProviderChain $authProviderChain */
-            $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
-            $authProviderChain->addProvider(new LDAPAuthProvider());
-        }
+        $this->collection = $collection;
+        $this->lookupSetting = $lookupSetting;
+    }
+
+    /**
+     * @return CollectionInterface
+     */
+    public function getCollection(): CollectionInterface
+    {
+        return $this->collection;
+    }
+
+    /**
+     * @return LDAPUserLookupSetting
+     */
+    public function getLookupSetting(): LDAPUserLookupSetting
+    {
+        return $this->lookupSetting;
     }
 }

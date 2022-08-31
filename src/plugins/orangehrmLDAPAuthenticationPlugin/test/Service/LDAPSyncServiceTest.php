@@ -1,0 +1,330 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA
+ */
+
+namespace OrangeHRM\Tests\LDAP\Service;
+
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
+use OrangeHRM\LDAP\Service\LDAPService;
+use OrangeHRM\LDAP\Service\LDAPSyncService;
+use OrangeHRM\Tests\LDAP\LDAPConnectionHelperTrait;
+use OrangeHRM\Tests\LDAP\LDAPServerConfig;
+use OrangeHRM\Tests\LDAP\LDAPUsersFixture;
+use OrangeHRM\Tests\Util\KernelTestCase;
+
+/**
+ * @group Admin
+ * @group LDAP
+ * @group Service
+ */
+class LDAPSyncServiceTest extends KernelTestCase
+{
+    use LDAPConnectionHelperTrait;
+
+    private static LDAPServerConfig $serverConfig;
+    private static bool $configured = false;
+
+    public static function setUpBeforeClass(): void
+    {
+        if (!self::isLDAPServerConfigured()) {
+            parent::markTestSkipped('Configure LDAP server config: ' . self::getLDAPServerConfigFilePath());
+        }
+        self::$serverConfig = self::getLDAPServerConfig();
+    }
+
+    protected function setUp(): void
+    {
+        if (!self::$configured) {
+            self::$configured = true;
+            $this->configureServerAndLoadData();
+        }
+    }
+
+    protected function configureServerAndLoadData(): void
+    {
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('getLDAPSetting')
+            ->willReturn(
+                new LDAPSetting(
+                    self::$serverConfig->host,
+                    self::$serverConfig->port,
+                    'OpenLDAP',
+                    self::$serverConfig->encryption
+                )
+            );
+        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+
+        $ldapAuthService = new LDAPService();
+        $ldapAuthService->bind(
+            new UserCredential(self::$serverConfig->configAdminDN, self::$serverConfig->configAdminPassword)
+        );
+
+        $query = $ldapAuthService->query('cn=config', 'cn=config');
+        $configEntry = $query->execute()->toArray()[0];
+
+        /**
+         * Enable anonymous binding
+         */
+        if ($configEntry->hasAttribute('olcDisallows')) {
+            $ldapAuthService->getEntryManager()->removeAttributeValues($configEntry, 'olcDisallows', ['bind_anon']);
+        }
+
+        /**
+         * Define LDAP server page size as 500
+         */
+        $sizeLimit = $configEntry->getAttribute('olcSizeLimit');
+        if (!is_null($sizeLimit)) {
+            $ldapAuthService->getEntryManager()->removeAttributeValues($configEntry, 'olcSizeLimit', $sizeLimit);
+        }
+        $ldapAuthService->getEntryManager()->addAttributeValues($configEntry, 'olcSizeLimit', ['500']);
+
+        /**
+         * Clean and Load predefined LDAP user
+         */
+        $ldapAuthService->bind(
+            new UserCredential(self::$serverConfig->adminDN, self::$serverConfig->adminPassword)
+        );
+        $fixture = new LDAPUsersFixture($ldapAuthService->getAdapter());
+        $fixture->clean();
+        $fixture->load();
+    }
+
+    public function testFetchEntryCollections(): void
+    {
+        $ldapSetting = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption
+        );
+        $lookupSetting = new LDAPUserLookupSetting('ou=engineering,ou=users,dc=example,dc=org');
+        $lookupSetting->setSearchScope('sub');
+        $ldapSetting->addUserLookupSetting($lookupSetting);
+        $ldapSetting->setBindAnonymously(false);
+        $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
+        $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->exactly(2))
+            ->method('getLDAPSetting')
+            ->willReturn($ldapSetting);
+        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+
+        $ldapSyncService = new LDAPSyncService();
+        $entryCollections = $ldapSyncService->fetchEntryCollections();
+        $this->assertCount(1103, $entryCollections);
+    }
+
+    public function testFetchEntryCollectionsWithOneLevelLookupEmptyBase(): void
+    {
+        $ldapSetting = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption
+        );
+        $lookupSetting = new LDAPUserLookupSetting('ou=sales,ou=users,dc=example,dc=org');
+        $lookupSetting->setSearchScope('one');
+        $ldapSetting->addUserLookupSetting($lookupSetting);
+        $ldapSetting->setBindAnonymously(false);
+        $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
+        $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->exactly(2))
+            ->method('getLDAPSetting')
+            ->willReturn($ldapSetting);
+        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+
+        $ldapSyncService = new LDAPSyncService();
+        $entryCollections = $ldapSyncService->fetchEntryCollections();
+        $this->assertCount(0, $entryCollections);
+    }
+
+    public function testFetchEntryCollectionsWithOneLevelLookup(): void
+    {
+        $ldapSetting = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption
+        );
+        $lookupSetting = new LDAPUserLookupSetting('ou=admin,ou=users,dc=example,dc=org');
+        $lookupSetting->setSearchScope('one');
+        $ldapSetting->addUserLookupSetting($lookupSetting);
+        $ldapSetting->setBindAnonymously(false);
+        $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
+        $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->exactly(2))
+            ->method('getLDAPSetting')
+            ->willReturn($ldapSetting);
+        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+
+        $ldapSyncService = new LDAPSyncService();
+        $entryCollections = $ldapSyncService->fetchEntryCollections();
+        $this->assertCount(7, $entryCollections);
+    }
+
+    public function testFetchEntryCollectionsWithMultipleLookups(): void
+    {
+        $ldapSetting = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=admin,ou=users,dc=example,dc=org'))
+                ->setSearchScope('one')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=legal,ou=users,dc=example,dc=org'))
+                ->setSearchScope('sub')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=engineering,ou=users,dc=example,dc=org'))
+                ->setSearchScope('sub')
+        );
+        $ldapSetting->setBindAnonymously(false);
+        $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
+        $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->exactly(2))
+            ->method('getLDAPSetting')
+            ->willReturn($ldapSetting);
+        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+
+        $ldapSyncService = new LDAPSyncService();
+        $entryCollections = $ldapSyncService->fetchEntryCollections();
+        $this->assertCount(1110, $entryCollections);
+    }
+
+    public function testFetchEntryCollectionsBindAnon(): void
+    {
+        $ldapSetting = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption
+        );
+        $lookupSetting = new LDAPUserLookupSetting('ou=engineering,ou=users,dc=example,dc=org');
+        $ldapSetting->addUserLookupSetting($lookupSetting);
+        $ldapSetting->setBindAnonymously(true);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->exactly(2))
+            ->method('getLDAPSetting')
+            ->willReturn($ldapSetting);
+        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+
+        $ldapSyncService = new LDAPSyncService();
+        $entryCollections = $ldapSyncService->fetchEntryCollections();
+        // When bind anonymously, results limit for server max limit
+        $this->assertCount(500, $entryCollections);
+    }
+
+    public function testFetchAllLDAPUsers(): void
+    {
+        $ldapSetting = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=admin,ou=users,dc=example,dc=org'))
+                ->setSearchScope('one')
+                ->setUserNameAttribute('uid')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=legal,ou=users,dc=example,dc=org'))
+                ->setSearchScope('sub')
+                ->setUserNameAttribute('uid')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=engineering,ou=users,dc=example,dc=org'))
+                ->setSearchScope('sub')
+                ->setUserNameAttribute('uid')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=marketing,ou=sales,ou=users,dc=example,dc=org'))
+                ->setSearchScope('one')
+                ->setUserNameAttribute('mail')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=finance,ou=users,dc=example,dc=org'))
+                ->setSearchScope('one')
+                ->setUserNameAttribute('cn')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->setBindAnonymously(false);
+        $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
+        $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->exactly(2))
+            ->method('getLDAPSetting')
+            ->willReturn($ldapSetting);
+        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+
+        $ldapSyncService = new LDAPSyncService();
+        $ldapUserCollection = $ldapSyncService->fetchAllLDAPUsers();
+
+        $expectedFailedCount = 4;
+        $expectedDuplicateUserCount = 204;
+        $this->assertCount($expectedFailedCount, $ldapUserCollection->getFailedUsers());
+        $this->assertCount(102, $ldapUserCollection->getDuplicateUsernames());
+        $this->assertCount(102, $ldapUserCollection->getUsersOfDuplicateUsernames());
+        $this->assertEquals($expectedDuplicateUserCount, $ldapUserCollection->getDuplicateUserCount());
+        $this->assertCount(
+            1116 - $expectedFailedCount - $expectedDuplicateUserCount,
+            $ldapUserCollection->getLDAPUsers()
+        );
+    }
+}
