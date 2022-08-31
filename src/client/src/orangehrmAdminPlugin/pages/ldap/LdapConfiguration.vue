@@ -162,7 +162,7 @@
             <oxd-grid-item class="--offset-row-4">
               <oxd-input-field
                 v-model="configuration.userSearchFilter"
-                label="User Search Filter"
+                :label="$t('admin.user_search_filter')"
                 :rules="rules.userSearchFilter"
                 required
               />
@@ -170,7 +170,7 @@
             <oxd-grid-item class="--offset-row-5">
               <oxd-input-field
                 v-model="configuration.userUniqueIdAttribute"
-                label="User Unique ID Attribute"
+                :label="$t('admin.user_unique_id_attribute')"
                 :rules="rules.userUniqueIdAttribute"
               />
             </oxd-grid-item>
