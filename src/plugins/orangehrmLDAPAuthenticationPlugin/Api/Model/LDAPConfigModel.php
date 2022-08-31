@@ -22,6 +22,7 @@ namespace OrangeHRM\LDAP\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 
 class LDAPConfigModel implements Normalizable
 {
@@ -41,6 +42,10 @@ class LDAPConfigModel implements Normalizable
 
     public function toArray(): array
     {
+        $userLookupSettings = array_map(
+            fn (LDAPUserLookupSetting $lookupSetting) =>$lookupSetting->toArray(),
+            $this->LDAPSetting->getUserLookupSettings()
+        );
         return [
             'enable' => $this->LDAPSetting->isEnable(),
             'hostname' => $this->LDAPSetting->getHost(),
@@ -48,11 +53,9 @@ class LDAPConfigModel implements Normalizable
             'encryption' => $this->LDAPSetting->getEncryption(),
             'ldapImplementation' => $this->LDAPSetting->getImplementation(),
             'bindAnonymously' => $this->LDAPSetting->isBindAnonymously(),
-            'distinguishedName' => $this->LDAPSetting->getBindUserDN(),
-            'baseDistinguishedName' => $this->LDAPSetting->getBaseDN(),
-            'searchScope' => $this->LDAPSetting->getSearchScope(),
-            'userNameAttribute' => $this->LDAPSetting->getUserNameAttribute(),
-            'dataMapping' => $this->LDAPSetting->getDataMapping(),
+            'bindUserDN' => $this->LDAPSetting->getBindUserDN(),
+            'userLookupSettings' => $userLookupSettings,
+            'dataMapping' => $this->LDAPSetting->getDataMapping()->toArray(),
             'groupObjectClass' => $this->LDAPSetting->getGroupObjectClass(),
             'groupObjectFilter' => $this->LDAPSetting->getGroupObjectFilter(),
             'groupNameAttribute' => $this->LDAPSetting->getGroupNameAttribute(),

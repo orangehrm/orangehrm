@@ -31,6 +31,11 @@ use OrangeHRM\Tests\Util\KernelTestCase;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 
+/**
+ * @group Admin
+ * @group LDAP
+ * @group Service
+ */
 class LDAPServiceAnonBindTest extends KernelTestCase
 {
     use LDAPConnectionHelperTrait;
@@ -66,8 +71,7 @@ class LDAPServiceAnonBindTest extends KernelTestCase
                     self::$serverConfig->host,
                     self::$serverConfig->port,
                     'OpenLDAP',
-                    self::$serverConfig->encryption,
-                    ''
+                    self::$serverConfig->encryption
                 )
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
@@ -119,8 +123,7 @@ class LDAPServiceAnonBindTest extends KernelTestCase
                     self::$serverConfig->host,
                     self::$serverConfig->port,
                     'OpenLDAP',
-                    self::$serverConfig->encryption,
-                    ''
+                    self::$serverConfig->encryption
                 )
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
@@ -142,8 +145,7 @@ class LDAPServiceAnonBindTest extends KernelTestCase
                     self::$serverConfig->host,
                     self::$serverConfig->port,
                     'OpenLDAP',
-                    self::$serverConfig->encryption,
-                    ''
+                    self::$serverConfig->encryption
                 )
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
@@ -170,8 +172,7 @@ class LDAPServiceAnonBindTest extends KernelTestCase
                     self::$serverConfig->host,
                     self::$serverConfig->port,
                     'OpenLDAP',
-                    self::$serverConfig->encryption,
-                    ''
+                    self::$serverConfig->encryption
                 )
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);

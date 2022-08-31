@@ -102,19 +102,19 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="configuration.distinguishedName"
+                v-model="configuration.bindUserDN"
                 :label="$t('admin.distinguished_name')"
-                :rules="rules.distinguishedName"
+                :rules="rules.bindUserDN"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="configuration.distinguishedPassword"
+                v-model="configuration.bindUserPassword"
                 type="password"
                 :label="$t('general.password')"
                 :placeholder="passwordPlaceHolder"
-                :rules="rules.distinguishedPassword"
+                :rules="rules.bindUserPassword"
                 required
               />
             </oxd-grid-item>
@@ -161,33 +161,48 @@
             </oxd-grid-item>
             <oxd-grid-item class="--offset-row-4">
               <oxd-input-field
+                v-model="configuration.userSearchFilter"
+                :label="$t('admin.user_search_filter')"
+                :rules="rules.userSearchFilter"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item class="--offset-row-5">
+              <oxd-input-field
+                v-model="configuration.userUniqueIdAttribute"
+                :label="$t('admin.user_unique_id_attribute')"
+                :rules="rules.userUniqueIdAttribute"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item class="--offset-row-6">
+              <oxd-input-field
                 v-model="configuration.groupObjectClass"
                 :label="$t('admin.group_object_class')"
                 :rules="rules.groupObjectClass"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-5">
+            <oxd-grid-item class="--offset-row-7">
               <oxd-input-field
                 v-model="configuration.groupObjectFilter"
                 :label="$t('admin.group_object_filter')"
                 :rules="rules.groupObjectFilter"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-6">
+            <oxd-grid-item class="--offset-row-8">
               <oxd-input-field
                 v-model="configuration.groupNameAttribute"
                 :label="$t('admin.group_name_attribute')"
                 :rules="rules.groupNameAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-7">
+            <oxd-grid-item class="--offset-row-9">
               <oxd-input-field
                 v-model="configuration.groupMembersAttribute"
                 :label="$t('admin.group_members_attribute')"
                 :rules="rules.groupMembersAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-8">
+            <oxd-grid-item class="--offset-row-10">
               <oxd-input-field
                 v-model="configuration.groupMembershipAttribute"
                 :label="$t('admin.user_membership_attribute')"
@@ -206,24 +221,24 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="configuration.dataMapping.firstname"
+                v-model="configuration.dataMapping.firstName"
                 :label="$t('admin.firstname_field')"
-                :rules="rules.firstnameAttribute"
+                :rules="rules.firstNameAttribute"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item class="--offset-row-2">
               <oxd-input-field
-                v-model="configuration.dataMapping.middlename"
+                v-model="configuration.dataMapping.middleName"
                 :label="$t('admin.middlename_field')"
-                :rules="rules.middlenameAttribute"
+                :rules="rules.middleNameAttribute"
               />
             </oxd-grid-item>
             <oxd-grid-item class="--offset-row-3">
               <oxd-input-field
-                v-model="configuration.dataMapping.lastname"
+                v-model="configuration.dataMapping.lastName"
                 :label="$t('admin.lastname_field')"
-                :rules="rules.lastnameAttribute"
+                :rules="rules.lastNameAttribute"
                 required
               />
             </oxd-grid-item>
@@ -324,11 +339,13 @@ const configurationModel = {
   encryption: null,
   ldapImplementation: null,
   bindAnonymously: true,
-  distinguishedName: 'cn=admin,dc=example,dc=org',
-  distinguishedPassword: 'admin',
+  bindUserDN: 'cn=admin,dc=example,dc=org',
+  bindUserPassword: 'admin',
   baseDistinguishedName: 'dc=example,dc=com',
   searchScope: null,
   userNameAttribute: 'cn',
+  userSearchFilter: null,
+  userUniqueIdAttribute: null,
   syncInterval: 60,
   groupObjectClass: 'group',
   groupObjectFilter: '(&(objectClass=group)(cn=*))',
@@ -338,9 +355,9 @@ const configurationModel = {
 };
 
 const dataMappingModel = {
-  firstname: 'givenName',
-  lastname: 'sn',
-  middlename: null,
+  firstName: 'givenName',
+  lastName: 'sn',
+  middleName: null,
   userStatus: null,
   workEmail: null,
   employeeId: null,
@@ -419,21 +436,23 @@ export default {
           shouldNotExceedCharLength(255),
         ],
         port: [required, validPortRange(5, 0, 65535)],
-        distinguishedName: [required, shouldNotExceedCharLength(255)],
-        distinguishedPassword: [
+        bindUserDN: [required, shouldNotExceedCharLength(255)],
+        bindUserPassword: [
           v => !!this.passwordPlaceHolder || required(v),
           shouldNotExceedCharLength(255),
         ],
         baseDistinguishedName: [required, shouldNotExceedCharLength(255)],
         userNameAttribute: [required, shouldNotExceedCharLength(100)],
-        firstnameAttribute: [required, shouldNotExceedCharLength(100)],
-        lastnameAttribute: [required, shouldNotExceedCharLength(100)],
+        userSearchFilter: [required, shouldNotExceedCharLength(100)],
+        userUniqueIdAttribute: [shouldNotExceedCharLength(100)],
+        firstNameAttribute: [required, shouldNotExceedCharLength(100)],
+        lastNameAttribute: [required, shouldNotExceedCharLength(100)],
         syncInterval: [
           required,
           digitsOnly,
           numberShouldBeBetweenMinAndMaxValue(60, 1440),
         ],
-        middlenameAttribute: [shouldNotExceedCharLength(100)],
+        middleNameAttribute: [shouldNotExceedCharLength(100)],
         userStatusAttribute: [shouldNotExceedCharLength(100)],
         workEmailAttribute: [shouldNotExceedCharLength(100)],
         employeeIdAttribute: [shouldNotExceedCharLength(100)],
@@ -453,15 +472,21 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
+        const {userLookupSettings} = data;
+        const userLookupSetting = userLookupSettings[0];
         this.configuration = {
           ...data,
-          distinguishedPassword: null,
+          bindUserPassword: null,
           encryption: this.encryptionOptions.find(
             option => option.id === data.encryption,
           ),
+          baseDistinguishedName: userLookupSetting?.baseDN,
+          userNameAttribute: userLookupSetting?.userNameAttribute,
+          userSearchFilter: userLookupSetting?.userSearchFilter,
+          userUniqueIdAttribute: userLookupSetting?.userUniqueIdAttribute,
           searchScope:
             this.searchScopeOptions.find(
-              option => option.id === data.searchScope,
+              option => option.id === userLookupSetting?.searchScope,
             ) || this.searchScopeOptions[0],
           ldapImplementation:
             this.ldapImplementationOptions.find(
@@ -508,12 +533,31 @@ export default {
           .request({
             method: 'PUT',
             data: {
-              ...this.configuration,
+              enable: this.configuration.enable,
+              hostname: this.configuration.hostname,
               port: parseInt(this.configuration.port),
-              syncInterval: parseInt(this.configuration.syncInterval),
               encryption: this.configuration.encryption?.id || 'none',
-              searchScope: this.configuration.searchScope?.id,
               ldapImplementation: this.configuration.ldapImplementation?.id,
+              bindAnonymously: this.configuration.bindAnonymously,
+              bindUserDN: this.configuration.bindUserDN,
+              bindUserPassword: this.configuration.bindUserPassword,
+              userLookupSettings: [
+                {
+                  baseDN: this.configuration.baseDistinguishedName,
+                  searchScope: this.configuration.searchScope?.id,
+                  userNameAttribute: this.configuration.userNameAttribute,
+                  userSearchFilter: this.configuration.userSearchFilter,
+                  userUniqueIdAttribute: this.configuration
+                    .userUniqueIdAttribute,
+                },
+              ],
+              dataMapping: this.configuration.dataMapping,
+              groupObjectClass: 'group',
+              groupObjectFilter: '(&(objectClass=group)(cn=*))',
+              groupNameAttribute: 'cn',
+              groupMembersAttribute: 'member',
+              groupMembershipAttribute: 'memberOf',
+              syncInterval: parseInt(this.configuration.syncInterval),
             },
           })
           .then(() => {

@@ -90,7 +90,7 @@ langStrings:
     value: 'Host'
     unitId: host
   -
-    value: 'LDAP Server IP or Hostname without the protocol (without ldp:// or ldps://)'
+    value: 'LDAP Server IP or Hostname without the protocol (without ldap:// or ldaps://)'
     unitId: ldap_host_input_hint
   -
     value: 'Port'
@@ -194,3 +194,9 @@ langStrings:
   -
     value: 'Synchronization Successful'
     unitId: synchronization_successful
+  -
+    value: 'User Search Filter'
+    unitId: user_search_filter
+  -
+    value: 'User Unique ID Attribute'
+    unitId: user_unique_id_attribute

@@ -20,7 +20,6 @@
 namespace OrangeHRM\LDAP\Dto;
 
 use InvalidArgumentException;
-use Symfony\Component\Ldap\Adapter\QueryInterface;
 
 class LDAPSetting
 {
@@ -36,19 +35,12 @@ class LDAPSetting
     private ?string $bindUserDN = null;
     private ?string $bindUserPassword = null;
 
-    private ?string $baseDN = 'dc=example,dc=com';
-    private string $searchScope = QueryInterface::SCOPE_SUB;
+    /**
+     * @var LDAPUserLookupSetting[]
+     */
+    private array $userLookupSettings = [];
 
-    private string $userNameAttribute = 'cn';
-
-    private array $dataMapping = [
-        "firstname" => "givenName",
-        "middlename" => "",
-        "lastname" => "sn",
-        "userStatus" => null,
-        "workEmail" => null,
-        "employeeId" => null
-    ];
+    private LDAPUserDataMapping $dataMapping;
 
     private string $groupObjectClass = 'group';
     private string $groupObjectFilter = '(&(objectClass=group)(cn=*))';
@@ -63,15 +55,14 @@ class LDAPSetting
      * @param int $port
      * @param string $implementation
      * @param string $encryption
-     * @param string|null $baseDN
      */
-    public function __construct(string $host, int $port, string $implementation, string $encryption, ?string $baseDN)
+    public function __construct(string $host, int $port, string $implementation, string $encryption)
     {
         $this->setHost($host);
         $this->setPort($port);
         $this->setImplementation($implementation);
         $this->setEncryption($encryption);
-        $this->setBaseDN($baseDN);
+        $this->dataMapping = new LDAPUserDataMapping();
     }
 
 
@@ -86,24 +77,28 @@ class LDAPSetting
             $config['host'],
             $config['port'],
             $config['implementation'],
-            $config['encryption'],
-            $config['baseDN']
+            $config['encryption']
         );
+        $setting->setEnable($config['enable']);
         $setting->setVersion($config['version']);
         $setting->setOptReferrals($config['optReferrals']);
+        // Bind settings
         $setting->setBindAnonymously($config['bindAnonymously']);
         $setting->setBindUserDN($config['bindUserDN']);
         $setting->setBindUserPassword($config['bindUserPassword']);
-        $setting->setSearchScope($config['searchScope']);
-        $setting->setUserNameAttribute($config['userNameAttribute']);
-        $setting->setDataMapping($config['dataMapping']);
+        // User Lookup Settings
+        foreach ($config['userLookupSettings'] as $userLookupSetting) {
+            $setting->addUserLookupSetting(LDAPUserLookupSetting::createFromArray($userLookupSetting));
+        }
         $setting->setGroupObjectClass($config['groupObjectClass']);
         $setting->setGroupObjectFilter($config['groupObjectFilter']);
         $setting->setGroupNameAttribute($config['groupNameAttribute']);
         $setting->setGroupMembersAttribute($config['groupMembersAttribute']);
         $setting->setGroupMembershipAttribute($config['groupMembershipAttribute']);
+        // Data Mapping
+        $setting->getDataMapping()->setAttributeNames($config['dataMapping']);
+        // Additional Settings
         $setting->setSyncInterval($config['syncInterval']);
-        $setting->setEnable($config['enable']);
 
         return $setting;
     }
@@ -115,24 +110,30 @@ class LDAPSetting
     {
         return json_encode([
             'enable' => $this->isEnable(),
+            // Server Settings
             'host' => $this->getHost(),
             'port' => $this->getPort(),
             'encryption' => $this->getEncryption(),
             'implementation' => $this->getImplementation(),
             'version' => $this->getVersion(),
             'optReferrals' => $this->isOptReferrals(),
+            // Bind settings
             'bindAnonymously' => $this->isBindAnonymously(),
             'bindUserDN' => $this->getBindUserDN(),
             'bindUserPassword' => $this->getBindUserPassword(),
-            'baseDN' => $this->getBaseDN(),
-            'searchScope' => $this->getSearchScope(),
-            'userNameAttribute' => $this->getUserNameAttribute(),
-            'dataMapping' => $this->getDataMapping(),
+            // User Lookup Settings
+            'userLookupSettings' => array_map(
+                fn (LDAPUserLookupSetting $lookupSetting) => $lookupSetting->toArray(),
+                $this->getUserLookupSettings()
+            ),
             'groupObjectClass' => $this->getGroupObjectClass(),
             'groupObjectFilter' => $this->getGroupObjectFilter(),
             'groupNameAttribute' => $this->getGroupNameAttribute(),
             'groupMembersAttribute' => $this->getGroupMembersAttribute(),
             'groupMembershipAttribute' => $this->getGroupMembershipAttribute(),
+            // Data Mapping
+            'dataMapping' => $this->getDataMapping()->toArray(),
+            // Additional Settings
             'syncInterval' => $this->getSyncInterval()
         ]);
     }
@@ -288,41 +289,6 @@ class LDAPSetting
     }
 
     /**
-     * @return string|null
-     */
-    public function getBaseDN(): ?string
-    {
-        return $this->baseDN;
-    }
-
-    /**
-     * @param string|null $baseDN
-     */
-    public function setBaseDN(?string $baseDN): void
-    {
-        $this->baseDN = $baseDN;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSearchScope(): string
-    {
-        return $this->searchScope;
-    }
-
-    /**
-     * @param string $searchScope
-     */
-    public function setSearchScope(string $searchScope): void
-    {
-        if (!in_array($searchScope, [QueryInterface::SCOPE_SUB, QueryInterface::SCOPE_ONE])) {
-            throw new InvalidArgumentException("Invalid search scope: `$searchScope`");
-        }
-        $this->searchScope = $searchScope;
-    }
-
-    /**
      * @return bool
      */
     public function isEnable(): bool
@@ -336,22 +302,6 @@ class LDAPSetting
     public function setEnable(bool $enable): void
     {
         $this->enable = $enable;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserNameAttribute(): string
-    {
-        return $this->userNameAttribute;
-    }
-
-    /**
-     * @param string $userNameAttribute
-     */
-    public function setUserNameAttribute(string $userNameAttribute): void
-    {
-        $this->userNameAttribute = $userNameAttribute;
     }
 
     /**
@@ -451,18 +401,26 @@ class LDAPSetting
     }
 
     /**
-     * @return array
+     * @return LDAPUserDataMapping
      */
-    public function getDataMapping(): array
+    public function getDataMapping(): LDAPUserDataMapping
     {
         return $this->dataMapping;
     }
 
     /**
-     * @param array $dataMapping
+     * @return LDAPUserLookupSetting[]
      */
-    public function setDataMapping(array $dataMapping): void
+    public function getUserLookupSettings(): array
     {
-        $this->dataMapping = $dataMapping;
+        return $this->userLookupSettings;
+    }
+
+    /**
+     * @param LDAPUserLookupSetting $userLookupSetting
+     */
+    public function addUserLookupSetting(LDAPUserLookupSetting $userLookupSetting): void
+    {
+        $this->userLookupSettings[] = $userLookupSetting;
     }
 }
