@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\LDAP\Service;
 
+use Exception;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use Symfony\Component\Ldap\Adapter\AdapterInterface;
@@ -26,6 +27,9 @@ use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 
 class LDAPTestService extends LDAPService
 {
+    public const STATUS_FAIL = 0;
+    public const STATUS_SUCCESS = 1;
+
     private ?LDAPSetting $ldapSetting;
 
     /**
@@ -53,11 +57,33 @@ class LDAPTestService extends LDAPService
         return $this->adapter;
     }
 
-    /**
-     * @param UserCredential $credential
-     */
-    public function test(UserCredential $credential): void
+    public function testConnection(): void
     {
-        $this->bind($credential);
+        $this->bind(
+            new UserCredential(
+                $this->ldapSetting->getBindUserDN(),
+                $this->ldapSetting->getBindUserPassword()
+            )
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function testAuthentication(): array
+    {
+        try {
+            $this->testConnection();
+            return [
+                'message' => 'Ok',
+                'status' => self::STATUS_SUCCESS
+            ];
+        } catch (Exception $exception) {
+            //TODO::Write Error Log
+            return [
+                'message' => $exception->getMessage(),
+                'status' => self::STATUS_FAIL
+            ];
+        }
     }
 }

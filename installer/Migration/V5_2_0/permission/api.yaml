@@ -41,3 +41,15 @@ apiv2_admin_ldap_config:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+
+apiv2_admin_ldap_test_connection:
+  description: 'API-v2 Admin - LDAP Test Connection'
+  api: OrangeHRM\LDAP\Api\LDAPTestConnectionAPI
+  module: admin
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }

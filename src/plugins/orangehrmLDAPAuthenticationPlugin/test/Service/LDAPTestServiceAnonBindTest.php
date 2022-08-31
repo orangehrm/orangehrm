@@ -36,10 +36,12 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
     use LDAPConnectionHelperTrait;
 
     /**
-     * Use this host as invalid host and if it resolves and test is failing,
-     * use another change the host to another.
+     * Use IP addresses in these range for invalid Host
+     * 192.0.2.0 - 192.0.2.255
+     * 198.51.100.0 - 198.51.100.255
+     * 203.0.113.0 - 203.0.113.255
      */
-    public const INVALID_HOST = '172.18.0.25';
+    public const INVALID_HOST = '192.0.2.0';
 
     private static LDAPServerConfig $serverConfig;
     private static bool $configured = false;
@@ -115,36 +117,60 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
 
     public function testAnonymousConnection(): void
     {
-        $ldapSettings = new LDAPSetting('172.18.0.4', 1389, 'OpenLDAP', 'none', '');
+        $ldapSettings = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption,
+            ''
+        );
         $ldapTestService = new LDAPTestService($ldapSettings);
-        $ldapTestService->test(new UserCredential());
+        $ldapTestService->testConnection();
         $this->assertTrue(true);
     }
 
     public function testInvalidHost(): void
     {
-        $ldapSettings = new LDAPSetting(self::INVALID_HOST, 1389, 'OpenLDAP', 'none', '');
+        $ldapSettings = new LDAPSetting(
+            self::INVALID_HOST,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption,
+            ''
+        );
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
         $this->expectExceptionMessage("Can't contact LDAP server");
-        $ldapTestService->test(new UserCredential());
+        $ldapTestService->testConnection();
     }
 
     public function testInvalidPort(): void
     {
-        $ldapSettings = new LDAPSetting('172.18.0.4', 89, 'OpenLDAP', 'none', '');
+        $ldapSettings = new LDAPSetting(
+            self::$serverConfig->host,
+            89,
+            'OpenLDAP',
+            self::$serverConfig->encryption,
+            ''
+        );
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
         $this->expectExceptionMessage("Can't contact LDAP server");
-        $ldapTestService->test(new UserCredential());
+        $ldapTestService->testConnection();
     }
 
     public function testEncryptionWithPort(): void
     {
-        $ldapSettings = new LDAPSetting('172.18.0.4', 389, 'OpenLDAP', 'ssl', '');
+        $ldapSettings = new LDAPSetting(
+            self::$serverConfig->host,
+            389,
+            'OpenLDAP',
+            'ssl',
+            ''
+        );
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
         $this->expectExceptionMessage("Can't contact LDAP server");
-        $ldapTestService->test(new UserCredential());
+        $ldapTestService->testConnection();
     }
 }
