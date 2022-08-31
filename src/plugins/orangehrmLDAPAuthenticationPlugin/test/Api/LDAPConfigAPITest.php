@@ -24,6 +24,7 @@ use OrangeHRM\Entity\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\LDAP\Api\LDAPConfigAPI;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -54,22 +55,26 @@ class LDAPConfigAPITest extends EndpointIntegrationTestCase
 
     public static function saveLDAPConfigPreHook(): void
     {
-        $ldapSettings = new LDAPSetting('localhost', 389, 'OpenLDAP', 'ssl', null);
+        $ldapSettings = new LDAPSetting('localhost', 389, 'OpenLDAP', 'ssl');
         $ldapSettings->setVersion(3);
         $ldapSettings->setOptReferrals(false);
         $ldapSettings->setBindAnonymously(true);
         $ldapSettings->setBindUserDN(null);
         $ldapSettings->setBindUserPassword(null);
-        $ldapSettings->setSearchScope('sub');
-        $ldapSettings->setUserNameAttribute('cn');
-        $ldapSettings->setDataMapping([
-            "firstname" => "givenName",
-            "middlename" => "something",
-            "lastname" => "sn",
-            "userStatus" => null,
-            "workEmail" => null,
-            "employeeId" => null
-        ]);
+        $ldapSettings->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=users,dc=example,dc=org'))
+                ->setSearchScope('sub')
+                ->setUserNameAttribute('cn')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSettings->getDataMapping()
+            ->setFirstNameAttribute('givenName')
+            ->setMiddleNameAttribute('something')
+            ->setLastNameAttribute('sn')
+            ->setUserStatusAttribute(null)
+            ->setWorkEmailAttribute('mail')
+            ->setEmployeeIdAttribute(null);
         $ldapSettings->setGroupObjectClass('group');
         $ldapSettings->setGroupObjectFilter("(&(objectClass=group)(cn=*))");
         $ldapSettings->setGroupNameAttribute('cn');
