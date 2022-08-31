@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Dashboard\test\Dao;
+namespace OrangeHRM\Tests\Dashboard\Dao;
 
 use Exception;
 use OrangeHRM\Admin\Service\CompanyStructureService;

@@ -32,6 +32,9 @@ class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEnd
 {
     use ChartServiceTrait;
 
+    public const PARAMETER_OTHER_EMPLOYEE_COUNT = 'otherEmployeeCount';
+    public const PARAMETER_UNASSIGNED_EMPLOYEE_COUNT = 'unassignedEmployeeCount';
+
     /**
      * @inheritDoc
      */
@@ -44,9 +47,9 @@ class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEnd
             EmployeeDistributionBySubunitModel::class,
             $employeeDistribution->getSubunitCountPairs(),
             new ParameterBag([
-                'otherEmployeeCount' => $employeeDistribution->getOtherEmployeeCount(
+                self::PARAMETER_OTHER_EMPLOYEE_COUNT => $employeeDistribution->getOtherEmployeeCount(
                 ),
-                'unassignedEmployeeCount' => $employeeDistribution->getUnassignedEmployeeCount(
+                self::PARAMETER_UNASSIGNED_EMPLOYEE_COUNT => $employeeDistribution->getUnassignedEmployeeCount(
                 )
             ]),
         );
