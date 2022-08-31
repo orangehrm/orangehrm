@@ -21,70 +21,58 @@
 namespace OrangeHRM\Dashboard\Controller;
 
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Admin\Service\CompanyStructureService;
 
 class DashboardDataMockController extends AbstractController
 {
-    protected ?CompanyStructureService $companyStructureService = null;
+    protected ?LocationService $locationService = null;
 
     /**
-     * @return CompanyStructureService
+     * @return LocationService
      */
-    protected function getCompanyStructureService(): CompanyStructureService
+    protected function getLocationService(): LocationService
     {
-        if (!$this->companyStructureService instanceof CompanyStructureService) {
-            $this->companyStructureService = new CompanyStructureService();
+        if (!$this->locationService instanceof LocationService) {
+            $this->locationService = new LocationService();
         }
-        return $this->companyStructureService;
+        return $this->locationService;
     }
 
     /**
      * @return Response
      */
-    public function getEmployeeSubunitDistribution(): Response
+    public function getEmployeeLocationDistribution(): Response
     {
         $response = new Response();
 
-        // Get 1st level subunits
-        $subunits = array_filter($this->getCompanyStructureService()->getSubunitArray(), function ($value) {
-            return $value['_indent'] === 1;
+        // Add fake data and sort 
+        $locations = array_map(function ($value) {
+            return [
+                "location" => $value,
+                "count" => rand(0, 1000),
+            ];
+        }, $this->getLocationService()->getAccessibleLocationsArray());
+
+        usort($locations, function ($item1, $item2) {
+            return $item2['count'] <=> $item1['count'];
         });
 
-        // Add fake data and sort 
-        $subunits = array_map(function ($value) {
-            return [
-                ...$value,
-                "employeeCount" => rand(0, 1000),
-            ];
-        }, $subunits);
-        usort($subunits, function ($item1, $item2) {
-            return $item2['employeeCount'] <=> $item1['employeeCount'];
-        });
+        $otherEmpCount = 0;
 
         // Limit Subunits to 8
-        if (count($subunits) > 8) {
-            $otherSubUnits = array_splice($subunits, 8);
-            array_push($subunits, [
-                "id" => 9999,
-                "_indent" => 1,
-                "label" => "Other",
-                "employeeCount" => array_sum(array_column($otherSubUnits, 'employeeCount')),
-            ]);
+        if (count($locations) > 8) {
+            $otherLocations = array_splice($locations, 8);
+            $otherEmpCount =  array_sum(array_column($otherLocations, 'count'));
         }
-
-        array_push($subunits,  [
-            "id" => 9999,
-            "_indent" => 1,
-            "label" => "Unassigned",
-            "employeeCount" => rand(0, 1000),
-        ]);
-
 
         $response->setContent(
             json_encode([
-                "data" => $subunits,
-                "meta" => []
+                "data" => $locations,
+                "meta" => [
+                    "otherEmployeeCount" => $otherEmpCount,
+                    "unassignedEmployeeCount" => rand(0, 1000)
+                ]
             ])
         );
 

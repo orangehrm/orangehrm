@@ -14,3 +14,9 @@ langStrings:
   -
     value: 'Employee Distribution by Sub Unit'
     unitId: employee_distribution_by_sub_unit
+  -
+    value: 'Employee Distribution by Location'
+    unitId: employee_distribution_by_location
+  -
+    value: 'Unassigned'
+    unitId: unassigned

@@ -22,7 +22,7 @@
   <base-widget
     icon="pie-chart-fill"
     :loading="isLoading"
-    :title="$t('general.employee_distribution_by_sub_unit')"
+    :title="$t('general.employee_distribution_by_location')"
   >
     <oxd-pie-chart
       :data="dataset"
@@ -40,7 +40,7 @@ import PieChart from '@ohrm/oxd/core/components/Chart/PieChart.vue';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
 
 export default {
-  name: 'EmployeeSubunitWidget',
+  name: 'EmployeeLocationWidget',
 
   components: {
     'base-widget': BaseWidget,
@@ -50,7 +50,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/employees/subunit',
+      'api/v2/dashboard/employees/location',
     );
 
     return {
@@ -89,7 +89,7 @@ export default {
               ? {
                   value: item.count,
                   color: colors[index],
-                  label: item.subunit.name,
+                  label: item.location.label,
                 }
               : false;
           })

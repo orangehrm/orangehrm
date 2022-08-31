@@ -26,15 +26,23 @@
     >
       <employee-subunit-widget></employee-subunit-widget>
     </oxd-grid-item>
+    <oxd-grid-item
+      v-if="$can.read('admin_widgets')"
+      class="orangehrm-dashboard-widget"
+    >
+      <employee-location-widget></employee-location-widget>
+    </oxd-grid-item>
   </oxd-grid>
 </template>
 
 <script>
 import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/EmployeeSubunitWidget.vue';
+import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
 
 export default {
   components: {
     'employee-subunit-widget': EmployeeSubunitWidget,
+    'employee-location-widget': EmployeeLocationWidget,
   },
 };
 </script>
