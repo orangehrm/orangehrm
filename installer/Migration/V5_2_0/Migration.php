@@ -31,7 +31,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
 
         $this->getSchemaHelper()->changeColumn(
