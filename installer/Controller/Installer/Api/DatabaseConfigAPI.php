@@ -40,6 +40,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         $dbUser = $request->request->get('dbUser');
         $dbPassword = $request->request->get('dbPassword');
         $dbName = $request->request->get('dbName');
+        $enableDataEncryption = $request->request->getBoolean('enableDataEncryption');
 
         if ($dbType === AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING &&
             ($request->request->has('useSameDbUserForOrangeHRM') ||
@@ -69,7 +70,8 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                 $dbPort,
                 new UserCredential($dbUser, $dbPassword),
                 $dbName,
-                new UserCredential($ohrmDbUser, $ohrmDbPassword)
+                new UserCredential($ohrmDbUser, $ohrmDbPassword),
+                $enableDataEncryption
             );
             StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_NEW);
 
@@ -108,6 +110,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                         'dbName' => $dbName,
                         'useSameDbUserForOrangeHRM' => $useSameDbUserForOrangeHRM,
                         'ohrmDbUser' => $useSameDbUserForOrangeHRM ? null : ($dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? null),
+                        'enableDataEncryption' => $enableDataEncryption,
                     ],
                     'meta' => []
                 ];
@@ -170,6 +173,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                 'dbType' => StateContainer::getInstance()->getDbType(),
                 'useSameDbUserForOrangeHRM' => $useSameDbUserForOrangeHRM,
                 'ohrmDbUser' => $useSameDbUserForOrangeHRM ? null : ($dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? null),
+                'enableDataEncryption' => $dbInfo[StateContainer::ENABLE_DATA_ENCRYPTION],
             ],
             'meta' => []
         ];

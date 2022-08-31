@@ -26,6 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table("ohrm_email_configuration")
  * @ORM\Entity
+ * @ORM\EntityListeners({"OrangeHRM\Entity\Listener\EmailConfigurationListener"})
  */
 class EmailConfiguration
 {

@@ -42,6 +42,7 @@
       <directory>src/plugins/orangehrmCorePlugin/test/Vue</directory>
       <directory>src/plugins/orangehrmCorePlugin/test/Import</directory>
       <directory>src/plugins/orangehrmCorePlugin/test/Registration</directory>
+      <directory>src/plugins/orangehrmCorePlugin/test/Utility</directory>
     </testsuite>
     <testsuite name="Leave">
       <directory>src/plugins/orangehrmLeavePlugin/test/Dao</directory>

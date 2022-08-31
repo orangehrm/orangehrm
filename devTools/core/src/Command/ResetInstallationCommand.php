@@ -22,6 +22,7 @@ namespace OrangeHRM\DevTools\Command;
 use Conf;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Utility\KeyHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -65,6 +66,10 @@ class ResetInstallationCommand extends Command
         $fs = new Filesystem();
         $fs->remove($pathToConf);
         $io->note("Deleted conf file `$pathToConf`");
+
+        $pathToKey = KeyHandler::getRealPathToKey();
+        $fs->remove($pathToKey);
+        $io->note("Deleted key.ohrm file `$pathToKey`");
 
         $io->success('Done');
         return Command::SUCCESS;

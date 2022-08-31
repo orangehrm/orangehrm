@@ -24,6 +24,8 @@ use Doctrine\DBAL\Types\Types;
 use Exception;
 use InvalidArgumentException;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Exception\KeyHandlerException;
+use OrangeHRM\Core\Utility\KeyHandler;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
@@ -467,6 +469,15 @@ class AppSetupUtility
         $fs = new Filesystem();
         $fs->dumpFile(Config::get(Config::CONF_FILE_PATH), str_replace($search, $replace, $template));
         clearstatcache(true);
+    }
+
+    /**
+     * @throws KeyHandlerException
+     */
+    public function writeKeyFile(): void
+    {
+        $keyHandler = new KeyHandler();
+        $keyHandler::createKey();
     }
 
     /**

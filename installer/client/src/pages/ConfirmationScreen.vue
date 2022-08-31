@@ -51,6 +51,25 @@
       OrangeHRM Admin Username
     </oxd-text>
     <oxd-text class="confirmation-text-info">{{ adminUserName }}</oxd-text>
+    <br v-if="database.enableDataEncryption" />
+    <oxd-text
+      v-if="database.enableDataEncryption"
+      class="confirmation-text-section"
+      >Data Encryption</oxd-text
+    >
+    <oxd-text
+      v-if="database.enableDataEncryption"
+      class="confirmation-text-info"
+    >
+      Data Encryption Is On. Employee Social Security Number and Employee Basic
+      Salary Will Be Encrypted.
+    </oxd-text>
+    <oxd-text
+      v-if="database.enableDataEncryption"
+      class="confirmation-text-info"
+    >
+      Please backup encryption key located at lib/confs/cryptokeys/key.ohrm
+    </oxd-text>
     <br />
     <br />
     <oxd-text class="orangehrm-installer-page-content">
@@ -82,6 +101,7 @@ const databaseModel = {
   dbPort: '',
   dbName: '',
   dbUser: '',
+  enableDataEncryption: false,
 };
 
 export default {
