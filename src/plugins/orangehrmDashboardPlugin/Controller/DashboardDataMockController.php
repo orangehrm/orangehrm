@@ -23,12 +23,10 @@ namespace OrangeHRM\Dashboard\Controller;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Admin\Service\CompanyStructureService;
 
 class DashboardDataMockController extends AbstractController
 {
     protected ?LocationService $locationService = null;
-    protected ?CompanyStructureService $companyStructureService = null;
 
     /**
      * @return LocationService
@@ -42,70 +40,6 @@ class DashboardDataMockController extends AbstractController
     }
 
     /**
-     * @return CompanyStructureService
-     */
-    protected function getCompanyStructureService(): CompanyStructureService
-    {
-        if (!$this->companyStructureService instanceof CompanyStructureService) {
-            $this->companyStructureService = new CompanyStructureService();
-        }
-        return $this->companyStructureService;
-    }
-
-    /**
-     * @return Response
-     */
-    public function getEmployeeSubunitDistribution(): Response
-    {
-        $response = new Response();
-
-        // Get 1st level subunits
-        $subunits = array_filter($this->getCompanyStructureService()->getSubunitArray(), function ($value) {
-            return $value['_indent'] === 1;
-        });
-
-        // Add fake data and sort 
-        $subunits = array_map(function ($value) {
-            return [
-                ...$value,
-                "employeeCount" => rand(0, 1000),
-            ];
-        }, $subunits);
-        usort($subunits, function ($item1, $item2) {
-            return $item2['employeeCount'] <=> $item1['employeeCount'];
-        });
-
-        // Limit Subunits to 8
-        if (count($subunits) > 8) {
-            $otherSubUnits = array_splice($subunits, 8);
-            array_push($subunits, [
-                "id" => 9999,
-                "_indent" => 1,
-                "label" => "Other",
-                "employeeCount" => array_sum(array_column($otherSubUnits, 'employeeCount')),
-            ]);
-        }
-
-        array_push($subunits,  [
-            "id" => 9999,
-            "_indent" => 1,
-            "label" => "Unassigned",
-            "employeeCount" => rand(0, 1000),
-        ]);
-
-
-        $response->setContent(
-            json_encode([
-                "data" => $subunits,
-                "meta" => []
-            ])
-        );
-
-        $response->setStatusCode(Response::HTTP_OK);
-        return $response->send();
-    }
-
-    /**
      * @return Response
      */
     public function getEmployeeLocationDistribution(): Response
@@ -115,37 +49,30 @@ class DashboardDataMockController extends AbstractController
         // Add fake data and sort 
         $locations = array_map(function ($value) {
             return [
-                ...$value,
-                "employeeCount" => rand(0, 1000),
+                "location" => $value,
+                "count" => rand(0, 1000),
             ];
         }, $this->getLocationService()->getAccessibleLocationsArray());
 
         usort($locations, function ($item1, $item2) {
-            return $item2['employeeCount'] <=> $item1['employeeCount'];
+            return $item2['count'] <=> $item1['count'];
         });
+
+        $otherEmpCount = 0;
 
         // Limit Subunits to 8
         if (count($locations) > 8) {
             $otherLocations = array_splice($locations, 8);
-            array_push($locations, [
-                "id" => 9999,
-                "label" => "Other",
-                "employeeCount" => array_sum(array_column($otherLocations, 'employeeCount')),
-            ]);
+            $otherEmpCount =  array_sum(array_column($otherLocations, 'count'));
         }
-
-        array_push($locations,  [
-            "id" => 9999,
-            "_indent" => 1,
-            "label" => "Unassigned",
-            "employeeCount" => rand(0, 1000),
-        ]);
-
 
         $response->setContent(
             json_encode([
                 "data" => $locations,
-                "meta" => []
+                "meta" => [
+                    "otherEmployeeCount" => $otherEmpCount,
+                    "unassignedEmployeeCount" => rand(0, 1000)
+                ]
             ])
         );
 

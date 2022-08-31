@@ -70,19 +70,46 @@ export default {
     this.http
       .getAll()
       .then(response => {
-        const {data} = response.data;
-        const colors = Object.values(CHART_COLORS).reverse();
-        this.dataset = data.map((item, index) => {
-          return {
-            label: item.label,
-            value: item.employeeCount,
-            color:
-              //TODO: check lang string
-              item.label === 'Unassigned'
-                ? CHART_COLORS.COLOR_TART_ORANGE
-                : colors[index],
-          };
-        });
+        const {data, meta} = response.data;
+
+        const colors = [
+          CHART_COLORS.COLOR_HEAT_WAVE,
+          CHART_COLORS.COLOR_CHROME_YELLOW,
+          CHART_COLORS.COLOR_YELLOW_GREEN,
+          CHART_COLORS.COLOR_MOUNTAIN_MEADOW,
+          CHART_COLORS.COLOR_PACIFIC_BLUE,
+          CHART_COLORS.COLOR_BLEU_DE_FRANCE,
+          CHART_COLORS.COLOR_MAJORELLE_BLUE,
+          CHART_COLORS.COLOR_MEDIUM_ORCHID,
+        ];
+
+        this.dataset = data
+          .map((item, index) => {
+            return item.count
+              ? {
+                  value: item.count,
+                  color: colors[index],
+                  label: item.location.label,
+                }
+              : false;
+          })
+          .filter(item => item);
+
+        if (meta?.otherEmployeeCount) {
+          this.dataset.push({
+            value: meta.otherEmployeeCount,
+            color: CHART_COLORS.COLOR_FANDANGO_PINK,
+            label: this.$t('pim.other'),
+          });
+        }
+
+        if (meta?.unassignedEmployeeCount) {
+          this.dataset.push({
+            value: meta.unassignedEmployeeCount,
+            color: CHART_COLORS.COLOR_TART_ORANGE,
+            label: this.$t('general.unassigned'),
+          });
+        }
       })
       .finally(() => {
         this.isLoading = false;
