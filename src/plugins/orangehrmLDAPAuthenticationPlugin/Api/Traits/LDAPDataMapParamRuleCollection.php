@@ -19,24 +19,16 @@
 
 namespace OrangeHRM\LDAP\Api\Traits;
 
-use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\LDAP\Api\LDAPConfigAPI;
 
 trait LDAPDataMapParamRuleCollection
 {
-    use ValidatorTrait;
-
     /**
-     * @var ValidationDecorator|null
-     */
-    private ?ValidationDecorator $validationDecorator = null;
-
-    /**
+     * @todo method should move to API class
      * @return ParamRuleCollection
      */
     protected function getParamRuleCollection(): ParamRuleCollection
@@ -48,7 +40,7 @@ trait LDAPDataMapParamRuleCollection
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_MIDDLE_NAME,
+                    LDAPConfigAPI::PARAMETER_MIDDLE_NAME,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
                 ),
@@ -80,16 +72,5 @@ trait LDAPDataMapParamRuleCollection
                 )
             ),
         );
-    }
-
-    /**
-     * @return ValidationDecorator
-     */
-    protected function getValidationDecorator(): ValidationDecorator
-    {
-        if (!$this->validationDecorator instanceof ValidationDecorator) {
-            $this->validationDecorator = new ValidationDecorator();
-        }
-        return $this->validationDecorator;
     }
 }
