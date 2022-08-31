@@ -18,6 +18,7 @@
  */
 
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Dashboard\Service\ChartService;
 use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
@@ -35,6 +36,11 @@ class DashboardPluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(
             Services::EMPLOYEE_ON_LEAVE_SERVICE,
             EmployeeOnLeaveService::class
+        );
+
+        $this->getContainer()->register(
+            Services::CHART_SERVICE,
+            ChartService::class
         );
     }
 }

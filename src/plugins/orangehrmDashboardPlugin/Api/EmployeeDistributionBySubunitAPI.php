@@ -19,55 +19,39 @@
 
 namespace OrangeHRM\Dashboard\Api;
 
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
-use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Dashboard\Api\Model\EmployeeOnLeaveModel;
-use OrangeHRM\Dashboard\Dto\EmployeeOnLeaveSearchFilterParams;
-use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
+use OrangeHRM\Dashboard\Api\Model\EmployeeDistributionBySubunitModel;
+use OrangeHRM\Dashboard\Traits\Service\ChartServiceTrait;
 
-class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
+class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEndpoint
 {
-    use EmployeeOnLeaveServiceTrait;
-    use DateTimeHelperTrait;
+    use ChartServiceTrait;
 
-    public const DATE = 'date';
+    public const PARAMETER_OTHER_EMPLOYEE_COUNT = 'otherEmployeeCount';
+    public const PARAMETER_UNASSIGNED_EMPLOYEE_COUNT = 'unassignedEmployeeCount';
 
     /**
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        $employeeOnLeaveSearchFilterParams = new EmployeeOnLeaveSearchFilterParams();
-
-        $this->setSortingAndPaginationParams($employeeOnLeaveSearchFilterParams);
-        $date = $this->getRequestParams()->getDateTime(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::DATE,
-            null,
-            $this->getDateTimeHelper()->getNow()
-        );
-
-        $employeeOnLeaveSearchFilterParams->setDate($date);
-
-        $empLeaveList = $this->getEmployeeOnLeaveService()->getEmployeeOnLeaveDao()
-            ->getEmployeeOnLeaveList($employeeOnLeaveSearchFilterParams);
-        $employeeCount = $this->getEmployeeOnLeaveService()->getEmployeeOnLeaveDao()
-            ->getEmployeeOnLeaveCount($employeeOnLeaveSearchFilterParams);
+        $employeeDistribution = $this->getChartService()
+            ->getEmployeeDistributionBySubunit();
 
         return new EndpointCollectionResult(
-            EmployeeOnLeaveModel::class,
-            $empLeaveList,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => $employeeCount])
+            EmployeeDistributionBySubunitModel::class,
+            $employeeDistribution->getSubunitCountPairs(),
+            new ParameterBag([
+                self::PARAMETER_OTHER_EMPLOYEE_COUNT => $employeeDistribution->getOtherEmployeeCount(
+                ),
+                self::PARAMETER_UNASSIGNED_EMPLOYEE_COUNT => $employeeDistribution->getUnassignedEmployeeCount(
+                )
+            ]),
         );
     }
 
@@ -76,13 +60,7 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                self::DATE,
-                new Rule(Rules::API_DATE)
-            ),
-            ... $this->getSortingAndPaginationParamsRules(EmployeeOnLeaveSearchFilterParams::ALLOWED_SORT_FIELDS),
-        );
+        return new ParamRuleCollection();
     }
 
     /**

@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,32 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-describe('Core - Login Page', function () {
-  before(function () {
-    cy.task('db:reset');
-    cy.intercept('POST', '**/auth/validate').as('postLogin');
-    cy.fixture('user').then(({admin}) => {
-      this.user = admin;
-    });
-  });
+namespace OrangeHRM\Dashboard\Api\Model;
 
-  it('should login as admin', function () {
-    cy.visit('/auth/login');
-    cy.getOXD('form').within(() => {
-      cy.getOXDInput('Username').type(this.user.username);
-      cy.getOXDInput('Password').type(this.user.password);
-      cy.getOXD('button').contains('Login').click();
-    });
-    cy.wait('@postLogin')
-      .its('response.headers')
-      .should('have.property', 'location')
-      .and('match', /dashboard\/index/);
-  });
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
-  it('login form validations should work', function () {
-    cy.visit('/auth/login');
-    cy.getOXD('button').contains('Login').click();
-    cy.getOXDInput('Username').isInvalid('Required');
-    cy.getOXDInput('Password').isInvalid('Required');
-  });
-});
+class EmployeeDistributionBySubunitModel implements Normalizable
+{
+    use ModelTrait;
+
+    public function __construct(SubunitCountPair $subunitCountPair)
+    {
+        $this->setEntity($subunitCountPair);
+        $this->setFilters(
+            [
+                ['getSubunit', 'getId'],
+                ['getSubunit', 'getName'],
+                ['getCount'],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                ['subunit', 'id'],
+                ['subunit', 'name'],
+                'count'
+            ]
+        );
+    }
+}

@@ -17,26 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Leave\Service;
+namespace OrangeHRM\Tests\Dashboard\Service;
 
 use OrangeHRM\Dashboard\Dao\EmployeeOnLeaveDao;
+use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
- * @group Leave
+ * @group Dashboard
  * @group Service
  */
 class LeaveListServiceTest extends TestCase
 {
-    private \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService $leaveListService;
+    private EmployeeOnLeaveService $dashboardService;
 
     protected function setUp(): void
     {
-        $this->leaveListService = new \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService();
+        $this->dashboardService = new EmployeeOnLeaveService();
     }
 
     public function testGetLeaveListDao(): void
     {
-        $this->assertTrue($this->leaveListService->getEmployeeOnLeaveDao() instanceof EmployeeOnLeaveDao);
+        $this->assertTrue($this->dashboardService->getEmployeeOnLeaveDao() instanceof EmployeeOnLeaveDao);
     }
 }

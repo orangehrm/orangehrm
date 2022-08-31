@@ -106,3 +106,10 @@ jobs:
         with:
           name: videos-${{ github.sha }}
           path: html/src/test/functional/cypress/videos
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: logs-${{ github.sha }}
+          path: html/src/log
