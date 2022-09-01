@@ -32,15 +32,18 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Dashboard\Api\Model\EmployeeOnLeaveModel;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 use OrangeHRM\Dashboard\Dto\EmployeeOnLeaveSearchFilterParams;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
 
 class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
 {
-    use EmployeeOnLeaveServiceTrait;
     use DateTimeHelperTrait;
+    use LeavePeriodServiceTrait;
+    use EmployeeOnLeaveServiceTrait;
 
     public const DATE = 'date';
+    public const PARAMETER_LEAVE_PERIOD = 'leavePeriod';
 
     /**
      * @inheritDoc
@@ -67,7 +70,10 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
         return new EndpointCollectionResult(
             EmployeeOnLeaveModel::class,
             $empLeaveList,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => $employeeCount])
+            new ParameterBag([
+                CommonParams::PARAMETER_TOTAL => $employeeCount,
+                self::PARAMETER_LEAVE_PERIOD => $this->getLeavePeriodService()->getCurrentLeavePeriod()
+            ])
         );
     }
 
@@ -81,7 +87,7 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
                 self::DATE,
                 new Rule(Rules::API_DATE)
             ),
-            ... $this->getSortingAndPaginationParamsRules(EmployeeOnLeaveSearchFilterParams::ALLOWED_SORT_FIELDS),
+            ...$this->getSortingAndPaginationParamsRules(EmployeeOnLeaveSearchFilterParams::ALLOWED_SORT_FIELDS),
         );
     }
 
