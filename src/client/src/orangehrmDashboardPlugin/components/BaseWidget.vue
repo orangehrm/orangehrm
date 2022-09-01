@@ -26,11 +26,11 @@
           class="orangehrm-dashboard-widget-icon"
           :name="icon"
         ></oxd-icon>
-        <oxd-text v-show="title" type="card-title">
+        <oxd-text tag="p">
           {{ title }}
         </oxd-text>
       </div>
-      <slot v-if="hasActionSlot" name="action"></slot>
+      <slot name="action"></slot>
     </div>
     <oxd-divider />
     <oxd-loading-spinner
@@ -39,17 +39,14 @@
     />
     <div v-else class="orangehrm-dashboard-widget-body">
       <slot></slot>
-      <div
-        v-if="!hasBodySlot"
-        class="orangehrm-dashboard-widget-body-nocontent"
-      >
+      <div v-if="empty" class="orangehrm-dashboard-widget-body-nocontent">
         <img
           :src="defaultPic"
           alt="No Content"
           class="orangehrm-dashboard-widget-img"
         />
         <oxd-text tag="p">
-          {{ $t('general.not_available') }}
+          {{ emptyText || $t('general.not_available') }}
         </oxd-text>
       </div>
     </div>
@@ -81,6 +78,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    empty: {
+      type: Boolean,
+      default: false,
+    },
+    emptyText: {
+      type: String,
+      default: null,
+    },
   },
   setup() {
     const defaultPic = `${window.appGlobal.baseUrl}/../images/dashboard_empty_widget_watermark.png`;
@@ -88,14 +93,6 @@ export default {
     return {
       defaultPic,
     };
-  },
-  computed: {
-    hasBodySlot() {
-      return !!this.$slots.default;
-    },
-    hasActionSlot() {
-      return !!this.$slots.action;
-    },
   },
 };
 </script>

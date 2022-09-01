@@ -20,6 +20,9 @@
 
 <template>
   <oxd-grid class="orangehrm-dashboard-grid" :cols="3">
+    <oxd-grid-item class="orangehrm-dashboard-widget">
+      <employees-on-leave-widget></employees-on-leave-widget>
+    </oxd-grid-item>
     <oxd-grid-item
       v-if="$can.read('admin_widgets')"
       class="orangehrm-dashboard-widget"
@@ -38,11 +41,13 @@
 <script>
 import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/EmployeeSubunitWidget.vue';
 import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
+import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
 
 export default {
   components: {
     'employee-subunit-widget': EmployeeSubunitWidget,
     'employee-location-widget': EmployeeLocationWidget,
+    'employees-on-leave-widget': EmployeesOnLeaveWidget,
   },
 };
 </script>

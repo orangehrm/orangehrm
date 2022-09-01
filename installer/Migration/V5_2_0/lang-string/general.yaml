@@ -20,3 +20,12 @@ langStrings:
   -
     value: 'Unassigned'
     unitId: unassigned
+  -
+    value: 'Employees on Leave Today'
+    unitId: employees_on_leave_today
+  -
+    value: 'No Employees are on Leave Today'
+    unitId: no_employees_are_on_leave_today
+  -
+    value: 'Leave Period Not Defined'
+    unitId: leave_period_not_defined
