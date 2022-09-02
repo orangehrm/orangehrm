@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Admin\Service\LocationService;
+use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\PerformanceReview;
@@ -30,6 +31,7 @@ class SupervisorUserRole extends AbstractUserRole
 {
     use EmployeeServiceTrait;
     use PerformanceReviewServiceTrait;
+    use QuickLaunchServiceTrait;
 
     protected ?LocationService $locationService = null;
 
@@ -94,5 +96,15 @@ class SupervisorUserRole extends AbstractUserRole
     {
         $empNumber = $this->getEmployeeNumber();
         return $this->getPerformanceReviewService()->getPerformanceReviewDao()->getReviewIdsForSupervisorReviewer($empNumber);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccessibleQuickLaunchList(array $requiredPermissions): array
+    {
+        return $this->getQuickLaunchService()
+            ->getQuickLaunchDao()
+            ->getQuickLaunchList();
     }
 }

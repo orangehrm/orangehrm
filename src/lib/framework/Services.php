@@ -360,4 +360,9 @@ final class Services
      * @see \OrangeHRM\Dashboard\Service\ChartService
      */
     public const CHART_SERVICE = 'dashboard.chart_service';
+
+    /**
+     * @see \OrangeHRM\Dashboard\Service\QuickLaunchService
+     */
+    public const QUICK_LAUNCH_SERVICE = 'dashboard.quick_launch_service';
 }
