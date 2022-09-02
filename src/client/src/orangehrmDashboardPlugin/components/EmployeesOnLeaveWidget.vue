@@ -19,13 +19,13 @@
  -->
 
 <template>
-  <!-- TODO: change icon -->
   <base-widget
+    icon="leavelist"
+    icon-type="svg"
     class="emp-leave-chart"
-    icon="calendar-check-fill"
-    :loading="isLoading"
     :empty="isEmpty"
     :empty-text="emptyText"
+    :loading="isLoading"
     :title="$t('general.employees_on_leave_today')"
   >
     <div v-for="leave in leaveList" :key="leave" class="orangehrm-leave-card">
@@ -40,7 +40,11 @@
         <oxd-text tag="p" class="orangehrm-leave-card-emp-name">
           {{ leave.empName }}
         </oxd-text>
-        <oxd-text tag="p" class="orangehrm-leave-card-leave-details">
+        <oxd-text
+          v-if="leave.leaveType"
+          tag="p"
+          class="orangehrm-leave-card-leave-details"
+        >
           {{ leave.leaveType }}
         </oxd-text>
       </div>
@@ -105,9 +109,19 @@ export default {
       .then(response => {
         const {data, meta} = response.data;
         this.leaveList = data.map(item => {
-          const {employee, leaveType} = item;
+          const {employee, leaveType, duration} = item;
+          let _leaveType = leaveType?.name;
+          if (_leaveType && duration === 'half_day_morning') {
+            _leaveType += ` (${this.$t('leave.half_day_morning')})`;
+          }
+          if (_leaveType && duration === 'half_day_afternoon') {
+            _leaveType += ` (${this.$t('leave.half_day_evening')})`;
+          }
+          if (_leaveType && duration === 'specify_time') {
+            _leaveType += ` (${item.startTime} - ${item.endTime})`;
+          }
           return {
-            leaveType: leaveType?.name,
+            leaveType: _leaveType,
             empNumber: employee.empNumber,
             employeeId: employee.employeeId,
             empName: this.tEmpName(employee, {

@@ -23,8 +23,9 @@
     <div class="orangehrm-dashboard-widget-header">
       <div class="orangehrm-dashboard-widget-name">
         <oxd-icon
-          class="orangehrm-dashboard-widget-icon"
           :name="icon"
+          :type="iconType"
+          class="orangehrm-dashboard-widget-icon"
         ></oxd-icon>
         <oxd-text tag="p">
           {{ title }}
@@ -85,6 +86,10 @@ export default {
     emptyText: {
       type: String,
       default: null,
+    },
+    iconType: {
+      type: String,
+      default: undefined,
     },
   },
   setup() {

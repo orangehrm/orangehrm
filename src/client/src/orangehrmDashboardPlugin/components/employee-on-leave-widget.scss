@@ -19,6 +19,7 @@
 .orangehrm-leave-card {
   display: flex;
   font-size: 12px;
+  align-items: center;
   margin-bottom: 0.5rem;
   &-profile-image {
     & img {
@@ -34,11 +35,13 @@
   }
   &-details {
     margin-left: 1rem;
+    word-break: break-word;
   }
   &-emp-id {
     padding: 0 5px;
     font-weight: 600;
     margin-left: auto;
+    white-space: nowrap;
   }
   &-emp-name {
     font-weight: 700;
