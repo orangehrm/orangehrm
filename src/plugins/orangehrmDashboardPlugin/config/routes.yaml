@@ -19,14 +19,12 @@ apiv2_dashboard_quick_launch:
   defaults:
     _api: OrangeHRM\Dashboard\Api\QuickLaunchAPI
 
-##########################
-#       Mock API
-##########################
-
-apiv2_dashboard_employees_location_distribution:
-  path: /api/v2/dashboard/employees/location
-  controller: OrangeHRM\Dashboard\Controller\DashboardDataMockController::getEmployeeLocationDistribution
+apiv2_dashboard_employees_by_location:
+  path: /api/v2/dashboard/employees/locations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeeDistributionByLocationAPI
 
 ##########################
 #        Screens

@@ -20,7 +20,9 @@
 namespace OrangeHRM\Dashboard\Service;
 
 use OrangeHRM\Dashboard\Dao\ChartDao;
+use OrangeHRM\Dashboard\Dto\EmployeeDistributionByLocation;
 use OrangeHRM\Dashboard\Dto\EmployeeDistributionBySubunit;
+use OrangeHRM\Dashboard\Dto\LocationEmployeeCount;
 use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
 class ChartService
@@ -69,6 +71,49 @@ class ChartService
             $otherCount,
             $this->getChartDao()->getUnassignedEmployeeCount(),
             $limit
+        );
+    }
+
+    public function getLocationUnassignedEmployeeCount(array $locationEmployeeCounts): int
+    {
+        $totalActiveEmployee = $this->chartDao->getTotalActiveEmployeeCount();
+
+        $unassignedEmployeeCount = 0;
+        foreach ($locationEmployeeCounts as $locationEmployeeCount)
+        {
+            $unassignedEmployeeCount += $locationEmployeeCount->getEmployeeCount();
+        }
+        return $totalActiveEmployee;
+    }
+
+    public function getEmployeeDistributionByLocation(int $limit=8): EmployeeDistributionByLocation
+    {
+        $locationEmployeeCount = $this->getChartDao()->getEmployeeDistributionByLocation();
+        usort(
+            $locationEmployeeCount,
+            static function (LocationEmployeeCount $x, LocationEmployeeCount $y) {
+                return $x->getEmployeeCount() < $y->getEmployeeCount();
+            }
+        );
+
+        $otherArray = [];
+        if (count($locationEmployeeCount) > $limit) {
+            $otherArray = array_slice($locationEmployeeCount, $limit);
+            $locationEmployeeCount = array_slice($locationEmployeeCount, 0, $limit);
+        }
+
+        $otherCount = 0;
+        foreach ($otherArray as $locationCountPair) {
+            $otherCount += $locationCountPair->getEmployeeCount();
+        }
+
+        $unassignedEmployeeCount =  $this->getLocationUnassignedEmployeeCount($locationEmployeeCount);
+
+        return new EmployeeDistributionByLocation(
+            $locationEmployeeCount,
+            $otherCount,
+            $unassignedEmployeeCount,
+            $limit,
         );
     }
 }
