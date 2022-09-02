@@ -42,7 +42,7 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
     use LeavePeriodServiceTrait;
     use EmployeeOnLeaveServiceTrait;
 
-    public const DATE = 'date';
+    public const PARAMETER_DATE = 'date';
     public const PARAMETER_LEAVE_PERIOD = 'leavePeriod';
 
     /**
@@ -55,7 +55,7 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
         $this->setSortingAndPaginationParams($employeeOnLeaveSearchFilterParams);
         $date = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_QUERY,
-            self::DATE,
+            self::PARAMETER_DATE,
             null,
             $this->getDateTimeHelper()->getNow()
         );
@@ -84,7 +84,7 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::DATE,
+                self::PARAMETER_DATE,
                 new Rule(Rules::API_DATE)
             ),
             ...$this->getSortingAndPaginationParamsRules(EmployeeOnLeaveSearchFilterParams::ALLOWED_SORT_FIELDS),

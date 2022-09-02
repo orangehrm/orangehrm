@@ -21,8 +21,8 @@
 <template>
   <oxd-grid class="orangehrm-dashboard-grid" :cols="3">
     <oxd-grid-item
-      class="orangehrm-dashboard-widget"
       v-if="$can.read('leave_widget')"
+      class="orangehrm-dashboard-widget"
     >
       <employees-on-leave-widget></employees-on-leave-widget>
     </oxd-grid-item>
