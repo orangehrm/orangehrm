@@ -20,7 +20,10 @@
 
 <template>
   <oxd-grid class="orangehrm-dashboard-grid" :cols="3">
-    <oxd-grid-item class="orangehrm-dashboard-widget">
+    <oxd-grid-item
+      class="orangehrm-dashboard-widget"
+      v-if="$can.read('leave_widget')"
+    >
       <employees-on-leave-widget></employees-on-leave-widget>
     </oxd-grid-item>
     <oxd-grid-item

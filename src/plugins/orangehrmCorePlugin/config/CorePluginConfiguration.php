@@ -26,6 +26,7 @@ use OrangeHRM\Core\Service\CacheService;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\MenuService;
+use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Core\Service\TextHelperService;
@@ -86,6 +87,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(Services::USER_ROLE_MANAGER_HELPER, UserRoleManagerHelper::class);
         $this->getContainer()->register(Services::CACHE)->setFactory([CacheService::class, 'getCache']);
         $this->getContainer()->register(Services::MENU_SERVICE, MenuService::class);
+        $this->getContainer()->register(Services::MODULE_SERVICE, ModuleService::class);
         $this->getContainer()->register(Services::REPORT_GENERATOR_SERVICE, ReportGeneratorService::class);
 
         $this->registerCoreSubscribers();
