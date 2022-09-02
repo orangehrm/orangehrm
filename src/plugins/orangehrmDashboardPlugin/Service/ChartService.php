@@ -22,6 +22,7 @@ namespace OrangeHRM\Dashboard\Service;
 use OrangeHRM\Dashboard\Dao\ChartDao;
 use OrangeHRM\Dashboard\Dto\EmployeeDistributionByLocation;
 use OrangeHRM\Dashboard\Dto\EmployeeDistributionBySubunit;
+use OrangeHRM\Dashboard\Dto\LocationEmployeeCount;
 use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
 class ChartService
