@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Dashboard\Api;;
+namespace OrangeHRM\Tests\Dashboard\Api;
 
 use OrangeHRM\Dashboard\Api\EmployeeDistributionBySubunitAPI;
 use OrangeHRM\Framework\Services;

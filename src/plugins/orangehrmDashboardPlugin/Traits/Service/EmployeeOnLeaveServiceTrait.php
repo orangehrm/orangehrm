@@ -30,8 +30,8 @@ trait EmployeeOnLeaveServiceTrait
     /**
      * @return EmployeeOnLeaveService
      */
-   protected function getEmployeeOnLeaveService(): EmployeeOnLeaveService
-   {
-       return $this->getContainer()->get(Services::EMPLOYEE_ON_LEAVE_SERVICE);
-   }
+    protected function getEmployeeOnLeaveService(): EmployeeOnLeaveService
+    {
+        return $this->getContainer()->get(Services::EMPLOYEE_ON_LEAVE_SERVICE);
+    }
 }

@@ -22,8 +22,6 @@ namespace OrangeHRM\Dashboard\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Leave;
 
 class EmployeeOnLeaveModel implements Normalizable
