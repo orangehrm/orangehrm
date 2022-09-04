@@ -28,6 +28,10 @@ use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Dashboard
+ * @group Dao
+ */
 class ChartDaoTest extends KernelTestCase
 {
     private ChartDao $chartDao;
