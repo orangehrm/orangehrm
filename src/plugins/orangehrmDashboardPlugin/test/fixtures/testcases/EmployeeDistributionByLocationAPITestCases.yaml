@@ -21,29 +21,29 @@ GetAll:
         count: 3
       3:
         location:
-          id: 3
-          name: location 3
-        count: 2
-      4:
-        location:
           id: 7
           name: location 7
         count: 2
+      4:
+        location:
+          id: 3
+          name: location 3
+        count: 2
       5:
+        location:
+          id: 9
+          name: location 9
+        count: 1
+      6:
         location:
           id: 1
           name: location 1
         count: 1
-      6:
-        location:
-          id: 6
-          name: location 6
-        count: 1
       7:
         location:
-          id: 8
-          name: location 8
+          id: 10
+          name: location 10
         count: 1
     meta:
       otherEmployeeCount: 2
-      unassignedEmployeeCount: 25
+      unassignedEmployeeCount: 4

@@ -74,27 +74,30 @@ class ChartService
         );
     }
 
+    /**
+     * @param array $locationEmployeeCounts
+     * @return int
+     */
     public function getLocationUnassignedEmployeeCount(array $locationEmployeeCounts): int
     {
         $totalActiveEmployee = $this->chartDao->getTotalActiveEmployeeCount();
 
-        $unassignedEmployeeCount = 0;
+        $assignedEmployeeCount = 0;
         foreach ($locationEmployeeCounts as $locationEmployeeCount)
         {
-            $unassignedEmployeeCount += $locationEmployeeCount->getEmployeeCount();
+            $assignedEmployeeCount += $locationEmployeeCount->getEmployeeCount();
         }
-        return $totalActiveEmployee;
+        return $totalActiveEmployee-$assignedEmployeeCount;
     }
 
+    /**
+     * @param int $limit
+     * @return EmployeeDistributionByLocation
+     */
     public function getEmployeeDistributionByLocation(int $limit=8): EmployeeDistributionByLocation
     {
         $locationEmployeeCount = $this->getChartDao()->getEmployeeDistributionByLocation();
-        usort(
-            $locationEmployeeCount,
-            static function (LocationEmployeeCount $x, LocationEmployeeCount $y) {
-                return $x->getEmployeeCount() < $y->getEmployeeCount();
-            }
-        );
+        $unassignedEmployeeCount =  $this->getLocationUnassignedEmployeeCount($locationEmployeeCount);
 
         $otherArray = [];
         if (count($locationEmployeeCount) > $limit) {
@@ -106,8 +109,6 @@ class ChartService
         foreach ($otherArray as $locationCountPair) {
             $otherCount += $locationCountPair->getEmployeeCount();
         }
-
-        $unassignedEmployeeCount =  $this->getLocationUnassignedEmployeeCount($locationEmployeeCount);
 
         return new EmployeeDistributionByLocation(
             $locationEmployeeCount,

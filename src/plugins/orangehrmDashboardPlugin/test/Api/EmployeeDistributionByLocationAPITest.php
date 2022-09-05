@@ -35,7 +35,7 @@ class EmployeeDistributionByLocationAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ChartDao.yml');
+        $this->populateFixtures('ChartDao.yml', null, true);
         $this->createKernelWithMockServices(
             [Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]
         );

@@ -27,7 +27,7 @@ class EmployeeDistributionByLocation
     private int $limit;
 
     /**
-     * @param array $locationCountPairs
+     * @param LocationEmployeeCount[] $locationCountPairs
      * @param int   $otherEmployeeCount
      * @param int   $unassignedEmployeeCount
      * @param int   $limit
