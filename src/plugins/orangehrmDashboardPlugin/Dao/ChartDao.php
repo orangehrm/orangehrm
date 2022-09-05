@@ -130,6 +130,7 @@ class ChartDao extends BaseDao
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
         $q->addGroupBy('location.id');
         $q->addOrderBy('COUNT(employee.empNumber)', 'DESC');
+        $q->addOrderBy('location.name', 'ASC');
 
         return $q->getQuery()->getResult();
     }

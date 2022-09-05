@@ -79,13 +79,13 @@ class ChartService
      */
     public function getLocationUnassignedEmployeeCount(array $locationEmployeeCounts): int
     {
-        $totalActiveEmployee = $this->chartDao->getTotalActiveEmployeeCount();
+        $totalActiveEmployee = $this->getChartDao()->getTotalActiveEmployeeCount();
 
         $assignedEmployeeCount = 0;
         foreach ($locationEmployeeCounts as $locationEmployeeCount) {
             $assignedEmployeeCount += $locationEmployeeCount->getEmployeeCount();
         }
-        return $totalActiveEmployee-$assignedEmployeeCount;
+        return $totalActiveEmployee - $assignedEmployeeCount;
     }
 
     /**

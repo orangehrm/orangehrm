@@ -7,6 +7,8 @@ GetAll:
       datetime: '2022-07-25'
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     data:
       - id: 67
         date: '2022-12-08'
@@ -27,6 +29,7 @@ GetAll:
           deleted: false
     meta:
       total: 1
+      leavePeriod: null
   'Get all employees on leave in specific day - multiple employee':
     userId: 1
     query:
@@ -35,6 +38,8 @@ GetAll:
       datetime: '2022-07-25'
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     data:
       0:
         id: 68
@@ -92,6 +97,7 @@ GetAll:
           deleted: false
     meta:
       total: 3
+      leavePeriod: null
   'Get all employees on leave in specific day - ESS User':
     userId: 2
     query:
@@ -100,6 +106,8 @@ GetAll:
       datetime: '2022-07-25'
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     data:
       0:
         id: 2
@@ -117,6 +125,7 @@ GetAll:
         startTime: null
     meta:
       total: 1
+      leavePeriod: null
   'Get all employees on leave in specific day - limit, offset':
     userId: 2
     query:
@@ -127,6 +136,8 @@ GetAll:
       datetime: '2022-07-25'
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     data:
       0:
         id: 70
@@ -144,6 +155,7 @@ GetAll:
         startTime: null
     meta:
       total: 3
+      leavePeriod: null
   'Get all employees on leave in specific day - sortOrder, sortField':
     userId: 2
     query:
@@ -153,6 +165,8 @@ GetAll:
       datetime: '2022-07-25'
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     data:
       0:
         id: 68
@@ -198,3 +212,4 @@ GetAll:
         startTime: null
     meta:
       total: 3
+      leavePeriod: null
