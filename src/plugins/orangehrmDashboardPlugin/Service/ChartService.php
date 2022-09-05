@@ -22,7 +22,6 @@ namespace OrangeHRM\Dashboard\Service;
 use OrangeHRM\Dashboard\Dao\ChartDao;
 use OrangeHRM\Dashboard\Dto\EmployeeDistributionByLocation;
 use OrangeHRM\Dashboard\Dto\EmployeeDistributionBySubunit;
-use OrangeHRM\Dashboard\Dto\LocationEmployeeCount;
 use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
 class ChartService
@@ -83,8 +82,7 @@ class ChartService
         $totalActiveEmployee = $this->chartDao->getTotalActiveEmployeeCount();
 
         $assignedEmployeeCount = 0;
-        foreach ($locationEmployeeCounts as $locationEmployeeCount)
-        {
+        foreach ($locationEmployeeCounts as $locationEmployeeCount) {
             $assignedEmployeeCount += $locationEmployeeCount->getEmployeeCount();
         }
         return $totalActiveEmployee-$assignedEmployeeCount;
