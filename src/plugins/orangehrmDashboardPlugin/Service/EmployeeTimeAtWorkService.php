@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Dashboard\Service;
 
+use DateInterval;
 use DateTime;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -43,6 +44,11 @@ class EmployeeTimeAtWorkService
      */
     private TimesheetPeriodService $timesheetPeriodService;
 
+    /**
+     * @var int
+     */
+    private int $totalTimeForWeek = 0;
+
     public function getEmployeeTimeAtWorkDao(): EmployeeTimeAtWorkDao
     {
         return $this->employeeTimeAtWorkDao ??= new EmployeeTimeAtWorkDao();
@@ -62,19 +68,48 @@ class EmployeeTimeAtWorkService
      */
     public function getTimeAtWorkData(int $empNumber): array
     {
+        return $this->getDataForCurrentWeek($empNumber);
+    }
+
+    /**
+     * @param int $empNumber
+     * @return array
+     */
+    public function getTimeAtWorkMetaData(int $empNumber): array
+    {
+        $totalTimeForCurrentDay = $this->getTotalTimeForDayInMinutes($empNumber, $this->getDateTimeHelper()->getNow());
         list($weekStartDate, $weekEndDate) = $this->extractStartDateAndEndDateFromDate(
             $this->getDateTimeHelper()->getNow()
         );
+        $currentDate = $this->getDateTimeHelper()->getNow();
+        $weekStartDate = new DateTime($weekStartDate);
+        $weekEndDate = new DateTime($weekEndDate);
 
         return [
             'lastAction' => $this->getLastActionDetails($empNumber),
-            'currentDate' => [
-                'totalTime' => $this->getCurrentDayTotalTime($empNumber),
+            'currentDay' => [
+                'currentDate' => [
+                    'date' => $this->getDateTimeHelper()->formatDate($currentDate),
+                    'label' => $currentDate->format('M') . ' ' . $currentDate->format('d')
+                ],
+                'totalTime' => [
+                    'hours' => floor($totalTimeForCurrentDay / 60),
+                    'minutes' => $totalTimeForCurrentDay % 60
+                ]
             ],
             'currentWeek' => [
-                'firstDate' => $this->getTimesheetPeriodService()->getTimesheetStartDate(),
-                'startDate' => $weekStartDate,
-                'endDate' => $weekEndDate,
+                'startDate' => [
+                    'date' => $this->getDateTimeHelper()->formatDate($weekStartDate),
+                    'label' => $weekStartDate->format('M') . ' ' . $weekStartDate->format('d')
+                ],
+                'endDate' => [
+                    'date' => $this->getDateTimeHelper()->formatDate($weekEndDate),
+                    'label' => $weekEndDate->format('M') . ' ' . $weekEndDate->format('d')
+                ],
+                'totalTime' => [
+                    'hours' => floor($this->totalTimeForWeek / 60),
+                    'minutes' => $this->totalTimeForWeek % 60
+                ]
             ]
         ];
     }
@@ -109,22 +144,23 @@ class EmployeeTimeAtWorkService
 
     /**
      * @param int $empNumber
+     * @param DateTime $dateTime
      * @return int
      */
-    public function getCurrentDayTotalTime(int $empNumber): int
+    public function getTotalTimeForDayInMinutes(int $empNumber, DateTime $dateTime): int
     {
         //TODO:: Handle when punch in date and punch out date are different
         $attendanceRecords = $this->getEmployeeTimeAtWorkDao()
-            ->getAttendanceRecordsByEmployeeAndDate(
-                $empNumber,
-                $this->getDateTimeHelper()->getNow()
-            );
+            ->getAttendanceRecordsByEmployeeAndDate($empNumber, $dateTime);
         $totalTime = 0;
         foreach ($attendanceRecords as $attendanceRecord) {
             if ($attendanceRecord->getState() === self::STATE_PUNCHED_OUT) {
                 $punchedInUTC = $attendanceRecord->getPunchInUtcTime();
                 $punchOutUTC = $attendanceRecord->getPunchOutUtcTime();
-                $totalTime = $totalTime + $punchOutUTC->diff($punchedInUTC)->i;
+                $totalTime = $totalTime + (
+                        $punchOutUTC->diff($punchedInUTC)->h * 60 +
+                        $punchOutUTC->diff($punchedInUTC)->i
+                    );
             }
         }
         return $totalTime;
@@ -142,4 +178,36 @@ class EmployeeTimeAtWorkService
         $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
         return [$startDate, $endDate];
     }
+
+    /**
+     * @param int $empNumber
+     * @return array
+     */
+    private function getDataForCurrentWeek(int $empNumber): array
+    {
+        list($startDate) = $this->extractStartDateAndEndDateFromDate($this->getDateTimeHelper()->getNow());
+        $counter = 0;
+        $date = new DateTime($startDate);
+        $weeklyData = [];
+        while ($counter < 7) {
+            $totalTimeForDay = $this->getTotalTimeForDayInMinutes($empNumber, $date);
+            $weeklyData[] = [
+                'workDay' => [
+                    'id' => $date->format('w'),
+                    'day' => $date->format('D'),
+                    'date' => $this->getDateTimeHelper()->formatDate($date),
+                ],
+                'totalTime' => [
+                    'hours' => floor($totalTimeForDay / 60),
+                    'minutes' => $totalTimeForDay % 60
+                ],
+            ];
+            $date = clone $date;
+            $date = $date->add(new DateInterval('P1D'));
+            $this->totalTimeForWeek = $this->totalTimeForWeek + $totalTimeForDay;
+            $counter++;
+        }
+        return $weeklyData;
+    }
+
 }

@@ -23,6 +23,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -49,7 +50,11 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
         );
         $timeAtWorkService = new EmployeeTimeAtWorkService();
 
-        return new EndpointResourceResult(ArrayModel::class, $timeAtWorkService->getTimeAtWorkData($empNumber));
+        return new EndpointResourceResult(
+            ArrayModel::class,
+            $timeAtWorkService->getTimeAtWorkData($empNumber),
+            new ParameterBag($timeAtWorkService->getTimeAtWorkMetaData($empNumber))
+        );
     }
 
     /**
