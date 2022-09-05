@@ -75,7 +75,6 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
                     self::$serverConfig->port,
                     'OpenLDAP',
                     self::$serverConfig->encryption,
-                    ''
                 )
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
@@ -122,7 +121,6 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
             self::$serverConfig->port,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapTestService = new LDAPTestService($ldapSettings);
         $ldapTestService->testConnection();
@@ -136,7 +134,6 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
             self::$serverConfig->port,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
@@ -151,7 +148,6 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
             89,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
@@ -166,7 +162,6 @@ class LDAPTestServiceAnonBindTest extends KernelTestCase
             389,
             'OpenLDAP',
             'ssl',
-            ''
         );
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);

@@ -28,11 +28,18 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\LDAP\Api\Model\LDAPTestConnectionModel;
+use OrangeHRM\LDAP\Api\Traits\LDAPDataMapParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 
 class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
 {
+    use ValidatorTrait;
+    use LDAPDataMapParamRuleCollection;
+
+    public const PARAMETER_ENABLED = 'enable';
     public const PARAMETER_HOSTNAME = 'hostname';
     public const PARAMETER_PORT = 'port';
     public const PARAMETER_ENCRYPTION = 'encryption';
@@ -41,12 +48,28 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_BIND_ANONYMOUSLY = 'bindAnonymously';
     public const PARAMETER_BIND_USER_DISTINGUISHED_NAME = 'bindUserDN';
     public const PARAMETER_BIND_USER_PASSWORD = 'bindUserPassword';
-    public const PARAMETER_BASE_DISTINGUISHED_NAME = 'baseDN';
 
-    public const PARAMETER_RULE_HOST_NAME_MAX_LENGTH = 255;
-    public const PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH = 255;
-    public const PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH = 255;
-    public const PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
+    public const PARAMETER_USER_LOOKUP_SETTINGS = 'userLookupSettings';
+    public const PARAMETER_BASE_DISTINGUISHED_NAME = 'baseDN';
+    public const PARAMETER_SEARCH_SCOPE = 'searchScope';
+    public const PARAMETER_USER_NAME_ATTRIBUTE = 'userNameAttribute';
+    public const PARAMETER_USER_UNIQUE_ID_ATTRIBUTE = 'userUniqueIdAttribute';
+    public const PARAMETER_USER_SEARCH_FILTER = 'userSearchFilter';
+
+    public const PARAMETER_DATA_MAPPING = 'dataMapping';
+    public const PARAMETER_FIRST_NAME = 'firstName';
+    public const PARAMETER_MIDDLE_NAME = 'middleName';
+    public const PARAMETER_LAST_NAME = 'lastName';
+    public const PARAMETER_USER_STATUS = 'userStatus';
+    public const PARAMETER_WORK_EMAIL = 'workEmail';
+    public const PARAMETER_EMPLOYEE_ID = 'employeeId';
+
+    public const PARAMETER_GROUP_OBJECT_CLASS = 'groupObjectClass';
+    public const PARAMETER_GROUP_OBJECT_FILTER = 'groupObjectFilter';
+    public const PARAMETER_GROUP_NAME_ATTRIBUTE = 'groupNameAttribute';
+    public const PARAMETER_GROUP_MEMBERS_ATTRIBUTE = 'groupMembersAttribute';
+    public const PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE = 'groupMembershipAttribute';
+    public const PARAMETER_SYNC_INTERVAL = 'syncInterval';
 
     public const ENCRYPTION_NONE = 'none';
     public const ENCRYPTION_TLS = 'tls';
@@ -54,6 +77,11 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
 
     public const LDAP_IMPLEMENTATION_OPEN_LDAP = 'OpenLDAP';
     public const LDAP_IMPLEMENTATION_ACTIVE_DIRECTORY = 'ActiveDirectory';
+
+    public const PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH = 100;
+    public const PARAMETER_RULE_HOST_NAME_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH = 255;
 
     /**
      * @inheritDoc
@@ -76,6 +104,19 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
      */
     public function create(): EndpointResult
     {
+        $dataMapping = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DATA_MAPPING
+        );
+        $this->validate($dataMapping, $this->getParamRuleCollection());
+
+        $userLookupSettings = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_USER_LOOKUP_SETTINGS
+        );
+        // TODO
+        //$this->validate($userLookupSettings, $this->getParamRuleCollectionForUserLookupSettings());
+
         $ldapSettings = new LDAPSetting(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
@@ -93,13 +134,11 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_ENCRYPTION
             ),
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_BASE_DISTINGUISHED_NAME
-            )
         );
 
         $this->setConfigAttributes($ldapSettings);
+        $this->setDataMappingAttributes($ldapSettings, $dataMapping);
+        $this->setUserLookupSettings($ldapSettings, $userLookupSettings);
         return new EndpointResourceResult(LDAPTestConnectionModel::class, $ldapSettings);
     }
 
@@ -121,19 +160,80 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
                 )
             );
 
-            $ldapSetting->setBindUserPassword(
-                $this->getRequestParams()->getString(
-                    RequestParams::PARAM_TYPE_BODY,
-                    self::PARAMETER_BIND_USER_PASSWORD
-                )
-            );
-        }
-        $ldapSetting->setBaseDN(
-            $this->getRequestParams()->getStringOrNull(
+            $password = $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_BASE_DISTINGUISHED_NAME
+                self::PARAMETER_BIND_USER_PASSWORD
+            );
+            if (!is_null($password)) {
+                $ldapSetting->setBindUserPassword($password);
+            }
+        } else {
+            $ldapSetting->setBindUserDN(null);
+            $ldapSetting->setBindUserPassword(null);
+        }
+
+        $ldapSetting->setEnable(
+            $this->getRequestParams()->getBoolean(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_ENABLED
             )
         );
+        $ldapSetting->setGroupObjectClass(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_GROUP_OBJECT_CLASS
+            )
+        );
+        $ldapSetting->setGroupObjectFilter(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_GROUP_OBJECT_FILTER
+            )
+        );
+        $ldapSetting->setGroupNameAttribute(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_GROUP_NAME_ATTRIBUTE
+            )
+        );
+        $ldapSetting->setGroupMembersAttribute(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_GROUP_MEMBERS_ATTRIBUTE
+            )
+        );
+        $ldapSetting->setGroupMembershipAttribute(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE
+            )
+        );
+        $ldapSetting->setSyncInterval(
+            $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_SYNC_INTERVAL
+            )
+        );
+    }
+
+    /**
+     * @param LDAPSetting $ldapSetting
+     * @param array $dataMapping
+     */
+    private function setDataMappingAttributes(LDAPSetting $ldapSetting, array $dataMapping): void
+    {
+        $ldapSetting->getDataMapping()->setAttributeNames($dataMapping);
+    }
+
+    /**
+     * @param LDAPSetting $ldapSetting
+     * @param array $userLookupSettings
+     */
+    private function setUserLookupSettings(LDAPSetting $ldapSetting, array $userLookupSettings): void
+    {
+        foreach ($userLookupSettings as $userLookupSetting) {
+            $ldapSetting->addUserLookupSetting(LDAPUserLookupSetting::createFromArray($userLookupSetting));
+        }
     }
 
     /**
@@ -142,6 +242,10 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_ENABLED,
+                new Rule(Rules::BOOL_VAL)
+            ),
             new ParamRule(
                 self::PARAMETER_HOSTNAME,
                 new Rule(Rules::STRING_TYPE),
@@ -180,7 +284,7 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_BIND_ANONYMOUSLY,
-                new Rule(Rules::BOOL_TYPE)
+                new Rule(Rules::BOOL_VAL)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -196,12 +300,42 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH])
                 )
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_BASE_DISTINGUISHED_NAME,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH])
-                )
+            new ParamRule(
+                self::PARAMETER_GROUP_OBJECT_CLASS,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_GROUP_OBJECT_FILTER,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_GROUP_NAME_ATTRIBUTE,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_GROUP_MEMBERS_ATTRIBUTE,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_SYNC_INTERVAL,
+                new Rule(Rules::NUMBER),
+            ),
+            new ParamRule(
+                self::PARAMETER_DATA_MAPPING,
+                new Rule(Rules::ARRAY_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_USER_LOOKUP_SETTINGS,
+                new Rule(Rules::ARRAY_TYPE)
             ),
         );
     }

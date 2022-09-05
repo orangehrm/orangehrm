@@ -85,7 +85,6 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_RULE_HOST_NAME_MAX_LENGTH = 255;
     public const PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH = 255;
     public const PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH = 255;
-    public const PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
 
     /**
      * @inheritDoc

@@ -79,7 +79,6 @@ class LDAPTestServiceTest extends KernelTestCase
                     self::$serverConfig->port,
                     'OpenLDAP',
                     self::$serverConfig->encryption,
-                    ''
                 )
             );
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
@@ -126,7 +125,6 @@ class LDAPTestServiceTest extends KernelTestCase
             self::$serverConfig->port,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapSettings->setBindUserDN(self::$serverConfig->adminDN);
         $ldapSettings->setBindUserPassword(self::$serverConfig->adminPassword);
@@ -142,7 +140,6 @@ class LDAPTestServiceTest extends KernelTestCase
             self::$serverConfig->port,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapTestService = new LDAPTestService($ldapSettings);
         $this->expectException(ConnectionException::class);
@@ -157,7 +154,6 @@ class LDAPTestServiceTest extends KernelTestCase
             self::$serverConfig->port,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapSettings->setBindUserDN(self::INVALID_USER_NAME);
         $ldapSettings->setBindUserPassword(self::$serverConfig->adminPassword);
@@ -174,7 +170,6 @@ class LDAPTestServiceTest extends KernelTestCase
             self::$serverConfig->port,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapSettings->setBindUserDN(self::INVALID_USER_NAME_SYNTAX);
         $ldapSettings->setBindUserPassword(self::$serverConfig->adminPassword);
@@ -192,7 +187,6 @@ class LDAPTestServiceTest extends KernelTestCase
             self::$serverConfig->port,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapSettings->setBindUserDN(self::$serverConfig->adminDN);
         $ldapSettings->setBindUserPassword(self::INVALID_PASSWORD);
@@ -209,7 +203,6 @@ class LDAPTestServiceTest extends KernelTestCase
             self::$serverConfig->port,
             'OpenLDAP',
             self::$serverConfig->encryption,
-            ''
         );
         $ldapSettings->setBindUserDN(self::$serverConfig->adminDN);
         $ldapSettings->setBindUserPassword(self::$serverConfig->adminPassword);
@@ -221,7 +214,7 @@ class LDAPTestServiceTest extends KernelTestCase
 
     public function testInvalidPort(): void
     {
-        $ldapSettings = new LDAPSetting(self::$serverConfig->host, 89, 'OpenLDAP', self::$serverConfig->encryption, '');
+        $ldapSettings = new LDAPSetting(self::$serverConfig->host, 89, 'OpenLDAP', self::$serverConfig->encryption);
         $ldapSettings->setBindUserDN(self::$serverConfig->adminDN);
         $ldapSettings->setBindUserPassword(self::$serverConfig->adminPassword);
         $ldapTestService = new LDAPTestService($ldapSettings);
@@ -232,7 +225,7 @@ class LDAPTestServiceTest extends KernelTestCase
 
     public function testEncryptionWithPort(): void
     {
-        $ldapSettings = new LDAPSetting(self::$serverConfig->host, 389, 'OpenLDAP', 'ssl', '');
+        $ldapSettings = new LDAPSetting(self::$serverConfig->host, 389, 'OpenLDAP', 'ssl');
         $ldapSettings->setBindUserDN(self::$serverConfig->adminDN);
         $ldapSettings->setBindUserPassword(self::$serverConfig->adminPassword);
         $ldapTestService = new LDAPTestService($ldapSettings);
