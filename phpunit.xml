@@ -101,5 +101,8 @@
     <testsuite name="CorporateBranding">
       <directory>src/plugins/orangehrmCorporateBrandingPlugin/test</directory>
     </testsuite>
+    <testsuite name="Dashboard">
+      <directory>src/plugins/orangehrmDashboardPlugin/test</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

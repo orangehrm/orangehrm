@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Admin\Service\LocationService;
+use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Customer;
@@ -57,6 +58,7 @@ class AdminUserRole extends AbstractUserRole
     use CandidateServiceTrait;
     use RecruitmentAttachmentServiceTrait;
     use VacancyServiceTrait;
+    use QuickLaunchServiceTrait;
 
     protected ?LocationService $locationService = null;
 
@@ -301,5 +303,15 @@ class AdminUserRole extends AbstractUserRole
     {
         $candidateActionHistory = new CandidateActionHistory();
         return $candidateActionHistory->getAccessibleCandidateActionHistoryIds();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccessibleQuickLaunchList(array $requiredPermissions): array
+    {
+        return $this->getQuickLaunchService()
+            ->getQuickLaunchDao()
+            ->getQuickLaunchList();
     }
 }

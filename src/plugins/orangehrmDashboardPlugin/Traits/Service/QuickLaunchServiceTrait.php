@@ -14,38 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
+namespace OrangeHRM\Dashboard\Traits\Service;
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Dashboard\Service\ChartService;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
 use OrangeHRM\Dashboard\Service\QuickLaunchService;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 
-class DashboardPluginConfiguration implements PluginConfigurationInterface
+trait QuickLaunchServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return QuickLaunchService
      */
-    public function initialize(Request $request): void
+    protected function getQuickLaunchService(): QuickLaunchService
     {
-        $this->getContainer()->register(
-            Services::EMPLOYEE_ON_LEAVE_SERVICE,
-            EmployeeOnLeaveService::class
-        );
-
-        $this->getContainer()->register(
-            Services::CHART_SERVICE,
-            ChartService::class
-        );
-        $this->getContainer()->register(
-            Services::QUICK_LAUNCH_SERVICE,
-            QuickLaunchService::class
-        );
+        return $this->getContainer()->get(Services::QUICK_LAUNCH_SERVICE);
     }
 }

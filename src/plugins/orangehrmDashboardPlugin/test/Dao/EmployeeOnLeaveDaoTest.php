@@ -30,6 +30,10 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Dashboard
+ * @group Dao
+ */
 class EmployeeOnLeaveDaoTest extends KernelTestCase
 {
     private EmployeeOnLeaveDao $employeeOnLeaveDao;

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -33,6 +34,7 @@ class EssUserRole extends AbstractUserRole
     use PerformanceTrackerServiceTrait;
     use PerformanceTrackerLogServiceTrait;
     use PerformanceReviewServiceTrait;
+    use QuickLaunchServiceTrait;
 
     public const ALLOWED_REVIEW_STATUSES = 'allowed_review_statuses';
 
@@ -91,5 +93,15 @@ class EssUserRole extends AbstractUserRole
         return $this->getPerformanceTrackerLogService()
             ->getPerformanceTrackerLogDao()
             ->getPerformanceTrackerLogIdsByUserId($this->getAuthUser()->getUserId());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccessibleQuickLaunchList(array $requiredPermissions): array
+    {
+        return $this->getQuickLaunchService()
+            ->getQuickLaunchDao()
+            ->getQuickLaunchListForESS();
     }
 }

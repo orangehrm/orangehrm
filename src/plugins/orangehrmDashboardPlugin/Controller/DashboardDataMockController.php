@@ -46,7 +46,7 @@ class DashboardDataMockController extends AbstractController
     {
         $response = new Response();
 
-        // Add fake data and sort 
+        // Add fake data and sort
         $locations = array_map(function ($value) {
             return [
                 "location" => $value,

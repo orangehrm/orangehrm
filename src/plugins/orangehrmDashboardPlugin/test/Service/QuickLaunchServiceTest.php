@@ -14,24 +14,30 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Dashboard\Traits\Service;
+namespace OrangeHRM\Tests\Dashboard\Service;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Dashboard\Dao\QuickLaunchDao;
+use OrangeHRM\Dashboard\Service\QuickLaunchService;
+use OrangeHRM\Tests\Util\TestCase;
 
-trait EmployeeOnLeaveServiceTrait
+/**
+ * @group Dashboard
+ * @group Service
+ */
+class QuickLaunchServiceTest extends TestCase
 {
-    use ServiceContainerTrait;
+    private QuickLaunchService $quickLaunchService;
 
-    /**
-     * @return EmployeeOnLeaveService
-     */
-    protected function getEmployeeOnLeaveService(): EmployeeOnLeaveService
+    protected function setUp(): void
     {
-        return $this->getContainer()->get(Services::EMPLOYEE_ON_LEAVE_SERVICE);
+        $this->quickLaunchService = new QuickLaunchService();
+    }
+
+    public function testGetQuickLaunchDao(): void
+    {
+        $this->assertInstanceOf(QuickLaunchDao::class, $this->quickLaunchService->getQuickLaunchDao());
     }
 }
