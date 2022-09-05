@@ -919,6 +919,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
+     * Returns an array of accessible quick launch items
+     * e.g. - ['leave.leave_list', 'leave.my_leave', 'time.my_timesheet']
+     *
      * @param string[] $rolesToExclude
      * @param string[] $rolesToInclude
      * @param array $requiredPermissions

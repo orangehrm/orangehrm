@@ -13,7 +13,7 @@ apiv2_dashboard_employees_by_subunit:
     _api: OrangeHRM\Dashboard\Api\EmployeeDistributionBySubunitAPI
 
 apiv2_dashboard_quick_launch:
-  path: /api/v2/dashboard/quick-launch
+  path: /api/v2/dashboard/shortcuts
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:

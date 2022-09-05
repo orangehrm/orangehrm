@@ -27,6 +27,6 @@ class QuickLaunchService
 
     public function getQuickLaunchDao(): QuickLaunchDao
     {
-        return $this->quickLaunchDao ?? new QuickLaunchDao();
+        return $this->quickLaunchDao ??= new QuickLaunchDao();
     }
 }

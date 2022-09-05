@@ -102,9 +102,7 @@
       <directory>src/plugins/orangehrmCorporateBrandingPlugin/test</directory>
     </testsuite>
     <testsuite name="Dashboard">
-      <directory>src/plugins/orangehrmDashboardPlugin/test/Service</directory>
-      <directory>src/plugins/orangehrmDashboardPlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmDashboardPlugin/test/Api</directory>
+      <directory>src/plugins/orangehrmDashboardPlugin/test</directory>
     </testsuite>
   </testsuites>
 </phpunit>
