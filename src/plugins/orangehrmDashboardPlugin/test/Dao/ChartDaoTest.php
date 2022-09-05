@@ -80,4 +80,21 @@ class ChartDaoTest extends KernelTestCase
         $this->assertEquals(7, $result[2]->getSubunit()->getId());
         $this->assertEquals(1, $result[3]->getSubunit()->getLevel());
     }
+
+    public function testGetEmployeeDistributionByLocation(): void
+    {
+        $result = $this->chartDao->getEmployeeDistributionByLocation();
+
+        $this->assertTrue(is_array($this->chartDao->getEmployeeDistributionByLocation()));
+        $this->assertCount(10, $result);
+        $this->assertEquals('location 2', $result[0]->getLocationName());
+        $this->assertEquals('4', $result[1]->getLocationId());
+        $this->assertEquals('2', $result[3]->getEmployeeCount());
+    }
+
+    public function testGetTotalActiveEmployeeCount(): void
+    {
+        $result = $this->chartDao->getTotalActiveEmployeeCount();
+        $this->assertEquals(25, $result);
+    }
 }

@@ -20,7 +20,9 @@
 namespace OrangeHRM\Dashboard\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Dashboard\Dto\LocationEmployeeCount;
 use OrangeHRM\Dashboard\Dto\SubunitCountPair;
+use OrangeHRM\Entity\EmpLocations;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Subunit;
 use OrangeHRM\ORM\QueryBuilderWrapper;
@@ -85,13 +87,51 @@ class ChartDao extends BaseDao
 
         if (!is_null($employeeSearchFilterParams->getSubunitId())) {
             $q->andWhere($q->expr()->in('subunit.id', ':subunitId'))
-                ->setParameter('subunitId', $employeeSearchFilterParams->getSubunitIdChain());
+                ->setParameter(
+                    'subunitId',
+                    $employeeSearchFilterParams->getSubunitIdChain()
+                );
         }
 
         if (is_null($employeeSearchFilterParams->getSubunitId())) {
             $q->andWhere($q->expr()->isNull('employee.subDivision'));
         }
 
+        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
+
         return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalActiveEmployeeCount(): int
+    {
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
+
+        return $this->count($q);
+    }
+
+    /**
+     * @return LocationEmployeeCount[]
+     */
+    public function getEmployeeDistributionByLocation(): array
+    {
+        $select = 'NEW ' . LocationEmployeeCount::class .
+            '(location.id, location.name, COUNT(employee.empNumber))';
+        $q = $this->createQueryBuilder(EmpLocations::class, 'el')
+            ->leftJoin('el.employee', 'employee')
+            ->leftJoin('el.location', 'location')
+            ->select($select);
+        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
+        $q->addGroupBy('location.id');
+        $q->addOrderBy('COUNT(employee.empNumber)', 'DESC');
+        $q->addOrderBy('location.name', 'ASC');
+
+        return $q->getQuery()->getResult();
     }
 }

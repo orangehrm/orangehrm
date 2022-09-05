@@ -59,3 +59,45 @@ User:
   - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Duval","user_password": "Duval","deleted": "0","status": "1","date_entered": "2022-09-15 16:48:40","created_by": "1" }
   - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": "0","status": "1","date_entered": "2022-09-15 20:05:27","created_by": "1" }
   - { "id": 6, "user_role_id": 3, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": "0","status": "1","date_entered": "2022-09-15 20:50:02","created_by": "1" }
+
+Country:
+  0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144}
+  1: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840}
+  2: {cou_code: 'SG', name: 'SINGAPORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702}
+  3: {cou_code: 'BR', name: 'BRAZIL', cou_name: 'Brazil', iso3: 'BRA', numcode: 076}
+  4: {cou_code: 'JP', name: 'JAPAN', cou_name: 'Japan', iso3: 'JPN', numcode: 392}
+
+Location:
+  0: {id: 1, name: 'location 1', country_code: 'LK', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
+  1: {id: 2, name: 'location 2', country_code: 'BR', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+  2: {id: 3, name: 'location 3', country_code: 'US', province: 'AK', city: 'city 3', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
+  3: {id: 4, name: 'location 4', country_code: 'US', province: 'TX', city: 'city 3', address: 'address 4', zip_code: 'zip004', phone: '0777000004', fax: '0112000004', notes: 'note 4' }
+  4: {id: 5, name: 'location 5', country_code: 'SG', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
+  5: {id: 6, name: 'location 6', country_code: 'BR', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+  6: {id: 7, name: 'location 7', country_code: 'US', province: 'AK', city: 'city 3', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
+  7: {id: 8, name: 'location 8', country_code: 'US', province: 'TX', city: 'city 3', address: 'address 4', zip_code: 'zip004', phone: '0777000004', fax: '0112000004', notes: 'note 4' }
+  8: {id: 9, name: 'location 9', country_code: 'JP', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
+  9: {id: 10, name: 'location 10', country_code: 'JP', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+
+EmpLocations:
+  0: {emp_number: 1, location_id: 1 }
+  1: {emp_number: 2, location_id: 2 }
+  2: {emp_number: 3, location_id: 2 }
+  3: {emp_number: 4, location_id: 2 }
+  4: {emp_number: 5, location_id: 4 }
+  5: {emp_number: 6, location_id: 3 }
+  6: {emp_number: 7, location_id: 5 }
+  7: {emp_number: 8, location_id: 7 }
+  8: {emp_number: 9, location_id: 7 }
+  9: {emp_number: 10, location_id: 8 }
+  10: {emp_number: 11, location_id: 9 }
+  11: {emp_number: 12, location_id: 10 }
+  12: {emp_number: 13, location_id: 4 }
+  13: {emp_number: 14, location_id: 3 }
+  14: {emp_number: 17, location_id: 5 }
+  15: {emp_number: 18, location_id: 6 }
+  16: {emp_number: 21, location_id: 2 }
+  17: {emp_number: 18, location_id: 2 }
+  18: {emp_number: 19, location_id: 4 }
+  19: {emp_number: 20, location_id: 4 }
+  20: {emp_number: 22, location_id: 5 }

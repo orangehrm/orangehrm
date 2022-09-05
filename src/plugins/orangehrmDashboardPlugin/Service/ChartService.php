@@ -20,6 +20,7 @@
 namespace OrangeHRM\Dashboard\Service;
 
 use OrangeHRM\Dashboard\Dao\ChartDao;
+use OrangeHRM\Dashboard\Dto\EmployeeDistributionByLocation;
 use OrangeHRM\Dashboard\Dto\EmployeeDistributionBySubunit;
 use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 
@@ -69,6 +70,49 @@ class ChartService
             $otherCount,
             $this->getChartDao()->getUnassignedEmployeeCount(),
             $limit
+        );
+    }
+
+    /**
+     * @param array $locationEmployeeCounts
+     * @return int
+     */
+    public function getLocationUnassignedEmployeeCount(array $locationEmployeeCounts): int
+    {
+        $totalActiveEmployee = $this->getChartDao()->getTotalActiveEmployeeCount();
+
+        $assignedEmployeeCount = 0;
+        foreach ($locationEmployeeCounts as $locationEmployeeCount) {
+            $assignedEmployeeCount += $locationEmployeeCount->getEmployeeCount();
+        }
+        return $totalActiveEmployee - $assignedEmployeeCount;
+    }
+
+    /**
+     * @param int $limit
+     * @return EmployeeDistributionByLocation
+     */
+    public function getEmployeeDistributionByLocation(int $limit=8): EmployeeDistributionByLocation
+    {
+        $locationEmployeeCount = $this->getChartDao()->getEmployeeDistributionByLocation();
+        $unassignedEmployeeCount =  $this->getLocationUnassignedEmployeeCount($locationEmployeeCount);
+
+        $otherArray = [];
+        if (count($locationEmployeeCount) > $limit) {
+            $otherArray = array_slice($locationEmployeeCount, $limit);
+            $locationEmployeeCount = array_slice($locationEmployeeCount, 0, $limit);
+        }
+
+        $otherCount = 0;
+        foreach ($otherArray as $locationCountPair) {
+            $otherCount += $locationCountPair->getEmployeeCount();
+        }
+
+        return new EmployeeDistributionByLocation(
+            $locationEmployeeCount,
+            $otherCount,
+            $unassignedEmployeeCount,
+            $limit,
         );
     }
 }
