@@ -5,3 +5,10 @@ apiv2_admin_ldap_configuration:
   defaults:
     id: 0
     _api: OrangeHRM\LDAP\Api\LDAPConfigAPI
+
+apiv2_admin_ldap_test_connection:
+  path: /api/v2/admin/ldap-test-connection
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\LDAP\Api\LDAPTestConnectionAPI
