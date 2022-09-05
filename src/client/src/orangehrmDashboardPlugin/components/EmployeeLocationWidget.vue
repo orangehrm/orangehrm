@@ -50,7 +50,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/employees/location',
+      'api/v2/dashboard/employees/locations',
     );
 
     return {
@@ -89,7 +89,7 @@ export default {
               ? {
                   value: item.count,
                   color: colors[index],
-                  label: item.location.label,
+                  label: item.location.name,
                 }
               : false;
           })
