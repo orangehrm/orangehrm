@@ -21,9 +21,12 @@ namespace OrangeHRM\Dashboard\Service;
 
 use DateInterval;
 use DateTime;
+use Exception;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Dashboard\Dao\EmployeeTimeAtWorkDao;
+use OrangeHRM\Dashboard\Dto\TimeAtWorkLastActionDetails;
+use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Time\Service\TimesheetPeriodService;
 
 class EmployeeTimeAtWorkService
@@ -65,6 +68,7 @@ class EmployeeTimeAtWorkService
     /**
      * @param int $empNumber
      * @return array
+     * @throws Exception
      */
     public function getTimeAtWorkData(int $empNumber): array
     {
@@ -74,43 +78,53 @@ class EmployeeTimeAtWorkService
     /**
      * @param int $empNumber
      * @return array
+     * @throws Exception
      */
     public function getTimeAtWorkMetaData(int $empNumber): array
     {
-        $totalTimeForCurrentDay = $this->getTotalTimeForDayInMinutes($empNumber, $this->getDateTimeHelper()->getNow());
-        list($weekStartDate, $weekEndDate) = $this->extractStartDateAndEndDateFromDate(
-            $this->getDateTimeHelper()->getNow()
-        );
+        //TODO::Determine whether current date is server date or date from the client side
         $currentDate = $this->getDateTimeHelper()->getNow();
+        $totalTimeForCurrentDay = $this->getTotalTimeForGivenDate($empNumber, $currentDate);
+        list($weekStartDate, $weekEndDate) = $this->extractStartDateAndEndDateFromDate($currentDate);
+
         $weekStartDate = new DateTime($weekStartDate);
         $weekEndDate = new DateTime($weekEndDate);
 
         return [
             'lastAction' => $this->getLastActionDetails($empNumber),
             'currentDay' => [
-                'currentDate' => [
-                    'date' => $this->getDateTimeHelper()->formatDate($currentDate),
-                    'label' => $currentDate->format('M') . ' ' . $currentDate->format('d')
-                ],
-                'totalTime' => [
-                    'hours' => floor($totalTimeForCurrentDay / 60),
-                    'minutes' => $totalTimeForCurrentDay % 60
-                ]
+                'currentDate' => $this->getDateDetails($currentDate),
+                'totalTime' => $this->getTimeInHoursAndMinutes($totalTimeForCurrentDay)
             ],
             'currentWeek' => [
-                'startDate' => [
-                    'date' => $this->getDateTimeHelper()->formatDate($weekStartDate),
-                    'label' => $weekStartDate->format('M') . ' ' . $weekStartDate->format('d')
-                ],
-                'endDate' => [
-                    'date' => $this->getDateTimeHelper()->formatDate($weekEndDate),
-                    'label' => $weekEndDate->format('M') . ' ' . $weekEndDate->format('d')
-                ],
-                'totalTime' => [
-                    'hours' => floor($this->totalTimeForWeek / 60),
-                    'minutes' => $this->totalTimeForWeek % 60
-                ]
+                'startDate' => $this->getDateDetails($weekStartDate),
+                'endDate' => $this->getDateDetails($weekEndDate),
+                'totalTime' => $this->getTimeInHoursAndMinutes($this->totalTimeForWeek)
             ]
+        ];
+    }
+
+    /**
+     * @param DateTime $dateTime
+     * @return array eg:- returns ['date' => 2022-09-05, 'label' => 'Sep 05']
+     */
+    private function getDateDetails(DateTime $dateTime): array
+    {
+        return [
+            'date' => $this->getDateTimeHelper()->formatDate($dateTime),
+            'label' => $dateTime->format('M') . ' ' . $dateTime->format('d')
+        ];
+    }
+
+    /**
+     * @param int $timeInMinutes
+     * @return array eg:- for 80 minutes, this returns [ 'hours' => 1, 'minutes => 10 ]
+     */
+    private function getTimeInHoursAndMinutes(int $timeInMinutes): array
+    {
+        return [
+            'hours' => floor($timeInMinutes / 60),
+            'minutes' => $timeInMinutes % 60
         ];
     }
 
@@ -121,46 +135,87 @@ class EmployeeTimeAtWorkService
     private function getLastActionDetails(int $empNumber): array
     {
         $attendanceRecord = $this->getEmployeeTimeAtWorkDao()->getLatestAttendanceRecordByEmpNumber($empNumber);
-        if ($attendanceRecord->getState() === self::STATE_PUNCHED_IN) {
-            return [
-                'state' => $attendanceRecord->getState(),
-                'utcDate' => $attendanceRecord->getDecorator()->getPunchInUTCDate(),
-                'utcTime' => $attendanceRecord->getDecorator()->getPunchInUTCTime(),
-                'userDate' => $attendanceRecord->getDecorator()->getPunchInUserDate(),
-                'userTime' => $attendanceRecord->getDecorator()->getPunchInUserTime(),
-                'timezoneOffset' => $attendanceRecord->getPunchInTimeOffset()
-            ];
+        if (!$attendanceRecord instanceof AttendanceRecord) {
+            $actionDetails = new TimeAtWorkLastActionDetails();
+        } elseif ($attendanceRecord->getState() === self::STATE_PUNCHED_IN) {
+            $actionDetails = new TimeAtWorkLastActionDetails(
+                $attendanceRecord->getState(),
+                $attendanceRecord->getDecorator()->getPunchInUTCDate(),
+                $attendanceRecord->getDecorator()->getPunchInUTCTime(),
+                $attendanceRecord->getDecorator()->getPunchInUserDate(),
+                $attendanceRecord->getDecorator()->getPunchInUserTime(),
+                $attendanceRecord->getPunchInTimeOffset()
+            );
         } else {
-            return [
-                'state' => $attendanceRecord->getState(),
-                'utcDate' => $attendanceRecord->getDecorator()->getPunchOutUTCDate(),
-                'utcTime' => $attendanceRecord->getDecorator()->getPunchOutUTCTime(),
-                'userDate' => $attendanceRecord->getDecorator()->getPunchOutUserDate(),
-                'userTime' => $attendanceRecord->getDecorator()->getPunchOutUserTime(),
-                'timezoneOffset' => $attendanceRecord->getPunchOutTimeOffset()
-            ];
+            $actionDetails = new TimeAtWorkLastActionDetails(
+                $attendanceRecord->getState(),
+                $attendanceRecord->getDecorator()->getPunchOutUTCDate(),
+                $attendanceRecord->getDecorator()->getPunchOutUTCTime(),
+                $attendanceRecord->getDecorator()->getPunchOutUserDate(),
+                $attendanceRecord->getDecorator()->getPunchOutUserTime(),
+                $attendanceRecord->getPunchOutTimeOffset()
+            );
         }
+        return [
+            'state' => $actionDetails->getState(),
+            'utcDate' => $actionDetails->getUtcDate(),
+            'utcTime' => $actionDetails->getUtcTime(),
+            'userDate' => $actionDetails->getUserDate(),
+            'userTime' => $actionDetails->getUserTime(),
+            'timezoneOffset' => $actionDetails->getTimezoneOffset()
+        ];
     }
 
     /**
      * @param int $empNumber
-     * @param DateTime $dateTime
-     * @return int
+     * @param DateTime $givenDateTime
+     * @return int total time will be returned in minutes
+     * @throws Exception
      */
-    public function getTotalTimeForDayInMinutes(int $empNumber, DateTime $dateTime): int
+    public function getTotalTimeForGivenDate(int $empNumber, DateTime $givenDateTime): int
     {
-        //TODO:: Handle when punch in date and punch out date are different
-        $attendanceRecords = $this->getEmployeeTimeAtWorkDao()
-            ->getAttendanceRecordsByEmployeeAndDate($empNumber, $dateTime);
         $totalTime = 0;
+        $attendanceRecords = $this->getEmployeeTimeAtWorkDao()
+            ->getAttendanceRecordsByEmployeeAndDate($empNumber, $givenDateTime);
+        /**
+         * No attendance records found for given day
+         */
+        if (!$attendanceRecords) {
+            return $totalTime;
+        }
+
+        $givenDate = $this->getDateTimeHelper()->formatDate($givenDateTime);
+        $givenDateLowerBoundary = new DateTime($givenDate . ' ' . '00:00:00');
+
         foreach ($attendanceRecords as $attendanceRecord) {
             if ($attendanceRecord->getState() === self::STATE_PUNCHED_OUT) {
-                $punchedInUTC = $attendanceRecord->getPunchInUtcTime();
-                $punchOutUTC = $attendanceRecord->getPunchOutUtcTime();
-                $totalTime = $totalTime + (
-                        $punchOutUTC->diff($punchedInUTC)->h * 60 +
-                        $punchOutUTC->diff($punchedInUTC)->i
-                    );
+                $punchInUserDateTime = $attendanceRecord->getPunchInUserTime();
+                $punchOutUserDateTime = $attendanceRecord->getPunchOutUserTime();
+
+                /**
+                 * Given day 2022-09-05
+                 * When punched-in given day and punched-out next day
+                 * eg:- punched-in on 2022-09-05 at 23:30 and punched-out on 2022-09-06 at 00:30
+                 * 30 minutes goes to 2022-09-05 total time and 30 minutes goes to 2022-09-06 total time
+                 */
+                if ($this->getDateTimeHelper()->formatDate($punchOutUserDateTime) > $givenDate) {
+                    $generalLowerBoundary = clone $givenDateLowerBoundary;
+                    $punchInDateUpperBoundary = $generalLowerBoundary->add(new DateInterval('P1D'));
+                    $totalTime = $totalTime + $this->getTimeDifference($punchInDateUpperBoundary, $punchInUserDateTime);
+                } /**
+                 * Given day 2022-09-05
+                 * When punched-out in given day and punched-in in previous day
+                 * eg:- punched-in on 2022-09-04 at 23:30 and punched-out on 2022-09-05 at 00:30
+                 * 30 minutes goes to 2022-09-04 total time and 30 minutes goes to 2022-09-05 total time
+                 */
+                elseif ($this->getDateTimeHelper()->formatDate($punchInUserDateTime) < $givenDate) {
+                    $totalTime = $totalTime + $this->getTimeDifference($givenDateLowerBoundary, $punchOutUserDateTime);
+                } /**
+                 * Punched-in and punched-out in the given day
+                 */
+                else {
+                    $totalTime = $totalTime + $this->getTimeDifference($punchOutUserDateTime, $punchInUserDateTime);
+                }
             }
         }
         return $totalTime;
@@ -168,7 +223,7 @@ class EmployeeTimeAtWorkService
 
     /**
      * @param DateTime $date
-     * @return array  e.g array(if monday as first day in config => '2021-12-13', '2021-12-19')
+     * @return array  eg:- array(if monday as first day in config => '2021-12-13', '2021-12-19')
      */
     private function extractStartDateAndEndDateFromDate(DateTime $date): array
     {
@@ -182,6 +237,7 @@ class EmployeeTimeAtWorkService
     /**
      * @param int $empNumber
      * @return array
+     * @throws Exception
      */
     private function getDataForCurrentWeek(int $empNumber): array
     {
@@ -190,17 +246,14 @@ class EmployeeTimeAtWorkService
         $date = new DateTime($startDate);
         $weeklyData = [];
         while ($counter < 7) {
-            $totalTimeForDay = $this->getTotalTimeForDayInMinutes($empNumber, $date);
+            $totalTimeForDay = $this->getTotalTimeForGivenDate($empNumber, $date);
             $weeklyData[] = [
                 'workDay' => [
                     'id' => $date->format('w'),
                     'day' => $date->format('D'),
                     'date' => $this->getDateTimeHelper()->formatDate($date),
                 ],
-                'totalTime' => [
-                    'hours' => floor($totalTimeForDay / 60),
-                    'minutes' => $totalTimeForDay % 60
-                ],
+                'totalTime' => $this->getTimeInHoursAndMinutes($totalTimeForDay),
             ];
             $date = clone $date;
             $date = $date->add(new DateInterval('P1D'));
@@ -210,4 +263,13 @@ class EmployeeTimeAtWorkService
         return $weeklyData;
     }
 
+    /**
+     * @param DateTime $endDateTime
+     * @param DateTime $startDateTime
+     * @return int difference will be given in minutes
+     */
+    private function getTimeDifference(DateTime $endDateTime, DateTime $startDateTime): int
+    {
+        return $endDateTime->diff($startDateTime)->h * 60 + $endDateTime->diff($startDateTime)->i;
+    }
 }

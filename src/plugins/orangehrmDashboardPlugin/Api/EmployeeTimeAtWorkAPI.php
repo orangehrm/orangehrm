@@ -31,11 +31,12 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService;
+use OrangeHRM\Dashboard\Traits\Service\EmployeeTimeAtWorkServiceTrait;
 
 class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
 {
     use AuthUserTrait;
+    use EmployeeTimeAtWorkServiceTrait;
 
     public const PARAMETER_EMP_NUMBER = 'empNumber';
 
@@ -48,12 +49,11 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_EMP_NUMBER
         );
-        $timeAtWorkService = new EmployeeTimeAtWorkService();
 
         return new EndpointResourceResult(
             ArrayModel::class,
-            $timeAtWorkService->getTimeAtWorkData($empNumber),
-            new ParameterBag($timeAtWorkService->getTimeAtWorkMetaData($empNumber))
+            $this->getEmployeeTimeAtWorkService()->getTimeAtWorkData($empNumber),
+            new ParameterBag($this->getEmployeeTimeAtWorkService()->getTimeAtWorkMetaData($empNumber))
         );
     }
 

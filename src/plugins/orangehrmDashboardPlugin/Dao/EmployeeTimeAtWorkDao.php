@@ -50,10 +50,17 @@ class EmployeeTimeAtWorkDao extends BaseDao
         $qb->andWhere('attendanceRecord.employee = :empNumber');
         $qb->setParameter('empNumber', $empNumber);
         $qb->andWhere(
-            $qb->expr()->between(
-                'attendanceRecord.punchInUserTime',
-                ':start',
-                ':end'
+            $qb->expr()->orX(
+                $qb->expr()->between(
+                    'attendanceRecord.punchInUserTime',
+                    ':start',
+                    ':end'
+                ),
+                $qb->expr()->between(
+                    'attendanceRecord.punchOutUserTime',
+                    ':start',
+                    ':end'
+                ),
             )
         );
         $qb->setParameter('start', $dateTime->format('Y-m-d') . ' 00:00:00');
