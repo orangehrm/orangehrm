@@ -21,18 +21,18 @@ GetAll:
         count: 3
       3:
         location:
-          id: 3
-          name: location 3
-        count: 2
-      4:
-        location:
           id: 7
           name: location 7
         count: 2
+      4:
+        location:
+          id: 3
+          name: location 3
+        count: 2
       5:
         location:
-          id: 1
-          name: location 1
+          id: 9
+          name: location 9
         count: 1
       6:
         location:
