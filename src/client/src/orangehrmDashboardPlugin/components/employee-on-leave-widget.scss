@@ -16,56 +16,38 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-dashboard-widget {
-  width: auto;
-  height: 380px;
-  margin: 0 auto;
-  overflow: hidden;
-  max-width: 350px;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  box-sizing: border-box;
-
-  &-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-
-  &-name {
-    display: flex;
-    font-size: 14px;
-    font-weight: 700;
-    align-items: center;
-  }
-
-  &-icon {
-    margin-right: 0.5rem;
-  }
-
-  &-body {
-    height: 310px;
-    overflow: auto;
-    &-nocontent {
-      font-size: 10px;
-      text-align: center;
-      margin-top: 2.5rem;
+.orangehrm-leave-card {
+  display: flex;
+  font-size: 12px;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  &-profile-image {
+    & img {
+      width: 36px;
+      height: 36px;
+      border-radius: 100%;
+      display: flex;
+      flex-shrink: 0;
+      overflow: hidden;
+      justify-content: center;
+      box-sizing: border-box;
     }
-    @include oxd-scrollbar();
   }
-
-  &-watermark {
-    width: 175px;
-    margin: 60px auto auto;
-    text-align: center;
+  &-details {
+    margin-left: 1rem;
+    word-break: break-word;
   }
-
-  &-img {
-    width: 60%;
+  &-emp-id {
+    padding: 0 5px;
+    font-weight: 600;
+    margin-left: auto;
+    white-space: nowrap;
   }
-
-  &-loader {
-    margin: 9rem auto;
-    background-color: $oxd-white-color;
+  &-emp-name {
+    font-weight: 700;
+    @include truncate(2, 1, #fff);
+  }
+  &-leave-details {
+    font-size: 12px;
   }
 }

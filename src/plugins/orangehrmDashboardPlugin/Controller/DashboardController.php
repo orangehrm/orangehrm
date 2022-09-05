@@ -22,17 +22,38 @@ namespace OrangeHRM\Dashboard\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Helper\VueControllerHelper;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
 class DashboardController extends AbstractVueController
 {
     use AuthUserTrait;
+    use ServiceContainerTrait;
+
+    /**
+     * @return ModuleService
+     */
+    public function getModuleService(): ModuleService
+    {
+        return $this->getContainer()->get(Services::MODULE_SERVICE);
+    }
 
     public function preRender(Request $request): void
     {
         $component = new Component('view-dashboard');
         $this->setComponent($component);
+
+        $isLeaveModuleEnabled = false;
+
+        foreach ($this->getModuleService()->getModuleList() as $module) {
+            if ($module->getName() === 'leave') {
+                $isLeaveModuleEnabled = $module->getStatus();
+                break;
+            }
+        }
 
         // TODO: Rebase data group permisssions
         $this->getContext()->set(
@@ -40,6 +61,12 @@ class DashboardController extends AbstractVueController
             [
                 'admin_widgets' => [
                     'canRead' => $this->getAuthUser()->getUserRoleName() === 'Admin',
+                    'canCreate' => false,
+                    'canUpdate' => false,
+                    'canDelete' => false
+                ],
+                'leave_widget' => [
+                    'canRead' => $isLeaveModuleEnabled,
                     'canCreate' => false,
                     'canUpdate' => false,
                     'canDelete' => false

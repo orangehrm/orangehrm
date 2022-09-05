@@ -32,15 +32,18 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Dashboard\Api\Model\EmployeeOnLeaveModel;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 use OrangeHRM\Dashboard\Dto\EmployeeOnLeaveSearchFilterParams;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
 
 class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
 {
-    use EmployeeOnLeaveServiceTrait;
     use DateTimeHelperTrait;
+    use LeavePeriodServiceTrait;
+    use EmployeeOnLeaveServiceTrait;
 
-    public const DATE = 'date';
+    public const PARAMETER_DATE = 'date';
+    public const PARAMETER_LEAVE_PERIOD = 'leavePeriod';
 
     /**
      * @inheritDoc
@@ -52,7 +55,7 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
         $this->setSortingAndPaginationParams($employeeOnLeaveSearchFilterParams);
         $date = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_QUERY,
-            self::DATE,
+            self::PARAMETER_DATE,
             null,
             $this->getDateTimeHelper()->getNow()
         );
@@ -67,7 +70,10 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
         return new EndpointCollectionResult(
             EmployeeOnLeaveModel::class,
             $empLeaveList,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => $employeeCount])
+            new ParameterBag([
+                CommonParams::PARAMETER_TOTAL => $employeeCount,
+                self::PARAMETER_LEAVE_PERIOD => $this->getLeavePeriodService()->getCurrentLeavePeriod()
+            ])
         );
     }
 
@@ -78,10 +84,10 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::DATE,
+                self::PARAMETER_DATE,
                 new Rule(Rules::API_DATE)
             ),
-            ... $this->getSortingAndPaginationParamsRules(EmployeeOnLeaveSearchFilterParams::ALLOWED_SORT_FIELDS),
+            ...$this->getSortingAndPaginationParamsRules(EmployeeOnLeaveSearchFilterParams::ALLOWED_SORT_FIELDS),
         );
     }
 

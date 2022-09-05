@@ -121,6 +121,6 @@ export default {
 <style lang="scss" scoped>
 .emp-distrib-chart {
   width: auto;
-  height: 330px;
+  height: 312px;
 }
 </style>

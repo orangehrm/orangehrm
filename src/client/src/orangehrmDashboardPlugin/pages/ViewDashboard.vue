@@ -21,6 +21,12 @@
 <template>
   <oxd-grid class="orangehrm-dashboard-grid" :cols="3">
     <oxd-grid-item
+      v-if="$can.read('leave_widget')"
+      class="orangehrm-dashboard-widget"
+    >
+      <employees-on-leave-widget></employees-on-leave-widget>
+    </oxd-grid-item>
+    <oxd-grid-item
       v-if="$can.read('admin_widgets')"
       class="orangehrm-dashboard-widget"
     >
@@ -38,11 +44,13 @@
 <script>
 import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/EmployeeSubunitWidget.vue';
 import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
+import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
 
 export default {
   components: {
     'employee-subunit-widget': EmployeeSubunitWidget,
     'employee-location-widget': EmployeeLocationWidget,
+    'employees-on-leave-widget': EmployeesOnLeaveWidget,
   },
 };
 </script>
@@ -53,8 +61,7 @@ export default {
 .orangehrm-dashboard-grid {
   margin: 0 auto;
   box-sizing: border-box;
-  @include oxd-respond-to('md') {
-    width: fit-content;
-  }
+  max-width: calc(350px * 3);
+  grid-template-columns: repeat(auto-fill, minmax(max(320px, 100%/3), 1fr));
 }
 </style>

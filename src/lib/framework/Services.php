@@ -146,6 +146,11 @@ final class Services
      */
     public const REPORT_GENERATOR_SERVICE = 'core.report_generator_service';
 
+    /**
+     * @see \OrangeHRM\Core\Service\ModuleService
+     */
+    public const MODULE_SERVICE = 'core.module_service';
+
     ///////////////////////////////////////////////////////////////
     /// Authentication plugin services
     ///////////////////////////////////////////////////////////////
