@@ -378,6 +378,131 @@ GetOne:
       }
     }
 
+  'Get Employee at work - ESS User Self - No attendance records':
+    userId: 4
+    now:
+      datetime: '2022-09-06'
+      timezone: 'Asia/Colombo'
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      empNumber: 4
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-05"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-06"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-07"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-08"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-09"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-09-10"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-09-11"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    "meta": {
+      "lastAction": {
+        "state": null,
+        "utcDate": null,
+        "utcTime": null,
+        "userDate": null,
+        "userTime": null,
+        "timezoneOffset": null
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-06",
+          "label": "Sep 06"
+        },
+        "totalTime": {
+          "hours": 0,
+          "minutes": 00
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-05",
+          "label": "Sep 05"
+        },
+        "endDate": {
+          "date": "2022-09-11",
+          "label": "Sep 11"
+        },
+        "totalTime": {
+          "hours": 0,
+          "minutes": 0
+        }
+      }
+    }
+
   'Get Employee at work - Supervisor to Subordinate':
     userId: 3
     now:
