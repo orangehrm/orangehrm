@@ -30,6 +30,7 @@ class LDAPUserLookupSetting
     private string $userNameAttribute = 'cn';
     private ?string $userUniqueIdAttribute = 'entryUUID';
     private string $userSearchFilter = '(objectClass=inetOrgPerson)';
+    private LDAPEmployeeSelectorMapping $employeeSelectorMapping;
 
     /**
      * @param string $baseDN
@@ -37,6 +38,7 @@ class LDAPUserLookupSetting
     public function __construct(string $baseDN)
     {
         $this->baseDN = $baseDN;
+        $this->employeeSelectorMapping = new LDAPEmployeeSelectorMapping();
     }
 
     /**
@@ -123,6 +125,25 @@ class LDAPUserLookupSetting
     }
 
     /**
+     * @return LDAPEmployeeSelectorMapping
+     */
+    public function getEmployeeSelectorMapping(): LDAPEmployeeSelectorMapping
+    {
+        return $this->employeeSelectorMapping;
+    }
+
+    /**
+     * @param LDAPEmployeeSelectorMapping $employeeSelectorMapping
+     * @return LDAPUserLookupSetting
+     */
+    public function setEmployeeSelectorMapping(
+        LDAPEmployeeSelectorMapping $employeeSelectorMapping
+    ): LDAPUserLookupSetting {
+        $this->employeeSelectorMapping = $employeeSelectorMapping;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array
@@ -133,6 +154,7 @@ class LDAPUserLookupSetting
             'userNameAttribute' => $this->getUserNameAttribute(),
             'userUniqueIdAttribute' => $this->getUserUniqueIdAttribute(),
             'userSearchFilter' => $this->getUserSearchFilter(),
+            'employeeSelectorMapping' => $this->getEmployeeSelectorMapping()->toArray(),
         ];
     }
 
@@ -145,8 +167,11 @@ class LDAPUserLookupSetting
         $lookupSetting = new LDAPUserLookupSetting($userLookupSetting['baseDN']);
         $lookupSetting->setSearchScope($userLookupSetting['searchScope']);
         $lookupSetting->setUserNameAttribute($userLookupSetting['userNameAttribute']);
-        $lookupSetting->setUserUniqueIdAttribute($userLookupSetting['userUniqueIdAttribute']);
+        $lookupSetting->setUserUniqueIdAttribute($userLookupSetting['userUniqueIdAttribute'] ?? null);
         $lookupSetting->setUserSearchFilter($userLookupSetting['userSearchFilter']);
+        $lookupSetting->setEmployeeSelectorMapping(
+            LDAPEmployeeSelectorMapping::createFromArray($userLookupSetting['employeeSelectorMapping'] ?? [])
+        );
         return $lookupSetting;
     }
 }

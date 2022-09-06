@@ -30,6 +30,7 @@ use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\LDAP\Dao\LDAPDao;
 use OrangeHRM\LDAP\Dto\EntryCollection;
 use OrangeHRM\LDAP\Dto\EntryCollectionLookupSettingPair;
+use OrangeHRM\LDAP\Dto\LDAPEmployeeSearchFilterParams;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUser;
 use OrangeHRM\LDAP\Dto\LDAPUserCollection;
@@ -143,8 +144,8 @@ class LDAPSyncService
     }
 
     /**
-     * @todo refactor
      * @param LDAPUser[] $ldapUsers
+     * @todo refactor
      */
     public function createSystemUsers(array $ldapUsers): void
     {
@@ -181,6 +182,7 @@ class LDAPSyncService
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
                 } else { // TODO:: elseif check setting to link ldap user
+                    // TODO:: check employees who have multiple users
                     // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());
                     //$user->setDateModified(); TODO
@@ -242,8 +244,14 @@ class LDAPSyncService
                     }
                 }
 
-                // Create a new user
-                $employee = new Employee(); // TODO:: get employee using mapper
+                $employee = null;
+                $employeeSearchFilterParams = $ldapUser->getEmployeeSearchFilterParams();
+                if ($employeeSearchFilterParams instanceof LDAPEmployeeSearchFilterParams) {
+                    $employee = $this->getLdapDao()->getEmployee($employeeSearchFilterParams);
+                }
+
+                // Create a new user if not found the employee for given mapping configurations
+                $employee = $employee ?? new Employee(); // TODO:: get employee using mapper
                 $employee->setFirstName($ldapUser->getFirstName());
                 $employee->setLastName($ldapUser->getLastName());
                 $employee->setMiddleName($ldapUser->getMiddleName());
@@ -348,7 +356,9 @@ class LDAPSyncService
                 ->setMiddleName($this->getAttribute($entry, $dataMapping->getMiddleNameAttribute()) ?? '')
                 ->setLastName($this->getAttribute($entry, $dataMapping->getLastNameAttribute()))
                 ->setEmployeeId($this->getAttribute($entry, $dataMapping->getEmployeeIdAttribute()))
-                ->setWorkEmail($this->getAttribute($entry, $dataMapping->getWorkEmailAttribute()));
+                ->setWorkEmail($this->getAttribute($entry, $dataMapping->getWorkEmailAttribute()))
+                ->setUserLookupSetting($lookupSetting)
+                ->setEntry($entry);
         } catch (Throwable $e) {
             // TODO
             $this->getLogger()->warning($e->getMessage());
@@ -382,6 +392,7 @@ class LDAPSyncService
         if (!empty($lookupSetting->getUserUniqueIdAttribute())) {
             $attributes[] = $lookupSetting->getUserUniqueIdAttribute();
         }
-        return $attributes;
+        $attributes = array_merge($attributes, $lookupSetting->getEmployeeSelectorMapping()->getAllAttributeNames());
+        return array_unique($attributes);
     }
 }

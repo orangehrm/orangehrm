@@ -19,17 +19,23 @@
 
 namespace OrangeHRM\LDAP\Dto;
 
+use LogicException;
+use Symfony\Component\Ldap\Entry;
+
 class LDAPUser
 {
     private string $userDN;
     private string $username;
-    private ?string $userUniqueId;
+    private ?string $userUniqueId = null;
     private bool $userEnabled = true;
     private string $firstName;
     private string $middleName = '';
     private string $lastName;
     private ?string $employeeId = null;
     private ?string $workEmail = null;
+
+    private LDAPUserLookupSetting $userLookupSetting;
+    private Entry $entry;
 
     /**
      * @return string
@@ -191,5 +197,55 @@ class LDAPUser
     {
         $this->workEmail = $workEmail;
         return $this;
+    }
+
+    /**
+     * @param LDAPUserLookupSetting $userLookupSetting
+     * @return LDAPUser
+     */
+    public function setUserLookupSetting(LDAPUserLookupSetting $userLookupSetting): LDAPUser
+    {
+        $this->userLookupSetting = $userLookupSetting;
+        return $this;
+    }
+
+    /**
+     * @param Entry $entry
+     * @return LDAPUser
+     */
+    public function setEntry(Entry $entry): LDAPUser
+    {
+        $this->entry = $entry;
+        return $this;
+    }
+
+    /**
+     * @return LDAPEmployeeSearchFilterParams|null
+     */
+    public function getEmployeeSearchFilterParams(): ?LDAPEmployeeSearchFilterParams
+    {
+        return $this->userLookupSetting
+            ->getEmployeeSelectorMapping()
+            ->extractAttributeValuesToSearchFilterParam($this->entry);
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'userDN' => $this->getUserDN(),
+            'username' => $this->getUsername(),
+            'userUniqueId' => $this->getUserUniqueId(),
+            'userEnabled' => $this->isUserEnabled(),
+            'firstName' => $this->getFirstName(),
+            'middleName' => $this->getMiddleName(),
+            'lastName' => $this->getLastName(),
+            'employeeId' => $this->getEmployeeId(),
+            'workEmail' => $this->getWorkEmail(),
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        throw new LogicException(__METHOD__ . ': Method not implemented');
     }
 }
