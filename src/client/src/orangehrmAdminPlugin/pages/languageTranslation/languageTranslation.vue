@@ -116,16 +116,16 @@
         <oxd-form-actions>
           <div class="orangehrm-bottom-container">
             <div>
-              <oxd-button
-                display-type="secondary"
-                :label="$t('general.save')"
-                type="submit"
-              />
-              <oxd-button
-                class="orangehrm-left-space"
+              <oxd-button                
                 display-type="ghost"
                 :label="$t('general.cancel')"
                 type="reset"
+              />
+              <oxd-button
+                class="orangehrm-left-space"
+                display-type="secondary"
+                :label="$t('general.save')"
+                type="submit"
               />
             </div>
           </div>
