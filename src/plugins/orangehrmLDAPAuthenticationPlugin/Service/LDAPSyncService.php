@@ -49,23 +49,14 @@ class LDAPSyncService
     use EntityManagerTrait;
     use UserServiceTrait;
 
-    private string $ldapServiceClass;
     private ?LDAPService $ldapService = null;
     private ?LDAPSetting $ldapSetting = null;
     private LDAPDao $ldapDao;
 
     /**
-     * @param string $ldapServiceClass
-     */
-    public function __construct(string $ldapServiceClass = LDAPService::class)
-    {
-        $this->ldapServiceClass = $ldapServiceClass;
-    }
-
-    /**
      * @return LDAPDao
      */
-    private function getLdapDao(): LDAPDao
+    protected function getLdapDao(): LDAPDao
     {
         return $this->ldapDao ??= new LDAPDao();
     }
@@ -73,10 +64,10 @@ class LDAPSyncService
     /**
      * @return LDAPService
      */
-    private function getLdapService(): LDAPService
+    protected function getLdapService(): LDAPService
     {
-        if (!$this->ldapService instanceof $this->ldapServiceClass) {
-            $this->ldapService = new $this->ldapServiceClass();
+        if (!$this->ldapService instanceof LDAPService) {
+            $this->ldapService = new LDAPService();
             $bindCredentials = new UserCredential();
             if (!$this->getLdapSetting()->isBindAnonymously()) {
                 $bindCredentials->setUsername($this->getLdapSetting()->getBindUserDN());
@@ -165,9 +156,10 @@ class LDAPSyncService
                     $employee->setLastName($ldapUser->getLastName());
                     $employee->setMiddleName($ldapUser->getMiddleName());
                     $employee->setEmployeeId($ldapUser->getEmployeeId());
-                    $employee->setWorkEmail($ldapUser->getWorkEmail());
+                    $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
                     $user->setStatus($ldapUser->isUserEnabled());
                     //$user->setDateModified(); TODO
+                    //$user->setModifiedUserId();
 
                     // Change user data
                     $ldapAuthProvider->setLdapUserDN($ldapUser->getUserDN());
@@ -186,13 +178,14 @@ class LDAPSyncService
                     // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());
                     //$user->setDateModified(); TODO
+                    //$user->setModifiedUserId();
 
                     $employee = $user->getEmployee();
                     $employee->setFirstName($ldapUser->getFirstName());
                     $employee->setLastName($ldapUser->getLastName());
                     $employee->setMiddleName($ldapUser->getMiddleName());
                     $employee->setEmployeeId($ldapUser->getEmployeeId());
-                    $employee->setWorkEmail($ldapUser->getWorkEmail());
+                    $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
 
                     $authProvider = new UserAuthProvider();
                     $authProvider->setUser($user);
@@ -220,13 +213,14 @@ class LDAPSyncService
                         $user->setUserName($ldapUser->getUsername());
                         $user->setStatus($ldapUser->isUserEnabled());
                         //$user->setDateModified(); TODO
+                        //$user->setModifiedUserId();
 
                         $employee = $user->getEmployee();
                         $employee->setFirstName($ldapUser->getFirstName());
                         $employee->setLastName($ldapUser->getLastName());
                         $employee->setMiddleName($ldapUser->getMiddleName());
                         $employee->setEmployeeId($ldapUser->getEmployeeId());
-                        $employee->setWorkEmail($ldapUser->getWorkEmail());
+                        $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
 
                         // Change user data
                         $ldapAuthProvider->setLdapUserDN($ldapUser->getUserDN());
@@ -256,13 +250,14 @@ class LDAPSyncService
                 $employee->setLastName($ldapUser->getLastName());
                 $employee->setMiddleName($ldapUser->getMiddleName());
                 $employee->setEmployeeId($ldapUser->getEmployeeId());
-                $employee->setWorkEmail($ldapUser->getWorkEmail());
+                $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
 
                 $user = new User();
                 $user->setUserName($ldapUser->getUsername());
                 $user->setStatus($ldapUser->isUserEnabled());
                 $user->setEmployee($employee);
                 //$user->setDateEntered(); TODO
+                //$user->setCreatedBy();
                 $user->setUserRole($defaultUserRole);
 
                 $authProvider = new UserAuthProvider();

@@ -165,10 +165,10 @@ class LDAPUserLookupSetting
     public static function createFromArray(array $userLookupSetting): self
     {
         $lookupSetting = new LDAPUserLookupSetting($userLookupSetting['baseDN']);
-        $lookupSetting->setSearchScope($userLookupSetting['searchScope']);
-        $lookupSetting->setUserNameAttribute($userLookupSetting['userNameAttribute']);
+        $lookupSetting->setSearchScope($userLookupSetting['searchScope'] ?? QueryInterface::SCOPE_SUB);
+        $lookupSetting->setUserNameAttribute($userLookupSetting['userNameAttribute'] ?? 'cn');
         $lookupSetting->setUserUniqueIdAttribute($userLookupSetting['userUniqueIdAttribute'] ?? null);
-        $lookupSetting->setUserSearchFilter($userLookupSetting['userSearchFilter']);
+        $lookupSetting->setUserSearchFilter($userLookupSetting['userSearchFilter'] ?? '(objectClass=inetOrgPerson)');
         $lookupSetting->setEmployeeSelectorMapping(
             LDAPEmployeeSelectorMapping::createFromArray($userLookupSetting['employeeSelectorMapping'] ?? [])
         );

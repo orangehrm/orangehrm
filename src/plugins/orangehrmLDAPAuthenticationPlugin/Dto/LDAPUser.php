@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\LDAP\Dto;
 
-use LogicException;
 use Symfony\Component\Ldap\Entry;
 
 class LDAPUser
@@ -227,25 +226,5 @@ class LDAPUser
         return $this->userLookupSetting
             ->getEmployeeSelectorMapping()
             ->extractAttributeValuesToSearchFilterParam($this->entry);
-    }
-
-    public function __serialize(): array
-    {
-        return [
-            'userDN' => $this->getUserDN(),
-            'username' => $this->getUsername(),
-            'userUniqueId' => $this->getUserUniqueId(),
-            'userEnabled' => $this->isUserEnabled(),
-            'firstName' => $this->getFirstName(),
-            'middleName' => $this->getMiddleName(),
-            'lastName' => $this->getLastName(),
-            'employeeId' => $this->getEmployeeId(),
-            'workEmail' => $this->getWorkEmail(),
-        ];
-    }
-
-    public function __unserialize(array $data): void
-    {
-        throw new LogicException(__METHOD__ . ': Method not implemented');
     }
 }

@@ -20,7 +20,8 @@ Update:
           "searchScope": "sub",
           "userNameAttribute": "cn",
           "userUniqueIdAttribute": null,
-          "userSearchFilter": "objectClass=person"
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -50,7 +51,8 @@ Update:
           'searchScope': 'sub',
           'userNameAttribute': 'cn',
           'userUniqueIdAttribute': null,
-          'userSearchFilter': 'objectClass=person'
+          'userSearchFilter': 'objectClass=person',
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -90,7 +92,8 @@ Update:
           "searchScope": "sub",
           "userNameAttribute": "uid",
           "userUniqueIdAttribute": "entryUUID",
-          "userSearchFilter": "objectClass=person"
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -121,7 +124,8 @@ Update:
           'searchScope': 'sub',
           'userNameAttribute': 'uid',
           'userUniqueIdAttribute': 'entryUUID',
-          'userSearchFilter': 'objectClass=person'
+          'userSearchFilter': 'objectClass=person',
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -161,7 +165,8 @@ Update:
           "searchScope": "sub",
           "userNameAttribute": "cn",
           "userUniqueIdAttribute": null,
-          "userSearchFilter": "objectClass=person"
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -200,7 +205,8 @@ Update:
           "searchScope": "sub",
           "userNameAttribute": "cn",
           "userUniqueIdAttribute": null,
-          "userSearchFilter": "objectClass=person"
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -270,15 +276,15 @@ GetOne:
         "ldapImplementation": "OpenLDAP",
         "bindAnonymously": true,
         "bindUserDN": null,
-        "userLookupSettings": [ ]
-          "dataMapping": {
-            "firstName": "givenName",
-            "middleName": "",
-            "lastName": "sn",
-            "userStatus": null,
-            "workEmail": null,
-            "employeeId": null
-          },
+        "userLookupSettings": [ ],
+        "dataMapping": {
+          "firstName": "givenName",
+          "middleName": "",
+          "lastName": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
         "groupObjectClass": "group",
         "groupObjectFilter": "(&(objectClass=group)(cn=*))",
         "groupNameAttribute": "cn",
@@ -309,7 +315,8 @@ GetOne:
           'searchScope': 'sub',
           'userNameAttribute': 'cn',
           'userUniqueIdAttribute': 'entryUUID',
-          'userSearchFilter': 'objectClass=inetOrgPerson'
+          'userSearchFilter': 'objectClass=inetOrgPerson',
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
