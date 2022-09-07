@@ -74,38 +74,27 @@ class ChartService
     }
 
     /**
-     * @param array $locationEmployeeCounts
-     * @return int
-     */
-    public function getLocationUnassignedEmployeeCount(array $locationEmployeeCounts): int
-    {
-        $totalActiveEmployee = $this->getChartDao()->getTotalActiveEmployeeCount();
-
-        $assignedEmployeeCount = 0;
-        foreach ($locationEmployeeCounts as $locationEmployeeCount) {
-            $assignedEmployeeCount += $locationEmployeeCount->getEmployeeCount();
-        }
-        return $totalActiveEmployee - $assignedEmployeeCount;
-    }
-
-    /**
      * @param int $limit
      * @return EmployeeDistributionByLocation
      */
     public function getEmployeeDistributionByLocation(int $limit=8): EmployeeDistributionByLocation
     {
         $locationEmployeeCount = $this->getChartDao()->getEmployeeDistributionByLocation();
-        $unassignedEmployeeCount =  $this->getLocationUnassignedEmployeeCount($locationEmployeeCount);
-
-        $otherArray = [];
-        if (count($locationEmployeeCount) > $limit) {
-            $otherArray = array_slice($locationEmployeeCount, $limit);
-            $locationEmployeeCount = array_slice($locationEmployeeCount, 0, $limit);
-        }
 
         $otherCount = 0;
-        foreach ($otherArray as $locationCountPair) {
-            $otherCount += $locationCountPair->getEmployeeCount();
+        $assignedEmployeeCount = 0;
+        foreach ($locationEmployeeCount as $key => $employeeCount) {
+            $assignedEmployeeCount += $employeeCount->getEmployeeCount();
+            if ($key >= $limit) {
+                $otherCount += $employeeCount->getEmployeeCount();
+            }
+        }
+
+        $totalActiveEmployee = $this->getChartDao()->getTotalActiveEmployeeCount();
+        $unassignedEmployeeCount = $totalActiveEmployee - $assignedEmployeeCount;
+
+        if (count($locationEmployeeCount) > $limit) {
+            $locationEmployeeCount = array_slice($locationEmployeeCount, 0, $limit);
         }
 
         return new EmployeeDistributionByLocation(
