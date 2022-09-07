@@ -48,6 +48,6 @@ trait LDAPConnectionHelperTrait
      */
     public static function getLDAPServerConfigFilePath(): string
     {
-        return __DIR__ . '/fixtures/server-config.yaml';
+        return __DIR__ . '/config/server-config.yaml';
     }
 }
