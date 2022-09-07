@@ -43,7 +43,7 @@ class LDAPConfigModel implements Normalizable
     public function toArray(): array
     {
         $userLookupSettings = array_map(
-            fn (LDAPUserLookupSetting $lookupSetting) =>$lookupSetting->toArray(),
+            fn (LDAPUserLookupSetting $lookupSetting) => $lookupSetting->toArray(),
             $this->LDAPSetting->getUserLookupSettings()
         );
         return [

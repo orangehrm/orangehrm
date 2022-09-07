@@ -28,7 +28,7 @@ class LDAPUserCollection
     private ?int $duplicateUserCount = null;
 
     /**
-     * @param LDAPUser[] $ldapUsers
+     * @param array<string,LDAPUser> $ldapUsers e.g. ['user1' => LDAPUser, 'user2' => LDAPUser, ...]
      * @param string[] $duplicateUsernames
      * @param array<string,LDAPUser[]> $usersOfDuplicateUsernames e.g. ['user' => [LDAPUser, LDAPUser], ...]
      * @param string[] $failedUsers Failed user DNs
@@ -46,7 +46,7 @@ class LDAPUserCollection
     }
 
     /**
-     * @return LDAPUser[]
+     * @return array<string,LDAPUser>
      */
     public function getLDAPUsers(): array
     {
