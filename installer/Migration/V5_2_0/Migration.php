@@ -20,6 +20,8 @@
 namespace OrangeHRM\Installer\Migration\V5_2_0;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -60,8 +62,27 @@ class Migration extends AbstractMigration
 
         $this->updatePimLeftMenuConfigurators();
         $this->updateOrganizationStructure();
+
         $this->updateHomePage('Admin', 'dashboard/index');
         $this->updateHomePage('ESS', 'dashboard/index');
+
+        $this->getSchemaHelper()->createTable('ohrm_user_auth_provider')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('user_id', Types::INTEGER, ['Notnull' => true])
+            ->addColumn('provider_type', Types::INTEGER, ['Notnull' => true])
+            ->addColumn('ldap_user_hash', Types::STRING, ['Length' => 255, 'Notnull' => false, 'Default' => null])
+            ->addColumn('ldap_user_dn', Types::STRING, ['Length' => 255, 'Notnull' => false, 'Default' => null])
+            ->addColumn('ldap_user_unique_id', Types::STRING, ['Length' => 255, 'Notnull' => false, 'Default' => null])
+            ->setPrimaryKey(['id'])
+            ->create();
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['user_id'],
+            'ohrm_user',
+            ['id'],
+            'ohrm_user_id',
+            ['onDelete' => 'CASCADE', 'onUpdate' => 'RESTRICT']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_user_auth_provider', $foreignKeyConstraint);
     }
 
     /**
