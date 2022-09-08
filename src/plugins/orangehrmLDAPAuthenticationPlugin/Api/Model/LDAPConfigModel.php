@@ -56,11 +56,6 @@ class LDAPConfigModel implements Normalizable
             'bindUserDN' => $this->LDAPSetting->getBindUserDN(),
             'userLookupSettings' => $userLookupSettings,
             'dataMapping' => $this->LDAPSetting->getDataMapping()->toArray(),
-            'groupObjectClass' => $this->LDAPSetting->getGroupObjectClass(),
-            'groupObjectFilter' => $this->LDAPSetting->getGroupObjectFilter(),
-            'groupNameAttribute' => $this->LDAPSetting->getGroupNameAttribute(),
-            'groupMembersAttribute' => $this->LDAPSetting->getGroupMembersAttribute(),
-            'groupMembershipAttribute' => $this->LDAPSetting->getGroupMembershipAttribute(),
             'syncInterval' => $this->LDAPSetting->getSyncInterval()
         ];
     }

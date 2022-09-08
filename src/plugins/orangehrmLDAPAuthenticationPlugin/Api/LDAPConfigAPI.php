@@ -67,11 +67,6 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_WORK_EMAIL = 'workEmail';
     public const PARAMETER_EMPLOYEE_ID = 'employeeId';
 
-    public const PARAMETER_GROUP_OBJECT_CLASS = 'groupObjectClass';
-    public const PARAMETER_GROUP_OBJECT_FILTER = 'groupObjectFilter';
-    public const PARAMETER_GROUP_NAME_ATTRIBUTE = 'groupNameAttribute';
-    public const PARAMETER_GROUP_MEMBERS_ATTRIBUTE = 'groupMembersAttribute';
-    public const PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE = 'groupMembershipAttribute';
     public const PARAMETER_SYNC_INTERVAL = 'syncInterval';
 
     public const ENCRYPTION_NONE = 'none';
@@ -166,36 +161,6 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
                 self::PARAMETER_ENABLED
             )
         );
-        $ldapSetting->setGroupObjectClass(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_GROUP_OBJECT_CLASS
-            )
-        );
-        $ldapSetting->setGroupObjectFilter(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_GROUP_OBJECT_FILTER
-            )
-        );
-        $ldapSetting->setGroupNameAttribute(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_GROUP_NAME_ATTRIBUTE
-            )
-        );
-        $ldapSetting->setGroupMembersAttribute(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_GROUP_MEMBERS_ATTRIBUTE
-            )
-        );
-        $ldapSetting->setGroupMembershipAttribute(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE
-            )
-        );
         $ldapSetting->setSyncInterval(
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_BODY,
@@ -287,31 +252,6 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH])
                 )
-            ),
-            new ParamRule(
-                self::PARAMETER_GROUP_OBJECT_CLASS,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_GROUP_OBJECT_FILTER,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_GROUP_NAME_ATTRIBUTE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_GROUP_MEMBERS_ATTRIBUTE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_GROUP_MEMBERSHIP_ATTRIBUTE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_SYNC_INTERVAL,

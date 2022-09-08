@@ -174,7 +174,6 @@ class LDAPSyncService
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
-
                 } else { // TODO:: elseif check setting to link ldap user
                     // TODO:: check employees who have multiple users
                     // local auth, may be skipped

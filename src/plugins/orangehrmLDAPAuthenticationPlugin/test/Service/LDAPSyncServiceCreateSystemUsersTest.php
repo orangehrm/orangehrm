@@ -19,8 +19,10 @@
 
 namespace OrangeHRM\Tests\LDAP\Service;
 
+use DateTime;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
@@ -45,7 +47,18 @@ class LDAPSyncServiceCreateSystemUsersTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->fixtureDir = Config::get(Config::PLUGINS_DIR) . '/orangehrmLDAPAuthenticationPlugin/test/fixtures';
-        $this->createKernelWithMockServices([Services::USER_SERVICE => new UserService()]);
+        $now = new DateTime('2022-09-07 08:30');
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturnCallback(fn () => clone $now);
+
+        $this->createKernelWithMockServices([
+            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
+            Services::USER_SERVICE => new UserService()
+        ]);
     }
 
     public function testCreateSystemUsers(): void

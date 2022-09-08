@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\LDAP\Service;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
@@ -383,6 +384,14 @@ class LDAPSyncServiceTest extends KernelTestCase
         $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
         $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
 
+        $now = new \DateTime('2022-09-07 08:30');
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturnCallback(fn () => clone $now);
+
         $configService = $this->getMockBuilder(ConfigService::class)
             ->onlyMethods(['getLDAPSetting'])
             ->getMock();
@@ -390,6 +399,7 @@ class LDAPSyncServiceTest extends KernelTestCase
             ->method('getLDAPSetting')
             ->willReturn($ldapSetting);
         $this->createKernelWithMockServices([
+            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
             Services::CONFIG_SERVICE => $configService,
             Services::USER_SERVICE => new UserService(),
         ]);

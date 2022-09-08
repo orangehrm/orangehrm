@@ -75,11 +75,6 @@ class LDAPConfigAPITest extends EndpointIntegrationTestCase
             ->setUserStatusAttribute(null)
             ->setWorkEmailAttribute('mail')
             ->setEmployeeIdAttribute(null);
-        $ldapSettings->setGroupObjectClass('group');
-        $ldapSettings->setGroupObjectFilter("(&(objectClass=group)(cn=*))");
-        $ldapSettings->setGroupNameAttribute('cn');
-        $ldapSettings->setGroupMembersAttribute('member');
-        $ldapSettings->setGroupMembershipAttribute('memberOf');
         $ldapSettings->setSyncInterval(60);
         $ldapSettings->setEnable(false);
 

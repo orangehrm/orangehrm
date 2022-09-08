@@ -34,7 +34,7 @@ class LDAPSettingTest extends TestCase
     {
         $setting = new LDAPSetting('example.com', 1389, 'OpenLDAP', 'tls');
         $this->assertEquals(
-            '{"enable":false,"host":"example.com","port":1389,"encryption":"tls","implementation":"OpenLDAP","version":"3","optReferrals":false,"bindAnonymously":true,"bindUserDN":null,"bindUserPassword":null,"userLookupSettings":[],"groupObjectClass":"group","groupObjectFilter":"(&(objectClass=group)(cn=*))","groupNameAttribute":"cn","groupMembersAttribute":"member","groupMembershipAttribute":"memberOf","dataMapping":{"firstName":"givenName","middleName":null,"lastName":"sn","workEmail":null,"employeeId":null,"userStatus":null},"syncInterval":60}',
+            '{"enable":false,"host":"example.com","port":1389,"encryption":"tls","implementation":"OpenLDAP","version":"3","optReferrals":false,"bindAnonymously":true,"bindUserDN":null,"bindUserPassword":null,"userLookupSettings":[],"dataMapping":{"firstName":"givenName","middleName":null,"lastName":"sn","workEmail":null,"employeeId":null,"userStatus":null},"syncInterval":60}',
             (string)$setting
         );
         $this->expectException(InvalidArgumentException::class);

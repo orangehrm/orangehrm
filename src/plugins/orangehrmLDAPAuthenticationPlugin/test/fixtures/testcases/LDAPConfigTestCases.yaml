@@ -30,11 +30,6 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
         "syncInterval": 60
       }
     data:
@@ -62,11 +57,6 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
         "syncInterval": 60
       }
     meta: [ ]
@@ -103,11 +93,6 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
         "syncInterval": 60
       }
     data:
@@ -135,11 +120,6 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
         "syncInterval": 60
       }
     meta: [ ]
@@ -175,11 +155,6 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
         "syncInterval": 60
       }
     invalidOnly: [ "encryption" ]
@@ -215,11 +190,6 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
         "syncInterval": 60
       }
     invalidOnly: [ "ldapImplementation" ]
@@ -251,11 +221,6 @@ Update:
 #          "workEmail": null,
 #          "employeeId": null
 #        },
-#        "groupObjectClass": "group",
-#        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-#        "groupNameAttribute": "cn",
-#        "groupMembersAttribute": "member",
-#        "groupMembershipAttribute": "memberOf",
 #        "syncInterval": 60
 #      }
 #    invalidOnly: [ "searchScope" ]
@@ -285,11 +250,6 @@ GetOne:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
         "syncInterval": 60
       }
 
@@ -326,11 +286,6 @@ GetOne:
           "workEmail": "mail",
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
         "syncInterval": 60
       }
     meta: [ ]
