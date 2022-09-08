@@ -38,9 +38,11 @@ class LanguageTranslationController extends AbstractVueController
             $language = $this->getLocalizationService()->getLocalizationDao()
                 ->getLanguageById($languageId);
             $languagePackage = $language->getName();
+            $isAdded = $language->isAdded();
             $sourceLanguage = 'English (United States)';
             $component->addProp(new Prop('language-package', Prop::TYPE_STRING, $languagePackage));
             $component->addProp(new Prop('source-language', Prop::TYPE_STRING, $sourceLanguage));
+            $component->addProp(new Prop('is-added', Prop::TYPE_BOOLEAN, $isAdded));
             $this->setComponent($component);
         }
     }
