@@ -21,6 +21,7 @@ namespace OrangeHRM\LDAP\Auth;
 
 use OrangeHRM\Authentication\Auth\AbstractAuthProvider;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\LDAP\Service\LDAPService;
 use OrangeHRM\LDAP\Service\LDAPSyncService;
@@ -30,6 +31,7 @@ class LDAPAuthProvider extends AbstractAuthProvider
 {
     private LDAPService $ldapService;
     private LDAPSyncService $ldapSyncService;
+    private AuthenticationService $authenticationService;
 
     /**
      * @return LDAPService
@@ -48,6 +50,14 @@ class LDAPAuthProvider extends AbstractAuthProvider
     }
 
     /**
+     * @return AuthenticationService
+     */
+    private function getAuthenticationService(): AuthenticationService
+    {
+        return $this->authenticationService ??= new AuthenticationService();
+    }
+
+    /**
      * @inheritDoc
      */
     public function authenticate(UserCredential $credential): bool
@@ -63,7 +73,7 @@ class LDAPAuthProvider extends AbstractAuthProvider
         $ldapCredential = new UserCredential($ldapAuthProvider->getLdapUserDN(), $credential->getPassword());
         try {
             $this->getLdapService()->bind($ldapCredential);
-            return true;
+            return $this->getAuthenticationService()->setCredentialsForUser($user);
         } catch (LdapException $e) {
             return false;
         }

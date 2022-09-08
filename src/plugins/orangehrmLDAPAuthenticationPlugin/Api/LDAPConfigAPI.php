@@ -67,6 +67,7 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_WORK_EMAIL = 'workEmail';
     public const PARAMETER_EMPLOYEE_ID = 'employeeId';
 
+    public const PARAMETER_MERGE_LDAP_USERS_WITH_EXISTING_SYSTEM_USERS = 'mergeLDAPUsersWithExistingSystemUsers';
     public const PARAMETER_SYNC_INTERVAL = 'syncInterval';
 
     public const ENCRYPTION_NONE = 'none';
@@ -147,7 +148,10 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_BIND_USER_PASSWORD
             );
-            if (!is_null($password)) {
+            $ldapSettings = $this->getConfigService()->getLDAPSetting();
+            if ($ldapSettings instanceof LDAPSetting && $password === null) {
+                $ldapSetting->setBindUserPassword($ldapSettings->getBindUserPassword());
+            } else {
                 $ldapSetting->setBindUserPassword($password);
             }
         } else {
@@ -165,6 +169,12 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SYNC_INTERVAL
+            )
+        );
+        $ldapSetting->setMergeLDAPUsersWithExistingSystemUsers(
+            $this->getRequestParams()->getBoolean(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_MERGE_LDAP_USERS_WITH_EXISTING_SYSTEM_USERS
             )
         );
     }
@@ -254,16 +264,20 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
                 )
             ),
             new ParamRule(
-                self::PARAMETER_SYNC_INTERVAL,
-                new Rule(Rules::NUMBER),
-            ),
-            new ParamRule(
                 self::PARAMETER_DATA_MAPPING,
                 new Rule(Rules::ARRAY_TYPE)
             ),
             new ParamRule(
                 self::PARAMETER_USER_LOOKUP_SETTINGS,
                 new Rule(Rules::ARRAY_TYPE)
+            ),
+            new ParamRule(
+                self::PARAMETER_MERGE_LDAP_USERS_WITH_EXISTING_SYSTEM_USERS,
+                new Rule(Rules::BOOL_VAL)
+            ),
+            new ParamRule(
+                self::PARAMETER_SYNC_INTERVAL,
+                new Rule(Rules::NUMBER),
             ),
         );
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
@@ -292,6 +306,9 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $ldapSettings = $this->getConfigService()->getLDAPSetting();
+        if ($ldapSettings === null) {
+            $ldapSettings = new LDAPSetting('localhost', 389, 'OpenLDAP', 'none');
+        }
         return new EndpointResourceResult(LDAPConfigModel::class, $ldapSettings);
     }
 

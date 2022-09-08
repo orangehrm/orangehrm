@@ -36,6 +36,7 @@ use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUser;
 use OrangeHRM\LDAP\Dto\LDAPUserCollection;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
+use OrangeHRM\LDAP\Exception\LDAPSettingException;
 use OrangeHRM\ORM\Exception\TransactionException;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Entry;
@@ -88,6 +89,9 @@ class LDAPSyncService
     {
         if (!$this->ldapSetting instanceof LDAPSetting) {
             $this->ldapSetting = $this->getConfigService()->getLDAPSetting();
+            if ($this->ldapSetting === null) {
+                throw new LDAPSettingException('LDAP settings not configured');
+            }
         }
         return $this->ldapSetting;
     }
@@ -174,7 +178,7 @@ class LDAPSyncService
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
-                } else { // TODO:: elseif check setting to link ldap user
+                } elseif ($this->getLdapSetting()->shouldMergeLDAPUsersWithExistingSystemUsers()) {
                     // TODO:: check employees who have multiple users
                     // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());

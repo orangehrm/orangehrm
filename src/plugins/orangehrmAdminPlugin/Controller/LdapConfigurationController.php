@@ -26,6 +26,7 @@ use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\LDAP\Dto\LDAPSetting;
 
 class LdapConfigurationController extends AbstractVueController
 {
@@ -38,7 +39,8 @@ class LdapConfigurationController extends AbstractVueController
     {
         $component = new Component('ldap-configuration');
         $ldapSettings = $this->getConfigService()->getLDAPSetting();
-        $component->addProp(new Prop('show-sync', Prop::TYPE_BOOLEAN, $ldapSettings->isEnable()));
+        $showSync = $ldapSettings instanceof LDAPSetting && $ldapSettings->isEnable();
+        $component->addProp(new Prop('show-sync', Prop::TYPE_BOOLEAN, $showSync));
         $this->setComponent($component);
     }
 

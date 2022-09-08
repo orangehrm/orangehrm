@@ -42,6 +42,7 @@ class LDAPSetting
 
     private LDAPUserDataMapping $dataMapping;
 
+    private bool $mergeLDAPUsersWithExistingSystemUsers = false;
     private int $syncInterval = 60;
 
 
@@ -88,6 +89,7 @@ class LDAPSetting
         // Data Mapping
         $setting->getDataMapping()->setAttributeNames($config['dataMapping']);
         // Additional Settings
+        $setting->setMergeLDAPUsersWithExistingSystemUsers($config['mergeLDAPUsersWithExistingSystemUsers']);
         $setting->setSyncInterval($config['syncInterval']);
 
         return $setting;
@@ -119,6 +121,7 @@ class LDAPSetting
             // Data Mapping
             'dataMapping' => $this->getDataMapping()->toArray(),
             // Additional Settings
+            'mergeLDAPUsersWithExistingSystemUsers' => $this->shouldMergeLDAPUsersWithExistingSystemUsers(),
             'syncInterval' => $this->getSyncInterval()
         ]);
     }
@@ -287,6 +290,22 @@ class LDAPSetting
     public function setEnable(bool $enable): void
     {
         $this->enable = $enable;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldMergeLDAPUsersWithExistingSystemUsers(): bool
+    {
+        return $this->mergeLDAPUsersWithExistingSystemUsers;
+    }
+
+    /**
+     * @param bool $mergeLDAPUsersWithExistingSystemUsers
+     */
+    public function setMergeLDAPUsersWithExistingSystemUsers(bool $mergeLDAPUsersWithExistingSystemUsers): void
+    {
+        $this->mergeLDAPUsersWithExistingSystemUsers = $mergeLDAPUsersWithExistingSystemUsers;
     }
 
     /**

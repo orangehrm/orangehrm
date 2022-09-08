@@ -238,6 +238,16 @@
         </oxd-text>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="orangehrm-ldap-switch">
+              <oxd-text tag="p" class="orangehrm-ldap-switch-text">
+                {{ $t('admin.merge_ldap_users_with_existing_system_users') }}
+              </oxd-text>
+              <oxd-switch-input
+                v-model="configuration.mergeLDAPUsersWithExistingSystemUsers"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.syncInterval"
@@ -311,6 +321,7 @@ const configurationModel = {
   userNameAttribute: 'cn',
   userSearchFilter: null,
   userUniqueIdAttribute: null,
+  mergeLDAPUsersWithExistingSystemUsers: false,
   syncInterval: 60,
 };
 
@@ -507,6 +518,8 @@ export default {
                 },
               ],
               dataMapping: this.configuration.dataMapping,
+              mergeLDAPUsersWithExistingSystemUsers: this.configuration
+                .mergeLDAPUsersWithExistingSystemUsers,
               syncInterval: parseInt(this.configuration.syncInterval),
             },
           })

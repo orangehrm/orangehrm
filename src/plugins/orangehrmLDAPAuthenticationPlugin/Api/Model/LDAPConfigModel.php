@@ -56,6 +56,8 @@ class LDAPConfigModel implements Normalizable
             'bindUserDN' => $this->LDAPSetting->getBindUserDN(),
             'userLookupSettings' => $userLookupSettings,
             'dataMapping' => $this->LDAPSetting->getDataMapping()->toArray(),
+            'mergeLDAPUsersWithExistingSystemUsers' => $this->LDAPSetting
+                ->shouldMergeLDAPUsersWithExistingSystemUsers(),
             'syncInterval' => $this->LDAPSetting->getSyncInterval()
         ];
     }
