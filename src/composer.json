@@ -39,7 +39,8 @@
         "symfony/process": "~5.4.0",
         "scssphp/scssphp": "~1.10.0",
         "phpseclib/phpseclib": "~3.0.0",
-        "symfony/ldap": "~5.4.0"
+        "symfony/ldap": "~5.4.0",
+        "symfony/console": "~5.4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

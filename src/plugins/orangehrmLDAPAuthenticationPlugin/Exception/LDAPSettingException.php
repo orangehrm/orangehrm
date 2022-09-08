@@ -14,35 +14,13 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-include_once('./../lib/confs/log_settings.php');
+namespace OrangeHRM\LDAP\Exception;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Framework;
-use OrangeHRM\Framework\Http\RedirectResponse;
-use OrangeHRM\Framework\Http\Request;
-use Symfony\Component\ErrorHandler\Debug;
+use Exception;
 
-require realpath(__DIR__ . '/../src/vendor/autoload.php');
-
-$env = 'prod';
-$debug = 'prod' !== $env;
-
-if ($debug) {
-    umask(0000);
-    Debug::enable();
+class LDAPSettingException extends Exception
+{
 }
-
-$kernel = new Framework($env, $debug);
-$request = Request::createFromGlobals();
-
-if (Config::isInstalled()) {
-    $response = $kernel->handleRequest($request);
-} else {
-    $response = new RedirectResponse(str_replace('/web/index.php', '', $request->getBaseUrl()));
-}
-
-$response->send();
-$kernel->terminate($request, $response);
