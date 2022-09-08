@@ -62,6 +62,18 @@ class Migration extends AbstractMigration
         $this->updateOrganizationStructure();
         $this->updateHomePage('Admin', 'dashboard/index');
         $this->updateHomePage('ESS', 'dashboard/index');
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_group')
+            ->andWhere('ohrm_i18n_group.name = :name')
+            ->setParameter('name', 'directory')
+            ->executeQuery();
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_group')
+            ->andWhere('ohrm_i18n_group.name = :name')
+            ->setParameter('name', 'branding')
+            ->executeQuery();
     }
 
     /**
