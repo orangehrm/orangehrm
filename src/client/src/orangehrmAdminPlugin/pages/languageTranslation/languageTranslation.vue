@@ -105,6 +105,7 @@
         <div class="orangehrm-header-container">
           <oxd-pagination
             v-if="showPaginator"
+            :key="currentPage"
             v-model:current="currentPage"
             :length="pages"
           />
@@ -233,8 +234,8 @@ export default {
     } = usePaginate(http, {query: serializedFilters});
 
     const onReset = () => {
-      filters.value = {...defaultFilters, sortOrder: sortOptions.value[0]};
       currentPage.value = 1;
+      filters.value = {...defaultFilters, sortOrder: sortOptions.value[0]};
       execQuery();
     };
 
