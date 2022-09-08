@@ -22,8 +22,9 @@ namespace OrangeHRM\LDAP\Service;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Traits\LoggerTrait;
-use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
@@ -35,6 +36,7 @@ use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUser;
 use OrangeHRM\LDAP\Dto\LDAPUserCollection;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
+use OrangeHRM\ORM\Exception\TransactionException;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Entry;
 use Throwable;
@@ -46,8 +48,9 @@ class LDAPSyncService
 {
     use ConfigServiceTrait;
     use LoggerTrait;
-    use EntityManagerTrait;
+    use EntityManagerHelperTrait;
     use UserServiceTrait;
+    use DateTimeHelperTrait;
 
     private ?LDAPService $ldapService = null;
     private ?LDAPSetting $ldapSetting = null;
@@ -56,7 +59,7 @@ class LDAPSyncService
     /**
      * @return LDAPDao
      */
-    protected function getLdapDao(): LDAPDao
+    public function getLdapDao(): LDAPDao
     {
         return $this->ldapDao ??= new LDAPDao();
     }
@@ -145,7 +148,7 @@ class LDAPSyncService
             $user = $this->getLdapDao()->getUserByUserName($ldapUser->getUsername());
 
             if ($user instanceof User) {
-                $ldapAuthProvider = $this->getLDAPAuthProvider($user->getAuthProviders());
+                $ldapAuthProvider = $this->filterLDAPAuthProvider($user->getAuthProviders());
                 if ($ldapAuthProvider instanceof UserAuthProvider) {
                     if ($ldapAuthProvider->getLdapUserHash() === $this->getHashOfLDAPUser($ldapUser)) {
                         continue;
@@ -158,27 +161,26 @@ class LDAPSyncService
                     $employee->setEmployeeId($ldapUser->getEmployeeId());
                     $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
                     $user->setStatus($ldapUser->isUserEnabled());
-                    //$user->setDateModified(); TODO
-                    //$user->setModifiedUserId();
+                    $user->setDateModified($this->getDateTimeHelper()->getNow());
+                    //$user->setModifiedUserId(); TODO
 
                     // Change user data
                     $ldapAuthProvider->setLdapUserDN($ldapUser->getUserDN());
                     $ldapAuthProvider->setLdapUserUniqueId($ldapUser->getUserUniqueId());
                     $ldapAuthProvider->setLdapUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                    // TODO:: save $user
-                    $this->getEntityManager()->persist($user);
-                    // TODO:: save $employee
+                    // TODO:: trigger employee changed
                     $this->getEntityManager()->persist($employee);
-                    // TODO:: save $ldapAuthProvider
+                    $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
+
                 } else { // TODO:: elseif check setting to link ldap user
                     // TODO:: check employees who have multiple users
                     // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());
-                    //$user->setDateModified(); TODO
-                    //$user->setModifiedUserId();
+                    $user->setDateModified($this->getDateTimeHelper()->getNow());
+                    //$user->setModifiedUserId(); TODO
 
                     $employee = $user->getEmployee();
                     $employee->setFirstName($ldapUser->getFirstName());
@@ -194,11 +196,9 @@ class LDAPSyncService
                     $authProvider->setLdapUserUniqueId($ldapUser->getUserUniqueId());
                     $authProvider->setLdapUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                    // TODO:: save $user
-                    $this->getEntityManager()->persist($user);
-                    // TODO:: save $employee
+                    // TODO:: trigger employee changed
                     $this->getEntityManager()->persist($employee);
-                    // TODO:: save $ldapAuthProvider
+                    $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
                     // TODO:: check/handle empty $user->getUserPassword()
@@ -212,8 +212,8 @@ class LDAPSyncService
                         $user = $ldapAuthProvider->getUser();
                         $user->setUserName($ldapUser->getUsername());
                         $user->setStatus($ldapUser->isUserEnabled());
-                        //$user->setDateModified(); TODO
-                        //$user->setModifiedUserId();
+                        $user->setDateModified($this->getDateTimeHelper()->getNow());
+                        //$user->setModifiedUserId(); TODO
 
                         $employee = $user->getEmployee();
                         $employee->setFirstName($ldapUser->getFirstName());
@@ -226,11 +226,9 @@ class LDAPSyncService
                         $ldapAuthProvider->setLdapUserDN($ldapUser->getUserDN());
                         $ldapAuthProvider->setLdapUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                        // TODO:: save $user
-                        $this->getEntityManager()->persist($user);
                         // TODO:: save $employee
                         $this->getEntityManager()->persist($employee);
-                        // TODO:: save $ldapAuthProvider
+                        $this->getEntityManager()->persist($user);
                         $this->getEntityManager()->persist($ldapAuthProvider);
                         $this->getEntityManager()->flush();
 
@@ -245,7 +243,7 @@ class LDAPSyncService
                 }
 
                 // Create a new user if not found the employee for given mapping configurations
-                $employee = $employee ?? new Employee(); // TODO:: get employee using mapper
+                $employee = $employee ?? new Employee();
                 $employee->setFirstName($ldapUser->getFirstName());
                 $employee->setLastName($ldapUser->getLastName());
                 $employee->setMiddleName($ldapUser->getMiddleName());
@@ -256,8 +254,8 @@ class LDAPSyncService
                 $user->setUserName($ldapUser->getUsername());
                 $user->setStatus($ldapUser->isUserEnabled());
                 $user->setEmployee($employee);
-                //$user->setDateEntered(); TODO
-                //$user->setCreatedBy();
+                $user->setDateEntered($this->getDateTimeHelper()->getNow());
+                //$user->setCreatedBy(); TODO
                 $user->setUserRole($defaultUserRole);
 
                 $authProvider = new UserAuthProvider();
@@ -267,7 +265,7 @@ class LDAPSyncService
                 $authProvider->setLdapUserUniqueId($ldapUser->getUserUniqueId());
                 $authProvider->setLdapUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                // TODO:: save $authProvider
+                // TODO:: trigger employee changed
                 $this->getEntityManager()->persist($employee);
                 $this->getEntityManager()->persist($user);
                 $this->getEntityManager()->persist($authProvider);
@@ -280,7 +278,7 @@ class LDAPSyncService
     /**
      * @param UserAuthProvider[] $authProviders
      */
-    public function getLDAPAuthProvider(iterable $authProviders): ?UserAuthProvider
+    public function filterLDAPAuthProvider(iterable $authProviders): ?UserAuthProvider
     {
         foreach ($authProviders as $authProvider) {
             if ($authProvider->getType() === UserAuthProvider::TYPE_LDAP) {
@@ -292,9 +290,15 @@ class LDAPSyncService
 
     public function sync(): void
     {
-        // begin transaction
-
-        // commit transaction
+        $this->beginTransaction();
+        try {
+            $ldapUsers = $this->fetchAllLDAPUsers()->getLDAPUsers();
+            $this->createSystemUsers(array_values($ldapUsers));
+            $this->commitTransaction();
+        } catch (Throwable $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
     }
 
     /**

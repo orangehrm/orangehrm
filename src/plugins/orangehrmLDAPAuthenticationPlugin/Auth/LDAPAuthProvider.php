@@ -21,18 +21,30 @@ namespace OrangeHRM\LDAP\Auth;
 
 use OrangeHRM\Authentication\Auth\AbstractAuthProvider;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\LDAP\Service\LDAPService;
+use OrangeHRM\LDAP\Service\LDAPSyncService;
+use Symfony\Component\Ldap\Exception\LdapException;
 
 class LDAPAuthProvider extends AbstractAuthProvider
 {
-    private LDAPService $ldapAuthService;
+    private LDAPService $ldapService;
+    private LDAPSyncService $ldapSyncService;
 
     /**
      * @return LDAPService
      */
-    private function getLdapAuthService(): LDAPService
+    private function getLdapService(): LDAPService
     {
-        return $this->ldapAuthService ??= new LDAPService();
+        return $this->ldapService ??= new LDAPService();
+    }
+
+    /**
+     * @return LDAPSyncService
+     */
+    private function getLdapSyncService(): LDAPSyncService
+    {
+        return $this->ldapSyncService ??= new LDAPSyncService();
     }
 
     /**
@@ -40,10 +52,21 @@ class LDAPAuthProvider extends AbstractAuthProvider
      */
     public function authenticate(UserCredential $credential): bool
     {
-        $ldap = $this->getLdapAuthService()->getConnection();
-        // TODO:: authenticate
-        // IF user not there in the OrangeHRM can fetch and create user and employee
-        return false;
+        $user = $this->getLdapSyncService()
+            ->getLdapDao()
+            ->getUserByUserName($credential->getUsername());
+        $ldapAuthProvider = $this->getLdapSyncService()->filterLDAPAuthProvider($user->getAuthProviders());
+        if (!$ldapAuthProvider instanceof UserAuthProvider) {
+            return false;
+        }
+
+        $ldapCredential = new UserCredential($ldapAuthProvider->getLdapUserDN(), $credential->getPassword());
+        try {
+            $this->getLdapService()->bind($ldapCredential);
+            return true;
+        } catch (LdapException $e) {
+            return false;
+        }
     }
 
     /**
