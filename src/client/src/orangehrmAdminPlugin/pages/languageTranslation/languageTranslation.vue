@@ -19,7 +19,12 @@
  -->
 
 <template>
-  <div class="orangehrm-background-container">
+  <oxd-alert
+    :show="!isAdded"
+    type="warn"
+    :message="$t('general.no_records_found')"
+  ></oxd-alert>
+  <div v-if="isAdded" class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('admin.translate_language_package')">
       <oxd-form @submitValid="onSubmit" @reset="onReset">
         <oxd-form-row>
@@ -116,7 +121,7 @@
         <oxd-form-actions>
           <div class="orangehrm-bottom-container">
             <div>
-              <oxd-button                
+              <oxd-button
                 display-type="ghost"
                 :label="$t('general.cancel')"
                 type="reset"
@@ -140,6 +145,7 @@ import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import useToast from '@/core/util/composable/useToast';
 import {reloadPage} from '@/core/util/helper/navigation';
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import EditTranslationTable from '@/orangehrmAdminPlugin/components/EditTranslationTable.vue';
@@ -158,6 +164,7 @@ export default {
   components: {
     'language-group-list-dropdown': GroupListDropdown,
     'edit-translations': EditTranslationTable,
+    'oxd-alert': Alert,
   },
   props: {
     languageId: {
@@ -170,6 +177,10 @@ export default {
     },
     sourceLanguage: {
       type: String,
+      required: true,
+    },
+    isAdded: {
+      type: Boolean,
       required: true,
     },
   },
@@ -223,10 +234,12 @@ export default {
 
     const onReset = () => {
       filters.value = {...defaultFilters, sortOrder: sortOptions.value[0]};
+      currentPage.value = 1;
       execQuery();
     };
 
     const onSubmit = () => {
+      currentPage.value = 1;
       execQuery();
     };
 
