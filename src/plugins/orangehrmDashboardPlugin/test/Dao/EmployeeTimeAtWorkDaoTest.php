@@ -19,9 +19,12 @@
 
 namespace OrangeHRM\Tests\Dashboard\Dao;
 
+use DateInterval;
 use DateTime;
+use DateTimeZone;
 use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Dashboard\Dao\EmployeeTimeAtWorkDao;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -63,13 +66,19 @@ class EmployeeTimeAtWorkDaoTest extends KernelTestCase
         /**
          * No last attendance record found
          */
-        $lastAttendanceRecord = $this->employeeTimeAtWorkDao->getLatestAttendanceRecordByEmpNumber(4);
+        $lastAttendanceRecord = $this->employeeTimeAtWorkDao->getLatestAttendanceRecordByEmpNumber(6);
         $this->assertNotInstanceOf(AttendanceRecord::class, $lastAttendanceRecord);
     }
 
     public function testGetAttendanceRecordsByEmployeeAndDate()
     {
-        $attendanceRecords = $this->employeeTimeAtWorkDao->getAttendanceRecordsByEmployeeAndDate(2, new DateTime('2022-09-05'));
+        $startUTCDateTime = new DateTime('2022-09-05 00:00:00', new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC));
+        $endUTCDateTime = (clone $startUTCDateTime)->add(new DateInterval('P1D'));
+        $attendanceRecords = $this->employeeTimeAtWorkDao->getAttendanceRecordsByEmployeeAndDate(
+            2,
+            $startUTCDateTime,
+            $endUTCDateTime
+        );
         $this->assertCount(3, $attendanceRecords);
         $this->assertEquals('PUNCHED OUT', $attendanceRecords[0]->getState());
         $this->assertEquals(new DateTime('2022-09-05 17:00:00'), $attendanceRecords[0]->getPunchInUtcTime());
@@ -78,13 +87,5 @@ class EmployeeTimeAtWorkDaoTest extends KernelTestCase
         $this->assertEquals(new DateTime('2022-09-05 18:00:00'), $attendanceRecords[0]->getPunchOutUtcTime());
         $this->assertEquals(new DateTime('2022-09-05 23:30:00'), $attendanceRecords[0]->getPunchOutUserTime());
         $this->assertEquals('5.5', $attendanceRecords[0]->getPunchOutTimeOffset());
-
-        /**
-         * No attendance records found
-         */
-
-        $attendanceRecords = $this->employeeTimeAtWorkDao->getAttendanceRecordsByEmployeeAndDate(2, new DateTime('2022-09-22'));
-        $this->assertTrue(!$attendanceRecords);
-        $this->assertCount(0, $attendanceRecords);
     }
 }

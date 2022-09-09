@@ -41,30 +41,38 @@ class EmployeeTimeAtWorkDao extends BaseDao
 
     /**
      * @param int $empNumber
-     * @param DateTime $dateTime
+     * @param DateTime $startUTCDateTime
+     * @param DateTime $endUTCDateTime
      * @return AttendanceRecord[]
      */
-    public function getAttendanceRecordsByEmployeeAndDate(int $empNumber, DateTime $dateTime): array
-    {
+    public function getAttendanceRecordsByEmployeeAndDate(
+        int $empNumber,
+        DateTime $startUTCDateTime,
+        DateTime $endUTCDateTime
+    ): array {
         $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
         $qb->andWhere('attendanceRecord.employee = :empNumber');
         $qb->setParameter('empNumber', $empNumber);
         $qb->andWhere(
             $qb->expr()->orX(
                 $qb->expr()->between(
-                    'attendanceRecord.punchInUserTime',
+                    'attendanceRecord.punchInUtcTime',
                     ':start',
                     ':end'
                 ),
                 $qb->expr()->between(
-                    'attendanceRecord.punchOutUserTime',
+                    'attendanceRecord.punchOutUtcTime',
                     ':start',
                     ':end'
                 ),
+                $qb->expr()->andX(
+                    $qb->expr()->lte('attendanceRecord.punchInUtcTime', ':start'),
+                    $qb->expr()->gte('attendanceRecord.punchOutUtcTime', ':end')
+                )
             )
         );
-        $qb->setParameter('start', $dateTime->format('Y-m-d') . ' 00:00:00');
-        $qb->setParameter('end', $dateTime->format('Y-m-d') . ' 23:59:59');
+        $qb->setParameter('start', $startUTCDateTime);
+        $qb->setParameter('end', $endUTCDateTime);
         return $qb->getQuery()->execute();
     }
 }

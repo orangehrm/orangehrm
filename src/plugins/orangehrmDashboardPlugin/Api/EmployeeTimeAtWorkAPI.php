@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Dashboard\Api;
 
+use DateTime;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -31,14 +33,17 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeTimeAtWorkServiceTrait;
 
 class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
 {
     use AuthUserTrait;
+    use DateTimeHelperTrait;
     use EmployeeTimeAtWorkServiceTrait;
 
-    public const PARAMETER_EMP_NUMBER = 'empNumber';
+    public const PARAMETER_CURRENT_DATE = 'currentDate';
+    public const PARAMETER_TIME_ZONE_OFFSET = 'timezoneOffset';
 
     /**
      * @inheritDoc
@@ -46,14 +51,36 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_EMP_NUMBER
+            RequestParams::PARAM_TYPE_QUERY,
+            CommonParams::PARAMETER_EMP_NUMBER,
+            $this->getAuthUser()->getEmpNumber()
         );
+        $currentDate = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_CURRENT_DATE,
+        );
+        $timezoneOffset = $this->getRequestParams()->getFloatOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_TIME_ZONE_OFFSET,
+        );
+
+        if ((!is_null($currentDate) && !is_null($timezoneOffset))) {
+            $currentDateTime = new DateTime(
+                $currentDate . ' 00:00:00',
+                $this->getDateTimeHelper()->getTimezoneByTimezoneOffset($timezoneOffset)
+            );
+        } else {
+            $serverCurrentDateTime = $this->getDateTimeHelper()->getNow();
+            $currentDateTime = new DateTime(
+                $this->getDateTimeHelper()->formatDateTimeToYmd($serverCurrentDateTime) . ' 00:00:00',
+                $serverCurrentDateTime->getTimezone()
+            );
+        }
 
         return new EndpointResourceResult(
             ArrayModel::class,
-            $this->getEmployeeTimeAtWorkService()->getTimeAtWorkData($empNumber),
-            new ParameterBag($this->getEmployeeTimeAtWorkService()->getTimeAtWorkMetaData($empNumber))
+            $this->getEmployeeTimeAtWorkService()->getTimeAtWorkData($empNumber, $currentDateTime),
+            new ParameterBag($this->getEmployeeTimeAtWorkService()->getTimeAtWorkMetaData($empNumber, $currentDateTime))
         );
     }
 
@@ -62,12 +89,28 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+        $paramRules = new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_EMP_NUMBER,
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CURRENT_DATE,
+                    new Rule(Rules::API_DATE)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TIME_ZONE_OFFSET,
+                    new Rule(Rules::TIMEZONE_OFFSET)
+                ),
             ),
         );
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 
     /**

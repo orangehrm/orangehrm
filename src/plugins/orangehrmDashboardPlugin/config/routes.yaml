@@ -27,12 +27,12 @@ apiv2_dashboard_employees_by_location:
     _api: OrangeHRM\Dashboard\Api\EmployeeDistributionByLocationAPI
 
 apiv2_dashboard_employee_time_at_work:
-  path: /api/v2/dashboard/employees/{empNumber}/time-at-work
+  path: /api/v2/dashboard/employees/time-at-work
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Dashboard\Api\EmployeeTimeAtWorkAPI
-    _key: empNumber
+    id: 0
 
 ##########################
 #        Screens

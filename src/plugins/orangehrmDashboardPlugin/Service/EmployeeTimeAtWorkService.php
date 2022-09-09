@@ -21,7 +21,9 @@ namespace OrangeHRM\Dashboard\Service;
 
 use DateInterval;
 use DateTime;
+use DateTimeZone;
 use Exception;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Dashboard\Dao\EmployeeTimeAtWorkDao;
@@ -67,25 +69,28 @@ class EmployeeTimeAtWorkService
 
     /**
      * @param int $empNumber
+     * @param DateTime $currentDateTime
      * @return array
      * @throws Exception
      */
-    public function getTimeAtWorkData(int $empNumber): array
+    public function getTimeAtWorkData(int $empNumber, DateTime $currentDateTime): array
     {
-        return $this->getDataForCurrentWeek($empNumber);
+        return $this->getDataForCurrentWeek($empNumber, $currentDateTime);
     }
 
     /**
      * @param int $empNumber
+     * @param DateTime $currentDateTime
      * @return array
      * @throws Exception
      */
-    public function getTimeAtWorkMetaData(int $empNumber): array
+    public function getTimeAtWorkMetaData(int $empNumber, DateTime $currentDateTime): array
     {
-        //TODO::Determine whether current date is server date or date from the client side
-        $currentDate = $this->getDateTimeHelper()->getNow();
-        $totalTimeForCurrentDay = $this->getTotalTimeForGivenDate($empNumber, $currentDate);
-        list($weekStartDate, $weekEndDate) = $this->extractStartDateAndEndDateFromDate($currentDate);
+        $currentUTCDateTime = (clone $currentDateTime)->setTimezone(
+            new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
+        );
+        $totalTimeForCurrentDay = $this->getTotalTimeForGivenDate($empNumber, $currentUTCDateTime);
+        list($weekStartDate, $weekEndDate) = $this->getWeekBoundaryForGivenDate($currentDateTime);
 
         $weekStartDate = new DateTime($weekStartDate);
         $weekEndDate = new DateTime($weekEndDate);
@@ -93,7 +98,7 @@ class EmployeeTimeAtWorkService
         return [
             'lastAction' => $this->getLastActionDetails($empNumber),
             'currentDay' => [
-                'currentDate' => $this->getDateDetails($currentDate),
+                'currentDate' => $this->getDateDetails($currentDateTime),
                 'totalTime' => $this->getTimeInHoursAndMinutes($totalTimeForCurrentDay)
             ],
             'currentWeek' => [
@@ -168,53 +173,38 @@ class EmployeeTimeAtWorkService
 
     /**
      * @param int $empNumber
-     * @param DateTime $givenDateTime
+     * @param DateTime $startUTCDateTime
      * @return int total time will be returned in minutes
      * @throws Exception
      */
-    public function getTotalTimeForGivenDate(int $empNumber, DateTime $givenDateTime): int
+    private function getTotalTimeForGivenDate(int $empNumber, DateTime $startUTCDateTime): int
     {
         $totalTime = 0;
+        $endUTCDateTime = (clone $startUTCDateTime)->add(new DateInterval('P1D'));
         $attendanceRecords = $this->getEmployeeTimeAtWorkDao()
-            ->getAttendanceRecordsByEmployeeAndDate($empNumber, $givenDateTime);
+            ->getAttendanceRecordsByEmployeeAndDate(
+                $empNumber,
+                $startUTCDateTime,
+                $endUTCDateTime
+            );
         /**
-         * No attendance records found for given day
+         * No attendance records found for given day, check for empty array []
          */
         if (!$attendanceRecords) {
             return $totalTime;
         }
-
-        $givenDate = $this->getDateTimeHelper()->formatDate($givenDateTime);
-        $givenDateLowerBoundary = new DateTime($givenDate . ' ' . '00:00:00');
-
         foreach ($attendanceRecords as $attendanceRecord) {
             if ($attendanceRecord->getState() === self::STATE_PUNCHED_OUT) {
-                $punchInUserDateTime = $attendanceRecord->getPunchInUserTime();
-                $punchOutUserDateTime = $attendanceRecord->getPunchOutUserTime();
-
-                /**
-                 * Given day 2022-09-05
-                 * When punched-in given day and punched-out next day
-                 * eg:- punched-in on 2022-09-05 at 23:30 and punched-out on 2022-09-06 at 00:30
-                 * 30 minutes goes to 2022-09-05 total time and 30 minutes goes to 2022-09-06 total time
-                 */
-                if ($this->getDateTimeHelper()->formatDate($punchOutUserDateTime) > $givenDate) {
-                    $generalLowerBoundary = clone $givenDateLowerBoundary;
-                    $punchInDateUpperBoundary = $generalLowerBoundary->add(new DateInterval('P1D'));
-                    $totalTime = $totalTime + $this->getTimeDifference($punchInDateUpperBoundary, $punchInUserDateTime);
-                } /**
-                 * Given day 2022-09-05
-                 * When punched-out in given day and punched-in in previous day
-                 * eg:- punched-in on 2022-09-04 at 23:30 and punched-out on 2022-09-05 at 00:30
-                 * 30 minutes goes to 2022-09-04 total time and 30 minutes goes to 2022-09-05 total time
-                 */
-                elseif ($this->getDateTimeHelper()->formatDate($punchInUserDateTime) < $givenDate) {
-                    $totalTime = $totalTime + $this->getTimeDifference($givenDateLowerBoundary, $punchOutUserDateTime);
-                } /**
-                 * Punched-in and punched-out in the given day
-                 */
-                else {
-                    $totalTime = $totalTime + $this->getTimeDifference($punchOutUserDateTime, $punchInUserDateTime);
+                $punchInUtcDateTime = $this->getDateTimeInUTC($attendanceRecord->getPunchInUtcTime());
+                $punchOutUtcDateTime = $this->getDateTimeInUTC($attendanceRecord->getPunchOutUtcTime());
+                if ($punchInUtcDateTime < $startUTCDateTime && $punchOutUtcDateTime > $endUTCDateTime) {
+                    $totalTime += $this->getTimeDifference($endUTCDateTime, $startUTCDateTime);
+                } elseif ($punchInUtcDateTime < $startUTCDateTime && $punchOutUtcDateTime > $startUTCDateTime) {
+                    $totalTime += $this->getTimeDifference($startUTCDateTime, $punchOutUtcDateTime);
+                } elseif ($punchInUtcDateTime < $endUTCDateTime && $punchOutUtcDateTime > $endUTCDateTime) {
+                    $totalTime += $this->getTimeDifference($punchInUtcDateTime, $endUTCDateTime);
+                } else {
+                    $totalTime += $this->getTimeDifference($punchOutUtcDateTime, $punchInUtcDateTime);
                 }
             }
         }
@@ -225,7 +215,7 @@ class EmployeeTimeAtWorkService
      * @param DateTime $date
      * @return array  eg:- array(if monday as first day in config => '2021-12-13', '2021-12-19')
      */
-    private function extractStartDateAndEndDateFromDate(DateTime $date): array
+    private function getWeekBoundaryForGivenDate(DateTime $date): array
     {
         $currentWeekFirstDate = date('Y-m-d', strtotime('monday this week', strtotime($date->format('Y-m-d'))));
         $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;
@@ -236,27 +226,38 @@ class EmployeeTimeAtWorkService
 
     /**
      * @param int $empNumber
+     * @param DateTime $currentDateTime
      * @return array
      * @throws Exception
      */
-    private function getDataForCurrentWeek(int $empNumber): array
-    {
-        list($startDate) = $this->extractStartDateAndEndDateFromDate($this->getDateTimeHelper()->getNow());
+    private function getDataForCurrentWeek(
+        int $empNumber,
+        DateTime $currentDateTime
+    ): array {
+        list($startDate) = $this->getWeekBoundaryForGivenDate($currentDateTime);
+        $startDateTime = new DateTime($startDate . ' 00:00:00', $currentDateTime->getTimezone());
+        $startUTCDateTime = (clone $startDateTime)->setTimezone(
+            new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
+        );
+
         $counter = 0;
-        $date = new DateTime($startDate);
         $weeklyData = [];
+
         while ($counter < 7) {
-            $totalTimeForDay = $this->getTotalTimeForGivenDate($empNumber, $date);
+            $totalTimeForDay = $this->getTotalTimeForGivenDate($empNumber, $startUTCDateTime);
             $weeklyData[] = [
                 'workDay' => [
-                    'id' => $date->format('w'),
-                    'day' => $date->format('D'),
-                    'date' => $this->getDateTimeHelper()->formatDate($date),
+                    'id' => $startDateTime->format('w'),
+                    'day' => $startDateTime->format('D'),
+                    'date' => $this->getDateTimeHelper()->formatDateTimeToYmd($startDateTime),
                 ],
                 'totalTime' => $this->getTimeInHoursAndMinutes($totalTimeForDay),
             ];
-            $date = clone $date;
-            $date = $date->add(new DateInterval('P1D'));
+            $startUTCDateTime = clone $startUTCDateTime;
+            $startUTCDateTime = $startUTCDateTime->add(new DateInterval('P1D'));
+            $startDateTime = clone $startDateTime;
+            $startDateTime = $startDateTime->add(new DateInterval('P1D'));
+
             $this->totalTimeForWeek = $this->totalTimeForWeek + $totalTimeForDay;
             $counter++;
         }
@@ -270,6 +271,17 @@ class EmployeeTimeAtWorkService
      */
     private function getTimeDifference(DateTime $endDateTime, DateTime $startDateTime): int
     {
-        return $endDateTime->diff($startDateTime)->h * 60 + $endDateTime->diff($startDateTime)->i;
+        $dateInterval = $endDateTime->diff($startDateTime);
+        return $dateInterval->days * 24 * 60 + $dateInterval->h * 60 + $dateInterval->i;
+    }
+
+    /**
+     * @param DateTime $dateTime
+     * @return DateTime
+     * @throws Exception
+     */
+    private function getDateTimeInUTC(DateTime $dateTime): DateTime
+    {
+        return new DateTime($dateTime->format('Y-m-d H:i'), new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC));
     }
 }
