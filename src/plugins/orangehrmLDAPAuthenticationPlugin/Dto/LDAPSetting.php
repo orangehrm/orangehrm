@@ -42,11 +42,7 @@ class LDAPSetting
 
     private LDAPUserDataMapping $dataMapping;
 
-    private string $groupObjectClass = 'group';
-    private string $groupObjectFilter = '(&(objectClass=group)(cn=*))';
-    private string $groupNameAttribute = 'cn';
-    private string $groupMembersAttribute = 'member';
-    private string $groupMembershipAttribute = 'memberOf';
+    private bool $mergeLDAPUsersWithExistingSystemUsers = false;
     private int $syncInterval = 60;
 
 
@@ -90,14 +86,10 @@ class LDAPSetting
         foreach ($config['userLookupSettings'] as $userLookupSetting) {
             $setting->addUserLookupSetting(LDAPUserLookupSetting::createFromArray($userLookupSetting));
         }
-        $setting->setGroupObjectClass($config['groupObjectClass']);
-        $setting->setGroupObjectFilter($config['groupObjectFilter']);
-        $setting->setGroupNameAttribute($config['groupNameAttribute']);
-        $setting->setGroupMembersAttribute($config['groupMembersAttribute']);
-        $setting->setGroupMembershipAttribute($config['groupMembershipAttribute']);
         // Data Mapping
         $setting->getDataMapping()->setAttributeNames($config['dataMapping']);
         // Additional Settings
+        $setting->setMergeLDAPUsersWithExistingSystemUsers($config['mergeLDAPUsersWithExistingSystemUsers']);
         $setting->setSyncInterval($config['syncInterval']);
 
         return $setting;
@@ -126,14 +118,10 @@ class LDAPSetting
                 fn (LDAPUserLookupSetting $lookupSetting) => $lookupSetting->toArray(),
                 $this->getUserLookupSettings()
             ),
-            'groupObjectClass' => $this->getGroupObjectClass(),
-            'groupObjectFilter' => $this->getGroupObjectFilter(),
-            'groupNameAttribute' => $this->getGroupNameAttribute(),
-            'groupMembersAttribute' => $this->getGroupMembersAttribute(),
-            'groupMembershipAttribute' => $this->getGroupMembershipAttribute(),
             // Data Mapping
             'dataMapping' => $this->getDataMapping()->toArray(),
             // Additional Settings
+            'mergeLDAPUsersWithExistingSystemUsers' => $this->shouldMergeLDAPUsersWithExistingSystemUsers(),
             'syncInterval' => $this->getSyncInterval()
         ]);
     }
@@ -305,83 +293,19 @@ class LDAPSetting
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getGroupObjectClass(): string
+    public function shouldMergeLDAPUsersWithExistingSystemUsers(): bool
     {
-        return $this->groupObjectClass;
+        return $this->mergeLDAPUsersWithExistingSystemUsers;
     }
 
     /**
-     * @param string $groupObjectClass
+     * @param bool $mergeLDAPUsersWithExistingSystemUsers
      */
-    public function setGroupObjectClass(string $groupObjectClass): void
+    public function setMergeLDAPUsersWithExistingSystemUsers(bool $mergeLDAPUsersWithExistingSystemUsers): void
     {
-        $this->groupObjectClass = $groupObjectClass;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGroupObjectFilter(): string
-    {
-        return $this->groupObjectFilter;
-    }
-
-    /**
-     * @param string $groupObjectFilter
-     */
-    public function setGroupObjectFilter(string $groupObjectFilter): void
-    {
-        $this->groupObjectFilter = $groupObjectFilter;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGroupNameAttribute(): string
-    {
-        return $this->groupNameAttribute;
-    }
-
-    /**
-     * @param string $groupNameAttribute
-     */
-    public function setGroupNameAttribute(string $groupNameAttribute): void
-    {
-        $this->groupNameAttribute = $groupNameAttribute;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGroupMembersAttribute(): string
-    {
-        return $this->groupMembersAttribute;
-    }
-
-    /**
-     * @param string $groupMembersAttribute
-     */
-    public function setGroupMembersAttribute(string $groupMembersAttribute): void
-    {
-        $this->groupMembersAttribute = $groupMembersAttribute;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGroupMembershipAttribute(): string
-    {
-        return $this->groupMembershipAttribute;
-    }
-
-    /**
-     * @param string $groupMembershipAttribute
-     */
-    public function setGroupMembershipAttribute(string $groupMembershipAttribute): void
-    {
-        $this->groupMembershipAttribute = $groupMembershipAttribute;
+        $this->mergeLDAPUsersWithExistingSystemUsers = $mergeLDAPUsersWithExistingSystemUsers;
     }
 
     /**

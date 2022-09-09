@@ -19,8 +19,13 @@
 
 namespace OrangeHRM\Tests\LDAP\Service;
 
+use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
@@ -30,6 +35,7 @@ use OrangeHRM\Tests\LDAP\LDAPConnectionHelperTrait;
 use OrangeHRM\Tests\LDAP\LDAPServerConfig;
 use OrangeHRM\Tests\LDAP\LDAPUsersFixture;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
@@ -57,6 +63,7 @@ class LDAPSyncServiceTest extends KernelTestCase
             self::$configured = true;
             $this->configureServerAndLoadData();
         }
+        TestDataService::truncateSpecificTables([UserAuthProvider::class, User::class, Employee::class]);
     }
 
     protected function configureServerAndLoadData(): void
@@ -313,8 +320,17 @@ class LDAPSyncServiceTest extends KernelTestCase
             ->willReturn($ldapSetting);
         $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
 
+        $timeStart = microtime(true);
         $ldapSyncService = new LDAPSyncService();
         $ldapUserCollection = $ldapSyncService->fetchAllLDAPUsers();
+
+        // check possibility of serializing
+        $filePath = __DIR__ . '/ldap_user_collection.txt';
+        file_put_contents($filePath, serialize($ldapUserCollection));
+        $ldapUserCollection = unserialize(file_get_contents($filePath));
+        $timeEnd = microtime(true);
+        unlink($filePath);
+        //echo "\nExecution time:" . ($timeEnd - $timeStart);
 
         $expectedFailedCount = 4;
         $expectedDuplicateUserCount = 204;
@@ -326,5 +342,78 @@ class LDAPSyncServiceTest extends KernelTestCase
             1116 - $expectedFailedCount - $expectedDuplicateUserCount,
             $ldapUserCollection->getLDAPUsers()
         );
+    }
+
+    public function testCreateSystemUsers(): void
+    {
+        $ldapSetting = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=admin,ou=users,dc=example,dc=org'))
+                ->setSearchScope('one')
+                ->setUserNameAttribute('uid')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=legal,ou=users,dc=example,dc=org'))
+                ->setSearchScope('sub')
+                ->setUserNameAttribute('uid')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=marketing,ou=sales,ou=users,dc=example,dc=org'))
+                ->setSearchScope('one')
+                ->setUserNameAttribute('mail')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=finance,ou=users,dc=example,dc=org'))
+                ->setSearchScope('one')
+                ->setUserNameAttribute('cn')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSetting->setBindAnonymously(false);
+        $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
+        $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
+
+        $now = new \DateTime('2022-09-07 08:30');
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturnCallback(fn () => clone $now);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->exactly(2))
+            ->method('getLDAPSetting')
+            ->willReturn($ldapSetting);
+        $this->createKernelWithMockServices([
+            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
+            Services::CONFIG_SERVICE => $configService,
+            Services::USER_SERVICE => new UserService(),
+        ]);
+
+        $timeStart = microtime(true);
+        $ldapSyncService = new LDAPSyncService();
+        $ldapUserCollection = $ldapSyncService->fetchAllLDAPUsers();
+        $this->assertCount(4, $ldapUserCollection->getFailedUsers());
+        $ldapSyncService->createSystemUsers(array_values($ldapUserCollection->getLDAPUsers()));
+        $timeEnd = microtime(true);
+        //echo "\nExecution time:" . ($timeEnd - $timeStart);
+
+        $this->assertEquals(7, $this->getEntityManager()->getRepository(User::class)->count([]));
+        $this->assertEquals(7, $this->getEntityManager()->getRepository(UserAuthProvider::class)->count([]));
+        $this->assertEquals(7, $this->getEntityManager()->getRepository(Employee::class)->count([]));
     }
 }

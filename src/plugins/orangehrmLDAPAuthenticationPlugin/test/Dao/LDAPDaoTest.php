@@ -22,10 +22,10 @@ namespace OrangeHRM\Tests\LDAP\Dao;
 use Doctrine\ORM\NonUniqueResultException;
 use InvalidArgumentException;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\LDAP\Dao\LDAPDao;
-use OrangeHRM\LDAP\Dto\LDAPEmployee;
 use OrangeHRM\LDAP\Dto\LDAPEmployeeSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -90,13 +90,13 @@ class LDAPDaoTest extends KernelTestCase
         $this->assertEquals(UserAuthProvider::TYPE_LDAP, $user->getAuthProviders()[0]->getType());
         $this->assertEquals(
             'cn=Peter.Anderson,ou=finance,ou=users,dc=example,dc=org',
-            $user->getAuthProviders()[0]->getLdapUserDN()
+            $user->getAuthProviders()[0]->getLDAPUserDN()
         );
         $this->assertEquals(
             'df2567d0-bca1-103c-98f9-f5289009f541',
-            $user->getAuthProviders()[0]->getLdapUserUniqueId()
+            $user->getAuthProviders()[0]->getLDAPUserUniqueId()
         );
-        $this->assertEquals('b698c9bc564c09b72faf894827d1b141', $user->getAuthProviders()[0]->getLdapUserHash());
+        $this->assertEquals('b698c9bc564c09b72faf894827d1b141', $user->getAuthProviders()[0]->getLDAPUserHash());
     }
 
     public function testGetEmployee(): void
@@ -113,56 +113,56 @@ class LDAPDaoTest extends KernelTestCase
         }
         $ldapEmployeeSearchFilterParams->setEmployeeId('0001');
         $employee = $ldapDao->getEmployee($ldapEmployeeSearchFilterParams);
-        $this->assertInstanceOf(LDAPEmployee::class, $employee);
+        $this->assertInstanceOf(Employee::class, $employee);
         $this->assertEquals('Odis', $employee->getFirstName());
         $this->assertEquals('Adalwin', $employee->getLastName());
 
         $ldapEmployeeSearchFilterParams = new LDAPEmployeeSearchFilterParams();
         $ldapEmployeeSearchFilterParams->setEmpNumber(1);
         $employee = $ldapDao->getEmployee($ldapEmployeeSearchFilterParams);
-        $this->assertInstanceOf(LDAPEmployee::class, $employee);
+        $this->assertInstanceOf(Employee::class, $employee);
         $this->assertEquals('Odis', $employee->getFirstName());
         $this->assertEquals('Adalwin', $employee->getLastName());
 
         $ldapEmployeeSearchFilterParams = new LDAPEmployeeSearchFilterParams();
         $ldapEmployeeSearchFilterParams->setSinNumber('890 785 234');
         $employee = $ldapDao->getEmployee($ldapEmployeeSearchFilterParams);
-        $this->assertInstanceOf(LDAPEmployee::class, $employee);
+        $this->assertInstanceOf(Employee::class, $employee);
         $this->assertEquals('Kayla', $employee->getFirstName());
         $this->assertEquals('Abbey', $employee->getLastName());
 
         $ldapEmployeeSearchFilterParams = new LDAPEmployeeSearchFilterParams();
         $ldapEmployeeSearchFilterParams->setDrivingLicenseNo(97204831);
         $employee = $ldapDao->getEmployee($ldapEmployeeSearchFilterParams);
-        $this->assertInstanceOf(LDAPEmployee::class, $employee);
+        $this->assertInstanceOf(Employee::class, $employee);
         $this->assertEquals('Jasmine', $employee->getFirstName());
         $this->assertEquals('Morgan', $employee->getLastName());
 
         $ldapEmployeeSearchFilterParams = new LDAPEmployeeSearchFilterParams();
         $ldapEmployeeSearchFilterParams->setOtherId('86YH34567');
         $employee = $ldapDao->getEmployee($ldapEmployeeSearchFilterParams);
-        $this->assertInstanceOf(LDAPEmployee::class, $employee);
+        $this->assertInstanceOf(Employee::class, $employee);
         $this->assertEquals('Garry', $employee->getFirstName());
         $this->assertEquals('White', $employee->getLastName());
 
         $ldapEmployeeSearchFilterParams = new LDAPEmployeeSearchFilterParams();
         $ldapEmployeeSearchFilterParams->setWorkEmail('jadine@example.org');
         $employee = $ldapDao->getEmployee($ldapEmployeeSearchFilterParams);
-        $this->assertInstanceOf(LDAPEmployee::class, $employee);
+        $this->assertInstanceOf(Employee::class, $employee);
         $this->assertEquals('Jadine', $employee->getFirstName());
         $this->assertEquals('Jackie', $employee->getLastName());
 
         $ldapEmployeeSearchFilterParams = new LDAPEmployeeSearchFilterParams();
         $ldapEmployeeSearchFilterParams->setOtherEmail('david@example.com');
         $employee = $ldapDao->getEmployee($ldapEmployeeSearchFilterParams);
-        $this->assertInstanceOf(LDAPEmployee::class, $employee);
+        $this->assertInstanceOf(Employee::class, $employee);
         $this->assertEquals('David', $employee->getFirstName());
         $this->assertEquals('Morris', $employee->getLastName());
 
         $ldapEmployeeSearchFilterParams = new LDAPEmployeeSearchFilterParams();
         $ldapEmployeeSearchFilterParams->setSsnNumber('778-62-8144');
         $employee = $ldapDao->getEmployee($ldapEmployeeSearchFilterParams);
-        $this->assertInstanceOf(LDAPEmployee::class, $employee);
+        $this->assertInstanceOf(Employee::class, $employee);
         $this->assertEquals('Kevin', $employee->getFirstName());
         $this->assertEquals('Mathews', $employee->getLastName());
 

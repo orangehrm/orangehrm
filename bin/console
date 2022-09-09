@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,41 +18,52 @@
  * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Authentication\Auth\AuthProviderChain;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+if (php_sapi_name() !== 'cli') {
+    echo 'Unauthorized';
+    exit(1);
+}
+
+$pathToAutoload = realpath(__DIR__ . '/../src/vendor/autoload.php');
+
+$errorMessage = "
+Cannot find composer dependencies.
+Run below command and try again;\n
+$ cd %s
+$ composer install -d src
+";
+
+if (!$pathToAutoload) {
+    echo sprintf($errorMessage, realpath(__DIR__ . '/../'));
+    exit(1);
+}
+
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
+use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
-use OrangeHRM\LDAP\Command\LDAPSyncUserCommand;
-use OrangeHRM\LDAP\Dto\LDAPSetting;
 
-class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterface, ConsoleConfigurationInterface
-{
-    use ServiceContainerTrait;
-    use ConfigServiceTrait;
+set_time_limit(0);
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
-    {
-        $ldapSettings = $this->getConfigService()->getLDAPSetting();
-        if ($ldapSettings instanceof LDAPSetting && $ldapSettings->isEnable()) {
-            /** @var AuthProviderChain $authProviderChain */
-            $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
-            $authProviderChain->addProvider(new LDAPAuthProvider());
-        }
-    }
+require_once $pathToAutoload;
 
-    /**
-     * @inheritDoc
-     */
-    public function registerCommands(Console $console): void
-    {
-        $console->add(new LDAPSyncUserCommand());
+$env = 'prod';
+$debug = 'prod' !== $env;
+
+$console = new Console();
+$kernel = new Framework($env, $debug);
+
+$request = new Request();
+$pluginConfigs = Config::get('ohrm_plugin_configs');
+foreach (array_values($pluginConfigs) as $pluginConfig) {
+    require_once $pluginConfig['filepath'];
+    /** @var PluginConfigurationInterface $configClass */
+    $configClass = new $pluginConfig['classname']();
+    $configClass->initialize($request);
+    if ($configClass instanceof ConsoleConfigurationInterface) {
+        $configClass->registerCommands($console);
     }
 }
+
+$console->run();

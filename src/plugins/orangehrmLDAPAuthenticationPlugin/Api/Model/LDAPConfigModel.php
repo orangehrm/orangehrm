@@ -29,14 +29,14 @@ class LDAPConfigModel implements Normalizable
     /**
      * @var LDAPSetting
      */
-    private LDAPSetting $LDAPSetting;
+    private LDAPSetting $ldapSetting;
 
     /**
-     * @param LDAPSetting $LDAPSetting
+     * @param LDAPSetting $ldapSetting
      */
-    public function __construct(LDAPSetting $LDAPSetting)
+    public function __construct(LDAPSetting $ldapSetting)
     {
-        $this->LDAPSetting = $LDAPSetting;
+        $this->ldapSetting = $ldapSetting;
     }
 
 
@@ -44,24 +44,21 @@ class LDAPConfigModel implements Normalizable
     {
         $userLookupSettings = array_map(
             fn (LDAPUserLookupSetting $lookupSetting) => $lookupSetting->toArray(),
-            $this->LDAPSetting->getUserLookupSettings()
+            $this->ldapSetting->getUserLookupSettings()
         );
         return [
-            'enable' => $this->LDAPSetting->isEnable(),
-            'hostname' => $this->LDAPSetting->getHost(),
-            'port' => $this->LDAPSetting->getPort(),
-            'encryption' => $this->LDAPSetting->getEncryption(),
-            'ldapImplementation' => $this->LDAPSetting->getImplementation(),
-            'bindAnonymously' => $this->LDAPSetting->isBindAnonymously(),
-            'bindUserDN' => $this->LDAPSetting->getBindUserDN(),
+            'enable' => $this->ldapSetting->isEnable(),
+            'hostname' => $this->ldapSetting->getHost(),
+            'port' => $this->ldapSetting->getPort(),
+            'encryption' => $this->ldapSetting->getEncryption(),
+            'ldapImplementation' => $this->ldapSetting->getImplementation(),
+            'bindAnonymously' => $this->ldapSetting->isBindAnonymously(),
+            'bindUserDN' => $this->ldapSetting->getBindUserDN(),
             'userLookupSettings' => $userLookupSettings,
-            'dataMapping' => $this->LDAPSetting->getDataMapping()->toArray(),
-            'groupObjectClass' => $this->LDAPSetting->getGroupObjectClass(),
-            'groupObjectFilter' => $this->LDAPSetting->getGroupObjectFilter(),
-            'groupNameAttribute' => $this->LDAPSetting->getGroupNameAttribute(),
-            'groupMembersAttribute' => $this->LDAPSetting->getGroupMembersAttribute(),
-            'groupMembershipAttribute' => $this->LDAPSetting->getGroupMembershipAttribute(),
-            'syncInterval' => $this->LDAPSetting->getSyncInterval()
+            'dataMapping' => $this->ldapSetting->getDataMapping()->toArray(),
+            'mergeLDAPUsersWithExistingSystemUsers' => $this->ldapSetting
+                ->shouldMergeLDAPUsersWithExistingSystemUsers(),
+            'syncInterval' => $this->ldapSetting->getSyncInterval()
         ];
     }
 }

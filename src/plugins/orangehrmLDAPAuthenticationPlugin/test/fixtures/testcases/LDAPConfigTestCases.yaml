@@ -20,7 +20,8 @@ Update:
           "searchScope": "sub",
           "userNameAttribute": "cn",
           "userUniqueIdAttribute": null,
-          "userSearchFilter": "objectClass=person"
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -29,11 +30,7 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
+        "mergeLDAPUsersWithExistingSystemUsers": false,
         "syncInterval": 60
       }
     data:
@@ -50,7 +47,8 @@ Update:
           'searchScope': 'sub',
           'userNameAttribute': 'cn',
           'userUniqueIdAttribute': null,
-          'userSearchFilter': 'objectClass=person'
+          'userSearchFilter': 'objectClass=person',
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -60,11 +58,7 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
+        "mergeLDAPUsersWithExistingSystemUsers": false,
         "syncInterval": 60
       }
     meta: [ ]
@@ -90,7 +84,8 @@ Update:
           "searchScope": "sub",
           "userNameAttribute": "uid",
           "userUniqueIdAttribute": "entryUUID",
-          "userSearchFilter": "objectClass=person"
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -100,11 +95,7 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
+        "mergeLDAPUsersWithExistingSystemUsers": false,
         "syncInterval": 60
       }
     data:
@@ -121,7 +112,8 @@ Update:
           'searchScope': 'sub',
           'userNameAttribute': 'uid',
           'userUniqueIdAttribute': 'entryUUID',
-          'userSearchFilter': 'objectClass=person'
+          'userSearchFilter': 'objectClass=person',
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -131,11 +123,7 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
+        "mergeLDAPUsersWithExistingSystemUsers": false,
         "syncInterval": 60
       }
     meta: [ ]
@@ -161,7 +149,8 @@ Update:
           "searchScope": "sub",
           "userNameAttribute": "cn",
           "userUniqueIdAttribute": null,
-          "userSearchFilter": "objectClass=person"
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -170,11 +159,7 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
+        "mergeLDAPUsersWithExistingSystemUsers": false,
         "syncInterval": 60
       }
     invalidOnly: [ "encryption" ]
@@ -200,7 +185,8 @@ Update:
           "searchScope": "sub",
           "userNameAttribute": "cn",
           "userUniqueIdAttribute": null,
-          "userSearchFilter": "objectClass=person"
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -209,11 +195,7 @@ Update:
           "workEmail": null,
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
+        "mergeLDAPUsersWithExistingSystemUsers": false,
         "syncInterval": 60
       }
     invalidOnly: [ "ldapImplementation" ]
@@ -245,11 +227,7 @@ Update:
 #          "workEmail": null,
 #          "employeeId": null
 #        },
-#        "groupObjectClass": "group",
-#        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-#        "groupNameAttribute": "cn",
-#        "groupMembersAttribute": "member",
-#        "groupMembershipAttribute": "memberOf",
+#        "mergeLDAPUsersWithExistingSystemUsers": false,
 #        "syncInterval": 60
 #      }
 #    invalidOnly: [ "searchScope" ]
@@ -270,20 +248,16 @@ GetOne:
         "ldapImplementation": "OpenLDAP",
         "bindAnonymously": true,
         "bindUserDN": null,
-        "userLookupSettings": [ ]
-          "dataMapping": {
-            "firstName": "givenName",
-            "middleName": "",
-            "lastName": "sn",
-            "userStatus": null,
-            "workEmail": null,
-            "employeeId": null
-          },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
+        "userLookupSettings": [ ],
+        "dataMapping": {
+          "firstName": "givenName",
+          "middleName": "",
+          "lastName": "sn",
+          "userStatus": null,
+          "workEmail": null,
+          "employeeId": null
+        },
+        "mergeLDAPUsersWithExistingSystemUsers": false,
         "syncInterval": 60
       }
 
@@ -309,7 +283,8 @@ GetOne:
           'searchScope': 'sub',
           'userNameAttribute': 'cn',
           'userUniqueIdAttribute': 'entryUUID',
-          'userSearchFilter': 'objectClass=inetOrgPerson'
+          'userSearchFilter': 'objectClass=inetOrgPerson',
+          "employeeSelectorMapping": [ ],
         } ],
         "dataMapping": {
           "firstName": "givenName",
@@ -319,11 +294,7 @@ GetOne:
           "workEmail": "mail",
           "employeeId": null
         },
-        "groupObjectClass": "group",
-        "groupObjectFilter": "(&(objectClass=group)(cn=*))",
-        "groupNameAttribute": "cn",
-        "groupMembersAttribute": "member",
-        "groupMembershipAttribute": "memberOf",
+        "mergeLDAPUsersWithExistingSystemUsers": false,
         "syncInterval": 60
       }
     meta: [ ]

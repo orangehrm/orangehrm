@@ -337,7 +337,7 @@ class EmployeeService
     {
         $undeletableIds = [$this->getUserRoleManager()->getUser()->getEmpNumber()];
         if (Config::PRODUCT_MODE === Config::MODE_DEMO &&
-            ($user = $this->getUserService()->getSystemUserDao()->getDefaultAdminUser()) instanceof User) {
+            ($user = $this->getUserService()->geUserDao()->getDefaultAdminUser()) instanceof User) {
             $undeletableIds[] = $user->getEmpNumber();
         }
         return $undeletableIds;

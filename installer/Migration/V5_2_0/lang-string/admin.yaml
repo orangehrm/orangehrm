@@ -200,3 +200,6 @@ langStrings:
   -
     value: 'User Unique ID Attribute'
     unitId: user_unique_id_attribute
+  -
+    value: 'Merge LDAP Users With Existing System Users'
+    unitId: merge_ldap_users_with_existing_system_users

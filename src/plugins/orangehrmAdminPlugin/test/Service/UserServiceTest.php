@@ -76,7 +76,7 @@ class UserServiceTest extends KernelTestCase
             ->method('saveSystemUser')
             ->will($this->returnArgument(0));
 
-        $this->systemUserService->setSystemUserDao($dao);
+        $this->systemUserService->setUserDao($dao);
         $result = $this->systemUserService->saveSystemUser($user);
 
         $this->assertEquals($user, $result);
@@ -101,7 +101,7 @@ class UserServiceTest extends KernelTestCase
             ->method('saveSystemUser')
             ->will($this->returnArgument(0));
 
-        $this->systemUserService->setSystemUserDao($dao);
+        $this->systemUserService->setUserDao($dao);
 
         $result = $this->systemUserService->saveSystemUser($user);
 
@@ -127,7 +127,7 @@ class UserServiceTest extends KernelTestCase
             ->method('getSystemUser')
             ->will($this->returnValue(null));
 
-        $this->systemUserService->setSystemUserDao($dao);
+        $this->systemUserService->setUserDao($dao);
 
         $result = $this->systemUserService->isCurrentPassword($userId, $password);
         $this->assertFalse($result);
@@ -156,7 +156,7 @@ class UserServiceTest extends KernelTestCase
             ->method('getSystemUser')
             ->will($this->returnValue($user));
 
-        $this->systemUserService->setSystemUserDao($dao);
+        $this->systemUserService->setUserDao($dao);
 
         $result = $this->systemUserService->isCurrentPassword($userId, $password);
         $this->assertTrue($result);
@@ -184,7 +184,7 @@ class UserServiceTest extends KernelTestCase
             ->method('getSystemUser')
             ->will($this->returnValue($user));
 
-        $this->systemUserService->setSystemUserDao($dao);
+        $this->systemUserService->setUserDao($dao);
 
         $result = $this->systemUserService->isCurrentPassword($userId, $password);
         $this->assertTrue($result);
@@ -212,7 +212,7 @@ class UserServiceTest extends KernelTestCase
             ->method('getSystemUser')
             ->will($this->returnValue($user));
 
-        $this->systemUserService->setSystemUserDao($dao);
+        $this->systemUserService->setUserDao($dao);
 
         $result = $this->systemUserService->isCurrentPassword($userId, $password);
         $this->assertFalse($result);
@@ -231,7 +231,7 @@ class UserServiceTest extends KernelTestCase
             ->method('isExistingSystemUser')
             ->with($credentials)
             ->will($this->returnValue(null));
-        $this->systemUserService->setSystemUserDao($mockDao);
+        $this->systemUserService->setUserDao($mockDao);
         $result = $this->systemUserService->getCredentials($credentials);
 
         $this->assertNull($result);
@@ -269,7 +269,7 @@ class UserServiceTest extends KernelTestCase
             ->with($credentials)
             ->will($this->returnValue($user));
 
-        $this->systemUserService->setSystemUserDao($mockDao);
+        $this->systemUserService->setUserDao($mockDao);
         $this->systemUserService->setPasswordHasher($mockHasher);
         $result = $this->systemUserService->getCredentials($credentials);
 
@@ -308,7 +308,7 @@ class UserServiceTest extends KernelTestCase
             ->method('saveSystemUser')
             ->will($this->returnArgument(0));
 
-        $this->systemUserService->setSystemUserDao($mockDao);
+        $this->systemUserService->setUserDao($mockDao);
         $result = $this->systemUserService->getCredentials($credentials);
 
         $this->assertTrue($result instanceof User);
@@ -342,7 +342,7 @@ class UserServiceTest extends KernelTestCase
             ->with($credentials)
             ->will($this->returnValue($user));
 
-        $this->systemUserService->setSystemUserDao($mockDao);
+        $this->systemUserService->setUserDao($mockDao);
         $result = $this->systemUserService->getCredentials($credentials);
 
         $this->assertNull($result);
