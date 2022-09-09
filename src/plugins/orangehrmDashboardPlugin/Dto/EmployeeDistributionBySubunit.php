@@ -30,6 +30,7 @@ class EmployeeDistributionBySubunit
     /**
      * @param array $subunitCountPairs
      * @param int   $otherEmployeeCount
+     * @param int   $totalSubunitCount
      * @param int   $unassignedEmployeeCount
      * @param int   $limit
      */

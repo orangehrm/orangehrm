@@ -99,8 +99,9 @@ class ChartService
         $locationEmployeeCount = $this->getChartDao()->getEmployeeDistributionByLocation();
         $unassignedEmployeeCount =  $this->getLocationUnassignedEmployeeCount($locationEmployeeCount);
 
+        $totalLocationCount = count($locationEmployeeCount);
         $otherArray = [];
-        if (count($locationEmployeeCount) > $limit) {
+        if ($totalLocationCount > $limit+1) {
             $otherArray = array_slice($locationEmployeeCount, $limit);
             $locationEmployeeCount = array_slice($locationEmployeeCount, 0, $limit);
         }
@@ -113,6 +114,7 @@ class ChartService
         return new EmployeeDistributionByLocation(
             $locationEmployeeCount,
             $otherCount,
+            $totalLocationCount,
             $unassignedEmployeeCount,
             $limit,
         );

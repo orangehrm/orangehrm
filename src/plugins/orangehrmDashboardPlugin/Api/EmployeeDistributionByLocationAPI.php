@@ -34,6 +34,7 @@ class EmployeeDistributionByLocationAPI extends Endpoint implements CollectionEn
 
     public const PARAMETER_OTHER_EMPLOYEE_COUNT = 'otherEmployeeCount';
     public const PARAMETER_UNASSIGNED_EMPLOYEE_COUNT = 'unassignedEmployeeCount';
+    public const PARAMETER_TOTAL_LOCATION_COUNT = 'totalLocationCount';
 
     /**
      * @inheritDoc
@@ -49,7 +50,8 @@ class EmployeeDistributionByLocationAPI extends Endpoint implements CollectionEn
                 self::PARAMETER_OTHER_EMPLOYEE_COUNT => $employeeDistribution->getOtherEmployeeCount(
                 ),
                 self::PARAMETER_UNASSIGNED_EMPLOYEE_COUNT => $employeeDistribution->getUnassignedEmployeeCount(
-                )
+                ),
+                self::PARAMETER_TOTAL_LOCATION_COUNT => $employeeDistribution->getTotalLocationCount(),
             ]),
         );
     }
