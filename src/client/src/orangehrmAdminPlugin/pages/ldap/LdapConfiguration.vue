@@ -246,8 +246,6 @@
                 v-model="configuration.mergeLDAPUsersWithExistingSystemUsers"
               />
             </oxd-grid-item>
-          </oxd-grid>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.syncInterval"
