@@ -36,7 +36,7 @@ class LDAPAuthProvider extends AbstractAuthProvider
     /**
      * @return LDAPService
      */
-    private function getLdapService(): LDAPService
+    private function getLDAPService(): LDAPService
     {
         return $this->ldapService ??= new LDAPService();
     }
@@ -44,7 +44,7 @@ class LDAPAuthProvider extends AbstractAuthProvider
     /**
      * @return LDAPSyncService
      */
-    private function getLdapSyncService(): LDAPSyncService
+    private function getLDAPSyncService(): LDAPSyncService
     {
         return $this->ldapSyncService ??= new LDAPSyncService();
     }
@@ -62,17 +62,20 @@ class LDAPAuthProvider extends AbstractAuthProvider
      */
     public function authenticate(UserCredential $credential): bool
     {
-        $user = $this->getLdapSyncService()
-            ->getLdapDao()
+        $user = $this->getLDAPSyncService()
+            ->getLDAPDao()
             ->getUserByUserName($credential->getUsername());
-        $ldapAuthProvider = $this->getLdapSyncService()->filterLDAPAuthProvider($user->getAuthProviders());
+        if ($user === null) {
+            return false;
+        }
+        $ldapAuthProvider = $this->getLDAPSyncService()->filterLDAPAuthProvider($user->getAuthProviders());
         if (!$ldapAuthProvider instanceof UserAuthProvider) {
             return false;
         }
 
-        $ldapCredential = new UserCredential($ldapAuthProvider->getLdapUserDN(), $credential->getPassword());
+        $ldapCredential = new UserCredential($ldapAuthProvider->getLDAPUserDN(), $credential->getPassword());
         try {
-            $this->getLdapService()->bind($ldapCredential);
+            $this->getLDAPService()->bind($ldapCredential);
             return $this->getAuthenticationService()->setCredentialsForUser($user);
         } catch (LdapException $e) {
             return false;

@@ -162,10 +162,10 @@ class LDAPSyncServiceCreateSystemUsersTest extends KernelTestCase
                 return $this->getEntityManager()->getRepository(User::class)->findOneBy(['userName' => $username]);
             });
         $ldapSyncService = $this->getMockBuilder(LDAPSyncService::class)
-            ->onlyMethods(['getLdapDao'])
+            ->onlyMethods(['getLDAPDao'])
             ->getMock();
         $ldapSyncService->expects($this->exactly(13))
-            ->method('getLdapDao')
+            ->method('getLDAPDao')
             ->willReturn($ldapSyncDao);
         $ldapSyncService->createSystemUsers($this->getLDAPUsers());
 

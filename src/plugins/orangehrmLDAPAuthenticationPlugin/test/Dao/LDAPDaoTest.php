@@ -90,13 +90,13 @@ class LDAPDaoTest extends KernelTestCase
         $this->assertEquals(UserAuthProvider::TYPE_LDAP, $user->getAuthProviders()[0]->getType());
         $this->assertEquals(
             'cn=Peter.Anderson,ou=finance,ou=users,dc=example,dc=org',
-            $user->getAuthProviders()[0]->getLdapUserDN()
+            $user->getAuthProviders()[0]->getLDAPUserDN()
         );
         $this->assertEquals(
             'df2567d0-bca1-103c-98f9-f5289009f541',
-            $user->getAuthProviders()[0]->getLdapUserUniqueId()
+            $user->getAuthProviders()[0]->getLDAPUserUniqueId()
         );
-        $this->assertEquals('b698c9bc564c09b72faf894827d1b141', $user->getAuthProviders()[0]->getLdapUserHash());
+        $this->assertEquals('b698c9bc564c09b72faf894827d1b141', $user->getAuthProviders()[0]->getLDAPUserHash());
     }
 
     public function testGetEmployee(): void

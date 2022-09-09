@@ -60,7 +60,7 @@ class LDAPSyncService
     /**
      * @return LDAPDao
      */
-    public function getLdapDao(): LDAPDao
+    public function getLDAPDao(): LDAPDao
     {
         return $this->ldapDao ??= new LDAPDao();
     }
@@ -68,14 +68,14 @@ class LDAPSyncService
     /**
      * @return LDAPService
      */
-    protected function getLdapService(): LDAPService
+    protected function getLDAPService(): LDAPService
     {
         if (!$this->ldapService instanceof LDAPService) {
             $this->ldapService = new LDAPService();
             $bindCredentials = new UserCredential();
-            if (!$this->getLdapSetting()->isBindAnonymously()) {
-                $bindCredentials->setUsername($this->getLdapSetting()->getBindUserDN());
-                $bindCredentials->setPassword($this->getLdapSetting()->getBindUserPassword());
+            if (!$this->getLDAPSetting()->isBindAnonymously()) {
+                $bindCredentials->setUsername($this->getLDAPSetting()->getBindUserDN());
+                $bindCredentials->setPassword($this->getLDAPSetting()->getBindUserPassword());
             }
             $this->ldapService->bind($bindCredentials);
         }
@@ -85,7 +85,7 @@ class LDAPSyncService
     /**
      * @return LDAPSetting
      */
-    protected function getLdapSetting(): LDAPSetting
+    protected function getLDAPSetting(): LDAPSetting
     {
         if (!$this->ldapSetting instanceof LDAPSetting) {
             $this->ldapSetting = $this->getConfigService()->getLDAPSetting();
@@ -149,12 +149,12 @@ class LDAPSyncService
     {
         $defaultUserRole = $this->getUserService()->getUserRole('ESS');
         foreach ($ldapUsers as $ldapUser) {
-            $user = $this->getLdapDao()->getUserByUserName($ldapUser->getUsername());
+            $user = $this->getLDAPDao()->getUserByUserName($ldapUser->getUsername());
 
             if ($user instanceof User) {
                 $ldapAuthProvider = $this->filterLDAPAuthProvider($user->getAuthProviders());
                 if ($ldapAuthProvider instanceof UserAuthProvider) {
-                    if ($ldapAuthProvider->getLdapUserHash() === $this->getHashOfLDAPUser($ldapUser)) {
+                    if ($ldapAuthProvider->getLDAPUserHash() === $this->getHashOfLDAPUser($ldapUser)) {
                         continue;
                     }
 
@@ -169,16 +169,16 @@ class LDAPSyncService
                     //$user->setModifiedUserId(); TODO
 
                     // Change user data
-                    $ldapAuthProvider->setLdapUserDN($ldapUser->getUserDN());
-                    $ldapAuthProvider->setLdapUserUniqueId($ldapUser->getUserUniqueId());
-                    $ldapAuthProvider->setLdapUserHash($this->getHashOfLDAPUser($ldapUser));
+                    $ldapAuthProvider->setLDAPUserDN($ldapUser->getUserDN());
+                    $ldapAuthProvider->setLDAPUserUniqueId($ldapUser->getUserUniqueId());
+                    $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                     // TODO:: trigger employee changed
                     $this->getEntityManager()->persist($employee);
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
-                } elseif ($this->getLdapSetting()->shouldMergeLDAPUsersWithExistingSystemUsers()) {
+                } elseif ($this->getLDAPSetting()->shouldMergeLDAPUsersWithExistingSystemUsers()) {
                     // TODO:: check employees who have multiple users
                     // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());
@@ -195,9 +195,9 @@ class LDAPSyncService
                     $authProvider = new UserAuthProvider();
                     $authProvider->setUser($user);
                     $authProvider->setType(UserAuthProvider::TYPE_LDAP);
-                    $authProvider->setLdapUserDN($ldapUser->getUserDN());
-                    $authProvider->setLdapUserUniqueId($ldapUser->getUserUniqueId());
-                    $authProvider->setLdapUserHash($this->getHashOfLDAPUser($ldapUser));
+                    $authProvider->setLDAPUserDN($ldapUser->getUserDN());
+                    $authProvider->setLDAPUserUniqueId($ldapUser->getUserUniqueId());
+                    $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                     // TODO:: trigger employee changed
                     $this->getEntityManager()->persist($employee);
@@ -209,7 +209,7 @@ class LDAPSyncService
             } else {
                 // try to find a user who have user unique id
                 if ($ldapUser->getUserUniqueId() !== null) {
-                    $ldapAuthProvider = $this->getLdapDao()
+                    $ldapAuthProvider = $this->getLDAPDao()
                         ->getAuthProviderByUserUniqueId($ldapUser->getUserUniqueId());
                     if ($ldapAuthProvider instanceof UserAuthProvider) {
                         $user = $ldapAuthProvider->getUser();
@@ -226,8 +226,8 @@ class LDAPSyncService
                         $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
 
                         // Change user data
-                        $ldapAuthProvider->setLdapUserDN($ldapUser->getUserDN());
-                        $ldapAuthProvider->setLdapUserHash($this->getHashOfLDAPUser($ldapUser));
+                        $ldapAuthProvider->setLDAPUserDN($ldapUser->getUserDN());
+                        $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                         // TODO:: save $employee
                         $this->getEntityManager()->persist($employee);
@@ -242,7 +242,7 @@ class LDAPSyncService
                 $employee = null;
                 $employeeSearchFilterParams = $ldapUser->getEmployeeSearchFilterParams();
                 if ($employeeSearchFilterParams instanceof LDAPEmployeeSearchFilterParams) {
-                    $employee = $this->getLdapDao()->getEmployee($employeeSearchFilterParams);
+                    $employee = $this->getLDAPDao()->getEmployee($employeeSearchFilterParams);
                 }
 
                 // Create a new user if not found the employee for given mapping configurations
@@ -264,9 +264,9 @@ class LDAPSyncService
                 $authProvider = new UserAuthProvider();
                 $authProvider->setUser($user);
                 $authProvider->setType(UserAuthProvider::TYPE_LDAP);
-                $authProvider->setLdapUserDN($ldapUser->getUserDN());
-                $authProvider->setLdapUserUniqueId($ldapUser->getUserUniqueId());
-                $authProvider->setLdapUserHash($this->getHashOfLDAPUser($ldapUser));
+                $authProvider->setLDAPUserDN($ldapUser->getUserDN());
+                $authProvider->setLDAPUserUniqueId($ldapUser->getUserUniqueId());
+                $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                 // TODO:: trigger employee changed
                 $this->getEntityManager()->persist($employee);
@@ -310,7 +310,7 @@ class LDAPSyncService
     public function fetchEntryCollections(): EntryCollection
     {
         $entryCollectionLookupSettingPairArray = [];
-        foreach ($this->getLdapSetting()->getUserLookupSettings() as $lookupSetting) {
+        foreach ($this->getLDAPSetting()->getUserLookupSettings() as $lookupSetting) {
             $entryCollectionLookupSettingPairArray[] = new EntryCollectionLookupSettingPair(
                 $this->fetchEntryCollection($lookupSetting),
                 $lookupSetting
@@ -329,7 +329,7 @@ class LDAPSyncService
             'scope' => $lookupSetting->getSearchScope(),
             'filter' => $this->getSearchAttributes($lookupSetting),
         ];
-        $q = $this->getLdapService()->query(
+        $q = $this->getLDAPService()->query(
             $lookupSetting->getBaseDN(),
             $lookupSetting->getUserSearchFilter(),
             $options,
@@ -346,7 +346,7 @@ class LDAPSyncService
         Entry $entry,
         LDAPUserLookupSetting $lookupSetting
     ): ?LDAPUser {
-        $dataMapping = $this->getLdapSetting()->getDataMapping();
+        $dataMapping = $this->getLDAPSetting()->getDataMapping();
         try {
             $username = $this->getAttribute($entry, $lookupSetting->getUserNameAttribute());
             return (new LDAPUser())
@@ -388,7 +388,7 @@ class LDAPSyncService
      */
     private function getSearchAttributes(LDAPUserLookupSetting $lookupSetting): array
     {
-        $dataMapping = $this->getLdapSetting()->getDataMapping();
+        $dataMapping = $this->getLDAPSetting()->getDataMapping();
         $attributes = array_values(array_filter($dataMapping->toArray()));
         $attributes[] = $lookupSetting->getUserNameAttribute();
         if (!empty($lookupSetting->getUserUniqueIdAttribute())) {
