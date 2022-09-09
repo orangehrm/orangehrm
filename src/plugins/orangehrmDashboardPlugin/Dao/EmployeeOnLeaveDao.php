@@ -50,6 +50,8 @@ class EmployeeOnLeaveDao extends BaseDao
 
         $this->setSortingAndPaginationParams($q, $leaveListSearchFilterParams);
 
+        $q->andWhere('type.deleted = :deleted')
+            ->setParameter('deleted', false);
         $q->andWhere('leaveList.date = :date')->setParameter('date', $leaveListSearchFilterParams->getDate());
         $q->andWhere($q->expr()->orX(
             $q->expr()->eq('leaveList.status', ':pending'),
