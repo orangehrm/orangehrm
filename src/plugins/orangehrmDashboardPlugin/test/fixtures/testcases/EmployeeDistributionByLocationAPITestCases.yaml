@@ -47,3 +47,4 @@ GetAll:
     meta:
       otherEmployeeCount: 2
       unassignedEmployeeCount: 4
+      totalLocationCount: 10
