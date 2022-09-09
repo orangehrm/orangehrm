@@ -126,7 +126,7 @@ class UserAuthProvider
     /**
      * @return string|null
      */
-    public function getLdapUserHash(): ?string
+    public function getLDAPUserHash(): ?string
     {
         return $this->ldapUserHash;
     }
@@ -134,7 +134,7 @@ class UserAuthProvider
     /**
      * @param string|null $ldapUserHash
      */
-    public function setLdapUserHash(?string $ldapUserHash): void
+    public function setLDAPUserHash(?string $ldapUserHash): void
     {
         $this->ldapUserHash = $ldapUserHash;
     }
@@ -142,7 +142,7 @@ class UserAuthProvider
     /**
      * @return string|null
      */
-    public function getLdapUserDN(): ?string
+    public function getLDAPUserDN(): ?string
     {
         return $this->ldapUserDN;
     }
@@ -150,7 +150,7 @@ class UserAuthProvider
     /**
      * @param string|null $ldapUserDN
      */
-    public function setLdapUserDN(?string $ldapUserDN): void
+    public function setLDAPUserDN(?string $ldapUserDN): void
     {
         $this->ldapUserDN = $ldapUserDN;
     }
@@ -158,7 +158,7 @@ class UserAuthProvider
     /**
      * @return string|null
      */
-    public function getLdapUserUniqueId(): ?string
+    public function getLDAPUserUniqueId(): ?string
     {
         return $this->ldapUserUniqueId;
     }
@@ -166,7 +166,7 @@ class UserAuthProvider
     /**
      * @param string|null $ldapUserUniqueId
      */
-    public function setLdapUserUniqueId(?string $ldapUserUniqueId): void
+    public function setLDAPUserUniqueId(?string $ldapUserUniqueId): void
     {
         $this->ldapUserUniqueId = $ldapUserUniqueId;
     }

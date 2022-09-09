@@ -17,37 +17,49 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\LDAP;
+namespace OrangeHRM\Framework\Console;
 
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-trait LDAPConnectionHelperTrait
+abstract class Command extends \Symfony\Component\Console\Command\Command
 {
-    private static LDAPServerConfig $config;
+    protected ?SymfonyStyle $io = null;
 
-    /**
-     * @return bool
-     */
-    public static function isLDAPServerConfigured(): bool
+    public function __construct()
     {
-        return realpath(self::getLDAPServerConfigFilePath());
+        parent::__construct($this->getCommandName());
     }
 
     /**
-     * @return LDAPServerConfig
+     * @return SymfonyStyle
      */
-    public static function getLDAPServerConfig(): LDAPServerConfig
+    protected function getIO(): SymfonyStyle
     {
-        return self::$config ??= LDAPServerConfig::fromArray(
-            Yaml::parseFile(self::getLDAPServerConfigFilePath())['server']
-        );
+        return $this->io;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
+    protected function setIO(InputInterface $input, OutputInterface $output): void
+    {
+        $this->io = new SymfonyStyle($input, $output);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        $this->setIO($input, $output);
+        return parent::run($input, $output);
     }
 
     /**
      * @return string
      */
-    public static function getLDAPServerConfigFilePath(): string
-    {
-        return __DIR__ . '/config/server-config.yaml';
-    }
+    abstract public function getCommandName(): string;
 }

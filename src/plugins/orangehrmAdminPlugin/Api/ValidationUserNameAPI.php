@@ -50,11 +50,11 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
         $userName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_NAME);
         $userId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_Id);
         if (!is_null($userId)) {
-            $user = $this->getUserService()->getSystemUserDao()->getSystemUser($userId);
+            $user = $this->getUserService()->geUserDao()->getSystemUser($userId);
             $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
         }
         $isChangeableUserName = !$this->getUserService()
-            ->getSystemUserDao()
+            ->geUserDao()
             ->isUserNameExistByUserName($userName, $userId);
         return new EndpointResourceResult(
             ArrayModel::class,

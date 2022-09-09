@@ -17,41 +17,44 @@
  * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Authentication\Auth\AuthProviderChain;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Console\Console;
-use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
-use OrangeHRM\LDAP\Command\LDAPSyncUserCommand;
-use OrangeHRM\LDAP\Dto\LDAPSetting;
+namespace OrangeHRM\LDAP\Command;
 
-class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterface, ConsoleConfigurationInterface
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Framework\Console\Command;
+use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\LDAP\Service\LDAPSyncService;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class LDAPSyncUserCommand extends Command
 {
-    use ServiceContainerTrait;
     use ConfigServiceTrait;
 
     /**
      * @inheritDoc
      */
-    public function initialize(Request $request): void
+    public function getCommandName(): string
     {
-        $ldapSettings = $this->getConfigService()->getLDAPSetting();
-        if ($ldapSettings instanceof LDAPSetting && $ldapSettings->isEnable()) {
-            /** @var AuthProviderChain $authProviderChain */
-            $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
-            $authProviderChain->addProvider(new LDAPAuthProvider());
-        }
+        return 'orangehrm:ldap-sync-user';
     }
 
     /**
      * @inheritDoc
      */
-    public function registerCommands(Console $console): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $console->add(new LDAPSyncUserCommand());
+        $ldapSetting = $this->getConfigService()->getLDAPSetting();
+        if (!$ldapSetting instanceof LDAPSetting) {
+            $this->getIO()->error('LDAP settings not configured');
+            return self::FAILURE;
+        }
+        if (!$ldapSetting->isEnable()) {
+            $this->getIO()->error('LDAP sync not enabled');
+            return self::FAILURE;
+        }
+        $ldapSyncService = new LDAPSyncService();
+        $ldapSyncService->sync();
+        $this->getIO()->success('Success');
+        return self::SUCCESS;
     }
 }

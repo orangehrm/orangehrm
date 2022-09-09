@@ -25,7 +25,6 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
-use OrangeHRM\LDAP\Dto\LDAPEmployee;
 use OrangeHRM\LDAP\Dto\LDAPEmployeeSearchFilterParams;
 
 class LDAPDao extends BaseDao
@@ -89,17 +88,12 @@ class LDAPDao extends BaseDao
 
     /**
      * @param LDAPEmployeeSearchFilterParams $ldapEmployeeSearchFilterParams
-     * @return LDAPEmployee|null
+     * @return Employee|null
      * @throws NonUniqueResultException
      */
-    public function getEmployee(LDAPEmployeeSearchFilterParams $ldapEmployeeSearchFilterParams): ?LDAPEmployee
+    public function getEmployee(LDAPEmployeeSearchFilterParams $ldapEmployeeSearchFilterParams): ?Employee
     {
-        $select = 'NEW ' . LDAPEmployee::class .
-            '(e.empNumber, e.lastName, e.firstName, e.middleName, e.employeeId, ' .
-            'e.workEmail, e.drivingLicenseNo, e.otherId, e.otherEmail, e.homeTelephone, e.mobile, e.workTelephone,' .
-            ' e.ssnNumber, e.sinNumber)';
-        $q = $this->createQueryBuilder(Employee::class, 'e')
-            ->select($select);
+        $q = $this->createQueryBuilder(Employee::class, 'e');
         if (!is_null($ldapEmployeeSearchFilterParams->getEmpNumber())) {
             $q->andWhere('e.empNumber = :empNumber')
                 ->setParameter('empNumber', $ldapEmployeeSearchFilterParams->getEmpNumber());

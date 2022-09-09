@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Authentication\Service;
 
 use DateTime;
+use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dao\LoginLogDao;
 use OrangeHRM\Authentication\Dto\UserCredential;
@@ -69,13 +70,20 @@ class LoginLogServiceTest extends KernelTestCase
         $user->setUserName('username');
         $user->setEmployee($employee);
 
+        $userDao = $this->getMockBuilder(UserDao::class)
+            ->onlyMethods(['getUserByUserName'])
+            ->getMock();
+        $userDao->expects($this->once())
+            ->method('getUserByUserName')
+            ->willReturn($user);
+
         $userService = $this->getMockBuilder(UserService::class)
-            ->onlyMethods(['getCredentials'])
+            ->onlyMethods(['geUserDao'])
             ->getMock();
 
         $userService->expects($this->once())
-            ->method('getCredentials')
-            ->willReturn($user);
+            ->method('geUserDao')
+            ->willReturn($userDao);
 
         $loginService = $this->getMockBuilder(LoginService::class)
             ->onlyMethods(['getUserService'])

@@ -60,7 +60,7 @@ class RequestResetPasswordController extends AbstractController implements Publi
         }
         $username = $request->request->get('username');
         if ($this->getResetPasswordService()->searchForUserRecord($username) instanceof User) {
-            $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
+            $user = $this->getUserService()->geUserDao()->getUserByUserName($username);
             if ($user instanceof User) {
                 $this->getResetPasswordService()->logPasswordResetRequest($user);
             }

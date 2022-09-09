@@ -33,31 +33,23 @@ class UserService
 {
     use UserRoleManagerTrait;
 
-    /**
-     * @var UserDao|null
-     */
-    protected ?UserDao $systemUserDao = null;
-
-    /** @property PasswordHash $passwordHasher */
-    private ?PasswordHash $passwordHasher = null;
+    private UserDao $userDao;
+    private PasswordHash $passwordHasher;
 
     /**
      * @return UserDao
      */
-    public function getSystemUserDao(): UserDao
+    public function geUserDao(): UserDao
     {
-        if (empty($this->systemUserDao)) {
-            $this->systemUserDao = new UserDao();
-        }
-        return $this->systemUserDao;
+        return $this->userDao ??= new UserDao();
     }
 
     /**
-     * @param UserDao $systemUserDao
+     * @param UserDao $userDao
      */
-    public function setSystemUserDao(UserDao $systemUserDao): void
+    public function setUserDao(UserDao $userDao): void
     {
-        $this->systemUserDao = $systemUserDao;
+        $this->userDao = $userDao;
     }
 
     /**
@@ -65,10 +57,7 @@ class UserService
      */
     public function getPasswordHasher(): PasswordHash
     {
-        if (empty($this->passwordHasher)) {
-            $this->passwordHasher = new PasswordHash();
-        }
-        return $this->passwordHasher;
+        return $this->passwordHasher ??= new PasswordHash();
     }
 
     /**
@@ -93,7 +82,7 @@ class UserService
             $user->getDecorator()->setNonHashedPassword(null);
         }
 
-        return $this->getSystemUserDao()->saveSystemUser($user);
+        return $this->geUserDao()->saveSystemUser($user);
     }
 
     /**
@@ -103,7 +92,7 @@ class UserService
      */
     public function getSystemUser(int $userId): ?User
     {
-        return $this->getSystemUserDao()->getSystemUser($userId);
+        return $this->geUserDao()->getSystemUser($userId);
     }
 
     /**
@@ -113,7 +102,7 @@ class UserService
      */
     public function deleteSystemUsers(array $deletedIds): int
     {
-        return $this->getSystemUserDao()->deleteSystemUsers($deletedIds);
+        return $this->geUserDao()->deleteSystemUsers($deletedIds);
     }
 
     /**
@@ -123,7 +112,7 @@ class UserService
      */
     public function getUserRole(string $roleName): ?UserRole
     {
-        return $this->getSystemUserDao()->getUserRole($roleName);
+        return $this->geUserDao()->getUserRole($roleName);
     }
 
     /**
@@ -132,7 +121,7 @@ class UserService
      */
     public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
-        return $this->getSystemUserDao()->getSearchSystemUsersCount($userSearchParamHolder);
+        return $this->geUserDao()->getSearchSystemUsersCount($userSearchParamHolder);
     }
 
     /**
@@ -141,7 +130,7 @@ class UserService
      */
     public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
-        return $this->getSystemUserDao()->searchSystemUsers($userSearchParamHolder);
+        return $this->geUserDao()->searchSystemUsers($userSearchParamHolder);
     }
 
     /**
@@ -151,7 +140,7 @@ class UserService
      */
     public function isCurrentPassword(int $userId, string $password): bool
     {
-        $systemUser = $this->getSystemUserDao()->getSystemUser($userId);
+        $systemUser = $this->geUserDao()->getSystemUser($userId);
 
         if (!($systemUser instanceof User)) {
             return false;
@@ -178,7 +167,7 @@ class UserService
         bool $includeInactive = false,
         bool $includeTerminated = false
     ): array {
-        return $this->getSystemUserDao()->getEmployeesByUserRole($roleName, $includeInactive, $includeTerminated);
+        return $this->geUserDao()->getEmployeesByUserRole($roleName, $includeInactive, $includeTerminated);
     }
 
     /**
@@ -187,7 +176,7 @@ class UserService
      */
     public function getCredentials(UserCredential $credentials): ?User
     {
-        $user = $this->getSystemUserDao()->isExistingSystemUser($credentials);
+        $user = $this->geUserDao()->isExistingSystemUser($credentials);
         if ($user instanceof User) {
             $hash = $user->getUserPassword();
             if ($this->checkPasswordHash($credentials->getPassword(), $hash)) {
@@ -246,7 +235,7 @@ class UserService
             $undeletableIds[] = $user->getId();
         }
         if (Config::PRODUCT_MODE === Config::MODE_DEMO &&
-            ($defaultAdminUser = $this->getSystemUserDao()->getDefaultAdminUser()) instanceof User) {
+            ($defaultAdminUser = $this->geUserDao()->getDefaultAdminUser()) instanceof User) {
             $undeletableIds[] = $defaultAdminUser->getId();
         }
 

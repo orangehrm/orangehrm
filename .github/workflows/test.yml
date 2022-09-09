@@ -44,7 +44,7 @@ jobs:
 
       - name: Configure LDAP server
         run: |
-          cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/fixtures
+          cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/config
           docker run --detach --rm --name openldap \
             --network ${{ job.container.network }} \
             -p 389:1389 \

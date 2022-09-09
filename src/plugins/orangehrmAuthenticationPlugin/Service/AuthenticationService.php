@@ -22,8 +22,6 @@ namespace OrangeHRM\Authentication\Service;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
@@ -35,13 +33,12 @@ class AuthenticationService
 
     /**
      * @param User|null $user
-     * @param array $additionalData
      * @return bool
      * @throws AuthenticationException
      */
-    public function setCredentialsForUser(?User $user, array $additionalData): bool
+    public function setCredentialsForUser(?User $user): bool
     {
-        if (!$user instanceof User) {
+        if (!$user instanceof User || $user->isDeleted()) {
             return false;
         } else {
             if (!$user->getDecorator()->isAdmin() && is_null($user->getEmpNumber())) {
@@ -65,13 +62,11 @@ class AuthenticationService
      * @param $additionalData
      * @return bool
      * @throws AuthenticationException
-     * @throws DaoException
-     * @throws ServiceException
      */
     public function setCredentials(UserCredential $credentials, $additionalData): bool
     {
         $user = $this->getUserService()->getCredentials($credentials);
-        return $this->setCredentialsForUser($user, $additionalData);
+        return $this->setCredentialsForUser($user);
     }
 
     /**
