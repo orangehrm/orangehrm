@@ -265,7 +265,7 @@ class ResetPasswordService
                     $this->getLogger()->error('Password reset code expired');
                     return null;
                 }
-                $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
+                $user = $this->getUserService()->geUserDao()->getUserByUserName($username);
                 return $this->validateUser($user);
             }
             return null;
@@ -306,7 +306,7 @@ class ResetPasswordService
         $this->beginTransaction();
         try {
             $success = false;
-            $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($credential->getUsername());
+            $user = $this->getUserService()->geUserDao()->getUserByUserName($credential->getUsername());
             if ($this->validateUser($user) instanceof User) {
                 $user->getDecorator()->setNonHashedPassword($credential->getPassword());
                 $this->getUserService()->saveSystemUser($user);

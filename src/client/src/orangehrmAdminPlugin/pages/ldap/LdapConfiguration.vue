@@ -174,41 +174,6 @@
                 :rules="rules.userUniqueIdAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-6">
-              <oxd-input-field
-                v-model="configuration.groupObjectClass"
-                :label="$t('admin.group_object_class')"
-                :rules="rules.groupObjectClass"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-7">
-              <oxd-input-field
-                v-model="configuration.groupObjectFilter"
-                :label="$t('admin.group_object_filter')"
-                :rules="rules.groupObjectFilter"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-8">
-              <oxd-input-field
-                v-model="configuration.groupNameAttribute"
-                :label="$t('admin.group_name_attribute')"
-                :rules="rules.groupNameAttribute"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-9">
-              <oxd-input-field
-                v-model="configuration.groupMembersAttribute"
-                :label="$t('admin.group_members_attribute')"
-                :rules="rules.groupMembersAttribute"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-10">
-              <oxd-input-field
-                v-model="configuration.groupMembershipAttribute"
-                :label="$t('admin.user_membership_attribute')"
-                :rules="rules.groupMembershipAttribute"
-              />
-            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
@@ -273,6 +238,14 @@
         </oxd-text>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="orangehrm-ldap-switch">
+              <oxd-text tag="p" class="orangehrm-ldap-switch-text">
+                {{ $t('admin.merge_ldap_users_with_existing_system_users') }}
+              </oxd-text>
+              <oxd-switch-input
+                v-model="configuration.mergeLDAPUsersWithExistingSystemUsers"
+              />
+            </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.syncInterval"
@@ -346,12 +319,8 @@ const configurationModel = {
   userNameAttribute: 'cn',
   userSearchFilter: null,
   userUniqueIdAttribute: null,
+  mergeLDAPUsersWithExistingSystemUsers: false,
   syncInterval: 60,
-  groupObjectClass: 'group',
-  groupObjectFilter: '(&(objectClass=group)(cn=*))',
-  groupNameAttribute: 'cn',
-  groupMembersAttribute: 'member',
-  groupMembershipAttribute: 'memberOf',
 };
 
 const dataMappingModel = {
@@ -456,11 +425,6 @@ export default {
         userStatusAttribute: [shouldNotExceedCharLength(100)],
         workEmailAttribute: [shouldNotExceedCharLength(100)],
         employeeIdAttribute: [shouldNotExceedCharLength(100)],
-        groupObjectClass: [shouldNotExceedCharLength(100)],
-        groupObjectFilter: [shouldNotExceedCharLength(100)],
-        groupNameAttribute: [shouldNotExceedCharLength(100)],
-        groupMembersAttribute: [shouldNotExceedCharLength(100)],
-        groupMembershipAttribute: [shouldNotExceedCharLength(100)],
       },
       testModalState: null,
       passwordPlaceHolder: null,
@@ -552,11 +516,8 @@ export default {
                 },
               ],
               dataMapping: this.configuration.dataMapping,
-              groupObjectClass: 'group',
-              groupObjectFilter: '(&(objectClass=group)(cn=*))',
-              groupNameAttribute: 'cn',
-              groupMembersAttribute: 'member',
-              groupMembershipAttribute: 'memberOf',
+              mergeLDAPUsersWithExistingSystemUsers: this.configuration
+                .mergeLDAPUsersWithExistingSystemUsers,
               syncInterval: parseInt(this.configuration.syncInterval),
             },
           })

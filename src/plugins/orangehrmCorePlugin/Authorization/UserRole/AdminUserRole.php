@@ -141,7 +141,7 @@ class AdminUserRole extends AbstractUserRole
     protected function getAccessibleSystemUserIds(array $requiredPermissions = []): array
     {
         return $this->getUserService()
-            ->getSystemUserDao()
+            ->geUserDao()
             ->getSystemUserIdList();
     }
 
@@ -152,7 +152,7 @@ class AdminUserRole extends AbstractUserRole
     protected function getAccessibleUserRoleIds(array $requiredPermissions = []): array
     {
         $userRoles = $this->getUserService()
-            ->getSystemUserDao()
+            ->geUserDao()
             ->getAssignableUserRoles();
 
         $ids = [];
