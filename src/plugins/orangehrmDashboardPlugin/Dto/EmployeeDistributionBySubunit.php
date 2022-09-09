@@ -23,6 +23,7 @@ class EmployeeDistributionBySubunit
 {
     private array  $subunitCountPairs;
     private int $otherEmployeeCount;
+    private int $totalSubunitCount;
     private int $unassignedEmployeeCount;
     private int $limit;
 
@@ -35,11 +36,13 @@ class EmployeeDistributionBySubunit
     public function __construct(
         array $subunitCountPairs,
         int $otherEmployeeCount,
+        int $totalSubunitCount,
         int $unassignedEmployeeCount,
         int $limit
     ) {
         $this->subunitCountPairs = $subunitCountPairs;
         $this->otherEmployeeCount = $otherEmployeeCount;
+        $this->totalSubunitCount = $totalSubunitCount;
         $this->unassignedEmployeeCount = $unassignedEmployeeCount;
         $this->limit = $limit;
     }
@@ -74,5 +77,13 @@ class EmployeeDistributionBySubunit
     public function getLimit(): int
     {
         return $this->limit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalSubunitCount(): int
+    {
+        return $this->totalSubunitCount;
     }
 }

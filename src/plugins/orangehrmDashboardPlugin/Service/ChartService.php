@@ -54,8 +54,9 @@ class ChartService
             }
         );
 
+        $totalSubunitCount = count($subunitCountPairs);
         $otherArray = [];
-        if (count($subunitCountPairs) > $limit) {
+        if ($totalSubunitCount > $limit+1) {
             $otherArray = array_slice($subunitCountPairs, $limit);
             $subunitCountPairs = array_slice($subunitCountPairs, 0, $limit);
         }
@@ -68,6 +69,7 @@ class ChartService
         return new EmployeeDistributionBySubunit(
             $subunitCountPairs,
             $otherCount,
+            $totalSubunitCount,
             $this->getChartDao()->getUnassignedEmployeeCount(),
             $limit
         );
