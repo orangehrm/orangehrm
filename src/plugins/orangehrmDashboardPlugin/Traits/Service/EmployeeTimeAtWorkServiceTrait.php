@@ -17,41 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Dashboard\Traits\Service;
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Dashboard\Service\ChartService;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
-use OrangeHRM\Dashboard\Service\QuickLaunchService;
 use OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 
-class DashboardPluginConfiguration implements PluginConfigurationInterface
+trait EmployeeTimeAtWorkServiceTrait
 {
     use ServiceContainerTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    protected function getEmployeeTimeAtWorkService(): EmployeeTimeAtWorkService
     {
-        $this->getContainer()->register(
-            Services::EMPLOYEE_ON_LEAVE_SERVICE,
-            EmployeeOnLeaveService::class
-        );
-
-        $this->getContainer()->register(
-            Services::CHART_SERVICE,
-            ChartService::class
-        );
-        $this->getContainer()->register(
-            Services::QUICK_LAUNCH_SERVICE,
-            QuickLaunchService::class
-        );
-
-        $this->getContainer()->register(
-            Services::EMPLOYEE_TIME_AT_WORK_SERVICE,
-            EmployeeTimeAtWorkService::class
-        );
+        return $this->getContainer()->get(Services::EMPLOYEE_TIME_AT_WORK_SERVICE);
     }
 }

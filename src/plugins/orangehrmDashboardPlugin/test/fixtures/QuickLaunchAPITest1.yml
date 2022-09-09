@@ -20,7 +20,11 @@ UserRole:
 User:
   - {"id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","user_password": "$2y$12$cRXToxVun41SeRgsWTSzP.2cJmj4AZWi/0.BZr529V8p68PCSnRQ."}
   - {"id": 2,"user_role_id": 2,"emp_number": 2,"user_name": "sharuka","user_password": "$2y$12$EH.mp1hqHt7BW4EpaeOCKeQTyokMLYWVpMSitHtoMu/W3K2xOf5p."}
-  - {"id": 3,"user_role_id": 2,"emp_number": 3,"user_name": "rajitha","user_password": "$2y$12$f2zH9NNS.GrX/Dmx8r2eWuJt986aPLOUF8LvEj.8aAvFxEmaPIoNa"}
+  - {"id": 3,"user_role_id": 3,"emp_number": 3,"user_name": "rajitha","user_password": "$2y$12$f2zH9NNS.GrX/Dmx8r2eWuJt986aPLOUF8LvEj.8aAvFxEmaPIoNa"}
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
 
 ReportTo:
   - {"erep_sup_emp_number": 3,"erep_sub_emp_number": 2,"erep_reporting_mode": 1}
