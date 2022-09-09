@@ -26,7 +26,7 @@ LeavePeriodHistory:
   - { id: 1, leave_period_start_month: 1, leave_period_start_day: 1, created_at: '2022-01-02' }
 
 LeaveType:
-  - { "id": 1,"name": "US - Personal","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 1,"name": "US - Personal","deleted": "1","exclude_in_reports_if_no_entitlement": "0" }
   - { "id": 2,"name": "US - Vacation","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
   - { "id": 3,"name": "US - Matternity","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
   - { "id": 4,"name": "CAN - Personal","deleted": "1","exclude_in_reports_if_no_entitlement": "0" }
@@ -130,7 +130,7 @@ Leave:
   - { "id": "55","date": "2022-03-07","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "56","date": "2022-03-08","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
   - { "id": "57","date": "2022-11-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "16","leave_type_id": "1","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
-  - { "id": "58","date": "2022-11-04","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "17","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "58","date": "2022-11-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "17","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "59","date": "2022-11-05","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "17","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
   - { "id": "60","date": "2022-12-01","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "61","date": "2022-12-02","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
