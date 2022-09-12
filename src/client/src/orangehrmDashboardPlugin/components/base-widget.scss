@@ -44,7 +44,7 @@
   }
 
   &-body {
-    height: 310px;
+    height: 318px;
     overflow: auto;
     &-nocontent {
       font-size: 10px;
@@ -56,8 +56,8 @@
 
   &-watermark {
     width: 175px;
-    margin: 60px auto auto;
     text-align: center;
+    margin: 60px auto auto;
   }
 
   &-img {
