@@ -22,10 +22,7 @@ describe('Leave - Apply Leave', function () {
   beforeEach(function () {
     cy.task('db:reset');
     cy.fixture('chars').as('strings');
-    cy.intercept(
-      'GET',
-      '**/api/v2/leave/holidays?fromDate=2022-01-01&toDate=2022-12-31',
-    ).as('getHoliday');
+    cy.intercept('GET', '**/api/v2/leave/holidays*').as('getHoliday');
     cy.intercept('PUT', '**/api/v2/leave/leave-period').as('putLeavePeriod');
     cy.intercept('GET', '**/api/v2/leave/leave-period').as('getLeavePeriod');
     cy.intercept('GET', '**/api/v2/leave/leave-types*').as('getLeaveTypes');
@@ -40,16 +37,11 @@ describe('Leave - Apply Leave', function () {
       'postLeaveRequest',
     );
     cy.intercept('POST', '**/api/v2/leave/holidays').as('postHolidays');
-    cy.intercept(
-      'GET',
-      '**/api/v2/leave/holidays?fromDate=2022-01-01&toDate=2022-12-31',
-    ).as('getHoliday');
     cy.intercept('POST', '**/api/v2/pim/employees').as('addEmployee');
     cy.intercept('POST', '**/api/v2/admin/users').as('postESSuser');
-    cy.intercept(
-      'GET',
-      '**/api/v2/admin/validation/user-name?userName=John22*',
-    ).as('getESSusername');
+    cy.intercept('GET', '**/api/v2/admin/validation/user-name*').as(
+      'getESSusername',
+    );
     cy.fixture('user').then((data) => {
       this.adminUser = data.admin;
       this.essUser = data.john;
@@ -112,6 +104,7 @@ describe('Leave - Apply Leave', function () {
       });
     });
   });
+
   //Creating snapshots for applying leave as ESS user
   describe('create snapshots for ESS user', function () {
     it('Add employees', function () {
@@ -133,8 +126,9 @@ describe('Leave - Apply Leave', function () {
       cy.loginTo(user.admin, '/admin/saveSystemUser');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('User Role').selectOption('ESS');
-        cy.getOXDInput('Employee Name').type('John');
-        cy.getOXD('option2').contains('John Perera').click();
+        cy.getOXDInput('Employee Name')
+          .type('John')
+          .selectOption('John Perera');
         cy.getOXDInput('Status').selectOption('Enabled');
         cy.getOXDInput('Username').type('John22');
         cy.getOXDInput('Password').type('John@123');
@@ -152,8 +146,9 @@ describe('Leave - Apply Leave', function () {
       cy.task('db:restore', {name: 'ESSuser'});
       cy.loginTo(user.admin, '/leave/addLeaveEntitlement');
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Employee Name').type('John');
-        cy.getOXD('option2').contains('John Perera').click();
+        cy.getOXDInput('Employee Name')
+          .type('John')
+          .selectOption('John Perera');
         cy.getOXDInput('Leave Type').selectOption('Casual Leave');
         cy.getOXDInput('Entitlement').type('5');
         cy.getOXD('button').contains('Save').click();
@@ -176,6 +171,7 @@ describe('Leave - Apply Leave', function () {
       );
     });
   });
+
   //Form Validations
   describe('Apply leave-form validations', function () {
     it('Apply leave-form validations', function () {
@@ -204,6 +200,7 @@ describe('Leave - Apply Leave', function () {
       });
     });
   });
+
   describe('Apply leave as Admin User for a single day ', function () {
     it('Apply full day leave with a comment', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
@@ -249,6 +246,7 @@ describe('Leave - Apply Leave', function () {
       cy.toast('success', 'Successfully Saved');
     });
   });
+
   //Apply leave for multiple days
   describe('Apply leave for multiple days ', function () {
     it('Apply full day leave for multiple days with a comment', function () {
@@ -279,8 +277,7 @@ describe('Leave - Apply Leave', function () {
       cy.wait('@postLeaveRequest');
       cy.toast('success', 'Successfully Saved');
     });
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('Apply leave for multiple days for a specific time of the start day', function () {
+    it('Apply leave for multiple days for a specific time of the start day', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
       cy.getOXD('form').within(() => {
@@ -295,7 +292,6 @@ describe('Leave - Apply Leave', function () {
         )
           .clear()
           .type('01:00 PM');
-        // cy.getOXDInput('Comments').type(this.strings.chars100.text);
         cy.getOXD('button').contains('Apply').click();
       });
       cy.wait('@postLeaveRequest');
@@ -330,6 +326,7 @@ describe('Leave - Apply Leave', function () {
       cy.toast('error', 'Failed to Submit: No Working Days Selected');
     });
   });
+
   //Verifying overlapping leave requests
   describe('Verifying overlapping leave requests ', function () {
     it('Creating snapshot with a leave', function () {

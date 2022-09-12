@@ -47,7 +47,7 @@ const OXD_ELEMENTS = {
   subTitle: '.oxd-text--subtitle-2',
   numRecords: '.oxd-text--span',
   option: '.oxd-select-option',
-  option2: '.oxd-autocomplete-option > span',
+  autoCompleteOption: '.oxd-autocomplete-option > span',
   selectWrapper: '.oxd-select-wrapper',
   date: '.oxd-date-input',
   leaveBalance: 'orangehrm-leave-balance-text',
