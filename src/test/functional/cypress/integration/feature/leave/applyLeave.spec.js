@@ -18,7 +18,8 @@
 
 import user from '../../../fixtures/user.json';
 
-describe('Leave - Apply Leave', function () {
+// eslint-disable-next-line jest/no-disabled-tests
+describe.skip('Leave - Apply Leave', function () {
   beforeEach(function () {
     cy.task('db:reset');
     cy.fixture('chars').as('strings');
@@ -161,8 +162,7 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Apply leave when no leave types are defined
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('Apply leave when no leave types are defined', function () {
+  describe('Apply leave when no leave types are defined', function () {
     it('Apply leave when no leave types are defined', function () {
       cy.task('db:restore', {name: 'lPeriodforApplyleave'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -174,8 +174,7 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Form Validations
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('Apply leave-form validations', function () {
+  describe('Apply leave-form validations', function () {
     it('Apply leave-form validations', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -203,8 +202,7 @@ describe('Leave - Apply Leave', function () {
     });
   });
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('Apply leave as Admin User for a single day ', function () {
+  describe('Apply leave as Admin User for a single day ', function () {
     it('Apply full day leave with a comment', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -251,8 +249,7 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Apply leave for multiple days
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('Apply leave for multiple days ', function () {
+  describe('Apply leave for multiple days ', function () {
     it('Apply full day leave for multiple days with a comment', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -304,8 +301,7 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Applying leave on non-working days and holidays
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('Apply leave non-working days and holidays ', function () {
+  describe('Apply leave non-working days and holidays ', function () {
     it('Apply leave on a non-working day', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -333,8 +329,7 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Verifying overlapping leave requests
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('Verifying overlapping leave requests ', function () {
+  describe('Verifying overlapping leave requests ', function () {
     it('Creating snapshot with a leave', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -365,8 +360,7 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Leave balance calculation
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('Verifying Leave balance calculation ', function () {
+  describe('Verifying Leave balance calculation ', function () {
     it('Verify ability to open and close leave balance modal', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -401,8 +395,7 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Apply leave as ESS user
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip('Apply leave as ESS User', function () {
+  describe('Apply leave as ESS User', function () {
     it('Apply full day leave with a comment as ESS user', function () {
       cy.task('db:restore', {name: 'ESSleaveEntitlements'});
       cy.loginTo(user.john, '/leave/applyLeave');
