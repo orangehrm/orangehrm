@@ -43,7 +43,7 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
     use EmployeeOnLeaveServiceTrait;
 
     public const PARAMETER_DATE = 'date';
-    public const META_PARAMETER_LEAVE_PERIOD_DEFINED =  'leavePeriod';
+    public const META_PARAMETER_LEAVE_PERIOD_DEFINED =  'leavePeriodDefined';
 
     /**
      * @inheritDoc

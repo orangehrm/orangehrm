@@ -28,7 +28,7 @@ GetAll:
           deleted: false
     meta:
       total: 1
-      leavePeriod: true
+      leavePeriodDefined: true
   'Get all employees on leave in specific day - multiple employee':
     userId: 1
     query:
@@ -95,7 +95,7 @@ GetAll:
           deleted: false
     meta:
       total: 3
-      leavePeriod: true
+      leavePeriodDefined: true
   'Get all employees on leave in specific day - ESS User':
     userId: 2
     query:
@@ -122,7 +122,7 @@ GetAll:
         startTime: null
     meta:
       total: 1
-      leavePeriod: true
+      leavePeriodDefined: true
   'Get all employees on leave in specific day - limit, offset':
     userId: 2
     query:
@@ -151,7 +151,7 @@ GetAll:
         startTime: null
     meta:
       total: 3
-      leavePeriod: true
+      leavePeriodDefined: true
   'Get all employees on leave in specific day - sortOrder, sortField':
     userId: 2
     query:
@@ -207,7 +207,7 @@ GetAll:
         startTime: null
     meta:
       total: 3
-      leavePeriod: null
+      leavePeriodDefined: true
   'Get all employees on leave in specific day - Leave Type Deleted':
     userId: 1
     query:
@@ -217,7 +217,6 @@ GetAll:
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     data:
       0:
         id: 58
@@ -239,4 +238,4 @@ GetAll:
           deleted: false
     meta:
       total: 1
-      leavePeriod: null
+      leavePeriodDefined: true
