@@ -81,6 +81,7 @@ export default {
           CHART_COLORS.COLOR_BLEU_DE_FRANCE,
           CHART_COLORS.COLOR_MAJORELLE_BLUE,
           CHART_COLORS.COLOR_MEDIUM_ORCHID,
+          CHART_COLORS.COLOR_FANDANGO_PINK,
         ];
 
         this.dataset = data

@@ -24,13 +24,13 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeOnLeaveSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['leaveList.date'];
+    public const ALLOWED_SORT_FIELDS = ['leaveList.date', 'employee.firstName'];
 
     protected DateTime $dateTime;
 
     public function __construct()
     {
-        $this->setSortField('leaveList.date');
+        $this->setSortField('employee.firstName');
     }
 
     /**

@@ -23,23 +23,27 @@ class EmployeeDistributionByLocation
 {
     private array $locationCountPairs;
     private int $otherEmployeeCount;
+    private int $totalLocationCount;
     private int $unassignedEmployeeCount;
     private int $limit;
 
     /**
-     * @param LocationEmployeeCount[] $locationCountPairs
+     * @param array $locationCountPairs
      * @param int   $otherEmployeeCount
+     * @param int   $totalLocationCount
      * @param int   $unassignedEmployeeCount
      * @param int   $limit
      */
     public function __construct(
         array $locationCountPairs,
         int $otherEmployeeCount,
+        int $totalLocationCount,
         int $unassignedEmployeeCount,
         int $limit
     ) {
         $this->locationCountPairs = $locationCountPairs;
         $this->otherEmployeeCount = $otherEmployeeCount;
+        $this->totalLocationCount = $totalLocationCount;
         $this->unassignedEmployeeCount = $unassignedEmployeeCount;
         $this->limit = $limit;
     }
@@ -74,5 +78,13 @@ class EmployeeDistributionByLocation
     public function getLimit(): int
     {
         return $this->limit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalLocationCount(): int
+    {
+        return $this->totalLocationCount;
     }
 }

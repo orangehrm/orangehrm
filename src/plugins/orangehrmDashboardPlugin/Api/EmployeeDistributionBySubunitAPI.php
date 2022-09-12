@@ -34,6 +34,7 @@ class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEnd
 
     public const PARAMETER_OTHER_EMPLOYEE_COUNT = 'otherEmployeeCount';
     public const PARAMETER_UNASSIGNED_EMPLOYEE_COUNT = 'unassignedEmployeeCount';
+    public const PARAMETER_TOTAL_SUBUNIT_COUNT = 'totalSubunitCount';
 
     /**
      * @inheritDoc
@@ -50,7 +51,8 @@ class EmployeeDistributionBySubunitAPI extends Endpoint implements CollectionEnd
                 self::PARAMETER_OTHER_EMPLOYEE_COUNT => $employeeDistribution->getOtherEmployeeCount(
                 ),
                 self::PARAMETER_UNASSIGNED_EMPLOYEE_COUNT => $employeeDistribution->getUnassignedEmployeeCount(
-                )
+                ),
+                self::PARAMETER_TOTAL_SUBUNIT_COUNT => $employeeDistribution->getTotalSubunitCount(),
             ]),
         );
     }

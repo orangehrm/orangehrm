@@ -60,24 +60,6 @@ GetAll:
           name: Medical
           deleted: false
       1:
-        id: 69
-        date: '2023-01-03'
-        lengthHours: 8.0
-        employee:
-          empNumber: 4
-          lastName: 'Abbey'
-          firstName: 'Kayla'
-          middleName: ''
-          employeeId: '0004'
-          terminationId: null
-        duration: 'full_day'
-        endTime: null
-        startTime: null
-        leaveType:
-          id: 6
-          name: Medical
-          deleted: false
-      2:
         id: 70
         date: '2023-01-03'
         lengthHours: 8.0
@@ -94,6 +76,24 @@ GetAll:
         leaveType:
           id: 5
           name: CAN - Vacation
+          deleted: false
+      2:
+        id: 69
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 4
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: ''
+          employeeId: '0004'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 6
+          name: Medical
           deleted: false
     meta:
       total: 3
@@ -140,15 +140,15 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     data:
       0:
-        id: 70
+        id: 69
         date: '2023-01-03'
         lengthHours: 8.0
         employee:
-          empNumber: 5
-          lastName: 'Abel'
-          firstName: 'Ashley'
+          empNumber: 4
+          lastName: 'Abbey'
+          firstName: 'Kayla'
           middleName: ''
-          employeeId: '0005'
+          employeeId: '0004'
           terminationId: null
         duration: 'full_day'
         endTime: null
@@ -169,20 +169,6 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     data:
       0:
-        id: 68
-        date: '2023-01-03'
-        lengthHours: 8.0
-        employee:
-          empNumber: 3
-          lastName: 'Duval'
-          firstName: 'Alice'
-          middleName: ''
-          employeeId: '0003'
-          terminationId: null
-        duration: 'full_day'
-        endTime: null
-        startTime: null
-      1:
         id: 69
         date: '2023-01-03'
         lengthHours: 8.0
@@ -196,7 +182,7 @@ GetAll:
         duration: 'full_day'
         endTime: null
         startTime: null
-      2:
+      1:
         id: 70
         date: '2023-01-03'
         lengthHours: 8.0
@@ -210,6 +196,52 @@ GetAll:
         duration: 'full_day'
         endTime: null
         startTime: null
+      2:
+        id: 68
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 3
+          lastName: 'Duval'
+          firstName: 'Alice'
+          middleName: ''
+          employeeId: '0003'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
     meta:
       total: 3
+      leavePeriod: null
+  'Get all employees on leave in specific day - Leave Type Deleted':
+    userId: 1
+    query:
+      date: '2022-11-03'
+    now:
+      datetime: '2022-07-25'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    data:
+      0:
+        id: 58
+        date: '2022-11-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 1
+          lastName: 'Adalwin'
+          firstName: 'Odis'
+          middleName: ''
+          employeeId: '0001'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 2
+          name: US - Vacation
+          deleted: false
+    meta:
+      total: 1
       leavePeriod: null
