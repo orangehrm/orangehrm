@@ -161,7 +161,8 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Apply leave when no leave types are defined
-  describe('Apply leave when no leave types are defined', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Apply leave when no leave types are defined', function () {
     it('Apply leave when no leave types are defined', function () {
       cy.task('db:restore', {name: 'lPeriodforApplyleave'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -173,7 +174,8 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Form Validations
-  describe('Apply leave-form validations', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Apply leave-form validations', function () {
     it('Apply leave-form validations', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -201,7 +203,8 @@ describe('Leave - Apply Leave', function () {
     });
   });
 
-  describe('Apply leave as Admin User for a single day ', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Apply leave as Admin User for a single day ', function () {
     it('Apply full day leave with a comment', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -248,7 +251,8 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Apply leave for multiple days
-  describe('Apply leave for multiple days ', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Apply leave for multiple days ', function () {
     it('Apply full day leave for multiple days with a comment', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -300,7 +304,8 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Applying leave on non-working days and holidays
-  describe('Apply leave non-working days and holidays ', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Apply leave non-working days and holidays ', function () {
     it('Apply leave on a non-working day', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -328,7 +333,8 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Verifying overlapping leave requests
-  describe('Verifying overlapping leave requests ', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Verifying overlapping leave requests ', function () {
     it('Creating snapshot with a leave', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -359,7 +365,8 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Leave balance calculation
-  describe('Verifying Leave balance calculation ', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Verifying Leave balance calculation ', function () {
     it('Verify ability to open and close leave balance modal', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'});
       cy.loginTo(user.admin, '/leave/applyLeave');
@@ -394,7 +401,8 @@ describe('Leave - Apply Leave', function () {
   });
 
   //Apply leave as ESS user
-  describe('Apply leave as ESS User', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Apply leave as ESS User', function () {
     it('Apply full day leave with a comment as ESS user', function () {
       cy.task('db:restore', {name: 'ESSleaveEntitlements'});
       cy.loginTo(user.john, '/leave/applyLeave');
