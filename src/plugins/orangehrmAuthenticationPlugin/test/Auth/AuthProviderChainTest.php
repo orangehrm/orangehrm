@@ -22,6 +22,8 @@ namespace OrangeHRM\Tests\Authentication\Auth;
 use InvalidArgumentException;
 use OrangeHRM\Authentication\Auth\AbstractAuthProvider;
 use OrangeHRM\Authentication\Auth\AuthProviderChain;
+use OrangeHRM\Authentication\Dto\AuthParams;
+use OrangeHRM\Authentication\Dto\AuthParamsInterface;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Tests\Util\TestCase;
 
@@ -41,7 +43,7 @@ class AuthProviderChainTest extends TestCase
             ->method('authenticate')
             ->willReturn(false);
         $chain->addProvider($debugAuthProvider);
-        $this->assertFalse($chain->authenticate(new UserCredential()));
+        $this->assertFalse($chain->authenticate(new AuthParams(new UserCredential())));
     }
 
     public function testAuthenticateWithMultipleProvidersResolvingFirstProvider(): void
@@ -70,7 +72,7 @@ class AuthProviderChainTest extends TestCase
         $chain->addProvider($localAuthProvider->setPriority(10));
         $chain->addProvider($debugAuthProvider->setPriority(10000));
         $chain->addProvider($ldapAuthProvider->setPriority(100));
-        $this->assertTrue($chain->authenticate(new UserCredential()));
+        $this->assertTrue($chain->authenticate(new AuthParams(new UserCredential())));
     }
 
     public function testAuthenticateWithMultipleProvidersResolvingSecondProvider(): void
@@ -99,7 +101,7 @@ class AuthProviderChainTest extends TestCase
         $chain->addProvider($localAuthProvider->setPriority(10));
         $chain->addProvider($debugAuthProvider->setPriority(10000));
         $chain->addProvider($ldapAuthProvider->setPriority(100));
-        $this->assertTrue($chain->authenticate(new UserCredential()));
+        $this->assertTrue($chain->authenticate(new AuthParams(new UserCredential())));
     }
 
     public function testAuthenticateWithMultipleProvidersResolvingLastProvider(): void
@@ -128,7 +130,7 @@ class AuthProviderChainTest extends TestCase
         $chain->addProvider($localAuthProvider->setPriority(10));
         $chain->addProvider($debugAuthProvider->setPriority(10000));
         $chain->addProvider($ldapAuthProvider->setPriority(100));
-        $this->assertTrue($chain->authenticate(new UserCredential()));
+        $this->assertTrue($chain->authenticate(new AuthParams(new UserCredential())));
     }
 
     public function testAddProviderWithMultipleProvidersWithSamePriority(): void
@@ -181,7 +183,7 @@ class DebugAuthProvider extends AbstractAuthProvider
     /**
      * @inheritDoc
      */
-    public function authenticate(UserCredential $credential): bool
+    public function authenticate(AuthParamsInterface $authParams): bool
     {
         return true;
     }
@@ -212,9 +214,10 @@ class LocalAuthProvider extends AbstractAuthProvider
     /**
      * @inheritDoc
      */
-    public function authenticate(UserCredential $credential): bool
+    public function authenticate(AuthParamsInterface $authParams): bool
     {
-        return $credential->getUsername() == $credential->getPassword() && $credential->getUsername() != null;
+        return $authParams->getCredential()->getUsername() == $authParams->getCredential()->getPassword()
+            && $authParams->getCredential()->getUsername() != null;
     }
 }
 
@@ -243,8 +246,9 @@ class LDAPAuthProvider extends AbstractAuthProvider
     /**
      * @inheritDoc
      */
-    public function authenticate(UserCredential $credential): bool
+    public function authenticate(AuthParamsInterface $authParams): bool
     {
-        return $credential->getUsername() == $credential->getPassword() && $credential->getUsername() != null;
+        return $authParams->getCredential()->getUsername() == $authParams->getCredential()->getPassword()
+            && $authParams->getCredential()->getUsername() != null;
     }
 }

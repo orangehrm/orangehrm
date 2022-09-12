@@ -86,7 +86,7 @@ class AdministratorVerifyController extends AbstractController
             if (!$this->getCsrfTokenManager()->isValid('administrator-access', $token)) {
                 throw AuthenticationException::invalidCsrfToken();
             }
-            $success = $this->getAuthenticationService()->setCredentials($credentials, []);
+            $success = $this->getAuthenticationService()->setCredentials($credentials);
             if (!$success) {
                 throw AuthenticationException::invalidCredentials();
             }

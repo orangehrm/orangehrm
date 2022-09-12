@@ -238,7 +238,7 @@
         </oxd-text>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item class="orangehrm-ldap-switch">
+            <oxd-grid-item class="orangehrm-ldap-switch --offset-row-1">
               <oxd-text tag="p" class="orangehrm-ldap-switch-text">
                 {{ $t('admin.merge_ldap_users_with_existing_system_users') }}
               </oxd-text>
@@ -246,7 +246,7 @@
                 v-model="configuration.mergeLDAPUsersWithExistingSystemUsers"
               />
             </oxd-grid-item>
-            <oxd-grid-item>
+            <oxd-grid-item class="--offset-row-2">
               <oxd-input-field
                 v-model="configuration.syncInterval"
                 :label="$t('admin.sync_interval')"
