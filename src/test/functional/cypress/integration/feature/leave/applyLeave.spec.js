@@ -37,10 +37,10 @@ describe('Leave - Apply Leave', function () {
       'postLeaveRequest',
     );
     cy.intercept('POST', '**/api/v2/leave/holidays').as('postHolidays');
-    cy.intercept('POST', '**/api/v2/pim/employees').as('addEmployee');
-    cy.intercept('POST', '**/api/v2/admin/users').as('postESSuser');
+    cy.intercept('POST', '**/api/v2/pim/employees').as('saveEmployee');
+    cy.intercept('POST', '**/api/v2/admin/users').as('saveUser');
     cy.intercept('GET', '**/api/v2/admin/validation/user-name*').as(
-      'getESSusername',
+      'userNameValidation',
     );
     cy.fixture('user').then((data) => {
       this.adminUser = data.admin;
@@ -52,8 +52,8 @@ describe('Leave - Apply Leave', function () {
   describe('create snapshots', function () {
     it('create snapshot with leaveperiod', function () {
       cy.loginTo(user.admin, '/leave/defineLeavePeriod');
+      cy.wait('@getLeavePeriod');
       cy.getOXD('form').within(() => {
-        cy.wait('@getLeavePeriod');
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@putLeavePeriod').then(function () {
@@ -61,7 +61,7 @@ describe('Leave - Apply Leave', function () {
       });
     });
     it('create snapshot with leave type', function () {
-      cy.task('db:restore', {name: 'lPeriodforApplyleave'});
+      cy.task('db:restore', {name: 'lPeriodforApplyleave'}); // leave period is restored
       cy.loginTo(user.admin, '/leave/defineLeaveType');
       cy.wait('@getLeaveTypes');
       cy.getOXD('form').within(() => {
@@ -72,9 +72,21 @@ describe('Leave - Apply Leave', function () {
         cy.task('db:snapshot', {name: 'lTypesforApplyleave'});
       });
     });
+    it('create snapshot with holiday', function () {
+      cy.task('db:restore', {name: 'lTypesforApplyleave'}); // leave period + leave type are restored
+      cy.loginTo(user.admin, '/leave/saveHolidays');
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Name').type(this.strings.chars10.text);
+        cy.getOXDInput('Date').type('2022-08-03');
+        cy.getOXD('button').contains('Save').click();
+      });
+      cy.wait('@postHolidays').then(function () {
+        cy.toast('success', 'Successfully Saved');
+        cy.task('db:snapshot', {name: 'holidayforleave'});
+      });
+    });
     it('create snapshot with leave entitlement', function () {
-      cy.task('db:restore', {name: 'lPeriodforApplyleave'});
-      cy.task('db:restore', {name: 'lTypesforApplyleave'});
+      cy.task('db:restore', {name: 'holidayforleave'}); // leave period + leave type + holiday are restored
       cy.loginTo(user.admin, '/leave/addLeaveEntitlement');
       cy.wait('@getLeaveTypes');
       cy.getOXD('form').within(() => {
@@ -90,25 +102,11 @@ describe('Leave - Apply Leave', function () {
         cy.task('db:snapshot', {name: 'leaveEntitlements'});
       });
     });
-    it('create snapshot with holiday', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/saveHolidays');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Name').type(this.strings.chars10.text);
-        cy.getOXDInput('Date').type('2022-08-03');
-        cy.getOXD('button').contains('Save').click();
-      });
-      cy.wait('@postHolidays').then(function () {
-        cy.toast('success', 'Successfully Saved');
-        cy.task('db:snapshot', {name: 'holidayforleave'});
-      });
-    });
   });
 
-  //Creating snapshots for applying leave as ESS user
-  describe('create snapshots for ESS user', function () {
-    it('Add employees', function () {
-      cy.task('db:restore', {name: 'lTypesforApplyleave'});
+  describe('Add new employee', function () {
+    it('Add Employee John Perera', function () {
+      cy.task('db:restore', {name: 'leaveEntitlements'}); // leave period + leave type + holiday + admin leave entitlments are restored
       cy.loginTo(user.admin, '/pim/addEmployee');
       cy.getOXD('form').within(() => {
         cy.get(
@@ -117,12 +115,14 @@ describe('Leave - Apply Leave', function () {
         cy.get(':nth-child(3) > :nth-child(2) > .oxd-input').type('Perera');
         cy.getOXD('button').contains('Save').click();
       });
-      cy.wait('@addEmployee').then(function () {
-        cy.task('db:snapshot', {name: 'ESSemployee'});
-      });
+      cy.wait('@saveEmployee');
+      cy.task('db:snapshot', {name: 'ESSEmployee'});
     });
-    it('Add ESS user', function () {
-      cy.task('db:restore', {name: 'ESSemployee'});
+  });
+
+  describe('Add new user', function () {
+    it('Add John Perera as ESS user', function () {
+      cy.task('db:restore', {name: 'ESSEmployee'});
       cy.loginTo(user.admin, '/admin/saveSystemUser');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('User Role').selectOption('ESS');
@@ -133,17 +133,18 @@ describe('Leave - Apply Leave', function () {
         cy.getOXDInput('Username').type('John22');
         cy.getOXDInput('Password').type('John@123');
         cy.getOXDInput('Confirm Password').type('John@123');
-        //cy.getOXD('button').contains('Save').click();
       });
-      cy.wait('@getESSusername');
+      cy.wait('@userNameValidation');
       cy.getOXD('button').contains('Save').click();
-      cy.wait('@postESSuser').then(function () {
-        cy.task('db:snapshot', {name: 'ESSuser'});
-      });
+      cy.wait('@saveUser');
+      cy.task('db:snapshot', {name: 'ESSUser'});
     });
-    //Add entitlement for the employee
-    it('Add an entitlement to ESS user', function () {
-      cy.task('db:restore', {name: 'ESSuser'});
+  });
+
+  //Add leave entitlement for ess user
+  describe('Add an entitlement to ESS user', function () {
+    it('Add 5 Casual leaves for John Perera', function () {
+      cy.task('db:restore', {name: 'ESSUser'});
       cy.loginTo(user.admin, '/leave/addLeaveEntitlement');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Employee Name')
