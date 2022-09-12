@@ -221,7 +221,11 @@ export default {
     const serializedFilters = computed(() => {
       return {
         model: 'detailed',
-        nameOrId: filters.value.employee?.id || filters.value.employee,
+        nameOrId:
+          typeof filters.value.employee === 'string'
+            ? filters.value.employee
+            : undefined,
+        empNumber: filters.value.employee?.id,
         employeeId: filters.value.employeeId,
         empStatusId: filters.value.empStatusId?.id,
         includeEmployees: filters.value.includeEmployees?.param,
