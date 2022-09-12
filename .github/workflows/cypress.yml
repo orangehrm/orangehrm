@@ -26,6 +26,7 @@ jobs:
           echo "git_hash=$(git rev-parse HEAD)" >> $GITHUB_ENV
           cp .env.dist .env
           sed -i "s~LOCAL_SRC=/your/src/path~LOCAL_SRC=$PWD/html~g" .env
+          sed -i '11i default_storage_engine=MEMORY' mysql/my.cnf
           echo "127.0.0.1 php56 php70 php71 php72 php73 php74 php80" | sudo tee -a /etc/hosts
           docker version
           docker info
@@ -89,6 +90,7 @@ jobs:
           docker exec os_dev_php80 bash -c 'chmod -R 777 src/log'
           docker exec os_dev_php80 bash -c 'chmod -R 777 src/config'
           docker exec os_dev_php80 bash -c 'php installer/cli_install.php'
+          docker exec os_dev_mysql55 mysql -uroot -proot -e "SHOW ENGINES;"
 
       - name: Run tests
         run: |
