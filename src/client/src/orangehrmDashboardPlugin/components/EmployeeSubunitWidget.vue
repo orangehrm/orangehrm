@@ -28,6 +28,7 @@
       :data="dataset"
       :aspect-ratio="false"
       :custom-legend="true"
+      :custom-tooltip="true"
       wrapper-classes="emp-distrib-chart"
     ></oxd-pie-chart>
   </base-widget>
