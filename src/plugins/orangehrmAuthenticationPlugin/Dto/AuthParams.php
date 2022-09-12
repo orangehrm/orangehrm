@@ -17,22 +17,36 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Auth;
+namespace OrangeHRM\Authentication\Dto;
 
-use OrangeHRM\Authentication\Dto\AuthParamsInterface;
-use OrangeHRM\Authentication\Exception\AuthenticationException;
-
-abstract class AbstractAuthProvider
+class AuthParams implements AuthParamsInterface
 {
-    /**
-     * @param AuthParamsInterface $authParams
-     * @return bool
-     * @throws AuthenticationException
-     */
-    abstract public function authenticate(AuthParamsInterface $authParams): bool;
+    private ?UserCredentialInterface $credential;
+    private ?AuthAttributeBagInterface $attributeBag;
 
     /**
-     * @return int
+     * @param UserCredentialInterface|null $credential
+     * @param AuthAttributeBagInterface|null $attributeBag
      */
-    abstract public function getPriority(): int;
+    public function __construct(?UserCredentialInterface $credential, ?AuthAttributeBagInterface $attributeBag = null)
+    {
+        $this->credential = $credential;
+        $this->attributeBag = $attributeBag;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCredential(): ?UserCredentialInterface
+    {
+        return clone $this->credential;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAttributeBag(): ?AuthAttributeBagInterface
+    {
+        return clone $this->attributeBag;
+    }
 }

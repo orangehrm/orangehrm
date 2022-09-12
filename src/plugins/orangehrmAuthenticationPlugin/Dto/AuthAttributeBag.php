@@ -17,22 +17,10 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Auth;
+namespace OrangeHRM\Authentication\Dto;
 
-use OrangeHRM\Authentication\Dto\AuthParamsInterface;
-use OrangeHRM\Authentication\Exception\AuthenticationException;
+use OrangeHRM\Core\Dto\AttributeBag;
 
-abstract class AbstractAuthProvider
+class AuthAttributeBag extends AttributeBag implements AuthAttributeBagInterface
 {
-    /**
-     * @param AuthParamsInterface $authParams
-     * @return bool
-     * @throws AuthenticationException
-     */
-    abstract public function authenticate(AuthParamsInterface $authParams): bool;
-
-    /**
-     * @return int
-     */
-    abstract public function getPriority(): int;
 }

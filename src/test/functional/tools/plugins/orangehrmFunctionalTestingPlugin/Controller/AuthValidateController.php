@@ -56,7 +56,7 @@ class AuthValidateController extends AbstractController implements PublicControl
         $username = $request->request->get(ValidateController::PARAMETER_USERNAME, '');
         $password = $request->request->get(ValidateController::PARAMETER_PASSWORD, '');
         $credentials = new UserCredential($username, $password);
-        $success = $this->getAuthenticationService()->setCredentials($credentials, []);
+        $success = $this->getAuthenticationService()->setCredentials($credentials);
         $this->getAuthUser()->setIsAuthenticated($success);
 
         $response = $this->getResponse();

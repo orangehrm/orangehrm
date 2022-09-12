@@ -20,7 +20,7 @@
 namespace OrangeHRM\Authentication\Auth;
 
 use InvalidArgumentException;
-use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Dto\AuthParamsInterface;
 
 class AuthProviderChain
 {
@@ -59,14 +59,14 @@ class AuthProviderChain
     }
 
     /**
-     * @param UserCredential $credential
+     * @param AuthParamsInterface $authParams
      * @return bool
      */
-    public function authenticate(UserCredential $credential): bool
+    public function authenticate(AuthParamsInterface $authParams): bool
     {
         array_multisort($this->priorities, SORT_DESC, $this->providers);
         foreach ($this->providers as $authProvider) {
-            if ($authProvider->authenticate($credential)) {
+            if ($authProvider->authenticate($authParams)) {
                 return true;
             }
         }

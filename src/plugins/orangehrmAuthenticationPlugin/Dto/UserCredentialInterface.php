@@ -17,22 +17,17 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Auth;
+namespace OrangeHRM\Authentication\Dto;
 
-use OrangeHRM\Authentication\Dto\AuthParamsInterface;
-use OrangeHRM\Authentication\Exception\AuthenticationException;
-
-abstract class AbstractAuthProvider
+interface UserCredentialInterface
 {
     /**
-     * @param AuthParamsInterface $authParams
-     * @return bool
-     * @throws AuthenticationException
+     * @return string|null
      */
-    abstract public function authenticate(AuthParamsInterface $authParams): bool;
+    public function getUsername(): ?string;
 
     /**
-     * @return int
+     * @return string|null
      */
-    abstract public function getPriority(): int;
+    public function getPassword(): ?string;
 }

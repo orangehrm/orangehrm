@@ -19,7 +19,8 @@
 
 namespace OrangeHRM\Authentication\Auth;
 
-use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Dto\AuthParamsInterface;
+use OrangeHRM\Authentication\Dto\UserCredentialInterface;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 
 class LocalAuthProvider extends AbstractAuthProvider
@@ -37,9 +38,12 @@ class LocalAuthProvider extends AbstractAuthProvider
     /**
      * @inheritDoc
      */
-    public function authenticate(UserCredential $credential): bool
+    public function authenticate(AuthParamsInterface $authParams): bool
     {
-        return $this->getAuthenticationService()->setCredentials($credential, []);
+        if (!$authParams->getCredential() instanceof UserCredentialInterface) {
+            return false;
+        }
+        return $this->getAuthenticationService()->setCredentials($authParams->getCredential());
     }
 
     /**
