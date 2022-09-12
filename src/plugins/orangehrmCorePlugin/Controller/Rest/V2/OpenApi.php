@@ -100,7 +100,9 @@ use OpenApi\Annotations as OA;
  *     name="_orangehrm"
  * )
  *
- * @OA\Tag(name="Admin")
+ * @OA\Tag(name="Admin/Job Title")
+ * @OA\Tag(name="Admin/Nationality")
+ * @OA\Tag(name="Admin/Users")
  * @OA\Tag(name="PIM")
  * @OA\Tag(name="Leave")
  * @OA\Tag(name="Time")
