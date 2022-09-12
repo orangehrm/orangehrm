@@ -126,9 +126,8 @@ describe('Leave - Apply Leave', function () {
       cy.loginTo(user.admin, '/admin/saveSystemUser');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('User Role').selectOption('ESS');
-        cy.getOXDInput('Employee Name')
-          .type('John')
-          .selectOption('John Perera');
+        cy.getOXDInput('Employee Name').type('John');
+        cy.getOXD('autoCompleteOption').contains('John Perera').click();
         cy.getOXDInput('Status').selectOption('Enabled');
         cy.getOXDInput('Username').type('John22');
         cy.getOXDInput('Password').type('John@123');
