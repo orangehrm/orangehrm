@@ -77,8 +77,32 @@ describe('Admin - Job Titles', function () {
   });
 
   // Update
-  describe('update job title', function () {});
+  describe('update job title', function () {
+    it('update job title', function () {
+      cy.task('db:restore', {name: 'jobTitle'});
+      cy.loginTo(this.user, '/admin/saveJobTitle/1');
+      cy.wait('@getJobTitles');
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Job Title').clear().type(this.strings.chars30.text);
+        cy.getOXD('button').contains('Save').click();
+      });
+      cy.wait('@updateJobTitles');
+      cy.toast('success', 'Successfully Updated');
+    });
+  });
 
   // Delete
-  describe('delete job title', function () {});
+  describe('delete job title', function () {
+    it('delete job title', function () {
+      cy.task('db:restore', {name: 'jobTitle'});
+      cy.loginTo(this.user, '/admin/viewJobTitleList');
+      cy.wait('@getJobTitles');
+      cy.get(
+        '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(1)',
+      ).click();
+      cy.getOXD('button').contains('Yes, Delete').click();
+      cy.wait('@deleteJobTitles');
+      cy.toast('success', 'Successfully Deleted');
+    });
+  });
 });

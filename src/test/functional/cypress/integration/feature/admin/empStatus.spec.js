@@ -101,11 +101,8 @@ describe('Admin - Employment Status', function () {
   describe('update emp status', function () {
     it('update emp status', function () {
       cy.task('db:restore', {name: 'empStatus'});
-      cy.loginTo(this.user, '/admin/employmentStatus');
+      cy.loginTo(this.user, '/admin/saveEmploymentStatus/1');
       cy.wait('@getEmpStatus');
-      cy.get(
-        '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(2)',
-      ).click();
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').clear().type(this.strings.chars30.text);
         cy.getOXD('button').contains('Save').click();
