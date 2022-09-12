@@ -20,15 +20,21 @@
 namespace OrangeHRM\LDAP\Auth;
 
 use OrangeHRM\Authentication\Auth\AbstractAuthProvider;
+use OrangeHRM\Authentication\Dto\AuthParamsInterface;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Dto\UserCredentialInterface;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\LDAP\Service\LDAPService;
 use OrangeHRM\LDAP\Service\LDAPSyncService;
-use Symfony\Component\Ldap\Exception\LdapException;
+use Throwable;
 
 class LDAPAuthProvider extends AbstractAuthProvider
 {
+    use LoggerTrait;
+
     private LDAPService $ldapService;
     private LDAPSyncService $ldapSyncService;
     private AuthenticationService $authenticationService;
@@ -60,8 +66,12 @@ class LDAPAuthProvider extends AbstractAuthProvider
     /**
      * @inheritDoc
      */
-    public function authenticate(UserCredential $credential): bool
+    public function authenticate(AuthParamsInterface $authParams): bool
     {
+        if (!$authParams->getCredential() instanceof UserCredentialInterface) {
+            return false;
+        }
+        $credential = $authParams->getCredential();
         $user = $this->getLDAPSyncService()
             ->getLDAPDao()
             ->getUserByUserName($credential->getUsername());
@@ -77,7 +87,11 @@ class LDAPAuthProvider extends AbstractAuthProvider
         try {
             $this->getLDAPService()->bind($ldapCredential);
             return $this->getAuthenticationService()->setCredentialsForUser($user);
-        } catch (LdapException $e) {
+        } catch (AuthenticationException $e) {
+            throw $e;
+        } catch (Throwable $e) {
+            // Ignore logging stack trace to avoid dump bind passwords in the log file
+            $this->getLogger()->error($e->getMessage());
             return false;
         }
     }

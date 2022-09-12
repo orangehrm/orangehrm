@@ -21,6 +21,7 @@ namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\AuthProviderChain;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Dto\AuthParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\LoginService;
@@ -95,7 +96,7 @@ class ValidateController extends AbstractController implements PublicControllerI
 
             /** @var AuthProviderChain $authProviderChain */
             $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
-            $success = $authProviderChain->authenticate($credentials);
+            $success = $authProviderChain->authenticate(new AuthParams($credentials));
 
             if (!$success) {
                 throw AuthenticationException::invalidCredentials();

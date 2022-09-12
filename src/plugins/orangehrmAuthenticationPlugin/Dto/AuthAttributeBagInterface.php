@@ -17,22 +17,51 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Auth;
+namespace OrangeHRM\Authentication\Dto;
 
-use OrangeHRM\Authentication\Dto\AuthParamsInterface;
-use OrangeHRM\Authentication\Exception\AuthenticationException;
-
-abstract class AbstractAuthProvider
+interface AuthAttributeBagInterface
 {
     /**
-     * @param AuthParamsInterface $authParams
-     * @return bool
-     * @throws AuthenticationException
+     * @return array
      */
-    abstract public function authenticate(AuthParamsInterface $authParams): bool;
+    public function all(): array;
 
     /**
-     * @return int
+     * @return array
      */
-    abstract public function getPriority(): int;
+    public function keys(): array;
+
+    /**
+     * @param array $parameters
+     */
+    public function replace(array $parameters = []): void;
+
+    /**
+     * @param array $parameters
+     */
+    public function add(array $parameters = []): void;
+
+    /**
+     * @param string $key
+     * @param mixed|null $default
+     * @return mixed
+     */
+    public function get(string $key, $default = null);
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function set(string $key, $value): void;
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function has(string $key): bool;
+
+    /**
+     * @param string $key
+     */
+    public function remove(string $key): void;
 }
