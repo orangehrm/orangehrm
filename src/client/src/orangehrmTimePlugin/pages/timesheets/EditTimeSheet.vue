@@ -81,6 +81,9 @@ import useTimesheetAPIs from '@/orangehrmTimePlugin/util/composable/useTimesheet
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
+import usei18n from '@/core/util/composable/usei18n';
+
+const {$t} = usei18n();
 
 export default {
   components: {
@@ -236,7 +239,9 @@ export default {
         return this.$t('time.edit_timesheet');
       } else if (this.employee) {
         const empName = this.employee?.terminationId
-          ? `${this.employee.firstName} ${this.employee.lastName} (Past Employee)`
+          ? `${this.employee.firstName} ${this.employee.lastName} ${$t(
+              'general.past_employee',
+            )}`
           : `${this.employee.firstName} ${this.employee.lastName}`;
         return `${this.$t('time.edit_timesheet_for')} ${empName}`;
       }

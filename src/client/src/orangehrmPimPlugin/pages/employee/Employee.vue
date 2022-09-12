@@ -145,11 +145,6 @@ const defaultFilters = {
   employee: null,
   employeeId: '',
   empStatusId: null,
-  includeEmployees: {
-    id: 1,
-    param: 'onlyCurrent',
-    label: 'Current Employees Only',
-  },
   supervisor: null,
   jobTitleId: null,
   subunitId: null,
@@ -214,7 +209,14 @@ export default {
       });
     };
 
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      ...defaultFilters,
+      includeEmployees: {
+        id: 1,
+        param: 'onlyCurrent',
+        label: $t('general.current_employees_only'),
+      },
+    });
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });

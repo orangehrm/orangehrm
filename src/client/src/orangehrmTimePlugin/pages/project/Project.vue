@@ -106,6 +106,7 @@
 
 <script>
 import {computed, ref} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
 import {validSelection} from '@/core/util/validation/rules';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {navigate} from '@ohrm/core/util/helper/navigation';
@@ -116,6 +117,8 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
+
+const {$t} = usei18n();
 
 const defaultFilters = {
   customer: null,
@@ -152,7 +155,7 @@ export default {
           id: item.id,
           project: item.name,
           customer: item.customer?.deleted
-            ? item.customer?.name + ' (Deleted)'
+            ? item.customer?.name + `${$t('general.deleted')}`
             : item.customer?.name,
           projectAdmins: item.projectAdmins
             ?.map(projectAdmin => $tEmpName(projectAdmin))

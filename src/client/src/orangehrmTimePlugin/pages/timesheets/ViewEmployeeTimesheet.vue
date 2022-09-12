@@ -94,12 +94,15 @@
 
 <script>
 import {toRefs} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
 import {APIService} from '@/core/util/services/api.service';
 import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
 import useTimesheet from '@/orangehrmTimePlugin/util/composable/useTimesheet';
 import TimesheetPeriod from '@/orangehrmTimePlugin/components/TimesheetPeriod.vue';
 import TimesheetActions from '@/orangehrmTimePlugin/components/TimesheetActions.vue';
 import SaveTimesheetAction from '@/orangehrmTimePlugin/components/SaveTimesheetAction.vue';
+
+const {$t} = usei18n();
 
 export default {
   components: {
@@ -174,7 +177,9 @@ export default {
   computed: {
     title() {
       const empName = this.employee.terminationId
-        ? `${this.employee.firstName} ${this.employee.lastName} (Past Employee)`
+        ? `${this.employee.firstName} ${this.employee.lastName}  ${$t(
+            'general.past_employee',
+          )}`
         : `${this.employee.firstName} ${this.employee.lastName}`;
       return `${this.$t('time.timesheet_for')} ${empName}`;
     },

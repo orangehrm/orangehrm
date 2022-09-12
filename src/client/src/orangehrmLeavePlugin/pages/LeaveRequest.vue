@@ -112,6 +112,8 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
 
+const {$t} = usei18n();
+
 export default {
   name: 'LeaveViewRequest',
 
@@ -137,7 +139,7 @@ export default {
     );
 
     const {leaveActions, processLeaveAction} = useLeaveActions(http);
-    const {$t} = usei18n();
+
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
@@ -260,7 +262,9 @@ export default {
       if (employee) {
         const name = `${employee.firstName} ${employee.middleName}
         ${employee.lastName}`;
-        return `${name} ${employee.terminationId ? '(Past Employee)' : ''}`;
+        return `${name} ${
+          employee.terminationId ? ` ${$t('general.past_employee')}` : ''
+        }`;
       }
       return '';
     },

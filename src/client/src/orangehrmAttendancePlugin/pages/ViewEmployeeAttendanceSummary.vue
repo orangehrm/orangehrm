@@ -95,13 +95,16 @@ import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import {yearRange} from '@/core/util/helper/year-range';
 import useDateFormat from '@/core/util/composable/useDateFormat';
+import usei18n from '@/core/util/composable/usei18n';
+
+const {$t} = usei18n();
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
     return {
       id: item.empNumber,
       empName: `${item?.firstName} ${item?.lastName}
-          ${item?.terminationId ? ' (Past Employee)' : ''}`,
+          ${item?.terminationId ? ` ${$t('general.past_employee')}` : ''}`,
       duration: item.sum?.label,
     };
   });
