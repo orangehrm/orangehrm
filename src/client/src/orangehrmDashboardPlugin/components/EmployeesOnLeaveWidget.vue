@@ -130,7 +130,7 @@ export default {
             }),
           };
         });
-        this.leavePeriod = meta?.leavePeriod;
+        this.leavePeriod = meta?.leavePeriodDefined;
       })
       .finally(() => {
         this.isLoading = false;

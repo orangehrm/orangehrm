@@ -31,7 +31,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Dashboard\Api\Model\EmployeeOnLeaveModel;
+use OrangeHRM\Dashboard\Api\Model\BulkEmployeesOnLeaveModel;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Dashboard\Dto\EmployeeOnLeaveSearchFilterParams;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
@@ -70,8 +70,8 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
             ->getEmployeeOnLeaveCount($employeeOnLeaveSearchFilterParams);
 
         return new EndpointCollectionResult(
-            EmployeeOnLeaveModel::class,
-            $empLeaveList,
+            BulkEmployeesOnLeaveModel::class,
+            [$empLeaveList],
             new ParameterBag([
                 CommonParams::PARAMETER_TOTAL => $employeeCount,
                 self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,
