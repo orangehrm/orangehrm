@@ -18,8 +18,7 @@
 
 import user from '../../../fixtures/user.json';
 
-// eslint-disable-next-line jest/no-disabled-tests
-describe.skip('Leave - Apply Leave', function () {
+describe('Leave - Apply Leave', function () {
   beforeEach(function () {
     cy.task('db:reset');
     cy.fixture('chars').as('strings');
@@ -173,284 +172,287 @@ describe.skip('Leave - Apply Leave', function () {
     });
   });
 
-  //Form Validations
-  describe('Apply leave-form validations', function () {
-    it('Apply leave-form validations', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXD('button').contains('Apply').click();
-        cy.getOXDInput('Leave Type').isInvalid('Required');
-        cy.getOXDInput('From Date').isInvalid('Required');
-        cy.getOXDInput('To Date').isInvalid('Required');
-        cy.getOXDInput('Comments')
-          .type(this.strings.chars400.text)
-          .isInvalid('Should not exceed 250 characters');
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('skipped for bug fixing', () => {
+    //Form Validations
+    describe('Apply leave-form validations', function () {
+      it('Apply leave-form validations', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXD('button').contains('Apply').click();
+          cy.getOXDInput('Leave Type').isInvalid('Required');
+          cy.getOXDInput('From Date').isInvalid('Required');
+          cy.getOXDInput('To Date').isInvalid('Required');
+          cy.getOXDInput('Comments')
+            .type(this.strings.chars400.text)
+            .isInvalid('Should not exceed 250 characters');
+        });
+      });
+      it('Apply leave-Date field validations', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('From Date').type('2022-07-25');
+          cy.getOXDInput('To Date').clear().type('2022-07-23');
+          cy.getOXD('button').contains('Apply').click();
+          cy.getOXDInput('To Date').isInvalid(
+            'To date should be after from date',
+          );
+        });
       });
     });
-    it('Apply leave-Date field validations', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('From Date').type('2022-07-25');
-        cy.getOXDInput('To Date').clear().type('2022-07-23');
-        cy.getOXD('button').contains('Apply').click();
-        cy.getOXDInput('To Date').isInvalid(
-          'To date should be after from date',
+
+    describe('Apply leave as Admin User for a single day ', function () {
+      it('Apply full day leave with a comment', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-11');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
+      });
+      it('Apply half day leave with a comment', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-11');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXDInput('Duration').selectOption('Half Day - Afternoon');
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
+      });
+      it('Apply leave for a specific time', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-11');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXDInput('Duration').selectOption('Specify Time');
+          cy.get(
+            ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-time-wrapper > .oxd-time-input > .oxd-input',
+          )
+            .clear()
+            .type('01:00 PM');
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
+      });
+    });
+
+    //Apply leave for multiple days
+    describe('Apply leave for multiple days ', function () {
+      it('Apply full day leave for multiple days with a comment', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('From Date').type('2022-08-10');
+          cy.getOXDInput('To Date').clear().type('2022-08-12');
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
+      });
+      it('Apply partial day leave when applying leave for multiple days with a comment', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('From Date').type('2022-08-10');
+          cy.getOXDInput('To Date').clear().type('2022-08-12');
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('Partial Days').selectOption('All Days');
+          cy.getOXDInput('Duration').selectOption('Half Day - Morning');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
+      });
+      it('Apply leave for multiple days for a specific time of the start day', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('From Date').type('2022-08-10');
+          cy.getOXDInput('To Date').clear().type('2022-08-12');
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('Partial Days').selectOption('Start Day Only');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXDInput('Start Day').selectOption('Specify Time');
+          cy.get(
+            ':nth-child(3) > .oxd-input-group > :nth-child(2) > .oxd-time-wrapper > .oxd-time-input > .oxd-input',
+          )
+            .clear()
+            .type('01:00 PM');
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
+      });
+    });
+
+    //Applying leave on non-working days and holidays
+    describe('Apply leave non-working days and holidays ', function () {
+      it('Apply leave on a non-working day', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-06');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('error', 'Failed to Submit: No Working Days Selected');
+      });
+      it('Apply leave on a holiday', function () {
+        cy.task('db:restore', {name: 'holidayforleave'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-03');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('error', 'Failed to Submit: No Working Days Selected');
+      });
+    });
+
+    //Verifying overlapping leave requests
+    describe('Verifying overlapping leave requests ', function () {
+      it('Creating snapshot with a leave', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-03');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.task('db:snapshot', {name: 'appliedleave'});
+      });
+      it('Verify overlapping leave requests', function () {
+        cy.task('db:restore', {name: 'appliedleave'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-03');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.toast('warn', 'Failed to Submit');
+        cy.getOXD('pageTitle').should(
+          'include.text',
+          'Overlapping Leave Request(s) Found',
         );
       });
     });
-  });
 
-  describe('Apply leave as Admin User for a single day ', function () {
-    it('Apply full day leave with a comment', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-11');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
+    //Leave balance calculation
+    describe('Verifying Leave balance calculation ', function () {
+      it('Verify ability to open and close leave balance modal', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.get('.orangehrm-leave-balance > .oxd-icon').click();
+          cy.getOXD('pageTitle').contains('Leave Balance Details');
+          cy.get(':nth-child(6) > .oxd-form-actions > .oxd-button').click();
+        });
       });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
-    });
-    it('Apply half day leave with a comment', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-11');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXDInput('Duration').selectOption('Half Day - Afternoon');
-        cy.getOXD('button').contains('Apply').click();
+      it('Creating snapshot with a leave to verify leave balance', function () {
+        cy.task('db:restore', {name: 'leaveEntitlements'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.get('[data-v-2fe357a6=""] > .oxd-text').contains('5.00 Day(s)');
+          cy.getOXDInput('From Date').type('2022-08-03');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.task('db:snapshot', {name: 'appliedleaveforLeavebal'});
       });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
-    });
-    it('Apply leave for a specific time', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-11');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXDInput('Duration').selectOption('Specify Time');
-        cy.get(
-          ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-time-wrapper > .oxd-time-input > .oxd-input',
-        )
-          .clear()
-          .type('01:00 PM');
-        cy.getOXD('button').contains('Apply').click();
+      it('Verify leave balance is getting calculated correctly', function () {
+        cy.task('db:restore', {name: 'appliedleaveforLeavebal'});
+        cy.loginTo(user.admin, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.get('[data-v-2fe357a6=""] > .oxd-text').contains('4.00 Day(s)');
+        });
       });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
     });
-  });
 
-  //Apply leave for multiple days
-  describe('Apply leave for multiple days ', function () {
-    it('Apply full day leave for multiple days with a comment', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('From Date').type('2022-08-10');
-        cy.getOXDInput('To Date').clear().type('2022-08-12');
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
+    //Apply leave as ESS user
+    describe('Apply leave as ESS User', function () {
+      it('Apply full day leave with a comment as ESS user', function () {
+        cy.task('db:restore', {name: 'ESSleaveEntitlements'});
+        cy.loginTo(user.john, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-11');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
       });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
-    });
-    it('Apply partial day leave when applying leave for multiple days with a comment', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('From Date').type('2022-08-10');
-        cy.getOXDInput('To Date').clear().type('2022-08-12');
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('Partial Days').selectOption('All Days');
-        cy.getOXDInput('Duration').selectOption('Half Day - Morning');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
+      it('Apply half day leave with a comment as ESS user', function () {
+        cy.task('db:restore', {name: 'ESSleaveEntitlements'});
+        cy.loginTo(user.john, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-11');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXDInput('Duration').selectOption('Half Day - Afternoon');
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
       });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
-    });
-    it('Apply leave for multiple days for a specific time of the start day', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('From Date').type('2022-08-10');
-        cy.getOXDInput('To Date').clear().type('2022-08-12');
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('Partial Days').selectOption('Start Day Only');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXDInput('Start Day').selectOption('Specify Time');
-        cy.get(
-          ':nth-child(3) > .oxd-input-group > :nth-child(2) > .oxd-time-wrapper > .oxd-time-input > .oxd-input',
-        )
-          .clear()
-          .type('01:00 PM');
-        cy.getOXD('button').contains('Apply').click();
+      it('Apply leave for a specific time as ESS user', function () {
+        cy.task('db:restore', {name: 'ESSleaveEntitlements'});
+        cy.loginTo(user.john, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('From Date').type('2022-08-11');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXDInput('Duration').selectOption('Specify Time');
+          cy.get(
+            ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-time-wrapper > .oxd-time-input > .oxd-input',
+          )
+            .clear()
+            .type('01:00 PM');
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
       });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
-    });
-  });
-
-  //Applying leave on non-working days and holidays
-  describe('Apply leave non-working days and holidays ', function () {
-    it('Apply leave on a non-working day', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-06');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
+      it('Apply leave on multiple days with a comment as ESS user', function () {
+        cy.task('db:restore', {name: 'ESSleaveEntitlements'});
+        cy.loginTo(user.john, '/leave/applyLeave');
+        cy.getOXD('form').within(() => {
+          cy.getOXDInput('From Date').type('2022-08-10');
+          cy.getOXDInput('To Date').clear().type('2022-08-12');
+          cy.getOXDInput('Leave Type').selectOption('Casual Leave');
+          cy.getOXDInput('Comments').type(this.strings.chars100.text);
+          cy.getOXD('button').contains('Apply').click();
+        });
+        cy.wait('@postLeaveRequest');
+        cy.toast('success', 'Successfully Saved');
       });
-      cy.wait('@postLeaveRequest');
-      cy.toast('error', 'Failed to Submit: No Working Days Selected');
-    });
-    it('Apply leave on a holiday', function () {
-      cy.task('db:restore', {name: 'holidayforleave'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-03');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
-      });
-      cy.wait('@postLeaveRequest');
-      cy.toast('error', 'Failed to Submit: No Working Days Selected');
-    });
-  });
-
-  //Verifying overlapping leave requests
-  describe('Verifying overlapping leave requests ', function () {
-    it('Creating snapshot with a leave', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-03');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
-      });
-      cy.wait('@postLeaveRequest');
-      cy.task('db:snapshot', {name: 'appliedleave'});
-    });
-    it('Verify overlapping leave requests', function () {
-      cy.task('db:restore', {name: 'appliedleave'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-03');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
-      });
-      cy.toast('warn', 'Failed to Submit');
-      cy.getOXD('pageTitle').should(
-        'include.text',
-        'Overlapping Leave Request(s) Found',
-      );
-    });
-  });
-
-  //Leave balance calculation
-  describe('Verifying Leave balance calculation ', function () {
-    it('Verify ability to open and close leave balance modal', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.get('.orangehrm-leave-balance > .oxd-icon').click();
-        cy.getOXD('pageTitle').contains('Leave Balance Details');
-        cy.get(':nth-child(6) > .oxd-form-actions > .oxd-button').click();
-      });
-    });
-    it('Creating snapshot with a leave to verify leave balance', function () {
-      cy.task('db:restore', {name: 'leaveEntitlements'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.get('[data-v-2fe357a6=""] > .oxd-text').contains('5.00 Day(s)');
-        cy.getOXDInput('From Date').type('2022-08-03');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
-      });
-      cy.wait('@postLeaveRequest');
-      cy.task('db:snapshot', {name: 'appliedleaveforLeavebal'});
-    });
-    it('Verify leave balance is getting calculated correctly', function () {
-      cy.task('db:restore', {name: 'appliedleaveforLeavebal'});
-      cy.loginTo(user.admin, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.get('[data-v-2fe357a6=""] > .oxd-text').contains('4.00 Day(s)');
-      });
-    });
-  });
-
-  //Apply leave as ESS user
-  describe('Apply leave as ESS User', function () {
-    it('Apply full day leave with a comment as ESS user', function () {
-      cy.task('db:restore', {name: 'ESSleaveEntitlements'});
-      cy.loginTo(user.john, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-11');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
-      });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
-    });
-    it('Apply half day leave with a comment as ESS user', function () {
-      cy.task('db:restore', {name: 'ESSleaveEntitlements'});
-      cy.loginTo(user.john, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-11');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXDInput('Duration').selectOption('Half Day - Afternoon');
-        cy.getOXD('button').contains('Apply').click();
-      });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
-    });
-    it('Apply leave for a specific time as ESS user', function () {
-      cy.task('db:restore', {name: 'ESSleaveEntitlements'});
-      cy.loginTo(user.john, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('From Date').type('2022-08-11');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXDInput('Duration').selectOption('Specify Time');
-        cy.get(
-          ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-time-wrapper > .oxd-time-input > .oxd-input',
-        )
-          .clear()
-          .type('01:00 PM');
-        cy.getOXD('button').contains('Apply').click();
-      });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
-    });
-    it('Apply leave on multiple days with a comment as ESS user', function () {
-      cy.task('db:restore', {name: 'ESSleaveEntitlements'});
-      cy.loginTo(user.john, '/leave/applyLeave');
-      cy.getOXD('form').within(() => {
-        cy.getOXDInput('From Date').type('2022-08-10');
-        cy.getOXDInput('To Date').clear().type('2022-08-12');
-        cy.getOXDInput('Leave Type').selectOption('Casual Leave');
-        cy.getOXDInput('Comments').type(this.strings.chars100.text);
-        cy.getOXD('button').contains('Apply').click();
-      });
-      cy.wait('@postLeaveRequest');
-      cy.toast('success', 'Successfully Saved');
     });
   });
 });
