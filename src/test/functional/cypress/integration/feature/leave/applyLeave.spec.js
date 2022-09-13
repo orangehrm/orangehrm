@@ -97,12 +97,9 @@ describe('Leave - Apply Leave', function () {
         cy.getOXDInput('Entitlement').type('5');
         cy.getOXD('button').contains('Save').click();
       });
-      cy.get(
-        ':nth-child(6) > .oxd-form-actions > .oxd-button--secondary',
-      ).click();
-      cy.wait('@saveLeaveEntitlements').then(function () {
-        cy.task('db:snapshot', {name: 'leaveEntitlements'});
-      });
+      cy.getOXD('button').contains('Confirm').click();
+      cy.wait('@saveLeaveEntitlements');
+      cy.task('db:snapshot', {name: 'leaveEntitlements'});
     });
   });
 
@@ -148,17 +145,15 @@ describe('Leave - Apply Leave', function () {
       cy.task('db:restore', {name: 'ESSUser'});
       cy.loginTo(user.admin, '/leave/addLeaveEntitlement');
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Employee Name')
-          .type('John')
-          .selectOption('John Perera');
+        cy.getOXDInput('Employee Name').type('John');
+        cy.getOXD('autoCompleteOption').contains('John Perera').click();
         cy.getOXDInput('Leave Type').selectOption('Casual Leave');
         cy.getOXDInput('Entitlement').type('5');
         cy.getOXD('button').contains('Save').click();
       });
-      cy.get('.orangehrm-modal-footer > .oxd-button--secondary').click();
-      cy.wait('@saveLeaveEntitlements').then(function () {
-        cy.task('db:snapshot', {name: 'ESSleaveEntitlements'});
-      });
+      cy.getOXD('button').contains('Confirm').click();
+      cy.wait('@saveLeaveEntitlements');
+      cy.task('db:snapshot', {name: 'ESSleaveEntitlements'});
     });
   });
 
