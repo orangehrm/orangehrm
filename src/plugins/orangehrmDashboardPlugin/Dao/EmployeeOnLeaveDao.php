@@ -62,6 +62,8 @@ class EmployeeOnLeaveDao extends BaseDao
         ->setParameter('approved', Leave::LEAVE_STATUS_LEAVE_APPROVED)
         ->setParameter('taken', Leave::LEAVE_STATUS_LEAVE_TAKEN);
 
+        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
         return $this->getPaginator($q);
     }
 
