@@ -137,10 +137,9 @@ export default {
     );
 
     const {leaveActions, processLeaveAction} = useLeaveActions(http);
-
+    const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
-    const {$t} = usei18n();
 
     const leaveRequestNormalizer = data => {
       return data.map(item => {
@@ -259,8 +258,10 @@ export default {
     employeeName() {
       const employee = this.response?.meta?.employee;
       if (employee) {
-        const name = `${employee.firstName} ${employee.middleName}
-        ${employee.lastName}`;
+        const name = this.translateEmpName(this.employee, {
+          includeMiddle: false,
+          excludePastEmpTag: false,
+        });
         return `${name} ${
           employee.terminationId ? this.$t('general.past_employee') : ''
         }`;

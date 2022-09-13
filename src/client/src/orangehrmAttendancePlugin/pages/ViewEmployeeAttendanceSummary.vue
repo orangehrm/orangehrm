@@ -95,7 +95,7 @@ import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import {yearRange} from '@/core/util/helper/year-range';
 import useDateFormat from '@/core/util/composable/useDateFormat';
-import usei18n from '@/core/util/composable/usei18n';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   components: {
@@ -110,7 +110,7 @@ export default {
   },
 
   setup(props) {
-    const {$t} = usei18n();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const {userDateFormat} = useDateFormat();
 
     const rules = {
@@ -133,8 +133,10 @@ export default {
       return data.map(item => {
         return {
           id: item.empNumber,
-          empName: `${item?.firstName} ${item?.lastName}
-          ${item?.terminationId ? $t('general.past_employee') : ''}`,
+          empName: this.translateEmpName(this.employee, {
+            includeMiddle: false,
+            excludePastEmpTag: false,
+          }),
           duration: item.sum?.label,
         };
       });
@@ -168,6 +170,7 @@ export default {
       currentPage,
       showPaginator,
       items: response,
+      translateEmpName: $tEmpName,
     };
   },
 

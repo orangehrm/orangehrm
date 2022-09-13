@@ -56,7 +56,7 @@ class ChartService
 
         $totalSubunitCount = count($subunitCountPairs);
         $otherArray = [];
-        if ($totalSubunitCount > $limit+1) {
+        if ($totalSubunitCount > $limit + 1) {
             $otherArray = array_slice($subunitCountPairs, $limit);
             $subunitCountPairs = array_slice($subunitCountPairs, 0, $limit);
         }
@@ -101,7 +101,7 @@ class ChartService
 
         $totalLocationCount = count($locationEmployeeCount);
         $otherArray = [];
-        if ($totalLocationCount > $limit+1) {
+        if ($totalLocationCount > $limit + 1) {
             $otherArray = array_slice($locationEmployeeCount, $limit);
             $locationEmployeeCount = array_slice($locationEmployeeCount, 0, $limit);
         }
