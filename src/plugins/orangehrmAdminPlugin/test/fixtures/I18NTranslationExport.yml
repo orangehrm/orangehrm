@@ -29,18 +29,18 @@ I18NLangString:
   - { "id": 5, "unit_id": 'symbols_value', "group_id ": 3, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]', "note": null, "version": 5.0.0 }
 
 I18NTranslation:
-  - { "id": 1, "lang_string_id": 1, "language_id": 1, "value": '添加职位',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 2, "lang_string_id": 1, "language_id": 22, "value": 'يقبل jpg و .png و .gif و .svg حتى {fileSize}. الأبعاد الموصى بها: {width} px X {height} px',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 3, "lang_string_id": 1, "language_id": 3, "value": 'රැකියා මාතෘකාව එක් කරන්න',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 4, "lang_string_id": 2, "language_id": 1, "value": '使用 SMTP 验证',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 5, "lang_string_id": 2, "language_id": 22, "value": 'الإجراءات التي تم إجراؤها في سجل الدوام',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 6, "lang_string_id": 2, "language_id": 3, "value": 'SMTP සත්‍යාපනය භාවිතා කරන්න',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 7, "lang_string_id": 3, "language_id": 1, "value": '编辑订阅者',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 8, "lang_string_id": 3, "language_id": 22, "value": '(موظف سابق)',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 9, "lang_string_id": 3, "language_id": 3, "value": 'වාක්‍යාංශ  ප්‍රතික්ෂේප කරති  සැණින් ඇකිළුනේය නාම විශේෂණ',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 10, "lang_string_id": 4, "language_id": 1, "value": '編輯訂閱者',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 11, "lang_string_id": 4, "language_id": 22, "value": 'حول',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 12, "lang_string_id": 4, "language_id": 3, "value": 'ස්ථානය එක් කරන්න',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 13, "lang_string_id": 5, "language_id": 1, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 14, "lang_string_id": 5, "language_id": 22, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "version": null, "modified_at": null }
-  - { "id": 15, "lang_string_id": 5, "language_id": 3, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "version": null, "modified_at": null }
+  - { "id": 1, "lang_string_id": 1, "language_id": 1, "value": '添加职位',  "customized": '0', "modified_at": null }
+  - { "id": 2, "lang_string_id": 1, "language_id": 22, "value": 'يقبل jpg و .png و .gif و .svg حتى {fileSize}. الأبعاد الموصى بها: {width} px X {height} px',  "customized": '0', "modified_at": null }
+  - { "id": 3, "lang_string_id": 1, "language_id": 3, "value": 'රැකියා මාතෘකාව එක් කරන්න',  "customized": '0', "modified_at": null }
+  - { "id": 4, "lang_string_id": 2, "language_id": 1, "value": '使用 SMTP 验证',  "customized": '0', "modified_at": null }
+  - { "id": 5, "lang_string_id": 2, "language_id": 22, "value": 'الإجراءات التي تم إجراؤها في سجل الدوام',  "customized": '0', "modified_at": null }
+  - { "id": 6, "lang_string_id": 2, "language_id": 3, "value": 'SMTP සත්‍යාපනය භාවිතා කරන්න',  "customized": '0', "modified_at": null }
+  - { "id": 7, "lang_string_id": 3, "language_id": 1, "value": '编辑订阅者',  "customized": '0', "modified_at": null }
+  - { "id": 8, "lang_string_id": 3, "language_id": 22, "value": '(موظف سابق)',  "customized": '0', "modified_at": null }
+  - { "id": 9, "lang_string_id": 3, "language_id": 3, "value": 'වාක්‍යාංශ  ප්‍රතික්ෂේප කරති  සැණින් ඇකිළුනේය නාම විශේෂණ',  "customized": '0', "modified_at": null }
+  - { "id": 10, "lang_string_id": 4, "language_id": 1, "value": '編輯訂閱者',  "customized": '0', "modified_at": null }
+  - { "id": 11, "lang_string_id": 4, "language_id": 22, "value": 'حول',  "customized": '0', "modified_at": null }
+  - { "id": 12, "lang_string_id": 4, "language_id": 3, "value": 'ස්ථානය එක් කරන්න',  "customized": '0', "modified_at": null }
+  - { "id": 13, "lang_string_id": 5, "language_id": 1, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "modified_at": null }
+  - { "id": 14, "lang_string_id": 5, "language_id": 22, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "modified_at": null }
+  - { "id": 15, "lang_string_id": 5, "language_id": 3, "value": '([{\|/?!~#@$%^&*)-=_+;"><}]',  "customized": '0', "modified_at": null }
