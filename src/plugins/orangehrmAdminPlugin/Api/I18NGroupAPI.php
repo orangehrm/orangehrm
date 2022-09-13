@@ -40,6 +40,7 @@ class I18NGroupAPI extends Endpoint implements CollectionEndpoint
     public function getAll(): EndpointResult
     {
         $i18NGroupSearchFilterParams = new I18NGroupSearchFilterParams();
+        $i18NGroupSearchFilterParams->setSortField(null);
         $this->setSortingAndPaginationParams($i18NGroupSearchFilterParams);
 
         $groups = $this->getLocalizationService()->getLocalizationDao()->searchGroups($i18NGroupSearchFilterParams);

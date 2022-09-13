@@ -89,7 +89,7 @@ class Migration extends AbstractMigration
             ->setParameter(
                 'groups',
                 ['directory', 'branding'],
-                \Doctrine\DBAL\Connection::PARAM_STR_ARRAY
+                Connection::PARAM_STR_ARRAY
             )->executeQuery();
     }
 

@@ -25,7 +25,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
 
-class BulkEmployeesOnLeaveModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
+class EmployeesOnLeaveListModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     use UserRoleManagerTrait;
 
