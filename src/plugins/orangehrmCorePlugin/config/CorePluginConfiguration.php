@@ -20,6 +20,7 @@
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Command\CacheCleanCommand;
+use OrangeHRM\Core\Command\EnableTestLanguagePackCommand;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPersistSubscriber;
 use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPublishSubscriber;
@@ -121,5 +122,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
     public function registerCommands(Console $console): void
     {
         $console->add(new CacheCleanCommand());
+        $console->add(new EnableTestLanguagePackCommand());
     }
 }
