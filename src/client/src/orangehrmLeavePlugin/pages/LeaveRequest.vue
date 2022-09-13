@@ -258,13 +258,10 @@ export default {
     employeeName() {
       const employee = this.response?.meta?.employee;
       if (employee) {
-        const name = this.translateEmpName(this.employee, {
-          includeMiddle: false,
+        return this.translateEmpName(this.employee, {
+          includeMiddle: true,
           excludePastEmpTag: false,
         });
-        return `${name} ${
-          employee.terminationId ? this.$t('general.past_employee') : ''
-        }`;
       }
       return '';
     },

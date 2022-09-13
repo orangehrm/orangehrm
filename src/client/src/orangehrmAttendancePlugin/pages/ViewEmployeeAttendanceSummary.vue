@@ -133,7 +133,7 @@ export default {
       return data.map(item => {
         return {
           id: item.empNumber,
-          empName: this.translateEmpName(this.employee, {
+          empName: $tEmpName(this.employee, {
             includeMiddle: false,
             excludePastEmpTag: false,
           }),
@@ -170,7 +170,6 @@ export default {
       currentPage,
       showPaginator,
       items: response,
-      translateEmpName: $tEmpName,
     };
   },
 
