@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\Installer\Util\Logger;
 
 class MigrationAPI extends AbstractInstallerRestController
 {
@@ -44,16 +45,20 @@ class MigrationAPI extends AbstractInstallerRestController
         $appSetupUtility = new AppSetupUtility();
         if ($request->request->has('version')) {
             $version = $request->request->get('version');
+            $result = ['version' => $version];
+            Logger::getLogger()->info(json_encode($result));
             $appSetupUtility->runMigrationFor($version);
-            return ['version' => $version];
+            return $result;
         } else {
             $fromVersion = $request->request->get('fromVersion');
             $toVersion = $request->request->get('toVersion');
-            $appSetupUtility->runMigrations($fromVersion, $toVersion);
-            return [
+            $result = [
                 'fromVersion' => $fromVersion,
                 'toVersion' => $toVersion
             ];
+            Logger::getLogger()->info(json_encode($result));
+            $appSetupUtility->runMigrations($fromVersion, $toVersion);
+            return $result;
         }
     }
 }

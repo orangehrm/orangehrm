@@ -92,7 +92,7 @@ class ReInstallCommand extends Command
         $dbName = $conf->getDbName();
         $this->tryClosure(function () use ($dbName) {
             $sm = $this->getEntityManager()->getConnection()->createSchemaManager();
-            $sm->dropDatabase($dbName);
+            $sm->dropDatabase("`$dbName`");
         });
 
         // DB configs

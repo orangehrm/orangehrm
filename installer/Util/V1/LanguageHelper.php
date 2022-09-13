@@ -135,7 +135,7 @@ class LanguageHelper
      * @param bool $enable
      * @param bool $add
      */
-    public function enableLanguageByLangCode(string $langCode, bool $enable, bool $add): void
+    public function updateLanguageStatusByLangCode(string $langCode, bool $enable, bool $add): void
     {
         $this->getConnection()->createQueryBuilder()
             ->update('ohrm_i18n_language')
@@ -150,7 +150,7 @@ class LanguageHelper
 
     public function createTestLanguagePack(): void
     {
-        $this->enableLanguageByLangCode('zz_ZZ', true, true);
+        $this->updateLanguageStatusByLangCode('zz_ZZ', true, true);
         $testLangId = $this->getLanguageIdByLangCode('zz_ZZ');
 
         $offset = 0;
@@ -179,6 +179,7 @@ class LanguageHelper
 
     public function deleteTestLanguagePack(): void
     {
+        $this->updateLanguageStatusByLangCode('zz_ZZ', false, false);
         $testLangId = $this->getLanguageIdByLangCode('zz_ZZ');
         $this->getConnection()->createQueryBuilder()
             ->delete('ohrm_i18n_translate')
