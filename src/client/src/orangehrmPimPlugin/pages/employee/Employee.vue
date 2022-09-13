@@ -141,15 +141,6 @@ import useSort from '@ohrm/core/util/composable/useSort';
 import {validSelection} from '@/core/util/validation/rules';
 import usei18n from '@/core/util/composable/usei18n';
 
-const defaultFilters = {
-  employee: null,
-  employeeId: '',
-  empStatusId: null,
-  supervisor: null,
-  jobTitleId: null,
-  subunitId: null,
-};
-
 const defaultSortOrder = {
   'employee.employeeId': 'DEFAULT',
   'employee.firstName': 'ASC',
@@ -210,7 +201,12 @@ export default {
     };
 
     const filters = ref({
-      ...defaultFilters,
+      employee: null,
+      employeeId: '',
+      empStatusId: null,
+      supervisor: null,
+      jobTitleId: null,
+      subunitId: null,
       includeEmployees: {
         id: 1,
         param: 'onlyCurrent',

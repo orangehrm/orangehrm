@@ -204,9 +204,6 @@ import {
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
-import usei18n from '@/core/util/composable/usei18n';
-
-const {$t} = usei18n();
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -341,7 +338,7 @@ export default {
         return {
           id: jobTitle.id,
           label: jobTitle?.deleted
-            ? jobTitle.label + `${$t('general.deleted')}`
+            ? jobTitle.label + this.$t('general.deleted')
             : jobTitle.label,
         };
       });

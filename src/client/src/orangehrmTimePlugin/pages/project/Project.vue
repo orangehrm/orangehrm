@@ -118,8 +118,6 @@ import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocom
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
 
-const {$t} = usei18n();
-
 const defaultFilters = {
   customer: null,
   project: null,
@@ -146,6 +144,7 @@ export default {
     },
   },
   setup(props) {
+    const {$t} = usei18n();
     const {$tEmpName} = useEmployeeNameTranslate();
 
     const projectNormalizer = data => {
@@ -155,7 +154,7 @@ export default {
           id: item.id,
           project: item.name,
           customer: item.customer?.deleted
-            ? item.customer?.name + `${$t('general.deleted')}`
+            ? item.customer?.name + $t('general.deleted')
             : item.customer?.name,
           projectAdmins: item.projectAdmins
             ?.map(projectAdmin => $tEmpName(projectAdmin))

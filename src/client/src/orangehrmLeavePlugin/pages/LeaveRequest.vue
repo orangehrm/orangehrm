@@ -112,8 +112,6 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
 
-const {$t} = usei18n();
-
 export default {
   name: 'LeaveViewRequest',
 
@@ -142,6 +140,7 @@ export default {
 
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
+    const {$t} = usei18n();
 
     const leaveRequestNormalizer = data => {
       return data.map(item => {
@@ -167,7 +166,7 @@ export default {
 
         const leaveTypeName = item.leaveType?.name;
         if (item.leaveType?.deleted) {
-          leaveTypeName + ` (${$t('general.deleted')})`;
+          leaveTypeName + $t('general.deleted');
         }
 
         return {
@@ -263,7 +262,7 @@ export default {
         const name = `${employee.firstName} ${employee.middleName}
         ${employee.lastName}`;
         return `${name} ${
-          employee.terminationId ? ` ${$t('general.past_employee')}` : ''
+          employee.terminationId ? this.$t('general.past_employee') : ''
         }`;
       }
       return '';

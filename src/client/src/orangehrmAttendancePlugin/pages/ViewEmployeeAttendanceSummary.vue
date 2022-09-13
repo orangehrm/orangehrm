@@ -97,19 +97,6 @@ import {yearRange} from '@/core/util/helper/year-range';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import usei18n from '@/core/util/composable/usei18n';
 
-const {$t} = usei18n();
-
-const attendanceRecordNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.empNumber,
-      empName: `${item?.firstName} ${item?.lastName}
-          ${item?.terminationId ? ` ${$t('general.past_employee')}` : ''}`,
-      duration: item.sum?.label,
-    };
-  });
-};
-
 export default {
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
@@ -123,6 +110,7 @@ export default {
   },
 
   setup(props) {
+    const {$t} = usei18n();
     const {userDateFormat} = useDateFormat();
 
     const rules = {
@@ -140,6 +128,17 @@ export default {
         empNumber: filters.value.employee?.id,
       };
     });
+
+    const attendanceRecordNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.empNumber,
+          empName: `${item?.firstName} ${item?.lastName}
+          ${item?.terminationId ? $t('general.past_employee') : ''}`,
+          duration: item.sum?.label,
+        };
+      });
+    };
 
     const http = new APIService(
       window.appGlobal.baseUrl,

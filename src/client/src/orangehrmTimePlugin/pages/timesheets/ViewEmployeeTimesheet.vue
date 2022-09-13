@@ -94,15 +94,13 @@
 
 <script>
 import {toRefs} from 'vue';
-import usei18n from '@/core/util/composable/usei18n';
 import {APIService} from '@/core/util/services/api.service';
 import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
 import useTimesheet from '@/orangehrmTimePlugin/util/composable/useTimesheet';
 import TimesheetPeriod from '@/orangehrmTimePlugin/components/TimesheetPeriod.vue';
 import TimesheetActions from '@/orangehrmTimePlugin/components/TimesheetActions.vue';
 import SaveTimesheetAction from '@/orangehrmTimePlugin/components/SaveTimesheetAction.vue';
-
-const {$t} = usei18n();
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   components: {
@@ -152,6 +150,7 @@ export default {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {employee, ...rest} = toRefs(state);
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     return {
       ...rest,
@@ -171,16 +170,16 @@ export default {
       canApproveTimesheet,
       showCreateTimesheet,
       onClickCreateTimesheet,
+      translateEmpName: $tEmpName,
     };
   },
 
   computed: {
     title() {
-      const empName = this.employee.terminationId
-        ? `${this.employee.firstName} ${this.employee.lastName}  ${$t(
-            'general.past_employee',
-          )}`
-        : `${this.employee.firstName} ${this.employee.lastName}`;
+      const empName = this.translateEmpName(this.employee, {
+        includeMiddle: false,
+        excludePastEmpTag: false,
+      });
       return `${this.$t('time.timesheet_for')} ${empName}`;
     },
   },
