@@ -154,7 +154,7 @@ class LanguageHelper
         $testLangId = $this->getLanguageIdByLangCode('zz_ZZ');
 
         $offset = 0;
-        $limit = 10;
+        $limit = 50;
         $done = false;
 
         do {

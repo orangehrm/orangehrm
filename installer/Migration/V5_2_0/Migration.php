@@ -200,7 +200,7 @@ class Migration extends AbstractMigration
             ->select('screen.id')
             ->from('ohrm_screen', 'screen')
             ->where('screen.name = :screenName')
-            ->setParameter('screenName', 'Admin -LDAP Configuration')
+            ->setParameter('screenName', 'Admin - LDAP Configuration')
             ->executeQuery()
             ->fetchOne();
 
