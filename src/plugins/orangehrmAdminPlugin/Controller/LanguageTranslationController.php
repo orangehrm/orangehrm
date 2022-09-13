@@ -21,6 +21,8 @@ namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -38,6 +40,9 @@ class LanguageTranslationController extends AbstractVueController
             $language = $this->getLocalizationService()->getLocalizationDao()
                 ->getLanguageById($languageId);
             $languagePackage = $language->getName();
+            if (!$language->isAdded() || !$language->isEnabled()) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
             $sourceLanguage = 'English (United States)';
             $component->addProp(new Prop('language-package', Prop::TYPE_STRING, $languagePackage));
             $component->addProp(new Prop('source-language', Prop::TYPE_STRING, $sourceLanguage));

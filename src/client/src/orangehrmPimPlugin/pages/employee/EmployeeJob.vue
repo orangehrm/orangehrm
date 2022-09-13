@@ -338,7 +338,7 @@ export default {
         return {
           id: jobTitle.id,
           label: jobTitle?.deleted
-            ? jobTitle.label + ' (Deleted)'
+            ? jobTitle.label + this.$t('general.deleted')
             : jobTitle.label,
         };
       });

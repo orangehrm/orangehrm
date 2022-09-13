@@ -8,7 +8,11 @@ GetAll:
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       - id: 67
         date: '2022-12-08'
@@ -29,7 +33,8 @@ GetAll:
           deleted: false
     meta:
       total: 1
-      leavePeriod: null
+      leavePeriodDefined: true
+
   'Get all employees on leave in specific day - multiple employee':
     userId: 1
     query:
@@ -39,7 +44,11 @@ GetAll:
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       0:
         id: 68
@@ -97,7 +106,8 @@ GetAll:
           deleted: false
     meta:
       total: 3
-      leavePeriod: null
+      leavePeriodDefined: true
+
   'Get all employees on leave in specific day - ESS User':
     userId: 2
     query:
@@ -107,7 +117,11 @@ GetAll:
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       0:
         id: 2
@@ -125,7 +139,8 @@ GetAll:
         startTime: null
     meta:
       total: 1
-      leavePeriod: null
+      leavePeriodDefined: true
+
   'Get all employees on leave in specific day - limit, offset':
     userId: 2
     query:
@@ -137,7 +152,11 @@ GetAll:
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       0:
         id: 69
@@ -155,7 +174,8 @@ GetAll:
         startTime: null
     meta:
       total: 3
-      leavePeriod: null
+      leavePeriodDefined: true
+
   'Get all employees on leave in specific day - sortOrder, sortField':
     userId: 2
     query:
@@ -166,7 +186,11 @@ GetAll:
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       0:
         id: 69
@@ -212,7 +236,8 @@ GetAll:
         startTime: null
     meta:
       total: 3
-      leavePeriod: null
+      leavePeriodDefined: true
+
   'Get all employees on leave in specific day - Leave Type Deleted':
     userId: 1
     query:
@@ -222,7 +247,11 @@ GetAll:
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     data:
       0:
         id: 58
@@ -244,4 +273,51 @@ GetAll:
           deleted: false
     meta:
       total: 1
-      leavePeriod: null
+      leavePeriodDefined: true
+
+  'Get all employees on leave in specific day - ESS User - 2':
+    userId: 2
+    query:
+      date: '2022-09-06'
+    now:
+      datetime: '2022-07-25'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data:
+      0:
+        id: 14
+        date: '2022-09-06'
+        lengthHours: 8.0
+        employee:
+          empNumber: 1
+          lastName: 'Adalwin'
+          firstName: 'Odis'
+          middleName: ''
+          employeeId: '0001'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+    meta:
+      total: 1
+      leavePeriodDefined: true
+
+  'Get all employees on leave in specific day - Admin -Terminated Employee':
+    userId: 1
+    query:
+      date: '2022-03-01'
+    now:
+      datetime: '2022-07-25'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+    data:
+    meta:
+      total: null
+      leavePeriodDefined: true

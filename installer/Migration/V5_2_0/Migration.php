@@ -55,7 +55,7 @@ class Migration extends AbstractMigration
             'translated'
         );
 
-        $oldGroups = ['admin', 'general', 'leave'];
+        $oldGroups = ['admin', 'general', 'leave', 'pim'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
@@ -83,6 +83,14 @@ class Migration extends AbstractMigration
             ['onDelete' => 'CASCADE', 'onUpdate' => 'RESTRICT']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_user_auth_provider', $foreignKeyConstraint);
+
+        $qb = $this->createQueryBuilder()->delete('ohrm_i18n_group');
+        $qb->where($qb->expr()->in('ohrm_i18n_group.name', ':groups'))
+            ->setParameter(
+                'groups',
+                ['directory', 'branding'],
+                Connection::PARAM_STR_ARRAY
+            )->executeQuery();
     }
 
     /**

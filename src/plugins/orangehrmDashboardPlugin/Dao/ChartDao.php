@@ -25,6 +25,7 @@ use OrangeHRM\Dashboard\Dto\SubunitCountPair;
 use OrangeHRM\Entity\EmpLocations;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Subunit;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
@@ -129,8 +130,8 @@ class ChartDao extends BaseDao
         $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
         $q->addGroupBy('location.id');
-        $q->addOrderBy('COUNT(employee.empNumber)', 'DESC');
-        $q->addOrderBy('location.name', 'ASC');
+        $q->addOrderBy('COUNT(employee.empNumber)', ListSorter::DESCENDING);
+        $q->addOrderBy('location.name', ListSorter::ASCENDING);
 
         return $q->getQuery()->getResult();
     }

@@ -1,5 +1,13 @@
 Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'leave.leavePeriodStatus', value: 1 }
+  - { name: 'leave_period_defined', value: 'Yes' }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "1","termination_date": "2022-09-15","note": "" }
 
 Employee:
   - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
@@ -7,7 +15,7 @@ Employee:
   - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
   - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
   - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": ""}
-  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "", "termination_id": "1" }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
@@ -121,7 +129,7 @@ Leave:
   - { "id": "46","date": "2022-06-06","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "47","date": "2022-06-07","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "48","date": "2022-06-08","length_hours": "5.00","length_days": "0.6250","status": "0","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "09:00:00","end_time": "14:00:00","duration_type": "3" }
-  - { "id": "49","date": "2022-03-01","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "13:00:00","end_time": "17:00:00","duration_type": "2" }
+  - { "id": "49","date": "2022-03-01","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "13:00:00","end_time": "17:00:00","duration_type": "2" }
   - { "id": "50","date": "2022-03-02","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "51","date": "2022-03-03","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "52","date": "2022-03-04","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }

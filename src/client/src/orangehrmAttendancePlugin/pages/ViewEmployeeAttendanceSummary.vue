@@ -95,17 +95,7 @@ import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import {yearRange} from '@/core/util/helper/year-range';
 import useDateFormat from '@/core/util/composable/useDateFormat';
-
-const attendanceRecordNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.empNumber,
-      empName: `${item?.firstName} ${item?.lastName}
-          ${item?.terminationId ? ' (Past Employee)' : ''}`,
-      duration: item.sum?.label,
-    };
-  });
-};
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   components: {
@@ -120,6 +110,7 @@ export default {
   },
 
   setup(props) {
+    const {$tEmpName} = useEmployeeNameTranslate();
     const {userDateFormat} = useDateFormat();
 
     const rules = {
@@ -137,6 +128,19 @@ export default {
         empNumber: filters.value.employee?.id,
       };
     });
+
+    const attendanceRecordNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.empNumber,
+          empName: $tEmpName(this.employee, {
+            includeMiddle: false,
+            excludePastEmpTag: false,
+          }),
+          duration: item.sum?.label,
+        };
+      });
+    };
 
     const http = new APIService(
       window.appGlobal.baseUrl,

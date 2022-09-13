@@ -106,6 +106,7 @@
 
 <script>
 import {computed, ref} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
 import {validSelection} from '@/core/util/validation/rules';
 import useSort from '@ohrm/core/util/composable/useSort';
 import {navigate} from '@ohrm/core/util/helper/navigation';
@@ -143,6 +144,7 @@ export default {
     },
   },
   setup(props) {
+    const {$t} = usei18n();
     const {$tEmpName} = useEmployeeNameTranslate();
 
     const projectNormalizer = data => {
@@ -152,7 +154,7 @@ export default {
           id: item.id,
           project: item.name,
           customer: item.customer?.deleted
-            ? item.customer?.name + ' (Deleted)'
+            ? item.customer?.name + $t('general.deleted')
             : item.customer?.name,
           projectAdmins: item.projectAdmins
             ?.map(projectAdmin => $tEmpName(projectAdmin))

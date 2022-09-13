@@ -165,7 +165,7 @@ export default {
 
         const leaveTypeName = item.leaveType?.name;
         if (item.leaveType?.deleted) {
-          leaveTypeName + ` (${$t('general.deleted')})`;
+          leaveTypeName + $t('general.deleted');
         }
 
         return {
@@ -258,9 +258,10 @@ export default {
     employeeName() {
       const employee = this.response?.meta?.employee;
       if (employee) {
-        const name = `${employee.firstName} ${employee.middleName}
-        ${employee.lastName}`;
-        return `${name} ${employee.terminationId ? '(Past Employee)' : ''}`;
+        return this.translateEmpName(this.employee, {
+          includeMiddle: true,
+          excludePastEmpTag: false,
+        });
       }
       return '';
     },

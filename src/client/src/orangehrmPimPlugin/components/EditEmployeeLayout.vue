@@ -27,7 +27,7 @@
             <div class="orangehrm-edit-employee-name">
               <oxd-text tag="h6" class="--strong">{{ employeeName }}</oxd-text>
               <oxd-text v-if="!isCurrentEmp" type="subtitle-2">
-                (Past Employee)
+                {{ $t('general.past_employee') }}
               </oxd-text>
             </div>
             <div class="orangehrm-edit-employee-image-wrapper">

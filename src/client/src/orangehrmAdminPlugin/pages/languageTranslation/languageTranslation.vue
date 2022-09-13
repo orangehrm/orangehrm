@@ -100,6 +100,7 @@
         <div class="orangehrm-header-container">
           <oxd-pagination
             v-if="showPaginator"
+            :key="currentPage"
             v-model:current="currentPage"
             :length="pages"
           />
@@ -117,15 +118,15 @@
           <div class="orangehrm-bottom-container">
             <div>
               <oxd-button
-                display-type="secondary"
-                :label="$t('general.save')"
-                type="submit"
-              />
-              <oxd-button
-                class="orangehrm-left-space"
                 display-type="ghost"
                 :label="$t('general.cancel')"
                 type="reset"
+              />
+              <oxd-button
+                class="orangehrm-left-space"
+                display-type="secondary"
+                :label="$t('general.save')"
+                type="submit"
               />
             </div>
           </div>
@@ -222,11 +223,13 @@ export default {
     } = usePaginate(http, {query: serializedFilters});
 
     const onReset = () => {
+      currentPage.value = 1;
       filters.value = {...defaultFilters, sortOrder: sortOptions.value[0]};
       execQuery();
     };
 
     const onSubmit = () => {
+      currentPage.value = 1;
       execQuery();
     };
 

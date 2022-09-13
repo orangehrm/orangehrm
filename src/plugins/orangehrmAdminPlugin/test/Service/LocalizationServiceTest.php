@@ -159,8 +159,8 @@ class LocalizationServiceTest extends KernelTestCase
         $this->assertEquals('application/xml', $response->headers->get('content-type'));
         $this->assertEquals('2.0', $result['@attributes']['version']);
         $this->assertCount(3, $result['file']['group']);
-        $this->assertEquals('Add Location', $result['file']['group'][0]['unit'][0]['segment']['source']);
-        $this->assertEquals('编辑订阅者', $result['file']['group'][0]['unit'][1]['segment']['target']);
+        $this->assertEquals('Add Job Title', $result['file']['group'][0]['unit'][0]['segment']['source']);
+        $this->assertEquals('使用 SMTP 验证', $result['file']['group'][0]['unit'][1]['segment']['target']);
         $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
         $this->assertEquals('([{\|/?!~#@$%^&amp;*)-=_+;&quot;&gt;&lt;}]', $result['file']['group'][2]['unit']['segment']['target']);
 
@@ -170,11 +170,10 @@ class LocalizationServiceTest extends KernelTestCase
         $xml =  simplexml_load_string($response->getContent());
         $json = json_encode($xml);
         $result = json_decode($json, true);
-
         $this->assertCount(3, $result['file']['group']);
-        $this->assertEquals('Use SMTP Authentication', $result['file']['group'][1]['unit'][1]['segment']['source']);
-        $this->assertEquals('ස්ථානය එක් කරන්න', $result['file']['group'][0]['unit'][0]['segment']['target']);
-        $this->assertEquals('වාක්‍යාංශ  ප්‍රතික්ෂේප කරති  සැණින් ඇකිළුනේය නාම විශේෂණ', $result['file']['group'][0]['unit'][1]['segment']['target']);
+        $this->assertEquals('Edit Subscriber', $result['file']['group'][1]['unit'][1]['segment']['source']);
+        $this->assertEquals('රැකියා මාතෘකාව එක් කරන්න', $result['file']['group'][0]['unit'][0]['segment']['target']);
+        $this->assertEquals('SMTP සත්‍යාපනය භාවිතා කරන්න', $result['file']['group'][0]['unit'][1]['segment']['target']);
         $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
 
         $request = $this->getHttpRequest([], [], ['languageId' => '22']);
@@ -185,8 +184,8 @@ class LocalizationServiceTest extends KernelTestCase
         $result = json_decode($json, true);
 
         $this->assertCount(3, $result['file']['group']);
-        $this->assertEquals('Add Location', $result['file']['group'][0]['unit'][0]['segment']['source']);
-        $this->assertEquals('يقبل jpg و .png و .gif و .svg حتى {fileSize}. الأبعاد الموصى بها: {width} px X {height} px', $result['file']['group'][1]['unit'][0]['segment']['target']);
+        $this->assertEquals('Add Job Title', $result['file']['group'][0]['unit'][0]['segment']['source']);
+        $this->assertEquals('حول', $result['file']['group'][1]['unit'][0]['segment']['target']);
         $this->assertCount(2, $result['file']['group'][1]['unit'][1]);
     }
 }
