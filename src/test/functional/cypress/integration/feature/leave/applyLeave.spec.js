@@ -36,6 +36,8 @@ describe('Leave - Apply Leave', function () {
     cy.intercept('POST', '**/api/v2/leave/leave-requests').as(
       'postLeaveRequest',
     );
+    cy.intercept('GET', '**/api/v2/admin/users').as('getUser');
+    cy.intercept('GET', '**/api/v2/pim/employees').as('getEmployee');
     cy.intercept('POST', '**/api/v2/leave/holidays').as('postHolidays');
     cy.intercept('POST', '**/api/v2/pim/employees').as('saveEmployee');
     cy.intercept('POST', '**/api/v2/admin/users').as('saveUser');
@@ -108,11 +110,11 @@ describe('Leave - Apply Leave', function () {
     it('Add Employee John Perera', function () {
       cy.task('db:restore', {name: 'leaveEntitlements'}); // leave period + leave type + holiday + admin leave entitlments are restored
       cy.loginTo(user.admin, '/pim/addEmployee');
+      cy.wait('@getUser');
+      cy.wait('@getEmployee');
       cy.getOXD('form').within(() => {
-        cy.get(
-          '.--name-grouped-field > :nth-child(1) > :nth-child(2) > .oxd-input',
-        ).type('John');
-        cy.get(':nth-child(3) > :nth-child(2) > .oxd-input').type('Perera');
+        cy.get('.orangehrm-firstname').type('John');
+        cy.get('.orangehrm-lastname').type('Perera');
         cy.getOXD('button').contains('Save').click();
       });
       cy.wait('@saveEmployee');
