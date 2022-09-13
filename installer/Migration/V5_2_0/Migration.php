@@ -33,6 +33,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
+        $this->cleanLDAPAddonData();
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
 
@@ -86,11 +87,10 @@ class Migration extends AbstractMigration
 
         $qb = $this->createQueryBuilder()->delete('ohrm_i18n_group');
         $qb->where($qb->expr()->in('ohrm_i18n_group.name', ':groups'))
-            ->setParameter(
-                'groups',
-                ['directory', 'branding'],
-                Connection::PARAM_STR_ARRAY
-            )->executeQuery();
+            ->setParameter('groups', ['directory', 'branding'], Connection::PARAM_STR_ARRAY)
+            ->executeQuery();
+
+        $this->insertLDAPMenuItem();
     }
 
     /**
@@ -170,6 +170,77 @@ class Migration extends AbstractMigration
             ->setParameter('url', $url)
             ->andWhere('homePage.user_role_id = :userRoleId')
             ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName($userRole))
+            ->executeQuery();
+    }
+
+    private function insertLDAPMenuItem(): void
+    {
+        $adminId = $this->createQueryBuilder()
+            ->select('menu_item.id')
+            ->from('ohrm_menu_item', 'menu_item')
+            ->where('menu_item.menu_title = :menuTitle')
+            ->setParameter('menuTitle', 'Admin')
+            ->andWhere('level = :level')
+            ->setParameter('level', 1)
+            ->executeQuery()
+            ->fetchOne();
+        $configurationId = $this->createQueryBuilder()
+            ->select('menu_item.id')
+            ->from('ohrm_menu_item', 'menu_item')
+            ->where('menu_item.menu_title = :menuTitle')
+            ->setParameter('menuTitle', 'Configuration')
+            ->andWhere('level = :level')
+            ->setParameter('level', 2)
+            ->andWhere('parent_id = :parentId')
+            ->setParameter('parentId', $adminId)
+            ->executeQuery()
+            ->fetchOne();
+
+        $ldapConfigScreenId = $this->createQueryBuilder()
+            ->select('screen.id')
+            ->from('ohrm_screen', 'screen')
+            ->where('screen.name = :screenName')
+            ->setParameter('screenName', 'Admin -LDAP Configuration')
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->createQueryBuilder()
+            ->insert('ohrm_menu_item')
+            ->values(
+                [
+                    'menu_title' => ':menuTitle',
+                    'screen_id' => ':screenId',
+                    'parent_id' => ':parentId',
+                    'level' => ':level',
+                    'order_hint' => ':orderHint',
+                    'status' => ':status'
+                ]
+            )
+            ->setParameter('menuTitle', 'LDAP Configuration')
+            ->setParameter('screenId', $ldapConfigScreenId)
+            ->setParameter('parentId', $configurationId)
+            ->setParameter('level', 3)
+            ->setParameter('orderHint', 1000)
+            ->setParameter('status', 1)
+            ->executeQuery();
+    }
+
+    private function cleanLDAPAddonData(): void
+    {
+        $this->createQueryBuilder()
+            ->delete('ohrm_data_group')
+            ->andWhere('ohrm_data_group.name = :dataGroupName')
+            ->setParameter('dataGroupName', 'ldap_configuration')
+            ->executeQuery();
+        $this->createQueryBuilder()
+            ->delete('ohrm_screen')
+            ->andWhere('ohrm_screen.name = :screenName')
+            ->setParameter('screenName', 'LDAP Configuration')
+            ->executeQuery();
+        $this->createQueryBuilder()
+            ->delete('ohrm_module')
+            ->andWhere('ohrm_module.name = :moduleName')
+            ->setParameter('moduleName', 'ldapAuthentication')
             ->executeQuery();
     }
 }
