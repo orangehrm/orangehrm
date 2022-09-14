@@ -38,3 +38,12 @@ langStrings:
   -
     value: 'Enter a valid port number between {minValue} to {maxValue}'
     unitId: enter_valid_port_between_a_to_b
+  -
+    value: 'Time At Work'
+    unitId: time_at_work
+  -
+    value: 'Today'
+    unitId: today
+  -
+    value: 'This Week'
+    unitId: this_week
