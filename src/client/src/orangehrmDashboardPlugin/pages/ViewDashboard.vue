@@ -47,6 +47,12 @@
     >
       <employee-location-widget></employee-location-widget>
     </oxd-grid-item>
+    <oxd-grid-item
+      v-if="$can.read('admin_widgets')"
+      class="orangehrm-dashboard-widget"
+    >
+      <myaction-summery-view-widget></myaction-summery-view-widget>
+    </oxd-grid-item>
   </oxd-grid>
 </template>
 
@@ -56,6 +62,7 @@ import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/Employe
 import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
 import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
 import EmployeeAttendanceWidget from '@/orangehrmDashboardPlugin/components/EmployeeAttendanceWidget.vue';
+import MyActionSummeryViewWidget from '@/orangehrmDashboardPlugin/components/MyActionSummeryView.vue';
 
 export default {
   components: {
@@ -64,6 +71,7 @@ export default {
     'employee-location-widget': EmployeeLocationWidget,
     'employees-on-leave-widget': EmployeesOnLeaveWidget,
     'employee-attendance-widget': EmployeeAttendanceWidget,
+    'myaction-summery-view-widget': MyActionSummeryViewWidget,
   },
 };
 </script>
