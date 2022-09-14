@@ -21,7 +21,7 @@
 <template>
   <oxd-grid class="orangehrm-dashboard-grid" :cols="3">
     <oxd-grid-item
-      v-if="$can.read('leave_widget')"
+      v-if="$can.read('time_widget')"
       class="orangehrm-dashboard-widget"
     >
       <employee-attendance-widget></employee-attendance-widget>

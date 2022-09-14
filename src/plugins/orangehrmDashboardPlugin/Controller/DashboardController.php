@@ -47,15 +47,18 @@ class DashboardController extends AbstractVueController
         $this->setComponent($component);
 
         $isLeaveModuleEnabled = false;
+        $isTimeModuleEnabled = false;
 
         foreach ($this->getModuleService()->getModuleList() as $module) {
             if ($module->getName() === 'leave') {
                 $isLeaveModuleEnabled = $module->getStatus();
-                break;
+            }
+            if ($module->getName() === 'time') {
+                $isTimeModuleEnabled = $module->getStatus();
             }
         }
 
-        // TODO: Rebase data group permisssions
+        // TODO: Refactor data group permisssions
         $this->getContext()->set(
             VueControllerHelper::PERMISSIONS,
             [
@@ -67,6 +70,12 @@ class DashboardController extends AbstractVueController
                 ],
                 'leave_widget' => [
                     'canRead' => $isLeaveModuleEnabled,
+                    'canCreate' => false,
+                    'canUpdate' => false,
+                    'canDelete' => false
+                ],
+                'time_widget' => [
+                    'canRead' => $isTimeModuleEnabled,
                     'canCreate' => false,
                     'canUpdate' => false,
                     'canDelete' => false
