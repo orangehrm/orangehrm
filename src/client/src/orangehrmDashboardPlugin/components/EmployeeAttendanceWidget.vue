@@ -154,8 +154,8 @@ export default {
         'yyyy-MM-dd HH:mm',
       );
       const displayFormat = isToday(parsedDate)
-        ? `'${this.$t('general.today')} at' hh:mm a`
-        : `MMM do 'at' hh:mm a`;
+        ? `'${this.$t('general.today')} ${this.$t('general.at')}' hh:mm a`
+        : `MMM do '${this.$t('general.at')}' hh:mm a`;
       const formattedDate = formatDate(parsedDate, displayFormat, {
         locale: this.locale,
       });
