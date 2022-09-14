@@ -104,6 +104,16 @@ class PerformanceReviewSearchFilterParams extends FilterParams
      */
     protected string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
 
+    /**
+     * @var bool
+     */
+    protected bool $isForPendingReviewActionWidget = false;
+
+    /**
+     * @var array
+     */
+    protected array $actionableStatuses;
+
     public function __construct()
     {
         $this->setSortField('performanceReview.statusId');
@@ -251,5 +261,37 @@ class PerformanceReviewSearchFilterParams extends FilterParams
     public function setIncludeEmployees(string $includeEmployees): void
     {
         $this->includeEmployees = $includeEmployees;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForPendingReviewActionWidget(): bool
+    {
+        return $this->isForPendingReviewActionWidget;
+    }
+
+    /**
+     * @param bool $isForPendingReviewActionWidget
+     */
+    public function setIsForPendingReviewActionWidget(bool $isForPendingReviewActionWidget): void
+    {
+        $this->isForPendingReviewActionWidget = $isForPendingReviewActionWidget;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActionableStatuses(): array
+    {
+        return $this->actionableStatuses;
+    }
+
+    /**
+     * @param array $actionableStatuses
+     */
+    public function setActionableStatuses(array $actionableStatuses): void
+    {
+        $this->actionableStatuses = $actionableStatuses;
     }
 }
