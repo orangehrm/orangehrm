@@ -81,3 +81,9 @@
   permissions:
     - { role: Admin, permission: { read: true } }
     - { role: ESS, permission: { read: true } }
+
+'Admin - LDAP Configuration':
+  module: admin
+  url: ldapConfiguration
+  permissions:
+    - { role: Admin, permission: { read: true } }

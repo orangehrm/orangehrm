@@ -334,6 +334,11 @@ class MenuServiceTest extends KernelTestCase
                         'name' => 'Register OAuth Client',
                         'url' => '/admin/registerOAuthClient',
                     ],
+                    [
+                        'id' => 104,
+                        'name' => 'LDAP Configuration',
+                        'url' => '/admin/ldapConfiguration',
+                    ],
                 ],
             ],
         ], $topMenuItems);

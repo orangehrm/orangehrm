@@ -60,7 +60,7 @@ class ResetInstallationCommand extends Command
         $dbName = $conf->getDbName();
 
         $sm = $this->getEntityManager()->getConnection()->createSchemaManager();
-        $sm->dropDatabase($dbName);
+        $sm->dropDatabase("`$dbName`");
         $io->note("Dropped database `$dbName`");
 
         $fs = new Filesystem();
