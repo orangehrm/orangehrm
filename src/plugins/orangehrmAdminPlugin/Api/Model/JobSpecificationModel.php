@@ -19,10 +19,21 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Admin\Dto\PartialJobSpecificationAttachment;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-JobSpecificationModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="filename", type="string"),
+ *     @OA\Property(property="fileType", type="string"),
+ *     @OA\Property(property="fileSize", type="integer")
+ * )
+ */
 class JobSpecificationModel implements Normalizable
 {
     use ModelTrait;
