@@ -19,8 +19,12 @@
 
 namespace OrangeHRM\Dashboard\Dto\ActionSummary;
 
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
+
 class PendingAction
 {
+    use I18NHelperTrait;
+
     /**
      * @var ActionSummary
      */
@@ -42,7 +46,7 @@ class PendingAction
         if ($this->actionSummary->getPendingActionCount() > 0) {
             return [
                 'id' => $this->actionSummary->getGroupId(),
-                'group' => $this->actionSummary->getGroup(),
+                'group' => $this->getI18NHelper()->transBySource(ucwords(strtolower($this->actionSummary->getGroup()))),
                 'pendingActionCount' => $this->actionSummary->getPendingActionCount()
             ];
         }

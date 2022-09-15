@@ -38,3 +38,15 @@ langStrings:
   -
     value: 'Enter a valid port number between {minValue} to {maxValue}'
     unitId: enter_valid_port_between_a_to_b
+  -
+    value: 'Leave Requests to Approve'
+    unitId: leave_requests_to_approve
+  -
+    value: 'Timesheets to Approve'
+    unitId: timesheets_to_approve
+  -
+    value: 'Pending Appraisal Reviews'
+    unitId: pending_appraisal_reviews
+  -
+    value: 'Candidates to Interview'
+    unitId: candidates_to_interview
