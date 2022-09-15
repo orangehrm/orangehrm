@@ -27,11 +27,10 @@
     <div class="orangehrm-attendance-card">
       <div class="orangehrm-attendance-card-profile">
         <div class="orangehrm-attendance-card-profile-image">
-          <!-- TODO: Add emp number here -->
           <img
             alt="profile picture"
             class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/${1}`"
+            :src="`../pim/viewPhoto/empNumber/${empNumber}`"
           />
         </div>
         <div class="orangehrm-attendance-card-profile-record">
@@ -129,6 +128,7 @@ export default {
       userTime: null,
       startDate: null,
       isLoading: false,
+      empNumber: null,
       timezoneOffset: null,
       dayTotal: {
         hours: 0,
@@ -161,7 +161,7 @@ export default {
         const formattedDate = formatDate(parsedDate, 'MMM do', {
           locale: this.locale,
         });
-        return this.$t('state_date_at_time_timezone_offset', {
+        return this.$t('general.state_date_at_time_timezone_offset', {
           lastState: this.lastState,
           date: formattedDate,
           time: formattedTime,
@@ -169,7 +169,7 @@ export default {
         });
       }
 
-      return this.$t('state_today_at_time_timezone_offset', {
+      return this.$t('general.state_today_at_time_timezone_offset', {
         lastState: this.lastState,
         time: formattedTime,
         timezoneOffset: this.timezoneOffset,
@@ -214,7 +214,7 @@ export default {
             color: COLOR_HEAT_WAVE,
           }));
 
-          const {lastAction, currentDay, currentWeek} = meta;
+          const {lastAction, currentDay, currentWeek, currentUser} = meta;
           if (lastAction) {
             this.state = lastAction.state;
             this.userDate = lastAction.userDate;
@@ -226,8 +226,11 @@ export default {
             this.endDate = currentWeek.endDate?.date;
             this.startDate = currentWeek.startDate?.date;
           }
-          if (currentDay?.totalTime) {
+          if (currentDay) {
             this.dayTotal = currentDay.totalTime;
+          }
+          if (currentUser) {
+            this.empNumber = currentUser.empNumber;
           }
         })
         .finally(() => {
