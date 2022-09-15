@@ -27,11 +27,6 @@
   <resolvepath propertyName="project.dir" file=".."/>
   <resolvepath propertyName="dist.dir" file="dist"/>
   <property name="package.dir" value="${dist.dir}/${package.name}"/>
-  <property name="reports.dir" value="${project.basedir}/reports"/>
-  <property name="test.reports.dir" value="${reports.dir}/tests"/>
-  <property name="test.coverage.dir" value="${reports.dir}/coverage"/>
-  <property name="apidocs.dir" value="${dist.dir}/apidocs"/>
-  <property name="xampp.dir" value="../../xampp"/>
 
   <exec command="git rev-list --tags --max-count=1" dir="${project.dir}" checkreturn="false"
         outputProperty="git.revision"/>
@@ -41,18 +36,12 @@
     <echo msg="Preparing build..."/>
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${package.dir}"/>
-    <mkdir dir="${reports.dir}"/>
-    <mkdir dir="${test.reports.dir}"/>
-    <mkdir dir="${test.coverage.dir}"/>
-    <mkdir dir="${test.coverage.dir}/src"/>
-    <mkdir dir="${test.coverage.dir}/lib"/>
-    <mkdir dir="${apidocs.dir}"/>
     <touch file="release-revision-${git.revision}.txt"/>
   </target>
 
   <target name="deps.5x">
-    <exec command="composer install" dir="${project.dir}/src" checkreturn="false" passthru="true"/>
-    <exec command="composer dump-autoload -o" dir="${project.dir}/src" checkreturn="false" passthru="true"/>
+    <exec command="composer install --no-dev" dir="${project.dir}/src" checkreturn="false" passthru="true"/>
+    <exec command="composer dump-autoload --optimize --no-dev --classmap-authoritative" dir="${project.dir}/src" checkreturn="false" passthru="true"/>
     <exec command="yarn install" dir="${project.dir}/src/client" checkreturn="false" passthru="true"/>
   </target>
 
@@ -68,8 +57,6 @@
         <include name="**/*.htaccess"/>
         <include name="build/build"/>
         <exclude name="build/dist/**"/>
-        <exclude name="build/reports/**"/>
-        <exclude name="build/report-styles/**"/>
         <exclude name="build/build.xml"/>
         <exclude name="build/phing-latest.phar"/>
         <exclude name=".github/**"/>
@@ -116,9 +103,6 @@
     <mkdir dir="${package.dir}/src/cache"/>
     <mkdir dir="${package.dir}/src/log"/>
 
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/upgrader/log"/>
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/upgrader/cache"/>
-
     <copy todir="${dist.dir}">
       <fileset dir="${project.dir}">
         <include name="orangehrm-quick-start-guide.html"/>
@@ -130,24 +114,22 @@
   <target name="dist" depends="build">
     <echo message="Creating archives ..."/>
 
-    <zip destfile="${dist.dir}/${base.name}.zip" ignoreLinks="true">
+    <zip destfile="${dist.dir}/${package.name}.zip" ignoreLinks="true">
       <fileset dir="${dist.dir}">
         <include name="${package.name}/**"/>
         <include name="orangehrm-quick-start-guide.html"/>
         <include name="logo.png"/>
         <exclude name="*.zip"/>
         <exclude name="*.tar.gz"/>
-        <exclude name="apidocs"/>
       </fileset>
     </zip>
-    <tar destfile="${dist.dir}/${base.name}.tar.gz" compression="gzip">
+    <tar destfile="${dist.dir}/${package.name}.tar.gz" compression="gzip">
       <fileset dir="${dist.dir}">
         <include name="${package.name}/**"/>
         <include name="orangehrm-quick-start-guide.html"/>
         <include name="logo.png"/>
         <exclude name="*.zip"/>
         <exclude name="*.tar.gz"/>
-        <exclude name="apidocs"/>
       </fileset>
     </tar>
   </target>
@@ -159,7 +141,6 @@
   <target name="clean">
     <echo msg="Cleaning up..."/>
     <delete dir="${dist.dir}"/>
-    <delete dir="${reports.dir}"/>
     <delete>
       <fileset refid="deleteFiles"/>
     </delete>

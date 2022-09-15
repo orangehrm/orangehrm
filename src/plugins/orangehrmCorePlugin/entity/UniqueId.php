@@ -39,7 +39,7 @@ class UniqueId
     /**
      * @var int
      *
-     * @ORM\Column(name="last_id", type="integer", length=10, options={"unsigned":true})
+     * @ORM\Column(name="last_id", type="integer", length=10, options={"unsigned" : true})
      */
     private int $lastId;
 

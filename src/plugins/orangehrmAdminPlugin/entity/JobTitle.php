@@ -65,7 +65,7 @@ class JobTitle
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_deleted", type="boolean", nullable=true, options={"default":0})
+     * @ORM\Column(name="is_deleted", type="boolean", nullable=true, options={"default" : 0})
      */
     private bool $isDeleted = false;
 

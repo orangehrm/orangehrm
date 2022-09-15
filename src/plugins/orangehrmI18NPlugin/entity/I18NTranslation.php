@@ -71,7 +71,7 @@ class I18NTranslation
     /**
      * @var bool
      *
-     * @ORM\Column(name="customized", type="boolean", options={"default":0})
+     * @ORM\Column(name="customized", type="boolean", options={"default" : 0})
      */
     private bool $customized = false;
 

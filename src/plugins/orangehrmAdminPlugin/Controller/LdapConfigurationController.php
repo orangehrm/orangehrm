@@ -45,6 +45,7 @@ class LdapConfigurationController extends AbstractVueController
     }
 
     /**
+     * @todo should remove
      * @param Request $request
      * @return Response
      */
@@ -118,6 +119,7 @@ class LdapConfigurationController extends AbstractVueController
     }
 
     /**
+     * @todo should remove
      * @param Request $request
      * @return Response
      */

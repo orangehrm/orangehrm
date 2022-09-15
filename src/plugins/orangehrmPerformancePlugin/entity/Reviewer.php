@@ -52,7 +52,7 @@ class Reviewer
     /**
      * @var int|null
      *
-     * @ORM\Column(name="status", type="integer", length=7,nullable=true)
+     * @ORM\Column(name="status", type="integer", length=7, nullable=true)
      */
     private ?int $status;
 
@@ -76,7 +76,7 @@ class Reviewer
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\ReviewerRating", mappedBy="Reviewer")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="reviewer_id")
+     *     @ORM\JoinColumn(name="id", referencedColumnName="reviewer_id")
      * })
      */
     private iterable $ratings;
@@ -86,7 +86,7 @@ class Reviewer
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ReviewerGroup", inversedBy="Reviewer")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="reviewer_group_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="reviewer_group_id", referencedColumnName="id")
      * })
      */
     private ?ReviewerGroup $group;
@@ -96,7 +96,7 @@ class Reviewer
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PerformanceReview", inversedBy="Reviewer")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="review_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="review_id", referencedColumnName="id")
      * })
      */
     private ?PerformanceReview $review;
@@ -106,7 +106,7 @@ class Reviewer
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="Reviewer")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
+     *     @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
      * })
      */
     private ?Employee $employee;

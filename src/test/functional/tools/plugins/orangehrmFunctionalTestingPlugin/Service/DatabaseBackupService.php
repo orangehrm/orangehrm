@@ -147,6 +147,7 @@ class DatabaseBackupService
      */
     public function restoreToSavepoint(string $savepointName): array
     {
+        $this->getAppCache()->clear();
         return $this->_restoreToSavepoint($this->genSavepointCacheKeyPrefix($savepointName));
     }
 
