@@ -20,12 +20,12 @@
 
 <template>
   <base-widget
-    icon="ui-checks"
+    icon="leavelist"
     icon-type="svg"
     :empty="isEmpty"
     :empty-text="emptyText"
     :loading="isLoading"
-    :title="$t('general.to_do')"
+    :title="$t('general.my_actions')"
   >
     <div class="orangehrm-todo-list">
       <div class="orangehrm-todo-list-item">
@@ -33,9 +33,10 @@
           class="orangehrm-report-icon"
           name="clock"
           display-type="success"
+          @click="onClickPendingLeave"
         />
-        <oxd-text tag="p">
-          (2) Leave Request To Aprove
+        <oxd-text tag="p" @click="onClickPendingLeave">
+          (100) Leave Request To Aprove
         </oxd-text>
       </div>
       <div class="orangehrm-todo-list-item">
@@ -43,9 +44,10 @@
           class="orangehrm-report-icon"
           name="calendar3"
           display-type="warn"
+          @click="onClickPendingTimesheet"
         />
-        <oxd-text tag="p">
-          (2) Timesheet to aprove
+        <oxd-text tag="p" @click="onClickPendingTimesheet">
+          (4) Timesheet to aprove
         </oxd-text>
       </div>
       <div class="orangehrm-todo-list-item">
@@ -53,9 +55,10 @@
           class="orangehrm-report-icon"
           name="person-fill"
           display-type="danger"
+          @click="onClickPendingReview"
         />
-        <oxd-text tag="p">
-          (2) Performance Review to aprove
+        <oxd-text tag="p" @click="onClickPendingReview">
+          (1) Performance Review to aprove
         </oxd-text>
       </div>
       <div class="orangehrm-todo-list-item">
@@ -63,15 +66,17 @@
           class="orangehrm-report-icon"
           name="people-fill"
           display-type="info"
+          @click="onClickPendingInterview"
         />
-        <oxd-text tag="p">
-          (2) candidate to interview
+        <oxd-text tag="p" @click="onClickPendingInterview">
+          (3) candidate to interview
         </oxd-text>
       </div>
     </div>
   </base-widget>
 </template>
 <script>
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
 
@@ -85,7 +90,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/',
+      'api/v2/dashboard/employees/action-summary',
     );
 
     return {
@@ -93,27 +98,54 @@ export default {
     };
   },
 
+  data() {
+    return {};
+  },
+
   beforeMount() {
     this.isLoading = false;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data, meta} = response.data;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
+  methods: {
+    onClickPendingLeave() {
+      navigate('/leave/viewLeaveList');
+    },
+    onClickPendingTimesheet() {
+      navigate('/time/viewEmployeeTimesheet');
+    },
+    onClickPendingReview() {
+      navigate('/performance/searchEvaluatePerformanceReview');
+    },
+    onClickPendingInterview() {
+      navigate('/recruitment/viewCandidates');
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-todo-list{
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+.orangehrm-todo-list {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 
-   &-item{
+  &-item {
     display: flex;
     align-items: center;
     margin-bottom: 0.5rem;
 
-    & p{
-        font-size: 12px;
-        margin-left: 0.5rem;
+    & p {
+      font-size: 12px;
+      margin-left: 0.5rem;
     }
-   } 
+  }
 }
 </style>

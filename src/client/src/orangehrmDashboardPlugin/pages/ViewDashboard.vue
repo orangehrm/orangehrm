@@ -30,6 +30,12 @@
       <quick-launch-widget></quick-launch-widget>
     </oxd-grid-item>
     <oxd-grid-item
+      v-if="$can.read('admin_widgets')"
+      class="orangehrm-dashboard-widget"
+    >
+      <myaction-summery-view-widget></myaction-summery-view-widget>
+    </oxd-grid-item>
+    <oxd-grid-item
       v-if="$can.read('leave_widget')"
       class="orangehrm-dashboard-widget"
     >
@@ -46,12 +52,6 @@
       class="orangehrm-dashboard-widget"
     >
       <employee-location-widget></employee-location-widget>
-    </oxd-grid-item>
-    <oxd-grid-item
-      v-if="$can.read('admin_widgets')"
-      class="orangehrm-dashboard-widget"
-    >
-      <myaction-summery-view-widget></myaction-summery-view-widget>
     </oxd-grid-item>
   </oxd-grid>
 </template>
