@@ -37,7 +37,7 @@ class OAuthScope
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_default", type="boolean", nullable=true, options={"default":0})
+     * @ORM\Column(name="is_default", type="boolean", nullable=true, options={"default" : 0})
      */
     private bool $isDefault;
 

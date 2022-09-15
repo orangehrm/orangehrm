@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\LDAP\Service;
 
+use DateTime;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Service\ConfigService;
@@ -344,6 +345,69 @@ class LDAPSyncServiceTest extends KernelTestCase
         );
     }
 
+    public function testFetchAllLDAPUsersWithSpecialCharacters(): void
+    {
+        $ldapSetting = new LDAPSetting(
+            self::$serverConfig->host,
+            self::$serverConfig->port,
+            'OpenLDAP',
+            self::$serverConfig->encryption
+        );
+        $ldapSetting->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=client services,ou=sales,ou=users,dc=example,dc=org'))
+                ->setSearchScope('one')
+                ->setUserNameAttribute('cn')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute(null)
+        );
+        $ldapSetting->setBindAnonymously(false);
+        $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
+        $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getLDAPSetting'])
+            ->getMock();
+        $configService->expects($this->exactly(2))
+            ->method('getLDAPSetting')
+            ->willReturn($ldapSetting);
+        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+
+        $ldapSyncService = new LDAPSyncService();
+        $ldapUserCollection = $ldapSyncService->fetchAllLDAPUsers();
+        $ldapUsers = $ldapUserCollection->getLDAPUsers();
+
+        $this->assertCount(0, $ldapUserCollection->getFailedUsers());
+        $this->assertCount(0, $ldapUserCollection->getDuplicateUsernames());
+        $this->assertCount(0, $ldapUserCollection->getUsersOfDuplicateUsernames());
+        $this->assertEquals(0, $ldapUserCollection->getDuplicateUserCount());
+        $this->assertCount(12, $ldapUsers);
+
+        $users = [
+            ['#Aaliyah+Haq', 'Aaliyah', 'Haq', '\23Aaliyah\2BHaq'],
+            ['Amar;(Anthony)', 'Amar', 'Anthony', 'Amar\3B(Anthony)'],
+            ['Anthony\/Nolan', 'Anthony', 'Nolan', 'Anthony\5C/Nolan'],
+            ['Cassidy!:Hope', 'Cassidy\\', 'Hope', 'Cassidy!:Hope'],
+            ['Charlie<Carter>', 'Charlie', 'Carter', 'Charlie\3CCarter\3E'],
+            ['Chenzira.Chuki', 'Chenzira', 'Chuki', 'Chenzira.Chuki'],
+            ['James="Jim"-Smith', 'James', 'Smith, III', 'James\3D\22Jim\22-Smith'],
+            ['Ehioze\'Ebo', 'Ehioze', 'Ebo', "Ehioze'Ebo"],
+            ['Joe,Root', 'Joe', 'Root', 'Joe\2CRoot'],
+            ['Jordan+uid=Mathews', 'Jordan', 'Mathews', 'Jordan\2Buid\3DMathews'],
+            ['Luke,ou=Wright', 'Luke', 'Wright', 'Luke\2Cou\3DWright'],
+            ['Jadine Jackie', 'Jadine', 'Jackie', 'Jadine Jackie'],
+        ];
+        foreach ($users as $user) {
+            $ldapUser = $ldapUsers[$user[0]];
+            $this->assertEquals($user[0], $ldapUser->getUsername());
+            $this->assertEquals($user[1], $ldapUser->getFirstName());
+            $this->assertEquals($user[2], $ldapUser->getLastName());
+            $this->assertEquals(
+                'cn=' . $user[3] . ',ou=client services,ou=sales,ou=users,dc=example,dc=org',
+                $ldapUser->getUserDN()
+            );
+        }
+    }
+
     public function testCreateSystemUsers(): void
     {
         $ldapSetting = new LDAPSetting(
@@ -384,7 +448,7 @@ class LDAPSyncServiceTest extends KernelTestCase
         $ldapSetting->setBindUserDN(self::$serverConfig->adminDN);
         $ldapSetting->setBindUserPassword(self::$serverConfig->adminPassword);
 
-        $now = new \DateTime('2022-09-07 08:30');
+        $now = new DateTime('2022-09-07 08:30');
         $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
             ->onlyMethods(['getNow'])
             ->getMock();

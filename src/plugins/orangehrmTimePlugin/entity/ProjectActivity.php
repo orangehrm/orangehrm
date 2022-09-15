@@ -54,7 +54,7 @@ class ProjectActivity
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_deleted", type="boolean", options={"default":0})
+     * @ORM\Column(name="is_deleted", type="boolean", options={"default" : 0})
      */
     private bool $deleted = false;
 

@@ -93,7 +93,7 @@ class PerformanceTracker
     /**
      * @var PerformanceTrackerReviewer[]
      *
-     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\PerformanceTrackerReviewer", mappedBy="performanceTracker")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PerformanceTrackerReviewer", mappedBy="performanceTracker")
      */
     private iterable $performanceTrackerReviewer;
 

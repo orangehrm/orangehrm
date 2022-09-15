@@ -201,6 +201,18 @@ class LDAPUsersFixture
         );
         $this->adapter->getEntryManager()->add($entry);
 
+        $entry = new Entry(
+            'uid=bot,ou=admin,ou=users,dc=example,dc=org',
+            ['objectClass' => ['account']]
+        );
+        $this->adapter->getEntryManager()->add($entry);
+
+        $entry = new Entry(
+            'cn=shared.laptop,ou=admin,ou=users,dc=example,dc=org',
+            ['objectClass' => ['device']]
+        );
+        $this->adapter->getEntryManager()->add($entry);
+
         $users = ['David.Morris', 'Garry.White', 'Jasmine.Morgan', 'John.Smith', 'Kevin.Mathews'];
         foreach ($users as $user) {
             $names = explode('.', $user);
@@ -226,7 +238,10 @@ class LDAPUsersFixture
 
     protected function deleteAdminOrgUnit(): void
     {
-        $this->searchAndDelete('ou=admin,ou=users,dc=example,dc=org', 'objectClass=person');
+        $this->searchAndDelete(
+            'ou=admin,ou=users,dc=example,dc=org',
+            '(|(objectClass=person)(objectClass=account)(objectClass=device))'
+        );
         $entry = new Entry('ou=hr,ou=admin,ou=users,dc=example,dc=org');
         $this->removeEntity($entry);
         $entry = new Entry('ou=admin,ou=users,dc=example,dc=org');
@@ -261,12 +276,52 @@ class LDAPUsersFixture
             );
             $this->adapter->getEntryManager()->add($entry);
         }
+        $entry = new Entry(
+            'ou=client services,ou=sales,ou=users,dc=example,dc=org',
+            ['objectClass' => ['organizationalUnit']]
+        );
+        $this->adapter->getEntryManager()->add($entry);
+
+        $users = [
+            ['#Aaliyah+Haq', 'Aaliyah', 'Haq'],
+            ['Amar;(Anthony)', 'Amar', 'Anthony'],
+            ['Anthony\/Nolan', 'Anthony', 'Nolan'],
+            ['Cassidy!:Hope', 'Cassidy\\', 'Hope'],
+            ['Charlie<Carter>', 'Charlie', 'Carter'],
+            ['Chenzira.Chuki', 'Chenzira', 'Chuki'],
+            ['James="Jim"-Smith', 'James', 'Smith, III'],
+            ['Ehioze\'Ebo', 'Ehioze', 'Ebo'],
+            ['Joe,Root', 'Joe', 'Root'],
+            ['Jordan+uid=Mathews', 'Jordan', 'Mathews'],
+            ['Luke,ou=Wright', 'Luke', 'Wright'],
+            ['Jadine Jackie', 'Jadine', 'Jackie'],
+        ];
+        foreach ($users as $user) {
+            $cn = $this->adapter->escape($user[0]);
+            $entry = new Entry(
+                "cn=$cn,ou=client services,ou=sales,ou=users,dc=example,dc=org",
+                [
+                    'objectClass' => [
+                        'inetOrgPerson',
+                        'organizationalPerson',
+                        'person',
+                    ],
+                    'sn' => [$user[2]],
+                    'givenName' => [$user[1]],
+                    'displayName' => [implode(' ', [$user[1], $user[2]])],
+                    'userPassword' => [$user[0]],
+                ]
+            );
+            $this->adapter->getEntryManager()->add($entry);
+        }
     }
 
     protected function deleteSalesOrgUnit(): void
     {
         $this->searchAndDelete('ou=sales,ou=users,dc=example,dc=org', 'objectClass=person');
         $entry = new Entry('ou=marketing,ou=sales,ou=users,dc=example,dc=org');
+        $this->removeEntity($entry);
+        $entry = new Entry('ou=client services,ou=sales,ou=users,dc=example,dc=org');
         $this->removeEntity($entry);
         $entry = new Entry('ou=sales,ou=users,dc=example,dc=org');
         $this->removeEntity($entry);

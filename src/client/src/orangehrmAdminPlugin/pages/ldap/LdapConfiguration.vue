@@ -312,12 +312,12 @@ const configurationModel = {
   encryption: null,
   ldapImplementation: null,
   bindAnonymously: true,
-  bindUserDN: 'cn=admin,dc=example,dc=org',
-  bindUserPassword: 'admin',
-  baseDistinguishedName: 'dc=example,dc=com',
+  bindUserDN: null,
+  bindUserPassword: null,
+  baseDistinguishedName: null,
   searchScope: null,
   userNameAttribute: 'cn',
-  userSearchFilter: null,
+  userSearchFilter: 'objectClass=person',
   userUniqueIdAttribute: null,
   mergeLDAPUsersWithExistingSystemUsers: false,
   syncInterval: 60,
@@ -438,25 +438,39 @@ export default {
         const {data} = response.data;
         const {userLookupSettings} = data;
         const userLookupSetting = userLookupSettings[0];
-        this.configuration = {
-          ...data,
-          bindUserPassword: null,
-          encryption: this.encryptionOptions.find(
-            option => option.id === data.encryption,
-          ),
-          baseDistinguishedName: userLookupSetting?.baseDN,
-          userNameAttribute: userLookupSetting?.userNameAttribute,
-          userSearchFilter: userLookupSetting?.userSearchFilter,
-          userUniqueIdAttribute: userLookupSetting?.userUniqueIdAttribute,
-          searchScope:
-            this.searchScopeOptions.find(
-              option => option.id === userLookupSetting?.searchScope,
-            ) || this.searchScopeOptions[0],
-          ldapImplementation:
-            this.ldapImplementationOptions.find(
-              option => option.id === data.ldapImplementation,
-            ) || this.ldapImplementationOptions[0],
-        };
+        this.configuration.enable = data.enable;
+        this.configuration.hostname = data.hostname;
+        this.configuration.port = data.port;
+        this.configuration.encryption = this.encryptionOptions.find(
+          option => option.id === data.encryption,
+        );
+        this.configuration.ldapImplementation =
+          this.ldapImplementationOptions.find(
+            option => option.id === data.ldapImplementation,
+          ) || this.ldapImplementationOptions[0];
+
+        this.configuration.bindAnonymously = data.bindAnonymously;
+        this.configuration.bindUserDN = data.bindUserDN;
+
+        if (userLookupSetting) {
+          this.configuration.baseDistinguishedName = userLookupSetting?.baseDN;
+          this.configuration.userNameAttribute =
+            userLookupSetting?.userNameAttribute;
+          this.configuration.userSearchFilter =
+            userLookupSetting?.userSearchFilter;
+          this.configuration.userUniqueIdAttribute =
+            userLookupSetting?.userUniqueIdAttribute;
+        }
+        this.configuration.searchScope =
+          this.searchScopeOptions.find(
+            option => option.id === userLookupSetting?.searchScope,
+          ) || this.searchScopeOptions[0];
+
+        this.configuration.dataMapping = data.dataMapping;
+        this.configuration.mergeLDAPUsersWithExistingSystemUsers =
+          data.mergeLDAPUsersWithExistingSystemUsers;
+        this.configuration.syncInterval = data.syncInterval;
+
         this.passwordPlaceHolder = data.bindAnonymously ? null : '******';
       })
       .finally(() => {

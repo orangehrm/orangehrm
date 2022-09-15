@@ -38,7 +38,7 @@ class Education
     /**
      * @var int
      *
-     * @ORM\Column(name="id",type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -56,7 +56,7 @@ class Education
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeEducation", mappedBy="education")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="id", referencedColumnName="educationId")
+     *     @ORM\JoinColumn(name="id", referencedColumnName="educationId")
      * })
      */
     private $employeeEducation;
