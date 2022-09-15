@@ -39,7 +39,7 @@ class EmailSubscriber
     /**
      * @var EmailNotification
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmailNotification",inversedBy="emailSubscribers")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmailNotification", inversedBy="emailSubscribers")
      * @ORM\JoinColumn(name="notification_id", referencedColumnName="id")
      */
     private EmailNotification $emailNotification;

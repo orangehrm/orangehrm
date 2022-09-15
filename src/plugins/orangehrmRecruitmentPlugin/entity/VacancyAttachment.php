@@ -46,7 +46,7 @@ class VacancyAttachment
     /**
      * @var Vacancy
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Vacancy", inversedBy="vacancies", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="vacancy_id", referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="vacancy_id", referencedColumnName="id", nullable=false)
      */
     private Vacancy $vacancy;
 
@@ -88,7 +88,7 @@ class VacancyAttachment
     /**
      * @var string|null
      *
-     * @ORM\Column(name="comment",type="string", length=255)
+     * @ORM\Column(name="comment", type="string", length=255)
      */
     private ?string $comment;
 

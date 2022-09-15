@@ -33,7 +33,7 @@ class UserAuthProvider
     /**
      * @var int
      *
-     * @ORM\Column(name="id",type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -50,7 +50,7 @@ class UserAuthProvider
     /**
      * @var int
      *
-     * @ORM\Column(name="provider_type",type="integer")
+     * @ORM\Column(name="provider_type", type="integer")
      */
     private int $type;
 

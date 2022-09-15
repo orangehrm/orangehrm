@@ -60,7 +60,7 @@ class PerformanceTrackerLog
     /**
      * @var string|null
      *
-     * @ORM\Column(name="comment", type="string", length=3000,nullable=true)
+     * @ORM\Column(name="comment", type="string", length=3000, nullable=true)
      */
     private ?string $comment;
 
@@ -74,21 +74,21 @@ class PerformanceTrackerLog
     /**
      * @var string|null
      *
-     * @ORM\Column(name="achievement", type="string", length=45,nullable=true)
+     * @ORM\Column(name="achievement", type="string", length=45, nullable=true)
      */
     private ?string $achievement;
 
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="added_date", type="datetime",nullable=true)
+     * @ORM\Column(name="added_date", type="datetime", nullable=true)
      */
     private ?DateTime $addedDate = null;
 
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="modified_date", type="datetime",nullable=true)
+     * @ORM\Column(name="modified_date", type="datetime", nullable=true)
      */
     private ?DateTime $modifiedDate = null;
 
@@ -96,7 +96,7 @@ class PerformanceTrackerLog
     /**
      * @var PerformanceTracker|null
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\PerformanceTracker")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PerformanceTracker")
      * @ORM\JoinColumn(name="performance_track_id", referencedColumnName="id")
      *
      */

@@ -64,7 +64,7 @@ class EmployeeSubscription
      *
      * @ORM\OneToMany(targetEntity="Employee", mappedBy="EmployeeSubscription")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="employee_id", referencedColumnName="emp_number")
+     *     @ORM\JoinColumn(name="employee_id", referencedColumnName="emp_number")
      * })
      */
     private $Employee;

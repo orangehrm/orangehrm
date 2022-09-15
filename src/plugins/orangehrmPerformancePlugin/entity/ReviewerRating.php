@@ -45,7 +45,7 @@ class ReviewerRating
     /**
      * @var string|null
      *
-     * @ORM\Column(name="rating", type="decimal",precision=18, scale=2)
+     * @ORM\Column(name="rating", type="decimal", precision=18, scale=2)
      */
     private ?string $rating;
 
@@ -60,9 +60,9 @@ class ReviewerRating
     /**
      * @var PerformanceReview|null
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\PerformanceReview", inversedBy="ReviewerRating")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PerformanceReview", inversedBy="ReviewerRating")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="review_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="review_id", referencedColumnName="id")
      * })
      */
     private ?PerformanceReview $performanceReview;
@@ -72,7 +72,7 @@ class ReviewerRating
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Reviewer", inversedBy="ReviewerRating")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="reviewer_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="reviewer_id", referencedColumnName="id")
      * })
      */
     private Reviewer $reviewer;
@@ -80,9 +80,9 @@ class ReviewerRating
     /**
      * @var Kpi|null
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\Kpi", inversedBy="ReviewerRating")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Kpi", inversedBy="ReviewerRating")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="kpi_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="kpi_id", referencedColumnName="id")
      * })
      */
     private ?Kpi $kpi;

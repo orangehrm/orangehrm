@@ -43,14 +43,14 @@ class ReviewerGroup
     /**
      * @var string|null
      *
-     * @ORM\Column(name="name", type="string", length=50,nullable=true)
+     * @ORM\Column(name="name", type="string", length=50, nullable=true)
      */
     private ?string $name;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="piority", type="integer", length=7,nullable=true)
+     * @ORM\Column(name="piority", type="integer", length=7, nullable=true)
      */
     private ?int $piority;
 
@@ -59,7 +59,7 @@ class ReviewerGroup
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Reviewer", mappedBy="ReviewerGroup")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="reviewer_group_id")
+     *     @ORM\JoinColumn(name="id", referencedColumnName="reviewer_group_id")
      * })
      */
     private iterable $ratings;

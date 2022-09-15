@@ -43,7 +43,7 @@ class LeaveEntitlement
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", length=10, options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", length=10, options={"unsigned" : true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -67,7 +67,7 @@ class LeaveEntitlement
     /**
      * @var float
      *
-     * @ORM\Column(name="days_used", type="decimal", precision=8, scale=4, options={"default":0.0000})
+     * @ORM\Column(name="days_used", type="decimal", precision=8, scale=4, options={"default" : 0.0000})
      */
     private float $daysUsed = 0.0000;
 
@@ -118,7 +118,7 @@ class LeaveEntitlement
     /**
      * @var bool
      *
-     * @ORM\Column(name="deleted", type="boolean", options={"default":0})
+     * @ORM\Column(name="deleted", type="boolean", options={"default" : 0})
      */
     private bool $deleted = false;
 
