@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Dashboard\Dto\ActionSummary;
 
-use OrangeHRM\Dashboard\Service\EmployeeActionSummaryService;
+use OrangeHRM\Dashboard\Traits\Service\EmployeeActionSummaryServiceTrait;
 
 class ScheduledInterviewSummary implements ActionSummary
 {
+    use EmployeeActionSummaryServiceTrait;
+
     /**
      * @var array
      */
@@ -49,14 +51,16 @@ class ScheduledInterviewSummary implements ActionSummary
      */
     public function getGroup(): string
     {
-        return 'Candidates to Interview';
+        return 'Candidates To Interview';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getPendingActionCount(): int
     {
-        $employeeActionSummaryService = new EmployeeActionSummaryService();
-        return $employeeActionSummaryService->getEmployeeActionSummaryDao()->getActionableScheduledInterviewCount(
-            $this->accessibleCandidateIds
-        );
+        return $this->getEmployeeActionSummaryService()
+            ->getEmployeeActionSummaryDao()
+            ->getActionableScheduledInterviewCount($this->accessibleCandidateIds);
     }
 }

@@ -17,39 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Dashboard\Dto\ActionSummary;
+namespace OrangeHRM\Dashboard\Traits\Service;
 
-use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Dashboard\Service\EmployeeActionSummaryService;
+use OrangeHRM\Framework\Services;
 
-class PendingAction
+trait EmployeeActionSummaryServiceTrait
 {
-    use I18NHelperTrait;
+    use ServiceContainerTrait;
 
     /**
-     * @var ActionSummary
+     * @return EmployeeActionSummaryService
      */
-    private ActionSummary $actionSummary;
-
-    /**
-     * @param ActionSummary $actionSummary
-     */
-    public function __construct(ActionSummary $actionSummary)
+    protected function getEmployeeActionSummaryService(): EmployeeActionSummaryService
     {
-        $this->actionSummary = $actionSummary;
-    }
-
-    /**
-     * @return array|null
-     */
-    public function generateActionSummary(): ?array
-    {
-        if ($this->actionSummary->getPendingActionCount() > 0) {
-            return [
-                'id' => $this->actionSummary->getGroupId(),
-                'group' => $this->actionSummary->getGroup(),
-                'pendingActionCount' => $this->actionSummary->getPendingActionCount()
-            ];
-        }
-        return null;
+        return $this->getContainer()->get(Services::EMPLOYEE_ACTION_SUMMARY_SERVICE);
     }
 }

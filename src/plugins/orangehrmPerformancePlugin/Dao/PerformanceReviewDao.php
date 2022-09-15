@@ -208,61 +208,42 @@ class PerformanceReviewDao extends BaseDao
         $qb->andWhere($qb->expr()->eq('reviewGroup.name', ':reviewGroupName'))
             ->setParameter('reviewGroupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
 
-        if ($performanceReviewSearchFilterParams->isForPendingReviewActionWidget()) {
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->eq('reviewerEmployee.empNumber', ':supervisorEmpNumber'),
-                    $qb->expr()->eq('performanceReview.employee', ':empNumber')
-                )
-            );
-            $qb->setParameter(
-                'supervisorEmpNumber',
-                $performanceReviewSearchFilterParams->getReviewerEmpNumber()
-            );
-            $qb->setParameter(
-                'empNumber',
-                $performanceReviewSearchFilterParams->getEmpNumber()
-            );
-            $qb->andWhere($qb->expr()->in('performanceReview.statusId', ':statusIds'))
-                ->setParameter('statusIds', $performanceReviewSearchFilterParams->getActionableStatuses());
-        } else {
-            if (!is_null($performanceReviewSearchFilterParams->getReviewerEmpNumber())) {
-                $qb->andWhere($qb->expr()->eq('reviewerEmployee.empNumber', ':supervisorEmpNumber'))
-                    ->setParameter('supervisorEmpNumber', $performanceReviewSearchFilterParams->getReviewerEmpNumber());
-            }
+        if (!is_null($performanceReviewSearchFilterParams->getReviewerEmpNumber())) {
+            $qb->andWhere($qb->expr()->eq('reviewerEmployee.empNumber', ':supervisorEmpNumber'))
+                ->setParameter('supervisorEmpNumber', $performanceReviewSearchFilterParams->getReviewerEmpNumber());
+        }
 
-            if (!is_null($performanceReviewSearchFilterParams->getEmpNumber())) {
-                $qb->andWhere($qb->expr()->eq('performanceReview.employee', ':empNumber'))
-                    ->setParameter('empNumber', $performanceReviewSearchFilterParams->getEmpNumber());
-            }
+        if (!is_null($performanceReviewSearchFilterParams->getEmpNumber())) {
+            $qb->andWhere($qb->expr()->eq('performanceReview.employee', ':empNumber'))
+                ->setParameter('empNumber', $performanceReviewSearchFilterParams->getEmpNumber());
+        }
 
-            if (!is_null($performanceReviewSearchFilterParams->getStatusId())) {
-                $qb->andWhere($qb->expr()->eq('performanceReview.statusId', ':statusId'))
-                    ->setParameter('statusId', $performanceReviewSearchFilterParams->getStatusId());
-            } elseif ($performanceReviewSearchFilterParams->isExcludeInactiveReviews()) {
-                $qb->andWhere($qb->expr()->neq('performanceReview.statusId', ':statusId'))
-                    ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
-            }
+        if (!is_null($performanceReviewSearchFilterParams->getStatusId())) {
+            $qb->andWhere($qb->expr()->eq('performanceReview.statusId', ':statusId'))
+                ->setParameter('statusId', $performanceReviewSearchFilterParams->getStatusId());
+        } elseif ($performanceReviewSearchFilterParams->isExcludeInactiveReviews()) {
+            $qb->andWhere($qb->expr()->neq('performanceReview.statusId', ':statusId'))
+                ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
+        }
 
-            if (!is_null($performanceReviewSearchFilterParams->getFromDate())) {
-                $qb->andWhere($qb->expr()->gte('performanceReview.dueDate', ':fromDate'))
-                    ->setParameter('fromDate', $performanceReviewSearchFilterParams->getFromDate());
-            }
+        if (!is_null($performanceReviewSearchFilterParams->getFromDate())) {
+            $qb->andWhere($qb->expr()->gte('performanceReview.dueDate', ':fromDate'))
+                ->setParameter('fromDate', $performanceReviewSearchFilterParams->getFromDate());
+        }
 
-            if (!is_null($performanceReviewSearchFilterParams->getToDate())) {
-                $qb->andWhere($qb->expr()->lte('performanceReview.dueDate', ':toDate'))
-                    ->setParameter('toDate', $performanceReviewSearchFilterParams->getToDate());
-            }
+        if (!is_null($performanceReviewSearchFilterParams->getToDate())) {
+            $qb->andWhere($qb->expr()->lte('performanceReview.dueDate', ':toDate'))
+                ->setParameter('toDate', $performanceReviewSearchFilterParams->getToDate());
+        }
 
-            if (!is_null($performanceReviewSearchFilterParams->getJobTitleId())) {
-                $qb->andWhere($qb->expr()->eq('jobTitle.id', ':jobTitleId'))
-                    ->setParameter('jobTitleId', $performanceReviewSearchFilterParams->getJobTitleId());
-            }
+        if (!is_null($performanceReviewSearchFilterParams->getJobTitleId())) {
+            $qb->andWhere($qb->expr()->eq('jobTitle.id', ':jobTitleId'))
+                ->setParameter('jobTitleId', $performanceReviewSearchFilterParams->getJobTitleId());
+        }
 
-            if (!is_null($performanceReviewSearchFilterParams->getSubunitId())) {
-                $qb->andWhere($qb->expr()->in('subunit.id', ':subunitId'))
-                    ->setParameter('subunitId', $performanceReviewSearchFilterParams->getSubunitIdChain());
-            }
+        if (!is_null($performanceReviewSearchFilterParams->getSubunitId())) {
+            $qb->andWhere($qb->expr()->in('subunit.id', ':subunitId'))
+                ->setParameter('subunitId', $performanceReviewSearchFilterParams->getSubunitIdChain());
         }
 
         if (is_null($performanceReviewSearchFilterParams->getIncludeEmployees()) ||

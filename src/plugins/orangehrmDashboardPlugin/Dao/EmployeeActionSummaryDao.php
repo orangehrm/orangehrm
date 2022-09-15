@@ -20,7 +20,13 @@
 namespace OrangeHRM\Dashboard\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Dashboard\Dto\ActionableReviewSearchFilterParams;
 use OrangeHRM\Entity\CandidateVacancy;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\ReviewerGroup;
+use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
 
 class EmployeeActionSummaryDao extends BaseDao
 {
@@ -38,5 +44,69 @@ class EmployeeActionSummaryDao extends BaseDao
             ->andWhere('candidateVacancy.status = :status')
             ->setParameter('status', self::STATE_INTERVIEW_SCHEDULED);
         return $this->getPaginator($qb)->count();
+    }
+
+    /**
+     * @param ActionableReviewSearchFilterParams $actionableReviewSearchFilterParams
+     * @return int
+     */
+    public function getActionableReviewCount(
+        ActionableReviewSearchFilterParams $actionableReviewSearchFilterParams
+    ): int {
+        $query = $this->getActionableReviewQueryBuilderWrapper($actionableReviewSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($query)->count();
+    }
+
+    /**
+     * @param ActionableReviewSearchFilterParams $actionableReviewSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getActionableReviewQueryBuilderWrapper(
+        ActionableReviewSearchFilterParams $actionableReviewSearchFilterParams
+    ): QueryBuilderWrapper {
+        $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
+        $qb->leftJoin('performanceReview.employee', 'employee');
+        $qb->leftJoin('performanceReview.reviewers', 'reviewer');
+        $qb->leftJoin('reviewer.employee', 'reviewerEmployee');
+        $qb->leftJoin('reviewer.group', 'reviewGroup');
+        $qb->leftJoin('performanceReview.jobTitle', 'jobTitle');
+        $qb->leftJoin('performanceReview.subunit', 'subunit');
+
+        $qb->andWhere($qb->expr()->eq('reviewGroup.name', ':reviewGroupName'))
+            ->setParameter('reviewGroupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->eq('reviewerEmployee.empNumber', ':supervisorEmpNumber'),
+                $qb->expr()->eq('performanceReview.employee', ':empNumber')
+            )
+        );
+        $qb->setParameter(
+            'supervisorEmpNumber',
+            $actionableReviewSearchFilterParams->getReviewerEmpNumber()
+        );
+        $qb->setParameter(
+            'empNumber',
+            $actionableReviewSearchFilterParams->getEmpNumber()
+        );
+        $qb->andWhere($qb->expr()->in('performanceReview.statusId', ':statusIds'))
+            ->setParameter('statusIds', $actionableReviewSearchFilterParams->getActionableStatuses());
+
+        if (is_null($actionableReviewSearchFilterParams->getIncludeEmployees()) ||
+            $actionableReviewSearchFilterParams->getIncludeEmployees() ===
+            PerformanceReviewSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+        ) {
+            $qb->andWhere($qb->expr()->isNull('employee.employeeTerminationRecord'));
+        } elseif ($actionableReviewSearchFilterParams->getIncludeEmployees() ===
+            PerformanceReviewSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST) {
+            $qb->andWhere($qb->expr()->isNotNull('employee.employeeTerminationRecord'));
+        }
+
+        $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
+
+        $this->setSortingAndPaginationParams($qb, $actionableReviewSearchFilterParams);
+        $qb->addOrderBy('performanceReview.dueDate', ListSorter::DESCENDING);
+        $qb->addOrderBy('employee.lastName');
+        return $this->getQueryBuilderWrapper($qb);
     }
 }

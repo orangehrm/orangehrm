@@ -25,10 +25,7 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Dashboard\Dto\ActionSummary\PendingAction;
@@ -36,18 +33,15 @@ use OrangeHRM\Dashboard\Dto\ActionSummary\PendingAppraisalReviewSummary;
 use OrangeHRM\Dashboard\Dto\ActionSummary\PendingLeaveRequestSummary;
 use OrangeHRM\Dashboard\Dto\ActionSummary\PendingTimesheetSummary;
 use OrangeHRM\Dashboard\Dto\ActionSummary\ScheduledInterviewSummary;
+use OrangeHRM\Dashboard\Traits\Service\EmployeeActionSummaryServiceTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\Leave;
-use OrangeHRM\Entity\WorkflowStateMachine;
-use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
-use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
-use OrangeHRM\Time\Dto\EmployeeTimesheetListSearchFilterParams;
 
 class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
 {
     use UserRoleManagerTrait;
     use AuthUserTrait;
+    use EmployeeActionSummaryServiceTrait;
 
     /**
      * @inheritDoc
@@ -55,71 +49,18 @@ class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $empNumber = $this->getAuthUser()->getEmpNumber();
-
         $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
         $authUserIndex = array_search($empNumber, $accessibleEmpNumbers);
         unset($accessibleEmpNumbers[$authUserIndex]);
 
-        /**
-         * Pending Leave Requests
-         */
-
-        $leaveRequestSearchFilterParams = new LeaveRequestSearchFilterParams();
-        $leaveRequestSearchFilterParams->setEmpNumbers(array_values($accessibleEmpNumbers));
-        $leaveRequestSearchFilterParams->setIncludeEmployees(
-            LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
-        );
-        $leaveRequestSearchFilterParams->setStatuses([Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL]);
-        $pendingLeaveRequestSummary = new PendingLeaveRequestSummary($leaveRequestSearchFilterParams);
-
-        /**
-         * Pending Time-sheets
-         */
-
-        $employeeTimesheetFilterParams = new EmployeeTimesheetListSearchFilterParams();
-        $employeeTimesheetFilterParams->setEmployeeNumbers(array_values($accessibleEmpNumbers));
-        $actionableStatesList = $this->getUserRoleManager()
-            ->getActionableStates(
-                WorkflowStateMachine::FLOW_TIME_TIMESHEET,
-                [
-                    WorkflowStateMachine::TIMESHEET_ACTION_APPROVE,
-                    WorkflowStateMachine::TIMESHEET_ACTION_REJECT
-                ]
-            );
-        $employeeTimesheetFilterParams->setActionableStatesList($actionableStatesList);
-        $pendingTimesheetSummary = new PendingTimesheetSummary($employeeTimesheetFilterParams);
-
-        /**
-         * Pending Appraisal Reviews
-         */
-
-        $performanceReviewSearchFilterParams = new PerformanceReviewSearchFilterParams();
-        $performanceReviewSearchFilterParams->setExcludeInactiveReviews(true);
-        $performanceReviewSearchFilterParams->setIsForPendingReviewActionWidget(true);
-        $performanceReviewSearchFilterParams->setEmpNumber($empNumber);
-        $performanceReviewSearchFilterParams->setReviewerEmpNumber($empNumber);
-        $performanceReviewSearchFilterParams->setActionableStatuses(
-            [
-                WorkflowStateMachine::REVIEW_ACTIVATE,
-                WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE
-            ]
-        );
-        $pendingAppraisalReviewSummary = new PendingAppraisalReviewSummary($performanceReviewSearchFilterParams);
-
-        /**
-         * Candidates to Interview
-         */
-
         $accessibleCandidateIds = $this->getUserRoleManager()->getAccessibleEntityIds(Candidate::class);
-
-        $scheduledInterviewSummary = new ScheduledInterviewSummary($accessibleCandidateIds);
 
         $actionsSummary = [];
         $availableActionGroups = [
-            $pendingLeaveRequestSummary,
-            $pendingTimesheetSummary,
-            $pendingAppraisalReviewSummary,
-            $scheduledInterviewSummary
+            new PendingLeaveRequestSummary($accessibleEmpNumbers),
+            new PendingTimesheetSummary($accessibleEmpNumbers),
+            new PendingAppraisalReviewSummary($empNumber),
+            new ScheduledInterviewSummary($accessibleCandidateIds)
         ];
         foreach ($availableActionGroups as $actionGroup) {
             $pendingAction = new PendingAction($actionGroup);
@@ -137,14 +78,7 @@ class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        $paramRules = new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-                ),
-            ),
-        );
+        $paramRules = new ParamRuleCollection();
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
         return $paramRules;
     }

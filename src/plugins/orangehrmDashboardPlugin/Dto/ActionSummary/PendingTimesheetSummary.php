@@ -19,24 +19,38 @@
 
 namespace OrangeHRM\Dashboard\Dto\ActionSummary;
 
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Time\Dto\EmployeeTimesheetListSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class PendingTimesheetSummary implements ActionSummary
 {
     use TimesheetServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @var EmployeeTimesheetListSearchFilterParams
      */
-    private EmployeeTimesheetListSearchFilterParams $employeeTimesheetListSearchFilterParams;
+    private EmployeeTimesheetListSearchFilterParams $employeeTimesheetFilterParams;
 
     /**
-     * @param EmployeeTimesheetListSearchFilterParams $employeeTimesheetListSearchFilterParams
+     * @param int[] $accessibleEmpNumbers
      */
-    public function __construct(EmployeeTimesheetListSearchFilterParams $employeeTimesheetListSearchFilterParams)
+    public function __construct(array $accessibleEmpNumbers)
     {
-        $this->employeeTimesheetListSearchFilterParams = $employeeTimesheetListSearchFilterParams;
+        $employeeTimesheetFilterParams = new EmployeeTimesheetListSearchFilterParams();
+        $employeeTimesheetFilterParams->setEmployeeNumbers(array_values($accessibleEmpNumbers));
+        $actionableStatesList = $this->getUserRoleManager()
+            ->getActionableStates(
+                WorkflowStateMachine::FLOW_TIME_TIMESHEET,
+                [
+                    WorkflowStateMachine::TIMESHEET_ACTION_APPROVE,
+                    WorkflowStateMachine::TIMESHEET_ACTION_REJECT
+                ]
+            );
+        $employeeTimesheetFilterParams->setActionableStatesList($actionableStatesList);
+        $this->employeeTimesheetFilterParams = $employeeTimesheetFilterParams;
     }
 
     /**
@@ -52,7 +66,7 @@ class PendingTimesheetSummary implements ActionSummary
      */
     public function getGroup(): string
     {
-        return 'Timesheets to Approve';
+        return 'Timesheets To Approve';
     }
 
     /**
@@ -60,8 +74,8 @@ class PendingTimesheetSummary implements ActionSummary
      */
     public function getPendingActionCount(): int
     {
-        return $this->getTimesheetService()->getTimesheetDao()->getEmployeeTimesheetListCount(
-            $this->employeeTimesheetListSearchFilterParams
-        );
+        return $this->getTimesheetService()
+            ->getTimesheetDao()
+            ->getEmployeeTimesheetListCount($this->employeeTimesheetFilterParams);
     }
 }

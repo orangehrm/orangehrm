@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Dashboard\Dto\ActionSummary;
 
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
@@ -32,10 +33,16 @@ class PendingLeaveRequestSummary implements ActionSummary
     private LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams;
 
     /**
-     * @param LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams
+     * @param int[] $accessibleEmpNumbers
      */
-    public function __construct(LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams)
+    public function __construct(array $accessibleEmpNumbers)
     {
+        $leaveRequestSearchFilterParams = new LeaveRequestSearchFilterParams();
+        $leaveRequestSearchFilterParams->setEmpNumbers($accessibleEmpNumbers);
+        $leaveRequestSearchFilterParams->setIncludeEmployees(
+            LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+        );
+        $leaveRequestSearchFilterParams->setStatuses([Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL]);
         $this->leaveRequestSearchFilterParams = $leaveRequestSearchFilterParams;
     }
 
@@ -52,7 +59,7 @@ class PendingLeaveRequestSummary implements ActionSummary
      */
     public function getGroup(): string
     {
-        return 'Leave Requests to Approve';
+        return 'Leave Requests To Approve';
     }
 
     /**
@@ -60,8 +67,8 @@ class PendingLeaveRequestSummary implements ActionSummary
      */
     public function getPendingActionCount(): int
     {
-        return $this->getLeaveRequestService()->getLeaveRequestDao()->getLeaveRequestsCount(
-            $this->leaveRequestSearchFilterParams
-        );
+        return $this->getLeaveRequestService()
+            ->getLeaveRequestDao()
+            ->getLeaveRequestsCount($this->leaveRequestSearchFilterParams);
     }
 }

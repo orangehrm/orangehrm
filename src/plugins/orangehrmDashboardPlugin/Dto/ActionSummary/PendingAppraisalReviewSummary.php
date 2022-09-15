@@ -19,24 +19,34 @@
 
 namespace OrangeHRM\Dashboard\Dto\ActionSummary;
 
-use OrangeHRM\Performance\Dto\PerformanceReviewSearchFilterParams;
-use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
+use OrangeHRM\Dashboard\Dto\ActionableReviewSearchFilterParams;
+use OrangeHRM\Dashboard\Traits\Service\EmployeeActionSummaryServiceTrait;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
 class PendingAppraisalReviewSummary implements ActionSummary
 {
-    use PerformanceReviewServiceTrait;
+    use EmployeeActionSummaryServiceTrait;
 
     /**
-     * @var PerformanceReviewSearchFilterParams
+     * @var ActionableReviewSearchFilterParams
      */
-    private PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams;
+    private ActionableReviewSearchFilterParams $actionableReviewSearchFilterParams;
 
     /**
-     * @param PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams
+     * @param int $empNumber
      */
-    public function __construct(PerformanceReviewSearchFilterParams $performanceReviewSearchFilterParams)
+    public function __construct(int $empNumber)
     {
-        $this->performanceReviewSearchFilterParams = $performanceReviewSearchFilterParams;
+        $actionableReviewSearchFilterParams = new ActionableReviewSearchFilterParams();
+        $actionableReviewSearchFilterParams->setEmpNumber($empNumber);
+        $actionableReviewSearchFilterParams->setReviewerEmpNumber($empNumber);
+        $actionableReviewSearchFilterParams->setActionableStatuses(
+            [
+                WorkflowStateMachine::REVIEW_ACTIVATE,
+                WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE
+            ]
+        );
+        $this->actionableReviewSearchFilterParams = $actionableReviewSearchFilterParams;
     }
 
     /**
@@ -60,8 +70,8 @@ class PendingAppraisalReviewSummary implements ActionSummary
      */
     public function getPendingActionCount(): int
     {
-        return $this->getPerformanceReviewService()
-            ->getPerformanceReviewDao()
-            ->getPerformanceReviewCount($this->performanceReviewSearchFilterParams);
+        return $this->getEmployeeActionSummaryService()
+            ->getEmployeeActionSummaryDao()
+            ->getActionableReviewCount($this->actionableReviewSearchFilterParams);
     }
 }
