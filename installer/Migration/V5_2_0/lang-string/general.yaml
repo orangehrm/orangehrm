@@ -48,5 +48,8 @@ langStrings:
     value: 'This Week'
     unitId: this_week
   -
-    value: 'at'
-    unitId: at
+    value: '{lastState}: {date} at {time} (GMT {timezoneOffset})'
+    unitId: state_date_at_time_timezone_offset
+  -
+    value: '{lastState}: Today at {time} (GMT {timezoneOffset})'
+    unitId: state_today_at_time_timezone_offset

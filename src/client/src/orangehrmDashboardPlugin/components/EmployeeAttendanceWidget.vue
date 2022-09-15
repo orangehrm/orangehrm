@@ -153,13 +153,27 @@ export default {
         `${this.userDate} ${this.userTime}`,
         'yyyy-MM-dd HH:mm',
       );
-      const displayFormat = isToday(parsedDate)
-        ? `'${this.$t('general.today')} ${this.$t('general.at')}' hh:mm a`
-        : `MMM do '${this.$t('general.at')}' hh:mm a`;
-      const formattedDate = formatDate(parsedDate, displayFormat, {
+      const formattedTime = formatDate(parsedDate, 'hh:mm a', {
         locale: this.locale,
       });
-      return `${this.lastState}: ${formattedDate} (GMT ${this.timezoneOffset})`;
+
+      if (!isToday(parsedDate)) {
+        const formattedDate = formatDate(parsedDate, 'MMM do', {
+          locale: this.locale,
+        });
+        return this.$t('state_date_at_time_timezone_offset', {
+          lastState: this.lastState,
+          date: formattedDate,
+          time: formattedTime,
+          timezoneOffset: this.timezoneOffset,
+        });
+      }
+
+      return this.$t('state_today_at_time_timezone_offset', {
+        lastState: this.lastState,
+        time: formattedTime,
+        timezoneOffset: this.timezoneOffset,
+      });
     },
     currentWeek() {
       if (!this.startDate || !this.endDate) return null;
