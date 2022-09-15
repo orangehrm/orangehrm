@@ -135,7 +135,7 @@ class Framework extends HttpKernel
 
     protected function configurePlugins(Request $request): void
     {
-        $pluginConfigs = Config::get('ohrm_plugin_configs');
+        $pluginConfigs = Config::get(Config::PLUGIN_CONFIGS);
         foreach (array_values($pluginConfigs) as $pluginConfig) {
             require_once $pluginConfig['filepath'];
             /** @var PluginConfigurationInterface $configClass */
