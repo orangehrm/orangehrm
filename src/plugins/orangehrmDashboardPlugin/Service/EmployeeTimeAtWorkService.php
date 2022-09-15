@@ -50,11 +50,9 @@ class EmployeeTimeAtWorkService
     private TimesheetPeriodService $timesheetPeriodService;
 
     /**
-     * @var int
+     * @return EmployeeTimeAtWorkDao
      */
-    private int $totalTimeForWeek = 0;
-
-    public function getEmployeeTimeAtWorkDao(): EmployeeTimeAtWorkDao
+    private function getEmployeeTimeAtWorkDao(): EmployeeTimeAtWorkDao
     {
         return $this->employeeTimeAtWorkDao ??= new EmployeeTimeAtWorkDao();
     }
@@ -73,18 +71,21 @@ class EmployeeTimeAtWorkService
      * @return array
      * @throws Exception
      */
-    public function getTimeAtWorkData(int $empNumber, DateTime $currentDateTime): array
+    public function getTimeAtWorkResults(int $empNumber, DateTime $currentDateTime): array
     {
-        return $this->getDataForCurrentWeek($empNumber, $currentDateTime);
+        list($weeklyData, $totalTimeForWeek) = $this->getDataForCurrentWeek($empNumber, $currentDateTime);
+        $weeklyMetaData = $this->getTimeAtWorkMetaData($empNumber, $currentDateTime, $totalTimeForWeek);
+        return [$weeklyData, $weeklyMetaData];
     }
 
     /**
      * @param int $empNumber
      * @param DateTime $currentDateTime
+     * @param int $totalTimeForWeek
      * @return array
      * @throws Exception
      */
-    public function getTimeAtWorkMetaData(int $empNumber, DateTime $currentDateTime): array
+    private function getTimeAtWorkMetaData(int $empNumber, DateTime $currentDateTime, int $totalTimeForWeek): array
     {
         $currentUTCDateTime = (clone $currentDateTime)->setTimezone(
             new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
@@ -104,7 +105,7 @@ class EmployeeTimeAtWorkService
             'currentWeek' => [
                 'startDate' => $this->getDateDetails($weekStartDate),
                 'endDate' => $this->getDateDetails($weekEndDate),
-                'totalTime' => $this->getTimeInHoursAndMinutes($this->totalTimeForWeek)
+                'totalTime' => $this->getTimeInHoursAndMinutes($totalTimeForWeek)
             ]
         ];
     }
@@ -242,6 +243,7 @@ class EmployeeTimeAtWorkService
 
         $counter = 0;
         $weeklyData = [];
+        $totalTimeForWeek = 0;
 
         while ($counter < 7) {
             $totalTimeForDay = $this->getTotalTimeForGivenDate($empNumber, $startUTCDateTime);
@@ -258,10 +260,10 @@ class EmployeeTimeAtWorkService
             $startDateTime = clone $startDateTime;
             $startDateTime = $startDateTime->add(new DateInterval('P1D'));
 
-            $this->totalTimeForWeek = $this->totalTimeForWeek + $totalTimeForDay;
+            $totalTimeForWeek += $totalTimeForDay;
             $counter++;
         }
-        return $weeklyData;
+        return [$weeklyData, $totalTimeForWeek];
     }
 
     /**

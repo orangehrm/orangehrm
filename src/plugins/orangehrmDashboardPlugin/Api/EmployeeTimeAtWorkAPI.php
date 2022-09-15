@@ -77,10 +77,15 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
             );
         }
 
+        list($timeAtWorkDate, $timeAtWorkMetaData) = $this->getEmployeeTimeAtWorkService()->getTimeAtWorkResults(
+            $empNumber,
+            $currentDateTime
+        );
+
         return new EndpointResourceResult(
             ArrayModel::class,
-            $this->getEmployeeTimeAtWorkService()->getTimeAtWorkData($empNumber, $currentDateTime),
-            new ParameterBag($this->getEmployeeTimeAtWorkService()->getTimeAtWorkMetaData($empNumber, $currentDateTime))
+            $timeAtWorkDate,
+            new ParameterBag($timeAtWorkMetaData)
         );
     }
 
