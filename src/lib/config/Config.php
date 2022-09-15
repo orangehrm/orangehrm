@@ -24,12 +24,15 @@ use Conf;
 class Config
 {
     public const PLUGINS = 'ohrm_plugins';
+    public const PLUGIN_PATHS = 'ohrm_plugin_paths';
+    public const PLUGIN_CONFIGS = 'ohrm_plugin_configs';
     public const BASE_DIR = 'ohrm_base_dir';
     public const SRC_DIR = 'ohrm_src_dir';
     public const PLUGINS_DIR = 'ohrm_plugins_dir';
     public const PUBLIC_DIR = 'ohrm_public_dir';
     public const LOG_DIR = 'ohrm_log_dir';
     public const CACHE_DIR = 'ohrm_cache_dir';
+    public const CONFIG_DIR = 'ohrm_config_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
     public const APP_TEMPLATE_DIR = 'ohrm_app_template_dir';
     public const TEST_DIR = 'ohrm_test_dir';
