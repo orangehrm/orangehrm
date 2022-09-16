@@ -106,7 +106,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/employees/leaves',
+      'api/v2/dashboard/employees/action-summary',
     );
 
     return {
@@ -117,6 +117,10 @@ export default {
   data() {
     return {
       myActions: [],
+      leaveRequestCount: 0,
+      timeSheetCount: 0,
+      reviewCount: 0,
+      interviewCount: 0,
     };
   },
 
@@ -136,29 +140,19 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.myActions = data.map(item => {
-          const {group, pendingActionsCount} = item;
-          let leaveRequestCount = 0;
-          let timeSheetCount = 0;
-          let reviewCount = 0;
-          let interviewCount = 0;
-          if (group === 'Leave Requests to Approve') {
-            leaveRequestCount = pendingActionsCount;
+          const {group, pendingActionCount} = item;
+          if (group === 'Leave Requests To Approve') {
+            this.leaveRequestCount = pendingActionCount;
           }
-          if (group === 'Timesheets to Approve') {
-            timeSheetCount = pendingActionsCount;
+          if (group === 'Timesheets To Approve') {
+            this.timeSheetCount = pendingActionCount;
           }
-          if (group === 'Performance Reviews to Evaluate') {
-            reviewCount = pendingActionsCount;
+          if (group === 'Performance Reviews To Evaluate') {
+            this.reviewCount = pendingActionCount;
           }
-          if (group === 'Candidates to Interview') {
-            interviewCount = pendingActionsCount;
+          if (group === 'Candidates To Interview') {
+            this.interviewCount = pendingActionCount;
           }
-          return {
-            leaveRequestCount,
-            timeSheetCount,
-            reviewCount,
-            interviewCount,
-          };
         });
       })
       .finally(() => {
