@@ -87,5 +87,24 @@ class EmployeeTimeAtWorkDaoTest extends KernelTestCase
         $this->assertEquals(new DateTime('2022-09-05 18:00:00'), $attendanceRecords[0]->getPunchOutUtcTime());
         $this->assertEquals(new DateTime('2022-09-05 23:30:00'), $attendanceRecords[0]->getPunchOutUserTime());
         $this->assertEquals('5.5', $attendanceRecords[0]->getPunchOutTimeOffset());
+
+        /**
+         * punch in 2022-09-13 and punch out 2022-09-15, given date 2022-09-14 00:00:00 +5.5
+         */
+        $startUTCDateTime = new DateTime('2022-09-13 18:30:00', new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC));
+        $endUTCDateTime = (clone $startUTCDateTime)->add(new DateInterval('P1D'));
+        $attendanceRecords = $this->employeeTimeAtWorkDao->getAttendanceRecordsByEmployeeAndDate(
+            4,
+            $startUTCDateTime,
+            $endUTCDateTime
+        );
+        $this->assertCount(1, $attendanceRecords);
+        $this->assertEquals('PUNCHED OUT', $attendanceRecords[0]->getState());
+        $this->assertEquals(new DateTime('2022-09-13 16:30:00'), $attendanceRecords[0]->getPunchInUtcTime());
+        $this->assertEquals(new DateTime('2022-09-13 22:00:00'), $attendanceRecords[0]->getPunchInUserTime());
+        $this->assertEquals('5.5', $attendanceRecords[0]->getPunchInTimeOffset());
+        $this->assertEquals(new DateTime('2022-09-14 20:30:00'), $attendanceRecords[0]->getPunchOutUtcTime());
+        $this->assertEquals(new DateTime('2022-09-15 02:00:00'), $attendanceRecords[0]->getPunchOutUserTime());
+        $this->assertEquals('5.5', $attendanceRecords[0]->getPunchOutTimeOffset());
     }
 }

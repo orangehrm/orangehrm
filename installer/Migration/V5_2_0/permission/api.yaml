@@ -61,9 +61,21 @@ apiv2_dashboard_employee_time_at_work:
     update: false
     delete: false
   permissions:
-    - { role: Admin,permission: { read: true,create: false,update: false,delete: false,self: false } }
-    - { role: ESS,permission: { read: true,create: false,update: false,delete: false,self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
+apiv2_dashboard_employee_action_summary:
+  description: "API-v2 Dashboard - Employee Action Summary"
+  api: OrangeHRM\Dashboard\Api\EmployeeActionSummaryAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 ##########################
 #        LDAP
