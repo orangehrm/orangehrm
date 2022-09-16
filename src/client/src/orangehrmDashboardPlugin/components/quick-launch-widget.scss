@@ -36,6 +36,12 @@
       padding: 12px;
       box-sizing: border-box;
     }
+    &:focus,
+    &:hover,
+    &:active {
+      color: $oxd-primary-one-color;
+      background-color: $oxd-primary-one-alpha-15-color;
+    }
   }
   &-heading {
     width: 75px;
