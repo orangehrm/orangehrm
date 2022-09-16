@@ -9,6 +9,7 @@ GetOne:
     services:
       dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     data:
       [
         {
@@ -121,6 +122,13 @@ GetOne:
           "hours": 6,
           "minutes": 24
         }
+      },
+      "currentUser": {
+        "empNumber": 1,
+        "firstName": "Kayla",
+        "middleName": "T",
+        "lastName": "Abbey",
+        "terminationId": null
       }
     }
 
@@ -250,6 +258,13 @@ GetOne:
           "hours": 6,
           "minutes": 24
         }
+      },
+      "currentUser": {
+        "empNumber": 2,
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "lastName": "Abel",
+        "terminationId": null
       }
     }
 
@@ -261,6 +276,7 @@ GetOne:
     services:
       dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       empNumber: 2
     data:
@@ -375,6 +391,13 @@ GetOne:
           "hours": 6,
           "minutes": 24
         }
+      },
+      "currentUser": {
+        "empNumber": 2,
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "lastName": "Abel",
+        "terminationId": null
       }
     }
 
@@ -383,6 +406,7 @@ GetOne:
     services:
       dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       currentDate: "2022-09-06"
       timezoneOffset: 5.5
@@ -498,6 +522,13 @@ GetOne:
           "hours": 19,
           "minutes": 0
         }
+      },
+      "currentUser": {
+        "empNumber": 4,
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "lastName": "Sherin",
+        "terminationId": null
       }
     }
 
@@ -506,6 +537,7 @@ GetOne:
     services:
       dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       currentDate: "2022-09-13"
       timezoneOffset: 5.5
@@ -621,6 +653,13 @@ GetOne:
           "hours": 43,
           "minutes": 0
         }
+      },
+      "currentUser": {
+        "empNumber": 4,
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "lastName": "Sherin",
+        "terminationId": null
       }
     }
 
@@ -629,6 +668,7 @@ GetOne:
     services:
       dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       currentDate: "2022-10-13"
       timezoneOffset: 5.5
@@ -744,6 +784,13 @@ GetOne:
           "hours": 2,
           "minutes": 0
         }
+      },
+      "currentUser": {
+        "empNumber": 5,
+        "firstName": "Paul",
+        "middleName": "William",
+        "lastName": "Walker",
+        "terminationId": null
       }
     }
 
@@ -752,6 +799,7 @@ GetOne:
     services:
       dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       currentDate: "2022-12-17"
       timezoneOffset: 5.5
@@ -867,6 +915,13 @@ GetOne:
           "hours": 5,
           "minutes": 0
         }
+      },
+      "currentUser": {
+        "empNumber": 5,
+        "firstName": "Paul",
+        "middleName": "William",
+        "lastName": "Walker",
+        "terminationId": null
       }
     }
 
@@ -875,6 +930,7 @@ GetOne:
     services:
       dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       currentDate: "2022-12-24"
       timezoneOffset: 5.5
@@ -990,6 +1046,13 @@ GetOne:
           "hours": 4,
           "minutes": 0
         }
+      },
+      "currentUser": {
+        "empNumber": 5,
+        "firstName": "Paul",
+        "middleName": "William",
+        "lastName": "Walker",
+        "terminationId": null
       }
     }
 
@@ -1001,6 +1064,7 @@ GetOne:
     services:
       dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     query:
       empNumber: 4
     data:
@@ -1115,6 +1179,13 @@ GetOne:
           "hours": 0,
           "minutes": 0
         }
+      },
+      "currentUser": {
+        "empNumber": 4,
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "lastName": "Sherin",
+        "terminationId": null
       }
     }
 
@@ -1244,6 +1315,13 @@ GetOne:
           "hours": 6,
           "minutes": 24
         }
+      },
+      "currentUser": {
+        "empNumber": 2,
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "lastName": "Abel",
+        "terminationId": null
       }
     }
 

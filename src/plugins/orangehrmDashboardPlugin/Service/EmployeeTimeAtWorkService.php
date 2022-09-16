@@ -29,12 +29,14 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Dashboard\Dao\EmployeeTimeAtWorkDao;
 use OrangeHRM\Dashboard\Dto\TimeAtWorkLastActionDetails;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use OrangeHRM\Time\Service\TimesheetPeriodService;
 
 class EmployeeTimeAtWorkService
 {
     use DateTimeHelperTrait;
     use AuthUserTrait;
+    use EmployeeServiceTrait;
 
     public const STATE_PUNCHED_IN = 'PUNCHED IN';
     public const STATE_PUNCHED_OUT = 'PUNCHED OUT';
@@ -106,7 +108,8 @@ class EmployeeTimeAtWorkService
                 'startDate' => $this->getDateDetails($weekStartDate),
                 'endDate' => $this->getDateDetails($weekEndDate),
                 'totalTime' => $this->getTimeInHoursAndMinutes($totalTimeForWeek)
-            ]
+            ],
+            'currentUser' => $this->getCurrentUserData($empNumber)
         ];
     }
 
@@ -285,5 +288,22 @@ class EmployeeTimeAtWorkService
     private function getDateTimeInUTC(DateTime $dateTime): DateTime
     {
         return new DateTime($dateTime->format('Y-m-d H:i'), new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC));
+    }
+
+    /**
+     * @param int $empNumber
+     * @return array
+     */
+    private function getCurrentUserData(int $empNumber): array
+    {
+        $user = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
+        return [
+            'empNumber' => $user->getEmpNumber(),
+            'firstName' => $user->getFirstName(),
+            'middleName' => $user->getMiddleName(),
+            'lastName' => $user->getLastName(),
+            'terminationId' => is_null($user->getEmployeeTerminationRecord()) ?
+                null : $user->getEmployeeTerminationRecord()->getId()
+        ];
     }
 }
