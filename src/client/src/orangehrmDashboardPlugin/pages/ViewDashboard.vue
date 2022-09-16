@@ -26,6 +26,9 @@
     >
       <employee-attendance-widget></employee-attendance-widget>
     </oxd-grid-item>
+    <oxd-grid-item class="orangehrm-dashboard-widget">
+      <quick-launch-widget></quick-launch-widget>
+    </oxd-grid-item>
     <oxd-grid-item
       v-if="$can.read('leave_widget')"
       class="orangehrm-dashboard-widget"
@@ -48,6 +51,7 @@
 </template>
 
 <script>
+import QuickLaunchWidget from '@/orangehrmDashboardPlugin/components/QuickLaunchWidget.vue';
 import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/EmployeeSubunitWidget.vue';
 import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
 import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
@@ -55,6 +59,7 @@ import EmployeeAttendanceWidget from '@/orangehrmDashboardPlugin/components/Empl
 
 export default {
   components: {
+    'quick-launch-widget': QuickLaunchWidget,
     'employee-subunit-widget': EmployeeSubunitWidget,
     'employee-location-widget': EmployeeLocationWidget,
     'employees-on-leave-widget': EmployeesOnLeaveWidget,
