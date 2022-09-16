@@ -71,3 +71,6 @@ langStrings:
   -
     value: '{pendingActionsCount,plural, =0{No Records Found} one{(1) Candidate to Interview} other{ (#) Candidates to Interview}}'
     unitId: n_pending_candidate_interview
+  -
+    value: 'No Pending Actions to Perform'
+    unitId: no_pending_actions

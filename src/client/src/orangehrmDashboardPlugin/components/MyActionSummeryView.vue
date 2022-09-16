@@ -27,8 +27,8 @@
     :loading="isLoading"
     :title="$t('general.my_actions')"
   >
-    <div class="orangehrm-todo-list">
-      <div class="orangehrm-todo-list-item">
+    <div v-if="myActions.length > 0" class="orangehrm-todo-list">
+      <div v-if="leaveRequestCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="clock"
@@ -36,10 +36,14 @@
           @click="onClickPendingLeave"
         />
         <oxd-text tag="p" @click="onClickPendingLeave">
-          (100) Leave Request To Aprove
+          {{
+            $t('general.n_pending_leave_request', {
+              pendingActionsCount: leaveRequestCount,
+            })
+          }}
         </oxd-text>
       </div>
-      <div class="orangehrm-todo-list-item">
+      <div v-if="timeSheetCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="calendar3"
@@ -47,10 +51,14 @@
           @click="onClickPendingTimesheet"
         />
         <oxd-text tag="p" @click="onClickPendingTimesheet">
-          (4) Timesheet to aprove
+          {{
+            $t('general.n_pending_time_sheet', {
+              pendingActionsCount: timeSheetCount,
+            })
+          }}
         </oxd-text>
       </div>
-      <div class="orangehrm-todo-list-item">
+      <div v-if="reviewCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="person-fill"
@@ -58,10 +66,14 @@
           @click="onClickPendingReview"
         />
         <oxd-text tag="p" @click="onClickPendingReview">
-          (1) Performance Review to aprove
+          {{
+            $t('general.n_pending_performance_evaluate', {
+              pendingActionsCount: reviewCount,
+            })
+          }}
         </oxd-text>
       </div>
-      <div class="orangehrm-todo-list-item">
+      <div v-if="interviewCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="people-fill"
@@ -69,7 +81,11 @@
           @click="onClickPendingInterview"
         />
         <oxd-text tag="p" @click="onClickPendingInterview">
-          (3) candidate to interview
+          {{
+            $t('general.n_pending_candidate_interview', {
+              pendingActionsCount: interviewCount,
+            })
+          }}
         </oxd-text>
       </div>
     </div>
@@ -90,7 +106,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/employees/action-summary',
+      'api/v2/dashboard/employees/leaves',
     );
 
     return {
@@ -99,7 +115,18 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      myActions: [],
+    };
+  },
+
+  computed: {
+    isEmpty() {
+      return this.myActions.length === 0;
+    },
+    emptyText() {
+      return this.$t('general.no_pending_actions');
+    },
   },
 
   beforeMount() {
@@ -107,7 +134,32 @@ export default {
     this.http
       .getAll()
       .then(response => {
-        const {data, meta} = response.data;
+        const {data} = response.data;
+        this.myActions = data.map(item => {
+          const {group, pendingActionsCount} = item;
+          let leaveRequestCount = 0;
+          let timeSheetCount = 0;
+          let reviewCount = 0;
+          let interviewCount = 0;
+          if (group === 'Leave Requests to Approve') {
+            leaveRequestCount = pendingActionsCount;
+          }
+          if (group === 'Timesheets to Approve') {
+            timeSheetCount = pendingActionsCount;
+          }
+          if (group === 'Performance Reviews to Evaluate') {
+            reviewCount = pendingActionsCount;
+          }
+          if (group === 'Candidates to Interview') {
+            interviewCount = pendingActionsCount;
+          }
+          return {
+            leaveRequestCount,
+            timeSheetCount,
+            reviewCount,
+            interviewCount,
+          };
+        });
       })
       .finally(() => {
         this.isLoading = false;
@@ -145,6 +197,7 @@ export default {
     & p {
       font-size: 12px;
       margin-left: 0.5rem;
+      cursor: pointer;
     }
   }
 }
