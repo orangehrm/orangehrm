@@ -20,8 +20,7 @@
 
 <template>
   <base-widget
-    icon="leavelist"
-    icon-type="svg"
+    icon="list-check"
     :empty="isEmpty"
     :empty-text="emptyText"
     :loading="isLoading"
