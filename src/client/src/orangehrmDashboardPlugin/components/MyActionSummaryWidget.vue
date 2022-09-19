@@ -30,7 +30,7 @@
       <div v-if="leaveRequestCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
-          name="clock"
+          name="attendanceAlt"
           display-type="success"
           @click="onClickPendingLeave"
         />
@@ -45,7 +45,7 @@
       <div v-if="timeSheetCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
-          name="calendar3"
+          name="timeAlt"
           display-type="warn"
           @click="onClickPendingTimesheet"
         />
@@ -60,7 +60,7 @@
       <div v-if="reviewCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
-          name="person-fill"
+          name="appraisals"
           display-type="danger"
           @click="onClickPendingReview"
         />
@@ -75,7 +75,7 @@
       <div v-if="interviewCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
-          name="people-fill"
+          name="interview"
           display-type="info"
           @click="onClickPendingInterview"
         />

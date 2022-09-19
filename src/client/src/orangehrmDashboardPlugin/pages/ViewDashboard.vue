@@ -62,7 +62,7 @@ import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/Employe
 import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
 import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
 import EmployeeAttendanceWidget from '@/orangehrmDashboardPlugin/components/EmployeeAttendanceWidget.vue';
-import MyActionSummeryViewWidget from '@/orangehrmDashboardPlugin/components/MyActionSummeryView.vue';
+import MyActionSummeryViewWidget from '@/orangehrmDashboardPlugin/components/MyActionSummaryWidget.vue';
 
 export default {
   components: {
