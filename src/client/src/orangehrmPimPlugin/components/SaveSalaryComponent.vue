@@ -327,11 +327,11 @@ export default {
     this.$nextTick(() => {
       this.rules.salaryAmount.push(v => {
         const min = this.minAmount ? this.minAmount : 0;
-        return v >= min || 'Should be within Min/Max values';
+        return v >= min || this.$t('pim.should_be_within_min_max_values');
       });
       this.rules.salaryAmount.push(v => {
         const max = this.maxAmount ? this.maxAmount : 999999999;
-        return v <= max || 'Should be within Min/Max values';
+        return v <= max || this.$t('pim.should_be_within_min_max_values');
       });
     });
   },
