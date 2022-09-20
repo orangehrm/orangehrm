@@ -75,7 +75,7 @@
           }}
         </oxd-text>
       </div>
-      <div class="orangehrm-todo-list-item">
+      <div v-if="selfReviewCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="appraisals"
@@ -202,23 +202,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-todo-list {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-
-  &-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-
-    & p {
-      font-size: 12px;
-      margin-left: 0.5rem;
-      cursor: pointer;
-    }
-  }
-}
-</style>
+<style src="./my-action-summary-widget.scss" lang="scss" scoped></style>
