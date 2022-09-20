@@ -78,17 +78,17 @@ class EmployeeActionSummaryDaoTest extends KernelTestCase
                 WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE
             ]
         );
-        $count = $this->employeeActionSummaryDao->getActionableReviewCount($actionableReviewSearchFilterParams);
-        $this->assertEquals(1, $count);
+        $count = $this->employeeActionSummaryDao->getPendingAppraisalReviewCount($actionableReviewSearchFilterParams);
+        $this->assertEquals(0, $count);
 
         $actionableReviewSearchFilterParams->setEmpNumber(5);
         $actionableReviewSearchFilterParams->setReviewerEmpNumber(5);
-        $count = $this->employeeActionSummaryDao->getActionableReviewCount($actionableReviewSearchFilterParams);
+        $count = $this->employeeActionSummaryDao->getPendingAppraisalReviewCount($actionableReviewSearchFilterParams);
         $this->assertEquals(1, $count);
 
         $actionableReviewSearchFilterParams->setEmpNumber(6);
         $actionableReviewSearchFilterParams->setReviewerEmpNumber(6);
-        $count = $this->employeeActionSummaryDao->getActionableReviewCount($actionableReviewSearchFilterParams);
+        $count = $this->employeeActionSummaryDao->getPendingAppraisalReviewCount($actionableReviewSearchFilterParams);
         $this->assertEquals(0, $count);
     }
 }

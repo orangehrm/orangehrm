@@ -38,7 +38,6 @@ class PendingAppraisalReviewSummary implements ActionSummary
     public function __construct(int $empNumber)
     {
         $actionableReviewSearchFilterParams = new ActionableReviewSearchFilterParams();
-        $actionableReviewSearchFilterParams->setEmpNumber($empNumber);
         $actionableReviewSearchFilterParams->setReviewerEmpNumber($empNumber);
         $actionableReviewSearchFilterParams->setActionableStatuses(
             [
@@ -72,6 +71,6 @@ class PendingAppraisalReviewSummary implements ActionSummary
     {
         return $this->getEmployeeActionSummaryService()
             ->getEmployeeActionSummaryDao()
-            ->getActionableReviewCount($this->actionableReviewSearchFilterParams);
+            ->getPendingAppraisalReviewCount($this->actionableReviewSearchFilterParams);
     }
 }

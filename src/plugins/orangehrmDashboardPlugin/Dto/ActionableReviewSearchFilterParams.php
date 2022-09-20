@@ -49,9 +49,14 @@ class ActionableReviewSearchFilterParams extends FilterParams
     protected string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
 
     /**
-     * @var array
+     * @var array|null
      */
-    protected array $actionableStatuses;
+    protected ?array $actionableStatuses = null;
+
+    /**
+     * @var array|null
+     */
+    protected ?array $selfReviewStatuses = null;
 
     /**
      * @return int|null
@@ -102,9 +107,9 @@ class ActionableReviewSearchFilterParams extends FilterParams
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getActionableStatuses(): array
+    public function getActionableStatuses(): ?array
     {
         return $this->actionableStatuses;
     }
@@ -115,5 +120,21 @@ class ActionableReviewSearchFilterParams extends FilterParams
     public function setActionableStatuses(array $actionableStatuses): void
     {
         $this->actionableStatuses = $actionableStatuses;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getSelfReviewStatuses(): ?array
+    {
+        return $this->selfReviewStatuses;
+    }
+
+    /**
+     * @param array $selfReviewStatuses
+     */
+    public function setSelfReviewStatuses(array $selfReviewStatuses): void
+    {
+        $this->selfReviewStatuses = $selfReviewStatuses;
     }
 }
