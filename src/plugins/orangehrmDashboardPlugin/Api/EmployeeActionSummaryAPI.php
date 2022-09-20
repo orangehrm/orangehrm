@@ -31,6 +31,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Dashboard\Dto\ActionSummary\PendingAction;
 use OrangeHRM\Dashboard\Dto\ActionSummary\PendingAppraisalReviewSummary;
 use OrangeHRM\Dashboard\Dto\ActionSummary\PendingLeaveRequestSummary;
+use OrangeHRM\Dashboard\Dto\ActionSummary\PendingSelfReviewSummary;
 use OrangeHRM\Dashboard\Dto\ActionSummary\PendingTimesheetSummary;
 use OrangeHRM\Dashboard\Dto\ActionSummary\ScheduledInterviewSummary;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeActionSummaryServiceTrait;
@@ -49,17 +50,21 @@ class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $empNumber = $this->getAuthUser()->getEmpNumber();
+
         $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
         $authUserIndex = array_search($empNumber, $accessibleEmpNumbers);
-        unset($accessibleEmpNumbers[$authUserIndex]);
+        if ($authUserIndex !== false) {
+            unset($accessibleEmpNumbers[$authUserIndex]);
+        }
 
         $accessibleCandidateIds = $this->getUserRoleManager()->getAccessibleEntityIds(Candidate::class);
 
         $actionsSummary = [];
         $availableActionGroups = [
-            new PendingLeaveRequestSummary($accessibleEmpNumbers),
-            new PendingTimesheetSummary($accessibleEmpNumbers),
+            new PendingLeaveRequestSummary(array_values($accessibleEmpNumbers)),
+            new PendingTimesheetSummary(array_values($accessibleEmpNumbers)),
             new PendingAppraisalReviewSummary($empNumber),
+            new PendingSelfReviewSummary($empNumber),
             new ScheduledInterviewSummary($accessibleCandidateIds)
         ];
         foreach ($availableActionGroups as $actionGroup) {

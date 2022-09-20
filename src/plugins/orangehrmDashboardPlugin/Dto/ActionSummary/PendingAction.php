@@ -43,11 +43,12 @@ class PendingAction
      */
     public function generateActionSummary(): ?array
     {
-        if ($this->actionSummary->getPendingActionCount() > 0) {
+        $pendingActionCount = $this->actionSummary->getPendingActionCount();
+        if ($pendingActionCount > 0) {
             return [
                 'id' => $this->actionSummary->getGroupId(),
                 'group' => $this->actionSummary->getGroup(),
-                'pendingActionCount' => $this->actionSummary->getPendingActionCount()
+                'pendingActionCount' => $pendingActionCount
             ];
         }
         return null;

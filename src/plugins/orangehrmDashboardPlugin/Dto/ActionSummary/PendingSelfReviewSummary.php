@@ -19,39 +19,56 @@
 
 namespace OrangeHRM\Dashboard\Dto\ActionSummary;
 
+use OrangeHRM\Dashboard\Dto\ActionableReviewSearchFilterParams;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeActionSummaryServiceTrait;
+use OrangeHRM\Entity\Reviewer;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
-class ScheduledInterviewSummary implements ActionSummary
+class PendingSelfReviewSummary implements ActionSummary
 {
     use EmployeeActionSummaryServiceTrait;
 
     /**
-     * @var array
+     * @var ActionableReviewSearchFilterParams
      */
-    private array $accessibleCandidateIds;
+    private ActionableReviewSearchFilterParams $actionableReviewSearchFilterParams;
 
     /**
-     * @param array $accessibleCandidateIds
+     * @param int $empNumber
      */
-    public function __construct(array $accessibleCandidateIds)
+    public function __construct(int $empNumber)
     {
-        $this->accessibleCandidateIds = $accessibleCandidateIds;
+        $actionableReviewSearchFilterParams = new ActionableReviewSearchFilterParams();
+        $actionableReviewSearchFilterParams->setEmpNumber($empNumber);
+        $actionableReviewSearchFilterParams->setActionableStatuses(
+            [
+                WorkflowStateMachine::REVIEW_ACTIVATE,
+                WorkflowStateMachine::REVIEW_IN_PROGRESS_SAVE
+            ]
+        );
+        $actionableReviewSearchFilterParams->setSelfReviewStatuses(
+            [
+                Reviewer::STATUS_ACTIVATED,
+                Reviewer::STATUS_IN_PROGRESS
+            ]
+        );
+        $this->actionableReviewSearchFilterParams = $actionableReviewSearchFilterParams;
     }
 
     /**
-     * @return int
+     * @inheritDoc
      */
     public function getGroupId(): int
     {
-        return 5;
+        return 4;
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getGroup(): string
     {
-        return 'Candidates To Interview';
+        return 'Pending Self Reviews';
     }
 
     /**
@@ -61,6 +78,6 @@ class ScheduledInterviewSummary implements ActionSummary
     {
         return $this->getEmployeeActionSummaryService()
             ->getEmployeeActionSummaryDao()
-            ->getActionableScheduledInterviewCount($this->accessibleCandidateIds);
+            ->getPendingSelfReviewCount($this->actionableReviewSearchFilterParams);
     }
 }
