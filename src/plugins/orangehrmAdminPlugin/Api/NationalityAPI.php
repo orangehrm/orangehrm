@@ -162,6 +162,29 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/nationalities",
+     *     tags={"Admin/Nationality"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="name", type="string"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-NationalityModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */

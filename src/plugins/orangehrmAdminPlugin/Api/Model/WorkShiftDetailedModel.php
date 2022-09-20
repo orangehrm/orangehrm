@@ -26,6 +26,24 @@ use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\WorkShift;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-WorkShiftDetailedModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="hoursPerDay", type="number"),
+ *     @OA\Property(property="startTime", type="string"),
+ *     @OA\Property(property="endTime", type="string"),
+ *     @OA\Property(
+ *         property="employees",
+ *         type="array",
+ *         @OA\Items(
+ *             @OA\Property(ref="#/components/schemas/Pim-EmployeeModel"),
+ *         )
+ *     )
+ * )
+ */
 class WorkShiftDetailedModel implements Normalizable
 {
     use NormalizerServiceTrait;

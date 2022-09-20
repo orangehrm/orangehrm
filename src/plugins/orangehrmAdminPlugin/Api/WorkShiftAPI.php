@@ -51,6 +51,35 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     public const PARAM_RULE_NAME_MAX_LENGTH = 50;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/work-shifts",
+     *     tags={"Admin/WorkShift"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=WorkShiftSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Admin-WorkShiftModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -77,6 +106,27 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/work-shifts/{id}",
+     *     tags={"Admin/WorkShift"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-WorkShiftDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -102,6 +152,38 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/work-shifts",
+     *     tags={"Admin/WorkShift"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="hoursPerDay", type="string"),
+     *             @OA\Property(property="startTime", type="string"),
+     *             @OA\Property(property="endTime", type="string"),
+     *             @OA\Property(
+     *                 property="empNumbers",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="integer",
+     *                 )
+     *             ),
+     *             required={"name,hoursPerDay,startTime,endTime"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-WorkShiftDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -162,6 +244,13 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/admin/work-shifts",
+     *     tags={"Admin/WorkShift"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
@@ -183,6 +272,42 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/work-shifts/{id}",
+     *     tags={"Admin/WorkShift"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="hoursPerDay", type="string"),
+     *             @OA\Property(property="startTime", type="string"),
+     *             @OA\Property(property="endTime", type="string"),
+     *             @OA\Property(
+     *                 property="empNumbers",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="integer",
+     *                 )
+     *             ),
+     *             required={"name,hoursPerDay,startTime,endTime"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-WorkShiftDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

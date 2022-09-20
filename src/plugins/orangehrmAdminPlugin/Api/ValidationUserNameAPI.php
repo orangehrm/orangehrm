@@ -43,6 +43,38 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_USER_NAME_MAX_LENGTH = 40;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/validation/user-name",
+     *     tags={"Admin/Users"},
+     *     @OA\Parameter(
+     *         name="userName",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Admin-CurrencyTypeModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
