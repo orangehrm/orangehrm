@@ -111,6 +111,7 @@ import usei18n from '@/core/util/composable/usei18n';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'LeaveViewRequest',
@@ -140,6 +141,7 @@ export default {
     const {$t} = usei18n();
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     const leaveRequestNormalizer = data => {
       return data.map(item => {
@@ -211,6 +213,7 @@ export default {
       processLeaveAction,
       jsDateFormat,
       locale,
+      translateEmpName: $tEmpName,
     };
   },
 
@@ -258,7 +261,7 @@ export default {
     employeeName() {
       const employee = this.response?.meta?.employee;
       if (employee) {
-        return this.translateEmpName(this.employee, {
+        return this.translateEmpName(employee, {
           includeMiddle: true,
           excludePastEmpTag: false,
         });

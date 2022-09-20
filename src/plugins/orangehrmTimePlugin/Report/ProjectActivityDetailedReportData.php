@@ -25,6 +25,7 @@ use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Time\Api\Model\ProjectActivityModel;
 use OrangeHRM\Time\Dto\ProjectActivityDetailedReportSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
@@ -35,6 +36,7 @@ class ProjectActivityDetailedReportData implements ReportData
     use NumberHelperTrait;
     use DateTimeHelperTrait;
     use NormalizerServiceTrait;
+    use I18NHelperTrait;
 
     /**
      * @var ProjectActivityDetailedReportSearchFilterParams
@@ -58,7 +60,7 @@ class ProjectActivityDetailedReportData implements ReportData
         foreach ($employees as $employee) {
             $termination = $employee['terminationId'];
             $result[] = [
-                ProjectActivityReport::PARAMETER_EMPLOYEE_NAME => $termination === null ? $employee['fullName'] : $employee['fullName'] . ' (Past employee)',
+                ProjectActivityReport::PARAMETER_EMPLOYEE_NAME => $termination === null ? $employee['fullName'] : $employee['fullName'] . ' ' . $this->getI18NHelper()->transBySource('(Past Employee)'),
                 ProjectReport::PARAMETER_TIME => $this->getNumberHelper()
                     ->numberFormat((float)$employee['totalDuration'] / 3600, 2),
             ];

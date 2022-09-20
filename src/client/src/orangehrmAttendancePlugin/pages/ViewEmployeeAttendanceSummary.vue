@@ -133,7 +133,7 @@ export default {
       return data.map(item => {
         return {
           id: item.empNumber,
-          empName: $tEmpName(this.employee, {
+          empName: $tEmpName(item, {
             includeMiddle: false,
             excludePastEmpTag: false,
           }),
