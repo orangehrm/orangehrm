@@ -45,7 +45,7 @@ class EmployeeActionSummaryDao extends BaseDao
             ->setParameter('status', self::STATE_INTERVIEW_SCHEDULED);
         return $this->getPaginator($qb)->count();
     }
-    
+
     /**
      * @param ActionableReviewSearchFilterParams $actionableReviewSearchFilterParams
      * @return int
