@@ -31,6 +31,7 @@
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="attendanceAlt"
+          icon-type="svg"
           display-type="success"
           @click="onClickPendingLeave"
         />
@@ -46,6 +47,7 @@
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="timeAlt"
+          icon-type="svg"
           display-type="warn"
           @click="onClickPendingTimesheet"
         />
@@ -61,6 +63,7 @@
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="appraisals"
+          icon-type="svg"
           display-type="danger"
           @click="onClickPendingReview"
         />
@@ -72,10 +75,27 @@
           }}
         </oxd-text>
       </div>
+      <div class="orangehrm-todo-list-item">
+        <oxd-icon-button
+          class="orangehrm-report-icon"
+          name="appraisals"
+          icon-type="svg"
+          display-type="danger"
+          @click="onClickPendingReview"
+        />
+        <oxd-text tag="p" @click="onClickSelfReview">
+          {{
+            $t('general.n_pending_self_review', {
+              pendingActionsCount: selfReviewCount,
+            })
+          }}
+        </oxd-text>
+      </div>
       <div v-if="interviewCount > 0" class="orangehrm-todo-list-item">
         <oxd-icon-button
           class="orangehrm-report-icon"
           name="interview"
+          icon-type="svg"
           display-type="info"
           @click="onClickPendingInterview"
         />
@@ -96,7 +116,7 @@ import {APIService} from '@/core/util/services/api.service';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
 
 export default {
-  name: 'MyActionSummeryViewWidget',
+  name: 'MyActionSummaryWidget',
 
   components: {
     'base-widget': BaseWidget,
@@ -119,6 +139,7 @@ export default {
       leaveRequestCount: 0,
       timeSheetCount: 0,
       reviewCount: 0,
+      selfReviewCount: 0,
       interviewCount: 0,
     };
   },
@@ -146,8 +167,11 @@ export default {
           if (group === 'Timesheets To Approve') {
             this.timeSheetCount = pendingActionCount;
           }
-          if (group === 'Performance Reviews To Evaluate') {
+          if (group === 'Pending Appraisal Reviews') {
             this.reviewCount = pendingActionCount;
+          }
+          if (group === 'Pending Self Reviews') {
+            this.selfReviewCount = pendingActionCount;
           }
           if (group === 'Candidates To Interview') {
             this.interviewCount = pendingActionCount;
@@ -171,6 +195,9 @@ export default {
     },
     onClickPendingInterview() {
       navigate('/recruitment/viewCandidates');
+    },
+    onClickSelfReview() {
+      navigate('/performance/myPerformanceReview');
     },
   },
 };

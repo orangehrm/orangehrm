@@ -27,13 +27,10 @@
       <employee-attendance-widget></employee-attendance-widget>
     </oxd-grid-item>
     <oxd-grid-item class="orangehrm-dashboard-widget">
-      <quick-launch-widget></quick-launch-widget>
+      <my-action-summary-widget></my-action-summary-widget>
     </oxd-grid-item>
-    <oxd-grid-item
-      v-if="$can.read('admin_widgets')"
-      class="orangehrm-dashboard-widget"
-    >
-      <myaction-summery-view-widget></myaction-summery-view-widget>
+    <oxd-grid-item class="orangehrm-dashboard-widget">
+      <quick-launch-widget></quick-launch-widget>
     </oxd-grid-item>
     <oxd-grid-item
       v-if="$can.read('leave_widget')"
@@ -62,7 +59,7 @@ import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/Employe
 import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
 import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
 import EmployeeAttendanceWidget from '@/orangehrmDashboardPlugin/components/EmployeeAttendanceWidget.vue';
-import MyActionSummeryViewWidget from '@/orangehrmDashboardPlugin/components/MyActionSummaryWidget.vue';
+import MyActionSummaryWidget from '@/orangehrmDashboardPlugin/components/MyActionSummaryWidget.vue';
 
 export default {
   components: {
@@ -71,7 +68,7 @@ export default {
     'employee-location-widget': EmployeeLocationWidget,
     'employees-on-leave-widget': EmployeesOnLeaveWidget,
     'employee-attendance-widget': EmployeeAttendanceWidget,
-    'myaction-summery-view-widget': MyActionSummeryViewWidget,
+    'my-action-summary-widget': MyActionSummaryWidget,
   },
 };
 </script>

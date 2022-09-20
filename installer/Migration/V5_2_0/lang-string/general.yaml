@@ -74,3 +74,6 @@ langStrings:
   -
     value: 'No Pending Actions to Perform'
     unitId: no_pending_actions
+  -
+    value: '{pendingActionsCount,plural, =0{No Records Found} one{(1) Pending Self Review} other{ (#) Pending Self Reviews}}'
+    unitId: n_pending_self_review
