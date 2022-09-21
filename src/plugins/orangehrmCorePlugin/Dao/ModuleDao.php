@@ -19,6 +19,10 @@
 
 namespace OrangeHRM\Core\Dao;
 
+use OrangeHRM\Core\Event\ModuleEvent;
+use OrangeHRM\Core\Event\ModuleStatusChange;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\DataGroup;
 use OrangeHRM\Entity\DataGroupPermission;
 use OrangeHRM\Entity\Module;
@@ -29,6 +33,9 @@ use OrangeHRM\Entity\Module;
  */
 class ModuleDao extends BaseDao
 {
+    use EventDispatcherTrait;
+    use UserRoleManagerTrait;
+
     /**
      * Get Module object collection from ohrm_module table
      * @return Module[]
@@ -53,20 +60,13 @@ class ModuleDao extends BaseDao
             if (in_array($module->getName(), $modules)
                 && array_key_exists($module->getName(), $modules)
                 && $module->getStatus() !== $modules[$module->getName()]) {
+                $previousModule = clone $module;
                 $module->setStatus((bool)$modules[$module->getName()]);
                 $this->getEntityManager()->persist($module);
-                //If the module is affecting the widget, update the relevant permissions
-                if ($module->getName() === 'leave') {
-                    $this->updateDataGroupPermissionForWidgetModules(
-                        'dashboard_leave_widget',
-                        (bool)$modules[$module->getName()]
-                    );
-                } elseif ($module->getName() === 'time') {
-                    $this->updateDataGroupPermissionForWidgetModules(
-                        'dashboard_time_widget',
-                        (bool)$modules[$module->getName()]
-                    );
-                }
+                $this->getEventDispatcher()->dispatch(
+                    new ModuleStatusChange($previousModule, $module),
+                    ModuleEvent::MODULE_STATUS_CHANGE
+                );
             }
         }
         $this->getEntityManager()->flush();
@@ -74,7 +74,7 @@ class ModuleDao extends BaseDao
     }
 
     /**
-     * @return Module[]
+     * @return string[]
      */
     public function getDisabledModuleList(): array
     {
@@ -86,9 +86,9 @@ class ModuleDao extends BaseDao
     }
 
     /**
-     * @return Module[]
+     * @return string[]
      */
-    public function getEnabledModuleList(): array
+    public function getEnabledModuleNameList(): array
     {
         $q = $this->createQueryBuilder(Module::class, 'm');
         $q->andWhere('m.status = :status');
@@ -102,7 +102,7 @@ class ModuleDao extends BaseDao
      * @param bool $status
      * @return void
      */
-    private function updateDataGroupPermissionForWidgetModules(string $dataGroupName, bool $status)
+    public function updateDataGroupPermissionForWidgetModules(string $dataGroupName, bool $status)
     {
         $dataGroup = $this->getDataGroupByDataGroupName($dataGroupName);
         if (!is_null($dataGroup)) {

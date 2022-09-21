@@ -39,7 +39,8 @@ class DashboardController extends AbstractVueController
         $this->setComponent($component);
 
         $dataGroups = [
-            'dashboard_admin_widgets',
+            'dashboard_subunit_widget',
+            'dashboard_location_widget',
             'dashboard_leave_widget',
             'dashboard_time_widget'
         ];

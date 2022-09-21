@@ -66,7 +66,7 @@ class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
 
         $accessibleCandidateIds = $this->getUserRoleManager()->getAccessibleEntityIds(Candidate::class);
 
-        $enabledModuleNames = $this->getModuleService()->getModuleDao()->getEnabledModuleList();
+        $enabledModuleNames = $this->getModuleService()->getModuleDao()->getEnabledModuleNameList();
 
         $availableActionGroups = [];
         if (in_array(self::LEAVE_MODULE, $enabledModuleNames)) {

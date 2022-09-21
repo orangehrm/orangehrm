@@ -39,13 +39,13 @@
       <employees-on-leave-widget></employees-on-leave-widget>
     </oxd-grid-item>
     <oxd-grid-item
-      v-if="$can.read('dashboard_admin_widgets')"
+      v-if="$can.read('dashboard_subunit_widget')"
       class="orangehrm-dashboard-widget"
     >
       <employee-subunit-widget></employee-subunit-widget>
     </oxd-grid-item>
     <oxd-grid-item
-      v-if="$can.read('dashboard_admin_widgets')"
+      v-if="$can.read('dashboard_location_widget')"
       class="orangehrm-dashboard-widget"
     >
       <employee-location-widget></employee-location-widget>

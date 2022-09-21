@@ -1,5 +1,15 @@
-dashboard_admin_widgets:
-  description: 'Dashboard - Admin Widgets Visibility'
+dashboard_subunit_widget:
+  description: 'Dashboard - Subunit Widget Visibility'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+dashboard_location_widget:
+  description: 'Dashboard - Location Widget Visibility'
   allowed:
     read: true
     create: false
