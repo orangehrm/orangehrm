@@ -17,38 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Dashboard\Controller;
+namespace OrangeHRM\Dashboard\Traits\Service;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Helper\VueControllerHelper;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
 
-class DashboardController extends AbstractVueController
+trait ModuleServiceTrait
 {
-    use AuthUserTrait;
     use ServiceContainerTrait;
-    use UserRoleManagerTrait;
 
-    public function preRender(Request $request): void
+    /**
+     * @return ModuleService
+     */
+    public function getModuleService(): ModuleService
     {
-        $component = new Component('view-dashboard');
-        $this->setComponent($component);
-
-        $dataGroups = [
-            'dashboard_admin_widgets',
-            'dashboard_leave_widget',
-            'dashboard_time_widget'
-        ];
-        $permissions = $this->getUserRoleManagerHelper()
-            ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
-
-        $this->getContext()->set(
-            VueControllerHelper::PERMISSIONS,
-            $permissions->toArray()
-        );
+        return $this->getContainer()->get(Services::MODULE_SERVICE);
     }
 }

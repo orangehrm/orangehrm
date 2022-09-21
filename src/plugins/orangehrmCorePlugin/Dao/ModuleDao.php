@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Core\Dao;
 
+use OrangeHRM\Entity\DataGroup;
+use OrangeHRM\Entity\DataGroupPermission;
 use OrangeHRM\Entity\Module;
 
 /**
@@ -51,8 +53,20 @@ class ModuleDao extends BaseDao
             if (in_array($module->getName(), $modules)
                 && array_key_exists($module->getName(), $modules)
                 && $module->getStatus() !== $modules[$module->getName()]) {
-                $module->setStatus((bool) $modules[$module->getName()]);
+                $module->setStatus((bool)$modules[$module->getName()]);
                 $this->getEntityManager()->persist($module);
+                //If the module is affecting the widget, update the relevant permissions
+                if ($module->getName() === 'leave') {
+                    $this->updateDataGroupPermissionForWidgetModules(
+                        'dashboard_leave_widget',
+                        (bool)$modules[$module->getName()]
+                    );
+                } elseif ($module->getName() === 'time') {
+                    $this->updateDataGroupPermissionForWidgetModules(
+                        'dashboard_time_widget',
+                        (bool)$modules[$module->getName()]
+                    );
+                }
             }
         }
         $this->getEntityManager()->flush();
@@ -69,5 +83,52 @@ class ModuleDao extends BaseDao
         $q->setParameter('status', false);
         $q->select('m.name');
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @return Module[]
+     */
+    public function getEnabledModuleList(): array
+    {
+        $q = $this->createQueryBuilder(Module::class, 'm');
+        $q->andWhere('m.status = :status');
+        $q->setParameter('status', true);
+        $q->select('m.name');
+        return $q->getQuery()->getSingleColumnResult();
+    }
+
+    /**
+     * @param string $dataGroupName
+     * @param bool $status
+     * @return void
+     */
+    private function updateDataGroupPermissionForWidgetModules(string $dataGroupName, bool $status)
+    {
+        $dataGroup = $this->getDataGroupByDataGroupName($dataGroupName);
+        if (!is_null($dataGroup)) {
+            $userRolePermissions = $this->getUserRolePermissionsByDataGroupId($dataGroup->getId());
+            foreach ($userRolePermissions as $userRolePermission) {
+                $userRolePermission->setCanRead($status);
+                $this->getEntityManager()->persist($userRolePermission);
+            }
+        }
+    }
+
+    /**
+     * @param string $dataGroupName
+     * @return DataGroup|null
+     */
+    private function getDataGroupByDataGroupName(string $dataGroupName): ?DataGroup
+    {
+        return $this->getRepository(DataGroup::class)->findOneBy(['name' => $dataGroupName]);
+    }
+
+    /**
+     * @param int $dataGroupId
+     * @return DataGroupPermission[]
+     */
+    private function getUserRolePermissionsByDataGroupId(int $dataGroupId): array
+    {
+        return $this->getRepository(DataGroupPermission::class)->findBy(['dataGroup' => $dataGroupId]);
     }
 }
