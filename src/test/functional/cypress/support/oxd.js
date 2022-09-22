@@ -16,13 +16,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-const OXD_INPUT_ELEMENTS = {
+ const OXD_INPUT_ELEMENTS = {
   input: '.oxd-input',
   radio: '.oxd-radio-input',
   switch: '.oxd-switch-input',
   checkbox: '.oxd-checkbox-input',
   file: '.oxd-file-input',
-  date: '.oxd-date-input',
   time: '.oxd-time-input',
   textbox: '.oxd-textarea',
   select: '.oxd-select-text-input',
@@ -45,8 +44,10 @@ const OXD_ELEMENTS = {
   inputGroup: '.oxd-input-group',
   pageContext: '.oxd-layout-context',
   pageTitle: '.orangehrm-main-title',
+  date: '.oxd-date-input',
   numRecords: '.oxd-text--span',
   option: '.oxd-select-option',
+  option2: '.oxd-autocomplete-option > span',
   selectWrapper: '.oxd-select-wrapper',
   ...OXD_INPUT_ELEMENTS,
 };
