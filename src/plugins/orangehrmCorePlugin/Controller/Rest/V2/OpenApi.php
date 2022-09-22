@@ -100,17 +100,7 @@ use OpenApi\Annotations as OA;
  *     name="_orangehrm"
  * )
  *
- * @OA\Tag(name="Admin/Job Title")
- * @OA\Tag(name="Admin/Nationality")
- * @OA\Tag(name="Admin/Users")
- * @OA\Tag(name="Admin/PayGrade")
- * @OA\Tag(name="Admin/EmploymentStatus")
- * @OA\Tag(name="Admin/JobCategory")
- * @OA\Tag(name="Admin/WorkShift")
- * @OA\Tag(name="PIM")
- * @OA\Tag(name="Leave")
- * @OA\Tag(name="Time")
- * @OA\Tag(name="Attendance")
+ * @OA\Tag(name="Admin")
  */
 final class OpenApi
 {

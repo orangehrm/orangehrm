@@ -56,7 +56,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
@@ -109,7 +109,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/admin/pay-grades",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -150,7 +150,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/admin/pay-grades",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
@@ -177,7 +177,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     /**
      *@OA\Get(
      *     path="/api/v2/admin/pay-grades/{id}",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      * @OA\PathParameter(
      *     name="id",
      *     @OA\Schema(type="integer")
@@ -219,7 +219,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/admin/pay-grades/{id}",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\PathParameter(
      *         name="id",
      *         @OA\Schema(type="integer")

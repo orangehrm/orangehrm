@@ -62,7 +62,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies/{id}",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")
@@ -116,7 +116,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")
@@ -188,7 +188,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
@@ -241,7 +241,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Put(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies/{id}",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\PathParameter(
      *         name="payGradeId",
      *         @OA\Schema(type="integer")
@@ -300,7 +300,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/admin/pay-grades/{payGradeId}/currencies",
-     *     tags={"Admin/PayGrade"},
+     *     tags={"Admin/Pay Grade"},
      *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
      *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
      * )
