@@ -350,7 +350,8 @@ describe('Leave - Entitlements', function () {
   });
 
   describe('Edit and delete employee entitlements', function () {
-    it('Admin ability to edit their own entitlements', function () {
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('Admin ability to edit their own entitlements', function () {
       cy.task('db:restore', {name: 'addentitlementtoallemp'});
       cy.loginTo(user.admin, '/leave/editLeaveEntitlement/1');
       cy.getOXD('form').within(() => {
@@ -358,7 +359,7 @@ describe('Leave - Entitlements', function () {
       });
       cy.getOXD('button').contains('Save').click();
       //cy.wait('@putEntitlements')
-      //cy.toast('success', 'Successfully Updated')
+      cy.toast('success', 'Successfully Updated');
     });
 
     it('Edit entitlements field validation', function () {
