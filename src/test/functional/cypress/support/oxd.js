@@ -16,7 +16,7 @@
  * Boston, MA  02110-1301, USA
  */
 
- const OXD_INPUT_ELEMENTS = {
+const OXD_INPUT_ELEMENTS = {
   input: '.oxd-input',
   radio: '.oxd-radio-input',
   switch: '.oxd-switch-input',

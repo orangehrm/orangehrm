@@ -47,13 +47,19 @@ describe('Leave - Entitlements', function () {
       '**/api/v2/admin/validation/user-name?userName=John22*',
     ).as('getSupusername');
     cy.intercept('POST', '**/api/v2/admin/users').as('postESSuser');
-    cy.intercept('GET', '**/api/v2/leave/leave-entitlements/1').as('getEntitlements')
-    cy.intercept('PUT', '**/api/v2/leave/leave-entitlements/1').as('putEntitlements')
-    cy.intercept('POST', '**/api/v2/leave/leave-requests').as(
-      'applyLeave',
+    cy.intercept('GET', '**/api/v2/leave/leave-entitlements/1').as(
+      'getEntitlements',
     );
-    cy.intercept('DELETE', '**/api/v2/leave/leave-entitlements').as('deleteEntitlements')
-    cy.intercept('POST', '**/api/v2/pim/employees/2/subordinates').as('postSubordinate')
+    cy.intercept('PUT', '**/api/v2/leave/leave-entitlements/1').as(
+      'putEntitlements',
+    );
+    cy.intercept('POST', '**/api/v2/leave/leave-requests').as('applyLeave');
+    cy.intercept('DELETE', '**/api/v2/leave/leave-entitlements').as(
+      'deleteEntitlements',
+    );
+    cy.intercept('POST', '**/api/v2/pim/employees/2/subordinates').as(
+      'postSubordinate',
+    );
     cy.fixture('user').then((data) => {
       this.adminUser = data.admin;
       this.essUser = data.mike;
@@ -121,7 +127,7 @@ describe('Leave - Entitlements', function () {
       cy.wait('@addEmployee').then(function () {
         cy.task('db:snapshot', {name: 'employeejohn'});
       });
-    })
+    });
 
     it('Add employee2', function () {
       cy.task('db:restore', {name: 'leaveType'});
@@ -182,7 +188,7 @@ describe('Leave - Entitlements', function () {
       });
     });
 
-    it('Add supervisor user', function(){
+    it('Add supervisor user', function () {
       cy.task('db:restore', {name: 'employeejohn'});
       cy.loginTo(user.admin, '/admin/saveSystemUser');
       cy.getOXD('form').within(() => {
@@ -199,23 +205,25 @@ describe('Leave - Entitlements', function () {
       cy.wait('@postESSuser').then(function () {
         cy.task('db:snapshot', {name: 'johnsupervisoruser'});
       });
-    })
+    });
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('Add subordinate to supervisor', function(){
+    it.skip('Add subordinate to supervisor', function () {
       cy.task('db:restore', {name: 'johnsupervisoruser'});
       cy.loginTo(user.admin, '/pim/viewReportToDetails/empNumber/2');
-      cy.get(':nth-child(3) > :nth-child(1) > .orangehrm-action-header > .oxd-button').click()
+      cy.get(
+        ':nth-child(3) > :nth-child(1) > .orangehrm-action-header > .oxd-button',
+      ).click();
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Name').type('Jacqueline')
+        cy.getOXDInput('Name').type('Jacqueline');
         cy.getOXD('option2').contains('Jacqueline White').click();
-        cy.getOXDInput('Reporting Method').selectOption('Direct')
-      })
+        cy.getOXDInput('Reporting Method').selectOption('Direct');
+      });
       cy.getOXD('button').contains('Save').click();
       cy.wait('@postSubordinate').then(function () {
         cy.task('db:snapshot', {name: 'johnwithsubordinate'});
       });
-    })
+    });
   });
 
   describe('create snapshot with entitlements', function () {
@@ -266,21 +274,21 @@ describe('Leave - Entitlements', function () {
     });
   });
 
-describe('Create snapshot with apply leave', function(){
-  it('Apply leave', function(){
-    cy.task('db:restore', {name: 'addentitlementtosingleemp'});
-    cy.loginTo(user.admin, '/leave/applyLeave');
-    cy.getOXD('form').within(() => {
-      cy.getOXDInput('Leave Type').selectOption('Annual Leave');
-      cy.getOXDInput('From Date').type('2022-08-25');
-      cy.getOXD('button').contains('Apply').click();
+  describe('Create snapshot with apply leave', function () {
+    it('Apply leave', function () {
+      cy.task('db:restore', {name: 'addentitlementtosingleemp'});
+      cy.loginTo(user.admin, '/leave/applyLeave');
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Leave Type').selectOption('Annual Leave');
+        cy.getOXDInput('From Date').type('2022-08-25');
+        cy.getOXD('button').contains('Apply').click();
+      });
+      cy.wait('@applyLeave');
+      cy.toast('success', 'Successfully Saved').then(function () {
+        cy.task('db:snapshot', {name: 'applyleave'});
+      });
     });
-    cy.wait('@applyLeave');
-    cy.toast('success', 'Successfully Saved').then(function () {
-      cy.task('db:snapshot', {name: 'applyleave'});
-    });
-  })
-})
+  });
 
   describe('Filter employee entitlements and list view', function () {
     it('Filter entitlement of a employee with entitlements', function () {
@@ -299,11 +307,17 @@ describe('Create snapshot with apply leave', function(){
         'include.text',
         '(1) Record Found',
       );
-      cy.get('.oxd-table-row > :nth-child(2) > div').should('include.text', this.strings.leaveTypes.leavetype1)
-      cy.get('.oxd-table-row > :nth-child(3) > div').should('include.text', 'Added')
-      cy.get(':nth-child(4) > div').should('include.text', '2022-01-01')
-      cy.get(':nth-child(5) > div').should('include.text', '2022-12-31')
-      cy.get(':nth-child(6) > div').should('include.text', '10')
+      cy.get('.oxd-table-row > :nth-child(2) > div').should(
+        'include.text',
+        this.strings.leaveTypes.leavetype1,
+      );
+      cy.get('.oxd-table-row > :nth-child(3) > div').should(
+        'include.text',
+        'Added',
+      );
+      cy.get(':nth-child(4) > div').should('include.text', '2022-01-01');
+      cy.get(':nth-child(5) > div').should('include.text', '2022-12-31');
+      cy.get(':nth-child(6) > div').should('include.text', '10');
     });
 
     it('Filter entitlement of a employee without entitlements', function () {
@@ -335,37 +349,39 @@ describe('Create snapshot with apply leave', function(){
     });
   });
 
-  describe('Edit and delete employee entitlements', function(){
-    it('Admin ability to edit their own entitlements', function(){
-      cy.task('db:restore', {name:'addentitlementtoallemp'})
+  describe('Edit and delete employee entitlements', function () {
+    it('Admin ability to edit their own entitlements', function () {
+      cy.task('db:restore', {name: 'addentitlementtoallemp'});
       cy.loginTo(user.admin, '/leave/editLeaveEntitlement/1');
-      cy.getOXD('form').within(() =>{
-        cy.getOXDInput('Entitlement').clear().type('5.00')
-      })
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Entitlement').clear().type('5.00');
+      });
       cy.getOXD('button').contains('Save').click();
       //cy.wait('@putEntitlements')
       //cy.toast('success', 'Successfully Updated')
-    })
+    });
 
-    it('Edit entitlements field validation', function(){
-      cy.task('db:restore', {name:'applyleave'})
+    it('Edit entitlements field validation', function () {
+      cy.task('db:restore', {name: 'applyleave'});
       cy.loginTo(user.admin, '/leave/editLeaveEntitlement/1');
-      cy.getOXD('form').within(() =>{
-        cy.getOXDInput('Entitlement').clear().type('0')
-        cy.getOXDInput('Entitlement').isInvalid('Used amount exceeds the current amount')
-        cy.getOXDInput('Entitlement').clear().isInvalid('Required')
-      })
-    })
+      cy.getOXD('form').within(() => {
+        cy.getOXDInput('Entitlement').clear().type('0');
+        cy.getOXDInput('Entitlement').isInvalid(
+          'Used amount exceeds the current amount',
+        );
+        cy.getOXDInput('Entitlement').clear().isInvalid('Required');
+      });
+    });
 
-    it('Delete employee entitlements', function(){
+    it('Delete employee entitlements', function () {
       cy.task('db:restore', {name: 'addentitlementtosingleemp'});
       cy.loginTo(user.admin, '/leave/viewMyLeaveEntitlements');
-      cy.get('.oxd-table-cell-actions > :nth-child(1)').click()
-      cy.get('.oxd-button--label-danger').click()
-      cy.wait('@deleteEntitlements')
+      cy.get('.oxd-table-cell-actions > :nth-child(1)').click();
+      cy.get('.oxd-button--label-danger').click();
+      cy.wait('@deleteEntitlements');
       cy.toast('success', 'Successfully Deleted');
-    })
-  })
+    });
+  });
 
   describe('Login as an ESS user', function () {
     it('ESS user ability to access employee entitlements', function () {
@@ -388,21 +404,32 @@ describe('Create snapshot with apply leave', function(){
         'include.text',
         '(1) Record Found',
       );
-      cy.get('.oxd-table-row > :nth-child(1) > div').should('include.text', this.strings.leaveTypes.leavetype1)
-      cy.get('.oxd-table-row > :nth-child(2) > div').should('include.text', 'Added')
-      cy.get('.oxd-table-row > :nth-child(3) > div').should('include.text', '2022-01-01')
-      cy.get(':nth-child(4) > div').should('include.text', '2022-12-31')
-      cy.get(':nth-child(5) > div').should('include.text', '10')
+      cy.get('.oxd-table-row > :nth-child(1) > div').should(
+        'include.text',
+        this.strings.leaveTypes.leavetype1,
+      );
+      cy.get('.oxd-table-row > :nth-child(2) > div').should(
+        'include.text',
+        'Added',
+      );
+      cy.get('.oxd-table-row > :nth-child(3) > div').should(
+        'include.text',
+        '2022-01-01',
+      );
+      cy.get(':nth-child(4) > div').should('include.text', '2022-12-31');
+      cy.get(':nth-child(5) > div').should('include.text', '10');
     });
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('ESS user ability to filter entitlements', function(){
+    it.skip('ESS user ability to filter entitlements', function () {
       cy.task('db:restore', {name: 'addentitlementtoallemp'});
       cy.loginTo(user.mike, '/leave/viewMyLeaveEntitlements');
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Type').selectOption(this.strings.leaveTypes.leavetype1)
+        cy.getOXDInput('Leave Type').selectOption(
+          this.strings.leaveTypes.leavetype1,
+        );
         cy.getOXD('button').contains('Search').click();
-      })
+      });
       cy.get('.orangehrm-header-container > .oxd-text').should(
         'include.text',
         'Total 10.00 Day(s)',
@@ -412,8 +439,8 @@ describe('Create snapshot with apply leave', function(){
         '(1) Record Found',
       );
       cy.getOXD('form').within(() => {
-        cy.getOXDInput('Leave Period').selectOption('2023-01-01 - 2023-12-31')
-      })
+        cy.getOXDInput('Leave Period').selectOption('2023-01-01 - 2023-12-31');
+      });
       cy.getOXD('button').contains('Search').click();
       cy.get('.orangehrm-header-container > .oxd-text').should(
         'include.text',
@@ -423,15 +450,15 @@ describe('Create snapshot with apply leave', function(){
         'include.text',
         'No Records Found',
       );
-    })
+    });
 
-    it('ESS user ability to edit their own entitlements', function(){
+    it('ESS user ability to edit their own entitlements', function () {
       cy.task('db:restore', {name: 'addentitlementtoallemp'});
-      cy.loginTo(user.mike, '/leave/editLeaveEntitlement/1'); 
+      cy.loginTo(user.mike, '/leave/editLeaveEntitlement/1');
       cy.get('.oxd-alert-content > .oxd-text').should(
         'include.text',
         'Credential Required',
       );
-    })
+    });
   });
 });
