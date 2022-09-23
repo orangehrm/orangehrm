@@ -23,6 +23,20 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\PayGradeCurrency;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-PayGradeCurrencyModel",
+ *     type="object",
+ *     @OA\Property(property="minSalary", type="number"),
+ *     @OA\Property(property="maxSalary", type="number"),
+ *     @OA\Property(
+ *         property="currencyType",
+ *         type="object",
+ *         @OA\Property(property="id", type="string"),
+ *         @OA\Property(property="name", type="string")
+ *     )
+ * )
+ */
 class PayGradeCurrencyModel implements Normalizable
 {
     use ModelTrait;

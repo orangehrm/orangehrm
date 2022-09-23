@@ -19,12 +19,29 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\PayGrade;
 use OrangeHRM\Entity\PayGradeCurrency;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-PayGradeModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(
+ *         property="currencies",
+ *         type="array",
+ *         @OA\Items(
+ *             @OA\Property(property="id", type="string"),
+ *             @OA\Property(property="name", type="string")
+ *         )
+*     )
+ * )
+ */
 class PayGradeModel implements Normalizable
 {
     use ModelTrait;
