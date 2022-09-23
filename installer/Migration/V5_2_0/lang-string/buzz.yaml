@@ -1,0 +1,7 @@
+langStrings:
+  -
+    value: 'Upcoming Anniversaries'
+    unitId: upcoming_anniversaries
+  -
+    value: 'Years'
+    unitId: years
