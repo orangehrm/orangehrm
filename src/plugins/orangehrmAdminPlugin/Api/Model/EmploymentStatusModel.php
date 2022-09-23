@@ -23,6 +23,14 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmploymentStatus;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-EmploymentStatusModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string")
+ * )
+ */
 class EmploymentStatusModel implements Normalizable
 {
     use ModelTrait;
