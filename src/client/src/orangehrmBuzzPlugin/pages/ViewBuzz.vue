@@ -76,3 +76,6 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+</style>

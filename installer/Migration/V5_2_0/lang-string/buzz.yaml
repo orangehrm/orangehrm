@@ -20,3 +20,6 @@ langStrings:
   -
     value: 'Share Video'
     unitId: share_video
+  -
+    value: 'Years'
+    unitId: years
