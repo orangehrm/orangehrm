@@ -385,7 +385,8 @@ describe('Leave - Entitlements', function () {
   });
 
   describe('Login as an ESS user', function () {
-    it('ESS user ability to access employee entitlements', function () {
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('ESS user ability to access employee entitlements', function () {
       cy.task('db:restore', {name: 'mikeESSuser'});
       cy.loginTo(user.mike, '/leave/viewLeaveEntitlements');
       cy.get('.oxd-alert-content > .oxd-text').should(
@@ -394,7 +395,8 @@ describe('Leave - Entitlements', function () {
       );
     });
 
-    it('ESS user ability to view their own entitlements', function () {
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('ESS user ability to view their own entitlements', function () {
       cy.task('db:restore', {name: 'addentitlementtoallemp'});
       cy.loginTo(user.mike, '/leave/viewMyLeaveEntitlements');
       cy.get('.orangehrm-header-container > .oxd-text').should(
@@ -453,7 +455,8 @@ describe('Leave - Entitlements', function () {
       );
     });
 
-    it('ESS user ability to edit their own entitlements', function () {
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('ESS user ability to edit their own entitlements', function () {
       cy.task('db:restore', {name: 'addentitlementtoallemp'});
       cy.loginTo(user.mike, '/leave/editLeaveEntitlement/1');
       cy.get('.oxd-alert-content > .oxd-text').should(
