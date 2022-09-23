@@ -35,6 +35,7 @@ use OrangeHRM\Dashboard\Dto\ActionSummary\PendingSelfReviewSummary;
 use OrangeHRM\Dashboard\Dto\ActionSummary\PendingTimesheetSummary;
 use OrangeHRM\Dashboard\Dto\ActionSummary\ScheduledInterviewSummary;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeActionSummaryServiceTrait;
+use OrangeHRM\Dashboard\Traits\Service\ModuleServiceTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\Employee;
 
@@ -43,6 +44,12 @@ class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
     use UserRoleManagerTrait;
     use AuthUserTrait;
     use EmployeeActionSummaryServiceTrait;
+    use ModuleServiceTrait;
+
+    public const LEAVE_MODULE = 'leave';
+    public const TIME_MODULE = 'time';
+    public const PERFORMANCE_MODULE = 'performance';
+    public const RECRUITMENT_MODULE = 'recruitment';
 
     /**
      * @inheritDoc
@@ -59,14 +66,24 @@ class EmployeeActionSummaryAPI extends Endpoint implements ResourceEndpoint
 
         $accessibleCandidateIds = $this->getUserRoleManager()->getAccessibleEntityIds(Candidate::class);
 
+        $enabledModuleNames = $this->getModuleService()->getModuleDao()->getEnabledModuleNameList();
+
+        $availableActionGroups = [];
+        if (in_array(self::LEAVE_MODULE, $enabledModuleNames)) {
+            $availableActionGroups[] = new PendingLeaveRequestSummary(array_values($accessibleEmpNumbers));
+        }
+        if ((in_array(self::TIME_MODULE, $enabledModuleNames))) {
+            $availableActionGroups[] = new PendingTimesheetSummary(array_values($accessibleEmpNumbers));
+        }
+        if (in_array(self::PERFORMANCE_MODULE, $enabledModuleNames)) {
+            $availableActionGroups[] = new PendingAppraisalReviewSummary($empNumber);
+            $availableActionGroups[] = new PendingSelfReviewSummary($empNumber);
+        }
+        if (in_array(self::RECRUITMENT_MODULE, $enabledModuleNames)) {
+            $availableActionGroups[] = new ScheduledInterviewSummary($accessibleCandidateIds);
+        }
+
         $actionsSummary = [];
-        $availableActionGroups = [
-            new PendingLeaveRequestSummary(array_values($accessibleEmpNumbers)),
-            new PendingTimesheetSummary(array_values($accessibleEmpNumbers)),
-            new PendingAppraisalReviewSummary($empNumber),
-            new PendingSelfReviewSummary($empNumber),
-            new ScheduledInterviewSummary($accessibleCandidateIds)
-        ];
         foreach ($availableActionGroups as $actionGroup) {
             $pendingAction = new PendingAction($actionGroup);
             $actionSummary = $pendingAction->generateActionSummary();

@@ -36,6 +36,7 @@ class Migration extends AbstractMigration
         $this->cleanLDAPAddonData();
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
+        $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
 
         $this->getSchemaHelper()->changeColumn(
             'ohrm_i18n_translate',

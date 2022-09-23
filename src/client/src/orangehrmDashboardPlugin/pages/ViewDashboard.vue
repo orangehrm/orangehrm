@@ -21,7 +21,7 @@
 <template>
   <oxd-grid class="orangehrm-dashboard-grid" :cols="3">
     <oxd-grid-item
-      v-if="$can.read('time_widget')"
+      v-if="$can.read('dashboard_time_widget')"
       class="orangehrm-dashboard-widget"
     >
       <employee-attendance-widget></employee-attendance-widget>
@@ -33,19 +33,19 @@
       <quick-launch-widget></quick-launch-widget>
     </oxd-grid-item>
     <oxd-grid-item
-      v-if="$can.read('leave_widget')"
+      v-if="$can.read('dashboard_leave_widget')"
       class="orangehrm-dashboard-widget"
     >
       <employees-on-leave-widget></employees-on-leave-widget>
     </oxd-grid-item>
     <oxd-grid-item
-      v-if="$can.read('admin_widgets')"
+      v-if="$can.read('dashboard_subunit_widget')"
       class="orangehrm-dashboard-widget"
     >
       <employee-subunit-widget></employee-subunit-widget>
     </oxd-grid-item>
     <oxd-grid-item
-      v-if="$can.read('admin_widgets')"
+      v-if="$can.read('dashboard_location_widget')"
       class="orangehrm-dashboard-widget"
     >
       <employee-location-widget></employee-location-widget>

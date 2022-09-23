@@ -5,6 +5,16 @@ Config:
   - { name: 'timesheet_period_set', value: 'Yes' }
   - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
 
+Module:
+  - { id: 1, name: 'admin', status: 1, displayName: 'Admin' }
+  - { id: 2, name: 'pim', status: 1, displayName: 'PIM' }
+  - { id: 3, name: 'leave', status: 1, displayName: 'Leave' }
+  - { id: 4, name: 'time', status: 1, displayName: 'Time' }
+  - { id: 5, name: 'recruitment', status: 1, displayName: 'Recruitment' }
+  - { id: 6, name: 'performance', status: 1, displayName: 'Performance' }
+  - { id: 7, name: 'directory', status: 1, displayName: 'Directory' }
+  - { id: 8, name: 'maintenance', status: 0, displayName: 'Maintenance' }
+
 TerminationReason:
   - { "id": "1","name": "Other" }
 
