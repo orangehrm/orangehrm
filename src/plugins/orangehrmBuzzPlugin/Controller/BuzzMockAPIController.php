@@ -61,57 +61,7 @@ class BuzzMockAPIController extends AbstractController
                     [
                         'employee' => [
                             'empNumber' => 1,
-                            'lastName' => 'user04',
-                            'firstName' => 'test',
-                            'deleted' => false,
-                        ],
-                        'jobTitle' => 'Senior Project Lead',
-                        'joinedDate' => '2020-10-15',
-                    ],
-                    [
-                        'employee' => [
-                            'empNumber' => 7,
-                            'lastName' => 'user05',
-                            'firstName' => 'test',
-                            'deleted' => false,
-                        ],
-                        'jobTitle' => 'Senior Project Lead',
-                        'joinedDate' => '2020-10-15',
-                    ],
-                    [
-                        'employee' => [
-                            'empNumber' => 9,
-                            'lastName' => 'user06',
-                            'firstName' => 'test',
-                            'deleted' => false,
-                        ],
-                        'jobTitle' => 'Senior Project Lead',
-                        'joinedDate' => '2020-10-15',
-                    ],
-                    [
-                        'employee' => [
-                            'empNumber' => 19,
-                            'lastName' => 'user07',
-                            'firstName' => 'test',
-                            'deleted' => false,
-                        ],
-                        'jobTitle' => 'Senior Project Lead',
-                        'joinedDate' => '2020-10-15',
-                    ],
-                    [
-                        'employee' => [
-                            'empNumber' => 11,
-                            'lastName' => 'user08',
-                            'firstName' => 'test',
-                            'deleted' => false,
-                        ],
-                        'jobTitle' => 'Senior Project Lead',
-                        'joinedDate' => '2021-10-15',
-                    ],
-                    [
-                        'employee' => [
-                            'empNumber' => 10,
-                            'lastName' => 'user09',
+                            'lastName' => 'user01',
                             'firstName' => 'test',
                             'deleted' => false,
                         ],
@@ -120,7 +70,7 @@ class BuzzMockAPIController extends AbstractController
                     ],
                 ],
                 "meta" => [
-                    "count" => 8,
+                    "count" => 3,
                 ]
             ])
         );
