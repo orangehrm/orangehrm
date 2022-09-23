@@ -19,10 +19,19 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Nationality;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-NationalityModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string")
+ * )
+ */
 class NationalityModel implements Normalizable
 {
     use ModelTrait;

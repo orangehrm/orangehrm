@@ -101,10 +101,6 @@ use OpenApi\Annotations as OA;
  * )
  *
  * @OA\Tag(name="Admin")
- * @OA\Tag(name="PIM")
- * @OA\Tag(name="Leave")
- * @OA\Tag(name="Time")
- * @OA\Tag(name="Attendance")
  */
 final class OpenApi
 {
