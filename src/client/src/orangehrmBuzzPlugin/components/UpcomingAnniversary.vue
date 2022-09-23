@@ -41,7 +41,7 @@
           :key="anniversary"
           class="orangehrm-buzz-anniversary"
         >
-          <div class="a">
+          <div class="orangehrm-buzz-anniversary-profile">
             <div class="orangehrm-buzz-anniversary-profile-image">
               <img
                 alt="profile picture"
@@ -49,7 +49,7 @@
                 :src="`../pim/viewPhoto/empNumber/${anniversary.empNumber}`"
               />
             </div>
-            <div class="orangehrm-buzz-anniversary-details">
+            <div class="orangehrm-buzz-anniversary-profile-details">
               <oxd-text tag="p" class="orangehrm-buzz-anniversary-emp-name">
                 {{ anniversary.empName }}
               </oxd-text>
@@ -64,7 +64,7 @@
               class="orangehrm-buzz-anniversary-year-celebration"
               :src="celebrationPic"
             />
-            <div class="b">
+            <div class="orangehrm-buzz-anniversary-durations-text">
               <oxd-text
                 tag="p"
                 class="orangehrm-buzz-anniversary-duration-years"
@@ -169,84 +169,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.a {
-  display: flex;
-}
-
-.b {
-  margin-left: 1.2rem;
-  text-align: center;
-}
-
-.orangehrm-buzz-body {
-  overflow: auto;
-  max-height: inherit;
-  max-height: 290px;
-}
-
-.orangehrm-buzz-card {
-  max-width: 340px;
-  padding: 0.5rem;
-  justify-content: space-between;
-  &-title {
-    padding: 0.5rem 0;
-  }
-}
-
-.orangehrm-buzz-anniversary {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 0;
-  position: relative;
-
-  &-profile-image {
-    & img {
-      width: 40px;
-      height: 40px;
-      border-radius: 100%;
-      display: flex;
-      flex-shrink: 0;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-  &-details {
-    margin: auto;
-    word-break: break-word;
-    padding-left: 1rem;
-  }
-  &-emp-name {
-    font-weight: 700;
-    @include truncate(2, 1, #fff);
-  }
-  &-job-details {
-    font-size: 12px;
-  }
-  &-duration {
-    padding: 0 17px;
-    font-weight: 600;
-    margin-left: auto;
-    white-space: nowrap;
-    & img {
-      width: 4rem;
-      position: absolute;
-    }
-    &-years {
-      font-size: 0.7rem;
-      font-weight: 800;
-    }
-    &-date {
-      font-size: 0.5rem;
-    }
-  }
-  &-see-more {
-    color: $oxd-primary-one-color !important;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-align: end;
-  }
-}
-</style>
+<style src="./upcomming-anniversary.scss" lang="scss" scoped></style>
