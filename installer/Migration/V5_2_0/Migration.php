@@ -23,6 +23,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use Symfony\Component\Yaml\Yaml;
 
 class Migration extends AbstractMigration
 {
@@ -92,6 +93,7 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->insertLDAPMenuItem();
+        $this->insertLangStringNotes();
     }
 
     /**
@@ -243,5 +245,24 @@ class Migration extends AbstractMigration
             ->andWhere('ohrm_module.name = :moduleName')
             ->setParameter('moduleName', 'ldapAuthentication')
             ->executeQuery();
+    }
+
+    private function insertLangStringNotes():void
+    {
+        $filepath = $filepath = __DIR__ . '/lang-string/notesForUnitIds.yaml';
+        $yml = Yaml::parseFile($filepath);
+        $langStrings = array_shift($yml);
+        foreach ($langStrings as $langString){
+            $groupId = $this->langStringHelper->getGroupId($langString['group']);
+            $this->createQueryBuilder()
+                ->update('ohrm_i18n_lang_string', 'langString')
+                ->set('langString.note', ':note')
+                ->setParameter('note', $langString['note'])
+                ->where('langString.unit_id = :unitId')
+                ->andWhere('langString.group_id = :group')
+                ->setParameter('unitId', $langString['unitId'])
+                ->setParameter('group', $groupId)
+                ->executeQuery();
+        }
     }
 }
