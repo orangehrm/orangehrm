@@ -96,6 +96,26 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/modules",
+     *     tags={"Admin/Modules"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 description="Module name and the boolean value to denote if it is enabled",
+     *                 @OA\Items(
+     *                     @OA\Property(property="module", type="boolean"),
+     *                 ),
+     *                 example="admin: true, pim: true, leave: true, time: true,...",
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * Get Configurable Modules Array
      *
      * This function fetch the configurable modules from a predefined array and return them with
@@ -169,6 +189,40 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/modules",
+     *     tags={"Admin/Modules"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             description="Module name and the boolean value to denote if it is enabled",
+     *             @OA\Property(property="admin", type="boolean"),
+     *             @OA\Property(property="pim", type="boolean"),
+     *             @OA\Property(property="leave", type="boolean"),
+     *             @OA\Property(property="time", type="boolean"),
+     *             @OA\Property(property="recruitment", type="boolean"),
+     *             @OA\Property(property="performance", type="boolean"),
+     *             @OA\Property(property="maintenance", type="boolean"),
+     *             @OA\Property(property="mobile", type="boolean"),
+     *             @OA\Property(property="directory", type="boolean")
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 description="Module name and the boolean value to denote if it is enabled",
+     *                 @OA\Items(
+     *                     @OA\Property(property="module", type="boolean"),
+     *                 ),
+     *                 example="admin: true, pim: true, leave: true, time: true,...",
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResourceResult

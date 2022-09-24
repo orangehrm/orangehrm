@@ -23,6 +23,15 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Skill;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-SkillModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="description", type="string")
+ * )
+ */
 class SkillModel implements Normalizable
 {
     use ModelTrait;

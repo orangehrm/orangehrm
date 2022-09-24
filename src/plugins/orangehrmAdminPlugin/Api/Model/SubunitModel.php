@@ -23,6 +23,19 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Subunit;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-SubunitModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="unitId", type="string"),
+ *     @OA\Property(property="description", type="string"),
+ *     @OA\Property(property="level", type="integer"),
+ *     @OA\Property(property="left", type="integer"),
+ *     @OA\Property(property="right", type="integer"),
+ * )
+ */
 class SubunitModel implements Normalizable
 {
     use ModelTrait;

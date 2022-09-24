@@ -195,7 +195,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="currencyId", type="string"),
      *             @OA\Property(property="maxSalary", type="integer"),
      *             @OA\Property(property="minSalary", type="integer"),
-     *             required={"currencyId,maxSalary,minSalary"}
+     *             required={"currencyId", "maxSalary", "minSalary"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -256,7 +256,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="currencyId", type="string"),
      *             @OA\Property(property="maxSalary", type="integer"),
      *             @OA\Property(property="minSalary", type="integer"),
-     *             required={"currencyId,maxSalary,minSalary"}
+     *             required={"currencyId", "maxSalary", "minSalary"}
      *         )
      *     ),
      *     @OA\Response(response="200",
