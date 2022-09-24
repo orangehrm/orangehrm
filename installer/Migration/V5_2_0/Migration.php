@@ -247,12 +247,12 @@ class Migration extends AbstractMigration
             ->executeQuery();
     }
 
-    private function insertLangStringNotes():void
+    private function insertLangStringNotes(): void
     {
         $filepath = $filepath = __DIR__ . '/lang-string/notesForUnitIds.yaml';
         $yml = Yaml::parseFile($filepath);
         $langStrings = array_shift($yml);
-        foreach ($langStrings as $langString){
+        foreach ($langStrings as $langString) {
             $groupId = $this->langStringHelper->getGroupId($langString['group']);
             $this->createQueryBuilder()
                 ->update('ohrm_i18n_lang_string', 'langString')
