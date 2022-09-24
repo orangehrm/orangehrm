@@ -48,12 +48,10 @@ class I18NTranslationAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @OA\Get(
-     *     path="/api/v2/admin/i18n/translations",
+     *     path="/api/v2/admin/i18n/languages/{languageId}/translations",
      *     tags={"Admin/I18N"},
-     *     @OA\Parameter(
+     *     @OA\PathParameter(
      *         name="languageId",
-     *         in="query",
-     *         required=true,
      *         @OA\Schema(type="integer", description="a valid group id of I18N-Language")
      *     ),
      *     @OA\Parameter(
@@ -77,7 +75,7 @@ class I18NTranslationAPI extends Endpoint implements CollectionEndpoint
      *     @OA\Parameter(
      *         name="onlyTranslated",
      *         in="query",
-     *         required=true,
+     *         required=false,
      *         @OA\Schema(type="boolean")
      *     ),
      *     @OA\Parameter(

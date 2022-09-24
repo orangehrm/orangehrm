@@ -23,6 +23,19 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmailConfiguration;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-EmailConfigurationModel",
+ *     type="object",
+ *     @OA\Property(property="mailType", type="string"),
+ *     @OA\Property(property="sentAs", type="string"),
+ *     @OA\Property(property="smtpHost", type="string"),
+ *     @OA\Property(property="smtpPort", type="integer"),
+ *     @OA\Property(property="smtpUsername", type="string"),
+ *     @OA\Property(property="smtpAuthType", type="string"),
+ *     @OA\Property(property="smtpSecurityType", type="string")
+ * )
+ */
 class EmailConfigurationModel implements Normalizable
 {
     use ModelTrait;

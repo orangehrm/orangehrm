@@ -23,6 +23,15 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmailSubscriber;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-EmailSubscriberModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="email", type="string"),
+ * )
+ */
 class EmailSubscriberModel implements Normalizable
 {
     use ModelTrait;
