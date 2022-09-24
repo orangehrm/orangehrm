@@ -168,9 +168,9 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
      *                 ref="#/components/schemas/Admin-LanguageModel"
      *             ),
      *             @OA\Property(
-     *                  property="meta",
-     *                  type="object",
-     *                  @OA\Property(property="testEmailStatus", type="integer")
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="testEmailStatus", type="integer")
      *             )
      *         )
      *     ),
