@@ -23,6 +23,15 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\I18NGroup;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-I18NGroupModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string", example="admin,pim"),
+ *     @OA\Property(property="title", type="string", example="Admin,PIM")
+ * )
+ */
 class I18NGroupModel implements Normalizable
 {
     use ModelTrait;

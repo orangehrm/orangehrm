@@ -23,6 +23,24 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Organization;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-OrganizationModel",
+ *     type="object",
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="registrationNumber", type="string"),
+ *     @OA\Property(property="phone", type="string"),
+ *     @OA\Property(property="fax", type="string"),
+ *     @OA\Property(property="email", type="string"),
+ *     @OA\Property(property="country", type="string"),
+ *     @OA\Property(property="province", type="string"),
+ *     @OA\Property(property="city", type="string"),
+ *     @OA\Property(property="zipCode", type="string"),
+ *     @OA\Property(property="street1", type="string"),
+ *     @OA\Property(property="street2", type="string"),
+ *     @OA\Property(property="note", type="string"),
+ * )
+ */
 class OrganizationModel implements Normalizable
 {
     use ModelTrait;

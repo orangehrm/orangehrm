@@ -22,6 +22,24 @@ namespace OrangeHRM\Admin\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\CollectionNormalizable;
 use OrangeHRM\Entity\Subunit;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-SubunitTreeModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="level", type="integer"),
+ *     @OA\Property(
+ *         property="children",
+ *         type="array",
+ *         @OA\Items(
+ *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="name", type="string"),
+ *             @OA\Property(property="level", type="integer"),
+ *         )
+ *     )
+ * )
+ */
 class SubunitTreeModel implements CollectionNormalizable
 {
     /**
