@@ -31,7 +31,6 @@ import CorporateDirectoryPages from '@/orangehrmCorporateDirectoryPlugin';
 import authenticationPages from '@/orangehrmAuthenticationPlugin';
 import languagePages from '@/orangehrmAdminPlugin';
 import dashboardPages from '@/orangehrmDashboardPlugin';
-import buzzPages from '@/orangehrmBuzzPlugin';
 
 export default {
   ...AdminPages,
@@ -49,5 +48,4 @@ export default {
   ...authenticationPages,
   ...languagePages,
   ...dashboardPages,
-  ...buzzPages,
 };
