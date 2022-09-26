@@ -23,6 +23,14 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\License;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-LicenseModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string")
+ * )
+ */
 class LicenseModel implements Normalizable
 {
     use ModelTrait;
