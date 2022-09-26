@@ -24,6 +24,7 @@
 
 .orangehrm-buzz-card {
   max-width: 340px;
+  min-width: 340px;
   max-height: 340px;
   padding: 0.5rem;
   justify-content: space-between;
@@ -58,14 +59,18 @@
     }
   }
   &-emp-name {
-    font-weight: 700;
+    font-size: .85rem;
+    font-weight: 400;
     @include truncate(2, 1, #fff);
   }
   &-job-details {
-    font-size: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 0.1rem;
+    @include truncate(2, 1, #fff);
   }
   &-duration {
-    padding: 0 17px;
+    padding: 0 20px;
     font-weight: 600;
     margin-left: auto;
     white-space: nowrap;

@@ -35,9 +35,7 @@
       </oxd-text>
       <div class="orangehrm-buzz-body">
         <div
-          v-for="anniversary in isViewDetails
-            ? displayMoreAnniversaries
-            : anniversaries"
+          v-for="anniversary in filteredAnniversaries"
           :key="anniversary"
           class="orangehrm-buzz-anniversary"
         >
@@ -70,7 +68,9 @@
                 class="orangehrm-buzz-anniversary-duration-years"
               >
                 {{ anniversary.anniversaryYear }} <br />
-                {{ $t('buzz.years') }}
+                {{
+                  $t('buzz.n_year', {yearsCount: anniversary.anniversaryYear})
+                }}
               </oxd-text>
               <oxd-text
                 tag="p"
@@ -101,6 +101,7 @@ import useLocale from '@/core/util/composable/useLocale';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import {parseDate, formatDate} from '@/core/util/helper/datefns';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'UpcomingAnniversaries',
@@ -111,6 +112,7 @@ export default {
 
   setup() {
     const {locale} = useLocale();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const celebrationPic = `${window.appGlobal.baseUrl}/../dist/img/year_celebration.png`;
 
     const http = new APIService(
@@ -122,16 +124,14 @@ export default {
       http,
       locale,
       celebrationPic,
+      tEmpName: $tEmpName,
     };
   },
 
   data() {
     return {
-      anniversaries: [],
-      displayMoreAnniversaries: [],
-      anniversariesCount: 0,
-      anniversaryDate: null,
       viewMore: false,
+      anniversaries: [],
     };
   },
 
@@ -139,16 +139,28 @@ export default {
     isViewDetails() {
       return !this.viewMore;
     },
+    filteredAnniversaries() {
+      return this.anniversaries.slice(
+        0,
+        this.viewMore ? this.anniversaries.length - 1 : 5,
+      );
+    },
+    anniversariesCount() {
+      return this.anniversaries.length;
+    },
   },
 
   beforeMount() {
     this.http.getAll().then(response => {
-      const {data, meta} = response.data;
+      const {data} = response.data;
       this.anniversaries = data.map(item => {
         const {employee, jobTitle, joinedDate} = item;
         return {
           empNumber: employee.empNumber,
-          empName: employee.firstName + ' ' + employee.lastName,
+          empName: this.tEmpName(employee, {
+            includeMiddle: false,
+            excludePastEmpTag: false,
+          }),
           jobTitle: jobTitle,
           joinedDate: formatDate(parseDate(joinedDate), 'MMM dd', {
             locale: this.locale,
@@ -157,8 +169,6 @@ export default {
             new Date().getFullYear() - new Date(joinedDate).getFullYear(),
         };
       });
-      this.anniversariesCount = meta?.count;
-      this.displayMoreAnniversaries = this.anniversaries.slice(0, 5);
     });
   },
 
