@@ -58,6 +58,53 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/performance/reviews/{reviewId}/evaluation/employee",
+     *     tags={"Performance/Review Evaluation"},
+     *     @OA\PathParameter(
+     *         name="reviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=SupervisorEvaluationSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Performance-ReviewerRatingModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(property="generalComment", type="string"),
+     *                 @OA\Property(
+     *                     property="kpis",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/Performance-KpiSummaryModel")
+     *                 ),
+     *                 @OA\Property(
+     *                     property="reviewer",
+     *                     ref="#/components/schemas/Performance-KpiSummaryModel"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="allowedActions",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/Core-WorkflowStateModel")
+     *                 ),
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -253,6 +300,44 @@ class EmployeeEvaluationAPI extends SupervisorEvaluationAPI
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/performance/reviews/{reviewId}/evaluation/employee",
+     *     tags={"Performance/Review Evaluation"},
+     *     @OA\PathParameter(
+     *         name="reviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="reviewers",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="rating", type="number"),
+     *                     @OA\Property(property="comment", type="string"),
+     *                     required={"id", "rating", "comment"}
+     *                 ),
+     *             ),
+     *             @OA\Property(property="generalComment", type="string"),
+     *             @OA\Property(property="complete", type="string"),
+     *             required={"reviewers", "complete"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-ReviewerRatingModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection

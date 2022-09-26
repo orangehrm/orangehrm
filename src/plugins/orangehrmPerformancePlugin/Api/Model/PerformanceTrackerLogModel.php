@@ -26,6 +26,27 @@ use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Performance\Api\Traits\PerformanceTrackerPermissionTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-PerformanceTrackerLogModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="log", type="string"),
+ *     @OA\Property(property="comment", type="string"),
+ *     @OA\Property(property="achievement", type="string"),
+ *     @OA\Property(property="addedDate", type="number"),
+ *     @OA\Property(property="modifiedDate", type="number"),
+ *     @OA\Property(
+ *         property="reviewer",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ * )
+ */
 class PerformanceTrackerLogModel implements Normalizable
 {
     use ModelTrait {ModelTrait::toArray as entityToArray;}
