@@ -19,16 +19,13 @@
 
 namespace OrangeHRM\Buzz\Controller;
 
+use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Pim\Service\EmployeeService;
 
 class BuzzMockAPIController extends AbstractController
 {
-
-
     use ConfigServiceTrait;
 
     /**
@@ -43,80 +40,80 @@ class BuzzMockAPIController extends AbstractController
                 "data" => [
                     [
                         'employee' => [
-                            'empNumber'=> 29,
+                            'empNumber' => 29,
                             'lastName' => 'user02',
-                            'firstName'=> 'test',
-                            'deleted'=> false,
+                            'firstName' => 'test',
+                            'deleted' => false,
                         ],
                         'jobTitle' => 'Senior Sales Executive',
                         'joinedDate' => '2019-10-14',
                     ],
                     [
                         'employee' => [
-                            'empNumber'=> 15,
+                            'empNumber' => 15,
                             'lastName' => 'user03',
-                            'firstName'=> 'test',
-                            'deleted'=> false,
+                            'firstName' => 'test',
+                            'deleted' => false,
                         ],
                         'jobTitle' => 'Senior Software Engineer',
                         'joinedDate' => '2016-10-17',
                     ],
                     [
                         'employee' => [
-                            'empNumber'=> 1,
+                            'empNumber' => 1,
                             'lastName' => 'user04',
-                            'firstName'=> 'test',
-                            'deleted'=> false,
+                            'firstName' => 'test',
+                            'deleted' => false,
                         ],
                         'jobTitle' => 'Senior Project Lead',
                         'joinedDate' => '2020-10-15',
                     ],
                     [
                         'employee' => [
-                            'empNumber'=> 7,
+                            'empNumber' => 7,
                             'lastName' => 'user05',
-                            'firstName'=> 'test',
-                            'deleted'=> false,
+                            'firstName' => 'test',
+                            'deleted' => false,
                         ],
                         'jobTitle' => 'Senior Project Lead',
                         'joinedDate' => '2020-10-15',
                     ],
                     [
                         'employee' => [
-                            'empNumber'=> 9,
+                            'empNumber' => 9,
                             'lastName' => 'user06',
-                            'firstName'=> 'test',
-                            'deleted'=> false,
+                            'firstName' => 'test',
+                            'deleted' => false,
                         ],
                         'jobTitle' => 'Senior Project Lead',
                         'joinedDate' => '2020-10-15',
                     ],
                     [
                         'employee' => [
-                            'empNumber'=> 19,
+                            'empNumber' => 19,
                             'lastName' => 'user07',
-                            'firstName'=> 'test',
-                            'deleted'=> false,
+                            'firstName' => 'test',
+                            'deleted' => false,
                         ],
                         'jobTitle' => 'Senior Project Lead',
                         'joinedDate' => '2020-10-15',
                     ],
                     [
                         'employee' => [
-                            'empNumber'=> 11,
+                            'empNumber' => 11,
                             'lastName' => 'user08',
-                            'firstName'=> 'test',
-                            'deleted'=> false,
+                            'firstName' => 'test',
+                            'deleted' => false,
                         ],
                         'jobTitle' => 'Senior Project Lead',
                         'joinedDate' => '2021-10-15',
                     ],
                     [
                         'employee' => [
-                            'empNumber'=> 10,
+                            'empNumber' => 10,
                             'lastName' => 'user09',
-                            'firstName'=> 'test',
-                            'deleted'=> false,
+                            'firstName' => 'test',
+                            'deleted' => false,
                         ],
                         'jobTitle' => 'Senior Project Lead',
                         'joinedDate' => '2020-10-15',
