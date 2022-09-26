@@ -351,7 +351,6 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     ),
-     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc
