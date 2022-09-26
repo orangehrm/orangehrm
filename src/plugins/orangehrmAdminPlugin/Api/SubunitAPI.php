@@ -50,6 +50,27 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     public const MODE_TREE = 'tree';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/subunits/{id}",
+     *     tags={"Admin/Subunits"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-SubunitModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -75,6 +96,44 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/subunits",
+     *     tags={"Admin/Subunits"},
+     *     @OA\Parameter(
+     *         name="depth",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="mode",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", default="list")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 description="if request paraneter 'mode' is tree SubunitTreeModel is used",
+     *                 @OA\Items(
+     *                     oneOf={
+     *                         @OA\Schema(ref="#/components/schemas/Admin-SubunitModel"),
+     *			               @OA\Schema(ref="#/components/schemas/Admin-SubunitTreeModel"),
+     *                     }
+     *                 )
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
@@ -117,6 +176,36 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/subunits",
+     *     tags={"Admin/Subunits"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", description="Should be unique"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(
+     *                 property="parentId",
+     *                 type="integer",
+     *                 description="Should be the id of the parent node",
+     *                 example="1"
+     *             ),
+     *             @OA\Property(property="unitId", type="string"),
+     *             required={"name", "parentId"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-SubunitModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResourceResult
@@ -174,6 +263,34 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/subunits/{id}",
+     *     tags={"Admin/Subunits"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", description="String should be unique"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="unitId", type="string"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-SubunitModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResourceResult
@@ -203,6 +320,23 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/admin/subunits",
+     *     tags={"Admin/Subunits"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-SubunitModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResourceResult

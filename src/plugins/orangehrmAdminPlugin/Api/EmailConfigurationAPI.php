@@ -90,7 +90,24 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @return EndpointResourceResult
+     * @OA\Get(
+     *     path="/api/v2/admin/email-configuration",
+     *     tags={"Admin/Email Configuration"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-EmailConfigurationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
+     * @inheritDoc
      * @throws Exception
      */
     public function getOne(): EndpointResourceResult
@@ -125,6 +142,40 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/email-configuration",
+     *     tags={"Admin/Email Configuration"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="mailType", type="string"),
+     *             @OA\Property(property="sentAs", type="string"),
+     *             @OA\Property(property="smtpHost", type="string"),
+     *             @OA\Property(property="smtpPort", type="integer"),
+     *             @OA\Property(property="smtpUsername", type="string"),
+     *             @OA\Property(property="smtpPassword", type="string"),
+     *             @OA\Property(property="smtpAuthType", type="string"),
+     *             @OA\Property(property="smtpSecurityType", type="string"),
+     *             @OA\Property(property="testEmailAddress", type="string"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-LanguageModel"
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="testEmailStatus", type="integer")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      * @throws Exception
      */

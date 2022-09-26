@@ -42,6 +42,19 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_DATE_FORMAT = 'dateFormat';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/localization}",
+     *     tags={"Admin/Localization"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="dateFormat", type="string", example="Y-m-d"),
+     *             @OA\Property(property="language", type="string", example="en_US"),
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -63,6 +76,30 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/localization}",
+     *     tags={"Admin/Localization"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="dateFormat", type="string", example="en_US,nl"),
+     *             @OA\Property(property="language", type="string", example="m-d-Y,m-Y-d"),
+     *             required={"dateFormat", "language"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-MembershipModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

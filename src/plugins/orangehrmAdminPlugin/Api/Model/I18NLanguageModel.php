@@ -23,6 +23,15 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\I18NLanguage;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-I18NLanguageModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string", example="nl,fr"),
+ *     @OA\Property(property="code", type="string", example="Dutch - Nederlands, French - Français")
+ * )
+ */
 class I18NLanguageModel implements Normalizable
 {
     use ModelTrait;

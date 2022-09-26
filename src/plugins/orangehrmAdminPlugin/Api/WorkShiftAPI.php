@@ -169,7 +169,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      *                     type="integer",
      *                 )
      *             ),
-     *             required={"name,hoursPerDay,startTime,endTime"}
+     *             required={"name", "hoursPerDay", "startTime", "endTime"}
      *         )
      *     ),
      *     @OA\Response(response="200",
@@ -293,7 +293,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      *                     type="integer",
      *                 )
      *             ),
-     *             required={"name,hoursPerDay,startTime,endTime"}
+     *             required={"name", "hoursPerDay", "startTime", "endTime"}
      *         )
      *     ),
      *     @OA\Response(response="200",
