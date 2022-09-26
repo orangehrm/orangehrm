@@ -26,11 +26,7 @@
       :rounded="false"
       class="orangehrm-buzz-card"
     >
-      <oxd-text
-        tag="p"
-        style="font-weight: bold"
-        class="orangehrm-buzz-card-title"
-      >
+      <oxd-text tag="p" class="orangehrm-buzz-card-title">
         {{ $t('buzz.upcoming_anniversaries') }}
       </oxd-text>
       <div class="orangehrm-buzz-body">

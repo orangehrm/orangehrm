@@ -3,5 +3,5 @@ langStrings:
     value: 'Upcoming Anniversaries'
     unitId: upcoming_anniversaries
   -
-    value: '{yearsCount,plural, =0{} one{Year } other{Years}}'
+    value: '{yearsCount,plural, =0{} one{Year} other{Years}}'
     unitId: n_year

@@ -20,14 +20,11 @@
 namespace OrangeHRM\Buzz\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
 class BuzzController extends AbstractVueController
 {
-    use ServiceContainerTrait;
-
     public function preRender(Request $request): void
     {
         $component = new Component('view-buzz');
