@@ -23,6 +23,29 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Location;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-LocationModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(
+ *         property="country",
+ *         type="object",
+ *         @OA\Property(property="countryCode", type="string"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="countryName", type="string"),
+ *     ),
+ *     @OA\Property(property="province", type="string"),
+ *     @OA\Property(property="city", type="string"),
+ *     @OA\Property(property="address", type="string"),
+ *     @OA\Property(property="zipCode", type="string"),
+ *     @OA\Property(property="phone", type="string"),
+ *     @OA\Property(property="fax", type="string"),
+ *     @OA\Property(property="note", type="string"),
+ *     @OA\Property(property="noOfEmployees", type="integer"),
+ * )
+ */
 class LocationModel implements Normalizable
 {
     use ModelTrait;

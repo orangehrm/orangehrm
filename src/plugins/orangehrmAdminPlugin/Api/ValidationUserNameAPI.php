@@ -64,12 +64,8 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/Admin-CurrencyTypeModel")
-     *             ),
-     *             @OA\Property(property="meta",
      *                 type="object",
-     *                 @OA\Property(property="total", type="integer")
+     *                 @OA\Property(property="valid", type="boolean")
      *             )
      *         )
      *     )

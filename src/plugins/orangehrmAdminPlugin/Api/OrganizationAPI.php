@@ -88,7 +88,24 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResourceResult
+     * @OA\Get(
+     *     path="/api/v2/admin/organization",
+     *     tags={"Admin/Organization"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-OrganizationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
+     * @inheritDoc
      * @throws Exception
      */
     public function getOne(): EndpointResourceResult
@@ -159,6 +176,40 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/organization",
+     *     tags={"Admin/Organization"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="registrationNumber", type="string"),
+     *             @OA\Property(property="phone", type="string"),
+     *             @OA\Property(property="fax", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="country", type="string"),
+     *             @OA\Property(property="province", type="string"),
+     *             @OA\Property(property="city", type="string"),
+     *             @OA\Property(property="zipCode", type="string"),
+     *             @OA\Property(property="street1", type="string"),
+     *             @OA\Property(property="street2", type="string"),
+     *             @OA\Property(property="note", type="string"),
+     *             required={"name"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-OrganizationModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResourceResult
