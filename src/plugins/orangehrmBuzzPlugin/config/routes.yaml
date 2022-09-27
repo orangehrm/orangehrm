@@ -1,4 +1,15 @@
-buzz_module_under_development: # remove this
-  path: /buzz/{screen}
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+##########################
+#       Mock API
+##########################
+apiv2_buzz_upcoming_anniversary:
+  path: /api/v2/buzz/anniversaries
+  controller: OrangeHRM\Buzz\Controller\BuzzAnniversaryDataMockController::getUpcomingAnniversaries
+  methods: [ GET ]
+
+##########################
+#        Screens
+##########################
+buzz_module:
+  path: /buzz/viewBuzz
+  controller: OrangeHRM\Buzz\Controller\BuzzController::handle
   methods: [ GET ]
