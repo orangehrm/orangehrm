@@ -60,6 +60,7 @@ class LDAPSyncService
     private ?LDAPService $ldapService = null;
     private ?LDAPSetting $ldapSetting = null;
     private LDAPDao $ldapDao;
+    private array $empNumbersWhoHaveManyUsers;
 
     /**
      * @return LDAPDao
@@ -98,6 +99,14 @@ class LDAPSyncService
             }
         }
         return $this->ldapSetting;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getEmpNumbersWhoHaveManyUsers(): array
+    {
+        return $this->empNumbersWhoHaveManyUsers ??= $this->getLDAPDao()->getEmpNumbersWhoHaveManyUsers();
     }
 
     /**
@@ -184,8 +193,8 @@ class LDAPSyncService
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
+                    $this->warnMultiUserEmployee($employee);
                 } elseif ($this->getLDAPSetting()->shouldMergeLDAPUsersWithExistingSystemUsers()) {
-                    // TODO:: check employees who have multiple users
                     // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());
                     $user->setDateModified($this->getDateTimeHelper()->getNow());
@@ -213,7 +222,7 @@ class LDAPSyncService
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
-                    // TODO:: check/handle empty $user->getUserPassword()
+                    $this->warnMultiUserEmployee($employee);
                 }
             } else {
                 // try to find a user who have user unique id
@@ -246,6 +255,7 @@ class LDAPSyncService
                         $this->getEntityManager()->persist($user);
                         $this->getEntityManager()->persist($ldapAuthProvider);
                         $this->getEntityManager()->flush();
+                        $this->warnMultiUserEmployee($employee);
 
                         continue;
                     }
@@ -288,6 +298,7 @@ class LDAPSyncService
                 $this->getEntityManager()->persist($user);
                 $this->getEntityManager()->persist($authProvider);
                 $this->getEntityManager()->flush();
+                $this->warnMultiUserEmployee($employee);
             }
         }
     }
@@ -307,6 +318,17 @@ class LDAPSyncService
             $this->getLogger()->error($e->getMessage());
             $this->getLogger()->error(serialize($ldapUser));
             return null;
+        }
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    private function warnMultiUserEmployee(Employee $employee): void
+    {
+        $empNumber = $employee->getEmpNumber();
+        if (in_array($empNumber, $this->getEmpNumbersWhoHaveManyUsers())) {
+            $this->getLogger()->warning("Employee Number: `$empNumber`. This employee has many users");
         }
     }
 
@@ -417,8 +439,8 @@ class LDAPSyncService
                 ->setUserLookupSetting($lookupSetting)
                 ->setEntry($entry);
         } catch (Throwable $e) {
-            $this->getLogger()->warning($e->getMessage());
-            $this->getLogger()->warning(serialize($entry));
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error(json_encode([$entry->getDn(), $entry->getAttributes()]));
             return null;
         }
     }
