@@ -147,7 +147,6 @@ class LDAPSyncService
 
     /**
      * @param LDAPUser[] $ldapUsers
-     * @todo refactor
      */
     public function createSystemUsers(array $ldapUsers): void
     {
@@ -453,6 +452,9 @@ class LDAPSyncService
         return array_unique($attributes);
     }
 
+    /**
+     * @param LDAPUserCollection $ldapUserCollection
+     */
     public function deleteLocalUsersWhoRemovedFromLDAPServer(LDAPUserCollection $ldapUserCollection): void
     {
         $ldapAuthProviders = [];

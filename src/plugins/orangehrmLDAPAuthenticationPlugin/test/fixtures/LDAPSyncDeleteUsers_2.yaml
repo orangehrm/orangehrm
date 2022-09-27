@@ -1,0 +1,52 @@
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "2","name": "Retired" }
+  - { "id": "6","name": "Resigned" }
+  - { "id": "9","name": "Laid-off" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "","emp_sin_num": "890 785 234" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 6,"employee_id": "0100","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "","emp_work_email": "Linda@example.org" }
+  - { "emp_number": 7,"employee_id": "0101","emp_lastname": "Harmony","emp_firstname": "Rebecca","emp_middle_name": "","emp_work_email": "Rebecca@example.org" }
+  - { "emp_number": 8,"employee_id": "0102","emp_lastname": "Andrews","emp_firstname": "Lisa","emp_middle_name": "","emp_work_email": "Lisa@example.org" }
+  - { "emp_number": 9,"employee_id": "0103","emp_lastname": "White","emp_firstname": "Jacqueline","emp_middle_name": "","emp_work_email": "Jacqueline@example.org" }
+  - { "emp_number": 10,"employee_id": "0104","emp_lastname": "Grace","emp_firstname": "Fiona","emp_middle_name": "","emp_work_email": "Fiona@example.org" }
+
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "1","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "1","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "3","erep_reporting_mode": "2" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": 0,"status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Anderson","user_password": "Anderson","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 4,"user_role_id": 2,"emp_number": 6,"user_name": "Linda.Anderson","user_password": null,"deleted": "0","status": "1","date_entered": "2022-09-07 08:30:00","date_modified": null,"modified_user_id": null,"created_by": null }
+  - { "id": 5,"user_role_id": 2,"emp_number": 7,"user_name": "Rebecca.Harmony","user_password": null,"deleted": "0","status": "1","date_entered": "2022-09-07 08:30:00","date_modified": null,"modified_user_id": null,"created_by": null }
+  - { "id": 6,"user_role_id": 2,"emp_number": 8,"user_name": "Lisa.Andrews","user_password": null,"deleted": "0","status": "1","date_entered": "2022-09-07 08:30:00","date_modified": null,"modified_user_id": null,"created_by": null }
+  - { "id": 7,"user_role_id": 2,"emp_number": 9,"user_name": "Jacqueline.White","user_password": null,"deleted": "0","status": "1","date_entered": "2022-09-07 08:30:00","date_modified": null,"modified_user_id": null,"created_by": null }
+  - { "id": 8,"user_role_id": 2,"emp_number": 10,"user_name": "Fiona.Grace","user_password": null,"deleted": "0","status": "1","date_entered": "2022-09-07 08:30:00","date_modified": null,"modified_user_id": null,"created_by": null }
+
+UserAuthProvider:
+  - { "id": 1,"user_id": 4,"provider_type": 2,"ldap_user_hash": "cf8f29e9a2600086fe27b4e1a4657e5f","ldap_user_dn": "cn=Linda.Anderson,ou=admin,ou=users,dc=example,dc=org","ldap_user_unique_id": "ba79db9bc13dc13d512f3b82bcdb8d47" }
+  - { "id": 2,"user_id": 5,"provider_type": 2,"ldap_user_hash": "6326bc234744e010f93125ca63e46a67","ldap_user_dn": "cn=Rebecca.Harmony,ou=admin,ou=users,dc=example,dc=org","ldap_user_unique_id": "595bc87fc5839e43e7e272d75aeb27c2" }
+  - { "id": 3,"user_id": 6,"provider_type": 2,"ldap_user_hash": "fae30ace712c5184066bf4400f0a412d","ldap_user_dn": "cn=Lisa.Andrews,ou=admin,ou=users,dc=example,dc=org","ldap_user_unique_id": "18df7d5bc41e7395b8e3411799ffda97" }
+  - { "id": 4,"user_id": 7,"provider_type": 2,"ldap_user_hash": "50d667ba692edf043fae2069d702d215","ldap_user_dn": "cn=Jacqueline.White,ou=admin,ou=users,dc=example,dc=org","ldap_user_unique_id": "d31628089b91ad88ec3328583f7ca8db" }
+  - { "id": 5,"user_id": 8,"provider_type": 2,"ldap_user_hash": "eafe2bb5f510dd93521e983f7aade376","ldap_user_dn": "cn=Fiona.Grace,ou=admin,ou=users,dc=example,dc=org","ldap_user_unique_id": "f9c05dad74c632f62abefd193e7523ae" }
