@@ -203,6 +203,7 @@ export default {
         .getAll({
           timezoneOffset,
           currentDate: formatDate(currentDate, 'yyyy-MM-dd'),
+          currentTime: formatDate(new Date(), 'HH:mm'),
         })
         .then(response => {
           const {data, meta} = response.data;

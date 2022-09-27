@@ -73,10 +73,10 @@ class EmployeeTimeAtWorkService
      * @return array
      * @throws Exception
      */
-    public function getTimeAtWorkResults(int $empNumber, DateTime $currentDateTime): array
+    public function getTimeAtWorkResults(int $empNumber, DateTime $currentDateTime, DateTime $spotDateTime): array
     {
         list($weeklyData, $totalTimeForWeek) = $this->getDataForCurrentWeek($empNumber, $currentDateTime);
-        $weeklyMetaData = $this->getTimeAtWorkMetaData($empNumber, $currentDateTime, $totalTimeForWeek);
+        $weeklyMetaData = $this->getTimeAtWorkMetaData($empNumber, $currentDateTime, $spotDateTime, $totalTimeForWeek);
         return [$weeklyData, $weeklyMetaData];
     }
 
@@ -87,12 +87,19 @@ class EmployeeTimeAtWorkService
      * @return array
      * @throws Exception
      */
-    private function getTimeAtWorkMetaData(int $empNumber, DateTime $currentDateTime, int $totalTimeForWeek): array
-    {
+    private function getTimeAtWorkMetaData(
+        int $empNumber,
+        DateTime $currentDateTime,
+        DateTime $spotDateTime,
+        int $totalTimeForWeek
+    ): array {
         $currentUTCDateTime = (clone $currentDateTime)->setTimezone(
             new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
         );
-        $totalTimeForCurrentDay = $this->getTotalTimeForGivenDate($empNumber, $currentUTCDateTime);
+        $spotUTCDateTime = (clone $spotDateTime)->setTimezone(
+            new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
+        );
+        $totalTimeForCurrentDay = $this->getTotalTimeForGivenDate($empNumber, $currentUTCDateTime, $spotUTCDateTime);
         list($weekStartDate, $weekEndDate) = $this->getWeekBoundaryForGivenDate($currentDateTime);
 
         $weekStartDate = new DateTime($weekStartDate);
@@ -178,40 +185,56 @@ class EmployeeTimeAtWorkService
     /**
      * @param int $empNumber
      * @param DateTime $startUTCDateTime
-     * @return int total time will be returned in minutes
+     * @param DateTime|null $spotUTCDateTime
+     * @return int
      * @throws Exception
      */
-    private function getTotalTimeForGivenDate(int $empNumber, DateTime $startUTCDateTime): int
-    {
+    private function getTotalTimeForGivenDate(
+        int $empNumber,
+        DateTime $startUTCDateTime,
+        DateTime $spotUTCDateTime = null
+    ): int {
         $totalTime = 0;
         $endUTCDateTime = (clone $startUTCDateTime)->add(new DateInterval('P1D'));
+        /**
+         * Attendance Records for given day
+         */
         $attendanceRecords = $this->getEmployeeTimeAtWorkDao()
             ->getAttendanceRecordsByEmployeeAndDate(
                 $empNumber,
                 $startUTCDateTime,
                 $endUTCDateTime
             );
-        /**
-         * No attendance records found for given day, check for empty array []
-         */
-        if (!$attendanceRecords) {
-            return $totalTime;
-        }
-        foreach ($attendanceRecords as $attendanceRecord) {
-            if ($attendanceRecord->getState() === self::STATE_PUNCHED_OUT) {
+        if ($attendanceRecords) {
+            foreach ($attendanceRecords as $attendanceRecord) {
                 $punchInUtcDateTime = $this->getDateTimeInUTC($attendanceRecord->getPunchInUtcTime());
-                $punchOutUtcDateTime = $this->getDateTimeInUTC($attendanceRecord->getPunchOutUtcTime());
-                if ($punchInUtcDateTime < $startUTCDateTime && $punchOutUtcDateTime > $endUTCDateTime) {
-                    $totalTime += $this->getTimeDifference($endUTCDateTime, $startUTCDateTime);
-                } elseif ($punchInUtcDateTime < $startUTCDateTime && $punchOutUtcDateTime > $startUTCDateTime) {
-                    $totalTime += $this->getTimeDifference($startUTCDateTime, $punchOutUtcDateTime);
-                } elseif ($punchInUtcDateTime < $endUTCDateTime && $punchOutUtcDateTime > $endUTCDateTime) {
-                    $totalTime += $this->getTimeDifference($punchInUtcDateTime, $endUTCDateTime);
-                } else {
-                    $totalTime += $this->getTimeDifference($punchOutUtcDateTime, $punchInUtcDateTime);
+                if ($attendanceRecord->getState() === self::STATE_PUNCHED_OUT) {
+                    $punchOutUtcDateTime = $this->getDateTimeInUTC($attendanceRecord->getPunchOutUtcTime());
+                    if ($punchInUtcDateTime < $startUTCDateTime && $punchOutUtcDateTime > $endUTCDateTime) {
+                        $totalTime += $this->getTimeDifference($endUTCDateTime, $startUTCDateTime);
+                    } elseif ($punchInUtcDateTime < $startUTCDateTime && $punchOutUtcDateTime > $startUTCDateTime) {
+                        $totalTime += $this->getTimeDifference($startUTCDateTime, $punchOutUtcDateTime);
+                    } elseif ($punchInUtcDateTime < $endUTCDateTime && $punchOutUtcDateTime > $endUTCDateTime) {
+                        $totalTime += $this->getTimeDifference($punchInUtcDateTime, $endUTCDateTime);
+                    } else {
+                        $totalTime += $this->getTimeDifference($punchOutUtcDateTime, $punchInUtcDateTime);
+                    }
                 }
             }
         }
+        if (!is_null($spotUTCDateTime)) {
+            $openAttendanceRecord = $this->getEmployeeTimeAtWorkDao()
+                ->getOpenAttendanceRecordByEmpNumber($empNumber);
+            if ($openAttendanceRecord instanceof AttendanceRecord) {
+                $openRecordPunchInUtcTime = $this->getDateTimeInUTC($openAttendanceRecord->getPunchInUtcTime());
+                if ($openRecordPunchInUtcTime < $startUTCDateTime) {
+                    $totalTime += $this->getTimeDifference($spotUTCDateTime, $startUTCDateTime);
+                } else {
+                    $totalTime += $this->getTimeDifference($spotUTCDateTime, $openRecordPunchInUtcTime);
+                }
+            }
+        }
+
         return $totalTime;
     }
 

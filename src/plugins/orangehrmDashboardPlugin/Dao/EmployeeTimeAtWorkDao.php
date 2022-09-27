@@ -22,7 +22,6 @@ namespace OrangeHRM\Dashboard\Dao;
 use DateTime;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
-use OrangeHRM\ORM\ListSorter;
 
 class EmployeeTimeAtWorkDao extends BaseDao
 {
@@ -32,11 +31,29 @@ class EmployeeTimeAtWorkDao extends BaseDao
      */
     public function getLatestAttendanceRecordByEmpNumber(int $empNumber): ?AttendanceRecord
     {
-        return $this->getRepository(AttendanceRecord::class)
-            ->findOneBy(
-                ['employee' => $empNumber],
-                ['id' => ListSorter::DESCENDING]
-            );
+        $latestPunchInUtcTime = $this->getLatestPunchInUtcTimeByEmpNumber($empNumber);
+        if (is_null($latestPunchInUtcTime)) {
+            return null;
+        }
+        $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $qb->andWhere('attendanceRecord.employee = :empNumber');
+        $qb->setParameter('empNumber', $empNumber);
+        $qb->andWhere('attendanceRecord.punchInUtcTime = :punchInUtcTime');
+        $qb->setParameter('punchInUtcTime', $latestPunchInUtcTime);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $empNumber
+     * @return string|null
+     */
+    private function getLatestPunchInUtcTimeByEmpNumber(int $empNumber): ?string
+    {
+        $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord')
+            ->select('MAX(attendanceRecord.punchInUtcTime)')
+            ->andWhere('attendanceRecord.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -74,5 +91,19 @@ class EmployeeTimeAtWorkDao extends BaseDao
         $qb->setParameter('start', $startUTCDateTime);
         $qb->setParameter('end', $endUTCDateTime);
         return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $empNumber
+     * @return AttendanceRecord|null
+     */
+    public function getOpenAttendanceRecordByEmpNumber(int $empNumber): ?AttendanceRecord
+    {
+        $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $qb->andWhere('attendanceRecord.state = :state');
+        $qb->setParameter('state', AttendanceRecord::STATE_PUNCHED_IN);
+        $qb->andWhere('attendanceRecord.employee = :empNumber');
+        $qb->setParameter('empNumber', $empNumber);
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }
