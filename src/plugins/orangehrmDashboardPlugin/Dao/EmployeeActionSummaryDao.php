@@ -39,10 +39,13 @@ class EmployeeActionSummaryDao extends BaseDao
     public function getActionableScheduledInterviewCount(array $candidateIds): int
     {
         $qb = $this->createQueryBuilder(CandidateVacancy::class, 'candidateVacancy');
+        $qb->leftJoin('candidateVacancy.vacancy', 'vacancy');
         $qb->andWhere($qb->expr()->in('candidateVacancy.candidate', ':candidateIds'))
             ->setParameter('candidateIds', $candidateIds)
             ->andWhere('candidateVacancy.status = :status')
-            ->setParameter('status', self::STATE_INTERVIEW_SCHEDULED);
+            ->setParameter('status', self::STATE_INTERVIEW_SCHEDULED)
+            ->andWhere('vacancy.status = :active')
+            ->setParameter('active', true);
         return $this->getPaginator($qb)->count();
     }
 
