@@ -173,7 +173,7 @@ class EmployeeService
      */
     public function dispatchAddEmployeeEvent(Employee $employee): void
     {
-//        $this->getEmployeeEventService()->saveAddEmployeeEvent($employee->getEmpNumber());
+        $this->getEmployeeEventService()->saveAddEmployeeEvent($employee->getEmpNumber());
         $this->getEventDispatcher()->dispatch(new EmployeeAddedEvent($employee), EmployeeEvents::EMPLOYEE_ADDED);
     }
 
@@ -356,5 +356,19 @@ class EmployeeService
         }
 
         return !$this->getEmployeeDao()->isEmailAvailable($email);
+    }
+
+    /**
+     * @param string $employeeId
+     * @param string|null $currentEmployeeId
+     * @return bool
+     */
+    public function isUniqueEmployeeId(string $employeeId, ?string $currentEmployeeId = null): bool
+    {
+        if ($currentEmployeeId !== null && $employeeId === $currentEmployeeId) {
+            return true;
+        }
+
+        return $this->getEmployeeDao()->isUniqueEmployeeId($employeeId);
     }
 }

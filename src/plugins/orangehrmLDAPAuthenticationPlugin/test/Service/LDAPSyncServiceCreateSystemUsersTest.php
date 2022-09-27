@@ -26,11 +26,13 @@ use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
+use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\LDAP\Dao\LDAPDao;
 use OrangeHRM\LDAP\Dto\LDAPUser;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 use OrangeHRM\LDAP\Service\LDAPSyncService;
+use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use Symfony\Component\Ldap\Entry;
@@ -57,7 +59,9 @@ class LDAPSyncServiceCreateSystemUsersTest extends KernelTestCase
 
         $this->createKernelWithMockServices([
             Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
-            Services::USER_SERVICE => new UserService()
+            Services::USER_SERVICE => new UserService(),
+            Services::EMPLOYEE_SERVICE => new EmployeeService(),
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP'),
         ]);
     }
 
@@ -234,7 +238,7 @@ class LDAPSyncServiceCreateSystemUsersTest extends KernelTestCase
                 ->setUserUniqueId($entry->getAttribute('entryUUID')[0])
                 ->setFirstName($entry->getAttribute('givenName')[0])
                 ->setLastName($entry->getAttribute('sn')[0])
-                ->setEmployeeId("000$i")
+                ->setEmployeeId("010$i")
                 ->setWorkEmail($entry->getAttribute('mail')[0])
                 ->setUserLookupSetting($lookupSetting)
                 ->setEntry($entry);

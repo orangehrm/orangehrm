@@ -35,6 +35,7 @@ use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUser;
 use OrangeHRM\LDAP\Dto\LDAPUserCollection;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
+use OrangeHRM\LDAP\Dto\PartialEmployee;
 use OrangeHRM\LDAP\Exception\LDAPSettingException;
 use OrangeHRM\LDAP\Exception\LDAPSyncException;
 use OrangeHRM\LDAP\Traits\LDAPLoggerTrait;
@@ -162,6 +163,7 @@ class LDAPSyncService
                     }
 
                     $employee = $user->getEmployee();
+                    $clonedEmployee = PartialEmployee::createFromEmployee($employee);
                     $employee->setFirstName($ldapUser->getFirstName());
                     $employee->setLastName($ldapUser->getLastName());
                     $employee->setMiddleName($ldapUser->getMiddleName());
@@ -177,7 +179,7 @@ class LDAPSyncService
                     $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                     // TODO:: trigger employee changed
-                    if ($this->trySaveEmployee($employee, $ldapUser) === null) {
+                    if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
                         continue;
                     }
                     $this->getEntityManager()->persist($user);
@@ -191,6 +193,7 @@ class LDAPSyncService
                     //$user->setModifiedUserId(); TODO
 
                     $employee = $user->getEmployee();
+                    $clonedEmployee = PartialEmployee::createFromEmployee($employee);
                     $employee->setFirstName($ldapUser->getFirstName());
                     $employee->setLastName($ldapUser->getLastName());
                     $employee->setMiddleName($ldapUser->getMiddleName());
@@ -205,7 +208,7 @@ class LDAPSyncService
                     $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                     // TODO:: trigger employee changed
-                    if ($this->trySaveEmployee($employee, $ldapUser) === null) {
+                    if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
                         continue;
                     }
                     $this->getEntityManager()->persist($user);
@@ -226,6 +229,7 @@ class LDAPSyncService
                         //$user->setModifiedUserId(); TODO
 
                         $employee = $user->getEmployee();
+                        $clonedEmployee = PartialEmployee::createFromEmployee($employee);
                         $employee->setFirstName($ldapUser->getFirstName());
                         $employee->setLastName($ldapUser->getLastName());
                         $employee->setMiddleName($ldapUser->getMiddleName());
@@ -237,7 +241,7 @@ class LDAPSyncService
                         $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                         // TODO:: trigger employee changed
-                        if ($this->trySaveEmployee($employee, $ldapUser) === null) {
+                        if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
                             continue;
                         }
                         $this->getEntityManager()->persist($user);
@@ -256,6 +260,7 @@ class LDAPSyncService
 
                 // Create a new user if not found the employee for given mapping configurations
                 $employee = $employee ?? new Employee();
+                $clonedEmployee = PartialEmployee::createFromEmployee($employee);
                 $employee->setFirstName($ldapUser->getFirstName());
                 $employee->setLastName($ldapUser->getLastName());
                 $employee->setMiddleName($ldapUser->getMiddleName());
@@ -278,7 +283,7 @@ class LDAPSyncService
                 $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                 // TODO:: trigger employee changed
-                if ($this->trySaveEmployee($employee, $ldapUser) === null) {
+                if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
                     continue;
                 }
                 $this->getEntityManager()->persist($user);
@@ -286,18 +291,18 @@ class LDAPSyncService
                 $this->getEntityManager()->flush();
             }
         }
-        // TODO:: soft delete LDAP users who removed from the server
     }
 
     /**
      * @param Employee $employee
+     * @param PartialEmployee $clonedEmployee
      * @param LDAPUser $ldapUser
      * @return Employee|null
      */
-    private function trySaveEmployee(Employee $employee, LDAPUser $ldapUser): ?Employee
+    private function trySaveEmployee(Employee $employee, PartialEmployee $clonedEmployee, LDAPUser $ldapUser): ?Employee
     {
         try {
-            $this->saveEmployee($employee);
+            $this->saveEmployee($employee, $clonedEmployee);
             return $employee;
         } catch (LDAPSyncException $e) {
             $this->getLogger()->error($e->getMessage());
@@ -308,18 +313,19 @@ class LDAPSyncService
 
     /**
      * @param Employee $employee
+     * @param PartialEmployee $clonedEmployee
      * @throws LDAPSyncException
      */
-    private function saveEmployee(Employee $employee): void
+    private function saveEmployee(Employee $employee, PartialEmployee $clonedEmployee): void
     {
         if ($employee->getWorkEmail() !== null
-            && !$this->getEmployeeService()->isUniqueEmail($employee->getWorkEmail())) {
+            && !$this->getEmployeeService()
+                ->isUniqueEmail($employee->getWorkEmail(), $clonedEmployee->getWorkEmail())) {
             throw LDAPSyncException::nonUniqueWorkEmail();
         }
         if ($employee->getEmployeeId() !== null
             && !$this->getEmployeeService()
-                ->getEmployeeDao()
-                ->isUniqueEmployeeId($employee->getEmployeeId())) {
+                ->isUniqueEmployeeId($employee->getEmployeeId(), $clonedEmployee->getEmployeeId())) {
             throw LDAPSyncException::nonUniqueEmployeeId();
         }
 
@@ -413,7 +419,7 @@ class LDAPSyncService
                 ->setEntry($entry);
         } catch (Throwable $e) {
             $this->getLogger()->warning($e->getMessage());
-            $this->getLogger()->warning($e->getTraceAsString());
+            $this->getLogger()->warning(serialize($entry));
             return null;
         }
     }

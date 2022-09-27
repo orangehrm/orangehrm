@@ -27,6 +27,7 @@ use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
+use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
@@ -140,7 +141,10 @@ class LDAPSyncServiceTest extends KernelTestCase
         $configService->expects($this->exactly(2))
             ->method('getLDAPSetting')
             ->willReturn($ldapSetting);
-        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+        $this->createKernelWithMockServices([
+            Services::CONFIG_SERVICE => $configService,
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP')
+        ]);
 
         $ldapSyncService = new LDAPSyncService();
         $entryCollections = $ldapSyncService->fetchEntryCollections();
@@ -168,7 +172,10 @@ class LDAPSyncServiceTest extends KernelTestCase
         $configService->expects($this->exactly(2))
             ->method('getLDAPSetting')
             ->willReturn($ldapSetting);
-        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+        $this->createKernelWithMockServices([
+            Services::CONFIG_SERVICE => $configService,
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP')
+        ]);
 
         $ldapSyncService = new LDAPSyncService();
         $entryCollections = $ldapSyncService->fetchEntryCollections();
@@ -196,7 +203,10 @@ class LDAPSyncServiceTest extends KernelTestCase
         $configService->expects($this->exactly(2))
             ->method('getLDAPSetting')
             ->willReturn($ldapSetting);
-        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+        $this->createKernelWithMockServices([
+            Services::CONFIG_SERVICE => $configService,
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP')
+        ]);
 
         $ldapSyncService = new LDAPSyncService();
         $entryCollections = $ldapSyncService->fetchEntryCollections();
@@ -233,7 +243,10 @@ class LDAPSyncServiceTest extends KernelTestCase
         $configService->expects($this->exactly(2))
             ->method('getLDAPSetting')
             ->willReturn($ldapSetting);
-        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+        $this->createKernelWithMockServices([
+            Services::CONFIG_SERVICE => $configService,
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP')
+        ]);
 
         $ldapSyncService = new LDAPSyncService();
         $entryCollections = $ldapSyncService->fetchEntryCollections();
@@ -258,7 +271,10 @@ class LDAPSyncServiceTest extends KernelTestCase
         $configService->expects($this->exactly(2))
             ->method('getLDAPSetting')
             ->willReturn($ldapSetting);
-        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+        $this->createKernelWithMockServices([
+            Services::CONFIG_SERVICE => $configService,
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP')
+        ]);
 
         $ldapSyncService = new LDAPSyncService();
         $entryCollections = $ldapSyncService->fetchEntryCollections();
@@ -319,7 +335,10 @@ class LDAPSyncServiceTest extends KernelTestCase
         $configService->expects($this->exactly(2))
             ->method('getLDAPSetting')
             ->willReturn($ldapSetting);
-        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+        $this->createKernelWithMockServices([
+            Services::CONFIG_SERVICE => $configService,
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP')
+        ]);
 
         $timeStart = microtime(true);
         $ldapSyncService = new LDAPSyncService();
@@ -370,7 +389,10 @@ class LDAPSyncServiceTest extends KernelTestCase
         $configService->expects($this->exactly(2))
             ->method('getLDAPSetting')
             ->willReturn($ldapSetting);
-        $this->createKernelWithMockServices([Services::CONFIG_SERVICE => $configService]);
+        $this->createKernelWithMockServices([
+            Services::CONFIG_SERVICE => $configService,
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP')
+        ]);
 
         $ldapSyncService = new LDAPSyncService();
         $ldapUserCollection = $ldapSyncService->fetchAllLDAPUsers();
@@ -466,6 +488,7 @@ class LDAPSyncServiceTest extends KernelTestCase
             Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
             Services::CONFIG_SERVICE => $configService,
             Services::USER_SERVICE => new UserService(),
+            Services::LDAP_LOGGER => LoggerFactory::getLogger('LDAP')
         ]);
 
         $timeStart = microtime(true);
