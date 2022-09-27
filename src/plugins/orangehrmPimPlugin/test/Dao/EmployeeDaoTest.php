@@ -339,23 +339,15 @@ class EmployeeDaoTest extends KernelTestCase
 
     public function testIsWorkEmailIsAvailable(): void
     {
-        $status = $this->employeeDao->isEmailAvailable('kayla0001@xample.com', 'kayla@xample.com');
-        $this->assertEquals(true, $status);
+        $status = $this->employeeDao->isEmailAvailable('kayla0001@xample.com');
+        $this->assertFalse($status);
 
         //with existing work email
-        $status = $this->employeeDao->isEmailAvailable('kayla@xample.com', 'nihan@xample.com');
-        $this->assertEquals(false, $status);
+        $status = $this->employeeDao->isEmailAvailable('kayla@xample.com');
+        $this->assertTrue($status);
 
         //with existing other email
-        $status = $this->employeeDao->isEmailAvailable('kayla2@xample.com', 'nihan2@xample.com');
-        $this->assertEquals(false, $status);
-
-        //with same email
-        $status = $this->employeeDao->isEmailAvailable('ashley@xample.com', 'ashley@xample.com');
-        $this->assertEquals(true, $status);
-
-        //with null email
-        $status = $this->employeeDao->isEmailAvailable('devi@admin.com', null);
-        $this->assertEquals(true, $status);
+        $status = $this->employeeDao->isEmailAvailable('kayla2@xample.com');
+        $this->assertTrue($status);
     }
 }

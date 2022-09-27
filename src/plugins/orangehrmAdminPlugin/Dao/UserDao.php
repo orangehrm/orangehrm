@@ -90,10 +90,10 @@ class UserDao extends BaseDao
     {
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->update()
-                ->set('u.deleted', ':deleted')
-                ->setParameter('deleted', true)
-                ->where($q->expr()->in('u.id', ':ids'))
-                ->setParameter('ids', $deletedIds);
+            ->set('u.deleted', ':deleted')
+            ->setParameter('deleted', true)
+            ->where($q->expr()->in('u.id', ':ids'))
+            ->setParameter('ids', $deletedIds);
         return $q->getQuery()->execute();
     }
 

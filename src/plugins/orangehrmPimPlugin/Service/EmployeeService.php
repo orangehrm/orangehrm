@@ -173,7 +173,7 @@ class EmployeeService
      */
     public function dispatchAddEmployeeEvent(Employee $employee): void
     {
-        $this->getEmployeeEventService()->saveAddEmployeeEvent($employee->getEmpNumber());
+//        $this->getEmployeeEventService()->saveAddEmployeeEvent($employee->getEmpNumber());
         $this->getEventDispatcher()->dispatch(new EmployeeAddedEvent($employee), EmployeeEvents::EMPLOYEE_ADDED);
     }
 
@@ -291,7 +291,6 @@ class EmployeeService
      * @param bool|null $includeChain Include Supervisor chain or not
      * @param int|null $maxDepth
      * @return int[] An array of empNumbers
-     * @throws CoreServiceException
      */
     public function getSupervisorIdListBySubordinateId(
         int $subordinateId,
@@ -341,5 +340,21 @@ class EmployeeService
             $undeletableIds[] = $user->getEmpNumber();
         }
         return $undeletableIds;
+    }
+
+    /**
+     * @param string $email
+     * @param string|null $currentEmail
+     * @return bool
+     */
+    public function isUniqueEmail(string $email, ?string $currentEmail = null): bool
+    {
+        // we need to skip the current email on checking, otherwise count always return 1 (if current work email is not null)
+        // if the current email is set and input email equals current email, return true to skip validation
+        if ($currentEmail !== null && $email === $currentEmail) {
+            return true;
+        }
+
+        return !$this->getEmployeeDao()->isEmailAvailable($email);
     }
 }
