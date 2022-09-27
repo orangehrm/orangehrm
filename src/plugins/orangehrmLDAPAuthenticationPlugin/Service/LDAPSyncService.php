@@ -21,7 +21,6 @@ namespace OrangeHRM\LDAP\Service;
 
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -37,7 +36,10 @@ use OrangeHRM\LDAP\Dto\LDAPUser;
 use OrangeHRM\LDAP\Dto\LDAPUserCollection;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 use OrangeHRM\LDAP\Exception\LDAPSettingException;
+use OrangeHRM\LDAP\Exception\LDAPSyncException;
+use OrangeHRM\LDAP\Traits\LDAPLoggerTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Entry;
 use Throwable;
@@ -48,10 +50,11 @@ use function serialize;
 class LDAPSyncService
 {
     use ConfigServiceTrait;
-    use LoggerTrait;
     use EntityManagerHelperTrait;
     use UserServiceTrait;
     use DateTimeHelperTrait;
+    use EmployeeServiceTrait;
+    use LDAPLoggerTrait;
 
     private ?LDAPService $ldapService = null;
     private ?LDAPSetting $ldapSetting = null;
@@ -163,7 +166,7 @@ class LDAPSyncService
                     $employee->setLastName($ldapUser->getLastName());
                     $employee->setMiddleName($ldapUser->getMiddleName());
                     $employee->setEmployeeId($ldapUser->getEmployeeId());
-                    $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
+                    $employee->setWorkEmail($ldapUser->getWorkEmail());
                     $user->setStatus($ldapUser->isUserEnabled());
                     $user->setDateModified($this->getDateTimeHelper()->getNow());
                     //$user->setModifiedUserId(); TODO
@@ -174,7 +177,9 @@ class LDAPSyncService
                     $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                     // TODO:: trigger employee changed
-                    $this->getEntityManager()->persist($employee);
+                    if ($this->trySaveEmployee($employee, $ldapUser) === null) {
+                        continue;
+                    }
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
@@ -190,7 +195,7 @@ class LDAPSyncService
                     $employee->setLastName($ldapUser->getLastName());
                     $employee->setMiddleName($ldapUser->getMiddleName());
                     $employee->setEmployeeId($ldapUser->getEmployeeId());
-                    $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
+                    $employee->setWorkEmail($ldapUser->getWorkEmail());
 
                     $authProvider = new UserAuthProvider();
                     $authProvider->setUser($user);
@@ -200,7 +205,9 @@ class LDAPSyncService
                     $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                     // TODO:: trigger employee changed
-                    $this->getEntityManager()->persist($employee);
+                    if ($this->trySaveEmployee($employee, $ldapUser) === null) {
+                        continue;
+                    }
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
@@ -223,14 +230,16 @@ class LDAPSyncService
                         $employee->setLastName($ldapUser->getLastName());
                         $employee->setMiddleName($ldapUser->getMiddleName());
                         $employee->setEmployeeId($ldapUser->getEmployeeId());
-                        $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
+                        $employee->setWorkEmail($ldapUser->getWorkEmail());
 
                         // Change user data
                         $ldapAuthProvider->setLDAPUserDN($ldapUser->getUserDN());
                         $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                        // TODO:: save $employee
-                        $this->getEntityManager()->persist($employee);
+                        // TODO:: trigger employee changed
+                        if ($this->trySaveEmployee($employee, $ldapUser) === null) {
+                            continue;
+                        }
                         $this->getEntityManager()->persist($user);
                         $this->getEntityManager()->persist($ldapAuthProvider);
                         $this->getEntityManager()->flush();
@@ -251,7 +260,7 @@ class LDAPSyncService
                 $employee->setLastName($ldapUser->getLastName());
                 $employee->setMiddleName($ldapUser->getMiddleName());
                 $employee->setEmployeeId($ldapUser->getEmployeeId());
-                $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
+                $employee->setWorkEmail($ldapUser->getWorkEmail());
 
                 $user = new User();
                 $user->setUserName($ldapUser->getUsername());
@@ -269,13 +278,52 @@ class LDAPSyncService
                 $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                 // TODO:: trigger employee changed
-                $this->getEntityManager()->persist($employee);
+                if ($this->trySaveEmployee($employee, $ldapUser) === null) {
+                    continue;
+                }
                 $this->getEntityManager()->persist($user);
                 $this->getEntityManager()->persist($authProvider);
                 $this->getEntityManager()->flush();
             }
         }
         // TODO:: soft delete LDAP users who removed from the server
+    }
+
+    /**
+     * @param Employee $employee
+     * @param LDAPUser $ldapUser
+     * @return Employee|null
+     */
+    private function trySaveEmployee(Employee $employee, LDAPUser $ldapUser): ?Employee
+    {
+        try {
+            $this->saveEmployee($employee);
+            return $employee;
+        } catch (LDAPSyncException $e) {
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error(serialize($ldapUser));
+            return null;
+        }
+    }
+
+    /**
+     * @param Employee $employee
+     * @throws LDAPSyncException
+     */
+    private function saveEmployee(Employee $employee): void
+    {
+        if ($employee->getWorkEmail() !== null
+            && !$this->getEmployeeService()->isUniqueEmail($employee->getWorkEmail())) {
+            throw LDAPSyncException::nonUniqueWorkEmail();
+        }
+        if ($employee->getEmployeeId() !== null
+            && !$this->getEmployeeService()
+                ->getEmployeeDao()
+                ->isUniqueEmployeeId($employee->getEmployeeId())) {
+            throw LDAPSyncException::nonUniqueEmployeeId();
+        }
+
+        $this->getEntityManager()->persist($employee);
     }
 
     /**
@@ -295,8 +343,10 @@ class LDAPSyncService
     {
         $this->beginTransaction();
         try {
-            $ldapUsers = $this->fetchAllLDAPUsers()->getLDAPUsers();
+            $ldapUserCollection = $this->fetchAllLDAPUsers();
+            $ldapUsers = $ldapUserCollection->getLDAPUsers();
             $this->createSystemUsers(array_values($ldapUsers));
+            $this->deleteLocalUsersWhoRemovedFromLDAPServer($ldapUserCollection);
             $this->commitTransaction();
         } catch (Throwable $e) {
             $this->rollBackTransaction();
@@ -362,7 +412,6 @@ class LDAPSyncService
                 ->setUserLookupSetting($lookupSetting)
                 ->setEntry($entry);
         } catch (Throwable $e) {
-            // TODO
             $this->getLogger()->warning($e->getMessage());
             $this->getLogger()->warning($e->getTraceAsString());
             return null;
@@ -396,5 +445,29 @@ class LDAPSyncService
         }
         $attributes = array_merge($attributes, $lookupSetting->getEmployeeSelectorMapping()->getAllAttributeNames());
         return array_unique($attributes);
+    }
+
+    public function deleteLocalUsersWhoRemovedFromLDAPServer(LDAPUserCollection $ldapUserCollection): void
+    {
+        $ldapAuthProviders = [];
+        foreach ($this->getLDAPDao()->getAllLDAPAuthProviders() as $authProvider) {
+            $ldapAuthProviders[$authProvider->getUserDN()] = $authProvider->getUserId();
+        }
+
+        foreach ($ldapUserCollection->getLDAPUsers() as $ldapUser) {
+            unset($ldapAuthProviders[$ldapUser->getUserDN()]);
+        }
+        foreach ($ldapUserCollection->getFailedUsers() as $failedUserDNs) {
+            unset($ldapAuthProviders[$failedUserDNs]);
+        }
+        foreach ($ldapUserCollection->getUsersOfDuplicateUsernames() as $duplicateUsers) {
+            foreach ($duplicateUsers as $ldapUser) {
+                unset($ldapAuthProviders[$ldapUser->getUserDN()]);
+            }
+        }
+
+        $this->getUserService()
+            ->geUserDao()
+            ->deleteSystemUsers(array_values($ldapAuthProviders));
     }
 }

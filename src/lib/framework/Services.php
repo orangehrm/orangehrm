@@ -385,4 +385,10 @@ final class Services
      * @see \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
      */
     public const EMPLOYEE_ACTION_SUMMARY_SERVICE = 'dashboard.employee_action_summary_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// LDAP plugin services
+    ///////////////////////////////////////////////////////////////
+
+    public const LDAP_LOGGER = 'ldap.logger';
 }
