@@ -25,6 +25,7 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
+use OrangeHRM\LDAP\Dto\LDAPAuthProvider;
 use OrangeHRM\LDAP\Dto\LDAPEmployeeSearchFilterParams;
 
 class LDAPDao extends BaseDao
@@ -133,5 +134,22 @@ class LDAPDao extends BaseDao
             );
         }
         return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @return LDAPAuthProvider[]
+     */
+    public function getAllLDAPAuthProviders(): array
+    {
+        $select = 'NEW ' . LDAPAuthProvider::class .
+            '(provider.ldapUserDN, user.id)';
+        $q = $this->createQueryBuilder(UserAuthProvider::class, 'provider')
+            ->leftJoin('provider.user', 'user')
+            ->select($select);
+        $q->andWhere('provider.type = :type')
+            ->setParameter('type', UserAuthProvider::TYPE_LDAP);
+        $q->andWhere('user.deleted = :deleted')
+            ->setParameter('deleted', false);
+        return $q->getQuery()->execute();
     }
 }

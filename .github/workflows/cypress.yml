@@ -45,7 +45,7 @@ jobs:
           docker-compose -f docker-compose.yml -f docker-compose-build.yml build nginx php-8.0
           docker images
           mkdir image-cache
-          docker save --output image-cache/images.tar samanthajayasinghe/ohrm-nginx samanthajayasinghe/ohrm-php80
+          docker save --output image-cache/images.tar orangehrm/os-dev:nginx orangehrm/os-dev:php80
           ls -sh image-cache/images.tar
 
       - name: Load docker image from cache

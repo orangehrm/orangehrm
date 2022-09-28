@@ -41,4 +41,4 @@ User:
   - { "id": 9, "user_role_id": 2, "emp_number": 2, "user_name": "Jane","user_password": "Jane","deleted": 0,"status": "0","date_entered": "2021-09-15 16:47:53","created_by": "1" }
 
 UserAuthProvider:
-  - { "id": 1, "user_id": 8, "type": 2, "ldapUserDN": "cn=Linda.Anderson,ou=admin,ou=users,dc=example,dc=org", "ldapUserUniqueId": "ba79db9bc13dc13d512f3b82bcdb8d47", "ldapUserHash": "c334adb90481a3807798e4ae8050a601" }
+  - { "id": 1, "user_id": 8, "type": 2, "ldapUserDN": "cn=Linda.Anderson,ou=admin,ou=users,dc=example,dc=org", "ldapUserUniqueId": "ba79db9bc13dc13d512f3b82bcdb8d47", "ldapUserHash": "b58cf4d716ecca66fd296241bc9d9814" }
