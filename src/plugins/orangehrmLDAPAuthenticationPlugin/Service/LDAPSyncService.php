@@ -315,8 +315,7 @@ class LDAPSyncService
             $this->saveEmployee($employee, $clonedEmployee);
             return $employee;
         } catch (LDAPSyncException $e) {
-            $this->getLogger()->error($e->getMessage());
-            $this->getLogger()->error(serialize($ldapUser));
+            $this->getLogger()->error($e->getMessage(), $ldapUser->getLogInfo());
             return null;
         }
     }
@@ -439,8 +438,7 @@ class LDAPSyncService
                 ->setUserLookupSetting($lookupSetting)
                 ->setEntry($entry);
         } catch (Throwable $e) {
-            $this->getLogger()->error($e->getMessage());
-            $this->getLogger()->error(json_encode([$entry->getDn(), $entry->getAttributes()]));
+            $this->getLogger()->error($e->getMessage(), [$entry->getDn(), $entry->getAttributes()]);
             return null;
         }
     }
