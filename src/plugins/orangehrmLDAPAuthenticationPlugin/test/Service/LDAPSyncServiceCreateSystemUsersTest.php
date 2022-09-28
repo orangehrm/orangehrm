@@ -206,16 +206,47 @@ class LDAPSyncServiceCreateSystemUsersTest extends KernelTestCase
         $this->assertEquals('Anderson', $employee->getLastName());
     }
 
+    public function testCreateSystemUsersWithNonUniqueEmployeeIdAndWorkEmail(): void
+    {
+        TestDataService::truncateSpecificTables([UserAuthProvider::class]);
+        TestDataService::populate($this->fixtureDir . '/LDAPSyncUsers_7.yaml');
+
+        $this->assertEquals(3, $this->getEntityManager()->getRepository(User::class)->count([]));
+        $this->assertEquals(0, $this->getEntityManager()->getRepository(UserAuthProvider::class)->count([]));
+        $this->assertEquals(8, $this->getEntityManager()->getRepository(Employee::class)->count([]));
+        $employee = $this->getEntityManager()->getRepository(Employee::class)
+            ->findOneBy(['workEmail' => 'Fiona@example.org']);
+        $this->assertEquals('Scott', $employee->getLastName());
+        $employee = $this->getEntityManager()->getRepository(Employee::class)
+            ->findOneBy(['workEmail' => 'cecil@example.org']);
+        $this->assertEquals('Bonaparte', $employee->getLastName());
+
+        $ldapSyncService = new LDAPSyncService();
+        $ldapSyncService->createSystemUsers($this->getLDAPUsers([]));
+
+        $this->assertEquals(6, $this->getEntityManager()->getRepository(User::class)->count([]));
+        $this->assertEquals(3, $this->getEntityManager()->getRepository(UserAuthProvider::class)->count([]));
+        $this->assertEquals(11, $this->getEntityManager()->getRepository(Employee::class)->count([]));
+        $employee = $this->getEntityManager()->getRepository(Employee::class)
+            ->findOneBy(['workEmail' => 'Fiona@example.org']);
+        $this->assertEquals('Scott', $employee->getLastName());
+        $employee = $this->getEntityManager()->getRepository(Employee::class)
+            ->findOneBy(['workEmail' => 'cecil@example.org']);
+        $this->assertEquals('Bonaparte', $employee->getLastName());
+    }
+
     /**
+     * @param array $employeeSelectorMapping
      * @return LDAPUser[]
      */
-    private function getLDAPUsers(): array
-    {
+    private function getLDAPUsers(
+        array $employeeSelectorMapping = [['field' => 'workEmail', 'attributeName' => 'mail']]
+    ): array {
         $ldapUsers = [];
         $lookupSetting = LDAPUserLookupSetting::createFromArray([
             'baseDN' => 'ou=admin,ou=users,dc=example,dc=org',
             'userUniqueIdAttribute' => 'entryUUID',
-            'employeeSelectorMapping' => [['field' => 'workEmail', 'attributeName' => 'mail']],
+            'employeeSelectorMapping' => $employeeSelectorMapping,
         ]);
         $users = ['Linda.Anderson', 'Rebecca.Harmony', 'Lisa.Andrews', 'Jacqueline.White', 'Fiona.Grace'];
         foreach ($users as $i => $user) {
