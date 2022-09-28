@@ -30,14 +30,14 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\LDAP\Api\Model\LDAPTestConnectionModel;
-use OrangeHRM\LDAP\Api\Traits\LDAPDataMapParamRuleCollection;
+use OrangeHRM\LDAP\Api\Traits\LDAPCommonParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 
 class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
 {
     use ValidatorTrait;
-    use LDAPDataMapParamRuleCollection;
+    use LDAPCommonParamRuleCollection;
 
     /**
      * @inheritDoc
@@ -64,7 +64,7 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_BODY,
             LDAPConfigAPI::PARAMETER_DATA_MAPPING
         );
-        $this->validate($dataMapping, $this->getParamRuleCollection());
+        $this->validate($dataMapping, $this->geParamRuleCollectionForDataMapping());
 
         $userLookupSettings = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,

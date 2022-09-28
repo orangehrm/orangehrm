@@ -32,7 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\LDAP\Api\Model\LDAPConfigModel;
-use OrangeHRM\LDAP\Api\Traits\LDAPDataMapParamRuleCollection;
+use OrangeHRM\LDAP\Api\Traits\LDAPCommonParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 
@@ -40,7 +40,7 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
 {
     use ConfigServiceTrait;
     use ValidatorTrait;
-    use LDAPDataMapParamRuleCollection;
+    use LDAPCommonParamRuleCollection;
 
     public const PARAMETER_ENABLED = 'enable';
     public const PARAMETER_HOSTNAME = 'hostname';
@@ -58,6 +58,10 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_USER_NAME_ATTRIBUTE = 'userNameAttribute';
     public const PARAMETER_USER_UNIQUE_ID_ATTRIBUTE = 'userUniqueIdAttribute';
     public const PARAMETER_USER_SEARCH_FILTER = 'userSearchFilter';
+
+    public const PARAMETER_EMPLOYEE_SELECTOR_MAPPING = 'employeeSelectorMapping';
+    public const PARAMETER_EMPLOYEE_SELECTOR_MAPPING_FIELD = 'field';
+    public const PARAMETER_EMPLOYEE_SELECTOR_MAPPING_ATTRIBUTE_NAME = 'attributeName';
 
     public const PARAMETER_DATA_MAPPING = 'dataMapping';
     public const PARAMETER_FIRST_NAME = 'firstName';
@@ -81,6 +85,8 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_RULE_HOST_NAME_MAX_LENGTH = 255;
     public const PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH = 255;
     public const PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_USER_SEARCH_FILTER_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
 
     /**
      * @inheritDoc
@@ -91,14 +97,15 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_DATA_MAPPING
         );
-        $this->validate($dataMapping, $this->getParamRuleCollection());
+        $this->validate($dataMapping, $this->geParamRuleCollectionForDataMapping());
 
         $userLookupSettings = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_USER_LOOKUP_SETTINGS
         );
-        // TODO
-        //$this->validate($userLookupSettings, $this->getParamRuleCollectionForUserLookupSettings());
+        foreach ($userLookupSettings as $userLookupSetting) {
+            $this->validate($userLookupSetting, $this->getParamRuleCollectionForUserLookupSettings());
+        }
 
         $ldapSettings = new LDAPSetting(
             $this->getRequestParams()->getString(
@@ -269,7 +276,8 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_USER_LOOKUP_SETTINGS,
-                new Rule(Rules::ARRAY_TYPE)
+                new Rule(Rules::ARRAY_TYPE),
+                new Rule(Rules::NOT_EMPTY)
             ),
             new ParamRule(
                 self::PARAMETER_MERGE_LDAP_USERS_WITH_EXISTING_SYSTEM_USERS,
