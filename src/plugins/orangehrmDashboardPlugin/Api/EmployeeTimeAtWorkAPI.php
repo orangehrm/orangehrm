@@ -43,6 +43,7 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
     use EmployeeTimeAtWorkServiceTrait;
 
     public const PARAMETER_CURRENT_DATE = 'currentDate';
+    public const PARAMETER_CURRENT_TIME = 'currentTime';
     public const PARAMETER_TIME_ZONE_OFFSET = 'timezoneOffset';
 
     /**
@@ -59,18 +60,27 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_CURRENT_DATE,
         );
+        $currentTime = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_CURRENT_TIME
+        );
         $timezoneOffset = $this->getRequestParams()->getFloatOrNull(
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_TIME_ZONE_OFFSET,
         );
 
-        if ((!is_null($currentDate) && !is_null($timezoneOffset))) {
+        if ((!is_null($currentDate) && !is_null($currentTime) && !is_null($timezoneOffset))) {
+            $spotDateTime = new DateTime(
+                $currentDate.' '.$currentTime,
+                $this->getDateTimeHelper()->getTimezoneByTimezoneOffset($timezoneOffset)
+            );
             $currentDateTime = new DateTime(
                 $currentDate . ' 00:00:00',
                 $this->getDateTimeHelper()->getTimezoneByTimezoneOffset($timezoneOffset)
             );
         } else {
             $serverCurrentDateTime = $this->getDateTimeHelper()->getNow();
+            $spotDateTime = $serverCurrentDateTime;
             $currentDateTime = new DateTime(
                 $this->getDateTimeHelper()->formatDateTimeToYmd($serverCurrentDateTime) . ' 00:00:00',
                 $serverCurrentDateTime->getTimezone()
@@ -79,7 +89,8 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
 
         list($timeAtWorkDate, $timeAtWorkMetaData) = $this->getEmployeeTimeAtWorkService()->getTimeAtWorkResults(
             $empNumber,
-            $currentDateTime
+            $currentDateTime,
+            $spotDateTime
         );
 
         return new EndpointResourceResult(
@@ -105,6 +116,12 @@ class EmployeeTimeAtWorkAPI extends Endpoint implements ResourceEndpoint
                 new ParamRule(
                     self::PARAMETER_CURRENT_DATE,
                     new Rule(Rules::API_DATE)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CURRENT_TIME,
+                    new Rule(Rules::TIME, ['H:i'])
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

@@ -59,7 +59,8 @@ class EmployeeTimeAtWorkServiceTest extends KernelTestCase
     public function testGetTimeAtWorkResult()
     {
         $currentDateTime = new DateTime('2022-09-04 00:00:00', new DateTimeZone('Asia/Colombo'));
-        $currentWeekData = $this->employeeTimeAtWorkService->getTimeAtWorkResults(4, $currentDateTime);
+        $spotDateTime = new DateTime('2022-09-04 11:00:00', new DateTimeZone('Asia/Colombo'));
+        $currentWeekData = $this->employeeTimeAtWorkService->getTimeAtWorkResults(4, $currentDateTime, $spotDateTime);
         $this->assertCount(2, $currentWeekData);
     }
 }
