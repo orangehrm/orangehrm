@@ -46,10 +46,10 @@ class LDAPTestConnectionModel implements Normalizable
         $ldapTestService = new LDAPTestService($this->ldapSetting);
         return [
             [
-                "category" => "Login",
-                "checks" => [
-                    "label" => "Authentication",
-                    "value" => $ldapTestService->testAuthentication(),
+                'category' => 'Login',
+                'checks' => [
+                    'label' => 'Authentication',
+                    'value' => $ldapTestService->testAuthentication(),
                 ]
             ]
         ];

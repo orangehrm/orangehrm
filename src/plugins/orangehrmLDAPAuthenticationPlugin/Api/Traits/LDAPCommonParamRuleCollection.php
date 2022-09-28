@@ -32,7 +32,88 @@ trait LDAPCommonParamRuleCollection
     /**
      * @return ParamRuleCollection
      */
-    protected function geParamRuleCollectionForDataMapping(): ParamRuleCollection
+    protected function getParamRuleCollection(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_ENABLED,
+                new Rule(Rules::BOOL_VAL)
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_HOSTNAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_HOST_NAME_MAX_LENGTH])
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_PORT,
+                new Rule(Rules::NUMBER)
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_ENCRYPTION,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(
+                    Rules::IN,
+                    [[LDAPConfigAPI::ENCRYPTION_NONE, LDAPConfigAPI::ENCRYPTION_TLS, LDAPConfigAPI::ENCRYPTION_SSL]]
+                )
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_LDAP_IMPLEMENTATION,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(
+                    Rules::IN,
+                    [
+                        [
+                            LDAPConfigAPI::LDAP_IMPLEMENTATION_OPEN_LDAP,
+                            LDAPConfigAPI::LDAP_IMPLEMENTATION_ACTIVE_DIRECTORY
+                        ]
+                    ]
+                )
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_BIND_ANONYMOUSLY,
+                new Rule(Rules::BOOL_VAL)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    LDAPConfigAPI::PARAMETER_BIND_USER_DISTINGUISHED_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(
+                        Rules::LENGTH,
+                        [null, LDAPConfigAPI::PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH]
+                    )
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    LDAPConfigAPI::PARAMETER_BIND_USER_PASSWORD,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH])
+                )
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_DATA_MAPPING,
+                new Rule(Rules::ARRAY_TYPE)
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_USER_LOOKUP_SETTINGS,
+                new Rule(Rules::ARRAY_TYPE),
+                new Rule(Rules::NOT_EMPTY)
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_MERGE_LDAP_USERS_WITH_EXISTING_SYSTEM_USERS,
+                new Rule(Rules::BOOL_VAL)
+            ),
+            new ParamRule(
+                LDAPConfigAPI::PARAMETER_SYNC_INTERVAL,
+                new Rule(Rules::NUMBER),
+            ),
+        );
+    }
+
+    /**
+     * @return ParamRuleCollection
+     */
+    protected function getParamRuleCollectionForDataMapping(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(
