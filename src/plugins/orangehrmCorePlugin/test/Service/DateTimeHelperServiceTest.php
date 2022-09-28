@@ -223,4 +223,117 @@ class DateTimeHelperServiceTest extends TestCase
         $this->assertEquals(new DateTimeZone('-0530'), $this->dateTimeHelperService->getTimezoneByTimezoneOffset(-5.5));
         $this->assertEquals(new DateTimeZone('+0500'), $this->dateTimeHelperService->getTimezoneByTimezoneOffset(5.0));
     }
+
+    public function testGetWeekBoundaryForGivenDate(): void
+    {
+        //week start date is monday => index 1
+        $this->assertEquals(['2022-09-12', '2022-09-18'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-18'), 1));
+        $this->assertEquals(['2022-09-19', '2022-09-25'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-19'), 1));
+        $this->assertEquals(['2022-09-19', '2022-09-25'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-20'), 1));
+        $this->assertEquals(['2022-09-19', '2022-09-25'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-24'), 1));
+        $this->assertEquals(['2022-09-19', '2022-09-25'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-25'), 1));
+        $this->assertEquals(['2022-09-26', '2022-10-02'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-26'), 1));
+        $this->assertEquals(['2022-12-26', '2023-01-01'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-12-26'), 1));
+
+        //week start date is tuesday => index 2
+        $this->assertEquals(['2022-09-13', '2022-09-19'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-19'), 2));
+        $this->assertEquals(['2022-09-20', '2022-09-26'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-20'), 2));
+        $this->assertEquals(['2022-09-20', '2022-09-26'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-24'), 2));
+        $this->assertEquals(['2022-09-20', '2022-09-26'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-25'), 2));
+        $this->assertEquals(['2022-09-20', '2022-09-26'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-26'), 2));
+        $this->assertEquals(['2022-12-20', '2022-12-26'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-12-26'), 2));
+
+        //week start date is wednesday => index 3
+        $this->assertEquals(['2022-09-14', '2022-09-20'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-19'), 3));
+        $this->assertEquals(['2022-09-14', '2022-09-20'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-20'), 3));
+        $this->assertEquals(['2022-09-21', '2022-09-27'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-24'), 3));
+        $this->assertEquals(['2022-09-21', '2022-09-27'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-25'), 3));
+        $this->assertEquals(['2022-09-21', '2022-09-27'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-26'), 3));
+        $this->assertEquals(['2022-12-21', '2022-12-27'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-12-26'), 3));
+
+        //week start date is thursday => index 4
+        $this->assertEquals(['2022-09-15', '2022-09-21'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-18'), 4));
+        $this->assertEquals(['2022-09-15', '2022-09-21'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-19'), 4));
+        $this->assertEquals(['2022-09-15', '2022-09-21'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-20'), 4));
+        $this->assertEquals(['2022-09-22', '2022-09-28'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-24'), 4));
+        $this->assertEquals(['2022-09-22', '2022-09-28'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-25'), 4));
+        $this->assertEquals(['2022-09-22', '2022-09-28'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-26'), 4));
+        $this->assertEquals(['2022-12-22', '2022-12-28'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-12-26'), 4));
+
+        //week start date is friday => index 5
+        $this->assertEquals(['2022-09-16', '2022-09-22'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-18'), 5));
+        $this->assertEquals(['2022-09-16', '2022-09-22'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-19'), 5));
+        $this->assertEquals(['2022-09-16', '2022-09-22'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-20'), 5));
+        $this->assertEquals(['2022-09-23', '2022-09-29'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-24'), 5));
+        $this->assertEquals(['2022-09-23', '2022-09-29'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-25'), 5));
+        $this->assertEquals(['2022-09-23', '2022-09-29'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-26'), 5));
+        $this->assertEquals(['2022-12-23', '2022-12-29'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-12-26'), 5));
+
+        //week start date is saturday => index 6
+        $this->assertEquals(['2022-09-17', '2022-09-23'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-18'), 6));
+        $this->assertEquals(['2022-09-17', '2022-09-23'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-19'), 6));
+        $this->assertEquals(['2022-09-17', '2022-09-23'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-20'), 6));
+        $this->assertEquals(['2022-09-24', '2022-09-30'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-24'), 6));
+        $this->assertEquals(['2022-09-24', '2022-09-30'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-25'), 6));
+        $this->assertEquals(['2022-09-24', '2022-09-30'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-26'), 6));
+        $this->assertEquals(['2022-12-24', '2022-12-30'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-12-26'), 6));
+
+        //week start date is sunday => index 7
+        $this->assertEquals(['2022-09-11', '2022-09-17'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-17'), 7));
+        $this->assertEquals(['2022-09-18', '2022-09-24'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-18'), 7));
+        $this->assertEquals(['2022-09-18', '2022-09-24'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-19'), 7));
+        $this->assertEquals(['2022-09-18', '2022-09-24'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-20'), 7));
+        $this->assertEquals(['2022-09-18', '2022-09-24'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-24'), 7));
+        $this->assertEquals(['2022-09-25', '2022-10-01'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-25'), 7));
+        $this->assertEquals(['2022-09-25', '2022-10-01'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-09-26'), 7));
+        $this->assertEquals(['2022-12-25', '2022-12-31'],
+            $this->dateTimeHelperService->getWeekBoundaryForGivenDate(new DateTime('2022-12-26'), 7));
+    }
 }

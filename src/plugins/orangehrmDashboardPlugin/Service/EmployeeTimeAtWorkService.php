@@ -52,6 +52,11 @@ class EmployeeTimeAtWorkService
     private TimesheetPeriodService $timesheetPeriodService;
 
     /**
+     * @var int|null
+     */
+    private ?int $weekStartDateIndex = null;
+
+    /**
      * @return EmployeeTimeAtWorkDao
      */
     private function getEmployeeTimeAtWorkDao(): EmployeeTimeAtWorkDao
@@ -70,6 +75,7 @@ class EmployeeTimeAtWorkService
     /**
      * @param int $empNumber
      * @param DateTime $currentDateTime
+     * @param DateTime $spotDateTime
      * @return array
      * @throws Exception
      */
@@ -83,6 +89,7 @@ class EmployeeTimeAtWorkService
     /**
      * @param int $empNumber
      * @param DateTime $currentDateTime
+     * @param DateTime $spotDateTime
      * @param int $totalTimeForWeek
      * @return array
      * @throws Exception
@@ -100,7 +107,8 @@ class EmployeeTimeAtWorkService
             new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
         );
         $totalTimeForCurrentDay = $this->getTotalTimeForGivenDate($empNumber, $currentUTCDateTime, $spotUTCDateTime);
-        list($weekStartDate, $weekEndDate) = $this->getWeekBoundaryForGivenDate($currentDateTime);
+        list($weekStartDate, $weekEndDate) = $this->getDateTimeHelper()
+            ->getWeekBoundaryForGivenDate($currentDateTime, $this->getWeekStartDateIndex());
 
         $weekStartDate = new DateTime($weekStartDate);
         $weekEndDate = new DateTime($weekEndDate);
@@ -239,27 +247,6 @@ class EmployeeTimeAtWorkService
     }
 
     /**
-     * @param DateTime $dateTime
-     * @return array  eg:- array(if monday as first day in config => '2021-12-13', '2021-12-19')
-     */
-    private function getWeekBoundaryForGivenDate(DateTime $dateTime): array
-    {
-        /**
-         * This will return 1 for Monday and 7 for Sunday
-         */
-        $weekStartDateIndex = (int)$this->getTimesheetPeriodService()->getTimesheetStartDate();
-        $weekNumber = $dateTime->format('W');
-        $year = $dateTime->format('o');
-
-        $weekStartDate = (clone $dateTime)->setISODate($year, $weekNumber, $weekStartDateIndex);
-        $weekEndDate = (clone $dateTime)->setISODate($year, $weekNumber, $weekStartDateIndex + 6);
-        return [
-            $weekStartDate->format('Y-m-d'),
-            $weekEndDate->format('Y-m-d')
-        ];
-    }
-
-    /**
      * @param int $empNumber
      * @param DateTime $currentDateTime
      * @return array
@@ -269,7 +256,8 @@ class EmployeeTimeAtWorkService
         int $empNumber,
         DateTime $currentDateTime
     ): array {
-        list($startDate) = $this->getWeekBoundaryForGivenDate($currentDateTime);
+        list($startDate) = $this->getDateTimeHelper()
+            ->getWeekBoundaryForGivenDate($currentDateTime, $this->getWeekStartDateIndex());
         $startDateTime = new DateTime($startDate . ' 00:00:00', $currentDateTime->getTimezone());
         $startUTCDateTime = (clone $startDateTime)->setTimezone(
             new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
@@ -336,5 +324,16 @@ class EmployeeTimeAtWorkService
             'terminationId' => is_null($user->getEmployeeTerminationRecord()) ?
                 null : $user->getEmployeeTerminationRecord()->getId()
         ];
+    }
+
+    /**
+     * @return int
+     */
+    private function getWeekStartDateIndex(): int
+    {
+        if (is_null($this->weekStartDateIndex)) {
+            $this->weekStartDateIndex = $this->getTimesheetPeriodService()->getTimesheetStartDate();
+        }
+        return $this->weekStartDateIndex;
     }
 }

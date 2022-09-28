@@ -33,6 +33,22 @@ class DateTimeHelperService
 
     public const TIMEZONE_UTC = '+0000';
 
+    public const TUESDAY_LAST_WEEK = 'tuesday last week';
+    public const WEDNESDAY_LAST_WEEK = 'wednesday last week';
+    public const THURSDAY_LAST_WEEK = 'thursday last week';
+    public const FRIDAY_LAST_WEEK = 'friday last week';
+    public const SATURDAY_LAST_WEEK = 'saturday last week';
+    public const SUNDAY_LAST_WEEK = 'sunday last week';
+
+    public const LAST_WEEK_MAP = [
+        2 => self::TUESDAY_LAST_WEEK,
+        3 => self::WEDNESDAY_LAST_WEEK,
+        4 => self::THURSDAY_LAST_WEEK,
+        5 => self::FRIDAY_LAST_WEEK,
+        6 => self::SATURDAY_LAST_WEEK,
+        7 => self::SUNDAY_LAST_WEEK
+    ];
+
     private ?LocalizedDateFormatter $dateFormatter = null;
 
     /**
@@ -180,5 +196,38 @@ class DateTimeHelperService
         }
         $dateFormat = $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
         return $this->getDateFormatter()->formatDate($dateTime, $dateFormat);
+    }
+
+    /**
+     * @param DateTime $dateTime
+     * @param int $weekStartDateIndex
+     * @return array
+     */
+    public function getWeekBoundaryForGivenDate(DateTime $dateTime, int $weekStartDateIndex): array
+    {
+        /**
+         * By Default week starts on Monday
+         */
+        $weekNumber = $dateTime->format('W');
+        $year = $dateTime->format('o');
+
+        /**
+         * Sunday => 0 and Saturday => 6
+         */
+        $currentDayIndex = $dateTime->format('w');
+
+        $currentDayIndex = $currentDayIndex == 0 ? 7 : $currentDayIndex;
+
+        $weekStartDate = (clone $dateTime)->setISODate($year, $weekNumber, $weekStartDateIndex);
+
+        if ($currentDayIndex - $weekStartDateIndex < 0) {
+            $weekStartDate->modify(self::LAST_WEEK_MAP[$weekStartDateIndex]);
+        }
+        $weekEndDate = (clone $weekStartDate)->add(new DateInterval('P6D'));
+
+        return [
+            $weekStartDate->format('Y-m-d'),
+            $weekEndDate->format('Y-m-d')
+        ];
     }
 }
