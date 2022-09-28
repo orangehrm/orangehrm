@@ -239,16 +239,24 @@ class EmployeeTimeAtWorkService
     }
 
     /**
-     * @param DateTime $date
+     * @param DateTime $dateTime
      * @return array  eg:- array(if monday as first day in config => '2021-12-13', '2021-12-19')
      */
-    private function getWeekBoundaryForGivenDate(DateTime $date): array
+    private function getWeekBoundaryForGivenDate(DateTime $dateTime): array
     {
-        $currentWeekFirstDate = date('Y-m-d', strtotime('monday this week', strtotime($date->format('Y-m-d'))));
-        $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;
-        $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
-        $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
-        return [$startDate, $endDate];
+        /**
+         * This will return 1 for Monday and 7 for Sunday
+         */
+        $weekStartDateIndex = (int)$this->getTimesheetPeriodService()->getTimesheetStartDate();
+        $weekNumber = $dateTime->format('W');
+        $year = $dateTime->format('o');
+
+        $weekStartDate = (clone $dateTime)->setISODate($year, $weekNumber, $weekStartDateIndex);
+        $weekEndDate = (clone $dateTime)->setISODate($year, $weekNumber, $weekStartDateIndex + 6);
+        return [
+            $weekStartDate->format('Y-m-d'),
+            $weekEndDate->format('Y-m-d')
+        ];
     }
 
     /**
