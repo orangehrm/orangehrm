@@ -20,7 +20,6 @@
 namespace OrangeHRM\Framework;
 
 use Exception;
-use Monolog\Handler\StreamHandler;
 use OrangeHRM\Authentication\Auth\AuthProviderChain;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Subscriber\LoggerSubscriber;
@@ -29,6 +28,7 @@ use OrangeHRM\Framework\Http\ControllerResolver;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
 use OrangeHRM\Framework\Logger\Logger;
+use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\Routing\RequestContext;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Routing\UrlMatcher;
@@ -86,14 +86,9 @@ class Framework extends HttpKernel
 
     protected function configureLogger(): void
     {
-        $logger = new Logger('orangehrm');
-        $logger->pushHandler(
-            new StreamHandler(
-                Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'orangehrm.log',
-                $this->isDebug() ? Logger::DEBUG : Logger::WARNING
-            )
-        );
-        ServiceContainer::getContainer()->set(Services::LOGGER, $logger);
+        ServiceContainer::getContainer()->register(Services::LOGGER)
+            ->setFactory([LoggerFactory::class, 'getLogger'])
+            ->addArgument('orangehrm');
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);

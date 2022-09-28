@@ -26,6 +26,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\LDAP\Dao\LDAPDao;
+use OrangeHRM\LDAP\Dto\LDAPAuthProvider;
 use OrangeHRM\LDAP\Dto\LDAPEmployeeSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -182,5 +183,18 @@ class LDAPDaoTest extends KernelTestCase
         // Non existing
         $authProvider = $ldapDao->getAuthProviderByUserUniqueId('invalid');
         $this->assertNull($authProvider);
+    }
+
+    public function testGetAllLDAPAuthProviders(): void
+    {
+        $ldapDao = new LDAPDao();
+        $providers = $ldapDao->getAllLDAPAuthProviders();
+        $this->assertCount(2, $providers);
+        $this->assertInstanceOf(LDAPAuthProvider::class, $providers[0]);
+        $this->assertInstanceOf(LDAPAuthProvider::class, $providers[1]);
+        $this->assertEquals('uid=Linda.Anderson,ou=admin,ou=users,dc=example,dc=org', $providers[0]->getUserDN());
+        $this->assertEquals(8, $providers[0]->getUserId());
+        $this->assertEquals('cn=Peter.Anderson,ou=finance,ou=users,dc=example,dc=org', $providers[1]->getUserDN());
+        $this->assertEquals(11, $providers[1]->getUserId());
     }
 }

@@ -21,7 +21,6 @@ namespace OrangeHRM\LDAP\Service;
 
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -36,8 +35,12 @@ use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUser;
 use OrangeHRM\LDAP\Dto\LDAPUserCollection;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
+use OrangeHRM\LDAP\Dto\PartialEmployee;
 use OrangeHRM\LDAP\Exception\LDAPSettingException;
+use OrangeHRM\LDAP\Exception\LDAPSyncException;
+use OrangeHRM\LDAP\Traits\LDAPLoggerTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Entry;
 use Throwable;
@@ -48,14 +51,16 @@ use function serialize;
 class LDAPSyncService
 {
     use ConfigServiceTrait;
-    use LoggerTrait;
     use EntityManagerHelperTrait;
     use UserServiceTrait;
     use DateTimeHelperTrait;
+    use EmployeeServiceTrait;
+    use LDAPLoggerTrait;
 
     private ?LDAPService $ldapService = null;
     private ?LDAPSetting $ldapSetting = null;
     private LDAPDao $ldapDao;
+    private array $empNumbersWhoHaveManyUsers;
 
     /**
      * @return LDAPDao
@@ -94,6 +99,14 @@ class LDAPSyncService
             }
         }
         return $this->ldapSetting;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getEmpNumbersWhoHaveManyUsers(): array
+    {
+        return $this->empNumbersWhoHaveManyUsers ??= $this->getLDAPDao()->getEmpNumbersWhoHaveManyUsers();
     }
 
     /**
@@ -143,7 +156,6 @@ class LDAPSyncService
 
     /**
      * @param LDAPUser[] $ldapUsers
-     * @todo refactor
      */
     public function createSystemUsers(array $ldapUsers): void
     {
@@ -159,11 +171,12 @@ class LDAPSyncService
                     }
 
                     $employee = $user->getEmployee();
+                    $clonedEmployee = PartialEmployee::createFromEmployee($employee);
                     $employee->setFirstName($ldapUser->getFirstName());
                     $employee->setLastName($ldapUser->getLastName());
                     $employee->setMiddleName($ldapUser->getMiddleName());
                     $employee->setEmployeeId($ldapUser->getEmployeeId());
-                    $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
+                    $employee->setWorkEmail($ldapUser->getWorkEmail());
                     $user->setStatus($ldapUser->isUserEnabled());
                     $user->setDateModified($this->getDateTimeHelper()->getNow());
                     //$user->setModifiedUserId(); TODO
@@ -174,23 +187,26 @@ class LDAPSyncService
                     $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                     // TODO:: trigger employee changed
-                    $this->getEntityManager()->persist($employee);
+                    if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
+                        continue;
+                    }
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
+                    $this->warnMultiUserEmployee($employee);
                 } elseif ($this->getLDAPSetting()->shouldMergeLDAPUsersWithExistingSystemUsers()) {
-                    // TODO:: check employees who have multiple users
                     // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());
                     $user->setDateModified($this->getDateTimeHelper()->getNow());
                     //$user->setModifiedUserId(); TODO
 
                     $employee = $user->getEmployee();
+                    $clonedEmployee = PartialEmployee::createFromEmployee($employee);
                     $employee->setFirstName($ldapUser->getFirstName());
                     $employee->setLastName($ldapUser->getLastName());
                     $employee->setMiddleName($ldapUser->getMiddleName());
                     $employee->setEmployeeId($ldapUser->getEmployeeId());
-                    $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
+                    $employee->setWorkEmail($ldapUser->getWorkEmail());
 
                     $authProvider = new UserAuthProvider();
                     $authProvider->setUser($user);
@@ -200,11 +216,13 @@ class LDAPSyncService
                     $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                     // TODO:: trigger employee changed
-                    $this->getEntityManager()->persist($employee);
+                    if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
+                        continue;
+                    }
                     $this->getEntityManager()->persist($user);
                     $this->getEntityManager()->persist($ldapAuthProvider);
                     $this->getEntityManager()->flush();
-                    // TODO:: check/handle empty $user->getUserPassword()
+                    $this->warnMultiUserEmployee($employee);
                 }
             } else {
                 // try to find a user who have user unique id
@@ -219,21 +237,25 @@ class LDAPSyncService
                         //$user->setModifiedUserId(); TODO
 
                         $employee = $user->getEmployee();
+                        $clonedEmployee = PartialEmployee::createFromEmployee($employee);
                         $employee->setFirstName($ldapUser->getFirstName());
                         $employee->setLastName($ldapUser->getLastName());
                         $employee->setMiddleName($ldapUser->getMiddleName());
                         $employee->setEmployeeId($ldapUser->getEmployeeId());
-                        $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
+                        $employee->setWorkEmail($ldapUser->getWorkEmail());
 
                         // Change user data
                         $ldapAuthProvider->setLDAPUserDN($ldapUser->getUserDN());
                         $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                        // TODO:: save $employee
-                        $this->getEntityManager()->persist($employee);
+                        // TODO:: trigger employee changed
+                        if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
+                            continue;
+                        }
                         $this->getEntityManager()->persist($user);
                         $this->getEntityManager()->persist($ldapAuthProvider);
                         $this->getEntityManager()->flush();
+                        $this->warnMultiUserEmployee($employee);
 
                         continue;
                     }
@@ -247,11 +269,12 @@ class LDAPSyncService
 
                 // Create a new user if not found the employee for given mapping configurations
                 $employee = $employee ?? new Employee();
+                $clonedEmployee = PartialEmployee::createFromEmployee($employee);
                 $employee->setFirstName($ldapUser->getFirstName());
                 $employee->setLastName($ldapUser->getLastName());
                 $employee->setMiddleName($ldapUser->getMiddleName());
                 $employee->setEmployeeId($ldapUser->getEmployeeId());
-                $employee->setWorkEmail($ldapUser->getWorkEmail()); // TODO:: check unique email
+                $employee->setWorkEmail($ldapUser->getWorkEmail());
 
                 $user = new User();
                 $user->setUserName($ldapUser->getUsername());
@@ -269,13 +292,65 @@ class LDAPSyncService
                 $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
                 // TODO:: trigger employee changed
-                $this->getEntityManager()->persist($employee);
+                if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
+                    continue;
+                }
                 $this->getEntityManager()->persist($user);
                 $this->getEntityManager()->persist($authProvider);
                 $this->getEntityManager()->flush();
+                $this->warnMultiUserEmployee($employee);
             }
         }
-        // TODO:: soft delete LDAP users who removed from the server
+    }
+
+    /**
+     * @param Employee $employee
+     * @param PartialEmployee $clonedEmployee
+     * @param LDAPUser $ldapUser
+     * @return Employee|null
+     */
+    private function trySaveEmployee(Employee $employee, PartialEmployee $clonedEmployee, LDAPUser $ldapUser): ?Employee
+    {
+        try {
+            $this->saveEmployee($employee, $clonedEmployee);
+            return $employee;
+        } catch (LDAPSyncException $e) {
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error(serialize($ldapUser));
+            return null;
+        }
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    private function warnMultiUserEmployee(Employee $employee): void
+    {
+        $empNumber = $employee->getEmpNumber();
+        if (in_array($empNumber, $this->getEmpNumbersWhoHaveManyUsers())) {
+            $this->getLogger()->warning("Employee Number: `$empNumber`. This employee has many users");
+        }
+    }
+
+    /**
+     * @param Employee $employee
+     * @param PartialEmployee $clonedEmployee
+     * @throws LDAPSyncException
+     */
+    private function saveEmployee(Employee $employee, PartialEmployee $clonedEmployee): void
+    {
+        if ($employee->getWorkEmail() !== null
+            && !$this->getEmployeeService()
+                ->isUniqueEmail($employee->getWorkEmail(), $clonedEmployee->getWorkEmail())) {
+            throw LDAPSyncException::nonUniqueWorkEmail();
+        }
+        if ($employee->getEmployeeId() !== null
+            && !$this->getEmployeeService()
+                ->isUniqueEmployeeId($employee->getEmployeeId(), $clonedEmployee->getEmployeeId())) {
+            throw LDAPSyncException::nonUniqueEmployeeId();
+        }
+
+        $this->getEntityManager()->persist($employee);
     }
 
     /**
@@ -295,8 +370,10 @@ class LDAPSyncService
     {
         $this->beginTransaction();
         try {
-            $ldapUsers = $this->fetchAllLDAPUsers()->getLDAPUsers();
+            $ldapUserCollection = $this->fetchAllLDAPUsers();
+            $ldapUsers = $ldapUserCollection->getLDAPUsers();
             $this->createSystemUsers(array_values($ldapUsers));
+            $this->deleteLocalUsersWhoRemovedFromLDAPServer($ldapUserCollection);
             $this->commitTransaction();
         } catch (Throwable $e) {
             $this->rollBackTransaction();
@@ -362,9 +439,8 @@ class LDAPSyncService
                 ->setUserLookupSetting($lookupSetting)
                 ->setEntry($entry);
         } catch (Throwable $e) {
-            // TODO
-            $this->getLogger()->warning($e->getMessage());
-            $this->getLogger()->warning($e->getTraceAsString());
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error(json_encode([$entry->getDn(), $entry->getAttributes()]));
             return null;
         }
     }
@@ -396,5 +472,32 @@ class LDAPSyncService
         }
         $attributes = array_merge($attributes, $lookupSetting->getEmployeeSelectorMapping()->getAllAttributeNames());
         return array_unique($attributes);
+    }
+
+    /**
+     * @param LDAPUserCollection $ldapUserCollection
+     */
+    public function deleteLocalUsersWhoRemovedFromLDAPServer(LDAPUserCollection $ldapUserCollection): void
+    {
+        $ldapAuthProviders = [];
+        foreach ($this->getLDAPDao()->getAllLDAPAuthProviders() as $authProvider) {
+            $ldapAuthProviders[$authProvider->getUserDN()] = $authProvider->getUserId();
+        }
+
+        foreach ($ldapUserCollection->getLDAPUsers() as $ldapUser) {
+            unset($ldapAuthProviders[$ldapUser->getUserDN()]);
+        }
+        foreach ($ldapUserCollection->getFailedUsers() as $failedUserDNs) {
+            unset($ldapAuthProviders[$failedUserDNs]);
+        }
+        foreach ($ldapUserCollection->getUsersOfDuplicateUsernames() as $duplicateUsers) {
+            foreach ($duplicateUsers as $ldapUser) {
+                unset($ldapAuthProviders[$ldapUser->getUserDN()]);
+            }
+        }
+
+        $this->getUserService()
+            ->geUserDao()
+            ->deleteSystemUsers(array_values($ldapAuthProviders));
     }
 }

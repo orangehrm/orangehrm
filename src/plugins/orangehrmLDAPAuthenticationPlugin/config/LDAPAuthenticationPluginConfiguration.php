@@ -23,6 +23,7 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
@@ -39,6 +40,10 @@ class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterf
      */
     public function initialize(Request $request): void
     {
+        $this->getContainer()->register(Services::LDAP_LOGGER)
+            ->setFactory([LoggerFactory::class, 'getLogger'])
+            ->addArgument('LDAP')
+            ->addArgument('ldap.log');
         $ldapSettings = $this->getConfigService()->getLDAPSetting();
         if ($ldapSettings instanceof LDAPSetting && $ldapSettings->isEnable()) {
             /** @var AuthProviderChain $authProviderChain */

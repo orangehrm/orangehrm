@@ -38,7 +38,7 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     use EmployeeServiceTrait;
 
     public const PARAMETER_WORK_EMAIL = 'workEmail';
-    public const PARAMETER_IS_CHANGEABLE_WORK_EMAIL = 'valid';
+    public const PARAMETER_IS_UNIQUE_WORK_EMAIL = 'valid';
 
     public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
 
@@ -58,15 +58,14 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
         $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
         $isChangeableWorkEmail = $this->getEmployeeService()
-            ->getEmployeeDao()
-            ->isEmailAvailable(
+            ->isUniqueEmail(
                 $workEmail,
                 $employee->getWorkEmail()
             );
         return new EndpointResourceResult(
             ArrayModel::class,
             [
-                self::PARAMETER_IS_CHANGEABLE_WORK_EMAIL => $isChangeableWorkEmail,
+                self::PARAMETER_IS_UNIQUE_WORK_EMAIL => $isChangeableWorkEmail,
             ]
         );
     }
