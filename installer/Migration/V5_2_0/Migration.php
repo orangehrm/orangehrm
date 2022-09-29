@@ -36,6 +36,7 @@ class Migration extends AbstractMigration
     public function up(): void
     {
         $this->cleanLDAPAddonData();
+        $this->cleanExcessHelpModule();
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
@@ -270,6 +271,26 @@ class Migration extends AbstractMigration
                 ->setParameter('unitId', $langString['unitId'])
                 ->setParameter('group', $groupId)
                 ->executeQuery();
+        }
+    }
+
+    private function cleanExcessHelpModule(): void
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->select('groups.id')
+            ->from('ohrm_i18n_group', 'groups')
+            ->leftJoin('groups', 'ohrm_i18n_lang_string', 'langString', 'langString.group_id = groups.id')
+            ->andWhere($qb->expr()->isNull('langString.group_id'))
+            ->andWhere('groups.name = :name')
+            ->setParameter('name', 'help');
+        $results = array_column($qb->executeQuery()->fetchAllAssociative(), 'id');
+
+        foreach ($results as $result) {
+            $qb = $this->createQueryBuilder();
+            $qb->delete('ohrm_i18n_group')
+                ->where('ohrm_i18n_group.id = :groupId')
+                ->setParameter('groupId', $result);
+            $qb->executeQuery();
         }
     }
 }
