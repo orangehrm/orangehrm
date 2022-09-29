@@ -22,6 +22,7 @@ namespace OrangeHRM\Dashboard\Dao;
 use DateTime;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\ORM\ListSorter;
 
 class EmployeeTimeAtWorkDao extends BaseDao
 {
@@ -31,29 +32,12 @@ class EmployeeTimeAtWorkDao extends BaseDao
      */
     public function getLatestAttendanceRecordByEmpNumber(int $empNumber): ?AttendanceRecord
     {
-        $latestPunchInUtcTime = $this->getLatestPunchInUtcTimeByEmpNumber($empNumber);
-        if (is_null($latestPunchInUtcTime)) {
-            return null;
-        }
-        $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
-        $qb->andWhere('attendanceRecord.employee = :empNumber');
-        $qb->setParameter('empNumber', $empNumber);
-        $qb->andWhere('attendanceRecord.punchInUtcTime = :punchInUtcTime');
-        $qb->setParameter('punchInUtcTime', $latestPunchInUtcTime);
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-    /**
-     * @param int $empNumber
-     * @return string|null
-     */
-    private function getLatestPunchInUtcTimeByEmpNumber(int $empNumber): ?string
-    {
         $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord')
-            ->select('MAX(attendanceRecord.punchInUtcTime)')
             ->andWhere('attendanceRecord.employee = :empNumber')
-            ->setParameter('empNumber', $empNumber);
-        return $qb->getQuery()->getSingleScalarResult();
+            ->setParameter('empNumber', $empNumber)
+            ->setMaxResults(1)
+            ->addOrderBy('attendanceRecord.punchInUtcTime', ListSorter::DESCENDING);
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
