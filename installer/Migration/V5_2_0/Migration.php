@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Migration\V5_2_0;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use Symfony\Component\Yaml\Yaml;
 
@@ -94,6 +95,12 @@ class Migration extends AbstractMigration
 
         $this->insertLDAPMenuItem();
         $this->insertLangStringNotes();
+
+        $this->getConfigHelper()
+            ->setConfigValue(
+                ConfigService::KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE,
+                0
+            );
     }
 
     /**

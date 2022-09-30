@@ -30,8 +30,12 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Dashboard\Api\Model\EmployeesOnLeaveListModel;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Dashboard\Dto\EmployeeOnLeaveSearchFilterParams;
 use OrangeHRM\Dashboard\Traits\Service\EmployeeOnLeaveServiceTrait;
@@ -41,6 +45,9 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
     use DateTimeHelperTrait;
     use LeaveConfigServiceTrait;
     use EmployeeOnLeaveServiceTrait;
+    use ConfigServiceTrait;
+    use UserRoleManagerTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_DATE = 'date';
     public const META_PARAMETER_LEAVE_PERIOD_DEFINED =  'leavePeriodDefined';
@@ -61,6 +68,14 @@ class EmployeeOnLeaveAPI extends Endpoint implements CollectionEndpoint
         );
 
         $employeeOnLeaveSearchFilterParams->setDate($date);
+
+        $showOnlyAccessibleEmployeesOnLeaveToday = $this->getConfigService()
+            ->getDashboardEmployeesOnLeaveTodayShowOnlyAccessibleConfig();
+
+        if ($showOnlyAccessibleEmployeesOnLeaveToday) {
+            $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
+            $employeeOnLeaveSearchFilterParams->setAccessibleEmpNumber([$this->getAuthUser()->getEmpNumber(),...$accessibleEmpNumbers]);
+        }
 
         $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
 

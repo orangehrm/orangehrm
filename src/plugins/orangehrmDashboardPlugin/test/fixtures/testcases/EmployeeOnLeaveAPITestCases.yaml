@@ -317,6 +317,7 @@ GetAll:
     services:
       dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
     data:
     meta:
       total: null
