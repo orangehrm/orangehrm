@@ -61,6 +61,7 @@ class LDAPSyncService
     protected ?LDAPSetting $ldapSetting = null;
     private LDAPDao $ldapDao;
     private array $empNumbersWhoHaveManyUsers;
+    private array $entryCollectionCache = [];
 
     /**
      * @return LDAPDao
@@ -404,6 +405,11 @@ class LDAPSyncService
      */
     private function fetchEntryCollection(LDAPUserLookupSetting $lookupSetting): CollectionInterface
     {
+        $hashKey = md5(serialize($lookupSetting));
+        if (isset($this->entryCollectionCache[$hashKey])) {
+            return $this->entryCollectionCache[$hashKey];
+        }
+
         $options = [
             'scope' => $lookupSetting->getSearchScope(),
             'filter' => $this->getSearchAttributes($lookupSetting),
@@ -413,7 +419,7 @@ class LDAPSyncService
             $lookupSetting->getUserSearchFilter(),
             $options,
         );
-        return $q->execute();
+        return $this->entryCollectionCache[$hashKey] = $q->execute();
     }
 
     /**

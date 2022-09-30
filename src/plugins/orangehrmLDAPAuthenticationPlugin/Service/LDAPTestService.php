@@ -22,11 +22,14 @@ namespace OrangeHRM\LDAP\Service;
 use Exception;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\LDAP\Traits\LDAPLoggerTrait;
 use Symfony\Component\Ldap\Adapter\AdapterInterface;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 
 class LDAPTestService extends LDAPService
 {
+    use LDAPLoggerTrait;
+
     public const STATUS_FAIL = 0;
     public const STATUS_SUCCESS = 1;
 
@@ -79,7 +82,8 @@ class LDAPTestService extends LDAPService
                 'status' => self::STATUS_SUCCESS
             ];
         } catch (Exception $exception) {
-            //TODO::Write Error Log
+            $this->getLogger()->error($exception->getMessage());
+            $this->getLogger()->error($exception->getTraceAsString());
             return [
                 'message' => $exception->getMessage(),
                 'status' => self::STATUS_FAIL
