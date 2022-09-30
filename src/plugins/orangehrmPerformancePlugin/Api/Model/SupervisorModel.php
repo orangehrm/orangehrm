@@ -23,6 +23,17 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ReportTo;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-SupervisorModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="integer"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="terminationId", type="integer"),
+ * )
+ */
 class SupervisorModel implements Normalizable
 {
     use ModelTrait;

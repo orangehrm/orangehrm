@@ -22,6 +22,14 @@ namespace OrangeHRM\Core\Api\V2\Model;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
+/**
+ * @OA\Schema(
+ *     schema="Core-WorkflowStateModel",
+ *     type="object",
+ *     @OA\Property(property="action", type="string"),
+ *     @OA\Property(property="name", type="string")
+ * )
+ */
 class WorkflowStateModel implements Normalizable
 {
     private WorkflowStateMachine $workflowStateMachine;
