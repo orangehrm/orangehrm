@@ -143,9 +143,14 @@ export default {
 
   computed: {
     lastState() {
-      return this.state === 'PUNCHED OUT'
-        ? this.$t('attendance.punched_out')
-        : this.$t('attendance.punched_in');
+      switch (this.state) {
+        case 'PUNCHED IN':
+          return this.$t('attendance.punched_in');
+        case 'PUNCHED OUT':
+          return this.$t('attendance.punched_out');
+        default:
+          return this.$t('attendance.not_punched_in');
+      }
     },
     lastRecord() {
       if (!this.userDate || !this.userTime) return null;
