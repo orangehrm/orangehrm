@@ -1,4 +1,4 @@
-notesForUnitIds:
+notes:
     - { group: admin, note: 'The position that is needed by the company ex: Manager IT', unitId: add_job_title }
     - { group: admin, note: 'Alter the position that is needed by the company ex: Manager IT', unitId: edit_job_title }
     - { group: admin, note: 'The job titles specific to the company can be defined in this option. To add an entry, go to Admin>> Job>> Job Titles and click “Add”', unitId: job_titles }

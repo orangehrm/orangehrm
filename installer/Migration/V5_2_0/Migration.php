@@ -249,7 +249,7 @@ class Migration extends AbstractMigration
 
     private function insertLangStringNotes(): void
     {
-        $filepath = $filepath = __DIR__ . '/lang-string/notesForUnitIds.yaml';
+        $filepath = $filepath = __DIR__ . '/lang-string/notes.yaml';
         $yml = Yaml::parseFile($filepath);
         $langStrings = array_shift($yml);
         foreach ($langStrings as $langString) {
