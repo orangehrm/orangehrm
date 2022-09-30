@@ -111,8 +111,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @OA\Get(
-     *     path="/api/v2/leave/leave-types/eligible",
-     *     tags={"Leave/Eligible Leave"},
+     *     path="/api/v2/leave/holidays",
+     *     tags={"Leave/Configure"},
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",

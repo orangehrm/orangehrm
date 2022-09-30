@@ -127,7 +127,6 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      *             )
      *         )
      *     ),
-     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
      * )
      *
      * @inheritDoc

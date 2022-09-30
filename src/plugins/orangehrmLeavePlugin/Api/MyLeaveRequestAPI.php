@@ -73,6 +73,79 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/leave-requests",
+     *     tags={"Leave/My Leave"},
+     *     @OA\Parameter(
+     *         name="leaveTypeId",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeEmployees",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", description="onlyCurrent,onlyPast,currentAndPast")
+     *     ),
+     *     @OA\Parameter(
+     *         name="statuses",
+     *         in="query",
+     *         required=false,
+     *         description="-1 => rejected,
+ *                           0 => cancelled,
+ *                           1 => pending ,
+ *                           2 => approved,
+ *                           3 => taken,
+ *                           4 => weekend,
+ *                           5 => holiday",
+     *         @OA\Schema(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Schema(
+     *                     type="integer"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=LeaveRequestSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeaveRequestDetailedModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", type="integer"),
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -124,6 +197,86 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/leave/leave-requests",
+     *     tags={"Leave/My Leave"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="comment", type="string"),
+     *             @OA\Property(
+     *                 property="duration",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="type",
+     *                     type="string",
+     *                     example="full_day, half_day_afternoon,half_day_morning,specify_time"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="fromTime",
+     *                     type="number",
+     *                     example="12:00",
+     *                     description="used when duration type = specify_time "
+     *                 ),
+     *                 @OA\Property(
+     *                     property="toTime",
+     *                     type="number",
+     *                     example="17:00",
+     *                     description="used when duration type = specify_time "
+     *                 ),
+     *                 required={"type"}
+     *             ),
+     *             @OA\Property(
+     *                 property="endDuration",
+     *                 type="object",
+     *                 description="Used when there are partial days at both the beginning and end",
+     *                 @OA\Property(
+     *                     property="type",
+     *                     type="string",
+     *                     example="full_day, half_day_afternoon,half_day_morning,specify_time",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="fromTime",
+     *                     type="number", example="12:00",
+     *                     description="used when endDuration type = specify_time "
+     *                 ),
+     *                 @OA\Property(
+     *                     property="toTime",
+     *                     type="number",
+     *                     example="17:00",
+     *                     description="used when endDuration type = specify_time "
+     *                 ),
+     *                 required={"type"}
+     *             ),
+     *             @OA\Property(property="partialOption", type="string", example="start"),
+     *             @OA\Property(property="fromDate", type="number"),
+     *             @OA\Property(property="toDate", type="number"),
+     *             @OA\Property(property="leaveTypeId", type="integer"),
+     *             required={"duration", "fromDate", "toDate", "leaveTypeId"},
+     *             example="{
+     *                  'leaveTypeId':3,
+ *                      'fromDate':'2022-09-07',
+     *                  'toDate':'2022-09-08',
+     *                  'comment':null,
+     *                  'duration':{'type':'specify_time','fromTime':'09:00','toTime':'17:00'},
+     *                  'partialOption':'start_end',
+     *                  'endDuration':{'type':'specify_time','fromTime':'09:00','toTime':'17:00'}
+     *             }"
+     *         ),
+     *
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeaveTypeModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResult
