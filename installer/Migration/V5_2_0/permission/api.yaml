@@ -77,8 +77,8 @@ apiv2_dashboard_employee_action_summary:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
-apiv2_dashboard_employee_on_leave_today_configuration:
-  description: "API-v2 Dashboard - Employee On Leave Today Configuration"
+apiv2_dashboard_employees_on_leave_today_configuration:
+  description: "API-v2 Dashboard - Employees On Leave Today Configuration"
   api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveTodayConfigAPI
   module: dashboard
   allowed:
