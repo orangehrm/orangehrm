@@ -111,6 +111,12 @@ class KpiAPI extends Endpoint implements CrudEndpoint
      *     path="/api/v2/performance/kpis",
      *     tags={"Performance/Configure Kpis"},
      *     @OA\Parameter(
+     *         name="jobTitleId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
      *         name="sortField",
      *         in="query",
      *         required=false,
