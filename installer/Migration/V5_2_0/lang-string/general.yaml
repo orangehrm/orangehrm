@@ -77,3 +77,9 @@ langStrings:
   -
     value: '{pendingActionsCount,plural, =0{No Records Found} one{(1) Pending Self Review} other{ (#) Pending Self Reviews}}'
     unitId: n_pending_self_review
+  -
+    value: 'Configurations'
+    unitId: configurations
+  -
+    value: 'Only show accessible employees on leave for other users'
+    unitId: only_show_accessible_employees_on_leave_for_other_users

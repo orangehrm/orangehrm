@@ -43,9 +43,9 @@ class DashboardController extends AbstractVueController
             'dashboard_location_widget',
             'dashboard_leave_widget',
             'dashboard_time_widget',
-            'dashboard_employees_on_leave_today_config'
-
+            'dashboard_employees_on_leave_today_config',
         ];
+
         $permissions = $this->getUserRoleManagerHelper()
             ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
 

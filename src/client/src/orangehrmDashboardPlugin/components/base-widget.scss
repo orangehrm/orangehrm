@@ -69,3 +69,7 @@
     background-color: $oxd-white-color;
   }
 }
+
+::v-deep(.oxd-icon) {
+  height: 15px
+}
