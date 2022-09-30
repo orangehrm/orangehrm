@@ -28,7 +28,7 @@
 
   &-header {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
   }
 
@@ -40,6 +40,7 @@
   }
 
   &-icon {
+    height: 15px;
     margin-right: 0.5rem;
   }
 

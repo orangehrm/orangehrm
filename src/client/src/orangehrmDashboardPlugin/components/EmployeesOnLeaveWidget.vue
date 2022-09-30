@@ -20,7 +20,7 @@
 
 <template>
   <base-widget
-    icon="leavelist"
+    icon="leaveAlt"
     icon-type="svg"
     class="emp-leave-chart"
     :empty="isEmpty"
@@ -28,6 +28,16 @@
     :loading="isLoading"
     :title="$t('general.employees_on_leave_today')"
   >
+    <template
+      v-if="$can.update('dashboard_employees_on_leave_today_config')"
+      #action
+    >
+      <oxd-icon
+        class="orangehrm-leave-card-icon"
+        name="gear-fill"
+        @click="onClickConfig"
+      />
+    </template>
     <div v-for="leave in leaveList" :key="leave" class="orangehrm-leave-card">
       <div class="orangehrm-leave-card-profile-image">
         <img
@@ -53,19 +63,27 @@
       </oxd-text>
     </div>
   </base-widget>
+  <employees-on-leave-config-modal
+    v-if="showConfigModal"
+    @close="onConfigModalClose"
+  ></employees-on-leave-config-modal>
 </template>
 
 <script>
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@/core/util/services/api.service';
 import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import BaseWidget from '@/orangehrmDashboardPlugin/components/BaseWidget.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import EmployeesOnLeaveConfigModal from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveConfigModal.vue';
 
 export default {
   name: 'EmployeesOnLeaveWidget',
 
   components: {
+    'oxd-icon': Icon,
     'base-widget': BaseWidget,
+    'employees-on-leave-config-modal': EmployeesOnLeaveConfigModal,
   },
 
   setup() {
@@ -84,8 +102,9 @@ export default {
   data() {
     return {
       leaveList: [],
-      leavePeriod: null,
       isLoading: false,
+      leavePeriod: null,
+      showConfigModal: false,
     };
   },
 
@@ -135,6 +154,15 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onClickConfig() {
+      this.showConfigModal = true;
+    },
+    onConfigModalClose() {
+      this.showConfigModal = false;
+    },
   },
 };
 </script>
