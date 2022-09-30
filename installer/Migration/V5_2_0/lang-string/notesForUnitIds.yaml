@@ -10,16 +10,13 @@ notesForUnitIds:
     - { group: admin, note: 'Configure a few of the most popular email programs to access your email account.', unitId: email_configuration }
     - { group: admin, note: 'As with which email address the mail should be sent', unitId: mail_sent_as }
     - { group: admin, note: 'It is a field appears under mail configuration. Ex: SMTP', unitId: sending_method }
-    - { group: admin, note: '', unitId: smtp }
-    - { group: admin, note: '', unitId: sendmail }
     - { group: admin, note: 'Under configuring mail, when we select send mail option for Sending method field, system asks for path to send mail.', unitId: path_to_sendmail }
     - { group: admin, note: 'In configuration of mail settings this option is essential to accommodate sending and receiving notifications', unitId: smtp_port }
     - { group: admin, note: 'To configure the mail settings, go to Admin>> Configuration>>Email Settings,confirm yes/no to the option "Use SMTP Authentication"', unitId: use_smtp_authentication }
     - { group: admin, note: 'In configuration of mail settings this option is essential to accommodate sending and receiving notifications', unitId: smtp_user }
     - { group: admin, note: 'In configuration of mail settings this option is essential to accommodate sending and receiving notifications', unitId: smtp_password }
-    - { group: admin, note: '', unitId: tls }
     - { group: admin, note: 'If send a test mail option is ticked, need to specify a Test Email Address', unitId: test_email_address }
-    - { group: admin, note: "multiple entries of subscribers for a particular notification type may also be added or deleted.\r\r", unitId: subscribers }
+    - { group: admin, note: "multiple entries of subscribers for a particular notification type may also be added or deleted. ", unitId: subscribers }
     - { group: admin, note: 'Allow the admin to edit that subscribe to email notifications that will be sent to the employee.', unitId: edit_subscriber }
     - { group: admin, note: 'Enter your email address and set your subscription preferences.', unitId: email_subscriptions }
     - { group: admin, note: 'To subscribe to a notification type, go to Admin>> Configuration>> Email Subscriptions and multiple entries of subscribers for a particular notification type may also be added or deleted.', unitId: notification_type }
@@ -126,7 +123,6 @@ notesForUnitIds:
     - { group: general, note: 'Upload images/file', unitId: upload }
     - { group: general, note: 'A person or thing that achieves desired aims or attains prosperity', unitId: success }
     - { group: general, note: 'Employee ID/No will help uniquely identifying a particular employee.', unitId: employee_id }
-    - { group: general, note: '', unitId: id }
     - { group: general, note: 'When adding personal details of an employee, last name is considered as a mandatory field.', unitId: last_name }
     - { group: general, note: 'The job titles specific to the company can be defined in this option. To add an entry, go to Admin>> Job>> Job Titles and click “Add”', unitId: job_title }
     - { group: general, note: 'Add a sub- unit to the company structure, go to Admin>> Organization>> Structure and right click on the particular sub unit', unitId: sub_unit }
@@ -140,7 +136,7 @@ notesForUnitIds:
     - { group: general, note: 'All employees based in all the company locations need to be defined first under Admin>>Organization>>Locations.', unitId: location }
     - { group: general, note: 'If gender is specified, value should be either male or female', unitId: male }
     - { group: general, note: 'Gender that need to be specified when adding personal details of an employee', unitId: female }
-    - { group: general, note: "This feature allows you to define all information with regards to employees’ qualifications such as skill, Education, Licenses and Languages\r", unitId: qualifications }
+    - { group: general, note: "This feature allows you to define all information with regards to employees’ qualifications such as skill, Education, Licenses and Languages", unitId: qualifications }
     - { group: general, note: 'State/Province – If the country is United Sates you can select from the drop down or you need to enter it manually', unitId: state }
     - { group: general, note: 'It is a validation message which says it should be a positive number', unitId: should_be_a_positive_number }
     - { group: general, note: 'Add a new employee to the system.', unitId: add_employee }
@@ -180,20 +176,16 @@ notesForUnitIds:
     - { group: general, note: 'Click confirm button to confirm a particular action', unitId: confirm }
     - { group: general, note: 'This message appears when there is no matching employees', unitId: no_matching_employees }
     - { group: general, note: 'This message appears when there is no employees match the selected filters', unitId: no_employees_match_filters }
-    - { group: general, note: '', unitId: ok }
     - { group: general, note: 'A comprehensive leave management module with extensive possibilities of defining leave types, company holidays, applying for and assigning of leave for the employees of the company.', unitId: leave }
     - { group: general, note: 'Approve time sheets /leave', unitId: approve }
     - { group: general, note: 'The Admin or Hiring Manager can turn down an application by selecting the status as "Reject"', unitId: reject }
     - { group: general, note: 'Provide a password for the employee and confirm password for security purposes.', unitId: password }
-    - { group: general, note: '', unitId: password_strength_message }
     - { group: general, note: 'Provide a password for the employee and confirm password for security purposes.', unitId: confirm_password }
     - { group: general, note: 'This error message appears when password and confirm password does not match', unitId: passwords_do_not_match }
     - { group: general, note: 'Refers to the strength of the password.', unitId: weak }
     - { group: general, note: 'Refers to the strength of the password.', unitId: very_weak }
-    - { group: general, note: '', unitId: better }
     - { group: general, note: 'Refers to the strength of the password.', unitId: strongest }
     - { group: general, note: 'Users can view public information about the rest of the employees in the company corporate directory.', unitId: about }
-    - { group: general, note: '', unitId: support }
     - { group: general, note: 'Altering the password', unitId: change_password }
     - { group: general, note: 'Click on Log out to conclude use of the system.', unitId: logout }
     - { group: general, note: 'This message appears when there is no records found', unitId: no_records_found }
@@ -201,15 +193,12 @@ notesForUnitIds:
     - { group: general, note: 'It is a user friendly message saying that saving of a record is done successfully', unitId: successfully_saved }
     - { group: general, note: 'You may enter an overall note regarding the employee’s performance review.', unitId: notes }
     - { group: general, note: 'Allows the HR admin to define job titles, specifications, pay grades, employment status, job categories and work shifts.', unitId: job }
-    - { group: general, note: "This feature allows the HR Admin to administer users by:Creating logins and defining privileges by assigning User Roles (Global Admin/Admin*, Default ESS, Default Supervisor**). \r\r", unitId: user_management }
+    - { group: general, note: "This feature allows the HR Admin to administer users by:Creating logins and defining privileges by assigning User Roles (Global Admin/Admin*, Default ESS, Default Supervisor**). ", unitId: user_management }
     - { group: general, note: 'Here information regarding projects, customers, project activities and project administrator can be defined, which can be later used for project management activities.', unitId: project_info }
     - { group: general, note: 'Allows the HR admin to enter/store general company info, structure of the organization and locations of sites.', unitId: organization }
     - { group: general, note: 'Users can be assigned a combination of custom/default User Roles.', unitId: users }
     - { group: general, note: 'An arrangement of elements in a particular form', unitId: configuration }
-    - { group: general, note: '', unitId: language_packages }
     - { group: general, note: 'Enable/Disable Module display of admin,pim,leave,time,performance etc..', unitId: modules }
-    - { group: general, note: '', unitId: register_oauth_client }
-    - { group: general, note: '', unitId: social_media_authentication }
     - { group: general, note: 'Lists all the employees entered and imported into the PIM.To view the employee list, go to PIM>>Employee List', unitId: employee_list }
     - { group: general, note: 'This feature allows users to generate Leave/Custom/PIM reports', unitId: reports }
     - { group: general, note: 'Personal Information Management', unitId: pim }
@@ -218,9 +207,6 @@ notesForUnitIds:
     - { group: general, note: 'ESS can view his personal details under the ‘My Info’ Module.', unitId: my_info }
     - { group: general, note: 'Manages and reviews the performance of all employees where a company can understand how well an employee is performing in relation to their strategic goals and objectives.', unitId: performance }
     - { group: general, note: 'The Dashboard is a page which provides a summary of vital information (Eg: Number of employees in a department, or leave taken by each department) and a quick access to certain tasks (Eg: Leave applications pending for approval)', unitId: dashboard }
-    - { group: general, note: '', unitId: directory }
-    - { group: general, note: '', unitId: buzz }
-    - { group: general, note: '', unitId: maintenance }
     - { group: general, note: 'When an ESS-Employee or an ESS-Supervisor wants to enter his/her time sheet, they can go to Time>> Time sheets>> My Time sheets', unitId: my_timesheets }
     - { group: general, note: 'Lists down records of user details in the system.', unitId: my_records }
     - { group: general, note: 'To action an employee timesheet, go to Time>> Time Sheets>> Employee Time sheets, those time sheets can be viewed, edited,approved and rejected.', unitId: employee_timesheets }
@@ -234,15 +220,11 @@ notesForUnitIds:
     - { group: general, note: 'Here information regarding projects, customers, project activities and project administrator can be defined, which can be later used for project management activities.', unitId: project_info }
     - { group: general, note: 'Here the Admin can create a vacancy for a particular job title required by the company.', unitId: vacancies }
     - { group: general, note: 'Applicants/candidates who applied for the post and get shortlisted.', unitId: candidates }
-    - { group: general, note: '', unitId: kpis }
     - { group: general, note: 'HR manages performance reviews of all employees in a company', unitId: manage_reviews }
     - { group: general, note: 'Employee can view his performance reviews tracked by a reviewer', unitId: my_reviews }
     - { group: general, note: 'The My Tracker section allows employees to add and view their performance logs.Employees can add and modify only their own log entries and view other reviewer logs, by going to Performance>My Trackers', unitId: my_trackers }
     - { group: general, note: 'It is possible to add reviewers to the list', unitId: review_list }
-    - { group: general, note: '', unitId: trackers }
     - { group: general, note: 'Once a tracker is created, reviewers can add logs (comments about positive/negative performance) to the tracker.To do this, a reviewer can go to Performance>Employee Trackers', unitId: employee_trackers }
-    - { group: general, note: '', unitId: access_records }
-    - { group: general, note: '', unitId: purge_records }
     - { group: general, note: 'Company/organizational structure', unitId: structure }
     - { group: general, note: 'Abbreviation of Sunday', unitId: sun }
     - { group: general, note: 'Abbreviation of Monday', unitId: mon }
@@ -263,7 +245,6 @@ notesForUnitIds:
     - { group: general, note: 'Generate reports to display information on leave entitlements', unitId: entitlements }
     - { group: general, note: 'The company email address of each employee should be added to the employee record in the PIM module>> Contact Details>> Work Email.', unitId: work_email }
     - { group: general, note: 'Other email address of an employee', unitId: other_email }
-    - { group: general, note: '', unitId: company_name }
     - { group: general, note: 'You may retain the current resume when viewing employees application detail status', unitId: keep_current }
     - { group: general, note: 'Delete the current resume', unitId: delete_current }
     - { group: general, note: 'Replace current resume with another resume for which you will be prompted to upload another resume document.', unitId: replace_current }
@@ -272,7 +253,7 @@ notesForUnitIds:
     - { group: general, note: 'If an employee has some people who rely on him/her for aid can be considered as a dependents.', unitId: dependents }
     - { group: general, note: 'Immigration details about employees are recorded in this tab.', unitId: immigration }
     - { group: general, note: 'On Salary Information all fields such as Pre Grade, Currency used will be shown in Salary History.', unitId: salary }
-    - { group: general, note: "Reporting details of employees are recorded here, e.g. an employee's supervisor, \r\n          reporting method and subordinates assigned to him/her will be recorded.\n        ", unitId: report_to }
+    - { group: general, note: "Reporting details of employees are recorded here, e.g. an employee's supervisor, reporting method and subordinates assigned to him/her will be recorded. ", unitId: report_to }
     - { group: general, note: 'When configure PIM Optional field, admin can enable show US tax exemptions as a country specific information.Then tax exemption will get displayed in PIM tab.', unitId: tax_exemptions }
     - { group: general, note: 'This is a validation message appears when you enter an invalid figure (numeric value) as work email address, and display the expected format of an email address to be entered.', unitId: expected_email_address_format_not_matched }
     - { group: general, note: 'Enter, modify and submit personal time sheets', unitId: submit }
@@ -302,11 +283,11 @@ notesForUnitIds:
     - { group: pim, note: 'Employee details such as job info, Salary info, Contact info, immigration info can be considered here.', unitId: employee_information }
     - { group: pim, note: 'Include Past Employee: Administrator and supervisor can view leave details of past employees as well / Only Include Approved Time sheets', unitId: include }
     - { group: pim, note: 'Name of the supervisor (an employee who has subordinates under him)', unitId: supervisor_name }
-    - { group: pim, note: "The first and middle name of an employee\r\n        ", unitId: first_middle_name }
+    - { group: pim, note: "The first and middle name of an employee ", unitId: first_middle_name }
     - { group: pim, note: 'Supervisors can view assigned assets/time sheets/leave of the subordinates', unitId: supervisor }
     - { group: pim, note: 'A PIM tab which allows the employee to add his/her contact details such as Address, Home Telephone, Work email etc.', unitId: contact_details }
     - { group: pim, note: 'When you add details of the employee''s dependents it''ll be listed as assigned dependents.', unitId: assigned_dependents }
-    - { group: pim, note: "Relationship with the employee\re.g. mother, father, child", unitId: relationship }
+    - { group: pim, note: "Relationship with the employee e.g. mother, father, child", unitId: relationship }
     - { group: pim, note: 'System will send emails to recipients about employees’ date of birth each year based on the settings.', unitId: date_of_birth }
     - { group: pim, note: 'Assign the “Name” of the person you wish the company to contact in case of emergency, the “Relationship” of the employee to the contact person provided and a “Home Telephone” or “Mobile Number” the company can reach him/her.', unitId: assigned_emergency_contacts }
     - { group: pim, note: '"When adding contact details and emergency contact details, we should provide a “Home Telephone” or “Mobile Number” the company can reach him/her."', unitId: home_telephone }
@@ -357,7 +338,7 @@ notesForUnitIds:
     - { group: pim, note: 'When defining a report, user can add relevant fields that needs to be displayed', unitId: display_fields }
     - { group: pim, note: 'Do change the termination reasons that is used by the company.', unitId: edit_termination_reason }
     - { group: pim, note: 'Define various termination reasons that is used by the company.Go to PIM>>Configuration>>Termination Reason. Ex: Prolonged illness', unitId: add_termination_reason }
-    - { group: pim, note: "Default reasons for terminating the employment:• Dismissed, Contract not renewed, • Deceased\r\r\r\r", unitId: termination_reasons }
+    - { group: pim, note: "Default reasons for terminating the employment:• Dismissed, Contract not renewed, • Deceased ", unitId: termination_reasons }
     - { group: pim, note: 'Password that uses at present.', unitId: current_password }
     - { group: pim, note: 'You can change details of an employee''s dependent.', unitId: edit_dependent }
     - { group: pim, note: 'When adding dependents, Additional field will be displayed as "Please Specify" If "Other" is selected as the "Relationship"', unitId: please_specify }
@@ -399,14 +380,14 @@ notesForUnitIds:
     - { group: pim, note: 'Add parents or kids who are depending on an employee.', unitId: add_dependent }
     - { group: pim, note: 'Terminate ones from his employment', unitId: terminate_employment }
     - { group: pim, note: 'Date of being terminated from employment', unitId: termination_date }
-    - { group: pim, note: "Default reasons for terminating the employment:• Dismissed, Contract not renewed, • Deceased\r\r\r\r", unitId: termination_reason }
+    - { group: pim, note: "Default reasons for terminating the employment:• Dismissed, Contract not renewed, • Deceased ", unitId: termination_reason }
     - { group: pim, note: 'Personal details about employees', unitId: personal }
     - { group: pim, note: 'This is a criteria that has to be fulfilled in order to re-activate a former employee who has been terminated.', unitId: activate_employment }
     - { group: pim, note: 'Last name of the employee.', unitId: employee_last_name }
     - { group: pim, note: 'First name of the employee.', unitId: employee_first_name }
     - { group: pim, note: 'Middle name of the employee.', unitId: employee_middle_name }
-    - { group: pim, note: "When adding Immigration information, need to specify the “Eligible Status”\_\r\n          of his Passport/Visa\n        ", unitId: eligibility_status }
-    - { group: pim, note: "When adding Immigration information, need to specify the “Eligible Review Date” as to when the eligibility\r\n          status was reviewed.\n        ", unitId: eligibility_review_date }
+    - { group: pim, note: 'When adding Immigration information, need to specify the “Eligible Status” of his Passport/Visa ', unitId: eligibility_status }
+    - { group: pim, note: "When adding Immigration information, need to specify the “Eligible Review Date” as to when the eligibility status was reviewed. ", unitId: eligibility_review_date }
     - { group: pim, note: 'Select the document type (Passport or Visa) you wish to add details of', unitId: document_type }
     - { group: pim, note: 'When Adding Direct Deposit Details, need to specify the bank account number.', unitId: direct_deposit_account_number }
     - { group: pim, note: 'When Adding Direct Deposit Details, need to specify the account type: savings/ checking.', unitId: direct_deposit_account_type }
@@ -429,7 +410,6 @@ notesForUnitIds:
     - { group: leave, note: 'The next year / if the “Repeats Annually” is ticked when configuring holidays, it means that the holiday will occur on the same date in the following year', unitId: following_year }
     - { group: leave, note: 'The administrator will be able to define the work weeks for all employees based in different locations/countries.To define work week, go to Leave>> Configure>> Work Week', unitId: work_week }
     - { group: leave, note: 'Add the leave amount to which a person has a right to have.', unitId: add_leave_entitlement }
-    - { group: leave, note: '', unitId: no_leave_types_defined }
     - { group: leave, note: 'Edit the leave amount to which a person has a right to have.Admin can add leave entitlements and edit leave entitlements.', unitId: edit_leave_entitlement }
     - { group: leave, note: 'Generate reports to display information on leave entitlements', unitId: entitlement }
     - { group: leave, note: 'When an employee has taken more leave than he/she is entitled to.', unitId: used_amount_exceeds_the_current_amount }
@@ -444,7 +424,7 @@ notesForUnitIds:
     - { group: leave, note: 'You may also include past employees with your search when generating Leave Entitlements and Usage Reports of employees.', unitId: include_past_employees }
     - { group: leave, note: 'if he/she is also an ESS user to the system, he/she can view for leave entitlements and usage of leave by themselves (Leave>>Reports >> My Leave Entitlements and Usage Report).', unitId: my_leave_entitlement_and_usage_report }
     - { group: leave, note: 'Allows a user to apply for leave.In the dashboard module all the employees who have applied for leave will be shown in the form of a pictorial representation, e.g. bar graph, pie chart etc.', unitId: apply_leave }
-    - { group: leave, note: "For all the leave types, a particular employee doesn't have any leave remaining.\r\n          e.g.casual, annual\n        ", unitId: no_leave_types_with_leave_balance }
+    - { group: leave, note: "For all the leave types, a particular employee doesn't have any leave remaining. e.g.casual, annual", unitId: no_leave_types_with_leave_balance }
     - { group: leave, note: 'For multiple day applications, you can select any “Partial Days”.', unitId: partial_days }
     - { group: leave, note: 'Admin can assign leave to employee', unitId: assign_leave }
     - { group: leave, note: 'Start date of current leave period', unitId: start_day }
@@ -469,7 +449,6 @@ notesForUnitIds:
     - { group: leave, note: 'No of leave days', unitId: days }
     - { group: leave, note: 'To view the remaining leave balance for the specific leave type, click on “Check Leave Balance”, and the following window will appear with the available balance.', unitId: available_balance }
     - { group: leave, note: 'To view leave balance details, select the leave type from the drop down menu. Check the Leave Balance available.', unitId: leave_balance_details }
-    - { group: leave, note: '', unitId: as_of_date }
     - { group: leave, note: 'Number of leave taken.', unitId: taken }
     - { group: leave, note: 'To Approve a session, the user the appropriate privileges will need to change the Status to “Scheduled”.', unitId: scheduled }
     - { group: leave, note: 'The Status of the session will be “Pending Approval” until an Admin user approves the session.', unitId: pending_approval }
@@ -477,7 +456,7 @@ notesForUnitIds:
     - { group: leave, note: 'you can add a comment if necessary, when you request for a leave from your supervisor / Admin', unitId: leave_request_comments }
     - { group: leave, note: 'Duration between punch in and punch out should be less than work shift length assigned', unitId: duration_should_be_less_than_work_shift_length }
     - { group: leave, note: 'If “Specify Time” is selected, you can select the “From Time”', unitId: specify_time }
-    - { group: leave, note: "Under Accrual Valid From Two options are available to choose from:-\r\n          1. Date of Accrual - valid from the date of accrual to the end of the leave period.\r\n          2. Leave Period Start Date - valid from the beginning of the leave period.\n        ", unitId: valid_from }
+    - { group: leave, note: "Under Accrual Valid From Two options are available to choose from:- 1. Date of Accrual - valid from the date of accrual to the end of the leave period. 2. Leave Period Start Date - valid from the beginning of the leave period. ", unitId: valid_from }
     - { group: leave, note: 'To edit the leave entitlement, click on the number of days entitled under “Days”, or the date under “Valid From” or “Valid To”', unitId: valid_to }
     - { group: leave, note: 'The admin/ESS Supervisor is also able to export the leave list to a CSV file and number of leave days will be captured in a CSV file', unitId: number_of_days }
     - { group: leave, note: 'The number of leave days available to be taken for an employee.', unitId: leave_balance_days }
@@ -488,7 +467,6 @@ notesForUnitIds:
     - { group: leave, note: 'When exporting timesheet data as CSV,there is a check box named "Rejected". If you ticked it, all the time sheets under that status would be listed down.', unitId: rejected }
     - { group: leave, note: 'Cancelled a leave request , session etc..', unitId: cancelled }
     - { group: leave, note: 'The Admin user can see view no of leave days entitled in the Leave Entitlements and Usage Report of all employees', unitId: leave_entitlements_days }
-    - { group: leave, note: '', unitId: leave_pending_aproval_days }
     - { group: leave, note: 'The number of leave days that an employee has booked for the future.', unitId: leave_scheduled_days }
     - { group: leave, note: 'It is shown in the Leave Entitlements and Usage Report of a single employee, total no of leave taken from his days of leave entitlement', unitId: leave_taken_days }
     - { group: leave, note: 'The number of leave days available to be taken for an employee.', unitId: leave_balance_days }
@@ -535,12 +513,11 @@ notesForUnitIds:
     - { group: time, note: 'Add Project Information; Customers, Projects and Activities.', unitId: add_project }
     - { group: time, note: 'Once rejected the timesheet, particular employee will also be updated with the status “Rejected”.', unitId: timesheet_rejected }
     - { group: time, note: 'Once approved the timesheet, particular employee will also be updated with the status “Approved”.', unitId: timesheet_approved }
-    - { group: time, note: '', unitId: time_hours }
     - { group: time, note: 'It is a a status of the timesheet, when an employee submitted their weekly timesheets on time.', unitId: timesheet_submitted }
     - { group: attendance, note: 'The admin can select what privileges the employees and supervisors will have on the punch in/out and attendance. For configuration, go to Time>> Attendance>> Configuration.', unitId: attendance_configuration }
     - { group: attendance, note: 'The “Time” for both punch in/out could be changed otherwise the system will automatically capture the “system time”.', unitId: employee_can_change_current_time_when_punching_in_out }
     - { group: attendance, note: 'If the HR Admin has configured the attendance settings the following options: “Edit” and “Delete could be seen and selected. To edit the record, click “Edit” and to delete the record, click on the check box beside the record and click “Delete”.', unitId: employee_can_edit_delete_own_attendance_records }
-    - { group: attendance, note: "Only if the user has assigned subordinates, the supervisor user role privileges will work like accessing to his/her subordinates and his/her subordinates particulars attendance information.\r\r", unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates }
+    - { group: attendance, note: "Only if the user has assigned subordinates, the supervisor user role privileges will work like accessing to his/her subordinates and his/her subordinates particulars attendance information. ", unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates }
     - { group: attendance, note: '"Select the “Employee Name” from the drop down list, his/her “Job Title” and “Sub- Unit” he/she falls under and his/her “Employment Status”. The default job title/sub-unit/employment status is “All”. You may also select the date range you want to view the report for.', unitId: attendance_total_summary_report }
     - { group: attendance, note: 'This feature allows capturing the date and time that an employee reports to work', unitId: punch_in }
     - { group: attendance, note: 'This feature allows capturing the date and time that an employee leaves office after finishing work.', unitId: punch_out }
@@ -550,29 +527,11 @@ notesForUnitIds:
     - { group: attendance, note: 'It is for a specific duration of time.Ex: No of hours spent.When viewing attendance records of employees, duration ( from punch in to punch out ) will be shown in hours', unitId: duration_hours }
     - { group: attendance, note: 'View personal attendance records that are maintained and recorded under “Attendance” menu', unitId: my_attendance_records }
     - { group: attendance, note: 'Time Zones are a geographical world globe division of 15o each, starting at Greenwich, in England, created to help people know what time is it now in another part of the world.', unitId: timezone }
-    - { group: attendance, note: '', unitId: in }
     - { group: attendance, note: 'Enter punch in/out time', unitId: out }
-    - { group: maintenance, note: '', unitId: purge_employee_records }
     - { group: maintenance, note: 'An employee who has worked in the organization in the past', unitId: past_employee }
-    - { group: maintenance, note: '', unitId: purge }
-    - { group: maintenance, note: '', unitId: purge_employee }
-    - { group: maintenance, note: '', unitId: selected_employee }
-    - { group: maintenance, note: '', unitId: download_personal_data }
-    - { group: help, note: '', unitId: customer_support }
-    - { group: help, note: '', unitId: getting_started_with_orangehrm_message_1 }
-    - { group: help, note: '', unitId: getting_started_with_orangehrm_message_2 }
-    - { group: help, note: '', unitId: contact_us_on_message }
     - { group: auth, note: 'User login could be created when adding employees under the PIM Module.', unitId: login }
-    - { group: auth, note: '', unitId: reset_password }
     - { group: auth, note: 'The user can now enter the new password. The password reset options are provided based on the prior selections made by user.', unitId: new_password }
     - { group: auth, note: 'This error means that your user name/ password is incorrect in order to access the system', unitId: invalid_credentials }
-    - { group: auth, note: '', unitId: account_disabled }
-    - { group: auth, note: '', unitId: employee_is_terminated }
-    - { group: auth, note: '', unitId: employee_is_assigned }
-    - { group: admin, note: '', unitId: export }
-    - { group: admin, note: '', unitId: translate }
-    - { group: admin, note: '', unitId: translate_text_manually }
-    - { group: admin, note: '', unitId: add_language_package }
     - { group: general, note: 'First Month of a Year', unitId: january }
     - { group: general, note: 'Month of February', unitId: february }
     - { group: general, note: 'Third month of the year', unitId: march }
@@ -601,12 +560,10 @@ notesForUnitIds:
     - { group: general, note: 'Abbreviation for Saturday', unitId: sat }
     - { group: general, note: 'The files uploading cannot be over 1MB in size and must be in one of the formats .docx, .doc, .odt, .PDF, .rtf, .txt', unitId: accept_custom_format_file }
     - { group: general, note: 'Many application forms can be created for a particular vacancy, but only one is active at a time', unitId: active }
-    - { group: general, note: "Closing an appraisal cycle, moves all appraisals in the cycle to CLOSED state.\r\n          Also, Disciplinary case is in the closed status\n        ", unitId: closed }
+    - { group: general, note: "Closing an appraisal cycle, moves all appraisals in the cycle to CLOSED state. Also, Disciplinary case is in the closed status ", unitId: closed }
     - { group: general, note: 'Full Name of the employee will be populated under the leave summary and captured in a CSV file', unitId: full_name }
     - { group: general, note: 'Invalid username or password', unitId: invalid }
     - { group: general, note: 'A warning message that appeals you to confirm a certain action.', unitId: confirmation_required }
-    - { group: maintenance, note: '', unitId: purge_candidate_records }
-    - { group: maintenance, note: '', unitId: selected_candidates }
     - { group: recruitment, note: 'When admin go to Audit trail, all actions done by employees are recorded in the action history.', unitId: view_action_history }
     - { group: recruitment, note: 'When configuring interviews, the topic of the interview should be added as Interview title.', unitId: interview_title }
     - { group: recruitment, note: 'Once a candidate is shortlisted, they can now be scheduled for an interview, to schedule an interview, select “Schedule Interview” from the “Action” drop down menu', unitId: schedule_interview }
@@ -631,8 +588,6 @@ notesForUnitIds:
     - { group: recruitment, note: 'search for candidate with the status of the application such as Offer Declined', unitId: offer_declined }
     - { group: recruitment, note: 'Method of Application: search for candidates who have applied for any vacancy via manual: through post/email', unitId: manual }
     - { group: recruitment, note: 'A candidate applies for a particular vacancy that is posted online', unitId: online }
-    - { group: recruitment, note: '', unitId: contact_number }
-    - { group: recruitment, note: '', unitId: consent_to_keep_data }
     - { group: recruitment, note: 'Curriculum Vitae of an employee', unitId: resume }
     - { group: recruitment, note: 'Add a candidate to the system.', unitId: add_candidate }
     - { group: recruitment, note: 'The HR Admin or the Hiring Manager may offer the candidate the job. To do so, click “Edit” and select “Offer Job” from the “Action” drop down menu', unitId: offer_job }
@@ -648,16 +603,13 @@ notesForUnitIds:
     - { group: recruitment, note: 'It is the address you see on top of your Internet browser that identifies the unique location of the Internet page your are looking at.', unitId: web_page_url }
     - { group: recruitment, note: 'Once the candidate is hired, he/she will be added to the employee database under the PIM Module.', unitId: hired }
     - { group: recruitment, note: 'Status of the application to select when it receives.', unitId: application_received }
-    - { group: performance, note: '', unitId: supervisor_reviewer }
     - { group: performance, note: 'The reviewer can then leave a Positive or Negative review.', unitId: add_review }
     - { group: performance, note: 'It will represent the date the student is expected to complete all the courses in that package.', unitId: due_date }
     - { group: performance, note: 'Cause to make a certain function active.', unitId: activate }
     - { group: performance, note: 'It is a validation message that appears when we try to active an employee review without selecting atleast the job title,sub division or both.', unitId: cannot_activate_review_without_job_title_subdivision }
     - { group: performance, note: 'it is a validation message that appears when we try to active an employee review without selecting KPIs', unitId: cannot_activate_review_without_kpi }
-    - { group: performance, note: "The Admin can then enter a Tracker Name, select Employee who will be tracked, and then pick the relevant \r\n          reviewers who will be able to track that employees performance.\r", unitId: tracker_name }
-    - { group: performance, note: '', unitId: add_performance_tracker }
+    - { group: performance, note: "The Admin can then enter a Tracker Name, select Employee who will be tracked, and then pick the relevant reviewers who will be able to track that employees performance.", unitId: tracker_name }
     - { group: performance, note: 'Employees can only view (not modify) the comments added by the reviewers.Also he cannot be a reviewer to his performance logs.', unitId: employee_cannot_be_assigned_as_his_own_reviewer }
-    - { group: performance, note: '', unitId: performance_trackers }
     - { group: performance, note: 'You may enter multiple entries of KPIs for different Job titles.', unitId: key_performance_indicators_for_job_title }
     - { group: performance, note: 'This feature enlists all Key Performance Indicator (KPI) for all job titles.', unitId: key_performance_indicator }
     - { group: performance, note: 'Rate the employee based on the KPI with the assigned Min rate', unitId: min_rate }
@@ -666,9 +618,8 @@ notesForUnitIds:
     - { group: performance, note: 'Rate the employee based on the KPI with the assigned Min rate', unitId: minimum_rating }
     - { group: performance, note: 'Maximum rating that can be given for a particular KPI', unitId: maximum_rating }
     - { group: performance, note: 'If you select “Make Default Scale” the defined minimum and maximum rating will be pre-populated for all KPIs added in the future.', unitId: make_default_scale }
-    - { group: performance, note: "Once added, they can be modified.Added and Modified dates are captured automatically.\r\n          Modified date log entries added to the tracker captured automatically.\n        ", unitId: modified_date }
+    - { group: performance, note: "Once added, they can be modified.Added and Modified dates are captured automatically. Modified date log entries added to the tracker captured automatically.", unitId: modified_date }
     - { group: performance, note: 'Date that performance tracker log is added captured automatically.', unitId: added_date }
-    - { group: performance, note: '', unitId: tracker }
     - { group: performance, note: 'An employee can have a performance appraisal which is expected to be used to review his or her performance during a specific time period.', unitId: review_period }
     - { group: performance, note: 'For the Global Admin to view the review status and the progress of the appraisal, go to Performance>> Reports>>Reviews and Appraisal Progress,', unitId: review_status }
     - { group: performance, note: 'Impartial analysis conducted according to established criteria to determine the acceptability or worth of an employee.', unitId: evaluate }
