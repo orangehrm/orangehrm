@@ -28,7 +28,10 @@
     :loading="isLoading"
     :title="$t('general.employees_on_leave_today')"
   >
-    <template v-if="$can.update('dashboard_configuration')" #action>
+    <template
+      v-if="$can.update('dashboard_employees_on_leave_today_config')"
+      #action
+    >
       <oxd-icon
         class="orangehrm-leave-card-icon"
         name="gear-fill"
@@ -99,8 +102,8 @@ export default {
   data() {
     return {
       leaveList: [],
-      leavePeriod: null,
       isLoading: false,
+      leavePeriod: null,
       showConfigModal: false,
     };
   },

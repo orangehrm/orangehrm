@@ -35,8 +35,8 @@
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row class="orangehrm-config-checkbox">
         <oxd-input-field
-          v-model="enabled"
-          type="checkbox"
+          v-model="showAccessibleEmployeesOnly"
+          type="switch"
           :label="
             $t(
               'general.only_show_accessible_employees_on_leave_for_other_users',
@@ -73,7 +73,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/dashboard/config/leaves',
+      'api/v2/dashboard/config/employee-on-leave-today',
     );
     return {
       http,
@@ -81,30 +81,30 @@ export default {
   },
   data() {
     return {
-      enabled: false,
       isLoading: false,
+      showAccessibleEmployeesOnly: false,
     };
   },
-  // TODO: Uncomment after API Connect
-  // beforeMount() {
-  //   this.isLoading = true;
-  //   this.http
-  //     .getAll()
-  //     .then(response => {
-  //       const {data} = response.data;
-  //       this.enabled = data.enabledForAllUsers;
-  //     })
-  //     .finally(() => (this.isLoading = false));
-  // },
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.showAccessibleEmployeesOnly =
+          data.showOnlyAccessibleEmployeesOnLeaveToday;
+      })
+      .finally(() => (this.isLoading = false));
+  },
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
         .request({
-          method: 'POST',
-          url: 'api/v2/dashboard/config/leaves',
+          method: 'PUT',
           data: {
-            enabledForAllUsers: this.enabled,
+            showOnlyAccessibleEmployeesOnLeaveToday: this
+              .showAccessibleEmployeesOnly,
           },
         })
         .then(() => {
