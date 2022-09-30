@@ -23,6 +23,25 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\PerformanceTracker;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-PerformanceTrackerModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="trackerName", type="string"),
+ *     @OA\Property(property="addedDate", type="number"),
+ *     @OA\Property(property="modifiedDate", type="number"),
+ *     @OA\Property(property="status", type="integer"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ * )
+ */
 class PerformanceTrackerModel implements Normalizable
 {
     use ModelTrait;

@@ -23,6 +23,56 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\PerformanceReview;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-PerformanceReviewModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="jobTitle",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(
+ *         property="subunit",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(property="reviewPeriodStart", type="number"),
+ *     @OA\Property(property="reviewPeriodEnd", type="number"),
+ *     @OA\Property(property="dueDate", type="number"),
+ *     @OA\Property(
+ *         property="overallStatus",
+ *         type="object",
+ *         @OA\Property(property="statusId", type="integer"),
+ *         @OA\Property(property="statusName", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="reviewer",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(
+ *             property="employee",
+ *             type="object",
+ *             @OA\Property(property="empNumber", type="integer"),
+ *             @OA\Property(property="lastName", type="string"),
+ *             @OA\Property(property="firstName", type="string"),
+ *             @OA\Property(property="terminationId", type="integer"),
+ *         ),
+ *     ),
+ * )
+ */
 class PerformanceReviewModel implements Normalizable
 {
     use ModelTrait;
