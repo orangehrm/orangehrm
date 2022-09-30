@@ -1,0 +1,53 @@
+GetOne:
+  'Get Employee on leave today config - enabled':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    data:
+      isEnabled: true
+    meta: [ ]
+
+  'Get Employee on leave today config - disabled':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Dashboard\Api\EmployeeOnLeaveTodayConfigAPITest', 'configDisablingPreHook' ]
+    data:
+      isEnabled: false
+    meta: [ ]
+
+Update:
+  'Update Employee on leave today config - enabled':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      isEnabled: true
+    data:
+      isEnabled: true
+    meta: [ ]
+
+  'Update Employee on leave today config - disabled':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      isEnabled: false
+    data:
+      isEnabled: false
+    meta: [ ]
+
+  'Update Employee on leave today config - Invalid Parameter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      isEnabled: 4
+    invalidOnly: [ 'isEnabled' ]
+
+  'Update Employee on leave today config - Without Required Parameter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    invalidOnly: [ 'isEnabled' ]

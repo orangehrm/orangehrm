@@ -23,6 +23,8 @@ use OrangeHRM\Dashboard\Dao\EmployeeOnLeaveDao;
 
 class EmployeeOnLeaveService
 {
+    public const CONFIG_ONLY_SHOW_EMPLOYEES_REPORTING_TO_ME = 'dashboard.leave.only_show_employees_reporting_to_me';
+
     /**
      * @var EmployeeOnLeaveDao
      */
