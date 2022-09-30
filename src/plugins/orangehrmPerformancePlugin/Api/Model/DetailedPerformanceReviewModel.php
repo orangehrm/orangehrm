@@ -24,6 +24,35 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-DetailedPerformanceReviewModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="jobTitle",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(
+ *         property="subunit",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(property="reviewPeriodStart", type="number"),
+ *     @OA\Property(property="reviewPeriodEnd", type="number"),
+ *     @OA\Property(property="dueDate", type="number"),
+ *     @OA\Property(
+ *         property="overallStatus",
+ *         type="object",
+ *         @OA\Property(property="statusId", type="integer"),
+ *         @OA\Property(property="statusName", type="string"),
+ *     )
+ * )
+ */
 class DetailedPerformanceReviewModel implements Normalizable
 {
     use ModelTrait {

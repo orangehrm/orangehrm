@@ -23,6 +23,20 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ReviewerRating;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-ReviewerRatingModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="rating", type="number"),
+ *     @OA\Property(property="comment", type="string"),
+ *     @OA\Property(
+ *         property="kpi",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer")
+ *     )
+ * )
+ */
 class ReviewerRatingModel implements Normalizable
 {
     use ModelTrait;

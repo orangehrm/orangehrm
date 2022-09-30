@@ -50,6 +50,40 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/performance/employees/trackers",
+     *     tags={"Performance/Employee Trackers"},
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=EmployeeTrackerSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Performance-EmployeeTrackerModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -172,6 +206,27 @@ class EmployeeTrackerAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     *@OA\Get(
+     *     path="/api/v2/performance/employees/trackers/{id}}",
+     *     tags={"Performance/Employee Trackers"},
+     * @OA\PathParameter(
+     *     name="id",
+     *     @OA\Schema(type="integer")
+     * ),
+     * @OA\Response(
+     *     response="200",
+     *     description="Success",
+     *     @OA\JsonContent(
+     *         @OA\Property(
+     *             property="data",
+     *             ref="#/components/schemas/Performance-PerformanceTrackerModel"
+     *         ),
+     *         @OA\Property(property="meta", type="object")
+     *     )
+     * ),
+     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

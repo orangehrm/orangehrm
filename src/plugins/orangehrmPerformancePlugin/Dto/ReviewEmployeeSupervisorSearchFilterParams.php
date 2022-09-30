@@ -23,6 +23,8 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class ReviewEmployeeSupervisorSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = ['employee.empNumber'];
+
     /**
      * @var int|null
      */

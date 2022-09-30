@@ -62,6 +62,33 @@ class PerformanceReviewAllowedActionsAPI extends Endpoint implements CollectionE
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/performance/reviews/{reviewId}/actions/allowed",
+     *     tags={"Performance/Reviews"},
+     *     @OA\PathParameter(
+     *         name="reviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="label", type="boolean")
+     *                 ),
+     *                 example="id: 1, label: Save "
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult

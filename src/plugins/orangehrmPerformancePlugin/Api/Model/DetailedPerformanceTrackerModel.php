@@ -25,6 +25,35 @@ use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-DetailedPerformanceTrackerModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="trackerName", type="string"),
+ *     @OA\Property(property="addedDate", type="number"),
+ *     @OA\Property(property="modifiedDate", type="number"),
+ *     @OA\Property(property="status", type="integer"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="reviewers",
+ *         type="array",
+ *         @OA\Items(
+ *             @OA\Property(ref="#/components/schemas/Performance-PerformanceTrackReviewerModel"),
+ *         )
+ *     ),
+ *     @OA\Property(property="ownerEditable", type="boolean"),
+ * )
+ */
 class DetailedPerformanceTrackerModel implements Normalizable
 {
     use NormalizerServiceTrait;
