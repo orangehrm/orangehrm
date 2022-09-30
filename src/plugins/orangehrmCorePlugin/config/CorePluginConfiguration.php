@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Command\CacheCleanCommand;
@@ -124,6 +125,8 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
     public function registerCommands(Console $console): void
     {
         $console->add(new CacheCleanCommand());
-        $console->add(new EnableTestLanguagePackCommand());
+        if (Config::PRODUCT_MODE !== Config::MODE_PROD) {
+            $console->add(new EnableTestLanguagePackCommand());
+        }
     }
 }

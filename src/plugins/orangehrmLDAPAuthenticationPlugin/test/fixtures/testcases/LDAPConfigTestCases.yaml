@@ -504,7 +504,7 @@ GetOne:
         "port": 389,
         "encryption": "none",
         "ldapImplementation": "OpenLDAP",
-        "bindAnonymously": true,
+        "bindAnonymously": false,
         "bindUserDN": null,
         "userLookupSettings": [ ],
         "dataMapping": {

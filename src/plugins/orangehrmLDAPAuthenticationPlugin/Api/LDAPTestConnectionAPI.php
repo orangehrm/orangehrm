@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\LDAP\Api\Model\LDAPTestConnectionModel;
 use OrangeHRM\LDAP\Api\Traits\LDAPCommonParamRuleCollection;
@@ -33,6 +34,7 @@ use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 
 class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
 {
+    use ConfigServiceTrait;
     use ValidatorTrait;
     use LDAPCommonParamRuleCollection;
 
@@ -118,26 +120,16 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 LDAPConfigAPI::PARAMETER_BIND_USER_PASSWORD
             );
-            if (!is_null($password)) {
+            $ldapSettings = $this->getConfigService()->getLDAPSetting();
+            if ($ldapSettings instanceof LDAPSetting && $password === null) {
+                $ldapSetting->setBindUserPassword($ldapSettings->getBindUserPassword());
+            } else {
                 $ldapSetting->setBindUserPassword($password);
             }
         } else {
             $ldapSetting->setBindUserDN(null);
             $ldapSetting->setBindUserPassword(null);
         }
-
-        $ldapSetting->setEnable(
-            $this->getRequestParams()->getBoolean(
-                RequestParams::PARAM_TYPE_BODY,
-                LDAPConfigAPI::PARAMETER_ENABLED
-            )
-        );
-        $ldapSetting->setSyncInterval(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                LDAPConfigAPI::PARAMETER_SYNC_INTERVAL
-            )
-        );
     }
 
     /**
@@ -165,7 +157,10 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return $this->getParamRuleCollection();
+        $paramRules = $this->getParamRuleCollection();
+        $paramRules->removeParamValidation(LDAPConfigAPI::PARAMETER_ENABLED);
+        $paramRules->removeParamValidation(LDAPConfigAPI::PARAMETER_SYNC_INTERVAL);
+        return $paramRules;
     }
 
     /**

@@ -22,6 +22,7 @@ namespace OrangeHRM\LDAP\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Service\LDAPTestService;
+use OrangeHRM\LDAP\Service\LDAPTestSyncService;
 
 class LDAPTestConnectionModel implements Normalizable
 {
@@ -44,14 +45,44 @@ class LDAPTestConnectionModel implements Normalizable
     public function toArray(): array
     {
         $ldapTestService = new LDAPTestService($this->ldapSetting);
+        $ldapTestSyncService = new LDAPTestSyncService($this->ldapSetting);
         return [
             [
                 'category' => 'Login',
                 'checks' => [
-                    'label' => 'Authentication',
-                    'value' => $ldapTestService->testAuthentication(),
+                    [
+                        'label' => 'Authentication',
+                        'value' => $ldapTestService->testAuthentication(),
+                    ],
                 ]
-            ]
+            ],
+            // TODO
+            [
+                'category' => 'Lookup',
+                'checks' => [
+                    [
+                        'label' => 'User lookup',
+                        'value' => [
+                            'message' => 'Ok',
+                            'status' => 1
+                        ]
+                    ],
+                    [
+                        'label' => 'Search results',
+                        'value' => [
+                            'message' => $ldapTestSyncService->fetchEntryCollections()->count() . ' users found',
+                            'status' => 1
+                        ]
+                    ],
+                    [
+                        'label' => 'Users',
+                        'value' => [
+                            'message' => \count($ldapTestSyncService->fetchAllLDAPUsers()->getLDAPUsers()) . ' users going to create',
+                            'status' => 1
+                        ]
+                    ]
+                ]
+            ],
         ];
     }
 }

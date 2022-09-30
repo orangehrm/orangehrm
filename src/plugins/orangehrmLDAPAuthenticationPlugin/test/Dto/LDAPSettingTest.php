@@ -33,6 +33,7 @@ class LDAPSettingTest extends TestCase
     public function testFromString(): void
     {
         $setting = new LDAPSetting('example.com', 1389, 'OpenLDAP', 'tls');
+        $setting->setBindAnonymously(true);
         $this->assertEquals(
             '{"enable":false,"host":"example.com","port":1389,"encryption":"tls","implementation":"OpenLDAP","version":"3","optReferrals":false,"bindAnonymously":true,"bindUserDN":null,"bindUserPassword":null,"userLookupSettings":[],"dataMapping":{"firstName":"givenName","middleName":null,"lastName":"sn","workEmail":null,"employeeId":null,"userStatus":null},"mergeLDAPUsersWithExistingSystemUsers":false,"syncInterval":60}',
             (string)$setting

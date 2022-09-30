@@ -57,8 +57,8 @@ class LDAPSyncService
     use EmployeeServiceTrait;
     use LDAPLoggerTrait;
 
-    private ?LDAPService $ldapService = null;
-    private ?LDAPSetting $ldapSetting = null;
+    protected ?LDAPService $ldapService = null;
+    protected ?LDAPSetting $ldapSetting = null;
     private LDAPDao $ldapDao;
     private array $empNumbersWhoHaveManyUsers;
 
@@ -195,7 +195,6 @@ class LDAPSyncService
                     $this->getEntityManager()->flush();
                     $this->warnMultiUserEmployee($employee);
                 } elseif ($this->getLDAPSetting()->shouldMergeLDAPUsersWithExistingSystemUsers()) {
-                    // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());
                     $user->setDateModified($this->getDateTimeHelper()->getNow());
                     //$user->setModifiedUserId(); TODO
@@ -220,9 +219,11 @@ class LDAPSyncService
                         continue;
                     }
                     $this->getEntityManager()->persist($user);
-                    $this->getEntityManager()->persist($ldapAuthProvider);
+                    $this->getEntityManager()->persist($authProvider);
                     $this->getEntityManager()->flush();
                     $this->warnMultiUserEmployee($employee);
+                } else {
+                    $this->getLogger()->warning('Username already exists', $ldapUser->getLogInfo());
                 }
             } else {
                 // try to find a user who have user unique id
@@ -376,6 +377,8 @@ class LDAPSyncService
             $this->commitTransaction();
         } catch (Throwable $e) {
             $this->rollBackTransaction();
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             throw new TransactionException($e);
         }
     }
@@ -469,7 +472,7 @@ class LDAPSyncService
             $attributes[] = $lookupSetting->getUserUniqueIdAttribute();
         }
         $attributes = array_merge($attributes, $lookupSetting->getEmployeeSelectorMapping()->getAllAttributeNames());
-        return array_unique($attributes);
+        return array_values(array_unique($attributes));
     }
 
     /**
