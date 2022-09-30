@@ -108,9 +108,17 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      *                 type="array",
      *                 description="Module name and the boolean value to denote if it is enabled",
      *                 @OA\Items(
-     *                     @OA\Property(property="module", type="boolean"),
+     *                     @OA\Property(property="admin", type="boolean"),
+     *                     @OA\Property(property="pim", type="boolean"),
+     *                     @OA\Property(property="leave", type="boolean"),
+     *                     @OA\Property(property="time", type="boolean"),
+     *                     @OA\Property(property="recruitment", type="boolean"),
+     *                     @OA\Property(property="performance", type="boolean"),
+     *                     @OA\Property(property="maintenance", type="boolean"),
+     *                     @OA\Property(property="mobile", type="boolean"),
+     *                     @OA\Property(property="directory", type="boolean")
      *                 ),
-     *                 example="admin: true, pim: true, leave: true, time: true,...",
+     *                 example="admin: true, pim: true, leave: false, time: true,...",
      *             )
      *         )
      *     )

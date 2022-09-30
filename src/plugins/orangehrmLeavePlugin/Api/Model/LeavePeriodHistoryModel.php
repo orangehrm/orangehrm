@@ -23,6 +23,15 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\LeavePeriodHistory;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeavePeriodHistoryModel",
+ *     type="object",
+ *     @OA\Property(property="startMonth", type="integer"),
+ *     @OA\Property(property="startDay", type="integer"),
+ *     @OA\Property(property="createdAt", type="number")
+ * )
+ */
 class LeavePeriodHistoryModel implements Normalizable
 {
     use ModelTrait;
