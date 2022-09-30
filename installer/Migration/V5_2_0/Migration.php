@@ -22,7 +22,7 @@ namespace OrangeHRM\Installer\Migration\V5_2_0;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Types;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use Symfony\Component\Yaml\Yaml;
 
@@ -98,8 +98,8 @@ class Migration extends AbstractMigration
 
         $this->getConfigHelper()
             ->setConfigValue(
-                EmployeeOnLeaveService::CONFIG_ONLY_SHOW_EMPLOYEES_REPORTING_TO_ME,
-                1
+                ConfigService::KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE,
+                0
             );
     }
 

@@ -26,7 +26,15 @@ class EmployeeOnLeaveSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['leaveList.date', 'employee.firstName'];
 
+    /**
+     * @var DateTime
+     */
     protected DateTime $dateTime;
+
+    /**
+     * @var array|null
+     */
+    protected ?array $accessibleEmpNumber = null;
 
     public function __construct()
     {
@@ -48,5 +56,37 @@ class EmployeeOnLeaveSearchFilterParams extends FilterParams
     public function setDate(DateTime $dateTime): void
     {
         $this->dateTime = $dateTime;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateTime(): DateTime
+    {
+        return $this->dateTime;
+    }
+
+    /**
+     * @param DateTime $dateTime
+     */
+    public function setDateTime(DateTime $dateTime): void
+    {
+        $this->dateTime = $dateTime;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getAccessibleEmpNumber(): ?array
+    {
+        return $this->accessibleEmpNumber;
+    }
+
+    /**
+     * @param array|null $accessibleEmpNumber
+     */
+    public function setAccessibleEmpNumber(?array $accessibleEmpNumber): void
+    {
+        $this->accessibleEmpNumber = $accessibleEmpNumber;
     }
 }

@@ -53,14 +53,20 @@ class EmployeeOnLeaveDao extends BaseDao
         $q->andWhere('type.deleted = :deleted')
             ->setParameter('deleted', false);
         $q->andWhere('leaveList.date = :date')->setParameter('date', $leaveListSearchFilterParams->getDate());
-        $q->andWhere($q->expr()->orX(
-            $q->expr()->eq('leaveList.status', ':pending'),
-            $q->expr()->eq('leaveList.status', ':approved'),
-            $q->expr()->eq('leaveList.status', ':taken'),
-        ))
-        ->setParameter('pending', Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL)
-        ->setParameter('approved', Leave::LEAVE_STATUS_LEAVE_APPROVED)
-        ->setParameter('taken', Leave::LEAVE_STATUS_LEAVE_TAKEN);
+        $q->andWhere(
+            $q->expr()->orX(
+                $q->expr()->eq('leaveList.status', ':pending'),
+                $q->expr()->eq('leaveList.status', ':approved'),
+                $q->expr()->eq('leaveList.status', ':taken'),
+            )
+        )
+            ->setParameter('pending', Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL)
+            ->setParameter('approved', Leave::LEAVE_STATUS_LEAVE_APPROVED)
+            ->setParameter('taken', Leave::LEAVE_STATUS_LEAVE_TAKEN);
+        if (!is_null($leaveListSearchFilterParams->getAccessibleEmpNumber())) {
+            $q->andWhere($q->expr()->in('leaveList.employee', ':empNumbers'));
+            $q->setParameter('empNumbers', $leaveListSearchFilterParams->getAccessibleEmpNumber());
+        }
 
         $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));

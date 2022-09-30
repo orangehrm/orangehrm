@@ -31,23 +31,24 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
 
 class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
 {
     use ConfigServiceTrait;
 
-    public const PARAMETER_CONFIG_ENABLED = 'isEnabled';
+    public const PARAMETER_SHOW_ONLY_ACCESSIBLE_EMPLOYEES_ON_LEAVE_TODAY = 'showOnlyAccessibleEmployeesOnLeaveToday';
 
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        $isEnabled = $this->getConfigService()
-            ->getConfigDao()
-            ->getValue(EmployeeOnLeaveService::CONFIG_ONLY_SHOW_EMPLOYEES_REPORTING_TO_ME);
-        return new EndpointResourceResult(ArrayModel::class, ['isEnabled' => boolval($isEnabled)]);
+        $showOnlyAccessibleEmployeesOnLeaveToday = $this->getConfigService()
+            ->getDashboardEmployeesOnLeaveTodayShowOnlyAccessibleConfig();
+        return new EndpointResourceResult(
+            ArrayModel::class,
+            ['showOnlyAccessibleEmployeesOnLeaveToday' => $showOnlyAccessibleEmployeesOnLeaveToday]
+        );
     }
 
     /**
@@ -65,16 +66,19 @@ class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
      */
     public function update(): EndpointResult
     {
-        $isEnabled = $this->getRequestParams()->getBoolean(
+        $showOnlyAccessibleEmployeesOnLeaveToday = $this->getRequestParams()->getBoolean(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_CONFIG_ENABLED
+            self::PARAMETER_SHOW_ONLY_ACCESSIBLE_EMPLOYEES_ON_LEAVE_TODAY
         );
 
-        $config = $this->getConfigService()
-            ->getConfigDao()
-            ->setValue(EmployeeOnLeaveService::CONFIG_ONLY_SHOW_EMPLOYEES_REPORTING_TO_ME, (int)$isEnabled);
+        $this->getConfigService()->setDashboardEmployeesOnLeaveTodayShowOnlyAccessibleConfig(
+            $showOnlyAccessibleEmployeesOnLeaveToday
+        );
 
-        return new EndpointResourceResult(ArrayModel::class, ['isEnabled' => (boolval($config->getValue()))]);
+        return new EndpointResourceResult(
+            ArrayModel::class,
+            ['showOnlyAccessibleEmployeesOnLeaveToday' => $showOnlyAccessibleEmployeesOnLeaveToday]
+        );
     }
 
     /**
@@ -84,7 +88,7 @@ class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
     {
         $paramsRules = new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_CONFIG_ENABLED,
+                self::PARAMETER_SHOW_ONLY_ACCESSIBLE_EMPLOYEES_ON_LEAVE_TODAY,
                 new Rule(Rules::BOOL_TYPE)
             )
         );

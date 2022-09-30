@@ -40,8 +40,8 @@ dashboard_time_widget:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
-dashboard_configuration:
-  description: 'Dashboard - Configuration'
+dashboard_employees_on_leave_today_show_only_accessible_configuration:
+  description: 'Dashboard - Employees On Leave Today - Show Only Accessible Config'
   allowed:
     read: true
     create: false

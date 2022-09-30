@@ -2,7 +2,7 @@ Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
   - { name: 'leave.leavePeriodStatus', value: 1 }
   - { name: 'leave_period_defined', value: 'Yes' }
-  - { name: 'dashboard.leave.only_show_employees_reporting_to_me', value: 1}
+  - { name: 'dashboard.employees_on_leave_today.show_only_accessible', value: 0 }
 
 Employee:
   - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }

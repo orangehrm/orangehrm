@@ -1,20 +1,20 @@
 GetOne:
-  'Get Employee on leave today config - enabled':
-    userId: 1
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-    data:
-      isEnabled: true
-    meta: [ ]
-
   'Get Employee on leave today config - disabled':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
-    hooks:
-      preAssertValidTestCase: [ '\OrangeHRM\Tests\Dashboard\Api\EmployeeOnLeaveTodayConfigAPITest', 'configDisablingPreHook' ]
     data:
-      isEnabled: false
+      showOnlyAccessibleEmployeesOnLeaveToday: false
+    meta: [ ]
+
+  'Get Employee on leave today config - enabled':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Dashboard\Api\EmployeeOnLeaveTodayConfigAPITest', 'configEnablingPreHook' ]
+    data:
+      showOnlyAccessibleEmployeesOnLeaveToday: true
     meta: [ ]
 
 Update:
@@ -23,9 +23,9 @@ Update:
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
     body:
-      isEnabled: true
+      showOnlyAccessibleEmployeesOnLeaveToday: true
     data:
-      isEnabled: true
+      showOnlyAccessibleEmployeesOnLeaveToday: true
     meta: [ ]
 
   'Update Employee on leave today config - disabled':
@@ -33,9 +33,9 @@ Update:
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
     body:
-      isEnabled: false
+      showOnlyAccessibleEmployeesOnLeaveToday: false
     data:
-      isEnabled: false
+      showOnlyAccessibleEmployeesOnLeaveToday: false
     meta: [ ]
 
   'Update Employee on leave today config - Invalid Parameter':
@@ -43,11 +43,11 @@ Update:
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
     body:
-      isEnabled: 4
-    invalidOnly: [ 'isEnabled' ]
+      showOnlyAccessibleEmployeesOnLeaveToday: 4
+    invalidOnly: [ 'showOnlyAccessibleEmployeesOnLeaveToday' ]
 
   'Update Employee on leave today config - Without Required Parameter':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
-    invalidOnly: [ 'isEnabled' ]
+    invalidOnly: [ 'showOnlyAccessibleEmployeesOnLeaveToday' ]

@@ -19,8 +19,8 @@
 
 namespace OrangeHRM\Tests\Dashboard\Api;
 
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Dashboard\Api\EmployeeOnLeaveTodayConfigAPI;
-use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
 use OrangeHRM\Entity\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
@@ -51,12 +51,12 @@ class EmployeeOnLeaveTodayConfigAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('EmployeeOnLeaveTodayConfigAPITestCases.yaml', 'GetOne');
     }
 
-    public static function configDisablingPreHook(TestCaseParams $testCaseParams)
+    public static function configEnablingPreHook(TestCaseParams $testCaseParams)
     {
         $config = Doctrine::getEntityManager()->getRepository(Config::class)->find(
-            EmployeeOnLeaveService::CONFIG_ONLY_SHOW_EMPLOYEES_REPORTING_TO_ME
+            ConfigService::KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE
         );
-        $config->setValue(0);
+        $config->setValue(1);
         Doctrine::getEntityManager()->persist($config);
         Doctrine::getEntityManager()->flush($config);
     }
