@@ -27,34 +27,34 @@
             <img
               alt="profile picture"
               class="employee-image"
-              :src="`../pim/viewPhoto/empNumber/1`"
+              :src="`../pim/viewPhoto/empNumber/${postedEmployeeId}`"
             />
           </div>
           <div class="orangehrm-buzz-post-header-text">
             <oxd-text tag="p" class="orangehrm-buzz-post-emp-name">
-              <!-- need translation -->
-              Employee Name
+              {{ postedEmployeeName }}
             </oxd-text>
             <oxd-text tag="p" class="orangehrm-buzz-post-time">
-              <!-- need translation -->
-              Yesterday at 6:01 AM
+              {{ postedTime }}
             </oxd-text>
           </div>
         </div>
-        <div class="orangehrm-buzz-post-header-config">
-          <oxd-icon-button class="" name="three-dots" withContainer="true" />
+        <div
+          v-if="postedEmployeeId === buzzUserId"
+          class="orangehrm-buzz-post-header-config"
+        >
+          <oxd-icon-button class="" name="three-dots" with-container="true" />
         </div>
       </div>
       <oxd-divider />
     </div>
     <div class="orangehrm-buzz-post-body">
-      this is post body
+      {{ postContentText }}
       <slot name="body"></slot>
     </div>
     <div class="orangehrm-buzz-post-footer">
       <div class="orangehrm-buzz-post-footer-left">
         <action-button></action-button>
-        <!-- <slot name="action-button"></slot> -->
       </div>
       <div class="orangehrm-buzz-post-footer-right">
         <div class="orangehrm-buzz-post-footer-summery-top">
@@ -62,103 +62,247 @@
             name="heart-fill"
             class="orangehrm-buzz-like-icon"
           ></oxd-icon>
-          <oxd-text tag="p">
-            <!-- add translation -->
-            X Likes
+          <oxd-text
+            tag="p"
+            @mouseleave="showLikeList = false"
+            @mouseover="onShowLikeList"
+          >
+            {{ $t('buzz.n_like', {likesCount: noOfLikes}) }}
           </oxd-text>
+          <div v-if="showLikeList">
+            <oxd-sheet
+              :gutters="false"
+              type="white"
+              class="orangehrm-buzz-post-footer-like-list"
+            >
+              <div
+                v-for="like in likedList"
+                :key="like"
+                class="orangehrm-buzz-post-footer-like-employee"
+              >
+                <div class="orangehrm-buzz-post-profile-image">
+                  <img
+                    alt="profile picture"
+                    class="employee-image"
+                    :src="`../pim/viewPhoto/empNumber/${like.empNumber}`"
+                  />
+                </div>
+                <oxd-text tag="p">
+                  {{ like.empName }}
+                </oxd-text>
+              </div>
+              <oxd-loading-spinner
+                v-if="isLoading"
+                class="orangehrm-buzz-loader"
+              />
+            </oxd-sheet>
+          </div>
         </div>
         <div class="orangehrm-buzz-post-footer-summery-bottom">
-          <oxd-text tag="p" class="orangehrm-buzz-post-footer-comment">
-            <!-- add translation -->
-            Y Comments ,
+          <oxd-text
+            tag="p"
+            class="orangehrm-buzz-post-footer-comment"
+            @click="onClickComments"
+          >
+            {{ $t('buzz.n_comment', {commentCount: noOfComments}) }} ,
           </oxd-text>
-          <oxd-text tag="p">
-            <!-- add translation -->
-            Z Shares
-          </oxd-text>
+          <div>
+            <oxd-text
+              tag="p"
+              @mouseleave="showSharesList = false"
+              @mouseover="onShowSharesList"
+            >
+              {{ $t('buzz.n_share', {shareCount: noOfShares}) }}
+            </oxd-text>
+            <div v-if="showSharesList">
+              <oxd-sheet
+                :gutters="false"
+                type="white"
+                class="orangehrm-buzz-post-footer-share-list"
+              >
+                <div
+                  v-for="share in sharesList"
+                  :key="share"
+                  class="orangehrm-buzz-post-footer-share-employee"
+                >
+                  <div class="orangehrm-buzz-post-profile-image">
+                    <img
+                      alt="profile picture"
+                      class="employee-image"
+                      :src="`../pim/viewPhoto/empNumber/${share.empNumber}`"
+                    />
+                  </div>
+                  <oxd-text tag="p">
+                    {{ share.empName }}
+                  </oxd-text>
+                </div>
+                <oxd-loading-spinner
+                  v-if="isLoading"
+                  class="orangehrm-buzz-loader"
+                />
+              </oxd-sheet>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="orangehrm-buzz-post-comment">
-
+    <div v-if="showComments" class="orangehrm-buzz-post-comment">
+      <oxd-divider />
+      <div class="orangehrm-buzz-post-comment-add">
+        <div class="orangehrm-buzz-post-profile-image-comment">
+          <img
+            alt="profile picture"
+            class="employee-image"
+            :src="`../pim/viewPhoto/empNumber/${buzzUserId}`"
+          />
+        </div>
+        <oxd-form class="orangehrm-buzz-post-comment-input">
+          <oxd-form-row>
+            <oxd-grid-item>
+              <oxd-input-field :placeholder="$t('buzz.write_your_comment')" />
+            </oxd-grid-item>
+          </oxd-form-row>
+        </oxd-form>
+      </div>
+      <slot name="comment"></slot>
     </div>
   </oxd-sheet>
 </template>
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
-import PostActionButtons from '@/orangehrmBuzzPlugin/components/PostActionButtons.vue'
+import {APIService} from '@/core/util/services/api.service';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import PostActionButtons from '@/orangehrmBuzzPlugin/components/PostActionButtons.vue';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'PostContainer',
   components: {
     'oxd-icon': Icon,
     'oxd-sheet': Sheet,
+    'oxd-loading-spinner': Spinner,
     'action-button': PostActionButtons,
+  },
+  props: {
+    postedEmployeeName: {
+      type: String,
+      required: true,
+    },
+    postedEmployeeId: {
+      type: Number,
+      required: true,
+    },
+    postId: {
+      type: Number,
+      required: true,
+    },
+    postedTime: {
+      type: String,
+      required: true,
+    },
+    postContentText: {
+      type: String,
+      default: '',
+    },
+    noOfLikes: {
+      type: Number,
+      default: 0,
+    },
+    noOfComments: {
+      type: Number,
+      default: 0,
+    },
+    noOfShares: {
+      type: Number,
+      default: 0,
+    },
+    buzzUserId: {
+      type: Number,
+      required: true,
+    },
+  },
+
+  setup() {
+    const {$tEmpName} = useEmployeeNameTranslate();
+    const http = new APIService(window.appGlobal.baseUrl, '');
+
+    return {
+      http,
+      tEmpName: $tEmpName,
+    };
+  },
+
+  data() {
+    return {
+      isLoading: false,
+      showComments: false,
+      showLikeList: false,
+      showSharesList: false,
+      likedList: [],
+      sharesList: [],
+    };
+  },
+
+  methods: {
+    onClickComments() {
+      this.showComments = !this.showComments;
+    },
+    onShowLikeList() {
+      this.showLikeList = true;
+      this.isLoading = true;
+      if (this.noOfLikes > 0) {
+        this.http
+          .request({
+            method: 'GET',
+            url: `api/v2/buzz/post/likes/${this.postId}`,
+          })
+          .then(response => {
+            const {data} = response.data;
+            this.likedList = data.map(item => {
+              const {employee} = item;
+              return {
+                empNumber: employee.empNumber,
+                empName: this.tEmpName(employee, {
+                  includeMiddle: false,
+                  excludePastEmpTag: false,
+                }),
+              };
+            });
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
+      }
+    },
+    onShowSharesList() {
+      this.showSharesList = true;
+      this.isLoading = true;
+      if (this.noOfShares > 0) {
+        this.http
+          .request({
+            method: 'GET',
+            url: `api/v2/buzz/post/shares/${this.postId}`,
+          })
+          .then(response => {
+            const {data} = response.data;
+            this.sharesList = data.map(item => {
+              const {employee} = item;
+              return {
+                empNumber: employee.empNumber,
+                empName: this.tEmpName(employee, {
+                  includeMiddle: false,
+                  excludePastEmpTag: false,
+                }),
+              };
+            });
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
+      }
+    },
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-buzz {
-  padding: 1rem;
-  width: 30rem;
-  &-like-icon {
-    color: $oxd-feedback-danger-color;
-  }
-}
-.orangehrm-buzz-post {
-  &-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    &-details {
-      display: flex;
-      justify-content: center;
-    }
-    &-text {
-      margin-left: 1rem;
-    }
-  }
-  &-profile-image {
-    & img {
-      width: 40px;
-      height: 40px;
-      border-radius: 100%;
-      display: flex;
-      flex-shrink: 0;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-  &-emp-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-  &-time {
-    font-size: 0.75rem;
-  }
-  &-footer {
-    display: flex;
-    padding-top: 1rem;
-    align-items: center;
-    justify-content: space-between;
-    &-summery-top {
-      display: flex;
-      font-size: 1rem;
-      font-weight: 700;
-      align-items: center;
-      justify-content: end;
-      & p {
-        margin-left: 0.5rem;
-      }
-    }
-    &-summery-bottom {
-      display: flex;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped src="./post-status.scss"></style>
