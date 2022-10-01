@@ -23,3 +23,15 @@ langStrings:
   -
     value: 'Years'
     unitId: years
+  -
+    value: '{likesCount,plural, =0{0 Likes} one{1 Like} other{# Likes}}'
+    unitId: n_like
+  -
+    value: '{commentCount,plural, =0{0 Comments} one{1 Comment} other{# Comments}}'
+    unitId: n_comment
+  -
+    value: '{shareCount,plural, =0{0 Shares} one{1 Share} other{# Shares}}'
+    unitId: n_share
+  -
+    value: 'Write your comment...'
+    unitId: write_your_comment
