@@ -114,6 +114,10 @@ class SystemCheckAPI extends AbstractInstallerRestController
                             'label' => 'GD extension status',
                             'value' => $systemConfig->isGdExtensionEnabled()
                         ],
+                        [
+                            'label' => 'LDAP extension status',
+                            'value' => $systemConfig->isLDAPExtensionEnabled()
+                        ],
                     ]
                 ]
             ],
