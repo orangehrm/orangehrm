@@ -195,6 +195,7 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="length",
      *                 type="integer",
+     *                 enum={ 0, 4},
      *                 description="0 - working day, 4 - half day"
      *             ),
      *             @OA\Property(property="name", type="string"),
@@ -286,6 +287,7 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      *             @OA\Property(
      *                 property="length",
      *                 type="integer",
+     *                 enum={ 0, 4},
      *                 description="0 - working day, 4 - half day"
      *             ),
      *             @OA\Property(property="name", type="string"),

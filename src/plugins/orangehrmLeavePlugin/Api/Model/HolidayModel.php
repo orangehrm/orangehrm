@@ -31,9 +31,8 @@ use OrangeHRM\Entity\Holiday;
  *     @OA\Property(property="name", type="string"),
  *     @OA\Property(property="date", type="string"),
  *     @OA\Property(property="recurring", type="boolean"),
- *     @OA\Property(property="length", type="string"),
- *     @OA\Property(property="lengthName", type="string"),
- *     description="length = 0 => 'working day',lengthName = 4 => 'half day'"
+ *     @OA\Property(property="length", type="string", enum={ 0, 4}),
+ *     @OA\Property(property="lengthName", type="string", enum={ "Full Day", "Half Day"})
  * )
  */
 class HolidayModel implements Normalizable

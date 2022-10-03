@@ -98,7 +98,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *         name="includeEmployees",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(type="string", description="onlyCurrent,onlyPast,currentAndPast")
+     *         @OA\Schema(type="string", enum={"onlyCurrent", "onlyPast", "currentAndPast"})
      *     ),
      *     @OA\Parameter(
      *         name="statuses",
@@ -233,7 +233,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      *                 @OA\Property(
      *                     property="type",
      *                     type="string",
-     *                     example="full_day, half_day_afternoon,half_day_morning,specify_time",
+     *                     enum={"full_day", "half_day_afternoon", "half_day_morning", "specify_time"},
      *                 ),
      *                 @OA\Property(
      *                     property="fromTime",
