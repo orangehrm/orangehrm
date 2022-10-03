@@ -53,9 +53,7 @@
       <slot name="body"></slot>
     </div>
     <div class="orangehrm-buzz-post-footer">
-      <div class="orangehrm-buzz-post-footer-left">
-        <action-button></action-button>
-      </div>
+      <div class="orangehrm-buzz-post-footer-left"></div>
       <div class="orangehrm-buzz-post-footer-right">
         <div class="orangehrm-buzz-post-footer-summery-top">
           <oxd-icon
@@ -173,7 +171,6 @@ import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
-import PostActionButtons from '@/orangehrmBuzzPlugin/components/PostActionButtons.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
@@ -182,7 +179,6 @@ export default {
     'oxd-icon': Icon,
     'oxd-sheet': Sheet,
     'oxd-loading-spinner': Spinner,
-    'action-button': PostActionButtons,
   },
   props: {
     postedEmployeeName: {
@@ -255,7 +251,7 @@ export default {
         this.http
           .request({
             method: 'GET',
-            url: `api/v2/buzz/post/likes/${this.postId}`,
+            url: `api/v2/buzz/posts/${this.postId}/likes`,
           })
           .then(response => {
             const {data} = response.data;
@@ -282,7 +278,7 @@ export default {
         this.http
           .request({
             method: 'GET',
-            url: `api/v2/buzz/post/shares/${this.postId}`,
+            url: `api/v2/buzz/posts/${this.postId}/shares`,
           })
           .then(response => {
             const {data} = response.data;
