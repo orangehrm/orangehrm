@@ -101,6 +101,8 @@ class Migration extends AbstractMigration
                 ConfigService::KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE,
                 0
             );
+
+        $this->getSchemaHelper()->dropIndex('ohrm_user', 'user_name');
     }
 
     /**
