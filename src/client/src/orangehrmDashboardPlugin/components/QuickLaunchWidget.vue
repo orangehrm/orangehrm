@@ -35,9 +35,10 @@
           icon-type="svg"
           class="orangehrm-quick-launch-icon"
           :name="action.icon"
+          :title="action.label"
           @click="onClickAction(action.path)"
         />
-        <div class="orangehrm-quick-launch-heading">
+        <div class="orangehrm-quick-launch-heading" :title="action.label">
           <oxd-text tag="p" class="--text">
             {{ action.label }}
           </oxd-text>
