@@ -555,6 +555,24 @@ class SystemConfig
     }
 
     /**
+     * @return array
+     */
+    public function isLDAPExtensionEnabled(): array
+    {
+        if (extension_loaded('ldap')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
      * @param string $path
      * @return bool
      */
