@@ -17,12 +17,15 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Dashboard\Service\ChartService;
 use OrangeHRM\Dashboard\Service\EmployeeActionSummaryService;
 use OrangeHRM\Dashboard\Service\EmployeeOnLeaveService;
 use OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService;
 use OrangeHRM\Dashboard\Service\QuickLaunchService;
+use OrangeHRM\Dashboard\Subscriber\LeaveModuleStatusChangeSubscriber;
+use OrangeHRM\Dashboard\Subscriber\TimeModuleStatusChangeSubscriber;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
@@ -30,6 +33,7 @@ use OrangeHRM\Framework\Services;
 class DashboardPluginConfiguration implements PluginConfigurationInterface
 {
     use ServiceContainerTrait;
+    use EventDispatcherTrait;
 
     /**
      * @inheritDoc
@@ -59,5 +63,8 @@ class DashboardPluginConfiguration implements PluginConfigurationInterface
             Services::EMPLOYEE_ACTION_SUMMARY_SERVICE,
             EmployeeActionSummaryService::class
         );
+
+        $this->getEventDispatcher()->addSubscriber(new TimeModuleStatusChangeSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new LeaveModuleStatusChangeSubscriber());
     }
 }

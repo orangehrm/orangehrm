@@ -14,23 +14,42 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\ORM\Exception;
+namespace OrangeHRM\FunctionalTesting\Command;
 
-use Exception;
-use Throwable;
+use OrangeHRM\Framework\Console\Command;
+use OrangeHRM\FunctionalTesting\Service\DatabaseBackupService;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class TransactionException extends Exception
+class ResetDatabaseCommand extends Command
 {
     /**
-     * @param Throwable $previous
-     * @param string $message
-     * @param int $code
+     * @inheritDoc
      */
-    public function __construct(Throwable $previous, $message = 'Transaction Failed', $code = 0)
+    public function getCommandName(): string
     {
-        parent::__construct($message, $code, $previous);
+        return 'instance:reset-db';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function configure()
+    {
+        $this->setDescription('Reset database to initial state');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $databaseBackupService = new DatabaseBackupService();
+        $databaseBackupService->restoreToInitialSavepoint();
+        $this->getIO()->success('Success');
+        return self::SUCCESS;
     }
 }

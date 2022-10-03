@@ -57,10 +57,11 @@ class LDAPSyncService
     use EmployeeServiceTrait;
     use LDAPLoggerTrait;
 
-    private ?LDAPService $ldapService = null;
-    private ?LDAPSetting $ldapSetting = null;
+    protected ?LDAPService $ldapService = null;
+    protected ?LDAPSetting $ldapSetting = null;
     private LDAPDao $ldapDao;
     private array $empNumbersWhoHaveManyUsers;
+    private array $entryCollectionCache = [];
 
     /**
      * @return LDAPDao
@@ -195,7 +196,6 @@ class LDAPSyncService
                     $this->getEntityManager()->flush();
                     $this->warnMultiUserEmployee($employee);
                 } elseif ($this->getLDAPSetting()->shouldMergeLDAPUsersWithExistingSystemUsers()) {
-                    // local auth, may be skipped
                     $user->setStatus($ldapUser->isUserEnabled());
                     $user->setDateModified($this->getDateTimeHelper()->getNow());
                     //$user->setModifiedUserId(); TODO
@@ -220,9 +220,11 @@ class LDAPSyncService
                         continue;
                     }
                     $this->getEntityManager()->persist($user);
-                    $this->getEntityManager()->persist($ldapAuthProvider);
+                    $this->getEntityManager()->persist($authProvider);
                     $this->getEntityManager()->flush();
                     $this->warnMultiUserEmployee($employee);
+                } else {
+                    $this->getLogger()->warning('Username already exists', $ldapUser->getLogInfo());
                 }
             } else {
                 // try to find a user who have user unique id
@@ -315,8 +317,7 @@ class LDAPSyncService
             $this->saveEmployee($employee, $clonedEmployee);
             return $employee;
         } catch (LDAPSyncException $e) {
-            $this->getLogger()->error($e->getMessage());
-            $this->getLogger()->error(serialize($ldapUser));
+            $this->getLogger()->error($e->getMessage(), $ldapUser->getLogInfo());
             return null;
         }
     }
@@ -377,6 +378,8 @@ class LDAPSyncService
             $this->commitTransaction();
         } catch (Throwable $e) {
             $this->rollBackTransaction();
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             throw new TransactionException($e);
         }
     }
@@ -402,6 +405,11 @@ class LDAPSyncService
      */
     private function fetchEntryCollection(LDAPUserLookupSetting $lookupSetting): CollectionInterface
     {
+        $hashKey = md5(serialize($lookupSetting));
+        if (isset($this->entryCollectionCache[$hashKey])) {
+            return $this->entryCollectionCache[$hashKey];
+        }
+
         $options = [
             'scope' => $lookupSetting->getSearchScope(),
             'filter' => $this->getSearchAttributes($lookupSetting),
@@ -411,7 +419,7 @@ class LDAPSyncService
             $lookupSetting->getUserSearchFilter(),
             $options,
         );
-        return $q->execute();
+        return $this->entryCollectionCache[$hashKey] = $q->execute();
     }
 
     /**
@@ -439,8 +447,7 @@ class LDAPSyncService
                 ->setUserLookupSetting($lookupSetting)
                 ->setEntry($entry);
         } catch (Throwable $e) {
-            $this->getLogger()->error($e->getMessage());
-            $this->getLogger()->error(json_encode([$entry->getDn(), $entry->getAttributes()]));
+            $this->getLogger()->error($e->getMessage(), [$entry->getDn(), $entry->getAttributes()]);
             return null;
         }
     }
@@ -471,7 +478,7 @@ class LDAPSyncService
             $attributes[] = $lookupSetting->getUserUniqueIdAttribute();
         }
         $attributes = array_merge($attributes, $lookupSetting->getEmployeeSelectorMapping()->getAllAttributeNames());
-        return array_unique($attributes);
+        return array_values(array_unique($attributes));
     }
 
     /**

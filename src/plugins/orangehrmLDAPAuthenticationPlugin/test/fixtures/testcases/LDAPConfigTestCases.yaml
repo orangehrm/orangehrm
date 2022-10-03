@@ -63,6 +63,87 @@ Update:
       }
     meta: [ ]
 
+  'Save LDAP Config - with `employeeSelectorMapping`':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "bindUserPassword": "admin",
+      "userLookupSettings": [
+        {
+          "baseDN": "ou=admin,ou=users,dc=example,dc=org",
+          "searchScope": "sub",
+          "userNameAttribute": "cn",
+          "userUniqueIdAttribute": null,
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ { "field": "employeeId", "attributeName": "employeeNumber" } ],
+        },
+        {
+          "baseDN": "ou=hr,ou=users,dc=example,dc=org",
+          "searchScope": "one",
+          "userNameAttribute": "uid",
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ]
+        }
+      ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": true,
+      "syncInterval": 60
+    }
+    data: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "userLookupSettings": [
+        {
+          "baseDN": "ou=admin,ou=users,dc=example,dc=org",
+          "searchScope": "sub",
+          "userNameAttribute": "cn",
+          "userUniqueIdAttribute": null,
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ { "field": "employeeId", "attributeName": "employeeNumber" } ],
+        },
+        {
+          "baseDN": "ou=hr,ou=users,dc=example,dc=org",
+          "searchScope": "one",
+          "userNameAttribute": "uid",
+          "userUniqueIdAttribute": null,
+          "userSearchFilter": "objectClass=person",
+          "employeeSelectorMapping": [ ]
+        }
+      ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "middleName": null,
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": true,
+      "syncInterval": 60
+    }
+    meta: [ ]
+
   'Save LDAP Config - Bind Anonymously':
     userId: 1
     services:
@@ -200,37 +281,214 @@ Update:
       }
     invalidOnly: [ "ldapImplementation" ]
 
-# TODO
-#  'Save LDAP Config - Invalid Search Scope':
-#    userId: 1
-#    services:
-#      core.config_service: \OrangeHRM\Core\Service\ConfigService
-#    attributes: [ ]
-#    query: [ ]
-#    body:
-#      {
-#        "enable": false,
-#        "hostname": "localhost",
-#        "port": 389,
-#        "encryption": "none",
-#        "ldapImplementation": "OpenLDAP",
-#        "bindAnonymously": true,
-#        "distinguishedName": "cn=admin,dc=example,dc=org",
-#        "distinguishedPassword": "admin",
-#        "baseDistinguishedName": null,
-#        "searchScope": "invalid",
-#        "userNameAttribute": "cn",
-#        "dataMapping": {
-#          "firstName": "givenName",
-#          "lastName": "sn",
-#          "userStatus": null,
-#          "workEmail": null,
-#          "employeeId": null
-#        },
-#        "mergeLDAPUsersWithExistingSystemUsers": false,
-#        "syncInterval": 60
-#      }
-#    invalidOnly: [ "searchScope" ]
+  'Save LDAP Config - Empty userLookupSettings':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "bindUserPassword": "admin",
+      "userLookupSettings": [ ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": false,
+      "syncInterval": 60
+    }
+    invalidOnly: [ "userLookupSettings" ]
+
+  'Save LDAP Config - Invalid Search Scope':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "bindUserPassword": "admin",
+      "userLookupSettings": [ {
+        "baseDN": "ou=users,dc=example,dc=org",
+        "searchScope": "invalid",
+        "userNameAttribute": "cn",
+        "userUniqueIdAttribute": null,
+        "userSearchFilter": "objectClass=person",
+        "employeeSelectorMapping": [ ],
+      } ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": false,
+      "syncInterval": 60
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Save LDAP Config - Ignore required userLookupSettings[].baseDN':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "bindUserPassword": "admin",
+      "userLookupSettings": [ {
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "userUniqueIdAttribute": null,
+        "userSearchFilter": "objectClass=person",
+        "employeeSelectorMapping": [ ],
+      } ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": false,
+      "syncInterval": 60
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Save LDAP Config - Ignore required userLookupSettings[].userNameAttribute':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "bindUserPassword": "admin",
+      "userLookupSettings": [ {
+        "baseDN": "ou=users,dc=example,dc=org",
+        "searchScope": "sub",
+        "userSearchFilter": "objectClass=person",
+        "employeeSelectorMapping": [ ],
+      } ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": false,
+      "syncInterval": 60
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Save LDAP Config - Ignore required userLookupSettings[].userSearchFilter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "bindUserPassword": "admin",
+      "userLookupSettings": [ {
+        "baseDN": "ou=users,dc=example,dc=org",
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "userUniqueIdAttribute": null,
+        "employeeSelectorMapping": [ ],
+      } ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": false,
+      "syncInterval": 60
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Save LDAP Config - Invalid userLookupSettings[].employeeSelectorMapping[].field':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "bindUserPassword": "admin",
+      "userLookupSettings": [ {
+        "baseDN": "ou=users,dc=example,dc=org",
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "userSearchFilter": "objectClass=person",
+        "userUniqueIdAttribute": null,
+        "employeeSelectorMapping": [ { "field": "invalid", "attributeName": "employeeNumber" } ],
+      } ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": false,
+      "syncInterval": 60
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
 GetOne:
   'Get LDAP Config - No saved configurations':
@@ -246,7 +504,7 @@ GetOne:
         "port": 389,
         "encryption": "none",
         "ldapImplementation": "OpenLDAP",
-        "bindAnonymously": true,
+        "bindAnonymously": false,
         "bindUserDN": null,
         "userLookupSettings": [ ],
         "dataMapping": {

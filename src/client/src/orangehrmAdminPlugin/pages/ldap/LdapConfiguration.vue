@@ -482,19 +482,14 @@ export default {
       this.validate().then(() => {
         if (this.invalid === true) return;
         this.isLoading = true;
+        const data = this.getRequestBody();
+        delete data.enable;
+        delete data.syncInterval;
         this.http
           .request({
             method: 'POST',
-            url: 'api/v2/admin/ldap/connect',
-            data: {
-              ...this.configuration,
-              enable: undefined,
-              port: parseInt(this.configuration.port),
-              syncInterval: parseInt(this.configuration.syncInterval),
-              encryption: this.configuration.encryption?.id || 'none',
-              searchScope: this.configuration.searchScope?.id,
-              ldapImplementation: this.configuration.ldapImplementation?.id,
-            },
+            url: 'api/v2/admin/ldap-test-connection',
+            data,
           })
           .then(response => {
             const {data} = response.data;
@@ -503,6 +498,31 @@ export default {
           .finally(() => (this.isLoading = false));
       });
     },
+    getRequestBody() {
+      return {
+        enable: this.configuration.enable,
+        hostname: this.configuration.hostname,
+        port: parseInt(this.configuration.port),
+        encryption: this.configuration.encryption?.id || 'none',
+        ldapImplementation: this.configuration.ldapImplementation?.id,
+        bindAnonymously: this.configuration.bindAnonymously,
+        bindUserDN: this.configuration.bindUserDN,
+        bindUserPassword: this.configuration.bindUserPassword,
+        userLookupSettings: [
+          {
+            baseDN: this.configuration.baseDistinguishedName,
+            searchScope: this.configuration.searchScope?.id,
+            userNameAttribute: this.configuration.userNameAttribute,
+            userSearchFilter: this.configuration.userSearchFilter,
+            userUniqueIdAttribute: this.configuration.userUniqueIdAttribute,
+          },
+        ],
+        dataMapping: this.configuration.dataMapping,
+        mergeLDAPUsersWithExistingSystemUsers: this.configuration
+          .mergeLDAPUsersWithExistingSystemUsers,
+        syncInterval: parseInt(this.configuration.syncInterval),
+      };
+    },
     onClickSave() {
       this.validate().then(() => {
         if (this.invalid === true) return;
@@ -510,30 +530,7 @@ export default {
         this.http
           .request({
             method: 'PUT',
-            data: {
-              enable: this.configuration.enable,
-              hostname: this.configuration.hostname,
-              port: parseInt(this.configuration.port),
-              encryption: this.configuration.encryption?.id || 'none',
-              ldapImplementation: this.configuration.ldapImplementation?.id,
-              bindAnonymously: this.configuration.bindAnonymously,
-              bindUserDN: this.configuration.bindUserDN,
-              bindUserPassword: this.configuration.bindUserPassword,
-              userLookupSettings: [
-                {
-                  baseDN: this.configuration.baseDistinguishedName,
-                  searchScope: this.configuration.searchScope?.id,
-                  userNameAttribute: this.configuration.userNameAttribute,
-                  userSearchFilter: this.configuration.userSearchFilter,
-                  userUniqueIdAttribute: this.configuration
-                    .userUniqueIdAttribute,
-                },
-              ],
-              dataMapping: this.configuration.dataMapping,
-              mergeLDAPUsersWithExistingSystemUsers: this.configuration
-                .mergeLDAPUsersWithExistingSystemUsers,
-              syncInterval: parseInt(this.configuration.syncInterval),
-            },
+            data: this.getRequestBody(),
           })
           .then(() => {
             return this.$toast.updateSuccess();

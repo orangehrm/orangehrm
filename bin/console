@@ -52,7 +52,7 @@ $env = 'prod';
 $debug = 'prod' !== $env;
 
 $console = new Console();
-$kernel = new Framework($env, $debug);
+new Framework($env, $debug); // initializing kernel
 
 $request = new Request();
 $pluginConfigs = Config::get('ohrm_plugin_configs');

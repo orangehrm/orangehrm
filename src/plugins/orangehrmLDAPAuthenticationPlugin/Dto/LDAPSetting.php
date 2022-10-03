@@ -31,7 +31,7 @@ class LDAPSetting
     private string $version = '3';
     private bool $optReferrals = false;
 
-    private bool $bindAnonymously = true;
+    private bool $bindAnonymously = false;
     private ?string $bindUserDN = null;
     private ?string $bindUserPassword = null;
 

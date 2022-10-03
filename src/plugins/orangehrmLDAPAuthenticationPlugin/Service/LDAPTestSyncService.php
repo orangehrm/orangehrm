@@ -14,22 +14,16 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\LDAP\Api\Model;
+namespace OrangeHRM\LDAP\Service;
 
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
-use OrangeHRM\LDAP\Service\LDAPTestService;
 
-class LDAPTestConnectionModel implements Normalizable
+class LDAPTestSyncService extends LDAPSyncService
 {
-    /**
-     * @var LDAPSetting
-     */
-    private LDAPSetting $ldapSetting;
-
     /**
      * @param LDAPSetting $ldapSetting
      */
@@ -41,17 +35,25 @@ class LDAPTestConnectionModel implements Normalizable
     /**
      * @inheritDoc
      */
-    public function toArray(): array
+    protected function getLDAPService(): LDAPService
     {
-        $ldapTestService = new LDAPTestService($this->ldapSetting);
-        return [
-            [
-                "category" => "Login",
-                "checks" => [
-                    "label" => "Authentication",
-                    "value" => $ldapTestService->testAuthentication(),
-                ]
-            ]
-        ];
+        if (!$this->ldapService instanceof LDAPTestService) {
+            $this->ldapService = new LDAPTestService($this->getLDAPSetting());
+            $bindCredentials = new UserCredential();
+            if (!$this->getLDAPSetting()->isBindAnonymously()) {
+                $bindCredentials->setUsername($this->getLDAPSetting()->getBindUserDN());
+                $bindCredentials->setPassword($this->getLDAPSetting()->getBindUserPassword());
+            }
+            $this->ldapService->bind($bindCredentials);
+        }
+        return $this->ldapService;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getLDAPSetting(): LDAPSetting
+    {
+        return $this->ldapSetting;
     }
 }

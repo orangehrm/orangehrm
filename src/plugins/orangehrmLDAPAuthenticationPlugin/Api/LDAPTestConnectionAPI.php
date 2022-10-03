@@ -23,21 +23,31 @@ use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ValidatorTrait;
-use OrangeHRM\LDAP\Api\Model\LDAPTestConnectionModel;
-use OrangeHRM\LDAP\Api\Traits\LDAPDataMapParamRuleCollection;
+use OrangeHRM\LDAP\Api\Traits\LDAPCommonParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
+use OrangeHRM\LDAP\Service\LDAPTestService;
+use OrangeHRM\LDAP\Service\LDAPTestSyncService;
+use OrangeHRM\LDAP\Traits\LDAPLoggerTrait;
+use Symfony\Component\Ldap\Exception\ConnectionException;
+use Symfony\Component\Ldap\Exception\ConnectionTimeoutException;
+use Symfony\Component\Ldap\Exception\InvalidCredentialsException;
+use Symfony\Component\Ldap\Exception\LdapException;
+use Symfony\Component\Ldap\Exception\NotBoundException;
+
+use function count;
 
 class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
 {
+    use ConfigServiceTrait;
     use ValidatorTrait;
-    use LDAPDataMapParamRuleCollection;
+    use LDAPCommonParamRuleCollection;
+    use LDAPLoggerTrait;
 
     /**
      * @inheritDoc
@@ -64,14 +74,15 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_BODY,
             LDAPConfigAPI::PARAMETER_DATA_MAPPING
         );
-        $this->validate($dataMapping, $this->getParamRuleCollection());
+        $this->validate($dataMapping, $this->getParamRuleCollectionForDataMapping());
 
         $userLookupSettings = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
             LDAPConfigAPI::PARAMETER_USER_LOOKUP_SETTINGS
         );
-        // TODO
-        //$this->validate($userLookupSettings, $this->getParamRuleCollectionForUserLookupSettings());
+        foreach ($userLookupSettings as $userLookupSetting) {
+            $this->validate($userLookupSetting, $this->getParamRuleCollectionForUserLookupSettings());
+        }
 
         $ldapSettings = new LDAPSetting(
             $this->getRequestParams()->getString(
@@ -95,7 +106,70 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
         $this->setConfigAttributes($ldapSettings);
         $this->setDataMappingAttributes($ldapSettings, $dataMapping);
         $this->setUserLookupSettings($ldapSettings, $userLookupSettings);
-        return new EndpointResourceResult(LDAPTestConnectionModel::class, $ldapSettings);
+        return new EndpointResourceResult(ArrayModel::class, $this->getNormalizeLDAPSettings($ldapSettings));
+    }
+
+    /**
+     * @param LDAPSetting $ldapSetting
+     * @return array[]
+     */
+    private function getNormalizeLDAPSettings(LDAPSetting $ldapSetting): array
+    {
+        $ldapTestService = new LDAPTestService($ldapSetting);
+        $authState = $ldapTestService->testAuthentication();
+        $userLookupStatus = $authState['status'];
+
+        $searchResults = 'Failed';
+        $users = 'Failed';
+        try {
+            $ldapTestSyncService = new LDAPTestSyncService($ldapSetting);
+            $entryCollection = $ldapTestSyncService->fetchEntryCollections();
+            $searchResults = $entryCollection->count() . ' users found';
+            $users = count($ldapTestSyncService->fetchAllLDAPUsers()->getLDAPUsers()) . ' users going to create';
+        } catch (LdapException | NotBoundException | InvalidCredentialsException | ConnectionTimeoutException | ConnectionException $e) {
+            $userLookupStatus = LDAPTestService::STATUS_FAIL;
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
+        }
+
+
+        return [
+            [
+                'category' => 'Login',
+                'checks' => [
+                    [
+                        'label' => 'Authentication',
+                        'value' => $authState,
+                    ],
+                ]
+            ],
+            [
+                'category' => 'Lookup',
+                'checks' => [
+                    [
+                        'label' => 'User lookup',
+                        'value' => [
+                            'message' => $userLookupStatus == LDAPTestService::STATUS_FAIL ? 'Failed' : 'Ok',
+                            'status' => $userLookupStatus
+                        ]
+                    ],
+                    [
+                        'label' => 'Search results',
+                        'value' => [
+                            'message' => $searchResults,
+                            'status' => $userLookupStatus
+                        ]
+                    ],
+                    [
+                        'label' => 'Users',
+                        'value' => [
+                            'message' => $users,
+                            'status' => $userLookupStatus
+                        ]
+                    ]
+                ]
+            ],
+        ];
     }
 
     /**
@@ -120,26 +194,16 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 LDAPConfigAPI::PARAMETER_BIND_USER_PASSWORD
             );
-            if (!is_null($password)) {
+            $ldapSettings = $this->getConfigService()->getLDAPSetting();
+            if ($ldapSettings instanceof LDAPSetting && $password === null) {
+                $ldapSetting->setBindUserPassword($ldapSettings->getBindUserPassword());
+            } else {
                 $ldapSetting->setBindUserPassword($password);
             }
         } else {
             $ldapSetting->setBindUserDN(null);
             $ldapSetting->setBindUserPassword(null);
         }
-
-        $ldapSetting->setEnable(
-            $this->getRequestParams()->getBoolean(
-                RequestParams::PARAM_TYPE_BODY,
-                LDAPConfigAPI::PARAMETER_ENABLED
-            )
-        );
-        $ldapSetting->setSyncInterval(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                LDAPConfigAPI::PARAMETER_SYNC_INTERVAL
-            )
-        );
     }
 
     /**
@@ -167,78 +231,10 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_ENABLED,
-                new Rule(Rules::BOOL_VAL)
-            ),
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_HOSTNAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_HOST_NAME_MAX_LENGTH])
-            ),
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_PORT,
-                new Rule(Rules::NUMBER)
-            ),
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_ENCRYPTION,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(
-                    Rules::IN,
-                    [
-                        [
-                            LDAPConfigAPI::ENCRYPTION_NONE,
-                            LDAPConfigAPI::ENCRYPTION_TLS,
-                            LDAPConfigAPI::ENCRYPTION_SSL
-                        ]
-                    ]
-                )
-            ),
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_LDAP_IMPLEMENTATION,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(
-                    Rules::IN,
-                    [
-                        [
-                            LDAPConfigAPI::LDAP_IMPLEMENTATION_OPEN_LDAP,
-                            LDAPConfigAPI::LDAP_IMPLEMENTATION_ACTIVE_DIRECTORY
-                        ]
-                    ]
-                )
-            ),
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_BIND_ANONYMOUSLY,
-                new Rule(Rules::BOOL_VAL)
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    LDAPConfigAPI::PARAMETER_BIND_USER_DISTINGUISHED_NAME,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH])
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    LDAPConfigAPI::PARAMETER_BIND_USER_PASSWORD,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH])
-                )
-            ),
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_SYNC_INTERVAL,
-                new Rule(Rules::NUMBER),
-            ),
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_DATA_MAPPING,
-                new Rule(Rules::ARRAY_TYPE)
-            ),
-            new ParamRule(
-                LDAPConfigAPI::PARAMETER_USER_LOOKUP_SETTINGS,
-                new Rule(Rules::ARRAY_TYPE)
-            ),
-        );
+        $paramRules = $this->getParamRuleCollection();
+        $paramRules->removeParamValidation(LDAPConfigAPI::PARAMETER_ENABLED);
+        $paramRules->removeParamValidation(LDAPConfigAPI::PARAMETER_SYNC_INTERVAL);
+        return $paramRules;
     }
 
     /**

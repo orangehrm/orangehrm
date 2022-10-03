@@ -14,21 +14,20 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Subscriber;
+namespace OrangeHRM\Dashboard\Subscriber;
 
 use OrangeHRM\Core\Event\ModuleEvent;
 use OrangeHRM\Core\Event\ModuleStatusChange;
 use OrangeHRM\Dashboard\Traits\Service\ModuleServiceTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 
-class ModuleEventSubscriber extends AbstractEventSubscriber
+class TimeModuleStatusChangeSubscriber extends AbstractEventSubscriber
 {
     use ModuleServiceTrait;
 
-    public const MODULE_LEAVE = 'leave';
     public const MODULE_TIME = 'time';
 
     /**
@@ -49,11 +48,6 @@ class ModuleEventSubscriber extends AbstractEventSubscriber
         $previousModule = $moduleStatusChange->getPreviousModule();
         $currentModule = $moduleStatusChange->getCurrentModule();
 
-        if ($previousModule->getName() === self::MODULE_LEAVE) {
-            $this->getModuleService()
-                ->getModuleDao()
-                ->updateDataGroupPermissionForWidgetModules('dashboard_leave_widget', $currentModule->getStatus());
-        }
         if ($previousModule->getName() === self::MODULE_TIME) {
             $this->getModuleService()
                 ->getModuleDao()

@@ -227,4 +227,12 @@ class LDAPUser
             ->getEmployeeSelectorMapping()
             ->extractAttributeValuesToSearchFilterParam($this->entry);
     }
+
+    /**
+     * @return array
+     */
+    public function getLogInfo(): array
+    {
+        return [$this->entry->getDn(), $this->entry->getAttributes()];
+    }
 }

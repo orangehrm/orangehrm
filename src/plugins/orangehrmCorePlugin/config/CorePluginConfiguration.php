@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Command\CacheCleanCommand;
@@ -37,7 +38,6 @@ use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\GlobalConfigSubscriber;
 use OrangeHRM\Core\Subscriber\MailerSubscriber;
-use OrangeHRM\Core\Subscriber\ModuleEventSubscriber;
 use OrangeHRM\Core\Subscriber\ModuleNotAvailableSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
@@ -115,7 +115,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
         $this->getEventDispatcher()->addSubscriber(new RegistrationEventPersistSubscriber());
         $this->getEventDispatcher()->addSubscriber(new RegistrationEventPublishSubscriber());
         $this->getEventDispatcher()->addSubscriber(new GlobalConfigSubscriber());
-        $this->getEventDispatcher()->addSubscriber(new ModuleEventSubscriber());
     }
 
     /**
@@ -124,6 +123,8 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
     public function registerCommands(Console $console): void
     {
         $console->add(new CacheCleanCommand());
-        $console->add(new EnableTestLanguagePackCommand());
+        if (Config::PRODUCT_MODE !== Config::MODE_PROD) {
+            $console->add(new EnableTestLanguagePackCommand());
+        }
     }
 }

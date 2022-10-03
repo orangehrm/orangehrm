@@ -25,14 +25,11 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ValidatorTrait;
 use OrangeHRM\LDAP\Api\Model\LDAPConfigModel;
-use OrangeHRM\LDAP\Api\Traits\LDAPDataMapParamRuleCollection;
+use OrangeHRM\LDAP\Api\Traits\LDAPCommonParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 
@@ -40,7 +37,7 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
 {
     use ConfigServiceTrait;
     use ValidatorTrait;
-    use LDAPDataMapParamRuleCollection;
+    use LDAPCommonParamRuleCollection;
 
     public const PARAMETER_ENABLED = 'enable';
     public const PARAMETER_HOSTNAME = 'hostname';
@@ -58,6 +55,10 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_USER_NAME_ATTRIBUTE = 'userNameAttribute';
     public const PARAMETER_USER_UNIQUE_ID_ATTRIBUTE = 'userUniqueIdAttribute';
     public const PARAMETER_USER_SEARCH_FILTER = 'userSearchFilter';
+
+    public const PARAMETER_EMPLOYEE_SELECTOR_MAPPING = 'employeeSelectorMapping';
+    public const PARAMETER_EMPLOYEE_SELECTOR_MAPPING_FIELD = 'field';
+    public const PARAMETER_EMPLOYEE_SELECTOR_MAPPING_ATTRIBUTE_NAME = 'attributeName';
 
     public const PARAMETER_DATA_MAPPING = 'dataMapping';
     public const PARAMETER_FIRST_NAME = 'firstName';
@@ -81,6 +82,8 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_RULE_HOST_NAME_MAX_LENGTH = 255;
     public const PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH = 255;
     public const PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_USER_SEARCH_FILTER_MAX_LENGTH = 255;
+    public const PARAMETER_RULE_BASE_DISTINGUISHED_NAME_MAX_LENGTH = 255;
 
     /**
      * @inheritDoc
@@ -91,14 +94,15 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_DATA_MAPPING
         );
-        $this->validate($dataMapping, $this->getParamRuleCollection());
+        $this->validate($dataMapping, $this->getParamRuleCollectionForDataMapping());
 
         $userLookupSettings = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_USER_LOOKUP_SETTINGS
         );
-        // TODO
-        //$this->validate($userLookupSettings, $this->getParamRuleCollectionForUserLookupSettings());
+        foreach ($userLookupSettings as $userLookupSetting) {
+            $this->validate($userLookupSetting, $this->getParamRuleCollectionForUserLookupSettings());
+        }
 
         $ldapSettings = new LDAPSetting(
             $this->getRequestParams()->getString(
@@ -204,82 +208,7 @@ class LDAPConfigAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $paramRules = new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_ENABLED,
-                new Rule(Rules::BOOL_VAL)
-            ),
-            new ParamRule(
-                self::PARAMETER_HOSTNAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_HOST_NAME_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_PORT,
-                new Rule(Rules::NUMBER)
-            ),
-            new ParamRule(
-                self::PARAMETER_ENCRYPTION,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(
-                    Rules::IN,
-                    [
-                        [
-                            self::ENCRYPTION_NONE,
-                            self::ENCRYPTION_TLS,
-                            self::ENCRYPTION_SSL
-                        ]
-                    ]
-                )
-            ),
-            new ParamRule(
-                self::PARAMETER_LDAP_IMPLEMENTATION,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(
-                    Rules::IN,
-                    [
-                        [
-                            self::LDAP_IMPLEMENTATION_OPEN_LDAP,
-                            self::LDAP_IMPLEMENTATION_ACTIVE_DIRECTORY
-                        ]
-                    ]
-                )
-            ),
-            new ParamRule(
-                self::PARAMETER_BIND_ANONYMOUSLY,
-                new Rule(Rules::BOOL_VAL)
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_BIND_USER_DISTINGUISHED_NAME,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BIND_USER_DISTINGUISHED_NAME_MAX_LENGTH])
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_BIND_USER_PASSWORD,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH])
-                )
-            ),
-            new ParamRule(
-                self::PARAMETER_DATA_MAPPING,
-                new Rule(Rules::ARRAY_TYPE)
-            ),
-            new ParamRule(
-                self::PARAMETER_USER_LOOKUP_SETTINGS,
-                new Rule(Rules::ARRAY_TYPE)
-            ),
-            new ParamRule(
-                self::PARAMETER_MERGE_LDAP_USERS_WITH_EXISTING_SYSTEM_USERS,
-                new Rule(Rules::BOOL_VAL)
-            ),
-            new ParamRule(
-                self::PARAMETER_SYNC_INTERVAL,
-                new Rule(Rules::NUMBER),
-            ),
-        );
+        $paramRules = $this->getParamRuleCollection();
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
         return $paramRules;
     }
