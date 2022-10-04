@@ -44,6 +44,7 @@ use OrangeHRM\DevTools\Command\EventDispatcherDebugCommand;
 use OrangeHRM\DevTools\Command\PHPFixCodingStandardsCommand;
 use OrangeHRM\DevTools\Command\ReInstallCommand;
 use OrangeHRM\DevTools\Command\ResetInstallationCommand;
+use OrangeHRM\DevTools\Command\RunMigrationClassCommand;
 use OrangeHRM\DevTools\Command\TranslationCreate;
 use OrangeHRM\DevTools\Command\AddLangStrings;
 use OrangeHRM\Framework\ServiceContainer;
@@ -63,6 +64,7 @@ $application->add(new ResetInstallationCommand());
 $application->add(new ReInstallCommand());
 $application->add(new AddLangStrings());
 $application->add(new CreateTestDatabaseCommand());
+$application->add(new RunMigrationClassCommand());
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);

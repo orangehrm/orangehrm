@@ -211,17 +211,20 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     protected function getUsernameAndPasswordRule(bool $update): array
     {
-        $uniquePropertyParams = [User::class, 'userName'];
         $passwordConstructor = [true];
+        $entityProperties = new EntityUniquePropertyOption();
+        $entityProperties->setIgnoreValues(['isDeleted' => true]);
+        $uniquePropertyParams = [User::class, 'userName', $entityProperties];
         if ($update) {
-            $entityProperties = new EntityUniquePropertyOption();
             $entityProperties->setIgnoreValues(
-                ['getId' => $this->getRequestParams()->getInt(
-                    RequestParams::PARAM_TYPE_ATTRIBUTE,
-                    CommonParams::PARAMETER_ID
-                )]
+                [
+                    'getId' => $this->getRequestParams()->getInt(
+                        RequestParams::PARAM_TYPE_ATTRIBUTE,
+                        CommonParams::PARAMETER_ID
+                    ),
+                    'isDeleted' => true,
+                ]
             );
-            $uniquePropertyParams[] = $entityProperties;
 
             $passwordConstructor = [
                 $this->getRequestParams()->getBoolean(

@@ -35,15 +35,15 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class UserDaoTest extends TestCase
 {
-    private $systemUserDao;
-    protected $fixture;
+    private UserDao $userDao;
+    protected string $fixture;
 
     /**
      * Set up method
      */
     protected function setUp(): void
     {
-        $this->systemUserDao = new UserDao();
+        $this->userDao = new UserDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/SystemUser.yml';
         TestDataService::truncateSpecificTables(['User']);
         TestDataService::populate($this->fixture);
@@ -75,28 +75,40 @@ class UserDaoTest extends TestCase
         $systemUser->setUserName('orangehrm');
         $systemUser->setUserPassword('orangehrm');
 
-        $this->systemUserDao->saveSystemUser($systemUser);
+        $this->userDao->saveSystemUser($systemUser);
 
         $saveUser = Doctrine::getEntityManager()->getRepository(User::class)->find($systemUser->getId());
         $this->assertEquals($saveUser->getUserName(), 'orangehrm');
         $this->assertEquals($saveUser->getUserPassword(), 'orangehrm');
     }
 
-    public function testIsExistingSystemUserForNonEsistingUser(): void
+    public function testIsExistingSystemUserForNonExistingUser(): void
     {
-        $result = $this->systemUserDao->isExistingSystemUser(new UserCredential('google'));
+        $result = $this->userDao->isExistingSystemUser(new UserCredential('google'));
         $this->assertNull($result);
     }
 
-    public function testIsExistingSystemUserForEsistingUser(): void
+    public function testIsExistingSystemUserForExistingUser(): void
     {
-        $result = $this->systemUserDao->isExistingSystemUser(new UserCredential('Samantha'));
-        $this->assertTrue($result instanceof User);
+        $result = $this->userDao->isExistingSystemUser(new UserCredential('Samantha'));
+        $this->assertInstanceOf(User::class, $result);
+    }
+
+    public function testIsExistingSystemUserForDeletedUser(): void
+    {
+        $result = $this->userDao->isExistingSystemUser(new UserCredential('Chaturanga'));
+        $this->assertNull($result);
+    }
+
+    public function testIsExistingSystemUserForEmptyPasswordUser(): void
+    {
+        $result = $this->userDao->isExistingSystemUser(new UserCredential('Morgan'));
+        $this->assertNull($result);
     }
 
     public function testGetSystemUser(): void
     {
-        $result = $this->systemUserDao->getSystemUser(1);
+        $result = $this->userDao->getSystemUser(1);
 
         $this->assertEquals($result->getUserName(), 'samantha');
         $this->assertEquals($result->getUserPassword(), 'samantha');
@@ -104,13 +116,13 @@ class UserDaoTest extends TestCase
 
     public function testGetSystemUserForNonExistingId(): void
     {
-        $result = $this->systemUserDao->getSystemUser(100);
+        $result = $this->userDao->getSystemUser(100);
         $this->assertNull($result);
     }
 
     public function testGetAssignableUserRoles(): void
     {
-        $result = $this->systemUserDao->getAssignableUserRoles();
+        $result = $this->userDao->getAssignableUserRoles();
         $this->assertEquals($result[0]->getName(), 'Admin');
         $this->assertEquals($result[1]->getName(), 'Admin2');
         $this->assertEquals(7, count($result));
@@ -118,10 +130,10 @@ class UserDaoTest extends TestCase
 
     public function testGetSystemUserIdList(): void
     {
-        $result = $this->systemUserDao->getSystemUserIdList();
+        $result = $this->userDao->getSystemUserIdList();
 
-        $this->assertEquals(3, count($result));
-        $this->assertEquals([1, 2, 3], $result);
+        $this->assertCount(4, $result);
+        $this->assertEquals([1, 2, 3, 5], $result);
     }
 
     public function testGetSystemUserIdListForOneActiveUser(): void
@@ -134,33 +146,33 @@ class UserDaoTest extends TestCase
             ->setParameter('ids', [2, 3]);
         $q->getQuery()->execute();
 
-        $result = $this->systemUserDao->getSystemUserIdList();
+        $result = $this->userDao->getSystemUserIdList();
 
         $this->assertTrue(is_array($result));
-        $this->assertEquals(1, count($result));
+        $this->assertCount(2, $result);
         $this->assertEquals(1, $result[0]);
     }
 
     public function testGetEmployeesByUserRole(): void
     {
         // default
-        $employees = $this->systemUserDao->getEmployeesByUserRole('Admin');
-        $this->assertEquals(2, count($employees));
+        $employees = $this->userDao->getEmployeesByUserRole('Admin');
+        $this->assertCount(2, $employees);
 
         // with terminated employees
-        $employees = $this->systemUserDao->getEmployeesByUserRole('Admin', false, true);
-        $this->assertEquals(2, count($employees));
+        $employees = $this->userDao->getEmployeesByUserRole('Admin', false, true);
+        $this->assertCount(2, $employees);
 
-        $employees = $this->systemUserDao->getEmployeesByUserRole('Ess', false, true);
-        $this->assertEquals(1, count($employees));
+        $employees = $this->userDao->getEmployeesByUserRole('Ess', false, true);
+        $this->assertCount(2, $employees);
 
-        $employees = $this->systemUserDao->getEmployeesByUserRole('TestAdmin', false, true);
-        $this->assertEquals(0, count($employees));
+        $employees = $this->userDao->getEmployeesByUserRole('TestAdmin', false, true);
+        $this->assertCount(0, $employees);
     }
 
     public function testUserStatusByUserName(): void
     {
-        $status = $this->systemUserDao->isUserNameExistByUserName('samantha');
+        $status = $this->userDao->isUserNameExistByUserName('samantha');
         $this->assertTrue($status);
     }
 }

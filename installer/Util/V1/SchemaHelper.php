@@ -230,4 +230,13 @@ class SchemaHelper
         $table = $this->getSchemaManager()->listTableDetails($tableName);
         return $table->hasColumn($column);
     }
+
+    /**
+     * @param string $tableName
+     * @param string $index
+     */
+    public function dropIndex(string $tableName, string $index): void
+    {
+        $this->getSchemaManager()->dropIndex($index, $tableName);
+    }
 }

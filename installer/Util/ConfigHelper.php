@@ -97,4 +97,22 @@ class ConfigHelper
             ->setParameter('configName', $name)
             ->executeQuery();
     }
+
+    /**
+     * @param string $name
+     */
+    public function deleteConfigValue(string $name): void
+    {
+        $table = $this->getSchemaManager()->listTableDetails('hs_hr_config');
+        $keyFieldsColumnName = $table->hasColumn('name') ? 'name' : '`key`';
+
+        $currentValue = $this->getConfigValue($name);
+        Logger::getLogger()->info("Deleting: `$name` => `$currentValue` from `hs_hr_config`");
+
+        $this->getConnection()->createQueryBuilder()
+            ->delete('hs_hr_config')
+            ->andWhere("hs_hr_config.$keyFieldsColumnName = :configName")
+            ->setParameter('configName', "$name")
+            ->executeQuery();
+    }
 }

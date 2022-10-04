@@ -49,7 +49,7 @@ class Migration extends AbstractMigration
      * @param string $key
      * @return void
      */
-    private function insertConfig(string $value, string $key): void
+    private function insertConfig(string $key, string $value): void
     {
         $this->createQueryBuilder()
             ->insert('hs_hr_config')

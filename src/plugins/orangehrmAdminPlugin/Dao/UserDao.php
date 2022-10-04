@@ -216,9 +216,12 @@ class UserDao extends BaseDao
      */
     public function isUserNameExistByUserName(string $userName, ?int $userId = null): bool
     {
-        $q = $this->createQueryBuilder(User::class, 'u');
-        $q->andWhere('u.userName = :userName');
-        $q->setParameter('userName', $userName);
+        $q = $this->createQueryBuilder(User::class, 'u')
+            ->andWhere('u.userName = :userName')
+            ->setParameter('userName', $userName)
+            ->andWhere('u.deleted = :deleted')
+            ->setParameter('deleted', false);
+
         if (!is_null($userId)) {
             $q->andWhere(
                 'u.id != :userId'
