@@ -22,6 +22,7 @@ namespace OrangeHRM\Pim\Menu;
 use OrangeHRM\Core\Menu\MenuConfigurator;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ControllerTrait;
+use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Screen;
@@ -31,6 +32,7 @@ class PIMLeftMenuItemConfigurator implements MenuConfigurator
     use MenuServiceTrait;
     use ControllerTrait;
     use AuthUserTrait;
+    use ModuleScreenHelperTrait;
 
     /**
      * @inheritDoc
@@ -40,6 +42,7 @@ class PIMLeftMenuItemConfigurator implements MenuConfigurator
         if ($this->getAuthUser()->getEmpNumber() == $this->getCurrentRequest()->attributes->get('empNumber')) {
             return $this->getMenuService()->getMenuDao()->getMenuItemByTitle('My Info', 1);
         }
+        $this->getCurrentModuleAndScreen()->overrideScreen('viewEmployeeList');
         return null;
     }
 }
