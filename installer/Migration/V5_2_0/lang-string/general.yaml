@@ -1,8 +1,5 @@
 langStrings:
   -
-    value: 'Yes, Confirm'
-    unitId: yes_confirm
-  -
     value: 'Ascending'
     unitId: ascending
   -
