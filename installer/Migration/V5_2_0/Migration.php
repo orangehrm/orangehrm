@@ -88,11 +88,7 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_user_auth_provider', $foreignKeyConstraint);
 
-        $qb = $this->createQueryBuilder()->delete('ohrm_i18n_group');
-        $qb->where($qb->expr()->in('ohrm_i18n_group.name', ':groups'))
-            ->setParameter('groups', ['directory', 'branding'], Connection::PARAM_STR_ARRAY)
-            ->executeQuery();
-
+        $this->cleanI18nGroups();
         $this->insertLDAPMenuItem();
         $this->insertLangStringNotes();
 
@@ -273,5 +269,36 @@ class Migration extends AbstractMigration
                 ->setParameter('group', $groupId)
                 ->executeQuery();
         }
+    }
+
+    private function cleanI18nGroups(): void
+    {
+        $qb = $this->createQueryBuilder()->delete('ohrm_i18n_group');
+        $qb->where($qb->expr()->in('ohrm_i18n_group.name', ':groups'))
+            ->setParameter('groups', ['directory', 'branding'], Connection::PARAM_STR_ARRAY)
+            ->executeQuery();
+
+        $qb = $this->createQueryBuilder()
+            ->select('groups.id')
+            ->from('ohrm_i18n_group', 'groups')
+            ->andWhere('groups.name = :name')
+            ->setParameter('name', 'help')
+            ->addOrderBy('id', 'DESC');
+        $ids = $qb->executeQuery()->fetchFirstColumn();
+        $helpGroupId = array_pop($ids);
+
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'langString')
+            ->set('langString.group_id', ':groupId')
+            ->setParameter('groupId', $helpGroupId);
+        $qb->andWhere($qb->expr()->in('langString.group_id', ':groupsToBeDeleted'))
+            ->setParameter('groupsToBeDeleted', $ids, Connection::PARAM_INT_ARRAY)
+            ->executeQuery();
+
+        $qb = $this->createQueryBuilder()
+            ->delete('ohrm_i18n_group');
+        $qb->where($qb->expr()->in('ohrm_i18n_group.id', ':groupsToBeDeleted'))
+            ->setParameter('groupsToBeDeleted', $ids, Connection::PARAM_INT_ARRAY)
+            ->executeQuery();
     }
 }
