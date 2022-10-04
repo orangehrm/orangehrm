@@ -196,7 +196,16 @@ export default {
     'hiring-manager-dropdown': HiringManagerDropdown,
     'candidate-status-dropdown': CandidateStatusDropdown,
   },
-  setup() {
+
+  props: {
+    status: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
+
+  setup(props) {
     const {$t} = usei18n();
     const {locale} = useLocale();
     const {jsDateFormat, userDateFormat} = useDateFormat();
@@ -230,7 +239,10 @@ export default {
         };
       });
     };
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      ...defaultFilters,
+      ...(props.status && {status: props.status}),
+    });
     const rules = {
       candidate: [validSelection],
       fromDate: [

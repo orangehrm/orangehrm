@@ -194,7 +194,9 @@ export default {
       navigate('/performance/searchEvaluatePerformanceReview');
     },
     onClickPendingInterview() {
-      navigate('/recruitment/viewCandidates');
+      navigate('/recruitment/viewCandidates', undefined, {
+        statusId: 4,
+      });
     },
     onClickSelfReview() {
       navigate('/performance/myPerformanceReview');
