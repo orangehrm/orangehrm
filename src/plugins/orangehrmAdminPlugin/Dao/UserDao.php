@@ -63,7 +63,8 @@ class UserDao extends BaseDao
      */
     public function getSystemUser(int $userId): ?User
     {
-        return $this->getRepository(User::class)->find($userId);
+        return $this->getRepository(User::class)
+            ->findOneBy(['id' => $userId, 'deleted' => false]);
     }
 
     /**
