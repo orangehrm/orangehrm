@@ -23,6 +23,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use Symfony\Component\Yaml\Yaml;
 
@@ -99,6 +100,34 @@ class Migration extends AbstractMigration
             );
 
         $this->getSchemaHelper()->dropIndex('ohrm_user', 'user_name');
+
+        $this->getConfigHelper()->setConfigValue('help.url', 'https://starterhelp.orangehrm.com');
+        $this->getConfigHelper()->setConfigValue('help.processorClass', 'ZendeskHelpProcessor');
+        Logger::getLogger()->info('Deleting invalid config values');
+        $this->getConfigHelper()->deleteConfigValue('https://opensourcehelp.orangehrm.com');
+        $this->getConfigHelper()->deleteConfigValue('ZendeskHelpProcessor');
+
+        Logger::getLogger()->info('Deleting legacy config values');
+        $this->getConfigHelper()->deleteConfigValue('ldap_domain_name');
+        $this->getConfigHelper()->deleteConfigValue('ldap_port');
+        $this->getConfigHelper()->deleteConfigValue('ldap_server');
+        $this->getConfigHelper()->deleteConfigValue('ldap_status');
+        $this->getConfigHelper()->deleteConfigValue('beacon.activation_acceptance_status');
+        $this->getConfigHelper()->deleteConfigValue('beacon.activiation_status');
+        $this->getConfigHelper()->deleteConfigValue('beacon.company_name');
+        $this->getConfigHelper()->deleteConfigValue('beacon.flash_period');
+        $this->getConfigHelper()->deleteConfigValue('beacon.lock');
+        $this->getConfigHelper()->deleteConfigValue('beacon.next_flash_time');
+        $this->getConfigHelper()->deleteConfigValue('beacon.uuid');
+        $this->getConfigHelper()->deleteConfigValue('showSIN');
+        $this->getConfigHelper()->deleteConfigValue('showSSN');
+        $this->getConfigHelper()->deleteConfigValue('showTaxExemptions');
+        $this->getConfigHelper()->deleteConfigValue('report.mysql_group_concat_max_len');
+        $this->getConfigHelper()->deleteConfigValue('attendanceEmpEditSubmitted');
+        $this->getConfigHelper()->deleteConfigValue('attendanceSupEditSubmitted');
+        $this->getConfigHelper()->deleteConfigValue('hsp_accrued_last_updated');
+        $this->getConfigHelper()->deleteConfigValue('hsp_current_plan');
+        $this->getConfigHelper()->deleteConfigValue('hsp_used_last_updated');
     }
 
     /**
