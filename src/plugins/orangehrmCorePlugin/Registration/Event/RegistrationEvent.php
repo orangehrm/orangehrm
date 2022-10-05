@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Registration\Event;
 
 use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -27,6 +28,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class RegistrationEvent extends Event
 {
+    use DateTimeHelperTrait;
+
     public const EMPLOYEE_ADD_EVENT_NAME = 'registration.employee_add';
     public const EMPLOYEE_TERMINATE_EVENT_NAME = 'registration.employee_terminate';
     public const UPGRADE_EVENT_NAME = 'registration.upgrade';
@@ -40,7 +43,7 @@ class RegistrationEvent extends Event
 
     public function __construct()
     {
-        $this->eventTime = new DateTime();
+        $this->eventTime = $this->getDateTimeHelper()->getNow();
     }
 
     /**

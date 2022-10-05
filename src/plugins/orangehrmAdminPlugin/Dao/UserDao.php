@@ -246,6 +246,11 @@ class UserDao extends BaseDao
      */
     public function getDefaultAdminUser(): ?User
     {
-        return $this->getRepository(User::class)->findOneBy(['createdBy' => null]);
+        $q = $this->createQueryBuilder(User::class, 'user');
+        return $q->andWhere($q->expr()->isNull('user.createdBy'))
+            ->andWhere($q->expr()->isNotNull('user.userPassword'))
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

@@ -21,6 +21,8 @@ namespace OrangeHRM\LDAP\Service;
 
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Core\Registration\Event\RegistrationEvent;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -56,6 +58,7 @@ class LDAPSyncService
     use DateTimeHelperTrait;
     use EmployeeServiceTrait;
     use LDAPLoggerTrait;
+    use EventDispatcherTrait;
 
     protected ?LDAPService $ldapService = null;
     protected ?LDAPSetting $ldapSetting = null;
@@ -315,6 +318,10 @@ class LDAPSyncService
     {
         try {
             $this->saveEmployee($employee, $clonedEmployee);
+            $eventName = $employee->getEmployeeTerminationRecord() == null
+                ? RegistrationEvent::EMPLOYEE_ADD_EVENT_NAME
+                : RegistrationEvent::EMPLOYEE_TERMINATE_EVENT_NAME;
+            $this->getEventDispatcher()->dispatch(new RegistrationEvent(), $eventName);
             return $employee;
         } catch (LDAPSyncException $e) {
             $this->getLogger()->error($e->getMessage(), $ldapUser->getLogInfo());
