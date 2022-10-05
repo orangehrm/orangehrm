@@ -115,7 +115,7 @@
                 :label="$t('general.password')"
                 :placeholder="passwordPlaceHolder"
                 :rules="rules.bindUserPassword"
-                required
+                :required="!configuration.hasBindUserPassword"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -397,6 +397,7 @@ const configurationModel = {
   mergeLDAPUsersWithExistingSystemUsers: false,
   syncInterval: 60,
   employeeSelectorMapping: '',
+  hasBindUserPassword: false,
 };
 
 const dataMappingModel = {
@@ -484,7 +485,7 @@ export default {
         port: [required, validPortRange(5, 0, 65535)],
         bindUserDN: [required, shouldNotExceedCharLength(255)],
         bindUserPassword: [
-          v => !!this.passwordPlaceHolder || required(v),
+          v => this.configuration.hasBindUserPassword || required(v),
           shouldNotExceedCharLength(255),
         ],
         baseDistinguishedName: [required, shouldNotExceedCharLength(255)],
@@ -504,8 +505,12 @@ export default {
         employeeIdAttribute: [shouldNotExceedCharLength(100)],
       },
       testModalState: null,
-      passwordPlaceHolder: null,
     };
+  },
+  computed: {
+    passwordPlaceHolder() {
+      return this.configuration.hasBindUserPassword ? '********' : null;
+    },
   },
   beforeMount() {
     this.isLoading = true;
@@ -528,6 +533,7 @@ export default {
 
         this.configuration.bindAnonymously = data.bindAnonymously;
         this.configuration.bindUserDN = data.bindUserDN;
+        this.configuration.hasBindUserPassword = data.hasBindUserPassword;
 
         if (userLookupSetting) {
           this.configuration.baseDistinguishedName = userLookupSetting?.baseDN;
@@ -549,8 +555,6 @@ export default {
         this.configuration.mergeLDAPUsersWithExistingSystemUsers =
           data.mergeLDAPUsersWithExistingSystemUsers;
         this.configuration.syncInterval = data.syncInterval;
-
-        this.passwordPlaceHolder = data.bindAnonymously ? null : '******';
       })
       .finally(() => {
         this.isLoading = false;

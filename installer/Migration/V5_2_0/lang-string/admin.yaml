@@ -218,3 +218,15 @@ langStrings:
   -
     value: 'Use this field as a employee / user mapping field'
     unitId: use_this_field_as_a_employee_user_mapping_field
+  -
+    value: '{count} user(s) found'
+    unitId: n_users_found
+  -
+    value: '{count} user(s) will be imported'
+    unitId: n_users_will_be_imported
+  -
+    value: 'Lookup'
+    unitId: lookup
+  -
+    value: 'User lookup'
+    unitId: user_lookup

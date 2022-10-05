@@ -28,6 +28,7 @@ use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ValidatorTrait;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\LDAP\Api\Traits\LDAPCommonParamRuleCollection;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
@@ -48,6 +49,7 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
     use ValidatorTrait;
     use LDAPCommonParamRuleCollection;
     use LDAPLoggerTrait;
+    use I18NHelperTrait;
 
     /**
      * @inheritDoc
@@ -119,13 +121,18 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
         $authState = $ldapTestService->testAuthentication();
         $userLookupStatus = $authState['status'];
 
-        $searchResults = 'Failed';
-        $users = 'Failed';
+        $searchResults = $this->getI18NHelper()->transBySource('Failed');
+        $users = $this->getI18NHelper()->transBySource('Failed');
         try {
             $ldapTestSyncService = new LDAPTestSyncService($ldapSetting);
             $entryCollection = $ldapTestSyncService->fetchEntryCollections();
-            $searchResults = $entryCollection->count() . ' users found';
-            $users = count($ldapTestSyncService->fetchAllLDAPUsers()->getLDAPUsers()) . ' users going to create';
+            $searchResults = $this->getI18NHelper()
+                ->transBySource('{count} user(s) found', ['count' => $entryCollection->count()]);
+            $users = $this->getI18NHelper()
+                ->transBySource(
+                    '{count} user(s) will be imported',
+                    ['count' => count($ldapTestSyncService->fetchAllLDAPUsers()->getLDAPUsers())]
+                );
         } catch (LdapException | NotBoundException | InvalidCredentialsException | ConnectionTimeoutException | ConnectionException $e) {
             $userLookupStatus = LDAPTestService::STATUS_FAIL;
             $this->getLogger()->error($e->getMessage());
@@ -135,33 +142,35 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
 
         return [
             [
-                'category' => 'Login',
+                'category' => $this->getI18NHelper()->transBySource('Login'),
                 'checks' => [
                     [
-                        'label' => 'Authentication',
+                        'label' => $this->getI18NHelper()->transBySource('Authentication'),
                         'value' => $authState,
                     ],
                 ]
             ],
             [
-                'category' => 'Lookup',
+                'category' => $this->getI18NHelper()->transBySource('Lookup'),
                 'checks' => [
                     [
-                        'label' => 'User lookup',
+                        'label' => $this->getI18NHelper()->transBySource('User lookup'),
                         'value' => [
-                            'message' => $userLookupStatus == LDAPTestService::STATUS_FAIL ? 'Failed' : 'Ok',
+                            'message' => $userLookupStatus == LDAPTestService::STATUS_FAIL
+                                ? $this->getI18NHelper()->transBySource('Failed')
+                                : $this->getI18NHelper()->transBySource('Ok'),
                             'status' => $userLookupStatus
                         ]
                     ],
                     [
-                        'label' => 'Search results',
+                        'label' => $this->getI18NHelper()->transBySource('Search results'),
                         'value' => [
                             'message' => $searchResults,
                             'status' => $userLookupStatus
                         ]
                     ],
                     [
-                        'label' => 'Users',
+                        'label' => $this->getI18NHelper()->transBySource('Users'),
                         'value' => [
                             'message' => $users,
                             'status' => $userLookupStatus
