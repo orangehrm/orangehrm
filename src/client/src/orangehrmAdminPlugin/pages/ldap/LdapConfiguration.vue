@@ -166,6 +166,9 @@
                 :rules="rules.userSearchFilter"
                 required
               />
+              <oxd-text class="orangehrm-input-hint" tag="p">
+                {{ $t('admin.user_search_filter_input_hint') }}
+              </oxd-text>
             </oxd-grid-item>
             <oxd-grid-item class="--offset-row-5">
               <oxd-input-field
@@ -173,6 +176,9 @@
                 :label="$t('admin.user_unique_id_attribute')"
                 :rules="rules.userUniqueIdAttribute"
               />
+              <oxd-text class="orangehrm-input-hint" tag="p">
+                {{ $t('admin.user_unique_attribute_input_hint') }}
+              </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -183,49 +189,117 @@
           {{ $t('admin.data_mapping') }}
         </oxd-text>
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="3" class="orangehrm-ldap-grid">
+            <oxd-grid-item class="orangehrm-ldap-grid-header">
+              <oxd-text tag="p">
+                {{ $t('admin.field_in_orangehrm') }}
+              </oxd-text>
+            </oxd-grid-item>
+            <oxd-grid-item class="orangehrm-ldap-grid-header">
+              <oxd-text tag="p">
+                {{ $t('admin.field_in_ldap_directory') }}
+              </oxd-text>
+            </oxd-grid-item>
+            <oxd-grid-item class="orangehrm-ldap-grid-header">
+              <oxd-text tag="p">
+                {{
+                  $t('admin.use_this_field_as_a_employee_user_mapping_field')
+                }}
+              </oxd-text>
+            </oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.first_name') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.firstName"
-                :label="$t('admin.firstname_field')"
                 :rules="rules.firstNameAttribute"
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-2">
+            <oxd-grid-item></oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.middle_name') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.middleName"
-                :label="$t('admin.middlename_field')"
                 :rules="rules.middleNameAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-3">
+            <oxd-grid-item></oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.last_name') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.lastName"
-                :label="$t('admin.lastname_field')"
                 :rules="rules.lastNameAttribute"
-                required
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-4">
+            <oxd-grid-item></oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.user_status') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.userStatus"
-                :label="$t('admin.user_status_field')"
                 :rules="rules.userStatusAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-5">
+            <oxd-grid-item></oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.work_email') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.workEmail"
-                :label="$t('admin.work_email_field')"
                 :rules="rules.workEmailAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-6">
+            <oxd-grid-item>
+              <oxd-switch-input
+                v-model="configuration.employeeSelectorMapping"
+                true-value="workEmail"
+              />
+            </oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.employee_id') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.employeeId"
-                :label="$t('admin.employee_id_field')"
                 :rules="rules.employeeIdAttribute"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-switch-input
+                v-model="configuration.employeeSelectorMapping"
+                true-value="employeeId"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -300,6 +374,7 @@ import {
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
 import {reloadPage} from '@/core/util/helper/navigation';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import LdapSyncConnection from '@/orangehrmAdminPlugin/components/LdapSyncConnection';
@@ -321,6 +396,7 @@ const configurationModel = {
   userUniqueIdAttribute: null,
   mergeLDAPUsersWithExistingSystemUsers: false,
   syncInterval: 60,
+  employeeSelectorMapping: '',
 };
 
 const dataMappingModel = {
@@ -334,6 +410,7 @@ const dataMappingModel = {
 
 export default {
   components: {
+    'oxd-icon': Icon,
     'oxd-switch-input': SwitchInput,
     'ldap-sync-connection': LdapSyncConnection,
     'ldap-test-connection-modal': LdapTestConnectionModal,
@@ -460,6 +537,8 @@ export default {
             userLookupSetting?.userSearchFilter;
           this.configuration.userUniqueIdAttribute =
             userLookupSetting?.userUniqueIdAttribute;
+          this.configuration.employeeSelectorMapping =
+            userLookupSettings.employeeSelectorMapping?.[0] || '';
         }
         this.configuration.searchScope =
           this.searchScopeOptions.find(
@@ -515,6 +594,9 @@ export default {
             userNameAttribute: this.configuration.userNameAttribute,
             userSearchFilter: this.configuration.userSearchFilter,
             userUniqueIdAttribute: this.configuration.userUniqueIdAttribute,
+            employeeSelectorMapping: this.configuration.employeeSelectorMapping
+              ? [this.configuration.employeeSelectorMapping]
+              : [],
           },
         ],
         dataMapping: this.configuration.dataMapping,
@@ -545,29 +627,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-header-container {
-  padding: 0;
-}
-.orangehrm-column-half {
-  width: 50%;
-}
-.orangehrm-form-divider {
-  margin: 1rem 0;
-}
-.orangehrm-subtitle {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-.orangehrm-ldap-switch {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  &-text {
-    font-size: $oxd-input-control-font-size;
-  }
-}
-</style>
+<style src="./ldap-configuration.scss" lang="scss" scoped></style>

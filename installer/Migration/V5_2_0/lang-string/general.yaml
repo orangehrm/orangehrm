@@ -80,3 +80,6 @@ langStrings:
   -
     value: 'Only show accessible employees on leave for other users'
     unitId: only_show_accessible_employees_on_leave_for_other_users
+  -
+    value: 'User Status'
+    unitId: user_status
