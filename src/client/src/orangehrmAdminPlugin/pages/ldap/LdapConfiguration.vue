@@ -273,6 +273,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                :key="configuration.employeeSelectorMapping"
                 v-model="configuration.dataMapping.workEmail"
                 :rules="rules.workEmailAttribute"
               />
@@ -292,6 +293,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                :key="configuration.employeeSelectorMapping"
                 v-model="configuration.dataMapping.employeeId"
                 :rules="rules.employeeIdAttribute"
               />
@@ -501,8 +503,20 @@ export default {
         ],
         middleNameAttribute: [shouldNotExceedCharLength(100)],
         userStatusAttribute: [shouldNotExceedCharLength(100)],
-        workEmailAttribute: [shouldNotExceedCharLength(100)],
-        employeeIdAttribute: [shouldNotExceedCharLength(100)],
+        workEmailAttribute: [
+          v =>
+            this.configuration.employeeSelectorMapping === 'workEmail'
+              ? required(v)
+              : true,
+          shouldNotExceedCharLength(100),
+        ],
+        employeeIdAttribute: [
+          v =>
+            this.configuration.employeeSelectorMapping === 'employeeId'
+              ? required(v)
+              : true,
+          shouldNotExceedCharLength(100),
+        ],
       },
       testModalState: null,
     };
@@ -543,8 +557,15 @@ export default {
             userLookupSetting?.userSearchFilter;
           this.configuration.userUniqueIdAttribute =
             userLookupSetting?.userUniqueIdAttribute;
-          this.configuration.employeeSelectorMapping =
-            userLookupSettings.employeeSelectorMapping?.[0] || '';
+
+          if (Array.isArray(userLookupSetting?.employeeSelectorMapping)) {
+            if (userLookupSetting.employeeSelectorMapping.length === 0) {
+              this.configuration.employeeSelectorMapping = '';
+            } else {
+              this.configuration.employeeSelectorMapping =
+                userLookupSetting.employeeSelectorMapping[0]['field'];
+            }
+          }
         }
         this.configuration.searchScope =
           this.searchScopeOptions.find(
@@ -582,6 +603,18 @@ export default {
       });
     },
     getRequestBody() {
+      let employeeSelectorMapping;
+      if (this.configuration.employeeSelectorMapping) {
+        employeeSelectorMapping = [
+          {
+            field: this.configuration.employeeSelectorMapping,
+            attributeName: this.configuration.dataMapping[
+              this.configuration.employeeSelectorMapping
+            ],
+          },
+        ];
+      }
+
       return {
         enable: this.configuration.enable,
         hostname: this.configuration.hostname,
@@ -598,9 +631,7 @@ export default {
             userNameAttribute: this.configuration.userNameAttribute,
             userSearchFilter: this.configuration.userSearchFilter,
             userUniqueIdAttribute: this.configuration.userUniqueIdAttribute,
-            employeeSelectorMapping: this.configuration.employeeSelectorMapping
-              ? [this.configuration.employeeSelectorMapping]
-              : [],
+            employeeSelectorMapping: employeeSelectorMapping || [],
           },
         ],
         dataMapping: this.configuration.dataMapping,
