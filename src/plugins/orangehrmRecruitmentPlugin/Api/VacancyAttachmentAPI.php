@@ -36,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\Recruitment\Api\Model\VacancyAttachmentModel;
+use OrangeHRM\Recruitment\Dto\RecruitmentAttachment;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
 class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
@@ -84,7 +85,10 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         $vacancyAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->saveVacancyAttachment($vacancyAttachment);
-        return new EndpointResourceResult(VacancyAttachmentModel::class, $vacancyAttachment);
+        return new EndpointResourceResult(
+            VacancyAttachmentModel::class,
+            $this->getRecruitmentAttachment($vacancyAttachment)
+        );
     }
 
     /**
@@ -268,7 +272,7 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $vacancyAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getVacancyAttachmentById($attachmentId);
+            ->getVacancyAttachmentContentById($attachmentId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($vacancyAttachment, VacancyAttachment::class);
         $this->setVacancyAttachment($vacancyAttachment);
@@ -278,7 +282,10 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->saveVacancyAttachment($vacancyAttachment);
-        return new EndpointResourceResult(VacancyAttachmentModel::class, $vacancyAttachment);
+        return new EndpointResourceResult(
+            VacancyAttachmentModel::class,
+            $this->getRecruitmentAttachment($vacancyAttachment)
+        );
     }
 
     /**
@@ -301,6 +308,22 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
                 $this->getAttachmentRule()
             ),
             ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @param VacancyAttachment $vacancyAttachment
+     * @return RecruitmentAttachment
+     */
+    private function getRecruitmentAttachment(VacancyAttachment $vacancyAttachment): RecruitmentAttachment
+    {
+        return new RecruitmentAttachment(
+            $vacancyAttachment->getId(),
+            $vacancyAttachment->getFileName(),
+            $vacancyAttachment->getFileType(),
+            $vacancyAttachment->getFileSize(),
+            $vacancyAttachment->getVacancy()->getId(),
+            $vacancyAttachment->getComment()
         );
     }
 }
