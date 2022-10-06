@@ -20,7 +20,7 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Exception;
-use OrangeHRM\Admin\Dto\JobSpecificationAttachmentDetails;
+use OrangeHRM\Admin\Dto\PartialJobSpecificationAttachment;
 use OrangeHRM\Admin\Dto\JobTitleSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
@@ -224,13 +224,13 @@ class JobTitleDao extends BaseDao
 
     /**
      * @param int $jobTitleId
-     * @return JobSpecificationAttachmentDetails|null
+     * @return PartialJobSpecificationAttachment|null
      * @throws DaoException
      */
-    public function getJobSpecificationByJobTitleId(int $jobTitleId): ?JobSpecificationAttachmentDetails
+    public function getJobSpecificationByJobTitleId(int $jobTitleId): ?PartialJobSpecificationAttachment
     {
         try {
-            $select = 'NEW ' . JobSpecificationAttachmentDetails::class . "(js.id,js.filename,js.fileType,js.fileSize,IDENTITY(js.jobTitle))";
+            $select = 'NEW ' . PartialJobSpecificationAttachment::class . "(js.id,js.filename,js.fileType,js.fileSize,IDENTITY(js.jobTitle))";
             $q = $this->createQueryBuilder(JobSpecificationAttachment::class, 'js');
             $q->select($select);
             $q->andWhere('js.jobTitle = :jobTitleId')

@@ -21,18 +21,18 @@ namespace OrangeHRM\Pim\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Pim\Dto\EmployeeAttachmentDetails;
+use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
 
 class EmployeeAttachmentModel implements Normalizable
 {
     use ModelTrait;
 
     /**
-     * @param EmployeeAttachmentDetails $employeeAttachmentDetails
+     * @param PartialEmployeeAttachment $partialEmployeeAttachment
      */
-    public function __construct(EmployeeAttachmentDetails $employeeAttachmentDetails)
+    public function __construct(PartialEmployeeAttachment $partialEmployeeAttachment)
     {
-        $this->setEntity($employeeAttachmentDetails);
+        $this->setEntity($partialEmployeeAttachment);
         $this->setFilters(
             [
                 'attachId',

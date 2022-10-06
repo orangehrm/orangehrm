@@ -36,7 +36,7 @@ class CandidateAttachment extends AbstractFileController
         if ($candidateId) {
             $attachment = $this->getRecruitmentAttachmentService()
                 ->getRecruitmentAttachmentDao()
-                ->getCandidateAttachmentContentByCandidateId($candidateId);
+                ->getCandidateAttachmentByCandidateId($candidateId);
             if ($attachment instanceof \OrangeHRM\Entity\CandidateAttachment) {
                 $this->setCommonHeadersToResponse(
                     $attachment->getFileName(),

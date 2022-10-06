@@ -166,7 +166,7 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $candidateAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getCandidateAttachmentByCandidateId($candidateId);
+            ->getPartialCandidateAttachmentByCandidateId($candidateId);
         $this->throwRecordNotFoundExceptionIfNotExist($candidateAttachment, RecruitmentAttachment::class);
 
         return new EndpointResourceResult(CandidateAttachmentModel::class, $candidateAttachment);
@@ -197,7 +197,7 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $candidateAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getCandidateAttachmentContentByCandidateId($candidateId);
+            ->getCandidateAttachmentByCandidateId($candidateId);
 
         if (is_null($candidateAttachment)) {
             $candidateAttachment = new CandidateAttachment();

@@ -33,7 +33,7 @@ class CandidateAttachmentModel implements Normalizable
         $this->setFilters(
             [
                 'id',
-                'fkIdentity',
+                'fkIdentity', //this represents the candidateId
                 'fileName',
                 'fileType',
                 'fileSize',

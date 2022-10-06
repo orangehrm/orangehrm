@@ -66,7 +66,7 @@ class RecruitmentAttachmentDao extends BaseDao
      * @param int $attachId
      * @return VacancyAttachment|null
      */
-    public function getVacancyAttachmentContentById(int $attachId): ?VacancyAttachment
+    public function getVacancyAttachmentById(int $attachId): ?VacancyAttachment
     {
         $attachment = $this->getRepository(VacancyAttachment::class)->find($attachId);
         if ($attachment instanceof VacancyAttachment) {
@@ -79,7 +79,7 @@ class RecruitmentAttachmentDao extends BaseDao
      * @param int $candidateId
      * @return RecruitmentAttachment|null
      */
-    public function getCandidateAttachmentByCandidateId(int $candidateId): ?RecruitmentAttachment
+    public function getPartialCandidateAttachmentByCandidateId(int $candidateId): ?RecruitmentAttachment
     {
         $select = 'NEW ' . RecruitmentAttachment::class . "(candidateAttachment.id,candidateAttachment.fileName,candidateAttachment.fileType,candidateAttachment.fileSize,IDENTITY(candidateAttachment.candidate))";
         $qb = $this->createQueryBuilder(CandidateAttachment::class, 'candidateAttachment');
@@ -93,7 +93,7 @@ class RecruitmentAttachmentDao extends BaseDao
      * @param int $candidateId
      * @return CandidateAttachment|null
      */
-    public function getCandidateAttachmentContentByCandidateId(int $candidateId): ?CandidateAttachment
+    public function getCandidateAttachmentByCandidateId(int $candidateId): ?CandidateAttachment
     {
         $qb = $this->createQueryBuilder(CandidateAttachment::class, 'candidateAttachment');
         $qb->where('candidateAttachment.candidate = :candidateId');
@@ -118,7 +118,7 @@ class RecruitmentAttachmentDao extends BaseDao
      * @param int $interviewId
      * @return RecruitmentAttachment|null
      */
-    public function getInterviewAttachmentByAttachmentIdAndInterviewId(
+    public function getPartialInterviewAttachmentByAttachmentIdAndInterviewId(
         int $attachId,
         int $interviewId
     ): ?RecruitmentAttachment {
@@ -137,7 +137,7 @@ class RecruitmentAttachmentDao extends BaseDao
      * @param int $interviewId
      * @return InterviewAttachment|null
      */
-    public function getInterviewAttachmentContentByAttachmentIdAndInterviewId(
+    public function getInterviewAttachmentByAttachmentIdAndInterviewId(
         int $attachId,
         int $interviewId
     ): ?InterviewAttachment {

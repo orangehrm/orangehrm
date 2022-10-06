@@ -67,7 +67,7 @@ class RecruitmentAttachmentDaoTest extends KernelTestCase
 
     public function testGetVacancyAttachmentContentById(): void
     {
-        $attachment = $this->recruitmentAttachmentDao->getVacancyAttachmentContentById(1);
+        $attachment = $this->recruitmentAttachmentDao->getVacancyAttachmentById(1);
         $this->assertInstanceOf(VacancyAttachment::class, $attachment);
         $this->assertEquals('Attachment1.pdf', $attachment->getFileName());
         $this->assertEquals('application/pdf', $attachment->getFileType());
@@ -88,7 +88,7 @@ class RecruitmentAttachmentDaoTest extends KernelTestCase
     {
         $result = $this->recruitmentAttachmentDao->deleteVacancyAttachments([1, 2]);
         $this->assertTrue($result);
-        $attachment = $this->recruitmentAttachmentDao->getVacancyAttachmentContentById(1);
+        $attachment = $this->recruitmentAttachmentDao->getVacancyAttachmentById(1);
         $this->assertNull($attachment);
     }
 }

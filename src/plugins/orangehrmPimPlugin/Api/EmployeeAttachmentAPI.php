@@ -35,7 +35,7 @@ use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\Pim\Api\Model\EmployeeAttachmentModel;
-use OrangeHRM\Pim\Dto\EmployeeAttachmentDetails;
+use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
 use OrangeHRM\Pim\Service\EmployeeAttachmentService;
 
 class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
@@ -71,12 +71,12 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointResourceResult
     {
         list($empNumber, $screen, $id) = $this->getUrlAttributes();
-        $employeeAttachmentDetails = $this->getEmployeeAttachmentService()->getEmployeeAttachmentDetails($empNumber, $id, $screen);
-        $this->throwRecordNotFoundExceptionIfNotExist($employeeAttachmentDetails, EmployeeAttachmentDetails::class);
+        $partialEmployeeAttachment = $this->getEmployeeAttachmentService()->getEmployeeAttachmentDetails($empNumber, $id, $screen);
+        $this->throwRecordNotFoundExceptionIfNotExist($partialEmployeeAttachment, PartialEmployeeAttachment::class);
 
         return new EndpointResourceResult(
             EmployeeAttachmentModel::class,
-            $employeeAttachmentDetails,
+            $partialEmployeeAttachment,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -173,7 +173,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
 
         return new EndpointResourceResult(
             EmployeeAttachmentModel::class,
-            $this->getEmployeeAttachmentDetails($employeeAttachment),
+            $this->getPartialEmployeeAttachment($employeeAttachment),
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -297,7 +297,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
 
         return new EndpointResourceResult(
             EmployeeAttachmentModel::class,
-            $this->getEmployeeAttachmentDetails($employeeAttachment),
+            $this->getPartialEmployeeAttachment($employeeAttachment),
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -349,11 +349,11 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param EmployeeAttachment $employeeAttachment
-     * @return EmployeeAttachmentDetails
+     * @return PartialEmployeeAttachment
      */
-    private function getEmployeeAttachmentDetails(EmployeeAttachment $employeeAttachment): EmployeeAttachmentDetails
+    private function getPartialEmployeeAttachment(EmployeeAttachment $employeeAttachment): PartialEmployeeAttachment
     {
-        return new EmployeeAttachmentDetails(
+        return new PartialEmployeeAttachment(
             $employeeAttachment->getAttachId(),
             $employeeAttachment->getDescription(),
             $employeeAttachment->getFilename(),

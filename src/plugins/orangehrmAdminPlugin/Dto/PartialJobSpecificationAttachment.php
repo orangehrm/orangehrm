@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Admin\Dto;
 
-class JobSpecificationAttachmentDetails
+class PartialJobSpecificationAttachment
 {
     private ?int $id;
 

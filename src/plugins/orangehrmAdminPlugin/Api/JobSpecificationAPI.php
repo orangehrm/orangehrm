@@ -20,7 +20,7 @@
 namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\JobSpecificationModel;
-use OrangeHRM\Admin\Dto\JobSpecificationAttachmentDetails;
+use OrangeHRM\Admin\Dto\PartialJobSpecificationAttachment;
 use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -61,12 +61,12 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_JOB_TITLE_ID
         );
-        $jobSpecificationAttachmentDetails = $this->getJobTitleService()->getJobTitleDao()->getJobSpecificationByJobTitleId($jobTitleId);
-        $this->throwRecordNotFoundExceptionIfNotExist($jobSpecificationAttachmentDetails, JobSpecificationAttachmentDetails::class);
+        $partialJobSpecificationAttachment = $this->getJobTitleService()->getJobTitleDao()->getJobSpecificationByJobTitleId($jobTitleId);
+        $this->throwRecordNotFoundExceptionIfNotExist($partialJobSpecificationAttachment, PartialJobSpecificationAttachment::class);
 
         return new EndpointResourceResult(
             JobSpecificationModel::class,
-            $jobSpecificationAttachmentDetails,
+            $partialJobSpecificationAttachment,
             new ParameterBag([self::PARAMETER_JOB_TITLE_ID => $jobTitleId])
         );
     }

@@ -22,7 +22,7 @@ namespace OrangeHRM\Pim\Dto;
 use DateTime;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
-class EmployeeAttachmentDetails
+class PartialEmployeeAttachment
 {
     use DateTimeHelperTrait;
 

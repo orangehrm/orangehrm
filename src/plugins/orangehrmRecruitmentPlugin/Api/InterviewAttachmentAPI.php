@@ -252,7 +252,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $interviewAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getInterviewAttachmentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
+            ->getPartialInterviewAttachmentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
         $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, RecruitmentAttachment::class);
 
         return new EndpointResourceResult(InterviewAttachmentModel::class, $interviewAttachment);
@@ -294,7 +294,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $interviewAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getInterviewAttachmentContentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
+            ->getInterviewAttachmentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, InterviewAttachment::class);
         $this->setInterviewAttachment($interviewAttachment);

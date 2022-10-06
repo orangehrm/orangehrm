@@ -272,7 +272,7 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $vacancyAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getVacancyAttachmentContentById($attachmentId);
+            ->getVacancyAttachmentById($attachmentId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($vacancyAttachment, VacancyAttachment::class);
         $this->setVacancyAttachment($vacancyAttachment);
