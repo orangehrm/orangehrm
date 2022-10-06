@@ -36,6 +36,7 @@ use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Recruitment\Api\Model\InterviewAttachmentModel;
 use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
+use OrangeHRM\Recruitment\Dto\RecruitmentAttachment;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
@@ -117,7 +118,10 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->saveInterviewAttachment($interviewAttachment);
-        return new EndpointResourceResult(InterviewAttachmentModel::class, $interviewAttachment);
+        return new EndpointResourceResult(
+            InterviewAttachmentModel::class,
+            $this->getRecruitmentAttachment($interviewAttachment)
+        );
     }
 
     /**
@@ -249,7 +253,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         $interviewAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->getInterviewAttachmentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
-        $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, InterviewAttachment::class);
+        $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, RecruitmentAttachment::class);
 
         return new EndpointResourceResult(InterviewAttachmentModel::class, $interviewAttachment);
     }
@@ -290,7 +294,7 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $interviewAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getInterviewAttachmentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
+            ->getInterviewAttachmentContentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, InterviewAttachment::class);
         $this->setInterviewAttachment($interviewAttachment);
@@ -300,7 +304,10 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->saveInterviewAttachment($interviewAttachment);
-        return new EndpointResourceResult(InterviewAttachmentModel::class, $interviewAttachment);
+        return new EndpointResourceResult(
+            InterviewAttachmentModel::class,
+            $this->getRecruitmentAttachment($interviewAttachment)
+        );
     }
 
     /**
@@ -339,6 +346,22 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
                     )
                 )
             )
+        );
+    }
+
+    /**
+     * @param InterviewAttachment $interviewAttachment
+     * @return RecruitmentAttachment
+     */
+    private function getRecruitmentAttachment(InterviewAttachment $interviewAttachment): RecruitmentAttachment
+    {
+        return new RecruitmentAttachment(
+            $interviewAttachment->getId(),
+            $interviewAttachment->getFileName(),
+            $interviewAttachment->getFileType(),
+            $interviewAttachment->getFileSize(),
+            $interviewAttachment->getInterview()->getId(),
+            $interviewAttachment->getComment()
         );
     }
 }

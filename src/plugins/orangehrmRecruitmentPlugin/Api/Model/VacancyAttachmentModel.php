@@ -21,24 +21,23 @@ namespace OrangeHRM\Recruitment\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\VacancyAttachment;
+use OrangeHRM\Recruitment\Dto\RecruitmentAttachment;
 
 class VacancyAttachmentModel implements Normalizable
 {
     use ModelTrait;
 
-    public function __construct(VacancyAttachment $vacancyAttachment)
+    public function __construct(RecruitmentAttachment $vacancyAttachment)
     {
         $this->setEntity($vacancyAttachment);
         $this->setFilters(
             [
                 'id',
-                ['getVacancy','getId'],
+                'fkIdentity',
                 'fileName',
                 'fileType',
                 'fileSize',
-                'comment',
-                'attachmentType',
+                'comment'
             ]
         );
         $this->setAttributeNames(
@@ -48,8 +47,7 @@ class VacancyAttachmentModel implements Normalizable
                 ['attachment', 'fileName'],
                 ['attachment', 'fileType'],
                 ['attachment', 'fileSize'],
-                'comment',
-                'attachmentType',
+                'comment'
             ]
         );
     }
