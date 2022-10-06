@@ -20,9 +20,12 @@
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Framework\HttpKernel;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\StateContainer;
+use Symfony\Component\HttpFoundation\Request as BaseRequest;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Yaml\Yaml;
 
 $pathToAutoload = realpath(__DIR__ . '/../src/vendor/autoload.php');
@@ -44,7 +47,15 @@ if (Config::isInstalled()) {
     die("This system already installed.\n");
 }
 
-$kernel = new HttpKernel('prod', false);
+$kernel = new class ('prod', false) extends HttpKernel {
+    /**
+     * @inheritDoc
+     */
+    public function handle(BaseRequest $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true)
+    {
+        return new Response();
+    }
+};
 $request = new Request();
 $kernel->handleRequest($request);
 

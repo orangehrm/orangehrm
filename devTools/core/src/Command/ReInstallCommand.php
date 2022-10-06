@@ -26,6 +26,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Organization;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Framework\HttpKernel;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\Connection;
@@ -34,6 +35,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\HttpFoundation\Request as BaseRequest;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Throwable;
 
 class ReInstallCommand extends Command
@@ -61,7 +64,18 @@ class ReInstallCommand extends Command
             return Command::INVALID;
         }
 
-        $kernel = new HttpKernel('dev', false);
+        $kernel = new class ('dev', false) extends HttpKernel {
+            /**
+             * @inheritDoc
+             */
+            public function handle(
+                BaseRequest $request,
+                int $type = HttpKernelInterface::MAIN_REQUEST,
+                bool $catch = true
+            ) {
+                return new Response();
+            }
+        };
         $request = new Request();
         $kernel->handleRequest($request);
 

@@ -21,6 +21,8 @@ namespace OrangeHRM\LDAP\Service;
 
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Core\Registration\Event\RegistrationEvent;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -56,6 +58,7 @@ class LDAPSyncService
     use DateTimeHelperTrait;
     use EmployeeServiceTrait;
     use LDAPLoggerTrait;
+    use EventDispatcherTrait;
 
     protected ?LDAPService $ldapService = null;
     protected ?LDAPSetting $ldapSetting = null;
@@ -180,14 +183,12 @@ class LDAPSyncService
                     $employee->setWorkEmail($ldapUser->getWorkEmail());
                     $user->setStatus($ldapUser->isUserEnabled());
                     $user->setDateModified($this->getDateTimeHelper()->getNow());
-                    //$user->setModifiedUserId(); TODO
 
                     // Change user data
                     $ldapAuthProvider->setLDAPUserDN($ldapUser->getUserDN());
                     $ldapAuthProvider->setLDAPUserUniqueId($ldapUser->getUserUniqueId());
                     $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                    // TODO:: trigger employee changed
                     if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
                         continue;
                     }
@@ -198,7 +199,6 @@ class LDAPSyncService
                 } elseif ($this->getLDAPSetting()->shouldMergeLDAPUsersWithExistingSystemUsers()) {
                     $user->setStatus($ldapUser->isUserEnabled());
                     $user->setDateModified($this->getDateTimeHelper()->getNow());
-                    //$user->setModifiedUserId(); TODO
 
                     $employee = $user->getEmployee();
                     $clonedEmployee = PartialEmployee::createFromEmployee($employee);
@@ -215,7 +215,6 @@ class LDAPSyncService
                     $authProvider->setLDAPUserUniqueId($ldapUser->getUserUniqueId());
                     $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                    // TODO:: trigger employee changed
                     if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
                         continue;
                     }
@@ -236,7 +235,6 @@ class LDAPSyncService
                         $user->setUserName($ldapUser->getUsername());
                         $user->setStatus($ldapUser->isUserEnabled());
                         $user->setDateModified($this->getDateTimeHelper()->getNow());
-                        //$user->setModifiedUserId(); TODO
 
                         $employee = $user->getEmployee();
                         $clonedEmployee = PartialEmployee::createFromEmployee($employee);
@@ -250,7 +248,6 @@ class LDAPSyncService
                         $ldapAuthProvider->setLDAPUserDN($ldapUser->getUserDN());
                         $ldapAuthProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                        // TODO:: trigger employee changed
                         if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
                             continue;
                         }
@@ -283,7 +280,6 @@ class LDAPSyncService
                 $user->setStatus($ldapUser->isUserEnabled());
                 $user->setEmployee($employee);
                 $user->setDateEntered($this->getDateTimeHelper()->getNow());
-                //$user->setCreatedBy(); TODO
                 $user->setUserRole($defaultUserRole);
 
                 $authProvider = new UserAuthProvider();
@@ -293,7 +289,6 @@ class LDAPSyncService
                 $authProvider->setLDAPUserUniqueId($ldapUser->getUserUniqueId());
                 $authProvider->setLDAPUserHash($this->getHashOfLDAPUser($ldapUser));
 
-                // TODO:: trigger employee changed
                 if ($this->trySaveEmployee($employee, $clonedEmployee, $ldapUser) === null) {
                     continue;
                 }
@@ -315,6 +310,10 @@ class LDAPSyncService
     {
         try {
             $this->saveEmployee($employee, $clonedEmployee);
+            $eventName = $employee->getEmployeeTerminationRecord() == null
+                ? RegistrationEvent::EMPLOYEE_ADD_EVENT_NAME
+                : RegistrationEvent::EMPLOYEE_TERMINATE_EVENT_NAME;
+            $this->getEventDispatcher()->dispatch(new RegistrationEvent(), $eventName);
             return $employee;
         } catch (LDAPSyncException $e) {
             $this->getLogger()->error($e->getMessage(), $ldapUser->getLogInfo());
