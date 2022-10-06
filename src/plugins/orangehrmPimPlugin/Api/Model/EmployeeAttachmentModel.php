@@ -21,18 +21,18 @@ namespace OrangeHRM\Pim\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\EmployeeAttachment;
+use OrangeHRM\Pim\Dto\EmployeeAttachmentDetails;
 
 class EmployeeAttachmentModel implements Normalizable
 {
     use ModelTrait;
 
     /**
-     * @param EmployeeAttachment $employeeAttachment
+     * @param EmployeeAttachmentDetails $employeeAttachmentDetails
      */
-    public function __construct(EmployeeAttachment $employeeAttachment)
+    public function __construct(EmployeeAttachmentDetails $employeeAttachmentDetails)
     {
-        $this->setEntity($employeeAttachment);
+        $this->setEntity($employeeAttachmentDetails);
         $this->setFilters(
             [
                 'attachId',
@@ -42,8 +42,8 @@ class EmployeeAttachmentModel implements Normalizable
                 'fileType',
                 'attachedBy',
                 'attachedByName',
-                ['getDecorator', 'getAttachedTime'],
-                ['getDecorator', 'getAttachedDate'],
+                'attachedTime',
+                'attachedDate',
             ]
         );
         $this->setAttributeNames(

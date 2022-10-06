@@ -24,6 +24,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\Pim\Dao\EmployeeAttachmentDao;
+use OrangeHRM\Pim\Dto\EmployeeAttachmentDetails;
 
 class EmployeeAttachmentService
 {
@@ -48,7 +49,7 @@ class EmployeeAttachmentService
     /**
      * @param int $empNumber
      * @param string $screen
-     * @return EmployeeAttachment[]
+     * @return EmployeeAttachmentDetails[]
      * @throws DaoException
      */
     public function getEmployeeAttachments(int $empNumber, string $screen): array
@@ -66,6 +67,17 @@ class EmployeeAttachmentService
     public function getEmployeeAttachment(int $empNumber, int $attachId, ?string $screen = null): ?EmployeeAttachment
     {
         return $this->getEmployeeAttachmentDao()->getEmployeeAttachment($empNumber, $attachId, $screen);
+    }
+
+    /**
+     * @param int $empNumber
+     * @param int $attachId
+     * @param string|null $screen
+     * @return EmployeeAttachmentDetails|null
+     */
+    public function getEmployeeAttachmentDetails(int $empNumber, int $attachId, ?string $screen = null): ?EmployeeAttachmentDetails
+    {
+        return $this->getEmployeeAttachmentDao()->getEmployeeAttachmentDetails($empNumber, $attachId, $screen);
     }
 
     /**
