@@ -22,7 +22,7 @@
   <base-widget
     icon="clock-fill"
     :loading="isLoading"
-    :title="$t('general.time_at_work')"
+    :title="$t('dashboard.time_at_work')"
   >
     <div class="orangehrm-attendance-card">
       <div class="orangehrm-attendance-card-profile">
@@ -45,7 +45,7 @@
       <div class="orangehrm-attendance-card-bar">
         <oxd-text tag="span" class="orangehrm-attendance-card-fulltime">
           <b>{{ dayTotal.hours }}h</b> <b>{{ dayTotal.minutes }}m</b>
-          {{ $t('general.today') }}
+          {{ $t('dashboard.today') }}
         </oxd-text>
         <oxd-icon-button
           name="stopwatch"
@@ -58,7 +58,7 @@
       <div class="orangehrm-attendance-card-summary">
         <div class="orangehrm-attendance-card-summary-week">
           <oxd-text tag="p">
-            {{ $t('general.this_week') }}
+            {{ $t('dashboard.this_week') }}
           </oxd-text>
           <oxd-text tag="p">
             {{ currentWeek }}
@@ -166,7 +166,7 @@ export default {
         const formattedDate = formatDate(parsedDate, 'MMM do', {
           locale: this.locale,
         });
-        return this.$t('general.state_date_at_time_timezone_offset', {
+        return this.$t('dashboard.state_date_at_time_timezone_offset', {
           lastState: this.lastState,
           date: formattedDate,
           time: formattedTime,
@@ -174,7 +174,7 @@ export default {
         });
       }
 
-      return this.$t('general.state_today_at_time_timezone_offset', {
+      return this.$t('dashboard.state_today_at_time_timezone_offset', {
         lastState: this.lastState,
         time: formattedTime,
         timezoneOffset: this.timezoneOffset,

@@ -47,7 +47,7 @@
           class="orangehrm-dashboard-widget-img"
         />
         <oxd-text tag="p">
-          {{ emptyText || $t('general.not_available') }}
+          {{ emptyText || $t('dashboard.not_available') }}
         </oxd-text>
       </div>
     </div>
