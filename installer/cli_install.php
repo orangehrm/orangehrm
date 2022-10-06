@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+include_once('./../lib/log_settings.php');
+
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Http\Request;
