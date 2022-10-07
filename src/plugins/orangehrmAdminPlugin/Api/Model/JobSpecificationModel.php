@@ -19,20 +19,20 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
+use OrangeHRM\Admin\Dto\PartialJobSpecificationAttachment;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\JobSpecificationAttachment;
 
 class JobSpecificationModel implements Normalizable
 {
     use ModelTrait;
 
     /**
-     * @param JobSpecificationAttachment $jobSpecificationAttachment
+     * @param PartialJobSpecificationAttachment $partialJobSpecificationAttachment
      */
-    public function __construct(JobSpecificationAttachment $jobSpecificationAttachment)
+    public function __construct(PartialJobSpecificationAttachment $partialJobSpecificationAttachment)
     {
-        $this->setEntity($jobSpecificationAttachment);
+        $this->setEntity($partialJobSpecificationAttachment);
         $this->setFilters(
             [
                 'id',

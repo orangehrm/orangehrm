@@ -25,8 +25,10 @@ use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Entity\InterviewInterviewer;
 use OrangeHRM\Entity\VacancyAttachment;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
+use OrangeHRM\Recruitment\Dto\RecruitmentAttachment;
 
 class RecruitmentAttachmentDao extends BaseDao
 {
@@ -75,6 +77,20 @@ class RecruitmentAttachmentDao extends BaseDao
 
     /**
      * @param int $candidateId
+     * @return RecruitmentAttachment|null
+     */
+    public function getPartialCandidateAttachmentByCandidateId(int $candidateId): ?RecruitmentAttachment
+    {
+        $select = 'NEW ' . RecruitmentAttachment::class . "(candidateAttachment.id,candidateAttachment.fileName,candidateAttachment.fileType,candidateAttachment.fileSize,IDENTITY(candidateAttachment.candidate))";
+        $qb = $this->createQueryBuilder(CandidateAttachment::class, 'candidateAttachment');
+        $qb->select($select);
+        $qb->where('candidateAttachment.candidate = :candidateId');
+        $qb->setParameter('candidateId', $candidateId);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $candidateId
      * @return CandidateAttachment|null
      */
     public function getCandidateAttachmentByCandidateId(int $candidateId): ?CandidateAttachment
@@ -100,6 +116,25 @@ class RecruitmentAttachmentDao extends BaseDao
     /**
      * @param int $attachId
      * @param int $interviewId
+     * @return RecruitmentAttachment|null
+     */
+    public function getPartialInterviewAttachmentByAttachmentIdAndInterviewId(
+        int $attachId,
+        int $interviewId
+    ): ?RecruitmentAttachment {
+        $select = 'NEW ' . RecruitmentAttachment::class . "(interviewAttachment.id,interviewAttachment.fileName,interviewAttachment.fileType,interviewAttachment.fileSize,IDENTITY(interviewAttachment.interview),interviewAttachment.comment)";
+        $qb = $this->createQueryBuilder(InterviewAttachment::class, 'interviewAttachment');
+        $qb->select($select);
+        $qb->andWhere('interviewAttachment.id = :id');
+        $qb->setParameter('id', $attachId);
+        $qb->andWhere('interviewAttachment.interview = :interviewId');
+        $qb->setParameter('interviewId', $interviewId);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $attachId
+     * @param int $interviewId
      * @return InterviewAttachment|null
      */
     public function getInterviewAttachmentByAttachmentIdAndInterviewId(
@@ -111,29 +146,18 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
-     * @param int $attachId
-     * @return CandidateAttachment|null
-     */
-    public function getCandidateAttachment(int $attachId): ?CandidateAttachment
-    {
-        $attachment = $this->getRepository(CandidateAttachment::class)->find($attachId);
-        if ($attachment instanceof CandidateAttachment) {
-            return $attachment;
-        }
-        return null;
-    }
-
-    /**
      * @param int $vacancyId
-     * @return VacancyAttachment[]
+     * @return RecruitmentAttachment[]
      */
     public function getVacancyAttachmentsByVacancyId(int $vacancyId): array
     {
-        $qb = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
-        $qb->leftJoin('attachment.vacancy', 'vacancy');
+        $select = 'NEW ' . RecruitmentAttachment::class . "(vacancyAttachment.id,vacancyAttachment.fileName,vacancyAttachment.fileType,vacancyAttachment.fileSize,IDENTITY(vacancyAttachment.vacancy),vacancyAttachment.comment)";
+        $qb = $this->createQueryBuilder(VacancyAttachment::class, 'vacancyAttachment');
+        $qb->select($select);
+        $qb->leftJoin('vacancyAttachment.vacancy', 'vacancy');
         $qb->where('vacancy.id = :vacancyId')
             ->setParameter('vacancyId', $vacancyId)
-            ->orderBy('attachment.fileName', 'ASC');
+            ->orderBy('vacancyAttachment.fileName', ListSorter::ASCENDING);
         return $qb->getQuery()->execute();
     }
 
@@ -175,7 +199,7 @@ class RecruitmentAttachmentDao extends BaseDao
 
     /**
      * @param InterviewAttachmentSearchFilterParams $interviewAttachmentParamHolder
-     * @return InterviewAttachment[]
+     * @return RecruitmentAttachment[]
      */
     public function getInterviewAttachments(
         InterviewAttachmentSearchFilterParams $interviewAttachmentParamHolder
@@ -191,8 +215,11 @@ class RecruitmentAttachmentDao extends BaseDao
     protected function getInterviewAttachmentPaginator(
         InterviewAttachmentSearchFilterParams $interviewAttachmentSearchFilterParams
     ): Paginator {
-        $qb = $this->createQueryBuilder(InterviewAttachment::class, 'attachment');
-        $qb->where('attachment.interview = :interviewId')
+        $select = 'NEW ' . RecruitmentAttachment::class . "(interviewAttachment.id,interviewAttachment.fileName,interviewAttachment.fileType,interviewAttachment.fileSize,interview.id,interviewAttachment.comment)";
+        $qb = $this->createQueryBuilder(InterviewAttachment::class, 'interviewAttachment');
+        $qb->leftJoin('interviewAttachment.interview', 'interview');
+        $qb->select($select);
+        $qb->where('interviewAttachment.interview = :interviewId')
             ->setParameter('interviewId', $interviewAttachmentSearchFilterParams->getInterviewId());
         return $this->getPaginator($qb);
     }
@@ -204,7 +231,7 @@ class RecruitmentAttachmentDao extends BaseDao
     public function getInterviewAttachmentsCount(
         InterviewAttachmentSearchFilterParams $interviewAttachmentParamHolder
     ): int {
-        return $this->getInterviewAttachmentPaginator($interviewAttachmentParamHolder)->count();
+        return $this->getInterviewAttachmentPaginator($interviewAttachmentParamHolder)->setUseOutputWalkers(false)->count();
     }
 
     /**
