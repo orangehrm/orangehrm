@@ -216,8 +216,8 @@ langStrings:
     value: 'Field in LDAP Directory'
     unitId: field_in_ldap_directory
   -
-    value: 'Use this field as a employee / user mapping field'
-    unitId: use_this_field_as_a_employee_user_mapping_field
+    value: 'Use this field as the employee / user mapping field'
+    unitId: use_this_field_as_the_employee_user_mapping_field
   -
     value: '{count} user(s) found'
     unitId: n_users_found
@@ -230,3 +230,9 @@ langStrings:
   -
     value: 'User lookup'
     unitId: user_lookup
+  -
+    value: 'Authentication'
+    unitId: authentication
+  -
+    value: 'Search results'
+    unitId: search_results

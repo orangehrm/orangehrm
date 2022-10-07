@@ -17,9 +17,3 @@ langStrings:
   -
     value: 'User Status'
     unitId: user_status
-  -
-    value: 'Authentication'
-    unitId: authentication
-  -
-    value: 'Search results'
-    unitId: search_results

@@ -203,7 +203,7 @@
             <oxd-grid-item class="orangehrm-ldap-grid-header">
               <oxd-text tag="p">
                 {{
-                  $t('admin.use_this_field_as_a_employee_user_mapping_field')
+                  $t('admin.use_this_field_as_the_employee_user_mapping_field')
                 }}
               </oxd-text>
             </oxd-grid-item>
