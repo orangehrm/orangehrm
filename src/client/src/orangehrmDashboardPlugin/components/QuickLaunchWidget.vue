@@ -23,7 +23,7 @@
     icon="lightning-charge-fill"
     :empty="isEmpty"
     :loading="isLoading"
-    :title="$t('general.quick_launch')"
+    :title="$t('dashboard.quick_launch')"
   >
     <oxd-grid :cols="3" class="orangehrm-quick-launch">
       <oxd-grid-item

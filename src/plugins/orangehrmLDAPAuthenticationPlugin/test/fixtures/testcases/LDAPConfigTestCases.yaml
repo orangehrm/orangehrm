@@ -42,6 +42,7 @@ Update:
         "ldapImplementation": "OpenLDAP",
         "bindAnonymously": false,
         "bindUserDN": "cn=admin,dc=example,dc=org",
+        "hasBindUserPassword": true,
         "userLookupSettings": [ {
           'baseDN': 'ou=users,dc=example,dc=org',
           'searchScope': 'sub',
@@ -113,6 +114,7 @@ Update:
       "ldapImplementation": "OpenLDAP",
       "bindAnonymously": false,
       "bindUserDN": "cn=admin,dc=example,dc=org",
+      "hasBindUserPassword": true,
       "userLookupSettings": [
         {
           "baseDN": "ou=admin,ou=users,dc=example,dc=org",
@@ -188,6 +190,7 @@ Update:
         "ldapImplementation": "OpenLDAP",
         "bindAnonymously": true,
         "bindUserDN": null,
+        "hasBindUserPassword": false,
         "userLookupSettings": [ {
           'baseDN': 'ou=users,dc=example,dc=org',
           'searchScope': 'sub',
@@ -506,6 +509,7 @@ GetOne:
         "ldapImplementation": "OpenLDAP",
         "bindAnonymously": false,
         "bindUserDN": null,
+        "hasBindUserPassword": false,
         "userLookupSettings": [ ],
         "dataMapping": {
           "firstName": "givenName",
@@ -536,6 +540,7 @@ GetOne:
         "ldapImplementation": "OpenLDAP",
         "bindAnonymously": true,
         "bindUserDN": null,
+        "hasBindUserPassword": false,
         "userLookupSettings": [ {
           'baseDN': 'ou=users,dc=example,dc=org',
           'searchScope': 'sub',
