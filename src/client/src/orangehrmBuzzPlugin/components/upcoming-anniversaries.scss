@@ -16,39 +16,33 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-buzz-body {
-  overflow: auto;
-  max-height: inherit;
-  max-height: 285px;
-}
-
-.orangehrm-buzz-card {
-  max-width: 340px;
-  min-width: 340px;
-  max-height: 340px;
-  padding: 0.5rem;
-  justify-content: space-between;
-  &-title {
-    padding: 0.5rem 0;
-    font-weight: bold;
-  }
-}
-
 .orangehrm-buzz-anniversary {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 0;
-  position: relative;
-
+  &-content {
+    overflow: auto;
+    max-height: 340px;
+    @include oxd-scrollbar();
+  }
+  &-item {
+    display: flex;
+    padding: 0.5rem 0;
+    position: relative;
+    align-items: center;
+  }
   &-profile-image {
     & img {
       width: 40px;
       height: 40px;
-      border-radius: 100%;
       display: flex;
       flex-shrink: 0;
+      border-radius: 100%;
       justify-content: center;
       box-sizing: border-box;
+    }
+  }
+  &-title {
+    display: none;
+    @include oxd-respond-to('md') {
+      display: block;
     }
   }
   &-profile {
@@ -60,14 +54,14 @@
     }
   }
   &-emp-name {
-    font-size: .85rem;
     font-weight: 400;
+    font-size: 0.85rem;
     @include truncate(2, 1, #fff);
   }
   &-job-details {
-    font-size: 0.75rem;
     font-weight: 700;
     margin-top: 0.1rem;
+    font-size: 0.75rem;
     @include truncate(2, 1, #fff);
   }
   &-duration {
@@ -91,10 +85,13 @@
     margin-left: 1.2rem;
     text-align: center;
   }
-  &-see-more {
-    color: $oxd-primary-one-color !important;
-    font-size: 0.75rem;
+  &-footer {
     font-weight: 700;
-    text-align: end;
+    text-align: right;
+    font-size: 0.75rem;
+    ::v-deep(.oxd-text) {
+      cursor: pointer;
+      color: $oxd-primary-one-color;
+    }
   }
 }
