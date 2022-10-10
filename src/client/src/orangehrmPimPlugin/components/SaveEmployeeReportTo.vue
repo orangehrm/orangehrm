@@ -20,8 +20,14 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title"
-      >{{ $t('general.add') }} {{ type }}</oxd-text
+    <oxd-text v-if="type === 'Supervisor'" tag="h6" class="orangehrm-main-title"
+      >{{ $t('general.add') }} {{ $t('pim.supervisor') }}</oxd-text
+    >
+    <oxd-text
+      v-if="type === 'Subordinate'"
+      tag="h6"
+      class="orangehrm-main-title"
+      >{{ $t('general.add') }} {{ $t('pim.subordinates') }}</oxd-text
     >
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">

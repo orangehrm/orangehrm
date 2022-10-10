@@ -2,3 +2,27 @@ langStrings:
   -
     value: 'State Income Tax'
     unitId: state_income_tax
+  -
+    value: 'Bi Weekly'
+    unitId: bi_weekly
+  -
+    value: 'Hourly'
+    unitId: hourly
+  -
+    value: 'Monthly'
+    unitId: monthly
+  -
+    value: 'Monthly on first pay of month'
+    unitId: monthly_on_first_pay
+  -
+    value: 'Semi Monthly'
+    unitId: semi_monthly
+  -
+    value: 'Weekly'
+    unitId: weekly
+  -
+    value: 'Savings'
+    unitId: savings
+  -
+    value: 'Checking'
+    unitId: checking

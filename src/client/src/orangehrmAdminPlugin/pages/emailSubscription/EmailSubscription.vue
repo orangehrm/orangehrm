@@ -52,15 +52,34 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import usei18n from '@/core/util/composable/usei18n';
+
+const {$t} = usei18n();
 
 const subscribersNormalizer = data => {
   return data.map(item => {
     const subscribers = Array.isArray(item.subscribers)
       ? item.subscribers.slice(0, 10)
       : [];
+    let _type = item.name;
+    if (_type === 'Leave Applications') {
+      _type = `${$t('admin.leave_applications')}`;
+    }
+    if (_type === 'Leave Approvals') {
+      _type = `${$t('admin.leave_approvals')}`;
+    }
+    if (_type === 'Leave Assignments') {
+      _type = `${$t('admin.leave_assignments')}`;
+    }
+    if (_type === 'Leave Cancellations') {
+      _type = `${$t('admin.leave_cancellation')}`;
+    }
+    if (_type === 'Leave Rejections') {
+      _type = `${$t('admin.leave_rejections')}`;
+    }
     return {
       id: item.id,
-      type: item.name,
+      type: _type,
       subscribers: subscribers
         .map(sub => {
           return `${sub.name} <${sub.email}>`;
