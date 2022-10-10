@@ -156,17 +156,13 @@ export default {
     const userdataNormalizer = data => {
       return data.map(item => {
         const selectable = props.unselectableIds.findIndex(id => id == item.id);
-        let _displayName = item.userRole?.displayName;
-        if (_displayName === 'ESS') {
-          _displayName = `${$t('general.ess')}`;
-        }
-        if (_displayName === 'Admin') {
-          _displayName = `${$t('general.admin')}`;
-        }
         return {
           id: item.id,
           userName: item.userName,
-          role: _displayName,
+          role:
+            item.userRole?.displayName === 'Admin'
+              ? $t('general.admin')
+              : $t('general.ess'),
           empName: $tEmpName(item.employee, {includeMiddle: false}),
           status: item.status ? 'Enabled' : 'Disabled',
           isSelectable: selectable === -1,

@@ -41,33 +41,8 @@
         ></timesheet-period>
       </template>
       <template #footer-title>
-        <oxd-text
-          v-show="timesheetStatus"
-          v-if="timesheetStatus === 'Submitted'"
-          type="subtitle-2"
-        >
-          {{ $t('general.status') }}: {{ $t('time.submitted') }}
-        </oxd-text>
-        <oxd-text
-          v-show="timesheetStatus"
-          v-if="timesheetStatus === 'Rejected'"
-          type="subtitle-2"
-        >
-          {{ $t('general.status') }}: {{ $t('leave.rejected') }}
-        </oxd-text>
-        <oxd-text
-          v-show="timesheetStatus"
-          v-if="timesheetStatus === 'Not Submitted'"
-          type="subtitle-2"
-        >
-          {{ $t('general.status') }}: {{ $t('time.not_submitted') }}
-        </oxd-text>
-        <oxd-text
-          v-show="timesheetStatus"
-          v-if="timesheetStatus === 'Approved'"
-          type="subtitle-2"
-        >
-          {{ $t('general.status') }}: {{ $t('time.approved') }}
+        <oxd-text v-show="timesheetStatus" type="subtitle-2">
+          {{ $t('general.status') }}: {{ myTimesheetStatus }}
         </oxd-text>
       </template>
       <template #footer-options>
@@ -157,6 +132,24 @@ export default {
       showCreateTimesheet,
       onClickCreateTimesheet,
     };
+  },
+  data() {
+    return {
+      statuses: [
+        {id: 1, label: this.$t('time.submitted'), name: 'Submitted'},
+        {id: 2, label: this.$t('leave.rejected'), name: 'Rejected'},
+        {id: 3, label: this.$t('time.not_submitted'), name: 'Not Submitted'},
+        {id: 4, label: this.$t('time.approved'), name: 'Approved'},
+      ],
+    };
+  },
+  computed: {
+    myTimesheetStatus() {
+      return (
+        this.statuses.find(item => item.name === this.timesheetStatus)?.label ||
+        null
+      );
+    },
   },
 };
 </script>

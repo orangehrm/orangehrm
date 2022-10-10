@@ -41,33 +41,8 @@
         ></timesheet-period>
       </template>
       <template #footer-title>
-        <oxd-text
-          v-show="timesheetStatus"
-          v-if="timesheetStatus === 'Submitted'"
-          type="subtitle-2"
-        >
-          {{ $t('general.status') }}: {{ $t('time.submitted') }}
-        </oxd-text>
-        <oxd-text
-          v-show="timesheetStatus"
-          v-if="timesheetStatus === 'Rejected'"
-          type="subtitle-2"
-        >
-          {{ $t('general.status') }}: {{ $t('leave.rejected') }}
-        </oxd-text>
-        <oxd-text
-          v-show="timesheetStatus"
-          v-if="timesheetStatus === 'Not Submitted'"
-          type="subtitle-2"
-        >
-          {{ $t('general.status') }}: {{ $t('time.not_submitted') }}
-        </oxd-text>
-        <oxd-text
-          v-show="timesheetStatus"
-          v-if="timesheetStatus === 'Approved'"
-          type="subtitle-2"
-        >
-          {{ $t('general.status') }}: {{ $t('time.approved') }}
+        <oxd-text v-show="timesheetStatus" type="subtitle-2">
+          {{ $t('general.status') }}: {{ employeeTimesheetStatus }}
         </oxd-text>
       </template>
       <template #footer-options>
@@ -198,6 +173,16 @@ export default {
       translateEmpName: $tEmpName,
     };
   },
+  data() {
+    return {
+      statuses: [
+        {id: 1, label: this.$t('time.submitted'), name: 'Submitted'},
+        {id: 2, label: this.$t('leave.rejected'), name: 'Rejected'},
+        {id: 3, label: this.$t('time.not_submitted'), name: 'Not Submitted'},
+        {id: 4, label: this.$t('time.approved'), name: 'Approved'},
+      ],
+    };
+  },
   computed: {
     title() {
       const empName = this.translateEmpName(this.employee, {
@@ -205,6 +190,12 @@ export default {
         excludePastEmpTag: false,
       });
       return `${this.$t('time.timesheet_for')} ${empName}`;
+    },
+    employeeTimesheetStatus() {
+      return (
+        this.statuses.find(item => item.name === this.timesheetStatus)?.label ||
+        null
+      );
     },
   },
 };
