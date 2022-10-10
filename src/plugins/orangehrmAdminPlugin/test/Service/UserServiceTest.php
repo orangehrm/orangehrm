@@ -37,8 +37,7 @@ use OrangeHRM\Tests\Util\KernelTestCase;
  */
 class UserServiceTest extends KernelTestCase
 {
-    /** @property UserService $systemUserService */
-    private $systemUserService;
+    private UserService $systemUserService;
 
     /**
      * Set up method
@@ -160,6 +159,28 @@ class UserServiceTest extends KernelTestCase
 
         $result = $this->systemUserService->isCurrentPassword($userId, $password);
         $this->assertTrue($result);
+    }
+
+    public function testIsCurrentPasswordWithNullPassword(): void
+    {
+        $user = new User();
+        $user->setId(2);
+        $user->setUserRole($this->getUserRole());
+        $user->setUserName('admin_user');
+        $user->setUserPassword(null);
+
+        $dao = $this->getMockBuilder(UserDao::class)
+            ->onlyMethods(['getSystemUser'])
+            ->getMock();
+
+        $dao->expects($this->once())
+            ->method('getSystemUser')
+            ->will($this->returnValue($user));
+
+        $this->systemUserService->setUserDao($dao);
+
+        $result = $this->systemUserService->isCurrentPassword(2, '');
+        $this->assertFalse($result);
     }
 
     public function testIsCurrentPasswordOldHash(): void

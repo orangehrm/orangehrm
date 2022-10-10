@@ -36,6 +36,7 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
+use Throwable;
 
 class ValidateController extends AbstractController implements PublicControllerInterface
 {
@@ -105,6 +106,15 @@ class ValidateController extends AbstractController implements PublicControllerI
             $this->getLoginService()->addLogin($credentials);
         } catch (AuthenticationException $e) {
             $this->getAuthUser()->addFlash(AuthUser::FLASH_LOGIN_ERROR, $e->normalize());
+            return new RedirectResponse($loginUrl);
+        } catch (Throwable $e) {
+            $this->getAuthUser()->addFlash(
+                AuthUser::FLASH_LOGIN_ERROR,
+                [
+                    'error' => AuthenticationException::UNEXPECT_ERROR,
+                    'message' => 'Unexpected error occurred',
+                ]
+            );
             return new RedirectResponse($loginUrl);
         }
 

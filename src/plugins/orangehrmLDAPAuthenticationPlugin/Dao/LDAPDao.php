@@ -49,6 +49,27 @@ class LDAPDao extends BaseDao
     }
 
     /**
+     * This method directly used for LDAP auth provider, changes may result invalid logins
+     * @param string $userName
+     * @return User|null
+     * @throws NonUniqueResultException
+     */
+    public function getNonLocalUserByUserName(string $userName): ?User
+    {
+        $q = $this->createQueryBuilder(User::class, 'user')
+            ->leftJoin('user.employee', 'employee')
+            ->leftJoin('user.authProviders', 'authProvider')
+            ->select('user', 'authProvider');
+
+        $q->andWhere('user.userName = :userName')
+            ->setParameter('userName', $userName)
+            ->andWhere('user.deleted = :deleted')
+            ->setParameter('deleted', false)
+            ->andWhere($q->expr()->isNull('user.userPassword'));
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
      * @param string $userName
      * @return User|null
      * @throws NonUniqueResultException
@@ -61,8 +82,8 @@ class LDAPDao extends BaseDao
             ->select('user', 'authProvider');
 
         $q->andWhere('user.userName = :userName')
-            ->setParameter('userName', $userName);
-        $q->andWhere('user.deleted = :deleted')
+            ->setParameter('userName', $userName)
+            ->andWhere('user.deleted = :deleted')
             ->setParameter('deleted', false);
         return $q->getQuery()->getOneOrNullResult();
     }
