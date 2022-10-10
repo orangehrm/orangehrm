@@ -221,7 +221,7 @@ class HttpKernel extends BaseHttpKernel
         $this->configureRouter($request);
         $this->configureSession($request);
 
-        return parent::handle($request, $type, $catch);
+        return $this->handle($request, $type, $catch);
     }
 
     /**

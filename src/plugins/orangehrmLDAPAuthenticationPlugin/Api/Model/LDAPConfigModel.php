@@ -54,6 +54,7 @@ class LDAPConfigModel implements Normalizable
             'ldapImplementation' => $this->ldapSetting->getImplementation(),
             'bindAnonymously' => $this->ldapSetting->isBindAnonymously(),
             'bindUserDN' => $this->ldapSetting->getBindUserDN(),
+            'hasBindUserPassword' => $this->ldapSetting->getBindUserPassword() !== null,
             'userLookupSettings' => $userLookupSettings,
             'dataMapping' => $this->ldapSetting->getDataMapping()->toArray(),
             'mergeLDAPUsersWithExistingSystemUsers' => $this->ldapSetting

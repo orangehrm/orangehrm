@@ -22,7 +22,7 @@
   <base-widget
     icon="pie-chart-fill"
     :loading="isLoading"
-    :title="$t('general.employee_distribution_by_location')"
+    :title="$t('dashboard.employee_distribution_by_location')"
   >
     <oxd-pie-chart
       :data="dataset"
@@ -109,7 +109,7 @@ export default {
           this.dataset.push({
             value: meta.unassignedEmployeeCount,
             color: CHART_COLORS.COLOR_TART_ORANGE,
-            label: this.$t('general.unassigned'),
+            label: this.$t('dashboard.unassigned'),
           });
         }
       })

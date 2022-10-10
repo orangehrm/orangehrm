@@ -79,7 +79,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
         );
     }
 
@@ -130,10 +130,16 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_USER_ROLE_ID),
-            new ParamRule(self::FILTER_USERNAME),
-            new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
-            new ParamRule(self::FILTER_STATUS),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_USER_ROLE_ID, new Rule(Rules::POSITIVE))
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_USERNAME, new Rule(Rules::STRING_TYPE))
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_EMPLOYEE_NUMBER, new Rule(Rules::POSITIVE))
+            ),
+            new ParamRule(self::FILTER_STATUS, new Rule(Rules::BOOL_VAL)),
             ...$this->getSortingAndPaginationParamsRules(UserSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -211,17 +217,20 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     protected function getUsernameAndPasswordRule(bool $update): array
     {
-        $uniquePropertyParams = [User::class, 'userName'];
         $passwordConstructor = [true];
+        $entityProperties = new EntityUniquePropertyOption();
+        $entityProperties->setIgnoreValues(['isDeleted' => true]);
+        $uniquePropertyParams = [User::class, 'userName', $entityProperties];
         if ($update) {
-            $entityProperties = new EntityUniquePropertyOption();
             $entityProperties->setIgnoreValues(
-                ['getId' => $this->getRequestParams()->getInt(
-                    RequestParams::PARAM_TYPE_ATTRIBUTE,
-                    CommonParams::PARAMETER_ID
-                )]
+                [
+                    'getId' => $this->getRequestParams()->getInt(
+                        RequestParams::PARAM_TYPE_ATTRIBUTE,
+                        CommonParams::PARAMETER_ID
+                    ),
+                    'isDeleted' => true,
+                ]
             );
-            $uniquePropertyParams[] = $entityProperties;
 
             $passwordConstructor = [
                 $this->getRequestParams()->getBoolean(

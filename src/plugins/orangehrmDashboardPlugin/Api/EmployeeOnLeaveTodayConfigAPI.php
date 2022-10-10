@@ -47,7 +47,7 @@ class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
             ->getDashboardEmployeesOnLeaveTodayShowOnlyAccessibleConfig();
         return new EndpointResourceResult(
             ArrayModel::class,
-            ['showOnlyAccessibleEmployeesOnLeaveToday' => $showOnlyAccessibleEmployeesOnLeaveToday]
+            [self::PARAMETER_SHOW_ONLY_ACCESSIBLE_EMPLOYEES_ON_LEAVE_TODAY => $showOnlyAccessibleEmployeesOnLeaveToday]
         );
     }
 
@@ -77,7 +77,7 @@ class EmployeeOnLeaveTodayConfigAPI extends Endpoint implements ResourceEndpoint
 
         return new EndpointResourceResult(
             ArrayModel::class,
-            ['showOnlyAccessibleEmployeesOnLeaveToday' => $showOnlyAccessibleEmployeesOnLeaveToday]
+            [self::PARAMETER_SHOW_ONLY_ACCESSIBLE_EMPLOYEES_ON_LEAVE_TODAY => $showOnlyAccessibleEmployeesOnLeaveToday]
         );
     }
 

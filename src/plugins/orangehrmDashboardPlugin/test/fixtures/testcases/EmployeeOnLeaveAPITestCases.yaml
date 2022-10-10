@@ -322,3 +322,129 @@ GetAll:
     meta:
       total: null
       leavePeriodDefined: true
+
+  'Get all employees on leave in specific day - Only Accessible Employees allowed config disabled':
+    userId: 3
+    query:
+      date: '2023-01-03'
+    now:
+      datetime: '2022-07-25'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data:
+      0:
+        id: 68
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 3
+          lastName: 'Duval'
+          firstName: 'Alice'
+          middleName: ''
+          employeeId: '0003'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 6
+          name: Medical
+          deleted: false
+      1:
+        id: 70
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 5
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: ''
+          employeeId: '0005'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 5
+          name: CAN - Vacation
+          deleted: false
+      2:
+        id: 69
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 4
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: ''
+          employeeId: '0004'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+    meta:
+      total: 3
+      leavePeriodDefined: true
+
+  'Get all employees on leave in specific day - Only Accessible Employees allowed config enabled':
+    userId: 3
+    query:
+      date: '2023-01-03'
+    now:
+      datetime: '2022-07-25'
+    services:
+      dashboard.employee_on_leave_service: \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Dashboard\Api\EmployeeOnLeaveApiTest', 'configEnablingPreHook' ]
+    data:
+      0:
+        id: 68
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 3
+          lastName: 'Duval'
+          firstName: 'Alice'
+          middleName: ''
+          employeeId: '0003'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 6
+          name: Medical
+          deleted: false
+      1:
+        id: 70
+        date: '2023-01-03'
+        lengthHours: 8.0
+        employee:
+          empNumber: 5
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: ''
+          employeeId: '0005'
+          terminationId: null
+        duration: 'full_day'
+        endTime: null
+        startTime: null
+        leaveType:
+          id: 5
+          name: CAN - Vacation
+          deleted: false
+    meta:
+      total: 2
+      leavePeriodDefined: true

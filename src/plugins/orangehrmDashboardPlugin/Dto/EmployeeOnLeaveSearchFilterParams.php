@@ -59,22 +59,6 @@ class EmployeeOnLeaveSearchFilterParams extends FilterParams
     }
 
     /**
-     * @return DateTime
-     */
-    public function getDateTime(): DateTime
-    {
-        return $this->dateTime;
-    }
-
-    /**
-     * @param DateTime $dateTime
-     */
-    public function setDateTime(DateTime $dateTime): void
-    {
-        $this->dateTime = $dateTime;
-    }
-
-    /**
      * @return array|null
      */
     public function getAccessibleEmpNumber(): ?array

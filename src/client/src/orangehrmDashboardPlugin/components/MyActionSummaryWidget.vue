@@ -24,7 +24,7 @@
     :empty="isEmpty"
     :empty-text="emptyText"
     :loading="isLoading"
-    :title="$t('general.my_actions')"
+    :title="$t('dashboard.my_actions')"
   >
     <div v-if="myActions.length > 0" class="orangehrm-todo-list">
       <div v-if="leaveRequestCount > 0" class="orangehrm-todo-list-item">
@@ -37,7 +37,7 @@
         />
         <oxd-text tag="p" @click="onClickPendingLeave">
           {{
-            $t('general.n_pending_leave_request', {
+            $t('dashboard.n_pending_leave_request', {
               pendingActionsCount: leaveRequestCount,
             })
           }}
@@ -53,7 +53,7 @@
         />
         <oxd-text tag="p" @click="onClickPendingTimesheet">
           {{
-            $t('general.n_pending_time_sheet', {
+            $t('dashboard.n_pending_time_sheet', {
               pendingActionsCount: timeSheetCount,
             })
           }}
@@ -69,7 +69,7 @@
         />
         <oxd-text tag="p" @click="onClickPendingReview">
           {{
-            $t('general.n_pending_performance_evaluate', {
+            $t('dashboard.n_pending_performance_evaluate', {
               pendingActionsCount: reviewCount,
             })
           }}
@@ -85,7 +85,7 @@
         />
         <oxd-text tag="p" @click="onClickSelfReview">
           {{
-            $t('general.n_pending_self_review', {
+            $t('dashboard.n_pending_self_review', {
               pendingActionsCount: selfReviewCount,
             })
           }}
@@ -101,7 +101,7 @@
         />
         <oxd-text tag="p" @click="onClickPendingInterview">
           {{
-            $t('general.n_pending_candidate_interview', {
+            $t('dashboard.n_pending_candidate_interview', {
               pendingActionsCount: interviewCount,
             })
           }}
@@ -149,7 +149,7 @@ export default {
       return this.myActions.length === 0;
     },
     emptyText() {
-      return this.$t('general.no_pending_actions');
+      return this.$t('dashboard.no_pending_actions');
     },
   },
 
@@ -194,7 +194,9 @@ export default {
       navigate('/performance/searchEvaluatePerformanceReview');
     },
     onClickPendingInterview() {
-      navigate('/recruitment/viewCandidates');
+      navigate('/recruitment/viewCandidates', undefined, {
+        statusId: 4,
+      });
     },
     onClickSelfReview() {
       navigate('/performance/myPerformanceReview');

@@ -88,7 +88,8 @@ trait LDAPCommonParamRuleCollection
                     LDAPConfigAPI::PARAMETER_BIND_USER_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_BIND_USER_PASSWORD_MAX_LENGTH])
-                )
+                ),
+                true
             ),
             new ParamRule(
                 LDAPConfigAPI::PARAMETER_DATA_MAPPING,
@@ -119,6 +120,7 @@ trait LDAPCommonParamRuleCollection
             new ParamRule(
                 LDAPConfigAPI::PARAMETER_FIRST_NAME,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -131,27 +133,31 @@ trait LDAPCommonParamRuleCollection
             new ParamRule(
                 LDAPConfigAPI::PARAMETER_LAST_NAME,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     LDAPConfigAPI::PARAMETER_USER_STATUS,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-                )
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     LDAPConfigAPI::PARAMETER_WORK_EMAIL,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-                )
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     LDAPConfigAPI::PARAMETER_EMPLOYEE_ID,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-                )
+                ),
+                true
             ),
         );
     }
@@ -186,7 +192,8 @@ trait LDAPCommonParamRuleCollection
                     LDAPConfigAPI::PARAMETER_USER_UNIQUE_ID_ATTRIBUTE,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, LDAPConfigAPI::PARAMETER_RULE_ATTRIBUTE_MAX_LENGTH])
-                )
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

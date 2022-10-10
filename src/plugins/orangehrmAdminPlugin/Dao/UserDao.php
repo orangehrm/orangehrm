@@ -63,7 +63,8 @@ class UserDao extends BaseDao
      */
     public function getSystemUser(int $userId): ?User
     {
-        return $this->getRepository(User::class)->find($userId);
+        return $this->getRepository(User::class)
+            ->findOneBy(['id' => $userId, 'deleted' => false]);
     }
 
     /**
@@ -216,9 +217,12 @@ class UserDao extends BaseDao
      */
     public function isUserNameExistByUserName(string $userName, ?int $userId = null): bool
     {
-        $q = $this->createQueryBuilder(User::class, 'u');
-        $q->andWhere('u.userName = :userName');
-        $q->setParameter('userName', $userName);
+        $q = $this->createQueryBuilder(User::class, 'u')
+            ->andWhere('u.userName = :userName')
+            ->setParameter('userName', $userName)
+            ->andWhere('u.deleted = :deleted')
+            ->setParameter('deleted', false);
+
         if (!is_null($userId)) {
             $q->andWhere(
                 'u.id != :userId'
@@ -242,6 +246,11 @@ class UserDao extends BaseDao
      */
     public function getDefaultAdminUser(): ?User
     {
-        return $this->getRepository(User::class)->findOneBy(['createdBy' => null]);
+        $q = $this->createQueryBuilder(User::class, 'user');
+        return $q->andWhere($q->expr()->isNull('user.createdBy'))
+            ->andWhere($q->expr()->isNotNull('user.userPassword'))
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

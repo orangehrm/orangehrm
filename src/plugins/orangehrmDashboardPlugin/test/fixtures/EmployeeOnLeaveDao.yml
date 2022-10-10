@@ -2,6 +2,7 @@ Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
   - { name: 'leave.leavePeriodStatus', value: 1 }
   - { name: 'leave_period_defined', value: 'Yes' }
+  - { name: 'dashboard.employees_on_leave_today.show_only_accessible', value: 0 }
 
 TerminationReason:
   - { "id": "1","name": "Other" }
@@ -16,6 +17,14 @@ Employee:
   - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
   - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": ""}
   - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "", "termination_id": "1" }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "5","erep_reporting_mode": "1" }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }

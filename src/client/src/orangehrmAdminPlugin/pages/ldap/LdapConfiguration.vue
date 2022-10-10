@@ -115,7 +115,7 @@
                 :label="$t('general.password')"
                 :placeholder="passwordPlaceHolder"
                 :rules="rules.bindUserPassword"
-                required
+                :required="!configuration.hasBindUserPassword"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -166,6 +166,9 @@
                 :rules="rules.userSearchFilter"
                 required
               />
+              <oxd-text class="orangehrm-input-hint" tag="p">
+                {{ $t('admin.user_search_filter_input_hint') }}
+              </oxd-text>
             </oxd-grid-item>
             <oxd-grid-item class="--offset-row-5">
               <oxd-input-field
@@ -173,6 +176,9 @@
                 :label="$t('admin.user_unique_id_attribute')"
                 :rules="rules.userUniqueIdAttribute"
               />
+              <oxd-text class="orangehrm-input-hint" tag="p">
+                {{ $t('admin.user_unique_attribute_input_hint') }}
+              </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -183,49 +189,119 @@
           {{ $t('admin.data_mapping') }}
         </oxd-text>
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="3" class="orangehrm-ldap-grid">
+            <oxd-grid-item class="orangehrm-ldap-grid-header">
+              <oxd-text tag="p">
+                {{ $t('admin.field_in_orangehrm') }}
+              </oxd-text>
+            </oxd-grid-item>
+            <oxd-grid-item class="orangehrm-ldap-grid-header">
+              <oxd-text tag="p">
+                {{ $t('admin.field_in_ldap_directory') }}
+              </oxd-text>
+            </oxd-grid-item>
+            <oxd-grid-item class="orangehrm-ldap-grid-header">
+              <oxd-text tag="p">
+                {{
+                  $t('admin.use_this_field_as_the_employee_user_mapping_field')
+                }}
+              </oxd-text>
+            </oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.first_name') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.firstName"
-                :label="$t('admin.firstname_field')"
                 :rules="rules.firstNameAttribute"
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-2">
+            <oxd-grid-item></oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.middle_name') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.middleName"
-                :label="$t('admin.middlename_field')"
                 :rules="rules.middleNameAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-3">
+            <oxd-grid-item></oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.last_name') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.lastName"
-                :label="$t('admin.lastname_field')"
                 :rules="rules.lastNameAttribute"
-                required
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-4">
+            <oxd-grid-item></oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.user_status') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dataMapping.userStatus"
-                :label="$t('admin.user_status_field')"
                 :rules="rules.userStatusAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-5">
+            <oxd-grid-item></oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.work_email') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
+                :key="configuration.employeeSelectorMapping"
                 v-model="configuration.dataMapping.workEmail"
-                :label="$t('admin.work_email_field')"
                 :rules="rules.workEmailAttribute"
               />
             </oxd-grid-item>
-            <oxd-grid-item class="--offset-row-6">
+            <oxd-grid-item>
+              <oxd-switch-input
+                v-model="configuration.employeeSelectorMapping"
+                true-value="workEmail"
+              />
+            </oxd-grid-item>
+
+            <oxd-grid-item class="orangehrm-ldap-grid-content">
+              <oxd-text tag="p">
+                {{ $t('general.employee_id') }}
+              </oxd-text>
+              <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
+                :key="configuration.employeeSelectorMapping"
                 v-model="configuration.dataMapping.employeeId"
-                :label="$t('admin.employee_id_field')"
                 :rules="rules.employeeIdAttribute"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-switch-input
+                v-model="configuration.employeeSelectorMapping"
+                true-value="employeeId"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -300,6 +376,7 @@ import {
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
 import {reloadPage} from '@/core/util/helper/navigation';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import LdapSyncConnection from '@/orangehrmAdminPlugin/components/LdapSyncConnection';
@@ -321,6 +398,8 @@ const configurationModel = {
   userUniqueIdAttribute: null,
   mergeLDAPUsersWithExistingSystemUsers: false,
   syncInterval: 60,
+  employeeSelectorMapping: '',
+  hasBindUserPassword: false,
 };
 
 const dataMappingModel = {
@@ -334,6 +413,7 @@ const dataMappingModel = {
 
 export default {
   components: {
+    'oxd-icon': Icon,
     'oxd-switch-input': SwitchInput,
     'ldap-sync-connection': LdapSyncConnection,
     'ldap-test-connection-modal': LdapTestConnectionModal,
@@ -407,7 +487,7 @@ export default {
         port: [required, validPortRange(5, 0, 65535)],
         bindUserDN: [required, shouldNotExceedCharLength(255)],
         bindUserPassword: [
-          v => !!this.passwordPlaceHolder || required(v),
+          v => this.configuration.hasBindUserPassword || required(v),
           shouldNotExceedCharLength(255),
         ],
         baseDistinguishedName: [required, shouldNotExceedCharLength(255)],
@@ -423,12 +503,28 @@ export default {
         ],
         middleNameAttribute: [shouldNotExceedCharLength(100)],
         userStatusAttribute: [shouldNotExceedCharLength(100)],
-        workEmailAttribute: [shouldNotExceedCharLength(100)],
-        employeeIdAttribute: [shouldNotExceedCharLength(100)],
+        workEmailAttribute: [
+          v =>
+            this.configuration.employeeSelectorMapping === 'workEmail'
+              ? required(v)
+              : true,
+          shouldNotExceedCharLength(100),
+        ],
+        employeeIdAttribute: [
+          v =>
+            this.configuration.employeeSelectorMapping === 'employeeId'
+              ? required(v)
+              : true,
+          shouldNotExceedCharLength(100),
+        ],
       },
       testModalState: null,
-      passwordPlaceHolder: null,
     };
+  },
+  computed: {
+    passwordPlaceHolder() {
+      return this.configuration.hasBindUserPassword ? '********' : null;
+    },
   },
   beforeMount() {
     this.isLoading = true;
@@ -451,6 +547,7 @@ export default {
 
         this.configuration.bindAnonymously = data.bindAnonymously;
         this.configuration.bindUserDN = data.bindUserDN;
+        this.configuration.hasBindUserPassword = data.hasBindUserPassword;
 
         if (userLookupSetting) {
           this.configuration.baseDistinguishedName = userLookupSetting?.baseDN;
@@ -460,6 +557,15 @@ export default {
             userLookupSetting?.userSearchFilter;
           this.configuration.userUniqueIdAttribute =
             userLookupSetting?.userUniqueIdAttribute;
+
+          if (Array.isArray(userLookupSetting?.employeeSelectorMapping)) {
+            if (userLookupSetting.employeeSelectorMapping.length === 0) {
+              this.configuration.employeeSelectorMapping = '';
+            } else {
+              this.configuration.employeeSelectorMapping =
+                userLookupSetting.employeeSelectorMapping[0]['field'];
+            }
+          }
         }
         this.configuration.searchScope =
           this.searchScopeOptions.find(
@@ -470,8 +576,6 @@ export default {
         this.configuration.mergeLDAPUsersWithExistingSystemUsers =
           data.mergeLDAPUsersWithExistingSystemUsers;
         this.configuration.syncInterval = data.syncInterval;
-
-        this.passwordPlaceHolder = data.bindAnonymously ? null : '******';
       })
       .finally(() => {
         this.isLoading = false;
@@ -499,6 +603,18 @@ export default {
       });
     },
     getRequestBody() {
+      let employeeSelectorMapping;
+      if (this.configuration.employeeSelectorMapping) {
+        employeeSelectorMapping = [
+          {
+            field: this.configuration.employeeSelectorMapping,
+            attributeName: this.configuration.dataMapping[
+              this.configuration.employeeSelectorMapping
+            ],
+          },
+        ];
+      }
+
       return {
         enable: this.configuration.enable,
         hostname: this.configuration.hostname,
@@ -515,6 +631,7 @@ export default {
             userNameAttribute: this.configuration.userNameAttribute,
             userSearchFilter: this.configuration.userSearchFilter,
             userUniqueIdAttribute: this.configuration.userUniqueIdAttribute,
+            employeeSelectorMapping: employeeSelectorMapping || [],
           },
         ],
         dataMapping: this.configuration.dataMapping,
@@ -545,29 +662,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-header-container {
-  padding: 0;
-}
-.orangehrm-column-half {
-  width: 50%;
-}
-.orangehrm-form-divider {
-  margin: 1rem 0;
-}
-.orangehrm-subtitle {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-.orangehrm-ldap-switch {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  &-text {
-    font-size: $oxd-input-control-font-size;
-  }
-}
-</style>
+<style src="./ldap-configuration.scss" lang="scss" scoped></style>

@@ -21,6 +21,7 @@ namespace OrangeHRM\Dashboard\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\CollectionNormalizable;
 use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
@@ -28,6 +29,7 @@ use OrangeHRM\Entity\Leave;
 class EmployeesOnLeaveListModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     use UserRoleManagerTrait;
+    use AuthUserTrait;
 
     private array $leaves;
 
