@@ -72,7 +72,7 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
                 );
             $leaveTypeName = $leaveType->getName();
             if ($leaveType->isDeleted()) {
-                $leaveTypeName .= ' '. $this->getI18NHelper()->transBySource(' (Deleted)');
+                $leaveTypeName .= $this->getI18NHelper()->transBySource(' (Deleted)');
             }
 
             $leaveEntitlementUrl = $isMyReportType ? '/leave/viewMyLeaveEntitlements' : '/leave/viewLeaveEntitlements';
