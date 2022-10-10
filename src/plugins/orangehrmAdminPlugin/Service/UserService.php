@@ -140,13 +140,13 @@ class UserService
      */
     public function isCurrentPassword(int $userId, string $password): bool
     {
-        $systemUser = $this->geUserDao()->getSystemUser($userId);
+        $user = $this->geUserDao()->getSystemUser($userId);
 
-        if (!($systemUser instanceof User)) {
+        if (!$user instanceof User || $user->getUserPassword() === null) {
             return false;
         }
 
-        $hash = $systemUser->getUserPassword();
+        $hash = $user->getUserPassword();
         if ($this->checkPasswordHash($password, $hash)) {
             return true;
         } elseif ($this->checkForOldHash($password, $hash)) {
