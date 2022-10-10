@@ -74,6 +74,7 @@ class EmployeeDao extends BaseDao
         EmployeeSearchFilterParams $employeeSearchParamHolder
     ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->distinct();
         $q->leftJoin('employee.jobTitle', 'jobTitle');
         $q->leftJoin('employee.subDivision', 'subunit');
         $q->leftJoin('employee.empStatus', 'empStatus');

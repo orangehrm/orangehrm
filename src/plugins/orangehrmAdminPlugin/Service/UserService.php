@@ -192,7 +192,6 @@ class UserService
     }
 
     /**
-     * @todo remove
      * Hash password for storage
      * @param string $password
      * @return string hashed password
