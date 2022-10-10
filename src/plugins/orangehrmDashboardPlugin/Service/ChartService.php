@@ -94,7 +94,7 @@ class ChartService
      * @param int $limit
      * @return EmployeeDistributionByLocation
      */
-    public function getEmployeeDistributionByLocation(int $limit=8): EmployeeDistributionByLocation
+    public function getEmployeeDistributionByLocation(int $limit = 8): EmployeeDistributionByLocation
     {
         $locationEmployeeCount = $this->getChartDao()->getEmployeeDistributionByLocation();
         $unassignedEmployeeCount =  $this->getLocationUnassignedEmployeeCount($locationEmployeeCount);
