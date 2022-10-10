@@ -54,46 +54,45 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import usei18n from '@/core/util/composable/usei18n';
 
-const subscribersNormalizer = data => {
-  const {$t} = usei18n();
-  return data.map(item => {
-    const subscribers = Array.isArray(item.subscribers)
-      ? item.subscribers.slice(0, 10)
-      : [];
-    let _type = item.name;
-    switch (_type) {
-      case 'Leave Applications':
-        _type = $t('admin.leave_applications');
-        break;
-      case 'Leave Approvals':
-        _type = $t('admin.leave_approvals');
-        break;
-      case 'Leave Assignments':
-        _type = $t('admin.leave_assignments');
-        break;
-      case 'Leave Cancellations':
-        _type = $t('admin.leave_cancellation');
-        break;
-      case 'Leave Rejections':
-        _type = $t('admin.leave_rejections');
-        break;
-    }
-    return {
-      id: item.id,
-      type: _type,
-      subscribers: subscribers
-        .map(sub => {
-          return `${sub.name} <${sub.email}>`;
-        })
-        .join(', '),
-      enabled: item.isEnabled,
-      _loading: false,
-    };
-  });
-};
-
 export default {
   setup() {
+    const {$t} = usei18n();
+    const subscribersNormalizer = data => {
+      return data.map(item => {
+        const subscribers = Array.isArray(item.subscribers)
+          ? item.subscribers.slice(0, 10)
+          : [];
+        let _type = item.name;
+        switch (_type) {
+          case 'Leave Applications':
+            _type = $t('admin.leave_applications');
+            break;
+          case 'Leave Approvals':
+            _type = $t('admin.leave_approvals');
+            break;
+          case 'Leave Assignments':
+            _type = $t('admin.leave_assignments');
+            break;
+          case 'Leave Cancellations':
+            _type = $t('admin.leave_cancellation');
+            break;
+          case 'Leave Rejections':
+            _type = $t('admin.leave_rejections');
+            break;
+        }
+        return {
+          id: item.id,
+          type: _type,
+          subscribers: subscribers
+            .map(sub => {
+              return `${sub.name} <${sub.email}>`;
+            })
+            .join(', '),
+          enabled: item.isEnabled,
+          _loading: false,
+        };
+      });
+    };
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/email-subscriptions',
