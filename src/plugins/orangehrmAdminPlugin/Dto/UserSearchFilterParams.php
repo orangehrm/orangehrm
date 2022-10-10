@@ -41,6 +41,10 @@ class UserSearchFilterParams extends FilterParams
      * @var int|null
      */
     protected ?int $empNumber = null;
+    /**
+     * @var bool|null
+     */
+    protected ?bool $hasPassword = null;
 
     public function __construct()
     {
@@ -109,5 +113,21 @@ class UserSearchFilterParams extends FilterParams
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function hasPassword(): ?bool
+    {
+        return $this->hasPassword;
+    }
+
+    /**
+     * @param bool|null $hasPassword
+     */
+    public function setHasPassword(?bool $hasPassword): void
+    {
+        $this->hasPassword = $hasPassword;
     }
 }

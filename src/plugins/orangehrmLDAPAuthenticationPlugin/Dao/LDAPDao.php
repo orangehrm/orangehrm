@@ -61,9 +61,10 @@ class LDAPDao extends BaseDao
             ->select('user', 'authProvider');
 
         $q->andWhere('user.userName = :userName')
-            ->setParameter('userName', $userName);
-        $q->andWhere('user.deleted = :deleted')
-            ->setParameter('deleted', false);
+            ->setParameter('userName', $userName)
+            ->andWhere('user.deleted = :deleted')
+            ->setParameter('deleted', false)
+            ->andWhere($q->expr()->isNull('user.userPassword'));
         return $q->getQuery()->getOneOrNullResult();
     }
 

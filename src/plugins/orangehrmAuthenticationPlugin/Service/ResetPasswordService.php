@@ -126,32 +126,36 @@ class ResetPasswordService
     {
         $userFilterParams = new UserSearchFilterParams();
         $userFilterParams->setUsername($username);
+        $userFilterParams->setHasPassword(true);
         $users = $this->getUserService()->searchSystemUsers($userFilterParams);
 
         if (empty($users)) {
-            $this->getLogger()->error('There are no user account for the current username');
+            $this->getLogger()->error("Reset Password: There are no user account for the `$username` username");
             return null;
         }
         $user = $users[0];
+
+        if (!$user->getStatus()) {
+            $this->getLogger()->error("Reset Password: User account `$username` disabled");
+            return null;
+        }
+
         $associatedEmployee = $user->getEmployee();
         if (!$associatedEmployee instanceof Employee) {
-            $this->getLogger()->error('User account is not associated with an employee');
+            $this->getLogger()->error("Reset Password: User account `$username` is not associated with an employee");
             return null;
         }
 
         if ($associatedEmployee->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
-            $this->getLogger()->error('Please contact HR admin in order to reset the password');
-            return null;
-        }
-
-        if (!$user->getStatus()) {
-            $this->getLogger()->error('Account disabled');
+            $empNumber = $associatedEmployee->getEmpNumber();
+            $this->getLogger()->error("Reset Password: Employee: `$empNumber` terminated");
             return null;
         }
 
         if (empty($associatedEmployee->getWorkEmail())) {
+            $empNumber = $associatedEmployee->getEmpNumber();
             $this->getLogger()->error(
-                'Work email is not set. Please contact HR admin in order to reset the password'
+                "Reset Password: Work email is not set for employee: `$empNumber`"
             );
             return null;
         }
