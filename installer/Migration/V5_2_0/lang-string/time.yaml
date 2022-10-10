@@ -1,0 +1,10 @@
+langStrings:
+  -
+    value: 'Submitted'
+    unitId: submitted
+  -
+    value: 'Not Submitted'
+    unitId: not_submitted
+  -
+    value: 'Approved'
+    unitId: approved

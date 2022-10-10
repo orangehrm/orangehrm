@@ -41,8 +41,33 @@
         ></timesheet-period>
       </template>
       <template #footer-title>
-        <oxd-text v-show="timesheetStatus" type="subtitle-2">
-          {{ $t('general.status') }}: {{ timesheetStatus }}
+        <oxd-text
+          v-show="timesheetStatus"
+          v-if="timesheetStatus === 'Submitted'"
+          type="subtitle-2"
+        >
+          {{ $t('general.status') }}: {{ $t('time.submitted') }}
+        </oxd-text>
+        <oxd-text
+          v-show="timesheetStatus"
+          v-if="timesheetStatus === 'Rejected'"
+          type="subtitle-2"
+        >
+          {{ $t('general.status') }}: {{ $t('leave.rejected') }}
+        </oxd-text>
+        <oxd-text
+          v-show="timesheetStatus"
+          v-if="timesheetStatus === 'Not Submitted'"
+          type="subtitle-2"
+        >
+          {{ $t('general.status') }}: {{ $t('time.not_submitted') }}
+        </oxd-text>
+        <oxd-text
+          v-show="timesheetStatus"
+          v-if="timesheetStatus === 'Approved'"
+          type="subtitle-2"
+        >
+          {{ $t('general.status') }}: {{ $t('time.approved') }}
         </oxd-text>
       </template>
       <template #footer-options>
@@ -173,7 +198,6 @@ export default {
       translateEmpName: $tEmpName,
     };
   },
-
   computed: {
     title() {
       const empName = this.translateEmpName(this.employee, {
