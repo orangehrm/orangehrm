@@ -105,6 +105,24 @@ class EmployeeDao extends BaseDao
                     $q->expr()->like('employee.firstName', ':name'),
                     $q->expr()->like('employee.lastName', ':name'),
                     $q->expr()->like('employee.middleName', ':name'),
+                    $q->expr()->like(
+                        $q->expr()->concat(
+                            'employee.firstName',
+                            $q->expr()->literal(' '),
+                            'employee.lastName',
+                        ),
+                        ':name'
+                    ),
+                    $q->expr()->like(
+                        $q->expr()->concat(
+                            'employee.firstName',
+                            $q->expr()->literal(' '),
+                            'employee.middleName',
+                            $q->expr()->literal(' '),
+                            'employee.lastName',
+                        ),
+                        ':name'
+                    ),
                 )
             );
             $q->setParameter('name', '%' . $employeeSearchParamHolder->getName() . '%');
@@ -117,6 +135,24 @@ class EmployeeDao extends BaseDao
                     $q->expr()->like('employee.lastName', ':nameOrId'),
                     $q->expr()->like('employee.middleName', ':nameOrId'),
                     $q->expr()->like('employee.employeeId', ':nameOrId'),
+                    $q->expr()->like(
+                        $q->expr()->concat(
+                            'employee.firstName',
+                            $q->expr()->literal(' '),
+                            'employee.lastName',
+                        ),
+                        ':nameOrId'
+                    ),
+                    $q->expr()->like(
+                        $q->expr()->concat(
+                            'employee.firstName',
+                            $q->expr()->literal(' '),
+                            'employee.middleName',
+                            $q->expr()->literal(' '),
+                            'employee.lastName',
+                        ),
+                        ':nameOrId'
+                    ),
                 )
             );
             $q->setParameter('nameOrId', '%' . $employeeSearchParamHolder->getNameOrId() . '%');
