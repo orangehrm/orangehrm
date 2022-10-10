@@ -18,10 +18,13 @@
  */
 
 use OrangeHRM\Authentication\Auth\AuthProviderChain;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
+use OrangeHRM\Framework\Console\Scheduling\Schedule;
+use OrangeHRM\Framework\Console\Scheduling\SchedulerConfigurationInterface;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\PluginConfigurationInterface;
@@ -30,7 +33,10 @@ use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
 use OrangeHRM\LDAP\Command\LDAPSyncUserCommand;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 
-class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterface, ConsoleConfigurationInterface
+class LDAPAuthenticationPluginConfiguration implements
+    PluginConfigurationInterface,
+    ConsoleConfigurationInterface,
+    SchedulerConfigurationInterface
 {
     use ServiceContainerTrait;
     use ConfigServiceTrait;
@@ -58,5 +64,15 @@ class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterf
     public function registerCommands(Console $console): void
     {
         $console->add(new LDAPSyncUserCommand());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function schedule(Schedule $schedule): void
+    {
+        $pathToConsole = Config::get(Config::BASE_DIR) . '/bin/console';
+        $schedule->run(PHP_BINARY . " $pathToConsole orangehrm:ldap-sync-user")
+            ->cron('*/15 * * * *'); // every 15 mins
     }
 }
