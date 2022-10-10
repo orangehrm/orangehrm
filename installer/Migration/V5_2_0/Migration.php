@@ -92,6 +92,13 @@ class Migration extends AbstractMigration
             ['onDelete' => 'CASCADE', 'onUpdate' => 'RESTRICT']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_user_auth_provider', $foreignKeyConstraint);
+        $this->createQueryBuilder()
+            ->update('ohrm_user', 'user')
+            ->set('user.user_password', ':nullValue')
+            ->setParameter('nullValue', null)
+            ->where('user.user_password', ':emptyString')
+            ->setParameter('emptyString', '')
+            ->executeQuery();
 
         $this->cleanI18nGroups();
         $this->insertLDAPMenuItem();

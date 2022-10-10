@@ -51,6 +51,31 @@ class LDAPDaoTest extends KernelTestCase
         $this->assertEquals([2, 6], $ldapDao->getEmpNumbersWhoHaveManyUsers());
     }
 
+    public function testGetNonLocalUserByUserName(): void
+    {
+        $ldapDao = new LDAPDao();
+        // Non existing user
+        $this->assertNull($ldapDao->getNonLocalUserByUserName('Non Existing'));
+
+        // Deleted user
+        $this->assertNull($ldapDao->getNonLocalUserByUserName('Alice'));
+
+        // Disable user, no password (non local)
+        $user = $ldapDao->getNonLocalUserByUserName('Jane');
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertFalse($user->getStatus());
+
+        // Local user
+        $this->assertNull($ldapDao->getNonLocalUserByUserName('Jasmine'));
+
+        // LDAP, Local auth user
+        $this->assertNull($ldapDao->getNonLocalUserByUserName('Peter'));
+
+        // Non local user
+        $user = $ldapDao->getNonLocalUserByUserName('Duval');
+        $this->assertInstanceOf(User::class, $user);
+    }
+
     public function testGetUserByUsername(): void
     {
         $ldapDao = new LDAPDao();

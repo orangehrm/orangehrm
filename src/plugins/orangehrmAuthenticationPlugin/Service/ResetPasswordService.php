@@ -126,7 +126,7 @@ class ResetPasswordService
     {
         $userFilterParams = new UserSearchFilterParams();
         $userFilterParams->setUsername($username);
-        $userFilterParams->setHasPassword(true);
+//        $userFilterParams->setHasPassword(true);
         $users = $this->getUserService()->searchSystemUsers($userFilterParams);
 
         if (empty($users)) {

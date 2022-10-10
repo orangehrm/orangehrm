@@ -74,7 +74,7 @@ class LDAPAuthProvider extends AbstractAuthProvider
         $credential = $authParams->getCredential();
         $user = $this->getLDAPSyncService()
             ->getLDAPDao()
-            ->getUserByUserName($credential->getUsername());
+            ->getNonLocalUserByUserName($credential->getUsername(), false);
         if ($user === null) {
             return false;
         }
