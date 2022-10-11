@@ -19,82 +19,64 @@
  -->
 
 <template>
-  <div v-if="anniversariesCount > 0">
-    <oxd-sheet
-      :gutters="false"
-      type="pastel-white"
-      :rounded="false"
-      class="orangehrm-buzz-card"
-    >
-      <oxd-text tag="p" class="orangehrm-buzz-card-title">
-        {{ $t('buzz.upcoming_anniversaries') }}
-      </oxd-text>
-      <div class="orangehrm-buzz-body">
-        <div
-          v-for="anniversary in filteredAnniversaries"
-          :key="anniversary"
-          class="orangehrm-buzz-anniversary"
-        >
-          <div class="orangehrm-buzz-anniversary-profile">
-            <div class="orangehrm-buzz-anniversary-profile-image">
-              <img
-                alt="profile picture"
-                class="employee-image"
-                :src="`../pim/viewPhoto/empNumber/${anniversary.empNumber}`"
-              />
-            </div>
-            <div class="orangehrm-buzz-anniversary-profile-details">
-              <oxd-text tag="p" class="orangehrm-buzz-anniversary-emp-name">
-                {{ anniversary.empName }}
-              </oxd-text>
-              <oxd-text tag="p" class="orangehrm-buzz-anniversary-job-details">
-                {{ anniversary.jobTitle }}
-              </oxd-text>
-            </div>
-          </div>
-          <div class="orangehrm-buzz-anniversary-duration">
+  <div class="orangehrm-buzz-anniversary">
+    <oxd-text type="card-title" class="orangehrm-buzz-anniversary-title">
+      {{ $t('buzz.upcoming_anniversaries') }}
+    </oxd-text>
+    <div class="orangehrm-buzz-anniversary-content">
+      <div
+        v-for="anniversary in filteredAnniversaries"
+        :key="anniversary"
+        class="orangehrm-buzz-anniversary-item"
+      >
+        <div class="orangehrm-buzz-anniversary-profile">
+          <div class="orangehrm-buzz-anniversary-profile-image">
             <img
-              alt="year celebration"
-              class="orangehrm-buzz-anniversary-year-celebration"
-              :src="celebrationPic"
+              alt="profile picture"
+              class="employee-image"
+              :src="`../pim/viewPhoto/empNumber/${anniversary.empNumber}`"
             />
-            <div class="orangehrm-buzz-anniversary-durations-text">
-              <oxd-text
-                tag="p"
-                class="orangehrm-buzz-anniversary-duration-years"
-              >
-                {{ anniversary.anniversaryYear }} <br />
-                {{
-                  $t('buzz.n_year', {yearsCount: anniversary.anniversaryYear})
-                }}
-              </oxd-text>
-              <oxd-text
-                tag="p"
-                class="orangehrm-buzz-anniversary-duration-date"
-              >
-                {{ anniversary.joinedDate }}
-              </oxd-text>
-            </div>
+          </div>
+          <div class="orangehrm-buzz-anniversary-profile-details">
+            <oxd-text tag="p" class="orangehrm-buzz-anniversary-emp-name">
+              {{ anniversary.empName }}
+            </oxd-text>
+            <oxd-text tag="p" class="orangehrm-buzz-anniversary-job-details">
+              {{ anniversary.jobTitle }}
+            </oxd-text>
+          </div>
+        </div>
+        <div class="orangehrm-buzz-anniversary-duration">
+          <img
+            alt="year celebration"
+            class="orangehrm-buzz-anniversary-year-celebration"
+            :src="celebrationPic"
+          />
+          <div class="orangehrm-buzz-anniversary-durations-text">
+            <oxd-text tag="p" class="orangehrm-buzz-anniversary-duration-years">
+              {{ anniversary.anniversaryYear }} <br />
+              {{ $t('buzz.n_year', {yearsCount: anniversary.anniversaryYear}) }}
+            </oxd-text>
+            <oxd-text tag="p" class="orangehrm-buzz-anniversary-duration-date">
+              {{ anniversary.joinedDate }}
+            </oxd-text>
           </div>
         </div>
       </div>
-      <div v-if="anniversariesCount > 5">
-        <oxd-text
-          tag="p"
-          class="orangehrm-buzz-anniversary-see-more"
-          @click="onSeeMore"
-        >
-          {{
-            isViewDetails ? $t('general.show_more') : $t('general.show_less')
-          }}
-        </oxd-text>
-      </div>
-    </oxd-sheet>
+    </div>
+    <div
+      v-if="anniversariesCount > 5"
+      class="orangehrm-buzz-anniversary-footer"
+    >
+      <oxd-text tag="p" @click="onSeeMore">
+        {{ isViewDetails ? $t('general.show_more') : $t('general.show_less') }}
+      </oxd-text>
+    </div>
   </div>
 </template>
+
 <script>
 import useLocale from '@/core/util/composable/useLocale';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import {parseDate, formatDate} from '@/core/util/helper/datefns';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
@@ -102,14 +84,10 @@ import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTran
 export default {
   name: 'UpcomingAnniversaries',
 
-  components: {
-    'oxd-sheet': Sheet,
-  },
-
   setup() {
     const {locale} = useLocale();
     const {$tEmpName} = useEmployeeNameTranslate();
-    const celebrationPic = `${window.appGlobal.baseUrl}/../dist/img/year_celebration.png`;
+    const celebrationPic = `${window.appGlobal.baseUrl}/../images/year_celebration.png`;
 
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -175,4 +153,5 @@ export default {
   },
 };
 </script>
-<style src="./upcomming-anniversary.scss" lang="scss" scoped></style>
+
+<style src="./upcoming-anniversaries.scss" lang="scss" scoped></style>
