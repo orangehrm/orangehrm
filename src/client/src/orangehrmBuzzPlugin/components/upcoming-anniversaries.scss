@@ -41,7 +41,7 @@
   }
   &-title {
     display: none;
-    @include oxd-respond-to('md') {
+    @include oxd-respond-to('lg') {
       display: block;
     }
   }

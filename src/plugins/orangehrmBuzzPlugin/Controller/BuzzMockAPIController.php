@@ -24,8 +24,7 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
-//TODO - Need To Remove MOCK API
-class BuzzAnniversaryDataMockController extends AbstractController
+class BuzzMockAPIController extends AbstractController
 {
     use ConfigServiceTrait;
 
@@ -122,6 +121,57 @@ class BuzzAnniversaryDataMockController extends AbstractController
                 ],
                 "meta" => [
                     "count" => 8,
+                ]
+            ])
+        );
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function getPosts(Request $request): Response
+    {
+        $posts = [];
+        $response = new Response();
+        $mockData = array_values(
+            explode(
+                " ",
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa soluta ullam facilis velit. Voluptatem quisquam unde itaque ipsum natus dolore vero eaque delectus eos. Neque hic totam doloremque itaque nihil"
+            )
+        );
+
+        for ($postCount = 0; $postCount < 50; $postCount++) {
+            array_push($posts, [
+                'id' => $postCount + 1,
+                'type' => 'text', // text | photo | video
+                'text' => implode(" ", array_slice([...$mockData], rand(0, 10), rand(1, 25))),
+                'employee' => [
+                    'empNumber' => $postCount,
+                    'employeeId' => '00' . $postCount,
+                    'firstName' => $mockData[rand(0, 25)],
+                    'lastName' => $mockData[rand(0, 25)],
+                    'middleName' => $mockData[rand(0, 25)],
+                    'terminationId' => null,
+                ],
+                'stats' => [
+                    'noOfLikes' => rand(0, 100),
+                    'noOfComments' => rand(0, 100),
+                    'noOfShares' => rand(0, 100),
+                ],
+                'createdTime' => rand(1262055681, time()),
+                'updatedtime' => rand(1262055681, time()),
+            ]);
+        }
+
+        $response->setContent(
+            json_encode([
+                "data" => array_slice($posts, 0, $request->query->getInt('limit')),
+                "meta" => [
+                    "total" => count($posts),
                 ]
             ])
         );

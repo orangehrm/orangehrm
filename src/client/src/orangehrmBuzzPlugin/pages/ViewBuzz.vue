@@ -20,10 +20,13 @@
 
 <template>
   <oxd-tab-container v-if="isMobile" v-model="tabSelector">
-    <oxd-tab-panel key="buzz_newsfeed" name="Buzz Newsfeed">
+    <oxd-tab-panel key="buzz_newsfeed" :name="$t('buzz.buzz_newsfeed')">
       <news-feed></news-feed>
     </oxd-tab-panel>
-    <oxd-tab-panel key="buzz_anniversary" name="Upcoming Anniversary">
+    <oxd-tab-panel
+      key="buzz_anniversary"
+      :name="$t('buzz.upcoming_anniversaries')"
+    >
       <upcoming-anniversaries></upcoming-anniversaries>
     </oxd-tab-panel>
   </oxd-tab-container>
@@ -56,7 +59,7 @@ export default {
     'upcoming-anniversaries': UpcomingAnniversaries,
   },
   setup() {
-    const tabSelector = ref('Buzz Newsfeed');
+    const tabSelector = ref(null);
     const responsiveState = useResponsive();
 
     const isMobile = computed(() => {
