@@ -390,5 +390,8 @@ final class Services
     /// LDAP plugin services
     ///////////////////////////////////////////////////////////////
 
+    /**
+     * @see \OrangeHRM\Framework\Logger\Logger
+     */
     public const LDAP_LOGGER = 'ldap.logger';
 }

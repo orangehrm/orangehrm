@@ -47,11 +47,11 @@ class Migration extends AbstractMigration
             ['Notnull' => false, 'Default' => null]
         );
 
-        $this->createQueryBuilder()
+        $q = $this->createQueryBuilder()
             ->update('ohrm_i18n_translate', 'translate')
             ->set('translate.value', ':translateValue')
-            ->where('translate.value', ':currentValue')
-            ->setParameter('currentValue', '')
+            ->where('translate.value = :currentValue');
+        $q->setParameter('currentValue', $q->expr()->literal(''))
             ->setParameter('translateValue', null)
             ->executeQuery();
 
@@ -92,12 +92,12 @@ class Migration extends AbstractMigration
             ['onDelete' => 'CASCADE', 'onUpdate' => 'RESTRICT']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_user_auth_provider', $foreignKeyConstraint);
-        $this->createQueryBuilder()
+        $q = $this->createQueryBuilder()
             ->update('ohrm_user', 'user')
             ->set('user.user_password', ':nullValue')
-            ->setParameter('nullValue', null)
-            ->where('user.user_password', ':emptyString')
-            ->setParameter('emptyString', '')
+            ->setParameter('nullValue', null);
+        $q->where('user.user_password = :emptyString')
+            ->setParameter('emptyString', $q->expr()->literal(''))
             ->executeQuery();
 
         $this->cleanI18nGroups();

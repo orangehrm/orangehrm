@@ -17,11 +17,23 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Listener;
+namespace OrangeHRM\Tests\Util\Mock;
 
-use OrangeHRM\Core\Utility\EncryptionHelperTrait;
+use Monolog\Handler\TestHandler;
+use OrangeHRM\Framework\Logger\Logger;
 
-abstract class BaseListener
+class MockLogger extends Logger
 {
-    use EncryptionHelperTrait;
+    public function __construct()
+    {
+        parent::__construct('test', [new TestHandler()]);
+    }
+
+    /**
+     * @return TestHandler
+     */
+    public function getTestHandler(): TestHandler
+    {
+        return $this->getHandlers()[0];
+    }
 }

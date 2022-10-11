@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeContactDetailsModel;
+use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
@@ -62,7 +63,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH = 25;
     public const PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH = 25;
     public const PARAM_RULE_MOBILE_MAX_LENGTH = 25;
-    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
+    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = EmployeeService::WORK_EMAIL_MAX_LENGTH;
     public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
 
     /**

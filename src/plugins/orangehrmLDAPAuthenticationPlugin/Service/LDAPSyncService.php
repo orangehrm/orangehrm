@@ -136,6 +136,7 @@ class LDAPSyncService
                 if (isset($ldapUsers[$username])) {
                     $duplicateUsernames[] = $username;
                     $usersOfDuplicateUsernames[$username][] = $ldapUser;
+                // TODO:: warn duplicate users
                 } else {
                     $ldapUsers[$username] = $ldapUser;
                 }
@@ -433,14 +434,25 @@ class LDAPSyncService
         $dataMapping = $this->getLDAPSetting()->getDataMapping();
         try {
             $username = $this->getAttribute($entry, $lookupSetting->getUserNameAttribute());
+            if ($username === null) {
+                throw LDAPSyncException::usernameEmpty($lookupSetting->getUserNameAttribute());
+            }
+            $firstName = $this->getAttribute($entry, $dataMapping->getFirstNameAttribute());
+            if ($firstName === null) {
+                throw LDAPSyncException::firstNameEmpty($dataMapping->getFirstNameAttribute());
+            }
+            $lastName = $this->getAttribute($entry, $dataMapping->getLastNameAttribute());
+            if ($lastName === null) {
+                throw LDAPSyncException::lastNameEmpty($dataMapping->getLastNameAttribute());
+            }
             return (new LDAPUser())
                 ->setUserDN($entry->getDn())
                 ->setUsername($username)
                 ->setUserUniqueId($this->getAttribute($entry, $lookupSetting->getUserUniqueIdAttribute()))
                 ->setUserEnabled($this->getAttribute($entry, $dataMapping->getUserStatusAttribute()) ?? true)
-                ->setFirstName($this->getAttribute($entry, $dataMapping->getFirstNameAttribute()))
+                ->setFirstName($firstName)
                 ->setMiddleName($this->getAttribute($entry, $dataMapping->getMiddleNameAttribute()) ?? '')
-                ->setLastName($this->getAttribute($entry, $dataMapping->getLastNameAttribute()))
+                ->setLastName($lastName)
                 ->setEmployeeId($this->getAttribute($entry, $dataMapping->getEmployeeIdAttribute()))
                 ->setWorkEmail($this->getAttribute($entry, $dataMapping->getWorkEmailAttribute()))
                 ->setUserLookupSetting($lookupSetting)
