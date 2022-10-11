@@ -5,3 +5,18 @@ langStrings:
   -
     value: '{yearsCount,plural, =0{} one{Year} other{Years}}'
     unitId: n_year
+  -
+    value: 'Buzz Newsfeed'
+    unitId: buzz_newsfeed
+  -
+    value: 'Post'
+    unitId: post
+  -
+    value: "What's on your mind?"
+    unitId: post_placeholder
+  -
+    value: 'Share Photos'
+    unitId: share_photos
+  -
+    value: 'Share Video'
+    unitId: share_video
