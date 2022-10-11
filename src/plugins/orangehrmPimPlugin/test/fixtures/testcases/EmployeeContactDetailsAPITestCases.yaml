@@ -164,3 +164,27 @@ Update:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Work Email and Other Email Cannot Be The Same'
+
+  'changing one email when both have been saved as the same':
+    userId: 2
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    now:
+      datetime: "2022-10-04"
+    attributes:
+      empNumber: 4
+    body:
+      workEmail: 'chenuka@admin.com'
+      otherEmail: 'chenuka@other.com'
+    data:
+      street1: null
+      street2: null
+      city: null
+      province: null
+      zipCode: null
+      countryCode: null
+      homeTelephone: null
+      workTelephone: null
+      mobile: null
+      workEmail: 'chenuka@admin.com'
+      otherEmail: 'chenuka@other.com'
