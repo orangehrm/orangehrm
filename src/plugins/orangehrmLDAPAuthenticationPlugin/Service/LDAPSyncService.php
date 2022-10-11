@@ -136,6 +136,7 @@ class LDAPSyncService
                 if (isset($ldapUsers[$username])) {
                     $duplicateUsernames[] = $username;
                     $usersOfDuplicateUsernames[$username][] = $ldapUser;
+                // TODO:: warn duplicate users
                 } else {
                     $ldapUsers[$username] = $ldapUser;
                 }

@@ -108,6 +108,10 @@ class LDAPUser
      */
     public function setUserUniqueId(?string $userUniqueId): LDAPUser
     {
+        if ($userUniqueId === null) {
+            $this->userUniqueId = $userUniqueId;
+            return $this;
+        }
         if ($this->getTextHelper()->strLength($userUniqueId) > self::USER_UNIQUE_ID_MAX_LENGTH) {
             $this->getLogger()->warning(
                 'User unique id length should not exceed ' . self::USER_UNIQUE_ID_MAX_LENGTH . ' characters'
