@@ -76,8 +76,24 @@ export default {
     const actionsNormalizer = data => {
       return data.map(item => {
         let performedEmployee;
+        let actionName = item.action?.label;
         const firstName = item.performedEmployee?.firstName;
         const lastName = item.performedEmployee?.lastName;
+
+        switch (actionName) {
+          case 'Submitted':
+            actionName = $t('time.submitted');
+            break;
+          case 'Rejected':
+            actionName = $t('leave.rejected');
+            break;
+          case 'Not Submitted':
+            actionName = $t('time.not_submitted');
+            break;
+          case 'Approved':
+            actionName = $t('time.approved');
+            break;
+        }
 
         if (firstName && lastName) {
           performedEmployee = `${firstName} ${lastName}`;
@@ -91,7 +107,7 @@ export default {
 
         return {
           id: item.id,
-          action: item.action?.label,
+          action: actionName,
           date: formatDate(parseDate(item.date), jsDateFormat, {locale}),
           comment: item.comment,
           performedBy: performedEmployee,

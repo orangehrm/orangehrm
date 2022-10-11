@@ -236,3 +236,18 @@ langStrings:
   -
     value: 'Search results'
     unitId: search_results
+  -
+    value: 'Leave Applications'
+    unitId: leave_applications
+  -
+    value: 'Leave Assignments'
+    unitId: leave_assignments
+  -
+    value: 'Leave Approvals'
+    unitId: leave_approvals
+  -
+    value: 'Leave Cancellations'
+    unitId: leave_cancellation
+  -
+    value: 'Leave Rejections'
+    unitId: leave_rejections

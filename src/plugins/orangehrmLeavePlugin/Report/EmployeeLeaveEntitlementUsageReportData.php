@@ -25,6 +25,7 @@ use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\Leave;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -35,6 +36,7 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
     use EmployeeServiceTrait;
     use DateTimeHelperTrait;
     use NumberHelperTrait;
+    use I18NHelperTrait;
 
     public const META_PARAMETER_EMPLOYEE = 'employee';
 
@@ -70,8 +72,7 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
                 );
             $leaveTypeName = $leaveType->getName();
             if ($leaveType->isDeleted()) {
-                // TODO:: Need to handle localization
-                $leaveTypeName .= ' (Deleted)';
+                $leaveTypeName .= $this->getI18NHelper()->transBySource(' (Deleted)');
             }
 
             $leaveEntitlementUrl = $isMyReportType ? '/leave/viewMyLeaveEntitlements' : '/leave/viewLeaveEntitlements';
