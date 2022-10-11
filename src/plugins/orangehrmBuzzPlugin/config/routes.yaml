@@ -3,7 +3,12 @@
 ##########################
 apiv2_buzz_upcoming_anniversary:
   path: /api/v2/buzz/anniversaries
-  controller: OrangeHRM\Buzz\Controller\BuzzAnniversaryDataMockController::getUpcomingAnniversaries
+  controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::getUpcomingAnniversaries
+  methods: [ GET ]
+
+apiv2_buzz_newsfeed_posts:
+  path: /api/v2/buzz/posts
+  controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::getPosts
   methods: [ GET ]
 
 ##########################
