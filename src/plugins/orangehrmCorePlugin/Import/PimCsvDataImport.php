@@ -26,6 +26,7 @@ use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Api\V2\Validator\Rules\Email;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Nationality;
@@ -36,6 +37,7 @@ class PimCsvDataImport extends CsvDataImport
 {
     use ServiceContainerTrait;
     use EmployeeServiceTrait;
+    use EntityManagerHelperTrait;
 
     /**
      * @var null|NationalityService
@@ -64,7 +66,7 @@ class PimCsvDataImport extends CsvDataImport
         }
         $employee->setLastName($data[2]);
 
-        if (strlen($data[3]) <= 50) {
+        if (strlen($data[3]) <= 50 && $this->isUniqueEmployeeId($data[3])) {
             $employee->setEmployeeId($data[3]);
         }
         if (strlen($data[4]) <= 30) {
@@ -274,5 +276,15 @@ class PimCsvDataImport extends CsvDataImport
             }
         }
         return $isUnique;
+    }
+
+    /**
+     * @param string|null $employeeId
+     * @return bool
+     */
+    private function isUniqueEmployeeId(?string $employeeId): bool
+    {
+        return is_null($employeeId) ||
+            is_null($this->getRepository(Employee::class)->findOneBy(['employeeId' => $employeeId]));
     }
 }
