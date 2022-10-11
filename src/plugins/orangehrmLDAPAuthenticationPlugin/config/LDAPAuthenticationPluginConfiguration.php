@@ -29,6 +29,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
 use OrangeHRM\LDAP\Command\LDAPSyncUserCommand;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
+use OrangeHRM\LDAP\Service\LDAPService;
 
 class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterface, ConsoleConfigurationInterface
 {
@@ -50,6 +51,10 @@ class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterf
             $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
             $authProviderChain->addProvider(new LDAPAuthProvider());
         }
+        $this->getContainer()->register(
+            Services::LDAP_SERVICE,
+            LDAPService::class
+        );
     }
 
     /**

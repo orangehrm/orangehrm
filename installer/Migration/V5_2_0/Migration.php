@@ -89,6 +89,23 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_user_auth_provider', $foreignKeyConstraint);
 
+        $this->getSchemaHelper()->createTable('ohrm_ldap_sync_status')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('sync_started_at', Types::DATETIME_MUTABLE, ['Notnull' => true])
+            ->addColumn('sync_finished_at', Types::DATE_MUTABLE, ['Notnull' => false, 'Default' => null])
+            ->addColumn('synced_by', Types::INTEGER, ['Length' => 255, 'Notnull' => false, 'Default' => null])
+            ->addColumn('sync_status', Types::STRING, ['Length' => 255, 'Notnull' => true])
+            ->setPrimaryKey(['id'])
+            ->create();
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['synced_by'],
+            'ohrm_user',
+            ['id'],
+            'ohrm_ldap_sync_status_synced_by',
+            ['onDelete' => 'SET NULL', 'onUpdate' => 'RESTRICT']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_ldap_sync_status', $foreignKeyConstraint);
+
         $this->cleanI18nGroups();
         $this->insertLDAPMenuItem();
         $this->insertLangStringNotes();
