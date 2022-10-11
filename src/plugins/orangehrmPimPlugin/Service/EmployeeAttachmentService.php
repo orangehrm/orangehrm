@@ -110,7 +110,7 @@ class EmployeeAttachmentService
     public function getAccessibleEmployeeAttachment(int $empNumber, int $attachId): ?EmployeeAttachment
     {
         $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
-        if (in_array($empNumber, $accessibleEmpNumbers)) {
+        if (in_array($empNumber, $accessibleEmpNumbers) || $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber)) {
             return $this->getEmployeeAttachment($empNumber, $attachId);
         }
         return null;
