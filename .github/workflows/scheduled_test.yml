@@ -34,12 +34,12 @@ jobs:
     env:
       WORKFLOW_BRANCH: ${{ secrets.WORKFLOW_BRANCH }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
           ref: ${{ secrets.WORKFLOW_BRANCH }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
       - name: Source info
@@ -115,12 +115,12 @@ jobs:
     env:
       WORKFLOW_BRANCH: ${{ secrets.WORKFLOW_BRANCH }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
           ref: ${{ secrets.WORKFLOW_BRANCH }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
       - name: Install dependencies
