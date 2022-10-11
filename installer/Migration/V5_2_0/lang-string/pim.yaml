@@ -26,3 +26,9 @@ langStrings:
   -
     value: 'Checking'
     unitId: checking
+  -
+    value: 'Add Supervisor'
+    unitId: add_supervisor
+  -
+    value: 'Add Subordinate'
+    unitId: add_subordinate

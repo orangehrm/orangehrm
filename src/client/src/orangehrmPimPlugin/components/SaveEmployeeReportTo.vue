@@ -25,14 +25,14 @@
       tag="h6"
       class="orangehrm-main-title"
     >
-      {{ $t('general.add') }} {{ $t('pim.supervisor') }}
+      {{ $t('pim.add_supervisor') }}
     </oxd-text>
     <oxd-text
       v-if="type === 'Subordinate'"
       tag="h6"
       class="orangehrm-main-title"
     >
-      {{ $t('general.add') }} {{ $t('pim.subordinates') }}
+      {{ $t('pim.add_subordinate') }}
     </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
