@@ -51,7 +51,7 @@ jobs:
           git diff > ${{ github.sha }}.diff
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: diff-${{ github.sha }}

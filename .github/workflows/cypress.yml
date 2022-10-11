@@ -33,7 +33,7 @@ jobs:
 
       - name: Cache docker image
         id: cache-docker-images
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: image-cache
           key: images-${{ env.git_hash }}
@@ -63,7 +63,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -101,14 +101,14 @@ jobs:
           yarn test
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: videos-${{ github.sha }}
           path: html/src/test/functional/cypress/videos
 
       - name: Upload logs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: logs-${{ github.sha }}

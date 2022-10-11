@@ -75,13 +75,13 @@ jobs:
           tar cf - coverage/ | xz -z - > coverage.tar.xz
 
       - name: Upload jest coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: jest-coverage
           path: src/client/coverage
 
       - name: Upload phpunit coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: coverage.tar.xz
