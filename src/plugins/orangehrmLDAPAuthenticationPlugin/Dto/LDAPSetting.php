@@ -20,9 +20,12 @@
 namespace OrangeHRM\LDAP\Dto;
 
 use InvalidArgumentException;
+use OrangeHRM\Core\Utility\EncryptionHelperTrait;
 
 class LDAPSetting
 {
+    use EncryptionHelperTrait;
+
     private bool $enable = false;
     private string $host = 'localhost';
     private int $port = 389;
@@ -81,7 +84,11 @@ class LDAPSetting
         // Bind settings
         $setting->setBindAnonymously($config['bindAnonymously']);
         $setting->setBindUserDN($config['bindUserDN']);
-        $setting->setBindUserPassword($config['bindUserPassword']);
+        $bindUserPassword = $config['bindUserPassword'];
+        if (self::encryptionEnabled() && $bindUserPassword !== null) {
+            $bindUserPassword = self::getCryptographer()->decrypt($bindUserPassword);
+        }
+        $setting->setBindUserPassword($bindUserPassword);
         // User Lookup Settings
         foreach ($config['userLookupSettings'] as $userLookupSetting) {
             $setting->addUserLookupSetting(LDAPUserLookupSetting::createFromArray($userLookupSetting));
@@ -100,6 +107,10 @@ class LDAPSetting
      */
     public function __toString(): string
     {
+        $bindUserPassword = $this->getBindUserPassword();
+        if (self::encryptionEnabled() && $bindUserPassword !== null) {
+            $bindUserPassword = self::getCryptographer()->encrypt($bindUserPassword);
+        }
         return json_encode([
             'enable' => $this->isEnable(),
             // Server Settings
@@ -112,7 +123,7 @@ class LDAPSetting
             // Bind settings
             'bindAnonymously' => $this->isBindAnonymously(),
             'bindUserDN' => $this->getBindUserDN(),
-            'bindUserPassword' => $this->getBindUserPassword(),
+            'bindUserPassword' => $bindUserPassword,
             // User Lookup Settings
             'userLookupSettings' => array_map(
                 fn (LDAPUserLookupSetting $lookupSetting) => $lookupSetting->toArray(),

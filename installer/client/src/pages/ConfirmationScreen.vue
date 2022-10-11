@@ -61,8 +61,8 @@
       v-if="database.enableDataEncryption"
       class="confirmation-text-info"
     >
-      Data Encryption Is On. Employee Social Security Number and Employee Basic
-      Salary Will Be Encrypted.
+      Data Encryption Is On. Employee Social Security Number, Employee Basic
+      Salary, LDAP Bind User Password Will Be Encrypted.
     </oxd-text>
     <oxd-text
       v-if="database.enableDataEncryption"

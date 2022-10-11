@@ -81,14 +81,15 @@ class KeyHandler
      */
     public static function keyExists(): bool
     {
-        return (file_exists(self::getRealPathToKey()));
+        return self::getRealPathToKey() !== null;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public static function getRealPathToKey(): string
+    public static function getRealPathToKey(): ?string
     {
-        return realpath(self::PATH_TO_KEY);
+        $path = realpath(self::PATH_TO_KEY);
+        return $path === false ? null : $path;
     }
 }
