@@ -28,6 +28,8 @@ use OrangeHRM\LDAP\Api\LDAPUserSyncAPI;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Tests\LDAP\LDAPConnectionHelperTrait;
+use OrangeHRM\Tests\LDAP\LDAPServerConfig;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -38,6 +40,10 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LDAPUserSyncAPITest extends EndpointIntegrationTestCase
 {
+    use LDAPConnectionHelperTrait;
+
+    private static LDAPServerConfig $serverConfig;
+
     /**
      * @dataProvider dataProviderForTestGetOne
      */
@@ -58,10 +64,15 @@ class LDAPUserSyncAPITest extends EndpointIntegrationTestCase
     }
 
     /**
-     * @dataProvider dataProviderForTestGetOne
+     * @dataProvider dataProviderForTestCreate
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
+        if (!self::isLDAPServerConfigured()) {
+            parent::markTestSkipped('Configure LDAP server config: ' . self::getLDAPServerConfigFilePath());
+        }
+        self::$serverConfig = self::getLDAPServerConfig();
+
         $this->populateFixtures('LDAPUserSync.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
@@ -100,14 +111,14 @@ class LDAPUserSyncAPITest extends EndpointIntegrationTestCase
 
     public static function ldapConfigPreHook(): void
     {
-        $ldapSettings = new LDAPSetting('localhost', 389, 'OpenLDAP', 'ssl');
+        $ldapSettings = new LDAPSetting(self::$serverConfig->host, self::$serverConfig->port, 'OpenLDAP', 'none');
         $ldapSettings->setVersion(3);
         $ldapSettings->setOptReferrals(false);
         $ldapSettings->setBindAnonymously(true);
         $ldapSettings->setBindUserDN(null);
         $ldapSettings->setBindUserPassword(null);
         $ldapSettings->addUserLookupSetting(
-            (new LDAPUserLookupSetting('ou=users,dc=example,dc=org'))
+            (new LDAPUserLookupSetting('ou=admin,ou=users,dc=example,dc=org'))
                 ->setSearchScope('sub')
                 ->setUserNameAttribute('cn')
                 ->setUserSearchFilter('objectClass=inetOrgPerson')
@@ -115,13 +126,74 @@ class LDAPUserSyncAPITest extends EndpointIntegrationTestCase
         );
         $ldapSettings->getDataMapping()
             ->setFirstNameAttribute('givenName')
-            ->setMiddleNameAttribute('something')
             ->setLastNameAttribute('sn')
             ->setUserStatusAttribute(null)
             ->setWorkEmailAttribute('mail')
             ->setEmployeeIdAttribute(null);
         $ldapSettings->setSyncInterval(60);
         $ldapSettings->setEnable(false);
+
+        $config = new Config();
+        $config->setName(ConfigService::KEY_LDAP_SETTINGS);
+        $config->setValue((string)$ldapSettings);
+        Doctrine::getEntityManager()->persist($config);
+        Doctrine::getEntityManager()->flush($config);
+    }
+
+    public static function ldapConfigSyncEnablePreHook(): void
+    {
+        $ldapSettings = new LDAPSetting(self::$serverConfig->host, self::$serverConfig->port, 'OpenLDAP', 'none');
+        $ldapSettings->setVersion(3);
+        $ldapSettings->setOptReferrals(false);
+        $ldapSettings->setBindAnonymously(true);
+        $ldapSettings->setBindUserDN(null);
+        $ldapSettings->setBindUserPassword(null);
+        $ldapSettings->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=admin,ou=users,dc=example,dc=org'))
+                ->setSearchScope('sub')
+                ->setUserNameAttribute('cn')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSettings->getDataMapping()
+            ->setFirstNameAttribute('givenName')
+            ->setLastNameAttribute('sn')
+            ->setUserStatusAttribute(null)
+            ->setWorkEmailAttribute('mail')
+            ->setEmployeeIdAttribute(null);
+        $ldapSettings->setSyncInterval(60);
+        $ldapSettings->setEnable(true);
+
+        $config = new Config();
+        $config->setName(ConfigService::KEY_LDAP_SETTINGS);
+        $config->setValue((string)$ldapSettings);
+        Doctrine::getEntityManager()->persist($config);
+        Doctrine::getEntityManager()->flush($config);
+    }
+
+    public static function ldapInvalidConfigPreHook(): void
+    {
+        $ldapSettings = new LDAPSetting(self::$serverConfig->host, self::$serverConfig->port, 'OpenLDAP', 'none');
+        $ldapSettings->setVersion(3);
+        $ldapSettings->setOptReferrals(false);
+        $ldapSettings->setBindAnonymously(true);
+        $ldapSettings->setBindUserDN(null);
+        $ldapSettings->setBindUserPassword(null);
+        $ldapSettings->addUserLookupSetting(
+            (new LDAPUserLookupSetting('ou=admin,ou=users,dc=example,dc=invalidHere'))
+                ->setSearchScope('sub')
+                ->setUserNameAttribute('cn')
+                ->setUserSearchFilter('objectClass=inetOrgPerson')
+                ->setUserUniqueIdAttribute('entryUUID')
+        );
+        $ldapSettings->getDataMapping()
+            ->setFirstNameAttribute('givenName')
+            ->setLastNameAttribute('sn')
+            ->setUserStatusAttribute(null)
+            ->setWorkEmailAttribute('mail')
+            ->setEmployeeIdAttribute(null);
+        $ldapSettings->setSyncInterval(60);
+        $ldapSettings->setEnable(true);
 
         $config = new Config();
         $config->setName(ConfigService::KEY_LDAP_SETTINGS);

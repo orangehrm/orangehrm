@@ -26,10 +26,12 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\LDAPSyncStatus;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\LDAP\Api\Model\LDAPSyncStatusModel;
+use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Service\LDAPService;
 use OrangeHRM\LDAP\Service\LDAPSyncService;
 use Throwable;
@@ -39,6 +41,7 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
     use AuthUserTrait;
     use DateTimeHelperTrait;
     use I18NHelperTrait;
+    use ConfigServiceTrait;
 
     private LDAPService $ldapService;
 
@@ -71,6 +74,16 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
+        $ldapSettings = $this->getConfigService()->getLDAPSetting();
+        if (!$ldapSettings instanceof LDAPSetting) {
+            throw $this->getBadRequestException(
+                $this->getI18NHelper()->transBySource('LDAP settings not configured')
+            );
+        } elseif (!$ldapSettings->isEnable()) {
+            throw $this->getBadRequestException(
+                $this->getI18NHelper()->transBySource('LDAP sync not enabled')
+            );
+        }
         $ldapSyncStatus = new LDAPSyncStatus();
         $ldapSyncService = new LDAPSyncService();
         try {
@@ -82,7 +95,6 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
             $ldapSyncStatus = $this->saveLDAPSyncStatus($ldapSyncStatus);
             return new EndpointResourceResult(LDAPSyncStatusModel::class, $ldapSyncStatus);
         } catch (Throwable $exception) {
-            dump($exception->getMessage());
             $ldapSyncStatus->setSyncStatus(LDAPSyncStatus::SYNC_STATUS_FAILED);
             $this->saveLDAPSyncStatus($ldapSyncStatus);
             throw $this->getBadRequestException(
@@ -95,8 +107,9 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
      * @param LDAPSyncStatus $ldapSyncStatus
      * @return LDAPSyncStatus
      */
-    private function saveLDAPSyncStatus(LDAPSyncStatus $ldapSyncStatus): LDAPSyncStatus
-    {
+    private function saveLDAPSyncStatus(
+        LDAPSyncStatus $ldapSyncStatus
+    ): LDAPSyncStatus {
         return $this->getLDAPService()->getLdapDao()->saveLdapSyncStatus($ldapSyncStatus);
     }
 
