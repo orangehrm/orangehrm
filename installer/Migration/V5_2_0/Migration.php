@@ -64,6 +64,10 @@ class Migration extends AbstractMigration
             'leave_requests_action',
             $this->getLangHelper()->getGroupIdByName('leave')
         );
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'should_be_least_n_characters',
+            $this->getLangHelper()->getGroupIdByName('general')
+        );
         $oldGroups = ['admin', 'general', 'leave', 'pim', 'attendance', 'dashboard', 'time'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);

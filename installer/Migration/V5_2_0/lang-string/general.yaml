@@ -17,3 +17,6 @@ langStrings:
   -
     value: 'User Status'
     unitId: user_status
+  -
+    value: 'Should be at least {amount} characters'
+    unitId: should_be_least_n_characters

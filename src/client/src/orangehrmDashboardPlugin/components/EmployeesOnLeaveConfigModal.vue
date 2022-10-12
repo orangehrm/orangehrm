@@ -24,7 +24,7 @@
       <oxd-icon type="svg" name="leaveAlt" />
       <div class="orangehrm-config-title">
         <oxd-text type="card-body">
-          {{ $t('general.employees_on_leave_today') }}
+          {{ $t('dashboard.employees_on_leave_today') }}
         </oxd-text>
         <oxd-text type="card-title">
           {{ $t('dashboard.configurations') }}
