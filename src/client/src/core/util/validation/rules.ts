@@ -640,11 +640,11 @@ export const validSelection = function(value: string | object | null) {
 export const validHostnameFormat = function(value: string): boolean | string {
   let fqdnRegex;
 
-  // If first character is number, treat as ip address. else hostname
-  if (/^\d+$/.test(value.charAt(0))) {
-    fqdnRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+  // If string contains any letters, treat the string as a hostname. else ip address
+  if (/\p{L}/u.test(value)) {
+    fqdnRegex = /^([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu;
   } else {
-    fqdnRegex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$/;
+    fqdnRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
   }
 
   return !value || fqdnRegex.test(value) || translate('general.invalid');

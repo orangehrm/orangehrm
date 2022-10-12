@@ -77,6 +77,9 @@ export default {
     &-text {
       color: $oxd-feedback-danger-color;
     }
+    &-icon {
+      flex-shrink: 0;
+    }
   }
 
   &-note--background {

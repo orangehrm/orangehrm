@@ -608,8 +608,3 @@ admin_ldap_configuration:
   path: /admin/ldapConfiguration
   controller: OrangeHRM\Admin\Controller\LdapConfigurationController::handle
   methods: [ GET ]
-
-admin_ldap_sync_connection:
-  path: /api/v2/admin/ldap/sync
-  controller: OrangeHRM\Admin\Controller\LdapConfigurationController::syncConnection
-  methods: [ GET, POST ]

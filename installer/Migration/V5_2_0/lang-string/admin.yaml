@@ -186,14 +186,20 @@ langStrings:
     value: 'Sync Connection'
     unitId: sync_connection
   -
-    value: 'Force Sync'
-    unitId: force_sync
+    value: 'Sync Now'
+    unitId: sync_now
   -
-    value: 'Last synced on'
-    unitId: last_synced_on
+    value: 'Last synced on {datetime}'
+    unitId: last_synced_on_datetime
+  -
+    value: 'Last sync failed on {datetime}'
+    unitId: last_sync_failed_on_datetime
   -
     value: 'Synchronization Successful'
     unitId: synchronization_successful
+  -
+    value: 'Synchronization Failed'
+    unitId: synchronization_failed
   -
     value: 'User Search Filter'
     unitId: user_search_filter
@@ -254,3 +260,9 @@ langStrings:
   -
     value: 'Leave Rejections'
     unitId: leave_rejections
+  -
+    value: 'LDAP settings not configured'
+    unitId: ldap_settings_not_configured
+  -
+    value: 'LDAP sync not enabled'
+    unitId: ldap_sync_not_enabled

@@ -78,7 +78,8 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     now:
-      datetime: '2022-10-12 08:42:00'
+      datetime: '2022-10-12 08:00:00'
+      timezone: 'Pacific/Auckland'
     attributes: [ ]
     query: [ ]
     hooks:

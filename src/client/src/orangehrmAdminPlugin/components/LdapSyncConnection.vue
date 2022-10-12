@@ -26,11 +26,11 @@
           {{ $t('admin.sync_connection') }}
         </oxd-text>
         <oxd-text
-          v-show="lastSyncDateTime"
-          class="orangehrm-ldap-sync-time"
+          v-show="lastSync"
           type="card-body"
+          class="orangehrm-ldap-sync-time"
         >
-          ({{ $t('admin.last_synced_on') }} {{ lastSyncDateTime }})
+          ({{ lastSync }})
         </oxd-text>
       </div>
       <oxd-loading-spinner
@@ -41,7 +41,7 @@
         v-else
         display-type="secondary"
         class="orangehrm-ldap-sync-button"
-        :label="$t('admin.force_sync')"
+        :label="$t('admin.sync_now')"
         @click="onClickSync"
       />
     </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {formatDate} from '@/core/util/helper/datefns';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useDateFormat from '@/core/util/composable/useDateFormat';
@@ -62,7 +62,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/ldap/sync',
+      'api/v2/admin/ldap/user-sync',
     );
     const {jsDateFormat} = useDateFormat();
 
@@ -74,17 +74,33 @@ export default {
   data() {
     return {
       isLoading: false,
-      lastSync: null,
+      lastSyncDate: null,
+      lastSyncTime: null,
+      lastSyncStatus: null,
     };
   },
   computed: {
-    lastSyncDateTime() {
-      if (!this.lastSync) return null;
-      const dateTime = new Date(this.lastSync * 1000);
-      return `${formatDate(dateTime, 'hh:mm a')} ${formatDate(
-        dateTime,
-        this.jsDateFormat,
-      )}`;
+    lastSync() {
+      if (this.lastSyncStatus === 2) return null;
+      if (this.lastSyncDate && this.lastSyncTime) {
+        const parsedDateTime = parseDate(
+          `${this.lastSyncDate} ${this.lastSyncTime} +00:00`,
+          'yyyy-MM-dd HH:mm xxx',
+        );
+        return this.$t(
+          this.lastSyncStatus === 1
+            ? 'admin.last_synced_on_datetime'
+            : 'admin.last_sync_failed_on_datetime',
+          {
+            datetime: formatDate(
+              parsedDateTime,
+              `hh:mm a ${this.jsDateFormat}`,
+            ),
+          },
+        );
+      } else {
+        return null;
+      }
     },
   },
   beforeMount() {
@@ -93,7 +109,11 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
-        this.lastSync = data.timestamp;
+        this.lastSyncStatus = data.syncStatus;
+        this.lastSyncDate =
+          data.syncFinishedAt?.date || data.syncStartedAt?.date;
+        this.lastSyncTime =
+          data.syncFinishedAt?.time || data.syncStartedAt?.time;
       })
       .finally(() => {
         this.isLoading = false;
@@ -106,10 +126,20 @@ export default {
         .create()
         .then(response => {
           const {data} = response.data;
-          this.lastSync = data.timestamp;
+          this.lastSyncStatus = data.syncStatus;
+          this.lastSyncDate =
+            data.syncFinishedAt?.date || data.syncStartedAt?.date;
+          this.lastSyncTime =
+            data.syncFinishedAt?.time || data.syncStartedAt?.time;
           this.$toast.success({
             title: this.$t('general.success'),
             message: this.$t('admin.synchronization_successful'),
+          });
+        })
+        .catch(() => {
+          this.$toast.error({
+            title: this.$t('general.error'),
+            message: this.$t('admin.synchronization_failed'),
           });
         })
         .finally(() => {
@@ -120,24 +150,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-ldap-sync {
-  display: flex;
-  flex-direction: column;
-  @include oxd-respond-to('md') {
-    flex-direction: row;
-    align-items: center;
-    &-time {
-      margin-left: 1rem;
-    }
-  }
-  &-button {
-    white-space: normal !important;
-  }
-  &-loader {
-    margin: 0 2rem;
-  }
-}
-</style>
+<style src="./ldap-sync-connection.scss" lang="scss" scoped></style>

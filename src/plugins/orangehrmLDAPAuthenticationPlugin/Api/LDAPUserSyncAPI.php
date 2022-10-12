@@ -19,12 +19,14 @@
 
 namespace OrangeHRM\LDAP\Api;
 
+use DateTimeZone;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -88,9 +90,15 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
         $ldapSyncService = new LDAPSyncService();
         try {
             $ldapSyncStatus->getDecorator()->setSyncedUserByUserId($this->getAuthUser()->getUserId());
-            $ldapSyncStatus->setSyncStartedAt($this->getDateTimeHelper()->getNow());
+            $ldapSyncStatus->setSyncStartedAt(
+                $this->getDateTimeHelper()->getNow()
+                    ->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC))
+            );
             $ldapSyncService->sync();
-            $ldapSyncStatus->setSyncFinishedAt($this->getDateTimeHelper()->getNow());
+            $ldapSyncStatus->setSyncFinishedAt(
+                $this->getDateTimeHelper()->getNow()
+                    ->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC))
+            );
             $ldapSyncStatus->setSyncStatus(LDAPSyncStatus::SYNC_STATUS_SUCCEEDED);
             $ldapSyncStatus = $this->saveLDAPSyncStatus($ldapSyncStatus);
             return new EndpointResourceResult(LDAPSyncStatusModel::class, $ldapSyncStatus);

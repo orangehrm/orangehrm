@@ -304,7 +304,11 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.rules.employeeId.push(v => {
-          const index = data.findIndex(item => item.employeeId == v);
+          const index = data.findIndex(
+            item =>
+              item.employeeId?.trim() &&
+              String(item.employeeId).toLowerCase() == String(v).toLowerCase(),
+          );
           if (index > -1) {
             const {empNumber} = data[index];
             return empNumber != this.empNumber

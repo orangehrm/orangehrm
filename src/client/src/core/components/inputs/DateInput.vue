@@ -53,6 +53,10 @@ export default {
     const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
+    const responseValidator = status => {
+      return (status >= 200 && status < 300) || status === 403;
+    };
+
     const fetchWorkWeek = async () => {
       http
         .request({
@@ -61,6 +65,7 @@ export default {
           params: {
             model: 'indexed',
           },
+          validateStatus: responseValidator,
         })
         .then(({data}) => {
           if (data?.data) {
@@ -88,6 +93,7 @@ export default {
             fromDate,
             toDate,
           },
+          validateStatus: responseValidator,
         })
         .then(({data}) => {
           if (Array.isArray(data?.data)) {
