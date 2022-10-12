@@ -26,7 +26,7 @@
     :empty="isEmpty"
     :empty-text="emptyText"
     :loading="isLoading"
-    :title="$t('general.employees_on_leave_today')"
+    :title="$t('dashboard.employees_on_leave_today')"
   >
     <template
       v-if="$can.update('dashboard_employees_on_leave_today_config')"
@@ -114,8 +114,8 @@ export default {
     },
     emptyText() {
       return this.leavePeriod
-        ? this.$t('general.no_employees_are_on_leave_today')
-        : this.$t('general.leave_period_not_defined');
+        ? this.$t('dashboard.no_employees_are_on_leave_today')
+        : this.$t('dashboard.leave_period_not_defined');
     },
   },
 

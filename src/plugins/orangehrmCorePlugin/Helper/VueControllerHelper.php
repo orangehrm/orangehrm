@@ -208,6 +208,7 @@ class VueControllerHelper
             'firstName' => $firstName,
             'lastName' => $lastName,
             'profImgSrc' => $profileImgUrl,
+            'hasPassword' => !is_null($user->getUserPassword()),
         ];
     }
 

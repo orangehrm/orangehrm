@@ -21,6 +21,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -57,8 +58,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_STATUS = 'status';
 
-    public const PARAM_RULE_USERNAME_MIN_LENGTH = 5;
-    public const PARAM_RULE_USERNAME_MAX_LENGTH = 40;
+    public const PARAM_RULE_USERNAME_MIN_LENGTH = UserService::USERNAME_MIN_LENGTH;
+    public const PARAM_RULE_USERNAME_MAX_LENGTH = UserService::USERNAME_MAX_LENGTH;
     public const PARAM_RULE_PASSWORD_MAX_LENGTH = 64;
 
     /**

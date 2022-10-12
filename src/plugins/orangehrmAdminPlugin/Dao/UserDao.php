@@ -138,7 +138,7 @@ class UserDao extends BaseDao
      * Search System Users
      *
      * @param UserSearchFilterParams $userSearchParamHolder
-     * @return array
+     * @return User[]
      */
     public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
@@ -172,6 +172,10 @@ class UserDao extends BaseDao
         if (!is_null($userSearchParamHolder->getStatus())) {
             $q->andWhere('u.status = :status');
             $q->setParameter('status', $userSearchParamHolder->getStatus());
+        }
+        if (is_bool($userSearchParamHolder->hasPassword())) {
+            $method = $userSearchParamHolder->hasPassword() ? 'isNotNull' : 'isNull';
+            $q->andWhere($q->expr()->$method('u.userPassword'));
         }
 
         $q->andWhere('u.deleted = :deleted');

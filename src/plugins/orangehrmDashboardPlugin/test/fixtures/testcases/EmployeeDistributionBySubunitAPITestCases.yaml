@@ -45,7 +45,12 @@ GetAll:
           id: 19
           name: Special Unit 2
         count: 1
+      8:
+        subunit:
+          id: 22
+          name: Special Unit 5
+        count: 1
     meta:
-      otherEmployeeCount: 1
+      otherEmployeeCount: 0
       unassignedEmployeeCount: 3
-      totalSubunitCount: 11
+      totalSubunitCount: 9

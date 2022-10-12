@@ -47,11 +47,11 @@ class Migration extends AbstractMigration
             ['Notnull' => false, 'Default' => null]
         );
 
-        $this->createQueryBuilder()
+        $q = $this->createQueryBuilder()
             ->update('ohrm_i18n_translate', 'translate')
             ->set('translate.value', ':translateValue')
-            ->where('translate.value', ':currentValue')
-            ->setParameter('currentValue', '')
+            ->where('translate.value = :currentValue');
+        $q->setParameter('currentValue', $q->expr()->literal(''))
             ->setParameter('translateValue', null)
             ->executeQuery();
 
@@ -60,7 +60,11 @@ class Migration extends AbstractMigration
             'translated'
         );
 
-        $oldGroups = ['admin', 'general', 'leave', 'pim', 'attendance'];
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'leave_requests_action',
+            $this->getLangHelper()->getGroupIdByName('leave')
+        );
+        $oldGroups = ['admin', 'general', 'leave', 'pim', 'attendance', 'dashboard', 'time'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
@@ -88,6 +92,13 @@ class Migration extends AbstractMigration
             ['onDelete' => 'CASCADE', 'onUpdate' => 'RESTRICT']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_user_auth_provider', $foreignKeyConstraint);
+        $q = $this->createQueryBuilder()
+            ->update('ohrm_user', 'user')
+            ->set('user.user_password', ':nullValue')
+            ->setParameter('nullValue', null);
+        $q->where('user.user_password = :emptyString')
+            ->setParameter('emptyString', $q->expr()->literal(''))
+            ->executeQuery();
 
         $this->getSchemaHelper()->createTable('ohrm_ldap_sync_status')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])

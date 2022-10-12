@@ -27,7 +27,7 @@
           {{ $t('general.employees_on_leave_today') }}
         </oxd-text>
         <oxd-text type="card-title">
-          {{ $t('general.configurations') }}
+          {{ $t('dashboard.configurations') }}
         </oxd-text>
       </div>
     </div>
@@ -39,7 +39,7 @@
           type="switch"
           :label="
             $t(
-              'general.only_show_accessible_employees_on_leave_for_other_users',
+              'dashboard.only_show_accessible_employees_on_leave_for_other_users',
             )
           "
         />

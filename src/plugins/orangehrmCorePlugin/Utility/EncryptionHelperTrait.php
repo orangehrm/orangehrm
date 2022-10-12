@@ -17,11 +17,28 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Listener;
+namespace OrangeHRM\Core\Utility;
 
-use OrangeHRM\Core\Utility\EncryptionHelperTrait;
-
-abstract class BaseListener
+trait EncryptionHelperTrait
 {
-    use EncryptionHelperTrait;
+    protected static ?Cryptographer $cryptographer = null;
+
+    /**
+     * @return Cryptographer|null
+     */
+    protected static function getCryptographer(): ?Cryptographer
+    {
+        if (KeyHandler::keyExists() && !self::$cryptographer instanceof Cryptographer) {
+            self::$cryptographer = new Cryptographer(KeyHandler::readKey());
+        }
+        return self::$cryptographer;
+    }
+
+    /**
+     * @return bool
+     */
+    protected static function encryptionEnabled(): bool
+    {
+        return self::getCryptographer() instanceof Cryptographer;
+    }
 }

@@ -206,3 +206,51 @@ langStrings:
   -
     value: 'Please check the settings for your LDAP configuration'
     unitId: please_check_the_settings_for_your_ldap_configuration
+  -
+    value: 'Attribute field to use when searching user objects. Ex: objectClass=person'
+    unitId: user_search_filter_input_hint
+  -
+    value: 'Attribute field to use as a unique immutable identifier for user objects. This is used to track username changes. Ex: entryUUID, objectGUID'
+    unitId: user_unique_attribute_input_hint
+  -
+    value: 'Field in OrangeHRM'
+    unitId: field_in_orangehrm
+  -
+    value: 'Field in LDAP Directory'
+    unitId: field_in_ldap_directory
+  -
+    value: 'Use this field as the employee / user mapping field'
+    unitId: use_this_field_as_the_employee_user_mapping_field
+  -
+    value: '{count} user(s) found'
+    unitId: n_users_found
+  -
+    value: '{count} user(s) will be imported'
+    unitId: n_users_will_be_imported
+  -
+    value: 'Lookup'
+    unitId: lookup
+  -
+    value: 'User lookup'
+    unitId: user_lookup
+  -
+    value: 'Authentication'
+    unitId: authentication
+  -
+    value: 'Search results'
+    unitId: search_results
+  -
+    value: 'Leave Applications'
+    unitId: leave_applications
+  -
+    value: 'Leave Assignments'
+    unitId: leave_assignments
+  -
+    value: 'Leave Approvals'
+    unitId: leave_approvals
+  -
+    value: 'Leave Cancellations'
+    unitId: leave_cancellation
+  -
+    value: 'Leave Rejections'
+    unitId: leave_rejections

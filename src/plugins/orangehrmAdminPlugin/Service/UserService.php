@@ -33,6 +33,9 @@ class UserService
 {
     use UserRoleManagerTrait;
 
+    public const USERNAME_MIN_LENGTH = 5;
+    public const USERNAME_MAX_LENGTH = 40;
+
     private UserDao $userDao;
     private PasswordHash $passwordHasher;
 
@@ -126,7 +129,7 @@ class UserService
 
     /**
      * @param UserSearchFilterParams $userSearchParamHolder
-     * @return array
+     * @return User[]
      */
     public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
@@ -140,13 +143,13 @@ class UserService
      */
     public function isCurrentPassword(int $userId, string $password): bool
     {
-        $systemUser = $this->geUserDao()->getSystemUser($userId);
+        $user = $this->geUserDao()->getSystemUser($userId);
 
-        if (!($systemUser instanceof User)) {
+        if (!$user instanceof User || $user->getUserPassword() === null) {
             return false;
         }
 
-        $hash = $systemUser->getUserPassword();
+        $hash = $user->getUserPassword();
         if ($this->checkPasswordHash($password, $hash)) {
             return true;
         } elseif ($this->checkForOldHash($password, $hash)) {

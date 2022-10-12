@@ -19,10 +19,22 @@
 
 namespace OrangeHRM\LDAP\Dto;
 
+use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Core\Api\V2\Validator\Rules\Email;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\LDAP\Exception\LDAPSyncException;
+use OrangeHRM\LDAP\Traits\LDAPLoggerTrait;
+use OrangeHRM\Pim\Service\EmployeeService;
 use Symfony\Component\Ldap\Entry;
 
 class LDAPUser
 {
+    use TextHelperTrait;
+    use LDAPLoggerTrait;
+
+    public const USER_DN_MAX_LENGTH = 255;
+    public const USER_UNIQUE_ID_MAX_LENGTH = 255;
+
     private string $userDN;
     private string $username;
     private ?string $userUniqueId = null;
@@ -50,6 +62,9 @@ class LDAPUser
      */
     public function setUserDN(string $userDN): LDAPUser
     {
+        if ($this->getTextHelper()->strLength($userDN) > self::USER_DN_MAX_LENGTH) {
+            throw LDAPSyncException::userDNMaxLength();
+        }
         $this->userDN = $userDN;
         return $this;
     }
@@ -68,6 +83,13 @@ class LDAPUser
      */
     public function setUsername(string $username): LDAPUser
     {
+        $usernameLength = $this->getTextHelper()->strLength($username);
+        if ($usernameLength < UserService::USERNAME_MIN_LENGTH) {
+            throw LDAPSyncException::usernameMinLength();
+        }
+        if ($usernameLength > UserService::USERNAME_MAX_LENGTH) {
+            throw LDAPSyncException::usernameMaxLength();
+        }
         $this->username = $username;
         return $this;
     }
@@ -86,6 +108,17 @@ class LDAPUser
      */
     public function setUserUniqueId(?string $userUniqueId): LDAPUser
     {
+        if ($userUniqueId === null) {
+            $this->userUniqueId = $userUniqueId;
+            return $this;
+        }
+        if ($this->getTextHelper()->strLength($userUniqueId) > self::USER_UNIQUE_ID_MAX_LENGTH) {
+            $this->getLogger()->warning(
+                'User unique id length should not exceed ' . self::USER_UNIQUE_ID_MAX_LENGTH . ' characters'
+            );
+            $this->userUniqueId = null;
+            return $this;
+        }
         $this->userUniqueId = $userUniqueId;
         return $this;
     }
@@ -122,6 +155,9 @@ class LDAPUser
      */
     public function setFirstName(string $firstName): LDAPUser
     {
+        if ($this->getTextHelper()->strLength($firstName) > EmployeeService::FIRST_NAME_MAX_LENGTH) {
+            throw LDAPSyncException::firstNameMaxLength();
+        }
         $this->firstName = $firstName;
         return $this;
     }
@@ -140,6 +176,9 @@ class LDAPUser
      */
     public function setMiddleName(string $middleName): LDAPUser
     {
+        if ($this->getTextHelper()->strLength($middleName) > EmployeeService::MIDDLE_NAME_MAX_LENGTH) {
+            throw LDAPSyncException::middleNameMaxLength();
+        }
         $this->middleName = $middleName;
         return $this;
     }
@@ -158,6 +197,9 @@ class LDAPUser
      */
     public function setLastName(string $lastName): LDAPUser
     {
+        if ($this->getTextHelper()->strLength($lastName) > EmployeeService::LAST_NAME_MAX_LENGTH) {
+            throw LDAPSyncException::lastNameMaxLength();
+        }
         $this->lastName = $lastName;
         return $this;
     }
@@ -176,6 +218,13 @@ class LDAPUser
      */
     public function setEmployeeId(?string $employeeId): LDAPUser
     {
+        if ($employeeId === null) {
+            $this->employeeId = $employeeId;
+            return $this;
+        }
+        if ($this->getTextHelper()->strLength($employeeId) > EmployeeService::EMPLOYEE_ID_MAX_LENGTH) {
+            throw LDAPSyncException::employeeIdMaxLength();
+        }
         $this->employeeId = $employeeId;
         return $this;
     }
@@ -194,6 +243,17 @@ class LDAPUser
      */
     public function setWorkEmail(?string $workEmail): LDAPUser
     {
+        if ($workEmail === null) {
+            $this->workEmail = $workEmail;
+            return $this;
+        }
+        if ($this->getTextHelper()->strLength($workEmail) > EmployeeService::WORK_EMAIL_MAX_LENGTH) {
+            throw LDAPSyncException::employeeWorkEmailMaxLength();
+        }
+        $rule = new Email();
+        if (!$rule->validate($workEmail)) {
+            throw LDAPSyncException::invalidEmployeeWorkEmail();
+        }
         $this->workEmail = $workEmail;
         return $this;
     }

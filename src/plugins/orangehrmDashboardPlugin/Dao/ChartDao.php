@@ -49,7 +49,9 @@ class ChartDao extends BaseDao
             $employeeSearchFilterParams->setSubunitId($subunit->getId());
             $count = $this->getEmployeeCount($employeeSearchFilterParams);
 
-            $employeeCount[] = new SubunitCountPair($subunit, $count);
+            if ($count > 0) {
+                $employeeCount[] = new SubunitCountPair($subunit, $count);
+            }
         }
 
         return $employeeCount;

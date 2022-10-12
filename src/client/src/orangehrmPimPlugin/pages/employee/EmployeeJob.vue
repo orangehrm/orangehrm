@@ -20,8 +20,9 @@
 
 <template>
   <edit-employee-layout
-    :employee-id="empNumber"
     screen="job"
+    :employee-id="empNumber"
+    :max-file-size="maxFileSize"
     :allowed-file-types="allowedFileTypes"
   >
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">

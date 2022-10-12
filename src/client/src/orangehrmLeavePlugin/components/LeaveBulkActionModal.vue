@@ -22,7 +22,7 @@
   <teleport to="#app">
     <oxd-dialog
       v-if="show"
-      :style="{maxWidth: '450px'}"
+      class="orangehrm-dialog-popup"
       @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
@@ -84,11 +84,7 @@ export default {
       return this.data?.count ? this.data.count : 0;
     },
     action() {
-      return this.data?.action === 'APPROVE'
-        ? 'Approve'
-        : this.data?.action === 'REJECT'
-        ? 'Reject'
-        : 'Cancel';
+      return this.data?.action;
     },
   },
   methods: {
