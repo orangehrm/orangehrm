@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Core\Command;
 
+use DateTimeZone;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Framework\Console\Command;
 use OrangeHRM\Framework\Console\Scheduling\Schedule;
 use OrangeHRM\Framework\Console\Scheduling\SchedulerConfigurationInterface;
@@ -42,7 +44,7 @@ class RunScheduleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pluginConfigs = Config::get('ohrm_plugin_configs');
-        $schedule = new Schedule();
+        $schedule = new Schedule($this->getApplication(), $output);
         foreach (array_values($pluginConfigs) as $pluginConfig) {
             $configClass = new $pluginConfig['classname']();
             if ($configClass instanceof SchedulerConfigurationInterface) {
@@ -50,16 +52,13 @@ class RunScheduleCommand extends Command
             }
         }
 
-//        $command = $this->getApplication()->find('orangehrm:ldap-sync-user');
-        $this->getIO()->note('Class: ' . get_class($this->getApplication()));
+        $this->getIO()->note('Time: ' . date('Y-m-d H:i'));
 
-        $events = $schedule->events($schedule->dueEvents(new \DateTimeZone('Pacific/Auckland'))); // TODO:: change timezone
-        $this->getIO()->note('Event count: '. \count($events));
+        $schedule->setTasks($schedule->getDueTasks(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)));
+        $this->getIO()->note('Event count: ' . count($schedule->getTasks()));
 
-        foreach ($events as $event) {
-            $this->getIO()->note('PID: ' . $event->start());
-            $this->getIO()->note($event->getOutputStream() ?? 'OutputStream: NULL');
-            $this->getIO()->note($event->getWorkingDirectory() ?? 'OutputStream: NULL');
+        foreach ($schedule->getTasks() as $task) {
+            $this->getIO()->note('Exit code: ' . $task->start());
         }
 
         $this->getIO()->success('Success');

@@ -18,11 +18,11 @@
  */
 
 use OrangeHRM\Authentication\Auth\AuthProviderChain;
-use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
+use OrangeHRM\Framework\Console\Scheduling\CommandInfo;
 use OrangeHRM\Framework\Console\Scheduling\Schedule;
 use OrangeHRM\Framework\Console\Scheduling\SchedulerConfigurationInterface;
 use OrangeHRM\Framework\Http\Request;
@@ -71,8 +71,15 @@ class LDAPAuthenticationPluginConfiguration implements
      */
     public function schedule(Schedule $schedule): void
     {
-        $pathToConsole = Config::get(Config::BASE_DIR) . '/bin/console';
-        $schedule->run(PHP_BINARY . " $pathToConsole orangehrm:ldap-sync-user")
-            ->cron('*/15 * * * *'); // every 15 mins
+        $ldapSettings = $this->getConfigService()->getLDAPSetting();
+        if ($ldapSettings instanceof LDAPSetting && $ldapSettings->isEnable()) {
+            $interval = 60;
+            if ($ldapSettings->getSyncInterval() <= 1440 && $ldapSettings->getSyncInterval() >= 5) {
+                $interval = $ldapSettings->getSyncInterval();
+            }
+
+            $schedule->add(new CommandInfo('orangehrm:ldap-sync-user'))
+                ->cron("*/$interval * * * *");
+        }
     }
 }
