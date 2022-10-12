@@ -24,6 +24,7 @@ use OrangeHRM\Framework\Console\ArrayInput;
 use OrangeHRM\Framework\Console\Command;
 use OrangeHRM\Framework\Console\Console;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class Task extends Event
 {
@@ -52,7 +53,7 @@ class Task extends Event
         $input = $this->commandInfo->getInput() ?? new ArrayInput([]);
         try {
             return $this->consoleCommand->run($input, $this->commandOutput);
-        }catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return Command::FAILURE;
         }
     }

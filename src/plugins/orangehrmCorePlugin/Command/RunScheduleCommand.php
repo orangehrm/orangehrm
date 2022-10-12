@@ -52,16 +52,11 @@ class RunScheduleCommand extends Command
             }
         }
 
-        $this->getIO()->note('Time: ' . date('Y-m-d H:i'));
-
         $schedule->setTasks($schedule->getDueTasks(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)));
-        $this->getIO()->note('Event count: ' . count($schedule->getTasks()));
-
         foreach ($schedule->getTasks() as $task) {
-            $this->getIO()->note('Exit code: ' . $task->start());
+            $task->start();
         }
 
-        $this->getIO()->success('Success');
         return self::SUCCESS;
     }
 }

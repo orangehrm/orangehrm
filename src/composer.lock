@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a4688cf3c246be8ef8b260e82e4e4d9",
+    "content-hash": "aa6b9a8de79b8515fb040878fb0043be",
     "packages": [
         {
             "name": "crunzphp/crunz",
