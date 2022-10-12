@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{
-        $t('general.add_employee')
-      }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('general.add_employee') }}
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -242,9 +242,13 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.rules.employeeId.push(v => {
-          const index = data.findIndex(item => item.employeeId == v);
+          const index = data.findIndex(
+            item =>
+              item.employeeId?.trim() &&
+              String(item.employeeId).toLowerCase() == String(v).toLowerCase(),
+          );
           if (index > -1) {
-            return 'Employee Id already exists';
+            return this.$t('pim.employee_id_exists');
           } else {
             return true;
           }
@@ -254,9 +258,12 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.rules.username.push(v => {
-          const index = data.findIndex(item => item.userName == v);
+          const index = data.findIndex(
+            item =>
+              String(item.userName).toLowerCase() == String(v).toLowerCase(),
+          );
           if (index > -1) {
-            return 'Username already exists';
+            return this.$t('pim.username_already_exists');
           } else {
             return true;
           }

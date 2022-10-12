@@ -32,3 +32,6 @@ langStrings:
   -
     value: 'Add Subordinate'
     unitId: add_subordinate
+  -
+    value: 'Username already exists'
+    unitId: username_already_exists
