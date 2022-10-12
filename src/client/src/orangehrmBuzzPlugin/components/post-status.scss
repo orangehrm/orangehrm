@@ -17,8 +17,6 @@
 @import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-buzz {
-  padding: 1rem;
-  max-width: 40rem;
   &-like-icon {
     color: $oxd-feedback-danger-color;
   }
@@ -29,21 +27,6 @@
   margin-bottom: 1.5rem;
 }
 .orangehrm-buzz-post {
-  &-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    &-details {
-      display: flex;
-      align-items: center;
-    }
-    &-text {
-      margin-left: 1rem;
-    }
-    &-config {
-      margin-left: 0.5rem;
-    }
-  }
   &-profile-image {
     & img {
       width: 50px;
@@ -54,28 +37,8 @@
       box-sizing: border-box;
       justify-content: center;
     }
-    &-comment {
-      & img {
-        width: 50px;
-        height: 50px;
-        flex-shrink: 0;
-        border-radius: 100%;
-        display: flex;
-        box-sizing: border-box;
-        justify-content: center;
-      }
-    }
-  }
-  &-emp-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    @include truncate(1, 1, #fff);
-  }
-  &-time {
-    font-size: 0.75rem;
   }
   &-footer {
-    padding-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -110,6 +73,11 @@
       position: absolute;
       box-sizing: border-box;
       @include oxd-scrollbar();
+      &-mobile {
+        width: 10rem;
+        height: 25rem;
+        z-index: 200;
+      }
     }
     &-share-list {
       padding: 4px;
@@ -145,12 +113,5 @@
         @include truncate(2, 1, #fff);
       }
     }
-  }
-  &-comment-add {
-    display: flex;
-    align-items: center;
-  }
-  &-comment-input {
-    width: 100%;
   }
 }

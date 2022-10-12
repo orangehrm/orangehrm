@@ -35,3 +35,9 @@ langStrings:
   -
     value: 'Write your comment...'
     unitId: write_your_comment
+  -
+    value: 'Delete Post'
+    unitId: delete_post
+  -
+    value: 'Edit Post'
+    unitId: edit_post

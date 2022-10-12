@@ -19,74 +19,87 @@
  -->
 
 <template>
-  <oxd-sheet :gutters="false" type="white" class="orangehrm-buzz">
-    <div class="orangehrm-buzz-post">
-      <div class="orangehrm-buzz-post-header">
-        <div class="orangehrm-buzz-post-header-details">
-          <div class="orangehrm-buzz-post-profile-image">
-            <img
-              alt="profile picture"
-              class="employee-image"
-              :src="`../pim/viewPhoto/empNumber/${postedEmployeeId}`"
-            />
-          </div>
-          <div class="orangehrm-buzz-post-header-text">
-            <oxd-text tag="p" class="orangehrm-buzz-post-emp-name">
-              {{ postedEmployeeName }}
-            </oxd-text>
-            <oxd-text tag="p" class="orangehrm-buzz-post-time">
-              {{ postedTime }}
-            </oxd-text>
-          </div>
-        </div>
-        <div
-          v-if="postedEmployeeId === buzzUserId"
-          class="orangehrm-buzz-post-header-config"
+  <div class="orangehrm-buzz-post-footer">
+    <div class="orangehrm-buzz-post-footer-right">
+      <div class="orangehrm-buzz-post-footer-summery-top">
+        <oxd-icon name="heart-fill" class="orangehrm-buzz-like-icon"></oxd-icon>
+        <oxd-text
+          tag="p"
+          @mouseleave="showLikeList = false"
+          @mouseover="onShowLikeList"
+          @click="onShowLikeList"
         >
-          <oxd-icon-button class="" name="three-dots" with-container="true" />
+          {{ $t('buzz.n_like', {likesCount: noOfLikes}) }}
+        </oxd-text>
+        <div v-if="showLikeList && !isMobile">
+          <oxd-sheet
+            :gutters="false"
+            type="white"
+            class="orangehrm-buzz-post-footer-like-list"
+          >
+            <div
+              v-for="like in likedList"
+              :key="like"
+              class="orangehrm-buzz-post-footer-like-employee"
+            >
+              <div class="orangehrm-buzz-post-profile-image">
+                <img
+                  alt="profile picture"
+                  class="employee-image"
+                  :src="`../pim/viewPhoto/empNumber/${like.empNumber}`"
+                />
+              </div>
+              <oxd-text tag="p">
+                {{ like.empName }}
+              </oxd-text>
+            </div>
+            <oxd-loading-spinner
+              v-if="isLoading"
+              class="orangehrm-buzz-loader"
+            />
+          </oxd-sheet>
+        </div>
+        <div v-if="showLikeList && isMobile">
+          <!-- todo add mobile view -->
         </div>
       </div>
-      <oxd-divider />
-    </div>
-    <div class="orangehrm-buzz-post-body">
-      {{ postContentText }}
-      <slot name="body"></slot>
-    </div>
-    <div class="orangehrm-buzz-post-footer">
-      <div class="orangehrm-buzz-post-footer-left"></div>
-      <div class="orangehrm-buzz-post-footer-right">
-        <div class="orangehrm-buzz-post-footer-summery-top">
-          <oxd-icon
-            name="heart-fill"
-            class="orangehrm-buzz-like-icon"
-          ></oxd-icon>
+      <div class="orangehrm-buzz-post-footer-summery-bottom">
+        <oxd-text
+          tag="p"
+          class="orangehrm-buzz-post-footer-comment"
+          @click="onClickComments"
+        >
+          {{ $t('buzz.n_comment', {commentCount: noOfComments}) }} ,
+        </oxd-text>
+        <div>
           <oxd-text
             tag="p"
-            @mouseleave="showLikeList = false"
-            @mouseover="onShowLikeList"
+            @mouseleave="showSharesList = false"
+            @mouseover="onShowSharesList"
+            @click="onShowSharesList"
           >
-            {{ $t('buzz.n_like', {likesCount: noOfLikes}) }}
+            {{ $t('buzz.n_share', {shareCount: noOfShares}) }}
           </oxd-text>
-          <div v-if="showLikeList">
+          <div v-if="showSharesList && !isMobile">
             <oxd-sheet
               :gutters="false"
               type="white"
-              class="orangehrm-buzz-post-footer-like-list"
+              class="orangehrm-buzz-post-footer-share-list"
             >
               <div
-                v-for="like in likedList"
-                :key="like"
-                class="orangehrm-buzz-post-footer-like-employee"
+                v-for="share in sharesList"
+                :key="share"
+                class="orangehrm-buzz-post-footer-share-employee"
               >
                 <div class="orangehrm-buzz-post-profile-image">
                   <img
                     alt="profile picture"
                     class="employee-image"
-                    :src="`../pim/viewPhoto/empNumber/${like.empNumber}`"
+                    :src="`../pim/viewPhoto/empNumber/${share.empNumber}`"
                   />
                 </div>
                 <oxd-text tag="p">
-                  {{ like.empName }}
+                  {{ share.empName }}
                 </oxd-text>
               </div>
               <oxd-loading-spinner
@@ -95,76 +108,13 @@
               />
             </oxd-sheet>
           </div>
-        </div>
-        <div class="orangehrm-buzz-post-footer-summery-bottom">
-          <oxd-text
-            tag="p"
-            class="orangehrm-buzz-post-footer-comment"
-            @click="onClickComments"
-          >
-            {{ $t('buzz.n_comment', {commentCount: noOfComments}) }} ,
-          </oxd-text>
-          <div>
-            <oxd-text
-              tag="p"
-              @mouseleave="showSharesList = false"
-              @mouseover="onShowSharesList"
-            >
-              {{ $t('buzz.n_share', {shareCount: noOfShares}) }}
-            </oxd-text>
-            <div v-if="showSharesList">
-              <oxd-sheet
-                :gutters="false"
-                type="white"
-                class="orangehrm-buzz-post-footer-share-list"
-              >
-                <div
-                  v-for="share in sharesList"
-                  :key="share"
-                  class="orangehrm-buzz-post-footer-share-employee"
-                >
-                  <div class="orangehrm-buzz-post-profile-image">
-                    <img
-                      alt="profile picture"
-                      class="employee-image"
-                      :src="`../pim/viewPhoto/empNumber/${share.empNumber}`"
-                    />
-                  </div>
-                  <oxd-text tag="p">
-                    {{ share.empName }}
-                  </oxd-text>
-                </div>
-                <oxd-loading-spinner
-                  v-if="isLoading"
-                  class="orangehrm-buzz-loader"
-                />
-              </oxd-sheet>
-            </div>
+          <div v-if="showSharesList && isMobile">
+            <!-- todo add mobile view -->
           </div>
         </div>
       </div>
     </div>
-    <div v-if="showComments" class="orangehrm-buzz-post-comment">
-      <oxd-divider />
-      <div class="orangehrm-buzz-post-comment-add">
-        <div class="orangehrm-buzz-post-profile-image-comment">
-          <img
-            alt="profile picture"
-            class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/${buzzUserId}`"
-          />
-        </div>
-        <oxd-form class="orangehrm-buzz-post-comment-input">
-          <oxd-form-row>
-            <oxd-grid-item>
-              <oxd-input-field :placeholder="$t('buzz.write_your_comment')" />
-            </oxd-grid-item>
-          </oxd-form-row>
-        </oxd-form>
-      </div>
-      <slot name="comment"></slot>
-    </div>
-  </oxd-sheet>
+  </div>
 </template>
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
@@ -174,32 +124,16 @@ import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
-  name: 'PostContainer',
+  name: 'PostStatus',
   components: {
     'oxd-icon': Icon,
     'oxd-sheet': Sheet,
     'oxd-loading-spinner': Spinner,
   },
   props: {
-    postedEmployeeName: {
-      type: String,
-      required: true,
-    },
-    postedEmployeeId: {
-      type: Number,
-      required: true,
-    },
     postId: {
       type: Number,
       required: true,
-    },
-    postedTime: {
-      type: String,
-      required: true,
-    },
-    postContentText: {
-      type: String,
-      default: '',
     },
     noOfLikes: {
       type: Number,
@@ -213,9 +147,9 @@ export default {
       type: Number,
       default: 0,
     },
-    buzzUserId: {
-      type: Number,
-      required: true,
+    isMobile: {
+      type: Boolean,
+      default: false,
     },
   },
 

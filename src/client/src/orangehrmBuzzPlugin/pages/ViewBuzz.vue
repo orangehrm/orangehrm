@@ -21,7 +21,7 @@
 <template>
   <oxd-tab-container v-if="isMobile" v-model="tabSelector">
     <oxd-tab-panel key="buzz_newsfeed" :name="$t('buzz.buzz_newsfeed')">
-      <news-feed></news-feed>
+      <news-feed :is-mobile="isMobile"></news-feed>
     </oxd-tab-panel>
     <oxd-tab-panel
       key="buzz_anniversary"
