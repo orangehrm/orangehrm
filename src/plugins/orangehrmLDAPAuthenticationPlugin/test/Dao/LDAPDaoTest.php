@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Tests\LDAP\Dao;
 
+use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
 use InvalidArgumentException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\LDAPSyncStatus;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\LDAP\Dao\LDAPDao;
@@ -221,5 +223,34 @@ class LDAPDaoTest extends KernelTestCase
         $this->assertEquals(8, $providers[0]->getUserId());
         $this->assertEquals('cn=Peter.Anderson,ou=finance,ou=users,dc=example,dc=org', $providers[1]->getUserDN());
         $this->assertEquals(11, $providers[1]->getUserId());
+    }
+
+    public function testSaveLdapSyncStatus(): void
+    {
+        $ldapSyncStatus = new LDAPSyncStatus();
+        $ldapSyncStatus->setSyncStartedAt(new DateTime('2022-10-12 01:31'));
+        $ldapSyncStatus->setSyncFinishedAt(new DateTime('2022-10-12 01:32'));
+        $ldapSyncStatus->getDecorator()->setSyncedUserByUserId(1);
+        $ldapSyncStatus->setSyncStatus(LDAPSyncStatus::SYNC_STATUS_SUCCEEDED);
+        $ldapDao = new LDAPDao();
+        $ldapSyncStatus = $ldapDao->saveLdapSyncStatus($ldapSyncStatus);
+        $this->assertEquals(3, $ldapSyncStatus->getId());
+        $this->assertInstanceOf(LDAPSyncStatus::class, $ldapSyncStatus);
+        $this->assertInstanceOf(User::class, $ldapSyncStatus->getSyncedBy());
+        $this->assertEquals(LDAPSyncStatus::SYNC_STATUS_SUCCEEDED, $ldapSyncStatus->getSyncStatus());
+        $this->assertEquals(new DateTime('2022-10-12 01:31'), $ldapSyncStatus->getSyncStartedAt());
+        $this->assertEquals(new DateTime('2022-10-12 01:32'), $ldapSyncStatus->getSyncFinishedAt());
+    }
+
+    public function testGetLastLdapSyncStatus(): void
+    {
+        $ldapDao = new LDAPDao();
+        $lastLdapSyncStatus = $ldapDao->getLastLDAPSyncStatus();
+        $this->assertInstanceOf(LDAPSyncStatus::class, $lastLdapSyncStatus);
+        $this->assertInstanceOf(User::class, $lastLdapSyncStatus->getSyncedBy());
+        $this->assertEquals(2, $lastLdapSyncStatus->getId());
+        $this->assertEquals(LDAPSyncStatus::SYNC_STATUS_FAILED, $lastLdapSyncStatus->getSyncStatus());
+        $this->assertEquals(new DateTime('2022-10-12 02:31'), $lastLdapSyncStatus->getSyncStartedAt());
+        $this->assertEquals(null, $lastLdapSyncStatus->getSyncFinishedAt());
     }
 }

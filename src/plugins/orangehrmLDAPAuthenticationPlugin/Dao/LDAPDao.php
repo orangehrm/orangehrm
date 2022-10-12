@@ -21,12 +21,15 @@ namespace OrangeHRM\LDAP\Dao;
 
 use Doctrine\ORM\NonUniqueResultException;
 use InvalidArgumentException;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\LDAPSyncStatus;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserAuthProvider;
 use OrangeHRM\LDAP\Dto\LDAPAuthProvider;
 use OrangeHRM\LDAP\Dto\LDAPEmployeeSearchFilterParams;
+use OrangeHRM\ORM\ListSorter;
 
 class LDAPDao extends BaseDao
 {
@@ -172,5 +175,27 @@ class LDAPDao extends BaseDao
         $q->andWhere('user.deleted = :deleted')
             ->setParameter('deleted', false);
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param LDAPSyncStatus $ldapSyncStatus
+     * @return LDAPSyncStatus
+     */
+    public function saveLdapSyncStatus(LDAPSyncStatus $ldapSyncStatus): LDAPSyncStatus
+    {
+        $this->persist($ldapSyncStatus);
+        return $ldapSyncStatus;
+    }
+
+    /**
+     * @return LDAPSyncStatus|null
+     */
+    public function getLastLDAPSyncStatus(): ?LDAPSyncStatus
+    {
+        return $this->getRepository(LDAPSyncStatus::class)
+            ->findOneBy(
+                [],
+                [CommonParams::PARAMETER_ID => ListSorter::DESCENDING]
+            );
     }
 }

@@ -116,3 +116,15 @@ apiv2_admin_ldap_test_connection:
     delete: false
   permissions:
     - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
+
+apiv2_admin_ldap_user_sync:
+  description: 'API-v2 Admin - LDAP User Sync'
+  api: OrangeHRM\LDAP\Api\LDAPUserSyncAPI
+  module: admin
+  allowed:
+    read: true
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }

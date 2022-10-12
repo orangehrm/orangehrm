@@ -204,6 +204,9 @@ langStrings:
     value: 'Merge LDAP Users With Existing System Users'
     unitId: merge_ldap_users_with_existing_system_users
   -
+    value: 'Please check the settings for your LDAP configuration'
+    unitId: please_check_the_settings_for_your_ldap_configuration
+  -
     value: 'Attribute field to use when searching user objects. Ex: objectClass=person'
     unitId: user_search_filter_input_hint
   -

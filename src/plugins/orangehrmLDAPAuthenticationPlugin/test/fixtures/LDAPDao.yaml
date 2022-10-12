@@ -95,3 +95,7 @@ UserAuthProvider:
   - { "id": 3, "user_id": 4, "type": 3 }
   - { "id": 4, "user_id": 11, "type": 2, "ldapUserDN": "cn=Peter.Anderson,ou=finance,ou=users,dc=example,dc=org","ldapUserUniqueId": "df2567d0-bca1-103c-98f9-f5289009f541", "ldapUserHash": "b698c9bc564c09b72faf894827d1b141" }
   - { "id": 5, "user_id": 10, "type": 2, "ldapUserDN": "cn=Alice,ou=finance,ou=users,dc=example,dc=org","ldapUserUniqueId": "df2567d0-bca1-103c-98f9-f5289009f541" }
+
+LDAPSyncStatus:
+  - { "id": "1","sync_started_at": "2022-10-12 01:31:00","sync_finished_at": "2022-10-12","synced_by": "1","sync_status": "1" },
+  - { "id": "2","sync_started_at": "2022-10-12 02:31:00","sync_finished_at": null,"synced_by": "1","sync_status": "0" }
