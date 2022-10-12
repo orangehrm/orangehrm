@@ -962,6 +962,16 @@ describe('core/util/validation/rules::validHostnameFormat', () => {
     const result = validSelection(null);
     expect(result).toStrictEqual(true);
   });
+
+  test('validHostnameFormat:: hostname with unicode characters', () => {
+    const result = validHostnameFormat('localhost.世界');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: hostname with punycode', () => {
+    const result = validHostnameFormat('xn--ggle-0nda.com');
+    expect(result).toStrictEqual(true);
+  });
 });
 
 describe('core/util/validation/rules::validPortRange', () => {
