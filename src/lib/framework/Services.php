@@ -391,9 +391,4 @@ final class Services
     ///////////////////////////////////////////////////////////////
 
     public const LDAP_LOGGER = 'ldap.logger';
-
-    /**
-     * @see \OrangeHRM\LDAP\Service\LDAPService
-     */
-    public const LDAP_SERVICE = 'ldap.ldap_service';
 }

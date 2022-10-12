@@ -36,6 +36,8 @@ class LDAPSyncStatus
 
     public const SYNC_STATUS_FAILED = 0;
     public const SYNC_STATUS_SUCCEEDED = 1;
+
+    //If LDAP is not configured, the default last sync status not available
     public const SYNC_STATUS_NOT_AVAILABLE = 2;
 
     /**
@@ -50,14 +52,14 @@ class LDAPSyncStatus
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="sync_started_at", type="datetime", length=25, nullable=false)
+     * @ORM\Column(name="sync_started_at", type="datetime", nullable=false)
      */
     private ?DateTime $syncStartedAt = null;
 
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="sync_finished_at", type="datetime", length=25, nullable=true)
+     * @ORM\Column(name="sync_finished_at", type="datetime", nullable=true)
      */
     private ?DateTime $syncFinishedAt = null;
 
@@ -73,7 +75,7 @@ class LDAPSyncStatus
      *
      * @ORM\Column(name="sync_status", type="integer")
      */
-    private int $syncStatus;
+    private int $syncStatus = self::SYNC_STATUS_NOT_AVAILABLE;
 
     /**
      * @return int

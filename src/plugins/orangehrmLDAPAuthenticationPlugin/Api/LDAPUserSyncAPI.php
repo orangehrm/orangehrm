@@ -30,16 +30,25 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\LDAPSyncStatus;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\LDAP\Api\Model\LDAPSyncStatusModel;
+use OrangeHRM\LDAP\Service\LDAPService;
 use OrangeHRM\LDAP\Service\LDAPSyncService;
-use OrangeHRM\LDAP\Traits\LDAPServiceTrait;
 use Throwable;
 
 class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
 {
     use AuthUserTrait;
     use DateTimeHelperTrait;
-    use LDAPServiceTrait;
     use I18NHelperTrait;
+
+    private LDAPService $ldapService;
+
+    /**
+     * @return LDAPService
+     */
+    private function getLdapService(): LDAPService
+    {
+        return $this->ldapService ??= new LDAPService();
+    }
 
     /**
      * @inheritDoc
@@ -73,9 +82,12 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
             $ldapSyncStatus = $this->saveLDAPSyncStatus($ldapSyncStatus);
             return new EndpointResourceResult(LDAPSyncStatusModel::class, $ldapSyncStatus);
         } catch (Throwable $exception) {
+            dump($exception->getMessage());
             $ldapSyncStatus->setSyncStatus(LDAPSyncStatus::SYNC_STATUS_FAILED);
             $this->saveLDAPSyncStatus($ldapSyncStatus);
-            throw $this->getBadRequestException($this->getI18NHelper()->transBySource('Please check the settings for your LDAP configuration'));
+            throw $this->getBadRequestException(
+                $this->getI18NHelper()->transBySource('Please check the settings for your LDAP configuration')
+            );
         }
     }
 
@@ -85,7 +97,7 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
      */
     private function saveLDAPSyncStatus(LDAPSyncStatus $ldapSyncStatus): LDAPSyncStatus
     {
-        return $this->getLDAPService()->getLDAPDao()->saveLdapSyncStatus($ldapSyncStatus);
+        return $this->getLDAPService()->getLdapDao()->saveLdapSyncStatus($ldapSyncStatus);
     }
 
     public function getValidationRuleForCreate(): ParamRuleCollection
@@ -100,10 +112,9 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $lastLdapSyncStatus = $this->getLDAPService()->getLDAPDao()->getLastLDAPSyncStatus();
+        $lastLdapSyncStatus = $this->getLDAPService()->getLdapDao()->getLastLDAPSyncStatus();
         if (is_null($lastLdapSyncStatus)) {
             $lastLdapSyncStatus = new LDAPSyncStatus();
-            $lastLdapSyncStatus->setSyncStatus(LDAPSyncStatus::SYNC_STATUS_NOT_AVAILABLE);
         }
         return new EndpointResourceResult(LDAPSyncStatusModel::class, $lastLdapSyncStatus);
     }

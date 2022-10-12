@@ -38,7 +38,7 @@ class LDAPService
     /**
      * @var LDAPDao
      */
-    private LDAPDao $LDAPDao;
+    private LDAPDao $ldapDao;
 
     /**
      * @return ConnectionInterface|Connection
@@ -108,7 +108,7 @@ class LDAPService
     /**
      * @return LDAPDao
      */
-    public function getLDAPDao(): LDAPDao
+    public function getLdapDao(): LDAPDao
     {
         return $this->ldapDao ??= new LDAPDao();
     }

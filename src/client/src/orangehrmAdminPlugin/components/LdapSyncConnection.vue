@@ -62,8 +62,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      // 'api/v2/admin/ldap/sync',
-      'api/v2/admin/ldap/user-sync',
+      'api/v2/admin/ldap/sync',
     );
     const {jsDateFormat} = useDateFormat();
 

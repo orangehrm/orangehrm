@@ -92,9 +92,9 @@ class Migration extends AbstractMigration
         $this->getSchemaHelper()->createTable('ohrm_ldap_sync_status')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('sync_started_at', Types::DATETIME_MUTABLE, ['Notnull' => true])
-            ->addColumn('sync_finished_at', Types::DATE_MUTABLE, ['Notnull' => false, 'Default' => null])
-            ->addColumn('synced_by', Types::INTEGER, ['Length' => 255, 'Notnull' => false, 'Default' => null])
-            ->addColumn('sync_status', Types::STRING, ['Length' => 255, 'Notnull' => true])
+            ->addColumn('sync_finished_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
+            ->addColumn('synced_by', Types::INTEGER, ['Notnull' => false, 'Default' => null])
+            ->addColumn('sync_status', Types::INTEGER, ['Notnull' => true])
             ->setPrimaryKey(['id'])
             ->create();
         $foreignKeyConstraint = new ForeignKeyConstraint(
