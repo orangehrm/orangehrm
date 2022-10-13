@@ -52,8 +52,8 @@ class RunScheduleCommand extends Command
             }
         }
 
-        $schedule->setTasks($schedule->getDueTasks(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)));
-        foreach ($schedule->getTasks() as $task) {
+        $dueTasks = $schedule->getDueTasks(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC));
+        foreach ($dueTasks as $task) {
             $task->start();
         }
 
