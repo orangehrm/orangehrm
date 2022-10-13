@@ -121,6 +121,16 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_ldap_sync_status', $foreignKeyConstraint);
 
+        $this->getSchemaHelper()->createTable('ohrm_task_scheduler_log')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('started_at', Types::DATETIME_MUTABLE, ['Notnull' => true])
+            ->addColumn('finished_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
+            ->addColumn('command', Types::STRING, ['Length' => 255, 'Notnull' => true])
+            ->addColumn('input', Types::TEXT, ['Notnull' => false, 'Default' => null, 'Comment' => '(DC2Type:json)'])
+            ->addColumn('status', Types::INTEGER, ['Notnull' => true])
+            ->setPrimaryKey(['id'])
+            ->create();
+
         $this->cleanI18nGroups();
         $this->insertLDAPMenuItem();
         $this->insertLangStringNotes();

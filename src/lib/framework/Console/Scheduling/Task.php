@@ -33,7 +33,7 @@ class Task extends Event
     private CommandInfo $commandInfo;
     private Command $consoleCommand;
 
-    public function __construct($id, CommandInfo $commandInfo, Console $console, OutputInterface $output)
+    public function __construct(string $id, CommandInfo $commandInfo, Console $console, OutputInterface $output)
     {
         $this->commandInfo = $commandInfo;
         $this->console = $console;
@@ -56,5 +56,13 @@ class Task extends Event
         } catch (Throwable $e) {
             return Command::FAILURE;
         }
+    }
+
+    /**
+     * @return CommandInfo
+     */
+    public function getCommand(): CommandInfo
+    {
+        return $this->commandInfo;
     }
 }
