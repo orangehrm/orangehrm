@@ -69,8 +69,8 @@
             <oxd-text class="orangehrm-information-card-text">
               {{ $t('pim.sample_csv_file') }} :
               <a
-                class="download-link"
                 href="#"
+                class="download-link"
                 @click.prevent="onClickDownload"
               >
                 {{ $t('general.download') }}
@@ -88,9 +88,9 @@
               <oxd-input-field
                 v-model="attachment.attachment"
                 type="file"
+                :rules="rules.attachment"
                 :label="$t('general.select_file')"
                 :button-label="$t('general.browse')"
-                :rules="rules.attachment"
                 :placeholder="$t('general.no_file_selected')"
                 required
               />
@@ -108,24 +108,23 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
-    <import-dialog
-      ref="importDialog"
-      :success="successCount"
-      :failed="failCount"
-      :failed-rows="failedRows"
-    ></import-dialog>
+    <employee-data-import-modal
+      v-if="importModalState"
+      :data="importModalState"
+      @close="onImportModalClose"
+    ></employee-data-import-modal>
   </div>
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
 import {
   required,
   maxFileSize,
   validFileTypes,
 } from '@/core/util/validation/rules';
 import useForm from '@ohrm/core/util/composable/useForm';
-import EmployeeImportDetailsDialog from '@/orangehrmPimPlugin/components/EmployeeImportDetailsDialog';
+import {APIService} from '@/core/util/services/api.service';
+import EmployeeDataImportModal from '@/orangehrmPimPlugin/components/EmployeeDataImportModal';
 
 const attachmentModel = {
   attachment: null,
@@ -133,7 +132,7 @@ const attachmentModel = {
 
 export default {
   components: {
-    'import-dialog': EmployeeImportDetailsDialog,
+    'employee-data-import-modal': EmployeeDataImportModal,
   },
   props: {
     allowedFileTypes: {
@@ -157,9 +156,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      successCount: 0,
-      failCount: 0,
-      failedRows: [],
       attachment: {
         ...attachmentModel,
       },
@@ -170,6 +166,7 @@ export default {
           validFileTypes(this.allowedFileTypes),
         ],
       },
+      importModalState: null,
     };
   },
   methods: {
@@ -180,23 +177,20 @@ export default {
           ...this.attachment,
         })
         .then(response => {
+          const {meta} = response.data;
+          this.importModalState = meta;
+        })
+        .finally(() => {
           this.reset();
           this.isLoading = false;
-          this.successCount = response.data.meta.success;
-          this.failCount = response.data.meta.failed;
-          this.failedRows = response.data.meta.failedRows;
-          this.$refs.importDialog.showDialog().then(confirmation => {
-            if (confirmation === 'ok') {
-              this.successCount = 0;
-              this.failCount = 0;
-              this.failedRows = [];
-            }
-          });
         });
     },
     onClickDownload() {
       const downUrl = `${window.appGlobal.baseUrl}/pim/sampleCsvDownload`;
       window.open(downUrl, '_blank');
+    },
+    onImportModalClose() {
+      this.importModalState = null;
     },
   },
 };
