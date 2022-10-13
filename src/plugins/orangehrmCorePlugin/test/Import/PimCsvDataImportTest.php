@@ -182,12 +182,7 @@ class PimCsvDataImportTest extends KernelTestCase
             ->will($this->returnValue($employee));
 
         $mockEmployeeDao = $this->getMockBuilder(EmployeeDao::class)
-            ->onlyMethods(['getEmailList'])
             ->getMock();
-        $mockEmployeeDao->expects($this->exactly(2))
-            ->method('getEmailList')
-            ->with()
-            ->will($this->returnValue($emailList));
         $mockEmployeeService->setEmployeeDao($mockEmployeeDao);
 
         $this->createKernelWithMockServices(
@@ -393,11 +388,14 @@ class PimCsvDataImportTest extends KernelTestCase
         $data2 = ["Sharuka", "", "Perera", "0002", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
         $data3 = ["Chenuka", "", "Gamage", "0002", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 
-        $this->pimCsvDataImport->import($data1);
-        $this->pimCsvDataImport->import($data2);
-        $this->pimCsvDataImport->import($data3);
+        $result1 = $this->pimCsvDataImport->import($data1);
+        $result2 = $this->pimCsvDataImport->import($data2);
+        $result3 = $this->pimCsvDataImport->import($data3);
 
-        $this->assertCount(3, $this->getRepository(Employee::class)->findAll());
-        $this->assertCount(1, $this->getRepository(Employee::class)->findBy(['employeeId' => '0002']));
+        $this->assertTrue($result1);
+        $this->assertFalse($result2);
+        $this->assertFalse($result3);
+
+        $this->assertCount(1, $this->getRepository(Employee::class)->findAll());
     }
 }

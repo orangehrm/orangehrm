@@ -73,10 +73,10 @@ class PimCsvDataImportService
 
     /**
      * @param string $fileContent
-     * @return int
+     * @return array
      * @throws Exception
      */
-    public function import(string $fileContent): int
+    public function import(string $fileContent): array
     {
         $importType = 'pim';
         return $this->getCsvDataImportService()->import($fileContent, $importType, self::PIM_IMPORT_HEADER_ROW_VALUES);

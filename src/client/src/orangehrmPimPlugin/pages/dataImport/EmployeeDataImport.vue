@@ -108,6 +108,12 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
+    <import-dialog
+      ref="importDialog"
+      :success="successCount"
+      :failed="failCount"
+      :failed-rows="failedRows"
+    ></import-dialog>
   </div>
 </template>
 
@@ -119,12 +125,16 @@ import {
   validFileTypes,
 } from '@/core/util/validation/rules';
 import useForm from '@ohrm/core/util/composable/useForm';
+import EmployeeImportDetailsDialog from '@/orangehrmPimPlugin/components/EmployeeImportDetailsDialog';
 
 const attachmentModel = {
   attachment: null,
 };
 
 export default {
+  components: {
+    'import-dialog': EmployeeImportDetailsDialog,
+  },
   props: {
     allowedFileTypes: {
       type: Array,
@@ -147,6 +157,9 @@ export default {
   data() {
     return {
       isLoading: false,
+      successCount: 0,
+      failCount: 0,
+      failedRows: [],
       attachment: {
         ...attachmentModel,
       },
@@ -167,19 +180,17 @@ export default {
           ...this.attachment,
         })
         .then(response => {
-          const importedRecords = response.data.meta.total;
           this.reset();
           this.isLoading = false;
-          if (importedRecords > 0) {
-            return this.$toast.success({
-              title: this.$t('general.success'),
-              message:
-                this.$t('pim.number_of_records_imported') + importedRecords,
-            });
-          }
-          return this.$toast.error({
-            title: this.$t('general.failed_to_import'),
-            message: this.$t('general.no_records_added'),
+          this.successCount = response.data.meta.success;
+          this.failCount = response.data.meta.failed;
+          this.failedRows = response.data.meta.failedRows;
+          this.$refs.importDialog.showDialog().then(confirmation => {
+            if (confirmation === 'ok') {
+              this.successCount = 0;
+              this.failCount = 0;
+              this.failedRows = [];
+            }
           });
         });
     },

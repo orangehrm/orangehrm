@@ -33,10 +33,10 @@ class CsvDataImportService
      * @param string $fileContent
      * @param string $importType
      * @param array $headerValues
-     * @return int
+     * @return array
      * @throws DaoException|CSVUploadFailedException
      */
-    public function import(string $fileContent, string $importType, array $headerValues): int
+    public function import(string $fileContent, string $importType, array $headerValues): array
     {
         $factory = new CsvDataImportFactory();
         $instance = $factory->getImportClassInstance($importType);
@@ -44,15 +44,18 @@ class CsvDataImportService
         $employeesDataArray = $this->getEmployeeArrayFromCSV($fileContent, $headerValues);
 
         $rowsImported = 0;
+        $failList = [];
         if ($headerValues == $employeesDataArray[0]) {
             for ($i = 1; $i < sizeof($employeesDataArray); $i++) {
                 $result = $instance->import($employeesDataArray[$i]);
                 if ($result) {
                     $rowsImported++;
+                } else {
+                    $failList[] = $i;
                 }
             }
         }
-        return $rowsImported;
+        return ['success' => $rowsImported, 'failed' => count($failList), 'failedRows' => $failList];
     }
 
     /**

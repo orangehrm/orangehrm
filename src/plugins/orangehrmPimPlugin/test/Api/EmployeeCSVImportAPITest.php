@@ -101,7 +101,7 @@ class EmployeeCSVImportAPITest extends EndpointTestCase
 
         $mockPimCsvDataImportService->expects($this->once())
                                    ->method('import')
-                                   ->will($this->returnValue(5));
+                                   ->will($this->returnValue(['success' => 4, 'failed' => 1, 'failedRows' => [1]]));
 
         /** @var MockObject&EmployeeCSVImportAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -120,6 +120,18 @@ class EmployeeCSVImportAPITest extends EndpointTestCase
         $this->assertEquals(
             5,
             $result->getMeta()->get('total')
+        );
+        $this->assertEquals(
+            4,
+            $result->getMeta()->get('success')
+        );
+        $this->assertEquals(
+            1,
+            $result->getMeta()->get('failed')
+        );
+        $this->assertEquals(
+            [1],
+            $result->getMeta()->get('failedRows')
         );
     }
 }

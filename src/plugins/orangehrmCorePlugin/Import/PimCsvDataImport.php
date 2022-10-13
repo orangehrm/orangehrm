@@ -26,6 +26,7 @@ use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Api\V2\Validator\Rules\Email;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
@@ -38,6 +39,7 @@ class PimCsvDataImport extends CsvDataImport
     use ServiceContainerTrait;
     use EmployeeServiceTrait;
     use EntityManagerHelperTrait;
+    use LoggerTrait;
 
     /**
      * @var null|NationalityService
@@ -66,7 +68,11 @@ class PimCsvDataImport extends CsvDataImport
         }
         $employee->setLastName($data[2]);
 
-        if (strlen($data[3]) <= 50 && $this->isUniqueEmployeeId($data[3])) {
+        if (strlen($data[3]) <= 50) {
+            if (!$this->isUniqueEmployeeId($data[3])) {
+                $this->getLogger()->error('Employee record not imported due to duplicated employee_id');
+                return false;
+            }
             $employee->setEmployeeId($data[3]);
         }
         if (strlen($data[4]) <= 30) {
@@ -143,10 +149,18 @@ class PimCsvDataImport extends CsvDataImport
         if (strlen($data[19]) <= 25 && $this->isValidPhoneNumber($data[19])) {
             $employee->setWorkTelephone($data[19]);
         }
-        if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50 && $this->isUniqueEmail($data[20])) {
+        if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50) {
+            if (!$this->isUniqueEmail($data[20])) {
+                $this->getLogger()->error('Employee record not imported due to duplicated work_email');
+                return false;
+            }
             $employee->setWorkEmail($data[20]);
         }
-        if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50 && $this->isUniqueEmail($data[21])) {
+        if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50) {
+            if (!$this->isUniqueEmail($data[21])) {
+                $this->getLogger()->error('Employee record not imported due to duplicated other_email');
+                return false;
+            }
             $employee->setOtherEmail($data[21]);
         }
 
@@ -268,14 +282,17 @@ class PimCsvDataImport extends CsvDataImport
      */
     private function isUniqueEmail(?string $email): bool
     {
-        $emailList = $this->getEmployeeService()->getEmployeeDao()->getEmailList();
-        $isUnique = true;
-        foreach ($emailList as $empEmail) {
-            if ($empEmail['workEmail'] == $email || $empEmail['otherEmail'] == $email) {
-                $isUnique = false;
-            }
-        }
-        return $isUnique;
+        $qb = $this->createQueryBuilder(Employee::class, 'employee');
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->eq('employee.workEmail', ':workEmail'),
+                $qb->expr()->eq('employee.otherEmail', ':otherEmail')
+            )
+        );
+        $qb->setParameter('workEmail', $email);
+        $qb->setParameter('otherEmail', $email);
+
+        return $this->getPaginator($qb)->count() === 0;
     }
 
     /**
