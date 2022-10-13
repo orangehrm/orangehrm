@@ -94,10 +94,11 @@ class RunScheduleCommand extends Command
             $taskLog->setStatus($exitCode);
             $this->getEntityManager()->persist($taskLog);
             $this->getEntityManager()->flush();
-            $this->getIO()->note("Exit code: $exitCode");
+            $method = $exitCode === self::SUCCESS ? 'success' : 'error';
+            $this->getIO()->$method($task->getCommand()->getCommand() . "; Exit code: $exitCode");
         }
 
-        $this->getIO()->success('Success');
+        $this->getIO()->success('Scheduler success');
         return self::SUCCESS;
     }
 }

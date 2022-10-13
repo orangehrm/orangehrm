@@ -23,6 +23,7 @@ use Crunz\Event;
 use OrangeHRM\Framework\Console\ArrayInput;
 use OrangeHRM\Framework\Console\Command;
 use OrangeHRM\Framework\Console\Console;
+use OrangeHRM\Framework\Logger\LoggerFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
@@ -54,6 +55,9 @@ class Task extends Event
         try {
             return $this->consoleCommand->run($input, $this->commandOutput);
         } catch (Throwable $e) {
+            $logger = LoggerFactory::getLogger('scheduler');
+            $logger->error($e->getMessage());
+            $logger->error($e->getTraceAsString());
             return Command::FAILURE;
         }
     }
