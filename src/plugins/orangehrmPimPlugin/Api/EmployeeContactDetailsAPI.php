@@ -230,7 +230,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::EMAIL),
                     new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail', $this->getEntityPropertiesForEmailRule()]),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'otherEmail']),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'otherEmail', $this->getEntityPropertiesForSecondEmailRule()]),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
                 ),
                 true
@@ -241,7 +241,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::EMAIL),
                     new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'otherEmail', $this->getEntityPropertiesForEmailRule()]),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail']),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail', $this->getEntityPropertiesForSecondEmailRule()]),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH]),
                 ),
                 true
@@ -263,6 +263,31 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 )
             ]
         );
+        return $entityProperties;
+    }
+
+    /**
+     * For the scenario where the work email and other email have
+     * already been saved as the same value (e.g. - through importing)
+     * @return EntityUniquePropertyOption
+     */
+    private function getEntityPropertiesForSecondEmailRule(): EntityUniquePropertyOption
+    {
+        $entityProperties = new EntityUniquePropertyOption();
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_EMP_NUMBER
+        );
+        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
+
+        if (
+            !is_null($employee->getWorkEmail()) &&
+            !is_null($employee->getOtherEmail()) &&
+            $employee->getWorkEmail() === $employee->getOtherEmail()
+        ) {
+            $entityProperties->setIgnoreValues(['getEmpNumber' => $empNumber]);
+        }
+
         return $entityProperties;
     }
 

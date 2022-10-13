@@ -56,12 +56,12 @@ Krishan,,Madhushanka,,,,,Male,,,,,,,,,,,,,,
         $mockService->expects($this->once())
                 ->method('import')
                 ->with($fileContent, $importType)
-                ->will($this->returnValue(2));
+                ->will($this->returnValue(['success' => 3, 'failed' => 0, 'failedRows' => []]));
 
         $this->pimDataImportService->setCsvDataImportService($mockService);
 
         $result = $this->pimDataImportService->import($fileContent);
 
-        $this->assertEquals(2, $result);
+        $this->assertEquals(['success' => 3, 'failed' => 0, 'failedRows' => []], $result);
     }
 }
