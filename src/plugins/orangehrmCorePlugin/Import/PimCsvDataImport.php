@@ -292,7 +292,7 @@ class PimCsvDataImport extends CsvDataImport
         $qb->setParameter('workEmail', $email);
         $qb->setParameter('otherEmail', $email);
 
-        return $this->getPaginator($qb)->count() === 0;
+        return is_null($email) || $email === "" || $this->getPaginator($qb)->count() === 0;
     }
 
     /**
@@ -302,6 +302,7 @@ class PimCsvDataImport extends CsvDataImport
     private function isUniqueEmployeeId(?string $employeeId): bool
     {
         return is_null($employeeId) ||
+            $employeeId === "" ||
             is_null($this->getRepository(Employee::class)->findOneBy(['employeeId' => $employeeId]));
     }
 }

@@ -51,7 +51,7 @@ class CsvDataImportService
                 if ($result) {
                     $rowsImported++;
                 } else {
-                    $failList[] = $i;
+                    $failList[] = $i+1; // since the first row contains headers
                 }
             }
         }
