@@ -144,7 +144,7 @@ langStrings:
     value: 'Bind Anonymously'
     unitId: bind_anonymously
   -
-    value: 'Sync Interval (in Minutes)'
+    value: 'Sync Interval (in Hours)'
     unitId: sync_interval
   -
     value: 'Group Object Class'

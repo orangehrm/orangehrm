@@ -404,7 +404,7 @@ const configurationModel = {
   userSearchFilter: 'objectClass=person',
   userUniqueIdAttribute: null,
   mergeLDAPUsersWithExistingSystemUsers: false,
-  syncInterval: 60,
+  syncInterval: 1,
   employeeSelectorMapping: '',
   hasBindUserPassword: false,
 };
@@ -507,7 +507,7 @@ export default {
         syncInterval: [
           required,
           digitsOnly,
-          numberShouldBeBetweenMinAndMaxValue(60, 1440),
+          numberShouldBeBetweenMinAndMaxValue(1, 23),
         ],
         middleNameAttribute: [shouldNotExceedCharLength(100)],
         userStatusAttribute: [shouldNotExceedCharLength(100)],
