@@ -24,17 +24,22 @@
       <oxd-text type="card-title">{{ $t('pim.import_details') }}</oxd-text>
     </div>
     <div class="orangehrm-text-center-align">
-      <oxd-text type="card-body">
+      <oxd-text
+        type="card-body"
+        :class="{
+          'orangehrm-success-message': data.success > 0,
+        }"
+      >
         {{ $t('pim.n_records_successfully_imported', {count: data.success}) }}
       </oxd-text>
       <template v-if="data.failed > 0">
-        <oxd-text type="card-body">
+        <oxd-text type="card-body" class="orangehrm-error-message">
           {{ $t('pim.n_records_failed_to_import', {count: data.failed}) }}
         </oxd-text>
-        <oxd-text type="card-body">
+        <oxd-text type="card-body" class="orangehrm-error-message">
           {{ $t('pim.failed_rows') }}
         </oxd-text>
-        <oxd-text type="card-body">
+        <oxd-text type="card-body" class="orangehrm-error-message">
           {{ data.failedRows.toString() }}
         </oxd-text>
       </template>
@@ -89,5 +94,11 @@ export default {
 }
 ::v-deep(.orangehrm-dialog-popup) {
   width: 450px;
+}
+.orangehrm-success-message {
+  color: $oxd-feedback-success-color;
+}
+.orangehrm-error-message {
+  color: $oxd-feedback-danger-color;
 }
 </style>
