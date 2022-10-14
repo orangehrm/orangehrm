@@ -144,7 +144,7 @@ langStrings:
     value: 'Bind Anonymously'
     unitId: bind_anonymously
   -
-    value: 'Sync Interval (in Minutes)'
+    value: 'Sync Interval (in Hours)'
     unitId: sync_interval
   -
     value: 'Group Object Class'
@@ -266,3 +266,6 @@ langStrings:
   -
     value: 'LDAP sync not enabled'
     unitId: ldap_sync_not_enabled
+  -
+    value: 'Before activating the LDAP service, make sure that all LDAP settings are functioning properly since incorrect configuration may result in corrupted data. As a precaution, we recommend you to create a backup of your database before continuing.'
+    unitId: ldap_configuration_warning_message

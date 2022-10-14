@@ -104,22 +104,25 @@ export default {
     },
   },
   beforeMount() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.lastSyncStatus = data.syncStatus;
-        this.lastSyncDate =
-          data.syncFinishedAt?.date || data.syncStartedAt?.date;
-        this.lastSyncTime =
-          data.syncFinishedAt?.time || data.syncStartedAt?.time;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    this.getLastSyncStatus();
   },
   methods: {
+    getLastSyncStatus() {
+      this.isLoading = true;
+      this.http
+        .getAll()
+        .then(response => {
+          const {data} = response.data;
+          this.lastSyncStatus = data.syncStatus;
+          this.lastSyncDate =
+            data.syncFinishedAt?.date || data.syncStartedAt?.date;
+          this.lastSyncTime =
+            data.syncFinishedAt?.time || data.syncStartedAt?.time;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
     onClickSync() {
       this.isLoading = true;
       this.http
@@ -137,6 +140,7 @@ export default {
           });
         })
         .catch(() => {
+          this.getLastSyncStatus();
           this.$toast.error({
             title: this.$t('general.error'),
             message: this.$t('admin.synchronization_failed'),
