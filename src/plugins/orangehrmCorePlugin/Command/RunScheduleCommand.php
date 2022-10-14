@@ -29,9 +29,11 @@ use OrangeHRM\Entity\TaskSchedulerLog;
 use OrangeHRM\Framework\Console\Command;
 use OrangeHRM\Framework\Console\Scheduling\Schedule;
 use OrangeHRM\Framework\Console\Scheduling\SchedulerConfigurationInterface;
+use OrangeHRM\Framework\Logger\LoggerFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class RunScheduleCommand extends Command
 {
@@ -68,7 +70,13 @@ class RunScheduleCommand extends Command
         foreach (array_values($pluginConfigs) as $pluginConfig) {
             $configClass = new $pluginConfig['classname']();
             if ($configClass instanceof SchedulerConfigurationInterface) {
-                $configClass->schedule($schedule);
+                try {
+                    $configClass->schedule($schedule);
+                } catch (Throwable $e) {
+                    $logger = LoggerFactory::getLogger('scheduler');
+                    $logger->error($e->getMessage());
+                    $logger->error($e->getTraceAsString());
+                }
             }
         }
 

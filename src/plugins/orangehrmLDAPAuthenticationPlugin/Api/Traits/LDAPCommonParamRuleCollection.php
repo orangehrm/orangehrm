@@ -106,7 +106,8 @@ trait LDAPCommonParamRuleCollection
             ),
             new ParamRule(
                 LDAPConfigAPI::PARAMETER_SYNC_INTERVAL,
-                new Rule(Rules::NUMBER),
+                new Rule(Rules::INT_VAL),
+                new Rule(Rules::BETWEEN, [1, 23]),
             ),
         );
     }

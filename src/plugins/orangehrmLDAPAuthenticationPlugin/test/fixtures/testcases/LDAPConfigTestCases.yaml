@@ -31,7 +31,7 @@ Update:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 60
+        "syncInterval": 1
       }
     data:
       {
@@ -60,7 +60,7 @@ Update:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 60
+        "syncInterval": 1
       }
     meta: [ ]
 
@@ -104,7 +104,7 @@ Update:
         "employeeId": null
       },
       "mergeLDAPUsersWithExistingSystemUsers": true,
-      "syncInterval": 60
+      "syncInterval": 1
     }
     data: {
       "enable": false,
@@ -142,7 +142,7 @@ Update:
         "employeeId": null
       },
       "mergeLDAPUsersWithExistingSystemUsers": true,
-      "syncInterval": 60
+      "syncInterval": 1
     }
     meta: [ ]
 
@@ -179,7 +179,7 @@ Update:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 60
+        "syncInterval": 1
       }
     data:
       {
@@ -208,7 +208,7 @@ Update:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 60
+        "syncInterval": 1
       }
     meta: [ ]
 
@@ -244,7 +244,7 @@ Update:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 60
+        "syncInterval": 1
       }
     invalidOnly: [ "encryption" ]
 
@@ -280,7 +280,7 @@ Update:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 60
+        "syncInterval": 1
       }
     invalidOnly: [ "ldapImplementation" ]
 
@@ -308,9 +308,44 @@ Update:
         "employeeId": null
       },
       "mergeLDAPUsersWithExistingSystemUsers": false,
-      "syncInterval": 60
+      "syncInterval": 1
     }
     invalidOnly: [ "userLookupSettings" ]
+
+  'Save LDAP Config - Invalid syncInterval':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    body: {
+      "enable": false,
+      "hostname": "localhost",
+      "port": 389,
+      "encryption": "none",
+      "ldapImplementation": "OpenLDAP",
+      "bindAnonymously": false,
+      "bindUserDN": "cn=admin,dc=example,dc=org",
+      "bindUserPassword": "admin",
+      "userLookupSettings": [ {
+        "baseDN": "ou=users,dc=example,dc=org",
+        "searchScope": "sub",
+        "userNameAttribute": "cn",
+        "userUniqueIdAttribute": null,
+        "userSearchFilter": "objectClass=person",
+        "employeeSelectorMapping": [ ],
+      } ],
+      "dataMapping": {
+        "firstName": "givenName",
+        "lastName": "sn",
+        "userStatus": null,
+        "workEmail": null,
+        "employeeId": null
+      },
+      "mergeLDAPUsersWithExistingSystemUsers": false,
+      "syncInterval": 24
+    }
+    invalidOnly: [ "syncInterval" ]
 
   'Save LDAP Config - Invalid Search Scope':
     userId: 1
@@ -343,7 +378,7 @@ Update:
         "employeeId": null
       },
       "mergeLDAPUsersWithExistingSystemUsers": false,
-      "syncInterval": 60
+      "syncInterval": 1
     }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
@@ -379,7 +414,7 @@ Update:
         "employeeId": null
       },
       "mergeLDAPUsersWithExistingSystemUsers": false,
-      "syncInterval": 60
+      "syncInterval": 1
     }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
@@ -414,7 +449,7 @@ Update:
         "employeeId": null
       },
       "mergeLDAPUsersWithExistingSystemUsers": false,
-      "syncInterval": 60
+      "syncInterval": 1
     }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
@@ -450,7 +485,7 @@ Update:
         "employeeId": null
       },
       "mergeLDAPUsersWithExistingSystemUsers": false,
-      "syncInterval": 60
+      "syncInterval": 1
     }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
@@ -487,7 +522,7 @@ Update:
         "employeeId": null
       },
       "mergeLDAPUsersWithExistingSystemUsers": false,
-      "syncInterval": 60
+      "syncInterval": 1
     }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
@@ -520,7 +555,7 @@ GetOne:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 60
+        "syncInterval": 1
       }
 
   'Get LDAP Config':
@@ -558,6 +593,6 @@ GetOne:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 60
+        "syncInterval": 1
       }
     meta: [ ]
