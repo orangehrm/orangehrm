@@ -33,7 +33,6 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\LDAPSyncStatus;
 use OrangeHRM\LDAP\Api\Model\LDAPSyncStatusModel;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
-use OrangeHRM\LDAP\Service\LDAPService;
 use OrangeHRM\LDAP\Service\LDAPSyncService;
 use Throwable;
 
@@ -43,14 +42,14 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
     use DateTimeHelperTrait;
     use ConfigServiceTrait;
 
-    private LDAPService $ldapService;
+    private LDAPSyncService $ldapSyncService;
 
     /**
-     * @return LDAPService
+     * @return LDAPSyncService
      */
-    private function getLdapService(): LDAPService
+    private function getLDAPSyncService(): LDAPSyncService
     {
-        return $this->ldapService ??= new LDAPService();
+        return $this->ldapSyncService ??= new LDAPSyncService();
     }
 
     /**
@@ -81,14 +80,13 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
             throw $this->getBadRequestException('LDAP sync not enabled');
         }
         $ldapSyncStatus = new LDAPSyncStatus();
-        $ldapSyncService = new LDAPSyncService();
         try {
             $ldapSyncStatus->getDecorator()->setSyncedUserByUserId($this->getAuthUser()->getUserId());
             $ldapSyncStatus->setSyncStartedAt(
                 $this->getDateTimeHelper()->getNow()
                     ->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC))
             );
-            $ldapSyncService->sync();
+            $this->getLDAPSyncService()->sync();
             $ldapSyncStatus->setSyncFinishedAt(
                 $this->getDateTimeHelper()->getNow()
                     ->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC))
@@ -110,7 +108,7 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
     private function saveLDAPSyncStatus(
         LDAPSyncStatus $ldapSyncStatus
     ): LDAPSyncStatus {
-        return $this->getLDAPService()->getLdapDao()->saveLdapSyncStatus($ldapSyncStatus);
+        return $this->getLDAPSyncService()->getLDAPDao()->saveLdapSyncStatus($ldapSyncStatus);
     }
 
     public function getValidationRuleForCreate(): ParamRuleCollection
@@ -125,7 +123,7 @@ class LDAPUserSyncAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $lastLdapSyncStatus = $this->getLDAPService()->getLdapDao()->getLastLDAPSyncStatus();
+        $lastLdapSyncStatus = $this->getLDAPSyncService()->getLDAPDao()->getLastLDAPSyncStatus();
         if (is_null($lastLdapSyncStatus)) {
             $lastLdapSyncStatus = new LDAPSyncStatus();
         }

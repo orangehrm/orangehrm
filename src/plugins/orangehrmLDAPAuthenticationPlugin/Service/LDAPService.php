@@ -21,7 +21,6 @@ namespace OrangeHRM\LDAP\Service;
 
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\LDAP\Dao\LDAPDao;
 use Symfony\Component\Ldap\Adapter\AdapterInterface;
 use Symfony\Component\Ldap\Adapter\ConnectionInterface;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
@@ -34,11 +33,6 @@ class LDAPService
     use ConfigServiceTrait;
 
     protected ?AdapterInterface $adapter = null;
-
-    /**
-     * @var LDAPDao
-     */
-    private LDAPDao $ldapDao;
 
     /**
      * @return ConnectionInterface|Connection
@@ -103,13 +97,5 @@ class LDAPService
     public function getEntryManager(): EntryManager
     {
         return $this->getAdapter()->getEntryManager();
-    }
-
-    /**
-     * @return LDAPDao
-     */
-    public function getLdapDao(): LDAPDao
-    {
-        return $this->ldapDao ??= new LDAPDao();
     }
 }

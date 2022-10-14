@@ -79,7 +79,7 @@ class LDAPAuthenticationPluginConfiguration implements
             }
 
             $schedule->add(new CommandInfo('orangehrm:ldap-sync-user'))
-                ->cron("* */$interval * * *");
+                ->cron("0 */$interval * * *");
         }
     }
 }
