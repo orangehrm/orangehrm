@@ -22,13 +22,10 @@ namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Core\Exception\CSVUploadFailedException;
 use OrangeHRM\Core\Import\CsvDataImportFactory;
-use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use Throwable;
 
 class CsvDataImportService
 {
-    use TextHelperTrait;
-
     /**
      * @param string $fileContent
      * @param string $importType
