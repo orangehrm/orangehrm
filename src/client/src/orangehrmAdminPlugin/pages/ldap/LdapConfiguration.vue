@@ -333,6 +333,12 @@
           </oxd-grid>
         </oxd-form-row>
 
+        <oxd-alert
+          type="warn"
+          :show="true"
+          :message="$t('admin.ldap_configuration_warning_message')"
+        ></oxd-alert>
+
         <oxd-divider />
 
         <oxd-form-actions>
@@ -375,8 +381,9 @@ import {
   numberShouldBeBetweenMinAndMaxValue,
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon';
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {reloadPage} from '@/core/util/helper/navigation';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import LdapSyncConnection from '@/orangehrmAdminPlugin/components/LdapSyncConnection';
@@ -414,6 +421,7 @@ const dataMappingModel = {
 export default {
   components: {
     'oxd-icon': Icon,
+    'oxd-alert': Alert,
     'oxd-switch-input': SwitchInput,
     'ldap-sync-connection': LdapSyncConnection,
     'ldap-test-connection-modal': LdapTestConnectionModal,
