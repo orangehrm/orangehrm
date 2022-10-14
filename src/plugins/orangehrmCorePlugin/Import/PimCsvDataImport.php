@@ -25,21 +25,24 @@ use Exception;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Api\V2\Validator\Rules\Email;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Api\V2\Validator\Rules\Phone;
 use OrangeHRM\Core\Traits\LoggerTrait;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Nationality;
+use OrangeHRM\Entity\Province;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class PimCsvDataImport extends CsvDataImport
 {
     use ServiceContainerTrait;
     use EmployeeServiceTrait;
-    use EntityManagerHelperTrait;
     use LoggerTrait;
+    use TextHelperTrait;
 
     /**
      * @var null|NationalityService
@@ -49,11 +52,16 @@ class PimCsvDataImport extends CsvDataImport
     /**
      * @param array $data
      * @return bool
-     * @throws DaoException
      */
     public function import(array $data): bool
     {
-        if ($data[0] == "" || $data[2] == "" || strlen($data[0]) > 30 || strlen($data[2]) > 30) {
+        $firstName = $data[0];
+        $middleName = $data[1];
+        $lastName = $data[2];
+        if ($firstName === null || $lastName === null
+            || $firstName === '' || $lastName === ''
+            || $this->getTextHelper()->strLength($firstName) > EmployeeService::FIRST_NAME_MAX_LENGTH
+            || $this->getTextHelper()->strLength($lastName) > EmployeeService::LAST_NAME_MAX_LENGTH) {
             return false;
         }
         for ($i = 3; $i < 23; $i++) {
@@ -62,106 +70,106 @@ class PimCsvDataImport extends CsvDataImport
             }
         }
         $employee = new Employee();
-        $employee->setFirstName($data[0]);
-        if (strlen($data[1]) <= 30) {
-            $employee->setMiddleName($data[1]);
+        $employee->setFirstName($firstName);
+        if ($this->getTextHelper()->strLength($middleName) <= EmployeeService::MIDDLE_NAME_MAX_LENGTH) {
+            $employee->setMiddleName($middleName);
         }
-        $employee->setLastName($data[2]);
+        $employee->setLastName($lastName);
 
-        if (strlen($data[3]) <= 50) {
-            if (!$this->isUniqueEmployeeId($data[3])) {
-                $this->getLogger()->error('Employee record not imported due to duplicated employee_id');
+        $employeeId = $data[3];
+        if ($this->getTextHelper()->strLength($employeeId) <= EmployeeService::EMPLOYEE_ID_MAX_LENGTH) {
+            if (!$this->isUniqueEmployeeId($employeeId)) {
+                $this->getLogger()->warning('Employee record not imported due to duplicated employee_id');
                 return false;
             }
-            $employee->setEmployeeId($data[3]);
+            $employee->setEmployeeId($employeeId);
         }
-        if (strlen($data[4]) <= 30) {
+        if ($this->getTextHelper()->strLength($data[4]) <= 30) {
             $employee->setOtherId($data[4]);
         }
-        if (strlen($data[5]) <= 30) {
+        if ($this->getTextHelper()->strLength($data[5]) <= 30) {
             $employee->setDrivingLicenseNo($data[5]);
         }
-        if ($this->isValidDate($data[6])) {
-            $employee->setDrivingLicenseExpiredDate(new DateTime($data[6]));
+        $employee->setDrivingLicenseExpiredDate($this->getDateTimeIfValid($data[6]));
+
+        switch (strtolower($data[7])) {
+            case 'male':
+                $employee->setGender(Employee::GENDER_MALE);
+                break;
+            case 'female':
+                $employee->setGender(Employee::GENDER_FEMALE);
+                break;
         }
 
-        if (strtolower($data[7]) == 'male') {
-            $employee->setGender('1');
-        } else {
-            if (strtolower($data[7]) == 'female') {
-                $employee->setGender('2');
-            }
+        switch (strtolower($data[8])) {
+            case 'single':
+                $employee->setMaritalStatus(Employee::MARITAL_STATUS_SINGLE);
+                break;
+            case 'married':
+                $employee->setMaritalStatus(Employee::MARITAL_STATUS_MARRIED);
+                break;
+            case 'other':
+                $employee->setMaritalStatus(Employee::MARITAL_STATUS_OTHER);
+                break;
         }
 
-        if (strtolower($data[8]) == 'single') {
-            $employee->setMaritalStatus('Single');
-        } else {
-            if (strtolower($data[8]) == 'married') {
-                $employee->setMaritalStatus('Married');
-            } else {
-                if (strtolower($data[8]) == 'other') {
-                    $employee->setMaritalStatus('Other');
-                }
-            }
-        }
-
-        $nationality = $this->isValidNationality($data[9]);
-        if (!empty($nationality)) {
-            $employee->setNationality($nationality);
-        }
-        if ($this->isValidDate($data[10])) {
-            $employee->setBirthday(new DateTime($data[10]));
-        }
-        if (strlen($data[11]) <= 70) {
+        $employee->setNationality($this->getNationalityIfValid($data[9]));
+        $employee->setBirthday($this->getDateTimeIfValid($data[10]));
+        if ($this->getTextHelper()->strLength($data[11]) <= 70) {
             $employee->setStreet1($data[11]);
         }
-        if (strlen($data[12]) <= 70) {
+        if ($this->getTextHelper()->strLength($data[12]) <= 70) {
             $employee->setStreet2($data[12]);
         }
-        if (strlen($data[13]) <= 70) {
+        if ($this->getTextHelper()->strLength($data[13]) <= 70) {
             $employee->setCity($data[13]);
         }
 
-        if (strlen($data[15]) <= 10) {
+        if ($this->getTextHelper()->strLength($data[15]) <= 10) {
             $employee->setZipcode($data[15]);
         }
 
-        $code = $this->isValidCountry($data[16]);
-        if (!empty($code)) {
+        $code = $this->getCountryCodeIfValid($data[16]);
+        if ($code !== null) {
             $employee->setCountry($code);
             if (strtolower($data[16]) == 'united states') {
-                $code = $this->isValidProvince($data[14]);
-                if (!empty($code)) {
-                    $employee->setProvince($code);
-                }
-            } else {
-                if (strlen($data[14]) <= 70) {
-                    $employee->setProvince($data[14]);
-                }
+                $provinceCode = $this->getProvinceIfValid($data[14]);
+                $employee->setProvince($provinceCode);
+            } elseif ($this->getTextHelper()->strLength($data[14]) <= 70) {
+                $employee->setProvince($data[14]);
             }
         }
-        if (strlen($data[17]) <= 25 && $this->isValidPhoneNumber($data[17])) {
+        if ($this->getTextHelper()->strLength($data[17]) <= 25 && $this->isValidPhoneNumber($data[17])) {
             $employee->setHomeTelephone($data[17]);
         }
-        if (strlen($data[18]) <= 25 && $this->isValidPhoneNumber($data[18])) {
+        if ($this->getTextHelper()->strLength($data[18]) <= 25 && $this->isValidPhoneNumber($data[18])) {
             $employee->setMobile($data[18]);
         }
-        if (strlen($data[19]) <= 25 && $this->isValidPhoneNumber($data[19])) {
+        if ($this->getTextHelper()->strLength($data[19]) <= 25 && $this->isValidPhoneNumber($data[19])) {
             $employee->setWorkTelephone($data[19]);
         }
-        if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50) {
-            if (!$this->isUniqueEmail($data[20])) {
-                $this->getLogger()->error('Employee record not imported due to duplicated work_email');
-                return false;
-            }
-            $employee->setWorkEmail($data[20]);
+        $workEmail = $data[20];
+        $otherEmail = $data[21];
+        if (!$this->isEmpty($workEmail) && $workEmail === $otherEmail) {
+            return false;
         }
-        if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50) {
-            if (!$this->isUniqueEmail($data[21])) {
-                $this->getLogger()->error('Employee record not imported due to duplicated other_email');
+        if ($this->isValidEmail($workEmail) && $this->getTextHelper()->strLength(
+            $workEmail
+        ) <= EmployeeService::WORK_EMAIL_MAX_LENGTH) {
+            if (!$this->isUniqueEmail($workEmail)) {
+                $this->getLogger()->warning('Employee record not imported due to duplicated work_email');
                 return false;
             }
-            $employee->setOtherEmail($data[21]);
+            $employee->setWorkEmail($workEmail);
+        }
+        if ($this->isValidEmail($otherEmail) && $this->getTextHelper()->strLength(
+            $otherEmail
+        ) <= EmployeeService::WORK_EMAIL_MAX_LENGTH) {
+            if (!$this->isUniqueEmail($otherEmail)) {
+                $this->getLogger()->warning('Employee record not imported due to duplicated other_email');
+                return false;
+            }
+            $employee->setOtherEmail($otherEmail);
         }
 
         $this->getEmployeeService()->saveEmployee($employee);
@@ -170,29 +178,31 @@ class PimCsvDataImport extends CsvDataImport
 
     /**
      * @param string|null $date
-     * @return bool
+     * @return DateTime|null
      */
-    private function isValidDate(?string $date): bool
+    private function getDateTimeIfValid(?string $date): ?DateTime
     {
-        if (preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $date)) {
-            list($year, $month, $day) = explode('-', $date);
-            return checkdate($month, $day, $year);
-        } else {
-            return false;
+        if ($this->isEmpty($date)) {
+            return null;
+        }
+        try {
+            return new DateTime($date);
+        } catch (Exception $e) {
+            return null;
         }
     }
 
     /**
      * @param string|null $name
-     * @return Nationality|void
-     * @throws DaoException
+     * @return Nationality|null
      */
-    private function isValidNationality(?string $name)
+    private function getNationalityIfValid(?string $name): ?Nationality
     {
-        $nationality = $this->getNationalityService()->getNationalityByName($name);
-        if ($nationality) {
-            return $nationality;
+        if (!$this->isEmpty($name)) {
+            return $this->getNationalityService()->getNationalityByName($name);
         }
+
+        return null;
     }
 
     /**
@@ -200,10 +210,7 @@ class PimCsvDataImport extends CsvDataImport
      */
     public function getNationalityService(): NationalityService
     {
-        if (!$this->nationalityService instanceof NationalityService) {
-            $this->nationalityService = new NationalityService();
-        }
-        return $this->nationalityService;
+        return $this->nationalityService ??= new NationalityService();
     }
 
     /**
@@ -216,23 +223,21 @@ class PimCsvDataImport extends CsvDataImport
 
     /**
      * @param string|null $name
-     * @return string|void
-     * @throws DaoException
-     * @throws Exception
+     * @return string|null
      */
-    private function isValidCountry(?string $name)
+    private function getCountryCodeIfValid(?string $name): ?string
     {
-        if ($name) {
-            $country = $this->getCountryService()->getCountryByCountryName($name);
-            if ($country) {
-                return $country->getCountryCode();
-            }
+        if (!$this->isEmpty($name) &&
+            ($country = $this->getCountryService()
+                ->getCountryByCountryName($name)) instanceof Country) {
+            return $country->getCountryCode();
         }
+
+        return null;
     }
 
     /**
-     * @return CountryService $countryService
-     * @throws Exception
+     * @return CountryService
      */
     public function getCountryService(): CountryService
     {
@@ -241,15 +246,18 @@ class PimCsvDataImport extends CsvDataImport
 
     /**
      * @param string|null $name
-     * @return string|void
-     * @throws Exception
+     * @return string|null
      */
-    private function isValidProvince(?string $name)
+    private function getProvinceIfValid(?string $name): ?string
     {
-        $province = $this->getCountryService()->getCountryDao()->getProvinceByProvinceName($name);
-        if ($province) {
+        if (!$this->isEmpty($name) &&
+            ($province = $this->getCountryService()
+                ->getCountryDao()
+                ->getProvinceByProvinceName($name)) instanceof Province) {
             return $province->getProvinceCode();
         }
+
+        return null;
     }
 
     /**
@@ -258,10 +266,11 @@ class PimCsvDataImport extends CsvDataImport
      */
     public function isValidPhoneNumber(?string $number): bool
     {
-        if (preg_match('/^\+?[0-9 \-]+$/', $number)) {
+        if ($this->isEmpty($number)) {
             return true;
         }
-        return false;
+        $rule = new Phone();
+        return $rule->validate($number);
     }
 
     /**
@@ -270,10 +279,11 @@ class PimCsvDataImport extends CsvDataImport
      */
     private function isValidEmail(?string $email): bool
     {
-        if (preg_match(Email::EMAIL_REGEX, $email)) {
+        if ($this->isEmpty($email)) {
             return true;
         }
-        return false;
+        $rule = new Email();
+        return $rule->validate($email);
     }
 
     /**
@@ -282,17 +292,7 @@ class PimCsvDataImport extends CsvDataImport
      */
     private function isUniqueEmail(?string $email): bool
     {
-        $qb = $this->createQueryBuilder(Employee::class, 'employee');
-        $qb->andWhere(
-            $qb->expr()->orX(
-                $qb->expr()->eq('employee.workEmail', ':workEmail'),
-                $qb->expr()->eq('employee.otherEmail', ':otherEmail')
-            )
-        );
-        $qb->setParameter('workEmail', $email);
-        $qb->setParameter('otherEmail', $email);
-
-        return is_null($email) || $email === "" || $this->getPaginator($qb)->count() === 0;
+        return $this->isEmpty($email) || $this->getEmployeeService()->isUniqueEmail($email);
     }
 
     /**
@@ -301,8 +301,16 @@ class PimCsvDataImport extends CsvDataImport
      */
     private function isUniqueEmployeeId(?string $employeeId): bool
     {
-        return is_null($employeeId) ||
-            $employeeId === "" ||
-            is_null($this->getRepository(Employee::class)->findOneBy(['employeeId' => $employeeId]));
+        return $this->isEmpty($employeeId) ||
+            $this->getEmployeeService()->isUniqueEmployeeId($employeeId);
+    }
+
+    /**
+     * @param string|null $string
+     * @return bool
+     */
+    private function isEmpty(?string $string): bool
+    {
+        return $string === null || $string === '';
     }
 }
