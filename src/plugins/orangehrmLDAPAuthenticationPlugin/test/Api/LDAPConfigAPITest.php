@@ -75,7 +75,7 @@ class LDAPConfigAPITest extends EndpointIntegrationTestCase
             ->setUserStatusAttribute(null)
             ->setWorkEmailAttribute('mail')
             ->setEmployeeIdAttribute(null);
-        $ldapSettings->setSyncInterval(60);
+        $ldapSettings->setSyncInterval(2);
         $ldapSettings->setEnable(false);
 
         $config = new Config();

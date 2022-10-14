@@ -21,20 +21,17 @@
 namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Core\Exception\CSVUploadFailedException;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Import\CsvDataImportFactory;
-use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use Throwable;
 
 class CsvDataImportService
 {
-    use TextHelperTrait;
-
     /**
      * @param string $fileContent
      * @param string $importType
      * @param array $headerValues
      * @return array
-     * @throws DaoException|CSVUploadFailedException
+     * @throws CSVUploadFailedException
      */
     public function import(string $fileContent, string $importType, array $headerValues): array
     {
@@ -47,11 +44,15 @@ class CsvDataImportService
         $failList = [];
         if ($headerValues == $employeesDataArray[0]) {
             for ($i = 1; $i < sizeof($employeesDataArray); $i++) {
-                $result = $instance->import($employeesDataArray[$i]);
+                try {
+                    $result = $instance->import($employeesDataArray[$i]);
+                } catch (Throwable $e) {
+                    $result = false;
+                }
                 if ($result) {
                     $rowsImported++;
                 } else {
-                    $failList[] = $i+1; // since the first row contains headers
+                    $failList[] = $i + 1; // since the first row contains headers
                 }
             }
         }

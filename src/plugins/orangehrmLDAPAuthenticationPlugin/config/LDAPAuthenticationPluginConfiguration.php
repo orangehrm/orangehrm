@@ -73,13 +73,13 @@ class LDAPAuthenticationPluginConfiguration implements
     {
         $ldapSettings = $this->getConfigService()->getLDAPSetting();
         if ($ldapSettings instanceof LDAPSetting && $ldapSettings->isEnable()) {
-            $interval = 60;
-            if ($ldapSettings->getSyncInterval() <= 1440 && $ldapSettings->getSyncInterval() >= 5) {
+            $interval = 1;
+            if ($ldapSettings->getSyncInterval() <= 23 && $ldapSettings->getSyncInterval() >= 1) {
                 $interval = $ldapSettings->getSyncInterval();
             }
 
             $schedule->add(new CommandInfo('orangehrm:ldap-sync-user'))
-                ->cron("*/$interval * * * *");
+                ->cron("0 */$interval * * *");
         }
     }
 }

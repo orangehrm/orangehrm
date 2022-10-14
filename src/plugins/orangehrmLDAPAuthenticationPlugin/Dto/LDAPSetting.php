@@ -46,7 +46,7 @@ class LDAPSetting
     private LDAPUserDataMapping $dataMapping;
 
     private bool $mergeLDAPUsersWithExistingSystemUsers = false;
-    private int $syncInterval = 60;
+    private int $syncInterval = 1;
 
 
     /**
