@@ -593,6 +593,6 @@ GetOne:
           "employeeId": null
         },
         "mergeLDAPUsersWithExistingSystemUsers": false,
-        "syncInterval": 1
+        "syncInterval": 2
       }
     meta: [ ]

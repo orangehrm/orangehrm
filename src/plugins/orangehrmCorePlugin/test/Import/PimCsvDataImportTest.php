@@ -32,7 +32,6 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Nationality;
 use OrangeHRM\Entity\Province;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -180,10 +179,6 @@ class PimCsvDataImportTest extends KernelTestCase
             ->method('saveEmployee')
             ->with($employee)
             ->will($this->returnValue($employee));
-
-        $mockEmployeeDao = $this->getMockBuilder(EmployeeDao::class)
-            ->getMock();
-        $mockEmployeeService->setEmployeeDao($mockEmployeeDao);
 
         $this->createKernelWithMockServices(
             [Services::COUNTRY_SERVICE => $mockCountryService, Services::EMPLOYEE_SERVICE => $mockEmployeeService]
