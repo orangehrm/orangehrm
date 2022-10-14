@@ -41,6 +41,14 @@ class LDAPSyncUserCommand extends Command
     /**
      * @inheritDoc
      */
+    protected function configure()
+    {
+        $this->setDescription('Sync users from LDAP');
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $ldapSetting = $this->getConfigService()->getLDAPSetting();

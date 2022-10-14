@@ -18,7 +18,7 @@
  */
 
 /* For logging PHP errors */
-include_once('lib/confs/log_settings.php');
+include_once('lib/log_settings.php');
 
 if (!realpath(__DIR__ . '/lib/confs/Conf.php')) {
     header('Location: ./installer/index.php');

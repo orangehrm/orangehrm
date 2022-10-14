@@ -17,32 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-include_once('./../lib/log_settings.php');
+$logFilePath = realpath(__DIR__ . '/../src/log') . DIRECTORY_SEPARATOR . 'orangehrm.log';
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Framework;
-use OrangeHRM\Framework\Http\RedirectResponse;
-use OrangeHRM\Framework\Http\Request;
-use Symfony\Component\ErrorHandler\Debug;
-
-require realpath(__DIR__ . '/../src/vendor/autoload.php');
-
-$env = 'prod';
-$debug = 'prod' !== $env;
-
-if ($debug) {
-    umask(0000);
-    Debug::enable();
-}
-
-$kernel = new Framework($env, $debug);
-$request = Request::createFromGlobals();
-
-if (Config::isInstalled()) {
-    $response = $kernel->handleRequest($request);
-} else {
-    $response = new RedirectResponse(str_replace('/web/index.php', '', $request->getBaseUrl()));
-}
-
-$response->send();
-$kernel->terminate($request, $response);
+ini_set('log_errors', true);
+ini_set('error_log', $logFilePath);

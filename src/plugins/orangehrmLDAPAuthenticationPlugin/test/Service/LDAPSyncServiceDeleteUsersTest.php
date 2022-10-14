@@ -35,6 +35,7 @@ use OrangeHRM\LDAP\Dto\LDAPUserLookupSetting;
 use OrangeHRM\LDAP\Service\LDAPSyncService;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\Mock\MockLogger;
 use OrangeHRM\Tests\Util\TestDataService;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Collection;
 use Symfony\Component\Ldap\Entry;
@@ -147,6 +148,7 @@ class LDAPSyncServiceDeleteUsersTest extends KernelTestCase
             Services::CONFIG_SERVICE => $configService,
             Services::USER_SERVICE => new UserService(),
             Services::EMPLOYEE_SERVICE => new EmployeeService(),
+            Services::LDAP_LOGGER => new MockLogger(),
         ]);
 
         $lookupSetting = LDAPUserLookupSetting::createFromArray([

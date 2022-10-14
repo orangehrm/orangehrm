@@ -22,6 +22,9 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
+use OrangeHRM\Framework\Console\Scheduling\CommandInfo;
+use OrangeHRM\Framework\Console\Scheduling\Schedule;
+use OrangeHRM\Framework\Console\Scheduling\SchedulerConfigurationInterface;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\PluginConfigurationInterface;
@@ -30,7 +33,10 @@ use OrangeHRM\LDAP\Auth\LDAPAuthProvider;
 use OrangeHRM\LDAP\Command\LDAPSyncUserCommand;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 
-class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterface, ConsoleConfigurationInterface
+class LDAPAuthenticationPluginConfiguration implements
+    PluginConfigurationInterface,
+    ConsoleConfigurationInterface,
+    SchedulerConfigurationInterface
 {
     use ServiceContainerTrait;
     use ConfigServiceTrait;
@@ -58,5 +64,22 @@ class LDAPAuthenticationPluginConfiguration implements PluginConfigurationInterf
     public function registerCommands(Console $console): void
     {
         $console->add(new LDAPSyncUserCommand());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function schedule(Schedule $schedule): void
+    {
+        $ldapSettings = $this->getConfigService()->getLDAPSetting();
+        if ($ldapSettings instanceof LDAPSetting && $ldapSettings->isEnable()) {
+            $interval = 60;
+            if ($ldapSettings->getSyncInterval() <= 1440 && $ldapSettings->getSyncInterval() >= 5) {
+                $interval = $ldapSettings->getSyncInterval();
+            }
+
+            $schedule->add(new CommandInfo('orangehrm:ldap-sync-user'))
+                ->cron("*/$interval * * * *");
+        }
     }
 }
