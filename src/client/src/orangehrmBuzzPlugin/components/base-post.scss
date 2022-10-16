@@ -45,6 +45,10 @@
       margin-left: 0.5rem;
     }
     &-dropdown {
+      right: 0;
+      @include oxd-respond-to('md') {
+        right: unset;
+      }
       z-index: 20;
       padding: 10px;
       width: 8rem;
