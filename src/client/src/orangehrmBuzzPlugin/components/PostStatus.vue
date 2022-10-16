@@ -25,7 +25,7 @@
         <oxd-icon name="heart-fill" class="orangehrm-buzz-like-icon"></oxd-icon>
         <oxd-text
           tag="p"
-          @mouseleave="showLikeList = false"
+          @mouseleave="onShowLikeListMobile"
           @mouseover="onShowLikeList"
           @click="onShowLikeList"
         >
@@ -60,21 +60,25 @@
           </oxd-sheet>
         </div>
         <div v-if="showLikeList && isMobile">
-          <!-- todo add mobile view -->
+          <oxd-post-status
+            :post-id="1"
+            icon-name="heart-fill"
+            status-name="likes"
+          ></oxd-post-status>
         </div>
       </div>
       <div class="orangehrm-buzz-post-footer-summery-bottom">
         <oxd-text
           tag="p"
           class="orangehrm-buzz-post-footer-comment"
-          @click="onClickComments"
+          @click="$emit('showComment', $event)"
         >
           {{ $t('buzz.n_comment', {commentCount: noOfComments}) }} ,
         </oxd-text>
         <div>
           <oxd-text
             tag="p"
-            @mouseleave="showSharesList = false"
+            @mouseleave="onShowSharesListMobile"
             @mouseover="onShowSharesList"
             @click="onShowSharesList"
           >
@@ -109,7 +113,11 @@
             </oxd-sheet>
           </div>
           <div v-if="showSharesList && isMobile">
-            <!-- todo add mobile view -->
+            <oxd-post-status
+              :post-id="1"
+              icon-name="share-fill"
+              status-name="shares"
+            ></oxd-post-status>
           </div>
         </div>
       </div>
@@ -121,14 +129,17 @@ import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import PostStatusDialog from '@/orangehrmBuzzPlugin/components/PostStatusDialog.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'PostStatus',
+
   components: {
     'oxd-icon': Icon,
     'oxd-sheet': Sheet,
     'oxd-loading-spinner': Spinner,
+    'oxd-post-status': PostStatusDialog,
   },
   props: {
     postId: {
@@ -153,6 +164,8 @@ export default {
     },
   },
 
+  emits: ['showComment'],
+
   setup() {
     const {$tEmpName} = useEmployeeNameTranslate();
     const http = new APIService(window.appGlobal.baseUrl, '');
@@ -166,7 +179,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      showComments: false,
       showLikeList: false,
       showSharesList: false,
       likedList: [],
@@ -175,9 +187,6 @@ export default {
   },
 
   methods: {
-    onClickComments() {
-      this.showComments = !this.showComments;
-    },
     onShowLikeList() {
       this.showLikeList = true;
       this.isLoading = true;
@@ -230,6 +239,16 @@ export default {
           .finally(() => {
             this.isLoading = false;
           });
+      }
+    },
+    onShowSharesListMobile() {
+      if (!this.isMobile) {
+        this.showSharesList = false;
+      }
+    },
+    onShowLikeListMobile() {
+      if (!this.isMobile) {
+        this.showLikeList = false;
       }
     },
   },
