@@ -39,35 +39,8 @@
             </oxd-text>
           </div>
         </div>
-        <div
-          v-if="postedEmployeeId === buzzUserId"
-          class="orangehrm-buzz-post-header-config"
-        >
-          <oxd-icon-button
-            class=""
-            name="three-dots"
-            with-container="true"
-            @click="onClickShowDropdown"
-            @focusout="showDropdown = false"
-          />
-          <oxd-sheet
-            v-if="showDropdown"
-            class="orangehrm-buzz-post-header-dropdown"
-          >
-            <div class="orangehrm-buzz-post-header-dropdown-item">
-              <oxd-icon name="trash" />
-              <oxd-text tag="p">
-                {{ $t('buzz.delete_post') }}
-              </oxd-text>
-            </div>
-            <oxd-divider />
-            <div class="orangehrm-buzz-post-header-dropdown-item">
-              <oxd-icon name="pencil" />
-              <oxd-text tag="p">
-                {{ $t('buzz.edit_post') }}
-              </oxd-text>
-            </div>
-          </oxd-sheet>
+        <div class="orangehrm-buzz-post-header-config">
+          <oxd-dropdown icon="three-dots" :options="dropdownOptions" />
         </div>
       </div>
       <oxd-divider />
@@ -82,44 +55,22 @@
       </div>
       <slot name="postStatus"> </slot>
     </div>
-    <div v-if="showComments" class="orangehrm-buzz-post-comment">
-      <oxd-divider />
-      <div class="orangehrm-buzz-post-comment-add">
-        <div class="orangehrm-buzz-post-profile-image-comment">
-          <img
-            alt="profile picture"
-            class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/${buzzUserId}`"
-          />
-        </div>
-        <oxd-form class="orangehrm-buzz-post-comment-input">
-          <oxd-form-row>
-            <oxd-grid-item>
-              <oxd-input-field :placeholder="$t('buzz.write_your_comment')" />
-            </oxd-grid-item>
-          </oxd-form-row>
-        </oxd-form>
-      </div>
-      <!-- bottom slot for commnets -->
-      <slot name="comments"></slot>
-    </div>
+    <slot name="comments"></slot>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
   </oxd-sheet>
 </template>
 <script>
 import {computed} from 'vue';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown.vue';
 
 export default {
   name: 'PostContainer',
   components: {
-    'oxd-icon': Icon,
     'oxd-sheet': Sheet,
-    'delete-confirmation': DeleteConfirmationDialog,
+    'oxd-dropdown': Dropdown,
   },
   props: {
     postId: {
@@ -153,6 +104,7 @@ export default {
       return props.employee.employeeId;
     });
 
+    // change name
     const postIds = computed(() => {
       return props.postId;
     });
@@ -175,13 +127,14 @@ export default {
       showSharesList: false,
       likedList: [],
       sharesList: [],
+      dropdownOptions: [
+        {label: this.$t('general.edit'), context: 'edit'},
+        {label: this.$t('performance.delete'), context: 'delete'},
+      ],
     };
   },
 
   methods: {
-    onClickComments() {
-      this.showComments = !this.showComments;
-    },
     onClickShowDropdown() {
       this.showDropdown = !this.showDropdown;
     },
