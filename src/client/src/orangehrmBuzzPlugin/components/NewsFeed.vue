@@ -25,6 +25,7 @@
     </oxd-text>
 
     <create-post></create-post>
+    <post-filters :is-mobile="isMobile"></post-filters>
 
     <!-- todo: add post filters here -->
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
@@ -35,17 +36,19 @@
           :employee="post.employee"
         >
           <template #actionButton>
-            <post-actions></post-actions>
+            <post-actions @showComment="onClickShowComment"></post-actions>
           </template>
           <template #postStatus>
             <post-status
-              :post-id="postIds"
-              :is-mobile="isMobile"
-              :no-of-likes="1"
+              :no-of-likes="5"
               :no-of-shares="1"
-              :no-of-comments="noOfComments"
+              :no-of-comments="1"
+              :post-id="post.id"
+              :is-mobile="isMobile"
+              @showComment="onClickShowComment"
             ></post-status>
           </template>
+          <template #comments> </template>
         </base-post>
       </oxd-grid-item>
     </oxd-grid>
@@ -65,6 +68,7 @@ import CreatePost from '@/orangehrmBuzzPlugin/components/CreatePost.vue';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import PostStatus from '@/orangehrmBuzzPlugin/components/PostStatus.vue';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
+import PostFIlters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 
 const defaultFilters = {
   priority: 'most_recent', // most_recent | most_likes | most_comments
@@ -76,9 +80,10 @@ export default {
   components: {
     'base-post': BasePost,
     'create-post': CreatePost,
-    'oxd-loading-spinner': Spinner,
     'post-status': PostStatus,
     'post-actions': PostActions,
+    'post-filters': PostFIlters,
+    'oxd-loading-spinner': Spinner,
   },
 
   props: {
