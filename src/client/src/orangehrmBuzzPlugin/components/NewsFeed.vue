@@ -93,6 +93,8 @@ export default {
     'oxd-loading-spinner': Spinner,
     'post-status': PostStatus,
     'post-actions': PostActions,
+    'post-filters': PostFIlters,
+    'oxd-loading-spinner': Spinner,
   },
 
   props: {
