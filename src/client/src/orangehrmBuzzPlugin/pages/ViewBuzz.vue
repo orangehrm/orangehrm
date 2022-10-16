@@ -21,6 +21,7 @@
 <template>
   <oxd-tab-container v-if="isMobile" v-model="tabSelector">
     <oxd-tab-panel key="buzz_newsfeed" :name="$t('buzz.buzz_newsfeed')">
+      <post-filters :is-mobile="isMobile"></post-filters>
       <news-feed :is-mobile="isMobile"></news-feed>
     </oxd-tab-panel>
     <oxd-tab-panel
@@ -47,8 +48,8 @@ import useResponsive, {
   DEVICE_XL,
 } from '@ohrm/oxd/composables/useResponsive';
 import TabPanel from '@ohrm/oxd/core/components/Tab/TabPanel';
-import TabContainer from '@ohrm/oxd/core/components/Tab/TabContainer';
 import NewsFeed from '@/orangehrmBuzzPlugin/components/NewsFeed.vue';
+import TabContainer from '@ohrm/oxd/core/components/Tab/TabContainer';
 import UpcomingAnniversaries from '@/orangehrmBuzzPlugin/components/UpcomingAnniversaries.vue';
 
 export default {

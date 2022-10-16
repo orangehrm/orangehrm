@@ -26,6 +26,22 @@
   margin-right: auto;
   margin-bottom: 1.5rem;
 }
+::v-deep(.orangehrm-buzz-post-mobile) {
+  margin: 0;
+  bottom: 0;
+  width: 100%;
+  max-height: 30rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: fixed;
+  padding: inherit;
+  border-radius: 1.2rem 1.2rem 0rem 0rem;
+  @include oxd-scrollbar();
+}
+
+::v-deep(.oxd-dialog-close-button) {
+  display: none;
+}
 .orangehrm-buzz-post {
   &-profile-image {
     & img {
@@ -73,11 +89,6 @@
       position: absolute;
       box-sizing: border-box;
       @include oxd-scrollbar();
-      &-mobile {
-        width: 10rem;
-        height: 25rem;
-        z-index: 200;
-      }
     }
     &-share-list {
       padding: 4px;
@@ -89,6 +100,17 @@
       position: absolute;
       box-sizing: border-box;
       @include oxd-scrollbar();
+    }
+    &-mobile-list {
+      &-header {
+        display: flex;
+        align-items: center;
+      }
+      &-share {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-left: 0.5rem;
+      }
     }
     &-like-employee {
       display: flex;
