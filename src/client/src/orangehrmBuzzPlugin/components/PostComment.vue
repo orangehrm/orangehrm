@@ -19,42 +19,55 @@
  -->
 
 <template>
-  <div class="orangehrm-buzz-post-actions">
-    <div class="orangehrm-action-button-like">
-      <like-button></like-button>
-    </div>
-    <div
-      class="orangehrm-action-button-comment"
-      @click="$emit('showComment', $event)"
-    >
-      <comment-button></comment-button>
-    </div>
-    <div class="orangehrm-action-button-share">
-      <share-button></share-button>
+  <div class="orangehrm-buzz-post-comment">
+    <oxd-divider />
+    <div class="orangehrm-buzz-post-comment-add">
+      <div class="orangehrm-buzz-post-profile-image-comment">
+        <img
+          alt="profile picture"
+          class="employee-image"
+          :src="`../pim/viewPhoto/empNumber/1`"
+        />
+      </div>
+      <oxd-form class="orangehrm-buzz-post-comment-input">
+        <oxd-form-row>
+          <oxd-grid-item>
+            <oxd-input-field :placeholder="$t('buzz.write_your_comment')" />
+          </oxd-grid-item>
+        </oxd-form-row>
+      </oxd-form>
     </div>
   </div>
 </template>
 <script>
-import LikeButton from '@/orangehrmBuzzPlugin/components/PostActionLikeButton.vue';
-import ShareButton from '@/orangehrmBuzzPlugin/components/PostActionShareButton.vue';
-import CommentButton from '@/orangehrmBuzzPlugin/components/PostActionCommentButton.vue';
-
 export default {
-  name: 'PostActions',
+  name: 'ShowComments',
 
-  components: {
-    'like-button': LikeButton,
-    'share-button': ShareButton,
-    'comment-button': CommentButton,
+  props: {
+    isShowComments: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['showComment'],
 };
 </script>
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-.orangehrm-buzz-post-actions {
-  display: flex;
-  justify-content: space-between;
-  width: 8rem;
+.orangehrm-buzz-post-comment {
+  &-add {
+    display: flex;
+    align-items: center;
+    & img {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      border-radius: 100%;
+      display: flex;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+  }
+  &-input {
+    width: 25rem;
+  }
 }
 </style>
