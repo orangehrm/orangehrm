@@ -1,3 +1,22 @@
+New & Changed Features for OrangeHRM ver 5.2
+    New Feature
+    -----------
+    - Technology stack upgrade and New UI/UX compliance with Orange eXperience Design (OXD) Standards upgraded for;
+        - Dashboard
+        - Data Encryption support
+        - Custom Language Packages
+    - LDAP support
+    - Supported Environments
+        - PHP - 7.4 to 8.1
+        - MariaDB - 5.5 to 10.9
+        - MySQL - 5.5 to 5.7
+
+    Bug Fixes
+    ---------
+    - https://github.com/orangehrm/orangehrm/issues/1459
+    - https://github.com/orangehrm/orangehrm/issues/1457
+    - https://github.com/orangehrm/orangehrm/issues/1451
+
 New & Changed Features for OrangeHRM ver 5.1
     New Feature
     -----------

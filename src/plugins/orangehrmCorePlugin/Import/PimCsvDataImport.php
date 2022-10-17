@@ -151,20 +151,19 @@ class PimCsvDataImport extends CsvDataImport
         $workEmail = $data[20];
         $otherEmail = $data[21];
         if (!$this->isEmpty($workEmail) && $workEmail === $otherEmail) {
+            $this->getLogger()->warning('Work Email and Other Email cannot be the same');
             return false;
         }
-        if ($this->isValidEmail($workEmail) && $this->getTextHelper()->strLength(
-            $workEmail
-        ) <= EmployeeService::WORK_EMAIL_MAX_LENGTH) {
+        if ($this->isValidEmail($workEmail)
+            && $this->getTextHelper()->strLength($workEmail) <= EmployeeService::WORK_EMAIL_MAX_LENGTH) {
             if (!$this->isUniqueEmail($workEmail)) {
                 $this->getLogger()->warning('Employee record not imported due to duplicated work_email');
                 return false;
             }
             $employee->setWorkEmail($workEmail);
         }
-        if ($this->isValidEmail($otherEmail) && $this->getTextHelper()->strLength(
-            $otherEmail
-        ) <= EmployeeService::WORK_EMAIL_MAX_LENGTH) {
+        if ($this->isValidEmail($otherEmail)
+            && $this->getTextHelper()->strLength($otherEmail) <= EmployeeService::WORK_EMAIL_MAX_LENGTH) {
             if (!$this->isUniqueEmail($otherEmail)) {
                 $this->getLogger()->warning('Employee record not imported due to duplicated other_email');
                 return false;
