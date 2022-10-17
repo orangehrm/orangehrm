@@ -27,14 +27,15 @@
         class="orangehrm-buzz-post-footer-mobile-list"
       >
         <div class="orangehrm-buzz-post-footer-mobile-list-header">
-          <oxd-icon class="" :name="iconName" :with-container="true" />
-          <oxd-text
-            v-if="statusName === 'shares'"
-            class="orangehrm-buzz-post-footer-mobile-list-share"
-          >
+          <oxd-icon
+            class="orangehrm-buzz-post-footer-mobile-list-header-icon"
+            :name="iconName"
+            :with-container="true"
+          />
+          <oxd-text v-if="statusName === 'shares'">
             {{ $t('buzz.n_share', {shareCount: total}) }}
           </oxd-text>
-          <oxd-text v-if="statusName === 'likes'" tag="p">
+          <oxd-text v-if="statusName === 'likes'">
             {{ $t('buzz.n_like', {likesCount: total}) }}
           </oxd-text>
         </div>
@@ -52,7 +53,7 @@
             />
           </div>
           <oxd-text tag="p">
-            {{ user.employee.lastName }}{{ user.employee.lastName }}
+            {{ user.employee.firstName }}{{ user.employee.lastName }}
           </oxd-text>
         </div>
         <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
@@ -65,8 +66,8 @@ import {onBeforeMount, reactive, toRefs} from 'vue';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 
 export default {
@@ -75,8 +76,8 @@ export default {
   components: {
     'oxd-icon': Icon,
     'oxd-sheet': Sheet,
-    'oxd-loading-spinner': Spinner,
     'oxd-dialog': Dialog,
+    'oxd-loading-spinner': Spinner,
   },
 
   props: {
@@ -140,4 +141,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped src="./post-status.scss"></style>
+<style lang="scss" scoped src="./post-status-dialog.scss"></style>

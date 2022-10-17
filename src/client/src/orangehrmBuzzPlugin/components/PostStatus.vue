@@ -61,7 +61,7 @@
         </div>
         <div v-if="showLikeList && isMobile">
           <oxd-post-status
-            :post-id="1"
+            :post-id="postId"
             icon-name="heart-fill"
             status-name="likes"
           ></oxd-post-status>
@@ -114,7 +114,7 @@
           </div>
           <div v-if="showSharesList && isMobile">
             <oxd-post-status
-              :post-id="1"
+              :post-id="postId"
               icon-name="share-fill"
               status-name="shares"
             ></oxd-post-status>
@@ -187,6 +187,7 @@ export default {
   },
 
   methods: {
+    // need to change and add infinite loading
     onShowLikeList() {
       this.showLikeList = true;
       this.isLoading = true;
@@ -214,6 +215,7 @@ export default {
           });
       }
     },
+    // need to change and add infinite loading
     onShowSharesList() {
       this.showSharesList = true;
       this.isLoading = true;

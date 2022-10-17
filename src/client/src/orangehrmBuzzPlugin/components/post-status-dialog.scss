@@ -15,12 +15,6 @@
 // Boston, MA  02110-1301, USA
 
 @import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-buzz {
-  &-like-icon {
-    color: $oxd-feedback-danger-color;
-  }
-}
 .orangehrm-buzz-loader {
   margin-left: auto;
   margin-right: auto;
@@ -40,56 +34,13 @@
     }
   }
   &-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    &-summery-top {
-      font-size: 1rem;
-      font-weight: 700;
-      display: flex;
-      cursor: pointer;
-      position: relative;
-      align-items: center;
-      justify-content: flex-end;
-      & p {
-        margin-left: 0.5rem;
-      }
-    }
-    &-summery-bottom {
-      font-size: 0.75rem;
-      display: flex;
-      cursor: pointer;
-      position: relative;
-    }
-    &-like-list {
-      right: 0;
-      z-index: 10;
-      padding: 4px;
-      bottom: 1.1rem;
-      max-width: 340px;
-      max-height: 18rem;
-      top: unset;
-      overflow: auto;
-      width: max-content;
-      position: absolute;
-      box-sizing: border-box;
-      @include oxd-scrollbar();
-    }
-    &-share-list {
-      padding: 4px;
-      max-width: 340px;
-      max-height: 18rem;
-      top: unset;
-      overflow: auto;
-      width: max-content;
-      position: absolute;
-      box-sizing: border-box;
-      @include oxd-scrollbar();
-    }
     &-mobile-list {
       &-header {
         display: flex;
         align-items: center;
+        &-icon {
+            margin-right: 0.5rem;
+        }
       }
       &-share {
         font-size: 1rem;
@@ -121,4 +72,21 @@
       }
     }
   }
+}
+
+::v-deep(.orangehrm-buzz-post-mobile) {
+  margin: 0;
+  bottom: 0;
+  width: 100%;
+  max-height: 30rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: fixed;
+  padding: inherit;
+  border-radius: 1.2rem 1.2rem 0rem 0rem;
+  @include oxd-scrollbar();
+}
+
+::v-deep(.oxd-dialog-close-button) {
+  display: none;
 }
