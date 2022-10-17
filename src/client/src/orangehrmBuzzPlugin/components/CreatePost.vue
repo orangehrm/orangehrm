@@ -83,7 +83,7 @@ export default {
 
   setup() {
     const post = ref(null);
-    const rules = [required, shouldNotExceedCharLength(65000)];
+    const rules = [required, shouldNotExceedCharLength(63535)];
 
     const onSubmit = () => {
       // todo

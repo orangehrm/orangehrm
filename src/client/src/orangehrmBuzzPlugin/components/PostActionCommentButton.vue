@@ -6,4 +6,3 @@ export default {
   name: 'CommentButton',
 };
 </script>
-<style lang=""></style>

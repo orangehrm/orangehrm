@@ -35,7 +35,7 @@
               {{ employeeFullName }}
             </oxd-text>
             <oxd-text tag="p" class="orangehrm-buzz-post-time">
-              {{ postedTime }}
+              {{ postDate }}
             </oxd-text>
           </div>
         </div>
@@ -46,24 +46,27 @@
       <oxd-divider />
     </div>
     <div class="orangehrm-buzz-post-body">
-      <oxd-text>{{ content }}</oxd-text>
+      <slot name="content"> </slot>
       <slot name="body"></slot>
     </div>
     <div class="orangehrm-buzz-post-footer">
       <div class="orangehrm-buzz-post-footer-left">
         <slot name="actionButton"> </slot>
       </div>
-      <slot name="postStatus"> </slot>
+      <slot name="postStats"> </slot>
     </div>
     <slot name="comments"></slot>
   </oxd-sheet>
 </template>
 <script>
 import {computed} from 'vue';
+import useLocale from '@/core/util/composable/useLocale';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
-import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import useDateFormat from '@/core/util/composable/useDateFormat';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown.vue';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'PostContainer',
@@ -76,9 +79,9 @@ export default {
       type: Number,
       required: true,
     },
-    content: {
+    postedDate: {
       type: String,
-      required: true,
+      default: null,
     },
     employee: {
       type: Object,
@@ -89,9 +92,13 @@ export default {
   emits: ['edit', 'delete'],
 
   setup(props) {
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
-    // todo add date formatter
-    const postedTime = '10-01-2022';
+
+    const postDate = computed(() => {
+      return formatDate(parseDate(props.postedDate), jsDateFormat, {locale});
+    });
     const http = new APIService(window.appGlobal.baseUrl, '');
 
     const employeeFullName = computed(() => {
@@ -105,7 +112,7 @@ export default {
 
     return {
       http,
-      postedTime,
+      postDate,
       employeeId,
       employeeFullName,
     };
@@ -125,12 +132,6 @@ export default {
         {label: this.$t('performance.delete'), context: 'delete'},
       ],
     };
-  },
-
-  methods: {
-    onClickShowDropdown() {
-      this.showDropdown = !this.showDropdown;
-    },
   },
 };
 </script>

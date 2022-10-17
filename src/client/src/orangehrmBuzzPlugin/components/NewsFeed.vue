@@ -30,26 +30,29 @@
     <!-- todo: add post filters here -->
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
       <oxd-grid-item v-for="post in posts" :key="post">
-        <base-post
+        <post-container
           :post-id="post.id"
-          :content="post.text"
+          :posted-date="post.createdTime"
           :employee="post.employee"
         >
+          <template #content>
+            <oxd-text>{{ post.text }}</oxd-text>
+          </template>
           <template #actionButton>
             <post-actions @showComment="onClickShowComment"></post-actions>
           </template>
-          <template #postStatus>
-            <post-status
-              :no-of-likes="5"
-              :no-of-shares="1"
-              :no-of-comments="1"
+          <template #postStats>
+            <post-stats
+              :no-of-likes="post.stats.noOfLikes"
+              :no-of-shares="post.stats.noOfShares"
+              :no-of-comments="post.stats.noOfComments"
               :post-id="post.id"
               :is-mobile="isMobile"
               @showComment="onClickShowComment"
-            ></post-status>
+            ></post-stats>
           </template>
           <template #comments> </template>
-        </base-post>
+        </post-container>
       </oxd-grid-item>
     </oxd-grid>
     <oxd-loading-spinner
@@ -63,10 +66,10 @@
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
-import BasePost from '@/orangehrmBuzzPlugin/components/BasePost.vue';
+import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import CreatePost from '@/orangehrmBuzzPlugin/components/CreatePost.vue';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
-import PostStatus from '@/orangehrmBuzzPlugin/components/PostStatus.vue';
+import PostStats from '@/orangehrmBuzzPlugin/components/PostStats.vue';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
 import PostFIlters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 
@@ -78,9 +81,9 @@ export default {
   name: 'NewsFeed',
 
   components: {
-    'base-post': BasePost,
+    'post-container': PostContainer,
     'create-post': CreatePost,
-    'post-status': PostStatus,
+    'post-stats': PostStats,
     'post-actions': PostActions,
     'post-filters': PostFIlters,
     'oxd-loading-spinner': Spinner,

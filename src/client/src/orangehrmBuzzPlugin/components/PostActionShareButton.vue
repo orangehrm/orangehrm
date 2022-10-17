@@ -6,4 +6,3 @@ export default {
   name: 'ShareButton',
 };
 </script>
-<style lang=""></style>

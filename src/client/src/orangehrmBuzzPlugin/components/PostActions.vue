@@ -51,7 +51,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
 .orangehrm-buzz-post-actions {
   display: flex;
   justify-content: space-between;

@@ -41,3 +41,12 @@ langStrings:
   -
     value: 'Edit Post'
     unitId: edit_post
+
+  - value: 'Most Recent Posts'
+    unitId: most_recent_posts
+  -
+    value: 'Most Liked Posts'
+    unitId: most_liked_posts
+  -
+    value: 'Most Commented Posts'
+    unitId: most_commented_posts

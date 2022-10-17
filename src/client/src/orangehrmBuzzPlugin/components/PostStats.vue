@@ -77,7 +77,7 @@ import PostStatusDialog from '@/orangehrmBuzzPlugin/components/PostStatusDialog.
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
-  name: 'PostStatus',
+  name: 'PostStats',
 
   components: {
     'oxd-icon': Icon,

@@ -26,7 +26,7 @@
         <img
           alt="profile picture"
           class="employee-image"
-          :src="`../pim/viewPhoto/empNumber/1`"
+          :src="`../pim/viewPhoto/empNumber/${employeeNumber}`"
         />
       </div>
       <oxd-form class="orangehrm-buzz-post-comment-input">
@@ -48,6 +48,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    employeeNumber: {
+      type: Number,
+      required: true,
+    }
   },
 };
 </script>
