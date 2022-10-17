@@ -22,10 +22,13 @@ namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Core\Exception\CSVUploadFailedException;
 use OrangeHRM\Core\Import\CsvDataImportFactory;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use Throwable;
 
 class CsvDataImportService
 {
+    use LoggerTrait;
+
     /**
      * @param string $fileContent
      * @param string $importType
@@ -47,6 +50,8 @@ class CsvDataImportService
                 try {
                     $result = $instance->import($employeesDataArray[$i]);
                 } catch (Throwable $e) {
+                    $this->getLogger()->error($e->getMessage());
+                    $this->getLogger()->error($e->getTraceAsString());
                     $result = false;
                 }
                 if ($result) {

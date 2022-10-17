@@ -230,7 +230,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
                     new Rule(Rules::EMAIL),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail', $this->getEntityPropertiesForEmailRule()]),
+                    new Rule(Rules::CALLBACK, [[$this, 'isUniqueEmail'], 'getWorkEmail']),
                 ),
                 true
             ),
@@ -240,11 +240,34 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH]),
                     new Rule(Rules::EMAIL),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'otherEmail', $this->getEntityPropertiesForEmailRule()]),
+                    new Rule(Rules::CALLBACK, [[$this, 'isUniqueEmail'], 'getOtherEmail']),
                 ),
                 true
             ),
         );
+    }
+
+    /**
+     * @param string $email
+     * @param string $currentEmailGetter
+     * @return bool
+     */
+    public function isUniqueEmail(string $email, string $currentEmailGetter): bool
+    {
+        if (in_array($email, [null,''])) {
+            return true;
+        }
+
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_EMP_NUMBER
+        );
+        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
+        if (!$employee instanceof Employee) {
+            return false;
+        }
+
+        return $this->getEmployeeService()->isUniqueEmail($email, $employee->$currentEmailGetter());
     }
 
     /**
