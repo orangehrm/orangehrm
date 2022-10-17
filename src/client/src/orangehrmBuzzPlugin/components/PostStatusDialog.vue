@@ -19,47 +19,70 @@
  -->
 
 <template>
-  <div>
-    <oxd-dialog class="orangehrm-buzz-post-mobile">
-      <oxd-sheet
-        :gutters="false"
-        type="white"
-        class="orangehrm-buzz-post-footer-mobile-list"
+  <div v-if="!isMobile">
+    <oxd-sheet
+      :gutters="false"
+      type="white"
+      class="orangehrm-buzz-post-footer-status-list"
+    >
+      <div
+        v-for="user in users"
+        :key="user"
+        class="orangehrm-buzz-post-footer-status-employee"
       >
-        <div class="orangehrm-buzz-post-footer-mobile-list-header">
-          <oxd-icon
-            class="orangehrm-buzz-post-footer-mobile-list-header-icon"
-            :name="iconName"
-            :with-container="true"
+        <div class="orangehrm-buzz-post-profile-image">
+          <img
+            alt="profile picture"
+            class="employee-image"
+            :src="`../pim/viewPhoto/empNumber/${user.employee.empNumber}`"
           />
-          <oxd-text v-if="statusName === 'shares'">
-            {{ $t('buzz.n_share', {shareCount: total}) }}
-          </oxd-text>
-          <oxd-text v-if="statusName === 'likes'">
-            {{ $t('buzz.n_like', {likesCount: total}) }}
-          </oxd-text>
         </div>
-        <oxd-divider />
-        <div
-          v-for="user in users"
-          :key="user"
-          class="orangehrm-buzz-post-footer-share-employee"
-        >
-          <div class="orangehrm-buzz-post-profile-image">
-            <img
-              alt="profile picture"
-              class="employee-image"
-              :src="`../pim/viewPhoto/empNumber/${user.employee.empNumber}`"
-            />
-          </div>
-          <oxd-text tag="p">
-            {{ user.employee.firstName }}{{ user.employee.lastName }}
-          </oxd-text>
-        </div>
-        <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
-      </oxd-sheet>
-    </oxd-dialog>
+        <oxd-text tag="p">
+          {{ user.employee.firstName }}{{ user.employee.lastName }}
+        </oxd-text>
+      </div>
+      <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
+    </oxd-sheet>
   </div>
+  <oxd-dialog v-if="isMobile" class="orangehrm-buzz-post-mobile">
+    <oxd-sheet
+      :gutters="false"
+      type="white"
+      class="orangehrm-buzz-post-footer-mobile-list"
+    >
+      <div class="orangehrm-buzz-post-footer-mobile-list-header">
+        <oxd-icon
+          class="orangehrm-buzz-post-footer-mobile-list-header-icon"
+          :name="iconName"
+          :with-container="true"
+        />
+        <oxd-text v-if="statusName === 'shares'">
+          {{ $t('buzz.n_share', {shareCount: total}) }}
+        </oxd-text>
+        <oxd-text v-if="statusName === 'likes'">
+          {{ $t('buzz.n_like', {likesCount: total}) }}
+        </oxd-text>
+      </div>
+      <oxd-divider />
+      <div
+        v-for="user in users"
+        :key="user"
+        class="orangehrm-buzz-post-footer-status-employee"
+      >
+        <div class="orangehrm-buzz-post-profile-image">
+          <img
+            alt="profile picture"
+            class="employee-image"
+            :src="`../pim/viewPhoto/empNumber/${user.employee.empNumber}`"
+          />
+        </div>
+        <oxd-text tag="p">
+          {{ user.employee.firstName }}{{ user.employee.lastName }}
+        </oxd-text>
+      </div>
+      <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
+    </oxd-sheet>
+  </oxd-dialog>
 </template>
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
@@ -92,6 +115,10 @@ export default {
     iconName: {
       type: String,
       required: true,
+    },
+    isMobile: {
+      type: Boolean,
+      default: false,
     },
   },
 

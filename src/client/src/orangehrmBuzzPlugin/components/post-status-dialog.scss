@@ -34,6 +34,20 @@
     }
   }
   &-footer {
+    &-status-list {
+      right: 0;
+      z-index: 10;
+      padding: 4px;
+      bottom: 1.1rem;
+      max-width: 340px;
+      max-height: 18rem;
+      top: unset;
+      overflow: auto;
+      width: max-content;
+      position: absolute;
+      box-sizing: border-box;
+      @include oxd-scrollbar();
+    }
     &-mobile-list {
       &-header {
         display: flex;
@@ -48,18 +62,7 @@
         margin-left: 0.5rem;
       }
     }
-    &-like-employee {
-      display: flex;
-      align-items: center;
-      margin: 0.25rem 0;
-      padding: 0.3rem 1rem;
-      & p {
-        font-weight: 400;
-        font-size: 0.9rem;
-        @include truncate(2, 1, #fff);
-      }
-    }
-    &-share-employee {
+    &-status-employee {
       display: flex;
       align-items: center;
       margin: 0.15rem 0;
