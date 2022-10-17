@@ -209,7 +209,7 @@
             </oxd-grid-item>
 
             <oxd-grid-item class="orangehrm-ldap-grid-content">
-              <oxd-text tag="p">
+              <oxd-text tag="p" class="oxd-input-field-required">
                 {{ $t('general.first_name') }}
               </oxd-text>
               <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
@@ -238,7 +238,7 @@
             <oxd-grid-item></oxd-grid-item>
 
             <oxd-grid-item class="orangehrm-ldap-grid-content">
-              <oxd-text tag="p">
+              <oxd-text tag="p" class="oxd-input-field-required">
                 {{ $t('general.last_name') }}
               </oxd-text>
               <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
@@ -266,7 +266,7 @@
             <oxd-grid-item></oxd-grid-item>
 
             <oxd-grid-item class="orangehrm-ldap-grid-content">
-              <oxd-text tag="p">
+              <oxd-text tag="p" :class="workEmailLabelClasses">
                 {{ $t('general.work_email') }}
               </oxd-text>
               <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
@@ -286,7 +286,7 @@
             </oxd-grid-item>
 
             <oxd-grid-item class="orangehrm-ldap-grid-content">
-              <oxd-text tag="p">
+              <oxd-text tag="p" :class="employeeIdLabelClasses">
                 {{ $t('general.employee_id') }}
               </oxd-text>
               <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
@@ -532,6 +532,18 @@ export default {
   computed: {
     passwordPlaceHolder() {
       return this.configuration.hasBindUserPassword ? '********' : null;
+    },
+    workEmailLabelClasses() {
+      return {
+        'oxd-input-field-required':
+          this.configuration.employeeSelectorMapping === 'workEmail',
+      };
+    },
+    employeeIdLabelClasses() {
+      return {
+        'oxd-input-field-required':
+          this.configuration.employeeSelectorMapping === 'employeeId',
+      };
     },
   },
   beforeMount() {
