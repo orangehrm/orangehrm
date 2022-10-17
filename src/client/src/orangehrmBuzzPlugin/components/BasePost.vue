@@ -56,7 +56,6 @@
       <slot name="postStatus"> </slot>
     </div>
     <slot name="comments"></slot>
-    <delete-confirmation ref="deleteDialog"></delete-confirmation>
   </oxd-sheet>
 </template>
 <script>
@@ -87,6 +86,8 @@ export default {
     },
   },
 
+  emits: ['edit', 'delete'],
+
   setup(props) {
     const {$tEmpName} = useEmployeeNameTranslate();
     // todo add date formatter
@@ -100,18 +101,10 @@ export default {
       });
     });
 
-    const employeeId = computed(() => {
-      return props.employee.employeeId;
-    });
-
-    // change name
-    const postIds = computed(() => {
-      return props.postId;
-    });
+    const employeeId = computed(() => props.employee.employeeId);
 
     return {
       http,
-      postIds,
       postedTime,
       employeeId,
       employeeFullName,
