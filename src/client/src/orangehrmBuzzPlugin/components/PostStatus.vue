@@ -31,37 +31,10 @@
         >
           {{ $t('buzz.n_like', {likesCount: noOfLikes}) }}
         </oxd-text>
-        <div v-if="showLikeList && !isMobile">
-          <oxd-sheet
-            :gutters="false"
-            type="white"
-            class="orangehrm-buzz-post-footer-like-list"
-          >
-            <div
-              v-for="like in likedList"
-              :key="like"
-              class="orangehrm-buzz-post-footer-like-employee"
-            >
-              <div class="orangehrm-buzz-post-profile-image">
-                <img
-                  alt="profile picture"
-                  class="employee-image"
-                  :src="`../pim/viewPhoto/empNumber/${like.empNumber}`"
-                />
-              </div>
-              <oxd-text tag="p">
-                {{ like.empName }}
-              </oxd-text>
-            </div>
-            <oxd-loading-spinner
-              v-if="isLoading"
-              class="orangehrm-buzz-loader"
-            />
-          </oxd-sheet>
-        </div>
-        <div v-if="showLikeList && isMobile">
+        <div v-if="showLikeList">
           <oxd-post-status
             :post-id="postId"
+            :is-mobile="isMobile"
             icon-name="heart-fill"
             status-name="likes"
           ></oxd-post-status>
@@ -84,37 +57,10 @@
           >
             {{ $t('buzz.n_share', {shareCount: noOfShares}) }}
           </oxd-text>
-          <div v-if="showSharesList && !isMobile">
-            <oxd-sheet
-              :gutters="false"
-              type="white"
-              class="orangehrm-buzz-post-footer-share-list"
-            >
-              <div
-                v-for="share in sharesList"
-                :key="share"
-                class="orangehrm-buzz-post-footer-share-employee"
-              >
-                <div class="orangehrm-buzz-post-profile-image">
-                  <img
-                    alt="profile picture"
-                    class="employee-image"
-                    :src="`../pim/viewPhoto/empNumber/${share.empNumber}`"
-                  />
-                </div>
-                <oxd-text tag="p">
-                  {{ share.empName }}
-                </oxd-text>
-              </div>
-              <oxd-loading-spinner
-                v-if="isLoading"
-                class="orangehrm-buzz-loader"
-              />
-            </oxd-sheet>
-          </div>
-          <div v-if="showSharesList && isMobile">
+          <div v-if="showSharesList">
             <oxd-post-status
               :post-id="postId"
+              :is-mobile="isMobile"
               icon-name="share-fill"
               status-name="shares"
             ></oxd-post-status>
@@ -126,9 +72,7 @@
 </template>
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import PostStatusDialog from '@/orangehrmBuzzPlugin/components/PostStatusDialog.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
@@ -137,8 +81,6 @@ export default {
 
   components: {
     'oxd-icon': Icon,
-    'oxd-sheet': Sheet,
-    'oxd-loading-spinner': Spinner,
     'oxd-post-status': PostStatusDialog,
   },
   props: {
@@ -187,61 +129,11 @@ export default {
   },
 
   methods: {
-    // need to change and add infinite loading
     onShowLikeList() {
       this.showLikeList = true;
-      this.isLoading = true;
-      if (this.noOfLikes > 0) {
-        this.http
-          .request({
-            method: 'GET',
-            url: `api/v2/buzz/posts/${this.postId}/likes`,
-          })
-          .then(response => {
-            const {data} = response.data;
-            this.likedList = data.map(item => {
-              const {employee} = item;
-              return {
-                empNumber: employee.empNumber,
-                empName: this.tEmpName(employee, {
-                  includeMiddle: false,
-                  excludePastEmpTag: false,
-                }),
-              };
-            });
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
-      }
     },
-    // need to change and add infinite loading
     onShowSharesList() {
       this.showSharesList = true;
-      this.isLoading = true;
-      if (this.noOfShares > 0) {
-        this.http
-          .request({
-            method: 'GET',
-            url: `api/v2/buzz/posts/${this.postId}/shares`,
-          })
-          .then(response => {
-            const {data} = response.data;
-            this.sharesList = data.map(item => {
-              const {employee} = item;
-              return {
-                empNumber: employee.empNumber,
-                empName: this.tEmpName(employee, {
-                  includeMiddle: false,
-                  excludePastEmpTag: false,
-                }),
-              };
-            });
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
-      }
     },
     onShowSharesListMobile() {
       if (!this.isMobile) {
