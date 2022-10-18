@@ -19,7 +19,6 @@
  -->
 
 <template>
-  <!-- TODO: Placeholder component -->
   <oxd-sheet class="orangehrm-buzz-create-post">
     <div class="orangehrm-buzz-create-post-header">
       <div class="orangehrm-buzz-create-post-profile-image">
@@ -46,10 +45,12 @@
       <oxd-glass-button
         icon="cameraglass"
         :label="$t('buzz.share_photos')"
+        @click="onClickSharePhotos"
       ></oxd-glass-button>
       <oxd-glass-button
         icon="videoglass"
         :label="$t('buzz.share_video')"
+        @click="onClickShareVideos"
       ></oxd-glass-button>
     </div>
   </oxd-sheet>
@@ -89,10 +90,20 @@ export default {
       // todo
     };
 
+    const onClickSharePhotos = () => {
+      // todo
+    };
+
+    const onClickShareVideos = () => {
+      // todo
+    };
+
     return {
       post,
       rules,
       onSubmit,
+      onClickSharePhotos,
+      onClickShareVideos,
     };
   },
 };

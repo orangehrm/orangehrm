@@ -148,6 +148,7 @@ class BuzzMockAPIController extends AbstractController
             array_push($posts, [
                 'id' => $postCount + 1,
                 'type' => 'text', // text | photo | video
+                'like' => rand(0, 1) === 1,
                 'text' => implode(" ", array_slice([...$mockData], rand(0, 10), rand(1, 25))),
                 'employee' => [
                     'empNumber' => $postCount,
@@ -162,8 +163,8 @@ class BuzzMockAPIController extends AbstractController
                     'noOfComments' => rand(0, 100),
                     'noOfShares' => rand(0, 100),
                 ],
-                'createdTime' => rand(1262055681, time()),
-                'updatedtime' => rand(1262055681, time()),
+                'createdTime' => date('Y-m-d', rand(1262055681, time())),
+                'updatedtime' => date('Y-m-d', rand(1262055681, time())),
             ]);
         }
 
@@ -175,6 +176,18 @@ class BuzzMockAPIController extends AbstractController
                 ]
             ])
         );
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function updatePost(Request $request): Response
+    {
+        $response = new Response();
         $response->headers->set('Content-Type', 'application/json');
         $response->setStatusCode(Response::HTTP_OK);
         return $response->send();

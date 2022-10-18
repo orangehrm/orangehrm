@@ -31,19 +31,21 @@
     ></post-filters>
 
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
-      <oxd-grid-item v-for="post in posts" :key="post">
+      <oxd-grid-item v-for="(post, index) in posts" :key="post">
         <post-container
           :post-id="post.id"
-          :posted-date="post.createdTime"
           :employee="post.employee"
+          :posted-date="post.createdTime"
         >
           <template #content>
             <oxd-text>{{ post.text }}</oxd-text>
           </template>
           <template #actionButton>
             <post-actions
-              :post-id="post.id"
-              :buzz-user-id="post.employee.employeeId"
+              :is-liked="post.like"
+              @like="onLike(index)"
+              @share="onShare(index)"
+              @comment="onComment(index)"
             ></post-actions>
           </template>
           <template #postStats>
@@ -74,7 +76,7 @@ import PostStats from '@/orangehrmBuzzPlugin/components/PostStats.vue';
 import CreatePost from '@/orangehrmBuzzPlugin/components/CreatePost.vue';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
-import PostFIlters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
+import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 
 const defaultFilters = {
@@ -89,7 +91,7 @@ export default {
     'create-post': CreatePost,
     'post-stats': PostStats,
     'post-actions': PostActions,
-    'post-filters': PostFIlters,
+    'post-filters': PostFilters,
     'oxd-loading-spinner': Spinner,
   },
 
@@ -140,14 +142,40 @@ export default {
 
     const onUpdatePriority = $event => {
       if ($event) {
+        state.posts = [];
+        state.offset = 0;
         state.filters.priority = $event;
         fetchData();
       }
     };
 
+    const onLike = index => {
+      http
+        .update(state.posts[index].id, {
+          like: !state.posts[index].like,
+        })
+        .then(() => {
+          state.posts[index].like = !state.posts[index].like;
+          // todo - update like count etc
+        });
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const onShare = index => {
+      // todo
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const onComment = index => {
+      // todo
+    };
+
     onBeforeMount(() => fetchData());
 
     return {
+      onLike,
+      onShare,
+      onComment,
       fetchData,
       onUpdatePriority,
       ...toRefs(state),

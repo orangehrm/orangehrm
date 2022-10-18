@@ -11,10 +11,10 @@ apiv2_buzz_newsfeed_posts:
   controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::getPosts
   methods: [ GET ]
 
-apiv2_buzz_posts:
-  path: /api/v2/buzz/posts
-  controller: OrangeHRM\Buzz\Controller\BuzzPostsDataMockController::getPostStatus
-  methods: [ GET ]
+apiv2_buzz_newsfeed_update_post:
+  path: /api/v2/buzz/posts/{postId}
+  controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::updatePost
+  methods: [ POST, PUT ]
 
 apiv2_buzz_post_comments:
   path: /api/v2/buzz/posts/{postId}/comments

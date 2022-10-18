@@ -20,51 +20,63 @@
 
 <template>
   <div class="orangehrm-buzz-post-actions">
-    <div class="orangehrm-action-button-like">
-      <like-button :post-id="postId" :buzz-user-id="buzzUserId"></like-button>
-    </div>
-    <div
-      class="orangehrm-action-button-comment"
-      @click="$emit('showComment', $event)"
-    >
-      <comment-button></comment-button>
-    </div>
-    <div class="orangehrm-action-button-share">
-      <share-button></share-button>
-    </div>
+    <post-like :like="isLiked" @click="onClickAction('like')"></post-like>
+    <post-comment @click="onClickAction('comment')"></post-comment>
+    <post-share @click="onClickAction('share')"></post-share>
   </div>
 </template>
+
 <script>
-import LikeButton from '@/orangehrmBuzzPlugin/components/PostActionLikeButton.vue';
-import ShareButton from '@/orangehrmBuzzPlugin/components/PostActionShareButton.vue';
-import CommentButton from '@/orangehrmBuzzPlugin/components/PostActionCommentButton.vue';
+import PostLikeButton from '@/orangehrmBuzzPlugin/components/PostLikeButton.vue';
+import PostShareButton from '@/orangehrmBuzzPlugin/components/PostShareButton.vue';
+import PostCommentButton from '@/orangehrmBuzzPlugin/components/PostCommentButton.vue';
 
 export default {
   name: 'PostActions',
 
   components: {
-    'like-button': LikeButton,
-    'share-button': ShareButton,
-    'comment-button': CommentButton,
+    'post-like': PostLikeButton,
+    'post-share': PostShareButton,
+    'post-comment': PostCommentButton,
   },
 
   props: {
-    postId: {
-      type: Number,
-      required: true,
-    },
-    buzzUserId: {
-      type: Number,
+    isLiked: {
+      type: Boolean,
       required: true,
     },
   },
-  emits: ['showComment'],
+
+  emits: ['like', 'comment', 'share'],
+
+  setup(_, context) {
+    const onClickAction = actionType => {
+      switch (actionType) {
+        case 'comment':
+          context.emit('comment');
+          break;
+
+        case 'share':
+          context.emit('share');
+          break;
+
+        default:
+          context.emit('like');
+          break;
+      }
+    };
+
+    return {
+      onClickAction,
+    };
+  },
 };
 </script>
+
 <style lang="scss" scoped>
 .orangehrm-buzz-post-actions {
+  width: 8rem;
   display: flex;
   justify-content: space-between;
-  width: 8rem;
 }
 </style>
