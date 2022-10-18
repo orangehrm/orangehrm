@@ -113,18 +113,36 @@ class LDAPTestConnectionAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @param LDAPSetting $ldapSetting
+     * @return LDAPTestService
+     */
+    protected function getLDAPTestService(LDAPSetting $ldapSetting): LDAPTestService
+    {
+        return new LDAPTestService($ldapSetting);
+    }
+
+    /**
+     * @param LDAPSetting $ldapSetting
+     * @return LDAPTestSyncService
+     */
+    protected function getLDAPTestSyncService(LDAPSetting $ldapSetting): LDAPTestSyncService
+    {
+        return new LDAPTestSyncService($ldapSetting);
+    }
+
+    /**
+     * @param LDAPSetting $ldapSetting
      * @return array[]
      */
     private function getNormalizeLDAPSettings(LDAPSetting $ldapSetting): array
     {
-        $ldapTestService = new LDAPTestService($ldapSetting);
+        $ldapTestService = $this->getLDAPTestService($ldapSetting);
         $authState = $ldapTestService->testAuthentication();
         $userLookupStatus = $authState['status'];
 
         $searchResults = $this->getI18NHelper()->transBySource('Failed');
         $users = $this->getI18NHelper()->transBySource('Failed');
         try {
-            $ldapTestSyncService = new LDAPTestSyncService($ldapSetting);
+            $ldapTestSyncService = $this->getLDAPTestSyncService($ldapSetting);
             $entryCollection = $ldapTestSyncService->fetchEntryCollections();
             $searchResults = $this->getI18NHelper()
                 ->transBySource('{count} user(s) found', ['count' => $entryCollection->count()]);
