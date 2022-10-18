@@ -1,0 +1,65 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-buzz {
+  &-like-icon {
+    color: $oxd-feedback-danger-color;
+  }
+}
+.orangehrm-buzz-loader {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+}
+
+.orangehrm-buzz-post {
+  &-profile-image {
+    & img {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      border-radius: 100%;
+      display: flex;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+  }
+  &-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &-summery-top {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      cursor: pointer;
+      position: relative;
+      align-items: center;
+      justify-content: flex-end;
+      & p {
+        margin-left: 0.5rem;
+      }
+    }
+    &-summery-bottom {
+      font-size: 0.75rem;
+      display: flex;
+      cursor: pointer;
+      position: relative;
+    }
+  }
+}
