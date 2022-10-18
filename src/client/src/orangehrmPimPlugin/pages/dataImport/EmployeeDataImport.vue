@@ -69,8 +69,8 @@
             <oxd-text class="orangehrm-information-card-text">
               {{ $t('pim.sample_csv_file') }} :
               <a
-                class="download-link"
                 href="#"
+                class="download-link"
                 @click.prevent="onClickDownload"
               >
                 {{ $t('general.download') }}
@@ -88,9 +88,9 @@
               <oxd-input-field
                 v-model="attachment.attachment"
                 type="file"
+                :rules="rules.attachment"
                 :label="$t('general.select_file')"
                 :button-label="$t('general.browse')"
-                :rules="rules.attachment"
                 :placeholder="$t('general.no_file_selected')"
                 required
               />
@@ -108,23 +108,32 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
+    <employee-data-import-modal
+      v-if="importModalState"
+      :data="importModalState"
+      @close="onImportModalClose"
+    ></employee-data-import-modal>
   </div>
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
 import {
   required,
   maxFileSize,
   validFileTypes,
 } from '@/core/util/validation/rules';
 import useForm from '@ohrm/core/util/composable/useForm';
+import {APIService} from '@/core/util/services/api.service';
+import EmployeeDataImportModal from '@/orangehrmPimPlugin/components/EmployeeDataImportModal';
 
 const attachmentModel = {
   attachment: null,
 };
 
 export default {
+  components: {
+    'employee-data-import-modal': EmployeeDataImportModal,
+  },
   props: {
     allowedFileTypes: {
       type: Array,
@@ -157,6 +166,7 @@ export default {
           validFileTypes(this.allowedFileTypes),
         ],
       },
+      importModalState: null,
     };
   },
   methods: {
@@ -167,25 +177,20 @@ export default {
           ...this.attachment,
         })
         .then(response => {
-          const importedRecords = response.data.meta.total;
+          const {meta} = response.data;
+          this.importModalState = meta;
+        })
+        .finally(() => {
           this.reset();
           this.isLoading = false;
-          if (importedRecords > 0) {
-            return this.$toast.success({
-              title: this.$t('general.success'),
-              message:
-                this.$t('pim.number_of_records_imported') + importedRecords,
-            });
-          }
-          return this.$toast.error({
-            title: this.$t('general.failed_to_import'),
-            message: this.$t('general.no_records_added'),
-          });
         });
     },
     onClickDownload() {
       const downUrl = `${window.appGlobal.baseUrl}/pim/sampleCsvDownload`;
       window.open(downUrl, '_blank');
+    },
+    onImportModalClose() {
+      this.importModalState = null;
     },
   },
 };

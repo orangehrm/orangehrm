@@ -136,7 +136,7 @@ class LDAPSyncService
                 if (isset($ldapUsers[$username])) {
                     $duplicateUsernames[] = $username;
                     $usersOfDuplicateUsernames[$username][] = $ldapUser;
-                // TODO:: warn duplicate users
+                    $this->getLogger()->warning('Duplicate username', $ldapUser->getLogInfo());
                 } else {
                     $ldapUsers[$username] = $ldapUser;
                 }
@@ -144,6 +144,7 @@ class LDAPSyncService
         }
         foreach ($duplicateUsernames as $duplicateUsername) {
             $usersOfDuplicateUsernames[$duplicateUsername][] = $ldapUsers[$duplicateUsername];
+            $this->getLogger()->warning('Duplicate username', $ldapUsers[$duplicateUsername]->getLogInfo());
             unset($ldapUsers[$duplicateUsername]);
         }
 

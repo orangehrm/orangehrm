@@ -14,10 +14,28 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-$logFilePath = realpath(__DIR__ . '/../../src/log') . DIRECTORY_SEPARATOR . 'orangehrm.log';
+namespace OrangeHRM\Framework\Console;
 
-ini_set('log_errors', 'On');
-ini_set('error_log', $logFilePath);
+use Symfony\Component\Console\Input\InputDefinition;
+
+class ArrayInput extends \Symfony\Component\Console\Input\ArrayInput
+{
+    private array $parameters;
+
+    public function __construct(array $parameters, InputDefinition $definition = null)
+    {
+        $this->parameters = $parameters;
+        parent::__construct($parameters, $definition);
+    }
+
+    /**
+     * @return array
+     */
+    public function getRawParameters(): array
+    {
+        return $this->parameters;
+    }
+}

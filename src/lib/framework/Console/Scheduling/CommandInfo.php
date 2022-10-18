@@ -14,35 +14,41 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-include_once('./../lib/log_settings.php');
+namespace OrangeHRM\Framework\Console\Scheduling;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Framework;
-use OrangeHRM\Framework\Http\RedirectResponse;
-use OrangeHRM\Framework\Http\Request;
-use Symfony\Component\ErrorHandler\Debug;
+use OrangeHRM\Framework\Console\ArrayInput;
 
-require realpath(__DIR__ . '/../src/vendor/autoload.php');
+class CommandInfo
+{
+    private string $command;
+    private ?ArrayInput $input;
 
-$env = 'prod';
-$debug = 'prod' !== $env;
+    /**
+     * @param string $command
+     * @param ArrayInput|null $input e.g. $input = new ArrayInput(['arg1' => 'buz', 'foo' => 'bar', '--bar' => 'foobar']);
+     */
+    public function __construct(string $command, ?ArrayInput $input = null)
+    {
+        $this->command = $command;
+        $this->input = $input;
+    }
 
-if ($debug) {
-    umask(0000);
-    Debug::enable();
+    /**
+     * @return string
+     */
+    public function getCommand(): string
+    {
+        return $this->command;
+    }
+
+    /**
+     * @return ArrayInput|null
+     */
+    public function getInput(): ?ArrayInput
+    {
+        return $this->input;
+    }
 }
-
-$kernel = new Framework($env, $debug);
-$request = Request::createFromGlobals();
-
-if (Config::isInstalled()) {
-    $response = $kernel->handleRequest($request);
-} else {
-    $response = new RedirectResponse(str_replace('/web/index.php', '', $request->getBaseUrl()));
-}
-
-$response->send();
-$kernel->terminate($request, $response);

@@ -209,7 +209,7 @@
             </oxd-grid-item>
 
             <oxd-grid-item class="orangehrm-ldap-grid-content">
-              <oxd-text tag="p">
+              <oxd-text tag="p" class="oxd-input-field-required">
                 {{ $t('general.first_name') }}
               </oxd-text>
               <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
@@ -238,7 +238,7 @@
             <oxd-grid-item></oxd-grid-item>
 
             <oxd-grid-item class="orangehrm-ldap-grid-content">
-              <oxd-text tag="p">
+              <oxd-text tag="p" class="oxd-input-field-required">
                 {{ $t('general.last_name') }}
               </oxd-text>
               <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
@@ -266,7 +266,7 @@
             <oxd-grid-item></oxd-grid-item>
 
             <oxd-grid-item class="orangehrm-ldap-grid-content">
-              <oxd-text tag="p">
+              <oxd-text tag="p" :class="workEmailLabelClasses">
                 {{ $t('general.work_email') }}
               </oxd-text>
               <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
@@ -286,7 +286,7 @@
             </oxd-grid-item>
 
             <oxd-grid-item class="orangehrm-ldap-grid-content">
-              <oxd-text tag="p">
+              <oxd-text tag="p" :class="employeeIdLabelClasses">
                 {{ $t('general.employee_id') }}
               </oxd-text>
               <oxd-icon class="orangehrm-ldap-grid-icon" name="arrow-left" />
@@ -333,6 +333,12 @@
           </oxd-grid>
         </oxd-form-row>
 
+        <oxd-alert
+          type="warn"
+          :show="true"
+          :message="$t('admin.ldap_configuration_warning_message')"
+        ></oxd-alert>
+
         <oxd-divider />
 
         <oxd-form-actions>
@@ -375,8 +381,9 @@ import {
   numberShouldBeBetweenMinAndMaxValue,
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon';
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {reloadPage} from '@/core/util/helper/navigation';
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import LdapSyncConnection from '@/orangehrmAdminPlugin/components/LdapSyncConnection';
@@ -397,7 +404,7 @@ const configurationModel = {
   userSearchFilter: 'objectClass=person',
   userUniqueIdAttribute: null,
   mergeLDAPUsersWithExistingSystemUsers: false,
-  syncInterval: 60,
+  syncInterval: 1,
   employeeSelectorMapping: '',
   hasBindUserPassword: false,
 };
@@ -414,6 +421,7 @@ const dataMappingModel = {
 export default {
   components: {
     'oxd-icon': Icon,
+    'oxd-alert': Alert,
     'oxd-switch-input': SwitchInput,
     'ldap-sync-connection': LdapSyncConnection,
     'ldap-test-connection-modal': LdapTestConnectionModal,
@@ -499,7 +507,7 @@ export default {
         syncInterval: [
           required,
           digitsOnly,
-          numberShouldBeBetweenMinAndMaxValue(60, 1440),
+          numberShouldBeBetweenMinAndMaxValue(1, 23),
         ],
         middleNameAttribute: [shouldNotExceedCharLength(100)],
         userStatusAttribute: [shouldNotExceedCharLength(100)],
@@ -524,6 +532,18 @@ export default {
   computed: {
     passwordPlaceHolder() {
       return this.configuration.hasBindUserPassword ? '********' : null;
+    },
+    workEmailLabelClasses() {
+      return {
+        'oxd-input-field-required':
+          this.configuration.employeeSelectorMapping === 'workEmail',
+      };
+    },
+    employeeIdLabelClasses() {
+      return {
+        'oxd-input-field-required':
+          this.configuration.employeeSelectorMapping === 'employeeId',
+      };
     },
   },
   beforeMount() {

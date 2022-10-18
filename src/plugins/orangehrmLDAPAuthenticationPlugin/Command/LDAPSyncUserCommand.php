@@ -19,16 +19,22 @@
 
 namespace OrangeHRM\LDAP\Command;
 
+use DateTimeZone;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\LDAPSyncStatus;
 use OrangeHRM\Framework\Console\Command;
 use OrangeHRM\LDAP\Dto\LDAPSetting;
 use OrangeHRM\LDAP\Service\LDAPSyncService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class LDAPSyncUserCommand extends Command
 {
     use ConfigServiceTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @inheritDoc
@@ -36,6 +42,14 @@ class LDAPSyncUserCommand extends Command
     public function getCommandName(): string
     {
         return 'orangehrm:ldap-sync-user';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function configure()
+    {
+        $this->setDescription('Sync users from LDAP');
     }
 
     /**
@@ -52,8 +66,28 @@ class LDAPSyncUserCommand extends Command
             $this->getIO()->error('LDAP sync not enabled');
             return self::FAILURE;
         }
+
+        $ldapSyncStatus = new LDAPSyncStatus();
         $ldapSyncService = new LDAPSyncService();
-        $ldapSyncService->sync();
+        try {
+            $ldapSyncStatus->setSyncedBy(null);
+            $ldapSyncStatus->setSyncStartedAt(
+                $this->getDateTimeHelper()->getNow()
+                    ->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC))
+            );
+            $ldapSyncService->sync();
+            $ldapSyncStatus->setSyncFinishedAt(
+                $this->getDateTimeHelper()->getNow()
+                    ->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC))
+            );
+            $ldapSyncStatus->setSyncStatus(LDAPSyncStatus::SYNC_STATUS_SUCCEEDED);
+            $ldapSyncService->getLDAPDao()->saveLdapSyncStatus($ldapSyncStatus);
+        } catch (Throwable $exception) {
+            $ldapSyncStatus->setSyncStatus(LDAPSyncStatus::SYNC_STATUS_FAILED);
+            $ldapSyncService->getLDAPDao()->saveLdapSyncStatus($ldapSyncStatus);
+            $this->getIO()->error('Please check the settings for your LDAP configuration');
+            return self::FAILURE;
+        }
         $this->getIO()->success('Success');
         return self::SUCCESS;
     }
