@@ -31,7 +31,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeContactDetailsModel;
 use OrangeHRM\Pim\Service\EmployeeService;
@@ -268,23 +267,6 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
         }
 
         return $this->getEmployeeService()->isUniqueEmail($email, $employee->$currentEmailGetter());
-    }
-
-    /**
-     * @return EntityUniquePropertyOption
-     */
-    private function getEntityPropertiesForEmailRule(): EntityUniquePropertyOption
-    {
-        $entityProperties = new EntityUniquePropertyOption();
-        $entityProperties->setIgnoreValues(
-            [
-                'getEmpNumber' => $this->getRequestParams()->getInt(
-                    RequestParams::PARAM_TYPE_ATTRIBUTE,
-                    self::PARAMETER_EMP_NUMBER
-                )
-            ]
-        );
-        return $entityProperties;
     }
 
     /**
