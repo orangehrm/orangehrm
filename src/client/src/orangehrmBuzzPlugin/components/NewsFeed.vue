@@ -25,9 +25,11 @@
     </oxd-text>
 
     <create-post></create-post>
-    <post-filters :is-mobile="isMobile"></post-filters>
+    <post-filters
+      :is-mobile="isMobile"
+      @updatePriority="onUpdatePriority"
+    ></post-filters>
 
-    <!-- todo: add post filters here -->
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
       <oxd-grid-item v-for="post in posts" :key="post">
         <post-container
@@ -39,7 +41,10 @@
             <oxd-text>{{ post.text }}</oxd-text>
           </template>
           <template #actionButton>
-            <post-actions @showComment="onClickShowComment"></post-actions>
+            <post-actions
+              :post-id="post.id"
+              :buzz-user-id="post.employee.employeeId"
+            ></post-actions>
           </template>
           <template #postStats>
             <post-stats
@@ -48,7 +53,6 @@
               :no-of-comments="post.stats.noOfComments"
               :post-id="post.id"
               :is-mobile="isMobile"
-              @showComment="onClickShowComment"
             ></post-stats>
           </template>
           <template #comments> </template>
@@ -66,12 +70,12 @@
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
-import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
+import PostStats from '@/orangehrmBuzzPlugin/components/PostStats.vue';
 import CreatePost from '@/orangehrmBuzzPlugin/components/CreatePost.vue';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
-import PostStats from '@/orangehrmBuzzPlugin/components/PostStats.vue';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
 import PostFIlters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
+import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 
 const defaultFilters = {
   priority: 'most_recent', // most_recent | most_likes | most_comments
@@ -140,6 +144,14 @@ export default {
       fetchData,
       ...toRefs(state),
     };
+  },
+
+  methods: {
+    onUpdatePriority($event) {
+      if ($event) {
+        this.filters.priority = $event;
+      }
+    },
   },
 };
 </script>

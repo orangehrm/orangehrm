@@ -135,4 +135,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped src="./base-post.scss"></style>
+<style lang="scss" scoped src="./post-container.scss"></style>

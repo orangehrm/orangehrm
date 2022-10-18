@@ -42,6 +42,8 @@ export default {
     },
   },
 
+  emits: ['updatePriority'],
+
   data() {
     return {
       isActiveRecent: true,
@@ -79,16 +81,22 @@ export default {
       this.isActiveRecent = true;
       this.isActiveLike = false;
       this.isActiveComment = false;
+      const value = 'most_recent';
+      this.$emit('updatePriority', value);
     },
     filterMostLiked() {
       this.isActiveRecent = false;
       this.isActiveLike = true;
       this.isActiveComment = false;
+      const value = 'most_likes';
+      this.$emit('updatePriority', value);
     },
     filterMostCommented() {
       this.isActiveRecent = false;
       this.isActiveLike = false;
       this.isActiveComment = true;
+      const value = 'most_comments';
+      this.$emit('updatePriority', value);
     },
   },
 };

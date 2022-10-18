@@ -4,5 +4,16 @@
 <script>
 export default {
   name: 'CommentButton',
+
+  props: {
+    postId: {
+      type: Number,
+      required: true,
+    },
+    buzzUserId: {
+      type: Number,
+      required: true,
+    },
+  },
 };
 </script>

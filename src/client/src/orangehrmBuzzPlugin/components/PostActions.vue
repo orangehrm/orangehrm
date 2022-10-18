@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-buzz-post-actions">
     <div class="orangehrm-action-button-like">
-      <like-button></like-button>
+      <like-button :post-id="postId" :buzz-user-id="buzzUserId"></like-button>
     </div>
     <div
       class="orangehrm-action-button-comment"
@@ -46,6 +46,17 @@ export default {
     'like-button': LikeButton,
     'share-button': ShareButton,
     'comment-button': CommentButton,
+  },
+
+  props: {
+    postId: {
+      type: Number,
+      required: true,
+    },
+    buzzUserId: {
+      type: Number,
+      required: true,
+    },
   },
   emits: ['showComment'],
 };
