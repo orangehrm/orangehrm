@@ -11,6 +11,25 @@ apiv2_buzz_newsfeed_posts:
   controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::getPosts
   methods: [ GET ]
 
+apiv2_buzz_posts:
+  path: /api/v2/buzz/posts
+  controller: OrangeHRM\Buzz\Controller\BuzzPostsDataMockController::getPostStatus
+  methods: [ GET ]
+
+apiv2_buzz_post_comments:
+  path: /api/v2/buzz/posts/{postId}/comments
+  controller: OrangeHRM\Buzz\Controller\BuzzPostCommentsMockController::getPostComments
+  methods: [ GET ]
+
+apiv2_buzz_post_likes:
+  path: /api/v2/buzz/posts/{postId}/likes
+  controller: OrangeHRM\Buzz\Controller\BuzzPostLikesMockController::getPostLikes
+  methods: [ GET ]
+
+apiv2_buzz_post_shares:
+  path: /api/v2/buzz/posts/{postId}/shares
+  controller: OrangeHRM\Buzz\Controller\BuzzPostSharesMockController::getPostShares
+  methods: [ GET ]
 ##########################
 #        Screens
 ##########################
