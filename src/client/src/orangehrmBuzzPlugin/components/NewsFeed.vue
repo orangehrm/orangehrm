@@ -138,20 +138,20 @@ export default {
       fetchData();
     });
 
+    const onUpdatePriority = $event => {
+      if ($event) {
+        state.filters.priority = $event;
+        fetchData();
+      }
+    };
+
     onBeforeMount(() => fetchData());
 
     return {
       fetchData,
+      onUpdatePriority,
       ...toRefs(state),
     };
-  },
-
-  methods: {
-    onUpdatePriority($event) {
-      if ($event) {
-        this.filters.priority = $event;
-      }
-    },
   },
 };
 </script>
