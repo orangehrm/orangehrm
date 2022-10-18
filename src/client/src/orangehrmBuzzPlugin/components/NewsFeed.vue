@@ -164,14 +164,6 @@ export default {
       ...toRefs(state),
     };
   },
-
-  methods: {
-    onUpdatePriority($event) {
-      if ($event) {
-        this.filters.priority = $event;
-      }
-    },
-  },
 };
 </script>
 
