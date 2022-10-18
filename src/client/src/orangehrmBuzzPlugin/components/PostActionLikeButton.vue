@@ -179,9 +179,6 @@
   </div>
 </template>
 <script>
-import {APIService} from '@/core/util/services/api.service';
-import {freshDate, formatDate} from '@/core/util/helper/datefns';
-
 export default {
   name: 'LikeButton',
 
@@ -190,24 +187,13 @@ export default {
       type: Number,
       required: true,
     },
-    buzzUserId: {
+    employ: {
       type: Number,
       required: true,
     },
   },
 
-  emits: ['likeUpdate'],
-
-  setup(props) {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/buzz/posts/${props.postId}/like`,
-    );
-
-    return {
-      http,
-    };
-  },
+  emits: ['like'],
 
   data() {
     return {
@@ -220,29 +206,6 @@ export default {
   methods: {
     addLike() {
       this.isActive = !this.isActive;
-      const currentDate = freshDate();
-      const likedTime =
-        formatDate(currentDate, 'yyyy-MM-dd') +
-        ' ' +
-        formatDate(new Date(), 'HH:mm:ss');
-      if (this.isActive) {
-        this.http
-          .create({
-            userId: this.buzzUserId,
-            likedTime: likedTime,
-          })
-          .then(() => {
-            this.$emit('likeUpdate', true);
-          });
-      } else {
-        this.http
-          .deleteAll({
-            userId: this.buzzUserId,
-          })
-          .then(() => {
-            this.$emit('likeUpdate', true);
-          });
-      }
     },
   },
 };

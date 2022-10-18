@@ -3,30 +3,22 @@
     <oxd-button
       :label="mostRecentLabel"
       icon-name="clock-history"
-      :display-type="isActiveRecent ? 'label-warn' : 'text'"
-      :class="
-        isActiveRecent || !isMobile ? 'orangehrm-post-filters-button' : ''
-      "
+      :display-type="activeRecent"
+      :class="mostRecentClass"
       @click="filterMostRecent"
     />
     <oxd-button
       :label="mostLikedLabel"
       icon-name="heart-fill"
-      :display-type="isActiveLike ? 'label-warn' : 'text'"
-      :class="
-        isActiveLike || !isMobile
-          ? 'orangehrm-post-filters-button-like'
-          : 'orangehrm-post-filters-button-like-mobile'
-      "
+      :display-type="activeLike"
+      :class="mostLikedClass"
       @click="filterMostLiked"
     />
     <oxd-button
       :label="mostCommentedLabel"
       icon-name="chat-dots-fill"
-      :display-type="isActiveComment ? 'label-warn' : 'text'"
-      :class="
-        isActiveComment || !isMobile ? 'orangehrm-post-filters-button' : ''
-      "
+      :display-type="activeComment"
+      :class="mostCommentedClass"
       @click="filterMostCommented"
     />
   </div>
@@ -72,6 +64,48 @@ export default {
         return this.$t('buzz.most_commented_posts');
       } else {
         return '';
+      }
+    },
+    mostRecentClass() {
+      if (this.isActiveRecent || !this.isMobile) {
+        return 'orangehrm-post-filters-button';
+      } else {
+        return '';
+      }
+    },
+    mostLikedClass() {
+      if (this.isActiveLike || !this.isMobile) {
+        return 'orangehrm-post-filters-button-like';
+      } else {
+        return 'orangehrm-post-filters-button-like-mobile';
+      }
+    },
+    mostCommentedClass() {
+      if (this.isActiveComment || !this.isMobile) {
+        return 'orangehrm-post-filters-button';
+      } else {
+        return '';
+      }
+    },
+    activeRecent() {
+      if (this.isActiveRecent) {
+        return 'label-warn';
+      } else {
+        return 'text';
+      }
+    },
+    activeLike() {
+      if (this.isActiveLike) {
+        return 'label-warn';
+      } else {
+        return 'text';
+      }
+    },
+    activeComment() {
+      if (this.isActiveComment) {
+        return 'label-warn';
+      } else {
+        return 'text';
       }
     },
   },

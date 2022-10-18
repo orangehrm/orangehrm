@@ -43,7 +43,7 @@
           <template #actionButton>
             <post-actions
               :post-id="post.id"
-              :buzz-user-id="post.employee.employeeId"
+              :emp-number="post.employee.empNumber"
             ></post-actions>
           </template>
           <template #postStats>

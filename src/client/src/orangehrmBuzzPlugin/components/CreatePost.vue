@@ -19,7 +19,6 @@
  -->
 
 <template>
-  <!-- TODO: Placeholder component -->
   <oxd-sheet class="orangehrm-buzz-create-post">
     <div class="orangehrm-buzz-create-post-header">
       <div class="orangehrm-buzz-create-post-profile-image">
@@ -62,6 +61,7 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
+import {APIService} from '@/core/util/services/api.service';
 import GlassButton from '@ohrm/oxd/core/components/Button/GlassButton';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
 
@@ -85,12 +85,21 @@ export default {
     const post = ref(null);
     const rules = [required, shouldNotExceedCharLength(63535)];
 
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
+
     const onSubmit = () => {
-      // todo
+      this.http
+        .create({
+          employee: this.employee,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        });
     };
 
     return {
       post,
+      http,
       rules,
       onSubmit,
     };

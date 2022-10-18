@@ -21,20 +21,23 @@
 <template>
   <div class="orangehrm-buzz-post-actions">
     <div class="orangehrm-action-button-like">
-      <like-button :post-id="postId" :buzz-user-id="buzzUserId"></like-button>
+      <like-button
+        :post-id="postId"
+        :emp-number="empNumber"
+        @click="onClickAction('like')"
+      ></like-button>
     </div>
-    <div
-      class="orangehrm-action-button-comment"
-      @click="$emit('showComment', $event)"
-    >
-      <comment-button></comment-button>
+    <div class="orangehrm-action-button-comment">
+      <comment-button @click="onClickAction('comment')"></comment-button>
     </div>
     <div class="orangehrm-action-button-share">
-      <share-button></share-button>
+      <share-button @click="onClickAction('share')"></share-button>
     </div>
   </div>
 </template>
 <script>
+import {APIService} from '@/core/util/services/api.service';
+import {freshDate, formatDate} from '@/core/util/helper/datefns';
 import LikeButton from '@/orangehrmBuzzPlugin/components/PostActionLikeButton.vue';
 import ShareButton from '@/orangehrmBuzzPlugin/components/PostActionShareButton.vue';
 import CommentButton from '@/orangehrmBuzzPlugin/components/PostActionCommentButton.vue';
@@ -53,12 +56,72 @@ export default {
       type: Number,
       required: true,
     },
-    buzzUserId: {
+    empNumber: {
       type: Number,
       required: true,
     },
   },
-  emits: ['showComment'],
+
+  emits: ['like'],
+
+  setup(props) {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/buzz/posts/${props.postId}/like`,
+    );
+
+    return {
+      http,
+    };
+  },
+
+  data() {
+    return {
+      isActive: false,
+    };
+  },
+
+  methods: {
+    onClickAction(type) {
+      switch (type) {
+        case 'like':
+          this.isActive = !this.isActive;
+          this.addLike();
+          break;
+
+        case 'comment':
+          break;
+
+        default:
+          break;
+      }
+    },
+    addLike() {
+      const currentDate = freshDate();
+      const likedTime =
+        formatDate(currentDate, 'yyyy-MM-dd') +
+        ' ' +
+        formatDate(new Date(), 'HH:mm:ss');
+      if (this.isActive) {
+        this.http
+          .create({
+            userId: this.buzzUserId,
+            likedTime: likedTime,
+          })
+          .then(() => {
+            this.$emit('like', true);
+          });
+      } else {
+        this.http
+          .deleteAll({
+            userId: this.buzzUserId,
+          })
+          .then(() => {
+            this.$emit('like', false);
+          });
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
