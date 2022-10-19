@@ -91,17 +91,6 @@ export default {
     'post-actions': PostActions,
     'post-filters': PostFIlters,
     'oxd-loading-spinner': Spinner,
-    'post-status': PostStatus,
-    'post-actions': PostActions,
-    'post-filters': PostFIlters,
-    'oxd-loading-spinner': Spinner,
-  },
-
-  props: {
-    isMobile: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   props: {
