@@ -48,6 +48,7 @@ jobs:
           php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
 
       - name: Configure LDAP server
+        if: "${{ github.event_name == 'push' }}"
         run: |
           cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/config
           docker run --detach --rm --name openldap \
@@ -86,8 +87,15 @@ jobs:
           name: coverage
           path: coverage.tar.xz
 
-      - name: Stop LDAP container
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
+        with:
+          name: logs
+          path: src/log
+
+      - name: Stop LDAP container
+        if: "${{ github.event_name == 'push' && always() }}"
         run: docker stop openldap
 
   composer_check:

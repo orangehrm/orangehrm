@@ -19,43 +19,27 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpUsTaxExemption;
 
 class EmpUsTaxExemptionDao extends BaseDao
 {
     /**
-     * @param EmpUsTaxExemption $employee
+     * @param EmpUsTaxExemption $empUsTaxExemption
      * @return EmpUsTaxExemption
-     * @throws DaoException
      */
-    public function saveEmployeeTaxExemption(EmpUsTaxExemption $employee): EmpUsTaxExemption
+    public function saveEmployeeTaxExemption(EmpUsTaxExemption $empUsTaxExemption): EmpUsTaxExemption
     {
-        try {
-            $this->persist($employee);
-            return $employee;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($empUsTaxExemption);
+        return $empUsTaxExemption;
     }
 
     /**
      * @param int $empNumber
      * @return EmpUsTaxExemption|null
-     * @throws DaoException
      */
     public function getEmployeeTaxExemption(int $empNumber): ?EmpUsTaxExemption
     {
-        try {
-            $usTaxExemption = $this->getRepository(EmpUsTaxExemption::class)->find($empNumber);
-            if ($usTaxExemption instanceof EmpUsTaxExemption) {
-                return $usTaxExemption;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(EmpUsTaxExemption::class)->find($empNumber);
     }
 }

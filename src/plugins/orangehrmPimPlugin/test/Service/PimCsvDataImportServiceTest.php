@@ -39,7 +39,6 @@ class PimCsvDataImportServiceTest extends KernelTestCase
 
     public static function setUpBeforeClass(): void
     {
-        parent::markTestSkipped();
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/Country.yaml', true);
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/Nationality.yaml', true);
     }
