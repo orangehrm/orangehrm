@@ -40,7 +40,31 @@
           </div>
         </div>
         <div class="orangehrm-buzz-post-header-config">
-          <oxd-dropdown icon="three-dots" :options="dropdownOptions" />
+          <oxd-dropdown>
+            <oxd-icon-button
+              class=""
+              name="three-dots"
+              :with-container="true"
+            />
+            <template #content>
+              <li>
+                <div class="orangehrm-buzz-post-header-config-item">
+                  <oxd-icon name="trash" />
+                  <oxd-text tag="p" @click="$emit('delete', $event)">{{
+                    $t('buzz.delete_post')
+                  }}</oxd-text>
+                </div>
+              </li>
+              <li>
+                <div class="orangehrm-buzz-post-header-config-item">
+                  <oxd-icon name="pencil" />
+                  <oxd-text tag="p" @click="$emit('edit', $event)">{{
+                    $t('buzz.edit_post')
+                  }}</oxd-text>
+                </div>
+              </li>
+            </template>
+          </oxd-dropdown>
         </div>
       </div>
       <oxd-divider />
@@ -60,17 +84,19 @@
 </template>
 <script>
 import {computed} from 'vue';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import useLocale from '@/core/util/composable/useLocale';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
-import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown.vue';
+import Dropdown from '@ohrm/oxd/core/components/DropdownMenu/DropdownMenu.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'PostContainer',
   components: {
+    'oxd-icon': Icon,
     'oxd-sheet': Sheet,
     'oxd-dropdown': Dropdown,
   },
@@ -122,7 +148,6 @@ export default {
     return {
       isLoading: false,
       showComments: false,
-      showDropdown: false,
       showLikeList: false,
       showSharesList: false,
       likedList: [],

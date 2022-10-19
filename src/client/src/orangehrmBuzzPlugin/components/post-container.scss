@@ -43,6 +43,19 @@
     }
     &-config {
       margin-left: 0.5rem;
+      position: relative;
+      &-item {
+        display: flex;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+      & li {
+        display: flex;
+        & p {
+          font-size: 12px;
+          margin-left: 0.5rem;
+        }
+      }
     }
     &-dropdown {
       right: 0;
