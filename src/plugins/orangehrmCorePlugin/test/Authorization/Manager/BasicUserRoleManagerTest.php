@@ -1029,35 +1029,27 @@ class BasicUserRoleManagerTest extends KernelTestCase
             ]
         );
 
-        // id is not preserved in loadObjectList()
-        $users[0]->setId(11);
-
         // 0 - Admin (also ESS?)
         $roles = $this->manager->getUserRolesPublic($users[0]);
         $this->compareUserRoles(['Admin', 'ESS'], $roles);
 
         // 1 - ESS, Supervisor
-        $users[1]->setId(12);
         $roles = $this->manager->getUserRolesPublic($users[1]);
         $this->compareUserRoles(['ESS', 'Supervisor'], $roles);
 
         // 2 - ESS
-        $users[2]->setId(13);
         $roles = $this->manager->getUserRolesPublic($users[2]);
         $this->compareUserRoles(['ESS'], $roles);
 
         // 3 - Admin, Supervisor
-        $users[0]->setId(14);
         $roles = $this->manager->getUserRolesPublic($users[3]);
         $this->compareUserRoles(['Admin', 'Supervisor', 'ESS'], $roles);
 
         // 4 - ESS
-        $users[3]->setId(15);
         $roles = $this->manager->getUserRolesPublic($users[4]);
         $this->compareUserRoles(['ESS'], $roles);
 
         // 5 - Admin (Default admin) - does not have ESS role
-        $users[4]->setId(16);
         $roles = $this->manager->getUserRolesPublic($users[5]);
         $this->compareUserRoles(['Admin'], $roles);
     }

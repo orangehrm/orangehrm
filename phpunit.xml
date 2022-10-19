@@ -9,10 +9,8 @@
       <directory suffix=".php">src</directory>
     </include>
     <exclude>
-      <directory>src/apps</directory>
       <directory>src/cache</directory>
       <directory>src/config</directory>
-      <directory>src/data</directory>
       <directory>src/lib</directory>
       <directory>src/web</directory>
       <directory>src/vendor</directory>
@@ -22,75 +20,41 @@
   </coverage>
   <testsuites>
     <testsuite name="Admin">
-      <directory>src/plugins/orangehrmAdminPlugin/test/Api</directory>
-      <directory>src/plugins/orangehrmAdminPlugin/test/Service</directory>
-      <directory>src/plugins/orangehrmAdminPlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmAdminPlugin/test/Entity</directory>
+      <directory>src/plugins/orangehrmAdminPlugin/test</directory>
     </testsuite>
     <testsuite name="Authentication">
       <directory>src/plugins/orangehrmAuthenticationPlugin/test</directory>
     </testsuite>
     <testsuite name="Core">
-      <directory>src/plugins/orangehrmCorePlugin/test/Service</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Authorization</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Essential</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Api</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Helper</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Vue</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Import</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Registration</directory>
-      <directory>src/plugins/orangehrmCorePlugin/test/Utility</directory>
+      <directory>src/plugins/orangehrmCorePlugin/test</directory>
     </testsuite>
     <testsuite name="Leave">
       <directory>src/plugins/orangehrmLeavePlugin/test/Dao</directory>
       <directory>src/plugins/orangehrmLeavePlugin/test</directory>
     </testsuite>
     <testsuite name="Pim">
-      <directory>src/plugins/orangehrmPimPlugin/test/Service</directory>
-      <directory>src/plugins/orangehrmPimPlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmPimPlugin/test/Api</directory>
-      <directory>src/plugins/orangehrmPimPlugin/test/Entity</directory>
+      <directory>src/plugins/orangehrmPimPlugin/test</directory>
     </testsuite>
     <testsuite name="OAuth">
-      <directory>src/plugins/orangehrmCoreOAuthPlugin/test/Service</directory>
-      <directory>src/plugins/orangehrmCoreOAuthPlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmCoreOAuthPlugin/test/Api</directory>
-      <directory>src/plugins/orangehrmCoreOAuthPlugin/test/Entity</directory>
+      <directory>src/plugins/orangehrmCoreOAuthPlugin/test</directory>
     </testsuite>
     <testsuite name="Time">
-      <directory>src/plugins/orangehrmTimePlugin/test/Service</directory>
-      <directory>src/plugins/orangehrmTimePlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmTimePlugin/test/Api</directory>
-      <directory>src/plugins/orangehrmTimePlugin/test/Entity</directory>
+      <directory>src/plugins/orangehrmTimePlugin/test</directory>
     </testsuite>
     <testsuite name="Attendance">
-      <directory>src/plugins/orangehrmAttendancePlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmAttendancePlugin/test/Api</directory>
-      <directory>src/plugins/orangehrmAttendancePlugin/test/Entity</directory>
+      <directory>src/plugins/orangehrmAttendancePlugin/test</directory>
     </testsuite>
     <testsuite name="Maintenance">
-      <directory>src/plugins/orangehrmMaintenancePlugin/test/Service</directory>
-      <directory>src/plugins/orangehrmMaintenancePlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmMaintenancePlugin/test/PurgeStrategy</directory>
-      <directory>src/plugins/orangehrmMaintenancePlugin/test/AccessStrategy</directory>
-      <directory>src/plugins/orangehrmMaintenancePlugin/test/Dto</directory>
-      <directory>src/plugins/orangehrmMaintenancePlugin/test/Api</directory>
+      <directory>src/plugins/orangehrmMaintenancePlugin/test</directory>
     </testsuite>
     <testsuite name="I18N">
-      <directory>src/plugins/orangehrmI18NPlugin/test/Service</directory>
+      <directory>src/plugins/orangehrmI18NPlugin/test</directory>
     </testsuite>
     <testsuite name="Performance">
-      <directory>src/plugins/orangehrmPerformancePlugin/test/Service</directory>
-      <directory>src/plugins/orangehrmPerformancePlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmPerformancePlugin/test/Api</directory>
-      <directory>src/plugins/orangehrmPerformancePlugin/test/Entity</directory>
+      <directory>src/plugins/orangehrmPerformancePlugin/test</directory>
     </testsuite>
     <testsuite name="Recruitment">
-      <directory>src/plugins/orangehrmRecruitmentPlugin/test/Dao</directory>
-      <directory>src/plugins/orangehrmRecruitmentPlugin/test/Api</directory>
-      <directory>src/plugins/orangehrmRecruitmentPlugin/test/Entity</directory>
-      <directory>src/plugins/orangehrmRecruitmentPlugin/test/Controller</directory>
+      <directory>src/plugins/orangehrmRecruitmentPlugin/test</directory>
     </testsuite>
     <testsuite name="Directory">
       <directory>src/plugins/orangehrmCorporateDirectoryPlugin/test</directory>

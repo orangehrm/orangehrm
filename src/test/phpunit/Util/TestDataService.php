@@ -306,7 +306,7 @@ class TestDataService
             // Clear table cache
             if (is_array(self::$data)) {
                 foreach (self::$data as $alias => $values) {
-                    Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
+                    Doctrine::getEntityManager()->clear();
                 }
             }
 
@@ -349,7 +349,7 @@ class TestDataService
         foreach ($aliasArray as $alias) {
             try {
                 $tableNames[] = self::_getTableName($alias);
-                Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
+                Doctrine::getEntityManager()->clear();
             } catch (MappingException $e) {
                 echo __FILE__ . ':' . __LINE__ . ') Skipping unknown table alias: ' . $alias . "\n";
             }
@@ -394,7 +394,7 @@ class TestDataService
     {
         $entityName = self::getFQEntityName($alias);
         if ($clearEntities) {
-            Doctrine::getEntityManager()->clear($entityName);
+            Doctrine::getEntityManager()->clear();
         }
         $q = Doctrine::getEntityManager()->getRepository($entityName)->createQueryBuilder('a');
         $q->setMaxResults(1);
@@ -418,7 +418,7 @@ class TestDataService
     public static function fetchObject(string $alias, $primaryKey): ?object
     {
         $entityName = self::getFQEntityName($alias);
-        Doctrine::getEntityManager()->clear($entityName);
+        Doctrine::getEntityManager()->clear();
         return Doctrine::getEntityManager()->find($entityName, $primaryKey);
     }
 
