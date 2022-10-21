@@ -30,8 +30,8 @@
       <upcoming-anniversaries></upcoming-anniversaries>
     </oxd-tab-panel>
   </oxd-tab-container>
-  <oxd-grid v-else :cols="3">
-    <oxd-grid-item class="--span-column-2">
+  <oxd-grid v-else :cols="2" class="orangehrm-buzz-layout">
+    <oxd-grid-item>
       <news-feed></news-feed>
     </oxd-grid-item>
     <oxd-grid-item>
@@ -76,3 +76,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-buzz-layout {
+  justify-content: center;
+  grid-template-columns: minmax(240px, 640px) minmax(0, 375px);
+}
+</style>

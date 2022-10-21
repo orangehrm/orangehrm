@@ -54,6 +54,10 @@
       ></oxd-glass-button>
     </div>
   </oxd-sheet>
+  <share-video-modal
+    v-if="showVideoModal"
+    @close="onCloseVideoModal"
+  ></share-video-modal>
 </template>
 
 <script>
@@ -65,6 +69,7 @@ import {
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import GlassButton from '@ohrm/oxd/core/components/Button/GlassButton';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
+import ShareVideoModal from '@/orangehrmBuzzPlugin/components/ShareVideoModal';
 
 export default {
   name: 'CreatePost',
@@ -73,6 +78,7 @@ export default {
     'oxd-sheet': Sheet,
     'oxd-glass-button': GlassButton,
     'oxd-buzz-post-input': BuzzPostInput,
+    'share-video-modal': ShareVideoModal,
   },
 
   props: {
@@ -84,6 +90,7 @@ export default {
 
   setup() {
     const post = ref(null);
+    const showVideoModal = ref(false);
     const rules = [required, shouldNotExceedCharLength(63535)];
 
     const onSubmit = () => {
@@ -95,13 +102,19 @@ export default {
     };
 
     const onClickShareVideos = () => {
-      // todo
+      showVideoModal.value = true;
+    };
+
+    const onCloseVideoModal = () => {
+      showVideoModal.value = false;
     };
 
     return {
       post,
       rules,
       onSubmit,
+      showVideoModal,
+      onCloseVideoModal,
       onClickSharePhotos,
       onClickShareVideos,
     };

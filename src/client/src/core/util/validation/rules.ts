@@ -670,3 +670,18 @@ export const validPortRange = function(
     );
   };
 };
+
+/**
+ * Validate url to be a valid youtube video
+ * @param {string} value url string
+ * @returns
+ */
+export const validVideoURL = function(value: string): boolean | string {
+  const urlValidationRegex = new RegExp(
+    '(youtu.*be.*)/(watch?v=|embed/|v|shorts|)(.*?((?=[&#?])|$))',
+  );
+
+  return (
+    !value || urlValidationRegex.test(value) || translate('general.invalid')
+  );
+};
