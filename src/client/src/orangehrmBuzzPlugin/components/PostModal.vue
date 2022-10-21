@@ -30,13 +30,13 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form @submitValid="onSubmit">
+    <oxd-form :loading="loading" @submitValid="onSubmit">
       <div class="orangehrm-buzz-post-modal-header">
         <div class="orangehrm-buzz-post-modal-profile-image">
           <img
             alt="profile picture"
             class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/1`"
+            :src="`../pim/viewPhoto/empNumber/${employee.empNumber}`"
           />
         </div>
         <div class="orangehrm-buzz-post-modal-header-text">
@@ -65,6 +65,14 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    employee: {
+      type: Object,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
 

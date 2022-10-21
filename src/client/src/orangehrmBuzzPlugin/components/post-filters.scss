@@ -14,25 +14,28 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-post-filters {
+  gap: 0.5rem;
   display: flex;
-  justify-content: space-between;
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin: 1rem 0;
   &-button {
-    width: 60rem;
-    transition: width 400ms ease-in-out;
-    &-like {
-      width: 60rem;
-      margin-left: 0.5rem;
-      margin-right: 0.5rem;
-      &-mobile {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-      }
+    word-break: break-word;
+    transition: all 400ms ease-in-out;
+  }
+  ::v-deep(.oxd-button) {
+    min-width: unset;
+    font-weight: 700;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    @include oxd-respond-to('lg') {
+      width: 100%;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
     }
   }
-}
-::v-deep(.oxd-button) {
-  font-weight: 700;
+  ::v-deep(.oxd-button--label-warn) {
+    width: 100%;
+  }
 }

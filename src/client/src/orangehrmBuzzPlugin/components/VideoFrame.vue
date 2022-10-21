@@ -21,7 +21,6 @@
 <template>
   <div class="orangehrm-buzz-video">
     <iframe
-      v-show="embedURL"
       :src="embedURL"
       frameborder="0"
       class="orangehrm-buzz-video-frame"
@@ -43,12 +42,13 @@ export default {
   },
   computed: {
     embedURL() {
-      const videoID = new String(this.videoSrc).match(
-        /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
-      );
-      return videoID && videoID[7].length === 11
-        ? `https://www.youtube-nocookie.com/embed/${videoID[7]}`
-        : null;
+      const videoID =
+        new String(this.videoSrc)
+          .trim()
+          .match(
+            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(shorts|embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+          )[7] || '';
+      return `https://www.youtube-nocookie.com/embed/${videoID}`;
     },
   },
 };

@@ -21,42 +21,39 @@
 <template>
   <div class="orangehrm-post-filters">
     <oxd-button
-      :label="mostRecentLabel"
       icon-name="clock-history"
-      :display-type="isActiveRecent ? 'label-warn' : 'text'"
-      :class="
-        isActiveRecent || !isMobile ? 'orangehrm-post-filters-button' : ''
-      "
-      @click="filterMostRecent"
+      class="orangehrm-post-filters-button"
+      :label="mostRecentButtonLabel"
+      :display-type="mostRecentButtonType"
+      @click="$emit('updatePriority', 'most_recent')"
     />
     <oxd-button
-      :label="mostLikedLabel"
       icon-name="heart-fill"
-      :display-type="isActiveLike ? 'label-warn' : 'text'"
-      :class="
-        isActiveLike || !isMobile
-          ? 'orangehrm-post-filters-button-like'
-          : 'orangehrm-post-filters-button-like-mobile'
-      "
-      @click="filterMostLiked"
+      class="orangehrm-post-filters-button"
+      :label="mostLikesButtonLabel"
+      :display-type="mostLikesButtonType"
+      @click="$emit('updatePriority', 'most_likes')"
     />
     <oxd-button
-      :label="mostCommentedLabel"
       icon-name="chat-dots-fill"
-      :display-type="isActiveComment ? 'label-warn' : 'text'"
-      :class="
-        isActiveComment || !isMobile ? 'orangehrm-post-filters-button' : ''
-      "
-      @click="filterMostCommented"
+      class="orangehrm-post-filters-button"
+      :label="mostCommentsButtonLabel"
+      :display-type="mostCommentsButtonType"
+      @click="$emit('updatePriority', 'most_comments')"
     />
   </div>
 </template>
+
 <script>
 export default {
   name: 'PostFilters',
 
   props: {
-    isMobile: {
+    filter: {
+      type: String,
+      required: true,
+    },
+    mobile: {
       type: Boolean,
       default: false,
     },
@@ -64,61 +61,45 @@ export default {
 
   emits: ['updatePriority'],
 
-  data() {
-    return {
-      isActiveRecent: true,
-      isActiveLike: false,
-      isActiveComment: false,
-    };
-  },
-
   computed: {
-    mostRecentLabel() {
-      if (this.isActiveRecent || !this.isMobile) {
-        return this.$t('buzz.most_recent_posts');
-      } else {
-        return '';
+    isMostRecent() {
+      return this.filter === 'most_recent';
+    },
+    isMostLikes() {
+      return this.filter === 'most_likes';
+    },
+    isMostComments() {
+      return this.filter === 'most_comments';
+    },
+    mostRecentButtonType() {
+      return this.isMostRecent ? 'label-warn' : 'text';
+    },
+    mostLikesButtonType() {
+      return this.isMostLikes ? 'label-warn' : 'text';
+    },
+    mostCommentsButtonType() {
+      return this.isMostComments ? 'label-warn' : 'text';
+    },
+    mostRecentButtonLabel() {
+      if (this.mobile) {
+        return this.isMostRecent ? this.$t('buzz.most_recent_posts') : '';
       }
+      return this.$t('buzz.most_recent_posts');
     },
-    mostLikedLabel() {
-      if (this.isActiveLike || !this.isMobile) {
-        return this.$t('buzz.most_liked_posts');
-      } else {
-        return '';
+    mostLikesButtonLabel() {
+      if (this.mobile) {
+        return this.isMostLikes ? this.$t('buzz.most_liked_posts') : '';
       }
+      return this.$t('buzz.most_liked_posts');
     },
-    mostCommentedLabel() {
-      if (this.isActiveComment || !this.isMobile) {
-        return this.$t('buzz.most_commented_posts');
-      } else {
-        return '';
+    mostCommentsButtonLabel() {
+      if (this.mobile) {
+        return this.isMostComments ? this.$t('buzz.most_commented_posts') : '';
       }
-    },
-  },
-
-  methods: {
-    filterMostRecent() {
-      this.isActiveRecent = true;
-      this.isActiveLike = false;
-      this.isActiveComment = false;
-      const value = 'most_recent';
-      this.$emit('updatePriority', value);
-    },
-    filterMostLiked() {
-      this.isActiveRecent = false;
-      this.isActiveLike = true;
-      this.isActiveComment = false;
-      const value = 'most_likes';
-      this.$emit('updatePriority', value);
-    },
-    filterMostCommented() {
-      this.isActiveRecent = false;
-      this.isActiveLike = false;
-      this.isActiveComment = true;
-      const value = 'most_comments';
-      this.$emit('updatePriority', value);
+      return this.$t('buzz.most_commented_posts');
     },
   },
 };
 </script>
+
 <style lang="scss" scoped src="./post-filters.scss"></style>

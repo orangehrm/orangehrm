@@ -56,6 +56,8 @@
   </oxd-sheet>
   <share-video-modal
     v-if="showVideoModal"
+    :text="post"
+    :employee="employee"
     @close="onCloseVideoModal"
   ></share-video-modal>
 </template>

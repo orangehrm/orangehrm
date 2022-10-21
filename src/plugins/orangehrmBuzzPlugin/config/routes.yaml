@@ -12,7 +12,7 @@ apiv2_buzz_newsfeed_posts:
   methods: [ GET ]
 
 apiv2_buzz_newsfeed_update_post:
-  path: /api/v2/buzz/posts/{postId}
+  path: /api/v2/buzz/posts/{postId?}
   controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::updatePost
   methods: [ POST, PUT ]
 

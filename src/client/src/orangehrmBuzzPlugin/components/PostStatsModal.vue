@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <div v-if="!isMobile">
+  <div v-if="!mobile">
     <oxd-sheet
       :gutters="false"
       type="white"
@@ -44,7 +44,7 @@
       <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
     </oxd-sheet>
   </div>
-  <oxd-dialog v-if="isMobile" class="orangehrm-buzz-post-mobile">
+  <oxd-dialog v-else class="orangehrm-buzz-post-mobile">
     <oxd-sheet
       :gutters="false"
       type="white"
@@ -84,6 +84,7 @@
     </oxd-sheet>
   </oxd-dialog>
 </template>
+
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
@@ -94,7 +95,7 @@ import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 
 export default {
-  name: 'PostStatusDialog',
+  name: 'PostStatsModal',
 
   components: {
     'oxd-icon': Icon,
@@ -116,7 +117,7 @@ export default {
       type: String,
       required: true,
     },
-    isMobile: {
+    mobile: {
       type: Boolean,
       default: false,
     },
@@ -168,4 +169,5 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped src="./post-status-dialog.scss"></style>

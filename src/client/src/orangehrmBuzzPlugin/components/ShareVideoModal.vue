@@ -19,7 +19,12 @@
  -->
 
 <template>
-  <post-modal :title="$t('buzz.share_video')" @submit="onSubmit">
+  <post-modal
+    :loading="isLoading"
+    :title="$t('buzz.share_video')"
+    @submit="onSubmit"
+    @close="$emit('close', false)"
+  >
     <template #header>
       <oxd-buzz-post-input
         v-model="post.text"
@@ -40,12 +45,13 @@
 </template>
 
 <script>
-import {computed, reactive, toRefs} from 'vue';
 import {
   required,
   validVideoURL,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
+import {computed, reactive, toRefs} from 'vue';
+import {APIService} from '@/core/util/services/api.service';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal.vue';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame.vue';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
@@ -59,21 +65,38 @@ export default {
     'oxd-buzz-post-input': BuzzPostInput,
   },
 
-  setup(props) {
+  props: {
+    text: {
+      type: String,
+      default: null,
+    },
+  },
+
+  emits: ['close'],
+
+  setup(props, context) {
     const rules = {
-      text: [required, shouldNotExceedCharLength(63535)],
       url: [required, validVideoURL],
+      text: [required, shouldNotExceedCharLength(63535)],
     };
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
 
     const state = reactive({
       post: {
-        text: null,
+        text: props.text || null,
         url: null,
       },
+      isLoading: false,
     });
 
     const onSubmit = () => {
-      // do something
+      state.isLoading = true;
+      http
+        .create({
+          url: state.post.url,
+          text: state.post.text,
+        })
+        .then(() => context.emit('close', true));
     };
 
     const isValidURL = computed(

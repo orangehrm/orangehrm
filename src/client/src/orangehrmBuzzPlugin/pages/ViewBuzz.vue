@@ -21,7 +21,7 @@
 <template>
   <oxd-tab-container v-if="isMobile" v-model="tabSelector">
     <oxd-tab-panel key="buzz_newsfeed" :name="$t('buzz.buzz_newsfeed')">
-      <news-feed :is-mobile="isMobile"></news-feed>
+      <news-feed :mobile="true" :employee="employee"></news-feed>
     </oxd-tab-panel>
     <oxd-tab-panel
       key="buzz_anniversary"
@@ -32,7 +32,7 @@
   </oxd-tab-container>
   <oxd-grid v-else :cols="2" class="orangehrm-buzz-layout">
     <oxd-grid-item>
-      <news-feed></news-feed>
+      <news-feed :employee="employee"></news-feed>
     </oxd-grid-item>
     <oxd-grid-item>
       <upcoming-anniversaries></upcoming-anniversaries>
@@ -58,6 +58,14 @@ export default {
     'oxd-tab-container': TabContainer,
     'upcoming-anniversaries': UpcomingAnniversaries,
   },
+
+  props: {
+    employee: {
+      type: Object,
+      required: true,
+    },
+  },
+
   setup() {
     const tabSelector = ref(null);
     const responsiveState = useResponsive();

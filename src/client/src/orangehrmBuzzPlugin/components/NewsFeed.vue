@@ -24,9 +24,10 @@
       {{ $t('buzz.buzz_newsfeed') }}
     </oxd-text>
 
-    <create-post></create-post>
+    <create-post :employee="employee"></create-post>
     <post-filters
-      :is-mobile="isMobile"
+      :mobile="mobile"
+      :filter="filters.priority"
       @updatePriority="onUpdatePriority"
     ></post-filters>
 
@@ -54,7 +55,7 @@
               :no-of-shares="post.stats.noOfShares"
               :no-of-comments="post.stats.noOfComments"
               :post-id="post.id"
-              :is-mobile="isMobile"
+              :mobile="mobile"
             ></post-stats>
           </template>
           <template #comments> </template>
@@ -96,7 +97,11 @@ export default {
   },
 
   props: {
-    isMobile: {
+    employee: {
+      type: Object,
+      required: true,
+    },
+    mobile: {
       type: Boolean,
       default: false,
     },

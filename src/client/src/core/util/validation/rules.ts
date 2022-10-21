@@ -677,11 +677,11 @@ export const validPortRange = function(
  * @returns
  */
 export const validVideoURL = function(value: string): boolean | string {
-  const urlValidationRegex = new RegExp(
-    '(youtu.*be.*)/(watch?v=|embed/|v|shorts|)(.*?((?=[&#?])|$))',
-  );
-
   return (
-    !value || urlValidationRegex.test(value) || translate('general.invalid')
+    !value ||
+    /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:shorts\/|embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(\?\S*)?$/.test(
+      value,
+    ) ||
+    translate('general.invalid')
   );
 };
