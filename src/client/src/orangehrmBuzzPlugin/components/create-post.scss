@@ -16,65 +16,32 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-buzz {
-  padding: 1rem;
-  min-height: 150px;
-  margin-bottom: 1rem;
-  &-like-icon {
-    color: $oxd-feedback-danger-color;
-  }
-}
-.orangehrm-buzz-loader {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5rem;
-}
-.orangehrm-buzz-post {
+.orangehrm-buzz-create-post {
+  margin: 0.5rem 0 1rem 0;
   &-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    &-details {
-      display: flex;
-      align-items: center;
-    }
     &-text {
-      margin-left: 1rem;
-    }
-    &-config {
-      margin-left: 0.5rem;
-      position: relative;
-      &-item {
-        display: flex;
-        cursor: pointer;
-        padding: 10px 20px;
-      }
-      & li {
-        display: flex;
-        & p {
-          font-size: 12px;
-          margin-left: 0.5rem;
-        }
-      }
+      width: 100%;
     }
   }
-  &-emp-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    @include truncate(1, 1, #fff);
-  }
-  &-time {
-    font-size: 0.75rem;
-  }
-  &-footer {
-    padding-top: 1rem;
+  &-actions {
+    gap: 0.5rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    @include oxd-respond-to('sm') {
+      gap: unset;
+      flex-direction: row;
+      justify-content: space-around;
+    }
   }
 }
 
-::v-deep(.oxd-dropdown-menu) {
-  left: unset;
-  right: 0;
+::v-deep(.oxd-glass-button) {
+  width: 100%;
+  justify-content: center;
+  @include oxd-respond-to('sm') {
+    width: unset;
+    justify-content: unset;
+  }
 }

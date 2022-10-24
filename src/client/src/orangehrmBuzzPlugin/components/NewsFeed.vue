@@ -43,7 +43,7 @@
           </template>
           <template #actionButton>
             <post-actions
-              :is-liked="post.like"
+              :like="post.like"
               @like="onLike(index)"
               @share="onShare(index)"
               @comment="onComment(index)"
@@ -51,14 +51,14 @@
           </template>
           <template #postStats>
             <post-stats
+              :mobile="mobile"
+              :post-id="post.id"
               :no-of-likes="post.stats.noOfLikes"
               :no-of-shares="post.stats.noOfShares"
               :no-of-comments="post.stats.noOfComments"
-              :post-id="post.id"
-              :mobile="mobile"
             ></post-stats>
           </template>
-          <template #comments> </template>
+          <!-- TODO: Add Post Comment Component -->
         </post-container>
       </oxd-grid-item>
     </oxd-grid>

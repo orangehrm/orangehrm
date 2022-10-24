@@ -30,13 +30,7 @@
         :key="user"
         class="orangehrm-buzz-post-footer-status-employee"
       >
-        <div class="orangehrm-buzz-post-profile-image">
-          <img
-            alt="profile picture"
-            class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/${user.employee.empNumber}`"
-          />
-        </div>
+        <profile-image :employee="user.employee"></profile-image>
         <oxd-text tag="p">
           {{ user.employee.firstName }}{{ user.employee.lastName }}
         </oxd-text>
@@ -69,13 +63,7 @@
         :key="user"
         class="orangehrm-buzz-post-footer-status-employee"
       >
-        <div class="orangehrm-buzz-post-profile-image">
-          <img
-            alt="profile picture"
-            class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/${user.employee.empNumber}`"
-          />
-        </div>
+        <profile-image :employee="user.employee"></profile-image>
         <oxd-text tag="p">
           {{ user.employee.firstName }}{{ user.employee.lastName }}
         </oxd-text>
@@ -92,6 +80,7 @@ import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 
 export default {
@@ -101,6 +90,7 @@ export default {
     'oxd-icon': Icon,
     'oxd-sheet': Sheet,
     'oxd-dialog': Dialog,
+    'profile-image': ProfileImage,
     'oxd-loading-spinner': Spinner,
   },
 

@@ -32,13 +32,7 @@
     <oxd-divider />
     <oxd-form :loading="loading" @submitValid="onSubmit">
       <div class="orangehrm-buzz-post-modal-header">
-        <div class="orangehrm-buzz-post-modal-profile-image">
-          <img
-            alt="profile picture"
-            class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/${employee.empNumber}`"
-          />
-        </div>
+        <profile-image :employee="employee"></profile-image>
         <div class="orangehrm-buzz-post-modal-header-text">
           <slot name="header"></slot>
         </div>
@@ -53,12 +47,14 @@
 
 <script>
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 
 export default {
   name: 'PostModal',
 
   components: {
     'oxd-dialog': Dialog,
+    'profile-image': ProfileImage,
   },
 
   props: {
@@ -103,18 +99,6 @@ export default {
     margin-bottom: 1rem;
     &-text {
       width: 100%;
-    }
-  }
-  &-profile-image {
-    & img {
-      width: 45px;
-      height: 45px;
-      display: flex;
-      flex-shrink: 0;
-      border-radius: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-      margin-right: 0.5rem;
     }
   }
   &-actions {

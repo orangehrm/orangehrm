@@ -90,4 +90,10 @@ export default {
   justify-content: center;
   grid-template-columns: minmax(240px, 640px) minmax(0, 375px);
 }
+::v-deep(.oxd-tab-bar) {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 </style>

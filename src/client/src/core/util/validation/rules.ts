@@ -682,6 +682,6 @@ export const validVideoURL = function(value: string): boolean | string {
     /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:shorts\/|embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(\?\S*)?$/.test(
       value,
     ) ||
-    translate('general.invalid')
+    translate('general.invalid_video_url_message')
   );
 };

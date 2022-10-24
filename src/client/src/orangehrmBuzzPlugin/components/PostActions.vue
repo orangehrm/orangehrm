@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-buzz-post-actions">
-    <post-like :like="isLiked" @click="onClickAction('like')"></post-like>
+    <post-like :like="like" @click="onClickAction('like')"></post-like>
     <post-comment @click="onClickAction('comment')"></post-comment>
     <post-share @click="onClickAction('share')"></post-share>
   </div>
@@ -41,7 +41,7 @@ export default {
   },
 
   props: {
-    isLiked: {
+    like: {
       type: Boolean,
       required: true,
     },
