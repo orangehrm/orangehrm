@@ -15,6 +15,7 @@
 // Boston, MA  02110-1301, USA
 
 @import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-buzz-loader {
   margin-left: auto;
   margin-right: auto;
@@ -22,17 +23,6 @@
 }
 
 .orangehrm-buzz-post {
-  &-profile-image {
-    & img {
-      width: 50px;
-      height: 50px;
-      flex-shrink: 0;
-      border-radius: 100%;
-      display: flex;
-      box-sizing: border-box;
-      justify-content: center;
-    }
-  }
   &-footer {
     &-status-list {
       right: 0;

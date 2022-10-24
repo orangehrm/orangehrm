@@ -16,50 +16,32 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-buzz {
-  &-like-icon {
-    color: $oxd-feedback-danger-color;
-  }
-}
-.orangehrm-buzz-loader {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5rem;
-}
-
-.orangehrm-buzz-post {
-  &-profile-image {
-    & img {
-      width: 50px;
-      height: 50px;
-      flex-shrink: 0;
-      border-radius: 100%;
-      display: flex;
-      box-sizing: border-box;
-      justify-content: center;
+.orangehrm-buzz-create-post {
+  margin: 0.5rem 0 1rem 0;
+  &-header {
+    display: flex;
+    &-text {
+      width: 100%;
     }
   }
-  &-footer {
+  &-actions {
+    gap: 0.5rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    &-summery-top {
-      font-size: 1rem;
-      font-weight: 700;
-      display: flex;
-      cursor: pointer;
-      position: relative;
-      align-items: center;
-      justify-content: flex-end;
-      & p {
-        margin-left: 0.5rem;
-      }
+    flex-direction: column;
+    @include oxd-respond-to('sm') {
+      gap: unset;
+      flex-direction: row;
+      justify-content: space-around;
     }
-    &-summery-bottom {
-      font-size: 0.75rem;
-      display: flex;
-      cursor: pointer;
-      position: relative;
-    }
+  }
+}
+
+::v-deep(.oxd-glass-button) {
+  width: 100%;
+  justify-content: center;
+  @include oxd-respond-to('sm') {
+    width: unset;
+    justify-content: unset;
   }
 }

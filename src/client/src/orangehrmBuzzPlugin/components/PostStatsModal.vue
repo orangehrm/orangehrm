@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <div v-if="!isMobile">
+  <div v-if="!mobile">
     <oxd-sheet
       :gutters="false"
       type="white"
@@ -30,13 +30,7 @@
         :key="user"
         class="orangehrm-buzz-post-footer-status-employee"
       >
-        <div class="orangehrm-buzz-post-profile-image">
-          <img
-            alt="profile picture"
-            class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/${user.employee.empNumber}`"
-          />
-        </div>
+        <profile-image :employee="user.employee"></profile-image>
         <oxd-text tag="p">
           {{ user.employee.firstName }}{{ user.employee.lastName }}
         </oxd-text>
@@ -44,7 +38,7 @@
       <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
     </oxd-sheet>
   </div>
-  <oxd-dialog v-if="isMobile" class="orangehrm-buzz-post-mobile">
+  <oxd-dialog v-else class="orangehrm-buzz-post-mobile">
     <oxd-sheet
       :gutters="false"
       type="white"
@@ -69,13 +63,7 @@
         :key="user"
         class="orangehrm-buzz-post-footer-status-employee"
       >
-        <div class="orangehrm-buzz-post-profile-image">
-          <img
-            alt="profile picture"
-            class="employee-image"
-            :src="`../pim/viewPhoto/empNumber/${user.employee.empNumber}`"
-          />
-        </div>
+        <profile-image :employee="user.employee"></profile-image>
         <oxd-text tag="p">
           {{ user.employee.firstName }}{{ user.employee.lastName }}
         </oxd-text>
@@ -84,6 +72,7 @@
     </oxd-sheet>
   </oxd-dialog>
 </template>
+
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
@@ -91,15 +80,17 @@ import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 
 export default {
-  name: 'PostStatusDialog',
+  name: 'PostStatsModal',
 
   components: {
     'oxd-icon': Icon,
     'oxd-sheet': Sheet,
     'oxd-dialog': Dialog,
+    'profile-image': ProfileImage,
     'oxd-loading-spinner': Spinner,
   },
 
@@ -116,7 +107,7 @@ export default {
       type: String,
       required: true,
     },
-    isMobile: {
+    mobile: {
       type: Boolean,
       default: false,
     },
@@ -168,4 +159,5 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped src="./post-status-dialog.scss"></style>

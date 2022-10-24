@@ -1,5 +1,29 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
 <template>
-  <div :class="[isActive ? activeClass : '', errorClass]">
+  <div
+    :class="{
+      'orangehrm-like-animation': like,
+    }"
+  >
     <svg
       id="heart-svg"
       class="orangehrm-heart-icon"
@@ -178,73 +202,18 @@
     </svg>
   </div>
 </template>
-<script>
-import {APIService} from '@/core/util/services/api.service';
-import {freshDate, formatDate} from '@/core/util/helper/datefns';
 
+<script>
 export default {
-  name: 'LikeButton',
+  name: 'PostLikeButton',
 
   props: {
-    postId: {
-      type: Number,
+    like: {
+      type: Boolean,
       required: true,
-    },
-    buzzUserId: {
-      type: Number,
-      required: true,
-    },
-  },
-
-  emits: ['likeUpdate'],
-
-  setup(props) {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/buzz/posts/${props.postId}/like`,
-    );
-
-    return {
-      http,
-    };
-  },
-
-  data() {
-    return {
-      isActive: false,
-      activeClass: 'orangehrm-animation',
-      errorClass: '',
-    };
-  },
-
-  methods: {
-    addLike() {
-      this.isActive = !this.isActive;
-      const currentDate = freshDate();
-      const likedTime =
-        formatDate(currentDate, 'yyyy-MM-dd') +
-        ' ' +
-        formatDate(new Date(), 'HH:mm:ss');
-      if (this.isActive) {
-        this.http
-          .create({
-            userId: this.buzzUserId,
-            likedTime: likedTime,
-          })
-          .then(() => {
-            this.$emit('likeUpdate', true);
-          });
-      } else {
-        this.http
-          .deleteAll({
-            userId: this.buzzUserId,
-          })
-          .then(() => {
-            this.$emit('likeUpdate', true);
-          });
-      }
     },
   },
 };
 </script>
-<style lang="scss" src="./post-action-like-button.scss" scoped></style>
+
+<style lang="scss" src="./post-like-button.scss" scoped></style>

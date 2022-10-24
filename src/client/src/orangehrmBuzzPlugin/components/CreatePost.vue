@@ -19,16 +19,9 @@
  -->
 
 <template>
-  <!-- TODO: Placeholder component -->
   <oxd-sheet class="orangehrm-buzz-create-post">
     <div class="orangehrm-buzz-create-post-header">
-      <div class="orangehrm-buzz-create-post-profile-image">
-        <img
-          alt="profile picture"
-          class="employee-image"
-          :src="`../pim/viewPhoto/empNumber/1`"
-        />
-      </div>
+      <profile-image :employee="employee"></profile-image>
       <div class="orangehrm-buzz-create-post-header-text">
         <oxd-form @submitValid="onSubmit">
           <oxd-buzz-post-input
@@ -46,13 +39,21 @@
       <oxd-glass-button
         icon="cameraglass"
         :label="$t('buzz.share_photos')"
+        @click="onClickSharePhotos"
       ></oxd-glass-button>
       <oxd-glass-button
         icon="videoglass"
         :label="$t('buzz.share_video')"
+        @click="onClickShareVideos"
       ></oxd-glass-button>
     </div>
   </oxd-sheet>
+  <share-video-modal
+    v-if="showVideoModal"
+    :text="post"
+    :employee="employee"
+    @close="onCloseVideoModal"
+  ></share-video-modal>
 </template>
 
 <script>
@@ -63,66 +64,60 @@ import {
 } from '@/core/util/validation/rules';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import GlassButton from '@ohrm/oxd/core/components/Button/GlassButton';
+import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
+import ShareVideoModal from '@/orangehrmBuzzPlugin/components/ShareVideoModal';
 
 export default {
   name: 'CreatePost',
 
   components: {
     'oxd-sheet': Sheet,
+    'profile-image': ProfileImage,
     'oxd-glass-button': GlassButton,
     'oxd-buzz-post-input': BuzzPostInput,
+    'share-video-modal': ShareVideoModal,
   },
 
   props: {
     employee: {
       type: Object,
-      default: null,
+      required: true,
     },
   },
 
   setup() {
     const post = ref(null);
+    const showVideoModal = ref(false);
     const rules = [required, shouldNotExceedCharLength(63535)];
 
     const onSubmit = () => {
       // todo
     };
 
+    const onClickSharePhotos = () => {
+      // todo
+    };
+
+    const onClickShareVideos = () => {
+      showVideoModal.value = true;
+    };
+
+    const onCloseVideoModal = () => {
+      showVideoModal.value = false;
+    };
+
     return {
       post,
       rules,
       onSubmit,
+      showVideoModal,
+      onCloseVideoModal,
+      onClickSharePhotos,
+      onClickShareVideos,
     };
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-buzz-create-post {
-  margin: 0.5rem 0 1rem 0;
-  &-header {
-    display: flex;
-    &-text {
-      width: 100%;
-    }
-  }
-  &-actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  &-profile-image {
-    & img {
-      width: 50px;
-      height: 50px;
-      display: flex;
-      flex-shrink: 0;
-      border-radius: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-      margin-right: 0.5rem;
-    }
-  }
-}
-</style>
+<style src="./create-post.scss" lang="scss" scoped></style>

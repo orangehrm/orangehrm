@@ -19,48 +19,11 @@
  -->
 
 <template>
-  <div class="orangehrm-buzz-post-comment">
-    <oxd-divider />
-    <div class="orangehrm-buzz-post-comment-add">
-      <profile-image :employee="employee"></profile-image>
-      <oxd-form class="orangehrm-buzz-post-comment-input">
-        <oxd-form-row>
-          <oxd-grid-item>
-            <oxd-input-field :placeholder="$t('buzz.write_your_comment')" />
-          </oxd-grid-item>
-        </oxd-form-row>
-      </oxd-form>
-    </div>
-  </div>
+  <oxd-icon-button name="chat-text-fill" :with-container="true" />
 </template>
 
 <script>
-import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
-
 export default {
-  name: 'ShowComments',
-
-  components: {
-    'profile-image': ProfileImage,
-  },
-
-  props: {
-    employee: {
-      type: Object,
-      required: true,
-    },
-  },
+  name: 'PostCommentButton',
 };
 </script>
-
-<style lang="scss" scoped>
-.orangehrm-buzz-post-comment {
-  &-add {
-    display: flex;
-    align-items: center;
-  }
-  &-input {
-    width: 25rem;
-  }
-}
-</style>

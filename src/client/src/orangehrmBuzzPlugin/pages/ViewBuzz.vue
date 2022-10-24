@@ -21,8 +21,7 @@
 <template>
   <oxd-tab-container v-if="isMobile" v-model="tabSelector">
     <oxd-tab-panel key="buzz_newsfeed" :name="$t('buzz.buzz_newsfeed')">
-      <post-filters :is-mobile="isMobile"></post-filters>
-      <news-feed :is-mobile="isMobile"></news-feed>
+      <news-feed :mobile="true" :employee="employee"></news-feed>
     </oxd-tab-panel>
     <oxd-tab-panel
       key="buzz_anniversary"
@@ -31,9 +30,9 @@
       <upcoming-anniversaries></upcoming-anniversaries>
     </oxd-tab-panel>
   </oxd-tab-container>
-  <oxd-grid v-else :cols="3">
-    <oxd-grid-item class="--span-column-2">
-      <news-feed></news-feed>
+  <oxd-grid v-else :cols="2" class="orangehrm-buzz-layout">
+    <oxd-grid-item>
+      <news-feed :employee="employee"></news-feed>
     </oxd-grid-item>
     <oxd-grid-item>
       <upcoming-anniversaries></upcoming-anniversaries>
@@ -59,6 +58,14 @@ export default {
     'oxd-tab-container': TabContainer,
     'upcoming-anniversaries': UpcomingAnniversaries,
   },
+
+  props: {
+    employee: {
+      type: Object,
+      required: true,
+    },
+  },
+
   setup() {
     const tabSelector = ref(null);
     const responsiveState = useResponsive();
@@ -77,3 +84,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-buzz-layout {
+  justify-content: center;
+  grid-template-columns: minmax(240px, 640px) minmax(0, 375px);
+}
+::v-deep(.oxd-tab-bar) {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>

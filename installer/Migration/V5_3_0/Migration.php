@@ -30,7 +30,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        $oldGroups = ['buzz'];
+        $oldGroups = ['buzz', 'general'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }

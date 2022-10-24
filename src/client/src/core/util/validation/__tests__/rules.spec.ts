@@ -41,6 +41,7 @@ import {
   validSelection,
   validHostnameFormat,
   validPortRange,
+  validVideoURL,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -71,6 +72,8 @@ jest.mock('@/core/plugins/i18n/translate', () => {
         'Number should be greater than or equal to 0',
       'general.enter_valid_port_between_a_to_b':
         'Enter a valid port number between 0 to 65535',
+      'general.invalid_video_url_message':
+        'This URL is not a valid URL of a video or it is not supported by the system',
     };
     return mockStrings[langString];
   };
@@ -1000,6 +1003,52 @@ describe('core/util/validation/rules::validPortRange', () => {
     const result = _validPortRange('-333');
     expect(result).toStrictEqual(
       'Enter a valid port number between 0 to 65535',
+    );
+  });
+});
+
+describe('core/util/validation/rules::validVideoURL', () => {
+  test('validVideoURL:valid full youtube URL', () => {
+    const result = validVideoURL('https://www.youtube.com/watch?v=4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid shortened youtube URL', () => {
+    const result = validVideoURL('https://youtu.be/4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid mobile youtube URL', () => {
+    const result = validVideoURL('https://m.youtube.com/watch?v=4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid embed youtube URL', () => {
+    const result = validVideoURL('https://www.youtube.com/embed/4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid youtube short URL', () => {
+    const result = validVideoURL('https://www.youtube.com/shorts/dCsmH5BfpdQ');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid youtube URL without protocol', () => {
+    const result = validVideoURL('www.youtube.com/watch?v=4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:not a url', () => {
+    const result = validVideoURL('abcd');
+    expect(result).toBe(
+      'This URL is not a valid URL of a video or it is not supported by the system',
+    );
+  });
+
+  test('validVideoURL:invalid url', () => {
+    const result = validVideoURL('https://www.youtube.com');
+    expect(result).toBe(
+      'This URL is not a valid URL of a video or it is not supported by the system',
     );
   });
 });

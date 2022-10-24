@@ -19,48 +19,54 @@
  -->
 
 <template>
-  <div class="orangehrm-buzz-post-comment">
-    <oxd-divider />
-    <div class="orangehrm-buzz-post-comment-add">
-      <profile-image :employee="employee"></profile-image>
-      <oxd-form class="orangehrm-buzz-post-comment-input">
-        <oxd-form-row>
-          <oxd-grid-item>
-            <oxd-input-field :placeholder="$t('buzz.write_your_comment')" />
-          </oxd-grid-item>
-        </oxd-form-row>
-      </oxd-form>
-    </div>
+  <div class="orangehrm-buzz-video">
+    <iframe
+      :src="embedURL"
+      frameborder="0"
+      class="orangehrm-buzz-video-frame"
+      title="OrangeHRM buzz video frame"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
   </div>
 </template>
 
 <script>
-import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
-
 export default {
-  name: 'ShowComments',
-
-  components: {
-    'profile-image': ProfileImage,
-  },
-
+  name: 'VideoFrame',
   props: {
-    employee: {
-      type: Object,
+    videoSrc: {
+      type: String,
       required: true,
+    },
+  },
+  computed: {
+    embedURL() {
+      const videoID =
+        new String(this.videoSrc)
+          .trim()
+          .match(
+            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(shorts|embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+          )[7] || '';
+      return `https://www.youtube-nocookie.com/embed/${videoID}`;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.orangehrm-buzz-post-comment {
-  &-add {
-    display: flex;
-    align-items: center;
-  }
-  &-input {
-    width: 25rem;
+.orangehrm-buzz-video {
+  position: relative;
+  height: 0;
+  width: 100%;
+  padding-bottom: 56.25%;
+  &-frame {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 0.75rem;
   }
 }
 </style>
