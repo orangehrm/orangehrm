@@ -272,3 +272,24 @@ Update:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
+
+Delete:
+  'Delete Interview Attachment - Admin':
+    userId: 1
+    services:
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      interviewId: 1
+    body:
+      ids: [ 1,2 ]
+    data:
+      - 1
+      - 2
+    meta: [ ],
+

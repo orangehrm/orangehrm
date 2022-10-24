@@ -180,3 +180,37 @@ GetAll:
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
+
+  'Get candidate allowed actions - Closed Candidate Vacancy':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 10
+    data: [ ]
+    meta:
+      total: 0
+
+  'Get candidate allowed actions - Already Scheduled Two Interviews':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 11
+    data:
+      - id: 3
+        label: 'Reject'
+      - id: 7
+        label: 'Offer Job'
+    meta:
+      total: 2
