@@ -23,13 +23,7 @@
     <div class="orangehrm-buzz-post">
       <div class="orangehrm-buzz-post-header">
         <div class="orangehrm-buzz-post-header-details">
-          <div class="orangehrm-buzz-post-profile-image">
-            <img
-              alt="profile picture"
-              class="employee-image"
-              :src="`../pim/viewPhoto/empNumber/${employeeId}`"
-            />
-          </div>
+          <profile-image :employee="employee"></profile-image>
           <div class="orangehrm-buzz-post-header-text">
             <oxd-text tag="p" class="orangehrm-buzz-post-emp-name">
               {{ employeeFullName }}
@@ -40,7 +34,27 @@
           </div>
         </div>
         <div class="orangehrm-buzz-post-header-config">
-          <oxd-dropdown icon="three-dots" :options="dropdownOptions" />
+          <oxd-dropdown>
+            <oxd-icon-button name="three-dots" :with-container="true" />
+            <template #content>
+              <li>
+                <div class="orangehrm-buzz-post-header-config-item">
+                  <oxd-icon name="trash" />
+                  <oxd-text tag="p" @click="$emit('delete', $event)">
+                    {{ $t('buzz.delete_post') }}
+                  </oxd-text>
+                </div>
+              </li>
+              <li>
+                <div class="orangehrm-buzz-post-header-config-item">
+                  <oxd-icon name="pencil" />
+                  <oxd-text tag="p" @click="$emit('edit', $event)">
+                    {{ $t('buzz.edit_post') }}
+                  </oxd-text>
+                </div>
+              </li>
+            </template>
+          </oxd-dropdown>
         </div>
       </div>
       <oxd-divider />
@@ -60,19 +74,23 @@
 </template>
 <script>
 import {computed} from 'vue';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import useLocale from '@/core/util/composable/useLocale';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
-import Dropdown from '@ohrm/oxd/core/components/CardTable/Cell/Dropdown.vue';
+import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
+import Dropdown from '@ohrm/oxd/core/components/DropdownMenu/DropdownMenu.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'PostContainer',
   components: {
+    'oxd-icon': Icon,
     'oxd-sheet': Sheet,
     'oxd-dropdown': Dropdown,
+    'profile-image': ProfileImage,
   },
   props: {
     postId: {
@@ -108,12 +126,9 @@ export default {
       });
     });
 
-    const employeeId = computed(() => props.employee.employeeId);
-
     return {
       http,
       postDate,
-      employeeId,
       employeeFullName,
     };
   },
@@ -127,10 +142,6 @@ export default {
       showSharesList: false,
       likedList: [],
       sharesList: [],
-      dropdownOptions: [
-        {label: this.$t('general.edit'), context: 'edit'},
-        {label: this.$t('performance.delete'), context: 'delete'},
-      ],
     };
   },
 };

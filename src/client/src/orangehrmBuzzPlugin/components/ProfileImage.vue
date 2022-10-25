@@ -19,47 +19,39 @@
  -->
 
 <template>
-  <div class="orangehrm-buzz-post-comment">
-    <oxd-divider />
-    <div class="orangehrm-buzz-post-comment-add">
-      <profile-image :employee="employee"></profile-image>
-      <oxd-form class="orangehrm-buzz-post-comment-input">
-        <oxd-form-row>
-          <oxd-grid-item>
-            <oxd-input-field :placeholder="$t('buzz.write_your_comment')" />
-          </oxd-grid-item>
-        </oxd-form-row>
-      </oxd-form>
-    </div>
+  <div class="orangehrm-buzz-profile-image">
+    <img alt="profile picture" :src="imageSrc" />
   </div>
 </template>
 
 <script>
-import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
-
 export default {
-  name: 'ShowComments',
-
-  components: {
-    'profile-image': ProfileImage,
-  },
-
+  name: 'ProfileImage',
   props: {
     employee: {
       type: Object,
       required: true,
     },
   },
+  computed: {
+    imageSrc() {
+      return `../pim/viewPhoto/empNumber/${this.employee.empNumber}`;
+    },
+  },
 };
 </script>
+
 <style lang="scss" scoped>
-.orangehrm-buzz-post-comment {
-  &-add {
+.orangehrm-buzz-profile-image {
+  & img {
+    width: 40px;
+    height: 40px;
     display: flex;
-    align-items: center;
-  }
-  &-input {
-    width: 25rem;
+    flex-shrink: 0;
+    border-radius: 100%;
+    margin-right: 0.5rem;
+    justify-content: center;
+    box-sizing: border-box;
   }
 }
 </style>

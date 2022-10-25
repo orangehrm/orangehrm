@@ -50,3 +50,15 @@ langStrings:
   -
     value: 'Most Commented Posts'
     unitId: most_commented_posts
+  -
+    value: 'Share'
+    unitId: share
+  -
+    value: 'Share Video'
+    unitId: share_video
+  -
+    value: 'Video URL'
+    unitId: video_url
+  -
+    value: 'Paste Video URL'
+    unitId: paste_video_url

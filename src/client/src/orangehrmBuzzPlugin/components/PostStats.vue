@@ -32,12 +32,12 @@
           {{ $t('buzz.n_like', {likesCount: noOfLikes}) }}
         </oxd-text>
         <div v-if="showLikeList">
-          <oxd-post-status
+          <post-stats-modal
             :post-id="postId"
-            :is-mobile="isMobile"
+            :mobile="mobile"
             icon-name="heart-fill"
             status-name="likes"
-          ></oxd-post-status>
+          ></post-stats-modal>
         </div>
       </div>
       <div class="orangehrm-buzz-post-footer-summery-bottom">
@@ -58,12 +58,12 @@
             {{ $t('buzz.n_share', {shareCount: noOfShares}) }}
           </oxd-text>
           <div v-if="showSharesList">
-            <oxd-post-status
+            <post-stats-modal
               :post-id="postId"
-              :is-mobile="isMobile"
+              :mobile="mobile"
               icon-name="share-fill"
               status-name="shares"
-            ></oxd-post-status>
+            ></post-stats-modal>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import {APIService} from '@/core/util/services/api.service';
-import PostStatusDialog from '@/orangehrmBuzzPlugin/components/PostStatusDialog.vue';
+import PostStatsModal from '@/orangehrmBuzzPlugin/components/PostStatsModal.vue';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
@@ -81,8 +81,9 @@ export default {
 
   components: {
     'oxd-icon': Icon,
-    'oxd-post-status': PostStatusDialog,
+    'post-stats-modal': PostStatsModal,
   },
+
   props: {
     postId: {
       type: Number,
@@ -100,7 +101,7 @@ export default {
       type: Number,
       default: 0,
     },
-    isMobile: {
+    mobile: {
       type: Boolean,
       default: false,
     },
@@ -136,16 +137,17 @@ export default {
       this.showSharesList = true;
     },
     onShowSharesListMobile() {
-      if (!this.isMobile) {
+      if (!this.mobile) {
         this.showSharesList = false;
       }
     },
     onShowLikeListMobile() {
-      if (!this.isMobile) {
+      if (!this.mobile) {
         this.showLikeList = false;
       }
     },
   },
 };
 </script>
-<style lang="scss" scoped src="./post-status.scss"></style>
+
+<style lang="scss" scoped src="./post-stats.scss"></style>

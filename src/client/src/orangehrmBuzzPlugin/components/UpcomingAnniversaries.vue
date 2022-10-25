@@ -30,13 +30,7 @@
         class="orangehrm-buzz-anniversary-item"
       >
         <div class="orangehrm-buzz-anniversary-profile">
-          <div class="orangehrm-buzz-anniversary-profile-image">
-            <img
-              alt="profile picture"
-              class="employee-image"
-              :src="`../pim/viewPhoto/empNumber/${anniversary.empNumber}`"
-            />
-          </div>
+          <profile-image :employee="anniversary"></profile-image>
           <div class="orangehrm-buzz-anniversary-profile-details">
             <oxd-text tag="p" class="orangehrm-buzz-anniversary-emp-name">
               {{ anniversary.empName }}
@@ -79,10 +73,15 @@
 import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
 import {parseDate, formatDate} from '@/core/util/helper/datefns';
+import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'UpcomingAnniversaries',
+
+  components: {
+    'profile-image': ProfileImage,
+  },
 
   setup() {
     const {locale} = useLocale();

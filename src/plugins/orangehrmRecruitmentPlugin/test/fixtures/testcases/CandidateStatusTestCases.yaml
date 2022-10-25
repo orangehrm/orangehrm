@@ -1,0 +1,46 @@
+GetAll:
+  'Get all actionable candidate status list':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    data:
+      [
+        {
+          "id": 1,
+          "label": "Application Initiated"
+        },
+        {
+          "id": 2,
+          "label": "Shortlisted"
+        },
+        {
+          "id": 3,
+          "label": "Rejected"
+        },
+        {
+          "id": 4,
+          "label": "Interview Scheduled"
+        },
+        {
+          "id": 5,
+          "label": "Interview Passed"
+        },
+        {
+          "id": 6,
+          "label": "Interview Failed"
+        },
+        {
+          "id": 7,
+          "label": "Job Offered"
+        },
+        {
+          "id": 8,
+          "label": "Offer Declined"
+        },
+        {
+          "id": 9,
+          "label": "Hired"
+        }
+      ]
+
+    meta: [ ]

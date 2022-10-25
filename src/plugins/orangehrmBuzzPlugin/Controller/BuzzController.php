@@ -19,15 +19,30 @@
 
 namespace OrangeHRM\Buzz\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class BuzzController extends AbstractVueController
 {
+    use AuthUserTrait;
+    use EmployeeServiceTrait;
+
     public function preRender(Request $request): void
     {
         $component = new Component('view-buzz');
+
+        $component->addProp(
+            new Prop(
+                'employee',
+                Prop::TYPE_OBJECT,
+                $this->getEmployeeService()->getEmployeeAsArray($this->getAuthUser()->getEmpNumber())
+            )
+        );
+
         $this->setComponent($component);
     }
 }

@@ -19,7 +19,7 @@
 .orangehrm-buzz-anniversary {
   &-content {
     overflow: auto;
-    max-height: 285px;
+    max-height: 292px;
     @include oxd-scrollbar();
   }
   &-item {
@@ -27,17 +27,6 @@
     padding: 0.5rem 0;
     position: relative;
     align-items: center;
-  }
-  &-profile-image {
-    & img {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      flex-shrink: 0;
-      border-radius: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
   }
   &-title {
     display: none;
