@@ -42,6 +42,37 @@ class EligibleLeaveTypeAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_INCLUDE_ALLOCATED = 'includeAllocated';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/leave-types/eligible",
+     *     tags={"Leave/Eligible Leave"},
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeAllocated",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean", default="false")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeaveTypeModel"
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="empNumber", type="integer")
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
