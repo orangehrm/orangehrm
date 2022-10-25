@@ -60,6 +60,7 @@ GetAll:
         joinedDate: '2020-08-20'
     meta:
       total: 4
+
   'Get all anniversaries specific future day - Ess User':
     userId: 2
     now:
@@ -82,6 +83,7 @@ GetAll:
         joinedDate: '2022-06-19'
     meta:
       total: 1
+
   'Get all anniversaries with terminated employees - Admin User':
     userId: 1
     now:
@@ -126,6 +128,7 @@ GetAll:
         joinedDate: '2020-09-13'
     meta:
       total: 1
+
   'Get all anniversaries end of a year - Admin User':
     userId: 1
     now:

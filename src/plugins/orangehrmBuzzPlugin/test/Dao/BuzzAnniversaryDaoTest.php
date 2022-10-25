@@ -17,11 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Buzz\test\Dao;
+namespace OrangeHRM\Tests\Buzz\Dao;
 
 use DateTime;
 use Exception;
-use OrangeHRM\Buzz\Dao\UpcomingAnniversariesDao;
+use OrangeHRM\Buzz\Dao\BuzzAnniversaryDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Framework\Services;
@@ -33,9 +33,9 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Buzz
  * @group Dao
  */
-class UpcomingAnniversariesDaoTest extends KernelTestCase
+class BuzzAnniversaryDaoTest extends KernelTestCase
 {
-    private UpcomingAnniversariesDao $upcomingAnniversariesDao;
+    private BuzzAnniversaryDao $upcomingAnniversariesDao;
 
     /**
      * Set up method
@@ -44,9 +44,9 @@ class UpcomingAnniversariesDaoTest extends KernelTestCase
      */
     protected function setUp(): void
     {
-        $this->upcomingAnniversariesDao = new UpcomingAnniversariesDao();
+        $this->upcomingAnniversariesDao = new BuzzAnniversaryDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR)
-            . '/orangehrmBuzzPlugin/test/fixtures/UpcomingAnniversariesDao.yml';
+            . '/orangehrmBuzzPlugin/test/fixtures/BuzzAnniversaryDao.yml';
         TestDataService::populate($this->fixture);
     }
 

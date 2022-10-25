@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Buzz\test\Api;
+namespace OrangeHRM\Tests\Buzz\Api;
 
 use OrangeHRM\Buzz\Api\EmployeeAnniversaryAPI;
 use OrangeHRM\Core\Service\DateTimeHelperService;
@@ -36,7 +36,7 @@ class EmployeeAnniversariesAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('UpcomingAnniversariesDao.yml');
+        $this->populateFixtures('EmployeeAnniversaryAPI.yaml');
         $this->createKernelWithMockServices(
             [
                 Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
@@ -52,7 +52,7 @@ class EmployeeAnniversariesAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('EmployeeAnniversariesAPITestCases.yaml', 'GetAll');
+        return $this->getTestCases('EmployeeAnniversaryAPITestCases.yaml', 'GetAll');
     }
 
     public function testCreate(): void

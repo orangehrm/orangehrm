@@ -24,7 +24,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Buzz\Dto\EmployeeAnniversarySearchFilterParams;
 
-class UpcomingAnniversariesDao extends BaseDao
+class BuzzAnniversaryDao extends BaseDao
 {
     /**
      * @param EmployeeAnniversarySearchFilterParams $employeeAnniversarySearchFilterParams
@@ -60,7 +60,7 @@ class UpcomingAnniversariesDao extends BaseDao
             ->setParameter('dateDiffMin', $dateDiffMin)
             ->setParameter('dateDiffMax', $dateDiffMax);
 
-        $q->andWhere($q->expr()->neq('SUBSTRING(employee.joinedDate,1,4)', ':thisYear'))
+        $q->andWhere($q->expr()->neq('SUBSTRING(employee.joinedDate, 1, 4)', ':thisYear'))
             ->setParameter('thisYear',$employeeAnniversarySearchFilterParams->getThisYear());
         $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));

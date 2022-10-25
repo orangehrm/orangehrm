@@ -19,20 +19,20 @@
 
 namespace OrangeHRM\Buzz\Service;
 
-use OrangeHRM\Buzz\Dao\UpcomingAnniversariesDao;
+use OrangeHRM\Buzz\Dao\BuzzAnniversaryDao;
 
 class BuzzAnniversaryService
 {
     /**
-     * @var UpcomingAnniversariesDao
+     * @var BuzzAnniversaryDao
      */
-    private UpcomingAnniversariesDao $upcomingAnniversariesDao;
+    private BuzzAnniversaryDao $upcomingAnniversariesDao;
 
     /**
-     * @return UpcomingAnniversariesDao
+     * @return BuzzAnniversaryDao
      */
-    public function getUpcomingAnniversariesDao(): UpcomingAnniversariesDao
+    public function getUpcomingAnniversariesDao(): BuzzAnniversaryDao
     {
-        return $this->upcomingAnniversariesDao ??= new UpcomingAnniversariesDao();
+        return $this->upcomingAnniversariesDao ??= new BuzzAnniversaryDao();
     }
 }

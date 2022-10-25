@@ -18,7 +18,6 @@
  */
 
 use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
@@ -27,7 +26,6 @@ use OrangeHRM\Framework\Services;
 class BuzzPluginConfiguration implements PluginConfigurationInterface
 {
     use ServiceContainerTrait;
-    use EventDispatcherTrait;
 
     /**
      * @inheritDoc
