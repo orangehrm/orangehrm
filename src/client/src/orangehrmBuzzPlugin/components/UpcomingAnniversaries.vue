@@ -115,7 +115,7 @@ export default {
     filteredAnniversaries() {
       return this.anniversaries.slice(
         0,
-        this.viewMore ? this.anniversaries.length - 1 : 5,
+        this.viewMore ? this.anniversaries.length : 5,
       );
     },
     anniversariesCount() {
@@ -127,14 +127,16 @@ export default {
     this.http.getAll().then(response => {
       const {data} = response.data;
       this.anniversaries = data.map(item => {
-        const {employee, jobTitle, joinedDate} = item;
+        const {employee, joinedDate} = item;
         return {
           empNumber: employee.empNumber,
           empName: this.tEmpName(employee, {
             includeMiddle: false,
             excludePastEmpTag: false,
           }),
-          jobTitle: jobTitle,
+          jobTitle: item.jobTitle?.isDeleted
+            ? item.jobTitle.title + this.$t('general.deleted')
+            : item.jobTitle?.title,
           joinedDate: formatDate(parseDate(joinedDate), 'MMM dd', {
             locale: this.locale,
           }),

@@ -1,0 +1,163 @@
+GetAll:
+  'Get all anniversaries specific day - Admin User':
+    userId: 1
+    now:
+      datetime: '2022-07-25'
+    services:
+      buzz.buzz_anniversary_service: \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+    data:
+      0:
+        employee:
+          empNumber: 12
+          lastName: 'Garry'
+          firstName: 'White'
+          middleName: 'M'
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 1
+          title: 'Software Architect'
+          isDeleted: false
+        joinedDate: '2021-08-18'
+      1:
+        employee:
+          empNumber: 13
+          lastName: 'Anthony'
+          firstName: 'Root'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 2
+          title: 'Software Engineer'
+          isDeleted: false
+        joinedDate: '2018-08-12'
+      2:
+        employee:
+          empNumber: 25
+          lastName: 'Minor'
+          firstName: 'Moris'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 3
+          title: 'Quality Assuarance'
+          isDeleted: false
+        joinedDate: '1998-07-28'
+      3:
+        employee:
+          empNumber: 26
+          lastName: 'Ford'
+          firstName: 'Henry'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 1
+          title: 'Software Architect'
+          isDeleted: false
+        joinedDate: '2020-08-20'
+    meta:
+      total: 4
+  'Get all anniversaries specific future day - Ess User':
+    userId: 2
+    now:
+      datetime: '2023-06-01'
+    services:
+      buzz.buzz_anniversary_service: \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+    data:
+      0:
+        employee:
+          empNumber: 24
+          lastName: 'David'
+          firstName: 'Manning'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 2
+          title: 'Software Engineer'
+          isDeleted: false
+        joinedDate: '2022-06-19'
+    meta:
+      total: 1
+  'Get all anniversaries with terminated employees - Admin User':
+    userId: 1
+    now:
+      datetime: '2022-01-06'
+    services:
+      buzz.buzz_anniversary_service: \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+    data:
+      0:
+        employee:
+          empNumber: 5
+          lastName: 'Abrahamson'
+          firstName: 'James'
+          middleName: 'K'
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 3
+          title: 'Quality Assuarance'
+          isDeleted: false
+        joinedDate: '2015-01-08'
+    meta:
+      total: 1
+  'Get all anniversaries with DELETED job title - Admin User':
+    userId: 1
+    now:
+      datetime: '2022-09-10'
+    services:
+      buzz.buzz_anniversary_service: \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+    data:
+      0:
+        employee:
+          empNumber: 14
+          lastName: 'Ruwanara'
+          firstName: 'Uthpala'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 4
+          title: 'Sales Person'
+          isDeleted: true
+        joinedDate: '2020-09-13'
+    meta:
+      total: 1
+  'Get all anniversaries end of a year - Admin User':
+    userId: 1
+    now:
+      datetime: '2022-12-30'
+    services:
+      buzz.buzz_anniversary_service: \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+    data:
+      0:
+        employee:
+          empNumber: 4
+          lastName: 'Abrahams'
+          firstName: 'Landon'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 2
+          title: 'Software Engineer'
+          isDeleted: false
+        joinedDate: '2016-12-31'
+      1:
+        employee:
+          empNumber: 21
+          lastName: 'Supun'
+          firstName: 'Ganesh'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 4
+          title: 'Sales Person'
+          isDeleted: true
+        joinedDate: '2017-12-30'
+    meta:
+      total: 2
