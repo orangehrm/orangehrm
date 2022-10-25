@@ -23,6 +23,21 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\LeaveRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeaveRequestModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="leaveType",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean")
+ *     ),
+ *     @OA\Property(property="dateApplied", type="number"),
+ * )
+ */
 class LeaveRequestModel implements Normalizable
 {
     use ModelTrait;
