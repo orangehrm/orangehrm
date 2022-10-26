@@ -54,9 +54,6 @@ langStrings:
     value: 'Share'
     unitId: share
   -
-    value: 'Share Video'
-    unitId: share_video
-  -
     value: 'Video URL'
     unitId: video_url
   -

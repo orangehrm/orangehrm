@@ -54,6 +54,12 @@
     :employee="employee"
     @close="onCloseVideoModal"
   ></share-video-modal>
+  <share-photo-modal
+    v-if="showPhotoModal"
+    :text="post"
+    :employee="employee"
+    @close="onClosePhotoModal"
+  ></share-photo-modal>
 </template>
 
 <script>
@@ -67,6 +73,7 @@ import GlassButton from '@ohrm/oxd/core/components/Button/GlassButton';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
 import ShareVideoModal from '@/orangehrmBuzzPlugin/components/ShareVideoModal';
+import SharePhotoModal from '@/orangehrmBuzzPlugin/components/SharePhotoModal';
 
 export default {
   name: 'CreatePost',
@@ -77,6 +84,7 @@ export default {
     'oxd-glass-button': GlassButton,
     'oxd-buzz-post-input': BuzzPostInput,
     'share-video-modal': ShareVideoModal,
+    'share-photo-modal': SharePhotoModal,
   },
 
   props: {
@@ -89,6 +97,7 @@ export default {
   setup() {
     const post = ref(null);
     const showVideoModal = ref(false);
+    const showPhotoModal = ref(false);
     const rules = [required, shouldNotExceedCharLength(63535)];
 
     const onSubmit = () => {
@@ -96,7 +105,7 @@ export default {
     };
 
     const onClickSharePhotos = () => {
-      // todo
+      showPhotoModal.value = true;
     };
 
     const onClickShareVideos = () => {
@@ -107,12 +116,18 @@ export default {
       showVideoModal.value = false;
     };
 
+    const onClosePhotoModal = () => {
+      showPhotoModal.value = false;
+    };
+
     return {
       post,
       rules,
       onSubmit,
       showVideoModal,
+      showPhotoModal,
       onCloseVideoModal,
+      onClosePhotoModal,
       onClickSharePhotos,
       onClickShareVideos,
     };
