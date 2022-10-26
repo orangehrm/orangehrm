@@ -20,12 +20,14 @@
 
 <template>
   <div :class="classes">
-    <img
-      v-for="photo in photos"
+    <div
+      v-for="(photo, index) in photos"
       :key="photo"
-      :src="photo"
       class="orangehrm-buzz-photos-item"
-    />
+    >
+      <slot name="content" :data="photo" :index="index"></slot>
+      <img :src="photo" />
+    </div>
   </div>
 </template>
 

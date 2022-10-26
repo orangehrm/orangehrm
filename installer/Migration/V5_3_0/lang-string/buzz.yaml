@@ -59,3 +59,12 @@ langStrings:
   -
     value: 'Paste Video URL'
     unitId: paste_video_url
+  -
+    value: 'Add Photos'
+    unitId: add_photos
+  -
+    value: "Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!"
+    unitId: file_type_validation_message
+  -
+    value: 'Maximum allowed file size is 2MB'
+    unitId: file_size_validation_message

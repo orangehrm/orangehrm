@@ -14,15 +14,23 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 .orangehrm-buzz-photos {
-  gap: 5px;
+  gap: 0.5rem;
   display: grid;
   grid-template-areas: 'first-photo';
   &-item {
-    width: 100%;
-    height: 18rem;
-    object-fit: cover;
-    border-radius: 0.75rem;
+    position: relative;
+    & img {
+      width: 100%;
+      height: 9rem;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      @include oxd-respond-to('md') {
+        height: 18rem;
+      }
+    }
     &:first-of-type {
       grid-area: first-photo;
     }
@@ -36,10 +44,12 @@
     grid-template-areas:
       'first-photo first-photo'
       'second-photo third-photo';
+    grid-template-columns: 1fr 1fr;
   }
   &.--four-thumbnails {
     grid-template-areas:
       'first-photo second-photo'
       'third-photo fourth-photo';
+    grid-template-columns: 1fr 1fr;
   }
 }

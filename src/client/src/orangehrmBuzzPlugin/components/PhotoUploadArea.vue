@@ -23,7 +23,7 @@
     <div class="orangehrm-photo-upload-area">
       <oxd-icon class="orangehrm-photo-upload-icon" name="images" />
       <oxd-text type="card-title">
-        Add Photos
+        {{ $t('buzz.add_photos') }}
       </oxd-text>
     </div>
   </oxd-input-field>
