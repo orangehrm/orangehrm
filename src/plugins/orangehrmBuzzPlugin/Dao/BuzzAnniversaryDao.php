@@ -45,9 +45,6 @@ class BuzzAnniversaryDao extends BaseDao
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $this->setSortingAndPaginationParams($q, $employeeAnniversarySearchFilterParams);
 
-        $dateDiffMin = 0;
-        $dateDiffMax = 30;
-
         $q->andWhere(
             $q->expr()->between(
                 'DATE_DIFF(:nextDate, CONCAT(:thisYear, SUBSTRING(employee.joinedDate,5,6)))',
@@ -57,8 +54,8 @@ class BuzzAnniversaryDao extends BaseDao
         )
             ->setParameter('thisYear', $employeeAnniversarySearchFilterParams->getThisYear())
             ->setParameter('nextDate', $employeeAnniversarySearchFilterParams->getNextDate())
-            ->setParameter('dateDiffMin', $dateDiffMin)
-            ->setParameter('dateDiffMax', $dateDiffMax);
+            ->setParameter('dateDiffMin', $employeeAnniversarySearchFilterParams->getDateDiffMin())
+            ->setParameter('dateDiffMax', $employeeAnniversarySearchFilterParams->getDateDiffMax());
 
         $q->andWhere($q->expr()->neq('SUBSTRING(employee.joinedDate, 1, 4)', ':thisYear'))
             ->setParameter('thisYear',$employeeAnniversarySearchFilterParams->getThisYear());

@@ -35,16 +35,11 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class BuzzAnniversaryDaoTest extends KernelTestCase
 {
-    private BuzzAnniversaryDao $upcomingAnniversariesDao;
+    private BuzzAnniversaryDao $buzzAnniversaryDao;
 
-    /**
-     * Set up method
-     *
-     * @throws Exception
-     */
     protected function setUp(): void
     {
-        $this->upcomingAnniversariesDao = new BuzzAnniversaryDao();
+        $this->buzzAnniversaryDao = new BuzzAnniversaryDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR)
             . '/orangehrmBuzzPlugin/test/fixtures/BuzzAnniversaryDao.yml';
         TestDataService::populate($this->fixture);
@@ -60,13 +55,17 @@ class BuzzAnniversaryDaoTest extends KernelTestCase
 
         $employeeAnniversarySearchFilterParams->setThisYear('2022');
         $employeeAnniversarySearchFilterParams->setNextDate(new DateTime('2022-01-25'));
-        $result = $this->upcomingAnniversariesDao->getUpcomingAnniversariesList($employeeAnniversarySearchFilterParams);
+        $employeeAnniversarySearchFilterParams->setDateDiffMin(0);
+        $employeeAnniversarySearchFilterParams->setDateDiffMax(30);
+        $result = $this->buzzAnniversaryDao->getUpcomingAnniversariesList($employeeAnniversarySearchFilterParams);
         $this->assertEquals('3', $result[0]->getEmpNumber());
         $this->assertCount(2, $result);
 
         $employeeAnniversarySearchFilterParams->setThisYear('2024');
         $employeeAnniversarySearchFilterParams->setNextDate(new DateTime('2024-02-29'));
-        $result = $this->upcomingAnniversariesDao->getUpcomingAnniversariesList($employeeAnniversarySearchFilterParams);
+        $employeeAnniversarySearchFilterParams->setDateDiffMin(0);
+        $employeeAnniversarySearchFilterParams->setDateDiffMax(30);
+        $result = $this->buzzAnniversaryDao->getUpcomingAnniversariesList($employeeAnniversarySearchFilterParams);
         $this->assertEquals('Adalwin', $result[0]->getFirstName());
         $this->assertCount(3, $result);
     }
@@ -81,7 +80,9 @@ class BuzzAnniversaryDaoTest extends KernelTestCase
 
         $employeeAnniversarySearchFilterParams->setThisYear('2022');
         $employeeAnniversarySearchFilterParams->setNextDate(new DateTime('2022-01-25'));
-        $result = $this->upcomingAnniversariesDao->getUpcomingAnniversariesCount(
+        $employeeAnniversarySearchFilterParams->setDateDiffMin(0);
+        $employeeAnniversarySearchFilterParams->setDateDiffMax(30);
+        $result = $this->buzzAnniversaryDao->getUpcomingAnniversariesCount(
             $employeeAnniversarySearchFilterParams
         );
         $this->assertEquals(2, $result);

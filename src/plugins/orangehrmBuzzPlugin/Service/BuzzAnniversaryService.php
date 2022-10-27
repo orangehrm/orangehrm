@@ -26,13 +26,13 @@ class BuzzAnniversaryService
     /**
      * @var BuzzAnniversaryDao
      */
-    private BuzzAnniversaryDao $upcomingAnniversariesDao;
+    private BuzzAnniversaryDao $buzzAnniversaryDao;
 
     /**
      * @return BuzzAnniversaryDao
      */
-    public function getUpcomingAnniversariesDao(): BuzzAnniversaryDao
+    public function getBuzzAnniversaryDao(): BuzzAnniversaryDao
     {
-        return $this->upcomingAnniversariesDao ??= new BuzzAnniversaryDao();
+        return $this->buzzAnniversaryDao ??= new BuzzAnniversaryDao();
     }
 }

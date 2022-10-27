@@ -35,6 +35,16 @@ class EmployeeAnniversarySearchFilterParams extends FilterParams
     protected DateTime $nextDate;
 
     /**
+     * @var int
+     */
+    protected int $dateDiffMin;
+
+    /**
+     * @var int
+     */
+    protected int $dateDiffMax;
+
+    /**
      * @return string
      */
     public function getThisYear(): string
@@ -64,5 +74,37 @@ class EmployeeAnniversarySearchFilterParams extends FilterParams
     public function setNextDate(DateTime $nextDate): void
     {
         $this->nextDate = $nextDate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDateDiffMin(): int
+    {
+        return $this->dateDiffMin;
+    }
+
+    /**
+     * @param int $dateDiffMin
+     */
+    public function setDateDiffMin(int $dateDiffMin): void
+    {
+        $this->dateDiffMin = $dateDiffMin;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDateDiffMax(): int
+    {
+        return $this->dateDiffMax;
+    }
+
+    /**
+     * @param int $dateDiffMax
+     */
+    public function setDateDiffMax(int $dateDiffMax): void
+    {
+        $this->dateDiffMax = $dateDiffMax;
     }
 }

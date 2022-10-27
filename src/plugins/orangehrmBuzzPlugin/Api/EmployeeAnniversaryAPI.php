@@ -20,7 +20,7 @@
 namespace OrangeHRM\Buzz\Api;
 
 use DateInterval;
-use OrangeHRM\Buzz\Api\Model\EmployeeAnniversariesModel;
+use OrangeHRM\Buzz\Api\Model\EmployeeAnniversaryModel;
 use OrangeHRM\Buzz\Traits\Service\BuzzAnniversaryServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
@@ -37,6 +37,8 @@ class EmployeeAnniversaryAPI extends Endpoint implements CollectionEndpoint
     use BuzzAnniversaryServiceTrait;
     use DateTimeHelperTrait;
 
+    public const DATE_DIFFERENCE_MIN = 0;
+    public const DATE_DIFFERENCE_MAX = 30;
     /**
      * @inheritDoc
      */
@@ -51,16 +53,18 @@ class EmployeeAnniversaryAPI extends Endpoint implements CollectionEndpoint
 
         $employeeAnniversarySearchFilterParams->setThisYear($thisYear);
         $employeeAnniversarySearchFilterParams->setNextDate($nextDate);
+        $employeeAnniversarySearchFilterParams->setDateDiffMin(self::DATE_DIFFERENCE_MIN);
+        $employeeAnniversarySearchFilterParams->setDateDiffMax(self::DATE_DIFFERENCE_MAX);
 
-        $upcomingAnniversaries = $this->getBuzzAnniversaryService()->getUpcomingAnniversariesDao()
+        $upcomingAnniversaries = $this->getBuzzAnniversaryService()->getBuzzAnniversaryDao()
             ->getUpcomingAnniversariesList($employeeAnniversarySearchFilterParams);
 
         $count = $this->getBuzzAnniversaryService()
-            ->getUpcomingAnniversariesDao()
+            ->getBuzzAnniversaryDao()
             ->getUpcomingAnniversariesCount($employeeAnniversarySearchFilterParams);
 
         return new EndpointCollectionResult(
-            EmployeeAnniversariesModel::class,
+            EmployeeAnniversaryModel::class,
             $upcomingAnniversaries,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
