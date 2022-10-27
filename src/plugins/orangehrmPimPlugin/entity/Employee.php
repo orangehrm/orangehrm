@@ -558,6 +558,34 @@ class Employee
     private iterable $post;
 
     /**
+     * @var Comment[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Post", mappedBy="employee")
+     */
+    private iterable $comment;
+
+    /**
+     * @var Share[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Share", mappedBy="employee")
+     */
+    private iterable $share;
+
+    /**
+     * @var LikeOnShare[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\LikeOnShare", mappedBy="employee")
+     */
+    private iterable $likeOnShare;
+
+    /**
+     * @var LikeOnComment[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\LikeOnComment", mappedBy="employee")
+     */
+    private iterable $likeOnComment;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -1588,5 +1616,69 @@ class Employee
     public function setPost(iterable $post): void
     {
         $this->post = $post;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getComment(): iterable
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param iterable $comment
+     */
+    public function setComment(iterable $comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getShare(): iterable
+    {
+        return $this->share;
+    }
+
+    /**
+     * @param iterable $share
+     */
+    public function setShare(iterable $share): void
+    {
+        $this->share = $share;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getLikeOnShare(): iterable
+    {
+        return $this->likeOnShare;
+    }
+
+    /**
+     * @param iterable $likeOnShare
+     */
+    public function setLikeOnShare(iterable $likeOnShare): void
+    {
+        $this->likeOnShare = $likeOnShare;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getLikeOnComment(): iterable
+    {
+        return $this->likeOnComment;
+    }
+
+    /**
+     * @param iterable $likeOnComment
+     */
+    public function setLikeOnComment(iterable $likeOnComment): void
+    {
+        $this->likeOnComment = $likeOnComment;
     }
 }
