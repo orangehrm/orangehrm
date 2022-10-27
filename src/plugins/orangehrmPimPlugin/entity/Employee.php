@@ -551,6 +551,13 @@ class Employee
     private iterable $attendanceRecords;
 
     /**
+     * @var Post[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Post", mappedBy="employee")
+     */
+    private iterable $post;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -1565,5 +1572,21 @@ class Employee
     public function setSupervisors(iterable $supervisors): void
     {
         $this->supervisors = $supervisors;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getPost(): iterable
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param iterable $post
+     */
+    public function setPost(iterable $post): void
+    {
+        $this->post = $post;
     }
 }
