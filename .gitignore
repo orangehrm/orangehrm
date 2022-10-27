@@ -1,9 +1,6 @@
 .idea
 .vscode
-lib/confs/
-src/cache/
 src/config/
-src/log/
 web/dist/
 src/vendor
 apidoc

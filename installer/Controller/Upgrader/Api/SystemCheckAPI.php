@@ -62,6 +62,10 @@ class SystemCheckAPI extends AbstractInstallerRestController
                     'category' => 'Permissions',
                     'checks' => [
                         [
+                            'label' => 'Write Permissions for “src/config”',
+                            'value' => $systemConfig->isWritableSrcConfig()
+                        ],
+                        [
                             'label' => 'Write Permissions for “var/.*”',
                             'value' => $systemConfig->isWritableVarDirectory()
                         ],

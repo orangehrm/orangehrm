@@ -263,6 +263,26 @@ class SystemConfig
      */
 
     /**
+     * Write Permissions for “src/config” Check
+     * @return array
+     */
+    public function isWritableSrcConfig(): array
+    {
+        if ($this->checkWritePermission(Config::get(Config::CONFIG_DIR))) {
+            return [
+                'message' => Messages::WRITEABLE,
+                'status' => self::PASSED
+            ];
+        } else {
+            $this->interruptContinue = true;
+            return [
+                'message' => Messages::NOT_WRITEABLE,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
      * Write Permissions for “var/.*” Check
      * @return array
      */

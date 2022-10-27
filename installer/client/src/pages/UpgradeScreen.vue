@@ -136,7 +136,7 @@ export default {
       if (!taskFailed.value) return 'Please Wait. Upgrading in Progress';
       return `${
         errorText.value ? errorText.value : 'Upgrading has failed'
-      }. For more details check the error log in /src/log/installer.log file`;
+      }. For more details check the error log in /var/log/installer.log file`;
     });
 
     const progressType = computed(() => {

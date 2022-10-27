@@ -46,7 +46,7 @@ class KeyHandler
             $cryptKey = str_shuffle($cryptKey);
 
             $fs = new Filesystem();
-            $fs->dumpFile(self::getRealPathToKey(), $cryptKey);
+            $fs->dumpFile(self::getPathToKey(), $cryptKey);
             clearstatcache(true);
         } catch (Exception $e) {
             throw KeyHandlerException::failedToCreateKey();
@@ -88,7 +88,15 @@ class KeyHandler
      */
     public static function getRealPathToKey(): ?string
     {
-        $path = realpath(Config::get(Config::VAR_DIR) . '/cryptokeys/key.ohrm');
+        $path = realpath(self::getPathToKey());
         return $path === false ? null : $path;
+    }
+
+    /**
+     * @return string
+     */
+    private static function getPathToKey(): string
+    {
+        return Config::get(Config::VAR_DIR) . DIRECTORY_SEPARATOR . 'cryptokeys' . DIRECTORY_SEPARATOR . 'key.ohrm';
     }
 }
