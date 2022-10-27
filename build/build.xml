@@ -63,29 +63,18 @@
         <exclude name="INSTALL.html"/>
         <exclude name="Dockerfile"/>
         <exclude name="devTools/**"/>
-        <exclude name="lib/confs/Conf.php"/>
-        <exclude name="lib/confs/cryptokeys/key.ohrm"/>
+        <exclude name="var/confs/Conf.php"/>
+        <exclude name="var/cryptokeys/key.ohrm"/>
         <exclude name="orangehrm-quick-start-guide.html"/>
         <exclude name="src/test/**"/>
 
-        <exclude name="src/plugins/orangehrmAdminPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmAuthenticationPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmCoreOAuthPlugin/lib/**"/>
-        <exclude name="src/plugins/orangehrmCorePlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmPimPlugin/lib/**"/>
-
-        <exclude name="src/plugins/orangehrmAttendancePlugin/lib"/>
         <exclude name="src/plugins/orangehrmBuzzPlugin/lib"/>
-        <exclude name="src/plugins/orangehrmCoreWebServicePlugin/**"/>
-        <exclude name="src/plugins/orangehrmCorporateBrandingPlugin/lib"/>
-        <exclude name="src/plugins/orangehrmCorporateDirectoryPlugin/lib"/>
         <exclude name="src/plugins/orangehrmDashboardPlugin/lib"/>
-        <exclude name="src/plugins/orangehrmMaintenancePlugin/lib"/>
         <exclude name="src/plugins/orangehrmMarketPlacePlugin/lib"/>
         <exclude name="src/plugins/orangehrmOpenidAuthenticationPlugin/**"/>
-        <exclude name="src/plugins/orangehrmPerformancePlugin/lib"/>
-        <exclude name="src/plugins/orangehrmPerformanceTrackerPlugin/**"/>
-        <exclude name="src/plugins/orangehrmRecruitmentPlugin/lib"/>
         <exclude name="src/plugins/orangehrmRESTPlugin/**"/>
 
         <!-- 5.x related -->
@@ -98,10 +87,12 @@
     </copy>
 
     <!-- done this way to avoid some quirks in phing behavior -->
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/src/log"/>
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/src/cache"/>
-    <mkdir dir="${package.dir}/src/cache"/>
-    <mkdir dir="${package.dir}/src/log"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/log"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/cache"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/cryptokeys"/>
+    <mkdir dir="${package.dir}/var/cache"/>
+    <mkdir dir="${package.dir}/var/log"/>
+    <mkdir dir="${package.dir}/var/cryptokeys"/>
 
     <copy todir="${dist.dir}">
       <fileset dir="${project.dir}">

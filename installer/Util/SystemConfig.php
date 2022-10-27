@@ -263,72 +263,12 @@ class SystemConfig
      */
 
     /**
-     * Write Permissions for “lib/confs” Check
+     * Write Permissions for “var/.*” Check
      * @return array
      */
-    public function isWritableLibConfs(): array
+    public function isWritableVarDirectory(): array
     {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/confs'))) {
-            return [
-                'message' => Messages::WRITEABLE,
-                'status' => self::PASSED
-            ];
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::NOT_WRITEABLE,
-                'status' => self::BLOCKER
-            ];
-        }
-    }
-
-    /**
-     * Write Permissions for “src/configs” Check
-     * @return array
-     */
-    public function isWritableSymfonyConfig(): array
-    {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../src/config'))) {
-            return [
-                'message' => Messages::WRITEABLE,
-                'status' => self::PASSED
-            ];
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::NOT_WRITEABLE,
-                'status' => self::BLOCKER
-            ];
-        }
-    }
-
-    /**
-     * Write Permissions for “src/cache” Check
-     * @return array
-     */
-    public function isWritableSymfonyCache(): array
-    {
-        if ($this->checkWritePermission(Config::get(Config::CACHE_DIR))) {
-            return [
-                'message' => Messages::WRITEABLE,
-                'status' => self::PASSED
-            ];
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::NOT_WRITEABLE,
-                'status' => self::BLOCKER
-            ];
-        }
-    }
-
-    /**
-     * Write Permissions for “src/log” Check
-     * @return array
-     */
-    public function isWritableSymfonyLog(): array
-    {
-        if ($this->checkWritePermission(Config::get(Config::LOG_DIR))) {
+        if ($this->checkWritePermission(Config::get(Config::VAR_DIR))) {
             return [
                 'message' => Messages::WRITEABLE,
                 'status' => self::PASSED

@@ -33,19 +33,21 @@ class ConfigHelper
     {
         $pathToProjectBase = realpath(__DIR__ . '/../../../');
         $pathToSrcDir = realpath($pathToProjectBase . '/src/');
+        $pathToVarDir = realpath($pathToProjectBase . '/var/');
         return [
             Config::BASE_DIR => $pathToProjectBase,
             Config::SRC_DIR => $pathToSrcDir,
             'ohrm_lib_dir' => realpath($pathToSrcDir . '/lib'),
-            'ohrm_log_dir' => realpath($pathToSrcDir . '/log'),
-            'ohrm_data_dir' => realpath($pathToSrcDir . '/data'),
-            'ohrm_config_dir' => realpath($pathToSrcDir . '/config'),
+            Config::CONFIG_DIR => realpath($pathToSrcDir . '/config'),
             Config::PLUGINS_DIR => realpath($pathToSrcDir . '/plugins'),
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
-            Config::CACHE_DIR => realpath($pathToSrcDir . '/cache'),
             Config::DOCTRINE_PROXY_DIR => realpath($pathToSrcDir . '/config/proxy'),
             Config::TEST_DIR => realpath($pathToSrcDir . '/test'),
-            Config::CONF_FILE_PATH => realpath($pathToProjectBase . '/lib/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
+            Config::VAR_DIR => $pathToVarDir,
+            Config::LOG_DIR => realpath($pathToVarDir . '/log'),
+            Config::CACHE_DIR => realpath($pathToVarDir . '/cache'),
+            Config::SESSION_DIR => realpath($pathToVarDir . '/session'),
+            Config::CONF_FILE_PATH => realpath($pathToVarDir . '/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
         ];
     }
 

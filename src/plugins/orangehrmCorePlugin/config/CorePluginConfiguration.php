@@ -76,7 +76,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
             'cookie_path' => $path,
             'cookie_samesite' => 'Strict',
         ];
-        $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler());
+        $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler(Config::get(Config::SESSION_DIR)));
         $session = new Session($sessionStorage);
         $session->start();
 

@@ -44,8 +44,8 @@
     <Notice title="encryption" class="orangehrm-installer-page-notice">
       <oxd-text tag="p" class="orangehrm-installer-page-content">
         If you have enabled data encryption in your current version, you need to
-        copy the file 'lib/confs/cryptokeys/key.ohrm' from your current
-        installation to corresponding location in the new version.
+        copy the file 'var/cryptokeys/key.ohrm' from your current installation
+        to corresponding location in the new version.
       </oxd-text>
     </Notice>
     <br />

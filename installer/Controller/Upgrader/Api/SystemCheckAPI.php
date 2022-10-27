@@ -62,20 +62,8 @@ class SystemCheckAPI extends AbstractInstallerRestController
                     'category' => 'Permissions',
                     'checks' => [
                         [
-                            'label' => 'Write Permissions for “lib/confs”',
-                            'value' => $systemConfig->isWritableLibConfs()
-                        ],
-                        [
-                            'label' => 'Write Permissions for “src/config”',
-                            'value' => $systemConfig->isWritableSymfonyConfig()
-                        ],
-                        [
-                            'label' => 'Write Permissions for “src/cache”',
-                            'value' => $systemConfig->isWritableSymfonyCache()
-                        ],
-                        [
-                            'label' => 'Write Permissions for “src/log”',
-                            'value' => $systemConfig->isWritableSymfonyLog()
+                            'label' => 'Write Permissions for “var/.*”',
+                            'value' => $systemConfig->isWritableVarDirectory()
                         ],
                     ]
                 ],

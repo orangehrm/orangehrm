@@ -25,7 +25,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class KeyHandler
 {
-    public const PATH_TO_KEY = __DIR__ . '/../../../../lib/confs/cryptokeys/key.ohrm';
+    public const PATH_TO_KEY = __DIR__ . '/../../../../var/cryptokeys/key.ohrm';
 
     private static string $key;
     private static bool $keySet = false;
