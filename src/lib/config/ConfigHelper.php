@@ -126,9 +126,8 @@ class ConfigHelper
             'ohrm_client_dir' => realpath($pathToSrcDir . '/client'),
             'ohrm_app_template_dir' => realpath($pathToSrcDir . '/plugins/orangehrmCorePlugin/templates'),
             'ohrm_vue_build_dir' => $pathToVueBuildDir,
-            Config::VUE_BUILD_TIMESTAMP => $pathToBuildTimestampFile ? file_get_contents(
-                $pathToBuildTimestampFile
-            ) : '',
+            Config::VUE_BUILD_TIMESTAMP => $pathToBuildTimestampFile
+                ? file_get_contents($pathToBuildTimestampFile) : '',
         ];
     }
 
