@@ -19,15 +19,16 @@
 
 namespace OrangeHRM\Core\Command;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Console\Command;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateDoctrineProxiesCommand extends Command
 {
-    use EntityManagerTrait;
-
     /**
      * @inheritDoc
      */
@@ -41,19 +42,47 @@ class GenerateDoctrineProxiesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $metadata = $this->getEntityManager()
-            ->getMetadataFactory()
+        $proxyDir = Config::get(Config::DOCTRINE_PROXY_DIR);
+        $cache = new ArrayAdapter();
+        $paths = $this->getPaths();
+        $config = ORMSetup::createAnnotationMetadataConfiguration(
+            $paths,
+            false,
+            $proxyDir,
+            $cache
+        );
+
+        $connectionParams = [
+            'driver' => 'pdo_sqlite',
+            'memory' => true,
+            'charset' => 'utf8mb4',
+        ];
+
+        $em = EntityManager::create($connectionParams, $config);
+
+        $metadata = $em->getMetadataFactory()
             ->getAllMetadata();
 
-        $proxyDir = $this->getEntityManager()
-            ->getConfiguration()
-            ->getProxyDir();
-
-        $count = $this->getEntityManager()
-            ->getProxyFactory()
+        $count = $em->getProxyFactory()
             ->generateProxyClasses($metadata, $proxyDir);
 
         $this->getIO()->success("$count proxy classes created");
         return self::SUCCESS;
+    }
+
+    /**
+     * @return array
+     */
+    private function getPaths(): array
+    {
+        $paths = [];
+        $pluginPaths = Config::get('ohrm_plugin_paths');
+        foreach ($pluginPaths as $pluginPath) {
+            $entityPath = realpath($pluginPath . '/entity');
+            if ($entityPath) {
+                $paths[] = $entityPath;
+            }
+        }
+        return $paths;
     }
 }
