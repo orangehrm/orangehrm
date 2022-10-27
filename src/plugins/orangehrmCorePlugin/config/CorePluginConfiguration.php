@@ -20,8 +20,9 @@
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
-use OrangeHRM\Core\Command\CacheCleanCommand;
+use OrangeHRM\Core\Command\CacheClearCommand;
 use OrangeHRM\Core\Command\EnableTestLanguagePackCommand;
+use OrangeHRM\Core\Command\GenerateDoctrineProxiesCommand;
 use OrangeHRM\Core\Command\RunScheduleCommand;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPersistSubscriber;
@@ -76,7 +77,10 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
             'cookie_path' => $path,
             'cookie_samesite' => 'Strict',
         ];
-        $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler(Config::get(Config::SESSION_DIR)));
+        $sessionStorage = new NativeSessionStorage(
+            $options,
+            new NativeFileSessionHandler(Config::get(Config::SESSION_DIR))
+        );
         $session = new Session($sessionStorage);
         $session->start();
 
@@ -123,7 +127,8 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
      */
     public function registerCommands(Console $console): void
     {
-        $console->add(new CacheCleanCommand());
+        $console->add(new CacheClearCommand());
+        $console->add(new GenerateDoctrineProxiesCommand());
         $console->add(new RunScheduleCommand());
         if (Config::PRODUCT_MODE !== Config::MODE_PROD) {
             $console->add(new EnableTestLanguagePackCommand());
