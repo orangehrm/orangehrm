@@ -68,7 +68,7 @@
       v-if="database.enableDataEncryption"
       class="confirmation-text-info"
     >
-      Please backup encryption key located at var/cryptokeys/key.ohrm
+      Please backup encryption key located at var/cryptoKey/key.ohrm
     </oxd-text>
     <br />
     <br />

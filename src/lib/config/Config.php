@@ -32,8 +32,10 @@ class Config
     public const VAR_DIR = 'ohrm_var_dir';
     public const LOG_DIR = 'ohrm_log_dir';
     public const CACHE_DIR = 'ohrm_cache_dir';
-    public const SESSION_DIR = 'ohrm_session_dir';
     public const CONFIG_DIR = 'ohrm_config_dir';
+    public const CRYPTO_KEY_DIR = 'ohrm_crypto_key_dir';
+    public const SESSION_DIR = 'ohrm_session_dir';
+    public const SRC_CONFIG_DIR = 'ohrm_src_config_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
     public const APP_TEMPLATE_DIR = 'ohrm_app_template_dir';
     public const TEST_DIR = 'ohrm_test_dir';

@@ -95,8 +95,8 @@ class KeyHandler
     /**
      * @return string
      */
-    private static function getPathToKey(): string
+    public static function getPathToKey(): string
     {
-        return Config::get(Config::VAR_DIR) . DIRECTORY_SEPARATOR . 'cryptokeys' . DIRECTORY_SEPARATOR . 'key.ohrm';
+        return Config::get(Config::VAR_DIR) . DIRECTORY_SEPARATOR . 'cryptoKey' . DIRECTORY_SEPARATOR . 'key.ohrm';
     }
 }

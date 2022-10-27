@@ -34,20 +34,23 @@ class ConfigHelper
         $pathToProjectBase = realpath(__DIR__ . '/../../../');
         $pathToSrcDir = realpath($pathToProjectBase . '/src/');
         $pathToVarDir = realpath($pathToProjectBase . '/var/');
+        $pathToConfigDir = $pathToVarDir . DIRECTORY_SEPARATOR . 'config';
         return [
             Config::BASE_DIR => $pathToProjectBase,
             Config::SRC_DIR => $pathToSrcDir,
             'ohrm_lib_dir' => realpath($pathToSrcDir . '/lib'),
-            Config::CONFIG_DIR => realpath($pathToSrcDir . '/config'),
+            Config::SRC_CONFIG_DIR => realpath($pathToSrcDir . '/config'),
             Config::PLUGINS_DIR => realpath($pathToSrcDir . '/plugins'),
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
             Config::DOCTRINE_PROXY_DIR => realpath($pathToSrcDir . '/config/proxy'),
             Config::TEST_DIR => realpath($pathToSrcDir . '/test'),
             Config::VAR_DIR => $pathToVarDir,
-            Config::LOG_DIR => realpath($pathToVarDir . '/log'),
-            Config::CACHE_DIR => realpath($pathToVarDir . '/cache'),
-            Config::SESSION_DIR => realpath($pathToVarDir . '/session'),
-            Config::CONF_FILE_PATH => realpath($pathToVarDir . '/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
+            Config::LOG_DIR => $pathToVarDir . DIRECTORY_SEPARATOR . 'log',
+            Config::CACHE_DIR => $pathToVarDir . DIRECTORY_SEPARATOR . 'cache',
+            Config::CONFIG_DIR => $pathToConfigDir,
+            Config::CRYPTO_KEY_DIR => $pathToVarDir . DIRECTORY_SEPARATOR . 'cryptoKey',
+            Config::SESSION_DIR => $pathToVarDir . DIRECTORY_SEPARATOR . 'session',
+            Config::CONF_FILE_PATH => $pathToConfigDir . DIRECTORY_SEPARATOR . 'Conf.php',
         ];
     }
 
@@ -123,7 +126,9 @@ class ConfigHelper
             'ohrm_client_dir' => realpath($pathToSrcDir . '/client'),
             'ohrm_app_template_dir' => realpath($pathToSrcDir . '/plugins/orangehrmCorePlugin/templates'),
             'ohrm_vue_build_dir' => $pathToVueBuildDir,
-            Config::VUE_BUILD_TIMESTAMP => $pathToBuildTimestampFile ? file_get_contents($pathToBuildTimestampFile) : '',
+            Config::VUE_BUILD_TIMESTAMP => $pathToBuildTimestampFile ? file_get_contents(
+                $pathToBuildTimestampFile
+            ) : '',
         ];
     }
 

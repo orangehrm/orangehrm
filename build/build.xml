@@ -63,8 +63,8 @@
         <exclude name="INSTALL.html"/>
         <exclude name="Dockerfile"/>
         <exclude name="devTools/**"/>
-        <exclude name="var/confs/Conf.php"/>
-        <exclude name="var/cryptokeys/key.ohrm"/>
+        <exclude name="var/config/Conf.php"/>
+        <exclude name="var/cryptoKey/key.ohrm"/>
         <exclude name="orangehrm-quick-start-guide.html"/>
         <exclude name="src/test/**"/>
 
@@ -89,10 +89,8 @@
     <!-- done this way to avoid some quirks in phing behavior -->
     <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/log"/>
     <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/cache"/>
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/cryptokeys"/>
     <mkdir dir="${package.dir}/var/cache"/>
     <mkdir dir="${package.dir}/var/log"/>
-    <mkdir dir="${package.dir}/var/cryptokeys"/>
 
     <copy todir="${dist.dir}">
       <fileset dir="${project.dir}">

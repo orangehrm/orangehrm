@@ -263,10 +263,10 @@ class SystemConfig
      */
 
     /**
-     * Write Permissions for “src/config” Check
+     * Write Permissions for “var/config” Check
      * @return array
      */
-    public function isWritableSrcConfig(): array
+    public function isWritableConfigDir(): array
     {
         if ($this->checkWritePermission(Config::get(Config::CONFIG_DIR))) {
             return [
@@ -283,12 +283,73 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “var/.*” Check
+     * Write Permissions for “src/config” Check
+     * @return array
+     * @deprecated
+     */
+    public function isWritableSrcConfigDir(): array
+    {
+        if ($this->checkWritePermission(Config::get(Config::SRC_CONFIG_DIR))) {
+            return [
+                'message' => Messages::WRITEABLE,
+                'status' => self::PASSED
+            ];
+        } else {
+            $this->interruptContinue = true;
+            return [
+                'message' => Messages::NOT_WRITEABLE,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
+     * Write Permissions for “var/cache” Check
      * @return array
      */
-    public function isWritableVarDirectory(): array
+    public function isWritableCacheDir(): array
     {
-        if ($this->checkWritePermission(Config::get(Config::VAR_DIR))) {
+        if ($this->checkWritePermission(Config::get(Config::CACHE_DIR))) {
+            return [
+                'message' => Messages::WRITEABLE,
+                'status' => self::PASSED
+            ];
+        } else {
+            $this->interruptContinue = true;
+            return [
+                'message' => Messages::NOT_WRITEABLE,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
+     * Write Permissions for “var/log” Check
+     * @return array
+     */
+    public function isWritableLogDir(): array
+    {
+        if ($this->checkWritePermission(Config::get(Config::LOG_DIR))) {
+            return [
+                'message' => Messages::WRITEABLE,
+                'status' => self::PASSED
+            ];
+        } else {
+            $this->interruptContinue = true;
+            return [
+                'message' => Messages::NOT_WRITEABLE,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
+     * Write Permissions for “var/session” Check
+     * @return array
+     */
+    public function isWritableSessionDir(): array
+    {
+        if ($this->checkWritePermission(Config::get(Config::SESSION_DIR))) {
             return [
                 'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
