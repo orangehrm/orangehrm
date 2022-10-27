@@ -39,7 +39,6 @@ class ConfigHelper
             Config::BASE_DIR => $pathToProjectBase,
             Config::SRC_DIR => $pathToSrcDir,
             'ohrm_lib_dir' => realpath($pathToSrcDir . '/lib'),
-            Config::SRC_CONFIG_DIR => realpath($pathToSrcDir . '/config'),
             Config::PLUGINS_DIR => realpath($pathToSrcDir . '/plugins'),
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
             Config::DOCTRINE_PROXY_DIR => realpath($pathToSrcDir . '/config/proxy'),

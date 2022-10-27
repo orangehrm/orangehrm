@@ -66,10 +66,6 @@ class SystemCheckAPI extends AbstractInstallerRestController
                             'value' => $systemConfig->isWritableConfigDir()
                         ],
                         [
-                            'label' => 'Write Permissions for “src/config”',
-                            'value' => $systemConfig->isWritableSrcConfigDir()
-                        ],
-                        [
                             'label' => 'Write Permissions for “var/cache”',
                             'value' => $systemConfig->isWritableCacheDir()
                         ],
