@@ -24,10 +24,10 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use DateTime;
 
 /**
- * @ORM\Table(name="ohrm_buzz_comment")
+ * @ORM\Table(name="ohrm_buzz_share")
  * @ORM\Entity
  */
-class Comment
+class Share
 {
     use DateTimeHelperTrait;
 
@@ -41,17 +41,17 @@ class Comment
     private int $id;
 
     /**
-     * @var Share
+     * @var Post
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Share")
-     * @ORM\JoinColumn(name="share_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    private Share $share;
+    private Post $post;
 
     /**
      * @var Employee|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="comment", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="share", cascade={"persist"})
      * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number", nullable=true)
      */
     private ?Employee $employee = null;
@@ -64,18 +64,32 @@ class Comment
     private ?int $numOfLikes = null;
 
     /**
-     * @var string|null
+     * @var int|null
      *
-     * @ORM\Column(name="comment_text",  type="string", nullable=true)
+     * @ORM\Column(name="number_of_comments", type="int", length=6, nullable=true)
      */
-    private ?string $text = null;
+    private ?int $numOfComments = null;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="comment_time", type="datetime")
+     * @ORM\Column(name="share_time", type="datetime")
      */
-    private DateTime $commentTime;
+    private DateTime $shareTime;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="type", type="int", length=1, nullable=true)
+     */
+    private ?int $type = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="text", type="string", nullable=true)
+     */
+    private ?string $text = null;
 
     /**
      * @var DateTime
@@ -106,35 +120,19 @@ class Comment
     }
 
     /**
-     * @return Share
+     * @return Post
      */
-    public function getShare(): Share
+    public function getPost(): Post
     {
-        return $this->share;
+        return $this->post;
     }
 
     /**
-     * @param Share $share
+     * @param Post $post
      */
-    public function setShare(Share $share): void
+    public function setPost(Post $post): void
     {
-        $this->share = $share;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getNumOfLikes(): ?int
-    {
-        return $this->numOfLikes;
-    }
-
-    /**
-     * @param int|null $numOfLikes
-     */
-    public function setNumOfLikes(?int $numOfLikes): void
-    {
-        $this->numOfLikes = $numOfLikes;
+        $this->post = $post;
     }
 
     /**
@@ -154,6 +152,70 @@ class Comment
     }
 
     /**
+     * @return int|null
+     */
+    public function getNumOfLikes(): ?int
+    {
+        return $this->numOfLikes;
+    }
+
+    /**
+     * @param int|null $numOfLikes
+     */
+    public function setNumOfLikes(?int $numOfLikes): void
+    {
+        $this->numOfLikes = $numOfLikes;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNumOfComments(): ?int
+    {
+        return $this->numOfComments;
+    }
+
+    /**
+     * @param int|null $numOfComments
+     */
+    public function setNumOfComments(?int $numOfComments): void
+    {
+        $this->numOfComments = $numOfComments;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getShareTime(): DateTime
+    {
+        return $this->shareTime;
+    }
+
+    /**
+     * @param DateTime $shareTime
+     */
+    public function setShareTime(DateTime $shareTime): void
+    {
+        $this->shareTime = $shareTime;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int|null $type
+     */
+    public function setType(?int $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
      * @return string|null
      */
     public function getText(): ?string
@@ -167,22 +229,6 @@ class Comment
     public function setText(?string $text): void
     {
         $this->text = $text;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getCommentTime(): DateTime
-    {
-        return $this->commentTime;
-    }
-
-    /**
-     * @param DateTime $commentTime
-     */
-    public function setCommentTime(DateTime $commentTime): void
-    {
-        $this->commentTime = $commentTime;
     }
 
     /**
