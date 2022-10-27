@@ -86,7 +86,7 @@ jobs:
           docker exec os_dev_php80 bash -c "sed -i 's/adminEmployeeFirstName: OrangeHRM/adminEmployeeFirstName: Jacqueline/g' installer/cli_install_config.yaml"
           docker exec os_dev_php80 bash -c "sed -i 's/adminEmployeeLastName: Admin/adminEmployeeLastName: White/g' installer/cli_install_config.yaml"
           docker exec os_dev_php80 bash -c "sed -i 's/public const PRODUCT_MODE = self::MODE_PROD/public const PRODUCT_MODE = self::MODE_DEV/g' src/lib/config/Config.php"
-          docker exec os_dev_php80 bash -c 'chmod -R 777 var/log'
+          docker exec os_dev_php80 bash -c 'chmod -R 777 var/'
           docker exec os_dev_php80 bash -c 'chmod -R 777 src/config'
           docker exec os_dev_php80 bash -c 'php installer/cli_install.php'
 
