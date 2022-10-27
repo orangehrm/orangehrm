@@ -19,6 +19,28 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Util\StateContainer;
+use OrangeHRM\Installer\Util\SystemConfig;
+
 class SystemCheckAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\SystemCheckAPI
 {
+    /**
+     * @inheritDoc
+     */
+    protected function handleGet(Request $request): array
+    {
+        $dbInfo = StateContainer::getInstance()->getDbInfo();
+        if (isset($dbInfo[StateContainer::ENABLE_DATA_ENCRYPTION]) && $dbInfo[StateContainer::ENABLE_DATA_ENCRYPTION] == true) {
+            $systemConfig = new SystemConfig();
+            $response = parent::handleGet($request);
+            $response['data'][1]['checks'][] = [
+                'label' => 'Write Permissions for “var/cryptoKey”',
+                'value' => $systemConfig->isWritableCryptoKeyDir()
+            ];
+            return $response;
+        }
+
+        return parent::handleGet($request);
+    }
 }

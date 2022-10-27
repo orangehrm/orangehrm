@@ -364,6 +364,26 @@ class SystemConfig
     }
 
     /**
+     * Write Permissions for “var/cryptoKey” Check
+     * @return array
+     */
+    public function isWritableCryptoKeyDir(): array
+    {
+        if ($this->checkWritePermission(Config::get(Config::CRYPTO_KEY_DIR))) {
+            return [
+                'message' => Messages::WRITEABLE,
+                'status' => self::PASSED
+            ];
+        } else {
+            $this->interruptContinue = true;
+            return [
+                'message' => Messages::NOT_WRITEABLE,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
      * Category => Extensions
      */
     /**
@@ -600,8 +620,8 @@ class SystemConfig
     private function checkWritePermission(string $path): bool
     {
         try {
-            $this->filesystem->dumpFile($path . '/_temp.txt', $path);
-            $this->filesystem->remove($path . '/_temp.txt');
+            $this->filesystem->dumpFile($path . DIRECTORY_SEPARATOR . '_temp.txt', $path);
+            $this->filesystem->remove($path . DIRECTORY_SEPARATOR . '_temp.txt');
             return true;
         } catch (Exception $e) {
             Logger::getLogger()->error($e->getMessage());

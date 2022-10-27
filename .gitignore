@@ -1,6 +1,5 @@
 .idea
 .vscode
-src/config/
 web/dist/
 src/vendor
 apidoc
