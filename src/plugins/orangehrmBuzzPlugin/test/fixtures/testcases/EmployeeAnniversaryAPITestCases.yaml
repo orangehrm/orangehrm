@@ -132,11 +132,24 @@ GetAll:
   'Get all anniversaries end of a year - Admin User':
     userId: 1
     now:
-      datetime: '2022-12-30'
+      datetime: '2022-12-20'
     services:
       buzz.buzz_anniversary_service: \OrangeHRM\Buzz\Service\BuzzAnniversaryService
     data:
       0:
+        employee:
+          empNumber: 03
+          lastName: 'Abraham'
+          firstName: 'Tyler'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 1
+          title: 'Software Architect'
+          isDeleted: false
+        joinedDate: '2020-01-05'
+      1:
         employee:
           empNumber: 4
           lastName: 'Abrahams'
@@ -149,7 +162,20 @@ GetAll:
           title: 'Software Engineer'
           isDeleted: false
         joinedDate: '2016-12-31'
-      1:
+      2:
+        employee:
+          empNumber: 05
+          lastName: 'Abrahamson'
+          firstName: 'James'
+          middleName: 'K'
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 3
+          title: 'Quality Assuarance'
+          isDeleted: false
+        joinedDate: '2015-01-08'
+      3:
         employee:
           empNumber: 21
           lastName: 'Supun'
@@ -162,5 +188,116 @@ GetAll:
           title: 'Sales Person'
           isDeleted: true
         joinedDate: '2017-12-30'
+      4:
+        employee:
+          empNumber: 27
+          lastName: 'Ferrari'
+          firstName: 'Enzo'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 1
+          title: 'Software Architect'
+          isDeleted: false
+        joinedDate: '2020-12-31'
+      5:
+        employee:
+          empNumber: 28
+          lastName: 'Honda'
+          firstName: 'Soichiro'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 1
+          title: 'Software Architect'
+          isDeleted: false
+        joinedDate: '2020-01-02'
+    meta:
+      total: 6
+
+  'Get all anniversaries employees joined in 29 february - leap year - Admin User':
+    userId: 1
+    now:
+      datetime: '2024-02-29'
+    services:
+      buzz.buzz_anniversary_service: \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+    data:
+      0:
+        employee:
+          empNumber: 08
+          lastName: 'Aaliyah'
+          firstName: 'Haq'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 4
+          title: 'Sales Person'
+          isDeleted: true
+        joinedDate: '2020-03-09'
+      1:
+        employee:
+          empNumber: 22
+          lastName: 'Charlie'
+          firstName: 'Grace'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 1
+          title: 'Software Architect'
+          isDeleted: false
+        joinedDate: '2000-02-29'
+      2:
+        employee:
+          empNumber: 29
+          lastName: 'Benz'
+          firstName: 'Carl'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 1
+          title: 'Software Architect'
+          isDeleted: false
+        joinedDate: '2020-02-29'
+    meta:
+      total: 3
+
+  'Get all anniversaries employees joined in 29 february - non leap year - Admin User':
+    userId: 1
+    now:
+      datetime: '2025-02-28'
+    services:
+      buzz.buzz_anniversary_service: \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+    data:
+      0:
+        employee:
+          empNumber: 08
+          lastName: 'Aaliyah'
+          firstName: 'Haq'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 4
+          title: 'Sales Person'
+          isDeleted: true
+        joinedDate: '2020-03-09'
+      1:
+        employee:
+          empNumber: 30
+          lastName: 'Ferdinand'
+          firstName: 'Porsche'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+        jobTitle:
+          id: 1
+          title: 'Software Architect'
+          isDeleted: false
+        joinedDate: '2021-02-28'
     meta:
       total: 2

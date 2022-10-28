@@ -30,8 +30,9 @@ class BuzzAnniversaryDao extends BaseDao
      * @param EmployeeAnniversarySearchFilterParams $employeeAnniversarySearchFilterParams
      * @return array
      */
-    public function getUpcomingAnniversariesList(EmployeeAnniversarySearchFilterParams $employeeAnniversarySearchFilterParams): array
-    {
+    public function getUpcomingAnniversariesList(
+        EmployeeAnniversarySearchFilterParams $employeeAnniversarySearchFilterParams
+    ): array {
         return $this->getUpcomingAnniversariesPaginator($employeeAnniversarySearchFilterParams)->getQuery()->execute();
     }
 
@@ -45,20 +46,35 @@ class BuzzAnniversaryDao extends BaseDao
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $this->setSortingAndPaginationParams($q, $employeeAnniversarySearchFilterParams);
 
-        $q->andWhere(
+        $orExpr = $q->expr()->orX(
             $q->expr()->between(
                 'DATE_DIFF(:nextDate, CONCAT(:thisYear, SUBSTRING(employee.joinedDate,5,6)))',
                 ':dateDiffMin',
                 ':dateDiffMax'
             )
-        )
+        );
+
+        if (($nextYear =  $employeeAnniversarySearchFilterParams->getNextDate()->format('Y'))
+            != $employeeAnniversarySearchFilterParams->getThisYear()
+        ) {
+            $orExpr->add(
+                $q->expr()->between(
+                    'DATE_DIFF(:nextDate, CONCAT(:nextYear, SUBSTRING(employee.joinedDate,5,6)))',
+                    ':dateDiffMin',
+                    ':dateDiffMax'
+                )
+            );
+            $q->setParameter('nextYear', $nextYear);
+        }
+
+        $q->andWhere($orExpr)
             ->setParameter('thisYear', $employeeAnniversarySearchFilterParams->getThisYear())
             ->setParameter('nextDate', $employeeAnniversarySearchFilterParams->getNextDate())
             ->setParameter('dateDiffMin', $employeeAnniversarySearchFilterParams->getDateDiffMin())
             ->setParameter('dateDiffMax', $employeeAnniversarySearchFilterParams->getDateDiffMax());
 
         $q->andWhere($q->expr()->neq('SUBSTRING(employee.joinedDate, 1, 4)', ':thisYear'))
-            ->setParameter('thisYear',$employeeAnniversarySearchFilterParams->getThisYear());
+            ->setParameter('thisYear', $employeeAnniversarySearchFilterParams->getThisYear());
         $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
 
@@ -69,8 +85,9 @@ class BuzzAnniversaryDao extends BaseDao
      * @param EmployeeAnniversarySearchFilterParams $employeeAnniversarySearchFilterParams
      * @return int
      */
-    public function getUpcomingAnniversariesCount(EmployeeAnniversarySearchFilterParams $employeeAnniversarySearchFilterParams):int
-    {
+    public function getUpcomingAnniversariesCount(
+        EmployeeAnniversarySearchFilterParams $employeeAnniversarySearchFilterParams
+    ): int {
         return $this->getUpcomingAnniversariesPaginator($employeeAnniversarySearchFilterParams)->count();
     }
 }

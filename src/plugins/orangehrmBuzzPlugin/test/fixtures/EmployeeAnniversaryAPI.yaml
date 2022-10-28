@@ -32,11 +32,17 @@ Employee:
   18: { empNumber: 19, firstName: 'Tencrady', lastName: 'Saraa', job_title_code: 4, joinedDate: '2021-10-17' }
   19: { empNumber: 20, firstName: 'Wright', lastName: 'Sania', job_title_code: 2, joinedDate: '2020-12-01' }
   20: { empNumber: 21, firstName: 'Ganesh', lastName: 'Supun', job_title_code: 4, joinedDate: '2017-12-30' }
-  21: { empNumber: 22, firstName: 'Grace', lastName: 'Charlie',job_title_code: 1, joinedDate: '2021-02-18' }
+  21: { empNumber: 22, firstName: 'Grace', lastName: 'Charlie',job_title_code: 1, joinedDate: '2000-02-29' }
   22: { empNumber: 23, firstName: 'Mathews', lastName: 'Angello', job_title_code: 4, joinedDate: '2020-05-18', termination_id: 1}
   23: { empNumber: 24, firstName: 'Manning', lastName: 'David', job_title_code: 2, joinedDate: '2022-06-19' }
   24: { empNumber: 25, firstName: 'Moris', lastName: 'Minor', job_title_code: 3, joinedDate: '1998-07-28' }
   25: { empNumber: 26, firstName: 'Henry', lastName: 'Ford',job_title_code: 1, joinedDate: '2020-08-20' }
+  26: { empNumber: 27, firstName: 'Enzo', lastName: 'Ferrari',job_title_code: 1, joinedDate: '2020-12-31' }
+  27: { empNumber: 28, firstName: 'Soichiro', lastName: 'Honda',job_title_code: 1, joinedDate: '2020-01-02' }
+  28: { empNumber: 29, firstName: 'Carl', lastName: 'Benz',job_title_code: 1, joinedDate: '2020-02-29' }
+  29: { empNumber: 30, firstName: 'Ferdinand', lastName: 'Porsche',job_title_code: 1, joinedDate: '2021-02-28' }
+  30: { empNumber: 31, firstName: 'Henry', lastName: 'Royce',job_title_code: 1, joinedDate: '1980-04-20' }
+  31: { empNumber: 32, firstName: 'Charles', lastName: 'Rolls',job_title_code: 1, joinedDate: '2024-11-20' }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
