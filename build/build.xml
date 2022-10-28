@@ -62,8 +62,8 @@
         <exclude name=".github/**"/>
         <exclude name="Dockerfile"/>
         <exclude name="devTools/**"/>
-        <exclude name="lib/confs/Conf.php"/>
-        <exclude name="lib/confs/cryptokeys/key.ohrm"/>
+        <exclude name="var/config/Conf.php"/>
+        <exclude name="var/cryptoKey/key.ohrm"/>
         <exclude name="orangehrm-quick-start-guide.html"/>
         <exclude name="src/test/**"/>
         <exclude name="src/plugins/**/test/**"/>
@@ -84,10 +84,10 @@
     </copy>
 
     <!-- done this way to avoid some quirks in phing behavior -->
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/src/log"/>
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/src/cache"/>
-    <mkdir dir="${package.dir}/src/cache"/>
-    <mkdir dir="${package.dir}/src/log"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/log"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/cache"/>
+    <mkdir dir="${package.dir}/var/cache"/>
+    <mkdir dir="${package.dir}/var/log"/>
 
     <copy todir="${dist.dir}">
       <fileset dir="${project.dir}">

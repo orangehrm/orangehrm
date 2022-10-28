@@ -35,7 +35,7 @@ jobs:
         id: git-status
         run: |
           git status --porcelain
-          echo "::set-output name=status::$(git status --porcelain)"
+          echo "status=$(git status --porcelain)" >> $GITHUB_OUTPUT
 
       - name: Fail if files changed
         if: ${{ steps.git-status.outputs.status }}

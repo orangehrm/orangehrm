@@ -36,16 +36,6 @@ class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigF
     {
         if (StateContainer::getInstance()->isSetDbInfo()) {
             $dbInfo = StateContainer::getInstance()->getDbInfo();
-            $dbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? $dbInfo[StateContainer::DB_USER];
-            $dbPassword = isset($dbInfo[StateContainer::ORANGEHRM_DB_USER])
-                ? $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD]
-                : $dbInfo[StateContainer::DB_PASSWORD];
-            StateContainer::getInstance()->storeDbInfo(
-                $dbInfo[StateContainer::DB_HOST],
-                $dbInfo[StateContainer::DB_PORT],
-                new UserCredential($dbUser, $dbPassword),
-                $dbInfo[StateContainer::DB_NAME]
-            );
 
             if ($dbInfo[StateContainer::ENABLE_DATA_ENCRYPTION]) {
                 try {
@@ -62,6 +52,17 @@ class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigF
                         ];
                 }
             }
+
+            $dbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? $dbInfo[StateContainer::DB_USER];
+            $dbPassword = isset($dbInfo[StateContainer::ORANGEHRM_DB_USER])
+                ? $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD]
+                : $dbInfo[StateContainer::DB_PASSWORD];
+            StateContainer::getInstance()->storeDbInfo(
+                $dbInfo[StateContainer::DB_HOST],
+                $dbInfo[StateContainer::DB_PORT],
+                new UserCredential($dbUser, $dbPassword),
+                $dbInfo[StateContainer::DB_NAME]
+            );
         }
         return parent::handlePost($request);
     }

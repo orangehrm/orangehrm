@@ -157,7 +157,7 @@ export default {
       if (!taskFailed.value) return 'Please Wait. Installation in Progress';
       return `${
         errorText.value ? errorText.value : 'Installation has failed'
-      }. For more details check the error log in /src/log/installer.log file`;
+      }. For more details check the error log in /var/log/installer.log file`;
     });
 
     const progressType = computed(() => {

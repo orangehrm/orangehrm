@@ -48,5 +48,5 @@ class Messages
     public const ERROR_MESSAGE_INVALID_HOST_PORT = "It seems like you are using an incorrect TCP/IP port number or incorrect Unix socket file name. 
                 Please check whether MySQL server configuration as well as firewall and port blocking services are enabled.";
 
-    public const ERROR_MESSAGE_REFER_LOG_FOR_MORE = 'For more details, please refer to the error log in src/log/installer.log file';
+    public const ERROR_MESSAGE_REFER_LOG_FOR_MORE = 'For more details, please refer to the error log in var/log/installer.log file';
 }

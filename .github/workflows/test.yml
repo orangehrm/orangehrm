@@ -92,7 +92,7 @@ jobs:
         if: ${{ always() }}
         with:
           name: logs
-          path: src/log
+          path: var/log
 
       - name: Stop LDAP container
         if: "${{ github.event_name == 'push' && always() }}"

@@ -67,7 +67,7 @@ class ResetInstallationCommand extends Command
         $fs->remove($pathToConf);
         $io->note("Deleted conf file `$pathToConf`");
 
-        $pathToKey = KeyHandler::getRealPathToKey();
+        $pathToKey = KeyHandler::getPathToKey();
         $fs->remove($pathToKey);
         $io->note("Deleted key.ohrm file `$pathToKey`");
 
