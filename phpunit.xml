@@ -9,7 +9,6 @@
       <directory suffix=".php">src</directory>
     </include>
     <exclude>
-      <directory>src/cache</directory>
       <directory>src/config</directory>
       <directory>src/lib</directory>
       <directory>src/web</directory>

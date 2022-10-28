@@ -17,10 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-/* For logging PHP errors */
-include_once('lib/log_settings.php');
+use OrangeHRM\Config\Config;
 
-if (!realpath(__DIR__ . '/lib/confs/Conf.php')) {
+require realpath(__DIR__ . '/src/vendor/autoload.php');
+
+/* For logging PHP errors */
+include_once('./src/config/log_settings.php');
+
+if (!Config::isInstalled()) {
     header('Location: ./installer/index.php');
 } else {
     header("Location: ./web/index.php/auth/login");

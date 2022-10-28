@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-include_once('./../lib/log_settings.php');
+include_once('../src/config/log_settings.php');
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Framework;

@@ -263,12 +263,12 @@ class SystemConfig
      */
 
     /**
-     * Write Permissions for “lib/confs” Check
+     * Write Permissions for “var/config” Check
      * @return array
      */
-    public function isWritableLibConfs(): array
+    public function isWritableConfigDir(): array
     {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/confs'))) {
+        if ($this->checkWritePermission(Config::get(Config::CONFIG_DIR))) {
             return [
                 'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
@@ -283,12 +283,13 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “src/configs” Check
+     * Write Permissions for “src/config” Check
      * @return array
+     * @deprecated
      */
-    public function isWritableSymfonyConfig(): array
+    public function isWritableSrcConfigDir(): array
     {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../src/config'))) {
+        if ($this->checkWritePermission(Config::get(Config::SRC_CONFIG_DIR))) {
             return [
                 'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
@@ -303,10 +304,10 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “src/cache” Check
+     * Write Permissions for “var/cache” Check
      * @return array
      */
-    public function isWritableSymfonyCache(): array
+    public function isWritableCacheDir(): array
     {
         if ($this->checkWritePermission(Config::get(Config::CACHE_DIR))) {
             return [
@@ -323,12 +324,52 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “src/log” Check
+     * Write Permissions for “var/log” Check
      * @return array
      */
-    public function isWritableSymfonyLog(): array
+    public function isWritableLogDir(): array
     {
         if ($this->checkWritePermission(Config::get(Config::LOG_DIR))) {
+            return [
+                'message' => Messages::WRITEABLE,
+                'status' => self::PASSED
+            ];
+        } else {
+            $this->interruptContinue = true;
+            return [
+                'message' => Messages::NOT_WRITEABLE,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
+     * Write Permissions for “var/session” Check
+     * @return array
+     */
+    public function isWritableSessionDir(): array
+    {
+        if ($this->checkWritePermission(Config::get(Config::SESSION_DIR))) {
+            return [
+                'message' => Messages::WRITEABLE,
+                'status' => self::PASSED
+            ];
+        } else {
+            $this->interruptContinue = true;
+            return [
+                'message' => Messages::NOT_WRITEABLE,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
+     * Write Permissions for “var/cryptoKey” Check
+     * @return array
+     */
+    public function isWritableCryptoKeyDir(): array
+    {
+        if ($this->checkWritePermission(Config::get(Config::CRYPTO_KEY_DIR))) {
             return [
                 'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
@@ -579,8 +620,8 @@ class SystemConfig
     private function checkWritePermission(string $path): bool
     {
         try {
-            $this->filesystem->dumpFile($path . '/_temp.txt', $path);
-            $this->filesystem->remove($path . '/_temp.txt');
+            $this->filesystem->dumpFile($path . DIRECTORY_SEPARATOR . '_temp.txt', $path);
+            $this->filesystem->remove($path . DIRECTORY_SEPARATOR . '_temp.txt');
             return true;
         } catch (Exception $e) {
             Logger::getLogger()->error($e->getMessage());

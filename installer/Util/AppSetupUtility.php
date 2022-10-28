@@ -421,7 +421,7 @@ class AppSetupUtility
             $dbName = $dbInfo[StateContainer::DB_NAME];
             $dbUser = $dbInfo[StateContainer::DB_USER];
             $ohrmDbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER];
-            if ($dbUser === $ohrmDbUser) {
+            if ($ohrmDbUser === null || $dbUser === $ohrmDbUser) {
                 return;
             }
             $ohrmDbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD];

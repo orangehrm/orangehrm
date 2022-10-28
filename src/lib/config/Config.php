@@ -20,6 +20,7 @@
 namespace OrangeHRM\Config;
 
 use Conf;
+use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 
 class Config
 {
@@ -28,8 +29,13 @@ class Config
     public const SRC_DIR = 'ohrm_src_dir';
     public const PLUGINS_DIR = 'ohrm_plugins_dir';
     public const PUBLIC_DIR = 'ohrm_public_dir';
+    public const VAR_DIR = 'ohrm_var_dir';
     public const LOG_DIR = 'ohrm_log_dir';
     public const CACHE_DIR = 'ohrm_cache_dir';
+    public const CONFIG_DIR = 'ohrm_config_dir';
+    public const CRYPTO_KEY_DIR = 'ohrm_crypto_key_dir';
+    public const SESSION_DIR = 'ohrm_session_dir';
+    public const SRC_CONFIG_DIR = 'ohrm_src_config_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
     public const APP_TEMPLATE_DIR = 'ohrm_app_template_dir';
     public const TEST_DIR = 'ohrm_test_dir';
@@ -136,20 +142,25 @@ class Config
      */
     public static function isInstalled(): bool
     {
-        return realpath(self::get(self::CONF_FILE_PATH)) !== false;
+        try {
+            Config::getConf();
+            return true;
+        } catch (ConfigNotFoundException $e) {
+            return false;
+        }
     }
 
     /**
      * @param bool $force
-     * @return Conf|null
+     * @return Conf
+     * @throws ConfigNotFoundException
      */
-    public static function getConf(bool $force = false): ?Conf
+    public static function getConf(bool $force = false): Conf
     {
-        if (!self::isInstalled()) {
-            return null;
-        }
         if (!self::$conf instanceof Conf || $force) {
-            require_once self::get(self::CONF_FILE_PATH);
+            if (!@include_once(self::get(self::CONF_FILE_PATH))) {
+                throw ConfigNotFoundException::notInstalled();
+            }
             self::$conf = new Conf();
         }
         return self::$conf;
