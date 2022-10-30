@@ -78,6 +78,8 @@ class Migration extends AbstractMigration
         $this->getConfigHelper()->deleteConfigValue('buzz_share_count');
         $this->getConfigHelper()->deleteConfigValue('buzz_time_format');
         $this->getConfigHelper()->deleteConfigValue('buzz_viewmore_comment');
+
+        $this->createOAuth2Tables();
     }
 
     /**
@@ -586,5 +588,70 @@ class Migration extends AbstractMigration
             );
         }
         return $this->langStringHelper;
+    }
+
+    private function createOAuth2Tables(): void
+    {
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_clients')
+            ->addColumn('id', Types::STRING, ['Length' => 80])
+            ->addColumn('name', Types::STRING, ['Length' => 80])
+            ->addColumn('client_secret', Types::STRING, ['Length' => 80])
+            ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
+            ->addColumn('is_confidential', Types::BOOLEAN)
+            ->setPrimaryKey(['id'])
+            ->create();
+
+        // Foreign Keys
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_access_tokens')
+            ->addColumn('access_token', Types::STRING, ['Length' => 80])
+            ->addColumn('client_id', Types::STRING, ['Length' => 80])
+            ->addColumn('user_id', Types::INTEGER)
+            ->addColumn('expiryDateTime', Types::DATETIME_IMMUTABLE)
+            ->addColumn('scope', Types::STRING, ['Length' => 4000])
+            ->setPrimaryKey(['access_token'])
+            ->create();
+
+        // Foreign Keys
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_codes')
+            ->addColumn('authorization_code', Types::STRING, ['Length' => 40])
+            ->addColumn('client_id', Types::STRING, ['Length' => 80])
+            ->addColumn('user_id', Types::INTEGER)
+            ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
+            ->addColumn('expires', Types::DATETIME_IMMUTABLE)
+            ->addColumn('scope', Types::STRING, ['Length' => 4000])
+            ->addColumn('id_token', Types::STRING, ['Length' => 1000])
+            ->setPrimaryKey(['authorization_code'])
+            ->create();
+
+        // Foreign Keys
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_refresh_tokens')
+            ->addColumn('id', Types::STRING, ['Length' => 80])
+            ->addColumn('refresh_token', Types::STRING, ['Length' => 40])
+            ->addColumn('client_id', TYPES::STRING, ['Length' => 80])
+            ->addColumn('user_id', TYPES::INTEGER)
+            ->addColumn('expires', Types::DATETIME_MUTABLE)
+            ->addColumn('scope', Types::STRING, ['Length' => 4000])
+            ->setPrimaryKey(['refresh_token'])
+            ->create();
+
+        // Foreign Keys
+
+        // $this->getSchemaHelper()->createTable('ohrm_oauth2_users')
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_scopes')
+            ->addColumn('id', Types::STRING, ['Length' => 80])
+            ->addColumn('scope', Types::STRING, ['Length' => 80])
+            ->addColumn('is_default', Types::BOOLEAN)
+            ->setPrimaryKey(['scope'])
+            ->create();
+
+        // $this->getSchemaHelper()->createTable('ohrm_oauth2_jwt')
+        //    ->addColumn('client_id', Types::STRING,  ['Length' => 80])
+        //    ->addColumn('subject', Types::STRING,  ['Length' => 80])
+        //    ->addColumn('public_key', Types::STRING,  ['Length' => 2000])
+        //    ->create();
     }
 }
