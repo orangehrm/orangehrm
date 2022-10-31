@@ -48,7 +48,7 @@ export default {
           .match(
             /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(shorts|embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
           )[7] || '';
-      return `https://www.youtube-nocookie.com/embed/${videoID}`;
+      return `https://www.youtube.com/embed/${videoID}`;
     },
   },
 };

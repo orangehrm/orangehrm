@@ -33,6 +33,10 @@
       >
       </oxd-buzz-post-input>
     </template>
+    <video-frame v-if="data.type === 'video'" :video-src="data.video">
+    </video-frame>
+    <photo-frame v-if="data.type === 'photo'" :media="data.photo">
+    </photo-frame>
     <oxd-text tag="p" class="orangehrm-buzz-share-employee">
       {{ employeeFullName }}
     </oxd-text>
@@ -56,6 +60,8 @@ import {APIService} from '@/core/util/services/api.service';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal';
+import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
+import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
@@ -64,6 +70,8 @@ export default {
 
   components: {
     'post-modal': PostModal,
+    'photo-frame': PhotoFrame,
+    'video-frame': VideoFrame,
     'oxd-buzz-post-input': BuzzPostInput,
   },
 

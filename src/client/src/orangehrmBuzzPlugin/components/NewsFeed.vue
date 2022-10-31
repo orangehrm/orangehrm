@@ -40,7 +40,7 @@
         >
           <template #content>
             <oxd-text v-if="post.text" tag="p">
-              {{ post.text }}
+              {{ post.text }} {{ post.type }}
             </oxd-text>
           </template>
           <template #actionButton>
