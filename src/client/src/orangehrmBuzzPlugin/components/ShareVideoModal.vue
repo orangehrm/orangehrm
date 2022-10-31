@@ -77,7 +77,7 @@ export default {
   setup(props, context) {
     const rules = {
       url: [required, validVideoURL],
-      text: [required, shouldNotExceedCharLength(63535)],
+      text: [shouldNotExceedCharLength(63535)],
     };
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
 

@@ -39,7 +39,11 @@
       </div>
       <slot></slot>
       <oxd-form-actions class="orangehrm-buzz-post-modal-actions">
-        <oxd-button type="submit" :label="$t('buzz.share')" />
+        <oxd-button
+          type="submit"
+          :disabled="disabled"
+          :label="$t('buzz.share')"
+        />
       </oxd-form-actions>
     </oxd-form>
   </oxd-dialog>
@@ -67,6 +71,10 @@ export default {
       required: true,
     },
     loading: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },
