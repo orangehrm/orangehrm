@@ -20,7 +20,11 @@
 
 <template>
   <div class="orangehrm-buzz-anniversary">
-    <oxd-text type="card-title" class="orangehrm-buzz-anniversary-title">
+    <oxd-text
+      v-if="anniversariesCount > 0"
+      type="card-title"
+      class="orangehrm-buzz-anniversary-title"
+    >
       {{ $t('buzz.upcoming_anniversaries') }}
     </oxd-text>
     <div class="orangehrm-buzz-anniversary-content">
