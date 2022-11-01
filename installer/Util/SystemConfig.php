@@ -596,7 +596,7 @@ class SystemConfig
      * @param string $path
      * @return bool
      */
-    private function checkWritePermission(string $path): bool
+    public function checkWritePermission(string $path): bool
     {
         try {
             $this->filesystem->dumpFile($path . DIRECTORY_SEPARATOR . '_temp.txt', $path);
