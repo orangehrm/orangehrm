@@ -25,7 +25,7 @@
     </oxd-text>
     <div class="orangehrm-buzz-anniversary-content">
       <div
-        v-for="anniversary in filteredAnniversaries"
+        v-for="anniversary in anniversaries"
         :key="anniversary"
         class="orangehrm-buzz-anniversary-item"
       >
@@ -112,42 +112,44 @@ export default {
     isViewDetails() {
       return !this.viewMore;
     },
-    filteredAnniversaries() {
-      return this.anniversaries.slice(
-        0,
-        this.viewMore ? this.anniversaries.length - 1 : 5,
-      );
-    },
-    anniversariesCount() {
-      return this.anniversaries.length;
-    },
   },
 
   beforeMount() {
-    this.http.getAll().then(response => {
-      const {data} = response.data;
-      this.anniversaries = data.map(item => {
-        const {employee, jobTitle, joinedDate} = item;
-        return {
-          empNumber: employee.empNumber,
-          empName: this.tEmpName(employee, {
-            includeMiddle: false,
-            excludePastEmpTag: false,
-          }),
-          jobTitle: jobTitle,
-          joinedDate: formatDate(parseDate(joinedDate), 'MMM dd', {
-            locale: this.locale,
-          }),
-          anniversaryYear:
-            new Date().getFullYear() - new Date(joinedDate).getFullYear(),
-        };
-      });
-    });
+    this.anniversariesLimit = 5;
+    this.getAnniversaries();
   },
 
   methods: {
     onSeeMore() {
       this.viewMore = !this.viewMore;
+      if (this.viewMore) {
+        this.anniversariesLimit = 0;
+      } else {
+        this.anniversariesLimit = 5;
+      }
+      this.getAnniversaries();
+    },
+    getAnniversaries() {
+      this.http.getAll({limit: this.anniversariesLimit}).then(response => {
+        const {data, meta} = response.data;
+        this.anniversaries = data.map(item => {
+          const {employee, jobTitle, joinedDate} = item;
+          return {
+            empNumber: employee.empNumber,
+            empName: this.tEmpName(employee, {
+              includeMiddle: false,
+              excludePastEmpTag: false,
+            }),
+            jobTitle: jobTitle.title,
+            joinedDate: formatDate(parseDate(joinedDate), 'MMM dd', {
+              locale: this.locale,
+            }),
+            anniversaryYear:
+              new Date().getFullYear() - new Date(joinedDate).getFullYear(),
+          };
+        });
+        this.anniversariesCount = meta?.total;
+      });
     },
   },
 };

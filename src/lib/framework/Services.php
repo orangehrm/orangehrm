@@ -394,4 +394,13 @@ final class Services
      * @see \OrangeHRM\Framework\Logger\Logger
      */
     public const LDAP_LOGGER = 'ldap.logger';
+
+    ///////////////////////////////////////////////////////////////
+    /// Buzz plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+     */
+    public const BUZZ_ANNIVERSARY_SERVICE = 'buzz.buzz_anniversary_service';
 }
