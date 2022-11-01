@@ -30,6 +30,8 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+
         $oldGroups = ['buzz', 'general'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
