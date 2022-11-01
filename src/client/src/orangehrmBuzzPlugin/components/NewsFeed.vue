@@ -39,7 +39,9 @@
           :posted-date="post.createdTime"
         >
           <template #content>
-            <oxd-text>{{ post.text }}</oxd-text>
+            <oxd-text v-if="post.text" tag="p">
+              {{ post.text }} {{ post.type }}
+            </oxd-text>
           </template>
           <template #actionButton>
             <post-actions
@@ -67,6 +69,12 @@
       class="orangehrm-buzz-newsfeed-loader"
     />
   </div>
+  <share-post-modal
+    v-if="showShareModal"
+    :employee="employee"
+    :data="shareModalState"
+    @close="onCloseShareModal"
+  ></share-post-modal>
 </template>
 
 <script>
@@ -79,6 +87,7 @@ import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
 import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
+import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
 
 const defaultFilters = {
   priority: 'most_recent', // most_recent | most_likes | most_comments
@@ -88,12 +97,13 @@ export default {
   name: 'NewsFeed',
 
   components: {
-    'post-container': PostContainer,
-    'create-post': CreatePost,
     'post-stats': PostStats,
+    'create-post': CreatePost,
     'post-actions': PostActions,
     'post-filters': PostFilters,
     'oxd-loading-spinner': Spinner,
+    'post-container': PostContainer,
+    'share-post-modal': SharePostModal,
   },
 
   props: {
@@ -119,6 +129,8 @@ export default {
         ...defaultFilters,
       },
       isLoading: false,
+      showShareModal: false,
+      shareModalState: null,
     });
 
     const fetchData = () => {
@@ -165,14 +177,19 @@ export default {
         });
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onShare = index => {
-      // todo
+      state.showShareModal = true;
+      state.shareModalState = state.posts[index];
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onComment = index => {
       // todo
+    };
+
+    const onCloseShareModal = () => {
+      state.showShareModal = false;
+      state.shareModalState = null;
     };
 
     onBeforeMount(() => fetchData());
@@ -183,6 +200,7 @@ export default {
       onComment,
       fetchData,
       onUpdatePriority,
+      onCloseShareModal,
       ...toRefs(state),
     };
   },

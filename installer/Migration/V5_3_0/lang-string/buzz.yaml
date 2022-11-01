@@ -68,3 +68,6 @@ langStrings:
   -
     value: 'Maximum allowed file size is 2MB'
     unitId: file_size_validation_message
+  -
+    value: 'Share Post'
+    unitId: share_post

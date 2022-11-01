@@ -21,8 +21,7 @@
 <template>
   <post-modal
     :loading="isLoading"
-    :disabled="isDisabled"
-    :title="$t('buzz.share_photos')"
+    :title="$t('buzz.share_post')"
     @submit="onSubmit"
     @close="$emit('close', false)"
   >
@@ -34,7 +33,19 @@
       >
       </oxd-buzz-post-input>
     </template>
-    <photo-input v-model="post.photos" />
+    <video-frame v-if="data.type === 'video'" :video-src="data.video">
+    </video-frame>
+    <photo-frame v-if="data.type === 'photo'" :media="data.photo">
+    </photo-frame>
+    <oxd-text tag="p" class="orangehrm-buzz-share-employee">
+      {{ employeeFullName }}
+    </oxd-text>
+    <oxd-text tag="p" class="orangehrm-buzz-share-date">
+      {{ postDate }}
+    </oxd-text>
+    <oxd-text v-if="data.text" tag="p">
+      {{ data.text }}
+    </oxd-text>
   </post-modal>
 </template>
 
@@ -44,30 +55,39 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {computed, reactive, toRefs} from 'vue';
+import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal';
-import PhotoInput from '@/orangehrmBuzzPlugin/components/PhotoInput';
+import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
+import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
-  name: 'SharePhotoModal',
+  name: 'SharePostModal',
 
   components: {
     'post-modal': PostModal,
-    'photo-input': PhotoInput,
+    'photo-frame': PhotoFrame,
+    'video-frame': VideoFrame,
     'oxd-buzz-post-input': BuzzPostInput,
   },
 
   props: {
-    text: {
-      type: String,
-      default: null,
+    data: {
+      type: Object,
+      required: true,
     },
   },
 
   emits: ['close'],
 
   setup(props, context) {
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const rules = {
       text: [required, shouldNotExceedCharLength(63535)],
     };
@@ -75,8 +95,7 @@ export default {
 
     const state = reactive({
       post: {
-        text: props.text || null,
-        photos: [],
+        text: null,
       },
       isLoading: false,
     });
@@ -86,19 +105,44 @@ export default {
       http
         .create({
           text: state.post.text,
-          photos: state.post.photos,
+          parentPostId: props.data.id,
         })
         .then(() => context.emit('close', true));
     };
 
-    const isDisabled = computed(() => state.post.photos.length === 0);
+    const employeeFullName = computed(() => {
+      return $tEmpName(props.data.employee, {
+        includeMiddle: true,
+        excludePastEmpTag: false,
+      });
+    });
+
+    const postDate = computed(() => {
+      return formatDate(parseDate(props.data.createdTime), jsDateFormat, {
+        locale,
+      });
+    });
 
     return {
       rules,
       onSubmit,
-      isDisabled,
+      postDate,
+      employeeFullName,
       ...toRefs(state),
     };
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-buzz-share {
+  &-employee {
+    font-size: 1.2rem;
+  }
+  &-date {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    color: $oxd-interface-gray-color;
+  }
+}
+</style>

@@ -145,9 +145,10 @@ class BuzzMockAPIController extends AbstractController
         );
 
         for ($postCount = 0; $postCount < 50; $postCount++) {
+            $postType = ['text', 'photo', 'video'][rand(0, 2)];
             array_push($posts, [
                 'id' => $postCount + 1,
-                'type' => 'text', // text | photo | video
+                'type' => $postType,
                 'like' => rand(0, 1) === 1,
                 'text' => implode(" ", array_slice([...$mockData], rand(0, 10), rand(1, 25))),
                 'employee' => [
@@ -165,6 +166,14 @@ class BuzzMockAPIController extends AbstractController
                 ],
                 'createdTime' => date('Y-m-d', rand(1262055681, time())),
                 'updatedtime' => date('Y-m-d', rand(1262055681, time())),
+                'parentPost' => null,
+                'video' => $postType === 'video' ? 'https://www.youtube.com/watch?v=qMCMgedYqac' : null,
+                'photo' => $postType === 'photo' ? array_fill(0, rand(0, 4), [
+                    "name" => "test",
+                    "size" => 193324,
+                    "type" => "image/png",
+                    "base64" => "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
+                ]) : null,
             ]);
         }
 
