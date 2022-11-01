@@ -26,7 +26,7 @@ use DateTime;
  * @ORM\Table(name="ohrm_buzz_like_on_share")
  * @ORM\Entity
  */
-class LikeOnShare
+class BuzzLikeOnShare
 {
     /**
      * @var int
@@ -38,17 +38,17 @@ class LikeOnShare
     private int $id;
 
     /**
-     * @var Share
+     * @var BuzzShare
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Share")
      * @ORM\JoinColumn(name="share_id", referencedColumnName="id")
      */
-    private Share $share;
+    private BuzzShare $share;
 
     /**
      * @var Employee|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="likeOnShare", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
      * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number", nullable=true)
      */
     private ?Employee $employee = null;
@@ -77,17 +77,17 @@ class LikeOnShare
     }
 
     /**
-     * @return Share
+     * @return BuzzShare
      */
-    public function getShare(): Share
+    public function getShare(): BuzzShare
     {
         return $this->share;
     }
 
     /**
-     * @param Share $share
+     * @param BuzzShare $share
      */
-    public function setShare(Share $share): void
+    public function setShare(BuzzShare $share): void
     {
         $this->share = $share;
     }

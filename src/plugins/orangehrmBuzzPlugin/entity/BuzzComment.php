@@ -24,16 +24,16 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use DateTime;
 
 /**
- * @ORM\Table(name="ohrm_buzz_post")
+ * @ORM\Table(name="ohrm_buzz_comment")
  * @ORM\Entity
  */
-class Post
+class BuzzComment
 {
     use DateTimeHelperTrait;
 
     /**
      * @var int
-     * 
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -41,26 +41,41 @@ class Post
     private int $id;
 
     /**
+     * @var BuzzShare
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Share")
+     * @ORM\JoinColumn(name="share_id", referencedColumnName="id")
+     */
+    private BuzzShare $share;
+
+    /**
      * @var Employee|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="post", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
      * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number", nullable=true)
      */
     private ?Employee $employee = null;
 
     /**
+     * @var int|null
+     *
+     * @ORM\Column(name="number_of_likes", type="int", length=6, nullable=true)
+     */
+    private ?int $numOfLikes = null;
+
+    /**
      * @var string|null
      *
-     * @ORM\Column(name="text", type="string", nullable=true)
+     * @ORM\Column(name="comment_text",  type="string", nullable=true)
      */
     private ?string $text = null;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="post_time", type="datetime")
+     * @ORM\Column(name="comment_time", type="datetime")
      */
-    private DateTime $postTime;
+    private DateTime $commentTime;
 
     /**
      * @var DateTime
@@ -72,6 +87,8 @@ class Post
     public function __construct()
     {
         $this->setUpdatedAt($this->getDateTimeHelper()->getNow());
+        $this->setCommentTime($this->getDateTimeHelper()->getNow());
+        $this->setNumOfLikes(0);
     }
 
     /**
@@ -88,6 +105,38 @@ class Post
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return BuzzShare
+     */
+    public function getShare(): BuzzShare
+    {
+        return $this->share;
+    }
+
+    /**
+     * @param BuzzShare $share
+     */
+    public function setShare(BuzzShare $share): void
+    {
+        $this->share = $share;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNumOfLikes(): ?int
+    {
+        return $this->numOfLikes;
+    }
+
+    /**
+     * @param int|null $numOfLikes
+     */
+    public function setNumOfLikes(?int $numOfLikes): void
+    {
+        $this->numOfLikes = $numOfLikes;
     }
 
     /**
@@ -125,17 +174,17 @@ class Post
     /**
      * @return DateTime
      */
-    public function getPostTime(): DateTime
+    public function getCommentTime(): DateTime
     {
-        return $this->postTime;
+        return $this->commentTime;
     }
 
     /**
-     * @param DateTime $postTime
+     * @param DateTime $commentTime
      */
-    public function setPostTime(DateTime $postTime): void
+    public function setCommentTime(DateTime $commentTime): void
     {
-        $this->postTime = $postTime;
+        $this->commentTime = $commentTime;
     }
 
     /**

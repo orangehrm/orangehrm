@@ -551,41 +551,6 @@ class Employee
     private iterable $attendanceRecords;
 
     /**
-     * @var Post[]
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Post", mappedBy="employee")
-     */
-    private iterable $post;
-
-    /**
-     * @var Comment[]
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Post", mappedBy="employee")
-     */
-    private iterable $comment;
-
-    /**
-     * @var Share[]
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Share", mappedBy="employee")
-     */
-    private iterable $share;
-
-    /**
-     * @var LikeOnShare[]
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\LikeOnShare", mappedBy="employee")
-     */
-    private iterable $likeOnShare;
-
-    /**
-     * @var LikeOnComment[]
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\LikeOnComment", mappedBy="employee")
-     */
-    private iterable $likeOnComment;
-
-    /**
      * Constructor
      */
     public function __construct()

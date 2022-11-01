@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ohrm_buzz_photo")
  * @ORM\Entity
  */
-class Photo
+class BuzzPhoto
 {
     /**
      * @var int

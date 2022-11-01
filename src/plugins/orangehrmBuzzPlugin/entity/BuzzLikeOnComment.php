@@ -26,7 +26,7 @@ use DateTime;
  * @ORM\Table(name="ohrm_buzz_like_on_comment")
  * @ORM\Entity
  */
-class LikeOnComment
+class BuzzLikeOnComment
 {
     /**
      * @var int
@@ -48,7 +48,7 @@ class LikeOnComment
     /**
      * @var Employee|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="likeOnComment", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
      * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number", nullable=true)
      */
     private ?Employee $employee = null;
