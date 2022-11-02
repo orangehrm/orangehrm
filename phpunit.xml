@@ -68,5 +68,8 @@
     <testsuite name="LDAP">
       <directory>src/plugins/orangehrmLDAPAuthenticationPlugin/test</directory>
     </testsuite>
+    <testsuite name="Buzz">
+      <directory>src/plugins/orangehrmBuzzPlugin/test</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
