@@ -19,14 +19,14 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="ohrm_buzz_like_on_share")
  * @ORM\Entity
  */
-class LikeOnShare
+class BuzzLikeOnShare
 {
     /**
      * @var int
@@ -38,27 +38,27 @@ class LikeOnShare
     private int $id;
 
     /**
-     * @var Share
+     * @var BuzzShare
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Share")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\BuzzShare")
      * @ORM\JoinColumn(name="share_id", referencedColumnName="id")
      */
-    private Share $share;
+    private BuzzShare $share;
 
     /**
-     * @var Employee|null
+     * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="likeOnShare", cascade={"persist"})
-     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number", nullable=true)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
      */
-    private ?Employee $employee = null;
+    private Employee $employee;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="like_time", type="datetime")
      */
-    private DateTime $likeTime;
+    private DateTime $likedAt;
 
     /**
      * @return int
@@ -77,33 +77,33 @@ class LikeOnShare
     }
 
     /**
-     * @return Share
+     * @return BuzzShare
      */
-    public function getShare(): Share
+    public function getShare(): BuzzShare
     {
         return $this->share;
     }
 
     /**
-     * @param Share $share
+     * @param BuzzShare $share
      */
-    public function setShare(Share $share): void
+    public function setShare(BuzzShare $share): void
     {
         $this->share = $share;
     }
 
     /**
-     * @return Employee|null
+     * @return Employee
      */
-    public function getEmployee(): ?Employee
+    public function getEmployee(): Employee
     {
         return $this->employee;
     }
 
     /**
-     * @param Employee|null $employee
+     * @param Employee $employee
      */
-    public function setEmployee(?Employee $employee): void
+    public function setEmployee(Employee $employee): void
     {
         $this->employee = $employee;
     }
@@ -111,16 +111,16 @@ class LikeOnShare
     /**
      * @return DateTime
      */
-    public function getLikeTime(): DateTime
+    public function getLikedAt(): DateTime
     {
-        return $this->likeTime;
+        return $this->likedAt;
     }
 
     /**
-     * @param DateTime $likeTime
+     * @param DateTime $likedAt
      */
-    public function setLikeTime(DateTime $likeTime): void
+    public function setLikedAt(DateTime $likedAt): void
     {
-        $this->likeTime = $likeTime;
+        $this->likedAt = $likedAt;
     }
 }

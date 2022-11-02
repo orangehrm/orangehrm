@@ -19,14 +19,14 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_buzz_like_on_comment")
+ * @ORM\Table(name="ohrm_buzz_post")
  * @ORM\Entity
  */
-class LikeOnComment
+class BuzzPost
 {
     /**
      * @var int
@@ -38,27 +38,33 @@ class LikeOnComment
     private int $id;
 
     /**
-     * @var Comment
+     * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Comment")
-     * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
      */
-    private Comment $comment;
+    private Employee $employee;
 
     /**
-     * @var Employee|null
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="likeOnComment", cascade={"persist"})
-     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number", nullable=true)
+     * @ORM\Column(name="text", type="text")
      */
-    private ?Employee $employee = null;
+    private string $text;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="like_time", type="datetime")
+     * @ORM\Column(name="post_time", type="datetime")
      */
-    private DateTime $likeTime;
+    private DateTime $createdAt;
+
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private DateTime $updatedAt;
 
     /**
      * @return int
@@ -77,50 +83,66 @@ class LikeOnComment
     }
 
     /**
-     * @return Comment
+     * @return Employee
      */
-    public function getComment(): Comment
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param Comment $comment
-     */
-    public function setComment(Comment $comment): void
-    {
-        $this->comment = $comment;
-    }
-
-    /**
-     * @return Employee|null
-     */
-    public function getEmployee(): ?Employee
+    public function getEmployee(): Employee
     {
         return $this->employee;
     }
 
     /**
-     * @param Employee|null $employee
+     * @param Employee $employee
      */
-    public function setEmployee(?Employee $employee): void
+    public function setEmployee(Employee $employee): void
     {
         $this->employee = $employee;
     }
 
     /**
-     * @return DateTime
+     * @return string
      */
-    public function getLikeTime(): DateTime
+    public function getText(): string
     {
-        return $this->likeTime;
+        return $this->text;
     }
 
     /**
-     * @param DateTime $likeTime
+     * @param string $text
      */
-    public function setLikeTime(DateTime $likeTime): void
+    public function setText(string $text): void
     {
-        $this->likeTime = $likeTime;
+        $this->text = $text;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param DateTime $updatedAt
+     */
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

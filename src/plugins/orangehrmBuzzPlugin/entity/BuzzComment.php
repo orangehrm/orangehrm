@@ -19,21 +19,18 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_buzz_post")
+ * @ORM\Table(name="ohrm_buzz_comment")
  * @ORM\Entity
  */
-class Post
+class BuzzComment
 {
-    use DateTimeHelperTrait;
-
     /**
      * @var int
-     * 
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -41,26 +38,41 @@ class Post
     private int $id;
 
     /**
-     * @var Employee|null
+     * @var BuzzShare
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="post", cascade={"persist"})
-     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number", nullable=true)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\BuzzShare")
+     * @ORM\JoinColumn(name="share_id", referencedColumnName="id")
      */
-    private ?Employee $employee = null;
+    private BuzzShare $share;
 
     /**
-     * @var string|null
+     * @var Employee
      *
-     * @ORM\Column(name="text", type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
      */
-    private ?string $text = null;
+    private Employee $employee;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="number_of_likes", type="integer", nullable=true)
+     */
+    private int $numOfLikes = 0;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment_text",  type="string")
+     */
+    private string $text;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="post_time", type="datetime")
+     * @ORM\Column(name="comment_time", type="datetime")
      */
-    private DateTime $postTime;
+    private DateTime $createdAt;
 
     /**
      * @var DateTime
@@ -68,11 +80,6 @@ class Post
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private DateTime $updatedAt;
-
-    public function __construct()
-    {
-        $this->setUpdatedAt($this->getDateTimeHelper()->getNow());
-    }
 
     /**
      * @return int
@@ -91,33 +98,65 @@ class Post
     }
 
     /**
-     * @return Employee|null
+     * @return BuzzShare
      */
-    public function getEmployee(): ?Employee
+    public function getShare(): BuzzShare
+    {
+        return $this->share;
+    }
+
+    /**
+     * @param BuzzShare $share
+     */
+    public function setShare(BuzzShare $share): void
+    {
+        $this->share = $share;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
     {
         return $this->employee;
     }
 
     /**
-     * @param Employee|null $employee
+     * @param Employee $employee
      */
-    public function setEmployee(?Employee $employee): void
+    public function setEmployee(Employee $employee): void
     {
         $this->employee = $employee;
     }
 
     /**
-     * @return string|null
+     * @return int
      */
-    public function getText(): ?string
+    public function getNumOfLikes(): int
+    {
+        return $this->numOfLikes;
+    }
+
+    /**
+     * @param int $numOfLikes
+     */
+    public function setNumOfLikes(int $numOfLikes): void
+    {
+        $this->numOfLikes = $numOfLikes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText(): string
     {
         return $this->text;
     }
 
     /**
-     * @param string|null $text
+     * @param string $text
      */
-    public function setText(?string $text): void
+    public function setText(string $text): void
     {
         $this->text = $text;
     }
@@ -125,17 +164,17 @@ class Post
     /**
      * @return DateTime
      */
-    public function getPostTime(): DateTime
+    public function getCreatedAt(): DateTime
     {
-        return $this->postTime;
+        return $this->createdAt;
     }
 
     /**
-     * @param DateTime $postTime
+     * @param DateTime $createdAt
      */
-    public function setPostTime(DateTime $postTime): void
+    public function setCreatedAt(DateTime $createdAt): void
     {
-        $this->postTime = $postTime;
+        $this->createdAt = $createdAt;
     }
 
     /**

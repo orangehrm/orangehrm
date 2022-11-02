@@ -19,17 +19,17 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="ohrm_buzz_share")
  * @ORM\Entity
  */
-class Share
+class BuzzShare
 {
-    use DateTimeHelperTrait;
+    public const TYPE_POST = 0;
+    public const TYPE_SHARE = 1;
 
     /**
      * @var int
@@ -41,55 +41,55 @@ class Share
     private int $id;
 
     /**
-     * @var Post
+     * @var BuzzPost
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\BuzzPost")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    private Post $post;
+    private BuzzPost $post;
 
     /**
-     * @var Employee|null
+     * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="share", cascade={"persist"})
-     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number", nullable=true)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
      */
-    private ?Employee $employee = null;
+    private Employee $employee;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="number_of_likes", type="int", length=6, nullable=true)
+     * @ORM\Column(name="number_of_likes", type="integer", nullable=true)
      */
-    private ?int $numOfLikes = null;
+    private int $numOfLikes = 0;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="number_of_comments", type="int", length=6, nullable=true)
+     * @ORM\Column(name="number_of_comments", type="integer", nullable=true)
      */
-    private ?int $numOfComments = null;
+    private int $numOfComments = 0;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="type", type="smallint", nullable=true)
+     */
+    private int $type = self::TYPE_POST;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="text", type="text", nullable=true)
+     */
+    private ?string $text = null;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="share_time", type="datetime")
      */
-    private DateTime $shareTime;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="type", type="int", length=1, nullable=true)
-     */
-    private ?int $type = null;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="text", type="string", nullable=true)
-     */
-    private ?string $text = null;
+    private DateTime $createdAt;
 
     /**
      * @var DateTime
@@ -97,11 +97,6 @@ class Share
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private DateTime $updatedAt;
-
-    public function __construct()
-    {
-        $this->setUpdatedAt($this->getDateTimeHelper()->getNow());
-    }
 
     /**
      * @return int
@@ -120,97 +115,81 @@ class Share
     }
 
     /**
-     * @return Post
+     * @return BuzzPost
      */
-    public function getPost(): Post
+    public function getPost(): BuzzPost
     {
         return $this->post;
     }
 
     /**
-     * @param Post $post
+     * @param BuzzPost $post
      */
-    public function setPost(Post $post): void
+    public function setPost(BuzzPost $post): void
     {
         $this->post = $post;
     }
 
     /**
-     * @return Employee|null
+     * @return Employee
      */
-    public function getEmployee(): ?Employee
+    public function getEmployee(): Employee
     {
         return $this->employee;
     }
 
     /**
-     * @param Employee|null $employee
+     * @param Employee $employee
      */
-    public function setEmployee(?Employee $employee): void
+    public function setEmployee(Employee $employee): void
     {
         $this->employee = $employee;
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getNumOfLikes(): ?int
+    public function getNumOfLikes(): int
     {
         return $this->numOfLikes;
     }
 
     /**
-     * @param int|null $numOfLikes
+     * @param int $numOfLikes
      */
-    public function setNumOfLikes(?int $numOfLikes): void
+    public function setNumOfLikes(int $numOfLikes): void
     {
         $this->numOfLikes = $numOfLikes;
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getNumOfComments(): ?int
+    public function getNumOfComments(): int
     {
         return $this->numOfComments;
     }
 
     /**
-     * @param int|null $numOfComments
+     * @param int $numOfComments
      */
-    public function setNumOfComments(?int $numOfComments): void
+    public function setNumOfComments(int $numOfComments): void
     {
         $this->numOfComments = $numOfComments;
     }
 
     /**
-     * @return DateTime
+     * @return int
      */
-    public function getShareTime(): DateTime
-    {
-        return $this->shareTime;
-    }
-
-    /**
-     * @param DateTime $shareTime
-     */
-    public function setShareTime(DateTime $shareTime): void
-    {
-        $this->shareTime = $shareTime;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getType(): ?int
+    public function getType(): int
     {
         return $this->type;
     }
 
     /**
-     * @param int|null $type
+     * @param int $type
      */
-    public function setType(?int $type): void
+    public function setType(int $type): void
     {
         $this->type = $type;
     }
@@ -229,6 +208,22 @@ class Share
     public function setText(?string $text): void
     {
         $this->text = $text;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**

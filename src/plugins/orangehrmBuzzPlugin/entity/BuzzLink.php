@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ohrm_buzz_link")
  * @ORM\Entity
  */
-class Link
+class BuzzLink
 {
     /**
      * @var int
@@ -37,31 +37,33 @@ class Link
     private int $id;
 
     /**
-     * @var Post
+     * @var BuzzPost
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\BuzzPost")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    private Post $post;
+    private BuzzPost $post;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="link", type="string")
+     * @ORM\Column(name="link", type="text")
      */
     private string $link;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="type", type="int", length=2, nullable=true)
+     * @ORM\Column(name="type", type="smallint")
+     * @deprecated
      */
-    private ?int $type = null;
+    private int $type;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="title", type="string", length=600, nullable=true)
+     * @deprecated
      */
     private ?string $title = null;
 
@@ -69,6 +71,7 @@ class Link
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", nullable=true)
+     * @deprecated
      */
     private ?string $description = null;
 
@@ -89,21 +92,21 @@ class Link
     }
 
     /**
-     * @return Post
+     * @return BuzzPost
      */
-    public function getPost(): Post
+    public function getPost(): BuzzPost
     {
         return $this->post;
     }
 
     /**
-     * @param Post $post
+     * @param BuzzPost $post
      */
-    public function setPost(Post $post): void
+    public function setPost(BuzzPost $post): void
     {
         $this->post = $post;
     }
-    
+
     /**
      * @return string
      */
@@ -122,6 +125,7 @@ class Link
 
     /**
      * @return int|null
+     * @deprecated
      */
     public function getType(): ?int
     {
@@ -130,6 +134,7 @@ class Link
 
     /**
      * @param int|null $type
+     * @deprecated
      */
     public function setType(?int $type): void
     {
@@ -138,6 +143,7 @@ class Link
 
     /**
      * @return string|null
+     * @deprecated
      */
     public function getTitle(): ?string
     {
@@ -146,6 +152,7 @@ class Link
 
     /**
      * @param string|null $title
+     * @deprecated
      */
     public function setTitle(?string $title): void
     {
@@ -154,6 +161,7 @@ class Link
 
     /**
      * @return string|null
+     * @deprecated
      */
     public function getDescription(): ?string
     {
@@ -162,6 +170,7 @@ class Link
 
     /**
      * @param string|null $description
+     * @deprecated
      */
     public function setDescription(?string $description): void
     {

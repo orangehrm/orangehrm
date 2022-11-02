@@ -36,6 +36,11 @@ class Migration extends AbstractMigration
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
+
+        $this->getSchemaManager()->dropTable('ohrm_buzz_unlike_on_comment');
+        $this->getSchemaManager()->dropTable('ohrm_buzz_unlike_on_share');
+        $this->getSchemaHelper()->dropColumn('ohrm_buzz_share', 'number_of_unlikes');
+        $this->getSchemaHelper()->dropColumn('ohrm_buzz_comment', 'number_of_unlikes');
     }
 
     /**
