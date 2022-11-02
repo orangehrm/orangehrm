@@ -34,7 +34,7 @@ class BuzzShare
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -73,7 +73,7 @@ class BuzzShare
     /**
      * @var int
      *
-     * @ORM\Column(name="type", type="smallint", nullable=true)
+     * @ORM\Column(name="type", type="smallint")
      */
     private int $type = self::TYPE_POST;
 

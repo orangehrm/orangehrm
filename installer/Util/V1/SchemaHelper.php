@@ -67,6 +67,20 @@ class SchemaHelper
 
     /**
      * @param string $tableName
+     * @param string[] $columnNames
+     */
+    public function dropColumns(string $tableName, array $columnNames): void
+    {
+        $removedColumns = [];
+        foreach ($columnNames as $columnName) {
+            $removedColumns[] = $this->getTableColumn($tableName, $columnName);
+        }
+        $diff = new TableDiff($tableName, [], [], $removedColumns);
+        $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * @param string $tableName
      * @param string $columnName
      * @return Column|null
      */

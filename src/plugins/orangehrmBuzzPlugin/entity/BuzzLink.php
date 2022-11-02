@@ -30,7 +30,7 @@ class BuzzLink
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -50,30 +50,6 @@ class BuzzLink
      * @ORM\Column(name="link", type="text")
      */
     private string $link;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="type", type="smallint")
-     * @deprecated
-     */
-    private int $type;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="title", type="string", length=600, nullable=true)
-     * @deprecated
-     */
-    private ?string $title = null;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="string", nullable=true)
-     * @deprecated
-     */
-    private ?string $description = null;
 
     /**
      * @return int
@@ -121,59 +97,5 @@ class BuzzLink
     public function setLink(string $link): void
     {
         $this->link = $link;
-    }
-
-    /**
-     * @return int|null
-     * @deprecated
-     */
-    public function getType(): ?int
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param int|null $type
-     * @deprecated
-     */
-    public function setType(?int $type): void
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * @return string|null
-     * @deprecated
-     */
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string|null $title
-     * @deprecated
-     */
-    public function setTitle(?string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string|null
-     * @deprecated
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string|null $description
-     * @deprecated
-     */
-    public function setDescription(?string $description): void
-    {
-        $this->description = $description;
     }
 }

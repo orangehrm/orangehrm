@@ -31,7 +31,7 @@ class BuzzComment
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -63,7 +63,7 @@ class BuzzComment
     /**
      * @var string
      *
-     * @ORM\Column(name="comment_text",  type="string")
+     * @ORM\Column(name="comment_text",  type="string", nullable=true)
      */
     private string $text;
 

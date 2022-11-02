@@ -31,7 +31,7 @@ class BuzzPost
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -46,11 +46,11 @@ class BuzzPost
     private Employee $employee;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="text", type="text")
+     * @ORM\Column(name="text", type="text", nullable=true)
      */
-    private string $text;
+    private ?string $text = null;
 
     /**
      * @var DateTime
@@ -99,17 +99,17 @@ class BuzzPost
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getText(): string
+    public function getText(): ?string
     {
         return $this->text;
     }
 
     /**
-     * @param string $text
+     * @param string|null $text
      */
-    public function setText(string $text): void
+    public function setText(?string $text): void
     {
         $this->text = $text;
     }

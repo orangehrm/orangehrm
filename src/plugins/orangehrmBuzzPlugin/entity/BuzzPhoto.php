@@ -30,7 +30,7 @@ class BuzzPhoto
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -47,42 +47,42 @@ class BuzzPhoto
     /**
      * @var string|resource
      *
-     * @ORM\Column(name="photo", type="blob")
+     * @ORM\Column(name="photo", type="blob", nullable=true)
      */
     private $photo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="filename", type="string", length=100)
+     * @ORM\Column(name="filename", type="string", length=100, nullable=true)
      */
     private string $filename;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="file_type", type="string", length=50)
+     * @ORM\Column(name="file_type", type="string", length=50, nullable=true)
      */
     private string $fileType;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="size", type="string", length=20)
+     * @ORM\Column(name="size", type="string", length=20, nullable=true)
      */
     private string $size;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="width", type="string", length=20)
+     * @ORM\Column(name="width", type="string", length=20, nullable=true)
      */
     private string $width;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="height", type="string", length=20)
+     * @ORM\Column(name="height", type="string", length=20, nullable=true)
      */
     private string $height;
 
