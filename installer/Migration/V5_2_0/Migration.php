@@ -350,11 +350,11 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $qb = $this->createQueryBuilder()
-            ->select('groups.id')
-            ->from('ohrm_i18n_group', 'groups')
-            ->andWhere('groups.name = :name')
+            ->select('ohrm_i18n_group.id')
+            ->from('ohrm_i18n_group')
+            ->andWhere('ohrm_i18n_group.name = :name')
             ->setParameter('name', 'help')
-            ->addOrderBy('id', 'DESC');
+            ->orderBy('ohrm_i18n_group.id', 'DESC');
         $ids = $qb->executeQuery()->fetchFirstColumn();
         $helpGroupId = array_pop($ids);
 
