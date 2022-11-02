@@ -29,7 +29,7 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  * @group Buzz
  * @group APIv2
  */
-class EmployeeAnniversariesAPITest extends EndpointIntegrationTestCase
+class EmployeeAnniversaryAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetAll
