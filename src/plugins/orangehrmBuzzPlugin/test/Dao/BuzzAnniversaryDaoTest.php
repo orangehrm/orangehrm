@@ -20,7 +20,6 @@
 namespace OrangeHRM\Tests\Buzz\Dao;
 
 use DateTime;
-use Exception;
 use OrangeHRM\Buzz\Dao\BuzzAnniversaryDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;

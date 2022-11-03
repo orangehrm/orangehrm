@@ -68,24 +68,10 @@
         <exclude name="orangehrm-quick-start-guide.html"/>
         <exclude name="src/test/**"/>
 
-        <exclude name="src/plugins/orangehrmAdminPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmAuthenticationPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmCoreOAuthPlugin/lib/**"/>
-        <exclude name="src/plugins/orangehrmCorePlugin/lib/**"/>
-        <exclude name="src/plugins/orangehrmPimPlugin/lib/**"/>
-
-        <exclude name="src/plugins/orangehrmAttendancePlugin/lib"/>
-        <exclude name="src/plugins/orangehrmBuzzPlugin/lib"/>
-        <exclude name="src/plugins/orangehrmCoreWebServicePlugin/**"/>
-        <exclude name="src/plugins/orangehrmCorporateBrandingPlugin/lib"/>
-        <exclude name="src/plugins/orangehrmCorporateDirectoryPlugin/lib"/>
-        <exclude name="src/plugins/orangehrmDashboardPlugin/lib"/>
-        <exclude name="src/plugins/orangehrmMaintenancePlugin/lib"/>
         <exclude name="src/plugins/orangehrmMarketPlacePlugin/lib"/>
         <exclude name="src/plugins/orangehrmOpenidAuthenticationPlugin/**"/>
-        <exclude name="src/plugins/orangehrmPerformancePlugin/lib"/>
-        <exclude name="src/plugins/orangehrmPerformanceTrackerPlugin/**"/>
-        <exclude name="src/plugins/orangehrmRecruitmentPlugin/lib"/>
         <exclude name="src/plugins/orangehrmRESTPlugin/**"/>
 
         <!-- 5.x related -->

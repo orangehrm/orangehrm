@@ -289,8 +289,8 @@ GetAll:
       1:
         employee:
           empNumber: 30
-          lastName: 'Ferdinand'
-          firstName: 'Porsche'
+          firstName: 'Ferdinand'
+          lastName: 'Porsche'
           middleName: ''
           employeeId: null
           terminationId: null

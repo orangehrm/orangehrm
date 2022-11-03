@@ -86,7 +86,8 @@
                 "./plugins/orangehrmI18NPlugin/entity",
                 "./plugins/orangehrmRecruitmentPlugin/entity",
                 "./plugins/orangehrmCorporateBrandingPlugin/entity",
-                "./plugins/orangehrmLDAPAuthenticationPlugin/entity"
+                "./plugins/orangehrmLDAPAuthenticationPlugin/entity",
+                "./plugins/orangehrmBuzzPlugin/entity"
             ]
         }
     },
