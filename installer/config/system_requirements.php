@@ -26,7 +26,7 @@ return [
 
     'mysqlversion' => [
         'min' => '5.5',
-        'max' => '5.7',
+        'max' => '8.0',
         'excludeRange' => [],
     ],
 

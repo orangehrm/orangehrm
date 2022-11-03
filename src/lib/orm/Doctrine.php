@@ -24,6 +24,7 @@ use Doctrine\ORM\ORMSetup;
 use OrangeHRM\Config\Config;
 use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 use OrangeHRM\ORM\Functions\TimeDiff;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class Doctrine
 {
@@ -41,18 +42,15 @@ class Doctrine
      */
     private function __construct()
     {
-        // TODO::fine tune doctrine with cache
         $isDevMode = false;
         $proxyDir = Config::get(Config::DOCTRINE_PROXY_DIR);
-        $cache = null;
-        $useSimpleAnnotationReader = false;
+        $cache = new ArrayAdapter();
         $paths = $this->getPaths();
         $config = ORMSetup::createAnnotationMetadataConfiguration(
             $paths,
             $isDevMode,
             $proxyDir,
-            $cache,
-            $useSimpleAnnotationReader
+            $cache
         );
         $config->setAutoGenerateProxyClasses(true);
         $config->addCustomStringFunction('TIME_DIFF', TimeDiff::class);
@@ -62,18 +60,17 @@ class Doctrine
         }
 
         $conf = Config::getConf();
-        $dbUser = $conf->getDbUser();
-        $dbPass = $conf->getDbPass();
-        $dbHost = $conf->getDbHost();
-        $dbPort = $conf->getDbPort();
-        $dbName = $conf->getDbName();
-        $conn = [
+        $connectionParams = [
+            'dbname' => $conf->getDbName(),
+            'user' => $conf->getDbUser(),
+            'password' => $conf->getDbPass(),
+            'host' => $conf->getDbHost(),
+            'port' => $conf->getDbPort(),
             'driver' => 'pdo_mysql',
-            'url' => "mysql://$dbUser:$dbPass@$dbHost:$dbPort/$dbName",
             'charset' => 'utf8mb4'
         ];
 
-        self::$entityManager = EntityManager::create($conn, $config);
+        self::$entityManager = EntityManager::create($connectionParams, $config);
         self::$entityManager->getConnection()
             ->getDatabasePlatform()
             ->registerDoctrineTypeMapping('enum', 'string');
