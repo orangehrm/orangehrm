@@ -234,4 +234,15 @@ class BuzzFeedPost
     {
         return !empty(trim($this->videoLink));
     }
+
+    /**
+     * @return array
+     */
+    public function getPermission(): array
+    {
+        return [
+            'canUpdate' => $this->getBuzzService()->canUpdateBuzzFeedPost($this->employee['empNumber']),
+            'canDelete' => $this->getBuzzService()->canDeleteBuzzFeedPost($this->employee['empNumber']),
+        ];
+    }
 }

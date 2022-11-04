@@ -20,10 +20,14 @@
 namespace OrangeHRM\Buzz\Service;
 
 use OrangeHRM\Buzz\Dao\BuzzDao;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class BuzzService
 {
+    use UserRoleManagerTrait;
+
     private BuzzDao $buzzDao;
+    private array $buzzFeedPostPermissionCache = [];
 
     /**
      * @return BuzzDao
@@ -31,5 +35,25 @@ class BuzzService
     public function getBuzzDao(): BuzzDao
     {
         return $this->buzzDao ??= new BuzzDao();
+    }
+
+    public function canUpdateBuzzFeedPost(int $empNumber): bool
+    {
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
+        if (!isset($this->buzzFeedPostPermissionCache[$self])) {
+            $this->buzzFeedPostPermissionCache[$self] = $this->getUserRoleManager()
+                ->getDataGroupPermissions('buzz_post', [], [], $self);
+        }
+        return $this->buzzFeedPostPermissionCache[$self]->canUpdate();
+    }
+
+    public function canDeleteBuzzFeedPost(int $empNumber): bool
+    {
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
+        if (!isset($this->buzzFeedPostPermissionCache[$self])) {
+            $this->buzzFeedPostPermissionCache[$self] = $this->getUserRoleManager()
+                ->getDataGroupPermissions('buzz_post', [], [], $self);
+        }
+        return $this->buzzFeedPostPermissionCache[$self]->canDelete();
     }
 }

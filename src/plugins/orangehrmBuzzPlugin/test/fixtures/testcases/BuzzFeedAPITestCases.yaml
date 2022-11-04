@@ -3,6 +3,12 @@ GetAll:
     userId: 1
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
     data: [
@@ -28,6 +34,10 @@ GetAll:
         'originalPost': null,
         'liked': false,
         'video': { 'link': https://www.youtube.com/embed/qMCMgedYqac },
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
       },
       {
         'id': 4,
@@ -62,6 +72,10 @@ GetAll:
           'createdTime': '00:51',
         },
         'liked': false,
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
       }
     ]
     meta:
@@ -71,6 +85,12 @@ GetAll:
     userId: 1
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
       offset: 2
@@ -97,6 +117,10 @@ GetAll:
         'originalPost': null,
         'liked': false,
         'photoIds': [ 1,2,3,4 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
       },
       {
         'id': 2,
@@ -120,6 +144,10 @@ GetAll:
         'originalPost': null,
         'liked': false,
         'photoIds': [ 7 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
       }
     ]
     meta:
@@ -129,6 +157,12 @@ GetAll:
     userId: 1
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
       sortField: share.numOfLikes
@@ -156,6 +190,10 @@ GetAll:
         'originalPost': null,
         'liked': false,
         'photoIds': [ 7 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
       },
       {
         'id': 3,
@@ -179,6 +217,10 @@ GetAll:
         'originalPost': null,
         'liked': false,
         'photoIds': [ 1,2,3,4 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
       }
     ]
     meta:
@@ -188,6 +230,12 @@ GetAll:
     userId: 2
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
       sortField: share.numOfComments
@@ -214,6 +262,10 @@ GetAll:
         'createdTime': '00:51',
         'originalPost': null,
         'liked': false,
+        'permission': {
+          'canUpdate': true,
+          'canDelete': true
+        }
       },
       {
         'id': 2,
@@ -237,6 +289,10 @@ GetAll:
         'originalPost': null,
         'liked': true,
         'photoIds': [ 7 ],
+        'permission': {
+          'canUpdate': true,
+          'canDelete': true
+        }
       }
     ]
     meta:

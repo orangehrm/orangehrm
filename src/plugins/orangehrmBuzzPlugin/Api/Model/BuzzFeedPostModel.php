@@ -46,6 +46,7 @@ class BuzzFeedPostModel implements Normalizable
             'createdDate' => $this->buzzFeedPost->getCreatedDate(),
             'createdTime' => $this->buzzFeedPost->getCreatedTime(),
             'originalPost' => $this->buzzFeedPost->getOriginalPost(),
+            'permission' => $this->buzzFeedPost->getPermission(),
         ];
         if ($this->buzzFeedPost->hasVideo()) {
             $result['video'] = [
