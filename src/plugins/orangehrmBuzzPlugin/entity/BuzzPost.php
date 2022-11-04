@@ -22,13 +22,19 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\BuzzPostDecorator;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method BuzzPostDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_buzz_post")
  * @ORM\Entity
  */
 class BuzzPost
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
