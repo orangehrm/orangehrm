@@ -25,6 +25,9 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzShare;
+use Exception;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\BuzzPost;
 
 class BuzzDao extends BaseDao
 {
@@ -98,5 +101,20 @@ class BuzzDao extends BaseDao
             ->andWhere('photo.post = :postId')
             ->setParameter('postId', $postId);
         return $q->getQuery()->getSingleColumnResult();
+    }
+
+    /**
+    * @param BuzzPost $buzzPost
+     * @return BuzzPost
+     * @throws DaoException
+     */
+    public function saveBuzzPost(BuzzPost $buzzPost): BuzzPost
+    {
+        try {
+            $this->persist($buzzPost);
+            return $buzzPost;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
     }
 }

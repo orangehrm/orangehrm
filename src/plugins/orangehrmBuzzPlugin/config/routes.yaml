@@ -5,13 +5,27 @@ apiv2_buzz_feed:
   defaults:
     _api: OrangeHRM\Buzz\Api\BuzzFeedAPI
 
+apiv2_buzz_upcoming_anniversary:
+  path: /api/v2/buzz/anniversaries
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\EmployeeAnniversaryAPI
+
+apiv2_buzz_newsfeed_posts:
+  path: /api/v2/buzz/shares
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzShareAPI
+
 ##########################
 #       Mock API
 ##########################
-apiv2_buzz_newsfeed_posts:
-  path: /api/v2/buzz/posts
-  controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::getPosts
-  methods: [ GET ]
+#apiv2_buzz_newsfeed_posts:
+#  path: /api/v2/buzz/posts
+#  controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::getPosts
+#  methods: [ GET ]
 
 apiv2_buzz_newsfeed_update_post:
   path: /api/v2/buzz/posts/{postId?}
@@ -33,16 +47,10 @@ apiv2_buzz_post_shares:
   controller: OrangeHRM\Buzz\Controller\BuzzPostSharesMockController::getPostShares
   methods: [ GET ]
 
-apiv2_buzz_upcoming_anniversary:
-  path: /api/v2/buzz/anniversaries
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
-  defaults:
-    _api: OrangeHRM\Buzz\Api\EmployeeAnniversaryAPI
-
 ##########################
 #        Screens
 ##########################
+
 buzz_module:
   path: /buzz/viewBuzz
   controller: OrangeHRM\Buzz\Controller\BuzzController::handle
