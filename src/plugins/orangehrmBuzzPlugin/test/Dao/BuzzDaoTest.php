@@ -62,7 +62,7 @@ class BuzzDaoTest extends KernelTestCase
                 ],
                 'type' => 'video',
                 'shareId' => 5,
-                'createdData' => '2022-10-27',
+                'createdDate' => '2022-10-27',
                 'createdTime' => '00:58',
                 'originalPost' => null,
                 'liked' => false,
@@ -88,7 +88,7 @@ class BuzzDaoTest extends KernelTestCase
                 ],
                 'type' => 'text',
                 'shareId' => 4,
-                'createdData' => '2022-10-27',
+                'createdDate' => '2022-10-27',
                 'createdTime' => '00:54',
                 'originalPost' => [
                     'text' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
@@ -116,7 +116,7 @@ class BuzzDaoTest extends KernelTestCase
             $this->assertEquals($expected[$i]['stats'], $post->getStats());
             $this->assertEquals($expected[$i]['type'], $post->getType());
             $this->assertEquals($expected[$i]['shareId'], $post->getId());
-            $this->assertEquals($expected[$i]['createdData'], $post->getCreatedDate());
+            $this->assertEquals($expected[$i]['createdDate'], $post->getCreatedDate());
             $this->assertEquals($expected[$i]['createdTime'], $post->getCreatedTime());
             $this->assertEquals($expected[$i]['originalPost'], $post->getOriginalPost());
             $this->assertEquals($expected[$i]['liked'], $post->isLiked());
