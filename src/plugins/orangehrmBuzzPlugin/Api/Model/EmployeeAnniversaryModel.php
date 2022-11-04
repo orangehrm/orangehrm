@@ -23,6 +23,30 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Employee;
 
+/**
+ * @OA\Schema(
+ *     schema="Buzz-EmployeeAnniversaryModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     ),
+ *     @OA\Property(
+ *         property="jobTitle",
+ *         type="string",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="title", type="string"),
+ *         @OA\Property(property="isDeleted", type="boolean"),
+ *     ),
+ *     @OA\Property(property="joinedDate", type="date")
+ * )
+ */
 class EmployeeAnniversaryModel implements Normalizable
 {
     use ModelTrait;
