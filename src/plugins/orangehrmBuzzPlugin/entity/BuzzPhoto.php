@@ -39,7 +39,7 @@ class BuzzPhoto
     /**
      * @var BuzzPost
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\BuzzPost")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\BuzzPost", inversedBy="photos")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private BuzzPost $post;

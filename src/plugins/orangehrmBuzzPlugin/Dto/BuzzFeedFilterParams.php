@@ -17,23 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Buzz\Service\BuzzService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Buzz\Dto;
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\ORM\ListSorter;
+
+class BuzzFeedFilterParams extends FilterParams
 {
-    use ServiceContainerTrait;
+    public const ALLOWED_SORT_FIELDS = ['share.createdAt', 'share.numOfLikes', 'share.numOfComments'];
+
+    private int $authUserEmpNumber;
+
+    public function __construct()
+    {
+        $this->setSortField('share.createdAt');
+        $this->setSortOrder(ListSorter::DESCENDING);
+    }
 
     /**
-     * @inheritDoc
+     * @return int
      */
-    public function initialize(Request $request): void
+    public function getAuthUserEmpNumber(): int
     {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
+        return $this->authUserEmpNumber;
+    }
+
+    /**
+     * @param int $authUserEmpNumber
+     */
+    public function setAuthUserEmpNumber(int $authUserEmpNumber): void
+    {
+        $this->authUserEmpNumber = $authUserEmpNumber;
     }
 }

@@ -39,7 +39,7 @@ class BuzzLink
     /**
      * @var BuzzPost
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\BuzzPost")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\BuzzPost", inversedBy="links")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private BuzzPost $post;

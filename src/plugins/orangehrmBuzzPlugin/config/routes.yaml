@@ -1,3 +1,10 @@
+apiv2_buzz_feed:
+  path: /api/v2/buzz/feed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzFeedAPI
+
 ##########################
 #       Mock API
 ##########################
