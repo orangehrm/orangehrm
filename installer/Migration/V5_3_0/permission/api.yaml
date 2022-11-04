@@ -1,6 +1,7 @@
 ##########################
 #        Buzz
 ##########################
+
 apiv2_buzz_upcoming_anniversaries:
   description: 'Buzz - Upcoming Anniversaries'
   api: OrangeHRM\Buzz\Api\EmployeeAnniversaryAPI
@@ -11,5 +12,18 @@ apiv2_buzz_upcoming_anniversaries:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_buzz_feed:
+  description: 'Buzz - Feed'
+  api: OrangeHRM\Buzz\Api\BuzzFeedAPI
+  module: buzz
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }

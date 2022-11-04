@@ -64,7 +64,9 @@ class BuzzFeedAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            ...$this->getSortingAndPaginationParamsRules(BuzzFeedFilterParams::ALLOWED_SORT_FIELDS)
+        );
     }
 
     /**
