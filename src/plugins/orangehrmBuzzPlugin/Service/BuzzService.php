@@ -37,6 +37,10 @@ class BuzzService
         return $this->buzzDao ??= new BuzzDao();
     }
 
+    /**
+     * @param int $empNumber
+     * @return bool
+     */
     public function canUpdateBuzzFeedPost(int $empNumber): bool
     {
         $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
@@ -47,6 +51,10 @@ class BuzzService
         return $this->buzzFeedPostPermissionCache[$self]->canUpdate();
     }
 
+    /**
+     * @param int $empNumber
+     * @return bool
+     */
     public function canDeleteBuzzFeedPost(int $empNumber): bool
     {
         $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);

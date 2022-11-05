@@ -56,7 +56,6 @@ class BuzzFeedPostModel implements Normalizable
         if ($this->buzzFeedPost->hasPhotos()) {
             $result['photoIds'] = $this->buzzFeedPost->getPhotoIds();
         }
-        // TODO permission
         return $result;
     }
 }
