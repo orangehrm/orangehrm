@@ -567,7 +567,26 @@ class AppSetupUtility
      */
     public function getCurrentProductVersionFromDatabase(): ?string
     {
-        return $this->getConfigHelper()->getConfigValue('instance.version');
+        $instanceVersion = $this->getConfigHelper()->getConfigValue('instance.version');
+        if ($instanceVersion == null) {
+            return null;
+        }
+
+        $migrationMap = self::MIGRATIONS_MAP;
+        for (end($migrationMap); ($version = key($migrationMap)) !== null; prev($migrationMap)) {
+            $migrationClasses = current($migrationMap);
+            if (!is_array($migrationClasses)) {
+                $migrationClasses = [$migrationClasses];
+            }
+            foreach ($migrationClasses as $migrationClass) {
+                $migration = new $migrationClass();
+                if ($migration instanceof AbstractMigration && $migration->getVersion() == $instanceVersion) {
+                    return $version;
+                }
+            }
+        }
+
+        return null;
     }
 
     public function cleanUpInstallOnFailure(): void
