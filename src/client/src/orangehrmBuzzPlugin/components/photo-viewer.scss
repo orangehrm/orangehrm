@@ -1,0 +1,76 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-photo-viewer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  &-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    @include oxd-respond-to('lg') {
+      width: 80%;
+      height: 90%;
+    }
+  }
+  &-background {
+    top: 0;
+    bottom: 0;
+    scale: 1.2;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    filter: blur(0.5rem) brightness(30%);
+  }
+  &-controls {
+    left: 0;
+    right: 0;
+    gap: 1rem;
+    bottom: 50px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+  }
+  &-close {
+    top: 1rem;
+    left: 1rem;
+    position: absolute;
+  }
+}
+
+::v-deep(.oxd-icon-button) {
+  padding: 0;
+  font-size: 12px;
+  min-width: 1.5625rem;
+  min-height: 1.5625rem;
+  color: $oxd-white-color;
+  &:hover {
+    background-color: $oxd-interface-gray-darken-1-color;
+  }
+  &:disabled {
+    opacity: 0.5;
+    background-color: unset;
+  }
+}

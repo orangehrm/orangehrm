@@ -39,9 +39,10 @@
           :posted-date="post.createdTime"
         >
           <template #content>
-            <oxd-text v-if="post.text" tag="p">
-              {{ post.text }} {{ post.type }}
-            </oxd-text>
+            <post-body
+              :post="post"
+              @selectPhoto="onSelectPhoto($event, index)"
+            ></post-body>
           </template>
           <template #actionButton>
             <post-actions
@@ -75,17 +76,26 @@
     :data="shareModalState"
     @close="onCloseShareModal"
   ></share-post-modal>
+  <photo-carousel
+    v-if="showPhotoCarousel"
+    :photo-index="0"
+    :mobile="mobile"
+    :post="photoCarouselState"
+    @close="onClosePhotoCarousel"
+  ></photo-carousel>
 </template>
 
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import PostBody from '@/orangehrmBuzzPlugin/components/PostBody.vue';
 import PostStats from '@/orangehrmBuzzPlugin/components/PostStats.vue';
 import CreatePost from '@/orangehrmBuzzPlugin/components/CreatePost.vue';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
 import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
+import PhotoCarousel from '@/orangehrmBuzzPlugin/components/PhotoCarousel.vue';
 import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
 
@@ -97,11 +107,13 @@ export default {
   name: 'NewsFeed',
 
   components: {
+    'post-body': PostBody,
     'post-stats': PostStats,
     'create-post': CreatePost,
     'post-actions': PostActions,
     'post-filters': PostFilters,
     'oxd-loading-spinner': Spinner,
+    'photo-carousel': PhotoCarousel,
     'post-container': PostContainer,
     'share-post-modal': SharePostModal,
   },
@@ -131,6 +143,8 @@ export default {
       isLoading: false,
       showShareModal: false,
       shareModalState: null,
+      showPhotoCarousel: false,
+      photoCarouselState: null,
     });
 
     const fetchData = () => {
@@ -187,6 +201,19 @@ export default {
       // todo
     };
 
+    const onSelectPhoto = ($event, index) => {
+      console.log($event, index);
+      state.photoCarouselState = state.posts[index];
+      state.showPhotoCarousel = true;
+      document.body.style.overflow = 'hidden';
+    };
+
+    const onClosePhotoCarousel = () => {
+      state.showPhotoCarousel = false;
+      state.photoCarouselState = null;
+      document.body.style.overflow = 'auto';
+    };
+
     const onCloseShareModal = () => {
       state.showShareModal = false;
       state.shareModalState = null;
@@ -199,8 +226,10 @@ export default {
       onShare,
       onComment,
       fetchData,
+      onSelectPhoto,
       onUpdatePriority,
       onCloseShareModal,
+      onClosePhotoCarousel,
       ...toRefs(state),
     };
   },
