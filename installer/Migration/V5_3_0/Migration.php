@@ -94,6 +94,7 @@ class Migration extends AbstractMigration
                 'Notnull' => false,
                 'Default' => null,
                 'Type' => Type::getType(Types::BLOB),
+                'Length' => 16_777_215 // mediumblob
             ],
             'filename' => [
                 'Notnull' => false,
