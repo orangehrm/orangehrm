@@ -1,0 +1,37 @@
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', joinedDate: '2021-10-25' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis',  joinedDate: '2016-10-28' }
+  2: { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham',  joinedDate: '2020-01-05' }
+  3: { empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', joinedDate: '2016-12-31' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+
+BuzzPost:
+  - { "id": 1, "emp_number": 1, "text": "this is post text 01", "post_time": , "2021-09-15 16:51:16", "updated_at": "2021-09-15 16:51:16" }
+  - { "id": 2, "emp_number": 2, "text": "this is post text 02", "post_time": , "2021-07-05 16:51:16", "updated_at": "2021-07-05 16:51:16" }
+  - { "id": 3, "emp_number": 3, "text": "this is post text 03", "post_time": , "2021-06-10 16:51:16", "updated_at": "2021-06-10 16:51:16" }
+  - { "id": 4, "emp_number": 1, "text": "this is post text 04", "post_time": , "2021-05-11 16:51:16", "updated_at": "2021-05-11 16:51:16" }
+  - { "id": 5, "emp_number": 2, "text": "this is post text 05", "post_time": , "2021-04-12 16:51:16", "updated_at": "2021-04-12 16:51:16" }
+  - { "id": 6, "emp_number": 3, "text": "this is post text 06", "post_time": , "2021-03-13 16:51:16", "updated_at": "2021-03-13 16:51:16" }
+
+BuzzShare:
+  - { "id": 1, "post_id": 1,"emp_number": 1, "number_of_likes": 1, "number_of_comments": 0, "share_time":  "2021-09-15 16:51:16", "type": "0", "text": null, "updated_at": "2021-09-15 16:51:16"}
+  - { "id": 2, "post_id": 2,"emp_number": 2, "number_of_likes": 5, "number_of_comments": 2, "share_time":  "2021-07-05 16:51:16", "type": "0", "text": null, "updated_at": "2021-07-05 16:51:16"}
+  - { "id": 3, "post_id": 3,"emp_number": 3, "number_of_likes": 8, "number_of_comments": 0, "share_time":  "2021-06-10 16:51:16", "type": "0", "text": null, "updated_at": "2021-06-10 16:51:16"}
+  - { "id": 4, "post_id": 4,"emp_number": 1, "number_of_likes": 2, "number_of_comments": 1, "share_time":  "2021-05-11 16:51:16", "type": "0", "text": null, "updated_at": "2021-05-11 16:51:16"}
+  - { "id": 5, "post_id": 5,"emp_number": 2, "number_of_likes": 0, "number_of_comments": 0, "share_time":  "2021-04-12 16:51:16", "type": "0", "text": null, "updated_at": "2021-04-12 16:51:16"}
+  - { "id": 6, "post_id": 6,"emp_number": 3, "number_of_likes": 23, "number_of_comments": 1, "share_time":  "2021-03-13 16:51:16", "type": "0", "text": null, "updated_at": "2021-03-13 16:51:16"}
+
+BuzzPhoto:
+  - { "id": 1, "post_id": 1, "photo": "", "filename": "image01", "file_type": "image/jpg", "size": "", "width": "", "height": ""}
+  - { "id": 2, "post_id": 2, "photo": "", "filename": "image02", "file_type": "image/jpg", "size": "", "width": "", "height": ""}
+  - { "id": 3, "post_id": 2, "photo": "", "filename": "image03", "file_type": "image/png", "size": "", "width": "", "height": ""}
+  - { "id": 4, "post_id": 3, "photo": "", "filename": "image04", "file_type": "image/jpg", "size": "", "width": "", "height": ""}
+  - { "id": 5, "post_id": 4, "photo": "", "filename": "image05", "file_type": "image/png", "size": "", "width": "", "height": ""}
+  - { "id": 6, "post_id": 5, "photo": "", "filename": "image06", "file_type": "image/jpg", "size": "", "width": "", "height": ""}

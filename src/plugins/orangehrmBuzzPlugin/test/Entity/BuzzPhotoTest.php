@@ -17,22 +17,15 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Buzz\Service;
+namespace OrangeHRM\Tests\Buzz\Entity;
 
-use OrangeHRM\Buzz\Dao\BuzzDao;
+use OrangeHRM\Tests\Util\EntityTestCase;
 
-class BuzzPostService
+/**
+ * @group Buzz
+ * @group Entity
+ */
+class BuzzPhotoTest extends EntityTestCase
 {
-    /**
-     * @var BuzzDao
-     */
-    private BuzzDao $buzzDao;
 
-    /**
-     * @return BuzzDao
-     */
-    public function getBuzzDao(): BuzzDao
-    {
-        return $this->buzzDao ??= new BuzzDao();
-    }
 }

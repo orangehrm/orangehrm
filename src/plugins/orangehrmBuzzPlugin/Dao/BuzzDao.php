@@ -27,6 +27,7 @@ use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzShare;
 use Exception;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\BuzzLink;
 use OrangeHRM\Entity\BuzzPost;
 
 class BuzzDao extends BaseDao
@@ -106,15 +107,30 @@ class BuzzDao extends BaseDao
     /**
     * @param BuzzPost $buzzPost
      * @return BuzzPost
-     * @throws DaoException
      */
     public function saveBuzzPost(BuzzPost $buzzPost): BuzzPost
     {
-        try {
-            $this->persist($buzzPost);
-            return $buzzPost;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($buzzPost);
+        return $buzzPost;
+    }
+
+    /**
+     * @param BuzzShare $buzzShare
+     * @return BuzzShare
+     */
+    public function saveBuzzShare(BuzzShare $buzzShare): BuzzShare
+    {
+        $this->persist($buzzShare);
+        return $buzzShare;
+    }
+
+    /**
+     * @param BuzzLink $buzzVideoPost
+     * @return BuzzLink
+     */
+    public function saveBuzzVideo(BuzzLink $buzzVideoPost): BuzzLink
+    {
+        $this->persist($buzzVideoPost);
+        return $buzzVideoPost;
     }
 }

@@ -17,44 +17,15 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Tests\Buzz\Entity;
 
-namespace OrangeHRM\Entity\Decorator;
+use OrangeHRM\Tests\Util\EntityTestCase;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\BuzzPost;
-use OrangeHRM\Entity\Employee;
-
-class BuzzPostDecorator
+/**
+ * @group Buzz
+ * @group Entity
+ */
+class BuzzLinkTest extends EntityTestCase
 {
-    use EntityManagerHelperTrait;
 
-    /**
-     * @var BuzzPost
-     */
-    protected BuzzPost $buzzPost;
-
-    /**
-     * @param BuzzPost $buzzPost
-     */
-    public function __construct(BuzzPost $buzzPost)
-    {
-        $this->buzzPost = $buzzPost;
-    }
-
-    /**
-     * @return BuzzPost
-     */
-    public function getBuzzPost(): BuzzPost
-    {
-        return $this->buzzPost;
-    }
-
-    /**
-     * @param int $empNumber
-     */
-    public function setEmployeeByEmpNumber(int $empNumber): void
-    {
-        $employee = $this->getReference(Employee::class, $empNumber);
-        $this->buzzPost->setEmployee($employee);
-    }
 }

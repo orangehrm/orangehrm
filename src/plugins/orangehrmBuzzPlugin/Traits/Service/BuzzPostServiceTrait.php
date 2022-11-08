@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Buzz\Traits\Service;
 
-use OrangeHRM\Buzz\Service\BuzzPostService;
+use OrangeHRM\Buzz\Service\BuzzService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
 
@@ -27,8 +27,8 @@ trait BuzzPostServiceTrait
 {
     use ServiceContainerTrait;
 
-    protected function getBuzzPostService(): BuzzPostService
+    protected function getBuzzService(): BuzzService
     {
-        return $this->getContainer()->get(Services::BUZZ_POST_SERVICE);
+        return $this->getContainer()->get(Services::BUZZ_SERVICE);
     }
 }

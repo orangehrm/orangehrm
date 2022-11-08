@@ -17,44 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Tests\Buzz\Entity;
 
-namespace OrangeHRM\Entity\Decorator;
-
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzPost;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Tests\Util\EntityTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class BuzzPostDecorator
+/**
+ * @group Buzz
+ * @group Entity
+ */
+class BuzzLikeOnShareTest extends EntityTestCase
 {
-    use EntityManagerHelperTrait;
-
-    /**
-     * @var BuzzPost
-     */
-    protected BuzzPost $buzzPost;
-
-    /**
-     * @param BuzzPost $buzzPost
-     */
-    public function __construct(BuzzPost $buzzPost)
+    protected function setUp(): void
     {
-        $this->buzzPost = $buzzPost;
+        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/Employee.yaml';
+        TestDataService::populate($fixture);
+        TestDataService::truncateSpecificTables([BuzzPost::class]);
     }
 
-    /**
-     * @return BuzzPost
-     */
-    public function getBuzzPost(): BuzzPost
+    public function testEntity(): void
     {
-        return $this->buzzPost;
-    }
+        $likeOnShare = new BuzzLikeOnShare();
+        $likeOnShare->setEmployee($this->getReference(Employee::class, 1));
+//        need to add share
+        $likeOnShare->setLikedAt(new \DateTime('2022-11-01 09:20'));
 
-    /**
-     * @param int $empNumber
-     */
-    public function setEmployeeByEmpNumber(int $empNumber): void
-    {
-        $employee = $this->getReference(Employee::class, $empNumber);
-        $this->buzzPost->setEmployee($employee);
+        $this->assertEquals('2022-11-01', $likeOnShare->getLikedAt()->format('Y-m-d'));
     }
 }
