@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -65,6 +66,26 @@ class BuzzPost
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private DateTime $updatedAt;
+
+    /**
+     * @var BuzzPhoto[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\BuzzPhoto", mappedBy="post")
+     */
+    private iterable $photos;
+
+    /**
+     * @var BuzzLink[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\BuzzLink", mappedBy="post")
+     */
+    private iterable $links;
+
+    public function __construct()
+    {
+        $this->photos = new ArrayCollection();
+        $this->links = new ArrayCollection();
+    }
 
     /**
      * @return int

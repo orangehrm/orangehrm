@@ -403,4 +403,9 @@ final class Services
      * @see \OrangeHRM\Buzz\Service\BuzzAnniversaryService
      */
     public const BUZZ_ANNIVERSARY_SERVICE = 'buzz.buzz_anniversary_service';
+
+    /**
+     * @see \OrangeHRM\Buzz\Service\BuzzService
+     */
+    public const BUZZ_SERVICE = 'buzz.buzz_service';
 }

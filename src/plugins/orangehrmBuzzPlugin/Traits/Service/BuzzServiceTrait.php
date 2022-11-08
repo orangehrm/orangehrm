@@ -17,23 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
+namespace OrangeHRM\Buzz\Traits\Service;
+
 use OrangeHRM\Buzz\Service\BuzzService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
+trait BuzzServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return BuzzService
      */
-    public function initialize(Request $request): void
+    protected function getBuzzService(): BuzzService
     {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
+        return $this->getContainer()->get(Services::BUZZ_SERVICE);
     }
 }

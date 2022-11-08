@@ -31,6 +31,10 @@ class BuzzShare
     public const TYPE_POST = 0;
     public const TYPE_SHARE = 1;
 
+    public const POST_TYPE_TEXT = 'text';
+    public const POST_TYPE_PHOTO = 'photo';
+    public const POST_TYPE_VIDEO = 'video';
+
     /**
      * @var int
      *
