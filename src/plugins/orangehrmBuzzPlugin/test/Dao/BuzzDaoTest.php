@@ -242,7 +242,7 @@ class BuzzDaoTest extends KernelTestCase
         $buzzPhoto->setFilename('image01.jpeg');
         $buzzPhoto->setFileType('image/jpeg');
         $buzzPhoto->setSize('20692');
-        $result = $dao->saveBuzzPhotos($buzzPhoto);
+        $result = $dao->saveBuzzPhoto($buzzPhoto);
         $this->assertInstanceOf(BuzzPhoto::class, $result);
     }
 }

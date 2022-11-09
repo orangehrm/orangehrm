@@ -123,20 +123,20 @@ class BuzzDao extends BaseDao
     }
 
     /**
-     * @param BuzzLink $buzzVideoPost
+     * @param BuzzLink $buzzVideo
      * @return BuzzLink
      */
-    public function saveBuzzVideo(BuzzLink $buzzVideoPost): BuzzLink
+    public function saveBuzzVideo(BuzzLink $buzzVideo): BuzzLink
     {
-        $this->persist($buzzVideoPost);
-        return $buzzVideoPost;
+        $this->persist($buzzVideo);
+        return $buzzVideo;
     }
 
     /**
      * @param BuzzPhoto $buzzPhoto
      * @return BuzzPhoto
      */
-    public function saveBuzzPhotos(BuzzPhoto $buzzPhoto): BuzzPhoto
+    public function saveBuzzPhoto(BuzzPhoto $buzzPhoto): BuzzPhoto
     {
         $this->persist($buzzPhoto);
         return $buzzPhoto;

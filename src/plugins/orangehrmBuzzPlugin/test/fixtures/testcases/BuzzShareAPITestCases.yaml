@@ -7,7 +7,7 @@ Create:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     body:
       text: 'this is text post 01'
-      type: 'status'
+      type: 'text'
     data:
       post:
         id: 7
@@ -28,7 +28,7 @@ Create:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     body:
       text: 'this is text post 02'
-      type: 'status'
+      type: 'text'
     data:
       post:
         id: 7

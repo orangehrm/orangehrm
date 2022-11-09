@@ -43,7 +43,7 @@ class EmployeeAnniversaryAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/buzz/anniversaries",
-     *     tags={"Buzz/EmployeeAnniversary"},     *
+     *     tags={"Buzz/EmployeeAnniversary"},
      *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
      *     @OA\Parameter(ref="#/components/parameters/limit"),
      *     @OA\Parameter(ref="#/components/parameters/offset"),
