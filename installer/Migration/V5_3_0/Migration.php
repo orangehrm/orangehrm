@@ -71,7 +71,8 @@ class Migration extends AbstractMigration
             ],
             'updated_at' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
+                'Notnull' => false,
+                'Default' => null,
             ],
         ]);
 
@@ -130,7 +131,8 @@ class Migration extends AbstractMigration
             ],
             'updated_at' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
+                'Notnull' => false,
+                'Default' => null,
             ],
         ]);
 
@@ -150,7 +152,8 @@ class Migration extends AbstractMigration
             ],
             'updated_at' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
+                'Notnull' => false,
+                'Default' => null,
             ],
         ]);
         $this->getSchemaHelper()->enableConstraints();
