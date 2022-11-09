@@ -20,6 +20,15 @@ apiv2_buzz_newsfeed_posts:
     _api: OrangeHRM\Buzz\Api\BuzzShareAPI
 
 ##########################
+#        Files
+##########################
+
+buzz_photo:
+  path: /buzz/photo/{id}
+  controller: OrangeHRM\Buzz\Controller\File\BuzzPhotoController::handle
+  methods: [ GET ]
+
+##########################
 #       Mock API
 ##########################
 apiv2_buzz_newsfeed_post:

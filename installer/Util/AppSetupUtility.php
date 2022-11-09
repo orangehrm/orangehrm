@@ -74,26 +74,32 @@ class AppSetupUtility
     public const ERROR_CODE_INVALID_HOST_PORT = 2002;
     public const ERROR_CODE_DATABASE_NOT_EXISTS = 1049;
 
-    private ?ConfigHelper $configHelper = null;
-    private ?SystemConfiguration $systemConfiguration = null;
+    private ConfigHelper $configHelper;
+    private SystemConfiguration $systemConfiguration;
+    private MigrationHelper $migrationHelper;
 
     /**
      * @return ConfigHelper
      */
     protected function getConfigHelper(): ConfigHelper
     {
-        if (!$this->configHelper instanceof ConfigHelper) {
-            $this->configHelper = new ConfigHelper();
-        }
-        return $this->configHelper;
+        return $this->configHelper ??= new ConfigHelper();
     }
 
+    /**
+     * @return SystemConfiguration
+     */
     protected function getSystemConfiguration(): SystemConfiguration
     {
-        if (!$this->systemConfiguration instanceof SystemConfiguration) {
-            $this->systemConfiguration = new SystemConfiguration();
-        }
-        return $this->systemConfiguration;
+        return $this->systemConfiguration ??= new SystemConfiguration();
+    }
+
+    /**
+     * @return MigrationHelper
+     */
+    protected function getMigrationHelper(): MigrationHelper
+    {
+        return $this->migrationHelper ??= new MigrationHelper();
     }
 
     /**
@@ -546,8 +552,11 @@ class AppSetupUtility
     {
         $migration = new $migrationClass();
         if ($migration instanceof AbstractMigration) {
+            $version = $migration->getVersion();
+            $this->getMigrationHelper()->logMigrationStarted($version);
             $migration->up();
-            $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
+            $this->getConfigHelper()->setConfigValue('instance.version', $version);
+            $this->getMigrationHelper()->logMigrationFinished($version);
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");
@@ -558,7 +567,26 @@ class AppSetupUtility
      */
     public function getCurrentProductVersionFromDatabase(): ?string
     {
-        return $this->getConfigHelper()->getConfigValue('instance.version');
+        $instanceVersion = $this->getConfigHelper()->getConfigValue('instance.version');
+        if ($instanceVersion == null) {
+            return null;
+        }
+
+        $migrationMap = self::MIGRATIONS_MAP;
+        for (end($migrationMap); ($version = key($migrationMap)) !== null; prev($migrationMap)) {
+            $migrationClasses = current($migrationMap);
+            if (!is_array($migrationClasses)) {
+                $migrationClasses = [$migrationClasses];
+            }
+            foreach ($migrationClasses as $migrationClass) {
+                $migration = new $migrationClass();
+                if ($migration instanceof AbstractMigration && $migration->getVersion() == $instanceVersion) {
+                    return $version;
+                }
+            }
+        }
+
+        return null;
     }
 
     public function cleanUpInstallOnFailure(): void

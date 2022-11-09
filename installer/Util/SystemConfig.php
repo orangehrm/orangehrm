@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Util;
 
+use Doctrine\DBAL\Connection;
 use Exception;
 use OrangeHRM\Config\Config;
 use PDO;
@@ -49,11 +50,13 @@ class SystemConfig
     private bool $interruptContinue = false;
     private ?Filesystem $filesystem = null;
     private array $systemRequirements = [];
+    private ?Connection $connection;
 
-    public function __construct()
+    public function __construct(?Connection $connection = null)
     {
         $this->filesystem = new Filesystem();
         $this->systemRequirements = require realpath(__DIR__ . '/../config/system_requirements.php');
+        $this->connection = $connection;
     }
 
     /**
@@ -766,6 +769,9 @@ class SystemConfig
     private function getPDOConnection(): ?PDO
     {
         try {
+            if ($this->connection instanceof Connection) {
+                return $this->connection->getNativeConnection();
+            }
             return DatabaseServerConnection::getConnection()->getNativeConnection();
         } catch (Throwable $e) {
         }

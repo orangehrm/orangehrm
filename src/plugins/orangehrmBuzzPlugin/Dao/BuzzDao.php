@@ -141,4 +141,13 @@ class BuzzDao extends BaseDao
         $this->persist($buzzPhoto);
         return $buzzPhoto;
     }
+
+    /**
+     * @param int $photoId
+     * @return BuzzPhoto|null
+     */
+    public function getBuzzPhotoById(int $photoId): ?BuzzPhoto
+    {
+        return $this->getRepository(BuzzPhoto::class)->find($photoId);
+    }
 }
