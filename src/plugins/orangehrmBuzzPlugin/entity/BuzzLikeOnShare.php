@@ -21,6 +21,7 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 /**
  * @ORM\Table(name="ohrm_buzz_like_on_share")
@@ -28,6 +29,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class BuzzLikeOnShare
 {
+    use DateTimeHelperTrait;
+
     /**
      * @var int
      *
@@ -57,6 +60,7 @@ class BuzzLikeOnShare
      * @var DateTime
      *
      * @ORM\Column(name="like_time", type="datetime")
+     * @deprecated
      */
     private DateTime $likedAt;
 
@@ -117,6 +121,7 @@ class BuzzLikeOnShare
 
     /**
      * @return DateTime
+     * @deprecated
      */
     public function getLikedAt(): DateTime
     {
@@ -125,9 +130,23 @@ class BuzzLikeOnShare
 
     /**
      * @param DateTime $likedAt
+     * @deprecated
      */
     public function setLikedAt(DateTime $likedAt): void
     {
         $this->likedAt = $likedAt;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getLikedAtUtc(): DateTime
+    {
+        return $this->likedAtUtc;
+    }
+
+    public function setLikedAtUtc(): void
+    {
+        $this->likedAtUtc = $this->getDateTimeHelper()->getNowInUTC();
     }
 }

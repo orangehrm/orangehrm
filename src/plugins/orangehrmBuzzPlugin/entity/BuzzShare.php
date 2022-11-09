@@ -21,6 +21,7 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Decorator\BuzzShareDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
@@ -33,6 +34,7 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
 class BuzzShare
 {
     use DecoratorTrait;
+    use DateTimeHelperTrait;
 
     public const TYPE_POST = 0;
     public const TYPE_SHARE = 1;
@@ -98,6 +100,7 @@ class BuzzShare
      * @var DateTime
      *
      * @ORM\Column(name="share_time", type="datetime")
+     * @deprecated
      */
     private DateTime $createdAt;
 
@@ -105,6 +108,7 @@ class BuzzShare
      * @var DateTime|null
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @deprecated
      */
     private ?DateTime $updatedAt = null;
 
@@ -236,6 +240,7 @@ class BuzzShare
 
     /**
      * @return DateTime
+     * @deprecated
      */
     public function getCreatedAt(): DateTime
     {
@@ -244,6 +249,7 @@ class BuzzShare
 
     /**
      * @param DateTime $createdAt
+     * @deprecated
      */
     public function setCreatedAt(DateTime $createdAt): void
     {
@@ -252,6 +258,7 @@ class BuzzShare
 
     /**
      * @return DateTime
+     * @deprecated
      */
     public function getUpdatedAt(): DateTime
     {
@@ -260,9 +267,36 @@ class BuzzShare
 
     /**
      * @param DateTime $updatedAt
+     * @deprecated
      */
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAtUtc(): DateTime
+    {
+        return $this->createdAtUtc;
+    }
+
+    public function setCreatedAtUtc(): void
+    {
+        $this->createdAtUtc = $this->getDateTimeHelper()->getNowInUTC();
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getUpdatedAtUtc(): ?DateTime
+    {
+        return $this->updatedAtUtc;
+    }
+
+    public function setUpdatedAtUtc(): void
+    {
+        $this->updatedAtUtc = $this->getDateTimeHelper()->getNowInUTC();
     }
 }

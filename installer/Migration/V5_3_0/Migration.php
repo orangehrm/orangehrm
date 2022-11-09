@@ -46,6 +46,7 @@ class Migration extends AbstractMigration
         }
 
         $this->modifyBuzzTables();
+        Logger::getLogger()->info('Server timezone: ' . (new DateTime())->getTimezone()->getName());
         $this->convertBuzzCommentTableTimesToUTC();
         $this->convertBuzzLikeOnCommentTableTimesToUTC();
         $this->convertBuzzLikeOnShareTableTimesToUTC();
