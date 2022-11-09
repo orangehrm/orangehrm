@@ -37,7 +37,6 @@ class BuzzShareTest extends EntityTestCase
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/Employee.yaml';
         TestDataService::populate($fixture);
         TestDataService::truncateSpecificTables([BuzzPost::class]);
-
     }
 
     public function testEntity(): void

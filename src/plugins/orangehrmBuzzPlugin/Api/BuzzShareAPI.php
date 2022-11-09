@@ -19,11 +19,12 @@
 
 namespace OrangeHRM\Buzz\Api;
 
-use OrangeHRM\Buzz\Api\Model\BuzzShareModel;
+use OrangeHRM\Buzz\Api\Model\BuzzPhotoModel;
+use OrangeHRM\Buzz\Api\Model\BuzzTextModel;
+use OrangeHRM\Buzz\Api\Model\BuzzVideoModel;
 use OrangeHRM\Buzz\Traits\Service\BuzzPostServiceTrait;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -31,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -50,17 +52,23 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
     use DateTimeHelperTrait;
     use AuthUserTrait;
 
-    public const PARAMETER_TEXT = 'text';
+    public const PARAMETER_POST_TEXT = 'text';
     public const PARAMETER_POST_TYPE = 'type';
     public const PARAMETER_VIDEO_LINK = 'link';
-    public const PARAMETER_PHOTOS = 'photos';
-    public const PARAMETER_NAME = 'name';
-    public const PARAMETER_SIZE = 'size';
-    public const PARAMETER_TYPE = 'type';
-    public const PARAMETER_BASE64 = 'base64';
+    public const PARAMETER_POST_PHOTOS = 'photos';
 
-    public const SHARED_POST = 1;
     public const NOT_SHARED_POST = 0;
+
+    public const MODEL_PHOTO = 'photo';
+    public const MODEL_VIDEO = 'video';
+    public const MODEL_TEXT = 'text';
+
+    public const MODEL_MAP
+        = [
+            self::MODEL_TEXT => BuzzTextModel::class,
+            self::MODEL_VIDEO => BuzzVideoModel::class,
+            self::MODEL_PHOTO => BuzzPhotoModel::class,
+        ];
 
     public const PARAM_RULE_TEXT_MAX_LENGTH = 65530;
     public const PARAM_RULE_PHOTO_NAME_MAX_LENGTH = 100;
@@ -88,40 +96,39 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
     public function create(): EndpointResult
     {
         $this->beginTransaction();
-//        try {
-        $buzzPost = new BuzzPost();
-        $this->setBuzzPost($buzzPost);
-        $empNumber = $this->getAuthUser()->getEmpNumber();
+        try {
+            $buzzPost = new BuzzPost();
+            $this->setBuzzPost($buzzPost);
+            $empNumber = $this->getAuthUser()->getEmpNumber();
 
-        $postType = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_POST_TYPE
-        );
-
-        $buzzPost->getDecorator()->setEmployeeByEmpNumber($empNumber);
-
-        $buzzPost = $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
-
-        if ($postType == 'photo') {
-            $this->setBuzzPhotoPost($buzzPost);
-        }
-
-        elseif ($postType == 'video') {
-            $videoLink = $this->getRequestParams()->getString(
+            $postType = $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_VIDEO_LINK
+                self::PARAMETER_POST_TYPE
             );
-            $this->setBuzzVideoPost($buzzPost, $videoLink);
+
+            $buzzPost->getDecorator()->setEmployeeByEmpNumber($empNumber);
+
+            $buzzPost = $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
+            $savedPost = $buzzPost;
+
+            if ($postType == 'photo') {
+                $this->setBuzzPhotoPost($buzzPost);
+            } elseif ($postType == 'video') {
+                $videoLink = $this->getRequestParams()->getString(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_VIDEO_LINK
+                );
+                $savedPost = $this->setBuzzVideoPost($buzzPost, $videoLink);
+            }
+
+            $this->setBuzzShare($buzzPost, self::NOT_SHARED_POST);
+
+            $this->commitTransaction();
+            return new EndpointResourceResult($this->getModelClass($postType), $savedPost);
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
         }
-
-        $this->setBuzzShare($buzzPost, self::NOT_SHARED_POST);
-
-        $this->commitTransaction();
-        return new EndpointResourceResult(BuzzShareModel::class, $buzzPost);
-//        } catch (Exception $e) {
-//            $this->rollBackTransaction();
-//            throw new TransactionException($e);
-//        }
     }
 
     /**
@@ -146,7 +153,7 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
         $buzzPost->setText(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_TEXT
+                self::PARAMETER_POST_TEXT
             )
         );
 
@@ -158,9 +165,9 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
      * @param BuzzPost $buzzPost
      * @param int      $type
      *
-     * @return void
+     * @return BuzzShare
      */
-    private function setBuzzShare(BuzzPost $buzzPost, int $type)
+    private function setBuzzShare(BuzzPost $buzzPost, int $type): BuzzShare
     {
         $buzzShare = new BuzzShare();
         $buzzShare->setPost($buzzPost);
@@ -169,7 +176,7 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
         $buzzShare->setCreatedAt($this->getDateTimeHelper()->getNow());
         $buzzShare->setUpdatedAt($this->getDateTimeHelper()->getNow());
 
-        $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
+        return $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
     }
 
     /**
@@ -179,21 +186,23 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
      */
     private function setBuzzPhotoPost(BuzzPost $buzzPost)
     {
-        $buzzPhotoPost = new BuzzPhoto();
-
         $postPhotos = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_PHOTOS
+            self::PARAMETER_POST_PHOTOS
         );
 
-        dump('here');
-        die();
         foreach ($postPhotos as $photo) {
+            $buzzPhotoPost = new BuzzPhoto();
+
+            $attachment = Base64Attachment::createFromArray($photo);
+
             $buzzPhotoPost->setPost($buzzPost);
-            $buzzPhotoPost->setPhoto($photo['photos']['base64']);
-            $buzzPhotoPost->setFilename($photo['photos']['name']);
-            $buzzPhotoPost->setFileType($photo['photos']['type']);
-            $buzzPhotoPost->setSize($photo['photos']['size']);
+            $buzzPhotoPost->setPhoto($attachment->getContent());
+            $buzzPhotoPost->setFilename($attachment->getFilename());
+            $buzzPhotoPost->setFileType($attachment->getFileType());
+            $buzzPhotoPost->setSize($attachment->getSize());
+
+            $this->getBuzzService()->getBuzzDao()->saveBuzzPhotos($buzzPhotoPost);
         }
     }
 
@@ -201,15 +210,15 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
      * @param BuzzPost $buzzPost
      * @param String   $videoLink
      *
-     * @return void
+     * @return BuzzLink
      */
-    private function setBuzzVideoPost(BuzzPost $buzzPost, string $videoLink)
+    private function setBuzzVideoPost(BuzzPost $buzzPost, string $videoLink): BuzzLink
     {
         $buzzVideoPost = new BuzzLink();
         $buzzVideoPost->setPost($buzzPost);
         $buzzVideoPost->setLink($videoLink);
 
-        $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzVideoPost);
+        return $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzVideoPost);
     }
 
     /**
@@ -219,7 +228,7 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
     {
         return [
             new ParamRule(
-                self::PARAMETER_TEXT,
+                self::PARAMETER_POST_TEXT,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
             ),
@@ -237,43 +246,20 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
     {
         return $this->getValidationDecorator()->notRequiredParamRule(
             new ParamRule(
-                self::PARAMETER_PHOTOS,
+                self::PARAMETER_POST_PHOTOS,
                 new Rule(Rules::ARRAY_TYPE),
                 new Rule(
                     Rules::EACH,
                     [
                         new Rules\Composite\AllOf(
                             new Rule(
-                                Rules::KEY,
+                                Rules::BASE_64_ATTACHMENT,
                                 [
-                                    self::PARAMETER_NAME,
-                                    new Rules\Composite\AllOf(
-                                        new Rule(Rules::STRING_TYPE),
-                                        new Rule(Rules::LENGTH, [self::PARAM_RULE_PHOTO_NAME_MAX_LENGTH])
-                                    )
+                                    BuzzPhoto::ALLOWED_IMAGE_TYPES,
+                                    BuzzPhoto::ALLOWED_IMAGE_EXTENSIONS,
+                                    self::PARAM_RULE_PHOTO_NAME_MAX_LENGTH
                                 ]
                             ),
-                            new Rule(
-                                Rules::KEY,
-                                [
-                                    self::PARAMETER_SIZE,
-                                    new Rules\Composite\AllOf(new Rule(Rules::STRING_TYPE)),
-                                ]
-                            ),
-                            new Rule(
-                                Rules::KEY,
-                                [
-                                    self::PARAMETER_TYPE,
-                                    new Rules\Composite\AllOf(new Rule(Rules::STRING_TYPE)),
-                                ]
-                            ),
-                            new Rule(
-                                Rules::KEY,
-                                [
-                                    self::PARAMETER_BASE64,
-                                    new Rules\Composite\AllOf(new Rule(Rules::BASE_64_ATTACHMENT)),
-                                ]
-                            )
                         )
                     ]
                 )
@@ -308,5 +294,21 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @param string $postType
+     * @return string
+     */
+    private function getModelClass(string $postType): string
+    {
+        $model = 'text';
+        if ($postType == 'photo') {
+            $model = 'photo';
+        } elseif ($postType == 'video') {
+            $model = 'video';
+        }
+
+        return self::MODEL_MAP[$model];
     }
 }

@@ -27,6 +27,24 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class BuzzPhoto
 {
+    public const ALLOWED_IMAGE_TYPES = [
+        'image/gif',
+        'image/jpeg',
+        'image/jpg',
+        'image/pjpeg',
+        'image/png',
+        'image/x-png',
+        'image/svg+xml',
+    ];
+    public const ALLOWED_IMAGE_EXTENSIONS = [
+        'gif',
+        'jpeg',
+        'jpg',
+        'png',
+        'svg',
+        'jfif',
+    ];
+
     /**
      * @var int
      *
