@@ -102,11 +102,25 @@ class BuzzShare
     private DateTime $createdAt;
 
     /**
+     * @var DateTime|null
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private ?DateTime $updatedAt = null;
+
+    /**
      * @var DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @ORM\Column(name="share_utc_time", type="datetime")
      */
-    private DateTime $updatedAt;
+    private DateTime $createdAtUtc;
+
+    /**
+     * @var DateTime|null
+     *
+     * @ORM\Column(name="updated_utc_time", type="datetime", nullable=true)
+     */
+    private ?DateTime $updatedAtUtc = null;
 
     /**
      * @return int

@@ -61,6 +61,13 @@ class BuzzLikeOnShare
     private DateTime $likedAt;
 
     /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="like_utc_time", type="datetime")
+     */
+    private DateTime $likedAtUtc;
+
+    /**
      * @return int
      */
     public function getId(): int

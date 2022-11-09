@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Installer\Migration\V5_3_0;
 
-use Doctrine\DBAL\Schema\ColumnDiff;
-use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
@@ -59,7 +57,7 @@ class Migration extends AbstractMigration
         );
 
         $this->getSchemaHelper()->disableConstraints();
-        $this->changeTableColumns('ohrm_buzz_comment', [
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_comment', [
             'employee_number' => [
                 'Notnull' => true,
                 'Type' => Type::getType(Types::INTEGER),
@@ -74,23 +72,43 @@ class Migration extends AbstractMigration
                 'Notnull' => false,
                 'Default' => null,
             ],
+            'comment_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
+            'updated_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
         ]);
 
-        $this->changeTableColumns('ohrm_buzz_like_on_comment', [
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_like_on_comment', [
             'employee_number' => [
                 'Notnull' => true,
                 'Type' => Type::getType(Types::INTEGER),
             ],
+            'like_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
         ]);
 
-        $this->changeTableColumns('ohrm_buzz_like_on_share', [
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_like_on_share', [
             'employee_number' => [
                 'Notnull' => true,
                 'Type' => Type::getType(Types::INTEGER),
             ],
+            'like_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
         ]);
 
-        $this->changeTableColumns('ohrm_buzz_photo', [
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_photo', [
             'photo' => [
                 'Notnull' => false,
                 'Default' => null,
@@ -119,7 +137,7 @@ class Migration extends AbstractMigration
             ],
         ]);
 
-        $this->changeTableColumns('ohrm_buzz_post', [
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_post', [
             'employee_number' => [
                 'Notnull' => true,
                 'Type' => Type::getType(Types::INTEGER),
@@ -134,9 +152,19 @@ class Migration extends AbstractMigration
                 'Notnull' => false,
                 'Default' => null,
             ],
+            'post_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
+            'updated_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
         ]);
 
-        $this->changeTableColumns('ohrm_buzz_share', [
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_share', [
             'employee_number' => [
                 'Notnull' => true,
                 'Type' => Type::getType(Types::INTEGER),
@@ -155,27 +183,18 @@ class Migration extends AbstractMigration
                 'Notnull' => false,
                 'Default' => null,
             ],
+            'share_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
+            'updated_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
         ]);
         $this->getSchemaHelper()->enableConstraints();
-    }
-
-    /**
-     * @param string $tableName
-     * @param array<string, array> $columnOptions
-     */
-    private function changeTableColumns(string $tableName, array $columnOptions): void
-    {
-        $changedColumns = [];
-        foreach ($columnOptions as $columnName => $options) {
-            $column = $this->getSchemaHelper()->getTableColumn($tableName, $columnName);
-            $newColumn = clone $column;
-            $newColumn->setOptions($options);
-            $changedColumns[] = new ColumnDiff($columnName, $newColumn, [], $column);
-        }
-        if (!empty($changedColumns)) {
-            $diff = new TableDiff($tableName, [], $changedColumns);
-            $this->getSchemaManager()->alterTable($diff);
-        }
     }
 
     /**
