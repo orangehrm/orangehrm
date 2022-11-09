@@ -129,10 +129,10 @@ class SchemaHelper
             } else {
                 $newColumn = clone $column;
                 $newColumn->setOptions($options);
-                $changedColumns[] = new ColumnDiff($columnName, $newColumn, [], $column);
+                $changedColumns[] = new ColumnDiff($columnName, $newColumn, array_keys($options), $column);
             }
         }
-        if (!empty($addedColumns) && !empty($changedColumns)) {
+        if (!(empty($addedColumns) && empty($changedColumns))) {
             $diff = new TableDiff($tableName, $addedColumns, $changedColumns);
             $this->getSchemaManager()->alterTable($diff);
         }
