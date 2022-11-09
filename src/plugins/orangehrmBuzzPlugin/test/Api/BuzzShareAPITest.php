@@ -19,7 +19,10 @@
 
 namespace OrangeHRM\Tests\Buzz\Api;
 
+use OrangeHRM\Buzz\Api\BuzzShareAPI;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
 /**
  * @group Buzz
@@ -27,4 +30,49 @@ use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
  */
 class BuzzShareAPITest extends EndpointIntegrationTestCase
 {
+    /**
+     * @dataProvider dataProviderForTestCreate
+     */
+    public function testCreate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('BuzzShareAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzShareAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
+    }
+
+    public function dataProviderForTestCreate(): array
+    {
+        return $this->getTestCases('BuzzShareTestCases.yaml', 'Create');
+    }
+
+    public function testGetAll(): void
+    {
+        $api = new BuzzShareAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getAll();
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        $api = new BuzzShareAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetAll();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new BuzzShareAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new BuzzShareAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
 }
