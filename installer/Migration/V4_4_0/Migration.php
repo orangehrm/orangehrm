@@ -213,7 +213,7 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->createTable('ohrm_buzz_photo')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('post_id', Types::BIGINT, ['Length' => 20])
-                ->addColumn('photo', Types::BLOB, ['Length' => 7]) //change
+                ->addColumn('photo', Types::BLOB)
                 ->addColumn('filename', Types::STRING, ['Length' => 100])
                 ->addColumn('file_type', Types::STRING, ['Length' => 50])
                 ->addColumn('size', Types::STRING, ['Length' => 20])

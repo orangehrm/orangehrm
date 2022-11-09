@@ -45,7 +45,7 @@ class BuzzShareAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('BuzzShareTestCases.yaml', 'Create');
+        return $this->getTestCases('BuzzShareAPITestCases.yaml', 'Create');
     }
 
     public function testGetAll(): void

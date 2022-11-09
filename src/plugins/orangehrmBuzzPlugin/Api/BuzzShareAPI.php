@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Buzz\Api;
 
-use OrangeHRM\Buzz\Api\Model\BuzzPhotoModel;
-use OrangeHRM\Buzz\Api\Model\BuzzTextModel;
-use OrangeHRM\Buzz\Api\Model\BuzzVideoModel;
+use OrangeHRM\Buzz\Api\Model\BuzzShareModel;
 use OrangeHRM\Buzz\Traits\Service\BuzzPostServiceTrait;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -56,19 +54,6 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_POST_TYPE = 'type';
     public const PARAMETER_VIDEO_LINK = 'link';
     public const PARAMETER_POST_PHOTOS = 'photos';
-
-    public const NOT_SHARED_POST = 0;
-
-    public const MODEL_PHOTO = 'photo';
-    public const MODEL_VIDEO = 'video';
-    public const MODEL_TEXT = 'text';
-
-    public const MODEL_MAP
-        = [
-            self::MODEL_TEXT => BuzzTextModel::class,
-            self::MODEL_VIDEO => BuzzVideoModel::class,
-            self::MODEL_PHOTO => BuzzPhotoModel::class,
-        ];
 
     public const PARAM_RULE_TEXT_MAX_LENGTH = 65530;
     public const PARAM_RULE_PHOTO_NAME_MAX_LENGTH = 100;
@@ -108,8 +93,7 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
 
             $buzzPost->getDecorator()->setEmployeeByEmpNumber($empNumber);
 
-            $buzzPost = $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
-            $savedPost = $buzzPost;
+            $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
 
             if ($postType == 'photo') {
                 $this->setBuzzPhotoPost($buzzPost);
@@ -118,13 +102,13 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
                     RequestParams::PARAM_TYPE_BODY,
                     self::PARAMETER_VIDEO_LINK
                 );
-                $savedPost = $this->setBuzzVideoPost($buzzPost, $videoLink);
+                $this->setBuzzVideoPost($buzzPost, $videoLink);
             }
 
-            $this->setBuzzShare($buzzPost, self::NOT_SHARED_POST);
+            $this->setBuzzShare($buzzPost, BuzzShare::TYPE_POST);
 
             $this->commitTransaction();
-            return new EndpointResourceResult($this->getModelClass($postType), $savedPost);
+            return new EndpointResourceResult(BuzzShareModel::class, $buzzPost);
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
@@ -294,21 +278,5 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @param string $postType
-     * @return string
-     */
-    private function getModelClass(string $postType): string
-    {
-        $model = 'text';
-        if ($postType == 'photo') {
-            $model = 'photo';
-        } elseif ($postType == 'video') {
-            $model = 'video';
-        }
-
-        return self::MODEL_MAP[$model];
     }
 }

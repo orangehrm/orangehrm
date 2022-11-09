@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\BuzzPost;
 
-class BuzzTextModel implements Normalizable
+class BuzzShareModel implements Normalizable
 {
     use ModelTrait;
 
@@ -33,7 +33,6 @@ class BuzzTextModel implements Normalizable
         $this->setFilters(
             [
                 'id',
-                'text',
                 ['getEmployee', 'getEmpNumber'],
                 ['getEmployee', 'getLastName'],
                 ['getEmployee', 'getFirstName'],
@@ -46,14 +45,12 @@ class BuzzTextModel implements Normalizable
         $this->setAttributeNames(
             [
                 ['post', 'id'],
-                ['post', 'text'],
                 ['employee', 'empNumber'],
                 ['employee', 'lastName'],
                 ['employee', 'firstName'],
                 ['employee', 'middleName'],
                 ['employee', 'employeeId'],
                 ['employee', 'terminationId'],
-                'text'
             ]
         );
     }

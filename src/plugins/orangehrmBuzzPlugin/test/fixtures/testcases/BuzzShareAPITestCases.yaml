@@ -11,7 +11,6 @@ Create:
     data:
       post:
         id: 7
-        text: 'this is text post 01'
       employee:
         empNumber: 1
         lastName: 'Abbey'
@@ -33,7 +32,6 @@ Create:
     data:
       post:
         id: 7
-        text: 'this is text post 02'
       employee:
         empNumber: 4
         lastName: 'Abrahams'
@@ -54,10 +52,8 @@ Create:
       type: 'video'
       link: 'https://vimeo.com/336812686'
     data:
-      id: 4
       post:
         id: 7
-        text: 'this is video post 01'
       employee:
         empNumber: 1
         lastName: 'Abbey'
@@ -65,7 +61,6 @@ Create:
         middleName: ''
         employeeId: null
         terminationId: null
-      link: 'https://vimeo.com/336812686'
     meta: [ ]
 
   'Create Video Post With Text In Buzz - Large Text':
@@ -79,10 +74,8 @@ Create:
       type: 'video'
       link: 'https://youtu.be/ozv4q2ov3Mk?list=RD-rey3m8SWQI'
     data:
-      id: 4
       post:
         id: 7
-        text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
       employee:
         empNumber: 4
         lastName: 'Abrahams'
@@ -90,5 +83,4 @@ Create:
         middleName: ''
         employeeId: null
         terminationId: null
-      link: 'https://youtu.be/ozv4q2ov3Mk?list=RD-rey3m8SWQI'
     meta: [ ]
