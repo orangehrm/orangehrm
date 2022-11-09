@@ -34,15 +34,12 @@ class BuzzPhoto
         'image/pjpeg',
         'image/png',
         'image/x-png',
-        'image/svg+xml',
     ];
     public const ALLOWED_IMAGE_EXTENSIONS = [
         'gif',
         'jpeg',
         'jpg',
         'png',
-        'svg',
-        'jfif',
     ];
 
     /**

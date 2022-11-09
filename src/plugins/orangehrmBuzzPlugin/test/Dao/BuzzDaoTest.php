@@ -23,12 +23,13 @@ use OrangeHRM\Buzz\Dao\BuzzDao;
 use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Config\Config;
 use DateTime;
-use Exception;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\BuzzLink;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzPost;
 use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -38,18 +39,21 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class BuzzDaoTest extends KernelTestCase
 {
-    private BuzzDao $buzzDao;
-    protected string $fixture;
-
     protected function setUp(): void
     {
-        $this->buzzDao = new BuzzDao();
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/BuzzDao.yaml';
         TestDataService::populate($fixture);
     }
 
     public function testGetBuzzFeedPosts(): void
     {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturn(new DateTime('2022-09-09'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
+
         $dao = new BuzzDao();
         $buzzFeedFilterParams = new BuzzFeedFilterParams();
         $buzzFeedFilterParams->setAuthUserEmpNumber(1);
@@ -159,7 +163,7 @@ class BuzzDaoTest extends KernelTestCase
         // Non-existing post id
         $this->assertEquals([], $dao->getBuzzPhotoIdsByPostId(100));
     }
-    
+
     public function testSaveBuzzPost(): void
     {
         $buzzPost = new BuzzPost();
@@ -168,7 +172,8 @@ class BuzzDaoTest extends KernelTestCase
         $buzzPost->setUpdatedAt(new DateTime('2022-11-09 09:10:13'));
         $buzzPost->setCreatedAt(new DateTime('2022-11-09 09:10:13'));
 
-        $result = $this->buzzDao->saveBuzzPost($buzzPost);
+        $dao = new BuzzDao();
+        $result = $dao->saveBuzzPost($buzzPost);
         $this->assertInstanceOf(BuzzPost::class, $result);
         $this->assertInstanceOf(Employee::class, $result->getEmployee());
         $this->assertEquals('This is sample text for post 01', $result->getText());
@@ -177,11 +182,12 @@ class BuzzDaoTest extends KernelTestCase
     public function testSaveBuzzShare(): void
     {
         $buzzPost = new BuzzPost();
+        $dao = new BuzzDao();
         $buzzPost->setText('This is sample text for post share test');
         $buzzPost->getDecorator()->setEmployeeByEmpNumber(1);
         $buzzPost->setUpdatedAt(new DateTime('2022-11-09 11:10:17'));
         $buzzPost->setCreatedAt(new DateTime('2022-11-09 11:10:17'));
-        $this->buzzDao->saveBuzzPost($buzzPost);
+        $dao->saveBuzzPost($buzzPost);
 
         $buzzShare = new BuzzShare();
         $buzzShare->setPost($buzzPost);
@@ -193,7 +199,7 @@ class BuzzDaoTest extends KernelTestCase
         $buzzShare->setCreatedAt(new DateTime('2022-11-09 11:10:17'));
         $buzzShare->setUpdatedAt(new DateTime('2022-11-09 11:10:17'));
 
-        $result = $this->buzzDao->saveBuzzShare($buzzShare);
+        $result = $dao->saveBuzzShare($buzzShare);
         $this->assertInstanceOf(BuzzShare::class, $result);
         $this->assertInstanceOf(BuzzPost::class, $result->getPost());
         $this->assertInstanceOf(Employee::class, $result->getEmployee());
@@ -204,16 +210,17 @@ class BuzzDaoTest extends KernelTestCase
     public function testSaveBuzzVideo(): void
     {
         $buzzPost = new BuzzPost();
+        $dao = new BuzzDao();
         $buzzPost->setText('This is sample text for video post test');
         $buzzPost->getDecorator()->setEmployeeByEmpNumber(2);
         $buzzPost->setUpdatedAt(new DateTime('2022-11-09 01:10:15'));
         $buzzPost->setCreatedAt(new DateTime('2022-11-09 01:10:15'));
-        $this->buzzDao->saveBuzzPost($buzzPost);
+        $dao->saveBuzzPost($buzzPost);
 
         $buzzVideo = new BuzzLink();
         $buzzVideo->setPost($buzzPost);
         $buzzVideo->setLink('https://youtu.be/oGZ1PVwJyPQ?list=RDoGZ1PVwJyPQ');
-        $result = $this->buzzDao->saveBuzzVideo($buzzVideo);
+        $result = $dao->saveBuzzVideo($buzzVideo);
         $this->assertInstanceOf(BuzzLink::class, $result);
         $this->assertEquals('https://youtu.be/oGZ1PVwJyPQ?list=RDoGZ1PVwJyPQ', $result->getLink());
         $this->assertEquals('This is sample text for video post test', $result->getPost()->getText());
@@ -222,11 +229,12 @@ class BuzzDaoTest extends KernelTestCase
     public function testSaveBuzzPhotos(): void
     {
         $buzzPost = new BuzzPost();
+        $dao = new BuzzDao();
         $buzzPost->setText('This is sample text for photo post test');
         $buzzPost->getDecorator()->setEmployeeByEmpNumber(3);
         $buzzPost->setUpdatedAt(new DateTime('2022-11-10 06:10:15'));
         $buzzPost->setCreatedAt(new DateTime('2022-11-10 06:10:15'));
-        $this->buzzDao->saveBuzzPost($buzzPost);
+        $dao->saveBuzzPost($buzzPost);
 
         $buzzPhoto = new BuzzPhoto();
         $buzzPhoto->setPost($buzzPost);
@@ -234,7 +242,7 @@ class BuzzDaoTest extends KernelTestCase
         $buzzPhoto->setFilename('image01.jpeg');
         $buzzPhoto->setFileType('image/jpeg');
         $buzzPhoto->setSize('20692');
-        $result = $this->buzzDao->saveBuzzPhotos($buzzPhoto);
+        $result = $dao->saveBuzzPhotos($buzzPhoto);
         $this->assertInstanceOf(BuzzPhoto::class, $result);
     }
 }

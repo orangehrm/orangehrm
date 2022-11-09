@@ -25,10 +25,7 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzShare;
-use Exception;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\BuzzLink;
-use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzPost;
 
 class BuzzDao extends BaseDao
@@ -106,7 +103,7 @@ class BuzzDao extends BaseDao
     }
 
     /**
-    * @param BuzzPost $buzzPost
+     * @param BuzzPost $buzzPost
      * @return BuzzPost
      */
     public function saveBuzzPost(BuzzPost $buzzPost): BuzzPost
