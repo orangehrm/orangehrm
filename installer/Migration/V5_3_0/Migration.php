@@ -19,13 +19,18 @@
 
 namespace OrangeHRM\Installer\Migration\V5_3_0;
 
+use DateTime;
+use DateTimeZone;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
     protected ?LangStringHelper $langStringHelper = null;
+    private DateTimeZone $utcTimeZone;
 
     /**
      * @inheritDoc
@@ -40,6 +45,16 @@ class Migration extends AbstractMigration
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
+        $this->modifyBuzzTables();
+        $this->convertBuzzCommentTableTimesToUTC();
+        $this->convertBuzzLikeOnCommentTableTimesToUTC();
+        $this->convertBuzzLikeOnShareTableTimesToUTC();
+        $this->convertBuzzPostTableTimesToUTC();
+        $this->convertBuzzShareTableTimesToUTC();
+    }
+
+    private function modifyBuzzTables(): void
+    {
         $this->getSchemaManager()->dropTable('ohrm_buzz_unlike_on_comment');
         $this->getSchemaManager()->dropTable('ohrm_buzz_unlike_on_share');
         $this->getSchemaHelper()->dropColumn('ohrm_buzz_share', 'number_of_unlikes');
@@ -74,8 +89,7 @@ class Migration extends AbstractMigration
             ],
             'comment_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => false,
-                'Default' => null,
+                'Notnull' => true,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -91,8 +105,7 @@ class Migration extends AbstractMigration
             ],
             'like_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => false,
-                'Default' => null,
+                'Notnull' => true,
             ],
         ]);
 
@@ -103,8 +116,7 @@ class Migration extends AbstractMigration
             ],
             'like_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => false,
-                'Default' => null,
+                'Notnull' => true,
             ],
         ]);
 
@@ -154,8 +166,7 @@ class Migration extends AbstractMigration
             ],
             'post_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => false,
-                'Default' => null,
+                'Notnull' => true,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -185,8 +196,7 @@ class Migration extends AbstractMigration
             ],
             'share_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => false,
-                'Default' => null,
+                'Notnull' => true,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -195,6 +205,210 @@ class Migration extends AbstractMigration
             ],
         ]);
         $this->getSchemaHelper()->enableConstraints();
+    }
+
+    private function convertBuzzCommentTableTimesToUTC(): void
+    {
+        $table = 'ohrm_buzz_comment';
+        $count = $this->getTableRecordCount($table);
+        $batchSize = 10;
+        for ($i = 0; $i <= $count; $i = $i + $batchSize) {
+            $result = $this->createQueryBuilder()
+                ->select('buzz.id', 'buzz.comment_time', 'buzz.updated_at')
+                ->from($table, 'buzz')
+                ->setFirstResult($i)
+                ->setMaxResults($batchSize)
+                ->executeQuery();
+
+            foreach ($result->fetchAllAssociative() as $row) {
+                $this->createQueryBuilder()
+                    ->update($table, 'buzz')
+                    ->set('buzz.comment_utc_time', ':commentUtcTime')
+                    ->set('buzz.updated_utc_time', ':updatedUtcTime')
+                    ->where('buzz.id = :id')
+                    ->setParameter('id', $row['id'])
+                    ->setParameter(
+                        'commentUtcTime',
+                        $this->convertServerTimeToUTCTime(new DateTime($row['comment_time'])),
+                        Types::DATETIME_MUTABLE
+                    )
+                    ->setParameter(
+                        'updatedUtcTime',
+                        $this->convertServerTimeToUTCTime(new DateTime($row['updated_at'])),
+                        Types::DATETIME_MUTABLE
+                    )
+                    ->executeStatement();
+            }
+
+            $result->free();
+        }
+    }
+
+    private function convertBuzzLikeOnCommentTableTimesToUTC(): void
+    {
+        $table = 'ohrm_buzz_like_on_comment';
+        $count = $this->getTableRecordCount($table);
+        $batchSize = 10;
+        for ($i = 0; $i <= $count; $i = $i + $batchSize) {
+            $result = $this->createQueryBuilder()
+                ->select('buzz.id', 'buzz.like_time')
+                ->from($table, 'buzz')
+                ->setFirstResult($i)
+                ->setMaxResults($batchSize)
+                ->executeQuery();
+
+            foreach ($result->fetchAllAssociative() as $row) {
+                $this->createQueryBuilder()
+                    ->update($table, 'buzz')
+                    ->set('buzz.like_utc_time', ':likeUtcTime')
+                    ->where('buzz.id = :id')
+                    ->setParameter('id', $row['id'])
+                    ->setParameter(
+                        'likeUtcTime',
+                        $this->convertServerTimeToUTCTime(new DateTime($row['like_time'])),
+                        Types::DATETIME_MUTABLE
+                    )
+                    ->executeStatement();
+            }
+
+            $result->free();
+        }
+    }
+
+    private function convertBuzzLikeOnShareTableTimesToUTC(): void
+    {
+        $table = 'ohrm_buzz_like_on_share';
+        $count = $this->getTableRecordCount($table);
+        $batchSize = 10;
+        for ($i = 0; $i <= $count; $i = $i + $batchSize) {
+            $result = $this->createQueryBuilder()
+                ->select('buzz.id', 'buzz.like_time')
+                ->from($table, 'buzz')
+                ->setFirstResult($i)
+                ->setMaxResults($batchSize)
+                ->executeQuery();
+
+            foreach ($result->fetchAllAssociative() as $row) {
+                $this->createQueryBuilder()
+                    ->update($table, 'buzz')
+                    ->set('buzz.like_utc_time', ':likeUtcTime')
+                    ->where('buzz.id = :id')
+                    ->setParameter('id', $row['id'])
+                    ->setParameter(
+                        'likeUtcTime',
+                        $this->convertServerTimeToUTCTime(new DateTime($row['like_time'])),
+                        Types::DATETIME_MUTABLE
+                    )
+                    ->executeStatement();
+            }
+            $result->free();
+        }
+    }
+
+    private function convertBuzzPostTableTimesToUTC(): void
+    {
+        $table = 'ohrm_buzz_post';
+        $count = $this->getTableRecordCount($table);
+        $batchSize = 10;
+        for ($i = 0; $i <= $count; $i = $i + $batchSize) {
+            $result = $this->createQueryBuilder()
+                ->select('buzz.id', 'buzz.post_time', 'buzz.updated_at')
+                ->from($table, 'buzz')
+                ->setFirstResult($i)
+                ->setMaxResults($batchSize)
+                ->executeQuery();
+
+            foreach ($result->fetchAllAssociative() as $row) {
+                $this->createQueryBuilder()
+                    ->update($table, 'buzz')
+                    ->set('buzz.post_utc_time', ':postUtcTime')
+                    ->set('buzz.updated_utc_time', ':updatedUtcTime')
+                    ->where('buzz.id = :id')
+                    ->setParameter('id', $row['id'])
+                    ->setParameter(
+                        'postUtcTime',
+                        $this->convertServerTimeToUTCTime(new DateTime($row['post_time'])),
+                        Types::DATETIME_MUTABLE
+                    )
+                    ->setParameter(
+                        'updatedUtcTime',
+                        $this->convertServerTimeToUTCTime(new DateTime($row['updated_at'])),
+                        Types::DATETIME_MUTABLE
+                    )
+                    ->executeStatement();
+            }
+
+            $result->free();
+        }
+    }
+
+    private function convertBuzzShareTableTimesToUTC(): void
+    {
+        $table = 'ohrm_buzz_share';
+        $count = $this->getTableRecordCount($table);
+        $batchSize = 10;
+        for ($i = 0; $i <= $count; $i = $i + $batchSize) {
+            $result = $this->createQueryBuilder()
+                ->select('buzz.id', 'buzz.share_time', 'buzz.updated_at')
+                ->from($table, 'buzz')
+                ->setFirstResult($i)
+                ->setMaxResults($batchSize)
+                ->executeQuery();
+
+            foreach ($result->fetchAllAssociative() as $row) {
+                $this->createQueryBuilder()
+                    ->update($table, 'buzz')
+                    ->set('buzz.share_utc_time', ':shareUtcTime')
+                    ->set('buzz.updated_utc_time', ':updatedUtcTime')
+                    ->where('buzz.id = :id')
+                    ->setParameter('id', $row['id'])
+                    ->setParameter(
+                        'shareUtcTime',
+                        $this->convertServerTimeToUTCTime(new DateTime($row['share_time'])),
+                        Types::DATETIME_MUTABLE
+                    )
+                    ->setParameter(
+                        'updatedUtcTime',
+                        $this->convertServerTimeToUTCTime(new DateTime($row['updated_at'])),
+                        Types::DATETIME_MUTABLE
+                    )
+                    ->executeStatement();
+            }
+
+            $result->free();
+        }
+    }
+
+    /**
+     * @param string $tableName
+     * @return int
+     */
+    private function getTableRecordCount(string $tableName): int
+    {
+        $count = $this->createQueryBuilder()
+            ->select("COUNT($tableName.id)")
+            ->from($tableName)
+            ->executeQuery()
+            ->fetchOne();
+        Logger::getLogger()->info("`$tableName` record count: $count");
+        return $count;
+    }
+
+    /**
+     * @param DateTime $dateTime
+     * @return DateTime
+     */
+    private function convertServerTimeToUTCTime(DateTime $dateTime): DateTime
+    {
+        return $dateTime->setTimezone($this->getUTCTimeZone());
+    }
+
+    /**
+     * @return DateTimeZone
+     */
+    private function getUTCTimeZone(): DateTimeZone
+    {
+        return $this->utcTimeZone ??= new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC);
     }
 
     /**

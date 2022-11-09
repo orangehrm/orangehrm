@@ -22,6 +22,7 @@ namespace OrangeHRM\DevTools\Command;
 use Doctrine\DBAL\Connection;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Installer\Framework\HttpKernel;
 use OrangeHRM\Installer\Util\ConfigHelper;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use Symfony\Component\Console\Command\Command;
@@ -64,6 +65,7 @@ class RunMigrationClassCommand extends Command
             $io->error("Invalid migration class `$migrationClass`");
             return Command::FAILURE;
         }
+        new HttpKernel('prod', false); // Initiate kernel
         class_alias($migrationClass, '\OrangeHRM\DevTools\Command\_Migration');
         $migration = new class ($this->getEntityManager()->getConnection()) extends _Migration {
             private Connection $connection;
