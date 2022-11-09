@@ -20,13 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\BuzzPhotoDecorator;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method BuzzPhotoDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_buzz_photo")
  * @ORM\Entity
  */
 class BuzzPhoto
 {
+    use DecoratorTrait;
+
     public const ALLOWED_IMAGE_TYPES = [
         'image/gif',
         'image/jpeg',
@@ -136,7 +142,7 @@ class BuzzPhoto
     /**
      * @return resource|string
      */
-    public function getPhoto(): string
+    public function getPhoto()
     {
         return $this->photo;
     }
