@@ -25,6 +25,8 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzShare;
+use OrangeHRM\Entity\BuzzLink;
+use OrangeHRM\Entity\BuzzPost;
 
 class BuzzDao extends BaseDao
 {
@@ -98,5 +100,45 @@ class BuzzDao extends BaseDao
             ->andWhere('photo.post = :postId')
             ->setParameter('postId', $postId);
         return $q->getQuery()->getSingleColumnResult();
+    }
+
+    /**
+     * @param BuzzPost $buzzPost
+     * @return BuzzPost
+     */
+    public function saveBuzzPost(BuzzPost $buzzPost): BuzzPost
+    {
+        $this->persist($buzzPost);
+        return $buzzPost;
+    }
+
+    /**
+     * @param BuzzShare $buzzShare
+     * @return BuzzShare
+     */
+    public function saveBuzzShare(BuzzShare $buzzShare): BuzzShare
+    {
+        $this->persist($buzzShare);
+        return $buzzShare;
+    }
+
+    /**
+     * @param BuzzLink $buzzVideo
+     * @return BuzzLink
+     */
+    public function saveBuzzVideo(BuzzLink $buzzVideo): BuzzLink
+    {
+        $this->persist($buzzVideo);
+        return $buzzVideo;
+    }
+
+    /**
+     * @param BuzzPhoto $buzzPhoto
+     * @return BuzzPhoto
+     */
+    public function saveBuzzPhoto(BuzzPhoto $buzzPhoto): BuzzPhoto
+    {
+        $this->persist($buzzPhoto);
+        return $buzzPhoto;
     }
 }

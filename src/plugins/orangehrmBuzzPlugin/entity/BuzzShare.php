@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\BuzzShareDecorator;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method BuzzShareDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_buzz_share")
  * @ORM\Entity
  */
 class BuzzShare
 {
+    use DecoratorTrait;
+
     public const TYPE_POST = 0;
     public const TYPE_SHARE = 1;
 

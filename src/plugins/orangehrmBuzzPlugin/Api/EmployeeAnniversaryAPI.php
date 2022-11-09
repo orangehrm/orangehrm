@@ -39,7 +39,31 @@ class EmployeeAnniversaryAPI extends Endpoint implements CollectionEndpoint
 
     public const DATE_DIFFERENCE_MIN = 0;
     public const DATE_DIFFERENCE_MAX = 30;
+
     /**
+     * @OA\Get(
+     *     path="/api/v2/buzz/anniversaries",
+     *     tags={"Buzz/EmployeeAnniversary"},
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Buzz-EmployeeAnniversaryModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult

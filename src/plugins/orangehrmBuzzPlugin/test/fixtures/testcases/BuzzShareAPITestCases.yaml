@@ -1,0 +1,86 @@
+Create:
+  'Create Text Post In Buzz - ESS User':
+    userId: 2
+    now:
+      datetime: '2022-09-09 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: 'this is text post 01'
+      type: 'text'
+    data:
+      post:
+        id: 7
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Create Text Post In Buzz - Admin User':
+    userId: 1
+    now:
+      datetime: '2022-09-09 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: 'this is text post 02'
+      type: 'text'
+    data:
+      post:
+        id: 7
+      employee:
+        empNumber: 4
+        lastName: 'Abrahams'
+        firstName: 'Landon'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Create Video Post With Text In Buzz - ESS User':
+    userId: 2
+    now:
+      datetime: '2022-09-09 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: 'this is video post 01'
+      type: 'video'
+      link: 'https://vimeo.com/336812686'
+    data:
+      post:
+        id: 7
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Create Video Post With Text In Buzz - Large Text':
+    userId: 1
+    now:
+      datetime: '2022-09-09 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
+      type: 'video'
+      link: 'https://youtu.be/ozv4q2ov3Mk?list=RD-rey3m8SWQI'
+    data:
+      post:
+        id: 7
+      employee:
+        empNumber: 4
+        lastName: 'Abrahams'
+        firstName: 'Landon'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
