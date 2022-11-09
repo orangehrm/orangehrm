@@ -1,0 +1,54 @@
+GetOne:
+  'Get Report table headers':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+    data:
+      headers:
+        - name: 'Project Name'
+          prop: 'projectName'
+          size: 150
+          pin: null
+          cellProperties: null
+        - name: 'Activity Name'
+          prop: 'activityName'
+          size: 150
+          pin: null
+          cellProperties:
+            class:
+              col-alt: true
+        - name: 'Time (Hours)'
+          prop: 'duration'
+          size: 150
+          pin: null
+          cellProperties: null
+      filters: [ ]
+    meta:
+      headers: null
+      filters: null
+
+  'Invalid Report name as name attribute':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'something'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Invalid report name'
+
+

@@ -1,0 +1,748 @@
+GetAll:
+  # Admin Test Cases
+  'invalid filter params':
+    userId: 1
+    query:
+      abcd: 1
+    invalidOnly: ['abcd']
+
+  'without query params for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: [
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      },
+      {
+        "id": 1,
+        "title": "Tracker Emp 2",
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": "2022-05-05"
+      },
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 3
+
+  'with limit for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 2
+    data: [
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      },
+      {
+        "id": 1,
+        "title": "Tracker Emp 2",
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": "2022-05-05"
+      }
+    ]
+    meta:
+      total: 3
+
+  'with limit and offset for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 2
+      offset: 1
+    data: [
+      {
+        "id": 1,
+        "title": "Tracker Emp 2",
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": "2022-05-05"
+      },
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 3
+
+  'sort field tracker name ascending for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      sortField: tracker.trackerName
+      sortOrder: 'ASC'
+    data: [
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      },
+      {
+        "id": 1,
+        "title": "Tracker Emp 2",
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": "2022-05-05"
+      },
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      }
+    ]
+    meta:
+      total: 3
+
+  'sort field tracker modified date ascending for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      sortField: 'tracker.modifiedDate'
+      sortOrder: 'ASC'
+    data: [
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      },
+      {
+        "id": 1,
+        "title": "Tracker Emp 2",
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": "2022-05-05"
+      },
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      }
+    ]
+    meta:
+      total: 3
+
+  'invalid param for include employee':
+    userId: 1
+    query:
+      includeEmployees: 'abcd'
+    invalidOnly: ['includeEmployees']
+
+  'include employee only past for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      includeEmployees: 'onlyPast'
+    data: [
+      {
+        "id": 3,
+        "title": "Tracker Emp 3",
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Chenuka",
+          "middleName": "",
+          "lastName": "Gamage",
+          "terminationId": 1
+        },
+        "addedDate": "2022-05-02",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'include employee current and past for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      includeEmployees: 'currentAndPast'
+    data: [
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      },
+      {
+        "id": 1,
+        "title": "Tracker Emp 2",
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": "2022-05-05"
+      },
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      },
+      {
+        "id": 3,
+        "title": "Tracker Emp 3",
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Chenuka",
+          "middleName": "",
+          "lastName": "Gamage",
+          "terminationId": 1
+        },
+        "addedDate": "2022-05-02",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 4
+
+  'invalid employee id for admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 'abcd'
+    invalidOnly: ['empNumber']
+
+  'purged employee id for admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 4
+    invalidOnly: ['empNumber']
+
+  'non existent employee id for admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 1000
+    invalidOnly: ['empNumber']
+
+  'valid employee id with tracker for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+    data: [
+      {
+        "id": 1,
+        "title": "Tracker Emp 2",
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "lastName": "Perera",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": "2022-05-05"
+      }
+    ]
+    meta:
+      total: 1
+
+  'with valid emp id that has no trackers for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 6
+    data: [ ]
+    meta:
+      total: 0
+
+  'with valid terminated emp id for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 3
+    data: [ ]
+    meta:
+      total: 0
+
+  'with valid terminated emp id and include employees only past for admin':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 3
+      includeEmployees: 'onlyPast'
+    data: [
+      {
+        "id": 3,
+        "title": "Tracker Emp 3",
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Chenuka",
+          "middleName": "",
+          "lastName": "Gamage",
+          "terminationId": 1
+        },
+        "addedDate": "2022-05-02",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 1
+
+  # ESS Test Cases
+  'without query params for ESS':
+    userId: 2
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: [
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      },
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      }
+    ]
+    meta:
+      total: 2
+
+  'with sort field tracker name ASC for ESS':
+    userId: 2
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      sortField: 'tracker.trackerName'
+      sortOrder: 'ASC'
+    data: [
+      {
+        "id": 2,
+        "title": "Tracker Emp 1",
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Devi",
+          "middleName": "",
+          "lastName": "Admin",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-05",
+        "modifiedDate": null
+      },
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      }
+    ]
+    meta:
+      total: 2
+
+  'with employee id query':
+    userId: 2
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 5
+    data: [
+      {
+        "id": 5,
+        "title": "Tracker Emp 5",
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Anika",
+          "middleName": "",
+          "lastName": "Sapramadu",
+          "terminationId": null
+        },
+        "addedDate": "2022-05-06",
+        "modifiedDate": "2022-05-06"
+      }
+    ]
+    meta:
+      total: 1
+
+  'with user id that is not assigned as reviewer':
+    userId: 3
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: [ ]
+    meta:
+      total: 0
+
+GetOne:
+  'Get existing tracker':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    data:
+      "id": 5
+      "trackerName": "Tracker Emp 5"
+      "employee":
+        "empNumber": 5
+        "firstName": "Anika"
+        "lastName": "Sapramadu"
+        "terminationId": null
+      "addedDate": "2022-05-06"
+      "modifiedDate": "2022-05-06"
+      "status": 1
+    meta:
+      []
+
+  'Get non existing tracker':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+    attributes:
+      id: 6
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: 'Record Not Found'
+
+  'ESS get one tracker without permission':
+    userId: 3
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 4
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'Ess get their own tracker':
+    userId: 3
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    data:
+      "id": 5
+      "trackerName": "Tracker Emp 5"
+      "employee":
+        "empNumber": 5
+        "firstName": "Anika"
+        "lastName": "Sapramadu"
+        "terminationId": null
+      "addedDate": "2022-05-06"
+      "modifiedDate": "2022-05-06"
+      "status": 1
+
+  'reviewer get one tracker without permission':
+    userId: 2
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 3
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'reviewer get one tracker with permission':
+    userId: 2
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    data:
+      "id": 5
+      "trackerName": "Tracker Emp 5"
+      "employee":
+        "empNumber": 5
+        "firstName": "Anika"
+        "lastName": "Sapramadu"
+        "terminationId": null
+      "addedDate": "2022-05-06"
+      "modifiedDate": "2022-05-06"
+      "status": 1

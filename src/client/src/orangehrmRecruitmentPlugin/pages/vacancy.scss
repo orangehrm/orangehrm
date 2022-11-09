@@ -1,0 +1,87 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.user-form-header {
+  display: flex;
+  padding: 1rem;
+  &-text {
+    font-size: 0.8rem;
+    margin-right: 1rem;
+  }
+}
+.orangehrm-vacancy-list {
+  ::v-deep(.card-header-slot) {
+    border-bottom: $oxd-input-control-border--active;
+    margin-bottom: 5px;
+  }
+  ::v-deep(.card-header-slot .oxd-table-card-cell) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  ::v-deep(.card-header-slot .header) {
+    margin-right: 5px;
+    font-size: 1rem;
+  }
+  ::v-deep(.card-header-slot-content.--left) {
+    display: flex;
+    align-items: center;
+    flex: 2;
+  }
+  ::v-deep(.card-body-slot) {
+    display: unset;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.2rem;
+  }
+}
+.orangerhrm-switch-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @include oxd-respond-to('sm') {
+    max-width: 50%;
+  }
+  @include oxd-respond-to('md') {
+    max-width: 100%;
+  }
+}
+.orangehrm-grid-item-span-2 {
+  grid-column: span 2;
+}
+.orangehrm-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: $oxd-interface-gray-darken-1-color;
+}
+.orangehrm-text-label {
+  flex: 1;
+  padding-right: 0.2rem;
+}
+.orangehrm-attachment-header {
+  justify-content: flex-start;
+}
+.orangehrm-attachment-header__title {
+  margin-right: 1rem;
+}
+.orangehrm-vacancy-links {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: $oxd-interface-gray-lighten-2-color;
+}

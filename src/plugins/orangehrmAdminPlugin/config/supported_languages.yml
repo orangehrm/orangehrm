@@ -1,0 +1,16 @@
+# supported languages
+#
+# Please enter in ascending alphabetical order of 'value' (language name)
+languages:
+  1: {key: 'zh_Hans_CN', value: 'Chinese (Simplified, China) - 中文（简体，中国）'}
+  2: {key: 'zh_Hant_TW', value: 'Chinese (Traditional, Taiwan) - 中文（繁體，台灣）'}
+  3: {key: 'nl', value: 'Dutch - Nederlands'}
+  4: {key: 'en_US', value: 'English (United States)'}
+  5: {key: 'fr', value: 'French - Français'}
+  6: {key: 'de', value: 'German - Deutsch'}
+  7: {key: 'es', value: 'Spanish - Español'}
+  8: {key: 'es_CR', value: 'Spanish (Costa Rica) - Español (Costa Rica)'}
+#  9: {key: 'zz_ZZ', value: 'test - TEST'}
+
+
+

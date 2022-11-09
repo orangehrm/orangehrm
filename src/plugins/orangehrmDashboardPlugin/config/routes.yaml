@@ -1,0 +1,60 @@
+apiv2_dashboard_employees_on_leave:
+  path: /api/v2/dashboard/employees/leaves
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveAPI
+
+apiv2_dashboard_employees_by_subunit:
+  path: /api/v2/dashboard/employees/subunit
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeeDistributionBySubunitAPI
+
+apiv2_dashboard_quick_launch:
+  path: /api/v2/dashboard/shortcuts
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\QuickLaunchAPI
+
+apiv2_dashboard_employees_by_location:
+  path: /api/v2/dashboard/employees/locations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeeDistributionByLocationAPI
+
+apiv2_dashboard_employee_time_at_work:
+  path: /api/v2/dashboard/employees/time-at-work
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeeTimeAtWorkAPI
+    id: 0
+
+apiv2_dashboard_employee_action_summary:
+  path: /api/v2/dashboard/employees/action-summary
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeeActionSummaryAPI
+    id: 0
+
+apiv2_dashboard_employee_on_leave_today_configuration:
+  path: /api/v2/dashboard/config/employee-on-leave-today
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveTodayConfigAPI
+    id: 0
+
+##########################
+#        Screens
+##########################
+
+dashboard_widget:
+  path: /dashboard/index
+  controller: OrangeHRM\Dashboard\Controller\DashboardController::handle
+  methods: [ GET ]

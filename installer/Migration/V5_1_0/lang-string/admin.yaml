@@ -1,0 +1,46 @@
+langStrings:
+  -
+    value: 'Primary Color'
+    unitId: primary_color
+  -
+    value: 'Secondary Color'
+    unitId: secondary_color
+  -
+    value: 'Primary Font Color'
+    unitId: primary_font_color
+  -
+    value: 'Secondary Font Color'
+    unitId: secondary_font_color
+  -
+    value: 'Primary Gradient Color 1'
+    unitId: primary_gradient_color_one
+  -
+    value: 'Primary Gradient Color 2'
+    unitId: primary_gradient_color_two
+  -
+    value: 'Client Logo'
+    unitId: client_logo
+  -
+    value: 'Client Banner'
+    unitId: client_banner
+  -
+    value: 'Login Banner'
+    unitId: login_banner
+  -
+    value: 'Social Media Images'
+    unitId: social_media_images
+  -
+    value: 'Export'
+    unitId: export
+  -
+    value: 'Translate'
+    unitId: translate
+  -
+    value: 'Users will require translate texts manually after creating the language package.'
+    unitId: translate_text_manually
+  -
+    value: 'Add Language Package'
+    unitId: add_language_package
+  -
+    value: 'Directory Module'
+    unitId: directory_module

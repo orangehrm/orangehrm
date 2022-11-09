@@ -1,0 +1,217 @@
+langStrings:
+  -
+    value: 'View Action History'
+    unitId: view_action_history
+  -
+    value: 'Interviewer'
+    unitId: interviewer
+  -
+    value: 'Interview Title'
+    unitId: interview_title
+  -
+    value: 'Schedule Interview'
+    unitId: schedule_interview
+  -
+    value: 'Shortlist'
+    unitId: shortlist
+  -
+    value: 'Current Status'
+    unitId: current_status
+  -
+    value: 'Performed Action'
+    unitId: performed_action
+  -
+    value: 'Performed Date'
+    unitId: performed_date
+  -
+    value: 'View Action History'
+    unitId: view_action_history
+  -
+    value: 'Vacancy'
+    unitId: vacancy
+  -
+    value: 'Hiring Manager'
+    unitId: hiring_manager
+  -
+    value: 'Candidate Name'
+    unitId: candidate_name
+  -
+    value: 'Keywords'
+    unitId: keywords
+  -
+    value: 'Date of Application'
+    unitId: date_of_application
+  -
+    value: 'Method of Application'
+    unitId: method_of_application
+  -
+    value: 'Enter comma seperated words'
+    unitId: enter_comma_seperated_words
+  -
+    value: 'Candidate'
+    unitId: candidate
+  -
+    value: 'Application Initiated'
+    unitId: application_initiated
+  -
+    value: 'Shortlisted'
+    unitId: shortlisted
+  -
+    value: 'Interview Scheduled'
+    unitId: interview_scheduled
+  -
+    value: 'Interview Passed'
+    unitId: interview_passed
+  -
+    value: 'Interview Failed'
+    unitId: interview_failed
+  -
+    value: 'Job Offered'
+    unitId: job_offered
+  -
+    value: 'Offer Declined'
+    unitId: offer_declined
+  -
+    value: 'Manual'
+    unitId: manual
+  -
+    value: 'Online'
+    unitId: online
+  -
+    value: 'Contact Number'
+    unitId: contact_number
+  -
+    value: 'Consent to keep data'
+    unitId: consent_to_keep_data
+  -
+    value: 'Resume'
+    unitId: resume
+  -
+    value: 'Add Candidate'
+    unitId: add_candidate
+  -
+    value: 'Should be the current date or a previous date'
+    unitId: should_be_current_date_previous_date
+  -
+    value: 'Application Stage'
+    unitId: application_stage
+  -
+    value: 'Offer Job'
+    unitId: offer_job
+  -
+    value: 'Mark Interview Failed'
+    unitId: mark_interview_failed
+  -
+    value: 'Mark Interview Passed'
+    unitId: mark_interview_passed
+  -
+    value: 'Decline Offer'
+    unitId: decline_offer
+  -
+    value: 'Hire'
+    unitId: hire
+  -
+    value: 'Profile'
+    unitId: profile
+  -
+    value: 'Job Vacancy'
+    unitId: job_vacancy
+  -
+    value: 'History'
+    unitId: history
+  -
+    value: 'Hiring Manager'
+    unitId: hiring_manager
+  -
+    value: 'Candidate Profile'
+    unitId: candidate_profile
+  -
+    value: 'Candidate History'
+    unitId: candidate_profile
+
+  - value: 'Add Vacancy'
+    unitId: add_vacancy
+
+  - value: 'Edit Vacancy'
+    unitId: edit_vacancy
+
+  - value: 'Vacancy Name'
+    unitId: vacancy_name
+
+  - value: 'Number of Positions'
+    unitId: num_of_positions
+
+  - value: 'RSS Feed URL'
+    unitId: rss_feed_url
+
+  - value: 'Web Page URL'
+    unitId: web_page_url
+
+  - value: 'Publish in RSS Feed and Web Page'
+    unitId: publish_in_rss_feed_and_web_page
+
+  - value: 'Candidate History'
+    unitId: candidate_history
+  -
+    value: '{employee} added {candidate}'
+    unitId: employee_added_candidate
+  -
+    value: '{employee} assigned the job vacancy {vacancy}'
+    unitId: employee_assigned_vacancy_to_candidate
+  -
+    value: 'Shortlisted for {vacancy} by {employee}'
+    unitId: candidate_shortlisted_for_vacancy_by_employee
+  -
+    value: '{employee} scheduled {interview} on {interviewDate} with {interviewers} for {vacancy}'
+    unitId: employee_schedule_interview_with_interviewers
+  -
+    value: '{employee} marked {interview} as passed for {vacancy}'
+    unitId: employee_marked_interveiw_passed
+  -
+    value: '{employee} marked {interview} as failed for {vacancy}'
+    unitId: employee_marked_interveiw_failed
+  -
+    value: '{employee} offered the job for {vacancy}'
+    unitId: employee_offered_the_job
+  -
+    value: '{employee} marked the offer as declined for {vacancy}'
+    unitId: employee_marked_the_offer_declined
+  -
+    value: '{employee} hired {candidate} for {vacancy}'
+    unitId: employee_hired_the_candidate
+  -
+    value: '{employee} rejected {candidate} from the {vacancy}'
+    unitId: employee_rejected_the_candidate
+  -
+    value: '{employee} removed {candidate} from the {vacancy}'
+    unitId: employee_removed_candidate_from_vacancy
+  -
+    value: '{candidate} applied for the vacancy {vacancy}'
+    unitId: candidate_applied_for_the_vacancy
+  -
+    value: 'Shortlist Candidate'
+    unitId: shortlist_candidate
+  -
+    value: 'Hired'
+    unitId: hired
+  -
+    value: 'Powered By'
+    unitId: powered_by
+  -
+    value: 'Apply for {vacancyName}'
+    unitId: apply_for_n_vacancy
+  -
+    value: 'Application Received'
+    unitId: application_received
+  -
+    value: 'Your application has been submitted successfully'
+    unitId: your_application_has_been_submitted_successfully
+  -
+    value: 'Hire Candidate'
+    unitId: hire_candidate
+  -
+    value: 'Reject Candidate'
+    unitId: reject_candidate
+  -
+    value: 'This action will remove previous vacancy. Are you sure you want to continue?'
+    unitId: candidate_vacancy_change_message

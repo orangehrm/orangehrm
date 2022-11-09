@@ -1,0 +1,509 @@
+GetAll:
+  'get employee report data - without filters - self':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 1
+    data:
+      - projectName: 'Orange - Core project 00'
+        activityName: 'Requirement Gathering'
+        duration: '2.00'
+    meta:
+      total: 1
+      sum:
+        hours: 2
+        minutes: 0
+        label: '2.00'
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: 'T'
+        employeeId: 'E001'
+        terminationId: null
+
+  'get employee report data - without filters - supervisor self':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'get employee report data - without filters - supervisor to subordinate':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+    data:
+      - projectName: 'CUS - Core project 01'
+        activityName: 'System Implementation'
+        duration: '3.00'
+      - projectName: 'CUS2 - Core project 02'
+        activityName: 'Bug Fixes'
+        duration: '1.00'
+      - projectName: 'Orange - Core project 00'
+        activityName: 'Requirement Gathering'
+        duration: '1.00'
+    meta:
+      total: 3
+      sum:
+        hours: 5
+        minutes: 0
+        label: '5.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report data - without filters - supervisor to non assigned subordinate':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 4
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'get employee report data - without filters - ESS to ESS':
+    userId: 2
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 4
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'get employee report data - without filters - non existing empNumber':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 20
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'get employee report data - with filters - projectId':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      projectId: 2
+    data:
+      - projectName: 'CUS - Core project 01'
+        activityName: 'System Implementation'
+        duration: '3.00'
+    meta:
+      total: 1
+      sum:
+        hours: 3
+        minutes: 0
+        label: '3.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report data - with filters - projectId - non existing projectId':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      projectId: 25
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'get employee report data - with filter - activityId':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      activityId: 2
+    data:
+      - projectName: 'CUS - Core project 01'
+        activityName: 'System Implementation'
+        duration: '3.00'
+    meta:
+      total: 1
+      sum:
+        hours: 3
+        minutes: 0
+        label: '3.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report data - with filter - activityId - non existing activityId':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      activityId: 25
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'get employee report data - with filter - fromDate':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      fromDate: '2020-10-12'
+    data:
+      - projectName: 'CUS2 - Core project 02'
+        activityName: 'Bug Fixes'
+        duration: '1.00'
+    meta:
+      total: 1
+      sum:
+        hours: 1
+        minutes: 0
+        label: '1.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report data - with filter - toDate':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      toDate: '2020-09-30'
+    data:
+      - projectName: 'CUS - Core project 01'
+        activityName: 'System Implementation'
+        duration: '0.50'
+      - projectName: 'Orange - Core project 00'
+        activityName: 'Requirement Gathering'
+        duration: '1.00'
+    meta:
+      total: 2
+      sum:
+        hours: 1
+        minutes: 30
+        label: '1.50'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report data - with filter - from date and to date':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      fromDate: '2020-10-02'
+      toDate: '2020-10-26'
+    data:
+      - projectName: 'CUS2 - Core project 02'
+        activityName: 'Bug Fixes'
+        duration: '1.00'
+    meta:
+      total: 1
+      sum:
+        hours: 1
+        minutes: 00
+        label: '1.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report date - with filter - fromDate > toDate':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      fromDate: '2020-10-26'
+      toDate: '2020-10-02'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'get employee report data - with filter - timesheetState - all':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 3
+      timesheetState: 'all'
+    data:
+      - projectName: 'Orange - Core project 00'
+        activityName: 'Bug Fixes'
+        duration: '1.00'
+    meta:
+      total: 1
+      sum:
+        hours: 1
+        minutes: 00
+        label: '1.00'
+      employee:
+        empNumber: 3
+        lastName: 'Saputhanthri'
+        firstName: 'Renukshan'
+        middleName: 'RT'
+        employeeId: 'E003'
+        terminationId: null
+
+  'get employee report data - with filter - timesheetState - onlyApproved':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      timesheetState: 'onlyApproved'
+    data:
+      - projectName: 'CUS2 - Core project 02'
+        activityName: 'Bug Fixes'
+        duration: '1.00'
+    meta:
+      total: 1
+      sum:
+        hours: 1
+        minutes: 00
+        label: '1.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report data - with filter - all filters':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      projectId: 3
+      activityId: 3
+      fromDate: '2020-10-22'
+      toDate: '2020-10-27'
+      timesheetState: 'onlyApproved'
+    data:
+      - projectName: 'CUS2 - Core project 02'
+        activityName: 'Bug Fixes'
+        duration: '1.00'
+    meta:
+      total: 1
+      sum:
+        hours: 1
+        minutes: 00
+        label: '1.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report data - with filter - all filters - no result found':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      projectId: 3
+      activityId: 3
+      fromDate: '2020-10-22'
+      toDate: '2020-10-23'
+      timesheetState: 'onlyApproved'
+    data: [ ]
+    meta:
+      total: 0
+      sum:
+        hours: 0
+        minutes: 00
+        label: '0.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null

@@ -1,0 +1,247 @@
+langStrings:
+  -
+    value: 'Supervisor Reviewer'
+    unitId: supervisor_reviewer
+  -
+    value: 'Add Review'
+    unitId: add_review
+  -
+    value: 'Review Period Start Date'
+    unitId: review_period_start_date
+  -
+    value: 'Review Period End Date'
+    unitId: review_period_end_date
+  -
+    value: 'Due Date'
+    unitId: due_date
+  -
+    value: 'Activate'
+    unitId: activate
+  -
+    value: 'Review period start date should be before period end date'
+    unitId: review_period_start_date_should_be_before_end_date
+  -
+    value: 'Review period end date should be after period start date'
+    unitId: review_period_end_date_should_be_after_start_date
+  -
+    value: 'Due date should be after period end date'
+    unitId: due_date_should_be_after_review_period_end_date
+  -
+    value: "Cannot activate review for employees who doesn't have Job Title and/or Sub-Division"
+    unitId: cannot_activate_review_without_job_title_subdivision
+  -
+    value: "Cannot activate review without KPIs"
+    unitId: cannot_activate_review_without_kpi
+  -
+    value: 'Reviewers'
+    unitId: reviewers
+  -
+    value: 'Tracker Name'
+    unitId: tracker_name
+  -
+    value: 'Edit Performance Tracker'
+    unitId: edit_performance_tracker
+  -
+    value: 'Add Performance Tracker'
+    unitId: add_performance_tracker
+  -
+    value: 'Employee cannot be assigned as his own reviewer'
+    unitId: employee_cannot_be_assigned_as_his_own_reviewer
+  -
+    value: 'Performance Trackers'
+    unitId: performance_trackers
+  -
+    value: 'Key Performance Indicators for Job Title'
+    unitId: key_performance_indicators_for_job_title
+  -
+    value: 'Key Performance Indicator'
+    unitId: key_performance_indicator
+  -
+    value: 'Min Rate'
+    unitId: min_rate
+  -
+    value: 'Max Rate'
+    unitId: max_rate
+  -
+    value: 'Is Default'
+    unitId: is_default
+  -
+    value: 'Add Key Performance Indicator'
+    unitId: add_key_performance_indicator
+  -
+    value: 'Edit Key Performance Indicator'
+    unitId: edit_key_performance_indicator
+  -
+    value: 'Minimum Rating'
+    unitId: minimum_rating
+  -
+    value: 'Maximum Rating'
+    unitId: maximum_rating
+  -
+    value: 'Make Default Scale'
+    unitId: make_default_scale
+  -
+    value: 'Minimum Rating should be less than Maximum Rating'
+    unitId: minimum_rating_should_be_less_than_maximum_rating
+  -
+    value: 'Maximum Rating should be greater than Minimum Rating'
+    unitId: maximum_rating_should_be_greater_than_minimum_rating
+  -
+    value: 'Employee Performance Trackers'
+    unitId: employee_performance_trackers
+  -
+    value: 'Modified Date'
+    unitId: modified_date
+  -
+    value: 'Added Date'
+    unitId: added_date
+  -
+    value: 'Tracker'
+    unitId: tracker
+  -
+    value: 'My Performance Trackers'
+    unitId: my_performance_trackers
+  -
+    value: 'Review Period'
+    unitId: review_period
+  -
+    value: 'Self Evaluation Status'
+    unitId: self_evaluation_status
+  -
+    value: 'Review Status'
+    unitId: review_status
+  -
+    value: 'Evaluate'
+    unitId: evaluate
+  -
+    value: 'Employee Reviews'
+    unitId: employee_reviews
+  -
+    value: 'Activated'
+    unitId: activated
+  -
+    value: 'In Progress'
+    unitId: in_progress
+  -
+    value: 'Completed'
+    unitId: completed
+  -
+    value: 'Reviewer'
+    unitId: reviewer
+  -
+    value: 'Manage Performance Reviews'
+    unitId: manage_performance_reviews
+  -
+    value: 'Inactive'
+    unitId: inactive
+  -
+    value: 'Tracker Logs'
+    unitId: tracker_logs
+  -
+    value: 'Add Log'
+    unitId: add_log
+  -
+    value: 'Added On'
+    unitId: added_on
+  -
+    value: 'Modified On'
+    unitId: modified_on
+  -
+    value: 'Delete'
+    unitId: delete
+  -
+    value: 'Add Tracker Log'
+    unitId: add_tracker_log
+  -
+    value: 'Log'
+    unitId: log
+  -
+    value: 'Positive'
+    unitId: positive
+  -
+    value: 'Negative'
+    unitId: negative
+  -
+    value: 'Edit Tracker Log'
+    unitId: edit_tracker_log
+  -
+    value: 'Performance Review'
+    unitId: performance_review
+  -
+    value: 'Review Summary'
+    unitId: review_summary
+  -
+    value: 'Review Due Date'
+    unitId: review_due_date
+  -
+    value: 'Complete'
+    unitId: complete
+  -
+    value: 'Review Finalization'
+    unitId: review_finalization
+  -
+    value: 'Date of Completion'
+    unitId: date_of_completion
+  -
+    value: 'Final Rating'
+    unitId: final_rating
+  -
+    value: 'Final Comments'
+    unitId: final_comments
+  -
+    value: 'Rating should be greater than or equal to {minValue}'
+    unitId: rating_should_be_greater_than_or_equal_to_minValue
+  -
+    value: 'Rating should be less than or equal to {maxValue}'
+    unitId: rating_should_be_less_than_or_equal_to_maxValue
+  -
+    value: 'Self Evaluation by'
+    unitId: self_evaluation_by
+  -
+    value: 'Supervisor Evaluation by'
+    unitId: supervisor_evaluation_by
+  -
+    value: 'KPI'
+    unitId: kpi
+  -
+    value: 'Rating'
+    unitId: rating
+  -
+    value: 'Min'
+    unitId: min
+  -
+    value: 'Max'
+    unitId: max
+  -
+    value: 'Evaluation Activated'
+    unitId: evaluation_activated
+  -
+    value: 'Evaluation In Progress'
+    unitId: evaluation_in_progress
+  -
+    value: 'Evaluation Completed'
+    unitId: evaluation_completed
+  -
+    value: "Cannot activate review for employees who doesn't have a Job Title with KPI"
+    unitId: cannot_activate_review_for_employee_without_job_title_with_kpi
+  -
+    value: 'Cannot add a past employee as reviewer'
+    unitId: cannot_add_a_past_employee_as_reviewer
+  -
+    value: 'Selected supervisor for reviewer is invalid'
+    unitId: selected_supervisor_for_reviewer_is_invalid
+  -
+    value: 'General Comment'
+    unitId: general_comment
+  -
+    value: 'Confirm Review Submission'
+    unitId: confirm_review_submission
+  -
+    value: 'The review will be made read-only after completion. This action cannot be undone. Are you sure you want to continue?'
+    unitId: confirm_review_submission_message
+  -
+    value: 'Cannot add a past employee as a reviewer'
+    unitId: cannot_add_a_past_employee_as_a_reviewer
+  -
+    value: 'Edit Review'
+    unitId: edit_review

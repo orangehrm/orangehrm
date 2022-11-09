@@ -1,0 +1,598 @@
+GetAll:
+  'Get all project activity breakdown with out filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=1&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=2&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 5,
+        "activityName": "SCRUM",
+        "deleted": false,
+        "time": "0.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=5&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 3,
+        "activityName": "TBS",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=3&includeTimesheet=all"
+        }
+      }
+    ]
+    meta:
+      total: 4
+      sum: {
+        hours: 6.0,
+        minutes: 53,
+        label: "6.89"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }
+
+  'Get all project activity breakdown with from date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      fromDate: '2011-01-01'
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-01-01&toDate=&projectId=1&activityId=1&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-01-01&toDate=&projectId=1&activityId=2&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 5,
+        "activityName": "SCRUM",
+        "deleted": false,
+        "time": "0.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-01-01&toDate=&projectId=1&activityId=5&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 3,
+        "activityName": "TBS",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-01-01&toDate=&projectId=1&activityId=3&includeTimesheet=all"
+        }
+      }
+    ]
+    meta:
+      total: 4
+      sum: {
+        hours: 6.0,
+        minutes: 53,
+        label: "6.89"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }
+
+  'Get all project activity breakdown with to date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      toDate: '2011-04-25'
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=2011-04-25&projectId=1&activityId=1&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=2011-04-25&projectId=1&activityId=2&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 5,
+        "activityName": "SCRUM",
+        "deleted": false,
+        "time": "0.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=2011-04-25&projectId=1&activityId=5&includeTimesheet=all"
+        }
+      }
+    ]
+    meta:
+      total: 3
+      sum: {
+        hours: 4.0,
+        minutes: 56,
+        label: "4.94"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }
+
+  'Get all project activity breakdown with from date and to date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      fromDate: '2011-04-18'
+      toDate: '2011-04-21'
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-04-18&toDate=2011-04-21&projectId=1&activityId=1&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-04-18&toDate=2011-04-21&projectId=1&activityId=2&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 5,
+        "activityName": "SCRUM",
+        "deleted": false,
+        "time": "0.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-04-18&toDate=2011-04-21&projectId=1&activityId=5&includeTimesheet=all"
+        }
+      }
+    ]
+    meta:
+      total: 3
+      sum: {
+        hours: 4.0,
+        minutes: 56,
+        label: "4.94"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }
+
+  'Get all project activity breakdown with approved timesheet only filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      includeTimesheet: 'onlyApproved'
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=1&includeTimesheet=onlyApproved"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=2&includeTimesheet=onlyApproved"
+        }
+      }
+    ]
+    meta:
+      total: 2
+      sum: {
+        hours: 4.0,
+        minutes: 56,
+        label: "4.94"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }
+
+  'Get all project activity breakdown with approved timesheet only and date range filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      fromDate: '2011-04-18'
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-04-18&toDate=2011-04-30&projectId=1&activityId=1&includeTimesheet=onlyApproved"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-04-18&toDate=2011-04-30&projectId=1&activityId=2&includeTimesheet=onlyApproved"
+        }
+      }
+    ]
+    meta:
+      total: 2
+      sum: {
+        hours: 4.0,
+        minutes: 56,
+        label: "4.94"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }
+
+  'Get all project activity breakdown with approved timesheet only and to date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=2011-04-30&projectId=1&activityId=1&includeTimesheet=onlyApproved"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=2011-04-30&projectId=1&activityId=2&includeTimesheet=onlyApproved"
+        }
+      }
+    ]
+    meta:
+      total: 2
+      sum: {
+        hours: 4.0,
+        minutes: 56,
+        label: "4.94"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }
+
+  'with invalid report name':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'invalid'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Invalid report name'
+
+  'with un available project id':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 100
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'with wrong date':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      toDate: '2011-04-31'
+      includeTimesheet: 'onlyApproved'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'with wrong from date':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      fromDate: '2011-05-01'
+      toDate: '2011-04-30'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'check un authorized access':
+    userId: 4
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Get all project activity breakdown with out filter - project admin':
+    userId: 2
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=1&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=2&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 5,
+        "activityName": "SCRUM",
+        "deleted": false,
+        "time": "0.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=5&includeTimesheet=all"
+        }
+      },
+      {
+        "activityId": 3,
+        "activityName": "TBS",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=&toDate=&projectId=1&activityId=3&includeTimesheet=all"
+        }
+      }
+    ]
+    meta:
+      total: 4
+      sum: {
+        hours: 6.0,
+        minutes: 53,
+        label: "6.89"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }
+
+  'Get all project activity breakdown with approved timesheet only and date range filter - project admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+      fromDate: '2011-04-18'
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    data: [
+      {
+        "activityId": 1,
+        "activityName": "Debug",
+        "deleted": false,
+        "time": "3.00",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-04-18&toDate=2011-04-30&projectId=1&activityId=1&includeTimesheet=onlyApproved"
+        }
+      },
+      {
+        "activityId": 2,
+        "activityName": "QA",
+        "deleted": false,
+        "time": "1.94",
+        "_url": {
+          "activityName": "/time/displayProjectActivityDetailsReport?fromDate=2011-04-18&toDate=2011-04-30&projectId=1&activityId=2&includeTimesheet=onlyApproved"
+        }
+      }
+    ]
+    meta:
+      total: 2
+      sum: {
+        hours: 4.0,
+        minutes: 56,
+        label: "4.94"
+      },
+      project: {
+        id: 1,
+        name: "project_03",
+        description: "Project description for project_03",
+        deleted: false
+      }

@@ -1,0 +1,17 @@
+Employee:
+  0: {emp_number: 1, employee_id: '001', emp_firstname: 'amila' , emp_lastname: 'wick', emp_birthday: '2015-05-07', joined_date: '2010-05-07'}
+  1: {emp_number: 2, employee_id: '002', emp_firstname: 'damith', emp_lastname: 'dan', emp_birthday: '2010-06-07', joined_date: '2010-06-07'}
+
+Post:
+  0: {id: 1, employee_number: '1', text: 'this is first post', post_time: '2015-01-01 00:00:00'}
+
+Share:
+  0: {id: 1, employee_number: '1', post_id: '1', number_of_likes: '4', number_of_comments: '3', type: 'post', text: '', share_time: '2014-01-01 00:00:00'}
+
+Comment:
+  0: {id: 1, employee_number: '1', share_id: '1', number_of_likes: '4', comment_text: 'this is first comment', comment_time: '2014-01-01 00:00:00'}
+
+
+LikeOnComment:
+  0: {id: 1, employee_number: '1', comment_id: '1', like_time: '2014-01-01 00:00:00'}
+  1: {id: 2, employee_number: '2', comment_id: '1', like_time: '2014-01-01 00:00:00'}

@@ -1,0 +1,67 @@
+langStrings:
+  -
+    value: 'Employee Distribution by Sub Unit'
+    unitId: employee_distribution_by_sub_unit
+  -
+    value: 'Employee Distribution by Location'
+    unitId: employee_distribution_by_location
+  -
+    value: 'Unassigned'
+    unitId: unassigned
+  -
+    value: 'Employees on Leave Today'
+    unitId: employees_on_leave_today
+  -
+    value: 'No Employees are on Leave Today'
+    unitId: no_employees_are_on_leave_today
+  -
+    value: 'Leave Period Not Defined'
+    unitId: leave_period_not_defined
+  -
+    value: 'Time at Work'
+    unitId: time_at_work
+  -
+    value: 'Today'
+    unitId: today
+  -
+    value: 'This Week'
+    unitId: this_week
+  -
+    value: '{lastState}: {date} at {time} (GMT {timezoneOffset})'
+    unitId: state_date_at_time_timezone_offset
+  -
+    value: '{lastState}: Today at {time} (GMT {timezoneOffset})'
+    unitId: state_today_at_time_timezone_offset
+  -
+    value: 'Quick Launch'
+    unitId: quick_launch
+  -
+    value: 'My Actions'
+    unitId: my_actions
+  -
+    value: '{pendingActionsCount,plural, =0{No Records Found} one{(1) Leave Request to Approve} other{ (#) Leave Requests to Approve}}'
+    unitId: n_pending_leave_request
+  -
+    value: '{pendingActionsCount,plural, =0{No Records Found} one{(1) Timesheet to Approve} other{ (#) Timesheets to Approve}}'
+    unitId: n_pending_time_sheet
+  -
+    value: '{pendingActionsCount,plural, =0{No Records Found} one{(1) Performance Review to Evaluate} other{ (#) Performance Reviews to Evaluate}}'
+    unitId: n_pending_performance_evaluate
+  -
+    value: '{pendingActionsCount,plural, =0{No Records Found} one{(1) Candidate to Interview} other{ (#) Candidates to Interview}}'
+    unitId: n_pending_candidate_interview
+  -
+    value: 'No Pending Actions to Perform'
+    unitId: no_pending_actions
+  -
+    value: '{pendingActionsCount,plural, =0{No Records Found} one{(1) Pending Self Review} other{ (#) Pending Self Reviews}}'
+    unitId: n_pending_self_review
+  -
+    value: 'Configurations'
+    unitId: configurations
+  -
+    value: 'Only show accessible employees on leave for other users'
+    unitId: only_show_accessible_employees_on_leave_for_other_users
+  -
+    value: 'Not Available'
+    unitId: not_available

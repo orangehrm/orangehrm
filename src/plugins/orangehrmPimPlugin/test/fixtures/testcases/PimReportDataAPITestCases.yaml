@@ -1,0 +1,1887 @@
+GetAll:
+  'Display Fields - Personal':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 6
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "employeeNationality": null,
+        "maritalStatus": null,
+        "driversLicenseNumber": "",
+        "otherId": "",
+        "empBirthday": null,
+        "empGender": null,
+        "licenseExpiryDate": null
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "employeeNationality": "Dutch",
+        "maritalStatus": "Married",
+        "driversLicenseNumber": "123321",
+        "otherId": "E0002",
+        "empBirthday": "1990-10-02",
+        "empGender": "Female",
+        "licenseExpiryDate": "2021-10-29"
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "employeeLastname": "Duval",
+        "employeeFirstname": "Alice",
+        "employeeMiddlename": "",
+        "employeeNationality": null,
+        "maritalStatus": null,
+        "driversLicenseNumber": "",
+        "otherId": "",
+        "empBirthday": null,
+        "empGender": null,
+        "licenseExpiryDate": null
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "employeeNationality": null,
+        "maritalStatus": 'Other',
+        "driversLicenseNumber": "",
+        "otherId": "",
+        "empBirthday": null,
+        "empGender": null,
+        "licenseExpiryDate": null
+      },
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "employeeNationality": null,
+        "maritalStatus": null,
+        "driversLicenseNumber": "",
+        "otherId": "",
+        "empBirthday": null,
+        "empGender": null,
+        "licenseExpiryDate": null
+      },
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "employeeLastname": "Morgan",
+        "employeeFirstname": "Jasmine",
+        "employeeMiddlename": "",
+        "employeeNationality": null,
+        "maritalStatus": 'Single',
+        "driversLicenseNumber": "",
+        "otherId": "",
+        "empBirthday": '1995-10-02',
+        "empGender": 'Male',
+        "licenseExpiryDate": null
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Contact Details':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 7
+      limit: 3
+      offset: 2
+    data: [
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "homeTelephone": "112-382-0478",
+        "mobile": null,
+        "workTelephone": "112-454-0457",
+        "workEmail": "odis1@osohrm.com",
+        "otherEmail": null,
+        "address": "263a, Centroallee, Oberhausen, 46047, Germany"
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "homeTelephone": null,
+        "mobile": null,
+        "workTelephone": null,
+        "workEmail": null,
+        "otherEmail": "kayla@mail.com",
+        "address": "Western, Sri Lanka"
+      },
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "homeTelephone": null,
+        "mobile": null,
+        "workTelephone": null,
+        "workEmail": null,
+        "otherEmail": null,
+        "address": ""
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Emergency Contacts':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 8
+      limit: 3
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "ecname": [
+            "Kevin",
+            "Charlie"
+        ],
+        "ecHomeTelephone": [
+            "0335445678",
+            "0335445678"
+        ],
+        "ecWorkTelephone": [
+            "0113456787",
+            "0113456787"
+        ],
+        "ecRelationship": [
+            "Friend",
+            "Friend"
+        ],
+        "ecMobile": [
+            "0776734567",
+            "0776734567"
+        ],
+        "ecSeqNo": [
+            "1",
+            "2"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "ecname": [
+            "Lisa"
+        ],
+        "ecHomeTelephone": [
+            ""
+        ],
+        "ecWorkTelephone": [
+            ""
+        ],
+        "ecRelationship": [
+            "Wife"
+        ],
+        "ecMobile": [
+            "0776734237"
+        ],
+        "ecSeqNo": [
+            "2"
+        ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "ecname": [ ],
+        "ecHomeTelephone": [ ],
+        "ecWorkTelephone": [ ],
+        "ecRelationship": [ ],
+        "ecMobile": [ ],
+        "ecSeqNo": [ ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Dependents':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 9
+      limit: 3
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "dependentName": [
+            "Abrahamson",
+            "Abram"
+        ],
+        "dependentRelationship": [
+            "Child",
+            "friend"
+        ],
+        "dependentDateofBirth": [
+            "2007-02-23",
+            "2004-02-23"
+        ],
+        "edSeqNo": [
+            "1",
+            "2"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "dependentName": [
+            "Achilles"
+        ],
+        "dependentRelationship": [
+            "friend"
+        ],
+        "dependentDateofBirth": [
+            null
+        ],
+        "edSeqNo": [
+            "1"
+        ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "dependentName": [ ],
+        "dependentRelationship": [ ],
+        "dependentDateofBirth": [ ],
+        "edSeqNo": [ ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Immigration':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.country_service: \OrangeHRM\Admin\Service\CountryService
+    query:
+      name: 'pim_defined'
+      reportId: 10
+      limit: 3
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "empPassportNo": [
+            "HVN0003472"
+        ],
+        "empPassportIssuedDate": [
+            "2010-12-12"
+        ],
+        "empPassportExpiryDate": [
+            "2011-12-12"
+        ],
+        "empPassportEligibleStatus": [
+            "some status"
+        ],
+        "empPassportIssuedBy": [
+            null
+        ],
+        "empPassportEligibleReviewDate": [
+            "2011-12-30"
+        ],
+        "empPassportComments": [
+            "test comment"
+        ],
+        "documentType": [
+            "Passport"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "empPassportNo": [
+            "RTF33323411"
+        ],
+        "empPassportIssuedDate": [
+            "2010-12-12"
+        ],
+        "empPassportExpiryDate": [
+            "2011-12-12"
+        ],
+        "empPassportEligibleStatus": [
+            "some status"
+        ],
+        "empPassportIssuedBy": [
+            null
+        ],
+        "empPassportEligibleReviewDate": [
+            "2011-12-30"
+        ],
+        "empPassportComments": [
+            "i modify this"
+        ],
+        "documentType": [
+            "Visa"
+        ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "empPassportNo": [ ],
+        "empPassportIssuedDate": [ ],
+        "empPassportExpiryDate": [ ],
+        "empPassportEligibleStatus": [ ],
+        "empPassportIssuedBy": [ ],
+        "empPassportEligibleReviewDate": [ ],
+        "empPassportComments": [ ],
+        "documentType": [ ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Job':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 11
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "empJobTitle": "Sales Person",
+        "empEmploymentStatus": null,
+        "empJobCategory": null,
+        "empSubUnit": null,
+        "empLocation": 'Head',
+        "empTerminationReason": null,
+        "terminationNote": null,
+        "empContStartDate": "2020-05-23",
+        "empContEndDate": "2021-05-23",
+        "empJoinedDate": null,
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "empJobTitle": "Software Architect",
+        "empEmploymentStatus": null,
+        "empJobCategory": null,
+        "empSubUnit": null,
+        "empLocation": "Development",
+        "empTerminationReason": null,
+        "terminationNote": null,
+        "empContStartDate": null,
+        "empContEndDate": null,
+        "empJoinedDate": null,
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "empJobTitle": null,
+        "empEmploymentStatus": null,
+        "empJobCategory": null,
+        "empSubUnit": "Engineering",
+        "empLocation": "Development",
+        "empTerminationReason": null,
+        "terminationNote": null,
+        "empContStartDate": null,
+        "empContEndDate": null,
+        "empJoinedDate": null,
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "empJobTitle": null,
+        "empEmploymentStatus": null,
+        "empJobCategory": "Technicians",
+        "empSubUnit": "Support",
+        "empLocation": "Development",
+        "empTerminationReason": null,
+        "terminationNote": null,
+        "empContStartDate": null,
+        "empContEndDate": null,
+        "empJoinedDate": '2019-02-01',
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "empJobTitle": null,
+        "empEmploymentStatus": "Part Time",
+        "empJobCategory": "Professionals",
+        "empSubUnit": "QA",
+        "empLocation": "Support",
+        "empTerminationReason": "Resign",
+        "terminationNote": "Comment",
+        "empContStartDate": null,
+        "empContEndDate": null,
+        "empJoinedDate": "2015-10-18",
+        "terminationDate": "2021-11-20"
+      },
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "empJobTitle": null,
+        "empEmploymentStatus": "Full Time",
+        "empJobCategory": null,
+        "empSubUnit": null,
+        "empLocation": null,
+        "empTerminationReason": null,
+        "terminationNote": null,
+        "empContStartDate": null,
+        "empContEndDate": null,
+        "empJoinedDate": null,
+        "terminationDate": null
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Salary':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+    query:
+      name: 'pim_defined'
+      reportId: 12
+      limit: 2
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "salPayGrade": [
+            "Salary Grade B",
+            "Salary Grade A"
+        ],
+        "salSalaryComponent": [
+            "Allowance",
+            "Main Salary"
+        ],
+        "salAmount": [
+            "20000.00",
+            "10000.00"
+        ],
+        "salComments": [
+            null,
+            null
+        ],
+        "salPayFrequency": [
+            null,
+            null
+        ],
+        "salCurrency": [
+            "United States Dollar",
+            "Sri Lanka Rupee"
+        ],
+        "ddAccountNumber": [
+            "11111111",
+            null
+        ],
+        "ddAccountType": [
+            "SAVINGS",
+            null
+        ],
+        "ddRoutingNumber": [
+            "1111",
+            null
+        ],
+        "ddAmount": [
+            "1000.00",
+            null
+        ],
+        "salaryId": [
+            "2",
+            "1"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "salPayGrade": [ ],
+        "salSalaryComponent": [ ],
+        "salAmount": [ ],
+        "salComments": [ ],
+        "salPayFrequency": [ ],
+        "salCurrency": [ ],
+        "ddAccountNumber": [ ],
+        "ddAccountType": [ ],
+        "ddRoutingNumber": [ ],
+        "ddAmount": [ ],
+        "salaryId": [ ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Subordinates':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      name: 'pim_defined'
+      reportId: 13
+      limit: 3
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "subordinateFirstName": [
+            "Alice"
+        ],
+        "subordinateLastName": [
+            "Duval"
+        ],
+        "subReportingMethod": [
+            "Direct"
+        ],
+        "subordinateId": [
+            "3"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "subordinateFirstName": [
+            "Odis",
+            "Alice"
+        ],
+        "subordinateLastName": [
+            "Adalwin",
+            "Duval"
+        ],
+        "subReportingMethod": [
+            "Direct",
+            "Indirect"
+        ],
+        "subordinateId": [
+            "1",
+            "3"
+        ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "subordinateFirstName": [ ],
+        "subordinateLastName": [ ],
+        "subReportingMethod": [ ],
+        "subordinateId": [ ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Supervisors':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      name: 'pim_defined'
+      reportId: 14
+      limit: 3
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "supervisorFirstName": [
+            "Linda"
+        ],
+        "supervisorLastName": [
+            "Anderson"
+        ],
+        "supReportingMethod": [
+            "Direct"
+        ],
+        "supervisorId": [
+            "2"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "supervisorFirstName": [ ],
+        "supervisorLastName": [ ],
+        "supReportingMethod": [ ],
+        "supervisorId": [ ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "supervisorFirstName": [
+            "Odis",
+            "Linda"
+        ],
+        "supervisorLastName": [
+            "Adalwin",
+            "Anderson"
+        ],
+        "supReportingMethod": [
+            "Direct",
+            "Indirect"
+        ],
+        "supervisorId": [
+            "1",
+            "2"
+        ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Work Experience':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 15
+      limit: 2
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "expCompany": [
+            "OrangeHRM",
+            "OrangeHRM"
+        ],
+        "expJobTitle": [
+            "SE",
+            "Architect"
+        ],
+        "expFrom": [
+            "2005-04-03",
+            "2006-04-03"
+        ],
+        "expTo": [
+            "2010-04-04",
+            "2011-04-04"
+        ],
+        "expComment": [
+            "Worked Hard",
+            "Worked"
+        ],
+        "workExpSeqNo": [
+            "1",
+            "2"
+        ],
+        "expDuration": [
+            "5.1",
+            "5.1"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "expCompany": [ ],
+        "expJobTitle": [ ],
+        "expFrom": [ ],
+        "expTo": [ ],
+        "expComment": [ ],
+        "workExpSeqNo": [ ],
+        "expDuration": [ ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Education':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 16
+      limit: 3
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "eduProgram": [
+            "BSc",
+            "MSc"
+        ],
+        "eduYear": [
+            "2020",
+            "2020"
+        ],
+        "eduGPAOrScore": [
+            "First Class",
+            "First Class"
+        ],
+        "empEduCode": [
+            "1",
+            "2"
+        ],
+        "getInstitute": [
+            "UoM",
+            "UoM"
+        ],
+        "getMajor": [
+            "CSE",
+            "CS"
+        ],
+        "getStartDate": [
+            "2017-01-01",
+            "2017-01-01"
+        ],
+        "getEndDate": [
+            "2020-12-31",
+            "2020-12-31"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "eduProgram": [
+            "BSc"
+        ],
+        "eduYear": [
+            "2020"
+        ],
+        "eduGPAOrScore": [
+            "First Class"
+        ],
+        "empEduCode": [
+            "1"
+        ],
+        "getInstitute": [
+            "UoP"
+        ],
+        "getMajor": [
+            "CE"
+        ],
+        "getStartDate": [
+            "2017-01-01"
+        ],
+        "getEndDate": [
+            "2020-12-31"
+        ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "eduProgram": [ ],
+        "eduYear": [ ],
+        "eduGPAOrScore": [ ],
+        "empEduCode": [ ],
+        "getInstitute": [ ],
+        "getMajor": [ ],
+        "getStartDate": [ ],
+        "getEndDate": [ ]
+      }
+    ],
+    meta:
+      "total": 6
+
+  'Display Fields - Skills':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 17
+      limit: 4
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "skill": [
+            "Driving",
+            "Skydiving"
+        ],
+        "skillYearsOfExperience": [
+            "1",
+            "2"
+        ],
+        "skillComments": [
+            "comment 1",
+            "comment 2"
+        ],
+        "empSkillCode": [
+            "1",
+            "2"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "skill": [
+            "Skydiving"
+        ],
+        "skillYearsOfExperience": [
+            "3"
+        ],
+        "skillComments": [
+            "comment 3"
+        ],
+        "empSkillCode": [
+            "2"
+        ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "skill": [
+            "Sign Language"
+        ],
+        "skillYearsOfExperience": [
+            "4"
+        ],
+        "skillComments": [
+            "comment 4"
+        ],
+        "empSkillCode": [
+            "3"
+        ]
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "skill": [ ],
+        "skillYearsOfExperience": [ ],
+        "skillComments": [ ],
+        "empSkillCode": [ ]
+      }
+    ],
+    meta:
+      "total": 6
+
+  'Display Fields - Languages':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 18
+      limit: 4
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "langName": [
+            "English",
+            "Spanish"
+        ],
+        "langCompetency": [
+            "Poor",
+            "Basic"
+        ],
+        "langComments": [
+            "comment1",
+            "comment2"
+        ],
+        "langFluency": [
+            "Speaking",
+            "Writing"
+        ],
+        "empLangCode": [
+            "1",
+            "2"
+        ],
+        "empLangType": [
+            "2",
+            "1"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "langName": [
+            "Spanish"
+        ],
+        "langCompetency": [
+            "Basic"
+        ],
+        "langComments": [
+            null
+        ],
+        "langFluency": [
+            "Writing"
+        ],
+        "empLangCode": [
+            "2"
+        ],
+        "empLangType": [
+            "1"
+        ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "langName": [ ],
+        "langCompetency": [ ],
+        "langComments": [ ],
+        "langFluency": [ ],
+        "empLangCode": [ ],
+        "empLangType": [ ]
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "langName": [
+            "English",
+            "English",
+            "English"
+        ],
+        "langCompetency": [
+            "Good",
+            "Mother Tongue",
+            "Basic"
+        ],
+        "langComments": [
+            null,
+            null,
+            null
+        ],
+        "langFluency": [
+            "Writing",
+            "Speaking",
+            "Reading"
+        ],
+        "empLangCode": [
+            "1",
+            "1",
+            "1"
+        ],
+        "empLangType": [
+            "1",
+            "2",
+            "3"
+        ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - License':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 19
+      limit: 4
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "empLicenseType": [
+            "CIMA",
+            "CCNA"
+        ],
+        "empLicenseIssuedDate": [
+            "2020-01-23",
+            "2020-02-23"
+        ],
+        "empLicenseExpiryDate": [
+            "2021-01-23",
+            "2021-02-23"
+        ],
+        "empLicenseCode": [
+            "1",
+            "2"
+        ],
+        "getLicenseNo": [
+            "1",
+            "2"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "empLicenseType": [
+            "CCNA"
+        ],
+        "empLicenseIssuedDate": [
+            "2020-03-23"
+        ],
+        "empLicenseExpiryDate": [
+            "2021-03-23"
+        ],
+        "empLicenseCode": [
+            "2"
+        ],
+        "getLicenseNo": [
+            "3"
+        ]
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "empLicenseType": [
+            "NAITA"
+        ],
+        "empLicenseIssuedDate": [
+            "2020-04-23"
+        ],
+        "empLicenseExpiryDate": [
+            "2021-04-23"
+        ],
+        "empLicenseCode": [
+            "3"
+        ],
+        "getLicenseNo": [
+            "4"
+        ]
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "empLicenseType": [ ],
+        "empLicenseIssuedDate": [ ],
+        "empLicenseExpiryDate": [ ],
+        "empLicenseCode": [ ],
+        "getLicenseNo": [ ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Display Fields - Memberships':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      admin.pay_grade_service: \OrangeHRM\Admin\Service\PayGradeService
+    query:
+      name: 'pim_defined'
+      reportId: 20
+      limit: 2
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "membershipName": [
+            "ACCA",
+            "British Computer Society (BCS)"
+        ],
+        "subscriptionPaidBy": [
+            "individual",
+            "company"
+        ],
+        "subscriptionAmount": [
+            "4.00",
+            "6.00"
+        ],
+        "membershipCurrency": [
+            null,
+            null
+        ],
+        "subscriptionCommenceDate": [
+            "2011-05-20",
+            "2011-05-21"
+        ],
+        "subscriptionRenewalDate": [
+            "2011-05-22",
+            "2011-05-24"
+        ],
+        "membershipCode": [
+            "1",
+            "2"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "membershipName": [ ],
+        "subscriptionPaidBy": [ ],
+        "subscriptionAmount": [ ],
+        "membershipCurrency": [ ],
+        "subscriptionCommenceDate": [ ],
+        "subscriptionRenewalDate": [ ],
+        "membershipCode": [ ]
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Filter Fields - employee_name':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 22
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": ""
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - pay_grade':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+      pim.employee_salary_service: \OrangeHRM\Pim\Service\EmployeeSalaryService
+    query:
+      name: 'pim_defined'
+      reportId: 23
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "salPayGrade": [
+            "Salary Grade B",
+            "Salary Grade A"
+        ]
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - education':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 24
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "eduProgram": [
+            "BSc",
+            "MSc"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "eduProgram": [
+            "BSc"
+        ]
+      }
+    ]
+    meta:
+      "total": 2
+
+  'Filter Fields - employment_status':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 25
+    data: [
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "employeeLastname": "Morgan",
+        "employeeFirstname": "Jasmine",
+        "employeeMiddlename": "",
+        "empEmploymentStatus": "Full Time"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - job_title':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 26
+    data: [
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "empJobTitle": "Software Architect"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - language':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 27
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "langName": [
+            "English",
+            "Spanish"
+        ]
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "langName": [
+            "English",
+            "English",
+            "English"
+        ]
+      }
+    ]
+    meta:
+      "total": 2
+
+  'Filter Fields - skill':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 28
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "skill": [
+            "Driving",
+            "Skydiving"
+        ]
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "skill": [
+            "Skydiving"
+        ]
+      }
+    ]
+    meta:
+      "total": 2
+
+  'Filter Fields - gender - Male':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 29
+    data: [
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "employeeLastname": "Morgan",
+        "employeeFirstname": "Jasmine",
+        "employeeMiddlename": "",
+        "empGender": "Male"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - gender - Female':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 30
+    data: [
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "empGender": "Female"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - sub_unit - Top level':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 31
+    data: [
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "employeeLastname": "Duval",
+        "employeeFirstname": "Alice",
+        "employeeMiddlename": "",
+        "empSubUnit": "Engineering"
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "empSubUnit": "Support"
+      }
+    ]
+    meta:
+      "total": 2
+
+  'Filter Fields - sub_unit - Leaf level':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 32
+    data: [
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "empSubUnit": "QA"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - sub_unit - All':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 33
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "empSubUnit": null
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "empSubUnit": null
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "employeeLastname": "Duval",
+        "employeeFirstname": "Alice",
+        "employeeMiddlename": "",
+        "empSubUnit": "Engineering"
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "empSubUnit": "Support"
+      },
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "empSubUnit": "QA"
+      },
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "employeeLastname": "Morgan",
+        "employeeFirstname": "Jasmine",
+        "employeeMiddlename": "",
+        "empSubUnit": null
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Filter Fields - include - Only Current':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 34
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "employeeLastname": "Duval",
+        "employeeFirstname": "Alice",
+        "employeeMiddlename": "",
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "employeeLastname": "Morgan",
+        "employeeFirstname": "Jasmine",
+        "employeeMiddlename": "",
+        "terminationDate": null
+      }
+    ]
+    meta:
+      "total": 5
+
+  'Filter Fields - include - Only Past':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 35
+    data: [
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "terminationDate": "2021-11-20"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - include - Current & Past':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 36
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "employeeLastname": "Duval",
+        "employeeFirstname": "Alice",
+        "employeeMiddlename": "",
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "terminationDate": null
+      },
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "terminationDate": "2021-11-20"
+      },
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "employeeLastname": "Morgan",
+        "employeeFirstname": "Jasmine",
+        "employeeMiddlename": "",
+        "terminationDate": null
+      }
+    ]
+    meta:
+      "total": 6
+
+  'Filter Fields - joined_date - Less than':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 37
+    data: [
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "empJoinedDate": "2015-10-18"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - joined_date - Greater than':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 38
+    data: [
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "empJoinedDate": "2019-02-01"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - joined_date - Between':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 39
+    data: [
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "empJoinedDate": "2019-02-01"
+      },
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "empJoinedDate": "2015-10-18"
+      }
+    ],
+    meta:
+      "total": 2
+
+  'Filter Fields - age_group - Less than':
+    now:
+      datetime: '2021-10-18'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'pim_defined'
+      reportId: 40
+    data: [
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "employeeLastname": "Morgan",
+        "employeeFirstname": "Jasmine",
+        "employeeMiddlename": "",
+        "empBirthday": "1995-10-02"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - age_group - Greater than':
+    now:
+      datetime: '2021-10-18'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'pim_defined'
+      reportId: 41
+    data: [
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "empBirthday": "1990-10-02"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - age_group - Between':
+    now:
+      datetime: '2021-10-18'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'pim_defined'
+      reportId: 42
+    data: [
+      {
+        "employeeId": "0006",
+        "empNumber": 6,
+        "employeeLastname": "Morgan",
+        "employeeFirstname": "Jasmine",
+        "employeeMiddlename": "",
+        "empBirthday": "1995-10-02"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - service_period - Less than':
+    now:
+      datetime: '2021-10-18'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'pim_defined'
+      reportId: 43
+    data: [
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "empJoinedDate": "2019-02-01"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - service_period - Greater than':
+    now:
+      datetime: '2021-10-18'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'pim_defined'
+      reportId: 44
+    data: [
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "empJoinedDate": "2015-10-18"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - service_period - Between':
+    now:
+      datetime: '2021-10-18'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'pim_defined'
+      reportId: 45
+    data: [
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "empJoinedDate": "2015-10-18"
+      }
+    ]
+    meta:
+      "total": 1
+
+  'Filter Fields - location - By country':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 46
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "empLocation": "Head"
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "empLocation": "Development"
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "employeeLastname": "Duval",
+        "employeeFirstname": "Alice",
+        "employeeMiddlename": "",
+        "empLocation": "Development"
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "empLocation": "Development"
+      }
+    ]
+    meta:
+      "total": 4
+
+  'Filter Fields - location - By list of locations':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 47
+    data: [
+      {
+        "employeeId": "0001",
+        "empNumber": 1,
+        "employeeLastname": "Adalwin",
+        "employeeFirstname": "Odis",
+        "employeeMiddlename": "",
+        "empLocation": "Head"
+      },
+      {
+        "employeeId": "0002",
+        "empNumber": 2,
+        "employeeLastname": "Anderson",
+        "employeeFirstname": "Linda",
+        "employeeMiddlename": "Jane",
+        "empLocation": "Development"
+      },
+      {
+        "employeeId": "0003",
+        "empNumber": 3,
+        "employeeLastname": "Duval",
+        "employeeFirstname": "Alice",
+        "employeeMiddlename": "",
+        "empLocation": "Development"
+      },
+      {
+        "employeeId": "0004",
+        "empNumber": 4,
+        "employeeLastname": "Abbey",
+        "employeeFirstname": "Kayla",
+        "employeeMiddlename": "",
+        "empLocation": "Development"
+      },
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "empLocation": "Support"
+      }
+    ]
+    meta:
+      "total": 5
+
+  'Filter Fields - location - By specific location':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.datetime_helper_service: \OrangeHRM\Core\Service\DateTimeHelperService
+    query:
+      name: 'pim_defined'
+      reportId: 48
+    data: [
+      {
+        "employeeId": "0005",
+        "empNumber": 5,
+        "employeeLastname": "Abel",
+        "employeeFirstname": "Ashley",
+        "employeeMiddlename": "",
+        "empLocation": "Support"
+      }
+    ]
+    meta:
+      "total": 1

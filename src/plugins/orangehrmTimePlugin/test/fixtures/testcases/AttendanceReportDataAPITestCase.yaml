@@ -1,0 +1,646 @@
+GetAll:
+  'Get all attendance record breakdown with out filter - Admin':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "18.00"
+      },
+      {
+        "employeeName": "Ashley Abel",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "mahatma gandhi",
+        "time": "24.02"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.08"
+      },
+      {
+        "employeeName": "Vladimir Lenin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Benito Mussolini (Past Employee)",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Renukshan Saputhanthri",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Sherin Sherin",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Tony Stark",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mother teresa",
+        "time": "0.40"
+      }
+    ]
+    meta:
+      total: 10
+      sum:
+        hours: 69.0
+        minutes: 30
+        label: "69.50"
+
+  'Get all attendance record break down with from date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      fromDate: '2022-01-01'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Ashley Abel",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mahatma gandhi",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Vladimir Lenin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Benito Mussolini (Past Employee)",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Renukshan Saputhanthri",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Sherin Sherin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Tony Stark",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mother teresa",
+        "time": "0.00"
+      }
+    ]
+    meta:
+      total: 10
+      sum:
+        hours: 9.0
+        minutes: 0
+        label: "9.00"
+
+  'Get all attendance record breakdown with to date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      toDate: '2022-01-31'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "18.00"
+      },
+      {
+        "employeeName": "Ashley Abel",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "mahatma gandhi",
+        "time": "24.02"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.08"
+      },
+      {
+        "employeeName": "Vladimir Lenin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Benito Mussolini (Past Employee)",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Renukshan Saputhanthri",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Sherin Sherin",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Tony Stark",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mother teresa",
+        "time": "0.40"
+      }
+    ]
+    meta:
+      total: 10
+      sum:
+        hours: 69.0
+        minutes: 30
+        label: "69.50"
+
+  'Get all attendance record breakdown with date range filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      fromDate: '2022-01-01'
+      toDate: '2022-01-31'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Ashley Abel",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mahatma gandhi",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Vladimir Lenin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Benito Mussolini (Past Employee)",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Renukshan Saputhanthri",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Sherin Sherin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Tony Stark",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mother teresa",
+        "time": "0.00"
+      }
+    ]
+    meta:
+      total: 10
+      sum:
+        hours: 9.0
+        minutes: 0
+        label: "9.00"
+
+  'Get all attendance record breakdown based on the job title filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      jobTitleId: 1
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "18.00"
+      },
+      {
+        "employeeName": "Ashley Abel",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.08"
+      }
+    ]
+    meta:
+      total: 3
+      sum:
+        hours: 27.0
+        minutes: 5
+        label: "27.08"
+
+  'Get all attendance record breakdown based on the sub unit filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      subunitId: 4
+    data: [
+      {
+        "employeeName": "mahatma gandhi",
+        "time": "24.02"
+      }
+    ]
+    meta:
+      total: 1
+      sum:
+        hours: 24.0
+        minutes: 1
+        label: "24.02"
+
+  'Get all attendance record breakdown based on the employment status filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      employmentStatusId: 1
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "18.00"
+      },
+      {
+        "employeeName": "Ashley Abel",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "mahatma gandhi",
+        "time": "24.02"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.08"
+      },
+      { "employeeName": "Vladimir Lenin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Benito Mussolini (Past Employee)",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Renukshan Saputhanthri",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Sherin Sherin",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Tony Stark",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mother teresa",
+        "time": "0.40"
+      }
+    ]
+    meta:
+      total: 10
+      sum:
+        hours: 69.0
+        minutes: 30
+        label: "69.50"
+
+  'Get all attendance record breakdown based on the all filters':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      jobTitleId: 1
+      subunitId: 1
+      employmentStatusId: 1
+      fromDate: '2021-01-01'
+      toDate: '2022-01-31'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.00"
+      }
+    ]
+    meta:
+      total: 2
+      sum:
+        hours: 9.0
+        minutes: 0
+        label: "9.00"
+
+  'Get all attendance record breakdown for an employee without filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      empNumber: 4
+    data: [
+      {
+        "employeeName": "Sherin Sherin",
+        "time": "9.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum:
+        hours: 9.0
+        minutes: 0
+        label: "9.00"
+
+  'Get all attendance record breakdown for an employee with date range filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      empNumber: 2
+      fromDate: '2010-01-01'
+      toDate: '2022-01-31'
+    data: [
+      {
+        "employeeName": "Ashley Abel",
+        "time": "9.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum:
+        hours: 9.0
+        minutes: 0
+        label: "9.00"
+
+  'Get all attendance record breakdown for an non existing employee':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      empNumber: 200
+      fromDate: '2010-01-01'
+      toDate: '2022-01-31'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'with invalid report name':
+    userId: 1
+    query:
+      name: 'invalid'
+      activityId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Invalid report name'
+
+  'with wrong from date':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      fromDate: '2011-05-01'
+      toDate: '2011-04-30'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'check un authorized access':
+    userId: 4
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      empNumber: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Get all attendance record breakdown with out filter - Supervisor':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+    data: [
+      {
+        "employeeName": "Ashley Abel",
+        "time": "9.00"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.08"
+      },
+    ]
+    meta:
+      total: 2
+      sum:
+        hours: 9.0
+        minutes: 5
+        label: "9.08"
+
+  'Get all attendance record breakdown with filter - Supervisor':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      jobTitleId: 1
+      subunitId: 1
+      employmentStatusId: 1
+    data: [
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.08"
+      },
+    ]
+    meta:
+      total: 1
+      sum:
+        hours: 0.0
+        minutes: 5
+        label: "0.08"
+
+  'Get all attendance record breakdown for supervisor - Accessing own':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      empNumber: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Get all attendance record breakdown with filter (non existing)':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      jobTitleId: 100
+      subunitId: 100
+      employmentStatusId: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Get all attendance record breakdown for Admin - Accessing own':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      empNumber: 1
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "18.00"
+      },
+    ]
+    meta:
+      total: 1
+      sum:
+        hours: 18.0
+        minutes: 0
+        label: "18.00"

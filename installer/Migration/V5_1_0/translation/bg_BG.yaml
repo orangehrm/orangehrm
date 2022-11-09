@@ -1,0 +1,72 @@
+translations:
+    - { target: 'Добавяне на преглед', unitId: add_review, group: performance }
+    - { target: Април, unitId: april, group: general }
+    - { target: Август, unitId: august, group: general }
+    - { target: 'Текущ статус', unitId: current_status, group: recruitment }
+    - { target: Декември, unitId: december, group: general }
+    - { target: Изтриване, unitId: delete, group: performance }
+    - { target: Февруари, unitId: february, group: general }
+    - { target: Петък, unitId: friday, group: general }
+    - { target: 'Пълно име', unitId: full_name, group: general }
+    - { target: Януари, unitId: january, group: general }
+    - { target: Юли, unitId: july, group: general }
+    - { target: Юни, unitId: june, group: general }
+    - { target: Март, unitId: march, group: general }
+    - { target: Май, unitId: may, group: general }
+    - { target: Понеделник, unitId: monday, group: general }
+    - { target: Ноември, unitId: november, group: general }
+    - { target: Октомври, unitId: october, group: general }
+    - { target: Събота, unitId: saturday, group: general }
+    - { target: Септември, unitId: september, group: general }
+    - { target: Неделя, unitId: sunday, group: general }
+    - { target: Четвъртък, unitId: thursday, group: general }
+    - { target: Вторник, unitId: tuesday, group: general }
+    - { target: Сряда, unitId: wednesday, group: general }
+    - { target: Невалиден, unitId: invalid, group: general }
+    - { target: 'Приема. DOCX, DOC, ODT, PDF, RTF, TXT до 1MB', unitId: accept_custom_format_file, group: general }
+    - { target: 'Ключови думи', unitId: keywords, group: recruitment }
+    - { target: Резюме, unitId: resume, group: recruitment }
+    - { target: Пт, unitId: fri, group: general }
+    - { target: Пн, unitId: mon, group: general }
+    - { target: Пет, unitId: sat, group: general }
+    - { target: Слънце, unitId: sun, group: general }
+    - { target: Чт, unitId: thu, group: general }
+    - { target: Вт, unitId: tue, group: general }
+    - { target: Омъжвам, unitId: wed, group: general }
+    - { target: Max, unitId: max, group: performance }
+    - { target: Мин., unitId: min, group: performance }
+    - { target: Активен, unitId: active, group: general }
+    - { target: 'Добави кандидат', unitId: add_candidate, group: recruitment }
+    - { target: 'Заявление Иницииран', unitId: application_initiated, group: recruitment }
+    - { target: Кандидат, unitId: candidate, group: recruitment }
+    - { target: 'Името на Кандидата', unitId: candidate_name, group: recruitment }
+    - { target: Затворен, unitId: closed, group: general }
+    - { target: 'Дата на прилагане', unitId: date_of_application, group: recruitment }
+    - { target: 'Откажете Оферта', unitId: decline_offer, group: recruitment }
+    - { target: Наемане, unitId: hire, group: recruitment }
+    - { target: Нает, unitId: hired, group: recruitment }
+    - { target: 'Отдаване под наем мениджър', unitId: hiring_manager, group: recruitment }
+    - { target: 'Интервю Неуспешно', unitId: interview_failed, group: recruitment }
+    - { target: 'Интервю Приет', unitId: interview_passed, group: recruitment }
+    - { target: 'Интервю Планирана', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Интервю Заглавие', unitId: interview_title, group: recruitment }
+    - { target: 'Работа предлагам', unitId: job_offered, group: recruitment }
+    - { target: 'Свободните работни места', unitId: job_vacancy, group: recruitment }
+    - { target: Наръчник, unitId: manual, group: recruitment }
+    - { target: 'Неуспешно Марк Интервю', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Марк Интервю Приет', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Метод на приложение', unitId: method_of_application, group: recruitment }
+    - { target: 'Брой позиции', unitId: num_of_positions, group: recruitment }
+    - { target: 'Оферта Отхвърлено', unitId: offer_declined, group: recruitment }
+    - { target: Online, unitId: online, group: recruitment }
+    - { target: 'Извършва действие', unitId: performed_action, group: recruitment }
+    - { target: 'Извършва Дата', unitId: performed_date, group: recruitment }
+    - { target: 'RSS Feed URL', unitId: rss_feed_url, group: recruitment }
+    - { target: 'График Интервю', unitId: schedule_interview, group: recruitment }
+    - { target: 'Кратък списък', unitId: shortlist, group: recruitment }
+    - { target: 'В списъка', unitId: shortlisted, group: recruitment }
+    - { target: 'Вакантно място', unitId: vacancy, group: recruitment }
+    - { target: 'Vacancy Име', unitId: vacancy_name, group: recruitment }
+    - { target: 'Преглед на История за действие', unitId: view_action_history, group: recruitment }
+    - { target: 'URL адрес на уеб страница', unitId: web_page_url, group: recruitment }
+    - { target: 'Заявката получена', unitId: application_received, group: recruitment }

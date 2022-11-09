@@ -1,0 +1,55 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'timesheet_period_set', value: 'Yes' }
+  - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
+
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel' }
+  2: { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri' }
+  3: { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal' }
+  4: { empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah' }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "3","erep_sub_emp_number": "2","erep_reporting_mode": "1" }
+
+UserRole:
+  0: { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  1: { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  2: { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  0: { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
+  1: { id: 2, user_role_id: 2, emp_number: 2, user_name: 'yashika', user_password: 'yashika' }
+  2: { id: 3, user_role_id: 3, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
+  3: { id: 4, user_role_id: 1, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
+
+Timesheet:
+  0: { timesheet_id: 1, employee_id: 1, state: 'CREATED', start_date: '2011-04-18',end_date: '2011-04-19' }
+  1: { timesheet_id: 2, employee_id: 2, state: 'SUBMITTED', start_date: '2011-04-22',end_date: '2011-04-19' }
+  2: { timesheet_id: 3, employee_id: 3, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-19' }
+  3: { timesheet_id: 4, employee_id: 4, state: 'REJECTED', start_date: '2011-04-18',end_date: '2011-05-19' }
+  4: { timesheet_id: 5, employee_id: 5, state: 'SUBMITTED', start_date: '2011-03-19',end_date: '2011-04-20' }
+  5: { timesheet_id: 6, employee_id: 6, state: 'SUPERVISOR APPROVED', start_date: '2011-03-19',end_date: '2011-04-07' }
+  6: { timesheet_id: 7, employee_id: 7, state: 'SUPERVISOR APPROVED', start_date: '2011-04-19',end_date: '2011-04-25' }
+  7: { timesheet_id: 8, employee_id: 1, state: 'ACCEPTED', start_date: '2011-04-22',end_date: '2011-04-28' }
+  8: { timesheet_id: 9, employee_id: 6, state: 'SUPERVISOR APPROVED', start_date: '2011-02-19',end_date: '2011-02-25' }
+  9: { timesheet_id: 10, employee_id: 8, state: 'CREATED', start_date: '2010-02-27',end_date: '2010-03-06' }
+  10: { timesheet_id: 11, employee_id: 2, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-28' }
+
+TimesheetActionLog:
+  0: { timesheet_action_log_id: 1, comment: 'Action - Created', action: 'CREATED', date_time: '2011-04-18', performed_by: 1,    timesheet_id: 1 }
+  1: { timesheet_action_log_id: 2, comment: 'Action - Submitted', action: 'SUBMITTED', date_time: '2011-04-18', performed_by: 2, timesheet_id: 1 }
+  2: { timesheet_action_log_id: 3, comment: 'Action - Accepted', action: 'ACCEPTED', date_time: '2011-04-19', performed_by: 3, timesheet_id: 1 }
+  3: { timesheet_action_log_id: 4, comment: 'Action - Submitted', action: 'SUBMITTED', date_time: '2011-04-20', performed_by: 2, timesheet_id: 1 }
+  4: { timesheet_action_log_id: 5, comment: 'Action - Rejected', action: 'REJECTED', date_time: '2011-04-20', performed_by: 3, timesheet_id: 1 }
+  5: { timesheet_action_log_id: 6, comment: 'Action - Supervisor Approved', action: 'SUPERVISOR APPROVED', date_time: '2011-04-21', performed_by: 3, timesheet_id: 1 }
+  6: { timesheet_action_log_id: 7, comment: 'Action - Supervisor Approved', action: 'SUPERVISOR APPROVED', date_time: '2011-04-21', performed_by: 3, timesheet_id: 2 }
+  7: { timesheet_action_log_id: 8, comment: 'Action - Accepted', action: 'ACCEPTED', date_time: '2011-04-18', performed_by: 1, timesheet_id: 2 }
+  8: { timesheet_action_log_id: 9, comment: 'Action - Supervisor Approved', action: 'SUPERVISOR APPROVED', date_time: '2011-04-18', performed_by: 3, timesheet_id: 3 }
+  9: { timesheet_action_log_id: 10, comment: 'Action - Created', action: 'CREATED', date_time: '2011-04-20', performed_by: 1, timesheet_id: 4 }
+  10: { timesheet_action_log_id: 11, comment: 'Action - Accepted', action: 'ACCEPTED', date_time: '2011-04-19', performed_by: 1, timesheet_id: 4 }

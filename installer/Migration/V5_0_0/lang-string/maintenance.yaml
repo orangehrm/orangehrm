@@ -1,0 +1,31 @@
+langStrings:
+  -
+    value: 'Purge Employee Records'
+    unitId: purge_employee_records
+  -
+    value: 'Past Employee'
+    unitId: past_employee
+  -
+    value: 'Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier: {instanceIdentifier})"'
+    unitId: gdpr_note
+  -
+    value: 'Purge'
+    unitId: purge
+  -
+    value: 'Purge Employee'
+    unitId: purge_employee
+  -
+    value: 'You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone'
+    unitId: purge_employee_warning
+  -
+    value: 'Yes, Purge'
+    unitId: yes_purge
+  -
+    value: 'Selected Employee'
+    unitId: selected_employee
+  -
+    value: 'Successfully Purged'
+    unitId: purge_success
+  -
+    value: 'Download Personal Data'
+    unitId: download_personal_data

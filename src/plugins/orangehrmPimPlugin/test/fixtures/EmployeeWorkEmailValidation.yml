@@ -1,0 +1,13 @@
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla@other.com' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashely@other.com' }
+  2: { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com' }
+  3: { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 3, "user_name": "admin","user_password": "$2y$12$l89i7yr7dqpLJ2LIulQSi.HmjNc948U52s0znOmbYfbHA9prWazGu","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }

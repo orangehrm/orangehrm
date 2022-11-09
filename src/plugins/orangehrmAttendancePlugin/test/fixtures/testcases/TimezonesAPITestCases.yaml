@@ -1,0 +1,86 @@
+GetAll:
+  'Get Timezones by filter(Admin) - kol':
+    userId: 1
+    now:
+      datetime: '2022-03-01'
+    query:
+      timezoneName: 'kol'
+    data:
+      - name: 'Asia/Kolkata'
+        label: '+05:30'
+        offset: '5.5'
+      - name: 'Asia/Srednekolymsk'
+        label: '+11:00'
+        offset: '11.0'
+    meta:
+      total: 2
+
+  'Get Timezones by filter(ESS) - kol':
+    userId: 2
+    now:
+      datetime: '2022-03-01'
+    query:
+      timezoneName: 'kol'
+    data:
+      - name: 'Asia/Kolkata'
+        label: '+05:30'
+        offset: '5.5'
+      - name: 'Asia/Srednekolymsk'
+        label: '+11:00'
+        offset: '11.0'
+    meta:
+      total: 2
+
+  'Get Timezones by filter(ESS) - tok':
+    userId: 2
+    now:
+      datetime: '2022-03-01'
+    query:
+      timezoneName: 'tok'
+    data:
+      - name: 'Antarctica/Vostok'
+        label: "+06:00"
+        offset: '6.0'
+      - name: 'Asia/Tokyo'
+        label: "+09:00"
+        offset: '9.0'
+      - name: 'Asia/Vladivostok'
+        label: "+10:00"
+        offset: '10.0'
+    meta:
+      total: 3
+
+  'Get Timezones by filter(ESS) - yo':
+    userId: 2
+    now:
+      datetime: '2022-03-13'
+    query:
+      timezoneName: 'yo'
+    data:
+      - name: 'America/New_York'
+        label: "-05:00"
+        offset: "-5.0"
+      - name: 'Antarctica/Syowa'
+        label: "+03:00"
+        offset: '3.0'
+      - name: 'Indian/Mayotte'
+        label: "+03:00"
+        offset: '3.0'
+      - name: 'Asia/Pyongyang'
+        label: "+09:00"
+        offset: '9.0'
+      - name: 'Asia/Tokyo'
+        label: "+09:00"
+        offset: '9.0'
+    meta:
+      total: 5
+    rels: [ ]
+
+  'Get Timezones by filter(ESS) - tex':
+    userId: 2
+    query:
+      timezoneName: 'tex'
+    data: [ ]
+    meta:
+      total: 0
+    rels: [ ]

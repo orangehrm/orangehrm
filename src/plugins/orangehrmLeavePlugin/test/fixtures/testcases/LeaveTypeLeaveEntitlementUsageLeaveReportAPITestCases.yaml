@@ -1,0 +1,100 @@
+GetOne:
+  'with valid report name':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      i18n.i18n_helper: \OrangeHRM\I18N\Service\I18NHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'leave_type_leave_entitlements_and_usage'
+    data:
+      "headers": [
+        {
+          "name": "Employee",
+          "prop": "employeeName",
+          "size": 150,
+          "pin": "colPinStart",
+          "cellProperties": null
+        },
+        {
+          "name": "Leave Entitlements (Days)",
+          "prop": "entitlementDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "col-alt": true,
+              "cell-action": true
+            }
+          }
+        },
+        {
+          "name": "Leave Pending Approval (Days)",
+          "prop": "pendingApprovalDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
+        },
+        {
+          "name": "Leave Scheduled (Days)",
+          "prop": "scheduledDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
+        },
+        {
+          "name": "Leave Taken (Days)",
+          "prop": "takenDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
+        },
+        {
+          "name": "Leave Balance (Days)",
+          "prop": "balanceDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "col-alt": true
+            }
+          }
+        }
+      ],
+      "filters": [ ]
+    meta:
+      headers: null
+      filters: null
+
+  'with invalid report name':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'invalid'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Invalid report name'

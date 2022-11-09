@@ -1,0 +1,215 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+$card-padding-left-right: 1.2rem;
+$card-padding-top-bottom: 0.6rem;
+$card-padding: $card-padding-top-bottom $card-padding-left-right;
+
+.orangehrm-timesheet {
+  &-header,
+  &-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &-header {
+    gap: 0.4rem;
+    flex-direction: column;
+    border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+    &--title {
+      width: 100%;
+      box-sizing: border-box;
+      padding: $card-padding;
+      border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+    }
+    @include oxd-respond-to('md') {
+      flex-direction: row;
+      &--title {
+        width: unset;
+        border-bottom: unset;
+      }
+    }
+    &--options {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: $card-padding;
+      box-sizing: border-box;
+      @include oxd-respond-to('md') {
+        width: unset;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+      }
+    }
+  }
+  &-footer {
+    padding: $card-padding;
+    border-top: $oxd-border $oxd-interface-gray-lighten-2-color;
+    &--options {
+      gap: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      max-width: 120px;
+      margin-left: 60px;
+      ::v-deep(.oxd-button--medium) {
+        width: 100%;
+      }
+      @include oxd-respond-to('md') {
+        margin-left: unset;
+        max-width: unset;
+        ::v-deep(.oxd-button--medium) {
+          width: unset;
+        }
+      }
+    }
+  }
+  &-body {
+    overflow-x: auto;
+    &-message {
+      padding: $card-padding;
+    }
+  }
+  &-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    font-family: $oxd-font-family;
+    color: $oxd-input-control-font-color;
+    font-size: $oxd-input-control-font-size;
+    font-weight: $oxd-input-control-font-weight;
+    @media screen and (max-width: 600px) {
+      .--freeze-left,
+      .--freeze-right {
+        position: sticky;
+        background-color: $oxd-white-color;
+        z-index: 209;
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          height: 100%;
+        }
+      }
+      .--freeze-left {
+        left: 0;
+        &::after {
+          right: 0;
+          border-right: $oxd-border $oxd-interface-gray-lighten-2-color;
+        }
+      }
+      .--freeze-right {
+        right: 0;
+        &::after {
+          left: 0;
+          border-left: $oxd-border $oxd-interface-gray-lighten-2-color;
+        }
+      }
+    }
+    &-header {
+      &-cell {
+        padding: 1rem $card-padding-left-right;
+        font-weight: 700;
+        &.--center {
+          text-align: center;
+        }
+      }
+      &-row {
+        border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+      }
+      & .--day {
+        display: block;
+        font-size: 16px;
+      }
+    }
+    &-body {
+      &-cell {
+        position: relative;
+        max-width: 150px;
+        padding: 1rem $card-padding-left-right;
+        &.--highlight {
+          font-weight: 700;
+          background-color: $oxd-interface-gray-lighten-1-color;
+        }
+        &.--highlight-2 {
+          font-weight: 700;
+          color: $oxd-white-color;
+          background-color: $oxd-interface-gray-color;
+        }
+        &.--highlight-3 {
+          background-color: $oxd-background-pastel-white-color;
+        }
+        &.--flex {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        &.--center {
+          text-align: center;
+        }
+      }
+      &-row {
+        vertical-align: baseline;
+        border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+        &.--total {
+          background-color: $oxd-interface-gray-lighten-1-color;
+        }
+      }
+    }
+    &.--editable {
+      tr {
+        border: unset;
+      }
+      th,
+      td {
+        padding: 0.5rem 1rem;
+        &.--duration-input {
+          padding: 0.5rem 0.25rem;
+        }
+      }
+    }
+  }
+  &-icon {
+    &-comment {
+      top: -5px;
+      right: -5px;
+      z-index: 2;
+      position: absolute;
+    }
+  }
+  &-loader {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $oxd-white-color;
+    z-index: $oxd-loader-z-index;
+  }
+}
+
+.oxd-input-group {
+  margin-bottom: 0;
+}
+::v-deep(.oxd-input-group__label-wrapper) {
+  display: none;
+}
+::v-deep(.oxd-input) {
+  min-width: 50px;
+}

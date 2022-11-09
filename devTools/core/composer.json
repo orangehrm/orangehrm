@@ -1,0 +1,27 @@
+{
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require-dev": {
+        "php": "^7.4|^8.0",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "composer/package-versions-deprecated": "1.11.99.2",
+        "symfony/framework-bundle": "^5.4",
+        "symfony/maker-bundle": "^1.36",
+        "symfony/proxy-manager-bridge": "^5.4",
+        "symfony/runtime": "^5.4",
+        "symfony/yaml": "^5.4",
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "symfony/process": "^5.4"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OrangeHRM\\DevTools\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": false
+        }
+    }
+}

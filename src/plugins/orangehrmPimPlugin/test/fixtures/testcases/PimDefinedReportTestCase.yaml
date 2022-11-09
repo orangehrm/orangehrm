@@ -1,0 +1,134 @@
+GetAll:
+  'get all pim defined reports':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query:
+      sortOrder: DESC
+    data:
+      0:
+        id: 1
+        name: 'PIM Sample Report'
+      1:
+        id: 2
+        name: 'PIM Employee Report'
+    meta:
+      total: 2
+
+GetAll with filter params:
+  'get all pim defined reports based on search report name':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query:
+      sortOrder: DESC
+      name: 'PIM Sample Report'
+    data:
+      0:
+        id: 1
+        name: 'PIM Sample Report'
+    meta:
+      total: 1
+
+Delete:
+  'delete an existing report or reports':
+    userId: 1
+    attributes: [ ]
+    body:
+      ids: [ 1, 2 ]
+    query: [ ]
+    data:
+      [ 1, 2 ]
+    meta: [ ]
+
+GetOne:
+  'get one report by Id':
+    userId: 1
+    attributes:
+      id: 1
+    body: [ ]
+    query: [ ]
+    data:
+      id: 1
+      name: 'PIM Sample Report'
+      include: 'onlyCurrent'
+      criteria:
+        10:
+          x:
+            id: 1
+            label: 'PhD'
+          y: ''
+          operator: 'eq'
+        9:
+          x:
+            id: 1
+            label: 'Pay Grade 1'
+          y: null
+          operator: 'eq'
+      fieldGroup:
+        1:
+          fields: [ 9, 10, 11 ]
+          includeHeader: true
+        2:
+          fields: [ 20, 21 ]
+          includeHeader: true
+    meta: [ ]
+
+Create:
+  'save a report':
+    userId: 1
+    attributes: [ ]
+    body:
+      name: 'Employee Basic report'
+      include: 'onlyCurrent'
+      criteria:
+        10:
+          x: '1'
+          y: ''
+          operator: 'eq'
+        9:
+          x: '1'
+          y: ''
+          operator: 'eq'
+      fieldGroup:
+        1:
+          fields: [ 9,10,11 ]
+          includeHeader: true
+        2:
+          fields: [ 20,21 ]
+          includeHeader: true
+    query: [ ]
+    data:
+      id: 3
+      name: 'Employee Basic report'
+    meta: [ ]
+
+Update:
+  'update an existing report':
+    userId: 1
+    attributes:
+      id: 2
+    body:
+      name: 'Employee Basic report 02'
+      include: 'onlyCurrent'
+      criteria:
+        10:
+          x: '1'
+          y: ''
+          operator: 'eq'
+        9:
+          x: '1'
+          y: ''
+          operator: 'eq'
+      fieldGroup:
+        1:
+          fields: [ 9,10,11 ]
+          includeHeader: true
+        2:
+          fields: [ 20,21,22 ]
+          includeHeader: true
+    query: [ ]
+    data:
+      id: 2
+      name: 'Employee Basic report 02'
+    meta: [ ]

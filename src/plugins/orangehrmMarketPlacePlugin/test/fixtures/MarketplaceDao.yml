@@ -1,0 +1,6 @@
+Addon:
+  0: {addon_id: 1, title: 'LDAP', status: 'Requested', type: 'paid', plugin_name: 'orangehrmLDAPPlugin'}
+  1: {addon_id: 2, title: 'Toggl', status: 'Installed', type: 'free'}
+  2: {addon_id: 3, title: 'Cooperate-Branding', status: 'Paid', type: 'paid'}
+  3: {addon_id: 4, title: 'Claim Plugin', status: 'Paid', type: 'paid'}
+  4: {addon_id: 5, title: 'Travel', status: 'Installed', type: 'paid'}

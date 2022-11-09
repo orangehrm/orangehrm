@@ -1,0 +1,1438 @@
+Create:
+  'without params':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    invalidOnly: [ 'title', 'jobTitleId', 'minRating', 'maxRating' ]
+
+  'with valid title only':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      title: 'Positive Commitment'
+    invalidOnly: [ 'jobTitleId', 'minRating', 'maxRating' ]
+
+  'with invalid title':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      title: 'This title will be over 100 characters long in order to check that titles over this character limit are not accepted'
+      jobTitleId: 1
+      minRating: 0
+      maxRating: 100
+    invalidOnly: [ 'title' ]
+
+  'with invalid min and max rating':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      title: 'Positive Commitment'
+      jobTitleId: 1
+      minRating: 1000
+      maxRating: 10000
+    invalidOnly: [ 'minRating', 'maxRating' ]
+
+  'with min rating greater than max rating':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      title: 'Positive Commitment'
+      jobTitleId: 1
+      minRating: 100
+      maxRating: 10
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Minimum rating should be less than Maximum rating'
+
+  'with nonexistent job title id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      title: 'Positive Commitment'
+      jobTitleId: 1000
+      minRating: 0
+      maxRating: 100
+    invalidOnly: ['jobTitleId']
+
+  'with all valid details except is default':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      title: 'Positive Commitment'
+      jobTitleId: 1
+      minRating: 0
+      maxRating: 100
+    data:
+      id: 14
+      title: 'Positive Commitment'
+      jobTitle:
+        id: 1
+        name: 'Software Architect'
+        deleted: false
+      minRating: 0
+      maxRating: 100
+      isDefault: null
+      deletable: true
+
+  'with all valid details but with review':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      title: 'Supporting Each Other'
+      jobTitleId: 2
+      minRating: 0
+      maxRating: 10
+      isDefault: true
+    data:
+      id: 14
+      title: 'Supporting Each Other'
+      jobTitle:
+        id: 2
+        name: 'Software Engineer'
+        deleted: false
+      minRating: 0
+      maxRating: 10
+      isDefault: true
+      deletable: true
+
+Update:
+  'without params':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    invalidOnly: [ 'id', 'title', 'jobTitleId', 'minRating', 'maxRating' ]
+
+  'without job title id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 3
+    body:
+      title: 'Sharing Knowledge'
+      minRating: 0
+      maxRating: 100
+    invalidOnly: [ 'jobTitleId' ]
+
+  'with nonexistent kpi id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 100
+    body:
+      title: 'Sharing Knowledge'
+      jobTitleId: 1
+      minRating: 0
+      maxRating: 100
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      messsage: 'Record Not Found'
+
+  'with deleted kpi id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 7
+    body:
+      title: 'Sharing Knowledge'
+      jobTitleId: 1
+      minRating: 0
+      maxRating: 100
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      messsage: 'Record Not Found'
+
+  'with min rating greater than max rating':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 2
+    body:
+      title: 'Sharing Knowledge'
+      jobTitleId: 1
+      minRating: 100
+      maxRating: 10
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      messsage: 'Minimum rating should be less than Maximum rating'
+
+  'with nonexistent job title id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 1
+    body:
+      title: 'Sharing Knowledge'
+      jobTitleId: 1000
+      minRating: 0
+      maxRating: 100
+    invalidOnly: ['jobTitleId']
+
+  'with all valid details except is default and being used in review':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 1
+    body:
+      title: 'Sharing Knowledge'
+      jobTitleId: 2
+      minRating: 0
+      maxRating: 100
+    data:
+      id: 1
+      title: 'Code Clarity'
+      jobTitle:
+        id: 2
+        name: 'Software Engineer'
+        deleted: false
+      minRating: 1
+      maxRating: 10
+      isDefault: null
+      deletable: false
+
+  'with all valid details and not having reviews':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 2
+    body:
+      title: 'Positive Commitment'
+      jobTitleId: 1
+      minRating: 0
+      maxRating: 10
+      isDefault: true
+    data:
+      id: 2
+      title: 'Positive Commitment'
+      jobTitle:
+        id: 1
+        name: 'Software Architect'
+        deleted: false
+      minRating: 0
+      maxRating: 10
+      isDefault: true
+      deletable: true
+
+GetAll:
+  'without query params':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    data: [
+      {
+        "id": 11,
+        "title": "Authored Tests",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 2,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 2,
+        "title": "Capacity Planning",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 1,
+        "title": "Code Clarity",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 10,
+        "isDefault": 1,
+        "deletable": false
+      },
+      {
+        "id": 12,
+        "title": "Decision-Making Analysis",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 55,
+        "isDefault": null,
+        "deletable": false
+      },
+      {
+        "id": 13,
+        "title": "Driven to Deliver",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 40,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 10,
+        "title": "Personally Credible",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 0,
+        "maxRating": 20,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 4,
+        "title": "Planning Methodologies",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 1,
+        "maxRating": 50,
+        "isDefault": true,
+        "deletable": true
+      },
+      {
+        "id": 5,
+        "title": "Positive Commitment",
+        "jobTitle": {
+          "id": 5,
+          "name": "QA Lead",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 6,
+        "title": "Sharing Knowledge",
+        "jobTitle": {
+          "id": 7,
+          "name": "IT Manager",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 25,
+        "isDefault": 1,
+        "deletable": true
+      },
+      {
+        "id": 3,
+        "title": "Speed of Work",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 5,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 8,
+        "title": "Stress Tolerance Flexibility",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 9,
+        "title": "Supporting Each Other",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 0,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      }
+    ]
+    meta:
+      total: 12
+
+  'with kpi title ascending':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      sortField: 'kpi.title'
+      sortOrder: 'ASC'
+    data: [
+      {
+        "id": 11,
+        "title": "Authored Tests",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 2,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 2,
+        "title": "Capacity Planning",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 1,
+        "title": "Code Clarity",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 10,
+        "isDefault": 1,
+        "deletable": false
+      },
+      {
+        "id": 12,
+        "title": "Decision-Making Analysis",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 55,
+        "isDefault": null,
+        "deletable": false
+      },
+      {
+        "id": 13,
+        "title": "Driven to Deliver",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 40,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 10,
+        "title": "Personally Credible",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 0,
+        "maxRating": 20,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 4,
+        "title": "Planning Methodologies",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 1,
+        "maxRating": 50,
+        "isDefault": true,
+        "deletable": true
+      },
+      {
+        "id": 5,
+        "title": "Positive Commitment",
+        "jobTitle": {
+          "id": 5,
+          "name": "QA Lead",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 6,
+        "title": "Sharing Knowledge",
+        "jobTitle": {
+          "id": 7,
+          "name": "IT Manager",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 25,
+        "isDefault": 1,
+        "deletable": true
+      },
+      {
+        "id": 3,
+        "title": "Speed of Work",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 5,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 8,
+        "title": "Stress Tolerance Flexibility",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 9,
+        "title": "Supporting Each Other",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 0,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      }
+    ]
+    meta:
+      total: 12
+
+  'with kpi title descending':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      sortField: 'kpi.title'
+      sortOrder: 'DESC'
+    data: [
+      {
+        "id": 9,
+        "title": "Supporting Each Other",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 0,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 8,
+        "title": "Stress Tolerance Flexibility",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 3,
+        "title": "Speed of Work",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 5,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 6,
+        "title": "Sharing Knowledge",
+        "jobTitle": {
+          "id": 7,
+          "name": "IT Manager",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 25,
+        "isDefault": 1,
+        "deletable": true
+      },
+      {
+        "id": 5,
+        "title": "Positive Commitment",
+        "jobTitle": {
+          "id": 5,
+          "name": "QA Lead",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 4,
+        "title": "Planning Methodologies",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 1,
+        "maxRating": 50,
+        "isDefault": true,
+        "deletable": true
+      },
+      {
+        "id": 10,
+        "title": "Personally Credible",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 0,
+        "maxRating": 20,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 13,
+        "title": "Driven to Deliver",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 40,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 12,
+        "title": "Decision-Making Analysis",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 55,
+        "isDefault": null,
+        "deletable": false
+      },
+      {
+        "id": 1,
+        "title": "Code Clarity",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 10,
+        "isDefault": 1,
+        "deletable": false
+      },
+      {
+        "id": 2,
+        "title": "Capacity Planning",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 11,
+        "title": "Authored Tests",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 2,
+        "isDefault": null,
+        "deletable": true
+      }
+    ]
+    meta:
+      total: 12
+
+  'with job title name asc':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      sortField: 'jobTitle.jobTitleName'
+      sortOrder: 'ASC'
+    data: [
+      {
+        "id": 6,
+        "title": "Sharing Knowledge",
+        "jobTitle": {
+          "id": 7,
+          "name": "IT Manager",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 25,
+        "isDefault": 1,
+        "deletable": true
+      },
+      {
+        "id": 10,
+        "title": "Personally Credible",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 0,
+        "maxRating": 20,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 8,
+        "title": "Stress Tolerance Flexibility",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 5,
+        "title": "Positive Commitment",
+        "jobTitle": {
+          "id": 5,
+          "name": "QA Lead",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 13,
+        "title": "Driven to Deliver",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 40,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 3,
+        "title": "Speed of Work",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 5,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 4,
+        "title": "Planning Methodologies",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 1,
+        "maxRating": 50,
+        "isDefault": true,
+        "deletable": true
+      },
+      {
+        "id": 9,
+        "title": "Supporting Each Other",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 0,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      }
+      {
+        "id": 1,
+        "title": "Code Clarity",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 10,
+        "isDefault": 1,
+        "deletable": false
+      },
+      {
+        "id": 12,
+        "title": "Decision-Making Analysis",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 55,
+        "isDefault": null,
+        "deletable": false
+      },
+      {
+        "id": 11,
+        "title": "Authored Tests",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 2,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 2,
+        "title": "Capacity Planning",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      }
+    ]
+    meta:
+      total: 12
+
+  'with job title name desc':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      sortField: 'jobTitle.jobTitleName'
+      sortOrder: 'DESC'
+    data: [
+      {
+        "id": 11,
+        "title": "Authored Tests",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 2,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 2,
+        "title": "Capacity Planning",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 1,
+        "title": "Code Clarity",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 10,
+        "isDefault": 1,
+        "deletable": false
+      },
+      {
+        "id": 12,
+        "title": "Decision-Making Analysis",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 55,
+        "isDefault": null,
+        "deletable": false
+      },
+      {
+        "id": 4,
+        "title": "Planning Methodologies",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 1,
+        "maxRating": 50,
+        "isDefault": true,
+        "deletable": true
+      },
+      {
+        "id": 9,
+        "title": "Supporting Each Other",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 0,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      }
+      {
+        "id": 13,
+        "title": "Driven to Deliver",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 40,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 3,
+        "title": "Speed of Work",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 5,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 5,
+        "title": "Positive Commitment",
+        "jobTitle": {
+          "id": 5,
+          "name": "QA Lead",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 10,
+        "title": "Personally Credible",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 0,
+        "maxRating": 20,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 8,
+        "title": "Stress Tolerance Flexibility",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 6,
+        "title": "Sharing Knowledge",
+        "jobTitle": {
+          "id": 7,
+          "name": "IT Manager",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 25,
+        "isDefault": 1,
+        "deletable": true
+      }
+    ]
+    meta:
+      total: 12
+
+  'with limit 5':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      limit: 5
+    data: [
+      {
+        "id": 11,
+        "title": "Authored Tests",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 2,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 2,
+        "title": "Capacity Planning",
+        "jobTitle": {
+          "id": 2,
+          "name": "Software Engineer",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 100,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 1,
+        "title": "Code Clarity",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 10,
+        "isDefault": 1,
+        "deletable": false
+      },
+      {
+        "id": 12,
+        "title": "Decision-Making Analysis",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 55,
+        "isDefault": null,
+        "deletable": false
+      },
+      {
+        "id": 13,
+        "title": "Driven to Deliver",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 40,
+        "isDefault": null,
+        "deletable": true
+      }
+    ]
+    meta:
+      total: 12
+
+  'with limit 5 and offset 5':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      limit: 5
+      offset: 5
+    data: [
+      {
+        "id": 10,
+        "title": "Personally Credible",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 0,
+        "maxRating": 20,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 4,
+        "title": "Planning Methodologies",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 1,
+        "maxRating": 50,
+        "isDefault": true,
+        "deletable": true
+      },
+      {
+        "id": 5,
+        "title": "Positive Commitment",
+        "jobTitle": {
+          "id": 5,
+          "name": "QA Lead",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 10,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 6,
+        "title": "Sharing Knowledge",
+        "jobTitle": {
+          "id": 7,
+          "name": "IT Manager",
+          "deleted": false
+        },
+        "minRating": 5,
+        "maxRating": 25,
+        "isDefault": 1,
+        "deletable": true
+      },
+      {
+        "id": 3,
+        "title": "Speed of Work",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 5,
+        "isDefault": null,
+        "deletable": true
+      },
+    ]
+    meta:
+      total: 12
+
+  'with limit 5 offset 5 and kpi title descending':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      limit: 5
+      offset: 5
+      sortField: 'kpi.title'
+      sortOrder: 'DESC'
+    data: [
+      {
+        "id": 4,
+        "title": "Planning Methodologies",
+        "jobTitle": {
+          "id": 4,
+          "name": "Sales Person",
+          "deleted": true
+        },
+        "minRating": 1,
+        "maxRating": 50,
+        "isDefault": true,
+        "deletable": true
+      },
+      {
+        "id": 10,
+        "title": "Personally Credible",
+        "jobTitle": {
+          "id": 6,
+          "name": "Network Administrator",
+          "deleted": false
+        },
+        "minRating": 0,
+        "maxRating": 20,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 13,
+        "title": "Driven to Deliver",
+        "jobTitle": {
+          "id": 3,
+          "name": "Quality Assurance",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 40,
+        "isDefault": null,
+        "deletable": true
+      },
+      {
+        "id": 12,
+        "title": "Decision-Making Analysis",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 55,
+        "isDefault": null,
+        "deletable": false
+      },
+      {
+        "id": 1,
+        "title": "Code Clarity",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 10,
+        "isDefault": 1,
+        "deletable": false
+      }
+    ]
+    meta:
+      total: 12
+
+  'with job title id 1':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      jobTitleId: 1
+    data: [
+      {
+        "id": 1,
+        "title": "Code Clarity",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 10,
+        "isDefault": 1,
+        "deletable": false
+      },
+      {
+        "id": 12,
+        "title": "Decision-Making Analysis",
+        "jobTitle": {
+          "id": 1,
+          "name": "Software Architect",
+          "deleted": false
+        },
+        "minRating": 1,
+        "maxRating": 55,
+        "isDefault": null,
+        "deletable": false
+      }
+    ]
+    meta:
+      total: 2
+
+  'with job title id 4 (deleted)':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    query:
+      jobTitleId: 4
+    data: [ ]
+    meta:
+      total: 0
+
+GetOne:
+  'without id attribute':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    invalidOnly: ['id']
+
+  'with nonexistent kpi id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 1000
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: 'Record Not Found'
+
+  'with deleted kpi id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 7
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: 'Record Not Found'
+
+  'with valid id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    attributes:
+      id: 1
+    data:
+      id: 1
+      title: 'Code Clarity'
+      jobTitle:
+        id: 1
+        name: 'Software Architect'
+        deleted: false
+      minRating: 1
+      maxRating: 10
+      isDefault: 1
+      deletable: false
+    meta:
+      editable: false
+
+Delete:
+  'with no ids':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    now:
+      datetime: '2022-02-03 02:16:18'
+    body:
+      ids: [ ]
+    data: [ ]
+
+  'with one id':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    now:
+      datetime: '2022-02-03 02:16:18'
+    body:
+      ids: [ 6 ]
+    data: [ 6 ]
+
+  'with multiple ids':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    now:
+      datetime: '2022-02-03 02:16:18'
+    body:
+      ids: [ 6, 7 ]
+    data: [ 6, 7 ]
+
+  'without int array':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      ids: 1
+    invalidOnly: [ 'ids' ]
+
+  'with invalid ids':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    body:
+      ids: [ 1, "a" ]
+    invalidOnly: [ 'ids' ]

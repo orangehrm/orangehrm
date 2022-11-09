@@ -1,0 +1,113 @@
+GetAll:
+  'get all project activitites':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      projectId: 1
+    body: [ ]
+    query: [ ]
+    data:
+      0:
+        id: 1
+        name: 'Activity1 For Pro1'
+        deleted: false
+      1:
+        id: 2
+        name: 'Activity2 For Pro1'
+        deleted: false
+    meta:
+      total: 2
+
+  'get all project activitites filter by project activity name':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      projectId: 1
+    body: [ ]
+    query:
+      projectActivityName: Activity1
+    data:
+      0:
+        id: 1
+        name: 'Activity1 For Pro1'
+        deleted: false
+    meta:
+      total: 1
+
+GetOne:
+  'get one project activity by Id':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      projectId: 1
+      id: 1
+    body: [ ]
+    query: [ ]
+    data:
+      id: 1
+      name: 'Activity1 For Pro1'
+      deleted: false
+    meta: [ ]
+
+Create:
+  'create new project activity':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      projectId: 1
+    body:
+      name: 'Activity3 For Pro1'
+    query: [ ]
+    data:
+      id: 5
+      name: 'Activity3 For Pro1'
+      deleted: false
+    meta: [ ]
+
+Update:
+  'update an existing project activity':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      projectId: 1
+      id: 1
+    body:
+      name: 'Debug'
+    query: [ ]
+    data:
+      id: 1
+      name: 'Debug'
+      deleted: false
+    meta: [ ]
+
+Delete:
+  'delete an existing project activity (Exception)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      projectId: 1
+    body:
+      ids: [ 1 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Not Allowed to Delete Project Activities Which Have Time Logged Against'
+
+  'delete an existing project activity (Non-Exception)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      projectId: 1
+    body:
+      ids: [ 2 ]
+    query: [ ]
+    data:
+      [ 2 ]
+    meta: [ ]

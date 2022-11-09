@@ -1,0 +1,3 @@
+OAuthClient:
+  0: { clientId: TestClientId, clientSecret: TestClientSecret, grantTypes: client_credentials, scope: admin, redirectUri: '' }
+  1: { clientId: MobileClientId, clientSecret: MobileClientSecret, grantTypes: password, scope: user, redirectUri: '' }

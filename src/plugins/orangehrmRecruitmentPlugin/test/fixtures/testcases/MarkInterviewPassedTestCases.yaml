@@ -1,0 +1,188 @@
+Update:
+  'Candidate mark interview passed - Admin':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 2
+      interviewId: 1
+    body:
+      note: 'Matching the qualifications'
+    data:
+      id: 1
+      candidate:
+        id: 2
+        firstName: 'Jo'
+        middleName: ''
+        lastName: 'Denton'
+      vacancy:
+        id: 3
+        name: 'Part-Time Technical Assistant'
+        hiringManager:
+          empNumber: '1'
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+      note: 'Matching the qualifications'
+      action:
+        id: 5
+        label: 'Interview Passed'
+    meta: [ ]
+
+  'Mark Interview Passed - Hiring manager':
+    userId: 2
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 5
+      interviewId: 2
+    body:
+      note: 'Matching the qualifications'
+    data:
+      id: 1
+      candidate:
+        id: 5
+        firstName: 'Charles'
+        middleName: ''
+        lastName: 'Haywire'
+      vacancy:
+        id: 2
+        name: 'Senior Technical Supervisor'
+        hiringManager:
+          empNumber: 2
+          firstName: 'Ashley'
+          middleName: 'ST'
+          lastName: 'Abel'
+          terminationId: null
+      note: 'Matching the qualifications'
+      action:
+        id: 5
+        label: 'Interview Passed'
+    meta: [ ]
+
+  'Mark Interview Passed - Interviewer':
+    userId: 3
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      candidateId: 2
+      interviewId: 1
+    body:
+      note: 'Matching the qualifications'
+    data:
+      id: 1
+      candidate:
+        id: 2
+        firstName: 'Jo'
+        middleName: ''
+        lastName: 'Denton'
+      vacancy:
+        id: 3
+        name: 'Part-Time Technical Assistant'
+        hiringManager:
+          empNumber: '1'
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+      note: 'Matching the qualifications'
+      action:
+        id: 5
+        label: 'Interview Passed'
+    meta: [ ]
+
+  'Candidate mark interview passed - ESS User':
+    userId: 4
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+      interviewId: 1
+    body:
+      note: 'Matching the qualifications'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Candidate mark interview passed - already marked interview passed':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 1
+      interviewId: 1
+    body:
+      note: 'Matching the qualifications'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Candidate mark interview passed - non existing candidate Id':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 100
+      interviewId: 1
+    body:
+      note: 'Matching the qualifications'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Candidate mark interview passed - non existing interview Id':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 1
+      interviewId: 100
+    body:
+      note: 'Matching the qualifications'
+    invalidOnly: [ 'interviewId' ]
+

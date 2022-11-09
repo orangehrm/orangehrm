@@ -1,0 +1,82 @@
+# Depends on;
+# src/test/phpunit/fixtures/MenuItem.yaml
+
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+JobTitle:
+  - { id: 1, jobTitleName: 'Software Architect', isDeleted: 0 }
+  - { id: 2, jobTitleName: 'Software Engineer', isDeleted: 0 }
+  - { id: 3, jobTitleName: 'Quality Assurance', isDeleted: 0 }
+  - { id: 4, jobTitleName: 'Sales Person', isDeleted: 1 }
+
+# 1=Organization
+#    2=Engineering
+#       5=Support
+#    3=QA
+#    4=Agriculture
+Subunit:
+  - { id: 1, name: 'Organization', unitId: 'company', lft: 1, rgt: 10, level: 0 }
+  - { id: 2, name: 'Engineering', unitId: 'eng', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'QA', unitId: 'qa', lft: 6, rgt: 7, level: 1 }
+  - { id: 4, name: 'Agriculture', unitId: 'ag', lft: 8, rgt: 9, level: 1 }
+  - { id: 5, name: 'Support', unitId: 'sup', lft: 3, rgt: 4, level: 2 }
+
+TerminationReason:
+  - { id: 1, name: 'Resign' }
+
+EmployeeTerminationRecord:
+  - { id: 1, reason_id: 1, date: '2021-11-20', note: 'Comment' }
+
+EmploymentStatus:
+  - { id: 1, name: 'Full Time' }
+  - { id: 2, name: 'Part Time' }
+  - { id: 3, name: 'Intern' }
+
+JobCategory:
+  - { id: 1, name: 'Professionals' }
+  - { id: 2, name: 'Technicians' }
+  - { id: 3, name: 'Sales Workers' }
+
+Nationality:
+  - { id: 52, name: Dutch }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "", job_title_code: 4 }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane", job_title_code: 1, birthday: '1990-10-02', nation_code: 52, gender: 2, maritalStatus: 'Married', otherId: 'E0002', drivingLicenseNo: '123321', drivingLicenseExpiredDate: '2021-10-29' }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "", work_station: 2, street1: '263a', street2: 'Centroallee', city: 'Oberhausen', country: 'DE', zipcode: '46047', homeTelephone: '112-382-0478', workTelephone: '112-454-0457', workEmail: 'odis1@osohrm.com' }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "", work_station: 5, maritalStatus: 'Other', otherEmail: 'kayla@mail.com', province: 'Western', country: 'LK', eeo_cat_code: 2, joinedDate: '2019-02-01' }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": 1, work_station: 3, emp_status: 2, eeo_cat_code: 1, joinedDate: '2015-10-18' }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "", gender: 1, maritalStatus: 'Single', emp_status: 1, birthday: '1995-10-02' }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": 3, "erep_sub_emp_number": 2, "erep_reporting_mode": 1 }
+  - { "erep_sup_emp_number": 3, "erep_sub_emp_number": 4, "erep_reporting_mode": 1 }
+
+Country:
+  - { cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+  - { cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+
+Location:
+  - { id: 1, name: 'Head', country_code: 'US' }
+  - { id: 2, name: 'Development', country_code: 'US' }
+  - { id: 3, name: 'Support', country_code: 'LK' }
+
+EmpLocations:
+  - { emp_number: 1, location_id: 1 }
+  - { emp_number: 2, location_id: 2 }
+  - { emp_number: 3, location_id: 2 }
+  - { emp_number: 4, location_id: 2 }
+  - { emp_number: 5, location_id: 3 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": 0,"status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Anderson","user_password": "Anderson","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Duval","user_password": "Duval","deleted": 0,"status": "1","date_entered": "2021-09-15 16:48:40","created_by": "1" }
+  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": 0,"status": "1","date_entered": "2021-09-15 20:05:27","created_by": "1" }
+  - { "id": 6, "user_role_id": 2, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": 0,"status": "1","date_entered": "2021-09-15 20:50:02","created_by": "1" }

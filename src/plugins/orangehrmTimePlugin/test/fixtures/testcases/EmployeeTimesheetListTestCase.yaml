@@ -1,0 +1,152 @@
+GetAll:
+  'get all employee timesheet list (Admin)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    data:
+      0:
+        id: 2
+        employee:
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          terminationId: null
+        status:
+          id: 'SUBMITTED'
+          name: 'Submitted'
+        startDate: '2011-05-22'
+        endDate: "2011-05-29"
+    meta:
+      total: 1
+
+  'get all employee timesheet list filter by employee number (Admin)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 2
+    data:
+      0:
+        id: 2
+        employee:
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          terminationId: null
+        status:
+          id: 'SUBMITTED'
+          name: 'Submitted'
+        startDate: '2011-05-22'
+        endDate: "2011-05-29"
+    meta:
+      total: 1
+
+  'get all employee timesheet list filter by employee number (Supervisor to Assigned Subordinate)':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 2
+    data:
+      0:
+        id: 2
+        employee:
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          terminationId: null
+        status:
+          id: 'SUBMITTED'
+          name: 'Submitted'
+        startDate: '2011-05-22'
+        endDate: "2011-05-29"
+    meta:
+      total: 1
+
+  'get all employee timesheet list (Supervisor to Assigned Subordinate)':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    data:
+      0:
+        id: 2
+        employee:
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          terminationId: null
+        status:
+          id: 'SUBMITTED'
+          name: 'Submitted'
+        startDate: '2011-05-22'
+        endDate: "2011-05-29"
+    meta:
+      total: 1
+
+  'get all employee timesheet list filter by employee number (Supervisor to Unassigned Subordinate)':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 1
+    invalidOnly: [ 'empNumber' ]
+    meta: [ ]
+
+  'get all employee timesheet list filter by employee number (Passing unavailable employee number)':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 100000
+    invalidOnly: [ 'empNumber' ]
+    meta: [ ]
+
+  'get all employee timesheet list filter by employee number (Passing employee number as string)':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: "Hello"
+    invalidOnly: [ 'empNumber' ]
+    meta: [ ]

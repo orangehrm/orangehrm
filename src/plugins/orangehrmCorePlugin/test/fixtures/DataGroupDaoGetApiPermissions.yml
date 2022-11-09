@@ -1,0 +1,22 @@
+Module:
+  - {id: 1, name: 'core', status: 1, displayName: 'Core'}
+  - {id: 2, name: 'admin', status: 1, displayName: 'Admin'}
+  - {id: 3, name: 'pim', status: 1, displayName: 'PIM'}
+
+UserRole:
+  - {id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1}
+  - {id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1}
+  - {id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1}
+
+DataGroup:
+  - {id: 1, name: 'apiv2_job_titles', can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  - {id: 2, name: 'apiv2_job_category', can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+
+DataGroupPermission:
+  - {id: 1, user_role_id: 1, can_read: 1, can_create: 1, data_group_id: 1, self: 0}
+  - {id: 2, user_role_id: 2, can_read: 1, data_group_id: 1, self: 0}
+  - {id: 3, user_role_id: 2, can_read: 1, data_group_id: 2, self: 0}
+
+ApiPermission:
+  - {id: 1, module_id: 2, data_group_id: 1, api_name: 'OrangeHRM\Admin\Api\JobTitleAPI'}
+  - {id: 2, module_id: 2, data_group_id: 2, api_name: 'OrangeHRM\Admin\Api\JobCategoryAPI'}

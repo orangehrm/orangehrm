@@ -1,0 +1,49 @@
+root:
+  path: /
+  controller: OrangeHRM\Authentication\Controller\RootController::handle
+  methods: [ GET ]
+
+auth_login:
+  path: /auth/login
+  controller: OrangeHRM\Authentication\Controller\LoginController::handle
+  methods: [ GET ]
+
+auth_validate:
+  path: /auth/validate
+  controller: OrangeHRM\Authentication\Controller\ValidateController::handle
+  methods: [ POST ]
+
+auth_logout:
+  path: /auth/logout
+  controller: OrangeHRM\Authentication\Controller\LogoutController::handle
+  methods: [ GET ]
+
+auth_admin_access_verify:
+  path: /auth/adminVerify
+  controller: OrangeHRM\Authentication\Controller\AdministratorVerifyController::handle
+  methods: [ POST ]
+
+auth_request_reset_password:
+  path: /auth/requestResetPassword
+  controller: OrangeHRM\Authentication\Controller\RequestResetPasswordController::handle
+  methods: [ POST ]
+
+auth_reset_password:
+  path: /auth/resetPassword
+  controller: OrangeHRM\Authentication\Controller\ResetPasswordController::handle
+  methods: [ POST ]
+
+auth_send_password_reset:
+  path: /auth/sendPasswordReset
+  controller: OrangeHRM\Authentication\Controller\RequestPasswordSuccessController::handle
+  methods: [ GET ]
+
+auth_forgot_password_username:
+  path: /auth/requestPasswordResetCode
+  controller: OrangeHRM\Authentication\Controller\RequestPasswordController::handle
+  methods: [ GET ]
+
+auth_reset_code:
+  path: /auth/resetPassword/resetCode/{resetCode}
+  controller: OrangeHRM\Authentication\Controller\ResetCodeController::handle
+  methods: [ GET ]

@@ -1,0 +1,182 @@
+GetAll:
+  'Get candidate allowed actions - no current state':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 4
+    data:
+      - id: 1
+        label: 'Initiate Application'
+    meta:
+      total: 1
+
+  'Get candidate allowed actions - current state - APPLICATION INITIATED':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 1
+    data:
+      - id: 2
+        label: 'Shortlist'
+      - id: 3
+        label: 'Reject'
+    meta:
+      total: 2
+
+  'Get candidate allowed actions - current state - SHORTLISTED':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 2
+    data:
+      - id: 3
+        label: 'Reject'
+      - id: 4
+        label: 'Schedule Interview'
+    meta:
+      total: 2
+
+  'Get candidate allowed actions - current state - INTERVIEW SCHEDULED':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 3
+    data:
+      - id: 3
+        label: 'Reject'
+      - id: 5
+        label: 'Mark Interview Passed'
+      - id: 6
+        label: 'Mark Interview Failed'
+    meta:
+      total: 3
+
+  'Get candidate allowed actions - current state - INTERVIEW PASSED':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 5
+    data:
+      - id: 3
+        label: 'Reject'
+      - id: 4
+        label: 'Schedule Interview'
+      - id: 7
+        label: 'Offer Job'
+    meta:
+      total: 3
+
+  'Get candidate allowed actions - current state - INTERVIEW FAILED':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 6
+    data:
+      - id: 3
+        label: 'Reject'
+    meta:
+      total: 1
+
+  'Get candidate allowed actions - current state - JOB OFFERED':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 7
+    data:
+      - id: 3
+        label: 'Reject'
+      - id: 8
+        label: 'Decline Offer'
+      - id: 9
+        label: 'Hire'
+    meta:
+      total: 3
+
+  'Get candidate allowed actions - current state - HIRED':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 8
+    data: [ ]
+    meta:
+      total: 0
+
+  'Get candidate allowed actions - current state - OFFER DECLINED':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 9
+    data:
+      - id: 3
+        label: 'Reject'
+    meta:
+      total: 1
+
+  'Get candidate allowed actions - invalid candidate Id':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 100
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'

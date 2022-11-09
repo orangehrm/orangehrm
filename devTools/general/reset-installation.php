@@ -1,78 +1,25 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
-class InstallCleaner {
-
-    private $rootDir;
-    private $isCli;
-    private $lineEnd;
-
-    public function __construct($rootDir) {
-        $this->rootDir = realpath($rootDir);
-        $this->isCli = php_sapi_name() == 'cli';
-        $this->lineEnd =  $this->isCli ? "\n" : "<br /><br />\n";
-    }
-
-    public function removeFile($filePath) {
-        if (file_exists($filePath)) {
-
-            if (@unlink($filePath)) {
-                $this->displayMessage("File '$filePath' was deleted.");
-            } else {
-                $this->displayMessage("Couldn't delete file '$filePath'");
-            }
-        } else {
-            $this->displayMessage("File '{$filePath} not found.");
-        }       
-    }
-
-    public function displayMessage($message) {
-        echo $message . $this->lineEnd;
-    }
-
-    public function dropDatabase($dbHost, $dbPort, $dbName, $dbUser, $dbPassword) {
-
-        $conn = mysqli_connect($dbHost, $dbUser, $dbPassword, "", $dbPort);
-        if (mysqli_query($conn, "DROP DATABASE `{$dbName}`") !== FALSE) {
-            $this->displayMessage("Database '{$dbName}' was deleted.");
-        } else {
-            $this->displayMessage("Couldn't delete database '{$dbName}'");
-        }        
-    }
-
-    public function resetInstall() {
-        $confPhpFile = $this->rootDir . "/lib/confs/Conf.php";
-        
-        if (file_exists($confPhpFile)) {
-            require_once $confPhpFile;
-
-            $c = new Conf();
-            $this->dropDatabase($c->dbhost, $c->dbport, $c->dbname, $c->dbuser, $c->dbpass);
-            
-            $this->displayMessage("Removing files created at installation time:");
-            $this->removeFile($confPhpFile);
-
-
-            $file = $this->rootDir . "/lib/confs/cryptokeys/key.ohrm";
-            $this->removeFile($file);
-
-            $file = $this->rootDir . "/lib/logs/notification_mails.log";
-            $this->removeFile($file);
-
-            $file = $this->rootDir  . "/symfony/apps/orangehrm/config/emailConfiguration.yml";
-            $this->removeFile($file);
-
-            $file = $this->rootDir . "/symfony/apps/orangehrm/config/parameters.yml";
-            $this->removeFile($file);
-
-            $file = $this->rootDir . "/symfony/config/databases.yml";
-            $this->removeFile($file);
-
-        } else {
-            $this->displayMessage("File {$confPhpFile} not found. Skipping install reset");
-        }
-    }
-}
-
-$installCleaner = new InstallCleaner(dirname(__FILE__) . "/../../");
-$installCleaner->resetInstall();
-
+$errorMessage = "
+Use new command.\n
+$ cd %s
+$ php ./devTools/core/console.php i:reset
+\n";
+echo sprintf($errorMessage, realpath(__DIR__ . '/../../'));

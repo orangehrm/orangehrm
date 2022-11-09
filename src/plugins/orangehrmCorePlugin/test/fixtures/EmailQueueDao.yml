@@ -1,0 +1,7 @@
+Mail:
+  0: {id: 1, to_list: 'a:1:{i:0;s:19:"test2@ogangehrm.com";}', cc_list: 'a:0:{}', bcc_list: 'a:0:{}', subject: 'test1 subject', body: 'test1 body', created_at: '2020-09-27 15:46:32', status: 'pending', content_type: 'text/plain'}
+  1: {id: 2, to_list: 'a:1:{i:0;s:19:"test2@ogangehrm.com";}', cc_list: 'a:1:{i:0;s:19:"test2@ogangehrm.com";}', bcc_list: 'a:0:{}', subject: 'test2 subject', body: 'test2 body', created_at: '2020-09-27 15:46:32', status: 'pending', content_type: 'text/plain'}
+  2: {id: 3, to_list: 'a:1:{i:0;s:19:"test2@ogangehrm.com";}', cc_list: 'a:0:{}', bcc_list: 'a:0:{}', subject: 'test3 subject', body: 'test3 body', created_at: '2020-09-27 15:46:32', status: 'pending', content_type: 'text/plain'}
+  3: {id: 4, to_list: 'a:1:{i:0;s:19:"test2@ogangehrm.com";}', cc_list: 'a:0:{}', bcc_list: 'a:0:{}', subject: 'test4 subject', body: 'test4 body', created_at: '2020-09-27 15:46:32', status: 'started', content_type: 'text/plain'}
+  4: {id: 5, to_list: 'a:1:{i:0;s:19:"test2@ogangehrm.com";}', cc_list: 'a:0:{}', bcc_list: 'a:0:{}', subject: 'test5 subject', body: 'test5 body', created_at: '2020-09-27 15:46:32', sent_at: '2021-09-27 23:46:32', status: 'sent', content_type: 'text/plain'}
+  5: {id: 6, to_list: 'a:1:{i:0;s:19:"test2@ogangehrm.com";}', cc_list: 'a:0:{}', bcc_list: 'a:0:{}', subject: 'test6 subject', body: 'test6 body', created_at: '2020-09-27 15:46:32', sent_at: '2021-09-27 23:46:32', status: 'failed', content_type: 'text/plain'}

@@ -1,0 +1,96 @@
+GetAll:
+  'with name or id when name given - Admin':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: 'admin'
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with name or id when id given - Admin':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: '2'
+    data: [
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with name or id when nonexistent id given - Admin':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: '10'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with name or id when name given - ESS':
+    userId: 2
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: 'admin'
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with name or id when id given - ESS':
+    userId: 2
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: '2'
+    data: [
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with name or id when nonexistent id given - ESS':
+    userId: 2
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      nameOrId: '10'
+    data: [ ]
+    meta:
+      total: 0

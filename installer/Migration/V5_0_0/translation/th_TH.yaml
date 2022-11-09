@@ -1,0 +1,464 @@
+translations:
+    - { target: เพิ่ม, unitId: add, group: general }
+    - { target: เพิ่มสิ่งที่แนบมา, unitId: add_attachment, group: general }
+    - { target: เพิ่มพนักงาน, unitId: add_employee, group: general }
+    - { target: เพิ่มเข้ามาโดย, unitId: added_by, group: pim }
+    - { target: ที่อยู่, unitId: address, group: admin }
+    - { target: งานธุรการ, unitId: admin, group: general }
+    - { target: กลุ่มอายุ, unitId: age_group, group: pim }
+    - { target: 'ช่วยให้ตัวเลขและเท่านั้น + - / ()', unitId: allows_phone_numbers_only, group: general }
+    - { target: มีอยู่แล้ว, unitId: already_exists, group: general }
+    - { target: จำนวน, unitId: amount, group: pim }
+    - { target: ใช้, unitId: apply, group: general }
+    - { target: กำหนดการลา, unitId: assign_leave, group: leave }
+    - { target: กำหนดส่วนประกอบของเงินเดือน, unitId: assigned_salary_components, group: pim }
+    - { target: ไฟล์แนบเกินขนาด, unitId: attachment_size_exceeded, group: general }
+    - { target: เวลาทำงาน, unitId: attendance, group: general }
+    - { target: สรุปเวลาทำงาน, unitId: attendance_summary, group: general }
+    - { target: กลับ, unitId: back, group: general }
+    - { target: ยกเลิก, unitId: cancel, group: general }
+    - { target: ผู้สมัครสอบ, unitId: candidates, group: general }
+    - { target: เปลี่ยนรหัสผ่าน, unitId: change_password, group: general }
+    - { target: ความเห็น, unitId: comment, group: general }
+    - { target: ความคิดเห็น, unitId: comments, group: general }
+    - { target: บริษัท, unitId: company, group: pim }
+    - { target: Competency, unitId: competency, group: pim }
+    - { target: การตั้งค่าคอนฟิก, unitId: configuration, group: general }
+    - { target: การตั้งค่าคอนฟิก, unitId: configure, group: general }
+    - { target: ติดต่อรายละเอียด, unitId: contact_details, group: pim }
+    - { target: วันที่สิ้นสุดสัญญา, unitId: contract_end_date, group: pim }
+    - { target: วันที่เริ่มสัญญา, unitId: contract_start_date, group: pim }
+    - { target: ประเทศ, unitId: country, group: general }
+    - { target: เงินตรา, unitId: currency, group: general }
+    - { target: พนักงานปัจจุบันและที่ผ่านมา, unitId: current_and_past_employees, group: general }
+    - { target: พนักงานปัจจุบันเท่านั้น, unitId: current_employees_only, group: general }
+    - { target: เขตข้อมูลแบบกำหนดเอง, unitId: custom_fields, group: pim }
+    - { target: ลูกค้า, unitId: customers, group: general }
+    - { target: ข้อมูลนำเข้า, unitId: data_import, group: pim }
+    - { target: วันที่, unitId: date, group: general }
+    - { target: วันที่เพิ่มเข้ามา, unitId: date_added, group: pim }
+    - { target: วันเกิด, unitId: date_of_birth, group: pim }
+    - { target: วัน, unitId: days, group: leave }
+    - { target: ลบปัจจุบัน, unitId: delete_current, group: general }
+    - { target: ผู้อยู่ในความดูแล, unitId: dependents, group: general }
+    - { target: คำอธิบาย, unitId: description, group: general }
+    - { target: เงินฝากจำนวนบัญชีโดยตรง, unitId: direct_deposit_account_number, group: pim }
+    - { target: เงินฝากประเภทบัญชีโดยตรง, unitId: direct_deposit_account_type, group: pim }
+    - { target: ยอดเงินฝากโดยตรง, unitId: direct_deposit_amount, group: pim }
+    - { target: ไม่สามารถใช้งานได้, unitId: disabled, group: general }
+    - { target: แสดงฟิลด์, unitId: display_fields, group: pim }
+    - { target: ประเภทเอกสาร, unitId: document_type, group: pim }
+    - { target: เลขที่ใบอนุญาตขับ, unitId: driver_license_number, group: pim }
+    - { target: ระยะเวลา, unitId: duration, group: general }
+    - { target: แก้ไข, unitId: edit, group: general }
+    - { target: แก้ไขสิ่งที่แนบมา, unitId: edit_attachment, group: general }
+    - { target: แก้ไขตรวจคนเข้าเมือง, unitId: edit_immigration, group: pim }
+    - { target: แก้ไขส่วนประกอบของเงินเดือน, unitId: edit_salary_component, group: pim }
+    - { target: การศึกษา, unitId: education, group: general }
+    - { target: วันที่ทบทวนที่เหมาะสม, unitId: eligible_review_date, group: pim }
+    - { target: สถานะที่เหมาะสม, unitId: eligible_status, group: pim }
+    - { target: ที่ติดต่อฉุกเฉิน, unitId: emergency_contacts, group: general }
+    - { target: ลูกจ้าง, unitId: employee, group: general }
+    - { target: ชื่อแรกของพนักงาน, unitId: employee_first_name, group: pim }
+    - { target: รหัสพนักงาน, unitId: employee_id, group: general }
+    - { target: นามสกุลพนักงาน, unitId: employee_last_name, group: pim }
+    - { target: รายชื่อพนักงาน, unitId: employee_list, group: general }
+    - { target: ชื่อกลางของพนักงาน, unitId: employee_middle_name, group: pim }
+    - { target: ชื่อของพนักงาน, unitId: employee_name, group: general }
+    - { target: ประวัติพนักงาน, unitId: employee_records, group: general }
+    - { target: รายงานของพนักงาน, unitId: employee_reports, group: general }
+    - { target: 'Timesheets ของพนักงาน', unitId: employee_timesheets, group: general }
+    - { target: สถานะการจ้างงาน, unitId: employment_status, group: general }
+    - { target: ที่เปิดใช้งาน, unitId: enabled, group: general }
+    - { target: วันที่สิ้นสุด, unitId: end_date, group: general }
+    - { target: ESS, unitId: ess, group: general }
+    - { target: 'รูปแบบที่คาดหวัง: admin@example.com', unitId: expected_email_address_format_not_matched, group: general }
+    - { target: วันหมดอายุ, unitId: expiry_date, group: general }
+    - { target: วันหมดอายุควรจะหลังจากวันที่ออก, unitId: expiry_date_should_be_after_issued_date, group: pim }
+    - { target: หญิง, unitId: female, group: general }
+    - { target: ชื่อไฟล์, unitId: file_name, group: general }
+    - { target: ชื่อแรก, unitId: first_name, group: pim }
+    - { target: ความคล่องแคล่ว, unitId: fluency, group: pim }
+    - { target: วันศุกร์, unitId: friday, group: general }
+    - { target: จาก, unitId: from, group: general }
+    - { target: เพศ, unitId: gender, group: pim }
+    - { target: ข้อมูลทั่วไป, unitId: general_information, group: admin }
+    - { target: วันหยุด, unitId: holidays, group: leave }
+    - { target: โทรศัพท์บ้าน, unitId: home_telephone, group: pim }
+    - { target: Id, unitId: id, group: general }
+    - { target: การเข้าเมือง, unitId: immigration, group: general }
+    - { target: รวม, unitId: include, group: pim }
+    - { target: รวมถึงส่วนหัว, unitId: include_header, group: general }
+    - { target: รวมทั้งพนักงานที่ผ่านมา, unitId: include_past_employees, group: leave }
+    - { target: ออกให้โดย, unitId: issued_by, group: pim }
+    - { target: ออกวันที่, unitId: issued_date, group: pim }
+    - { target: งาน, unitId: job, group: general }
+    - { target: หมวดหมู่งาน, unitId: job_categories, group: admin }
+    - { target: หมวดหมู่งาน, unitId: job_category, group: general }
+    - { target: คุณสมบัติของตำแหน่งงาน, unitId: job_specification, group: general }
+    - { target: ตำแหน่งงาน, unitId: job_title, group: general }
+    - { target: ชื่องาน, unitId: job_titles, group: admin }
+    - { target: วันที่เข้าร่วม, unitId: joined_date, group: general }
+    - { target: เก็บปัจจุบันไว้, unitId: keep_current, group: general }
+    - { target: ภาษา, unitId: language, group: general }
+    - { target: ภาษา, unitId: languages, group: general }
+    - { target: นามสกุล, unitId: last_name, group: general }
+    - { target: การลา, unitId: leave, group: general }
+    - { target: 'วันลาคงเหลือ (วัน)', unitId: leave_balance_days, group: leave }
+    - { target: รายการลา, unitId: leave_list, group: leave }
+    - { target: ระยะเวลาการลา, unitId: leave_period, group: leave }
+    - { target: ประเภทการลา, unitId: leave_types, group: leave }
+    - { target: ระดับ, unitId: level, group: general }
+    - { target: ใบอนุญาต, unitId: license, group: pim }
+    - { target: ใบอนุญาตหมดอายุวันที่, unitId: license_expiry_date, group: pim }
+    - { target: เลขที่ใบอนุญาต, unitId: license_number, group: pim }
+    - { target: ประเภทใบอนุญาต, unitId: license_type, group: pim }
+    - { target: ใบอนุญาต, unitId: licenses, group: admin }
+    - { target: รองรับหลายภาษา, unitId: localization, group: admin }
+    - { target: สถานที่, unitId: location, group: general }
+    - { target: สถานที่, unitId: locations, group: admin }
+    - { target: ออกจากระบบ, unitId: logout, group: general }
+    - { target: ชาย, unitId: male, group: general }
+    - { target: สถานภาพการสมรส, unitId: marital_status, group: pim }
+    - { target: สมาชิกภาพ, unitId: membership, group: pim }
+    - { target: สมาชิก, unitId: memberships, group: general }
+    - { target: โทรศัพท์มือถือ, unitId: mobile, group: general }
+    - { target: Modules, unitId: modules, group: general }
+    - { target: วันจันทร์, unitId: monday, group: general }
+    - { target: การลาของฉัน, unitId: my_leave, group: general }
+    - { target: บันทึกของฉัน, unitId: my_records, group: general }
+    - { target: 'Timesheets ของฉัน', unitId: my_timesheets, group: general }
+    - { target: ชื่อ, unitId: name, group: general }
+    - { target: Nationalities, unitId: nationalities, group: admin }
+    - { target: สัญชาติ, unitId: nationality, group: general }
+    - { target: ไม่, unitId: 'no', group: general }
+    - { target: หมายเหตุ, unitId: notes, group: general }
+    - { target: จำนวน, unitId: number, group: pim }
+    - { target: 'รวมเฉพาะที่ได้รับการอนุมัติ Timesheets', unitId: only_include_approved_timesheets, group: time }
+    - { target: ฟิลด์ตัวเลือก, unitId: optional_fields, group: pim }
+    - { target: องค์กร, unitId: organization, group: general }
+    - { target: 'อื่น ๆ', unitId: other, group: pim }
+    - { target: 'อีเมล์อื่น ๆ', unitId: other_email, group: general }
+    - { target: 'รหัสอื่น ๆ', unitId: other_id, group: pim }
+    - { target: พนักงานในอดีต, unitId: past_employee, group: maintenance }
+    - { target: พนักงานในอดีตเท่านั้น, unitId: past_employees_only, group: general }
+    - { target: ความถี่ในการจ่าย, unitId: pay_frequency, group: pim }
+    - { target: ระดับค่าจ้าง, unitId: pay_grade, group: general }
+    - { target: ระดับค่าจ้าง, unitId: pay_grades, group: admin }
+    - { target: ผลการปฏิบัติงาน, unitId: performance, group: general }
+    - { target: ส่วนบุคคล, unitId: personal, group: pim }
+    - { target: PIM, unitId: pim, group: general }
+    - { target: ระยะเวลาโครงการ, unitId: project_date_range, group: time }
+    - { target: ข้อมูลโครงการ, unitId: project_info, group: general }
+    - { target: รายงานโครงการ, unitId: project_reports, group: general }
+    - { target: โครงการ, unitId: projects, group: general }
+    - { target: ตอกบัตรเข้า/ออก, unitId: punch_in_out, group: general }
+    - { target: การสรรหาว่าจ้าง, unitId: recruitment, group: general }
+    - { target: ความสัมพันธ์, unitId: relationship, group: pim }
+    - { target: แทนที่ในปัจจุบัน, unitId: replace_current, group: general }
+    - { target: ชื่อรายงาน, unitId: report_name, group: general }
+    - { target: วิธีการรายงาน, unitId: reporting_method, group: pim }
+    - { target: วิธีการรายงาน, unitId: reporting_methods, group: pim }
+    - { target: รายงาน, unitId: reports, group: general }
+    - { target: จำเป็นต้องมี, unitId: required, group: general }
+    - { target: รีเซ็ต, unitId: reset, group: general }
+    - { target: หมายเลขเส้นทาง, unitId: routing_number, group: pim }
+    - { target: เงินเดือน, unitId: salary, group: general }
+    - { target: ชิ้นส่วนเงินเดือน, unitId: salary_component, group: pim }
+    - { target: วันเสาร์, unitId: saturday, group: general }
+    - { target: บันทึก, unitId: save, group: general }
+    - { target: คะแนน, unitId: score, group: pim }
+    - { target: ค้นหา, unitId: search, group: general }
+    - { target: 'เลือก File', unitId: select_file, group: general }
+    - { target: การคัดเลือกเกณฑ์, unitId: selection_criteria, group: pim }
+    - { target: ระยะเวลาการให้บริการ, unitId: service_period, group: pim }
+    - { target: ควรจะเป็นจำนวน, unitId: should_be_a_number, group: general }
+    - { target: ควรจะเป็นจำนวนบวก, unitId: should_be_a_positive_number, group: general }
+    - { target: ควรอยู่ในต่ำสุด/สูงสุด, unitId: should_be_within_min_max_values, group: pim }
+    - { target: ขนาด, unitId: size, group: general }
+    - { target: ทักษะ, unitId: skill, group: pim }
+    - { target: ทักษะ, unitId: skills, group: general }
+    - { target: เริ่มวันที่, unitId: start_date, group: general }
+    - { target: วันที่เริ่มต้นควรจะเป็นก่อนวันที่สิ้นสุด, unitId: start_date_should_be_before_end_date, group: general }
+    - { target: รัฐ, unitId: state, group: general }
+    - { target: สถานะ, unitId: status, group: general }
+    - { target: โครงสร้าง, unitId: structure, group: general }
+    - { target: หน่วยย่อย, unitId: sub_unit, group: general }
+    - { target: ผู้ใต้บังคับบัญชา, unitId: subordinates, group: pim }
+    - { target: จำนวนที่สมัครเป็นสมาชิก, unitId: subscription_amount, group: pim }
+    - { target: วันที่เริ่มต้นสมัครเป็นสมาชิก, unitId: subscription_commence_date, group: pim }
+    - { target: ชำระค่าสมัครเป็นสมาชิกโดย, unitId: subscription_paid_by, group: pim }
+    - { target: วันที่ต่ออายุการเป็นสมาชิก, unitId: subscription_renewal_date, group: pim }
+    - { target: บันทึกเรียบร้อยแล้ว, unitId: successfully_saved, group: general }
+    - { target: ปรับปรุงเรียบร้อยแล้ว, unitId: successfully_updated, group: general }
+    - { target: วันอาทิตย์, unitId: sunday, group: general }
+    - { target: หัวหน้างาน, unitId: supervisor, group: pim }
+    - { target: ชื่อหัวหน้างาน, unitId: supervisor_name, group: pim }
+    - { target: หัวหน้างาน, unitId: supervisors, group: pim }
+    - { target: เหตุผลที่บอกเลิก, unitId: termination_reasons, group: pim }
+    - { target: วันพฤหัสบดี, unitId: thursday, group: general }
+    - { target: เวลา, unitId: time, group: general }
+    - { target: Timesheets, unitId: timesheets, group: general }
+    - { target: ไปยัง, unitId: to, group: general }
+    - { target: ถึงวันที่ควรจะเป็นหลังจากที่จากวันที่, unitId: to_date_should_be_after_from_date, group: general }
+    - { target: วันอังคาร, unitId: tuesday, group: general }
+    - { target: ชนิด, unitId: type, group: general }
+    - { target: ผู้ใช้งาน, unitId: users, group: general }
+    - { target: ตำแหน่งงานว่าง, unitId: vacancies, group: general }
+    - { target: วันพุธ, unitId: wednesday, group: general }
+    - { target: อีเมลที่ทำงาน, unitId: work_email, group: general }
+    - { target: ประสบการณ์การทำงาน, unitId: work_experience, group: pim }
+    - { target: กะการทำงาน, unitId: work_shifts, group: admin }
+    - { target: โทรศัพท์ที่ทำงาน, unitId: work_telephone, group: pim }
+    - { target: สัปดาห์การทำงาน, unitId: work_week, group: leave }
+    - { target: ปี, unitId: year, group: general }
+    - { target: ปีประสบการณ์, unitId: years_of_experience, group: pim }
+    - { target: ใช่, unitId: 'yes', group: general }
+    - { target: รหัสผ่านไม่ตรงกัน, unitId: passwords_do_not_match, group: general }
+    - { target: ตกลง, unitId: ok, group: general }
+    - { target: 'ยอมรับถึง 1MB', unitId: accepts_up_to_1mb, group: general }
+    - { target: ชื่อผู้ใช้, unitId: username, group: general }
+    - { target: รหัสผ่าน, unitId: password, group: general }
+    - { target: อัปโหลด, unitId: upload, group: general }
+    - { target: ทั้งหมด, unitId: total, group: general }
+    - { target: วันที่สิ้นสุดการเป็นพนักงาน, unitId: termination_date, group: pim }
+    - { target: เหตุผลที่เลิกจ้าง, unitId: termination_reason, group: pim }
+    - { target: ชื่อกิจกรรม, unitId: activity_name, group: time }
+    - { target: เพิ่มการศึกษา, unitId: add_education, group: general }
+    - { target: เพิ่มภาษา, unitId: add_language, group: general }
+    - { target: เพิ่มใบอนุญาต, unitId: add_license, group: general }
+    - { target: เพิ่มทักษะ, unitId: add_skill, group: general }
+    - { target: 'ที่อยู่ ถนน 1', unitId: address_street_1, group: general }
+    - { target: 'ที่อยู่  ถนน2', unitId: address_street_2, group: general }
+    - { target: เมือง, unitId: city, group: general }
+    - { target: ยืนยันรหัสผ่าน, unitId: confirm_password, group: general }
+    - { target: คัดลอกจาก, unitId: copy_from, group: time }
+    - { target: ชื่อโครงการ, unitId: project_name, group: time }
+    - { target: แก้ไขการศึกษา, unitId: edit_education, group: general }
+    - { target: แก้ไขภาษา, unitId: edit_language, group: general }
+    - { target: แก้ไขใบอนุญาต, unitId: edit_license, group: general }
+    - { target: แก้ไขทักษะ, unitId: edit_skill, group: general }
+    - { target: 'รัฐ / จังหวัด', unitId: state_province, group: general }
+    - { target: รหัสไปรษณีย์, unitId: zip_postal_code, group: general }
+    - { target: อนุมัติ, unitId: approve, group: general }
+    - { target: ตามกำหนดการ, unitId: scheduled, group: leave }
+    - { target: หมายเหตุ, unitId: note, group: general }
+    - { target: สิ่งที่แนบมา, unitId: attachments, group: general }
+    - { target: ดาวน์โหลด, unitId: download, group: general }
+    - { target: ส่งอีเมล, unitId: email, group: general }
+    - { target: ดำเนินการโดย, unitId: performed_by, group: general }
+    - { target: ปฏิเสธ, unitId: reject, group: general }
+    - { target: ถูกปฏิเสธ, unitId: rejected, group: leave }
+    - { target: ส่ง, unitId: submit, group: general }
+    - { target: ดู, unitId: view, group: general }
+    - { target: ข้อมูลของฉัน, unitId: my_info, group: general }
+    - { target: คุณสมบัติผู้สมัคร, unitId: qualifications, group: general }
+    - { target: เพิ่มอีก, unitId: add_another, group: general }
+    - { target: ยืนยัน, unitId: confirm, group: general }
+    - { target: ถึงวันที่ควรจะเป็นหลังจากที่ตั้งแต่วันที่, unitId: to_date_should_be_after_from_date, group: general }
+    - { target: กิจกรรมต่างๆ, unitId: activities, group: time }
+    - { target: เพิ่มสกุลเงิน, unitId: add_currency, group: admin }
+    - { target: เพิ่มลูกค้า, unitId: add_customer, group: time }
+    - { target: เพิ่มสถานะการจ้างงาน, unitId: add_employment_status, group: admin }
+    - { target: เพิ่มหมวดหมู่งาน, unitId: add_job_category, group: admin }
+    - { target: เพิ่มตำแหน่งงาน, unitId: add_job_title, group: admin }
+    - { target: เพิ่มสถานที่, unitId: add_location, group: admin }
+    - { target: เพิ่มสมาชิก, unitId: add_membership, group: general }
+    - { target: เพิ่มสัญชาติ, unitId: add_nationality, group: admin }
+    - { target: เพิ่มระดับค่าจ้าง, unitId: add_pay_grade, group: admin }
+    - { target: เพิ่มโครงการ, unitId: add_project, group: time }
+    - { target: เพิ่มกิจกรรมโครงการ, unitId: add_project_activity, group: time }
+    - { target: เพิ่มสมาชิก, unitId: add_subscriber, group: admin }
+    - { target: เพิ่มผู้ใช้, unitId: add_user, group: admin }
+    - { target: เพิ่มกะทำงาน, unitId: add_work_shift, group: admin }
+    - { target: กำหนดพนักงาน, unitId: assigned_employees, group: admin }
+    - { target: ดีกว่า, unitId: better, group: general }
+    - { target: ลำดับคอลัมน์ไม่ควรจะมีการเปลี่ยนแปลง, unitId: column_order_should_not_be_changed, group: pim }
+    - { target: คัดลอกกิจกรรม, unitId: copy_activity, group: time }
+    - { target: รหัสผ่านปัจจุบัน, unitId: current_password, group: pim }
+    - { target: ชื่อลูกค้า, unitId: customer_name, group: time }
+    - { target: รูปแบบวันที่, unitId: date_format, group: admin }
+    - { target: 'ไฟล์นำเข้าแต่ละคนควรจะกำหนดค่าสำหรับ 100 รายการหรือน้อยกว่า', unitId: each_import_file_should_be_configured_for_100_records_or_less, group: pim }
+    - { target: แก้ไขสกุลเงิน, unitId: edit_currency, group: admin }
+    - { target: แก้ไขลูกค้า, unitId: edit_customer, group: time }
+    - { target: แก้ไขสถานะการจ้างงาน, unitId: edit_employment_status, group: admin }
+    - { target: แก้ไขหมวดหมู่งาน, unitId: edit_job_category, group: admin }
+    - { target: แก้ไขชื่องาน, unitId: edit_job_title, group: admin }
+    - { target: แก้ไขสถานที่ตั้ง, unitId: edit_location, group: admin }
+    - { target: แก้ไขข้อมูลสมาชิก, unitId: edit_membership, group: general }
+    - { target: แก้ไขสัญชาติ, unitId: edit_nationality, group: admin }
+    - { target: แก้ไขระดับค่าจ้าง, unitId: edit_pay_grade, group: admin }
+    - { target: แก้ไขโครงการ, unitId: edit_project, group: time }
+    - { target: แก้ไขกิจกรรมโครงการ, unitId: edit_project_activity, group: time }
+    - { target: แก้ไขการเป็นสมาชิก, unitId: edit_subscriber, group: admin }
+    - { target: แก้ไขผู้ใช้, unitId: edit_user, group: admin }
+    - { target: แก้ไขกะทำงาน, unitId: edit_work_shift, group: admin }
+    - { target: แฟกซ์, unitId: fax, group: general }
+    - { target: ต้องใส่ทั้งชื่อและนามสกุล, unitId: first_name_and_last_name_are_compulsory, group: pim }
+    - { target: ชั่วโมงต่อวัน, unitId: hours_per_day, group: admin }
+    - { target: รายละเอียด/คำบรรยายลักษณะงาน, unitId: job_description, group: admin }
+    - { target: จดหมายที่ส่งเป็น, unitId: mail_sent_as, group: admin }
+    - { target: เงินเดือนสูงสุด, unitId: maximum_salary, group: admin }
+    - { target: เงินเดือนขั้นต่ำ, unitId: minimum_salary, group: admin }
+    - { target: การกำหนดค่าโมดูล, unitId: module_configuration, group: admin }
+    - { target: รหัสผ่านใหม่, unitId: new_password, group: auth }
+    - { target: ไม่มีการเลือกกิจกรรม, unitId: no_activities_selected, group: time }
+    - { target: ไม่มีกิจกรรมที่ได้รับมอบหมาย, unitId: no_assigned_activities, group: time }
+    - { target: ประเภทการแจ้งเตือน, unitId: notification_type, group: admin }
+    - { target: จำนวนพนักงาน, unitId: number_of_employees, group: admin }
+    - { target: ชื่อองค์กร, unitId: organization_name, group: admin }
+    - { target: เส้นทางไปส่งเมล์, unitId: path_to_sendmail, group: admin }
+    - { target: โทรศัพท์, unitId: phone, group: general }
+    - { target: โครงการ, unitId: project, group: time }
+    - { target: ผู้ดูแลโครงการ, unitId: project_admin, group: time }
+    - { target: ผู้ดูแลโครงการ, unitId: project_admins, group: time }
+    - { target: เลขทะเบียน, unitId: registration_number, group: admin }
+    - { target: วิธีการส่ง, unitId: sending_method, group: admin }
+    - { target: เปลี่ยนชื่อ, unitId: shift_name, group: admin }
+    - { target: 'รหัสผ่าน SMTP', unitId: smtp_password, group: admin }
+    - { target: 'พอร์ต SMTP', unitId: smtp_port, group: admin }
+    - { target: 'ผู้ใช้งาน SMTP', unitId: smtp_user, group: admin }
+    - { target: แข็งแรงที่สุด, unitId: strongest, group: general }
+    - { target: สมัครสมาชิก, unitId: subscribers, group: admin }
+    - { target: ผู้ใช้ระบบ, unitId: system_users, group: admin }
+    - { target: เลขประจำตัวผู้เสียภาษี, unitId: tax_id, group: admin }
+    - { target: ที่อยู่อีเมล์ทดสอบ, unitId: test_email_address, group: admin }
+    - { target: หน่วยนี้จะถูกเพิ่มภายใต้, unitId: this_unit_will_be_added_under, group: admin }
+    - { target: TLS, unitId: tls, group: admin }
+    - { target: หมายเลขหน่วย, unitId: unit_id, group: admin }
+    - { target: 'ใช้การตรวจสอบ SMTP', unitId: use_smtp_authentication, group: admin }
+    - { target: อ่อนแอมาก, unitId: very_weak, group: general }
+    - { target: อ่อนแอ, unitId: weak, group: general }
+    - { target: ควรจะสูงกว่าอัตราเงินเดือนขั้นต่ำ, unitId: should_be_higher_than_minimum_salary, group: admin }
+    - { target: 'ทั้งหมดฟิลด์วันที่ควรจะอยู่ในรูปแบบ YYYY-MM-DD', unitId: all_date_fields_should_be_in_yyyy_mm_dd_format, group: pim }
+    - { target: อาจจะต้องใช้ไฟล์นำเข้าหลายรายการ, unitId: multiple_import_files_may_be_required, group: pim }
+    - { target: เข้าสู่ระบบการลา, unitId: apply_leave, group: leave }
+    - { target: 'กิจกรรมที่ทำใน Timesheet', unitId: actions_performed_on_the_timesheet, group: time }
+    - { target: เพิ่มแถว, unitId: add_row, group: time }
+    - { target: 'เพิ่ม Timesheet', unitId: add_timesheet, group: time }
+    - { target: รายงานสรุปการเวลาการทำงาน, unitId: attendance_total_summary_report, group: attendance }
+    - { target: 'กำหนดระยะเวลา Timesheet', unitId: timesheet_period_config, group: time }
+    - { target: 'แก้ไข Timesheet สำหรับ', unitId: edit_timesheet_for, group: time }
+    - { target: รายงานของพนักงาน, unitId: employee_report, group: time }
+    - { target: 'ควรน้อยกว่า 24 และใน HH: MM หรือรูปแบบทศนิยม', unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format, group: time }
+    - { target: วันศุกร์, unitId: fri, group: general }
+    - { target: วันจันทร์, unitId: mon, group: general }
+    - { target: รายงานโครงการ, unitId: project_report, group: time }
+    - { target: วันเสาร์, unitId: sat, group: general }
+    - { target: 'เลือกวันที่จะสร้าง Timesheet', unitId: select_a_day_to_create_timesheet, group: time }
+    - { target: เลือกพนักงาน, unitId: select_employee, group: time }
+    - { target: วันอาทิตย์, unitId: sun, group: general }
+    - { target: วันพฤหัสบดี, unitId: thu, group: general }
+    - { target: ' Timesheet สำหรับ', unitId: timesheet_for, group: time }
+    - { target: 'ระยะเวลา Timesheet', unitId: timesheet_period, group: time }
+    - { target: 'Timesheets รอการดำเนินการ', unitId: timesheets_pending_action, group: time }
+    - { target: วันอังคาร, unitId: tue, group: general }
+    - { target: วันพุธ, unitId: wed, group: general }
+    - { target: เลือกโครงการและกิจกรรม, unitId: select_a_project_and_an_activity, group: time }
+    - { target: 'ไม่พบ Timesheets ', unitId: no_timesheets_found, group: time }
+    - { target: 'Timesheet ได้รับอนุมัติแล้ว', unitId: timesheet_approved, group: time }
+    - { target: 'Timesheet ได้รับการปฏิเสธ', unitId: timesheet_rejected, group: time }
+    - { target: 'เวลารวมควรจะน้อยกว่า 24 ชั่วโมง', unitId: total_should_be_less_than_24_hours, group: time }
+    - { target: เลขที่บัญชี, unitId: account_number, group: pim }
+    - { target: ประเภทบัญชี, unitId: account_type, group: pim }
+    - { target: 'เปิดใช้งาน Employement', unitId: activate_employment, group: pim }
+    - { target: เพิ่มฟิลด์ที่กำหนดเอง, unitId: add_custom_field, group: pim }
+    - { target: เพิ่มผู้อยู่ในความดูแล, unitId: add_dependent, group: pim }
+    - { target: เพิ่มคนเข้าเมือง, unitId: add_immigration, group: pim }
+    - { target: เพิ่มวิธีการรายงาน, unitId: add_reporting_method, group: pim }
+    - { target: เพิ่มเหตุผลที่เลิกจ้าง, unitId: add_termination_reason, group: pim }
+    - { target: เพิ่มประสบการณ์การทำงาน, unitId: add_work_experience, group: pim }
+    - { target: กำหนดผู้อยู่ในความดูแลที่ถูกกำหนด, unitId: assigned_dependents, group: pim }
+    - { target: กำหนดผู้ที่ติดต่อได้ในเวลาฉุกเฉิน, unitId: assigned_emergency_contacts, group: pim }
+    - { target: กำหนดความเป็นสมาชิก, unitId: assigned_memberships, group: pim }
+    - { target: กำหนดผู้ใต้บังคับบัญชา, unitId: assigned_subordinates, group: pim }
+    - { target: กำหนดหัวหน้างาน, unitId: assigned_supervisors, group: pim }
+    - { target: ต้องมีหมายเลขโทรศัพท์อย่างน้อยหนึ่งเบอร์, unitId: at_least_one_phone_number_is_required, group: pim }
+    - { target: บุตร, unitId: child, group: pim }
+    - { target: รายละเอียดสัญญา, unitId: contract_details, group: pim }
+    - { target: ข้อมูลเฉพาะของประเทศ, unitId: country_specific_information, group: pim }
+    - { target: สร้างรายละเอียดการเข้าสู่ระบบ, unitId: create_login_details, group: pim }
+    - { target: ชื่อฟิลด์ที่กำหนดเอง, unitId: custom_field_name, group: pim }
+    - { target: เอกสาร, unitId: document, group: pim }
+    - { target: เลื่อนลง, unitId: drop_down, group: pim }
+    - { target: แก้ไขฟิลด์ที่กำหนดเอง, unitId: edit_custom_field, group: pim }
+    - { target: แก้ไขผู้ที่อยู่ในความดูแล, unitId: edit_dependent, group: pim }
+    - { target: แก้ไขผู้ที่ติดต่อในเวลาฉุกเฉิน, unitId: edit_emergency_contact, group: pim }
+    - { target: แก้ไขวิธีการรายงาน, unitId: edit_reporting_method, group: pim }
+    - { target: แก้ไขเหตุผลในการเลิกจ้าง, unitId: edit_termination_reason, group: pim }
+    - { target: ข้อมูลพนักงาน, unitId: employee_information, group: pim }
+    - { target: ป้อนตัวเลือกในการอนุญาตให้คั่นด้วยเครื่องหมายจุลภาค, unitId: enter_allowed_options_separated_by_commas, group: pim }
+    - { target: ได้รับการยกเว้น, unitId: exemptions, group: pim }
+    - { target: ภาษีเงินได้ของรัฐบาลกลาง, unitId: federal_income_tax, group: pim }
+    - { target: ชื่อของฟิลด์, unitId: field_name, group: pim }
+    - { target: ชนิดของฟิลด์, unitId: field_type, group: pim }
+    - { target: ตั้งแต่วันที่ควรจะเป็นก่อนที่จะถึงวันที่, unitId: from_date_should_be_before_to_date, group: general }
+    - { target: 'เกรดเฉลี่ย / คะแนน', unitId: gpa_score, group: pim }
+    - { target: สถาบัน, unitId: institute, group: pim }
+    - { target: 'สาขาวิชา / เชี่ยวชาญ', unitId: major_specialization, group: pim }
+    - { target: การเกณฑ์ทหาร, unitId: military_service, group: pim }
+    - { target: หนังสือเดินทาง, unitId: passport, group: pim }
+    - { target: รายละเอียดส่วนบุคคล, unitId: personal_details, group: general }
+    - { target: โปรดระบุ, unitId: please_specify, group: pim }
+    - { target: รายงานไปยัง, unitId: report_to, group: general }
+    - { target: จอภาพ, unitId: screen, group: pim }
+    - { target: เลือกตัวเลือก, unitId: select_options, group: pim }
+    - { target: แสดงฟิลด์ที่คัดค้าน, unitId: show_deprecated_fields, group: pim }
+    - { target: 'แสดงชื่อเล่น, สูบบุหรี่และการเกณฑ์ทหารในรายละเอียดส่วนบุคคล', unitId: show_nick_name_smoker_and_military_service_in_personal_details, group: pim }
+    - { target: แสดงฟิลด์หมายเลขกรมธรรม์ในรายละเอียดส่วนบุคคล, unitId: show_sin_field_in_personal_details, group: pim }
+    - { target: แสดงฟิลด์หมายเลขประกันสังคมในรายละเอียดส่วนบุคคล, unitId: show_ssn_field_in_personal_details, group: pim }
+    - { target: แสดงเมนูการยกเว้นภาษีสหรัฐ, unitId: show_us_tax_exemptions_menu, group: pim }
+    - { target: หมายเลขกรมธรรม์, unitId: sin_number, group: pim }
+    - { target: นักสูบบุหรี่, unitId: smoker, group: pim }
+    - { target: หมายเลขประกันสังคม, unitId: ssn_number, group: pim }
+    - { target: การยกเว้นภาษี, unitId: tax_exemptions, group: general }
+    - { target: เลิกจ้างงาน, unitId: terminate_employment, group: pim }
+    - { target: ข้อความหรือหมายเลข, unitId: text_or_number, group: pim }
+    - { target: ว่างงาน, unitId: unemployment_state, group: pim }
+    - { target: วีซ่า, unitId: visa, group: pim }
+    - { target: รัฐที่ทำงาน, unitId: work_state, group: pim }
+    - { target: การดำเนินการ, unitId: actions, group: general }
+    - { target: กำหนด, unitId: assign, group: leave }
+    - { target: ระยะเวลาการลาในปัจจุบัน, unitId: current_leave_period, group: leave }
+    - { target: 'ระยะเวลา (ชั่วโมง)', unitId: duration_hours, group: attendance }
+    - { target: ปีต่อไป, unitId: following_year, group: leave }
+    - { target: ตั้งแต่วันที่, unitId: from_date, group: general }
+    - { target: เต็มวัน, unitId: full_day, group: leave }
+    - { target: ครึ่งวัน, unitId: half_day, group: leave }
+    - { target: จำนวนวันลาคงเหลือ, unitId: leave_balance, group: leave }
+    - { target: ประเภทการลา, unitId: leave_type, group: leave }
+    - { target: ตารางสรุปการลาของฉัน, unitId: my_leave_list, group: leave }
+    - { target: ไม่มีวันลาประเภทนี้ในจำนวนวันลาคงเหลือ, unitId: no_leave_types_with_leave_balance, group: leave }
+    - { target: ไม่ใช่วันทำงาน, unitId: non_working_day, group: leave }
+    - { target: จำนวนวัน, unitId: number_of_days, group: leave }
+    - { target: รอการอนุมัติ, unitId: pending_approval, group: leave }
+    - { target: ซ้ำเป็นประจำทุกปี, unitId: repeats_annually, group: leave }
+    - { target: แสดงสถานะการลา, unitId: show_leave_with_status, group: leave }
+    - { target: ยึด, unitId: taken, group: leave }
+    - { target: วัน, unitId: to_date, group: general }
+    - { target: 'ไม่สามารถส่งได้ : ไม่ได้เลือกวันลา', unitId: failed_to_submit_no_working_days_selected, group: leave }
+    - { target: 'ไม่สามารถส่งได้ ', unitId: failed_to_submit, group: leave }
+    - { target: เพิ่มประเภทการลา, unitId: add_leave_type, group: leave }
+    - { target: แก้ไขประเภทการลา, unitId: edit_leave_type, group: leave }
+    - { target: เข้างาน/ตอกบัตรเข้า, unitId: punch_in, group: attendance }
+    - { target: หมายเหตุการเข้างาน/ตอกบัตรเข้า, unitId: punch_in_note, group: attendance }
+    - { target: ออกงาน/ตอกบัตรออก, unitId: punch_out, group: attendance }
+    - { target: หมายเหตุการออกงาน/ตอกบัตรออก, unitId: punch_out_note, group: attendance }
+    - { target: พบการบันทึกที่ซ้ำซ้อนกัน, unitId: overlapping_records_found, group: attendance }
+    - { target: โซน, unitId: timezone, group: attendance }
+    - { target: เข้า, unitId: in, group: attendance }
+    - { target: ออก, unitId: out, group: attendance }
+    - { target: การกำหนดเวลาการทำงาน, unitId: attendance_configuration, group: attendance }
+    - { target: 'พนักงานสามารถปรับเปลี่ยนเวลาปัจจุบันเมื่อตอกบัตรเข้า / ออก', unitId: employee_can_change_current_time_when_punching_in_out, group: attendance }
+    - { target: 'พนักงานสามารถแก้ไข / ลบบันทึกเวลาการทำงานของตัวเองได้', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
+    - { target: 'หัวหน้างานสามารถเพิ่ม / แก้ไข /  ลบบันทึกเวลาการทำงานของผู้ใต้บังคับบัญชาได้', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
+    - { target: บันทึกเวลาการทำงานของฉัน, unitId: my_attendance_records, group: attendance }
+    - { target: 'ลบเรียบร้อยแล้ว', unitId: successfully_deleted, group: general }
+    - { target: 'เวลาของการตอกบัตรออกควรควรจะสูงกว่าเวลาของการตอกบัตรเข้า', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: ชื่อผู้ใช้, unitId: username, group: auth }
+    - { target: รหัสผ่าน, unitId: password, group: auth }
+    - { target: ไม่พบการบันทึก, unitId: no_records_found, group: general }
+    - { target: ส่ง Timesheet แล้ว, unitId: timesheet_submitted, group: time }
+    - { target: ชื่อกลาง, unitId: middle_name, group: general }
+    - { target: ชื่อแรก, unitId: first_name, group: general }
+    - { target: นามสกุล, unitId: last_name, group: general }

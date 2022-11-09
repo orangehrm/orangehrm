@@ -1,0 +1,463 @@
+translations:
+    - { target: Dabali, unitId: add, group: general }
+    - { target: 'Duukdeemtuu Dabali', unitId: add_attachment, group: general }
+    - { target: 'Hojjetaa/ttuu Dabali', unitId: add_employee, group: general }
+    - { target: 'Kan Dabale', unitId: added_by, group: pim }
+    - { target: Teessoo, unitId: address, group: admin }
+    - { target: Bulchaa, unitId: admin, group: general }
+    - { target: 'Garee Umurii', unitId: age_group, group: pim }
+    - { target: 'Lakk fi +-/() qofa', unitId: allows_phone_numbers_only, group: general }
+    - { target: 'Duraanu jira', unitId: already_exists, group: general }
+    - { target: Hamma, unitId: amount, group: pim }
+    - { target: Iyyadhu, unitId: apply, group: general }
+    - { target: 'Boqonnaa Kenni', unitId: assign_leave, group: leave }
+    - { target: 'Qabiyyeewwan miindaa Kennaman', unitId: assigned_salary_components, group: pim }
+    - { target: 'Hammi duukdeemtuu baay''ate', unitId: attachment_size_exceeded, group: general }
+    - { target: 'To''annaa yeroo', unitId: attendance, group: general }
+    - { target: 'Walitti qaba To''annaa Yeroo', unitId: attendance_summary, group: general }
+    - { target: 'Duubatti Deebi''i', unitId: back, group: general }
+    - { target: Dhiisi, unitId: cancel, group: general }
+    - { target: Dorgomtoota, unitId: candidates, group: general }
+    - { target: 'Iggita Jijjiiri', unitId: change_password, group: general }
+    - { target: Yaada, unitId: comment, group: general }
+    - { target: Yaadawwan, unitId: comments, group: general }
+    - { target: Waldaa, unitId: company, group: pim }
+    - { target: 'Sadarkaa Beekumsaa', unitId: competency, group: pim }
+    - { target: Qindoomina, unitId: configuration, group: general }
+    - { target: Qindeessi, unitId: configure, group: general }
+    - { target: 'Teessoo ittiin Qunnamamu', unitId: contact_details, group: pim }
+    - { target: 'Guyyaa Kontraatni itti Xummuramu', unitId: contract_end_date, group: pim }
+    - { target: 'Guyyaa Kontraatni ittii Jalqabe', unitId: contract_start_date, group: pim }
+    - { target: Biyya, unitId: country, group: general }
+    - { target: Qarshii, unitId: currency, group: general }
+    - { target: 'Hojjettoota Durii fi kan ammaa', unitId: current_and_past_employees, group: general }
+    - { target: 'Hojjettoota amma jiran qofa', unitId: current_employees_only, group: general }
+    - { target: 'Dirreewwan Addaa', unitId: custom_fields, group: pim }
+    - { target: Maamiltoota, unitId: customers, group: general }
+    - { target: 'Deetaa Galchuu', unitId: data_import, group: pim }
+    - { target: Guyyaa, unitId: date, group: general }
+    - { target: 'Guyyaan Dabalameera', unitId: date_added, group: pim }
+    - { target: 'Guyyaa Dhalootaa', unitId: date_of_birth, group: pim }
+    - { target: Guyyoota, unitId: days, group: leave }
+    - { target: 'Kan ammaa Balleessi', unitId: delete_current, group: general }
+    - { target: Maxxantoota, unitId: dependents, group: general }
+    - { target: Ibsa, unitId: description, group: general }
+    - { target: 'Lakk Herregaa Qusannoo kallattii', unitId: direct_deposit_account_number, group: pim }
+    - { target: 'Akaakuu Lakk Herregaa Qusannoo Kallattii', unitId: direct_deposit_account_type, group: pim }
+    - { target: 'Hamma Kallattiin Qusatamu', unitId: direct_deposit_amount, group: pim }
+    - { target: 'Deebi''aa', unitId: disabled, group: general }
+    - { target: 'Dirreewwan Mul''isi', unitId: display_fields, group: pim }
+    - { target: 'Akaakuu Barruu', unitId: document_type, group: pim }
+    - { target: 'Lakk Eeyyama Konkolaachisaa', unitId: driver_license_number, group: pim }
+    - { target: 'Dheerina Yeroo', unitId: duration, group: general }
+    - { target: Gulaali, unitId: edit, group: general }
+    - { target: 'Dukkdeemtuu Gulaali', unitId: edit_attachment, group: general }
+    - { target: 'Godaansa Gulaali', unitId: edit_immigration, group: pim }
+    - { target: 'Qabiyyee Miindaa Gulaali', unitId: edit_salary_component, group: pim }
+    - { target: Barnoota, unitId: education, group: general }
+    - { target: 'Guyyaa Madaalliif Eyyamamu', unitId: eligible_review_date, group: pim }
+    - { target: 'Haala Eyyamaa', unitId: eligible_status, group: pim }
+    - { target: 'Teessoo Namoota Yeroo Balaa waamamanii', unitId: emergency_contacts, group: general }
+    - { target: Hojjettoota, unitId: employee, group: general }
+    - { target: 'Maqaa Duraa', unitId: employee_first_name, group: pim }
+    - { target: 'Eenyummaa Hojjetaa/ttuu', unitId: employee_id, group: general }
+    - { target: 'Maqaa Akaakayyuu', unitId: employee_last_name, group: pim }
+    - { target: 'Tarreefama Hojjettootaa', unitId: employee_list, group: general }
+    - { target: 'Maqaa Abaa', unitId: employee_middle_name, group: pim }
+    - { target: 'Maqaa Hojjetaa/ttuu', unitId: employee_name, group: general }
+    - { target: 'Galmeewwan Hojjettootaa', unitId: employee_records, group: general }
+    - { target: 'Gabaasawwan Hojjettootaa', unitId: employee_reports, group: general }
+    - { target: 'Gabatee Yeroo Hojjettootaa', unitId: employee_timesheets, group: general }
+    - { target: 'Haala Qaxarrii', unitId: employment_status, group: general }
+    - { target: 'Ka''aa', unitId: enabled, group: general }
+    - { target: 'Guyyaa Xummuraa', unitId: end_date, group: general }
+    - { target: HOT, unitId: ess, group: general }
+    - { target: 'Dhangii  admin@example.com tu eegama', unitId: expected_email_address_format_not_matched, group: general }
+    - { target: 'GuyyaaTajaajillii Itti Dhumatu', unitId: expiry_date, group: general }
+    - { target: 'Guyyaan Tajaajilli Itti Dhumatu Guyyaa kenname booda tahuu qaba', unitId: expiry_date_should_be_after_issued_date, group: pim }
+    - { target: Dhalaa, unitId: female, group: general }
+    - { target: 'Maqaa Faayilaa', unitId: file_name, group: general }
+    - { target: 'Maqaa Jalqabaa', unitId: first_name, group: pim }
+    - { target: 'Sadarkaa Dandeettii', unitId: fluency, group: pim }
+    - { target: Jimaata, unitId: friday, group: general }
+    - { target: Irraa, unitId: from, group: general }
+    - { target: Saala, unitId: gender, group: pim }
+    - { target: 'Odeeffannoo Waliigalaa', unitId: general_information, group: admin }
+    - { target: 'Guyyaa Ayyaanaa', unitId: holidays, group: leave }
+    - { target: 'Bilbila Manaa', unitId: home_telephone, group: pim }
+    - { target: Eenyummaa, unitId: id, group: general }
+    - { target: Godaansa, unitId: immigration, group: general }
+    - { target: 'Itti Dabali', unitId: include, group: pim }
+    - { target: 'Durtii Itti Dabali', unitId: include_header, group: general }
+    - { target: 'Hojjettoota Duraanii Itti Dabali', unitId: include_past_employees, group: leave }
+    - { target: 'Kan Kenne', unitId: issued_by, group: pim }
+    - { target: 'Guyyaa Itti Kenname', unitId: issued_date, group: pim }
+    - { target: Hojii, unitId: job, group: general }
+    - { target: 'Ramaddiiwwan Hojii', unitId: job_categories, group: admin }
+    - { target: 'Ramaddii Hojii', unitId: job_category, group: general }
+    - { target: 'Ibsa Akaakuu Hojii', unitId: job_specification, group: general }
+    - { target: 'Gita Hojii', unitId: job_title, group: general }
+    - { target: 'Gitawwan Hojii', unitId: job_titles, group: admin }
+    - { target: 'Guyyaa Qaxarrii', unitId: joined_date, group: general }
+    - { target: 'Kan Amma jiru eegi', unitId: keep_current, group: general }
+    - { target: Afaan, unitId: language, group: general }
+    - { target: Afaanota, unitId: languages, group: general }
+    - { target: 'Maqaa Akaakayyuu', unitId: last_name, group: general }
+    - { target: Boqonnaa, unitId: leave, group: general }
+    - { target: 'Haftee Boqonnaa(Guyyootaan)', unitId: leave_balance_days, group: leave }
+    - { target: 'Tarreeffama Boqonnaa', unitId: leave_list, group: leave }
+    - { target: 'Bara Boqonnaa', unitId: leave_period, group: leave }
+    - { target: 'Akaakuuwwan Boqonnaa', unitId: leave_types, group: leave }
+    - { target: Sadarkaa, unitId: level, group: general }
+    - { target: Eeyyama, unitId: license, group: pim }
+    - { target: 'Guyyaa Eeyyamni Itti Dhumatu', unitId: license_expiry_date, group: pim }
+    - { target: 'Lakk Eeyyamaa', unitId: license_number, group: pim }
+    - { target: 'Akaakuu Eeyyamaa', unitId: license_type, group: pim }
+    - { target: Eeyyamawwan, unitId: licenses, group: admin }
+    - { target: Madaqsuu, unitId: localization, group: admin }
+    - { target: Argamsa, unitId: location, group: general }
+    - { target: Argamsawwan, unitId: locations, group: admin }
+    - { target: 'Keessaa Bahi', unitId: logout, group: general }
+    - { target: Dhiira, unitId: male, group: general }
+    - { target: 'Haala Fuudhaa', unitId: marital_status, group: pim }
+    - { target: Miseensummaa, unitId: membership, group: pim }
+    - { target: Miseensummaawwan, unitId: memberships, group: general }
+    - { target: Mobaayila, unitId: mobile, group: general }
+    - { target: Muraawwan, unitId: modules, group: general }
+    - { target: Wixata, unitId: monday, group: general }
+    - { target: 'Boqonnaa Koo', unitId: my_leave, group: general }
+    - { target: 'Galmeewwan Koo', unitId: my_records, group: general }
+    - { target: 'Gabatee Yeroo Koo', unitId: my_timesheets, group: general }
+    - { target: Maqaa, unitId: name, group: general }
+    - { target: Lammiiwwan, unitId: nationalities, group: admin }
+    - { target: Lammii, unitId: nationality, group: general }
+    - { target: Miti, unitId: 'no', group: general }
+    - { target: Yaada, unitId: notes, group: general }
+    - { target: Lakkoofsa, unitId: number, group: pim }
+    - { target: 'Gabateewwan yeroo mirkaneeffaman qofa dabali', unitId: only_include_approved_timesheets, group: time }
+    - { target: 'Dirrewwan Dabalataa', unitId: optional_fields, group: pim }
+    - { target: Dhaabbata, unitId: organization, group: general }
+    - { target: 'Kan biroo', unitId: other, group: pim }
+    - { target: 'Ergaa-E Kan Biroo', unitId: other_email, group: general }
+    - { target: 'Eennyumma Kan Biroo', unitId: other_id, group: pim }
+    - { target: 'Hojjettoota Duraanii', unitId: past_employee, group: maintenance }
+    - { target: 'Hojjettoota Duraanii Qofa', unitId: past_employees_only, group: general }
+    - { target: 'Deddebi''insa Kafaltii', unitId: pay_frequency, group: pim }
+    - { target: 'Sadarkaa Kafaltii', unitId: pay_grade, group: general }
+    - { target: 'Sadarkaawwan Kafaltii', unitId: pay_grades, group: admin }
+    - { target: Raawii, unitId: performance, group: general }
+    - { target: 'Nama Dhuunfaa', unitId: personal, group: pim }
+    - { target: OH, unitId: pim, group: general }
+    - { target: 'Dheerina Yeroo Pirojektii', unitId: project_date_range, group: time }
+    - { target: 'Odeeffannoo Pirojektii', unitId: project_info, group: general }
+    - { target: 'Gabaasa Pirojektii', unitId: project_reports, group: general }
+    - { target: Pirojektoota, unitId: projects, group: general }
+    - { target: 'Tuqii Seeni/Bahi', unitId: punch_in_out, group: general }
+    - { target: Qaxarrii, unitId: recruitment, group: general }
+    - { target: Hariiroo, unitId: relationship, group: pim }
+    - { target: 'Kan amma jiruun bakka buusi', unitId: replace_current, group: general }
+    - { target: 'Maqaa Gabaasaa', unitId: report_name, group: general }
+    - { target: 'Mala Gabaasaa', unitId: reporting_method, group: pim }
+    - { target: 'Maloota Gabaasaa', unitId: reporting_methods, group: pim }
+    - { target: Gabaasawwan, unitId: reports, group: general }
+    - { target: Barbaachisaadha, unitId: required, group: general }
+    - { target: Haqi, unitId: reset, group: general }
+    - { target: 'Lakkoofsa Ajajjuu', unitId: routing_number, group: pim }
+    - { target: Miindaa, unitId: salary, group: general }
+    - { target: 'Qabiyyee Miindaa', unitId: salary_component, group: pim }
+    - { target: Sanbata, unitId: saturday, group: general }
+    - { target: 'Olkaa''i', unitId: save, group: general }
+    - { target: Qabxii, unitId: score, group: pim }
+    - { target: Barbaadi, unitId: search, group: general }
+    - { target: 'Faayila Filadhu', unitId: select_file, group: general }
+    - { target: 'Ulaagaa Filannoo', unitId: selection_criteria, group: pim }
+    - { target: 'Yeroo Tajaajilaa', unitId: service_period, group: pim }
+    - { target: 'Lakkoofsa tahuu qaba', unitId: should_be_a_number, group: general }
+    - { target: 'Lakkoofsa Poosetiivii tahuu qaba', unitId: should_be_a_positive_number, group: general }
+    - { target: 'Gatii Guddaa/Xinnaa Gidduu tahuu qaba', unitId: should_be_within_min_max_values, group: pim }
+    - { target: Hammamtaa, unitId: size, group: general }
+    - { target: Beekumsa, unitId: skill, group: pim }
+    - { target: Beekumsawwan, unitId: skills, group: general }
+    - { target: 'Guyyaa Jalqabaa', unitId: start_date, group: general }
+    - { target: 'Guyyaan jalqabaa guyyaa xummuraa dursuu qaba', unitId: start_date_should_be_before_end_date, group: general }
+    - { target: 'Mootummaa Naannoo', unitId: state, group: general }
+    - { target: Haala, unitId: status, group: general }
+    - { target: Caasaa, unitId: structure, group: general }
+    - { target: 'Kutaa Hojii', unitId: sub_unit, group: general }
+    - { target: Hojjettoota, unitId: subordinates, group: pim }
+    - { target: 'Hamma Kafaltii Maamiloomuu', unitId: subscription_amount, group: pim }
+    - { target: 'Maamiloomuun Guyyaa itti Raawwatu', unitId: subscription_commence_date, group: pim }
+    - { target: 'Gatii maamiloomuu Kan Kafale', unitId: subscription_paid_by, group: pim }
+    - { target: 'Guyyaa Haaroomsa maamilummaa', unitId: subscription_renewal_date, group: pim }
+    - { target: 'Sirriitti Olkaawameera', unitId: successfully_saved, group: general }
+    - { target: 'Sirriitti Haaromfameera', unitId: successfully_updated, group: general }
+    - { target: Dilbata, unitId: sunday, group: general }
+    - { target: Hogganaa, unitId: supervisor, group: pim }
+    - { target: 'Maqaa Hogganaa', unitId: supervisor_name, group: pim }
+    - { target: Hoggantoota, unitId: supervisors, group: pim }
+    - { target: 'Sababa Gadhi Dhiiseef', unitId: termination_reasons, group: pim }
+    - { target: Kamisa, unitId: thursday, group: general }
+    - { target: Yeroo, unitId: time, group: general }
+    - { target: 'Gabatee Yeroo', unitId: timesheets, group: general }
+    - { target: Itti, unitId: to, group: general }
+    - { target: 'Guyyaan xumuraa kan jalqabaa booda tahuu qaba', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Kibxata, unitId: tuesday, group: general }
+    - { target: Akaakuu, unitId: type, group: general }
+    - { target: Fayyadamtoota, unitId: users, group: general }
+    - { target: 'Iddoo Hojii Duwwaa', unitId: vacancies, group: general }
+    - { target: Roobii, unitId: wednesday, group: general }
+    - { target: 'Ergaa-E Hojii', unitId: work_email, group: general }
+    - { target: 'Tajaajila Hojii', unitId: work_experience, group: pim }
+    - { target: 'Waljijjiirraa Hojii', unitId: work_shifts, group: admin }
+    - { target: 'Bilbila Hojii', unitId: work_telephone, group: pim }
+    - { target: 'Torbaan Hojii', unitId: work_week, group: leave }
+    - { target: Bara, unitId: year, group: general }
+    - { target: 'Waggaa Tajaajilaa', unitId: years_of_experience, group: pim }
+    - { target: Eeyyee, unitId: 'yes', group: general }
+    - { target: 'Iggitni Wal hin fakkaatu', unitId: passwords_do_not_match, group: general }
+    - { target: Tole, unitId: ok, group: general }
+    - { target: 'Hanga MB 1tti fudhata', unitId: accepts_up_to_1mb, group: general }
+    - { target: 'Maqaa Fayyadamaa', unitId: username, group: general }
+    - { target: Iggita, unitId: password, group: general }
+    - { target: 'Olfe''i', unitId: upload, group: general }
+    - { target: Dimshaasha, unitId: total, group: general }
+    - { target: 'Guyyaatti Gadilakkise/te', unitId: termination_date, group: pim }
+    - { target: 'Sababa Gadilakkiseef', unitId: termination_reason, group: pim }
+    - { target: 'Maqaa Raawii ', unitId: activity_name, group: time }
+    - { target: 'Barnoota Dabali', unitId: add_education, group: general }
+    - { target: 'Afaan dabali', unitId: add_language, group: general }
+    - { target: 'Eeyyama Dabali', unitId: add_license, group: general }
+    - { target: 'Beekumsa Dabali', unitId: add_skill, group: general }
+    - { target: 'Teessoo 1ffaa', unitId: address_street_1, group: general }
+    - { target: 'Teessoo 2ffaa', unitId: address_street_2, group: general }
+    - { target: Magaalaa, unitId: city, group: general }
+    - { target: 'Iggita Mirkaneessi', unitId: confirm_password, group: general }
+    - { target: 'Kanarraa Garagalchi', unitId: copy_from, group: time }
+    - { target: 'Maqaa Pirojektii', unitId: project_name, group: time }
+    - { target: 'Barnoota Gulaali', unitId: edit_education, group: general }
+    - { target: 'Afaan Gulaali', unitId: edit_language, group: general }
+    - { target: 'Eeyyama Gulaali', unitId: edit_license, group: general }
+    - { target: 'Beekumsa Gulaali', unitId: edit_skill, group: general }
+    - { target: 'Mootummaa Naannoo/Bulchiinsa', unitId: state_province, group: general }
+    - { target: 'Koodii Poostaa', unitId: zip_postal_code, group: general }
+    - { target: Mirkanneesii, unitId: approve, group: general }
+    - { target: Saganteeffameera, unitId: scheduled, group: leave }
+    - { target: Yaada, unitId: note, group: general }
+    - { target: Duukdeemtuu, unitId: attachments, group: general }
+    - { target: 'Gadi Buusi', unitId: download, group: general }
+    - { target: Ergaa-E, unitId: email, group: general }
+    - { target: 'Kan Raawwate', unitId: performed_by, group: general }
+    - { target: Dhorki, unitId: reject, group: general }
+    - { target: 'Kan Dhorkame', unitId: rejected, group: leave }
+    - { target: Ergi, unitId: submit, group: general }
+    - { target: 'Mul''isi', unitId: view, group: general }
+    - { target: 'Sadarkaa Barnootaa', unitId: qualifications, group: general }
+    - { target: Dabali, unitId: add_another, group: general }
+    - { target: Mirkaneessi, unitId: confirm, group: general }
+    - { target: 'Guyyaan Xummuraa Guyyaa Jalqabaa Booda Tahuu Qaba', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Dalagaa, unitId: activities, group: time }
+    - { target: 'Qarshii Dabali', unitId: add_currency, group: admin }
+    - { target: 'Maamila Dabali', unitId: add_customer, group: time }
+    - { target: 'Haala Qacarrii Dabali', unitId: add_employment_status, group: admin }
+    - { target: 'Ramaddii Hojii Dabali', unitId: add_job_category, group: admin }
+    - { target: 'Gita Hojii Dabali', unitId: add_job_title, group: admin }
+    - { target: 'Bakka Dabali', unitId: add_location, group: admin }
+    - { target: 'Miseensummaa Dabali', unitId: add_membership, group: general }
+    - { target: 'Lammummaa Dabali', unitId: add_nationality, group: admin }
+    - { target: 'Sadarkaa Miindaa Dabali', unitId: add_pay_grade, group: admin }
+    - { target: 'Pirojektii Dabali', unitId: add_project, group: time }
+    - { target: 'Dalagaawwan Projektii Dabali', unitId: add_project_activity, group: time }
+    - { target: 'Maamilummaa Dabali', unitId: add_subscriber, group: admin }
+    - { target: 'Fayyadamaa Dabali', unitId: add_user, group: admin }
+    - { target: 'Waljijjiirraa Hojii Dabali', unitId: add_work_shift, group: admin }
+    - { target: Gabaastota, unitId: assigned_employees, group: admin }
+    - { target: Gaarii, unitId: better, group: general }
+    - { target: 'Duraa duubni tarjaalee hin jijjiiramu', unitId: column_order_should_not_be_changed, group: pim }
+    - { target: 'Dalagaa Garagalchi', unitId: copy_activity, group: time }
+    - { target: 'Jecha Darbii Amma Jiru', unitId: current_password, group: pim }
+    - { target: 'Maqaa Maamilaa', unitId: customer_name, group: time }
+    - { target: 'Dhangii Guyyaa', unitId: date_format, group: admin }
+    - { target: 'Tokkoo tokkon deetaa galchamuu qabuu galmeewwan 100 fi isaa gadiin qindaa''uu qaba', unitId: each_import_file_should_be_configured_for_100_records_or_less, group: pim }
+    - { target: 'Qarshii Gulaali', unitId: edit_currency, group: admin }
+    - { target: 'Maamila Gulaali', unitId: edit_customer, group: time }
+    - { target: 'Haala Qaxarrii Gulaali', unitId: edit_employment_status, group: admin }
+    - { target: 'Ramaddii Hojii Gulaali', unitId: edit_job_category, group: admin }
+    - { target: 'Gita Hojii Gulaali', unitId: edit_job_title, group: admin }
+    - { target: 'Bakka Gulaali', unitId: edit_location, group: admin }
+    - { target: 'Miseensummaa Gulaali', unitId: edit_membership, group: general }
+    - { target: 'Lammummaa Gulaali', unitId: edit_nationality, group: admin }
+    - { target: 'Sadarkaa Miindaa Gulaali', unitId: edit_pay_grade, group: admin }
+    - { target: 'Pirojektii Gulaali', unitId: edit_project, group: time }
+    - { target: 'Dalagaawwan Pirojektii Gulaali', unitId: edit_project_activity, group: time }
+    - { target: 'Maamilummaa Gulaali', unitId: edit_subscriber, group: admin }
+    - { target: 'Fayyadamaa Gulaali', unitId: edit_user, group: admin }
+    - { target: 'Waljijjiirraa Hojii Gulaali', unitId: edit_work_shift, group: admin }
+    - { target: Faaksii, unitId: fax, group: general }
+    - { target: 'Maqaan Jalqabaa fi Maqaan Abbaa Dirqama', unitId: first_name_and_last_name_are_compulsory, group: pim }
+    - { target: 'Guyyaatti Sa''aatii', unitId: hours_per_day, group: admin }
+    - { target: 'Ibsa Hojii', unitId: job_description, group: admin }
+    - { target: 'Ergaan akkanatti ergama', unitId: mail_sent_as, group: admin }
+    - { target: 'Miindaa Guddicha', unitId: maximum_salary, group: admin }
+    - { target: 'Miindaa Xiqqicha', unitId: minimum_salary, group: admin }
+    - { target: 'Qindoomina Muraawwanii', unitId: module_configuration, group: admin }
+    - { target: 'Jecha Darbii Haaraa', unitId: new_password, group: auth }
+    - { target: 'Dalagaawwan hin filatamne', unitId: no_activities_selected, group: time }
+    - { target: 'Dalagaawwan hin kennamne', unitId: no_assigned_activities, group: time }
+    - { target: 'Akaakuu Yaadachiisaa', unitId: notification_type, group: admin }
+    - { target: 'Baay''ina Hojjettootaa', unitId: number_of_employees, group: admin }
+    - { target: 'Maqaa Dhaabbataa', unitId: organization_name, group: admin }
+    - { target: 'Toora ergaa-e', unitId: path_to_sendmail, group: admin }
+    - { target: Bilbila, unitId: phone, group: general }
+    - { target: Pirojektii, unitId: project, group: time }
+    - { target: 'Bulchaa Pirojektii', unitId: project_admin, group: time }
+    - { target: 'Bulchitoota Pirojektii', unitId: project_admins, group: time }
+    - { target: 'Lakk Galmee', unitId: registration_number, group: admin }
+    - { target: 'Mala Ittiin Ergamu', unitId: sending_method, group: admin }
+    - { target: 'Maqaa Waljijjiirraa', unitId: shift_name, group: admin }
+    - { target: 'Jecha Darbii SMTP', unitId: smtp_password, group: admin }
+    - { target: 'Buufata SMTP', unitId: smtp_port, group: admin }
+    - { target: 'Fayyadamaa SMTP', unitId: smtp_user, group: admin }
+    - { target: Cimicha, unitId: strongest, group: general }
+    - { target: Maamilummaa, unitId: subscribers, group: admin }
+    - { target: Fayyadamtoota, unitId: system_users, group: admin }
+    - { target: 'Eenyummaa Kaffalaa Gibiraa', unitId: tax_id, group: admin }
+    - { target: 'Teessoo Ergaa-e Yaali', unitId: test_email_address, group: admin }
+    - { target: 'Kutaan hojii kun kutaa kana jalatti dabalama', unitId: this_unit_will_be_added_under, group: admin }
+    - { target: TLS, unitId: tls, group: admin }
+    - { target: 'Eenyummaa Kutaa', unitId: unit_id, group: admin }
+    - { target: 'Dhugoomsa SMTP Fayyadami', unitId: use_smtp_authentication, group: admin }
+    - { target: 'Baay''ee Dadhabaa', unitId: very_weak, group: general }
+    - { target: Dadhabaa, unitId: weak, group: general }
+    - { target: 'Mindaa xiqqichaan ol tahuu qaba', unitId: should_be_higher_than_minimum_salary, group: admin }
+    - { target: 'Guyyan hundi dhangii BBBB-JJ-GG tahuu qaba', unitId: all_date_fields_should_be_in_yyyy_mm_dd_format, group: pim }
+    - { target: 'Faayilli Galchuuf oolu baay''achuun ni mala', unitId: multiple_import_files_may_be_required, group: pim }
+    - { target: 'Boqonnaaf Iyyadhu', unitId: apply_leave, group: leave }
+    - { target: 'Gabatee yeroo irratti gochawwan raawwataman', unitId: actions_performed_on_the_timesheet, group: time }
+    - { target: 'Tarree Dabali', unitId: add_row, group: time }
+    - { target: 'Gabatee Yeroo Dabali', unitId: add_timesheet, group: time }
+    - { target: 'Gabaasa To''annaa Yeroo', unitId: attendance_total_summary_report, group: attendance }
+    - { target: 'Gabatee To''annaa Yeroo Murteessi', unitId: timesheet_period_config, group: time }
+    - { target: 'Gabateen Yeroo kan Gulaalameef', unitId: edit_timesheet_for, group: time }
+    - { target: 'Gabaasa Hojjetaa/ttuu', unitId: employee_report, group: time }
+    - { target: '24 gadi tahuu qaba, dhangii SS:DD', unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format, group: time }
+    - { target: Jim, unitId: fri, group: general }
+    - { target: Wix, unitId: mon, group: general }
+    - { target: 'Gabaasa Pirojektii', unitId: project_report, group: time }
+    - { target: San, unitId: sat, group: general }
+    - { target: 'Gabatee yeroo uumuuf, guyyaa filadhu', unitId: select_a_day_to_create_timesheet, group: time }
+    - { target: 'Hojjetaa/ttuu Filadhu', unitId: select_employee, group: time }
+    - { target: Dil, unitId: sun, group: general }
+    - { target: Kam, unitId: thu, group: general }
+    - { target: 'Gabaasa yeroo kan', unitId: timesheet_for, group: time }
+    - { target: 'Wayitii Gabaasa Yeroo', unitId: timesheet_period, group: time }
+    - { target: 'Gabatee yeroo raawwiin hin xummuramne', unitId: timesheets_pending_action, group: time }
+    - { target: Kib, unitId: tue, group: general }
+    - { target: Rob, unitId: wed, group: general }
+    - { target: 'Pirojektii fi raawwii isaa filadhu', unitId: select_a_project_and_an_activity, group: time }
+    - { target: 'Gabateen yeroo hin jiru', unitId: no_timesheets_found, group: time }
+    - { target: 'Gabateen Yeroo mirkanaa''eera', unitId: timesheet_approved, group: time }
+    - { target: 'Gabateen yeroo haqameera', unitId: timesheet_rejected, group: time }
+    - { target: 'Walii galli yeroo sa''aa 24 gadi tahuu qaba', unitId: total_should_be_less_than_24_hours, group: time }
+    - { target: 'Lakk Herregaa', unitId: account_number, group: pim }
+    - { target: 'Gosa Herregaa', unitId: account_type, group: pim }
+    - { target: 'Haala Qaxxarrii Kakaasi', unitId: activate_employment, group: pim }
+    - { target: 'Dirree Maamiloo Dabali', unitId: add_custom_field, group: pim }
+    - { target: 'Maxxantoota Dabali', unitId: add_dependent, group: pim }
+    - { target: 'Haala Godaansaa Dabali', unitId: add_immigration, group: pim }
+    - { target: 'Mala Gabaasaa Dabali', unitId: add_reporting_method, group: pim }
+    - { target: 'Sababa Gadilakkiseef Dabali', unitId: add_termination_reason, group: pim }
+    - { target: 'Tajaajila Hojii Dabali', unitId: add_work_experience, group: pim }
+    - { target: 'Maxxantoota Jiran', unitId: assigned_dependents, group: pim }
+    - { target: 'Namoota Yeroo Rakkinaaf Jiran', unitId: assigned_emergency_contacts, group: pim }
+    - { target: 'Miseensummaan Jiran', unitId: assigned_memberships, group: pim }
+    - { target: 'Hojjettotni Jiran', unitId: assigned_subordinates, group: pim }
+    - { target: 'Hoggantootni Jiran', unitId: assigned_supervisors, group: pim }
+    - { target: 'Yoo xiqaate lakk bilbilaa tokko dirqama', unitId: at_least_one_phone_number_is_required, group: pim }
+    - { target: Ijoollee, unitId: child, group: pim }
+    - { target: 'Qabiyyee Kontiraataa', unitId: contract_details, group: pim }
+    - { target: 'Odeeffannoo Biyya Irratti Hundaa''uu', unitId: country_specific_information, group: pim }
+    - { target: 'Qabiyyee Seensaa Uumi', unitId: create_login_details, group: pim }
+    - { target: 'Maqaa Dirree Maamiloo', unitId: custom_field_name, group: pim }
+    - { target: Galmee, unitId: document, group: pim }
+    - { target: 'Kan Filatamu', unitId: drop_down, group: pim }
+    - { target: 'Dirree maamiloo Gulaali', unitId: edit_custom_field, group: pim }
+    - { target: 'Maxxantoota Gulaali', unitId: edit_dependent, group: pim }
+    - { target: 'nama yeroo rakkina Waamamu Gulaali', unitId: edit_emergency_contact, group: pim }
+    - { target: 'Mala Gabaasaa Gulaali', unitId: edit_reporting_method, group: pim }
+    - { target: 'Sababa Gadilakkiseef Gulaali', unitId: edit_termination_reason, group: pim }
+    - { target: 'Odeffannoo Hojjetaa', unitId: employee_information, group: pim }
+    - { target: 'Filannoowwan koomaan adda baasi', unitId: enter_allowed_options_separated_by_commas, group: pim }
+    - { target: 'Kan Dhiifamu', unitId: exemptions, group: pim }
+    - { target: 'Galii Gibira Federaalaa', unitId: federal_income_tax, group: pim }
+    - { target: 'Maqaa Dirree', unitId: field_name, group: pim }
+    - { target: 'Akaakuu Dirree', unitId: field_type, group: pim }
+    - { target: 'Guyyaan jalqabaa guyyaa xummuraa dursuu qaba', unitId: from_date_should_be_before_to_date, group: general }
+    - { target: Qabxii, unitId: gpa_score, group: pim }
+    - { target: Dhaabbata, unitId: institute, group: pim }
+    - { target: 'Sadarkaa Barnootaa', unitId: major_specialization, group: pim }
+    - { target: 'Tajaajila Raayyaa', unitId: military_service, group: pim }
+    - { target: Paaspoortii, unitId: passport, group: pim }
+    - { target: 'Odeeffannoo Dhuunfaa', unitId: personal_details, group: general }
+    - { target: 'Adda baasi', unitId: please_specify, group: pim }
+    - { target: 'Kan Itti Gabaafamu', unitId: report_to, group: general }
+    - { target: Argii, unitId: screen, group: pim }
+    - { target: 'Filannoo Filadhu', unitId: select_options, group: pim }
+    - { target: 'Dirreewwan Dhokatan Mul''isi', unitId: show_deprecated_fields, group: pim }
+    - { target: 'Maqaa Masoo, Araada, fi Tajaajila Raayyaa Mul''isi', unitId: show_nick_name_smoker_and_military_service_in_personal_details, group: pim }
+    - { target: 'Dirree SIN Mul''isi', unitId: show_sin_field_in_personal_details, group: pim }
+    - { target: 'Dirree SSN Mul''isi', unitId: show_ssn_field_in_personal_details, group: pim }
+    - { target: 'Baafata Dhiifamoo Gibira US Mul''isi', unitId: show_us_tax_exemptions_menu, group: pim }
+    - { target: 'Lakk SIN', unitId: sin_number, group: pim }
+    - { target: 'Ni Xuuxa', unitId: smoker, group: pim }
+    - { target: 'Lakk SSN', unitId: ssn_number, group: pim }
+    - { target: 'Dhiifamoo Gibiraa', unitId: tax_exemptions, group: general }
+    - { target: 'Haala Qaxarrii Gadi Lakkisiisi', unitId: terminate_employment, group: pim }
+    - { target: 'Arfiiwwan ykn Lakkoofsa', unitId: text_or_number, group: pim }
+    - { target: 'Hin Qaxaramne', unitId: unemployment_state, group: pim }
+    - { target: Viizaa, unitId: visa, group: pim }
+    - { target: 'Haala Hojii', unitId: work_state, group: pim }
+    - { target: Tarkaanfiiwwan, unitId: actions, group: general }
+    - { target: Kenni, unitId: assign, group: leave }
+    - { target: 'Bara Boqonnaa Har''aa', unitId: current_leave_period, group: leave }
+    - { target: 'Turtii(Sa''aatiin)', unitId: duration_hours, group: attendance }
+    - { target: 'Bara Itti Aanu', unitId: following_year, group: leave }
+    - { target: 'Guyyaa Jalqabaa', unitId: from_date, group: general }
+    - { target: 'Guyyaa Guutuu', unitId: full_day, group: leave }
+    - { target: 'Guyyaa Walakkaa', unitId: half_day, group: leave }
+    - { target: 'Haftee Boqonnaa', unitId: leave_balance, group: leave }
+    - { target: 'Akaakuu Boqonnaa', unitId: leave_type, group: leave }
+    - { target: 'Tarreeffama boqonnaa kiyya', unitId: my_leave_list, group: leave }
+    - { target: 'Akaakuun boqonnaa kun haftee hin qabu', unitId: no_leave_types_with_leave_balance, group: leave }
+    - { target: 'Guyyaa Hojii Miti', unitId: non_working_day, group: leave }
+    - { target: 'Bay''ina Guyyootaa', unitId: number_of_days, group: leave }
+    - { target: 'Mirkanneessa Eeggata', unitId: pending_approval, group: leave }
+    - { target: 'Barabaran Deddeebi''a', unitId: repeats_annually, group: leave }
+    - { target: 'Boqonnaa Haala waliin Mul''isi', unitId: show_leave_with_status, group: leave }
+    - { target: Fudhatameera, unitId: taken, group: leave }
+    - { target: 'Guyyaa Xummuraa', unitId: to_date, group: general }
+    - { target: 'Hin Ergamne: Guyyaan Hojii Hin Filatamne', unitId: failed_to_submit_no_working_days_selected, group: leave }
+    - { target: 'Erguu hin Dandeenye', unitId: failed_to_submit, group: leave }
+    - { target: 'Akaakuu Boqonnaa Dabali', unitId: add_leave_type, group: leave }
+    - { target: 'Akaakuu Boqonnaa Gulaali', unitId: edit_leave_type, group: leave }
+    - { target: Seeni, unitId: punch_in, group: attendance }
+    - { target: 'Seenuukeef yaada barreessi', unitId: punch_in_note, group: attendance }
+    - { target: Bahi, unitId: punch_out, group: attendance }
+    - { target: 'Bahuukeef yaada barreessi', unitId: punch_out_note, group: attendance }
+    - { target: 'Galmeewwan irradeddeebi''aniiru', unitId: overlapping_records_found, group: attendance }
+    - { target: 'Argamsa Yeroo', unitId: timezone, group: attendance }
+    - { target: Seeni, unitId: in, group: attendance }
+    - { target: Bahi, unitId: out, group: attendance }
+    - { target: 'Qindoomina Gabatee To''annaa yeroo', unitId: attendance_configuration, group: attendance }
+    - { target: 'Hojjetaan/ttuun Yeroo bahu/seenu yeroo jijjiiruu nu dandaha', unitId: employee_can_change_current_time_when_punching_in_out, group: attendance }
+    - { target: 'Hojjetaan/ttuun Galmeewwan to''annaa yeroo dhuunfaa isaa gulaaluu/balleessuu ni dandaha', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
+    - { target: 'Hogganaan Gabatee yeroo hojjettoota isaa gulaaluu/balleessuu ni dandaha', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
+    - { target: 'Galmeewwan To''annaa Yeroo Kiyyaa', unitId: my_attendance_records, group: attendance }
+    - { target: 'Sirriitti Balleeffameera', unitId: successfully_deleted, group: general }
+    - { target: 'Yeroon bahinsaa yeroo seensaa dursuu qaba', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Maqaa Fayyadamaa', unitId: username, group: auth }
+    - { target: Iggita, unitId: password, group: auth }
+    - { target: Galmeewwan hin jiran, unitId: no_records_found, group: general }
+    - { target: Gabateen Geroo Olkaawameera, unitId: timesheet_submitted, group: time }
+    - { target: Maqaa Abbaa, unitId: middle_name, group: general }
+    - { target: Maqaa Jalqabaa, unitId: first_name, group: general }
+    - { target: Maqaa Akaakayyuu, unitId: last_name, group: general }

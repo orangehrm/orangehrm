@@ -1,0 +1,36 @@
+# Depends on;
+# src/test/phpunit/fixtures/ReportGroup.yaml
+# src/test/phpunit/fixtures/FilterField.yaml
+# src/test/phpunit/fixtures/DisplayField.yaml
+
+Report:
+  - { report_id: 5, name: 'PIM Sample Report', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 6, name: 'Past Employees', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+
+SelectedFilterField:
+  - { report_id: 5, filter_field_id: 22, filter_field_order: 1, value1: null, value2: null, where_condition: 'isNull', type: 'Predefined' }
+  - { report_id: 6, filter_field_id: 22, filter_field_order: 1, value1: null, value2: null, where_condition: 'isNotNull', type: 'Predefined' }
+
+SelectedDisplayField:
+  - { display_field_id: 9, report_id: 5 }
+  - { display_field_id: 10, report_id: 5 }
+  - { display_field_id: 11, report_id: 5 }
+  - { display_field_id: 12, report_id: 5 }
+  - { display_field_id: 10, report_id: 6 }
+  - { display_field_id: 11, report_id: 6 }
+
+SelectedDisplayFieldGroup:
+  - { display_field_group_id: 1, report_id: 5 }
+
+TerminationReason:
+  - { id: 1, name: 'Resign' }
+
+EmployeeTerminationRecord:
+  - { id: 1, reason_id: 1, date: '2011-11-20' }
+  - { id: 2, reason_id: 1, date: '2022-03-23' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: '0002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  - { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', termination_id: 1 }
+  - { empNumber: 4, firstName: 'Purged', lastName: 'Employee', termination_id: 2, purged_at: "2022-03-23" }

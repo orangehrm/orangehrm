@@ -1,0 +1,736 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
+  - { name: 'timesheet_period_set', value: "Yes" }
+  - { name: 'timesheet_time_format', value: 1 }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "2","name": "Retired" }
+  - { "id": "3","name": "Contract Not Renewed" }
+  - { "id": "4","name": "Resigned - Company Requested" }
+  - { "id": "5","name": "Resigned - Self Proposed" }
+  - { "id": "6","name": "Resigned" }
+  - { "id": "7","name": "Deceased" }
+  - { "id": "8","name": "Physically Disabled/Compensated" }
+  - { "id": "9","name": "Laid-off" }
+  - { "id": "10","name": "Dismissed" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
+  - { "emp_number": 7,"employee_id": "0024","emp_lastname": "Collings","emp_firstname": "Paul","emp_middle_name": "","emp_work_telephone": "112-898-7612","emp_work_email": "paul1@osohrm.com","joined_date": "1990-10-11" }
+  - { "emp_number": 9,"employee_id": "0034","emp_lastname": "Hamilton","emp_firstname": "Russel","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "russel1@osohrm.com","joined_date": "1998-10-22" }
+  - { "emp_number": 25,"employee_id": "0099","emp_lastname": "White","emp_firstname": "Garry","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "garry1@osohrm.com","joined_date": "2012-10-11" }
+  - { "emp_number": 26,"employee_id": "0103","emp_lastname": "Tencrady","emp_firstname": "Sara","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "sara1@osohrm.com","joined_date": "2015-10-29" }
+  - { "emp_number": 27,"employee_id": "0204","emp_lastname": "Bonaparte","emp_firstname": "Cecil","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "cecil@osohrm.com","joined_date": "2013-05-29" }
+  - { "emp_number": 29,"employee_id": "0212","emp_lastname": "Carter","emp_firstname": "Charlie","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "charlie1@osohrm.com","joined_date": "2013-04-17" }
+  - { "emp_number": 30,"employee_id": "0217","emp_lastname": "Chuki","emp_firstname": "Chenzira","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "chenzira@osohrm.com","joined_date": "2005-10-13" }
+  - { "emp_number": 35,"employee_id": "0239","emp_lastname": "Hu","emp_firstname": "Kiyara","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "kiyara1@osohrm.com","joined_date": "2009-10-15" }
+  - { "emp_number": 36,"employee_id": "0243","emp_lastname": "Jackie","emp_firstname": "Jadine","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "jadine@osohrm.com","joined_date": "2013-12-17" }
+  - { "emp_number": 37,"employee_id": "037","emp_lastname": "OHRM","emp_firstname": "OHRM","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "OHRM@osohrm.com","joined_date": "2013-12-17" }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "4","erep_sub_emp_number": "7","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "25","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "7","erep_sub_emp_number": "26","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "7","erep_sub_emp_number": "35","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "7","erep_sub_emp_number": "36","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "37","erep_sub_emp_number": "30","erep_reporting_mode": "1" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+  - { "id": 4,"name": ProjectAdmin,"display_name": ProjectAdmin,"is_assignable": 0,"is_predefined": 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 7, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2,"user_role_id": 1,"emp_number": 4,"user_name": "John.Smith","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:11:28","date_modified": "2020-10-07 06:13:55","modified_user_id": "1","created_by": "1" }
+  - { "id": 3,"user_role_id": 1,"emp_number": 2,"user_name": "Odis.Adalwin","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:16:13","date_modified": null,"modified_user_id": null,"created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 5, "user_name": "Abel","user_password": "Abel","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 7,"user_role_id": 1,"emp_number": 7,"user_name": "Paul.Collings","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:23:25","date_modified": "2020-10-07 06:24:43","modified_user_id": "1","created_by": "1" }
+  - { "id": 9,"user_role_id": 2,"emp_number": 9,"user_name": "Russel.Hamilton","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:26:11","date_modified": null,"modified_user_id": null,"created_by": "1" }
+  - { "id": 25,"user_role_id": 2,"emp_number": 25,"user_name": "Garry.White","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:32:10","date_modified": "2020-10-09 08:34:18","modified_user_id": "1","created_by": "1" }
+  - { "id": 27,"user_role_id": 2,"emp_number": 27,"user_name": "Cecil.Bonaparte","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:55:37","date_modified": null,"modified_user_id": null,"created_by": "7" }
+  - { "id": 29,"user_role_id": 2,"emp_number": 29,"user_name": "Charlie.Carter","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:56:21","date_modified": null,"modified_user_id": null,"created_by": "7" }
+  - { "id": 30,"user_role_id": 2,"emp_number": 30,"user_name": "Chenzira.Chuki","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:56:44","date_modified": null,"modified_user_id": null,"created_by": "7" }
+  - { "id": 37,"user_role_id": 2,"emp_number": 37,"user_name": "OHRM","user_password": "OHRM","deleted": "0","status": "1","date_entered": "2020-10-09 22:56:44","date_modified": null,"modified_user_id": null,"created_by": "1" }
+
+Customer:
+  - { "customer_id": "1","name": "Apache Software Foundation","description": "non-profit corporation to support Apache software projects","is_deleted": "0" }
+  - { "customer_id": "2","name": "Ball Corporation","description": "company famous for producing glass canning jars","is_deleted": "1" }
+  - { "customer_id": "3","name": "The Coca-Cola Company","description": "Multinational beverage corporation and manufacturer","is_deleted": "0" }
+  - { "customer_id": "4","name": "Fresh Books Software Ltd","description": "","is_deleted": "0" }
+  - { "customer_id": "5","name": "FreeWave Technologies, Inc.","description": "Its wireless data radios are utilized in industrial, government and defense, scientific, and commercial applications","is_deleted": "0" }
+  - { "customer_id": "6","name": "Global Corp and Co","description": "Global Corp introduces itself as a leading manufacturer and exporter of a large number of products catering to high precision equipment, Scientific Laboratory Equipments & Institutional Health Care Products.","is_deleted": "0" }
+  - { "customer_id": "7","name": "ACME Ltd","description": "Leading apparel manufacturing chain.","is_deleted": "0" }
+  - { "customer_id": "8","name": "Internal","description": "","is_deleted": "0" }
+  - { "customer_id": "9","name": "The Priceline Group","description": "American-based provider of travel and related online services to consumers","is_deleted": "0" }
+
+Project:
+  - { "project_id": "1","customer_id": "6","name": "Global Software phase - 1","description": "","is_deleted": "0" }
+  - { "project_id": "2","customer_id": "7","name": "ACME Ltd","description": "","is_deleted": "0" }
+  - { "project_id": "3","customer_id": "1","name": "ASF - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "4","customer_id": "6","name": "Global Software phase - 2","description": "","is_deleted": "0" }
+  - { "project_id": "5","customer_id": "4","name": "Fresh Books Software Ltd - Phase I","description": "","is_deleted": "0" }
+  - { "project_id": "6","customer_id": "5","name": "FWT - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "7","customer_id": "3","name": "Coke - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "8","customer_id": "9","name": "Priceline Group - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "9","customer_id": "8","name": "Recruitment","description": "","is_deleted": "0" }
+  - { "project_id": "10","customer_id": "8","name": "Training and Development","description": "","is_deleted": "0" }
+  - { "project_id": "11","customer_id": "8","name": "General HR Tasks","description": "","is_deleted": "0" }
+
+ProjectActivity:
+  - { "activity_id": "1","project_id": "1","name": "Assessing Project and Resource Requirements","is_deleted": "0" }
+  - { "activity_id": "2","project_id": "1","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "3","project_id": "1","name": "Estimating","is_deleted": "0" }
+  - { "activity_id": "4","project_id": "1","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "5","project_id": "1","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "6","project_id": "1","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "7","project_id": "1","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "8","project_id": "1","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "9","project_id": "1","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "10","project_id": "1","name": "Timescales with Clients and Managers","is_deleted": "0" }
+  - { "activity_id": "11","project_id": "2","name": "Administration","is_deleted": "0" }
+  - { "activity_id": "12","project_id": "2","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "13","project_id": "2","name": "Customizations","is_deleted": "0" }
+  - { "activity_id": "14","project_id": "2","name": "Demonstration","is_deleted": "0" }
+  - { "activity_id": "15","project_id": "2","name": "Employee Relations","is_deleted": "0" }
+  - { "activity_id": "16","project_id": "2","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "17","project_id": "2","name": "Handling insurance-related issues","is_deleted": "0" }
+  - { "activity_id": "18","project_id": "3","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "19","project_id": "3","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "20","project_id": "3","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "21","project_id": "3","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "22","project_id": "3","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "23","project_id": "3","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "24","project_id": "3","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "25","project_id": "4","name": "Assessing Project and Resource Requirements","is_deleted": "0" }
+  - { "activity_id": "26","project_id": "4","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "27","project_id": "4","name": "Estimating","is_deleted": "0" }
+  - { "activity_id": "28","project_id": "4","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "29","project_id": "4","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "30","project_id": "4","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "31","project_id": "4","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "32","project_id": "4","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "33","project_id": "4","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "34","project_id": "4","name": "Timescales with Clients and Managers","is_deleted": "0" }
+  - { "activity_id": "35","project_id": "5","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "36","project_id": "5","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "37","project_id": "5","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "38","project_id": "5","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "39","project_id": "5","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "40","project_id": "5","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "41","project_id": "5","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "42","project_id": "6","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "43","project_id": "6","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "44","project_id": "6","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "45","project_id": "6","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "46","project_id": "6","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "47","project_id": "6","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "48","project_id": "6","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "49","project_id": "7","name": "Administration","is_deleted": "0" }
+  - { "activity_id": "50","project_id": "7","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "51","project_id": "7","name": "Demonstration","is_deleted": "0" }
+  - { "activity_id": "52","project_id": "7","name": "Employee Relations","is_deleted": "0" }
+  - { "activity_id": "53","project_id": "7","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "54","project_id": "7","name": "Handling insurance-related issues","is_deleted": "0" }
+  - { "activity_id": "55","project_id": "7","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "56","project_id": "7","name": "Job Design","is_deleted": "0" }
+  - { "activity_id": "57","project_id": "7","name": "Maintaining HR records","is_deleted": "0" }
+  - { "activity_id": "58","project_id": "8","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "59","project_id": "8","name": "Customizations","is_deleted": "0" }
+  - { "activity_id": "60","project_id": "8","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "61","project_id": "8","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "62","project_id": "8","name": "Maintenance","is_deleted": "0" }
+  - { "activity_id": "63","project_id": "8","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "64","project_id": "8","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "65","project_id": "8","name": "Support","is_deleted": "0" }
+  - { "activity_id": "66","project_id": "9","name": "Job Analysis","is_deleted": "0" }
+  - { "activity_id": "67","project_id": "9","name": "Publish Vacancies","is_deleted": "0" }
+  - { "activity_id": "68","project_id": "9","name": "Shortlisting Candidates","is_deleted": "0" }
+  - { "activity_id": "69","project_id": "9","name": "Conducting Interviews and Tests","is_deleted": "0" }
+  - { "activity_id": "70","project_id": "9","name": "Onboarding New Hires","is_deleted": "0" }
+  - { "activity_id": "71","project_id": "10","name": "Training Need Analysis","is_deleted": "0" }
+  - { "activity_id": "72","project_id": "10","name": "Training Program Creation","is_deleted": "0" }
+  - { "activity_id": "73","project_id": "10","name": "Manage Training Programs","is_deleted": "0" }
+  - { "activity_id": "74","project_id": "10","name": "Training Feedback Analysis","is_deleted": "0" }
+  - { "activity_id": "75","project_id": "11","name": "Payroll Administration","is_deleted": "0" }
+  - { "activity_id": "76","project_id": "11","name": "Manage Employee Inquiries","is_deleted": "0" }
+  - { "activity_id": "77","project_id": "11","name": "HR Audit","is_deleted": "0" }
+  - { "activity_id": "78","project_id": "11","name": "Performance Evaluation","is_deleted": "0" }
+
+ProjectAdmin:
+  - { "project_id": "2","emp_number": "5" }
+  - { "project_id": "2","emp_number": "2" }
+  - { "project_id": "6","emp_number": "2" }
+  - { "project_id": "7","emp_number": "2" }
+  - { "project_id": "8","emp_number": "7" }
+  - { "project_id": "9","emp_number": "7" }
+  - { "project_id": "10","emp_number": "7" }
+  - { "project_id": "11","emp_number": "7" }
+
+Timesheet:
+  - { "timesheet_id": "1","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "9" }
+  - { "timesheet_id": "2","state": "SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "9" }
+  - { "timesheet_id": "3","state": "NOT SUBMITTED","start_date": "2020-09-21","end_date": "2020-09-27","employee_id": "9" }
+  - { "timesheet_id": "4","state": "APPROVED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "9" }
+  - { "timesheet_id": "5","state": "SUBMITTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "9" }
+  - { "timesheet_id": "6","state": "REJECTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "9" }
+  - { "timesheet_id": "7","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "27" }
+  - { "timesheet_id": "8","state": "APPROVED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "27" }
+  - { "timesheet_id": "9","state": "SUBMITTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "27" }
+  - { "timesheet_id": "10","state": "NOT SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "27" }
+  - { "timesheet_id": "11","state": "NOT SUBMITTED","start_date": "2020-09-21","end_date": "2020-09-27","employee_id": "27" }
+  - { "timesheet_id": "12","state": "NOT SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "27" }
+  - { "timesheet_id": "13","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "29" }
+  - { "timesheet_id": "14","state": "SUBMITTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "29" }
+  - { "timesheet_id": "15","state": "NOT SUBMITTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "29" }
+  - { "timesheet_id": "16","state": "NOT SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "29" }
+  - { "timesheet_id": "17","state": "NOT SUBMITTED","start_date": "2020-09-21","end_date": "2020-09-27","employee_id": "29" }
+  - { "timesheet_id": "18","state": "NOT SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "29" }
+  - { "timesheet_id": "19","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "30" }
+  - { "timesheet_id": "20","state": "SUBMITTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "30" }
+  - { "timesheet_id": "21","state": "NOT SUBMITTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "30" }
+  - { "timesheet_id": "22","state": "NOT SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "30" }
+  - { "timesheet_id": "23","state": "NOT SUBMITTED","start_date": "2020-09-21","end_date": "2020-09-27","employee_id": "30" }
+  - { "timesheet_id": "24","state": "NOT SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "30" }
+  - { "timesheet_id": "25","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "35" }
+  - { "timesheet_id": "26","state": "NOT SUBMITTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "35" }
+  - { "timesheet_id": "27","state": "NOT SUBMITTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "35" }
+  - { "timesheet_id": "28","state": "NOT SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "35" }
+  - { "timesheet_id": "29","state": "NOT SUBMITTED","start_date": "2020-09-21","end_date": "2020-09-27","employee_id": "35" }
+  - { "timesheet_id": "30","state": "NOT SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "35" }
+  - { "timesheet_id": "31","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "36" }
+  - { "timesheet_id": "32","state": "NOT SUBMITTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "36" }
+  - { "timesheet_id": "33","state": "NOT SUBMITTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "36" }
+  - { "timesheet_id": "34","state": "NOT SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "36" }
+  - { "timesheet_id": "35","state": "NOT SUBMITTED","start_date": "2020-09-21","end_date": "2020-09-27","employee_id": "36" }
+  - { "timesheet_id": "36","state": "NOT SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "36" }
+  - { "timesheet_id": "37","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "7" }
+  - { "timesheet_id": "38","state": "REJECTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "7" }
+  - { "timesheet_id": "39","state": "APPROVED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "7" }
+  - { "timesheet_id": "40","state": "SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "7" }
+  - { "timesheet_id": "41","state": "APPROVED","start_date": "2020-09-21","end_date": "2020-09-27","employee_id": "7" }
+  - { "timesheet_id": "42","state": "NOT SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "7" }
+  - { "timesheet_id": "43","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "25" }
+  - { "timesheet_id": "44","state": "APPROVED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "25" }
+  - { "timesheet_id": "45","state": "REJECTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "25" }
+  - { "timesheet_id": "46","state": "SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "25" }
+  - { "timesheet_id": "47","state": "SUBMITTED","start_date": "2020-09-21","end_date": "2020-09-27","employee_id": "25" }
+  - { "timesheet_id": "48","state": "NOT SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "25" }
+  - { "timesheet_id": "49","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "26" }
+  - { "timesheet_id": "50","state": "SUBMITTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "26" }
+  - { "timesheet_id": "51","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "8" }
+  - { "timesheet_id": "52","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "28" }
+  - { "timesheet_id": "53","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "11" }
+  - { "timesheet_id": "54","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "2" }
+  - { "timesheet_id": "55","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "31" }
+  - { "timesheet_id": "56","state": "SUBMITTED","start_date": "2020-09-28","end_date": "2020-10-04","employee_id": "26" }
+  - { "timesheet_id": "57","state": "SUBMITTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "26" }
+  - { "timesheet_id": "58","state": "SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "26" }
+  - { "timesheet_id": "59","state": "NOT SUBMITTED","start_date": "2020-10-12","end_date": "2020-10-18","employee_id": "7" }
+  - { "timesheet_id": "60","state": "NOT SUBMITTED","start_date": "2020-10-12","end_date": "2020-10-18","employee_id": "5" }
+  - { "timesheet_id": "61","state": "REJECTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "37" }
+
+TimesheetItem:
+  - { "timesheet_item_id": "1","timesheet_id": "2","date": "2020-09-28","duration": "7200","comment": "Include meetings","project_id": "1","employee_id": "9","activity_id": "6" }
+  - { "timesheet_item_id": "2","timesheet_id": "2","date": "2020-09-29","duration": "3600","comment": null,"project_id": "1","employee_id": "9","activity_id": "6" }
+  - { "timesheet_item_id": "3","timesheet_id": "2","date": "2020-09-30","duration": "7200","comment": null,"project_id": "1","employee_id": "9","activity_id": "6" }
+  - { "timesheet_item_id": "4","timesheet_id": "2","date": "2020-10-01","duration": "3600","comment": null,"project_id": "1","employee_id": "9","activity_id": "6" }
+  - { "timesheet_item_id": "5","timesheet_id": "2","date": "2020-10-02","duration": "3600","comment": null,"project_id": "1","employee_id": "9","activity_id": "6" }
+  - { "timesheet_item_id": "6","timesheet_id": "2","date": "2020-09-28","duration": "18000","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "7","timesheet_id": "2","date": "2020-09-30","duration": "3600","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "8","timesheet_id": "2","date": "2020-09-29","duration": "7200","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "9","timesheet_id": "2","date": "2020-10-01","duration": "7200","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "10","timesheet_id": "2","date": "2020-10-02","duration": "7200","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "11","timesheet_id": "2","date": "2020-10-02","duration": "18000","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "12","timesheet_id": "2","date": "2020-09-29","duration": "18000","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "13","timesheet_id": "2","date": "2020-10-01","duration": "18000","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "14","timesheet_id": "2","date": "2020-09-28","duration": "3600","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "15","timesheet_id": "2","date": "2020-09-30","duration": "18000","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "16","timesheet_id": "3","date": "2020-09-21","duration": "18000","comment": null,"project_id": "6","employee_id": "9","activity_id": "42" }
+  - { "timesheet_item_id": "17","timesheet_id": "3","date": "2020-09-22","duration": "14400","comment": null,"project_id": "6","employee_id": "9","activity_id": "42" }
+  - { "timesheet_item_id": "18","timesheet_id": "3","date": "2020-09-23","duration": "3600","comment": null,"project_id": "6","employee_id": "9","activity_id": "42" }
+  - { "timesheet_item_id": "19","timesheet_id": "3","date": "2020-09-21","duration": "14400","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "20","timesheet_id": "3","date": "2020-09-22","duration": "14400","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "21","timesheet_id": "3","date": "2020-09-24","duration": "10800","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "22","timesheet_id": "3","date": "2020-09-23","duration": "3600","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "23","timesheet_id": "3","date": "2020-09-22","duration": "3600","comment": null,"project_id": "4","employee_id": "9","activity_id": "29" }
+  - { "timesheet_item_id": "24","timesheet_id": "3","date": "2020-09-23","duration": "18000","comment": null,"project_id": "4","employee_id": "9","activity_id": "29" }
+  - { "timesheet_item_id": "25","timesheet_id": "3","date": "2020-09-24","duration": "10800","comment": null,"project_id": "4","employee_id": "9","activity_id": "29" }
+  - { "timesheet_item_id": "26","timesheet_id": "3","date": "2020-09-25","duration": "21600","comment": null,"project_id": "4","employee_id": "9","activity_id": "29" }
+  - { "timesheet_item_id": "27","timesheet_id": "4","date": "2020-09-14","duration": "7200","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "28","timesheet_id": "4","date": "2020-09-15","duration": "7200","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "29","timesheet_id": "4","date": "2020-09-16","duration": "7200","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "30","timesheet_id": "4","date": "2020-09-17","duration": "7200","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "31","timesheet_id": "4","date": "2020-09-18","duration": "7200","comment": null,"project_id": "7","employee_id": "9","activity_id": "55" }
+  - { "timesheet_item_id": "32","timesheet_id": "4","date": "2020-09-14","duration": "14400","comment": "Had to discuss with the QA and had a meeting with the team regarding bugs","project_id": "5","employee_id": "9","activity_id": "35" }
+  - { "timesheet_item_id": "33","timesheet_id": "4","date": "2020-09-15","duration": "14400","comment": null,"project_id": "5","employee_id": "9","activity_id": "35" }
+  - { "timesheet_item_id": "34","timesheet_id": "4","date": "2020-09-16","duration": "14400","comment": null,"project_id": "5","employee_id": "9","activity_id": "35" }
+  - { "timesheet_item_id": "35","timesheet_id": "4","date": "2020-09-17","duration": "14400","comment": null,"project_id": "5","employee_id": "9","activity_id": "35" }
+  - { "timesheet_item_id": "36","timesheet_id": "4","date": "2020-09-18","duration": "14400","comment": null,"project_id": "5","employee_id": "9","activity_id": "35" }
+  - { "timesheet_item_id": "37","timesheet_id": "4","date": "2020-09-14","duration": "10800","comment": null,"project_id": "6","employee_id": "9","activity_id": "42" }
+  - { "timesheet_item_id": "38","timesheet_id": "4","date": "2020-09-16","duration": "7200","comment": null,"project_id": "6","employee_id": "9","activity_id": "42" }
+  - { "timesheet_item_id": "39","timesheet_id": "4","date": "2020-09-18","duration": "7200","comment": null,"project_id": "6","employee_id": "9","activity_id": "42" }
+  - { "timesheet_item_id": "40","timesheet_id": "5","date": "2020-09-07","duration": "10800","comment": null,"project_id": "1","employee_id": "9","activity_id": "2" }
+  - { "timesheet_item_id": "41","timesheet_id": "5","date": "2020-09-08","duration": "10800","comment": null,"project_id": "1","employee_id": "9","activity_id": "2" }
+  - { "timesheet_item_id": "42","timesheet_id": "5","date": "2020-09-09","duration": "10800","comment": null,"project_id": "1","employee_id": "9","activity_id": "2" }
+  - { "timesheet_item_id": "43","timesheet_id": "5","date": "2020-09-10","duration": "10800","comment": null,"project_id": "1","employee_id": "9","activity_id": "2" }
+  - { "timesheet_item_id": "44","timesheet_id": "5","date": "2020-09-11","duration": "10800","comment": null,"project_id": "1","employee_id": "9","activity_id": "2" }
+  - { "timesheet_item_id": "45","timesheet_id": "5","date": "2020-09-07","duration": "7200","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "46","timesheet_id": "5","date": "2020-09-08","duration": "7200","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "47","timesheet_id": "5","date": "2020-09-09","duration": "7200","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "48","timesheet_id": "5","date": "2020-09-11","duration": "7200","comment": null,"project_id": "4","employee_id": "9","activity_id": "26" }
+  - { "timesheet_item_id": "49","timesheet_id": "5","date": "2020-09-07","duration": "18000","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "50","timesheet_id": "5","date": "2020-09-08","duration": "18000","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "51","timesheet_id": "5","date": "2020-09-09","duration": "18000","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "52","timesheet_id": "5","date": "2020-09-11","duration": "18000","comment": null,"project_id": "5","employee_id": "9","activity_id": "37" }
+  - { "timesheet_item_id": "53","timesheet_id": "6","date": "2020-08-31","duration": "10800","comment": null,"project_id": "1","employee_id": "9","activity_id": "2" }
+  - { "timesheet_item_id": "54","timesheet_id": "6","date": "2020-09-03","duration": "10800","comment": null,"project_id": "1","employee_id": "9","activity_id": "2" }
+  - { "timesheet_item_id": "55","timesheet_id": "6","date": "2020-08-31","duration": "10800","comment": null,"project_id": "4","employee_id": "9","activity_id": "29" }
+  - { "timesheet_item_id": "56","timesheet_id": "6","date": "2020-09-01","duration": "10800","comment": null,"project_id": "4","employee_id": "9","activity_id": "29" }
+  - { "timesheet_item_id": "57","timesheet_id": "6","date": "2020-09-02","duration": "10800","comment": null,"project_id": "4","employee_id": "9","activity_id": "29" }
+  - { "timesheet_item_id": "58","timesheet_id": "6","date": "2020-09-03","duration": "14400","comment": null,"project_id": "3","employee_id": "9","activity_id": "20" }
+  - { "timesheet_item_id": "59","timesheet_id": "8","date": "2020-08-31","duration": "10800","comment": null,"project_id": "1","employee_id": "27","activity_id": "4" }
+  - { "timesheet_item_id": "60","timesheet_id": "8","date": "2020-09-02","duration": "10800","comment": null,"project_id": "1","employee_id": "27","activity_id": "4" }
+  - { "timesheet_item_id": "61","timesheet_id": "8","date": "2020-09-04","duration": "10800","comment": null,"project_id": "1","employee_id": "27","activity_id": "4" }
+  - { "timesheet_item_id": "62","timesheet_id": "8","date": "2020-08-31","duration": "3600","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "63","timesheet_id": "8","date": "2020-09-01","duration": "14400","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "64","timesheet_id": "8","date": "2020-09-02","duration": "3600","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "65","timesheet_id": "8","date": "2020-09-03","duration": "14400","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "66","timesheet_id": "8","date": "2020-09-04","duration": "3600","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "67","timesheet_id": "8","date": "2020-09-01","duration": "3600","comment": null,"project_id": "5","employee_id": "27","activity_id": "35" }
+  - { "timesheet_item_id": "68","timesheet_id": "8","date": "2020-09-03","duration": "3600","comment": null,"project_id": "5","employee_id": "27","activity_id": "35" }
+  - { "timesheet_item_id": "69","timesheet_id": "8","date": "2020-09-05","duration": "3600","comment": null,"project_id": "5","employee_id": "27","activity_id": "35" }
+  - { "timesheet_item_id": "70","timesheet_id": "9","date": "2020-09-07","duration": "18000","comment": null,"project_id": "4","employee_id": "27","activity_id": "28" }
+  - { "timesheet_item_id": "71","timesheet_id": "9","date": "2020-09-10","duration": "10800","comment": null,"project_id": "4","employee_id": "27","activity_id": "28" }
+  - { "timesheet_item_id": "72","timesheet_id": "9","date": "2020-09-07","duration": "10800","comment": null,"project_id": "4","employee_id": "27","activity_id": "29" }
+  - { "timesheet_item_id": "73","timesheet_id": "9","date": "2020-09-09","duration": "18000","comment": null,"project_id": "4","employee_id": "27","activity_id": "29" }
+  - { "timesheet_item_id": "74","timesheet_id": "9","date": "2020-09-11","duration": "21600","comment": null,"project_id": "4","employee_id": "27","activity_id": "29" }
+  - { "timesheet_item_id": "75","timesheet_id": "10","date": "2020-09-14","duration": "25200","comment": null,"project_id": "2","employee_id": "27","activity_id": "12" }
+  - { "timesheet_item_id": "76","timesheet_id": "10","date": "2020-09-17","duration": "18000","comment": null,"project_id": "2","employee_id": "27","activity_id": "12" }
+  - { "timesheet_item_id": "77","timesheet_id": "10","date": "2020-09-14","duration": "7200","comment": null,"project_id": "4","employee_id": "27","activity_id": "26" }
+  - { "timesheet_item_id": "78","timesheet_id": "10","date": "2020-09-16","duration": "25200","comment": null,"project_id": "4","employee_id": "27","activity_id": "26" }
+  - { "timesheet_item_id": "79","timesheet_id": "10","date": "2020-09-15","duration": "21600","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "80","timesheet_id": "10","date": "2020-09-18","duration": "25200","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "81","timesheet_id": "11","date": "2020-09-21","duration": "21600","comment": null,"project_id": "1","employee_id": "27","activity_id": "3" }
+  - { "timesheet_item_id": "82","timesheet_id": "11","date": "2020-09-23","duration": "25200","comment": null,"project_id": "4","employee_id": "27","activity_id": "27" }
+  - { "timesheet_item_id": "83","timesheet_id": "11","date": "2020-09-21","duration": "10800","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "84","timesheet_id": "11","date": "2020-09-22","duration": "21600","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "85","timesheet_id": "11","date": "2020-09-25","duration": "21600","comment": null,"project_id": "3","employee_id": "27","activity_id": "20" }
+  - { "timesheet_item_id": "86","timesheet_id": "11","date": "2020-09-22","duration": "7200","comment": null,"project_id": "8","employee_id": "27","activity_id": "61" }
+  - { "timesheet_item_id": "87","timesheet_id": "11","date": "2020-09-23","duration": "3600","comment": null,"project_id": "8","employee_id": "27","activity_id": "61" }
+  - { "timesheet_item_id": "88","timesheet_id": "11","date": "2020-09-24","duration": "28800","comment": null,"project_id": "8","employee_id": "27","activity_id": "61" }
+  - { "timesheet_item_id": "89","timesheet_id": "11","date": "2020-09-25","duration": "10800","comment": null,"project_id": "8","employee_id": "27","activity_id": "61" }
+  - { "timesheet_item_id": "90","timesheet_id": "12","date": "2020-09-28","duration": "21600","comment": null,"project_id": "2","employee_id": "27","activity_id": "12" }
+  - { "timesheet_item_id": "91","timesheet_id": "12","date": "2020-09-30","duration": "3600","comment": null,"project_id": "2","employee_id": "27","activity_id": "12" }
+  - { "timesheet_item_id": "92","timesheet_id": "12","date": "2020-09-29","duration": "21600","comment": null,"project_id": "4","employee_id": "27","activity_id": "33" }
+  - { "timesheet_item_id": "93","timesheet_id": "12","date": "2020-10-01","duration": "21600","comment": null,"project_id": "4","employee_id": "27","activity_id": "33" }
+  - { "timesheet_item_id": "94","timesheet_id": "12","date": "2020-10-02","duration": "21600","comment": null,"project_id": "4","employee_id": "27","activity_id": "33" }
+  - { "timesheet_item_id": "95","timesheet_id": "12","date": "2020-09-28","duration": "10800","comment": null,"project_id": "5","employee_id": "27","activity_id": "37" }
+  - { "timesheet_item_id": "96","timesheet_id": "12","date": "2020-09-30","duration": "25200","comment": null,"project_id": "5","employee_id": "27","activity_id": "37" }
+  - { "timesheet_item_id": "97","timesheet_id": "12","date": "2020-10-01","duration": "7200","comment": null,"project_id": "5","employee_id": "27","activity_id": "37" }
+  - { "timesheet_item_id": "98","timesheet_id": "12","date": "2020-10-02","duration": "10800","comment": null,"project_id": "5","employee_id": "27","activity_id": "37" }
+  - { "timesheet_item_id": "99","timesheet_id": "14","date": "2020-08-31","duration": "21600","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "100","timesheet_id": "14","date": "2020-09-03","duration": "10800","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "101","timesheet_id": "14","date": "2020-09-04","duration": "21600","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "102","timesheet_id": "14","date": "2020-09-02","duration": "25200","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "103","timesheet_id": "14","date": "2020-08-31","duration": "10800","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "104","timesheet_id": "14","date": "2020-09-01","duration": "25200","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "105","timesheet_id": "14","date": "2020-09-02","duration": "7200","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "106","timesheet_id": "14","date": "2020-09-03","duration": "21600","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "107","timesheet_id": "14","date": "2020-09-04","duration": "7200","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "108","timesheet_id": "15","date": "2020-09-07","duration": "25200","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "109","timesheet_id": "15","date": "2020-09-09","duration": "18000","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "110","timesheet_id": "15","date": "2020-09-11","duration": "32400","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "111","timesheet_id": "15","date": "2020-09-08","duration": "25200","comment": null,"project_id": "5","employee_id": "29","activity_id": "39" }
+  - { "timesheet_item_id": "112","timesheet_id": "15","date": "2020-09-10","duration": "25200","comment": null,"project_id": "5","employee_id": "29","activity_id": "39" }
+  - { "timesheet_item_id": "113","timesheet_id": "15","date": "2020-09-07","duration": "7200","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "114","timesheet_id": "15","date": "2020-09-08","duration": "7200","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "115","timesheet_id": "15","date": "2020-09-09","duration": "7200","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "116","timesheet_id": "15","date": "2020-09-10","duration": "7200","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "117","timesheet_id": "16","date": "2020-09-15","duration": "18000","comment": null,"project_id": "6","employee_id": "29","activity_id": "46" }
+  - { "timesheet_item_id": "118","timesheet_id": "16","date": "2020-09-16","duration": "18000","comment": null,"project_id": "6","employee_id": "29","activity_id": "46" }
+  - { "timesheet_item_id": "119","timesheet_id": "16","date": "2020-09-17","duration": "7200","comment": null,"project_id": "6","employee_id": "29","activity_id": "46" }
+  - { "timesheet_item_id": "120","timesheet_id": "16","date": "2020-09-14","duration": "25200","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "121","timesheet_id": "16","date": "2020-09-15","duration": "7200","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "122","timesheet_id": "16","date": "2020-09-17","duration": "7200","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "123","timesheet_id": "16","date": "2020-09-18","duration": "32400","comment": null,"project_id": "3","employee_id": "29","activity_id": "22" }
+  - { "timesheet_item_id": "124","timesheet_id": "16","date": "2020-09-14","duration": "3600","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "125","timesheet_id": "16","date": "2020-09-15","duration": "3600","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "126","timesheet_id": "16","date": "2020-09-16","duration": "10800","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "127","timesheet_id": "16","date": "2020-09-17","duration": "3600","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "128","timesheet_id": "17","date": "2020-09-21","duration": "18000","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "129","timesheet_id": "17","date": "2020-09-22","duration": "3600","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "130","timesheet_id": "17","date": "2020-09-23","duration": "18000","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "131","timesheet_id": "17","date": "2020-09-24","duration": "7200","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "132","timesheet_id": "17","date": "2020-09-25","duration": "18000","comment": null,"project_id": "1","employee_id": "29","activity_id": "7" }
+  - { "timesheet_item_id": "133","timesheet_id": "17","date": "2020-09-21","duration": "14400","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "134","timesheet_id": "17","date": "2020-09-22","duration": "10800","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "135","timesheet_id": "17","date": "2020-09-23","duration": "7200","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "136","timesheet_id": "17","date": "2020-09-24","duration": "21600","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "137","timesheet_id": "17","date": "2020-09-25","duration": "14400","comment": null,"project_id": "5","employee_id": "29","activity_id": "39" }
+  - { "timesheet_item_id": "138","timesheet_id": "18","date": "2020-09-28","duration": "18000","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "139","timesheet_id": "18","date": "2020-09-29","duration": "18000","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "140","timesheet_id": "18","date": "2020-09-30","duration": "7200","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "141","timesheet_id": "18","date": "2020-10-02","duration": "3600","comment": null,"project_id": "4","employee_id": "29","activity_id": "31" }
+  - { "timesheet_item_id": "142","timesheet_id": "18","date": "2020-10-01","duration": "21600","comment": null,"project_id": "7","employee_id": "29","activity_id": "51" }
+  - { "timesheet_item_id": "143","timesheet_id": "18","date": "2020-09-28","duration": "7200","comment": null,"project_id": "7","employee_id": "29","activity_id": "51" }
+  - { "timesheet_item_id": "144","timesheet_id": "18","date": "2020-10-02","duration": "14400","comment": null,"project_id": "7","employee_id": "29","activity_id": "51" }
+  - { "timesheet_item_id": "145","timesheet_id": "20","date": "2020-08-31","duration": "25200","comment": null,"project_id": "3","employee_id": "30","activity_id": "22" }
+  - { "timesheet_item_id": "146","timesheet_id": "20","date": "2020-09-02","duration": "18000","comment": null,"project_id": "4","employee_id": "30","activity_id": "31" }
+  - { "timesheet_item_id": "147","timesheet_id": "20","date": "2020-09-04","duration": "10800","comment": null,"project_id": "4","employee_id": "30","activity_id": "31" }
+  - { "timesheet_item_id": "148","timesheet_id": "20","date": "2020-09-01","duration": "21600","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "149","timesheet_id": "20","date": "2020-09-03","duration": "10800","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "150","timesheet_id": "20","date": "2020-09-02","duration": "10800","comment": null,"project_id": "5","employee_id": "30","activity_id": "39" }
+  - { "timesheet_item_id": "151","timesheet_id": "20","date": "2020-09-04","duration": "18000","comment": null,"project_id": "5","employee_id": "30","activity_id": "39" }
+  - { "timesheet_item_id": "152","timesheet_id": "21","date": "2020-09-07","duration": "7200","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "153","timesheet_id": "21","date": "2020-09-09","duration": "7200","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "154","timesheet_id": "21","date": "2020-09-11","duration": "7200","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "155","timesheet_id": "21","date": "2020-09-08","duration": "18000","comment": null,"project_id": "5","employee_id": "30","activity_id": "39" }
+  - { "timesheet_item_id": "156","timesheet_id": "21","date": "2020-09-10","duration": "21600","comment": null,"project_id": "5","employee_id": "30","activity_id": "39" }
+  - { "timesheet_item_id": "157","timesheet_id": "21","date": "2020-09-07","duration": "14400","comment": null,"project_id": "7","employee_id": "30","activity_id": "51" }
+  - { "timesheet_item_id": "158","timesheet_id": "21","date": "2020-09-11","duration": "14400","comment": null,"project_id": "7","employee_id": "30","activity_id": "51" }
+  - { "timesheet_item_id": "159","timesheet_id": "22","date": "2020-09-14","duration": "21600","comment": null,"project_id": "7","employee_id": "30","activity_id": "51" }
+  - { "timesheet_item_id": "160","timesheet_id": "22","date": "2020-09-16","duration": "28800","comment": null,"project_id": "8","employee_id": "30","activity_id": "64" }
+  - { "timesheet_item_id": "161","timesheet_id": "22","date": "2020-09-15","duration": "18000","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "162","timesheet_id": "22","date": "2020-09-18","duration": "18000","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "163","timesheet_id": "22","date": "2020-09-14","duration": "7200","comment": null,"project_id": "4","employee_id": "30","activity_id": "31" }
+  - { "timesheet_item_id": "164","timesheet_id": "22","date": "2020-09-17","duration": "21600","comment": null,"project_id": "4","employee_id": "30","activity_id": "31" }
+  - { "timesheet_item_id": "165","timesheet_id": "23","date": "2020-09-22","duration": "25200","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "166","timesheet_id": "23","date": "2020-09-21","duration": "14400","comment": null,"project_id": "4","employee_id": "30","activity_id": "31" }
+  - { "timesheet_item_id": "167","timesheet_id": "23","date": "2020-09-24","duration": "14400","comment": null,"project_id": "4","employee_id": "30","activity_id": "31" }
+  - { "timesheet_item_id": "168","timesheet_id": "23","date": "2020-09-23","duration": "28800","comment": null,"project_id": "8","employee_id": "30","activity_id": "64" }
+  - { "timesheet_item_id": "169","timesheet_id": "23","date": "2020-09-25","duration": "14400","comment": null,"project_id": "8","employee_id": "30","activity_id": "64" }
+  - { "timesheet_item_id": "170","timesheet_id": "24","date": "2020-09-28","duration": "25200","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "171","timesheet_id": "24","date": "2020-09-30","duration": "14400","comment": null,"project_id": "1","employee_id": "30","activity_id": "7" }
+  - { "timesheet_item_id": "172","timesheet_id": "24","date": "2020-09-29","duration": "21600","comment": null,"project_id": "3","employee_id": "30","activity_id": "22" }
+  - { "timesheet_item_id": "173","timesheet_id": "24","date": "2020-10-02","duration": "10800","comment": null,"project_id": "3","employee_id": "30","activity_id": "22" }
+  - { "timesheet_item_id": "174","timesheet_id": "24","date": "2020-10-01","duration": "25200","comment": null,"project_id": "5","employee_id": "30","activity_id": "39" }
+  - { "timesheet_item_id": "175","timesheet_id": "26","date": "2020-08-31","duration": "18000","comment": null,"project_id": "9","employee_id": "35","activity_id": "67" }
+  - { "timesheet_item_id": "176","timesheet_id": "26","date": "2020-09-02","duration": "7200","comment": null,"project_id": "9","employee_id": "35","activity_id": "67" }
+  - { "timesheet_item_id": "177","timesheet_id": "26","date": "2020-09-04","duration": "3600","comment": null,"project_id": "9","employee_id": "35","activity_id": "67" }
+  - { "timesheet_item_id": "178","timesheet_id": "26","date": "2020-08-31","duration": "14400","comment": null,"project_id": "10","employee_id": "35","activity_id": "74" }
+  - { "timesheet_item_id": "179","timesheet_id": "26","date": "2020-09-01","duration": "14400","comment": null,"project_id": "10","employee_id": "35","activity_id": "74" }
+  - { "timesheet_item_id": "180","timesheet_id": "26","date": "2020-09-03","duration": "21600","comment": null,"project_id": "10","employee_id": "35","activity_id": "74" }
+  - { "timesheet_item_id": "181","timesheet_id": "26","date": "2020-09-02","duration": "18000","comment": null,"project_id": "10","employee_id": "35","activity_id": "73" }
+  - { "timesheet_item_id": "182","timesheet_id": "26","date": "2020-09-04","duration": "18000","comment": null,"project_id": "10","employee_id": "35","activity_id": "73" }
+  - { "timesheet_item_id": "183","timesheet_id": "26","date": "2020-09-01","duration": "14400","comment": null,"project_id": "11","employee_id": "35","activity_id": "77" }
+  - { "timesheet_item_id": "184","timesheet_id": "26","date": "2020-09-03","duration": "10800","comment": null,"project_id": "11","employee_id": "35","activity_id": "77" }
+  - { "timesheet_item_id": "185","timesheet_id": "27","date": "2020-09-07","duration": "7200","comment": null,"project_id": "9","employee_id": "35","activity_id": "69" }
+  - { "timesheet_item_id": "186","timesheet_id": "27","date": "2020-09-09","duration": "7200","comment": null,"project_id": "9","employee_id": "35","activity_id": "69" }
+  - { "timesheet_item_id": "187","timesheet_id": "27","date": "2020-09-11","duration": "7200","comment": null,"project_id": "9","employee_id": "35","activity_id": "69" }
+  - { "timesheet_item_id": "188","timesheet_id": "27","date": "2020-09-08","duration": "18000","comment": null,"project_id": "10","employee_id": "35","activity_id": "71" }
+  - { "timesheet_item_id": "189","timesheet_id": "27","date": "2020-09-10","duration": "10800","comment": null,"project_id": "10","employee_id": "35","activity_id": "71" }
+  - { "timesheet_item_id": "190","timesheet_id": "27","date": "2020-09-07","duration": "18000","comment": null,"project_id": "11","employee_id": "35","activity_id": "78" }
+  - { "timesheet_item_id": "191","timesheet_id": "27","date": "2020-09-09","duration": "18000","comment": null,"project_id": "11","employee_id": "35","activity_id": "78" }
+  - { "timesheet_item_id": "192","timesheet_id": "27","date": "2020-09-11","duration": "25200","comment": null,"project_id": "11","employee_id": "35","activity_id": "78" }
+  - { "timesheet_item_id": "193","timesheet_id": "28","date": "2020-09-14","duration": "7200","comment": null,"project_id": "9","employee_id": "35","activity_id": "69" }
+  - { "timesheet_item_id": "194","timesheet_id": "28","date": "2020-09-16","duration": "14400","comment": null,"project_id": "9","employee_id": "35","activity_id": "69" }
+  - { "timesheet_item_id": "195","timesheet_id": "28","date": "2020-09-18","duration": "21600","comment": null,"project_id": "9","employee_id": "35","activity_id": "69" }
+  - { "timesheet_item_id": "196","timesheet_id": "28","date": "2020-09-14","duration": "7200","comment": null,"project_id": "9","employee_id": "35","activity_id": "66" }
+  - { "timesheet_item_id": "197","timesheet_id": "28","date": "2020-09-15","duration": "7200","comment": null,"project_id": "9","employee_id": "35","activity_id": "66" }
+  - { "timesheet_item_id": "198","timesheet_id": "28","date": "2020-09-17","duration": "7200","comment": null,"project_id": "9","employee_id": "35","activity_id": "66" }
+  - { "timesheet_item_id": "199","timesheet_id": "28","date": "2020-09-16","duration": "14400","comment": null,"project_id": "9","employee_id": "35","activity_id": "70" }
+  - { "timesheet_item_id": "200","timesheet_id": "28","date": "2020-09-18","duration": "10800","comment": null,"project_id": "9","employee_id": "35","activity_id": "70" }
+  - { "timesheet_item_id": "201","timesheet_id": "28","date": "2020-09-15","duration": "14400","comment": null,"project_id": "9","employee_id": "35","activity_id": "67" }
+  - { "timesheet_item_id": "202","timesheet_id": "28","date": "2020-09-17","duration": "14400","comment": null,"project_id": "9","employee_id": "35","activity_id": "67" }
+  - { "timesheet_item_id": "203","timesheet_id": "29","date": "2020-09-21","duration": "21600","comment": null,"project_id": "9","employee_id": "35","activity_id": "66" }
+  - { "timesheet_item_id": "204","timesheet_id": "29","date": "2020-09-22","duration": "21600","comment": null,"project_id": "10","employee_id": "35","activity_id": "72" }
+  - { "timesheet_item_id": "205","timesheet_id": "29","date": "2020-09-24","duration": "21600","comment": null,"project_id": "10","employee_id": "35","activity_id": "72" }
+  - { "timesheet_item_id": "206","timesheet_id": "29","date": "2020-09-25","duration": "21600","comment": null,"project_id": "10","employee_id": "35","activity_id": "72" }
+  - { "timesheet_item_id": "207","timesheet_id": "29","date": "2020-09-21","duration": "7200","comment": null,"project_id": "11","employee_id": "35","activity_id": "76" }
+  - { "timesheet_item_id": "208","timesheet_id": "29","date": "2020-09-22","duration": "7200","comment": null,"project_id": "11","employee_id": "35","activity_id": "76" }
+  - { "timesheet_item_id": "209","timesheet_id": "29","date": "2020-09-23","duration": "21600","comment": null,"project_id": "11","employee_id": "35","activity_id": "76" }
+  - { "timesheet_item_id": "210","timesheet_id": "30","date": "2020-09-29","duration": "21600","comment": null,"project_id": "10","employee_id": "35","activity_id": "73" }
+  - { "timesheet_item_id": "211","timesheet_id": "30","date": "2020-10-02","duration": "21600","comment": null,"project_id": "10","employee_id": "35","activity_id": "73" }
+  - { "timesheet_item_id": "212","timesheet_id": "30","date": "2020-09-28","duration": "14400","comment": null,"project_id": "10","employee_id": "35","activity_id": "72" }
+  - { "timesheet_item_id": "213","timesheet_id": "30","date": "2020-09-30","duration": "14400","comment": null,"project_id": "10","employee_id": "35","activity_id": "72" }
+  - { "timesheet_item_id": "214","timesheet_id": "30","date": "2020-10-01","duration": "18000","comment": null,"project_id": "10","employee_id": "35","activity_id": "72" }
+  - { "timesheet_item_id": "215","timesheet_id": "30","date": "2020-10-02","duration": "10800","comment": null,"project_id": "11","employee_id": "35","activity_id": "75" }
+  - { "timesheet_item_id": "224","timesheet_id": "32","date": "2020-08-31","duration": "18000","comment": null,"project_id": "10","employee_id": "36","activity_id": "71" }
+  - { "timesheet_item_id": "225","timesheet_id": "32","date": "2020-09-03","duration": "7200","comment": null,"project_id": "10","employee_id": "36","activity_id": "71" }
+  - { "timesheet_item_id": "226","timesheet_id": "32","date": "2020-09-04","duration": "10800","comment": null,"project_id": "10","employee_id": "36","activity_id": "71" }
+  - { "timesheet_item_id": "227","timesheet_id": "32","date": "2020-09-01","duration": "7200","comment": null,"project_id": "10","employee_id": "36","activity_id": "72" }
+  - { "timesheet_item_id": "228","timesheet_id": "32","date": "2020-09-02","duration": "18000","comment": null,"project_id": "10","employee_id": "36","activity_id": "72" }
+  - { "timesheet_item_id": "229","timesheet_id": "32","date": "2020-09-04","duration": "21600","comment": null,"project_id": "10","employee_id": "36","activity_id": "72" }
+  - { "timesheet_item_id": "230","timesheet_id": "32","date": "2020-08-31","duration": "10800","comment": null,"project_id": "10","employee_id": "36","activity_id": "74" }
+  - { "timesheet_item_id": "231","timesheet_id": "32","date": "2020-09-01","duration": "21600","comment": null,"project_id": "10","employee_id": "36","activity_id": "74" }
+  - { "timesheet_item_id": "232","timesheet_id": "32","date": "2020-09-03","duration": "14400","comment": null,"project_id": "10","employee_id": "36","activity_id": "74" }
+  - { "timesheet_item_id": "233","timesheet_id": "33","date": "2020-09-07","duration": "21600","comment": null,"project_id": "10","employee_id": "36","activity_id": "71" }
+  - { "timesheet_item_id": "234","timesheet_id": "33","date": "2020-09-09","duration": "28800","comment": null,"project_id": "11","employee_id": "36","activity_id": "75" }
+  - { "timesheet_item_id": "235","timesheet_id": "33","date": "2020-09-10","duration": "21600","comment": null,"project_id": "11","employee_id": "36","activity_id": "75" }
+  - { "timesheet_item_id": "236","timesheet_id": "33","date": "2020-09-11","duration": "14400","comment": null,"project_id": "11","employee_id": "36","activity_id": "75" }
+  - { "timesheet_item_id": "237","timesheet_id": "33","date": "2020-09-07","duration": "3600","comment": null,"project_id": "11","employee_id": "36","activity_id": "76" }
+  - { "timesheet_item_id": "238","timesheet_id": "33","date": "2020-09-08","duration": "32400","comment": null,"project_id": "11","employee_id": "36","activity_id": "76" }
+  - { "timesheet_item_id": "239","timesheet_id": "33","date": "2020-09-11","duration": "10800","comment": null,"project_id": "11","employee_id": "36","activity_id": "76" }
+  - { "timesheet_item_id": "240","timesheet_id": "34","date": "2020-09-15","duration": "25200","comment": null,"project_id": "9","employee_id": "36","activity_id": "67" }
+  - { "timesheet_item_id": "241","timesheet_id": "34","date": "2020-09-18","duration": "25200","comment": null,"project_id": "9","employee_id": "36","activity_id": "67" }
+  - { "timesheet_item_id": "242","timesheet_id": "34","date": "2020-09-14","duration": "18000","comment": null,"project_id": "10","employee_id": "36","activity_id": "71" }
+  - { "timesheet_item_id": "243","timesheet_id": "34","date": "2020-09-16","duration": "32400","comment": null,"project_id": "10","employee_id": "36","activity_id": "71" }
+  - { "timesheet_item_id": "244","timesheet_id": "34","date": "2020-09-17","duration": "25200","comment": null,"project_id": "10","employee_id": "36","activity_id": "71" }
+  - { "timesheet_item_id": "245","timesheet_id": "35","date": "2020-09-21","duration": "21600","comment": null,"project_id": "9","employee_id": "36","activity_id": "70" }
+  - { "timesheet_item_id": "246","timesheet_id": "35","date": "2020-09-24","duration": "21600","comment": null,"project_id": "9","employee_id": "36","activity_id": "70" }
+  - { "timesheet_item_id": "247","timesheet_id": "35","date": "2020-09-25","duration": "21600","comment": null,"project_id": "9","employee_id": "36","activity_id": "70" }
+  - { "timesheet_item_id": "248","timesheet_id": "35","date": "2020-09-21","duration": "3600","comment": null,"project_id": "9","employee_id": "36","activity_id": "69" }
+  - { "timesheet_item_id": "249","timesheet_id": "35","date": "2020-09-22","duration": "14400","comment": null,"project_id": "9","employee_id": "36","activity_id": "69" }
+  - { "timesheet_item_id": "250","timesheet_id": "35","date": "2020-09-23","duration": "3600","comment": null,"project_id": "9","employee_id": "36","activity_id": "69" }
+  - { "timesheet_item_id": "251","timesheet_id": "35","date": "2020-09-24","duration": "7200","comment": null,"project_id": "9","employee_id": "36","activity_id": "69" }
+  - { "timesheet_item_id": "252","timesheet_id": "35","date": "2020-09-25","duration": "10800","comment": null,"project_id": "9","employee_id": "36","activity_id": "69" }
+  - { "timesheet_item_id": "253","timesheet_id": "36","date": "2020-09-28","duration": "21600","comment": null,"project_id": "9","employee_id": "36","activity_id": "66" }
+  - { "timesheet_item_id": "254","timesheet_id": "36","date": "2020-09-30","duration": "14400","comment": null,"project_id": "9","employee_id": "36","activity_id": "66" }
+  - { "timesheet_item_id": "255","timesheet_id": "36","date": "2020-10-02","duration": "3600","comment": null,"project_id": "9","employee_id": "36","activity_id": "66" }
+  - { "timesheet_item_id": "256","timesheet_id": "36","date": "2020-09-29","duration": "14400","comment": null,"project_id": "9","employee_id": "36","activity_id": "69" }
+  - { "timesheet_item_id": "257","timesheet_id": "36","date": "2020-10-01","duration": "14400","comment": null,"project_id": "9","employee_id": "36","activity_id": "69" }
+  - { "timesheet_item_id": "258","timesheet_id": "36","date": "2020-09-28","duration": "7200","comment": null,"project_id": "11","employee_id": "36","activity_id": "76" }
+  - { "timesheet_item_id": "259","timesheet_id": "36","date": "2020-09-30","duration": "7200","comment": null,"project_id": "11","employee_id": "36","activity_id": "76" }
+  - { "timesheet_item_id": "260","timesheet_id": "36","date": "2020-10-02","duration": "7200","comment": null,"project_id": "11","employee_id": "36","activity_id": "76" }
+  - { "timesheet_item_id": "261","timesheet_id": "38","date": "2020-08-31","duration": "14400","comment": null,"project_id": "9","employee_id": "7","activity_id": "69" }
+  - { "timesheet_item_id": "262","timesheet_id": "38","date": "2020-09-01","duration": "7200","comment": null,"project_id": "9","employee_id": "7","activity_id": "69" }
+  - { "timesheet_item_id": "263","timesheet_id": "38","date": "2020-09-02","duration": "3600","comment": null,"project_id": "9","employee_id": "7","activity_id": "69" }
+  - { "timesheet_item_id": "264","timesheet_id": "38","date": "2020-09-04","duration": "10800","comment": null,"project_id": "9","employee_id": "7","activity_id": "69" }
+  - { "timesheet_item_id": "265","timesheet_id": "38","date": "2020-08-31","duration": "7200","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "266","timesheet_id": "38","date": "2020-09-01","duration": "18000","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "267","timesheet_id": "38","date": "2020-09-02","duration": "21600","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "268","timesheet_id": "38","date": "2020-09-03","duration": "25200","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "269","timesheet_id": "38","date": "2020-08-31","duration": "3600","comment": null,"project_id": "11","employee_id": "7","activity_id": "78" }
+  - { "timesheet_item_id": "270","timesheet_id": "38","date": "2020-09-01","duration": "3600","comment": null,"project_id": "11","employee_id": "7","activity_id": "78" }
+  - { "timesheet_item_id": "271","timesheet_id": "38","date": "2020-09-02","duration": "3600","comment": null,"project_id": "11","employee_id": "7","activity_id": "78" }
+  - { "timesheet_item_id": "272","timesheet_id": "38","date": "2020-09-03","duration": "3600","comment": null,"project_id": "11","employee_id": "7","activity_id": "78" }
+  - { "timesheet_item_id": "273","timesheet_id": "38","date": "2020-09-04","duration": "14400","comment": null,"project_id": "11","employee_id": "7","activity_id": "78" }
+  - { "timesheet_item_id": "274","timesheet_id": "38","date": "2020-08-31","duration": "7200","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "275","timesheet_id": "38","date": "2020-09-01","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "276","timesheet_id": "38","date": "2020-09-02","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "277","timesheet_id": "38","date": "2020-09-03","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "278","timesheet_id": "38","date": "2020-09-04","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "279","timesheet_id": "39","date": "2020-09-07","duration": "14400","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "280","timesheet_id": "39","date": "2020-09-10","duration": "14400","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "281","timesheet_id": "39","date": "2020-09-11","duration": "7200","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "282","timesheet_id": "39","date": "2020-09-07","duration": "7200","comment": null,"project_id": "9","employee_id": "7","activity_id": "66" }
+  - { "timesheet_item_id": "283","timesheet_id": "39","date": "2020-09-08","duration": "7200","comment": null,"project_id": "9","employee_id": "7","activity_id": "66" }
+  - { "timesheet_item_id": "284","timesheet_id": "39","date": "2020-09-09","duration": "7200","comment": null,"project_id": "9","employee_id": "7","activity_id": "66" }
+  - { "timesheet_item_id": "285","timesheet_id": "39","date": "2020-09-11","duration": "18000","comment": null,"project_id": "9","employee_id": "7","activity_id": "66" }
+  - { "timesheet_item_id": "286","timesheet_id": "39","date": "2020-09-07","duration": "3600","comment": null,"project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "287","timesheet_id": "39","date": "2020-09-09","duration": "18000","comment": null,"project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "288","timesheet_id": "40","date": "2020-09-14","duration": "3600","comment": null,"project_id": "9","employee_id": "7","activity_id": "70" }
+  - { "timesheet_item_id": "289","timesheet_id": "40","date": "2020-09-15","duration": "14400","comment": null,"project_id": "9","employee_id": "7","activity_id": "70" }
+  - { "timesheet_item_id": "290","timesheet_id": "40","date": "2020-09-17","duration": "7200","comment": null,"project_id": "9","employee_id": "7","activity_id": "70" }
+  - { "timesheet_item_id": "291","timesheet_id": "40","date": "2020-09-18","duration": "3600","comment": null,"project_id": "9","employee_id": "7","activity_id": "70" }
+  - { "timesheet_item_id": "292","timesheet_id": "40","date": "2020-09-14","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "293","timesheet_id": "40","date": "2020-09-15","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "294","timesheet_id": "40","date": "2020-09-16","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "74" }
+  - { "timesheet_item_id": "295","timesheet_id": "40","date": "2020-09-15","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "296","timesheet_id": "40","date": "2020-09-17","duration": "18000","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "297","timesheet_id": "40","date": "2020-09-18","duration": "25200","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "298","timesheet_id": "41","date": "2020-09-21","duration": "18000","comment": null,"project_id": "10","employee_id": "7","activity_id": "72" }
+  - { "timesheet_item_id": "299","timesheet_id": "41","date": "2020-09-24","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "72" }
+  - { "timesheet_item_id": "300","timesheet_id": "41","date": "2020-09-21","duration": "3600","comment": null,"project_id": "9","employee_id": "7","activity_id": "70" }
+  - { "timesheet_item_id": "301","timesheet_id": "41","date": "2020-09-23","duration": "10800","comment": null,"project_id": "9","employee_id": "7","activity_id": "70" }
+  - { "timesheet_item_id": "302","timesheet_id": "41","date": "2020-09-25","duration": "21600","comment": null,"project_id": "9","employee_id": "7","activity_id": "70" }
+  - { "timesheet_item_id": "303","timesheet_id": "41","date": "2020-09-21","duration": "10800","comment": null,"project_id": "11","employee_id": "7","activity_id": "77" }
+  - { "timesheet_item_id": "304","timesheet_id": "41","date": "2020-09-22","duration": "10800","comment": null,"project_id": "11","employee_id": "7","activity_id": "77" }
+  - { "timesheet_item_id": "305","timesheet_id": "41","date": "2020-09-23","duration": "18000","comment": null,"project_id": "11","employee_id": "7","activity_id": "77" }
+  - { "timesheet_item_id": "306","timesheet_id": "41","date": "2020-09-24","duration": "10800","comment": null,"project_id": "11","employee_id": "7","activity_id": "77" }
+  - { "timesheet_item_id": "307","timesheet_id": "41","date": "2020-09-25","duration": "3600","comment": null,"project_id": "11","employee_id": "7","activity_id": "77" }
+  - { "timesheet_item_id": "308","timesheet_id": "42","date": "2020-09-28","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "73" }
+  - { "timesheet_item_id": "309","timesheet_id": "42","date": "2020-09-29","duration": null,"comment": "Comment","project_id": "10","employee_id": "7","activity_id": "73" }
+  - { "timesheet_item_id": "310","timesheet_id": "42","date": "2020-09-30","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "73" }
+  - { "timesheet_item_id": "311","timesheet_id": "42","date": "2020-10-01","duration": "7200","comment": null,"project_id": "10","employee_id": "7","activity_id": "73" }
+  - { "timesheet_item_id": "312","timesheet_id": "42","date": "2020-10-02","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "73" }
+  - { "timesheet_item_id": "313","timesheet_id": "42","date": "2020-09-28","duration": "14400","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "314","timesheet_id": "42","date": "2020-09-29","duration": null,"comment": "Comment","project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "315","timesheet_id": "42","date": "2020-09-30","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "316","timesheet_id": "42","date": "2020-10-01","duration": "3600","comment": null,"project_id": "10","employee_id": "7","activity_id": "71" }
+  - { "timesheet_item_id": "317","timesheet_id": "42","date": "2020-09-28","duration": "7200","comment": null,"project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "318","timesheet_id": "42","date": "2020-09-29","duration": "7200","comment": null,"project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "319","timesheet_id": "42","date": "2020-09-30","duration": null,"comment": "Comment","project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "320","timesheet_id": "42","date": "2020-10-01","duration": "3600","comment": null,"project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "321","timesheet_id": "42","date": "2020-10-02","duration": null,"comment": "Comment","project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "322","timesheet_id": "44","date": "2020-08-31","duration": "7200","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "323","timesheet_id": "44","date": "2020-09-01","duration": "10800","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "324","timesheet_id": "44","date": "2020-09-02","duration": "18000","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "325","timesheet_id": "44","date": "2020-08-31","duration": "14400","comment": null,"project_id": "9","employee_id": "25","activity_id": "70" }
+  - { "timesheet_item_id": "326","timesheet_id": "44","date": "2020-09-03","duration": "18000","comment": null,"project_id": "9","employee_id": "25","activity_id": "70" }
+  - { "timesheet_item_id": "327","timesheet_id": "44","date": "2020-08-31","duration": "3600","comment": null,"project_id": "10","employee_id": "25","activity_id": "71" }
+  - { "timesheet_item_id": "328","timesheet_id": "44","date": "2020-09-02","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "71" }
+  - { "timesheet_item_id": "329","timesheet_id": "44","date": "2020-09-04","duration": "18000","comment": null,"project_id": "10","employee_id": "25","activity_id": "71" }
+  - { "timesheet_item_id": "330","timesheet_id": "44","date": "2020-09-03","duration": "10800","comment": null,"project_id": "11","employee_id": "25","activity_id": "77" }
+  - { "timesheet_item_id": "331","timesheet_id": "44","date": "2020-09-04","duration": "14400","comment": null,"project_id": "11","employee_id": "25","activity_id": "77" }
+  - { "timesheet_item_id": "332","timesheet_id": "45","date": "2020-09-07","duration": "10800","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "333","timesheet_id": "45","date": "2020-09-08","duration": "14400","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "334","timesheet_id": "45","date": "2020-09-09","duration": "3600","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "335","timesheet_id": "45","date": "2020-09-10","duration": "21600","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "336","timesheet_id": "45","date": "2020-09-08","duration": "14400","comment": null,"project_id": "10","employee_id": "25","activity_id": "71" }
+  - { "timesheet_item_id": "337","timesheet_id": "45","date": "2020-09-10","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "71" }
+  - { "timesheet_item_id": "338","timesheet_id": "45","date": "2020-09-07","duration": "14400","comment": null,"project_id": "9","employee_id": "25","activity_id": "66" }
+  - { "timesheet_item_id": "339","timesheet_id": "45","date": "2020-09-11","duration": "10800","comment": null,"project_id": "9","employee_id": "25","activity_id": "66" }
+  - { "timesheet_item_id": "340","timesheet_id": "45","date": "2020-09-07","duration": "3600","comment": null,"project_id": "10","employee_id": "25","activity_id": "72" }
+  - { "timesheet_item_id": "341","timesheet_id": "45","date": "2020-09-09","duration": "21600","comment": null,"project_id": "10","employee_id": "25","activity_id": "72" }
+  - { "timesheet_item_id": "342","timesheet_id": "45","date": "2020-09-11","duration": "21600","comment": null,"project_id": "10","employee_id": "25","activity_id": "72" }
+  - { "timesheet_item_id": "343","timesheet_id": "46","date": "2020-09-14","duration": "14400","comment": null,"project_id": "9","employee_id": "25","activity_id": "66" }
+  - { "timesheet_item_id": "344","timesheet_id": "46","date": "2020-09-16","duration": "18000","comment": null,"project_id": "9","employee_id": "25","activity_id": "66" }
+  - { "timesheet_item_id": "345","timesheet_id": "46","date": "2020-09-17","duration": "14400","comment": null,"project_id": "9","employee_id": "25","activity_id": "66" }
+  - { "timesheet_item_id": "346","timesheet_id": "46","date": "2020-09-18","duration": "7200","comment": null,"project_id": "9","employee_id": "25","activity_id": "66" }
+  - { "timesheet_item_id": "347","timesheet_id": "46","date": "2020-09-14","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "348","timesheet_id": "46","date": "2020-09-15","duration": "18000","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "349","timesheet_id": "46","date": "2020-09-16","duration": "3600","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "350","timesheet_id": "46","date": "2020-09-17","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "351","timesheet_id": "46","date": "2020-09-18","duration": "14400","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "352","timesheet_id": "46","date": "2020-09-14","duration": "7200","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "353","timesheet_id": "46","date": "2020-09-15","duration": "7200","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "354","timesheet_id": "46","date": "2020-09-16","duration": "7200","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "355","timesheet_id": "46","date": "2020-09-17","duration": "7200","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "356","timesheet_id": "46","date": "2020-09-18","duration": "10800","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "357","timesheet_id": "47","date": "2020-09-22","duration": "0","comment": null,"project_id": "11","employee_id": "25","activity_id": "77" }
+  - { "timesheet_item_id": "358","timesheet_id": "47","date": "2020-09-25","duration": "3600","comment": null,"project_id": "11","employee_id": "25","activity_id": "77" }
+  - { "timesheet_item_id": "359","timesheet_id": "47","date": "2020-09-21","duration": "18000","comment": null,"project_id": "9","employee_id": "25","activity_id": "70" }
+  - { "timesheet_item_id": "360","timesheet_id": "47","date": "2020-09-23","duration": "25200","comment": null,"project_id": "9","employee_id": "25","activity_id": "70" }
+  - { "timesheet_item_id": "361","timesheet_id": "47","date": "2020-09-24","duration": "0","comment": null,"project_id": "9","employee_id": "25","activity_id": "70" }
+  - { "timesheet_item_id": "362","timesheet_id": "47","date": "2020-09-21","duration": "10800","comment": null,"project_id": "9","employee_id": "25","activity_id": "67" }
+  - { "timesheet_item_id": "363","timesheet_id": "47","date": "2020-09-24","duration": "21600","comment": null,"project_id": "9","employee_id": "25","activity_id": "67" }
+  - { "timesheet_item_id": "364","timesheet_id": "47","date": "2020-09-25","duration": "18000","comment": null,"project_id": "9","employee_id": "25","activity_id": "67" }
+  - { "timesheet_item_id": "365","timesheet_id": "48","date": "2020-09-28","duration": "21600","comment": null,"project_id": "9","employee_id": "25","activity_id": "68" }
+  - { "timesheet_item_id": "366","timesheet_id": "48","date": "2020-09-30","duration": "10800","comment": null,"project_id": "9","employee_id": "25","activity_id": "68" }
+  - { "timesheet_item_id": "367","timesheet_id": "48","date": "2020-10-02","duration": "7200","comment": null,"project_id": "9","employee_id": "25","activity_id": "68" }
+  - { "timesheet_item_id": "368","timesheet_id": "48","date": "2020-09-28","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "369","timesheet_id": "48","date": "2020-09-29","duration": "14400","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "370","timesheet_id": "48","date": "2020-09-30","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "371","timesheet_id": "48","date": "2020-10-01","duration": "10800","comment": null,"project_id": "10","employee_id": "25","activity_id": "74" }
+  - { "timesheet_item_id": "372","timesheet_id": "48","date": "2020-09-28","duration": "3600","comment": null,"project_id": "10","employee_id": "25","activity_id": "72" }
+  - { "timesheet_item_id": "373","timesheet_id": "48","date": "2020-09-29","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "72" }
+  - { "timesheet_item_id": "374","timesheet_id": "48","date": "2020-09-30","duration": "14400","comment": null,"project_id": "10","employee_id": "25","activity_id": "72" }
+  - { "timesheet_item_id": "375","timesheet_id": "48","date": "2020-10-01","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "72" }
+  - { "timesheet_item_id": "376","timesheet_id": "48","date": "2020-10-02","duration": "18000","comment": null,"project_id": "10","employee_id": "25","activity_id": "72" }
+  - { "timesheet_item_id": "377","timesheet_id": "48","date": "2020-09-29","duration": "3600","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "378","timesheet_id": "48","date": "2020-10-01","duration": "10800","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "379","timesheet_id": "48","date": "2020-10-02","duration": "3600","comment": null,"project_id": "9","employee_id": "25","activity_id": "69" }
+  - { "timesheet_item_id": "380","timesheet_id": "44","date": "2020-08-31","duration": "3600","comment": null,"project_id": "11","employee_id": "25","activity_id": "77" }
+  - { "timesheet_item_id": "381","timesheet_id": "44","date": "2020-09-01","duration": "21600","comment": null,"project_id": "11","employee_id": "25","activity_id": "77" }
+  - { "timesheet_item_id": "382","timesheet_id": "44","date": "2020-09-02","duration": "3600","comment": null,"project_id": "11","employee_id": "25","activity_id": "77" }
+  - { "timesheet_item_id": "383","timesheet_id": "41","date": "2020-09-22","duration": "16200","comment": null,"project_id": "10","employee_id": "7","activity_id": "72" }
+  - { "timesheet_item_id": "384","timesheet_id": "41","date": "2020-09-24","duration": "14400","comment": null,"project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "385","timesheet_id": "41","date": "2020-09-25","duration": "7200","comment": null,"project_id": "11","employee_id": "7","activity_id": "76" }
+  - { "timesheet_item_id": "386","timesheet_id": "40","date": "2020-09-14","duration": "0","comment": null,"project_id": "11","employee_id": "7","activity_id": "78" }
+  - { "timesheet_item_id": "387","timesheet_id": "40","date": "2020-09-16","duration": "10800","comment": null,"project_id": "11","employee_id": "7","activity_id": "78" }
+  - { "timesheet_item_id": "388","timesheet_id": "20","date": "2020-08-31","duration": "3600","comment": null,"project_id": "5","employee_id": "30","activity_id": "39" }
+  - { "timesheet_item_id": "389","timesheet_id": "20","date": "2020-09-01","duration": "7200","comment": null,"project_id": "5","employee_id": "30","activity_id": "39" }
+  - { "timesheet_item_id": "390","timesheet_id": "20","date": "2020-09-03","duration": "18000","comment": null,"project_id": "5","employee_id": "30","activity_id": "39" }
+  - { "timesheet_item_id": "391","timesheet_id": "40","date": "2020-09-14","duration": "7200","comment": null,"project_id": "2","employee_id": "7","activity_id": "11" }
+  - { "timesheet_item_id": "392","timesheet_id": "40","date": "2020-09-16","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "11" }
+  - { "timesheet_item_id": "393","timesheet_id": "40","date": "2020-09-14","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "13" }
+  - { "timesheet_item_id": "394","timesheet_id": "40","date": "2020-09-15","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "13" }
+  - { "timesheet_item_id": "395","timesheet_id": "40","date": "2020-09-16","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "13" }
+  - { "timesheet_item_id": "396","timesheet_id": "40","date": "2020-09-17","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "13" }
+  - { "timesheet_item_id": "397","timesheet_id": "40","date": "2020-09-14","duration": "3600","comment": null,"project_id": "3","employee_id": "7","activity_id": "21" }
+  - { "timesheet_item_id": "398","timesheet_id": "40","date": "2020-09-15","duration": "7200","comment": null,"project_id": "3","employee_id": "7","activity_id": "21" }
+  - { "timesheet_item_id": "399","timesheet_id": "40","date": "2020-09-16","duration": "7200","comment": null,"project_id": "3","employee_id": "7","activity_id": "21" }
+  - { "timesheet_item_id": "400","timesheet_id": "40","date": "2020-09-17","duration": "3600","comment": null,"project_id": "3","employee_id": "7","activity_id": "21" }
+  - { "timesheet_item_id": "401","timesheet_id": "9","date": "2020-09-09","duration": "10800","comment": null,"project_id": "2","employee_id": "27","activity_id": "13" }
+  - { "timesheet_item_id": "402","timesheet_id": "9","date": "2020-09-10","duration": "18000","comment": null,"project_id": "2","employee_id": "27","activity_id": "13" }
+  - { "timesheet_item_id": "403","timesheet_id": "9","date": "2020-09-11","duration": "7200","comment": null,"project_id": "2","employee_id": "27","activity_id": "13" }
+  - { "timesheet_item_id": "404","timesheet_id": "42","date": "2020-09-28","duration": "7200","comment": null,"project_id": "2","employee_id": "7","activity_id": "16" }
+  - { "timesheet_item_id": "405","timesheet_id": "42","date": "2020-09-30","duration": "14400","comment": null,"project_id": "2","employee_id": "7","activity_id": "16" }
+  - { "timesheet_item_id": "406","timesheet_id": "42","date": "2020-09-28","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "15" }
+  - { "timesheet_item_id": "407","timesheet_id": "42","date": "2020-10-01","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "15" }
+  - { "timesheet_item_id": "408","timesheet_id": "42","date": "2020-10-02","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "15" }
+  - { "timesheet_item_id": "409","timesheet_id": "42","date": "2020-10-01","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "11" }
+  - { "timesheet_item_id": "410","timesheet_id": "42","date": "2020-10-02","duration": "3600","comment": null,"project_id": "2","employee_id": "7","activity_id": "11" }
+  - { "timesheet_item_id": "411","timesheet_id": "47","date": "2020-09-22","duration": "28800","comment": null,"project_id": "9","employee_id": "25","activity_id": "70" }
+  - { "timesheet_item_id": "412","timesheet_id": "47","date": "2020-09-23","duration": "8700","comment": null,"project_id": "11","employee_id": "25","activity_id": "77" }
+  - { "timesheet_item_id": "413","timesheet_id": "47","date": "2020-09-24","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "71" }
+  - { "timesheet_item_id": "414","timesheet_id": "47","date": "2020-09-25","duration": "7200","comment": null,"project_id": "10","employee_id": "25","activity_id": "71" }
+  - { "timesheet_item_id": "415","timesheet_id": "56","date": "2020-09-28","duration": "18000","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "416","timesheet_id": "56","date": "2020-09-29","duration": "18000","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "417","timesheet_id": "56","date": "2020-09-30","duration": "18000","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "418","timesheet_id": "56","date": "2020-10-01","duration": "14400","comment": null,"project_id": "10","employee_id": "26","activity_id": "73" }
+  - { "timesheet_item_id": "419","timesheet_id": "56","date": "2020-10-02","duration": "14400","comment": null,"project_id": "10","employee_id": "26","activity_id": "73" }
+  - { "timesheet_item_id": "420","timesheet_id": "56","date": "2020-10-01","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "70" }
+  - { "timesheet_item_id": "421","timesheet_id": "56","date": "2020-10-02","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "70" }
+  - { "timesheet_item_id": "422","timesheet_id": "56","date": "2020-09-28","duration": "10800","comment": null,"project_id": "11","employee_id": "26","activity_id": "77" }
+  - { "timesheet_item_id": "423","timesheet_id": "56","date": "2020-09-29","duration": "10800","comment": null,"project_id": "11","employee_id": "26","activity_id": "77" }
+  - { "timesheet_item_id": "424","timesheet_id": "56","date": "2020-09-30","duration": "10800","comment": null,"project_id": "11","employee_id": "26","activity_id": "77" }
+  - { "timesheet_item_id": "425","timesheet_id": "57","date": "2020-09-07","duration": "14400","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "426","timesheet_id": "57","date": "2020-09-08","duration": "14400","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "427","timesheet_id": "57","date": "2020-09-09","duration": "14400","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "428","timesheet_id": "57","date": "2020-09-07","duration": "14400","comment": null,"project_id": "10","employee_id": "26","activity_id": "74" }
+  - { "timesheet_item_id": "429","timesheet_id": "57","date": "2020-09-08","duration": "14400","comment": null,"project_id": "10","employee_id": "26","activity_id": "74" }
+  - { "timesheet_item_id": "430","timesheet_id": "57","date": "2020-09-10","duration": "10800","comment": null,"project_id": "10","employee_id": "26","activity_id": "74" }
+  - { "timesheet_item_id": "431","timesheet_id": "57","date": "2020-09-11","duration": "14400","comment": null,"project_id": "10","employee_id": "26","activity_id": "74" }
+  - { "timesheet_item_id": "432","timesheet_id": "57","date": "2020-09-10","duration": "21600","comment": null,"project_id": "10","employee_id": "26","activity_id": "72" }
+  - { "timesheet_item_id": "433","timesheet_id": "57","date": "2020-09-11","duration": "22440","comment": null,"project_id": "10","employee_id": "26","activity_id": "72" }
+  - { "timesheet_item_id": "434","timesheet_id": "57","date": "2020-09-09","duration": "14400","comment": null,"project_id": "10","employee_id": "26","activity_id": "74" }
+  - { "timesheet_item_id": "435","timesheet_id": "58","date": "2020-09-16","duration": "28800","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "436","timesheet_id": "58","date": "2020-09-17","duration": "28800","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "437","timesheet_id": "58","date": "2020-09-18","duration": "28800","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "438","timesheet_id": "58","date": "2020-09-14","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "66" }
+  - { "timesheet_item_id": "439","timesheet_id": "58","date": "2020-09-15","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "66" }
+  - { "timesheet_item_id": "440","timesheet_id": "58","date": "2020-09-14","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "67" }
+  - { "timesheet_item_id": "441","timesheet_id": "58","date": "2020-09-15","duration": "16440","comment": null,"project_id": "9","employee_id": "26","activity_id": "67" }
+  - { "timesheet_item_id": "442","timesheet_id": "50","date": "2020-08-31","duration": "28800","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "443","timesheet_id": "50","date": "2020-09-01","duration": "28800","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "444","timesheet_id": "50","date": "2020-09-02","duration": "28800","comment": null,"project_id": "11","employee_id": "26","activity_id": "75" }
+  - { "timesheet_item_id": "445","timesheet_id": "50","date": "2020-09-03","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "68" }
+  - { "timesheet_item_id": "446","timesheet_id": "50","date": "2020-09-04","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "68" }
+  - { "timesheet_item_id": "447","timesheet_id": "50","date": "2020-09-03","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "69" }
+  - { "timesheet_item_id": "448","timesheet_id": "50","date": "2020-09-04","duration": "15780","comment": null,"project_id": "9","employee_id": "26","activity_id": "69" }
+  - { "timesheet_item_id": "449","timesheet_id": "61","date": "2020-09-04","duration": "10800","comment": null,"project_id": "9","employee_id": "37","activity_id": "69" }
+  - { "timesheet_item_id": "450","timesheet_id": "61","date": "2020-08-31","duration": "7200","comment": null,"project_id": "10","employee_id": "37","activity_id": "74" }
+  - { "timesheet_item_id": "451","timesheet_id": "61","date": "2020-09-01","duration": "18000","comment": null,"project_id": "10","employee_id": "37","activity_id": "74" }
+  - { "timesheet_item_id": "452","timesheet_id": "61","date": "2020-09-02","duration": "21600","comment": null,"project_id": "10","employee_id": "37","activity_id": "74" }
+  - { "timesheet_item_id": "453","timesheet_id": "61","date": "2020-09-03","duration": "25200","comment": null,"project_id": "10","employee_id": "37","activity_id": "74" }
+  - { "timesheet_item_id": "454","timesheet_id": "61","date": "2020-08-31","duration": "3600","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "455","timesheet_id": "61","date": "2020-09-01","duration": "3600","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "456","timesheet_id": "61","date": "2020-09-02","duration": "3600","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "457","timesheet_id": "61","date": "2020-09-03","duration": "3600","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "458","timesheet_id": "61","date": "2020-09-04","duration": "14400","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "459","timesheet_id": "61","date": "2020-08-31","duration": "7200","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+  - { "timesheet_item_id": "460","timesheet_id": "61","date": "2020-09-01","duration": "3600","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+  - { "timesheet_item_id": "461","timesheet_id": "61","date": "2020-09-02","duration": "3600","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+  - { "timesheet_item_id": "462","timesheet_id": "61","date": "2020-09-03","duration": "3600","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+  - { "timesheet_item_id": "463","timesheet_id": "61","date": "2020-09-04","duration": "3600","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+
+TimesheetActionLog:
+  - { "timesheet_action_log_id": "1","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "9","timesheet_id": "2" }
+  - { "timesheet_action_log_id": "2","comment": "Approved","action": "APPROVED","date_time": "2020-10-09","performed_by": "1","timesheet_id": "2" }
+  - { "timesheet_action_log_id": "3","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "25","timesheet_id": "44" }
+  - { "timesheet_action_log_id": "4","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "9","timesheet_id": "6" }
+  - { "timesheet_action_log_id": "5","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "9","timesheet_id": "5" }
+  - { "timesheet_action_log_id": "6","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "9","timesheet_id": "4" }
+  - { "timesheet_action_log_id": "7","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "27","timesheet_id": "8" }
+  - { "timesheet_action_log_id": "8","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "27","timesheet_id": "9" }
+  - { "timesheet_action_log_id": "9","comment": "","action": "APPROVED","date_time": "2020-10-09","performed_by": "3","timesheet_id": "8" }
+  - { "timesheet_action_log_id": "10","comment": "","action": "REJECTED","date_time": "2020-10-09","performed_by": "3","timesheet_id": "6" }
+  - { "timesheet_action_log_id": "11","comment": "","action": "APPROVED","date_time": "2020-10-09","performed_by": "3","timesheet_id": "4" }
+  - { "timesheet_action_log_id": "12","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "29","timesheet_id": "14" }
+  - { "timesheet_action_log_id": "13","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "30","timesheet_id": "20" }
+  - { "timesheet_action_log_id": "14","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "1","timesheet_id": "41" }
+  - { "timesheet_action_log_id": "15","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "1","timesheet_id": "40" }
+  - { "timesheet_action_log_id": "16","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "25","timesheet_id": "45" }
+  - { "timesheet_action_log_id": "17","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "7","timesheet_id": "38" }
+  - { "timesheet_action_log_id": "18","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "7","timesheet_id": "39" }
+  - { "timesheet_action_log_id": "19","comment": "","action": "APPROVED","date_time": "2020-10-09","performed_by": "2","timesheet_id": "41" }
+  - { "timesheet_action_log_id": "20","comment": "","action": "REJECTED","date_time": "2020-10-09","performed_by": "2","timesheet_id": "38" }
+  - { "timesheet_action_log_id": "21","comment": "","action": "APPROVED","date_time": "2020-10-09","performed_by": "2","timesheet_id": "39" }
+  - { "timesheet_action_log_id": "22","comment": "","action": "APPROVED","date_time": "2020-10-09","performed_by": "1","timesheet_id": "44" }
+  - { "timesheet_action_log_id": "23","comment": "","action": "REJECTED","date_time": "2020-10-09","performed_by": "1","timesheet_id": "45" }
+  - { "timesheet_action_log_id": "24","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "25","timesheet_id": "47" }
+  - { "timesheet_action_log_id": "25","comment": null,"action": "SUBMITTED","date_time": "2020-10-11","performed_by": "25","timesheet_id": "46" }
+  - { "timesheet_action_log_id": "26","comment": null,"action": "SUBMITTED","date_time": "2020-10-12","performed_by": "1","timesheet_id": "56" }
+  - { "timesheet_action_log_id": "27","comment": null,"action": "SUBMITTED","date_time": "2020-10-12","performed_by": "1","timesheet_id": "57" }
+  - { "timesheet_action_log_id": "28","comment": null,"action": "SUBMITTED","date_time": "2020-10-12","performed_by": "1","timesheet_id": "58" }
+  - { "timesheet_action_log_id": "29","comment": null,"action": "SUBMITTED","date_time": "2020-10-12","performed_by": "1","timesheet_id": "50" }
+  - { "timesheet_action_log_id": "30","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "7","timesheet_id": "61" }
+  - { "timesheet_action_log_id": "31","comment": null,"action": "REJECTED","date_time": "2020-10-09","performed_by": "2","timesheet_id": "61" }

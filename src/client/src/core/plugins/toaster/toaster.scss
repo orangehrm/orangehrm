@@ -1,0 +1,57 @@
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.oxd-toast-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  z-index: 1200 !important;
+  left: 12px;
+  @include oxd-respond-to('xs') {
+    min-width: 290px;
+  }
+  @include oxd-respond-to('md') {
+    min-width: 400px;
+  }
+  &--bottom {
+    bottom: 1rem;
+  }
+  &--top {
+    top: 1rem;
+  }
+}
+
+.oxd-toast-container--toast {
+  margin-bottom: 0.4rem;
+}
+
+$timing-function: cubic-bezier(0.82, 0.085, 0.395, 0.895);
+
+@keyframes fadeInLeft {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOutLeft {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+.oxd-toast-list-enter-active {
+  animation: fadeInLeft 0.5s $timing-function;
+}
+
+.oxd-toast-list-leave-active {
+  animation: fadeOutLeft 0.5s $timing-function;
+}

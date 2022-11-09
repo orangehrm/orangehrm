@@ -1,0 +1,12 @@
+JobTitle:
+  0: {id: 1, jobTitleName: 'Software Architect', isDeleted: 0}
+  1: {id: 2, jobTitleName: 'Software Engineer', isDeleted: 0}
+  2: {id: 3, jobTitleName: 'Quality Assuarance', isDeleted: 0}
+  3: {id: 4, jobTitleName: 'Sales Person', isDeleted: 1}
+
+JobSpecificationAttachment:
+  0: {id: 1, job_title_id: 1, file_name: 'Software architect spec', file_type: '.txt', file_size: 10, file_content: ''}
+
+Employee:
+  - {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001', job_title_code: 4}
+  - {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: '0002'}

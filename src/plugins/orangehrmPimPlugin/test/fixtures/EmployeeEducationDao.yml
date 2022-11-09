@@ -1,0 +1,16 @@
+Education:
+  0: {id: 1, name: 'BSc'}
+  1: {id: 2, name: 'MSc'}
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  - { empNumber: 3, firstName: 'John', lastName: 'Wayne', middleName: '', employeeId: 'E003' }
+  - { empNumber: 4, firstName: 'Edgar', lastName: 'Allen', middleName: '', employeeId: 'E004', emp_work_email: '', emp_oth_email: '' }
+  - { empNumber: 5, firstName: 'Judie', lastName: 'Foster', middleName: '', employeeId: 'E005', emp_work_email: '', emp_oth_email: '' }
+
+EmployeeEducation:
+  - { id: 1, emp_number: 1, education_id: 1, institute: 'UoM', major: 'CSE', year: '2020', score: 'First Class', start_date: '2017-01-01', end_date: '2020-12-31' }
+  - { id: 2, emp_number: 1, education_id: 2, institute: 'UoM', major: 'CS', year: '2020', score: 'First Class', start_date: '2017-01-01', end_date: '2020-12-31' }
+  - { id: 3, emp_number: 2, education_id: 1, institute: 'UoP', major: 'CE', year: '2020', score: 'First Class', start_date: '2017-01-01', end_date: '2020-12-31' }
+

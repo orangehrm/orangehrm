@@ -1,0 +1,72 @@
+translations:
+    - { target: 'Tambahkan Tinjauan', unitId: add_review, group: performance }
+    - { target: April, unitId: april, group: general }
+    - { target: Agustus, unitId: august, group: general }
+    - { target: 'Status Sekarang', unitId: current_status, group: recruitment }
+    - { target: Desember, unitId: december, group: general }
+    - { target: Hapus, unitId: delete, group: performance }
+    - { target: Februari, unitId: february, group: general }
+    - { target: Jumat, unitId: friday, group: general }
+    - { target: 'Nama Lengkap', unitId: full_name, group: general }
+    - { target: Januari, unitId: january, group: general }
+    - { target: Juli, unitId: july, group: general }
+    - { target: Juni, unitId: june, group: general }
+    - { target: Maret, unitId: march, group: general }
+    - { target: Mei, unitId: may, group: general }
+    - { target: Senin, unitId: monday, group: general }
+    - { target: November, unitId: november, group: general }
+    - { target: Oktober, unitId: october, group: general }
+    - { target: Sabtu, unitId: saturday, group: general }
+    - { target: September, unitId: september, group: general }
+    - { target: Minggu, unitId: sunday, group: general }
+    - { target: Kamis, unitId: thursday, group: general }
+    - { target: Selasa, unitId: tuesday, group: general }
+    - { target: Rabu, unitId: wednesday, group: general }
+    - { target: Cacat, unitId: invalid, group: general }
+    - { target: 'Menerima. docx,. doc,. odt,. pdf,. rtf, txt atas. Untuk 1MB', unitId: accept_custom_format_file, group: general }
+    - { target: 'Kata kunci', unitId: keywords, group: recruitment }
+    - { target: Resume, unitId: resume, group: recruitment }
+    - { target: Jumat, unitId: fri, group: general }
+    - { target: Senin, unitId: mon, group: general }
+    - { target: Sabtu, unitId: sat, group: general }
+    - { target: Minggu, unitId: sun, group: general }
+    - { target: Kamis, unitId: thu, group: general }
+    - { target: Selasa, unitId: tue, group: general }
+    - { target: Rabu, unitId: wed, group: general }
+    - { target: Max, unitId: max, group: performance }
+    - { target: Min, unitId: min, group: performance }
+    - { target: Aktif, unitId: active, group: general }
+    - { target: 'Tambahkan Calon', unitId: add_candidate, group: recruitment }
+    - { target: 'Aplikasi Diprakarsai', unitId: application_initiated, group: recruitment }
+    - { target: Calon, unitId: candidate, group: recruitment }
+    - { target: 'Calon Nama', unitId: candidate_name, group: recruitment }
+    - { target: Tutup, unitId: closed, group: general }
+    - { target: 'Tanggal Aplikasi', unitId: date_of_application, group: recruitment }
+    - { target: 'Tolak Penawaran', unitId: decline_offer, group: recruitment }
+    - { target: Menyewa, unitId: hire, group: recruitment }
+    - { target: Dipekerjakan, unitId: hired, group: recruitment }
+    - { target: 'Mempekerjakan Manajer', unitId: hiring_manager, group: recruitment }
+    - { target: 'Wawancara Gagal', unitId: interview_failed, group: recruitment }
+    - { target: 'Wawancara Lulus', unitId: interview_passed, group: recruitment }
+    - { target: 'Wawancara Terjadwal', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Wawancara Judul', unitId: interview_title, group: recruitment }
+    - { target: 'Job Ditawarkan', unitId: job_offered, group: recruitment }
+    - { target: 'Lowongan Kerja', unitId: job_vacancy, group: recruitment }
+    - { target: Pedoman, unitId: manual, group: recruitment }
+    - { target: 'Wawancara Mark Gagal', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Wawancara Mark Lulus', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Metode Aplikasi', unitId: method_of_application, group: recruitment }
+    - { target: 'Jumlah Posisi', unitId: num_of_positions, group: recruitment }
+    - { target: 'Penawaran Ditolak', unitId: offer_declined, group: recruitment }
+    - { target: Online, unitId: online, group: recruitment }
+    - { target: 'Dilakukan Aksi', unitId: performed_action, group: recruitment }
+    - { target: 'Dilakukan Tanggal', unitId: performed_date, group: recruitment }
+    - { target: 'RSS Feed URL', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Jadwal Wawancara', unitId: schedule_interview, group: recruitment }
+    - { target: 'Daftar singkat', unitId: shortlist, group: recruitment }
+    - { target: Terpilih, unitId: shortlisted, group: recruitment }
+    - { target: Lowongan, unitId: vacancy, group: recruitment }
+    - { target: 'Lowongan Nama', unitId: vacancy_name, group: recruitment }
+    - { target: 'Lihat Riwayat Aksi', unitId: view_action_history, group: recruitment }
+    - { target: 'Web Page URL', unitId: web_page_url, group: recruitment }
+    - { target: 'Aplikasi Lamaran Diterima', unitId: application_received, group: recruitment }

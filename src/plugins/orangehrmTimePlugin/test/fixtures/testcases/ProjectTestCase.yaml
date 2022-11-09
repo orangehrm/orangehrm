@@ -1,0 +1,600 @@
+Create:
+  'Add new project':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      name: 'Test Project'
+      description: 'This is a test project'
+      customerId: 1
+      projectAdminsEmpNumbers: [ 1,2 ]
+    data:
+      id: 5
+      name: 'Test Project'
+      description: 'This is a test project'
+      customer:
+        id: 1
+        name: 'Orange'
+        deleted: false
+      projectAdmins:
+        - empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: ''
+          terminationId: null
+        - empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: ''
+          terminationId: null
+      deleted: false
+    meta: [ ]
+
+  'Add new project - exceed project admin limit':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      name: 'Test Project'
+      description: 'This is a test project'
+      customerId: 1
+      projectAdminsEmpNumbers: [ 1,2,3,4,5,6 ]
+    invalidOnly: [ 'projectAdminsEmpNumbers' ]
+
+  'Add new project - without name':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      description: 'This is a test project'
+      customerId: 1
+      projectAdminsEmpNumbers: [ 1 ]
+    invalidOnly: [ 'name' ]
+
+  'Add new project - Non existing customer Id':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      name: 'Test Project'
+      description: 'This is a test project'
+      customerId: 20
+      projectAdminsEmpNumbers: [ 1 ]
+    invalidOnly: [ 'customerId' ]
+
+  'Add new project - Deleted customer Id':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      name: 'Test Project'
+      description: 'This is a test project'
+      customerId: 3
+      projectAdminsEmpNumbers: [ 1 ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Customer no longer exists'
+
+GetAll:
+  'Get projects list default':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    query: [ ]
+    body: [ ]
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        deleted: false
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        deleted: false
+      - id: 4
+        name: 'project_04'
+        description: 'Project description for project_04'
+        deleted: false
+    meta:
+      total: 3
+
+  'Get projects list filter by name':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: '2'
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        deleted: false
+    meta:
+      total: 1
+
+  'project admin get accessible projects list filter by name':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: '2'
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        deleted: false
+    meta:
+      total: 1
+
+  'project admin get accessible projects list filter by name - no results':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: '01'
+    data: [ ]
+    meta:
+      total: 0
+
+  'project admin get all projects list filter by project id':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      projectId: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'project admin get all projects list':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    query:
+      limit: 2
+      offset: 1
+      onlyAllowed: false
+    data:
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        deleted: false
+    meta:
+      total: 3
+
+  'Get projects list detailed':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    query:
+      model: 'detailed'
+    body: [ ]
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        customer:
+          id: 2
+          name: 'CUS'
+          deleted: false
+        projectAdmins:
+          - empNumber: 3
+            lastName: 'Saputhanthri'
+            firstName: 'Renukshan'
+            middleName: ''
+            terminationId: null
+        deleted: false
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        customer:
+          id: 1
+          name: 'Orange'
+          deleted: false
+        projectAdmins:
+          - empNumber: 1
+            lastName: 'Abbey'
+            firstName: 'Kayla'
+            middleName: ''
+            terminationId: null
+          - empNumber: 2
+            lastName: 'Abel'
+            firstName: 'Ashley'
+            middleName: ''
+            terminationId: null
+        deleted: false
+      - id: 4
+        name: 'project_04'
+        description: 'Project description for project_04'
+        customer:
+          id: 1
+          name: 'Orange'
+          deleted: false
+        projectAdmins: [ ]
+        deleted: false
+    meta:
+      total: 3
+
+  'Get projects list detailed - filter by project id':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    query:
+      model: 'detailed'
+      projectId: 1
+    body: [ ]
+    data:
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        customer:
+          id: 1
+          name: 'Orange'
+          deleted: false
+        projectAdmins:
+          - empNumber: 1
+            lastName: 'Abbey'
+            firstName: 'Kayla'
+            middleName: ''
+            terminationId: null
+          - empNumber: 2
+            lastName: 'Abel'
+            firstName: 'Ashley'
+            middleName: ''
+            terminationId: null
+        deleted: false
+    meta:
+      total: 1
+
+  'Get projects list detailed - filter by customer':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    query:
+      model: 'detailed'
+      customerId: 2
+    body: [ ]
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        customer:
+          id: 2
+          name: 'CUS'
+          deleted: false
+        projectAdmins:
+          - empNumber: 3
+            lastName: 'Saputhanthri'
+            firstName: 'Renukshan'
+            middleName: ''
+            terminationId: null
+        deleted: false
+    meta:
+      total: 1
+
+  'Get projects list detailed - filter by project admin':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    query:
+      model: 'detailed'
+      empNumber: 3
+    body: [ ]
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        customer:
+          id: 2
+          name: 'CUS'
+          deleted: false
+        projectAdmins:
+          - empNumber: 3
+            lastName: 'Saputhanthri'
+            firstName: 'Renukshan'
+            middleName: ''
+            terminationId: null
+        deleted: false
+    meta:
+      total: 1
+
+  'Get projects list filter by Customer or project name (customer name)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      customerOrProjectName: 'Oran'
+    data:
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        deleted: false
+      - id: 4
+        name: 'project_04'
+        description: 'Project description for project_04'
+        deleted: false
+    meta:
+      total: 2
+
+  'Get projects list filter by Customer or project name (project name)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      customerOrProjectName: 'project_03'
+    data:
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        deleted: false
+    meta:
+      total: 1
+
+  'Get projects list filter by exclude project ids':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      excludeProjectIds: [ 1 ]
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        deleted: false
+      - id: 4
+        name: 'project_04'
+        description: 'Project description for project_04'
+        deleted: false
+    meta:
+      total: 2
+
+GetOne:
+  'Get project by ID - default':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    query: [ ]
+    body: [ ]
+    data:
+      id: 1
+      name: 'project_03'
+      description: 'Project description for project_03'
+      deleted: false
+    meta: [ ]
+
+  'Get project by ID - detailed':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    query:
+      model: 'detailed'
+    body: [ ]
+    data:
+      id: 2
+      name: 'project_02'
+      description: 'Project description for project_02'
+      customer:
+        id: 2
+        name: 'CUS'
+        deleted: false
+      projectAdmins:
+        - empNumber: 3
+          lastName: 'Saputhanthri'
+          firstName: 'Renukshan'
+          middleName: ''
+          terminationId: null
+      deleted: false
+    meta: [ ]
+
+  'Get project by ID - record not found':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'access not allowed project':
+    userId: 4
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'project admin access not allowed project':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'project admin access allowed project':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    data: {
+      id: 2,
+      name: 'project_02',
+      description: 'Project description for project_02',
+      deleted: false
+    }
+    meta: [ ]
+
+Update:
+  'Update existing project':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      id: 1
+    query: [ ]
+    body:
+      name: 'project_03_updated'
+      description: 'Project description for project_03-updated'
+      customerId: 2
+      projectAdminsEmpNumbers: [ 3 ]
+    data:
+      id: 1
+      name: 'project_03_updated'
+      description: 'Project description for project_03-updated'
+      customer:
+        id: 2
+        name: 'CUS'
+        deleted: false
+      projectAdmins:
+        - empNumber: 3
+          lastName: 'Saputhanthri'
+          firstName: 'Renukshan'
+          middleName: ''
+          terminationId: null
+      deleted: false
+    meta: [ ]
+
+Delete:
+  'Delete Projects':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      ids: [ 2,4 ]
+    data:
+      - 2
+      - 4
+    meta: [ ]
+
+  'Delete Projects with Timesheet item':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      ids: [ 1,2 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Not Allowed to delete Project(s) Which Have Time Logged Against Them'

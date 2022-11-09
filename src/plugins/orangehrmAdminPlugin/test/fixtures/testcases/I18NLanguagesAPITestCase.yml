@@ -1,0 +1,54 @@
+GetAll:
+  'Get all enabled and added i18n languages':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    now:
+      datetime: '2022-07-25'
+    data:
+      - id: 1
+        name: 'Chinese (Simplified, China) - 中文（简体，中国）'
+        code: 'zh_Hans_CN'
+      - id: 2
+        name: 'Chinese (Traditional, Taiwan) - 中文（繁體，台灣）'
+        code: 'zh_Hant_TW'
+      - id: 4
+        name: 'English (United States)'
+        code: 'en_US'
+    meta:
+      total: 3
+  'Get all enabled i18n languages - order by DESC':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    now:
+      datetime: '2022-07-25'
+    query:
+      sortOrder: DESC
+    data:
+      - id: 4
+        name: 'English (United States)'
+        code: 'en_US'
+      - id: 2
+        name: 'Chinese (Traditional, Taiwan) - 中文（繁體，台灣）'
+        code: 'zh_Hant_TW'
+      - id: 1
+        name: 'Chinese (Simplified, China) - 中文（简体，中国）'
+        code: 'zh_Hans_CN'
+    meta:
+      total: 3
+
+
+Update:
+  'Update language as added':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    now:
+      datetime: '2022-07-25'
+    attributes:
+      id: 1
+    data:
+        id: 1
+        name: 'Chinese (Simplified, China) - 中文（简体，中国）'
+        code: 'zh_Hans_CN'

@@ -1,0 +1,24 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel' }
+  - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri' }
+  - { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal' }
+  - { empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah' }
+  - { empNumber: 6, employeeId: "0006", lastName: "Morgan", firstName: "Jasmine", }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+  - { id: 4, name: 'TestAdmin', display_name: 'TestAdmin', is_assignable: 1, is_predefined: 0 }
+  - { id: 5, name: 'UserRole1', display_name: 'UserRole1', is_assignable: 1, is_predefined: 0 }
+  - { id: 6, name: 'UserRole2', display_name: 'UserRole2', is_assignable: 1, is_predefined: 0 }
+  - { id: 7, name: 'UserRole3', display_name: 'UserRole3', is_assignable: 1, is_predefined: 0 }
+  - { id: 8, name: 'Admin2', display_name: 'Admin2', is_assignable: 1, is_predefined: 0 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
+  - { id: 2, user_role_id: 2, emp_number: 2, user_name: 'yashika', user_password: 'yashika' }
+  - { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
+  - { id: 4, user_role_id: 1, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
+  - { id: 5, user_role_id: 2, emp_number: 6, user_name: 'Morgan', user_password: ~, deleted: 0 }

@@ -1,0 +1,53 @@
+GetOne:
+  'get already existing project name status':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    body: [ ]
+    query:
+      projectName: 'project_03'
+      customerId: 1
+    data:
+      valid: false
+    meta: [ ]
+
+  'get non existing project name status':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    body: [ ]
+    query:
+      projectName: 'Airbus A380'
+      customerId: 1
+    data:
+      valid: true
+    meta: [ ]
+
+  'Project name already taken by different customer':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    body: [ ]
+    query:
+      projectName: 'project_03'
+      customerId: 2
+    data:
+      valid: true
+    meta: [ ]
+
+  'get already existing project name status - When update existing project':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    body: [ ]
+    query:
+      projectName: 'project_03'
+      customerId: 1
+      projectId: 1
+    data:
+      valid: true
+    meta: [ ]

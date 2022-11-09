@@ -1,0 +1,46 @@
+## YAML Template.
+---
+
+EmploymentStatus:
+  0: { id: 1, name: Full Time }
+
+Employee:
+  E_001: { empNumber: 1, firstName: Sanath, middleName: Teran, lastName: Jayasooriya, employeeId: A001 }
+  E_002: { empNumber: 2, firstName: Aravinda, lastName: De Silva, employeeId: A002, emp_status: 1}
+  E_003: { empNumber: 3, firstName: Arjuna, lastName: Ranatunga, employeeId: A003 }
+  E_004: { empNumber: 4, firstName: Kumar, lastName: Sangakkara, employeeId: W001 }
+  E_005: { empNumber: 5, firstName: Mahela, lastName: Jayawardhane, employeeId: A004 }
+  E_006: { empNumber: 6, firstName: Joseph, middleName: Chaminda, lastName: Vaas, employeeId: B001 }
+  E_007: { empNumber: 7, firstName: Tillakaratne, middleName: Mudiyanselage, lastName: Dilshan, employeeId: A005 }
+  E_008: { empNumber: 8, firstName: Randhi, middleName: Dilhara, lastName: Fernando, employeeId: B002 }
+  E_009: { empNumber: 9, firstName: Tilan, lastName: Saraweera, employeeId: H001 }
+  E_010: { empNumber: 10, firstName: Jehan, lastName: Mubarak, employeeId: A006 }
+  E_011: { empNumber: 11, firstName: Thilan, middleName: Thushara, lastName: Mirando, employeeId: B003 }
+  E_012: { empNumber: 12, firstName: Chamara, lastName: Silva, employeeId: H002 }
+  E_013: { empNumber: 13, firstName: Lasith, lastName: Malinga, employeeId: B004 }
+  E_014: { empNumber: 14, firstName: Upul, lastName: Tharanga, employeeId: H003 }
+  E_015: { empNumber: 15, firstName: Ajantha, lastName: Mendis, employeeId: B005 }
+  E_016: { empNumber: 16, firstName: Russel, middleName: Premakumaran, lastName: Arnold, employeeId: A007 }
+  E_017: { empNumber: 17, firstName: Roy, lastName: Dias, employeeId: H004 }
+  E_018: { empNumber: 18, firstName: Duleep, lastName: Mendis, employeeId: H005 }
+  E_019: { empNumber: 19, firstName: Angelo, middleName: Davis, lastName: Mathews, employeeId: A008 }
+  E_020: { empNumber: 20, firstName: Nuwan, lastName: Kulasekara, employeeId: A009 }
+
+
+AttendanceRecord:
+  0: {id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-27 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-05-27 12:10:00', state: 'PUNCHED IN'}
+  1: {id: 2, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED IN'}
+  2: {id: 3, employee_id: 3, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED OUT'}
+  3: {id: 4, employee_id: 4, punch_in_utc_time: '2011-04-02 5:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-02 17:10:00',punch_out_utc_time: '2011-04-02 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-02 5:10:00', state: 'PUNCHED OUT'}
+  4: {id: 5, employee_id: 5, punch_in_utc_time: '2011-06-10 15:30:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-06-10 15:25:00',punch_out_utc_time: '2011-06-10 15:45:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-06-10 15:45:00', state: 'PUNCHED IN'}
+  5: {id: 6, employee_id: 5, punch_in_utc_time: '2011-05-26 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-06-10 15:26:00',punch_out_utc_time: '2011-05-27 13:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-06-10 15:42:00', state: 'PUNCHED IN'}
+  6: {id: 7, employee_id: 5, punch_in_utc_time: '2011-04-02 5:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-02 1:10:00',punch_out_utc_time: '2011-04-06 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-06 5:10:00', state: 'PUNCHED OUT'}
+  7: {id: 8, employee_id: 5, punch_in_utc_time: '2011-12-12 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-12-12 15:26:00',punch_out_utc_time: '2012-12-12 13:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2012-12-12 16:42:00', state: 'PUNCHED OUT'}
+  8: {id: 9, employee_id: 5, punch_in_utc_time: '2012-12-21 5:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: '-9',punch_in_user_time: '2012-12-21 01:10:00',punch_out_utc_time: '2012-12-21 9:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2012-12-21 23:10:00', state: 'PUNCHED OUT'}
+  9: {id: 10, employee_id: 5, punch_in_utc_time: '2011-12-12 23:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-12-12 19:26:00',punch_out_utc_time: '2012-12-12 23:40:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2012-12-12 17:42:00', state: 'PUNCHED OUT'}
+  10: {id: 11, employee_id: 5, punch_in_utc_time: '2012-02-28 23:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: '6.5',punch_in_user_time: '2012-02-28 23:46:00',punch_out_utc_time: '2012-02-29 13:40:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2012-02-29 17:42:00', state: 'PUNCHED OUT'}
+
+
+WorkflowStateMachine:
+  0: {id: 1, workflow: Attendance, state: 'INITIAL', role: 'ESS USER',action: 'EDIT',resulting_state: 'INITIAL'}
+  1: {id: 2, workflow: Attendance, state: 'PUNCHED IN', role: 'ESS USER',action: 'EDIT',resulting_state: 'PUNCHED IN'}

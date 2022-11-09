@@ -1,0 +1,330 @@
+langStrings:
+  -
+    value: 'Full Day/ Half Day'
+    unitId: full_day_half_day
+  -
+    value: 'Repeats Annually'
+    unitId: repeats_annually
+  -
+    value: 'Edit Holiday'
+    unitId: edit_holiday
+  -
+    value: 'Holidays'
+    unitId: holidays
+  -
+    value: 'Add Holiday'
+    unitId: add_holiday
+  -
+    value: 'Full Day'
+    unitId: full_day
+  -
+    value: 'Leave Period'
+    unitId: leave_period
+  -
+    value: 'Start Month'
+    unitId: start_month
+  -
+    value: 'Current Leave Period'
+    unitId: current_leave_period
+  -
+    value: 'Following Year'
+    unitId: following_year
+  -
+    value: 'Work Week'
+    unitId: work_week
+  -
+    value: 'At least one day should be a working day'
+    unitId: at_least_one_day_should_be_a_working_day
+  -
+    value: 'Add Leave Entitlement'
+    unitId: add_leave_entitlement
+  -
+    value: 'Add to'
+    unitId: add_to
+  -
+    value: 'Individual Employee'
+    unitId: individual_employee
+  -
+    value: 'Multiple Employees'
+    unitId: multiple_employees
+  -
+    value: '{empMatchCount,plural, =0{Matches no employee} one{Matches (1) employee} other {matches (#) employees}}'
+    unitId: matches_emp_count_employees
+  -
+    value: 'No leave types defined'
+    unitId: no_leave_types_defined
+  -
+    value: 'Should be a number with upto 2 decimal places'
+    unitId: should_be_a_number_with_2_decimal_places
+  -
+    value: 'Edit Leave Entitlement'
+    unitId: edit_leave_entitlement
+  -
+    value: 'Entitlement'
+    unitId: entitlement
+  -
+    value: 'Used amount exceeds the current amount'
+    unitId: used_amount_exceeds_the_current_amount
+  -
+    value: 'Leave Entitlements'
+    unitId: leave_entitlements
+  -
+    value: 'My Leave Entitlements'
+    unitId: my_leave_entitlements
+  -
+    value: 'Is Entitlement Situational?'
+    unitId: is_entitlement_situational
+  -
+    value: 'Add Leave Type'
+    unitId: add_leave_type
+  -
+    value: 'Edit Leave Type'
+    unitId: edit_leave_type
+  -
+    value: 'Leave Types'
+    unitId: leave_types
+  -
+    value: 'Leave Entitlements and Usage Report'
+    unitId: leave_entitlement_and_usage_report
+  -
+    value: 'Generate For'
+    unitId: generate_for
+  -
+    value: 'Leave Type'
+    unitId: leave_type
+  -
+    value: 'Include Past Employees'
+    unitId: include_past_employees
+  -
+    value: 'My Leave Entitlements and Usage Report'
+    unitId: my_leave_entitlement_and_usage_report
+  -
+    value: 'Apply Leave'
+    unitId: apply_leave
+  -
+    value: 'No Leave Types with Leave Balance'
+    unitId: no_leave_types_with_leave_balance
+  -
+    value: 'Partial Days'
+    unitId: partial_days
+  -
+    value: 'Assign Leave'
+    unitId: assign_leave
+  -
+    value: 'Start Day'
+    unitId: start_day
+  -
+    value: 'End Day'
+    unitId: end_day
+  -
+    value: 'Assign'
+    unitId: assign
+  -
+    value: 'Leave List'
+    unitId: leave_list
+  -
+    value: 'Show Leave with Status'
+    unitId: show_leave_with_status
+  -
+    value: 'My Leave Request Details'
+    unitId: my_leave_request_details
+  -
+    value: 'Leave Request Details'
+    unitId: leave_request_details
+  -
+    value: 'My Leave List'
+    unitId: my_leave_list
+  -
+    value: 'Show Leave with Status'
+    unitId: show_leave_with_status
+  -
+    value: 'Updating Entitlement'
+    unitId: updating_entitlement
+  -
+    value: 'Matching Employees'
+    unitId: matching_employees
+  -
+    value: 'The selected leave entitlement will be applied to the following employees.'
+    unitId: selected_leave_entitlement_applied_to_following_employees
+  -
+    value: 'Old Entitlement'
+    unitId: old_entitlement
+  -
+    value: 'New Entitlement'
+    unitId: new_entitlement
+  -
+    value: 'Situational Leave'
+    unitId: situational_leave
+  -
+    value: "These leave will be excluded from reports unless there's some activity. E.g. maternity leave, jury duty leave."
+    unitId: entitlement_situational_description
+  -
+    value: 'Confirm Leave Assignment'
+    unitId: confirm_leave_assignment
+  -
+    value: 'Employee does not have sufficient leave balance for leave request.'
+    unitId: employee_does_not_have_enough_balance_for_leave_request
+  -
+    value: 'Click OK to confirm leave assignment.'
+    unitId: click_ok_to_confirm_leave_assignment
+  -
+    value: 'Existing Entitlement value {oldvalue} will be updated to {newvalue}'
+    unitId: entitlement_value_confirmation_message
+  -
+    value: 'Leave Balance'
+    unitId: leave_balance
+  -
+    value: 'Updating Entitlement'
+    unitId: updating_entitlement
+  -
+    value: 'Balance not sufficient'
+    unitId: balance_not_sufficient
+  -
+    value: 'Insufficient Leave Balance'
+    unitId: insufficient_leave_balance
+  -
+    value: 'Balance'
+    unitId: balance
+  -
+    value: 'Days'
+    unitId: days
+  -
+    value: 'Available Balance'
+    unitId: available_balance
+  -
+    value: 'Leave Balance Details'
+    unitId: leave_balance_details
+  -
+    value: 'As of Date'
+    unitId: as_of_date
+  -
+    value: 'Total Entitlement'
+    unitId: total_entitlement
+  -
+    value: 'Leave Status'
+    unitId: leave_status
+  -
+    value: 'Taken'
+    unitId: taken
+  -
+    value: 'Scheduled'
+    unitId: scheduled
+  -
+    value: 'Pending Approval'
+    unitId: pending_approval
+  -
+    value: '{action, select, APPROVE {{count, plural, =0 {You are about to Approve no Leave Requests} =1 {You are about to Approve 1 Leave Request} other {You are about to Approve # Leave Requests} }} REJECT {{count, plural, =0 {You are about to Reject no Leave Requests} =1 {You are about to Reject 1 Leave Request} other {You are about to Reject # Leave Requests} }} other {{count, plural, =0 {You are about to Cancel no Leave Requests} =1 {You are about to Cancel 1 Leave Request} other {You are about to Cancel # Leave Requests} }} }'
+    unitId: bulk_leave_action_confirm_message_one
+    note: 'Action might either be Approve, Reject or Cancel of a single/number of leave requests'
+  -
+    value: 'Are you sure you want to continue?'
+    unitId: bulk_leave_action_confirm_message_two
+  -
+    value: 'Yes, Confirm'
+    unitId: yes_confirm
+  -
+    value: 'Leave Request Comments'
+    unitId: leave_request_comments
+  -
+    value: 'No. of Hours'
+    unitId: no_of_hours
+  -
+    value: 'Workshift Length Exceeded Due To the Following Leave Requests'
+    unitId: workshift_length_exceeded_due_to_the_following_leave_request
+  -
+    value: 'Overlapping Leave Request(s) Found'
+    unitId: overlapping_leave_request_found
+  -
+    value: 'Duration should be less than work shift length'
+    unitId: duration_should_be_less_than_work_shift_length
+  -
+    value: 'Half Day - Morning'
+    unitId: half_day_morning
+  -
+    value: 'Half Day - Afternoon'
+    unitId: half_day_evening
+  -
+    value: 'Specify Time'
+    unitId: specify_time
+  -
+    value: 'Valid From'
+    unitId: valid_from
+  -
+    value: 'Valid To'
+    unitId: valid_to
+  -
+    value: "Entitlement(s) will not be deleted since it''s already in use"
+    unitId: entitlements_will_not_be_deleted_since_already_in_use
+  -
+    value: 'Number of Days'
+    unitId: number_of_days
+  -
+    value: 'Leave Balance (Days)'
+    unitId: leave_balance_days
+  -
+    value: 'View Leave Details'
+    unitId: view_leave_details
+  -
+    value: 'View PIM Info'
+    unitId: view_pim_info
+  -
+    value: 'Cancel Leave'
+    unitId: cancel_leave
+  -
+    value: '{action, select, APPROVE {{count, plural, =0 {No Leave Requests Approved} =1 {1 Leave Requests Approved} other {# Leave Requests Approved} }} REJECT {{count, plural, =0 {No Leave Requests Rejected} =1 {1 Leave Requests Rejected} other {# Leave Requests Rejected} }} other {{count, plural, =0 {No Leave Requests Cancelled} =1 {1 Leave Requests Cancelled} other {# Leave Requests Cancelled} }} }'
+    unitId: leave_requests_action
+    note: 'Action might either be Approve, Reject or Cancel of a single/number of leave requests'
+  -
+    value: '{action, select, APPROVE {Approve Leave} REJECT {Reject Leave} other {Cancel Leave}}'
+    unitId: leave_action
+  -
+    value: 'Failed to Submit'
+    unitId: failed_to_submit
+  -
+    value: 'Failed to Submit: No Working Days Selected'
+    unitId: failed_to_submit_no_working_days_selected
+  -
+    value: '{count, plural, =0{No Entitlement added} one{Entitlement added to 1 employee} other {Entitlement added to # employees}}'
+    unitId: entitlement_added_to_n_employees
+  -
+    value: 'Half Day'
+    unitId: half_day
+  -
+    value: 'Non-working Day'
+    unitId: non_working_day
+  -
+    value: 'Rejected'
+    unitId: rejected
+  -
+    value: 'Cancelled'
+    unitId: cancelled
+  -
+    value: 'Leave Entitlements (Days)'
+    unitId: leave_entitlements_days
+  -
+    value: 'Leave Pending Approval (Days)'
+    unitId: leave_pending_aproval_days
+  -
+    value: 'Leave Scheduled (Days)'
+    unitId: leave_scheduled_days
+  -
+    value: 'Leave Taken (Days)'
+    unitId: leave_taken_days
+  -
+    value: 'Leave Balance (Days)'
+    unitId: leave_balance_days
+  -
+    value: 'Leave requested for'
+    unitId: requested_for
+  -
+    value: 'All Days'
+    unitId: all_days
+  -
+    value: 'Start Day Only'
+    unitId: start_day_only
+  -
+    value: 'End Day Only'
+    unitId: end_day_only
+  -
+    value: 'Start and End Day'
+    unitId: start_and_end_day

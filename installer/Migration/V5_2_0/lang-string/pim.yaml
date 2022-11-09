@@ -1,0 +1,52 @@
+langStrings:
+  -
+    value: 'State Income Tax'
+    unitId: state_income_tax
+  -
+    value: 'Bi Weekly'
+    unitId: bi_weekly
+  -
+    value: 'Hourly'
+    unitId: hourly
+  -
+    value: 'Monthly'
+    unitId: monthly
+  -
+    value: 'Monthly on first pay of month'
+    unitId: monthly_on_first_pay
+  -
+    value: 'Semi Monthly'
+    unitId: semi_monthly
+  -
+    value: 'Weekly'
+    unitId: weekly
+  -
+    value: 'Savings'
+    unitId: savings
+  -
+    value: 'Checking'
+    unitId: checking
+  -
+    value: 'Add Supervisor'
+    unitId: add_supervisor
+  -
+    value: 'Add Subordinate'
+    unitId: add_subordinate
+  -
+    value: 'Username already exists'
+    unitId: username_already_exists
+  -
+    value: 'State Income Tax'
+    unitId: state_income_tax
+  -
+    value: '{count,plural, =0{No Records Imported} one{1 Record Successfully Imported} other{ # Records Successfully Imported}}'
+    unitId: n_records_successfully_imported
+  -
+    value: '{count,plural, =0{No Records Failed to Import} one{1 Record Failed to Import} other{ # Records Failed to Import}}'
+    unitId: n_records_failed_to_import
+  -
+    value: 'Failed Rows'
+    unitId: failed_rows
+  -
+    value: 'Import Details'
+    unitId: import_details

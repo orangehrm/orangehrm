@@ -1,0 +1,82 @@
+langStrings:
+  -
+    value: 'Login'
+    unitId: login
+  -
+    value: 'username'
+    unitId: username
+  -
+    value: 'password'
+    unitId: password
+  -
+    value: 'Credential Required'
+    unitId: credential_required
+  -
+    value: 'Administrator Access'
+    unitId: admin_access
+  -
+    value: 'You have requested to access a critical Administrator function in OrangeHRM and are required to validate your credentials below'
+    unitId: admin_access_note
+  -
+    value: 'Your password should not contain spaces.'
+    unitId: your_password_should_not_contain_spaces
+  -
+    value: 'Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password'
+    unitId: must_contain_lower_case_upper_case_digit_character_message
+  -
+    value: 'Should have at least 8 characters'
+    unitId: should_have_min_8_characters
+  -
+    value: 'Reset Password'
+    unitId: reset_password
+  -
+    value: 'Please enter your username to identify your account to reset your password'
+    unitId: username_identify_reset_note
+  -
+    value: 'Set a new Password'
+    unitId: set_new_password
+  -
+    value: 'New Password'
+    unitId: new_password
+  -
+    value: 'The user account cannot be found or the reset password token has expired'
+    unitId: reset_password_token_expired_note
+  -
+    value: 'to request a new password reset token'
+    unitId: request_new_password_token
+  -
+    value: 'Reset Password link sent successfully'
+    unitId: reset_password_link_sent_successfully
+  -
+    value: 'The OrangeHRM  system is not configured to receive email notifications. Please contact your OrangeHRM administrator to reset your password'
+    unitId: configured_receive_email_notification_note
+  -
+    value: 'to go back to login page'
+    unitId: back_to_login
+  -
+    value: 'A reset password link has been sent to you via email.'
+    unitId: reset_password_link_via_email
+  -
+    value: 'You can follow that link and select a new password.'
+    unitId: follow_link_to_select_password
+  -
+    value: 'If the email does not arrive, please contact your OrangeHRM Administrator.'
+    unitId: email_not_receive_note
+  -
+    value: 'Forgot Your Password'
+    unitId: forgot_password
+  -
+    value: 'Invalid credentials'
+    unitId: invalid_credentials
+  -
+    value: 'CSRF token validation failed'
+    unitId: csrf_token_validation_failed
+  -
+    value: 'Account disabled'
+    unitId: account_disabled
+  -
+    value: 'Employee is terminated'
+    unitId: employee_is_terminated
+  -
+    value: 'Employee not assigned'
+    unitId: employee_is_assigned

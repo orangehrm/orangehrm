@@ -1,0 +1,11 @@
+performance_tracker_log:
+  description: 'Performance - Tracker log'
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }

@@ -1,0 +1,37 @@
+apiv2_corporate_branding_theme:
+  path: /api/v2/admin/theme
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\CorporateBranding\Api\ThemeAPI
+    id: 0
+
+apiv2_corporate_branding_theme_preview:
+  path: /api/v2/admin/theme/preview
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\CorporateBranding\Api\PreviewThemeAPI
+
+##########################
+#        Files
+##########################
+
+corporate_branding_images:
+  path: /admin/theme/image/{imageName}
+  controller: OrangeHRM\CorporateBranding\Controller\File\ImageController::handle
+  methods: [ GET ]
+
+corporate_branding_attachments_image:
+  path: /admin/theme/attachments/image/{imageName}
+  controller: OrangeHRM\CorporateBranding\Controller\File\ImageAttachmentController::handle
+  methods: [ GET ]
+
+##########################
+#        Screens
+##########################
+
+admin_corporate_branding:
+  path: /admin/addTheme
+  controller: OrangeHRM\CorporateBranding\Controller\CorporateBrandingController::handle
+  methods: [ GET ]

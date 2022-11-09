@@ -1,0 +1,247 @@
+langStrings:
+  -
+    value: 'Add Job Title'
+    unitId: add_job_title
+  -
+    value: 'Edit Job Title'
+    unitId: edit_job_title
+  -
+    value: 'Job Titles'
+    unitId: job_titles
+  -
+    value: 'Locations'
+    unitId: locations
+  -
+    value: 'Number of Employees'
+    unitId: number_of_employees
+  -
+    value: 'Add Location'
+    unitId: add_location
+  -
+    value: 'Address'
+    unitId: address
+  -
+    value: 'Add Location'
+    unitId: add_location
+  -
+    value: 'Email Configuration'
+    unitId: email_configuration
+  -
+    value: 'Mail Sent As'
+    unitId: mail_sent_as
+  -
+    value: 'Sending Method'
+    unitId: sending_method
+  -
+    value: 'SECURE SMTP'
+    unitId: secure_smtp
+  -
+    value: 'SMTP'
+    unitId: smtp
+  -
+    value: 'Sendmail'
+    unitId: sendmail
+  -
+    value: 'Path to Sendmail'
+    unitId: path_to_sendmail
+  -
+    value: 'SMTP Host'
+    unitId: smtp_host
+  -
+    value: 'SMTP Port'
+    unitId: smtp_port
+  -
+    value: 'Use SMTP Authentication'
+    unitId: use_smtp_authentication
+  -
+    value: 'SMTP User'
+    unitId: smtp_user
+  -
+    value: 'SMTP Password'
+    unitId: smtp_password
+  -
+    value: 'TLS'
+    unitId: tls
+  -
+    value: 'Optional - the mail server requires the use of TLS security.'
+    unitId: optional_the_mail_server_requires_the_use_of_tls_security
+  -
+    value: 'Send Test Mail'
+    unitId: send_test_email
+  -
+    value: 'Test Email Address'
+    unitId: test_email_address
+  -
+    value: 'Subscribers'
+    unitId: subscribers
+  -
+    value: 'Edit Subscriber'
+    unitId: edit_subscriber
+  -
+    value: 'Email Subscriptions'
+    unitId: email_subscriptions
+  -
+    value: 'Notification Type'
+    unitId: notification_type
+  -
+    value: 'Add Subscriber'
+    unitId: add_subscriber
+  -
+    value: 'Edit Employment Status'
+    unitId: edit_employment_status
+  -
+    value: 'Add Employment Status'
+    unitId: add_employment_status
+  -
+    value: 'Job Description'
+    unitId: job_description
+  -
+    value: 'Edit Location'
+    unitId: edit_location
+  -
+    value: 'Module Configuration'
+    unitId: module_configuration
+  -
+    value: 'Admin Module'
+    unitId: admin_module
+  -
+    value: 'Pim Module'
+    unitId: pim_module
+  -
+    value: 'Leave Module'
+    unitId: leave_module
+  -
+    value: 'Time Module'
+    unitId: time_module
+  -
+    value: 'Recruitment Module'
+    unitId: recruitment_module
+  -
+    value: 'Performance Module'
+    unitId: performance_module
+  -
+    value: 'Maintenance Module'
+    unitId: maintenance_module
+  -
+    value: 'Edit Nationality'
+    unitId: edit_nationality
+  -
+    value: 'Nationalities'
+    unitId: nationalities
+  -
+    value: 'Add Nationality'
+    unitId: add_nationality
+  -
+    value: 'General Information'
+    unitId: general_information
+  -
+    value: 'Organization Name'
+    unitId: organization_name
+  -
+    value: 'Registration Number'
+    unitId: registration_number
+  -
+    value: 'Tax ID'
+    unitId: tax_id
+  -
+    value: 'Edit Organization Unit'
+    unitId: edit_organization_unit
+  -
+    value: 'Unit Id'
+    unitId: unit_id
+  -
+    value: 'Organization Structure'
+    unitId: organization_structure
+  -
+    value: 'Add Organization Unit'
+    unitId: add_organization_unit
+  -
+    value: 'This unit will be added under'
+    unitId: this_unit_will_be_added_under
+  -
+    value: 'Add Pay Grade'
+    unitId: add_pay_grade
+  -
+    value: 'Edit Currency'
+    unitId: edit_currency
+  -
+    value: 'Minimum Salary'
+    unitId: minimum_salary
+  -
+    value: 'Maximum Salary'
+    unitId: maximum_salary
+  -
+    value: 'Edit Pay Grade'
+    unitId: edit_pay_grade
+  -
+    value: 'Pay Grades'
+    unitId: pay_grades
+  -
+    value: 'Add Currency'
+    unitId: add_currency
+  -
+    value: 'Edit User'
+    unitId: edit_user
+  -
+    value: 'Add User'
+    unitId: add_user
+  -
+    value: 'Edit Work Shift'
+    unitId: edit_work_shift
+  -
+    value: 'Shift Name'
+    unitId: shift_name
+  -
+    value: 'Duration Per Day'
+    unitId: duration_per_day
+  -
+    value: 'Work Shifts'
+    unitId: work_shifts
+  -
+    value: 'Hours Per Day'
+    unitId: hours_per_day
+  -
+    value: 'Test Email Sent'
+    unitId: test_email_sent
+  -
+    value: 'Test Email Not Sent'
+    unitId: test_email_not_sent
+  -
+    value: 'Assigned Employees'
+    unitId: assigned_employees
+  -
+    value: 'Organization unit name should be unique'
+    unitId: organization_unit_name_should_be_unique
+  -
+    value: 'Should be higher than Minimum Salary'
+    unitId: should_be_higher_than_minimum_salary
+  -
+    value: 'Job Categories'
+    unitId: job_categories
+  -
+    value: 'Add Job Category'
+    unitId: add_job_category
+
+  - value: 'Edit Job Category'
+    unitId: edit_job_category
+  -
+    value: 'System Users'
+    unitId: system_users
+  -
+    value: 'Add Work Shift'
+    unitId: add_work_shift
+  -
+    value: 'Licenses'
+    unitId: licenses
+  -
+    value: 'Localization'
+    unitId: localization
+  -
+    value: 'Use Browser Language If Set'
+    unitId: use_browser_language_if_set
+  -
+    value: 'Date Format'
+    unitId: date_format
+  -
+    value: 'Working Hours'
+    unitId: working_hours

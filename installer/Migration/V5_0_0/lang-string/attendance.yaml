@@ -1,0 +1,61 @@
+langStrings:
+  -
+    value: 'Punched in time'
+    unitId: punched_in_time
+  -
+    value: 'Attendance Configuration'
+    unitId: attendance_configuration
+  -
+    value: 'Employee can change current time when punching in/out'
+    unitId: employee_can_change_current_time_when_punching_in_out
+  -
+    value: 'Employee can edit/delete own attendance records'
+    unitId: employee_can_edit_delete_own_attendance_records
+  -
+    value: 'Supervisor can add/edit/delete attendance records of subordinates'
+    unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates
+  -
+    value: 'Attendance Total Summary Report'
+    unitId: attendance_total_summary_report
+  -
+    value: 'Edit Attendance Records'
+    unitId: edit_attendance_records
+  -
+    value: 'Punch In'
+    unitId: punch_in
+  -
+    value: 'hh:mm'
+    unitId: hh_mm
+  -
+    value: 'Punch Out'
+    unitId: punch_out
+  -
+    value: 'Overlapping Records Found'
+    unitId: overlapping_records_found
+  -
+    value: 'Punch In Note'
+    unitId: punch_in_note
+  -
+    value: 'Punch Out Note'
+    unitId: punch_out_note
+  -
+    value: 'Duration (Hours)'
+    unitId: duration_hours
+  -
+    value: 'Employee Attendance Records'
+    unitId: employee_attendance_records
+  -
+    value: 'My Attendance Records'
+    unitId: my_attendance_records
+  -
+    value: 'Timezone'
+    unitId: timezone
+  -
+    value: 'Punched In Note'
+    unitId: punched_in_note
+  -
+    value: 'In'
+    unitId: in
+  -
+    value: 'Out'
+    unitId: out

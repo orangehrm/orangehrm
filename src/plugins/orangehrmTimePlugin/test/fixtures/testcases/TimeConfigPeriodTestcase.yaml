@@ -1,0 +1,36 @@
+GetOne:
+  'Time sheet period':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body: [ ]
+    query: [ ]
+    data:
+      startDay: '1'
+    meta: [ ]
+
+Update:
+  'Timesheet period update':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.menu_service: \OrangeHRM\Core\Service\MenuService
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Time\Api\TimeConfigPeriodAPITest', 'getOnePreHook' ]
+    body:
+      startDay: 2
+    query: [ ]
+    data:
+      startDay: '2'
+    meta: [ ]
+
+  'Timesheet period update when already defined':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      core.menu_service: \OrangeHRM\Core\Service\MenuService
+    body:
+      startDay: 2
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Already defined'

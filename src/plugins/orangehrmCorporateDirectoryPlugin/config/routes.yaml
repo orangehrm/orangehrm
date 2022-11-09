@@ -1,0 +1,25 @@
+apiv2_corporate_directory_employee:
+  path: /api/v2/directory/employees/{empNumber}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
+apiv2_corporate_directory_employees:
+  path: /api/v2/directory/employees
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\CorporateDirectory\Api\EmployeeDirectoryAPI
+
+##########################
+#        Screens
+##########################
+
+corporate_directory_module:
+  path: /directory/viewDirectory
+  controller: OrangeHRM\CorporateDirectory\Controller\CorporateDirectoryModuleController::handle
+  methods: [ GET ]

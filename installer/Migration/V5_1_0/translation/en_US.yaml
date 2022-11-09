@@ -1,0 +1,115 @@
+translations:
+    - { target: 'Add Review', unitId: add_review, group: performance }
+    - { target: April, unitId: april, group: general }
+    - { target: August, unitId: august, group: general }
+    - { target: 'Current Status', unitId: current_status, group: recruitment }
+    - { target: December, unitId: december, group: general }
+    - { target: Delete, unitId: delete, group: performance }
+    - { target: February, unitId: february, group: general }
+    - { target: Friday, unitId: friday, group: general }
+    - { target: 'Full Name', unitId: full_name, group: general }
+    - { target: January, unitId: january, group: general }
+    - { target: July, unitId: july, group: general }
+    - { target: June, unitId: june, group: general }
+    - { target: March, unitId: march, group: general }
+    - { target: May, unitId: may, group: general }
+    - { target: Monday, unitId: monday, group: general }
+    - { target: November, unitId: november, group: general }
+    - { target: October, unitId: october, group: general }
+    - { target: Saturday, unitId: saturday, group: general }
+    - { target: September, unitId: september, group: general }
+    - { target: Sunday, unitId: sunday, group: general }
+    - { target: Thursday, unitId: thursday, group: general }
+    - { target: Tuesday, unitId: tuesday, group: general }
+    - { target: Wednesday, unitId: wednesday, group: general }
+    - { target: Invalid, unitId: invalid, group: general }
+    - { target: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', unitId: accept_custom_format_file, group: general }
+    - { target: Keywords, unitId: keywords, group: recruitment }
+    - { target: Resume, unitId: resume, group: recruitment }
+    - { target: 'Performance Trackers', unitId: performance_trackers, group: performance }
+    - { target: 'Add Performance Tracker', unitId: add_performance_tracker, group: performance }
+    - { target: Log, unitId: log, group: performance }
+    - { target: Reviewer, unitId: reviewer, group: performance }
+    - { target: 'Added Date', unitId: added_date, group: performance }
+    - { target: 'Modified Date', unitId: modified_date, group: performance }
+    - { target: 'Employee cannot be assigned as his own reviewer', unitId: employee_cannot_be_assigned_as_his_own_reviewer, group: performance }
+    - { target: Tracker, unitId: tracker, group: performance }
+    - { target: 'Tracker Name', unitId: tracker_name, group: performance }
+    - { target: Fri, unitId: fri, group: general }
+    - { target: Mon, unitId: mon, group: general }
+    - { target: Sat, unitId: sat, group: general }
+    - { target: Sun, unitId: sun, group: general }
+    - { target: Thu, unitId: thu, group: general }
+    - { target: Tue, unitId: tue, group: general }
+    - { target: Wed, unitId: wed, group: general }
+    - { target: Max, unitId: max, group: performance }
+    - { target: Min, unitId: min, group: performance }
+    - { target: Active, unitId: active, group: general }
+    - { target: 'Add Candidate', unitId: add_candidate, group: recruitment }
+    - { target: 'Application Initiated', unitId: application_initiated, group: recruitment }
+    - { target: Candidate, unitId: candidate, group: recruitment }
+    - { target: 'Candidate Name', unitId: candidate_name, group: recruitment }
+    - { target: Closed, unitId: closed, group: general }
+    - { target: 'Date of Application', unitId: date_of_application, group: recruitment }
+    - { target: 'Decline Offer', unitId: decline_offer, group: recruitment }
+    - { target: Hire, unitId: hire, group: recruitment }
+    - { target: Hired, unitId: hired, group: recruitment }
+    - { target: 'Hiring Manager', unitId: hiring_manager, group: recruitment }
+    - { target: 'Interview Failed', unitId: interview_failed, group: recruitment }
+    - { target: 'Interview Passed', unitId: interview_passed, group: recruitment }
+    - { target: 'Interview Scheduled', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Interview Title', unitId: interview_title, group: recruitment }
+    - { target: 'Job Offered', unitId: job_offered, group: recruitment }
+    - { target: 'Job Vacancy', unitId: job_vacancy, group: recruitment }
+    - { target: Manual, unitId: manual, group: recruitment }
+    - { target: 'Mark Interview Failed', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Mark Interview Passed', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Method of Application', unitId: method_of_application, group: recruitment }
+    - { target: 'Number of Positions', unitId: num_of_positions, group: recruitment }
+    - { target: 'Offer Declined', unitId: offer_declined, group: recruitment }
+    - { target: Online, unitId: online, group: recruitment }
+    - { target: 'Performed Action', unitId: performed_action, group: recruitment }
+    - { target: 'Performed Date', unitId: performed_date, group: recruitment }
+    - { target: 'RSS Feed URL', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Schedule Interview', unitId: schedule_interview, group: recruitment }
+    - { target: Shortlist, unitId: shortlist, group: recruitment }
+    - { target: Shortlisted, unitId: shortlisted, group: recruitment }
+    - { target: Vacancy, unitId: vacancy, group: recruitment }
+    - { target: 'Vacancy Name', unitId: vacancy_name, group: recruitment }
+    - { target: 'View Action History', unitId: view_action_history, group: recruitment }
+    - { target: 'Web Page URL', unitId: web_page_url, group: recruitment }
+    - { target: 'Application Received', unitId: application_received, group: recruitment }
+    - { target: KPI, unitId: kpi, group: performance }
+    - { target: 'Due Date', unitId: due_date, group: performance }
+    - { target: 'Review Period', unitId: review_period, group: performance }
+    - { target: 'Review Status', unitId: review_status, group: performance }
+    - { target: 'Performance Review', unitId: performance_review, group: performance }
+    - { target: Activate, unitId: activate, group: performance }
+    - { target: Evaluate, unitId: evaluate, group: performance }
+    - { target: 'Key Performance Indicator', unitId: key_performance_indicator, group: performance }
+    - { target: 'Min Rate', unitId: min_rate, group: performance }
+    - { target: 'Max Rate', unitId: max_rate, group: performance }
+    - { target: 'Is Default', unitId: is_default, group: performance }
+    - { target: 'Review Due Date', unitId: review_due_date, group: performance }
+    - { target: 'Final Rating', unitId: final_rating, group: performance }
+    - { target: Complete, unitId: complete, group: performance }
+    - { target: Rating, unitId: rating, group: performance }
+    - { target: 'Key Performance Indicators for Job Title', unitId: key_performance_indicators_for_job_title, group: performance }
+    - { target: 'Minimum Rating', unitId: minimum_rating, group: performance }
+    - { target: 'Maximum Rating', unitId: maximum_rating, group: performance }
+    - { target: 'Make Default Scale', unitId: make_default_scale, group: performance }
+    - { target: Inactive, unitId: inactive, group: performance }
+    - { target: Activated, unitId: activated, group: performance }
+    - { target: 'Cannot activate review without KPIs', unitId: cannot_activate_review_without_kpi, group: performance }
+    - { target: 'Cannot activate review for employees who doesn''t have Job Title and/or Sub-Division', unitId: cannot_activate_review_without_job_title_subdivision, group: performance }
+    - { target: 'In Progress', unitId: in_progress, group: performance }
+    - { target: Completed, unitId: completed, group: performance }
+    - { target: 'Supervisor Reviewer', unitId: supervisor_reviewer, group: performance }
+    - { target: 'Purge Candidate Records', unitId: purge_candidate_records, group: maintenance }
+    - { target: 'Selected Candidates', unitId: selected_candidates, group: maintenance }
+    - { target: 'Contact Number', unitId: contact_number, group: recruitment }
+    - { target: 'Consent to keep data', unitId: consent_to_keep_data, group: recruitment }
+    - { target: Translate, unitId: translate, group: admin }
+    - { target: 'Add Language Package', unitId: add_language_package, group: admin }
+    - { target: 'Users will require translate texts manually after creating the language package.', unitId: translate_text_manually, group: admin }
+    - { target: Export, unitId: export, group: admin }

@@ -1,0 +1,5 @@
+node_modules
+*.log
+cypress/screenshots
+cypress/fixtures/admin.json
+cypress.json

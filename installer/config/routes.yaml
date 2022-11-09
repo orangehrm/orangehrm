@@ -1,0 +1,197 @@
+installer_home:
+  path: /
+  controller: OrangeHRM\Installer\Controller\HomeController::handle
+  methods: [ GET ]
+
+installer_welcome:
+  path: /welcome
+  controller: OrangeHRM\Installer\Controller\WelcomeController::handle
+  methods: [ GET ]
+
+upgrader_database_config:
+  path: /upgrader/database-config
+  controller: OrangeHRM\Installer\Controller\Upgrader\DatabaseConfigurationController::handle
+  methods: [ GET ]
+
+upgrader_system_check:
+  path: /upgrader/system-check
+  controller: OrangeHRM\Installer\Controller\Upgrader\SystemCheckController::handle
+  methods: [ GET ]
+
+upgrader_current_version:
+  path: /upgrader/current-version
+  controller: OrangeHRM\Installer\Controller\Upgrader\CurrentVersionDetailsController::handle
+  methods: [ GET ]
+
+upgrader_complete:
+  path: /upgrader/complete
+  controller: OrangeHRM\Installer\Controller\Upgrader\UpgraderCompleteController::handle
+  methods: [ GET ]
+
+upgrader_process:
+  path: /upgrader/process
+  controller: OrangeHRM\Installer\Controller\Upgrader\UpgraderController::handle
+  methods: [ GET ]
+
+installer_database_config:
+  path: /installer/database-config
+  controller: OrangeHRM\Installer\Controller\Installer\DatabaseConfigController::handle
+  methods: [ GET ]
+
+installer_system_check:
+  path: /installer/system-check
+  controller: OrangeHRM\Installer\Controller\Installer\SystemCheckController::handle
+  methods: [ GET ]
+
+installer_instance_creation:
+  path: /installer/instance-creation
+  controller: OrangeHRM\Installer\Controller\Installer\InstanceCreationController::handle
+  methods: [ GET ]
+
+installer_admin_user_creation:
+  path: /installer/admin-user-creation
+  controller: OrangeHRM\Installer\Controller\Installer\AdminUserCreationController::handle
+  methods: [ GET ]
+
+installer_licence_acceptance:
+  path: /installer/licence-acceptance
+  controller: OrangeHRM\Installer\Controller\Installer\LicenceAcceptanceController::handle
+  methods: [ GET ]
+
+installer_process:
+  path: /installer/process
+  controller: OrangeHRM\Installer\Controller\Installer\InstallerController::handle
+  methods: [ GET ]
+
+installer_confirmation:
+  path: /installer/confirmation
+  controller: OrangeHRM\Installer\Controller\Installer\ConfirmationController::handle
+  methods: [ GET ]
+
+installer_complete:
+  path: /installer/complete
+  controller: OrangeHRM\Installer\Controller\Installer\InstallerCompleteController::handle
+  methods: [ GET ]
+
+#####################################
+#        APIs - Upgrader
+#####################################
+
+api_upgrader_database_config:
+  path: /upgrader/api/database-config
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\DatabaseConfigAPI::handle
+  methods: [ GET, POST ]
+
+api_upgrader_migration:
+  path: /upgrader/api/migration
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\MigrationAPI::handle
+  methods: [ GET, POST ]
+
+api_upgrader_write_config:
+  path: /upgrader/api/config-file
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\ConfigFileAPI::handle
+  methods: [ POST ]
+
+api_upgrader_versions:
+  path: /upgrader/api/versions
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\VersionAPI::handle
+  methods: [ GET ]
+
+api_upgrader_current_version:
+  path: /upgrader/api/current-version
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\CurrentVersionAPI::handle
+  methods: [ GET, POST ]
+
+api_upgrader_system_check:
+  path: /upgrader/api/system-check
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\SystemCheckAPI::handle
+  methods: [ GET ]
+
+api_upgrader_start_registration:
+  path: /upgrader/api/send-data/upgrader-start
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\UpgraderDataRegistrationAPI::handle
+  methods: [ POST ]
+
+#####################################
+#        APIs - Installer
+#####################################
+
+api_installer_database_config:
+  path: /installer/api/database-config
+  controller: OrangeHRM\Installer\Controller\Installer\Api\DatabaseConfigAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_system_check:
+  path: /installer/api/system-check
+  controller: OrangeHRM\Installer\Controller\Installer\Api\SystemCheckAPI::handle
+  methods: [ GET ]
+
+api_installer_license:
+  path: /installer/api/license
+  controller: OrangeHRM\Installer\Controller\Installer\Api\LicenseFileAPI::handle
+  methods: [ GET ]
+
+api_installer_countries:
+  path: /installer/api/countries
+  controller: OrangeHRM\Installer\Controller\Installer\Api\CountryAPI::handle
+  methods: [ GET ]
+
+api_installer_languages:
+  path: /installer/api/languages
+  controller: OrangeHRM\Installer\Controller\Installer\Api\LanguageAPI::handle
+  methods: [ GET ]
+
+api_installer_timezones:
+  path: /installer/api/timezones
+  controller: OrangeHRM\Installer\Controller\Installer\Api\TimezoneAPI::handle
+  methods: [ GET ]
+
+api_installer_instance:
+  path: /installer/api/instance
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstanceAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_admin_user:
+  path: /installer/api/admin-user
+  controller: OrangeHRM\Installer\Controller\Installer\Api\AdminUserAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_versions:
+  path: /installer/api/versions
+  controller: OrangeHRM\Installer\Controller\Installer\Api\VersionAPI::handle
+  methods: [ GET ]
+
+api_installer_database:
+  path: /installer/api/installation/database
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabaseAPI::handle
+  methods: [ POST ]
+
+api_installer_migration:
+  path: /installer/api/installation/migration
+  controller: OrangeHRM\Installer\Controller\Installer\Api\MigrationAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_instance_creation:
+  path: /installer/api/installation/instance
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationInstanceAPI::handle
+  methods: [ POST ]
+
+api_installer_database_user:
+  path: /installer/api/installation/database-user
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabaseUserAPI::handle
+  methods: [ POST ]
+
+api_installer_write_config:
+  path: /installer/api/installation/config-file
+  controller: OrangeHRM\Installer\Controller\Installer\Api\ConfigFileAPI::handle
+  methods: [ POST ]
+
+api_installer_start_registration:
+  path: /installer/api/send-data/installer-start
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallerDataRegistrationAPI::handle
+  methods: [ POST ]
+
+api_installer_clean_up_install:
+  path: /installer/api/clean-up-install
+  controller: OrangeHRM\Installer\Controller\Installer\Api\CleanUpInstallAPI::handle
+  methods: [ POST ]

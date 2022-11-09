@@ -1,0 +1,62 @@
+# ohrm_i18n_group
+groups:
+  -
+    id: 1
+    name: "general"
+    title: "General"
+  -
+    id: 2
+    name: "admin"
+    title: "Admin"
+  -
+    id: 3
+    name: "pim"
+    title: "PIM"
+  -
+    id: 4
+    name: "leave"
+    title: "Leave"
+  -
+    id: 5
+    name: "time"
+    title: "Time"
+  -
+    id: 6
+    name: "recruitment"
+    title: "Recruitment"
+  -
+    id: 7
+    name: "performance"
+    title: "Performance"
+  -
+    id: 8
+    name: "dashboard"
+    title: "Dashboard"
+  -
+    id: 9
+    name: "directory"
+    title: "Directory"
+  -
+    id: 10
+    name: "maintenance"
+    title: "Maintenance"
+  -
+    id: 11
+    name: "buzz"
+    title: "Buzz"
+  -
+    id: 12
+    name: "marketplace"
+    title: "Marketplace"
+  -
+    id: 13
+    name: "mobile"
+    title: "Mobile"
+  -
+    id: 14
+    name: "help"
+    title: "Help"
+  -
+    id: 15
+    name: "branding"
+    title: "Corporate Branding"

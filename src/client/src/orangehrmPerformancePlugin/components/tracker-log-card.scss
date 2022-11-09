@@ -1,0 +1,121 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-employee-tracker-log {
+  display: flex;
+  flex-direction: row;
+
+  & img {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    display: flex;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 0.1rem solid $oxd-background-pastel-white-color;
+  }
+
+  &-image-section {
+    display: flex;
+  }
+
+  &-content-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
+  }
+
+  &-content-container {
+    background-color: $oxd-white-color;
+    border-radius: 1.2rem;
+    padding: 1.2rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.6rem;
+    align-items: flex-start;
+  }
+
+  &-title {
+    display: flex;
+    @include oxd-respond-to('xs') {
+      flex-direction: column;
+    }
+    @include oxd-respond-to('sm') {
+      flex-direction: row;
+      padding-right: 2.4rem;
+    }
+
+    &-text {
+      font-weight: 700;
+      font-size: 21px;
+      padding-right: 0.6rem;
+    }
+
+    &-icon {
+      min-width: 21px;
+      min-height: 21px;
+
+      &.--positive {
+        color: $oxd-feedback-success-color;
+      }
+
+      &.--negative {
+        color: $oxd-feedback-danger-color;
+      }
+    }
+  }
+
+  &-body-text {
+    font-size: 12px;
+  }
+
+  &-reviewer {
+    display: flex;
+
+    &-name {
+      font-weight: 700;
+      margin-left: 1.2rem;
+      font-size: 14px;
+    }
+
+    &-date {
+      display: flex;
+      flex-direction: column;
+      margin-top: 0.3rem;
+      margin-left: 1.2rem;
+      font-size: 12px;
+
+      &-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      &-icon {
+        margin-right: 0.3rem;
+      }
+    }
+  }
+}

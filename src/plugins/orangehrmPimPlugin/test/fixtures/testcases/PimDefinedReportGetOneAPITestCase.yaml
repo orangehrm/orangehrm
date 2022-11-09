@@ -1,0 +1,96 @@
+GetOne:
+  'education and paygrade':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    attributes:
+      id: 1
+    body: [ ]
+    query: [ ]
+    data:
+      id: 1
+      name: 'PIM Sample Report'
+      include: 'onlyCurrent'
+      criteria:
+        1:
+          x:
+            id: 1
+            label: 'PhD'
+          y: ''
+          operator: 'eq'
+        3:
+          x:
+            id: 1
+            label: 'Pay Grade 1'
+          y: null
+          operator: 'eq'
+      fieldGroup:
+        1:
+          fields: [ 1,2,3 ]
+          includeHeader: true
+        2:
+          fields: [ 4,5 ]
+          includeHeader: true
+    meta: [ ]
+
+  'employee name, status, jobtitle, language, skill, sub unit and location':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      id: 2
+    body: [ ]
+    query: [ ]
+    data:
+      id: 2
+      name: 'PIM Employee Report'
+      include: 'onlyCurrent'
+      criteria:
+        4:
+          x:
+            id: 1
+            label: 'Odis  Adalwin'
+            isPastEmployee: false
+          y: null
+          operator: 'eq'
+        5:
+          x:
+            id: 1
+            label: 'Full Time'
+          y: null
+          operator: 'eq'
+        6:
+          x:
+            id: 1
+            label: 'Software Architect'
+          y: null
+          operator: 'eq'
+        7:
+          x:
+            id: 1
+            label: 'English'
+          y: null
+          operator: 'eq'
+        8:
+          x:
+            id: 1
+            label: 'Driving'
+          y: null
+          operator: 'eq'
+        9:
+          x:
+            id: 1
+            label: 'Organization'
+          y: null
+          operator: 'eq'
+        10:
+          x:
+            id: 1
+            label: 'Head'
+          y: null
+          operator: 'eq'
+      fieldGroup:
+        1:
+          fields: [ 1,2,3 ]
+          includeHeader: false
+    meta: [ ]

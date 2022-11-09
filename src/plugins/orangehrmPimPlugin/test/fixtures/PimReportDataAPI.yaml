@@ -1,0 +1,519 @@
+# Depends on;
+# src/test/phpunit/fixtures/Country.yaml
+# src/test/phpunit/fixtures/Nationality.yaml
+# src/test/phpunit/fixtures/ReportGroup.yaml
+# src/test/phpunit/fixtures/FilterField.yaml
+# src/test/phpunit/fixtures/DisplayField.yaml
+
+Report:
+  - { report_id: 5, name: 'PIM Sample Report', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 6, name: 'Display Fields - Personal', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 7, name: 'Display Fields - Contact Details', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 8, name: 'Display Fields - Emergency Contacts', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 9, name: 'Display Fields - Dependents', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 10, name: 'Display Fields - Immigration', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 11, name: 'Display Fields - Job', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 12, name: 'Display Fields - Salary', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 13, name: 'Display Fields - Subordinates', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 14, name: 'Display Fields - Supervisors', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 15, name: 'Display Fields - Work Experience', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 16, name: 'Display Fields - Education', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 17, name: 'Display Fields - Skills', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 18, name: 'Display Fields - Languages', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 19, name: 'Display Fields - License', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 20, name: 'Display Fields - Memberships', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 21, name: 'Display Fields - Custom Fields', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 22, name: 'Filter Fields - employee_name', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 23, name: 'Filter Fields - pay_grade', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 24, name: 'Filter Fields - education', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 25, name: 'Filter Fields - employment_status', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 26, name: 'Filter Fields - job_title', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 27, name: 'Filter Fields - language', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 28, name: 'Filter Fields - skill', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 29, name: 'Filter Fields - gender - Male', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 30, name: 'Filter Fields - gender - Female', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 31, name: 'Filter Fields - sub_unit - Top level', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 32, name: 'Filter Fields - sub_unit - Leave level', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 33, name: 'Filter Fields - sub_unit - All', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 34, name: 'Filter Fields - include - Only Current', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 35, name: 'Filter Fields - include - Only Past', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 36, name: 'Filter Fields - include - Current & Past', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 37, name: 'Filter Fields - joined_date - Less than', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 38, name: 'Filter Fields - joined_date - Greater than', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 39, name: 'Filter Fields - joined_date - Between', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 40, name: 'Filter Fields - age_group - Less than', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 41, name: 'Filter Fields - age_group - Greater than', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 42, name: 'Filter Fields - age_group - Between', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 43, name: 'Filter Fields - service_period - Less than', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 44, name: 'Filter Fields - service_period - Greater than', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 45, name: 'Filter Fields - service_period - Between', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 46, name: 'Filter Fields - location - By country', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 47, name: 'Filter Fields - location - By list of locations', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+  - { report_id: 48, name: 'Filter Fields - location - By specific location', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
+
+SelectedFilterField:
+  - { report_id: 5, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNull', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 22, filter_field_id: 8, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 23, filter_field_id: 9, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 24, filter_field_id: 10, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 25, filter_field_id: 11, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 26, filter_field_id: 14, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 27, filter_field_id: 15, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 28, filter_field_id: 16, value1: 2, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 29, filter_field_id: 19, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 30, filter_field_id: 19, value1: 2, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 31, filter_field_id: 18, value1: '2,5', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 32, filter_field_id: 18, value1: '3', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 33, filter_field_id: 18, value1: '0', value2: null, where_condition: null, type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 34, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNull', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 35, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNotNull', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 36, filter_field_id: 22, value1: null, value2: null, where_condition: null, type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 37, filter_field_id: 13, value1: '2016-10-18', value2: null, where_condition: 'lt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 38, filter_field_id: 13, value1: '2017-10-18', value2: null, where_condition: 'gt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 39, filter_field_id: 13, value1: '2015-10-18', value2: '2020-01-01', where_condition: 'between', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 40, filter_field_id: 17, value1: 27, value2: null, where_condition: 'lt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 41, filter_field_id: 17, value1: 28, value2: null, where_condition: 'gt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 42, filter_field_id: 17, value1: 20, value2: 27, where_condition: 'between', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 43, filter_field_id: 12, value1: 4, value2: null, where_condition: 'lt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 44, filter_field_id: 12, value1: 6, value2: null, where_condition: 'gt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 45, filter_field_id: 12, value1: 3, value2: 7, where_condition: 'between', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 46, filter_field_id: 20, value1: '1,2,-1', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 47, filter_field_id: 20, value1: '1,2,3', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 48, filter_field_id: 20, value1: '3', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+
+SelectedDisplayField:
+  - { report_id: 5 , display_field_id: 9 }
+  - { report_id: 5, display_field_id: 10 }
+  - { report_id: 5, display_field_id: 11 }
+  - { report_id: 5, display_field_id: 12 }
+  - { report_id: 6, display_field_id: 9 }
+  - { report_id: 6, display_field_id: 10 }
+  - { report_id: 6, display_field_id: 11 }
+  - { report_id: 6, display_field_id: 12 }
+  - { report_id: 6, display_field_id: 13 }
+  - { report_id: 6, display_field_id: 14 }
+  - { report_id: 6, display_field_id: 15 }
+  - { report_id: 6, display_field_id: 17 }
+  - { report_id: 6, display_field_id: 18 }
+  - { report_id: 6, display_field_id: 19 }
+  - { report_id: 6, display_field_id: 97 }
+  - { report_id: 7, display_field_id: 9 }
+  - { report_id: 7, display_field_id: 20 }
+  - { report_id: 7, display_field_id: 21 }
+  - { report_id: 7, display_field_id: 22 }
+  - { report_id: 7, display_field_id: 23 }
+  - { report_id: 7, display_field_id: 24 }
+  - { report_id: 7, display_field_id: 25 }
+  - { report_id: 8, display_field_id: 9 }
+  - { report_id: 8, display_field_id: 26 }
+  - { report_id: 8, display_field_id: 27 }
+  - { report_id: 8, display_field_id: 28 }
+  - { report_id: 8, display_field_id: 29 }
+  - { report_id: 8, display_field_id: 30 }
+  - { report_id: 8, display_field_id: 98 }
+  - { report_id: 9, display_field_id: 9 }
+  - { report_id: 9, display_field_id: 31 }
+  - { report_id: 9, display_field_id: 32 }
+  - { report_id: 9, display_field_id: 33 }
+  - { report_id: 9, display_field_id: 99 }
+  - { report_id: 10, display_field_id: 9 }
+  - { report_id: 10, display_field_id: 84 }
+  - { report_id: 10, display_field_id: 85 }
+  - { report_id: 10, display_field_id: 86 }
+  - { report_id: 10, display_field_id: 87 }
+  - { report_id: 10, display_field_id: 88 }
+  - { report_id: 10, display_field_id: 89 }
+  - { report_id: 10, display_field_id: 90 }
+  - { report_id: 10, display_field_id: 95 }
+  - { report_id: 11, display_field_id: 9 }
+  - { report_id: 11, display_field_id: 75 }
+  - { report_id: 11, display_field_id: 76 }
+  - { report_id: 11, display_field_id: 77 }
+  - { report_id: 11, display_field_id: 78 }
+  - { report_id: 11, display_field_id: 80 }
+  - { report_id: 11, display_field_id: 81 }
+  - { report_id: 11, display_field_id: 82 }
+  - { report_id: 11, display_field_id: 83 }
+  - { report_id: 11, display_field_id: 113 }
+  - { report_id: 11, display_field_id: 114 }
+  - { report_id: 11, display_field_id: 120 }
+  - { report_id: 12, display_field_id: 9 }
+  - { report_id: 12, display_field_id: 65 }
+  - { report_id: 12, display_field_id: 66 }
+  - { report_id: 12, display_field_id: 67 }
+  - { report_id: 12, display_field_id: 68 }
+  - { report_id: 12, display_field_id: 69 }
+  - { report_id: 12, display_field_id: 70 }
+  - { report_id: 12, display_field_id: 71 }
+  - { report_id: 12, display_field_id: 72 }
+  - { report_id: 12, display_field_id: 73 }
+  - { report_id: 12, display_field_id: 74 }
+  - { report_id: 12, display_field_id: 101 }
+  - { report_id: 13, display_field_id: 9 }
+  - { report_id: 13, display_field_id: 63 }
+  - { report_id: 13, display_field_id: 91 }
+  - { report_id: 13, display_field_id: 94 }
+  - { report_id: 13, display_field_id: 102 }
+  - { report_id: 14, display_field_id: 9 }
+  - { report_id: 14, display_field_id: 62 }
+  - { report_id: 14, display_field_id: 64 }
+  - { report_id: 14, display_field_id: 93 }
+  - { report_id: 14, display_field_id: 103 }
+  - { report_id: 15, display_field_id: 9 }
+  - { report_id: 15, display_field_id: 41 }
+  - { report_id: 15, display_field_id: 42 }
+  - { report_id: 15, display_field_id: 43 }
+  - { report_id: 15, display_field_id: 44 }
+  - { report_id: 15, display_field_id: 45 }
+  - { report_id: 15, display_field_id: 104 }
+  - { report_id: 15, display_field_id: 112 }
+  - { report_id: 16, display_field_id: 9 }
+  - { report_id: 16, display_field_id: 47 }
+  - { report_id: 16, display_field_id: 48 }
+  - { report_id: 16, display_field_id: 49 }
+  - { report_id: 16, display_field_id: 105 }
+  - { report_id: 16, display_field_id: 115 }
+  - { report_id: 16, display_field_id: 116 }
+  - { report_id: 16, display_field_id: 117 }
+  - { report_id: 16, display_field_id: 118 }
+  - { report_id: 17, display_field_id: 9 }
+  - { report_id: 17, display_field_id: 52 }
+  - { report_id: 17, display_field_id: 53 }
+  - { report_id: 17, display_field_id: 54 }
+  - { report_id: 17, display_field_id: 106 }
+  - { report_id: 18, display_field_id: 9 }
+  - { report_id: 18, display_field_id: 55 }
+  - { report_id: 18, display_field_id: 57 }
+  - { report_id: 18, display_field_id: 58 }
+  - { report_id: 18, display_field_id: 92 }
+  - { report_id: 18, display_field_id: 107 }
+  - { report_id: 18, display_field_id: 108 }
+  - { report_id: 19, display_field_id: 9 }
+  - { report_id: 19, display_field_id: 59 }
+  - { report_id: 19, display_field_id: 60 }
+  - { report_id: 19, display_field_id: 61 }
+  - { report_id: 19, display_field_id: 109 }
+  - { report_id: 19, display_field_id: 119 }
+  - { report_id: 20, display_field_id: 9 }
+  - { report_id: 20, display_field_id: 35 }
+  - { report_id: 20, display_field_id: 36 }
+  - { report_id: 20, display_field_id: 37 }
+  - { report_id: 20, display_field_id: 38 }
+  - { report_id: 20, display_field_id: 39 }
+  - { report_id: 20, display_field_id: 40 }
+  - { report_id: 20, display_field_id: 110 }
+  - { report_id: 22, display_field_id: 9 }
+  - { report_id: 22, display_field_id: 10 }
+  - { report_id: 22, display_field_id: 11 }
+  - { report_id: 22, display_field_id: 12 }
+  - { report_id: 23, display_field_id: 9 }
+  - { report_id: 23, display_field_id: 10 }
+  - { report_id: 23, display_field_id: 11 }
+  - { report_id: 23, display_field_id: 12 }
+  - { report_id: 23, display_field_id: 65 }
+  - { report_id: 24, display_field_id: 9 }
+  - { report_id: 24, display_field_id: 10 }
+  - { report_id: 24, display_field_id: 11 }
+  - { report_id: 24, display_field_id: 12 }
+  - { report_id: 24, display_field_id: 47 }
+  - { report_id: 25, display_field_id: 9 }
+  - { report_id: 25, display_field_id: 10 }
+  - { report_id: 25, display_field_id: 11 }
+  - { report_id: 25, display_field_id: 12 }
+  - { report_id: 25, display_field_id: 78 }
+  - { report_id: 26, display_field_id: 9 }
+  - { report_id: 26, display_field_id: 10 }
+  - { report_id: 26, display_field_id: 11 }
+  - { report_id: 26, display_field_id: 12 }
+  - { report_id: 26, display_field_id: 77 }
+  - { report_id: 27, display_field_id: 9 }
+  - { report_id: 27, display_field_id: 10 }
+  - { report_id: 27, display_field_id: 11 }
+  - { report_id: 27, display_field_id: 12 }
+  - { report_id: 27, display_field_id: 55 }
+  - { report_id: 28, display_field_id: 9 }
+  - { report_id: 28, display_field_id: 10 }
+  - { report_id: 28, display_field_id: 11 }
+  - { report_id: 28, display_field_id: 12 }
+  - { report_id: 28, display_field_id: 52 }
+  - { report_id: 29, display_field_id: 9 }
+  - { report_id: 29, display_field_id: 10 }
+  - { report_id: 29, display_field_id: 11 }
+  - { report_id: 29, display_field_id: 12 }
+  - { report_id: 29, display_field_id: 15 }
+  - { report_id: 30, display_field_id: 9 }
+  - { report_id: 30, display_field_id: 10 }
+  - { report_id: 30, display_field_id: 11 }
+  - { report_id: 30, display_field_id: 12 }
+  - { report_id: 30, display_field_id: 15 }
+  - { report_id: 31, display_field_id: 9 }
+  - { report_id: 31, display_field_id: 10 }
+  - { report_id: 31, display_field_id: 11 }
+  - { report_id: 31, display_field_id: 12 }
+  - { report_id: 31, display_field_id: 82 }
+  - { report_id: 32, display_field_id: 9 }
+  - { report_id: 32, display_field_id: 10 }
+  - { report_id: 32, display_field_id: 11 }
+  - { report_id: 32, display_field_id: 12 }
+  - { report_id: 32, display_field_id: 82 }
+  - { report_id: 33, display_field_id: 9 }
+  - { report_id: 33, display_field_id: 10 }
+  - { report_id: 33, display_field_id: 11 }
+  - { report_id: 33, display_field_id: 12 }
+  - { report_id: 33, display_field_id: 82 }
+  - { report_id: 34, display_field_id: 9 }
+  - { report_id: 34, display_field_id: 10 }
+  - { report_id: 34, display_field_id: 11 }
+  - { report_id: 34, display_field_id: 12 }
+  - { report_id: 34, display_field_id: 113 }
+  - { report_id: 35, display_field_id: 9 }
+  - { report_id: 35, display_field_id: 10 }
+  - { report_id: 35, display_field_id: 11 }
+  - { report_id: 35, display_field_id: 12 }
+  - { report_id: 35, display_field_id: 113 }
+  - { report_id: 36, display_field_id: 9 }
+  - { report_id: 36, display_field_id: 10 }
+  - { report_id: 36, display_field_id: 11 }
+  - { report_id: 36, display_field_id: 12 }
+  - { report_id: 36, display_field_id: 113 }
+  - { report_id: 37, display_field_id: 9 }
+  - { report_id: 37, display_field_id: 10 }
+  - { report_id: 37, display_field_id: 11 }
+  - { report_id: 37, display_field_id: 12 }
+  - { report_id: 37, display_field_id: 81 }
+  - { report_id: 38, display_field_id: 9 }
+  - { report_id: 38, display_field_id: 10 }
+  - { report_id: 38, display_field_id: 11 }
+  - { report_id: 38, display_field_id: 12 }
+  - { report_id: 38, display_field_id: 81 }
+  - { report_id: 39, display_field_id: 9 }
+  - { report_id: 39, display_field_id: 10 }
+  - { report_id: 39, display_field_id: 11 }
+  - { report_id: 39, display_field_id: 12 }
+  - { report_id: 39, display_field_id: 81 }
+  - { report_id: 40, display_field_id: 9 }
+  - { report_id: 40, display_field_id: 10 }
+  - { report_id: 40, display_field_id: 11 }
+  - { report_id: 40, display_field_id: 12 }
+  - { report_id: 40, display_field_id: 13 }
+  - { report_id: 41, display_field_id: 9 }
+  - { report_id: 41, display_field_id: 10 }
+  - { report_id: 41, display_field_id: 11 }
+  - { report_id: 41, display_field_id: 12 }
+  - { report_id: 41, display_field_id: 13 }
+  - { report_id: 42, display_field_id: 9 }
+  - { report_id: 42, display_field_id: 10 }
+  - { report_id: 42, display_field_id: 11 }
+  - { report_id: 42, display_field_id: 12 }
+  - { report_id: 42, display_field_id: 13 }
+  - { report_id: 43, display_field_id: 9 }
+  - { report_id: 43, display_field_id: 10 }
+  - { report_id: 43, display_field_id: 11 }
+  - { report_id: 43, display_field_id: 12 }
+  - { report_id: 43, display_field_id: 81 }
+  - { report_id: 44, display_field_id: 9 }
+  - { report_id: 44, display_field_id: 10 }
+  - { report_id: 44, display_field_id: 11 }
+  - { report_id: 44, display_field_id: 12 }
+  - { report_id: 44, display_field_id: 81 }
+  - { report_id: 45, display_field_id: 9 }
+  - { report_id: 45, display_field_id: 10 }
+  - { report_id: 45, display_field_id: 11 }
+  - { report_id: 45, display_field_id: 12 }
+  - { report_id: 45, display_field_id: 81 }
+  - { report_id: 46, display_field_id: 9 }
+  - { report_id: 46, display_field_id: 10 }
+  - { report_id: 46, display_field_id: 11 }
+  - { report_id: 46, display_field_id: 12 }
+  - { report_id: 46, display_field_id: 83 }
+  - { report_id: 47, display_field_id: 9 }
+  - { report_id: 47, display_field_id: 10 }
+  - { report_id: 47, display_field_id: 11 }
+  - { report_id: 47, display_field_id: 12 }
+  - { report_id: 47, display_field_id: 83 }
+  - { report_id: 48, display_field_id: 9 }
+  - { report_id: 48, display_field_id: 10 }
+  - { report_id: 48, display_field_id: 11 }
+  - { report_id: 48, display_field_id: 12 }
+  - { report_id: 48, display_field_id: 83 }
+
+SelectedDisplayFieldGroup:
+  - { report_id: 5, display_field_group_id: 1 }
+  - { report_id: 6, display_field_group_id: 1 }
+  - { report_id: 7, display_field_group_id: 2 }
+  - { report_id: 8, display_field_group_id: 3 }
+  - { report_id: 9, display_field_group_id: 4 }
+  - { report_id: 10, display_field_group_id: 5 }
+  - { report_id: 11, display_field_group_id: 6 }
+  - { report_id: 12, display_field_group_id: 7 }
+  - { report_id: 13, display_field_group_id: 8 }
+  - { report_id: 14, display_field_group_id: 9 }
+  - { report_id: 15, display_field_group_id: 10 }
+  - { report_id: 16, display_field_group_id: 11 }
+  - { report_id: 17, display_field_group_id: 12 }
+  - { report_id: 18, display_field_group_id: 13 }
+  - { report_id: 19, display_field_group_id: 14 }
+  - { report_id: 20, display_field_group_id: 15 }
+  - { report_id: 21, display_field_group_id: 16 }
+
+JobTitle:
+  - { id: 1, jobTitleName: 'Software Architect', isDeleted: 0 }
+  - { id: 2, jobTitleName: 'Software Engineer', isDeleted: 0 }
+  - { id: 3, jobTitleName: 'Quality Assurance', isDeleted: 0 }
+  - { id: 4, jobTitleName: 'Sales Person', isDeleted: 1 }
+
+# 1=Organization
+#    2=Engineering
+#       5=Support
+#    3=QA
+#    4=Agriculture
+Subunit:
+  - { id: 1, name: 'Organization', unitId: 'company', lft: 1, rgt: 10, level: 0 }
+  - { id: 2, name: 'Engineering', unitId: 'eng', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'QA', unitId: 'qa', lft: 6, rgt: 7, level: 1 }
+  - { id: 4, name: 'Agriculture', unitId: 'ag', lft: 8, rgt: 9, level: 1 }
+  - { id: 5, name: 'Support', unitId: 'sup', lft: 3, rgt: 4, level: 2 }
+
+TerminationReason:
+  - { id: 1, name: 'Resign' }
+
+EmployeeTerminationRecord:
+  - { id: 1, reason_id: 1, date: '2021-11-20', note: 'Comment' }
+
+EmploymentStatus:
+  - { id: 1, name: 'Full Time' }
+  - { id: 2, name: 'Part Time' }
+  - { id: 3, name: 'Intern' }
+
+JobCategory:
+  - { id: 1, name: 'Professionals' }
+  - { id: 2, name: 'Technicians' }
+  - { id: 3, name: 'Sales Workers' }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "", job_title_code: 4 }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane", job_title_code: 1, birthday: '1990-10-02', nation_code: 52, gender: 2, maritalStatus: 'Married', otherId: 'E0002', drivingLicenseNo: '123321', drivingLicenseExpiredDate: '2021-10-29' }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "", work_station: 2, street1: '263a', street2: 'Centroallee', city: 'Oberhausen', country: 'DE', zipcode: '46047', homeTelephone: '112-382-0478', workTelephone: '112-454-0457', workEmail: 'odis1@osohrm.com' }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "", work_station: 5, maritalStatus: 'Other', otherEmail: 'kayla@mail.com', province: 'Western', country: 'LK', eeo_cat_code: 2, joinedDate: '2019-02-01' }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": 1, work_station: 3, emp_status: 2, eeo_cat_code: 1, joinedDate: '2015-10-18' }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "", gender: 1, maritalStatus: 'Single', emp_status: 1, birthday: '1995-10-02' }
+
+Location:
+  - { id: 1, name: 'Head', country_code: 'US' }
+  - { id: 2, name: 'Development', country_code: 'US' }
+  - { id: 3, name: 'Support', country_code: 'LK' }
+
+EmpLocations:
+  - { emp_number: 1, location_id: 1 }
+  - { emp_number: 2, location_id: 2 }
+  - { emp_number: 3, location_id: 2 }
+  - { emp_number: 4, location_id: 2 }
+  - { emp_number: 5, location_id: 3 }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "1","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "1","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "3","erep_reporting_mode": "2" }
+
+Education:
+  - { id: 1, name: 'BSc' }
+  - { id: 2, name: 'MSc' }
+
+EmployeeEducation:
+  - { id: 1, emp_number: 1, education_id: 1, institute: 'UoM', major: 'CSE', year: '2020', score: 'First Class', start_date: '2017-01-01', end_date: '2020-12-31' }
+  - { id: 2, emp_number: 1, education_id: 2, institute: 'UoM', major: 'CS', year: '2020', score: 'First Class', start_date: '2017-01-01', end_date: '2020-12-31' }
+  - { id: 3, emp_number: 2, education_id: 1, institute: 'UoP', major: 'CE', year: '2020', score: 'First Class', start_date: '2017-01-01', end_date: '2020-12-31' }
+
+EmployeeImmigrationRecord:
+  - { emp_number: 1, recordId: '0', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', comment: 'test comment' }
+  - { emp_number: 2, recordId: '1', type: 2, number: 'RTF33323411', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', comment: 'i modify this' }
+
+Language:
+  - { id: 1, name: 'English' }
+  - { id: 2, name: 'Spanish' }
+  - { id: 3, name: 'Dutch' }
+
+EmployeeLanguage:
+  - { emp_number: 1, lang_id: 1, fluency: 2, competency: 1, comments: 'comment1' }
+  - { emp_number: 1, lang_id: 2, fluency: 1, competency: 2, comments: 'comment2' }
+  - { emp_number: 2, lang_id: 2, fluency: 1, competency: 2 }
+  - { emp_number: 4, lang_id: 1, fluency: 1, competency: 3 }
+  - { emp_number: 4, lang_id: 1, fluency: 2, competency: 4 }
+  - { emp_number: 4, lang_id: 1, fluency: 3, competency: 2 }
+
+License:
+  - { id: 1, name: 'CIMA' }
+  - { id: 2, name: 'CCNA' }
+  - { id: 3, name: 'NAITA' }
+
+EmployeeLicense:
+  - { emp_number: 1, license_id: 1, licenseNo: 1, licenseIssuedDate: '2020-01-23', licenseExpiryDate: '2021-01-23' }
+  - { emp_number: 1, license_id: 2, licenseNo: 2, licenseIssuedDate: '2020-02-23', licenseExpiryDate: '2021-02-23' }
+  - { emp_number: 2, license_id: 2, licenseNo: 3, licenseIssuedDate: '2020-03-23', licenseExpiryDate: '2021-03-23' }
+  - { emp_number: 3, license_id: 3, licenseNo: 4, licenseIssuedDate: '2020-04-23', licenseExpiryDate: '2021-04-23' }
+
+Membership:
+  - { id: 1, name: 'ACCA' }
+  - { id: 2, name: 'British Computer Society (BCS)' }
+  - { id: 3, name: 'Chartered Institute of Marketing (CIM)' }
+
+EmployeeMembership:
+  - { id: 1, emp_number: 1, membship_code: 1, ememb_subscript_amount: '4', ememb_subscript_ownership: 'individual', ememb_subs_currency: 'Rs', ememb_commence_date: '2011-05-20', ememb_renewal_date: '2011-05-22' }
+  - { id: 2, emp_number: 1, membship_code: 2, ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24' }
+
+PayGrade:
+  - { id: 1, name: 'Salary Grade A' }
+  - { id: 2, name: 'Salary Grade B' }
+
+CurrencyType:
+  - { "code": "3","currency_id": "AED","currency_name": "Utd. Arab Emir. Dirham" }
+  - { "code": "10","currency_id": "AUD","currency_name": "Australian Dollar" }
+  - { "code": "42","currency_id": "EUR","currency_name": "Euro" }
+  - { "code": "85","currency_id": "LKR","currency_name": "Sri Lanka Rupee" }
+  - { "code": "131","currency_id": "SGD","currency_name": "Singapore Dollar" }
+  - { "code": "151","currency_id": "USD","currency_name": "United States Dollar" }
+
+PayGradeCurrency:
+  - { pay_grade_id: 1, currency_id: 'LKR', min_salary: '20000', max_salary: '3000000' }
+  - { pay_grade_id: 1, currency_id: 'USD', min_salary: '2000', max_salary: '30000' }
+  - { pay_grade_id: 2, currency_id: 'SGD', min_salary: '2000', max_salary: '30000' }
+
+EmployeeSalary:
+  - { id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', amount: '10000.00', salaryName: 'Main Salary' }
+  - { id: 2, emp_number: 1, sal_grd_code: 2, currency_id: 'USD', amount: '20000.00', salaryName: 'Allowance' }
+
+EmpDirectDebit:
+  - { "id": 1, "salary_id": 2, "dd_routing_num": "1111", "dd_account": "11111111", "dd_amount": "1000.00", "dd_account_type": "SAVINGS", "dd_transaction_type": "" }
+
+Skill:
+  - { id: 1, name: 'Driving', description: 'Ability to drive' }
+  - { id: 2, name: 'Skydiving' }
+  - { id: 3, name: 'Sign Language', description: 'Ability to communicate with disabled people' }
+  - { id: 4, name: 'Drawing' }
+
+EmployeeSkill:
+  - { emp_number: 1, skill_id: 1, yearsOfExp: 1, comments: 'comment 1' }
+  - { emp_number: 1, skill_id: 2, yearsOfExp: 2, comments: 'comment 2' }
+  - { emp_number: 2, skill_id: 2, yearsOfExp: 3, comments: 'comment 3' }
+  - { emp_number: 3, skill_id: 3, yearsOfExp: 4, comments: 'comment 4' }
+
+EmpWorkExperience:
+  - { emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2' }
+  - { emp_number: '1', eexp_seqno: '2', eexp_employer: 'OrangeHRM', eexp_jobtit: 'Architect', eexp_from_date: '2006-04-03', eexp_to_date: '2011-04-04', eexp_comments: 'Worked', eexp_internal: '3' }
+
+EmpContract:
+  - { emp_number: 1, econ_extend_id: 1, econ_extend_start_date: '2020-05-23',  econ_extend_end_date: '2021-05-23' }
+
+EmpEmergencyContact:
+  - { emp_number: 1, eec_seqno: '1', eec_name: 'Kevin', eec_relationship: 'Friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787' }
+  - { emp_number: 2, eec_seqno: '2', eec_name: 'Lisa', eec_relationship: 'Wife', eec_mobile_no: '0776734237' }
+  - { emp_number: 1, eec_seqno: '2', eec_name: 'Charlie', eec_relationship: 'Friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787' }
+
+EmpDependent:
+  - { emp_number: 1, ed_seqno: '1', ed_name: 'Abrahamson', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23' }
+  - { emp_number: 1, ed_seqno: '2', ed_name: 'Abram', ed_relationship_type: 'other', ed_relationship: 'friend', ed_date_of_birth: '2004-02-23' }
+  - { emp_number: 2, ed_seqno: '1', ed_name: 'Achilles', ed_relationship_type: 'other', ed_relationship: 'friend' }

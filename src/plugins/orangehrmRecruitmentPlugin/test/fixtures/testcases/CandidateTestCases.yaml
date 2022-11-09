@@ -1,0 +1,1161 @@
+Create:
+  'Add candidate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+    now:
+      datetime: '2022-05-25 08:42:00'
+    query:
+      model: detailed
+    body:
+      firstName: 'Snoop'
+      middleName: 'Doggy'
+      lastName: 'Dogg'
+      email: 'dogg@gmail.com'
+      contactNumber: '0778084747'
+      keywords: 'spring-boot,angular,vue'
+      comment: 'happy to apply'
+      dateOfApplication: '2022-05-12'
+      consentToKeepData: true
+      vacancyId: 2
+    data:
+      id: 6
+      firstName: 'Snoop'
+      middleName: 'Doggy'
+      lastName: 'Dogg'
+      email: 'dogg@gmail.com'
+      contactNumber: '0778084747'
+      comment: 'happy to apply'
+      keywords: 'spring-boot,angular,vue'
+      modeOfApplication: 1
+      dateOfApplication: '2022-05-12'
+      vacancy: null
+      status: null
+      hasAttachment: false
+      consentToKeepData: true
+    meta: [ ]
+
+  'Add candidate - Without candidate first name':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+    body:
+      middleName: 'Doggy'
+      lastName: 'Dogg'
+      email: 'dogg@gmail.com'
+      contactNumber: '0778084747'
+      keywords: 'spring-boot,angular,vue'
+      comment: 'happy to apply'
+      dateOfApplication: '2022-05-12'
+      consentToKeepData: true
+      vacancyId: 2
+    invalidOnly: [ 'firstName' ]
+
+  'Add candidate - without candidate last name':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+    body:
+      firstName: 'Snoop'
+      middleName: 'Doggy'
+      email: 'dogg@gmail.com'
+      contactNumber: '0778084747'
+      keywords: 'spring-boot,angular,vue'
+      comment: 'happy to apply'
+      dateOfApplication: '2022-05-12'
+      consentToKeepData: true
+      vacancyId: 2
+    invalidOnly: [ 'lastName' ]
+
+  'Add candidate - without candidate email':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+    body:
+      firstName: 'Snoop'
+      middleName: 'Doggy'
+      lastName: 'Dogg'
+      contactNumber: '0778084747'
+      keywords: 'spring-boot,angular,vue'
+      comment: 'happy to apply'
+      dateOfApplication: '2022-05-12'
+      consentToKeepData: true
+      vacancyId: 2
+    invalidOnly: [ 'email' ]
+
+GetOne:
+  'get candidate by candidate id':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    data:
+      id: 2
+      firstName: 'Jo'
+      middleName: ''
+      lastName: 'Denton'
+      email: 'jodentan@gmail.com'
+      contactNumber: "+1 888-452-2314"
+      comment: ''
+      keywords: 'c,c++,java'
+      modeOfApplication: 2
+      dateOfApplication: '2020-10-08'
+      vacancy:
+        id: 3
+        name: 'Part-Time Technical Assistant'
+        status: false
+        jobTitle:
+          id: 1
+          title: 'Technical Assistant'
+          isDeleted: false
+        hiringManager:
+          id: 1
+          firstName: 'Kayla'
+          middleName: 'T'
+          lastName: 'Abbey'
+          terminationId: null
+      status:
+        id: 2
+        label: 'Shortlisted'
+      hasAttachment: true
+      consentToKeepData:  true
+
+    meta: [ ]
+
+  'get candidate by not existing id':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+    attributes:
+      id: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+GetAll:
+  'Get candidate list default sorting':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+    data:
+      [
+        {
+          "id": 5,
+          "firstName": "Charles",
+          "middleName": "",
+          "lastName": "Haywire",
+          "dateOfApplication": "2020-10-10",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": false,
+          "deletable": true,
+        },
+        {
+          "id": 4,
+          "firstName": "John",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-09",
+          "vacancy": null,
+          "status": null,
+          "hasAttachment": true,
+          "deletable": true,
+        },
+        {
+          "id": 2,
+          "firstName": "Jo",
+          "middleName": "",
+          "lastName": "Denton",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 3,
+            "name": "Part-Time Technical Assistant",
+            "status": false,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        },
+        {
+          "id": 3,
+          "firstName": "Richard",
+          "middleName": "",
+          "lastName": "Holmes",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 1,
+            "label": "Application Initiated"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        },
+        {
+          "id": 1,
+          "firstName": "Peter",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-07",
+          "vacancy": {
+            "id": 1,
+            "name": "Technical Assistant Intern",
+            "status": true,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 1,
+            "label": "Application Initiated"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    "meta":
+      "total": 5
+
+  'Get candidate list - sort by jobTitle':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      jobTitleId: 2
+    data:
+      [
+        {
+          "id": 5,
+          "firstName": "Charles",
+          "middleName": "",
+          "lastName": "Haywire",
+          "dateOfApplication": "2020-10-10",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": false,
+          "deletable": true,
+        },
+        {
+          "id": 3,
+          "firstName": "Richard",
+          "middleName": "",
+          "lastName": "Holmes",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 1,
+            "label": "Application Initiated"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ],
+    meta:
+      "total": 2
+
+  'Get candidate list - sort by vacancy':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      jobTitleId: 2
+    data:
+      [
+        {
+          "id": 5,
+          "firstName": "Charles",
+          "middleName": "",
+          "lastName": "Haywire",
+          "dateOfApplication": "2020-10-10",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": false,
+          "deletable": true,
+        },
+        {
+          "id": 3,
+          "firstName": "Richard",
+          "middleName": "",
+          "lastName": "Holmes",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 1,
+            "label": "Application Initiated"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ],
+    meta:
+      "total": 2
+
+  'Get candidate list - sort by hiring manager':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      hiringManagerId: 1
+    data:
+      [
+        {
+          "id": 2,
+          "firstName": "Jo",
+          "middleName": "",
+          "lastName": "Denton",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 3,
+            "name": "Part-Time Technical Assistant",
+            "status": false,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        },
+        {
+          "id": 1,
+          "firstName": "Peter",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-07",
+          "vacancy": {
+            "id": 1,
+            "name": "Technical Assistant Intern",
+            "status": true,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 1,
+            "label": "Application Initiated"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 2
+
+  'Get candidate list - sort by status':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      status: 2
+    data:
+      [
+        {
+          "id": 5,
+          "firstName": "Charles",
+          "middleName": "",
+          "lastName": "Haywire",
+          "dateOfApplication": "2020-10-10",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": false,
+          "deletable": true,
+        },
+        {
+          "id": 2,
+          "firstName": "Jo",
+          "middleName": "",
+          "lastName": "Denton",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 3,
+            "name": "Part-Time Technical Assistant",
+            "status": false,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 2
+
+  'Get candidate list - sort by keywords':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      keywords: 'spring'
+    data:
+      [
+        {
+          "id": 4,
+          "firstName": "John",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-09",
+          "vacancy": null,
+          "status": null,
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 1
+
+  'Get candidate list - sort by fromDate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      fromDate: '2020-10-09'
+    data:
+      [
+        {
+          "id": 5,
+          "firstName": "Charles",
+          "middleName": "",
+          "lastName": "Haywire",
+          "dateOfApplication": "2020-10-10",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": false,
+          "deletable": true,
+        },
+        {
+          "id": 4,
+          "firstName": "John",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-09",
+          "vacancy": null,
+          "status": null,
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 2
+
+  'Get candidate list - sort by toDate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      toDate: '2020-10-07'
+    data:
+      [
+        {
+          "id": 1,
+          "firstName": "Peter",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-07",
+          "vacancy": {
+            "id": 1,
+            "name": "Technical Assistant Intern",
+            "status": true,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 1,
+            "label": "Application Initiated"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 1
+
+  'Get candidate list - between date range':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      fromDate: '2020-10-07'
+      toDate: '2020-10-08'
+    data:
+      [
+        {
+          "id": 2,
+          "firstName": "Jo",
+          "middleName": "",
+          "lastName": "Denton",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 3,
+            "name": "Part-Time Technical Assistant",
+            "status": false,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        },
+        {
+          "id": 3,
+          "firstName": "Richard",
+          "middleName": "",
+          "lastName": "Holmes",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 1,
+            "label": "Application Initiated"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        },
+        {
+          "id": 1,
+          "firstName": "Peter",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-07",
+          "vacancy": {
+            "id": 1,
+            "name": "Technical Assistant Intern",
+            "status": true,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 1,
+            "label": "Application Initiated"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 3
+
+  'Get candidate list - between date range - fromDate later than to date':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      fromDate: '2020-10-08'
+      toDate: '2020-10-07'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'From Date Should Be Earlier Than To Date'
+
+  'Get candidate list - sort by method of application':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      methodOfApplication: 2
+    data:
+      [
+        {
+          "id": 4,
+          "firstName": "John",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-09",
+          "vacancy": null,
+          "status": null,
+          "hasAttachment": true,
+          "deletable": true,
+        },
+        {
+          "id": 2,
+          "firstName": "Jo",
+          "middleName": "",
+          "lastName": "Denton",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 3,
+            "name": "Part-Time Technical Assistant",
+            "status": false,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 2
+
+  'Get candidate list - sort by candidate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      candidateId: 5
+    data:
+      [
+        {
+          "id": 5,
+          "firstName": "Charles",
+          "middleName": "",
+          "lastName": "Haywire",
+          "dateOfApplication": "2020-10-10",
+          "vacancy": {
+            "id": 2,
+            "name": "Senior Technical Supervisor",
+            "status": true,
+            "hiringManager": {
+              "id": 2,
+              "firstName": "Ashley",
+              "middleName": "ST",
+              "lastName": "Abel",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": false,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 1
+
+  'Get candidate list - like candidate name - mainly for the candidate autocomplete':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'list'
+      candidateName: 'jo'
+    data:
+      [
+        {
+          "id": 4,
+          "firstName": "John",
+          "middleName": "",
+          "lastName": "Smith",
+          "dateOfApplication": "2020-10-09",
+          "vacancy": null,
+          "status": null,
+          "hasAttachment": true,
+          "deletable": true,
+        },
+        {
+          "id": 2,
+          "firstName": "Jo",
+          "middleName": "",
+          "lastName": "Denton",
+          "dateOfApplication": "2020-10-08",
+          "vacancy": {
+            "id": 3,
+            "name": "Part-Time Technical Assistant",
+            "status": false,
+            "hiringManager": {
+              "id": 1,
+              "firstName": "Kayla",
+              "middleName": "T",
+              "lastName": "Abbey",
+              "terminationId": null
+            }
+          },
+          "status": {
+            "id": 2,
+            "label": "Shortlisted"
+          },
+          "hasAttachment": true,
+          "deletable": true,
+        }
+      ]
+    meta:
+      "total": 2
+
+Update:
+  'update existing candidate - Change Vacancy':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      id: 3
+    query:
+      model: detailed
+    body:
+      "firstName": "Richard"
+      "middleName": "Edward"
+      "lastName": "Holmes"
+      "email": "richardholmes@gmail.com"
+      "contactNumber": "+1 453-452-2354"
+      "vacancyId": 3
+      "keywords": "php,html,css,js"
+      "comment": "happy to apply"
+      "dateOfApplication": "2020-10-08"
+      "consentToKeepData": true
+    data:
+      {
+        "id": 3,
+        "firstName": "Richard",
+        "middleName": "Edward",
+        "lastName": "Holmes",
+        "email": "richardholmes@gmail.com",
+        "contactNumber": "+1 453-452-2354",
+        "comment": "happy to apply",
+        "keywords": "php,html,css,js",
+        "modeOfApplication": 1,
+        "dateOfApplication": "2020-10-08",
+        "vacancy": {
+          "id": 3,
+          "name": "Part-Time Technical Assistant",
+          "status": false,
+          "jobTitle": {
+            "id": 1,
+            "title": "Technical Assistant",
+            "isDeleted": false
+          },
+          "hiringManager": {
+            "id": 1,
+            "firstName": "Kayla",
+            "middleName": "T",
+            "lastName": "Abbey",
+            "terminationId": null
+          }
+        },
+        "status": {
+          "id": 1,
+          "label": "Application Initiated"
+        },
+        "hasAttachment": true,
+        "consentToKeepData":  true
+      }
+    "meta": [ ]
+
+  'update non existing candidate - Change Vacancy':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 100
+    body:
+      "firstName": "Richard"
+      "middleName": "Edward"
+      "lastName": "Holmes"
+      "email": "richardholmes@gmail.com"
+      "contactNumber": "+1 453-452-2354"
+      "vacancyId": 3
+      "keywords": "php,html,css,js"
+      "comment": "happy to apply"
+      "dateOfApplication": "2020-10-08"
+      "consentToKeepData": true
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'update existing candidate - remove vacancy':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      id: 3
+    query:
+      model: detailed
+    body:
+      "firstName": "Richard"
+      "middleName": "Edward"
+      "lastName": "Holmes"
+      "email": "richardholmes@gmail.com"
+      "contactNumber": "+1 453-452-2354"
+      "vacancyId": null
+      "keywords": "php,html,css,js"
+      "comment": "happy to apply"
+      "dateOfApplication": "2020-10-08"
+      "consentToKeepData": true
+    data:
+      {
+        "id": 3,
+        "firstName": "Richard",
+        "middleName": "Edward",
+        "lastName": "Holmes",
+        "email": "richardholmes@gmail.com",
+        "contactNumber": "+1 453-452-2354",
+        "comment": "happy to apply",
+        "keywords": "php,html,css,js",
+        "modeOfApplication": 1,
+        "dateOfApplication": "2020-10-08",
+        "vacancy": null,
+        "status": null,
+        "hasAttachment": true,
+        "consentToKeepData":  true
+      }
+    "meta": [ ]
+
+  'update existing candidate - add vacancy':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      recruitment.recruitment_attachment_service: \OrangeHRM\Recruitment\Service\RecruitmentAttachmentService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-05-25 08:42:00'
+    attributes:
+      id: 4
+    query:
+      model: detailed
+    body:
+      "firstName": "John"
+      "middleName": "Edward"
+      "lastName": "Smith"
+      "email": "johnhsmith@gmail.com"
+      "contactNumber": "+1 453-452-2354"
+      "vacancyId": 3
+      "keywords": "Spring-boot,symfony,laravel"
+      "comment": "happy to apply"
+      "dateOfApplication": "2020-10-09"
+      "consentToKeepData": true
+    data:
+      {
+        "id": 4,
+        "firstName": "John",
+        "middleName": "Edward",
+        "lastName": "Smith",
+        "email": "johnhsmith@gmail.com",
+        "contactNumber": "+1 453-452-2354",
+        "comment": "happy to apply",
+        "keywords": "Spring-boot,symfony,laravel",
+        "modeOfApplication": 1,
+        "dateOfApplication": "2020-10-09",
+        "vacancy": {
+          "id": 3,
+          "name": "Part-Time Technical Assistant",
+          "status": false,
+          "jobTitle": {
+            "id": 1,
+            "title": "Technical Assistant",
+            "isDeleted": false
+          },
+          "hiringManager": {
+            "id": 1,
+            "firstName": "Kayla",
+            "middleName": "T",
+            "lastName": "Abbey",
+            "terminationId": null
+          }
+        },
+        "status": {
+          "id": 1,
+          "label": "Application Initiated"
+        },
+        "hasAttachment": true,
+        "consentToKeepData":  true
+      }
+    "meta": [ ]
+
+Delete:
+  'delete candidate by candidateId':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    body:
+      ids: [ 1, 2 ]
+    data: [ 1, 2 ]
+    meta: [ ]

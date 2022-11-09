@@ -1,0 +1,72 @@
+translations:
+    - { target: 'Viết nhận xét', unitId: add_review, group: performance }
+    - { target: 'Tháng Tư', unitId: april, group: general }
+    - { target: 'Tháng tám', unitId: august, group: general }
+    - { target: 'Trạng thái hiện hành', unitId: current_status, group: recruitment }
+    - { target: 'Tháng mười hai', unitId: december, group: general }
+    - { target: Xóa, unitId: delete, group: performance }
+    - { target: 'Tháng Hai', unitId: february, group: general }
+    - { target: 'Thứ Sáu', unitId: friday, group: general }
+    - { target: 'Họ và tên', unitId: full_name, group: general }
+    - { target: 'Tháng một', unitId: january, group: general }
+    - { target: 'Tháng Bảy', unitId: july, group: general }
+    - { target: 'Tháng Sáu', unitId: june, group: general }
+    - { target: March, unitId: march, group: general }
+    - { target: May, unitId: may, group: general }
+    - { target: 'Thứ hai', unitId: monday, group: general }
+    - { target: 'Tháng mười một', unitId: november, group: general }
+    - { target: 'Tháng Mười', unitId: october, group: general }
+    - { target: 'Thứ bảy', unitId: saturday, group: general }
+    - { target: 'Tháng Chín', unitId: september, group: general }
+    - { target: 'Chủ Nhật', unitId: sunday, group: general }
+    - { target: 'Thứ năm', unitId: thursday, group: general }
+    - { target: 'Thứ ba', unitId: tuesday, group: general }
+    - { target: 'Thứ tư', unitId: wednesday, group: general }
+    - { target: 'Không hợp lệ', unitId: invalid, group: general }
+    - { target: 'Chấp nhận. Docx, doc,. Odt, pdf, rtf, txt lên đến 1MB', unitId: accept_custom_format_file, group: general }
+    - { target: 'Từ khóa', unitId: keywords, group: recruitment }
+    - { target: 'Tiếp tục', unitId: resume, group: recruitment }
+    - { target: 'Thứ 6', unitId: fri, group: general }
+    - { target: 'Thứ 2', unitId: mon, group: general }
+    - { target: 'Thứ 7', unitId: sat, group: general }
+    - { target: CN, unitId: sun, group: general }
+    - { target: 'Thứ 5', unitId: thu, group: general }
+    - { target: 'Thứ 3', unitId: tue, group: general }
+    - { target: 'Thứ 4', unitId: wed, group: general }
+    - { target: Max, unitId: max, group: performance }
+    - { target: Min, unitId: min, group: performance }
+    - { target: 'Hoạt động', unitId: active, group: general }
+    - { target: 'Thêm ứng cử viên', unitId: add_candidate, group: recruitment }
+    - { target: 'Ứng dụng khởi động', unitId: application_initiated, group: recruitment }
+    - { target: 'Ứng cử viên', unitId: candidate, group: recruitment }
+    - { target: 'Tên Ưng Viên', unitId: candidate_name, group: recruitment }
+    - { target: 'Đóng cửa', unitId: closed, group: general }
+    - { target: 'Ngày áp dụng', unitId: date_of_application, group: recruitment }
+    - { target: 'Từ chối Cung cấp', unitId: decline_offer, group: recruitment }
+    - { target: Thuê, unitId: hire, group: recruitment }
+    - { target: 'Cho thuê', unitId: hired, group: recruitment }
+    - { target: 'Thuê quản lý', unitId: hiring_manager, group: recruitment }
+    - { target: 'Cuộc phỏng vấn không thành công', unitId: interview_failed, group: recruitment }
+    - { target: 'Phỏng vấn Passed', unitId: interview_passed, group: recruitment }
+    - { target: 'Phỏng vấn theo lịch trình', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Phỏng vấn Tiêu đề', unitId: interview_title, group: recruitment }
+    - { target: 'Công việc Cung cấp', unitId: job_offered, group: recruitment }
+    - { target: 'Việc làm trống', unitId: job_vacancy, group: recruitment }
+    - { target: 'Hướng dẫn sử dụng', unitId: manual, group: recruitment }
+    - { target: 'Đánh dấu phỏng vấn không thành công', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Đánh dấu phỏng vấn trôi qua', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Phương pháp áp dụng', unitId: method_of_application, group: recruitment }
+    - { target: 'Số lượng Chứng khoán', unitId: num_of_positions, group: recruitment }
+    - { target: 'Tên sản phẩm bị từ chối', unitId: offer_declined, group: recruitment }
+    - { target: 'Trực tuyến', unitId: online, group: recruitment }
+    - { target: 'Thực hiện hành động', unitId: performed_action, group: recruitment }
+    - { target: 'Thực hiện ngày', unitId: performed_date, group: recruitment }
+    - { target: 'RSS nguồn cấp dữ liệu URL', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Lịch trình phỏng vấn', unitId: schedule_interview, group: recruitment }
+    - { target: 'Yêu cầu thông tin', unitId: shortlist, group: recruitment }
+    - { target: 'Lọt vào danh sách', unitId: shortlisted, group: recruitment }
+    - { target: 'Vị trí tuyển dụng', unitId: vacancy, group: recruitment }
+    - { target: 'Vị trí tuyển dụng Tên', unitId: vacancy_name, group: recruitment }
+    - { target: 'Lịch sử hành động', unitId: view_action_history, group: recruitment }
+    - { target: 'URL Trang Web', unitId: web_page_url, group: recruitment }
+    - { target: 'Nhận đơn', unitId: application_received, group: recruitment }

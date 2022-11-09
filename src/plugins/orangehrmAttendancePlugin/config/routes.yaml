@@ -1,0 +1,141 @@
+apiv2_attendance_configuration:
+  path: /api/v2/attendance/configs
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendanceConfigurationAPI
+
+apiv2_employee_latest_attendance_record:
+  path: /api/v2/attendance/records/latest
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\EmployeeLatestAttendanceRecordAPI
+
+apiv2_attendance_punch_in_record_overlap:
+  path: /api/v2/attendance/punch-in/overlaps
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendancePunchInRecordOverlapAPI
+
+apiv2_attendance_punch_out_record_overlap:
+  path: /api/v2/attendance/punch-out/overlaps
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendancePunchOutRecordOverlapAPI
+
+apiv2_attendance_my_attendance_records:
+  path: /api/v2/attendance/records
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\MyAttendanceRecordAPI
+
+apiv2_attendance_employee_attendance_records:
+  path: /api/v2/attendance/employees/{empNumber}/records
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI
+
+apiv2_attendance_employee_attendance_record_summary:
+  path: /api/v2/attendance/employees/summary
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\EmployeeAttendanceSummaryAPI
+
+apiv2_attendance_timezones:
+ path: /api/v2/attendance/timezones
+ controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+ methods: [ GET ]
+ defaults:
+   _api: OrangeHRM\Attendance\Api\TimezonesAPI
+
+apiv2_attendance_current_datetime:
+  path: /api/v2/attendance/current-datetime
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\CurrentDateTimeAPI
+
+apiv2_attendance_edit_punch_in_record_overlap:
+  path: /api/v2/attendance/records/punch-in-overlaps
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendanceEditPunchInRecordOverlapAPI
+
+apiv2_attendance_edit_punch_out_record_overlap:
+  path: /api/v2/attendance/records/punch-out-overlaps
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendanceEditPunchOutRecordOverlapAPI
+    
+apiv2_attendance_employee_attendance_record:
+  path: /api/v2/attendance/records/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AttendanceRecordAPI
+  requirements:
+    id: '\d+'
+
+##########################
+#        Screens
+##########################
+
+attendance_punch_in:
+  path: /attendance/punchIn
+  controller: OrangeHRM\Attendance\Controller\PunchInController::handle
+  methods: [ GET ]
+
+attendance_punch_out:
+  path: /attendance/punchOut
+  controller: OrangeHRM\Attendance\Controller\PunchOutController::handle
+  methods: [ GET ]
+
+attendance_configure:
+  path: /attendance/configure
+  controller: OrangeHRM\Attendance\Controller\AttendanceConfigurationController::handle
+  methods: [ GET ]
+
+attendance_view_employee_attendance:
+  path: /attendance/viewAttendanceRecord
+  controller: OrangeHRM\Attendance\Controller\ViewEmployeeAttendanceController::handle
+  methods: [ GET ]
+
+attendance_view_my_attendance:
+  path: /attendance/viewMyAttendanceRecord
+  controller: OrangeHRM\Attendance\Controller\ViewMyAttendanceController::handle
+  methods: [ GET ]
+
+attendance_edit_attendance:
+  path: /attendance/editAttendanceRecord/{id}
+  controller: OrangeHRM\Attendance\Controller\EditAttendanceController::handle
+  methods: [ GET ]
+
+attendance_summary_report:
+  path: /time/displayAttendanceSummaryReportCriteria
+  controller: OrangeHRM\Attendance\Controller\AttendanceSummaryReportController::handle
+  methods: [ GET ]  
+
+attendance_employee_punch_in_out:
+  path: /attendance/proxyPunchInPunchOut
+  controller: OrangeHRM\Attendance\Controller\EmployeePunchInOutController::handle
+  methods: [ GET ]
+
+attendance_employee_edit_attendance:
+  path: /attendance/editEmployeeAttendanceRecord/{id}
+  controller: OrangeHRM\Attendance\Controller\EditEmployeeAttendanceController::handle
+  methods: [ GET ]

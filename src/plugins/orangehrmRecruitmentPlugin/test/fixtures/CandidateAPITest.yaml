@@ -1,0 +1,54 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com' }
+  - { empNumber: 4, firstName: 'Sherin', lastName: 'Sherin', middleName: 'Sherin', employeeId: 'E004', emp_work_email: 'sherin@xample.com', emp_oth_email: 'sherin@xample.com' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+  - { id: 4, name: ProjectAdmin, display_name: Project Admin, is_assignable: 0, is_predefined: 1 }
+  - { id: 5, name: HiringManager, display_name: Hiring Manager, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 3, "emp_number": 3, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 4, "user_name": "Sherin","user_password": "Sherin","deleted": "0","status": "1","date_entered": "2021-09-15 17:47:59","created_by": "1" }
+
+JobTitle:
+  0: { id: 1, jobTitleName: 'Technical Assistant', jobDescription: 'Assists the engineers', isDeleted: '0' }
+  1: { id: 2, jobTitleName: 'Supervisor', jobDescription: 'Oversees technical assistant', isDeleted: '0' }
+  2: { id: 3, jobTitleName: 'Engineering Manager', jobDescription: 'Manages Engineers', isDeleted: '0' }
+  3: { id: 4, jobTitleName: 'Engineering Officer', jobDescription: 'Engineer', isDeleted: '0' }
+
+Vacancy:
+  - { id: 1, job_title_code: 1, hiring_manager_id: 1, name: 'Technical Assistant Intern', description: 'Assists the engineers', no_of_positions: 2, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 2, job_title_code: 2, hiring_manager_id: 2, name: 'Senior Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 3, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 3, job_title_code: 1, hiring_manager_id: 1, name: 'Part-Time Technical Assistant', description: '', no_of_positions: 1, status: 0, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 4, job_title_code: 3, hiring_manager_id: 4, name: 'Charted Engineer', description: 'Manages Engineers', no_of_positions: 4, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 5, job_title_code: 2, hiring_manager_id: 3, name: 'Assistant Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 9, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 6, job_title_code: 4, hiring_manager_id: 1, name: 'Electrical Engineer Officer', description: 'Engineer', no_of_positions: 10, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+
+Candidate:
+  - { "id": "1","first_name": "Peter","middle_name": "","last_name": "Smith","email": "petersmith@gmail.com","contact_number": "+1 876-345-1505","status": "1","comment": "","mode_of_application": "1","date_of_application": "2020-10-07","cv_file_id": null,"cv_text_version": null,"keywords": "python,flask,opencv","added_person": "1","consent_to_keep_data": "0" },
+  - { "id": "2","first_name": "Jo","middle_name": "","last_name": "Denton","email": "jodentan@gmail.com","contact_number": "+1 888-452-2314","status": "1","comment": "","mode_of_application": "2","date_of_application": "2020-10-08","cv_file_id": null,"cv_text_version": null,"keywords": "c,c++,java","added_person": "1","consent_to_keep_data": "1" },
+  - { "id": "3","first_name": "Richard","middle_name": "","last_name": "Holmes","email": "richardholmes@gmail.com","contact_number": "+1 453-452-2354","status": "1","comment": "","mode_of_application": "1","date_of_application": "2020-10-08","cv_file_id": null,"cv_text_version": null,"keywords": "php,html,css,js","added_person": "2","consent_to_keep_data": "0" },
+  - { "id": "4","first_name": "John","middle_name": "","last_name": "Smith","email": "johnhsmith@gmail.com","contact_number": "+1 888-452-2365","status": "1","comment": "","mode_of_application": "2","date_of_application": "2020-10-09","cv_file_id": null,"cv_text_version": null,"keywords": "Spring-boot,symfony,laravel","added_person": "3","consent_to_keep_data": "1" },
+  - { "id": "5","first_name": "Charles","middle_name": "","last_name": "Haywire","email": "charleshey@gmail.com","contact_number": "+1 876-452-1342","status": "1","comment": "","mode_of_application": "1","date_of_application": "2020-10-10","cv_file_id": null,"cv_text_version": null,"keywords": "","added_person": "4","consent_to_keep_data": "0" },
+
+CandidateVacancy:
+  - { "id": "1","candidate_id": "1","vacancy_id": "1","status": "APPLICATION INITIATED","applied_date": "2020-10-11" },
+  - { "id": "2","candidate_id": "2","vacancy_id": "3","status": "SHORTLISTED","applied_date": "2020-10-11" },
+  - { "id": "3","candidate_id": "3","vacancy_id": "2","status": "APPLICATION INITIATED","applied_date": "2020-10-12" },
+  - { "id": "5","candidate_id": "5","vacancy_id": "2","status": "SHORTLISTED","applied_date": "2020-10-17" },
+
+CandidateAttachment:
+  - { id: 1, candidate_id: 1, file_name: 'Attachment1.pdf', file_type: 'application/pdf', file_size: '14874', file_content: 'attachment_01_content' , attachment_type: 1 }
+  - { id: 2, candidate_id: 2, file_name: 'Attachment2.pdf', file_type: 'application/pdf', file_size: '14874', file_content: 'attachment_02_content' , attachment_type: 1 }
+  - { id: 3, candidate_id: 3, file_name: 'Attachment3.pdf', file_type: 'application/pdf', file_size: '14874', file_content: 'attachment_03_content' , attachment_type: 1 }
+  - { id: 4, candidate_id: 4, file_name: 'Attachment4.pdf', file_type: 'application/pdf', file_size: '14874', file_content: 'attachment_04_content' , attachment_type: 1 }

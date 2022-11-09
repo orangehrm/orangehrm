@@ -1,0 +1,25 @@
+<FilesMatch "(\.(php))$">
+    Deny from all
+</FilesMatch>
+<Files index.php>
+    Allow from all
+</Files>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # we check if the .html version is here (caching)
+  RewriteRule ^$ index.html [QSA]
+  RewriteRule ^([^.]+)$ $1.html [QSA]
+  RewriteCond %{REQUEST_FILENAME} !-f
+
+  # no, so we redirect to our front web controller
+  RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+<ifModule mod_headers.c>
+    # security
+    Header set X-Content-Type-Options nosniff
+    Header set X-XSS-Protection "1; mode=block"
+
+</IfModule>

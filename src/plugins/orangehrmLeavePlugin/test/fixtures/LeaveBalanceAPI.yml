@@ -1,0 +1,91 @@
+Config:
+  - { name: 'leave.entitlement_consumption_algorithm', value: 'FIFOEntitlementConsumptionStrategy' }
+  - { name: 'leave.leavePeriodStatus', value: 1 }
+  - { name: 'leave.include_pending_leave_in_balance', value: 1 }
+  - { name: 'leave.work_schedule_implementation', value: 'BasicWorkSchedule' }
+  - { name: 'leave_period_defined', value: 'Yes' }
+  - { name: 'admin.default_workshift_end_time', value: '17:00' }
+  - { name: 'admin.default_workshift_start_time', value: '09:00' }
+
+WorkWeek:
+  - { id: 1, mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 4, sun: 8 }
+
+Holiday:
+  - { "id": "1", "description": "Full Day - Holiday", "date": "2021-08-25", "recurring": "0", "length": "0" }
+  - { "id": "2", "description": "Half Day - Holiday", "date": "2021-08-04", "recurring": "0", "length": "4" }
+
+WorkflowStateMachine:
+  - { "id": "86", "workflow": "4", "state": "INITIAL", "role": "ESS", "action": "APPLY", "resulting_state": "PENDING APPROVAL", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "87", "workflow": "4", "state": "INITIAL", "role": "ADMIN", "action": "ASSIGN", "resulting_state": "SCHEDULED", "roles_to_notify": "ess,supervisor,subscriber", "priority": "0" }
+  - { "id": "88", "workflow": "4", "state": "INITIAL", "role": "SUPERVISOR", "action": "ASSIGN", "resulting_state": "SCHEDULED", "roles_to_notify": "ess,supervisor,subscriber", "priority": "0" }
+  - { "id": "89", "workflow": "4", "state": "PENDING APPROVAL", "role": "ADMIN", "action": "APPROVE", "resulting_state": "SCHEDULED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "90", "workflow": "4", "state": "PENDING APPROVAL", "role": "SUPERVISOR", "action": "APPROVE", "resulting_state": "SCHEDULED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "91", "workflow": "4", "state": "PENDING APPROVAL", "role": "ESS", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "92", "workflow": "4", "state": "PENDING APPROVAL", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "93", "workflow": "4", "state": "PENDING APPROVAL", "role": "SUPERVISOR", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "94", "workflow": "4", "state": "PENDING APPROVAL", "role": "ADMIN", "action": "REJECT", "resulting_state": "REJECTED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "95", "workflow": "4", "state": "PENDING APPROVAL", "role": "SUPERVISOR", "action": "REJECT", "resulting_state": "REJECTED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "96", "workflow": "4", "state": "SCHEDULED", "role": "ESS", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "97", "workflow": "4", "state": "SCHEDULED", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "98", "workflow": "4", "state": "SCHEDULED", "role": "SUPERVISOR", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "99", "workflow": "4", "state": "TAKEN", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "100", "workflow": "4", "state": "LEAVE TYPE DELETED PENDING APPROVAL", "role": "ESS", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "101", "workflow": "4", "state": "LEAVE TYPE DELETED PENDING APPROVAL", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "102", "workflow": "4", "state": "LEAVE TYPE DELETED PENDING APPROVAL", "role": "SUPERVISOR", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "103", "workflow": "4", "state": "LEAVE TYPE DELETED SCHEDULED", "role": "ESS", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "104", "workflow": "4", "state": "LEAVE TYPE DELETED SCHEDULED", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "105", "workflow": "4", "state": "LEAVE TYPE DELETED SCHEDULED", "role": "SUPERVISOR", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "106", "workflow": "4", "state": "LEAVE TYPE DELETED TAKEN", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: '0002' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+
+
+LeavePeriodHistory:
+  - { id: 1, leave_period_start_month: 1, leave_period_start_day: 1, created_at: '2021-01-02' }
+
+LeaveType:
+  - { id: 1, name: 'Casual', deleted: 0 }
+  - { id: 2, name: 'Medical', deleted: 0 }
+  - { id: 3, name: 'Company', deleted: 1 }
+  - { id: 4, name: 'Annual', deleted: 0 }
+  - { id: 5, name: 'Sick', deleted: 1 }
+  - { id: 6, name: 'Christmas', deleted: 0 }
+
+LeaveEntitlementType:
+  - { id: 1, name: 'Added' }
+
+LeaveEntitlement:
+  - { id: 1, leave_type_id: 1, emp_number: 1, no_of_days: 3, from_date: '2021-01-01', to_date: '2021-12-31', credited_date: '2021-01-02', note: '', entitlement_type: 1, deleted: 0 }
+  - { id: 2, leave_type_id: 2, emp_number: 1, no_of_days: 10, days_used: 3, from_date: '2021-01-01', to_date: '2021-12-31', credited_date: '2021-01-02', note: '', entitlement_type: 1, deleted: 0 }
+
+LeaveRequest:
+  - { id: 1, leave_type_id: 2, date_applied: '2021-08-18', emp_number: 1 }
+
+Leave:
+  - { id: 1, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 2, emp_number: 1, date: '2021-08-18', status: 3 }
+  - { id: 2, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 2, emp_number: 1, date: '2021-08-19', status: 1 }
+  - { id: 3, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 2, emp_number: 1, date: '2021-08-20', status: 1 }
+
+LeaveLeaveEntitlement:
+  - { id: 1, leave_id: 1, entitlement_id: 2, length_days: 1 }
+  - { id: 2, leave_id: 2, entitlement_id: 2, length_days: 1 }
+  - { id: 3, leave_id: 3, entitlement_id: 2, length_days: 1 }
+
+LeaveStatus:
+  - { "id": "1","status": "-1","name": "REJECTED" }
+  - { "id": "2","status": "0","name": "CANCELLED" }
+  - { "id": "3","status": "1","name": "PENDING APPROVAL" }
+  - { "id": "4","status": "2","name": "SCHEDULED" }
+  - { "id": "5","status": "3","name": "TAKEN" }
+  - { "id": "6","status": "4","name": "WEEKEND" }
+  - { "id": "7","status": "5","name": "HOLIDAY" }

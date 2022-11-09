@@ -1,0 +1,21 @@
+GetOne:
+  'about organization':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    body: [ ]
+    query: [ ]
+    data:
+      companyName: 'Orange HRM'
+      productName: 'OrangeHRM OS'
+      version: '5.2'
+      numberOfActiveEmployee: 3
+      numberOfPastEmployee: 0
+    meta: [ ]

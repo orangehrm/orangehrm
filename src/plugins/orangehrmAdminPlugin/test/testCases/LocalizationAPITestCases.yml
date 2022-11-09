@@ -1,0 +1,28 @@
+getValidationRuleForUpdate:
+  valid:
+    parameters: { language: 'de', dateFormat: 'Y-m-d'}
+    isValid: true
+  language null:
+    parameters: { language: null, dateFormat: 'Y-m-d' }
+    isValid: false
+  no language:
+    parameters: { dateFormat: 'Y-m-d' }
+    isValid: false
+  empty language:
+    parameters: { language: '', dateFormat: 'Y-m-d' }
+    isValid: false
+  invalid language:
+    parameters: { language: 'qw', dateFormat: 'Y-m-d' }
+    isValid: false
+  date format null:
+    parameters: { language: 'de', dateFormat: null }
+    isValid: false
+  no date format:
+    parameters: { language: 'de' }
+    isValid: false
+  empty date format:
+    parameters: { language: 'de', dateFormat: '' }
+    isValid: false
+  invalid date format:
+    parameters: { language: 'de', dateFormat: 'Ym-d'}
+    isValid: false

@@ -1,0 +1,13 @@
+JobTitle:
+  0: { id: 1, jobTitleName: 'Software Architect', isDeleted: 0 }
+  1: { id: 2, jobTitleName: 'Software Engineer', isDeleted: 0 }
+  2: { id: 3, jobTitleName: 'Quality Assurance', isDeleted: 0 }
+  3: { id: 4, jobTitleName: 'Sales Person', isDeleted: 1 }
+  4: { id: 5, jobTitleName: 'QA Lead', isDeleted: 0 }
+
+Kpi:
+  0: { id: 1, job_title_code: 1, kpi_indicators: 'Capacity Planning', min_rating: 1, max_rating: 100 }
+  1: { id: 2, job_title_code: 2, kpi_indicators: 'Code Clarity', min_rating: 1, max_rating: 10, default_kpi: 0 }
+  2: { id: 3, job_title_code: 3, kpi_indicators: 'Planning Methodologies', min_rating: 1, max_rating: 50, default_kpi: 1 }
+  3: { id: 4, job_title_code: 4, kpi_indicators: 'Positive Commitment', min_rating: 5, max_rating: 10 }
+  4: { id: 5, job_title_code: 5, kpi_indicators: 'Speed of Work', min_rating: 1, max_rating: 5 }

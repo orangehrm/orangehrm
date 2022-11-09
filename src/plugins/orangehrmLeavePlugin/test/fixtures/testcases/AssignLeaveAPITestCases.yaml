@@ -1,0 +1,955 @@
+Create:
+  'without params':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    invalidOnly: [ 'empNumber', 'leaveTypeId', 'fromDate', 'toDate' ]
+
+  'only with valid leave type id':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      leaveTypeId: 1
+    invalidOnly: [ 'empNumber', 'fromDate', 'toDate' ]
+
+  'invalid leave type id':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      leaveTypeId: 100
+    invalidOnly: [ 'empNumber', 'leaveTypeId', 'fromDate', 'toDate' ]
+
+  'to date not specified':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      empNumber: 3
+      leaveTypeId: 1
+      fromDate: '2021-10-10'
+    invalidOnly: [ 'empNumber', 'duration', 'fromDate', 'toDate' ]
+
+  'from date not specified':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      empNumber: 3
+      leaveTypeId: 1
+      toDate: '2021-10-10'
+    invalidOnly: [ 'empNumber', 'fromDate' ]
+
+  'from date > to date':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      empNumber: 3
+      leaveTypeId: 1
+      fromDate: '2021-10-11'
+      toDate: '2021-10-10'
+    invalidOnly: [ 'duration', 'empNumber', 'fromDate' ]
+
+  'single day - full day':
+    userId: 1
+    now:
+      datetime: '2021-09-21'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 3
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-11'
+      duration:
+        type: 'full_day'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: null
+        durationType:
+          id: 0
+          type: 'full_day'
+        startTime: null
+        endTime: null
+      noOfDays: 1.0
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 1.0
+            scheduled: 1.0
+            pending: 0.0
+            taken: 0.0
+            balance: 6.0
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 1.0
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 3
+        lastName: 'Duval'
+        firstName: 'Alice'
+        middleName: ''
+        employeeId: '0003'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 3
+
+  'single day - full day - default model':
+    userId: 1
+    now:
+      datetime: '2021-09-21'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 3
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-11'
+      duration:
+        type: 'full_day'
+    data: {
+      "id": 1,
+      "leaveType": {
+        "id": 6,
+        "name": "Medical",
+        "deleted": false
+      },
+      "dateApplied": "2021-10-11"
+    }
+    meta:
+      empNumber: 3
+
+  'single day - half day morning':
+    userId: 1
+    now:
+      datetime: '2021-09-21'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-11'
+      duration:
+        type: 'half_day_morning'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: null
+        durationType:
+          id: 1
+          type: 'half_day_morning'
+        startTime: '09:00'
+        endTime: '13:00'
+      noOfDays: 0.5
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 0.5
+            scheduled: 0.5
+            pending: 0.0
+            taken: 0.0
+            balance: 6.5
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 0.5
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 2
+
+
+  'single day - half day afternoon':
+    userId: 1
+    now:
+      datetime: '2021-09-21'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-11'
+      duration:
+        type: 'half_day_afternoon'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: null
+        durationType:
+          id: 2
+          type: 'half_day_afternoon'
+        startTime: '13:00'
+        endTime: '17:00'
+      noOfDays: 0.5
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 0.5
+            scheduled: 0.5
+            pending: 0.0
+            taken: 0.0
+            balance: 6.5
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 0.5
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 2
+
+  'single day - specify time':
+    userId: 1
+    now:
+      datetime: '2021-09-21'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-11'
+      duration:
+        type: 'specify_time'
+        fromTime: '12:00'
+        toTime: '13:00'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: null
+        durationType:
+          id: 3
+          type: 'specify_time'
+        startTime: '12:00'
+        endTime: '13:00'
+      noOfDays: 0.125
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 0.125
+            scheduled: 0.125
+            pending: 0.0
+            taken: 0.0
+            balance: 6.875
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 0.125
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 2
+
+  'single day - specify time without time params':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-11'
+      duration:
+        type: 'specify_time'
+    invalidOnly: [ 'duration', 'empNumber' ]
+
+  'single day - on a holiday':
+    userId: 1
+    now:
+      datetime: '2021-09-22 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-09-14'
+      toDate: '2021-09-14'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Failed to Submit: No Working Days Selected'
+
+  'single day - on a non working day':
+    userId: 1
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-09-18'
+      toDate: '2021-09-18'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Failed to Submit: No Working Days Selected'
+
+
+  'multi day - partial option all, duration half day morning':
+    userId: 1
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-12'
+      partialOption: 'all'
+      duration:
+        type: 'half_day_morning'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: '2021-10-12'
+        durationType:
+          id: null
+          type: null
+        startTime: null
+        endTime: null
+      noOfDays: 1.0
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 1.0
+            scheduled: 1.0
+            pending: 0.0
+            taken: 0.0
+            balance: 6.0
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 1.0
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 2
+
+
+
+  'multi day - partial option all, duration specify time':
+    userId: 1
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-12'
+      partialOption: 'all'
+      duration:
+        type: 'specify_time'
+        fromTime: '12:00'
+        toTime: '13:00'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: '2021-10-12'
+        durationType:
+          id: null
+          type: null
+        startTime: null
+        endTime: null
+      noOfDays: 0.25
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 0.25
+            scheduled: 0.25
+            pending: 0.0
+            taken: 0.0
+            balance: 6.75
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 0.25
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 2
+
+  'multi day - partial option start, duration specify time':
+    userId: 1
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-12'
+      partialOption: 'start'
+      duration:
+        type: 'specify_time'
+        fromTime: '12:00'
+        toTime: '13:00'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: '2021-10-12'
+        durationType:
+          id: null
+          type: null
+        startTime: null
+        endTime: null
+      noOfDays: 1.125
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 1.125
+            scheduled: 1.125
+            pending: 0.0
+            taken: 0.0
+            balance: 5.875
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 1.125
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 2
+
+  'multi day - partial option start, without duration':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-12'
+      partialOption: 'start'
+    invalidOnly: [ 'duration', 'empNumber' ]
+
+
+  'multi day - partial option end, duration specify time':
+    userId: 1
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-12'
+      partialOption: 'end'
+      duration:
+        type: 'specify_time'
+        fromTime: '12:00'
+        toTime: '13:00'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: '2021-10-12'
+        durationType:
+          id: null
+          type: null
+        startTime: null
+        endTime: null
+      noOfDays: 1.125
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 1.125
+            scheduled: 1.125
+            pending: 0.0
+            taken: 0.0
+            balance: 5.875
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 1.125
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 2
+
+  'multi day - partial option end, without duration':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-12'
+      partialOption: 'end'
+    invalidOnly: [ 'duration', 'empNumber' ]
+
+  'multi day - partial option start end, duration specify time':
+    userId: 1
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-12'
+      partialOption: 'start_end'
+      duration:
+        type: 'specify_time'
+        fromTime: '09:00'
+        toTime: '14:00'
+      endDuration:
+        type: 'specify_time'
+        fromTime: '14:00'
+        toTime: '17:00'
+    query:
+      model: 'detailed'
+    data:
+      id: 1
+      leaveType:
+        id: 6
+        name: 'Medical'
+        deleted: false
+      dates:
+        fromDate: '2021-10-11'
+        toDate: '2021-10-12'
+        durationType:
+          id: null
+          type: null
+        startTime: null
+        endTime: null
+      noOfDays: 1
+      leaveBalances:
+        - period:
+            startDate: '2021-01-01'
+            endDate: '2021-12-31'
+          balance:
+            entitled: 7.0
+            used: 1
+            scheduled: 1
+            pending: 0.0
+            taken: 0.0
+            balance: 6
+            asAtDate: '2021-10-11'
+            endDate: '2021-12-31'
+      multiPeriod: false
+      leaveBreakdown:
+        - id: 2
+          name: 'Scheduled'
+          lengthDays: 1
+      allowedActions:
+        - action: 'CANCEL'
+          name: 'Cancel'
+      hasMultipleStatus: false
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      lastComment: null
+    meta:
+      empNumber: 2
+
+  'multi day - partial option start end, without duration':
+    userId: 1
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-12'
+      partialOption: 'start_end'
+    invalidOnly: [ 'duration', 'endDuration', 'empNumber' ]
+
+  'assign leave beyond max allowed leave period end date':
+    userId: 3
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2025-09-16'
+      toDate: '2025-09-16'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Cannot Assign Leave Beyond 2022-12-31'
+
+  'assign leave beyond max allowed leave period end date - crossing two periods':
+    userId: 3
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2022-09-16'
+      toDate: '2023-09-16'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Cannot Assign Leave Beyond 2022-12-31'

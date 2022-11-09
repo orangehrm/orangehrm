@@ -1,0 +1,366 @@
+Create:
+  'Time sheet create (Wednesday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-08"
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Tuesday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-07"
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Monday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-06"
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Thursday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-02"
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Friday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-03"
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Saturday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-04"
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Sunday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-05"
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create with out date':
+    userId: 1
+    invalidOnly: [ 'date' ]
+
+  'Time sheet create with future date':
+    userId: 1
+    body:
+      date: "2222-12-05"
+    invalidOnly: [ 'date' ]
+
+  'Time sheet create with duplicate':
+    userId: 1
+    body:
+      date: "2011-04-18"
+    invalidOnly: [ 'date' ]
+
+Update:
+  'Time sheet Allowed action (Approve)':
+    userId: 1
+    now:
+      datetime: '2021-12-20'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body:
+      action: "APPROVE"
+    query: [ ]
+    data:
+      id: 2
+      status:
+        id: "APPROVED"
+        name: "Approved"
+      startDate: "2011-05-22"
+      endDate: "2011-05-29"
+    meta: [ ]
+
+  'Time sheet Allowed action (Reject)':
+    userId: 1
+    now:
+      datetime: '2021-12-20'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body:
+      action: "REJECT"
+    query: [ ]
+    data:
+      id: 2
+      status:
+        id: "REJECTED"
+        name: "Rejected"
+      startDate: "2011-05-22"
+      endDate: "2011-05-29"
+    meta: [ ]
+
+  'Time sheet Allowed action (Reset)':
+    userId: 1
+    now:
+      datetime: '2021-12-20'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body:
+      action: "RESET"
+    query: [ ]
+    data:
+      id: 5
+      status:
+        id: "SUBMITTED"
+        name: "Submitted"
+      startDate: "2011-07-10"
+      endDate: "2011-07-16"
+    meta: [ ]
+
+  'Time sheet Allowed action (Submit - ESS)':
+    userId: 2
+    now:
+      datetime: '2021-12-20'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 4
+    body:
+      action: "SUBMIT"
+    query: [ ]
+    data:
+      id: 4
+      status:
+        id: "SUBMITTED"
+        name: "Submitted"
+      startDate: "2011-06-10"
+      endDate: "2011-06-16"
+    meta: [ ]
+
+  'Time sheet Allowed action (Un Authorized)':
+    userId: 2
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    body:
+      action: "SUBMIT"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Time sheet update with invalid action':
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      action: "!=0"
+    invalidOnly: [ 'action' ]
+
+GetAll:
+  'Get my timesheets':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes: [ ]
+    query:
+      fromDate: '2011-04-18'
+      toDate: '2011-04-24'
+    body: [ ]
+    data:
+      - id: 1
+        status:
+          id: "CREATED"
+          name: "Created"
+        startDate: "2011-04-18"
+        endDate: "2011-04-24"
+    meta:
+      total: 1
+
+  'Get my timesheets - limit':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes: [ ]
+    query:
+      fromDate: '2011-04-18'
+      toDate: '2011-05-29'
+      limit: 1
+    body: [ ]
+    data:
+      - id: 1
+        status:
+          id: "CREATED"
+          name: "Created"
+        startDate: "2011-04-18"
+        endDate: "2011-04-24"
+    meta:
+      total: 1
+
+  'Get my timesheets - no time sheet':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes: [ ]
+    query:
+      fromDate: "2021-11-29"
+      toDate: "2021-12-05"
+    body: [ ]
+    data: [ ]
+    meta:
+      total: 0
+
+  'Get my timesheets - fromDate only':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes: [ ]
+    query:
+      fromDate: "2021-11-20"
+    body: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'To Date is required'
+
+  'Get my timesheets - toDate only':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes: [ ]
+    query:
+      toDate: "2021-11-20"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'From Date is required'
+
+  'Get my timesheets - fromDate >= toDate':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes: [ ]
+    query:
+      fromDate: "2021-11-20"
+      toDate: "2021-11-14"
+    body: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: "From date should be earlier than to date"

@@ -1,0 +1,107 @@
+GetAll:
+  'get all email subscriber list':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 1
+    body: [ ]
+    query: [ ]
+    data:
+      0:
+        id: 1
+        name: 'rajitha'
+        email: 'rajitha@ohrm.com'
+    meta:
+      total: 1
+      name: 'Leave Applications'
+
+GetOne:
+  'get single email subscriber by identifier':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 5
+      id: 2
+    body: [ ]
+    query: [ ]
+    data:
+      id: 2
+      name: 'chamara'
+      email: 'chamara@ohrm.com'
+    meta: [ ]
+
+Create:
+  'Add new email subscriber':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 1
+    query: [ ]
+    body:
+      name: "kavi"
+      email: "kavi@ohrm.com"
+    data:
+      id: 5
+      name: "kavi"
+      email: "kavi@ohrm.com"
+    meta: [ ]
+
+  'Add already exisiting email in the same subscription':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 3
+    query: [ ]
+    body:
+      name: "devi2"
+      email: "devi@ohrm.com"
+    invalidOnly: [ 'email' ]
+
+  'Add already exisiting email in different subscription':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 4
+    query: [ ]
+    body:
+      name: "devi"
+      email: "devi@ohrm.com"
+    data:
+      id: 5
+      name: "devi"
+      email: "devi@ohrm.com"
+    meta: [ ]
+
+Update:
+  'Edit an existing subscriber by identifier':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 1
+      id: 1
+    query: [ ]
+    body:
+      name: "rajitha Kumara"
+      email: "rajitha@ohrm.com"
+    data:
+      id: 1
+      name: "rajitha Kumara"
+      email: "rajitha@ohrm.com"
+    meta: [ ]
+
+  'Edit an existing subscriber with existing email':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 3
+      id: 4
+    query: [ ]
+    body:
+      name: "sharuka"
+      email: "devi@ohrm.com"
+    invalidOnly: [ 'email' ]
+
+Delete:
+  'delete an existing subscriber or subscribers by identifier':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 1
+    body:
+      ids: [ 1, 2, 3 ]
+    query: [ ]
+    data:
+      [ 1, 2, 3 ]
+    meta: [ ]

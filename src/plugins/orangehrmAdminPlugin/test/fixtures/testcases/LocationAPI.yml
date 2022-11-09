@@ -1,0 +1,243 @@
+GetValidationRuleForGetOne:
+  'valid id':
+    params: { id: 1 }
+  'negative id':
+    params: { id: -1 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'zero id':
+    params: { id: 0 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'empty id':
+    params: { id: '' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'empty params':
+    params: { }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'missing id param':
+    params: { val: 1 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+GetOne:
+  'get one by existing id':
+    params: { id: 1 }
+    result: { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }
+  'get one by non-existing id':
+    params: { id: 2910 }
+    result: false
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException', message: 'Record Not Found' }
+
+GetValidationRuleForGetAll:
+  'empty object as params':
+    params: { }
+  'all params null':
+    params: { name: null, city: null, countryCode: null }
+  'all params empty':
+    params: { name: '', city: '', countryCode: '' }
+  'name missing':
+    params: { city: '', countryCode: '' }
+  'city missing':
+    params: { name: '', countryCode: '' }
+  'countryCode missing':
+    params: { name: '', city: '' }
+  'unexpected param':
+    params: { name: '', city: '', empNumber: '' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+GetAll:
+  'get all without any filtering':
+    params: { }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all with null as filter params':
+    params: { name: null, city: null, countryCode: null }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - filtered by name':
+    params: { name: location 2 }
+    result: [ { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 } ]
+  'get all - filtered by name matching multiple locations':
+    params: { name: location 1 }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 } , { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - filtered by name matching no locations':
+    params: { name: location 928 }
+    result: [ ]
+  'get all - filtered by empty name':
+    params: { name: '' }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - filtered by city':
+    params: { city: city 2 }
+    result: [ { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 } ]
+  'get all - filtered by city matching multiple locations':
+    params: { city: city 1 }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 } , { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - filtered by city matching no locations':
+    params: { city: city 928 }
+    result: [ ]
+  'get all - filtered by empty city':
+    params: { city: '' }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - filtered by country code':
+    params: { countryCode: US }
+    result: [ { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - filtered by country code matching multiple locations':
+    params: { countryCode: LK }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 } , { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 } ]
+  'get all - filtered by country code matching no locations':
+    params: { countryCode: ZZ }
+    result: [ ]
+  'get all - filtered by empty country code':
+    params: { countryCode: '' }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - sorted by name - ascending':
+    params: { countryCode: '' , sortField: 'location.name', sortOrder: 'ASC' }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - sorted by name - descending':
+    params: { countryCode: '' , sortField: 'location.name', sortOrder: 'DESC' }
+    result: [ { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 } ]
+  'get all - sorted by city - ascending':
+    params: { countryCode: '' , sortField: 'location.city', sortOrder: 'ASC' }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - sorted by city - descending':
+    params: { countryCode: '' , sortField: 'location.city', sortOrder: 'DESC' }
+    result: [ { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 } ]
+  'get all - sorted by phone - ascending':
+    params: { countryCode: '' , sortField: 'location.phone', sortOrder: 'ASC' }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - sorted by phone - descending':
+    params: { countryCode: '' , sortField: 'location.phone', sortOrder: 'DESC' }
+    result: [ { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 } ]
+  'get all - sorted by country - ascending':
+    params: { countryCode: '' , sortField: 'country.countryCode', sortOrder: 'ASC' }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+  'get all - sorted by country - descending':
+    params: { countryCode: '' , sortField: 'country.countryCode', sortOrder: 'DESC' }
+    result: [ { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 } ]
+  'get all - sorted by noOfEmps - ascending':
+    params: { countryCode: '' , sortField: 'noOfEmployees', sortOrder: 'ASC' }
+    result: [ { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 } ]
+  'get all - sorted by noOfEmps - descending':
+    params: { countryCode: '' , sortField: 'noOfEmployees', sortOrder: 'DESC' }
+    result: [ { id: 1, name: 'location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 1', city: 'city 1', address: 'address 1', zipCode: 'zip001', phone: '0777000001', fax: '0112000001', note: 'note 1', noOfEmployees: 3 }, { id: 2, name: 'location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'province 2', city: 'city 2', address: 'address 2', zipCode: 'zip002', phone: '0777000002', fax: '0112000002', note: 'note 2', noOfEmployees: 1 }, { id: 3, name: 'location 3',country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 3', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 }, { id: 4, name: 'location 11', country: { countryCode: 'US', name: 'UNITED STATES', countryName: 'United States' }, province: 'AK', city: 'city 11', address: 'address 3', zipCode: 'zip003', phone: '0777000003', fax: '0112000002', note: 'note 3', noOfEmployees: 0 } ]
+
+GetValidationRuleForCreate:
+  'valid params':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+  'name missing':
+    params: { countryCode: 'LK', province: 'test location 1 - province', city: 'test location 1 - city', address: 'test location 1 - address', zipCode: 'test location 1 - zipCode', phone: 'test location 1 - phone', fax: 'test location 1 - fax', note: 'test location 1 - note' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid name - data type':
+    params: { "name": 1,"countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid name - length':
+    params: { "name": 'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd',"countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid countryCode - non existing':
+    params: { "name": "asdasd","countryCode": "TR","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid countryCode - data type':
+    params: { "name": "asdasd","countryCode": 1,"province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid province - data type':
+    params: { "name": "asdasd","countryCode": "TR","province": 2,"city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid province - length':
+    params: { "name": "asdasd","countryCode": "TR","province": "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid city - data type':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": 1,"address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid city - length':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid address - data type':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": 1,"zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid address - length':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid zipCode - data type':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": 1,"phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid zipCode - length':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid phone - data type':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": 1,"fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid phone - length':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid fax - data type':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": 1,"note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid fax - length':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid note - data type':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": 3 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid note - length':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'additional param':
+    params: { "extraParam": "", "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+Create:
+  'create successful - 1':
+    params: { name: 'test location 1', countryCode: 'LK', province: 'test location 1 - province', city: 'test location 1 - city', address: 'test location 1 - address', zipCode: 'test location 1 - zipCode', phone: 'test location 1 - phone', fax: 'test location 1 - fax', note: 'test location 1 - note' }
+    result: { id: 5, name: 'test location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'test location 1 - province', city: 'test location 1 - city', address: 'test location 1 - address', zipCode: 'test location 1 - zipCode', phone: 'test location 1 - phone', fax: 'test location 1 - fax', note: 'test location 1 - note', noOfEmployees: 0 }
+  'create successful - 2':
+    params: { name: 'test location 2', countryCode: 'LK', province: 'test location 2 - province', city: 'test location 2 - city', address: 'test location 2 - address', zipCode: 'test location 2 - zipCode', phone: 'test location 2 - phone', fax: 'test location 2 - fax', note: 'test location 2 - note' }
+    result: { id: 5, name: 'test location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'test location 2 - province', city: 'test location 2 - city', address: 'test location 2 - address', zipCode: 'test location 2 - zipCode', phone: 'test location 2 - phone', fax: 'test location 2 - fax', note: 'test location 2 - note', noOfEmployees: 0 }
+
+GetValidationRuleForUpdate:
+  'valid params':
+    params: { id: 1, "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+  'id missing':
+    params: { "name": "asdasd","countryCode": "LK","province": "qweqweq","city": "qweq","address": "weqweq","zipCode": "eqweq","phone": "1231","fax": "2342","note": "zcsdfs dff d" }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+Update:
+  'update successful - 1':
+    params: { id: 1, name: 'test location 1', countryCode: 'LK', province: 'test location 1 - province', city: 'test location 1 - city', address: 'test location 1 - address', zipCode: 'test location 1 - zipCode', phone: 'test location 1 - phone', fax: 'test location 1 - fax', note: 'test location 1 - note' }
+    result: { id: 1, name: 'test location 1', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'test location 1 - province', city: 'test location 1 - city', address: 'test location 1 - address', zipCode: 'test location 1 - zipCode', phone: 'test location 1 - phone', fax: 'test location 1 - fax', note: 'test location 1 - note', noOfEmployees: 3 }
+  'update successful - 2':
+    params: { id: 2, name: 'test location 2', countryCode: 'LK', province: 'test location 2 - province', city: 'test location 2 - city', address: 'test location 2 - address', zipCode: 'test location 2 - zipCode', phone: 'test location 2 - phone', fax: 'test location 2 - fax', note: 'test location 2 - note' }
+    result: { id: 2, name: 'test location 2', country: { countryCode: 'LK', name: 'SRI LANKA', countryName: 'Sri Lanka' }, province: 'test location 2 - province', city: 'test location 2 - city', address: 'test location 2 - address', zipCode: 'test location 2 - zipCode', phone: 'test location 2 - phone', fax: 'test location 2 - fax', note: 'test location 2 - note', noOfEmployees: 1 }
+  'non existing id':
+    params: { id: 25, name: 'test location 2', countryCode: 'LK', province: 'test location 2 - province', city: 'test location 2 - city', address: 'test location 2 - address', zipCode: 'test location 2 - zipCode', phone: 'test location 2 - phone', fax: 'test location 2 - fax', note: 'test location 2 - note' }
+    result: { }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException', message: 'Record Not Found' }
+
+GetValidationRuleForDelete:
+  'valid params':
+    params: { ids: [ 1, 3 ] }
+  'ids missing':
+    params: { }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'extra params':
+    params: { ids: [ 1, 3 ], extraParams: 'val' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'non array type':
+    params: { ids: '1, 2' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+Delete:
+  'delete successful - 1':
+    params: { ids: [ 1, 3 ] }
+    result: { ids: [ 1, 3 ], preCount: 4, postCount: 2 }
+  'delete successful - with non existing ids included':
+    params: { ids: [ 1, 24, 2 ] }
+    result: { ids: [ 1, 24, 2 ], preCount: 4, postCount: 2 }
+  'delete successful - single entry':
+    params: { ids: [ 2 ] }
+    result: { ids: [ 2 ], preCount: 4, postCount: 3 }
+  'delete non existing ids':
+    params: { ids: [ 25 ] }
+    result: { ids: [ 25 ], preCount: 4, postCount: 4 }
+  'delete all':
+    params: { ids: [ 1, 2, 3, 4 ] }
+    result: { ids: [ 1, 2, 3, 4 ], preCount: 4, postCount: 0 }
+  'delete with empty ids array':
+    params: { ids: [ ] }
+    result: { ids: [ ], preCount: 4, postCount: 4 }
+

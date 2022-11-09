@@ -1,0 +1,25 @@
+GetAll:
+  'Get all my reviews':
+    userId: 1
+    services:
+        performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    attributes: [ ]
+    data:
+      0:
+        id: 5
+        overallStatus:
+          statusName: 'Activated'
+          statusId: 2
+        selfReviewStatus: 'Completed'
+        reviewPeriodStart: '2011-01-01'
+        reviewPeriodEnd: '2011-01-01'
+        dueDate: '2011-01-01'
+        jobTitle:
+          id: 1
+          name: 'Software Architect'
+          deleted: false
+        subunit:
+          id: 2
+          name: 'Sales'
+    meta:
+      total: 1

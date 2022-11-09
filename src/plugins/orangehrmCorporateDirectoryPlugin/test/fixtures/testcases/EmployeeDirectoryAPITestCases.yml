@@ -1,0 +1,384 @@
+GetOne:
+  'without empNumber':
+    userId: 1
+    invalidOnly: [ 'empNumber' ]
+
+  'without invalid empNumber':
+    userId: 1
+    attributes:
+      empNumber: -1
+    invalidOnly: [ 'empNumber' ]
+
+  'without nonexistent empNumber':
+    userId: 1
+    attributes:
+      empNumber: 10
+    invalidOnly: [ 'empNumber' ]
+
+  'with valid empNumber':
+    userId: 1
+    attributes:
+      empNumber: 3
+    data: {
+      "empNumber": 3,
+      "lastName": "de Silva",
+      "firstName": "Devishke",
+      "middleName": "Romesh",
+      "terminationId": null,
+      "jobTitle": {
+        "id": 1,
+        "title": 'Software Engineer - Intern',
+        "isDeleted": false,
+      },
+      "subunit": {
+        "id": 3,
+        "name": 'Development'
+      },
+      "location": {
+        "id": 1,
+        "name": 'location 1'
+      }
+    }
+
+  'with valid empNumber and detailed view':
+    userId: 1
+    attributes:
+      empNumber: 3
+    query:
+      model: 'detailed'
+    data: {
+      "empNumber": 3,
+      "lastName": "de Silva",
+      "firstName": "Devishke",
+      "middleName": "Romesh",
+      "terminationId": null,
+      "jobTitle": {
+        "id": 1,
+        "title": 'Software Engineer - Intern',
+        "isDeleted": false,
+      },
+      "subunit": {
+        "id": 3,
+        "name": 'Development'
+      },
+      "location": {
+        "id": 1,
+        "name": 'location 1'
+      },
+      "contactInfo": {
+        "workEmail": null,
+        "workTelephone": null
+      }
+    }
+
+GetAll:
+  'without query':
+    userId: 1
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        }
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "terminationId": null,
+        "jobTitle": {
+          "id": 1,
+          "title": 'Software Engineer - Intern',
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": 3,
+          "name": 'Development'
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        },
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        }
+      },
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 2,
+          "name": 'location 2'
+        }
+      }
+    ]
+    meta:
+      total: 4
+
+  'with invalid query':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    query:
+      nonExistingParameter: '1'
+    invalidOnly: [ 'nonExistingParameter' ]
+
+  'with empNumber given':
+    userId: 1
+    query:
+      empNumber: '2'
+    data: [
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        },
+      }
+    ]
+    meta:
+      total: 1
+
+  'with nameOrId given':
+    userId: 1
+    query:
+      nameOrId: 'Rajitha'
+    data: [
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        },
+      }
+    ]
+    meta:
+      total: 1
+
+  'with job title id':
+    userId: 1
+    query:
+      jobTitleId: '1'
+    data: [
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+
+        "terminationId": null,
+        "jobTitle": {
+          "id": 1,
+          "title": 'Software Engineer - Intern',
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": 3,
+          "name": 'Development'
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        },
+      }
+    ]
+    meta:
+      total: 1
+
+  'with nonexistent job title id':
+    userId: 1
+    query:
+      jobTitleId: '500'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with sort order':
+    userId: 1
+    query:
+      sortOrder: 'DESC'
+    data: [
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 2,
+          "name": 'location 2'
+        },
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        },
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "terminationId": null,
+        "jobTitle": {
+          "id": 1,
+          "title": 'Software Engineer - Intern',
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": 3,
+          "name": 'Development'
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        },
+      },
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 1,
+          "name": 'location 1'
+        },
+      }
+    ]
+    meta:
+      total: 4
+
+  'with location id':
+    userId: 1
+    query:
+      locationId: '2'
+    data: [
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": false,
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "location": {
+          "id": 2,
+          "name": 'location 2'
+        },
+      }
+    ]
+    meta:
+      total: 1

@@ -1,0 +1,372 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'leave.leavePeriodStatus', value: 1 }
+  - { name: 'leave_period_defined', value: 'Yes' }
+  - { name: 'timesheet_period_set', value: 'Yes' }
+  - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
+
+Module:
+  - { id: 1, name: 'admin', status: 1, displayName: 'Admin' }
+  - { id: 2, name: 'pim', status: 1, displayName: 'PIM' }
+  - { id: 3, name: 'leave', status: 1, displayName: 'Leave' }
+  - { id: 4, name: 'time', status: 1, displayName: 'Time' }
+  - { id: 5, name: 'recruitment', status: 1, displayName: 'Recruitment' }
+  - { id: 6, name: 'performance', status: 1, displayName: 'Performance' }
+  - { id: 7, name: 'directory', status: 1, displayName: 'Directory' }
+  - { id: 8, name: 'maintenance', status: 0, displayName: 'Maintenance' }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "1","termination_date": "2022-09-15","note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 7,"employee_id": "0007","emp_lastname": "Brad","emp_firstname": "Traversy","emp_middle_name": "", "termination_id": "1" }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "3","erep_sub_emp_number": "2","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "4","erep_sub_emp_number": "2","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "5","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+  - { id: 4, name: ProjectAdmin, display_name: Project Admin, is_assignable: 0, is_predefined: 1 }
+  - { id: 5, name: Interviewer, display_name: Interviewer, is_assignable: 0, is_predefined: 1 }
+  - { id: 6, name: HiringManager, display_name: Hiring Manager, is_assignable: 0, is_predefined: 1 }
+  - { id: 7, name: Reviewer, display_name: Reviewer, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 3, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:53","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 4, "user_name": "Duval","user_password": "Duval","deleted": "0","status": "1","date_entered": "2022-09-15 16:48:40","created_by": "1" }
+  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": "0","status": "1","date_entered": "2022-09-15 20:05:27","created_by": "1" }
+  - { "id": 6, "user_role_id": 2, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": "0","status": "1","date_entered": "2022-09-15 20:50:02","created_by": "1" }
+  - { "id": 7, "user_role_id": 2, "emp_number": 7, "user_name": "Brad","user_password": "Traversy","deleted": "0","status": "1","date_entered": "2022-09-15 20:50:02","created_by": "1" }
+
+PerformanceReview:
+  - { id: 5, status_id: 1, employee_number: 1, work_period_start: '2011-01-01', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01' }
+  - { id: 6, status_id: 2, employee_number: 2, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-01' }
+  - { id: 7, status_id: 1, employee_number: 2, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-05' }
+  - { id: 8, status_id: 3, employee_number: 3, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-05' }
+
+ReviewerGroup:
+  - { "id": 1,"name": "Supervisor","piority": 1 }
+  - { "id": 2,"name": "Employee","piority": 2 }
+
+Reviewer:
+  - { id: 1, review_id: 5, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 1' }
+  - { id: 2, review_id: 5, employee_number: 1, status: 3, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 2' }
+  - { id: 3, review_id: 6, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 3' }
+  - { id: 4, review_id: 6, employee_number: 2, status: 1, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 4' }
+  - { id: 5, review_id: 7, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 5' }
+  - { id: 6, review_id: 7, employee_number: 2, status: 1, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 6' }
+  - { id: 7, review_id: 8, employee_number: 5, status: 2, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 6' }
+
+ReviewerRating:
+  - { id: 1, rating: '5.5', kpi_id: 2, review_id: 5, reviewer_id: 1 ,comment: 'Test comment 1' }
+  - { id: 2, rating: '4', kpi_id: 3, review_id: 5, reviewer_id: 1 ,comment: 'Test comment 2' }
+  - { id: 3, rating: '2', kpi_id: 4, review_id: 5, reviewer_id: 1 ,comment: 'Test comment 3' }
+
+LeavePeriodHistory:
+  - { id: 1, leave_period_start_month: 1, leave_period_start_day: 1, created_at: '2022-01-02' }
+
+LeaveType:
+  - { "id": 1,"name": "US - Personal","deleted": "1","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 2,"name": "US - Vacation","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 3,"name": "US - Matternity","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 4,"name": "CAN - Personal","deleted": "1","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 5,"name": "CAN - Vacation","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 6,"name": "Medical","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+
+LeaveEntitlementType:
+  - { id: 1, name: 'Added' }
+
+LeaveEntitlement:
+  - { "id": 1,"emp_number": "4","no_of_days": "7.0","days_used": "2.5000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 2,"emp_number": "1","no_of_days": "7.0","days_used": "3.8750","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 3,"emp_number": "2","no_of_days": "7.0","days_used": "7.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 4,"emp_number": "3","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 5,"emp_number": "4","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 6,"emp_number": "1","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 7,"emp_number": "2","no_of_days": "7.0","days_used": "1.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 8,"emp_number": "3","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 9,"emp_number": "1","no_of_days": "20.0","days_used": "12.5000","leave_type_id": "2","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","credited_date": "2022-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
+  - { "id": 10,"emp_number": "5","no_of_days": "10.0","days_used": "1.5000","leave_type_id": "4","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","credited_date": "2022-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
+  - { "id": 11,"emp_number": "5","no_of_days": "14.0","days_used": "0.0000","leave_type_id": "5","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","credited_date": "2022-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
+
+LeaveRequest:
+  - { "id": "1","leave_type_id": "6","date_applied": "2022-09-01","emp_number": "4" }
+  - { "id": "2","leave_type_id": "6","date_applied": "2022-09-23","emp_number": "4" }
+  - { "id": "3","leave_type_id": "6","date_applied": "2022-12-30","emp_number": "2" }
+  - { "id": "4","leave_type_id": "2","date_applied": "2022-09-02","emp_number": "1" }
+  - { "id": "5","leave_type_id": "6","date_applied": "2022-09-30","emp_number": "1" }
+  - { "id": "6","leave_type_id": "6","date_applied": "2022-08-24","emp_number": "1" }
+  - { "id": "7","leave_type_id": "6","date_applied": "2022-10-12","emp_number": "1" }
+  - { "id": "8","leave_type_id": "2","date_applied": "2022-10-25","emp_number": "1" }
+  - { "id": "9","leave_type_id": "2","date_applied": "2022-10-27","emp_number": "1" }
+  - { "id": "10","leave_type_id": "2","date_applied": "2022-10-29","emp_number": "1" }
+  - { "id": "11","leave_type_id": "6","date_applied": "2022-06-01","emp_number": "1" }
+  - { "id": "12","leave_type_id": "2","date_applied": "2022-06-07","emp_number": "1" }
+  - { "id": "13","leave_type_id": "6","date_applied": "2022-07-05","emp_number": "1" }
+  - { "id": "14","leave_type_id": "4","date_applied": "2022-06-01","emp_number": "5" }
+  - { "id": "15","leave_type_id": "2","date_applied": "2022-03-01","emp_number": "6" }
+  - { "id": "16","leave_type_id": "1","date_applied": "2022-11-04","emp_number": "1" }
+  - { "id": "17","leave_type_id": "2","date_applied": "2022-11-04","emp_number": "1" }
+  - { "id": "18","leave_type_id": "6","date_applied": "2022-12-01","emp_number": "2" }
+  - { "id": "19","leave_type_id": "6","date_applied": "2022-12-01","emp_number": "3" }
+  - { "id": "20","leave_type_id": "6","date_applied": "2022-12-01","emp_number": "4" }
+  - { "id": "21","leave_type_id": "5","date_applied": "2022-12-01","emp_number": "5" }
+
+Leave:
+  - { "id": "1","date": "2022-09-01","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "1","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "2","date": "2022-09-23","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "2","leave_type_id": "6","emp_number": "4","start_time": "13:00:00","end_time": "17:00:00","duration_type": "2" }
+  - { "id": "3","date": "2022-09-24","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "2","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "4","date": "2022-09-25","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "2","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "5","date": "2022-09-26","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "2","leave_type_id": "6","emp_number": "4","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "6","date": "2022-12-30","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "3","leave_type_id": "6","emp_number": "2","start_time": "13:00:00","end_time": "17:00:00","duration_type": "2" }
+  - { "id": "7","date": "2022-12-31","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "3","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "8","date": "2022-01-01","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "3","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "9","date": "2022-01-02","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "3","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "10","date": "2022-09-02","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "11","date": "2022-09-03","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "12","date": "2022-09-04","length_hours": "0.00","length_days": "0.0000","status": "5","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "13","date": "2022-09-05","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "14","date": "2022-09-06","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "15","date": "2022-09-07","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "16","date": "2022-09-08","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "17","date": "2022-09-09","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "18","date": "2022-09-10","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "19","date": "2022-09-11","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "20","date": "2022-09-12","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "21","date": "2022-09-13","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "22","date": "2022-09-14","length_hours": "0.00","length_days": "0.0000","status": "5","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "23","date": "2022-09-15","length_hours": "8.00","length_days": "1.0000","status": "0","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "24","date": "2022-09-16","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "25","date": "2022-09-30","length_hours": "5.00","length_days": "0.6250","status": "1","leave_request_id": "5","leave_type_id": "6","emp_number": "1","start_time": "09:00:00","end_time": "14:00:00","duration_type": "3" }
+  - { "id": "26","date": "2022-08-24","length_hours": "3.00","length_days": "0.3750","status": "1","leave_request_id": "6","leave_type_id": "6","emp_number": "1","start_time": "10:00:00","end_time": "13:00:00","duration_type": "3" }
+  - { "id": "27","date": "2022-08-25","length_hours": "3.00","length_days": "0.3750","status": "1","leave_request_id": "6","leave_type_id": "6","emp_number": "1","start_time": "10:00:00","end_time": "13:00:00","duration_type": "3" }
+  - { "id": "28","date": "2022-10-12","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "7","leave_type_id": "6","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "29","date": "2022-10-25","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "8","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "30","date": "2022-10-26","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "8","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "31","date": "2022-10-27","length_hours": "8.00","length_days": "1.0000","status": "0","leave_request_id": "9","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "32","date": "2022-10-28","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "9","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "33","date": "2022-10-29","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "10","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "34","date": "2022-10-30","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "10","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "35","date": "2022-10-31","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "10","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "36","date": "2022-06-01","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "11","leave_type_id": "6","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "37","date": "2022-06-07","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "12","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "38","date": "2022-06-08","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "12","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "39","date": "2022-06-09","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "12","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "40","date": "2022-07-05","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "13","leave_type_id": "6","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "41","date": "2022-06-01","length_hours": "3.00","length_days": "0.3750","status": "-1","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "14:00:00","end_time": "17:00:00","duration_type": "3" }
+  - { "id": "42","date": "2022-06-02","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "43","date": "2022-06-03","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "44","date": "2022-06-04","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "45","date": "2022-06-05","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "46","date": "2022-06-06","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "47","date": "2022-06-07","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "48","date": "2022-06-08","length_hours": "5.00","length_days": "0.6250","status": "0","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "09:00:00","end_time": "14:00:00","duration_type": "3" }
+  - { "id": "49","date": "2022-03-01","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "13:00:00","end_time": "17:00:00","duration_type": "2" }
+  - { "id": "50","date": "2022-03-02","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "51","date": "2022-03-03","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "52","date": "2022-03-04","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "53","date": "2022-03-05","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "54","date": "2022-03-06","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "55","date": "2022-03-07","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "56","date": "2022-03-08","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "57","date": "2022-11-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "16","leave_type_id": "1","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "58","date": "2022-11-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "17","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "59","date": "2022-11-05","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "17","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "60","date": "2022-12-01","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "61","date": "2022-12-02","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "62","date": "2022-12-03","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "63","date": "2022-12-04","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "64","date": "2022-12-05","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "65","date": "2022-12-06","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "66","date": "2022-12-07","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "67","date": "2022-12-08","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "68","date": "2023-01-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "19","leave_type_id": "6","emp_number": "3","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "69","date": "2023-01-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "19","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "70","date": "2023-01-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "19","leave_type_id": "5","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+
+LeaveLeaveEntitlement:
+  - { "id": "1","leave_id": "1","entitlement_id": "1","length_days": "1.0000" }
+  - { "id": "2","leave_id": "2","entitlement_id": "1","length_days": "0.5000" }
+  - { "id": "3","leave_id": "3","entitlement_id": "1","length_days": "0.5000" }
+  - { "id": "4","leave_id": "5","entitlement_id": "1","length_days": "0.5000" }
+  - { "id": "5","leave_id": "6","entitlement_id": "3","length_days": "0.5000" }
+  - { "id": "6","leave_id": "7","entitlement_id": "3","length_days": "0.5000" }
+  - { "id": "7","leave_id": "9","entitlement_id": "7","length_days": "1.0000" }
+  - { "id": "8","leave_id": "10","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "9","leave_id": "11","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "10","leave_id": "13","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "11","leave_id": "14","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "12","leave_id": "15","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "13","leave_id": "16","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "14","leave_id": "17","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "15","leave_id": "18","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "16","leave_id": "20","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "17","leave_id": "21","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "20","leave_id": "25","entitlement_id": "2","length_days": "0.6250" }
+  - { "id": "21","leave_id": "26","entitlement_id": "2","length_days": "0.3750" }
+  - { "id": "22","leave_id": "27","entitlement_id": "2","length_days": "0.3750" }
+  - { "id": "23","leave_id": "28","entitlement_id": "2","length_days": "0.5000" }
+  - { "id": "24","leave_id": "29","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "27","leave_id": "32","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "28","leave_id": "33","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "29","leave_id": "35","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "30","leave_id": "36","entitlement_id": "2","length_days": "1.0000" }
+  - { "id": "34","leave_id": "40","entitlement_id": "2","length_days": "1.0000" }
+  - { "id": "36","leave_id": "42","entitlement_id": "10","length_days": "1.0000" }
+  - { "id": "37","leave_id": "43","entitlement_id": "10","length_days": "1.0000" }
+  - { "id": "38","leave_id": "44","entitlement_id": "10","length_days": "0.5000" }
+  - { "id": "39","leave_id": "46","entitlement_id": "10","length_days": "1.0000" }
+  - { "id": "40","leave_id": "47","entitlement_id": "10","length_days": "1.0000" }
+  - { "id": "42","leave_id": "58","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "43","leave_id": "59","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "44","leave_id": "60","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "45","leave_id": "61","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "46","leave_id": "62","entitlement_id": "3","length_days": "0.5000" }
+  - { "id": "47","leave_id": "64","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "48","leave_id": "65","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "49","leave_id": "66","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "50","leave_id": "67","entitlement_id": "3","length_days": "0.5000" }
+  - { "id": "51","leave_id": "68","entitlement_id": "4","length_days": "1.0000" }
+  - { "id": "52","leave_id": "69","entitlement_id": "1","length_days": "1.0000" }
+  - { "id": "53","leave_id": "70","entitlement_id": "11","length_days": "1.0000" }
+
+LeaveStatus:
+  - { "id": "1","status": "-1","name": "REJECTED" }
+  - { "id": "2","status": "0","name": "CANCELLED" }
+  - { "id": "3","status": "1","name": "PENDING APPROVAL" }
+  - { "id": "4","status": "2","name": "SCHEDULED" }
+  - { "id": "5","status": "3","name": "TAKEN" }
+  - { "id": "6","status": "4","name": "WEEKEND" }
+  - { "id": "7","status": "5","name": "HOLIDAY" }
+
+Customer:
+  - { name: 'Orange', description: 'HRM', deleted: false }
+  - { name: 'CUS', description: 'DES', deleted: false }
+  - { name: 'CUS2', description: 'DES2', deleted: false }
+
+Project:
+  - { project_id: 1, customer_id: 1, name: 'OrangeHRM', description: 'firstproject', is_deleted: 0 }
+  - { project_id: 2, customer_id: 2, name: 'OrangeHRM2', description: 'secondproject', is_deleted: 0 }
+  - { project_id: 3, customer_id: 3, name: 'OrangeHRM3', description: 'thirdproject', is_deleted: 1 }
+
+ProjectActivity:
+  - { activity_id: 1, project_id: 1, name: 'Activity1 For Pro1', is_deleted: 0 }
+  - { activity_id: 2, project_id: 1, name: 'Activity2 For Pro1', is_deleted: 1 }
+
+Timesheet:
+  - { timesheet_id: 1, state: 'CREATED', start_date: '2011-04-18',end_date: '2011-04-24', employee_id: 1 }
+  - { timesheet_id: 2, state: 'SUBMITTED', start_date: '2011-05-22',end_date: '2011-05-29', employee_id: 2 }
+  - { timesheet_id: 3, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-24', employee_id: 3 }
+  - { timesheet_id: 4, state: 'NOT SUBMITTED', start_date: '2011-06-10',end_date: '2011-06-16', employee_id: 2 }
+  - { timesheet_id: 5, state: 'APPROVED', start_date: '2011-07-10',end_date: '2011-07-16', employee_id: 4 }
+
+JobTitle:
+  - { "id": "1","job_title": "Chief Executive Officer","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "2","job_title": "Chief Financial Officer","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "3","job_title": "Chief Technical Officer","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "4","job_title": "VP - Sales & Marketing","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "5","job_title": "VP - Client Services","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "6","job_title": "Software Architect","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "7","job_title": "Software Engineer","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "8","job_title": "QA Lead","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "9","job_title": "QA Engineer","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "10","job_title": "IT Manager","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "11","job_title": "Network Administrator","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "12","job_title": "Database Administrator","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "13","job_title": "Sales Representative","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "14","job_title": "Pre-Sales Coordinator","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "15","job_title": "Social Media Marketer","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "16","job_title": "Content Specialist","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "17","job_title": "Customer Success Manager","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "18","job_title": "Head of Support","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "19","job_title": "Support Specialist","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "20","job_title": "Finance Manager","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "21","job_title": "Financial Analyst","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "22","job_title": "Account Assistant","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "23","job_title": "HR Manager","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "24","job_title": "HR Associate","job_description": "","note": "","is_deleted": "0" }
+  - { "id": "25","job_title": "Payroll Administrator","job_description": "","note": "","is_deleted": "0" }
+
+Vacancy:
+  - { "id": "1","job_title_code": "7","hiring_manager_id": "1","name": "Software Engineer","description": "","no_of_positions": "2","status": "1","published_in_feed": "1","defined_time": "2020-10-08 03:46:36","updated_time": "2020-10-08 03:46:36" }
+  - { "id": "2","job_title_code": "13","hiring_manager_id": "1","name": "Sales Representative","description": "","no_of_positions": "1","status": "1","published_in_feed": "1","defined_time": "2020-10-08 03:48:00","updated_time": "2020-10-08 03:48:00" }
+  - { "id": "3","job_title_code": "25","hiring_manager_id": "3","name": "Payroll Administrator","description": "","no_of_positions": "6","status": "1","published_in_feed": "1","defined_time": "2020-10-08 03:49:02","updated_time": "2020-10-08 03:49:18" }
+  - { "id": "4","job_title_code": "10","hiring_manager_id": "4","name": "Associate IT Manager","description": "","no_of_positions": "1","status": "1","published_in_feed": "1","defined_time": "2020-10-08 03:49:53","updated_time": "2020-10-08 03:49:53" }
+  - { "id": "5","job_title_code": "22","hiring_manager_id": "3","name": "Junior Account Assistant","description": "","no_of_positions": "2","status": "1","published_in_feed": "1","defined_time": "2020-10-08 03:50:46","updated_time": "2020-10-08 03:50:46" }
+  - { "id": "6","job_title_code": "8","hiring_manager_id": "1","name": "Senior QA Lead","description": "","no_of_positions": "1","status": "1","published_in_feed": "1","defined_time": "2020-10-08 03:51:23","updated_time": "2020-10-08 03:51:23" }
+  - { "id": "7","job_title_code": "19","hiring_manager_id": "6","name": "Senior Support Specialist","description": "","no_of_positions": "2","status": "1","published_in_feed": "1","defined_time": "2020-10-08 03:52:01","updated_time": "2020-10-08 03:52:01" }
+
+Candidate:
+  - { "id": "23","first_name": "Jhon","middle_name": null,"last_name": "Cena","email": "jhon@wwe.com","contact_number": null,"status": "1","comment": null,"mode_of_application": "1","date_of_application": "2022-09-16","cv_file_id": null,"cv_text_version": null,"keywords": null,"added_person": "1","consent_to_keep_data": "0" }
+  - { "id": "24","first_name": "Paul","middle_name": null,"last_name": "Walker","email": "paul@fandf.com","contact_number": null,"status": "1","comment": null,"mode_of_application": "1","date_of_application": "2022-09-16","cv_file_id": null,"cv_text_version": null,"keywords": null,"added_person": "1","consent_to_keep_data": "0" }
+  - { "id": "25","first_name": "Vin","middle_name": null,"last_name": "Diesel","email": "dom@fandf.com","contact_number": null,"status": "1","comment": null,"mode_of_application": "1","date_of_application": "2022-09-16","cv_file_id": null,"cv_text_version": null,"keywords": null,"added_person": "1","consent_to_keep_data": "0" }
+  - { "id": "26","first_name": "Aaron","middle_name": null,"last_name": "Paul","email": "Aaron@gmail.com","contact_number": null,"status": "1","comment": null,"mode_of_application": "1","date_of_application": "2022-09-16","cv_file_id": null,"cv_text_version": null,"keywords": null,"added_person": "1","consent_to_keep_data": "0" }
+  - { "id": "27","first_name": "Joe","middle_name": null,"last_name": "Root","email": "joe@cricket.com","contact_number": null,"status": "1","comment": null,"mode_of_application": "1","date_of_application": "2022-09-16","cv_file_id": null,"cv_text_version": null,"keywords": null,"added_person": "1","consent_to_keep_data": "0" }
+  - { "id": "28","first_name": "Jhon","middle_name": null,"last_name": "Newmon","email": "newmon@gmail.com","contact_number": null,"status": "1","comment": null,"mode_of_application": "1","date_of_application": "2022-09-16","cv_file_id": null,"cv_text_version": null,"keywords": null,"added_person": "1","consent_to_keep_data": "0" }
+  - { "id": "29","first_name": "David","middle_name": null,"last_name": "Warner","email": "david@gmail.com","contact_number": null,"status": "1","comment": null,"mode_of_application": "1","date_of_application": "2022-09-16","cv_file_id": null,"cv_text_version": null,"keywords": null,"added_person": "1","consent_to_keep_data": "0" }
+
+CandidateVacancy:
+  - { "id": "23","candidate_id": "23","vacancy_id": "4","status": "INTERVIEW SCHEDULED","applied_date": "2022-09-16" }
+  - { "id": "24","candidate_id": "24","vacancy_id": "3","status": "INTERVIEW SCHEDULED","applied_date": "2022-09-16" }
+  - { "id": "25","candidate_id": "25","vacancy_id": "2","status": "APPLICATION INITIATED","applied_date": "2022-09-16" }
+  - { "id": "26","candidate_id": "26","vacancy_id": "3","status": "INTERVIEW SCHEDULED","applied_date": "2022-09-16" }
+  - { "id": "27","candidate_id": "27","vacancy_id": "4","status": "INTERVIEW SCHEDULED","applied_date": "2022-09-16" }
+  - { "id": "28","candidate_id": "28","vacancy_id": "5","status": "APPLICATION INITIATED","applied_date": "2022-09-16" }
+  - { "id": "29","candidate_id": "29","vacancy_id": "6","status": "APPLICATION INITIATED","applied_date": "2022-09-16" }
+
+Interview:
+  - { "id": "5","candidate_vacancy_id": "27","candidate_id": "27","interview_name": "Interview 01","interview_date": "2022-09-16","interview_time": null,"note": null },
+  - { "id": "6","candidate_vacancy_id": "23","candidate_id": "23","interview_name": "Interview 01","interview_date": "2022-09-15","interview_time": null,"note": null },
+  - { "id": "7","candidate_vacancy_id": "26","candidate_id": "26","interview_name": "Interview 01","interview_date": "2022-09-15","interview_time": null,"note": null },
+  - { "id": "8","candidate_vacancy_id": "24","candidate_id": "24","interview_name": "Interview 02","interview_date": "2022-09-22","interview_time": null,"note": null }
+
+InterviewInterviewer:
+  - { "interview_id": "5","interviewer_id": "1" }
+  - { "interview_id": "5","interviewer_id": "5" }
+  - { "interview_id": "6","interviewer_id": "5" }
+  - { "interview_id": "7","interviewer_id": "6" }
+  - { "interview_id": "8","interviewer_id": "2" }
+  - { "interview_id": "8","interviewer_id": "3" }
+
+CandidateHistory:
+  - { "id": "58","candidate_id": "23","vacancy_id": null,"candidate_vacancy_name": null,"interview_id": null,"action": "16","performed_by": "1","performed_date": "2022-09-16 09:05:20","note": null,"interviewers": null }
+  - { "id": "59","candidate_id": "23","vacancy_id": "4","candidate_vacancy_name": "Associate IT Manager","interview_id": null,"action": "1","performed_by": "1","performed_date": "2022-09-16 09:05:20","note": null,"interviewers": null }
+  - { "id": "60","candidate_id": "24","vacancy_id": null,"candidate_vacancy_name": null,"interview_id": null,"action": "16","performed_by": "1","performed_date": "2022-09-16 09:06:01","note": null,"interviewers": null }
+  - { "id": "61","candidate_id": "24","vacancy_id": "3","candidate_vacancy_name": "Payroll Administrator","interview_id": null,"action": "1","performed_by": "1","performed_date": "2022-09-16 09:06:01","note": null,"interviewers": null }
+  - { "id": "62","candidate_id": "25","vacancy_id": null,"candidate_vacancy_name": null,"interview_id": null,"action": "16","performed_by": "1","performed_date": "2022-09-16 09:06:33","note": null,"interviewers": null }
+  - { "id": "63","candidate_id": "25","vacancy_id": "2","candidate_vacancy_name": "Sales Representative","interview_id": null,"action": "1","performed_by": "1","performed_date": "2022-09-16 09:06:33","note": null,"interviewers": null }
+  - { "id": "64","candidate_id": "26","vacancy_id": null,"candidate_vacancy_name": null,"interview_id": null,"action": "16","performed_by": "1","performed_date": "2022-09-16 09:09:56","note": null,"interviewers": null }
+  - { "id": "65","candidate_id": "26","vacancy_id": "3","candidate_vacancy_name": "Payroll Administrator","interview_id": null,"action": "1","performed_by": "1","performed_date": "2022-09-16 09:09:56","note": null,"interviewers": null }
+  - { "id": "66","candidate_id": "27","vacancy_id": null,"candidate_vacancy_name": null,"interview_id": null,"action": "16","performed_by": "1","performed_date": "2022-09-16 09:10:48","note": null,"interviewers": null }
+  - { "id": "67","candidate_id": "27","vacancy_id": "4","candidate_vacancy_name": "Associate IT Manager","interview_id": null,"action": "1","performed_by": "1","performed_date": "2022-09-16 09:10:48","note": null,"interviewers": null }
+  - { "id": "68","candidate_id": "28","vacancy_id": null,"candidate_vacancy_name": null,"interview_id": null,"action": "16","performed_by": "1","performed_date": "2022-09-16 09:11:56","note": null,"interviewers": null }
+  - { "id": "69","candidate_id": "28","vacancy_id": "5","candidate_vacancy_name": "Junior Account Assistant","interview_id": null,"action": "1","performed_by": "1","performed_date": "2022-09-16 09:11:56","note": null,"interviewers": null }
+  - { "id": "70","candidate_id": "29","vacancy_id": null,"candidate_vacancy_name": null,"interview_id": null,"action": "16","performed_by": "1","performed_date": "2022-09-16 09:12:30","note": null,"interviewers": null }
+  - { "id": "71","candidate_id": "29","vacancy_id": "6","candidate_vacancy_name": "Senior QA Lead","interview_id": null,"action": "1","performed_by": "1","performed_date": "2022-09-16 09:12:30","note": null,"interviewers": null }
+  - { "id": "72","candidate_id": "27","vacancy_id": "4","candidate_vacancy_name": "Associate IT Manager","interview_id": null,"action": "2","performed_by": "1","performed_date": "2022-09-16 09:12:58","note": null,"interviewers": null }
+  - { "id": "73","candidate_id": "27","vacancy_id": "4","candidate_vacancy_name": "Associate IT Manager","interview_id": "5","action": "4","performed_by": "1","performed_date": "2022-09-16 09:13:34","note": null,"interviewers": null }
+  - { "id": "74","candidate_id": "23","vacancy_id": "4","candidate_vacancy_name": "Associate IT Manager","interview_id": null,"action": "2","performed_by": "1","performed_date": "2022-09-16 09:13:53","note": null,"interviewers": null }
+  - { "id": "75","candidate_id": "23","vacancy_id": "4","candidate_vacancy_name": "Associate IT Manager","interview_id": "6","action": "4","performed_by": "1","performed_date": "2022-09-16 09:14:26","note": null,"interviewers": null }
+  - { "id": "76","candidate_id": "26","vacancy_id": "3","candidate_vacancy_name": "Payroll Administrator","interview_id": null,"action": "2","performed_by": "1","performed_date": "2022-09-16 09:14:55","note": null,"interviewers": null }
+  - { "id": "77","candidate_id": "26","vacancy_id": "3","candidate_vacancy_name": "Payroll Administrator","interview_id": "7","action": "4","performed_by": "1","performed_date": "2022-09-16 09:15:20","note": null,"interviewers": null }
+  - { "id": "78","candidate_id": "24","vacancy_id": "3","candidate_vacancy_name": "Payroll Administrator","interview_id": null,"action": "2","performed_by": "1","performed_date": "2022-09-16 09:15:49","note": null,"interviewers": null }
+  - { "id": "79","candidate_id": "24","vacancy_id": "3","candidate_vacancy_name": "Payroll Administrator","interview_id": "8","action": "4","performed_by": "1","performed_date": "2022-09-16 09:16:21","note": null,"interviewers": null }

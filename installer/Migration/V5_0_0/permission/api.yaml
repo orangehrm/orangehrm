@@ -1,0 +1,492 @@
+##########################
+#        Time
+##########################
+
+apiv2_time_time_sheet_config:
+  description: 'API-v2 Time - Time Sheet Start Day Configuration'
+  api: OrangeHRM\Time\Api\TimeConfigPeriodAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+
+apiv2_time_customers:
+  description: 'API-v2 Time - Customers'
+  api: OrangeHRM\Time\Api\CustomerAPI
+  module: time
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_validation_customer_name:
+  description: 'API-v2 Time - Customer Name Validation'
+  api: OrangeHRM\Time\Api\ValidationCustomerNameAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_project_activities:
+  description: 'API-v2 Time - Project Activities'
+  api: OrangeHRM\Time\Api\ProjectActivityAPI
+  module: time
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_time_projects:
+  description: 'API-v2 Time - Projects'
+  api: OrangeHRM\Time\Api\ProjectAPI
+  module: time
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_project_name_validator:
+  description: 'API-v2 Time - Project Name Validation'
+  api: OrangeHRM\Time\Api\ValidateProjectNameAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_my_timesheets_entries:
+  description: 'API-v2 Time - My Timesheet Entries'
+  api: OrangeHRM\Time\Api\MyTimesheetItemAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: true } }
+    - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: true } }
+
+apiv2_time_employees_timesheets_entries:
+  description: 'API-v2 Time - Employee Timesheet Entries'
+  api: OrangeHRM\Time\Api\EmployeeTimesheetItemAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: true } }
+
+apiv2_time_my_timesheet:
+  description: 'API-v2 Time - My Timesheet'
+  api: OrangeHRM\Time\Api\MyTimesheetAPI
+  module: time
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false, self: false } }
+
+apiv2_time_timesheet_action_log:
+  description: 'API-v2 Time - Timesheet action log'
+  api: OrangeHRM\Time\Api\TimesheetActionLogAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_timesheet_comment:
+  description: 'API-v2 Time - Timesheet comment'
+  api: OrangeHRM\Time\Api\TimesheetCommentAPI
+  module: time
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false, self: false } }
+
+apiv2_time_config_time_format:
+  description: 'API-v2 Time - Time Config Format'
+  api: OrangeHRM\Time\Api\TimesheetTimeFormatAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_validation_project_activity_name:
+  description: 'API-v2 Time - Project Activity Name Validation'
+  api: OrangeHRM\Time\Api\ValidationProjectActivityNameAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_project_activity_unique_validation:
+  description: 'API-v2 Time - Project Activity Unique Validation'
+  api: OrangeHRM\Time\Api\TimesheetProjectActivityUniqueValidationAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_copy_activities:
+  description: 'API-v2 Time - Project Copy activities'
+  api: OrangeHRM\Time\Api\CopyProjectActivityAPI
+  module: time
+  allowed:
+    read: true
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: true, update: false, delete: false, self: false } }
+
+apiv2_time_employee_timesheets:
+  description: 'API-v2 Time - Employee Timesheets'
+  api: OrangeHRM\Time\Api\EmployeeTimesheetAPI
+  module: time
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false, self: false } }
+
+apiv2_time_employee_timesheet_list:
+  description: 'API-v2 Time - Employee Timesheet List'
+  api: OrangeHRM\Time\Api\EmployeeTimesheetListAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_default_timesheet:
+  description: 'API-v2 Time - Default Timesheet'
+  api: OrangeHRM\Time\Api\DefaultTimesheetAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_reports:
+  description: 'API-v2 Time - Reports'
+  api: OrangeHRM\Time\Api\TimeReportAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_reports_data:
+  description: 'API-v2 Time - Reports Data'
+  api: OrangeHRM\Time\Api\TimeReportDataAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_time_project_admins:
+  description: 'API-v2 Time - Project Admins'
+  api: OrangeHRM\Time\Api\ProjectAdminAPI
+  module: time
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+##########################
+#        Attendance
+##########################
+
+apiv2_attendance_configuration:
+  description: 'API-v2 Attendance - Attendance Configuration'
+  api: OrangeHRM\Attendance\Api\AttendanceConfigurationAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+
+apiv2_attendance_employee_latest_attendance_record:
+  description: 'API-v2 Attendance - Employee Latest Attendance Record'
+  api: OrangeHRM\Attendance\Api\EmployeeLatestAttendanceRecordAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_attendance_punch_in_overlaps:
+  description: 'API-v2 Attendance - Punch In Overlaps'
+  api: OrangeHRM\Attendance\Api\AttendancePunchInRecordOverlapAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_attendance_punch_out_overlaps:
+  description: 'API-v2 Attendance - Punch Out Overlaps'
+  api: OrangeHRM\Attendance\Api\AttendancePunchOutRecordOverlapAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_attendance_my_attendance_record:
+  description: 'API-v2 Attendance - My Attendance Record'
+  api: OrangeHRM\Attendance\Api\MyAttendanceRecordAPI
+  module: attendance
+  allowed:
+    read: false
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
+
+apiv2_attendance_employee_attendance_record:
+  description: 'API-v2 Attendance - Employee Attendance Record'
+  api: OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI
+  module: attendance
+  allowed:
+    read: false
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false, self: true } }
+
+apiv2_attendance_timezones:
+  description: 'API-v2 Attendance - Timezones'
+  api: OrangeHRM\Attendance\Api\TimezonesAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_attendance_current_date_time:
+  description: 'API-v2 Attendance - Current DateTime'
+  api: OrangeHRM\Attendance\Api\CurrentDateTimeAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_attendance_record:
+  description: 'API-v2 Attendance - Attendance Record'
+  api: OrangeHRM\Attendance\Api\AttendanceRecordAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: false } }
+
+apiv2_attendance_edit_punch_in_overlaps:
+  description: 'API-v2 Attendance - Edit Punch In Overlaps'
+  api: OrangeHRM\Attendance\Api\AttendanceEditPunchInRecordOverlapAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_attendance_edit_punch_out_overlaps:
+  description: 'API-v2 Attendance - Edit Punch Out Overlaps'
+  api: OrangeHRM\Attendance\Api\AttendanceEditPunchOutRecordOverlapAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+apiv2_attendance_employee_attendance_summary:
+  description: 'API-v2 Attendance - Employee Attendance Summary'
+  api: OrangeHRM\Attendance\Api\EmployeeAttendanceSummaryAPI
+  module: attendance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false, self: true } }
+
+##########################
+#        Maintenance
+##########################
+
+apiv2_maintenance_purge_employee:
+  description: 'API-v2 Maintenance - Purge Employee'
+  api: OrangeHRM\Maintenance\Api\PurgeEmployeeAPI
+  module: maintenance
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: true, self: false } }
+
+
+##########################
+#        Admin
+##########################
+
+apiv2_admin_localization:
+  description: 'API-v2 Admin - Localization'
+  api: OrangeHRM\Admin\Api\LocalizationAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+
+##########################
+#        PIM
+##########################
+
+apiv2_pim_validation_other_email:
+  description: 'API-v2 PIM - Other Email Validation'
+  api: OrangeHRM\Pim\Api\ValidationEmployeeOtherEmailAPI
+  module: pim
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }

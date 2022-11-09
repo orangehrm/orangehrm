@@ -28,16 +28,14 @@ require_once "../../../lib/confs/Conf.php";
 $conf = new Conf();
 $dbConnection = mysqli_connect($conf->dbhost, $conf->dbuser, $conf->dbpass, $conf->dbname, $conf->dbport);
 if (!$dbConnection) { echo mysqli_error($dbConnection); die; }
+$dbConnection->set_charset("utf8mb4");
+
 //if (!mysqli_select_db($conf->dbname)) { echo mysqli_error(); exit(0); }
 
 // Truncating tables
 if (!mysqli_query($dbConnection,"DELETE from `hs_hr_employee`")) { echo mysqli_error($dbConnection); die; }
 if (!mysqli_query($dbConnection,"DELETE from `ohrm_emp_termination`")) { echo mysqli_error($dbConnection); die; }
 if (!mysqli_query($dbConnection,"DELETE from `ohrm_user`")) { echo mysqli_error($dbConnection); die; }
-
-// Default admin
-$q = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 1)";
-if (!mysqli_query($dbConnection,$q)) { echo mysqli_error($dbConnection); die; }
 
 // Employee data
 $employees[0][0] = "001"; $employees[0][1] = "Abbey"; $employees[0][2] = "Kayla";
@@ -312,6 +310,15 @@ INSERT INTO hs_hr_employee SET
 EMPSQLSTR;
 
     if (!mysqli_query($dbConnection,$empSql)) { echo mysqli_error(); die; }
+
+    if ($i == 0) {
+        // Default admin
+        $q = "INSERT INTO `ohrm_user` ( `emp_number`, `user_name`, `user_password`,`user_role_id`) VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1)";
+        if (!mysqli_query($dbConnection, $q)) {
+            echo mysqli_error($dbConnection);
+            die;
+        }
+    }
 
     $userSql = <<< USERSQLSTR
 INSERT INTO ohrm_user SET

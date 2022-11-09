@@ -1,0 +1,465 @@
+translations:
+    - { target: Ajouter, unitId: add, group: general }
+    - { target: 'Ajouter une pièce jointe', unitId: add_attachment, group: general }
+    - { target: 'Ajouter des employés', unitId: add_employee, group: general }
+    - { target: 'Ajouté par', unitId: added_by, group: pim }
+    - { target: Adresse, unitId: address, group: admin }
+    - { target: Admin, unitId: admin, group: general }
+    - { target: 'Tranche d''âge', unitId: age_group, group: pim }
+    - { target: 'Autorise les chiffres et seulement + - / ()', unitId: allows_phone_numbers_only, group: general }
+    - { target: 'Existe déjà', unitId: already_exists, group: general }
+    - { target: Montant, unitId: amount, group: pim }
+    - { target: Appliquer, unitId: apply, group: general }
+    - { target: 'Attribuer congés', unitId: assign_leave, group: leave }
+    - { target: 'Composantes salariales attribuées', unitId: assigned_salary_components, group: pim }
+    - { target: 'Taille pièces jointes dépassée', unitId: attachment_size_exceeded, group: general }
+    - { target: Présence, unitId: attendance, group: general }
+    - { target: 'Résumé de présence', unitId: attendance_summary, group: general }
+    - { target: Retour, unitId: back, group: general }
+    - { target: Annuler, unitId: cancel, group: general }
+    - { target: 'Les candidats', unitId: candidates, group: general }
+    - { target: 'Changer mot de passe', unitId: change_password, group: general }
+    - { target: Commenter, unitId: comment, group: general }
+    - { target: Commentaires, unitId: comments, group: general }
+    - { target: Entreprise, unitId: company, group: pim }
+    - { target: Compétence, unitId: competency, group: pim }
+    - { target: Configuration, unitId: configuration, group: general }
+    - { target: Configurer, unitId: configure, group: general }
+    - { target: Coordonnées, unitId: contact_details, group: pim }
+    - { target: 'Date de fin du contrat', unitId: contract_end_date, group: pim }
+    - { target: 'Date de début du contrat', unitId: contract_start_date, group: pim }
+    - { target: Pays, unitId: country, group: general }
+    - { target: Monnaie, unitId: currency, group: general }
+    - { target: 'Salariés actuels et passés', unitId: current_and_past_employees, group: general }
+    - { target: 'Salariés actuels seulement', unitId: current_employees_only, group: general }
+    - { target: 'Les champs personnalisés', unitId: custom_fields, group: pim }
+    - { target: Clients, unitId: customers, group: general }
+    - { target: 'Importation de données', unitId: data_import, group: pim }
+    - { target: Date, unitId: date, group: general }
+    - { target: 'Date d''ajout', unitId: date_added, group: pim }
+    - { target: 'Date de naissance', unitId: date_of_birth, group: pim }
+    - { target: Journées, unitId: days, group: leave }
+    - { target: 'Effacer actuel', unitId: delete_current, group: general }
+    - { target: 'Les personnes à charge', unitId: dependents, group: general }
+    - { target: Description, unitId: description, group: general }
+    - { target: 'Numéro de compte de dépôt direct', unitId: direct_deposit_account_number, group: pim }
+    - { target: 'Type de compte de dépôt direct', unitId: direct_deposit_account_type, group: pim }
+    - { target: 'Montant de dépôt direct', unitId: direct_deposit_amount, group: pim }
+    - { target: Handicapé, unitId: disabled, group: general }
+    - { target: 'Afficher les champs', unitId: display_fields, group: pim }
+    - { target: 'Type de documents', unitId: document_type, group: pim }
+    - { target: 'Numéro du permis de conduire', unitId: driver_license_number, group: pim }
+    - { target: Durée, unitId: duration, group: general }
+    - { target: Éditer, unitId: edit, group: general }
+    - { target: 'Modifier la pièce jointe', unitId: edit_attachment, group: general }
+    - { target: 'Modifier l''immigration', unitId: edit_immigration, group: pim }
+    - { target: 'Modifier le composant Salaire', unitId: edit_salary_component, group: pim }
+    - { target: Formation, unitId: education, group: general }
+    - { target: 'Date d''admission révisable', unitId: eligible_review_date, group: pim }
+    - { target: 'Statut admissible', unitId: eligible_status, group: pim }
+    - { target: 'Contacts d''urgence', unitId: emergency_contacts, group: general }
+    - { target: Salarié, unitId: employee, group: general }
+    - { target: 'Prénom du salarié', unitId: employee_first_name, group: pim }
+    - { target: 'Id du salarié', unitId: employee_id, group: general }
+    - { target: 'Nom de famille du salarié', unitId: employee_last_name, group: pim }
+    - { target: 'Liste des salariés', unitId: employee_list, group: general }
+    - { target: 'Autre nom du salarié', unitId: employee_middle_name, group: pim }
+    - { target: 'Nom du salarié', unitId: employee_name, group: general }
+    - { target: 'Dossiers du salarié', unitId: employee_records, group: general }
+    - { target: 'Rapports du salarié', unitId: employee_reports, group: general }
+    - { target: 'Emploi du temps du salarié', unitId: employee_timesheets, group: general }
+    - { target: 'Situation d''emploi', unitId: employment_status, group: general }
+    - { target: Activé, unitId: enabled, group: general }
+    - { target: 'Date de fin', unitId: end_date, group: general }
+    - { target: ESS, unitId: ess, group: general }
+    - { target: 'Format attendu: admin@example.com', unitId: expected_email_address_format_not_matched, group: general }
+    - { target: 'Date d''expiration', unitId: expiry_date, group: general }
+    - { target: 'Date d''expiration doit être postérieure à la date de délivrance', unitId: expiry_date_should_be_after_issued_date, group: pim }
+    - { target: Féminin, unitId: female, group: general }
+    - { target: 'Nom du fichier', unitId: file_name, group: general }
+    - { target: Prénom, unitId: first_name, group: pim }
+    - { target: Aisance, unitId: fluency, group: pim }
+    - { target: Vendredi, unitId: friday, group: general }
+    - { target: 'À partir de', unitId: from, group: general }
+    - { target: Sexe, unitId: gender, group: pim }
+    - { target: 'Informations générales', unitId: general_information, group: admin }
+    - { target: Vacances, unitId: holidays, group: leave }
+    - { target: 'Téléphone domicile', unitId: home_telephone, group: pim }
+    - { target: Id, unitId: id, group: general }
+    - { target: Immigration, unitId: immigration, group: general }
+    - { target: Inclure, unitId: include, group: pim }
+    - { target: 'Inclure en-tête', unitId: include_header, group: general }
+    - { target: 'Inclure les anciens salariés', unitId: include_past_employees, group: leave }
+    - { target: 'Fait par', unitId: issued_by, group: pim }
+    - { target: 'Date d''émission', unitId: issued_date, group: pim }
+    - { target: Emploi, unitId: job, group: general }
+    - { target: 'Catégories d''emploi', unitId: job_categories, group: admin }
+    - { target: 'Catégorie d''emploi', unitId: job_category, group: general }
+    - { target: 'Fiche de poste', unitId: job_specification, group: general }
+    - { target: 'Titre du poste', unitId: job_title, group: general }
+    - { target: 'Titres de poste', unitId: job_titles, group: admin }
+    - { target: 'Inscrit depuis', unitId: joined_date, group: general }
+    - { target: 'Tenir à jour', unitId: keep_current, group: general }
+    - { target: Langue, unitId: language, group: general }
+    - { target: Langues, unitId: languages, group: general }
+    - { target: 'Nom de famille', unitId: last_name, group: general }
+    - { target: Congé, unitId: leave, group: general }
+    - { target: 'Balance des congés (Jours)', unitId: leave_balance_days, group: leave }
+    - { target: 'Quitter Liste', unitId: leave_list, group: leave }
+    - { target: 'Période de congé', unitId: leave_period, group: leave }
+    - { target: 'Quitter Types', unitId: leave_types, group: leave }
+    - { target: Niveau, unitId: level, group: general }
+    - { target: Permis, unitId: license, group: pim }
+    - { target: 'Date d''expiration permis', unitId: license_expiry_date, group: pim }
+    - { target: 'Numéro de permis', unitId: license_number, group: pim }
+    - { target: 'Type de permis', unitId: license_type, group: pim }
+    - { target: Permis, unitId: licenses, group: admin }
+    - { target: Localisation, unitId: localization, group: admin }
+    - { target: Emplacement, unitId: location, group: general }
+    - { target: Emplacements, unitId: locations, group: admin }
+    - { target: Déconnexion, unitId: logout, group: general }
+    - { target: Masculin, unitId: male, group: general }
+    - { target: 'État marital', unitId: marital_status, group: pim }
+    - { target: Adhésion, unitId: membership, group: pim }
+    - { target: Adhésions, unitId: memberships, group: general }
+    - { target: Portable, unitId: mobile, group: general }
+    - { target: Modules, unitId: modules, group: general }
+    - { target: Lundi, unitId: monday, group: general }
+    - { target: 'Mon congé', unitId: my_leave, group: general }
+    - { target: 'Mes dossiers', unitId: my_records, group: general }
+    - { target: 'Mes emplois du temps', unitId: my_timesheets, group: general }
+    - { target: Nom, unitId: name, group: general }
+    - { target: Nationalités, unitId: nationalities, group: admin }
+    - { target: Nationalité, unitId: nationality, group: general }
+    - { target: Aucun, unitId: 'no', group: general }
+    - { target: Remarques, unitId: notes, group: general }
+    - { target: Nombre, unitId: number, group: pim }
+    - { target: 'Seulement inclure les emplois du temps approuvés', unitId: only_include_approved_timesheets, group: time }
+    - { target: 'Champs facultatifs', unitId: optional_fields, group: pim }
+    - { target: Organisation, unitId: organization, group: general }
+    - { target: Autre, unitId: other, group: pim }
+    - { target: 'Courriel Autre', unitId: other_email, group: general }
+    - { target: 'Id Autre', unitId: other_id, group: pim }
+    - { target: 'Ancien salarié', unitId: past_employee, group: maintenance }
+    - { target: 'Anciens salariés seulement', unitId: past_employees_only, group: general }
+    - { target: 'Fréquence de paie', unitId: pay_frequency, group: pim }
+    - { target: 'Niveau de paie', unitId: pay_grade, group: general }
+    - { target: 'Niveaux de paie', unitId: pay_grades, group: admin }
+    - { target: Performance, unitId: performance, group: general }
+    - { target: Personnel, unitId: personal, group: pim }
+    - { target: PIM, unitId: pim, group: general }
+    - { target: 'Date prévue projet', unitId: project_date_range, group: time }
+    - { target: 'Informations sur le projet', unitId: project_info, group: general }
+    - { target: 'Rapports de projets', unitId: project_reports, group: general }
+    - { target: Projets, unitId: projects, group: general }
+    - { target: Composer, unitId: punch_in_out, group: general }
+    - { target: Recrutement, unitId: recruitment, group: general }
+    - { target: Relations, unitId: relationship, group: pim }
+    - { target: 'Remplacer actuel', unitId: replace_current, group: general }
+    - { target: 'Nom du rapport', unitId: report_name, group: general }
+    - { target: 'Rapport sur la méthode', unitId: reporting_method, group: pim }
+    - { target: 'Rapports sur la méthode', unitId: reporting_methods, group: pim }
+    - { target: Rapports, unitId: reports, group: general }
+    - { target: Requis, unitId: required, group: general }
+    - { target: 'Remettre à zéro', unitId: reset, group: general }
+    - { target: 'Numéro d''acheminement', unitId: routing_number, group: pim }
+    - { target: Salaire, unitId: salary, group: general }
+    - { target: 'Composante Salaire', unitId: salary_component, group: pim }
+    - { target: Samedi, unitId: saturday, group: general }
+    - { target: Sauver, unitId: save, group: general }
+    - { target: Score, unitId: score, group: pim }
+    - { target: Rechercher, unitId: search, group: general }
+    - { target: 'Sélectionnez Fichier', unitId: select_file, group: general }
+    - { target: 'Critères de sélection', unitId: selection_criteria, group: pim }
+    - { target: 'Période de service', unitId: service_period, group: pim }
+    - { target: 'Doit être un nombre', unitId: should_be_a_number, group: general }
+    - { target: 'Doit être un nombre positif', unitId: should_be_a_positive_number, group: general }
+    - { target: 'Devrait être compris entre les valeurs Min / Max', unitId: should_be_within_min_max_values, group: pim }
+    - { target: Taille, unitId: size, group: general }
+    - { target: Compétence, unitId: skill, group: pim }
+    - { target: Compétences, unitId: skills, group: general }
+    - { target: 'Date de début', unitId: start_date, group: general }
+    - { target: 'Date de début doit être avant la date de fin', unitId: start_date_should_be_before_end_date, group: general }
+    - { target: État, unitId: state, group: general }
+    - { target: Statut, unitId: status, group: general }
+    - { target: Structure, unitId: structure, group: general }
+    - { target: 'Sous unité', unitId: sub_unit, group: general }
+    - { target: 'Les subordonnés', unitId: subordinates, group: pim }
+    - { target: 'Montant de l''abonnement', unitId: subscription_amount, group: pim }
+    - { target: 'Date début abonnement', unitId: subscription_commence_date, group: pim }
+    - { target: 'Abonnement payé par', unitId: subscription_paid_by, group: pim }
+    - { target: 'Date de renouvellement d''abonnement', unitId: subscription_renewal_date, group: pim }
+    - { target: 'Sauvegardé avec succès', unitId: successfully_saved, group: general }
+    - { target: 'Mis à jour avec succès', unitId: successfully_updated, group: general }
+    - { target: Dimanche, unitId: sunday, group: general }
+    - { target: Superviseur, unitId: supervisor, group: pim }
+    - { target: 'Nom du superviseur', unitId: supervisor_name, group: pim }
+    - { target: 'Les superviseurs', unitId: supervisors, group: pim }
+    - { target: 'Raisons de résiliation', unitId: termination_reasons, group: pim }
+    - { target: Jeudi, unitId: thursday, group: general }
+    - { target: Heure, unitId: time, group: general }
+    - { target: 'Emplois du temps', unitId: timesheets, group: general }
+    - { target: À, unitId: to, group: general }
+    - { target: 'À ce jour, devrait avoir lieu après la date', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Mardi, unitId: tuesday, group: general }
+    - { target: Type, unitId: type, group: general }
+    - { target: Utilisateurs, unitId: users, group: general }
+    - { target: 'Offres d''emploi', unitId: vacancies, group: general }
+    - { target: Mercredi, unitId: wednesday, group: general }
+    - { target: 'Email professionnel', unitId: work_email, group: general }
+    - { target: 'Expérience professionnelle', unitId: work_experience, group: pim }
+    - { target: 'Horaires de travail', unitId: work_shifts, group: admin }
+    - { target: 'Téléphone professionnel', unitId: work_telephone, group: pim }
+    - { target: 'Semaine de travail', unitId: work_week, group: leave }
+    - { target: Année, unitId: year, group: general }
+    - { target: 'Années d''expérience', unitId: years_of_experience, group: pim }
+    - { target: Oui, unitId: 'yes', group: general }
+    - { target: 'Les mots de passe ne correspondent pas', unitId: passwords_do_not_match, group: general }
+    - { target: Ok, unitId: ok, group: general }
+    - { target: 'Accepte jusqu''à 1 Mo', unitId: accepts_up_to_1mb, group: general }
+    - { target: 'Nom d''utilisateur', unitId: username, group: general }
+    - { target: 'Mot de passe', unitId: password, group: general }
+    - { target: Charger, unitId: upload, group: general }
+    - { target: Total, unitId: total, group: general }
+    - { target: 'Date de fin', unitId: termination_date, group: pim }
+    - { target: 'Raison d''arrêt', unitId: termination_reason, group: pim }
+    - { target: 'Nom de l''activité', unitId: activity_name, group: time }
+    - { target: 'Ajouter formation', unitId: add_education, group: general }
+    - { target: 'Ajouter une langue', unitId: add_language, group: general }
+    - { target: 'Ajouter un permis', unitId: add_license, group: general }
+    - { target: 'Ajouter compétences', unitId: add_skill, group: general }
+    - { target: 'Adresse 1', unitId: address_street_1, group: general }
+    - { target: 'Adresse 2', unitId: address_street_2, group: general }
+    - { target: Ville, unitId: city, group: general }
+    - { target: 'Confirmer Mot de passe', unitId: confirm_password, group: general }
+    - { target: 'Copier à partir de', unitId: copy_from, group: time }
+    - { target: 'Nom du projet', unitId: project_name, group: time }
+    - { target: 'Modifier formation', unitId: edit_education, group: general }
+    - { target: 'Modifier langue', unitId: edit_language, group: general }
+    - { target: 'Modifier permis', unitId: edit_license, group: general }
+    - { target: 'Modifier des compétences', unitId: edit_skill, group: general }
+    - { target: 'État / Province', unitId: state_province, group: general }
+    - { target: 'Zip / Code postal', unitId: zip_postal_code, group: general }
+    - { target: Approuver, unitId: approve, group: general }
+    - { target: Prévu, unitId: scheduled, group: leave }
+    - { target: Note, unitId: note, group: general }
+    - { target: 'Les pièces jointes', unitId: attachments, group: general }
+    - { target: Télécharger, unitId: download, group: general }
+    - { target: Email, unitId: email, group: general }
+    - { target: 'Edité par', unitId: performed_by, group: general }
+    - { target: Rejeter, unitId: reject, group: general }
+    - { target: Rejeté, unitId: rejected, group: leave }
+    - { target: Soumettre, unitId: submit, group: general }
+    - { target: Voir, unitId: view, group: general }
+    - { target: 'Mes Infos', unitId: my_info, group: general }
+    - { target: Diplômes, unitId: qualifications, group: general }
+    - { target: 'Ajouter un autre', unitId: add_another, group: general }
+    - { target: Confirmer, unitId: confirm, group: general }
+    - { target: 'À ce jour, devrait avoir lieu après la date de', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Activités, unitId: activities, group: time }
+    - { target: 'Ajouter une devise', unitId: add_currency, group: admin }
+    - { target: 'Ajouter un client', unitId: add_customer, group: time }
+    - { target: 'Ajouter un statut', unitId: add_employment_status, group: admin }
+    - { target: 'Ajouter une catégorie d''emploi', unitId: add_job_category, group: admin }
+    - { target: 'Ajouter un titre de poste', unitId: add_job_title, group: admin }
+    - { target: 'Ajouter un site', unitId: add_location, group: admin }
+    - { target: 'Ajouter des membres', unitId: add_membership, group: general }
+    - { target: 'Ajouter une nationalité', unitId: add_nationality, group: admin }
+    - { target: 'Ajouter une catégorie salariale', unitId: add_pay_grade, group: admin }
+    - { target: 'Ajouter un projet', unitId: add_project, group: time }
+    - { target: 'Ajouter une activité de projet', unitId: add_project_activity, group: time }
+    - { target: 'Ajouter un abonné', unitId: add_subscriber, group: admin }
+    - { target: 'Ajouter un utilisateur', unitId: add_user, group: admin }
+    - { target: 'Ajouter les horaires de travail', unitId: add_work_shift, group: admin }
+    - { target: 'Salariés concernés', unitId: assigned_employees, group: admin }
+    - { target: Mieux, unitId: better, group: general }
+    - { target: 'L''ordre des colonnes ne doit pas être changé', unitId: column_order_should_not_be_changed, group: pim }
+    - { target: 'Copié l''activité', unitId: copy_activity, group: time }
+    - { target: 'Mot de passe actuel', unitId: current_password, group: pim }
+    - { target: 'Nom du client', unitId: customer_name, group: time }
+    - { target: 'Format de date', unitId: date_format, group: admin }
+    - { target: 'Chaque fichier importé doit être configuré pour 100 enregistrements ou moins', unitId: each_import_file_should_be_configured_for_100_records_or_less, group: pim }
+    - { target: 'Modifier les devises', unitId: edit_currency, group: admin }
+    - { target: 'Modifier un client', unitId: edit_customer, group: time }
+    - { target: 'Modifier le statut de poste', unitId: edit_employment_status, group: admin }
+    - { target: 'Modifier la catégorie de poste', unitId: edit_job_category, group: admin }
+    - { target: 'Modifier le titre de poste', unitId: edit_job_title, group: admin }
+    - { target: 'Modifier l''emplacement', unitId: edit_location, group: admin }
+    - { target: 'Modifier l''appartenance', unitId: edit_membership, group: general }
+    - { target: 'Modifier la nationalité', unitId: edit_nationality, group: admin }
+    - { target: 'Modifier le niveau de rémunération', unitId: edit_pay_grade, group: admin }
+    - { target: 'Modifier le projet', unitId: edit_project, group: time }
+    - { target: 'Modifier l''activité de projet', unitId: edit_project_activity, group: time }
+    - { target: 'Modifier l''abonné', unitId: edit_subscriber, group: admin }
+    - { target: 'Modifier l''utilisateur', unitId: edit_user, group: admin }
+    - { target: 'Modifier les horaires de travail', unitId: edit_work_shift, group: admin }
+    - { target: Fax, unitId: fax, group: general }
+    - { target: 'Nom et Prénom sont obligatoires', unitId: first_name_and_last_name_are_compulsory, group: pim }
+    - { target: 'Heures par jour', unitId: hours_per_day, group: admin }
+    - { target: 'Description du poste', unitId: job_description, group: admin }
+    - { target: 'Messages envoyés comme', unitId: mail_sent_as, group: admin }
+    - { target: 'Salaire maximum', unitId: maximum_salary, group: admin }
+    - { target: 'Salaire minimum', unitId: minimum_salary, group: admin }
+    - { target: 'Configuration du module', unitId: module_configuration, group: admin }
+    - { target: 'Nouveau mot de passe', unitId: new_password, group: auth }
+    - { target: 'Aucune activité sélectionnée', unitId: no_activities_selected, group: time }
+    - { target: 'Aucune des activités attribuée', unitId: no_assigned_activities, group: time }
+    - { target: 'Type de notification', unitId: notification_type, group: admin }
+    - { target: 'Nombre de salariés', unitId: number_of_employees, group: admin }
+    - { target: 'Nom de l''organisme', unitId: organization_name, group: admin }
+    - { target: 'Chemin de sendmail', unitId: path_to_sendmail, group: admin }
+    - { target: Téléphone, unitId: phone, group: general }
+    - { target: Projet, unitId: project, group: time }
+    - { target: 'Administrateur de projet', unitId: project_admin, group: time }
+    - { target: 'Administrateurs de projet', unitId: project_admins, group: time }
+    - { target: 'Numéro d''enregistrement', unitId: registration_number, group: admin }
+    - { target: 'Méthode d''envoi', unitId: sending_method, group: admin }
+    - { target: 'Inverser le nom', unitId: shift_name, group: admin }
+    - { target: 'Mot de passe SMTP', unitId: smtp_password, group: admin }
+    - { target: 'Port SMTP', unitId: smtp_port, group: admin }
+    - { target: 'Utilisateur SMTP', unitId: smtp_user, group: admin }
+    - { target: 'Plus fort', unitId: strongest, group: general }
+    - { target: Abonnés, unitId: subscribers, group: admin }
+    - { target: 'Utilisateurs du système', unitId: system_users, group: admin }
+    - { target: 'Numéro d''identification fiscale', unitId: tax_id, group: admin }
+    - { target: 'Tester l''adresse e-mail', unitId: test_email_address, group: admin }
+    - { target: 'Cette unité sera ajoutée sous', unitId: this_unit_will_be_added_under, group: admin }
+    - { target: TLS, unitId: tls, group: admin }
+    - { target: 'Id de l''entité', unitId: unit_id, group: admin }
+    - { target: 'Utiliser l''authentification SMTP', unitId: use_smtp_authentication, group: admin }
+    - { target: 'Très faible', unitId: very_weak, group: general }
+    - { target: Faible, unitId: weak, group: general }
+    - { target: 'Devrait être plus élevé que le salaire minimum', unitId: should_be_higher_than_minimum_salary, group: admin }
+    - { target: 'Tous les champs de date doivent être au format AAAA-MM-JJ', unitId: all_date_fields_should_be_in_yyyy_mm_dd_format, group: pim }
+    - { target: 'Plusieurs fichiers d''importation peuvent être nécessaires', unitId: multiple_import_files_may_be_required, group: pim }
+    - { target: 'Appliquer congé', unitId: apply_leave, group: leave }
+    - { target: 'Actions effectuées sur Feuille de présences', unitId: actions_performed_on_the_timesheet, group: time }
+    - { target: 'Ajouter une ligne', unitId: add_row, group: time }
+    - { target: 'Ajouter Feuille de présence', unitId: add_timesheet, group: time }
+    - { target: 'Rapport sommaire de présence totale', unitId: attendance_total_summary_report, group: attendance }
+    - { target: 'Définir la période de la Feuille de présence', unitId: timesheet_period_config, group: time }
+    - { target: 'Modifier Feuille de présence pour', unitId: edit_timesheet_for, group: time }
+    - { target: 'Rapport du salarié', unitId: employee_report, group: time }
+    - { target: 'Doit être inférieur à 24 et en HH: MM ou au format décimal', unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format, group: time }
+    - { target: Ven., unitId: fri, group: general }
+    - { target: Lun., unitId: mon, group: general }
+    - { target: 'Rapport sur le projet', unitId: project_report, group: time }
+    - { target: Sam, unitId: sat, group: general }
+    - { target: 'Sélectionnez un jour pour créer des feuilles de présence', unitId: select_a_day_to_create_timesheet, group: time }
+    - { target: 'Sélectionnez des salariés', unitId: select_employee, group: time }
+    - { target: Dim., unitId: sun, group: general }
+    - { target: Jeu., unitId: thu, group: general }
+    - { target: 'Feuille de présence pour', unitId: timesheet_for, group: time }
+    - { target: 'Période de la Feuille de présence', unitId: timesheet_period, group: time }
+    - { target: 'Feuille de présence en attente d''action', unitId: timesheets_pending_action, group: time }
+    - { target: Mar., unitId: tue, group: general }
+    - { target: Mer., unitId: wed, group: general }
+    - { target: 'Sélectionnez un projet et une activité', unitId: select_a_project_and_an_activity, group: time }
+    - { target: 'Pas de feuilles de présence trouvée', unitId: no_timesheets_found, group: time }
+    - { target: 'Feuille de présence approuvée', unitId: timesheet_approved, group: time }
+    - { target: 'Feuille de présence rejetée', unitId: timesheet_rejected, group: time }
+    - { target: 'Total doit être inférieur à 24 Heures', unitId: total_should_be_less_than_24_hours, group: time }
+    - { target: 'Numéro de compte', unitId: account_number, group: pim }
+    - { target: 'Type de compte', unitId: account_type, group: pim }
+    - { target: 'Activer emploi', unitId: activate_employment, group: pim }
+    - { target: 'Ajouter un champ personnalisé', unitId: add_custom_field, group: pim }
+    - { target: 'Ajouter personne à charge', unitId: add_dependent, group: pim }
+    - { target: 'Ajouter l''immigration', unitId: add_immigration, group: pim }
+    - { target: 'Ajouter une méthode de déclaration', unitId: add_reporting_method, group: pim }
+    - { target: 'Ajouter Raison Résiliation', unitId: add_termination_reason, group: pim }
+    - { target: 'Ajouter expérience professionnelle', unitId: add_work_experience, group: pim }
+    - { target: 'Personnes à charge enregistrées', unitId: assigned_dependents, group: pim }
+    - { target: 'Contacts d''urgence enregistrés', unitId: assigned_emergency_contacts, group: pim }
+    - { target: 'Membres enregistrés', unitId: assigned_memberships, group: pim }
+    - { target: 'Subordonnés qui sont rattachés', unitId: assigned_subordinates, group: pim }
+    - { target: 'Superviseurs enregistrés', unitId: assigned_supervisors, group: pim }
+    - { target: 'Au moins un numéro de téléphone est nécessaire', unitId: at_least_one_phone_number_is_required, group: pim }
+    - { target: Enfant, unitId: child, group: pim }
+    - { target: 'Détails du contrat', unitId: contract_details, group: pim }
+    - { target: 'Informations spécifiques au pays', unitId: country_specific_information, group: pim }
+    - { target: 'Créer Détails Connexion', unitId: create_login_details, group: pim }
+    - { target: 'Nom du champ personnalisé', unitId: custom_field_name, group: pim }
+    - { target: Document, unitId: document, group: pim }
+    - { target: Déroulant, unitId: drop_down, group: pim }
+    - { target: 'Modifier les champs personnalisés', unitId: edit_custom_field, group: pim }
+    - { target: 'Modifier personne à charge', unitId: edit_dependent, group: pim }
+    - { target: 'Modifier le contact d''urgence', unitId: edit_emergency_contact, group: pim }
+    - { target: 'Modifier Mode de présentation', unitId: edit_reporting_method, group: pim }
+    - { target: 'Modifier Raison Résiliation', unitId: edit_termination_reason, group: pim }
+    - { target: 'Renseignements sur les employés', unitId: employee_information, group: pim }
+    - { target: 'Entrez les options autorisées séparées par des virgules', unitId: enter_allowed_options_separated_by_commas, group: pim }
+    - { target: Exemptions, unitId: exemptions, group: pim }
+    - { target: 'Impôt sur le revenu', unitId: federal_income_tax, group: pim }
+    - { target: 'Nom du champ', unitId: field_name, group: pim }
+    - { target: 'Type de champ', unitId: field_type, group: pim }
+    - { target: 'La date doit être antérieure à la date du jour', unitId: from_date_should_be_before_to_date, group: general }
+    - { target: 'GPA / Score', unitId: gpa_score, group: pim }
+    - { target: Institut, unitId: institute, group: pim }
+    - { target: 'Major / Spécialisation', unitId: major_specialization, group: pim }
+    - { target: 'Service militaire', unitId: military_service, group: pim }
+    - { target: Passeport, unitId: passport, group: pim }
+    - { target: 'Détails personnels', unitId: personal_details, group: general }
+    - { target: 'S''il vous plaît spécifier', unitId: please_specify, group: pim }
+    - { target: 'Reporte à', unitId: report_to, group: general }
+    - { target: Écran, unitId: screen, group: pim }
+    - { target: 'Sélectionnez Options', unitId: select_options, group: pim }
+    - { target: 'Afficher les champs obsolètes', unitId: show_deprecated_fields, group: pim }
+    - { target: 'Afficher le surnom, Fumeur et le service militaire dans les détails personnels', unitId: show_nick_name_smoker_and_military_service_in_personal_details, group: pim }
+    - { target: 'Afficher le champ NAS dans les détails personnels', unitId: show_sin_field_in_personal_details, group: pim }
+    - { target: 'Afficher le champ SSN dans les détails personnels', unitId: show_ssn_field_in_personal_details, group: pim }
+    - { target: 'Afficher le menu de l''exemption des impôts des États-Unis', unitId: show_us_tax_exemptions_menu, group: pim }
+    - { target: 'Nombre NAS', unitId: sin_number, group: pim }
+    - { target: Fumeur, unitId: smoker, group: pim }
+    - { target: 'Nombre SSN', unitId: ssn_number, group: pim }
+    - { target: 'Exonérations fiscales', unitId: tax_exemptions, group: general }
+    - { target: 'Mettre fin à l''emploi', unitId: terminate_employment, group: pim }
+    - { target: 'Texte ou Nombre', unitId: text_or_number, group: pim }
+    - { target: 'Etat chômage', unitId: unemployment_state, group: pim }
+    - { target: Visa, unitId: visa, group: pim }
+    - { target: 'Etat de travail', unitId: work_state, group: pim }
+    - { target: Actions, unitId: actions, group: general }
+    - { target: Attribuer, unitId: assign, group: leave }
+    - { target: 'Période d''absences en cours', unitId: current_leave_period, group: leave }
+    - { target: 'Durée (Heures)', unitId: duration_hours, group: attendance }
+    - { target: 'Année suivante', unitId: following_year, group: leave }
+    - { target: Du, unitId: from_date, group: general }
+    - { target: 'Journée complète', unitId: full_day, group: leave }
+    - { target: Demi-journée, unitId: half_day, group: leave }
+    - { target: 'Solde de congés', unitId: leave_balance, group: leave }
+    - { target: 'Type d''absence', unitId: leave_type, group: leave }
+    - { target: 'Ma liste d''absence', unitId: my_leave_list, group: leave }
+    - { target: 'Aucun Types de congé avec solde de congés', unitId: no_leave_types_with_leave_balance, group: leave }
+    - { target: 'Jour non ouvrable', unitId: non_working_day, group: leave }
+    - { target: 'Nombre de jours', unitId: number_of_days, group: leave }
+    - { target: 'En attente d''approbation', unitId: pending_approval, group: leave }
+    - { target: 'Répété Annuellement', unitId: repeats_annually, group: leave }
+    - { target: 'Afficher l''absence avec le statut', unitId: show_leave_with_status, group: leave }
+    - { target: Pris, unitId: taken, group: leave }
+    - { target: 'Jusqu''au', unitId: to_date, group: general }
+    - { target: 'Impossible de soumettre: Pas de jours de travail sélectionnés', unitId: failed_to_submit_no_working_days_selected, group: leave }
+    - { target: 'Impossible de soumettre', unitId: failed_to_submit, group: leave }
+    - { target: 'Ajouter Type d''absence', unitId: add_leave_type, group: leave }
+    - { target: 'Modifier Type d''absence', unitId: edit_leave_type, group: leave }
+    - { target: 'Pointer ', unitId: punch_in, group: attendance }
+    - { target: 'Note sur l''arrivée', unitId: punch_in_note, group: attendance }
+    - { target: Pointer, unitId: punch_out, group: attendance }
+    - { target: 'Note sur le départ', unitId: punch_out_note, group: attendance }
+    - { target: 'Documents qui se chevauchent trouvés', unitId: overlapping_records_found, group: attendance }
+    - { target: 'Fuseau horaire', unitId: timezone, group: attendance }
+    - { target: Dans, unitId: in, group: attendance }
+    - { target: Dehors, unitId: out, group: attendance }
+    - { target: 'Configuration de présence', unitId: attendance_configuration, group: attendance }
+    - { target: 'Le salarié peut changer l''heure actuelle lors du pointage', unitId: employee_can_change_current_time_when_punching_in_out, group: attendance }
+    - { target: 'Le salarié peut modifier ou supprimer ses propres enregistrements de présence', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
+    - { target: 'Le superviseur peut ajouter / modifier / supprimer les enregistrements de présence de ses subordonnés', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
+    - { target: 'Mes dossiers de présence', unitId: my_attendance_records, group: attendance }
+    - { target: Répertoire, unitId: directory, group: general }
+    - { target: 'Supprimé avec succès', unitId: successfully_deleted, group: general }
+    - { target: 'Pointage sortie doit être supérieur à pointage arrivée en temps', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Nom d''utilisateur', unitId: username, group: auth }
+    - { target: 'Mot de passe', unitId: password, group: auth }
+    - { target: 'Aucun résultat', unitId: no_records_found, group: general }
+    - { target: Feuille de présence soumise, unitId: timesheet_submitted, group: time }
+    - { target: Nom du milieu, unitId: middle_name, group: general }
+    - { target: Prénom, unitId: first_name, group: general }
+    - { target: Nom de famille, unitId: last_name, group: general }

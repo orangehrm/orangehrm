@@ -1,0 +1,525 @@
+translations:
+    - { target: Toevoegen, unitId: add, group: general }
+    - { target: 'Bijlage toevoegen', unitId: add_attachment, group: general }
+    - { target: 'Medewerker toevoegen', unitId: add_employee, group: general }
+    - { target: 'Toegevoegd door', unitId: added_by, group: pim }
+    - { target: Adres, unitId: address, group: admin }
+    - { target: Administrator, unitId: admin, group: general }
+    - { target: Leeftijdscategorie, unitId: age_group, group: pim }
+    - { target: 'Alleen cijfers en + - / ( ) zijn toegestaan', unitId: allows_phone_numbers_only, group: general }
+    - { target: 'Bestaat reeds', unitId: already_exists, group: general }
+    - { target: Bedrag, unitId: amount, group: pim }
+    - { target: Toepassen, unitId: apply, group: general }
+    - { target: 'Verlof toekennen', unitId: assign_leave, group: leave }
+    - { target: 'Toegekende salaris componenten', unitId: assigned_salary_components, group: pim }
+    - { target: 'Bijlage grootte overschreden', unitId: attachment_size_exceeded, group: general }
+    - { target: Aanwezigheid, unitId: attendance, group: general }
+    - { target: Aanwezigheidsoverzicht, unitId: attendance_summary, group: general }
+    - { target: Terug, unitId: back, group: general }
+    - { target: 'Ongedaan maken', unitId: cancel, group: general }
+    - { target: Kandidaten, unitId: candidates, group: general }
+    - { target: 'Wachtwoord wijzigen', unitId: change_password, group: general }
+    - { target: Opmerking, unitId: comment, group: general }
+    - { target: Opmerkingen, unitId: comments, group: general }
+    - { target: Bedrijf, unitId: company, group: pim }
+    - { target: Competentie, unitId: competency, group: pim }
+    - { target: Configuratie, unitId: configuration, group: general }
+    - { target: Configureren, unitId: configure, group: general }
+    - { target: 'Contact Details', unitId: contact_details, group: pim }
+    - { target: 'Contract einddatum', unitId: contract_end_date, group: pim }
+    - { target: 'Contract ingangsdatum', unitId: contract_start_date, group: pim }
+    - { target: Land, unitId: country, group: general }
+    - { target: Valuta, unitId: currency, group: general }
+    - { target: 'Huidige en ex- medewerkers', unitId: current_and_past_employees, group: general }
+    - { target: 'Alleen Huidige medewerkers', unitId: current_employees_only, group: general }
+    - { target: 'Aangepast Velden', unitId: custom_fields, group: pim }
+    - { target: Klanten, unitId: customers, group: general }
+    - { target: 'Data Import', unitId: data_import, group: pim }
+    - { target: Datum, unitId: date, group: general }
+    - { target: Plaatsingsdatum, unitId: date_added, group: pim }
+    - { target: Geboortedatum, unitId: date_of_birth, group: pim }
+    - { target: Dagen, unitId: days, group: leave }
+    - { target: 'Huidige verwijderen', unitId: delete_current, group: general }
+    - { target: Naasten, unitId: dependents, group: general }
+    - { target: Beschrijving, unitId: description, group: general }
+    - { target: Rekeningnummer, unitId: direct_deposit_account_number, group: pim }
+    - { target: Rekeningsoort, unitId: direct_deposit_account_type, group: pim }
+    - { target: Bedrag, unitId: direct_deposit_amount, group: pim }
+    - { target: Uitgeschakeld, unitId: disabled, group: general }
+    - { target: 'Velden weergeven', unitId: display_fields, group: pim }
+    - { target: Documentsoort, unitId: document_type, group: pim }
+    - { target: Rijbewijsnummer, unitId: driver_license_number, group: pim }
+    - { target: Duur, unitId: duration, group: general }
+    - { target: Bewerken, unitId: edit, group: general }
+    - { target: 'Bijlage bewerken', unitId: edit_attachment, group: general }
+    - { target: 'Immigratie bewerken', unitId: edit_immigration, group: pim }
+    - { target: 'Salariscomponent bewerken', unitId: edit_salary_component, group: pim }
+    - { target: Opleiding, unitId: education, group: general }
+    - { target: 'Geldig Beoordeling Datum', unitId: eligible_review_date, group: pim }
+    - { target: 'Visum status', unitId: eligible_status, group: pim }
+    - { target: 'Contacten in noodgevallen', unitId: emergency_contacts, group: general }
+    - { target: Medewerker, unitId: employee, group: general }
+    - { target: 'Voornaam Medewerker', unitId: employee_first_name, group: pim }
+    - { target: 'Medewerker Id', unitId: employee_id, group: general }
+    - { target: 'Achternaam Medewerker', unitId: employee_last_name, group: pim }
+    - { target: 'Lijst Medewerkers ', unitId: employee_list, group: general }
+    - { target: 'Tussenvoegsel Medewerker', unitId: employee_middle_name, group: pim }
+    - { target: 'Naam Medewerker', unitId: employee_name, group: general }
+    - { target: 'Medewerker bestanden', unitId: employee_records, group: general }
+    - { target: 'Medewerkers rapportages', unitId: employee_reports, group: general }
+    - { target: 'Medewerker urenlijsten', unitId: employee_timesheets, group: general }
+    - { target: Contractvorm, unitId: employment_status, group: general }
+    - { target: Ingeschakeld, unitId: enabled, group: general }
+    - { target: Einddatum, unitId: end_date, group: general }
+    - { target: ESS, unitId: ess, group: general }
+    - { target: 'Vereiste schrijfvorm: admin@example.com', unitId: expected_email_address_format_not_matched, group: general }
+    - { target: Verloopdatum, unitId: expiry_date, group: general }
+    - { target: 'De vervaldatum moet na de uitgiftedatum komen', unitId: expiry_date_should_be_after_issued_date, group: pim }
+    - { target: Vrouw, unitId: female, group: general }
+    - { target: Bestandsnaam, unitId: file_name, group: general }
+    - { target: Voornaam, unitId: first_name, group: pim }
+    - { target: Spreekvaardigheid, unitId: fluency, group: pim }
+    - { target: vrijdag, unitId: friday, group: general }
+    - { target: Van, unitId: from, group: general }
+    - { target: Geslacht, unitId: gender, group: pim }
+    - { target: 'Algemene informatie', unitId: general_information, group: admin }
+    - { target: Feestdagen, unitId: holidays, group: leave }
+    - { target: 'Privé telefoon', unitId: home_telephone, group: pim }
+    - { target: Id, unitId: id, group: general }
+    - { target: Immigratie, unitId: immigration, group: general }
+    - { target: Opnemen, unitId: include, group: pim }
+    - { target: 'Inclusief Header', unitId: include_header, group: general }
+    - { target: 'Inclusief ex-medewerkers', unitId: include_past_employees, group: leave }
+    - { target: 'Uitgegeven door', unitId: issued_by, group: pim }
+    - { target: Uitgiftedatum, unitId: issued_date, group: pim }
+    - { target: Functie, unitId: job, group: general }
+    - { target: Functiecategorieën, unitId: job_categories, group: admin }
+    - { target: Functiecategorie, unitId: job_category, group: general }
+    - { target: Functiedetails, unitId: job_specification, group: general }
+    - { target: Functienaam, unitId: job_title, group: general }
+    - { target: Functienamen, unitId: job_titles, group: admin }
+    - { target: 'Datum in dienst', unitId: joined_date, group: general }
+    - { target: 'Huidige behouden', unitId: keep_current, group: general }
+    - { target: Taal, unitId: language, group: general }
+    - { target: Talen, unitId: languages, group: general }
+    - { target: Achternaam, unitId: last_name, group: general }
+    - { target: Verlof, unitId: leave, group: general }
+    - { target: 'Verlofsaldo (dagen)', unitId: leave_balance_days, group: leave }
+    - { target: 'Verlof lijst', unitId: leave_list, group: leave }
+    - { target: 'Verlof periode', unitId: leave_period, group: leave }
+    - { target: 'Verlof soorten', unitId: leave_types, group: leave }
+    - { target: Niveau, unitId: level, group: general }
+    - { target: Licentie, unitId: license, group: pim }
+    - { target: 'Verloopdatum rijbewijs', unitId: license_expiry_date, group: pim }
+    - { target: Licentienummer, unitId: license_number, group: pim }
+    - { target: 'Soort licentie', unitId: license_type, group: pim }
+    - { target: Licenties, unitId: licenses, group: admin }
+    - { target: Lokalisatie, unitId: localization, group: admin }
+    - { target: Lokatie, unitId: location, group: general }
+    - { target: Lokaties, unitId: locations, group: admin }
+    - { target: Uitloggen, unitId: logout, group: general }
+    - { target: Man, unitId: male, group: general }
+    - { target: 'Burgerlijke staat', unitId: marital_status, group: pim }
+    - { target: Lidmaatschap, unitId: membership, group: pim }
+    - { target: Lidmaatschappen, unitId: memberships, group: general }
+    - { target: Mobiel, unitId: mobile, group: general }
+    - { target: Modules, unitId: modules, group: general }
+    - { target: maandag, unitId: monday, group: general }
+    - { target: 'Mijn verlof', unitId: my_leave, group: general }
+    - { target: 'Mijn gegevens', unitId: my_records, group: general }
+    - { target: 'Mijn urenlijsten', unitId: my_timesheets, group: general }
+    - { target: Naam, unitId: name, group: general }
+    - { target: Nationaliteiten, unitId: nationalities, group: admin }
+    - { target: Nationaliteit, unitId: nationality, group: general }
+    - { target: Nee, unitId: 'no', group: general }
+    - { target: Notities, unitId: notes, group: general }
+    - { target: Nummer, unitId: number, group: pim }
+    - { target: 'Alleen goedgekeurde urenlijsten bijvoegen', unitId: only_include_approved_timesheets, group: time }
+    - { target: 'Optionele velden', unitId: optional_fields, group: pim }
+    - { target: Organisatie, unitId: organization, group: general }
+    - { target: Andere, unitId: other, group: pim }
+    - { target: 'Ander Email adres', unitId: other_email, group: general }
+    - { target: 'Ander Id', unitId: other_id, group: pim }
+    - { target: 'Ex- medewerker', unitId: past_employee, group: maintenance }
+    - { target: 'Alleen ex- medewerkers', unitId: past_employees_only, group: general }
+    - { target: 'Betalings frequentie', unitId: pay_frequency, group: pim }
+    - { target: Salarisschaal, unitId: pay_grade, group: general }
+    - { target: Salarisschalen, unitId: pay_grades, group: admin }
+    - { target: Prestatie, unitId: performance, group: general }
+    - { target: Persoonlijk, unitId: personal, group: pim }
+    - { target: PIM, unitId: pim, group: general }
+    - { target: 'Datumbereik project', unitId: project_date_range, group: time }
+    - { target: 'Project info', unitId: project_info, group: general }
+    - { target: 'Project rapportages', unitId: project_reports, group: general }
+    - { target: Projecten, unitId: projects, group: general }
+    - { target: 'In/uit- klokken', unitId: punch_in_out, group: general }
+    - { target: 'Werving ', unitId: recruitment, group: general }
+    - { target: Relatie, unitId: relationship, group: pim }
+    - { target: 'Huidige vervangen', unitId: replace_current, group: general }
+    - { target: 'Naam rapportage', unitId: report_name, group: general }
+    - { target: 'Rapportage methode', unitId: reporting_method, group: pim }
+    - { target: 'Rapportage methoden', unitId: reporting_methods, group: pim }
+    - { target: Rapportages, unitId: reports, group: general }
+    - { target: Verplicht, unitId: required, group: general }
+    - { target: Wissen, unitId: reset, group: general }
+    - { target: 'IBAN nummer', unitId: routing_number, group: pim }
+    - { target: Salaris, unitId: salary, group: general }
+    - { target: Salariscomponent, unitId: salary_component, group: pim }
+    - { target: zaterdag, unitId: saturday, group: general }
+    - { target: Opslaan, unitId: save, group: general }
+    - { target: Score, unitId: score, group: pim }
+    - { target: Zoek, unitId: search, group: general }
+    - { target: 'Selecteer bestand', unitId: select_file, group: general }
+    - { target: Selectiecriteria, unitId: selection_criteria, group: pim }
+    - { target: 'Dienst periode', unitId: service_period, group: pim }
+    - { target: 'Moet een getal zijn', unitId: should_be_a_number, group: general }
+    - { target: 'Moet een positief getal zijn', unitId: should_be_a_positive_number, group: general }
+    - { target: 'Moet binnen de Min/Max waardes liggen', unitId: should_be_within_min_max_values, group: pim }
+    - { target: Grootte, unitId: size, group: general }
+    - { target: Vaardigheid, unitId: skill, group: pim }
+    - { target: Vaardigheden, unitId: skills, group: general }
+    - { target: Startdatum, unitId: start_date, group: general }
+    - { target: 'Startdatum moet voor de einddatum zijn', unitId: start_date_should_be_before_end_date, group: general }
+    - { target: Staat, unitId: state, group: general }
+    - { target: Status, unitId: status, group: general }
+    - { target: Structuur, unitId: structure, group: general }
+    - { target: Afdeling, unitId: sub_unit, group: general }
+    - { target: Ondergeschikten, unitId: subordinates, group: pim }
+    - { target: 'Abonnement bedrag', unitId: subscription_amount, group: pim }
+    - { target: 'Ingangsdatum abonnement', unitId: subscription_commence_date, group: pim }
+    - { target: 'Abonnement betaald door', unitId: subscription_paid_by, group: pim }
+    - { target: 'Abonnement vernieuwingsdatum', unitId: subscription_renewal_date, group: pim }
+    - { target: 'Opslaan geslaagd', unitId: successfully_saved, group: general }
+    - { target: 'Bijwerken geslaagd', unitId: successfully_updated, group: general }
+    - { target: zondag, unitId: sunday, group: general }
+    - { target: 'Leidinggevende ', unitId: supervisor, group: pim }
+    - { target: 'Naam Leidinggevende ', unitId: supervisor_name, group: pim }
+    - { target: Leidinggevenden, unitId: supervisors, group: pim }
+    - { target: 'Redenen van beeindiging', unitId: termination_reasons, group: pim }
+    - { target: donderdag, unitId: thursday, group: general }
+    - { target: 'Uren Registratie', unitId: time, group: general }
+    - { target: Urenlijsten, unitId: timesheets, group: general }
+    - { target: Tot, unitId: to, group: general }
+    - { target: 'De tot datum moet later zijn dan de vanaf datum', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: dinsdag, unitId: tuesday, group: general }
+    - { target: Invoeren, unitId: type, group: general }
+    - { target: Gebruikers, unitId: users, group: general }
+    - { target: Vacatures, unitId: vacancies, group: general }
+    - { target: woensdag, unitId: wednesday, group: general }
+    - { target: 'Werk Email', unitId: work_email, group: general }
+    - { target: Werkervaring, unitId: work_experience, group: pim }
+    - { target: Diensten, unitId: work_shifts, group: admin }
+    - { target: 'Werk telefoon', unitId: work_telephone, group: pim }
+    - { target: Werkweek, unitId: work_week, group: leave }
+    - { target: Jaar, unitId: year, group: general }
+    - { target: 'Jaren ervaring', unitId: years_of_experience, group: pim }
+    - { target: Ja, unitId: 'yes', group: general }
+    - { target: 'Wachtwoorden komen niet overeen', unitId: passwords_do_not_match, group: general }
+    - { target: Ok, unitId: ok, group: general }
+    - { target: 'Tot 1MB wordt geaccepteerd', unitId: accepts_up_to_1mb, group: general }
+    - { target: Gebruikersnaam, unitId: username, group: general }
+    - { target: Wachtwoord, unitId: password, group: general }
+    - { target: Upload, unitId: upload, group: general }
+    - { target: Totaal, unitId: total, group: general }
+    - { target: Beeindigingsdatum, unitId: termination_date, group: pim }
+    - { target: 'Rede van beeindiging', unitId: termination_reason, group: pim }
+    - { target: 'Naam werkzaamheden', unitId: activity_name, group: time }
+    - { target: 'Opleiding toevoegen', unitId: add_education, group: general }
+    - { target: 'Taal toevoegen', unitId: add_language, group: general }
+    - { target: 'Licentie toevoegen', unitId: add_license, group: general }
+    - { target: 'Vaardigheid toevoegen', unitId: add_skill, group: general }
+    - { target: 'Straat en huisnummer 1', unitId: address_street_1, group: general }
+    - { target: 'Straat en huisnummer 2', unitId: address_street_2, group: general }
+    - { target: Stad, unitId: city, group: general }
+    - { target: 'Wachtwoord bevestigen', unitId: confirm_password, group: general }
+    - { target: 'Copieer van', unitId: copy_from, group: time }
+    - { target: Projectnaam, unitId: project_name, group: time }
+    - { target: 'Opleiding bewerken', unitId: edit_education, group: general }
+    - { target: 'Taal bewerken', unitId: edit_language, group: general }
+    - { target: 'Licentie bewerken', unitId: edit_license, group: general }
+    - { target: 'Vaardigheid bewerken', unitId: edit_skill, group: general }
+    - { target: Staat/Provincie, unitId: state_province, group: general }
+    - { target: Postcode, unitId: zip_postal_code, group: general }
+    - { target: Goedkeuren, unitId: approve, group: general }
+    - { target: Gepland, unitId: scheduled, group: leave }
+    - { target: Opmerking, unitId: note, group: general }
+    - { target: Bijlagen, unitId: attachments, group: general }
+    - { target: Download, unitId: download, group: general }
+    - { target: Email, unitId: email, group: general }
+    - { target: 'Uitgevoerd door', unitId: performed_by, group: general }
+    - { target: Afwijzen, unitId: reject, group: general }
+    - { target: Afgewezen, unitId: rejected, group: leave }
+    - { target: Indienen, unitId: submit, group: general }
+    - { target: Bekijken, unitId: view, group: general }
+    - { target: 'Mijn Info', unitId: my_info, group: general }
+    - { target: Gebruikersrol, unitId: user_role, group: general }
+    - { target: Kwalificaties, unitId: qualifications, group: general }
+    - { target: 'Huidige bestand', unitId: current_file, group: general }
+    - { target: 'Vervang door', unitId: replace_with, group: general }
+    - { target: 'Volgende toevoegen', unitId: add_another, group: general }
+    - { target: Startmaand, unitId: start_month, group: leave }
+    - { target: Geannuleerd, unitId: cancelled, group: leave }
+    - { target: 'Verloftegoed toevoegen', unitId: add_leave_entitlement, group: leave }
+    - { target: Recht, unitId: entitlement, group: leave }
+    - { target: 'Geen overeenkomstige medewerkers', unitId: no_matching_employees, group: general }
+    - { target: Verloftegoed, unitId: entitlements, group: general }
+    - { target: 'Verlof toevoegen', unitId: add_entitlements, group: general }
+    - { target: 'Verloftegoed medewerker', unitId: employee_entitlements, group: general }
+    - { target: 'Geldig vanaf', unitId: valid_from, group: leave }
+    - { target: 'Geldig tot', unitId: valid_to, group: leave }
+    - { target: 'Geen medewerkers komen overeen met de geselecteerde filters', unitId: no_employees_match_filters, group: general }
+    - { target: 'Verlofrechten en verbruik rapportage', unitId: leave_entitlement_and_usage_report, group: leave }
+    - { target: 'Mijn verlofrechten en verbruik rapportage', unitId: my_leave_entitlement_and_usage_report, group: leave }
+    - { target: 'Overeenkomstige medewerkers', unitId: matching_employees, group: leave }
+    - { target: 'Genereer voor', unitId: generate_for, group: leave }
+    - { target: Bevestigen, unitId: confirm, group: general }
+    - { target: 'Tot datum moet later zijn dan de vanaf datum', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: 'Mijn rechten', unitId: my_entitlements, group: general }
+    - { target: Gebruikersbeheer, unitId: user_management, group: general }
+    - { target: 'Beschikbaar saldo', unitId: available_balance, group: leave }
+    - { target: 'Onvoldoende saldo', unitId: balance_not_sufficient, group: leave }
+    - { target: 'Email Configuratie', unitId: email_configuration, group: admin }
+    - { target: 'Email abonnement', unitId: email_subscriptions, group: admin }
+    - { target: Over, unitId: about, group: general }
+    - { target: 'Trackers werknemers', unitId: employee_trackers, group: general }
+    - { target: 'Mijn Trackers', unitId: my_trackers, group: general }
+    - { target: Taken, unitId: activities, group: time }
+    - { target: 'Valuta toevoegen', unitId: add_currency, group: admin }
+    - { target: 'Klant toevoegen', unitId: add_customer, group: time }
+    - { target: 'Contractvorm toevoegen', unitId: add_employment_status, group: admin }
+    - { target: 'Functiecategorie toevoegen', unitId: add_job_category, group: admin }
+    - { target: 'Functienaam toevoegen', unitId: add_job_title, group: admin }
+    - { target: 'Lokatie toevoegen', unitId: add_location, group: admin }
+    - { target: 'Lidmaatschap toevoegen', unitId: add_membership, group: general }
+    - { target: 'Nationaliteit toevoegen', unitId: add_nationality, group: admin }
+    - { target: 'Salarisschaal toevoegen', unitId: add_pay_grade, group: admin }
+    - { target: 'Project toevoegen', unitId: add_project, group: time }
+    - { target: 'Projecttaken toevoegen', unitId: add_project_activity, group: time }
+    - { target: 'Abonnee toevoegen', unitId: add_subscriber, group: admin }
+    - { target: 'Gebruiker toevoegen', unitId: add_user, group: admin }
+    - { target: 'Dienst toevoegen', unitId: add_work_shift, group: admin }
+    - { target: 'Toegewezen medewerkers', unitId: assigned_employees, group: admin }
+    - { target: Beter, unitId: better, group: general }
+    - { target: 'Kolomvolgorde mag niet aangepast worden', unitId: column_order_should_not_be_changed, group: pim }
+    - { target: 'Taak copieren', unitId: copy_activity, group: time }
+    - { target: 'Huidig wachtwoord', unitId: current_password, group: pim }
+    - { target: Klantnaam, unitId: customer_name, group: time }
+    - { target: Datumformaat, unitId: date_format, group: admin }
+    - { target: 'Elk importbestand moet worden geconfigureerd voor 100 records of minder', unitId: each_import_file_should_be_configured_for_100_records_or_less, group: pim }
+    - { target: 'Valuta bewerken', unitId: edit_currency, group: admin }
+    - { target: 'Klant bewerken', unitId: edit_customer, group: time }
+    - { target: 'Contractvorm bewerken', unitId: edit_employment_status, group: admin }
+    - { target: 'Functiecategorie bewerken', unitId: edit_job_category, group: admin }
+    - { target: 'Funcitenaam bewerken', unitId: edit_job_title, group: admin }
+    - { target: 'Lokatie bewerken', unitId: edit_location, group: admin }
+    - { target: 'Lidmaatschap bewerken', unitId: edit_membership, group: general }
+    - { target: 'Nationaliteit bewerken', unitId: edit_nationality, group: admin }
+    - { target: 'Salarisschaal bewerken', unitId: edit_pay_grade, group: admin }
+    - { target: 'Project bewerken', unitId: edit_project, group: time }
+    - { target: 'Projecttaak bewerken', unitId: edit_project_activity, group: time }
+    - { target: 'Abonnee bewerken', unitId: edit_subscriber, group: admin }
+    - { target: 'Gebruiker bewerken', unitId: edit_user, group: admin }
+    - { target: 'Dienst bewerken', unitId: edit_work_shift, group: admin }
+    - { target: Fax, unitId: fax, group: general }
+    - { target: 'Voor- en achternaam zijn verplicht', unitId: first_name_and_last_name_are_compulsory, group: pim }
+    - { target: 'Uren per dag', unitId: hours_per_day, group: admin }
+    - { target: Functiebeschrijving, unitId: job_description, group: admin }
+    - { target: 'Mail verzonden als', unitId: mail_sent_as, group: admin }
+    - { target: 'Maximum salaris', unitId: maximum_salary, group: admin }
+    - { target: 'Minimum salaris', unitId: minimum_salary, group: admin }
+    - { target: 'Module Configuratie', unitId: module_configuration, group: admin }
+    - { target: 'Nieuw wachtwoord', unitId: new_password, group: auth }
+    - { target: 'Geen taken geselecteerd', unitId: no_activities_selected, group: time }
+    - { target: 'Geen taken toegewezen', unitId: no_assigned_activities, group: time }
+    - { target: 'Soorten mededelingen', unitId: notification_type, group: admin }
+    - { target: 'Aantal medewerkers', unitId: number_of_employees, group: admin }
+    - { target: Organisatienaam, unitId: organization_name, group: admin }
+    - { target: 'Pad naar verzonden mail', unitId: path_to_sendmail, group: admin }
+    - { target: Telefoon, unitId: phone, group: general }
+    - { target: Project, unitId: project, group: time }
+    - { target: 'Project Admin', unitId: project_admin, group: time }
+    - { target: 'Project Admins', unitId: project_admins, group: time }
+    - { target: Registratienummer, unitId: registration_number, group: admin }
+    - { target: Verzendmethode, unitId: sending_method, group: admin }
+    - { target: Dienstnaam, unitId: shift_name, group: admin }
+    - { target: 'SMTP wachtwoord', unitId: smtp_password, group: admin }
+    - { target: 'SMTP Poort', unitId: smtp_port, group: admin }
+    - { target: 'SMTP gebruiker', unitId: smtp_user, group: admin }
+    - { target: Sterkst, unitId: strongest, group: general }
+    - { target: Abonnees, unitId: subscribers, group: admin }
+    - { target: Gebruikers, unitId: system_users, group: admin }
+    - { target: 'BTW nummer', unitId: tax_id, group: admin }
+    - { target: 'Test Email adres', unitId: test_email_address, group: admin }
+    - { target: 'Deze afdeling wordt toegevoegd onder', unitId: this_unit_will_be_added_under, group: admin }
+    - { target: TLS, unitId: tls, group: admin }
+    - { target: 'Afdelings Id', unitId: unit_id, group: admin }
+    - { target: 'Gebruik SMTP Authenticatie', unitId: use_smtp_authentication, group: admin }
+    - { target: 'Erg zwak', unitId: very_weak, group: general }
+    - { target: Zwak, unitId: weak, group: general }
+    - { target: 'Moet meer zijn dan het minimum salaris', unitId: should_be_higher_than_minimum_salary, group: admin }
+    - { target: 'Alle datumvelden moeten in DD-MM-YYYY formaat', unitId: all_date_fields_should_be_in_yyyy_mm_dd_format, group: pim }
+    - { target: 'Mogelijk moeten meerdere bestanden geïmporteerd worden', unitId: multiple_import_files_may_be_required, group: pim }
+    - { target: Organisatiestructuur, unitId: organization_structure, group: admin }
+    - { target: Dashboard, unitId: dashboard, group: general }
+    - { target: 'Verlof aanvragen', unitId: apply_leave, group: leave }
+    - { target: 'Mijn Urenlijst ', unitId: my_timesheet, group: time }
+    - { target: 'Werzaamheden uitgevoerd op urenlijst', unitId: actions_performed_on_the_timesheet, group: time }
+    - { target: 'Rij toevoegen', unitId: add_row, group: time }
+    - { target: 'Urenlijst toevoegen', unitId: add_timesheet, group: time }
+    - { target: 'Samenvating totale aanwezigheidsrapportage', unitId: attendance_total_summary_report, group: attendance }
+    - { target: 'Urenlijst periode definiëren', unitId: timesheet_period_config, group: time }
+    - { target: 'Urenlijst bewerken voor', unitId: edit_timesheet_for, group: time }
+    - { target: 'Rapportage medewerker', unitId: employee_report, group: time }
+    - { target: 'Moet minder zijn dan 24 en in HH:MM of cijfers', unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format, group: time }
+    - { target: vrij, unitId: fri, group: general }
+    - { target: maan, unitId: mon, group: general }
+    - { target: 'Project rapport', unitId: project_report, group: time }
+    - { target: zat, unitId: sat, group: general }
+    - { target: 'Selecteer een dag om urenlijst aan te maken', unitId: select_a_day_to_create_timesheet, group: time }
+    - { target: 'Selecteer medewerker', unitId: select_employee, group: time }
+    - { target: zon, unitId: sun, group: general }
+    - { target: don, unitId: thu, group: general }
+    - { target: 'Urenlijst voor', unitId: timesheet_for, group: time }
+    - { target: 'Urenlijst periode', unitId: timesheet_period, group: time }
+    - { target: 'Urenlijsten in afwachting van actie', unitId: timesheets_pending_action, group: time }
+    - { target: din, unitId: tue, group: general }
+    - { target: woe, unitId: wed, group: general }
+    - { target: 'Selecteer een project en een taak', unitId: select_a_project_and_an_activity, group: time }
+    - { target: 'Geen Urenlijst gevonden', unitId: no_timesheets_found, group: time }
+    - { target: 'Urenlijst goedgekeurd', unitId: timesheet_approved, group: time }
+    - { target: 'Urenlijst afgekeurd', unitId: timesheet_rejected, group: time }
+    - { target: 'Het totaal moet minder zijn dan 24 uur', unitId: total_should_be_less_than_24_hours, group: time }
+    - { target: Rekeningnummer, unitId: account_number, group: pim }
+    - { target: Rekeningsoort, unitId: account_type, group: pim }
+    - { target: 'Dienstverband activeren', unitId: activate_employment, group: pim }
+    - { target: 'Custom veld toevoegen', unitId: add_custom_field, group: pim }
+    - { target: 'Naaste toevoegen', unitId: add_dependent, group: pim }
+    - { target: 'Immigratie toevoegen', unitId: add_immigration, group: pim }
+    - { target: 'Rapportage methode toevoegen', unitId: add_reporting_method, group: pim }
+    - { target: 'Beëindigingsreden toevoegen', unitId: add_termination_reason, group: pim }
+    - { target: 'Werkervaring toevoegen', unitId: add_work_experience, group: pim }
+    - { target: 'Opgegeven familie', unitId: assigned_dependents, group: pim }
+    - { target: 'Opgegeven noodcontacten', unitId: assigned_emergency_contacts, group: pim }
+    - { target: 'Toegewezen Immigratie Records', unitId: assigned_immigration_records, group: pim }
+    - { target: 'Opgegeven lidmaatschappen', unitId: assigned_memberships, group: pim }
+    - { target: 'Opgegeven ondergeschikten', unitId: assigned_subordinates, group: pim }
+    - { target: 'Opgegeven leidinggevenden', unitId: assigned_supervisors, group: pim }
+    - { target: 'Tenminste één telefoonnummer is vereist', unitId: at_least_one_phone_number_is_required, group: pim }
+    - { target: Kind, unitId: child, group: pim }
+    - { target: 'Contract details', unitId: contract_details, group: pim }
+    - { target: 'Landspecifieke informatie', unitId: country_specific_information, group: pim }
+    - { target: 'Inlog details aanmaken', unitId: create_login_details, group: pim }
+    - { target: 'Custom veldnaam', unitId: custom_field_name, group: pim }
+    - { target: Document, unitId: document, group: pim }
+    - { target: Uitklappen, unitId: drop_down, group: pim }
+    - { target: 'Custiom veld bewerken', unitId: edit_custom_field, group: pim }
+    - { target: 'Naaste bewerken', unitId: edit_dependent, group: pim }
+    - { target: 'Noodconctact bewerken', unitId: edit_emergency_contact, group: pim }
+    - { target: 'Rapportagemethode bewerken', unitId: edit_reporting_method, group: pim }
+    - { target: 'Beëindigingsreden bewerken', unitId: edit_termination_reason, group: pim }
+    - { target: 'Medewerkers informatie', unitId: employee_information, group: pim }
+    - { target: 'Toegestane opties door komma''s gescheiden invoeren', unitId: enter_allowed_options_separated_by_commas, group: pim }
+    - { target: Vrijstellingen, unitId: exemptions, group: pim }
+    - { target: Inkomstenbelasting, unitId: federal_income_tax, group: pim }
+    - { target: Veldnaam, unitId: field_name, group: pim }
+    - { target: VEldsoort, unitId: field_type, group: pim }
+    - { target: 'Vanaf datum moet eerder zijn dan de tot datum', unitId: from_date_should_be_before_to_date, group: general }
+    - { target: GPA/Score, unitId: gpa_score, group: pim }
+    - { target: Instituut, unitId: institute, group: pim }
+    - { target: Hoofdvak/Specialisatie, unitId: major_specialization, group: pim }
+    - { target: 'Militaire dienst', unitId: military_service, group: pim }
+    - { target: Paspoort, unitId: passport, group: pim }
+    - { target: 'Persoonlijke details', unitId: personal_details, group: general }
+    - { target: 'AUB specificeren', unitId: please_specify, group: pim }
+    - { target: 'Rapporteer aan', unitId: report_to, group: general }
+    - { target: Scherm, unitId: screen, group: pim }
+    - { target: 'Selectie opties', unitId: select_options, group: pim }
+    - { target: 'Toon oude velden', unitId: show_deprecated_fields, group: pim }
+    - { target: 'Toon bijnaam, roker/niet roker, militaire dienst in persoonlijke details', unitId: show_nick_name_smoker_and_military_service_in_personal_details, group: pim }
+    - { target: 'Toon SIN veld in persoonlijke details', unitId: show_sin_field_in_personal_details, group: pim }
+    - { target: 'Toon BSN veld in persoonlijke details', unitId: show_ssn_field_in_personal_details, group: pim }
+    - { target: 'Toon US belastingvrijstellingen menu', unitId: show_us_tax_exemptions_menu, group: pim }
+    - { target: 'SIN Nummer (Canada)', unitId: sin_number, group: pim }
+    - { target: Roker, unitId: smoker, group: pim }
+    - { target: 'BSN nummer', unitId: ssn_number, group: pim }
+    - { target: Belastingvrijstellingen, unitId: tax_exemptions, group: general }
+    - { target: 'Dienstverband beëindigen', unitId: terminate_employment, group: pim }
+    - { target: 'Tekst of cijfer', unitId: text_or_number, group: pim }
+    - { target: Werkeloosheidsstaat, unitId: unemployment_state, group: pim }
+    - { target: Visum, unitId: visa, group: pim }
+    - { target: Arbeidsstaat, unitId: work_state, group: pim }
+    - { target: 'Eerste (en Midden) Naam', unitId: first_middle_name, group: pim }
+    - { target: 'in aanmerking te komen Status', unitId: eligibility_status, group: pim }
+    - { target: 'Geldig Beoordeling Datum', unitId: eligibility_review_date, group: pim }
+    - { target: Acties, unitId: actions, group: general }
+    - { target: Toewijzen, unitId: assign, group: leave }
+    - { target: 'Huisige verlofperiode', unitId: current_leave_period, group: leave }
+    - { target: 'Tijdsduur (uren)', unitId: duration_hours, group: attendance }
+    - { target: 'Volgend jaar', unitId: following_year, group: leave }
+    - { target: 'Vanaf datum', unitId: from_date, group: general }
+    - { target: 'Hele dag', unitId: full_day, group: leave }
+    - { target: 'Halve dag', unitId: half_day, group: leave }
+    - { target: Verlofsaldo, unitId: leave_balance, group: leave }
+    - { target: 'Verlof soort', unitId: leave_type, group: leave }
+    - { target: 'Mijn verlof lijst', unitId: my_leave_list, group: leave }
+    - { target: 'Geen verlofsoorten in het verlofsaldo', unitId: no_leave_types_with_leave_balance, group: leave }
+    - { target: Niet-werkdag, unitId: non_working_day, group: leave }
+    - { target: 'Aantal dagen', unitId: number_of_days, group: leave }
+    - { target: 'In afwachting van goedkeuring', unitId: pending_approval, group: leave }
+    - { target: 'Jaarlijkse herhaling', unitId: repeats_annually, group: leave }
+    - { target: 'Toon verlof incl status', unitId: show_leave_with_status, group: leave }
+    - { target: Opgenomen, unitId: taken, group: leave }
+    - { target: 'Tot datum', unitId: to_date, group: general }
+    - { target: 'Indienen mislukt: Geen werkdagen geselecteerd', unitId: failed_to_submit_no_working_days_selected, group: leave }
+    - { target: 'Indienen mislukt', unitId: failed_to_submit, group: leave }
+    - { target: 'Verlofsoort toevoegen', unitId: add_leave_type, group: leave }
+    - { target: 'Verlofsoort bewerken', unitId: edit_leave_type, group: leave }
+    - { target: 'Update rechtmatig verlof', unitId: updating_entitlement, group: leave }
+    - { target: 'Verlofrechten bewerken', unitId: edit_leave_entitlement, group: leave }
+    - { target: 'Het geselcteerde verlofrecht is van toepassing op de volgende medewerkers.', unitId: selected_leave_entitlement_applied_to_following_employees, group: leave }
+    - { target: 'Oud recht', unitId: old_entitlement, group: leave }
+    - { target: 'Nieuw recht', unitId: new_entitlement, group: leave }
+    - { target: 'Gebruikte hoeveelheid is meer dan de huidige hoeveelheid', unitId: used_amount_exceeds_the_current_amount, group: leave }
+    - { target: 'Verlofsaldo details', unitId: leave_balance_details, group: leave }
+    - { target: Saldo, unitId: balance, group: leave }
+    - { target: 'Duration should be less than work shift length', unitId: duration_should_be_less_than_work_shift_length, group: leave }
+    - { target: 'Vanaf de datum', unitId: as_of_date, group: leave }
+    - { target: 'Mijn verlofrechten', unitId: my_leave_entitlements, group: leave }
+    - { target: 'Verlofaanvraag opmerkingen', unitId: leave_request_comments, group: leave }
+    - { target: 'Bevestigen verloftoewijzing', unitId: confirm_leave_assignment, group: leave }
+    - { target: 'Werknemer heeft niet voldoende verlofsaldo voor verlofaanvraag.', unitId: employee_does_not_have_enough_balance_for_leave_request, group: leave }
+    - { target: 'Klik op OK om verlof opdracht te bevestigen.', unitId: click_ok_to_confirm_leave_assignment, group: leave }
+    - { target: 'Specificeer tijd', unitId: specify_time, group: leave }
+    - { target: 'Gedeeltelijke dagen', unitId: partial_days, group: leave }
+    - { target: 'Eerste dag', unitId: start_day, group: leave }
+    - { target: 'Laatste dag', unitId: end_day, group: leave }
+    - { target: 'Beoordelingen beheren', unitId: manage_reviews, group: general }
+    - { target: 'Mijn Beoordelingen', unitId: my_reviews, group: general }
+    - { target: 'Beoordelingslijst ', unitId: review_list, group: general }
+    - { target: 'Einddatum kan niet eerder zijn dan begindatum', unitId: end_date_should_be_after_start_date, group: general }
+    - { target: 'Weet u zeker dat u door wilt gaan?', unitId: bulk_leave_action_confirm_message_two, group: leave }
+    - { target: Aanmelden, unitId: punch_in, group: attendance }
+    - { target: 'Aanmeld notitie', unitId: punch_in_note, group: attendance }
+    - { target: Afmelden, unitId: punch_out, group: attendance }
+    - { target: 'Afmeld notitie', unitId: punch_out_note, group: attendance }
+    - { target: 'Overlappende gegevens gevonden', unitId: overlapping_records_found, group: attendance }
+    - { target: Tijdzone, unitId: timezone, group: attendance }
+    - { target: In, unitId: in, group: attendance }
+    - { target: Uit, unitId: out, group: attendance }
+    - { target: Aanwezigheidsconfiguratie, unitId: attendance_configuration, group: attendance }
+    - { target: 'Medewerker kan huidige tijd veranderen bij aan- en afmelden', unitId: employee_can_change_current_time_when_punching_in_out, group: attendance }
+    - { target: 'Medewerker kan eigen aanwezigheidsgegevens aanpassen en verwijderen', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
+    - { target: 'Leidinggevende kan aanwezigheidsgegevens van ondergeschikten toevoegen/wijzigen en verwijderen', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
+    - { target: 'Mijn aanwezigheidsgegevens', unitId: my_attendance_records, group: attendance }
+    - { target: Inloggen, unitId: login, group: auth }
+    - { target: Verlofrechten, unitId: leave_entitlements, group: leave }
+    - { target: Verwijderen geslaagd, unitId: successfully_deleted, group: general }
+    - { target: 'Afmeldtijd moet later zijn dan de aanmeldtijd', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Wachtwoord vergeten', unitId: forgot_password, group: auth }
+    - { target: Gebruikersnaam, unitId: username, group: auth }
+    - { target: Wachtwoord, unitId: password, group: auth }
+    - { target: Geen gegevens gevonden, unitId: no_records_found, group: general }
+    - { target: Urenlijst ingediend, unitId: timesheet_submitted, group: time }
+    - { target: Tussenvoegsel, unitId: middle_name, group: general }
+    - { target: Voornaam, unitId: first_name, group: general }
+    - { target: Achternaam, unitId: last_name, group: general }

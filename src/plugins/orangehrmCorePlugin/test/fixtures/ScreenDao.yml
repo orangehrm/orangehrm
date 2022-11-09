@@ -1,0 +1,18 @@
+Module:
+  0: {id: 1, name: 'core', status: 1, displayName: 'Core'}
+  1: {id: 2, name: 'admin', status: 1, displayName: 'Admin'}
+  2: {id: 3, name: 'pim', status: 1, displayName: 'PIM'}
+  3: {id: 4, name: 'leave', status: 1, displayName: 'Leave'}
+  4: {id: 5, name: 'time', status: 1, displayName: 'Time'}
+  5: {id: 6, name: 'attendance', status: 1, displayName: 'Attendance'}
+  6: {id: 7, name: 'recruitment', status: 0, displayName: 'Recruitment'}
+  7: {id: 8, name: 'recruitmentApply', status: 1, displayName: 'Recruitment Apply'}
+  8: {id: 9, name: 'performance', status: 0, displayName: 'Performance'}
+
+Screen:
+  0: {id: 1, name: 'employee list', module_id: 3, action_url: 'viewEmployeeList'}
+  1: {id: 2, name: 'projects',      module_id: 2, action_url: 'viewProjects'}
+  2: {id: 3, name: 'system users',  module_id: 2, action_url: 'viewSystemUsers'}
+  3: {id: 4, name: 'candidates',    module_id: 7, action_url: 'viewCandidates'}
+  4: {id: 5, name: 'add employee',  module_id: 3, action_url: 'addEmployee'}
+  5: {id: 6, name: 'delete employee', module_id: 3, action_url: 'delEmployee'}      

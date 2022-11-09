@@ -1,0 +1,89 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+@import '@ohrm/oxd/core/components/Button/_variables.scss';
+
+.orangehrm-login-form {
+  margin: 0 auto;
+  @include oxd-respond-to('xs') {
+    width: 80%;
+  }
+  @include oxd-respond-to('md') {
+    width: 60%;
+    max-width: 485px;
+  }
+}
+.orangehrm-login-action {
+  margin-top: 2rem;
+  justify-content: center;
+}
+.orangehrm-login-button {
+  flex: 1;
+  padding: 1rem 0;
+}
+.orangehrm-login-title {
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.orangehrm-login-pwreset {
+  margin: 1rem 0;
+  text-align: center;
+  font-weight: 600;
+  & a {
+    color: $oxd-primary-one-color;
+    text-decoration: none;
+  }
+}
+
+.orangehrm-login-forgot {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  font-size: $oxd-button-font-size--medium;
+  &-header {
+    cursor: pointer;
+    color: $oxd-primary-one-color;
+  }
+}
+
+.orangehrm-demo-credentials {
+  margin: 1rem 0;
+}
+
+.orangehrm-login-footer {
+  &-sm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+      width: 22px;
+      height: 22px;
+      margin: 0 0.25rem;
+    }
+    .orangehrm-sm-icon {
+      width: inherit;
+      height: inherit;
+      color: rgba($oxd-interface-gray-color, 0.8);
+    }
+    @include oxd-respond-to('md') {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+    }
+  }
+}

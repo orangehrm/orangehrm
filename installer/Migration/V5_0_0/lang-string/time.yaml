@@ -1,0 +1,172 @@
+langStrings:
+  -
+    value: 'Activities'
+    unitId: activities
+  -
+    value: 'Copy From'
+    unitId: copy_from
+  -
+    value: 'Activity Name'
+    unitId: activity_name
+  -
+    value: 'Not Allowed to Delete Project Activities Which Have Time Logged Against'
+    unitId: not_allowed_to_delete_project_activities_which_have_time_logged_against
+  -
+    value: 'Add Customer'
+    unitId: add_customer
+  -
+    value: 'Add Timesheet'
+    unitId: add_timesheet
+  -
+    value: 'Select a Day to Create Timesheet'
+    unitId: select_a_day_to_create_timesheet
+  -
+    value: 'Copy Activity'
+    unitId: copy_activity
+  -
+    value: 'Project Name'
+    unitId: project_name
+  -
+    value: 'No assigned activities'
+    unitId: no_assigned_activities
+  -
+    value: 'No activities selected'
+    unitId: no_activities_selected
+  -
+    value: 'Customer Name'
+    unitId: customer_name
+  -
+    value: 'Edit Project Activity'
+    unitId: edit_project_activity
+  -
+    value: 'Project Admin'
+    unitId: project_admin
+  -
+    value: 'Project'
+    unitId: project
+  -
+    value: 'Add Project Activity'
+    unitId: add_project_activity
+  -
+    value: 'Timesheet Action'
+    unitId: timesheet_action
+  -
+    value: 'No Timesheets Found'
+    unitId: no_timesheets_found
+  -
+    value: 'Activity'
+    unitId: activity
+  -
+    value: 'Add Row'
+    unitId: add_row
+  -
+    value: 'Select a Project'
+    unitId: select_a_project
+  -
+    value: 'Select an Activity'
+    unitId: select_an_activity
+  -
+    value: 'Duplicate Record'
+    unitId: duplicate_record
+  -
+    value: 'Select a Project and an Activity'
+    unitId: select_a_project_and_an_activity
+  -
+    value: 'Should Be Less Than 24 and in HH:MM or Decimal Format'
+    unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format
+  -
+    value: 'Total Should Be Less Than 24 Hours'
+    unitId: total_should_be_less_than_24_hours
+  -
+    value: 'Actions Performed on the Timesheet'
+    unitId: actions_performed_on_the_timesheet
+  -
+    value: 'Timesheets Pending Action'
+    unitId: timesheets_pending_action
+  -
+    value: 'Timesheet Period'
+    unitId: timesheet_period
+  -
+    value: 'Define Timesheet Period'
+    unitId: timesheet_period_config
+  -
+    value: 'First Day of the Week'
+    unitId: add_timesheet_period_config
+  -
+    value: 'Not allowed to delete customer(s) associated with projects that have time logged against them'
+    unitId: not_allowed_to_delete_customer_who_have_time_logged_against
+  -
+    value: 'Edit Customer'
+    unitId: edit_customer
+  -
+    value: 'Customer Name'
+    unitId: customer_name
+  -
+    value: 'Project Admins'
+    unitId: project_admins
+  -
+    value: 'Not allowed to delete project(s) which have time logged against them'
+    unitId: not_allowed_to_delete_projects_which_have_time_logged
+  -
+    value: 'Edit Project'
+    unitId: edit_project
+  -
+    value: 'Project Report'
+    unitId: project_report
+  -
+    value: 'Project Date Range'
+    unitId: project_date_range
+  -
+    value: 'Only Include Approved Timesheets'
+    unitId: only_include_approved_timesheets
+  -
+    value: 'Total Duration (Hours)'
+    unitId: total_duration
+  -
+    value: 'Employee Report'
+    unitId: employee_report
+  -
+    value: 'Select Employee'
+    unitId: select_employee
+  -
+    value: 'Timesheet Period Start Day has not being defined. Please Contact the HR Administrator'
+    unitId: timesheet_period_not_defined
+  -
+    value: 'My Timesheet'
+    unitId: my_timesheet
+  -
+    value: 'Edit Timesheet'
+    unitId: edit_timesheet
+  -
+    value: 'Create Timesheet'
+    unitId: create_timesheet
+  -
+    value: 'Timesheet for'
+    unitId: timesheet_for
+  -
+    value: 'Edit Timesheet for'
+    unitId: edit_timesheet_for
+  -
+    value: 'Add Project'
+    unitId: add_project
+  -
+    value: 'Timesheet Successfully Created'
+    unitId: timesheet_successfully_created
+  -
+    value: 'Timesheet Rejected'
+    unitId: timesheet_rejected
+  -
+    value: 'Timesheet Approved'
+    unitId: timesheet_approved
+  -
+    value: 'Timesheet Reset'
+    unitId: timesheet_reset
+  -
+    value: 'Punch Out Time Should Be Later Than Punch In Time'
+    unitId: punch_out_time_should_be_later_than_punch_in_time
+  -
+    value: 'Time (Hours)'
+    unitId: time_hours
+  -
+    value: 'Timesheet Submitted'
+    unitId: timesheet_submitted

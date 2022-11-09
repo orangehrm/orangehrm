@@ -1,0 +1,464 @@
+translations:
+    - { target: Menambahkan, unitId: add, group: general }
+    - { target: 'Tambahkan Lampiran', unitId: add_attachment, group: general }
+    - { target: 'Tambahkan Karyawan', unitId: add_employee, group: general }
+    - { target: 'Added By', unitId: added_by, group: pim }
+    - { target: Alamat, unitId: address, group: admin }
+    - { target: Admin, unitId: admin, group: general }
+    - { target: 'Golongan umur', unitId: age_group, group: pim }
+    - { target: 'Nilai yang diijinkan hanya angka dan hanya + - / ()', unitId: allows_phone_numbers_only, group: general }
+    - { target: 'Sudah ada', unitId: already_exists, group: general }
+    - { target: Jumlah, unitId: amount, group: pim }
+    - { target: Berlaku, unitId: apply, group: general }
+    - { target: 'Menetapkan Cuti', unitId: assign_leave, group: leave }
+    - { target: 'Komponen Gaji yang ditetapkan', unitId: assigned_salary_components, group: pim }
+    - { target: 'Ukuran Lampiran melampaui batas', unitId: attachment_size_exceeded, group: general }
+    - { target: Kehadiran, unitId: attendance, group: general }
+    - { target: 'Ringkasan Kehadiran ', unitId: attendance_summary, group: general }
+    - { target: Kembali, unitId: back, group: general }
+    - { target: Membatalkan, unitId: cancel, group: general }
+    - { target: Calon, unitId: candidates, group: general }
+    - { target: 'Ubah Password', unitId: change_password, group: general }
+    - { target: Komentar, unitId: comment, group: general }
+    - { target: Komentar, unitId: comments, group: general }
+    - { target: Perusahaan, unitId: company, group: pim }
+    - { target: Kompetensi, unitId: competency, group: pim }
+    - { target: Konfigurasi, unitId: configuration, group: general }
+    - { target: Mengkonfigurasi, unitId: configure, group: general }
+    - { target: 'Rincian Kontak', unitId: contact_details, group: pim }
+    - { target: 'Tanggal Kontrak Berakhir', unitId: contract_end_date, group: pim }
+    - { target: 'Tanggal Kontrak Dimulai', unitId: contract_start_date, group: pim }
+    - { target: Negara, unitId: country, group: general }
+    - { target: 'Mata uang', unitId: currency, group: general }
+    - { target: 'Karyawaan Sekarang Ini dan Sebelumnya', unitId: current_and_past_employees, group: general }
+    - { target: 'Karyawan Hanya Sekarang Ini', unitId: current_employees_only, group: general }
+    - { target: 'Field Kustom (Lain-lain)', unitId: custom_fields, group: pim }
+    - { target: Pelanggan, unitId: customers, group: general }
+    - { target: 'Impor Data', unitId: data_import, group: pim }
+    - { target: Tanggal, unitId: date, group: general }
+    - { target: 'Tanggal Ditambahkan', unitId: date_added, group: pim }
+    - { target: 'Tanggal lahir', unitId: date_of_birth, group: pim }
+    - { target: 'Hari ', unitId: days, group: leave }
+    - { target: 'Hapus Saat Ini', unitId: delete_current, group: general }
+    - { target: Tanggungan, unitId: dependents, group: general }
+    - { target: Deskripsi, unitId: description, group: general }
+    - { target: 'Deposit Langsung Nomor Rekening', unitId: direct_deposit_account_number, group: pim }
+    - { target: 'Deposit Langsung Jenis Akun', unitId: direct_deposit_account_type, group: pim }
+    - { target: 'Langsung Jumlah Deposit', unitId: direct_deposit_amount, group: pim }
+    - { target: Cacat, unitId: disabled, group: general }
+    - { target: 'Tampilan Fields', unitId: display_fields, group: pim }
+    - { target: 'Dokumen Jenis', unitId: document_type, group: pim }
+    - { target: 'Pengemudi Lisensi Nomor', unitId: driver_license_number, group: pim }
+    - { target: Lamanya, unitId: duration, group: general }
+    - { target: Edit, unitId: edit, group: general }
+    - { target: 'Edit Lampiran', unitId: edit_attachment, group: general }
+    - { target: 'Sunting Imigrasi', unitId: edit_immigration, group: pim }
+    - { target: 'Edit Komponen Gaji', unitId: edit_salary_component, group: pim }
+    - { target: Pendidikan, unitId: education, group: general }
+    - { target: 'Layak Tinjauan Tanggal', unitId: eligible_review_date, group: pim }
+    - { target: 'Layak Status', unitId: eligible_status, group: pim }
+    - { target: 'Kontak Darurat', unitId: emergency_contacts, group: general }
+    - { target: Karyawan, unitId: employee, group: general }
+    - { target: 'Karyawan Nama Depan', unitId: employee_first_name, group: pim }
+    - { target: 'Karyawan Id', unitId: employee_id, group: general }
+    - { target: 'Karyawan Nama Belakang', unitId: employee_last_name, group: pim }
+    - { target: 'Daftar Karyawan', unitId: employee_list, group: general }
+    - { target: 'Karyawan Tengah Nama', unitId: employee_middle_name, group: pim }
+    - { target: 'Karyawan Nama', unitId: employee_name, group: general }
+    - { target: 'Karyawan Rekaman', unitId: employee_records, group: general }
+    - { target: 'Karyawan Laporan', unitId: employee_reports, group: general }
+    - { target: 'Karyawan Timesheets', unitId: employee_timesheets, group: general }
+    - { target: 'Status Pekerjaan', unitId: employment_status, group: general }
+    - { target: Diaktifkan, unitId: enabled, group: general }
+    - { target: 'Tanggal Akhir', unitId: end_date, group: general }
+    - { target: ESS, unitId: ess, group: general }
+    - { target: 'Diharapkan format: admin@example.com', unitId: expected_email_address_format_not_matched, group: general }
+    - { target: 'Tanggal Kadaluwarsa', unitId: expiry_date, group: general }
+    - { target: 'Tanggal kadaluwarsa harus setelah tanggal dikeluarkan', unitId: expiry_date_should_be_after_issued_date, group: pim }
+    - { target: Perempuan, unitId: female, group: general }
+    - { target: 'File Name', unitId: file_name, group: general }
+    - { target: 'Nama depan', unitId: first_name, group: pim }
+    - { target: Kelancaran, unitId: fluency, group: pim }
+    - { target: Jumat, unitId: friday, group: general }
+    - { target: Dari, unitId: from, group: general }
+    - { target: 'Jenis kelamin', unitId: gender, group: pim }
+    - { target: 'Informasi Umum', unitId: general_information, group: admin }
+    - { target: Liburan, unitId: holidays, group: leave }
+    - { target: 'Telepon Rumah', unitId: home_telephone, group: pim }
+    - { target: Id, unitId: id, group: general }
+    - { target: Imigrasi, unitId: immigration, group: general }
+    - { target: Memasukkan, unitId: include, group: pim }
+    - { target: 'Sertakan header', unitId: include_header, group: general }
+    - { target: 'Sertakan Karyawan lalu', unitId: include_past_employees, group: leave }
+    - { target: 'Dikeluarkan Oleh', unitId: issued_by, group: pim }
+    - { target: 'Ditempatkan Tanggal', unitId: issued_date, group: pim }
+    - { target: Pekerjaan, unitId: job, group: general }
+    - { target: 'Ayub Kategori', unitId: job_categories, group: admin }
+    - { target: 'Ayub Kategori', unitId: job_category, group: general }
+    - { target: 'Job Spesifikasi', unitId: job_specification, group: general }
+    - { target: Jabatan, unitId: job_title, group: general }
+    - { target: 'Job Judul', unitId: job_titles, group: admin }
+    - { target: Tgl, unitId: joined_date, group: general }
+    - { target: 'Terus Lancar', unitId: keep_current, group: general }
+    - { target: Bahasa, unitId: language, group: general }
+    - { target: Bahasa, unitId: languages, group: general }
+    - { target: 'Nama keluarga', unitId: last_name, group: general }
+    - { target: Meninggalkan, unitId: leave, group: general }
+    - { target: 'Tinggalkan Saldo (Hari)', unitId: leave_balance_days, group: leave }
+    - { target: 'Tinggalkan Daftar', unitId: leave_list, group: leave }
+    - { target: 'Tinggalkan Periode', unitId: leave_period, group: leave }
+    - { target: 'Tinggalkan Jenis', unitId: leave_types, group: leave }
+    - { target: Tingkat, unitId: level, group: general }
+    - { target: Lisensi, unitId: license, group: pim }
+    - { target: 'Lisensi Kadaluwarsa Tanggal', unitId: license_expiry_date, group: pim }
+    - { target: 'Lisensi Nomor', unitId: license_number, group: pim }
+    - { target: 'Lisensi Jenis', unitId: license_type, group: pim }
+    - { target: Lisensi, unitId: licenses, group: admin }
+    - { target: Lokalisasi, unitId: localization, group: admin }
+    - { target: Lokasi, unitId: location, group: general }
+    - { target: Lokasi, unitId: locations, group: admin }
+    - { target: Keluar, unitId: logout, group: general }
+    - { target: Laki-laki, unitId: male, group: general }
+    - { target: 'Kedudukan perkawinan', unitId: marital_status, group: pim }
+    - { target: Keanggotaan, unitId: membership, group: pim }
+    - { target: Keanggotaan, unitId: memberships, group: general }
+    - { target: Handphone, unitId: mobile, group: general }
+    - { target: Modul, unitId: modules, group: general }
+    - { target: Senin, unitId: monday, group: general }
+    - { target: 'Saya Cuti', unitId: my_leave, group: general }
+    - { target: 'Saya Arsip', unitId: my_records, group: general }
+    - { target: 'Saya Timesheets', unitId: my_timesheets, group: general }
+    - { target: Nama, unitId: name, group: general }
+    - { target: Nasionalitas, unitId: nationalities, group: admin }
+    - { target: Kebangsaan, unitId: nationality, group: general }
+    - { target: Tidak, unitId: 'no', group: general }
+    - { target: Catatan, unitId: notes, group: general }
+    - { target: Jumlah, unitId: number, group: pim }
+    - { target: 'Hanya Sertakan Timesheets Disetujui', unitId: only_include_approved_timesheets, group: time }
+    - { target: 'Opsional Fields', unitId: optional_fields, group: pim }
+    - { target: Organisasi, unitId: organization, group: general }
+    - { target: Lain, unitId: other, group: pim }
+    - { target: 'Email Lainnya ', unitId: other_email, group: general }
+    - { target: 'Lain Id', unitId: other_id, group: pim }
+    - { target: 'Lalu Karyawan', unitId: past_employee, group: maintenance }
+    - { target: 'Lalu Karyawan Hanya', unitId: past_employees_only, group: general }
+    - { target: 'Bayar Frekuensi', unitId: pay_frequency, group: pim }
+    - { target: 'Bayar Kelas', unitId: pay_grade, group: general }
+    - { target: 'Bayar Kelas', unitId: pay_grades, group: admin }
+    - { target: Kinerja, unitId: performance, group: general }
+    - { target: Pribadi, unitId: personal, group: pim }
+    - { target: PIM, unitId: pim, group: general }
+    - { target: 'Proyek Rentang Tanggal', unitId: project_date_range, group: time }
+    - { target: 'Proyek Info', unitId: project_info, group: general }
+    - { target: 'Proyek Laporan', unitId: project_reports, group: general }
+    - { target: Proyek, unitId: projects, group: general }
+    - { target: 'Pukulan Masuk / Keluar', unitId: punch_in_out, group: general }
+    - { target: Rekrutmen, unitId: recruitment, group: general }
+    - { target: Hubungan, unitId: relationship, group: pim }
+    - { target: 'Ganti Lancar', unitId: replace_current, group: general }
+    - { target: 'Laporan Nama', unitId: report_name, group: general }
+    - { target: 'Cara Pelaporan', unitId: reporting_method, group: pim }
+    - { target: 'Metode Pelaporan', unitId: reporting_methods, group: pim }
+    - { target: Laporan, unitId: reports, group: general }
+    - { target: Wajib, unitId: required, group: general }
+    - { target: Reset, unitId: reset, group: general }
+    - { target: 'Nomor Routing', unitId: routing_number, group: pim }
+    - { target: Gaji, unitId: salary, group: general }
+    - { target: 'Gaji Komponen', unitId: salary_component, group: pim }
+    - { target: Sabtu, unitId: saturday, group: general }
+    - { target: Menyimpan, unitId: save, group: general }
+    - { target: Skor, unitId: score, group: pim }
+    - { target: Cari, unitId: search, group: general }
+    - { target: 'Pilih File', unitId: select_file, group: general }
+    - { target: 'Kriteria Seleksi', unitId: selection_criteria, group: pim }
+    - { target: 'Layanan Periode', unitId: service_period, group: pim }
+    - { target: 'Harus berupa angka', unitId: should_be_a_number, group: general }
+    - { target: 'Harus angka positif', unitId: should_be_a_positive_number, group: general }
+    - { target: 'Harus berada dalam jarak Min / Max nilai', unitId: should_be_within_min_max_values, group: pim }
+    - { target: Ukuran, unitId: size, group: general }
+    - { target: Ketrampilan, unitId: skill, group: pim }
+    - { target: Keterampilan, unitId: skills, group: general }
+    - { target: 'Tanggal Mulai', unitId: start_date, group: general }
+    - { target: 'Tanggal mulai harus sebelum tanggal akhir', unitId: start_date_should_be_before_end_date, group: general }
+    - { target: Negara, unitId: state, group: general }
+    - { target: Status, unitId: status, group: general }
+    - { target: Struktur, unitId: structure, group: general }
+    - { target: 'Sub Satuan', unitId: sub_unit, group: general }
+    - { target: Bawahan, unitId: subordinates, group: pim }
+    - { target: 'Berlangganan Jumlah', unitId: subscription_amount, group: pim }
+    - { target: 'Berlangganan Dimulainya Tanggal', unitId: subscription_commence_date, group: pim }
+    - { target: 'Berlangganan Dibayar', unitId: subscription_paid_by, group: pim }
+    - { target: 'Berlangganan Pembaruan Tanggal', unitId: subscription_renewal_date, group: pim }
+    - { target: 'Berhasil Diselamatkan', unitId: successfully_saved, group: general }
+    - { target: 'Berhasil Diperbarui', unitId: successfully_updated, group: general }
+    - { target: Minggu, unitId: sunday, group: general }
+    - { target: Pengawas, unitId: supervisor, group: pim }
+    - { target: 'Pengawas Nama', unitId: supervisor_name, group: pim }
+    - { target: Supervisor, unitId: supervisors, group: pim }
+    - { target: 'Pemutusan Alasan', unitId: termination_reasons, group: pim }
+    - { target: Kamis, unitId: thursday, group: general }
+    - { target: Waktu, unitId: time, group: general }
+    - { target: Timesheets, unitId: timesheets, group: general }
+    - { target: Untuk, unitId: to, group: general }
+    - { target: 'Sampai saat ini harus setelah tanggal dari', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Selasa, unitId: tuesday, group: general }
+    - { target: Jenis, unitId: type, group: general }
+    - { target: Pengguna, unitId: users, group: general }
+    - { target: Lowongan, unitId: vacancies, group: general }
+    - { target: Rabu, unitId: wednesday, group: general }
+    - { target: 'Bekerja Email', unitId: work_email, group: general }
+    - { target: 'Pengalaman Kerja', unitId: work_experience, group: pim }
+    - { target: 'Kerja Gilir', unitId: work_shifts, group: admin }
+    - { target: 'Kerja Telepon', unitId: work_telephone, group: pim }
+    - { target: 'Kerja Minggu', unitId: work_week, group: leave }
+    - { target: Tahun, unitId: year, group: general }
+    - { target: 'Tahun Pengalaman', unitId: years_of_experience, group: pim }
+    - { target: Ya, unitId: 'yes', group: general }
+    - { target: 'Kata sandi tidak cocok', unitId: passwords_do_not_match, group: general }
+    - { target: Oke, unitId: ok, group: general }
+    - { target: 'Menerima hingga 1MB', unitId: accepts_up_to_1mb, group: general }
+    - { target: 'Nama Pengguna', unitId: username, group: general }
+    - { target: 'Kata sandi', unitId: password, group: general }
+    - { target: Unggah, unitId: upload, group: general }
+    - { target: Total, unitId: total, group: general }
+    - { target: 'Tanggal Pemutusan (PHK)', unitId: termination_date, group: pim }
+    - { target: 'Alasan Pemutusan (PHK)', unitId: termination_reason, group: pim }
+    - { target: 'Nama Kegiatan ', unitId: activity_name, group: time }
+    - { target: 'Tambahkan Pendidikan', unitId: add_education, group: general }
+    - { target: 'Tambahkan Bahasa', unitId: add_language, group: general }
+    - { target: 'Tambahkan Lisensi', unitId: add_license, group: general }
+    - { target: 'Tambahkan Keterampilan', unitId: add_skill, group: general }
+    - { target: 'Alamat Jalan 1', unitId: address_street_1, group: general }
+    - { target: 'Alamat Jalan 2', unitId: address_street_2, group: general }
+    - { target: Kota, unitId: city, group: general }
+    - { target: 'Konfirmasi Password', unitId: confirm_password, group: general }
+    - { target: 'Salin Dari', unitId: copy_from, group: time }
+    - { target: 'Nama Proyek', unitId: project_name, group: time }
+    - { target: 'Sunting Pendidikan', unitId: edit_education, group: general }
+    - { target: 'Sunting Bahasa', unitId: edit_language, group: general }
+    - { target: 'Sunting Lisensi', unitId: edit_license, group: general }
+    - { target: 'Sunting Keterampilan', unitId: edit_skill, group: general }
+    - { target: 'Negara Bagian / Propinsi', unitId: state_province, group: general }
+    - { target: 'Kode Pos', unitId: zip_postal_code, group: general }
+    - { target: Menyetujui, unitId: approve, group: general }
+    - { target: Dijadwalkan, unitId: scheduled, group: leave }
+    - { target: Catatan, unitId: note, group: general }
+    - { target: Lampiran, unitId: attachments, group: general }
+    - { target: Download, unitId: download, group: general }
+    - { target: Email, unitId: email, group: general }
+    - { target: 'Dilakukan Oleh', unitId: performed_by, group: general }
+    - { target: Menolak, unitId: reject, group: general }
+    - { target: Ditolak, unitId: rejected, group: leave }
+    - { target: Kirimkan, unitId: submit, group: general }
+    - { target: Melihat, unitId: view, group: general }
+    - { target: Infoku, unitId: my_info, group: general }
+    - { target: Kualifikasi, unitId: qualifications, group: general }
+    - { target: 'Tambahkan lainnya', unitId: add_another, group: general }
+    - { target: Konfirmasikan, unitId: confirm, group: general }
+    - { target: 'Sampai saat ini harus setelah Dari tanggal', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Kegiatan, unitId: activities, group: time }
+    - { target: 'Tambahkan Mata Uang', unitId: add_currency, group: admin }
+    - { target: 'Tambahkan Pelanggan', unitId: add_customer, group: time }
+    - { target: 'Tambahkan Status Pekerjaan', unitId: add_employment_status, group: admin }
+    - { target: 'Tambah Kategori Pekerjaan', unitId: add_job_category, group: admin }
+    - { target: 'Tambahkan Jabatan', unitId: add_job_title, group: admin }
+    - { target: 'Tambahkan Lokasi', unitId: add_location, group: admin }
+    - { target: 'Tambahkan Keanggotaan', unitId: add_membership, group: general }
+    - { target: 'Tambahkan Kebangsaan', unitId: add_nationality, group: admin }
+    - { target: 'Tambahkan Skala Gaji', unitId: add_pay_grade, group: admin }
+    - { target: 'Tambahkan Proyek', unitId: add_project, group: time }
+    - { target: 'Tambahkan Kegiatan Proyek', unitId: add_project_activity, group: time }
+    - { target: 'Tambahkan Pelanggan (Subscriber)', unitId: add_subscriber, group: admin }
+    - { target: 'Tambah Pengguna', unitId: add_user, group: admin }
+    - { target: 'Tambahkan Shift Kerja', unitId: add_work_shift, group: admin }
+    - { target: 'Karyawan ditetapkan', unitId: assigned_employees, group: admin }
+    - { target: 'Lebih baik', unitId: better, group: general }
+    - { target: 'Urutan kolom tidak boleh diubah', unitId: column_order_should_not_be_changed, group: pim }
+    - { target: 'Salin Kegiatan', unitId: copy_activity, group: time }
+    - { target: 'Kata Sandi Lama', unitId: current_password, group: pim }
+    - { target: 'Nama Pelanggan', unitId: customer_name, group: time }
+    - { target: 'Format Tanggal', unitId: date_format, group: admin }
+    - { target: 'Setiap file impor harus dikonfigurasi untuk 100 catatan atau kurang', unitId: each_import_file_should_be_configured_for_100_records_or_less, group: pim }
+    - { target: 'Sunting Mata Uang', unitId: edit_currency, group: admin }
+    - { target: 'Sunting Pelanggan', unitId: edit_customer, group: time }
+    - { target: 'Sunting Status Pekerjaan', unitId: edit_employment_status, group: admin }
+    - { target: 'Sunting Kategori Pekerjaan', unitId: edit_job_category, group: admin }
+    - { target: 'Sunting Jabatan', unitId: edit_job_title, group: admin }
+    - { target: 'Sunting Lokasi', unitId: edit_location, group: admin }
+    - { target: 'Sunting Keanggotaan', unitId: edit_membership, group: general }
+    - { target: 'Sunting Kebangsaan', unitId: edit_nationality, group: admin }
+    - { target: 'Sunting Skala Gaji', unitId: edit_pay_grade, group: admin }
+    - { target: 'Sunting Proyek', unitId: edit_project, group: time }
+    - { target: 'Sunting Kegiatan Proyek', unitId: edit_project_activity, group: time }
+    - { target: 'Sunting Pelanggan (Subscriber)', unitId: edit_subscriber, group: admin }
+    - { target: 'Sunting Pengguna', unitId: edit_user, group: admin }
+    - { target: 'Sunting Shift Kerja', unitId: edit_work_shift, group: admin }
+    - { target: Fax, unitId: fax, group: general }
+    - { target: 'Nama Depan dan Nama Belakang wajib diisi', unitId: first_name_and_last_name_are_compulsory, group: pim }
+    - { target: 'Jam Per Hari', unitId: hours_per_day, group: admin }
+    - { target: 'Uraian Pekerjaan (Job Description)', unitId: job_description, group: admin }
+    - { target: 'e-Mail dikirim oleh', unitId: mail_sent_as, group: admin }
+    - { target: 'Gaji Maksimum ', unitId: maximum_salary, group: admin }
+    - { target: 'Gaji Minimum ', unitId: minimum_salary, group: admin }
+    - { target: 'Konfigurasi Modul ', unitId: module_configuration, group: admin }
+    - { target: 'Kata Sandi Baru', unitId: new_password, group: auth }
+    - { target: 'Tidak ada kegiatan yang dipilih', unitId: no_activities_selected, group: time }
+    - { target: 'Tidak ada kegiatan yang ditetapkan', unitId: no_assigned_activities, group: time }
+    - { target: 'Jenis Pemberitahuan ', unitId: notification_type, group: admin }
+    - { target: 'Jumlah Karyawan', unitId: number_of_employees, group: admin }
+    - { target: 'Nama Organisasi', unitId: organization_name, group: admin }
+    - { target: 'Path to Sendmail', unitId: path_to_sendmail, group: admin }
+    - { target: Telepon, unitId: phone, group: general }
+    - { target: Proyek, unitId: project, group: time }
+    - { target: 'Admin Proyek ', unitId: project_admin, group: time }
+    - { target: 'Admin Proyek (s)', unitId: project_admins, group: time }
+    - { target: 'Nomor pendaftaran', unitId: registration_number, group: admin }
+    - { target: 'Metode Pengiriman', unitId: sending_method, group: admin }
+    - { target: 'Nama Shift ', unitId: shift_name, group: admin }
+    - { target: 'Kata Sandi SMTP ', unitId: smtp_password, group: admin }
+    - { target: 'SMTP Port', unitId: smtp_port, group: admin }
+    - { target: 'SMTP User', unitId: smtp_user, group: admin }
+    - { target: Terkuat, unitId: strongest, group: general }
+    - { target: 'Pelanggan (Subsriciber)', unitId: subscribers, group: admin }
+    - { target: 'Pengguna Sistem ', unitId: system_users, group: admin }
+    - { target: 'ID Pajak', unitId: tax_id, group: admin }
+    - { target: 'Alamat Uji Email', unitId: test_email_address, group: admin }
+    - { target: 'Unit ini akan ditambahkan di bawah', unitId: this_unit_will_be_added_under, group: admin }
+    - { target: TLS, unitId: tls, group: admin }
+    - { target: 'ID Unit', unitId: unit_id, group: admin }
+    - { target: 'Gunakan Otentikasi SMTP', unitId: use_smtp_authentication, group: admin }
+    - { target: 'Sangat Lemah', unitId: very_weak, group: general }
+    - { target: Lemah, unitId: weak, group: general }
+    - { target: 'Harus lebih tinggi dari Gaji Minimum', unitId: should_be_higher_than_minimum_salary, group: admin }
+    - { target: 'Semua bidang tanggal harus dalam format  YYYY-MM-DD', unitId: all_date_fields_should_be_in_yyyy_mm_dd_format, group: pim }
+    - { target: 'Beberapa File impor mungkin diperlukan', unitId: multiple_import_files_may_be_required, group: pim }
+    - { target: 'Terapkan Tinggalkan', unitId: apply_leave, group: leave }
+    - { target: 'Tindakan yang Dilakukan pada Laporan Jam Kerja (Timesheet)', unitId: actions_performed_on_the_timesheet, group: time }
+    - { target: 'Tambahkan Baris', unitId: add_row, group: time }
+    - { target: 'Tambahkan Laporan Kartu Absen (Timesheet)', unitId: add_timesheet, group: time }
+    - { target: 'Laporan Ringkas Kehadiran Total', unitId: attendance_total_summary_report, group: attendance }
+    - { target: 'Tentukan Periode Kartu Absen (Timesheet)', unitId: timesheet_period_config, group: time }
+    - { target: 'Sunting Kartu Absen (Timesheet) untuk', unitId: edit_timesheet_for, group: time }
+    - { target: 'Laporan Karyawan ', unitId: employee_report, group: time }
+    - { target: 'Harus Kurang dari 24 dan dalam format HH: MM atau Format Desimal', unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format, group: time }
+    - { target: Jumat, unitId: fri, group: general }
+    - { target: Senin, unitId: mon, group: general }
+    - { target: 'Laporan Proyek', unitId: project_report, group: time }
+    - { target: Sabtu, unitId: sat, group: general }
+    - { target: 'Pilih Hari untuk Membuat Kartu Absen (Timesheet)', unitId: select_a_day_to_create_timesheet, group: time }
+    - { target: 'Pilih Karyawan', unitId: select_employee, group: time }
+    - { target: Minggu, unitId: sun, group: general }
+    - { target: Kamis, unitId: thu, group: general }
+    - { target: 'Kartu Absen (Timesheet) untuk', unitId: timesheet_for, group: time }
+    - { target: 'Periode Kartu Absen (Timesheet)', unitId: timesheet_period, group: time }
+    - { target: 'Kartu Absen (Timesheets) yang Tertunda', unitId: timesheets_pending_action, group: time }
+    - { target: Selasa, unitId: tue, group: general }
+    - { target: Rabu, unitId: wed, group: general }
+    - { target: 'Pilih sebuah Proyek dan sebuah Kegiatan', unitId: select_a_project_and_an_activity, group: time }
+    - { target: 'Tidak ada Kartu Absen (Timesheets) Ditemukan', unitId: no_timesheets_found, group: time }
+    - { target: 'Kartu Absen (Timesheets) Disetujui', unitId: timesheet_approved, group: time }
+    - { target: 'Kartu Absen (Timesheets) Ditolak', unitId: timesheet_rejected, group: time }
+    - { target: 'Jumlah Harus Kurang Dari 24 Jam', unitId: total_should_be_less_than_24_hours, group: time }
+    - { target: 'Nomor Rekening', unitId: account_number, group: pim }
+    - { target: 'Jenis Akun', unitId: account_type, group: pim }
+    - { target: 'Aktifkan Pekerjaan', unitId: activate_employment, group: pim }
+    - { target: 'Tambahkan Bidang Kustom', unitId: add_custom_field, group: pim }
+    - { target: 'Tambahkan Tanggungan', unitId: add_dependent, group: pim }
+    - { target: 'Tambahkan Imigrasi', unitId: add_immigration, group: pim }
+    - { target: 'Tambahkan Metode Pelaporan', unitId: add_reporting_method, group: pim }
+    - { target: 'Tambahkan Alasan Pemutusan', unitId: add_termination_reason, group: pim }
+    - { target: 'Tambahkan Pengalaman Kerja', unitId: add_work_experience, group: pim }
+    - { target: 'Tanggungan yang digunakan', unitId: assigned_dependents, group: pim }
+    - { target: 'Kontak Darurat yang digunakan', unitId: assigned_emergency_contacts, group: pim }
+    - { target: 'Keanggotaan yang digunakan', unitId: assigned_memberships, group: pim }
+    - { target: 'Bawahan (Subordinate) yang ditetapkan', unitId: assigned_subordinates, group: pim }
+    - { target: 'Pengawas (Supervisor) yang ditetapkan', unitId: assigned_supervisors, group: pim }
+    - { target: 'Setidaknya satu nomor telepon harus diisi', unitId: at_least_one_phone_number_is_required, group: pim }
+    - { target: Anak, unitId: child, group: pim }
+    - { target: 'Rincian Kontrak', unitId: contract_details, group: pim }
+    - { target: 'Informasi kenegaraan khusus', unitId: country_specific_information, group: pim }
+    - { target: 'Buat Rincian Login', unitId: create_login_details, group: pim }
+    - { target: 'Nama Bidang Kustom (custom field)', unitId: custom_field_name, group: pim }
+    - { target: Dokumen, unitId: document, group: pim }
+    - { target: 'Drop Down', unitId: drop_down, group: pim }
+    - { target: 'Sunting Bidang Kustom', unitId: edit_custom_field, group: pim }
+    - { target: 'Sunting Tanggungan', unitId: edit_dependent, group: pim }
+    - { target: 'Sunting Kontak Darurat', unitId: edit_emergency_contact, group: pim }
+    - { target: 'Sunting Cara Pelaporan', unitId: edit_reporting_method, group: pim }
+    - { target: 'Sunting Alasan Pemutusan Hubungan Kerja', unitId: edit_termination_reason, group: pim }
+    - { target: 'Informasi Karyawan', unitId: employee_information, group: pim }
+    - { target: 'Masukkan pilihan yang diperbolehkan, dipisahkan dengan koma', unitId: enter_allowed_options_separated_by_commas, group: pim }
+    - { target: Pengecualian, unitId: exemptions, group: pim }
+    - { target: 'Pajak Penghasilan', unitId: federal_income_tax, group: pim }
+    - { target: 'Nama Field', unitId: field_name, group: pim }
+    - { target: 'Kolom Jenis', unitId: field_type, group: pim }
+    - { target: 'Dari tanggal harus sebelum sampai saat ini', unitId: from_date_should_be_before_to_date, group: general }
+    - { target: 'IPK / Skor', unitId: gpa_score, group: pim }
+    - { target: Lembaga, unitId: institute, group: pim }
+    - { target: 'Mayor / Spesialisasi', unitId: major_specialization, group: pim }
+    - { target: Milisi, unitId: military_service, group: pim }
+    - { target: Paspor, unitId: passport, group: pim }
+    - { target: 'Data Pribadi', unitId: personal_details, group: general }
+    - { target: 'Silahkan Tentukan', unitId: please_specify, group: pim }
+    - { target: '-Untuk', unitId: report_to, group: general }
+    - { target: Layar, unitId: screen, group: pim }
+    - { target: 'Pilih Pilihan', unitId: select_options, group: pim }
+    - { target: 'Tampilkan Fields ditinggalkan', unitId: show_deprecated_fields, group: pim }
+    - { target: 'Tampilkan Nama Nick, Perokok dan Jasa Militer di Data Pribadi', unitId: show_nick_name_smoker_and_military_service_in_personal_details, group: pim }
+    - { target: 'Tampilkan lapangan SIN di Data Pribadi', unitId: show_sin_field_in_personal_details, group: pim }
+    - { target: 'Tampilkan lapangan SSN di Data Pribadi', unitId: show_ssn_field_in_personal_details, group: pim }
+    - { target: 'Tampilkan Pajak AS Pengecualian menu', unitId: show_us_tax_exemptions_menu, group: pim }
+    - { target: 'Nomor SIN', unitId: sin_number, group: pim }
+    - { target: Perokok, unitId: smoker, group: pim }
+    - { target: 'Nomor SSN', unitId: ssn_number, group: pim }
+    - { target: 'Pengecualian Pajak', unitId: tax_exemptions, group: general }
+    - { target: 'Hentikan employement', unitId: terminate_employment, group: pim }
+    - { target: 'Teks atau Nomor', unitId: text_or_number, group: pim }
+    - { target: 'Pengangguran Negara', unitId: unemployment_state, group: pim }
+    - { target: Visa, unitId: visa, group: pim }
+    - { target: 'Bekerja Negara', unitId: work_state, group: pim }
+    - { target: Tindakan, unitId: actions, group: general }
+    - { target: Menetapkan, unitId: assign, group: leave }
+    - { target: 'Saat Cuti Periode', unitId: current_leave_period, group: leave }
+    - { target: 'Durasi (Jam)', unitId: duration_hours, group: attendance }
+    - { target: 'Setelah Tahun', unitId: following_year, group: leave }
+    - { target: 'Dari Tanggal', unitId: from_date, group: general }
+    - { target: 'Sehari Penuh', unitId: full_day, group: leave }
+    - { target: 'Hari Setengah', unitId: half_day, group: leave }
+    - { target: 'Tinggalkan Saldo', unitId: leave_balance, group: leave }
+    - { target: 'Tinggalkan Jenis', unitId: leave_type, group: leave }
+    - { target: 'Saya Cuti Daftar', unitId: my_leave_list, group: leave }
+    - { target: 'No Jenis Cuti dengan Saldo Cuti', unitId: no_leave_types_with_leave_balance, group: leave }
+    - { target: 'Tidak bekerja Hari', unitId: non_working_day, group: leave }
+    - { target: 'Jumlah Hari', unitId: number_of_days, group: leave }
+    - { target: 'Menunggu Persetujuan', unitId: pending_approval, group: leave }
+    - { target: 'Mengulang Setiap tahun', unitId: repeats_annually, group: leave }
+    - { target: 'Tampilkan Tinggalkan Status', unitId: show_leave_with_status, group: leave }
+    - { target: Diambil, unitId: taken, group: leave }
+    - { target: Berkencan, unitId: to_date, group: general }
+    - { target: 'Gagal Kirim: Tidak ada hari kerja Terpilih', unitId: failed_to_submit_no_working_days_selected, group: leave }
+    - { target: 'Gagal Kirim', unitId: failed_to_submit, group: leave }
+    - { target: 'Tambahkan Tinggalkan Jenis', unitId: add_leave_type, group: leave }
+    - { target: 'Edit Tinggalkan Jenis', unitId: edit_leave_type, group: leave }
+    - { target: 'Masuk (Hadir)', unitId: punch_in, group: attendance }
+    - { target: 'Catatan Hadir', unitId: punch_in_note, group: attendance }
+    - { target: 'Keluar (Pulang)', unitId: punch_out, group: attendance }
+    - { target: 'Catatan Keluar ', unitId: punch_out_note, group: attendance }
+    - { target: 'Catatan Tumpang Tindih Ditemukan', unitId: overlapping_records_found, group: attendance }
+    - { target: 'Zona Waktu', unitId: timezone, group: attendance }
+    - { target: Masuk, unitId: in, group: attendance }
+    - { target: Keluar, unitId: out, group: attendance }
+    - { target: 'Konfigurasi Kehadiran ', unitId: attendance_configuration, group: attendance }
+    - { target: 'Karyawan dapat mengubah waktu / jam pada saat melakukan absensi Masuk / Keluar', unitId: employee_can_change_current_time_when_punching_in_out, group: attendance }
+    - { target: 'Karyawan dapat menyunting / menghapus catatan kehadirannya sendiri', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
+    - { target: 'Pengawas (supervisor) dapat menambahkan / menyunting / menghapus catatan kehadiran dari bawahannya', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
+    - { target: 'Rekaman Kehadiran Saya ', unitId: my_attendance_records, group: attendance }
+    - { target: 'Berhasil Dihapus', unitId: successfully_deleted, group: general }
+    - { target: 'Jam Keluar harus lebih besar dari jam Masuk', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Nama Pengguna', unitId: username, group: auth }
+    - { target: 'Kata sandi', unitId: password, group: auth }
+    - { target: 'Tidak Ditemukan Rekaman', unitId: no_records_found, group: general }
+    - { target: 'Kartu Absen (Timesheet) Dikirim', unitId: timesheet_submitted, group: time }
+    - { target: Nama tengah, unitId: middle_name, group: general }
+    - { target: Nama depan, unitId: first_name, group: general }
+    - { target: Nama keluarga, unitId: last_name, group: general }

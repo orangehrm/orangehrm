@@ -1,0 +1,72 @@
+translations:
+    - { target: 'Tilføj Anmeldelse', unitId: add_review, group: performance }
+    - { target: April, unitId: april, group: general }
+    - { target: August, unitId: august, group: general }
+    - { target: 'Aktuel status', unitId: current_status, group: recruitment }
+    - { target: December, unitId: december, group: general }
+    - { target: Slet, unitId: delete, group: performance }
+    - { target: Februar, unitId: february, group: general }
+    - { target: Fredag, unitId: friday, group: general }
+    - { target: 'Fulde navn', unitId: full_name, group: general }
+    - { target: Januar, unitId: january, group: general }
+    - { target: Juli, unitId: july, group: general }
+    - { target: Juni, unitId: june, group: general }
+    - { target: Marts, unitId: march, group: general }
+    - { target: Maj, unitId: may, group: general }
+    - { target: Mandag, unitId: monday, group: general }
+    - { target: November, unitId: november, group: general }
+    - { target: Oktober, unitId: october, group: general }
+    - { target: Lørdag, unitId: saturday, group: general }
+    - { target: September, unitId: september, group: general }
+    - { target: Søndag, unitId: sunday, group: general }
+    - { target: Torsdag, unitId: thursday, group: general }
+    - { target: Tirsdag, unitId: tuesday, group: general }
+    - { target: Onsdag, unitId: wednesday, group: general }
+    - { target: Ugyldig, unitId: invalid, group: general }
+    - { target: 'Accepterer. Docx,. Doc,. Odt,. Pdf,. Rtf,. Txt op til 1 MB', unitId: accept_custom_format_file, group: general }
+    - { target: Nøgleord, unitId: keywords, group: recruitment }
+    - { target: Genoptag, unitId: resume, group: recruitment }
+    - { target: Fre, unitId: fri, group: general }
+    - { target: Man, unitId: mon, group: general }
+    - { target: Sat, unitId: sat, group: general }
+    - { target: Søn, unitId: sun, group: general }
+    - { target: Tor, unitId: thu, group: general }
+    - { target: Tir, unitId: tue, group: general }
+    - { target: Ons, unitId: wed, group: general }
+    - { target: Maksimum, unitId: max, group: performance }
+    - { target: Minimum, unitId: min, group: performance }
+    - { target: Aktiv, unitId: active, group: general }
+    - { target: 'Tilføj kandidat', unitId: add_candidate, group: recruitment }
+    - { target: 'Ansøgning initieret', unitId: application_initiated, group: recruitment }
+    - { target: Kandidat, unitId: candidate, group: recruitment }
+    - { target: 'Kandidatens navn', unitId: candidate_name, group: recruitment }
+    - { target: Lukket, unitId: closed, group: general }
+    - { target: 'Dato for Anvendelse', unitId: date_of_application, group: recruitment }
+    - { target: 'Afvis tilbud', unitId: decline_offer, group: recruitment }
+    - { target: Leje, unitId: hire, group: recruitment }
+    - { target: Ansat, unitId: hired, group: recruitment }
+    - { target: 'Leje manager', unitId: hiring_manager, group: recruitment }
+    - { target: 'Interview mislykkedes', unitId: interview_failed, group: recruitment }
+    - { target: 'Interview Bestået', unitId: interview_passed, group: recruitment }
+    - { target: 'Interview Planlagt', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Interview titel', unitId: interview_title, group: recruitment }
+    - { target: 'Job Tilbydes', unitId: job_offered, group: recruitment }
+    - { target: 'Ledige stillinger', unitId: job_vacancy, group: recruitment }
+    - { target: Manual, unitId: manual, group: recruitment }
+    - { target: 'Mærk Interview ikke bestået', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Mærk Interview Bestået', unitId: mark_interview_passed, group: recruitment }
+    - { target: Anvendelsesmetode, unitId: method_of_application, group: recruitment }
+    - { target: 'Antallet af positioner', unitId: num_of_positions, group: recruitment }
+    - { target: 'Tilbud afvist', unitId: offer_declined, group: recruitment }
+    - { target: Online, unitId: online, group: recruitment }
+    - { target: 'Udføres Action', unitId: performed_action, group: recruitment }
+    - { target: 'Udføres Dato', unitId: performed_date, group: recruitment }
+    - { target: 'RSS Feed URL', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Planlæg Interview', unitId: schedule_interview, group: recruitment }
+    - { target: Huskeliste, unitId: shortlist, group: recruitment }
+    - { target: Nomineret, unitId: shortlisted, group: recruitment }
+    - { target: Stillingsopslag, unitId: vacancy, group: recruitment }
+    - { target: 'Stillingsopslag Navn', unitId: vacancy_name, group: recruitment }
+    - { target: 'Se Action Historie', unitId: view_action_history, group: recruitment }
+    - { target: 'Webside URL', unitId: web_page_url, group: recruitment }
+    - { target: 'Ansøgning modtaget', unitId: application_received, group: recruitment }

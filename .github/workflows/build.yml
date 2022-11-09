@@ -1,0 +1,76 @@
+name: Build
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate composer.json and composer.lock
+        run: |
+          cd src
+          composer validate --strict
+
+      - name: Parse Git short hash
+        run: echo "git_short_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          cd src
+          php7.4 -f /usr/bin/composer install --no-dev
+          php7.4 -f /usr/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
+          cd client
+          yarn install
+          cd ../../installer/client
+          yarn install
+
+      - name: Dump build file
+        run: |
+          cd build
+          echo "SHA: $GITHUB_SHA" > build
+          echo "Repository: $GITHUB_REPOSITORY" >> build
+          echo "Branch: $GITHUB_HEAD_REF" >> build
+
+      - name: Change product mode
+        env:
+          PRODUCT_MODE: ${{ secrets.PRODUCT_MODE }}
+        if: "${{ env.PRODUCT_MODE != '' }}"
+        run: |
+          sed -i "s/public const PRODUCT_MODE = self::MODE_DEV;/public const PRODUCT_MODE = self::$PRODUCT_MODE;/g" src/lib/config/Config.php
+
+      - name: Run build
+        run: |
+          cd src/client
+          yarn build
+          cd ../../installer/client
+          yarn build
+          cd ../../build
+          wget https://www.phing.info/get/phing-latest.phar
+          php phing-latest.phar dist
+
+      - name: Find build file
+        run: |
+          cd build
+          echo "file_path=$(find dist/ -maxdepth 1 -name '*.zip')" >> $GITHUB_ENV
+
+      - name: Get product mode
+        run: |
+          cd build
+          echo "product_mode=$(php ./product_mode.php)" >> $GITHUB_ENV
+          echo "Product Mode: $(php ./product_mode.php)" >> build
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: orangehrm-${{ env.git_short_hash }}
+          path: build/${{ env.file_path }}
+
+      - name: Upload product mode
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.product_mode }}-mode
+          path: build/build

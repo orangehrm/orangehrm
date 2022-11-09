@@ -1,0 +1,271 @@
+langStrings:
+  -
+    value: 'Language Package'
+    unitId: language_package
+  -
+    value: 'Source Language'
+    unitId: source_language
+  -
+    value: 'Module'
+    unitId: module
+  -
+    value: 'Source Text'
+    unitId: source_text
+  -
+    value: 'Translated Text'
+    unitId: translated_text
+  -
+    value: 'Source Note'
+    unitId: source_note
+  -
+    value: 'Show'
+    unitId: show
+  -
+    value: 'All'
+    unitId: all
+  -
+    value: 'Translated'
+    unitId: translated
+  -
+    value: 'Not Translated'
+    unitId: not_translated
+  -
+    value: 'Translate Language Package'
+    unitId: translate_language_package
+  -
+    value: 'Directory Module'
+    unitId: directory_module
+  -
+    value: 'Language Package'
+    unitId: language_package
+  -
+    value: 'Source Language'
+    unitId: source_language
+  -
+    value: 'Module'
+    unitId: module
+  -
+    value: 'Source Text'
+    unitId: source_text
+  -
+    value: 'Translated Text'
+    unitId: translated_text
+  -
+    value: 'Source Note'
+    unitId: source_note
+  -
+    value: 'Show'
+    unitId: show
+  -
+    value: 'All'
+    unitId: all
+  -
+    value: 'Translated'
+    unitId: translated
+  -
+    value: 'Not Translated'
+    unitId: not_translated
+  -
+    value: 'Translate Language Package'
+    unitId: translate_language_package
+  -
+    value: 'Order'
+    unitId: order
+  -
+    value: 'Server Settings'
+    unitId: server_settings
+  -
+    value: 'Bind Settings'
+    unitId: bind_settings
+  -
+    value: 'User Lookup Settings'
+    unitId: user_lookup_settings
+  -
+    value: 'Data Mapping'
+    unitId: data_mapping
+  -
+    value: 'Additional Settings'
+    unitId: additional_settings
+  -
+    value: 'Host'
+    unitId: host
+  -
+    value: 'LDAP Server IP or Hostname without the protocol (without ldap:// or ldaps://)'
+    unitId: ldap_host_input_hint
+  -
+    value: 'Port'
+    unitId: port
+  -
+    value: 'If SSL use port 636 by default'
+    unitId: port_input_hint
+  -
+    value: 'Encryption'
+    unitId: encryption
+  -
+    value: 'LDAP Implementation'
+    unitId: ldap_implementation
+  -
+    value: 'Distinguished Name'
+    unitId: distinguished_name
+  -
+    value: 'Base Distinguished Name'
+    unitId: base_distinguished_name
+  -
+    value: 'Search Scope'
+    unitId: search_scope
+  -
+    value: 'Subtree option will allow searching base directory and sub directories. One level will only search within the base directory'
+    unitId: search_scope_input_hint
+  -
+    value: 'User Name Attribute'
+    unitId: user_name_attribute
+  -
+    value: 'Firstname Field'
+    unitId: firstname_field
+  -
+    value: 'Middlename Field'
+    unitId: middlename_field
+  -
+    value: 'Lastname Field'
+    unitId: lastname_field
+  -
+    value: 'User Status Field'
+    unitId: user_status_field
+  -
+    value: 'Work E-mail Field'
+    unitId: work_email_field
+  -
+    value: 'Employee ID Field'
+    unitId: employee_id_field
+  -
+    value: 'Test Connection'
+    unitId: test_connection
+  -
+    value: 'Bind Anonymously'
+    unitId: bind_anonymously
+  -
+    value: 'Sync Interval (in Hours)'
+    unitId: sync_interval
+  -
+    value: 'Group Object Class'
+    unitId: group_object_class
+  -
+    value: 'Group Object Filter'
+    unitId: group_object_filter
+  -
+    value: 'Group Name Attribute'
+    unitId: group_name_attribute
+  -
+    value: 'Group Members Attribute'
+    unitId: group_members_attribute
+  -
+    value: 'User Membership Attribute'
+    unitId: user_membership_attribute
+  -
+    value: 'Attribute field to use when loading the username. Ex: cn, SMA account name'
+    unitId: user_name_input_hint
+  -
+    value: 'SSL'
+    unitId: ssl
+  -
+    value: 'Subtree'
+    unitId: subtree
+  -
+    value: 'One level'
+    unitId: one_level
+  -
+    value: 'Open LDAP v3'
+    unitId: open_ldap_v3
+  -
+    value: 'MS Active Directory'
+    unitId: ms_active_directory
+  -
+    value: 'Connection Status'
+    unitId: connection_status
+  -
+    value: 'Sync Connection'
+    unitId: sync_connection
+  -
+    value: 'Sync Now'
+    unitId: sync_now
+  -
+    value: 'Last synced on {datetime}'
+    unitId: last_synced_on_datetime
+  -
+    value: 'Last sync failed on {datetime}'
+    unitId: last_sync_failed_on_datetime
+  -
+    value: 'Synchronization Successful'
+    unitId: synchronization_successful
+  -
+    value: 'Synchronization Failed'
+    unitId: synchronization_failed
+  -
+    value: 'User Search Filter'
+    unitId: user_search_filter
+  -
+    value: 'User Unique ID Attribute'
+    unitId: user_unique_id_attribute
+  -
+    value: 'Merge LDAP Users With Existing System Users'
+    unitId: merge_ldap_users_with_existing_system_users
+  -
+    value: 'Please check the settings for your LDAP configuration'
+    unitId: please_check_the_settings_for_your_ldap_configuration
+  -
+    value: 'Attribute field to use when searching user objects. Ex: objectClass=person'
+    unitId: user_search_filter_input_hint
+  -
+    value: 'Attribute field to use as a unique immutable identifier for user objects. This is used to track username changes. Ex: entryUUID, objectGUID'
+    unitId: user_unique_attribute_input_hint
+  -
+    value: 'Field in OrangeHRM'
+    unitId: field_in_orangehrm
+  -
+    value: 'Field in LDAP Directory'
+    unitId: field_in_ldap_directory
+  -
+    value: 'Use this field as the employee / user mapping field'
+    unitId: use_this_field_as_the_employee_user_mapping_field
+  -
+    value: '{count} user(s) found'
+    unitId: n_users_found
+  -
+    value: '{count} user(s) will be imported'
+    unitId: n_users_will_be_imported
+  -
+    value: 'Lookup'
+    unitId: lookup
+  -
+    value: 'User lookup'
+    unitId: user_lookup
+  -
+    value: 'Authentication'
+    unitId: authentication
+  -
+    value: 'Search results'
+    unitId: search_results
+  -
+    value: 'Leave Applications'
+    unitId: leave_applications
+  -
+    value: 'Leave Assignments'
+    unitId: leave_assignments
+  -
+    value: 'Leave Approvals'
+    unitId: leave_approvals
+  -
+    value: 'Leave Cancellations'
+    unitId: leave_cancellation
+  -
+    value: 'Leave Rejections'
+    unitId: leave_rejections
+  -
+    value: 'LDAP settings not configured'
+    unitId: ldap_settings_not_configured
+  -
+    value: 'LDAP sync not enabled'
+    unitId: ldap_sync_not_enabled
+  -
+    value: 'Before activating the LDAP service, make sure that all LDAP settings are functioning properly since incorrect configuration may result in corrupted data. As a precaution, we recommend you to create a backup of your database before continuing.'
+    unitId: ldap_configuration_warning_message

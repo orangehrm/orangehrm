@@ -1,0 +1,463 @@
+translations:
+    - { target: Добави, unitId: add, group: general }
+    - { target: 'Добавяне на прикачване', unitId: add_attachment, group: general }
+    - { target: 'Добавяне на служителите', unitId: add_employee, group: general }
+    - { target: 'Добавено от', unitId: added_by, group: pim }
+    - { target: Адрес, unitId: address, group: admin }
+    - { target: Admin, unitId: admin, group: general }
+    - { target: 'Възрастова група', unitId: age_group, group: pim }
+    - { target: 'Позволява номера и само + / ()', unitId: allows_phone_numbers_only, group: general }
+    - { target: 'Вече съществува', unitId: already_exists, group: general }
+    - { target: Размер, unitId: amount, group: pim }
+    - { target: Нанесете, unitId: apply, group: general }
+    - { target: 'Присвояване Оставете', unitId: assign_leave, group: leave }
+    - { target: 'Емисионни компоненти на заплатите', unitId: assigned_salary_components, group: pim }
+    - { target: 'Прикачен файл Размер на товара', unitId: attachment_size_exceeded, group: general }
+    - { target: Посещаемост, unitId: attendance, group: general }
+    - { target: 'Участие Обобщение', unitId: attendance_summary, group: general }
+    - { target: Обратно, unitId: back, group: general }
+    - { target: Отказ, unitId: cancel, group: general }
+    - { target: Кандидатите, unitId: candidates, group: general }
+    - { target: 'Смяна на паролата', unitId: change_password, group: general }
+    - { target: Коментар, unitId: comment, group: general }
+    - { target: Коментари, unitId: comments, group: general }
+    - { target: Компания, unitId: company, group: pim }
+    - { target: Компетентност, unitId: competency, group: pim }
+    - { target: Конфигурация, unitId: configuration, group: general }
+    - { target: Конфигуриране, unitId: configure, group: general }
+    - { target: 'Данни за контакт', unitId: contact_details, group: pim }
+    - { target: 'Договор Край Дата', unitId: contract_end_date, group: pim }
+    - { target: 'Дата на Договора', unitId: contract_start_date, group: pim }
+    - { target: Държава, unitId: country, group: general }
+    - { target: Валута, unitId: currency, group: general }
+    - { target: 'Настоящи и бивши служители', unitId: current_and_past_employees, group: general }
+    - { target: 'Текущи служители само', unitId: current_employees_only, group: general }
+    - { target: 'Потребителски полета', unitId: custom_fields, group: pim }
+    - { target: Клиентите, unitId: customers, group: general }
+    - { target: 'Импортиране на данни', unitId: data_import, group: pim }
+    - { target: Дата, unitId: date, group: general }
+    - { target: 'Дата на добавяне', unitId: date_added, group: pim }
+    - { target: 'Дата на раждане', unitId: date_of_birth, group: pim }
+    - { target: Дни, unitId: days, group: leave }
+    - { target: 'Изтриване на текущото', unitId: delete_current, group: general }
+    - { target: Зависимите, unitId: dependents, group: general }
+    - { target: Описание, unitId: description, group: general }
+    - { target: 'Директен номер на депозит', unitId: direct_deposit_account_number, group: pim }
+    - { target: 'Директен Депозит Тип', unitId: direct_deposit_account_type, group: pim }
+    - { target: 'Директен депозит', unitId: direct_deposit_amount, group: pim }
+    - { target: 'Хора с увреждания', unitId: disabled, group: general }
+    - { target: 'Покажат полетата', unitId: display_fields, group: pim }
+    - { target: 'Тип на документа', unitId: document_type, group: pim }
+    - { target: 'Номер на шофьорска книжка', unitId: driver_license_number, group: pim }
+    - { target: Продължителност, unitId: duration, group: general }
+    - { target: Редактирам, unitId: edit, group: general }
+    - { target: 'Редактиране на прикачен файл', unitId: edit_attachment, group: general }
+    - { target: 'Редактиране на имиграцията', unitId: edit_immigration, group: pim }
+    - { target: 'Редактиране Компонент Заплата', unitId: edit_salary_component, group: pim }
+    - { target: Образование, unitId: education, group: general }
+    - { target: 'Разходомери за датата на преразглеждането', unitId: eligible_review_date, group: pim }
+    - { target: 'Допустими Статус', unitId: eligible_status, group: pim }
+    - { target: 'Спешни Контакти', unitId: emergency_contacts, group: general }
+    - { target: 'На служителите', unitId: employee, group: general }
+    - { target: 'Име на служителите', unitId: employee_first_name, group: pim }
+    - { target: 'Служител Id', unitId: employee_id, group: general }
+    - { target: 'Фамилия на служителите', unitId: employee_last_name, group: pim }
+    - { target: 'Служител Списък', unitId: employee_list, group: general }
+    - { target: 'Име на служителите в Близкия', unitId: employee_middle_name, group: pim }
+    - { target: 'Служител Име', unitId: employee_name, group: general }
+    - { target: 'Наети Records', unitId: employee_records, group: general }
+    - { target: 'Наети Доклади', unitId: employee_reports, group: general }
+    - { target: 'Наети работа на', unitId: employee_timesheets, group: general }
+    - { target: 'Статус в заетостта', unitId: employment_status, group: general }
+    - { target: Разрешено, unitId: enabled, group: general }
+    - { target: 'Крайна дата', unitId: end_date, group: general }
+    - { target: ЕСС, unitId: ess, group: general }
+    - { target: 'Очаквано формат: admin@example.com', unitId: expected_email_address_format_not_matched, group: general }
+    - { target: 'Срок на валидност', unitId: expiry_date, group: general }
+    - { target: 'Срок на валидност трябва да бъде след издадено дата', unitId: expiry_date_should_be_after_issued_date, group: pim }
+    - { target: Жена, unitId: female, group: general }
+    - { target: 'Име на файла', unitId: file_name, group: general }
+    - { target: 'Собствено име', unitId: first_name, group: pim }
+    - { target: Плавност, unitId: fluency, group: pim }
+    - { target: Петък, unitId: friday, group: general }
+    - { target: От, unitId: from, group: general }
+    - { target: Пол, unitId: gender, group: pim }
+    - { target: 'Обща информация', unitId: general_information, group: admin }
+    - { target: Ваканция, unitId: holidays, group: leave }
+    - { target: 'Домашен телефон', unitId: home_telephone, group: pim }
+    - { target: Id, unitId: id, group: general }
+    - { target: Имиграция, unitId: immigration, group: general }
+    - { target: Включете, unitId: include, group: pim }
+    - { target: 'Включи Header', unitId: include_header, group: general }
+    - { target: 'Включване на бивши служители', unitId: include_past_employees, group: leave }
+    - { target: 'Издадена от', unitId: issued_by, group: pim }
+    - { target: 'Издаден Дата', unitId: issued_date, group: pim }
+    - { target: Работа, unitId: job, group: general }
+    - { target: 'Работа Категории', unitId: job_categories, group: admin }
+    - { target: 'Job Категория', unitId: job_category, group: general }
+    - { target: 'Работа Спецификация', unitId: job_specification, group: general }
+    - { target: Длъжност, unitId: job_title, group: general }
+    - { target: 'Работа дялове', unitId: job_titles, group: admin }
+    - { target: Дата, unitId: joined_date, group: general }
+    - { target: 'Запазване на текущия', unitId: keep_current, group: general }
+    - { target: Език, unitId: language, group: general }
+    - { target: Езици, unitId: languages, group: general }
+    - { target: Фамилия, unitId: last_name, group: general }
+    - { target: Оставете, unitId: leave, group: general }
+    - { target: 'Оставете Баланс (дни)', unitId: leave_balance_days, group: leave }
+    - { target: 'Оставете Списък', unitId: leave_list, group: leave }
+    - { target: 'Оставете Период', unitId: leave_period, group: leave }
+    - { target: 'Оставете Видове', unitId: leave_types, group: leave }
+    - { target: Ниво, unitId: level, group: general }
+    - { target: Разрешително, unitId: license, group: pim }
+    - { target: 'Лиценз срок на годност', unitId: license_expiry_date, group: pim }
+    - { target: 'Номер на лиценз', unitId: license_number, group: pim }
+    - { target: 'Тип лиценз', unitId: license_type, group: pim }
+    - { target: Лицензи, unitId: licenses, group: admin }
+    - { target: Локализация, unitId: localization, group: admin }
+    - { target: Място, unitId: location, group: general }
+    - { target: Места, unitId: locations, group: admin }
+    - { target: Изход, unitId: logout, group: general }
+    - { target: Мъж, unitId: male, group: general }
+    - { target: 'Семейно положение', unitId: marital_status, group: pim }
+    - { target: Членство, unitId: membership, group: pim }
+    - { target: Членства, unitId: memberships, group: general }
+    - { target: Mobile, unitId: mobile, group: general }
+    - { target: Модули, unitId: modules, group: general }
+    - { target: Понеделник, unitId: monday, group: general }
+    - { target: 'Отпуската ми', unitId: my_leave, group: general }
+    - { target: 'Моите Records', unitId: my_records, group: general }
+    - { target: 'Моите работа на', unitId: my_timesheets, group: general }
+    - { target: Име, unitId: name, group: general }
+    - { target: Националност, unitId: nationalities, group: admin }
+    - { target: Националност, unitId: nationality, group: general }
+    - { target: Не, unitId: 'no', group: general }
+    - { target: Бележки, unitId: notes, group: general }
+    - { target: Брой, unitId: number, group: pim }
+    - { target: 'Да включва само Одобрени работа на', unitId: only_include_approved_timesheets, group: time }
+    - { target: 'Допълнителни полета', unitId: optional_fields, group: pim }
+    - { target: Организация, unitId: organization, group: general }
+    - { target: Друг, unitId: other, group: pim }
+    - { target: 'Други E-mail', unitId: other_email, group: general }
+    - { target: 'Други Id', unitId: other_id, group: pim }
+    - { target: 'Минало на служителите', unitId: past_employee, group: maintenance }
+    - { target: 'Минали служители само', unitId: past_employees_only, group: general }
+    - { target: 'Плати Честота', unitId: pay_frequency, group: pim }
+    - { target: 'Плати степен', unitId: pay_grade, group: general }
+    - { target: 'Обърнете клас', unitId: pay_grades, group: admin }
+    - { target: Изпълнение, unitId: performance, group: general }
+    - { target: Личен, unitId: personal, group: pim }
+    - { target: PIM, unitId: pim, group: general }
+    - { target: 'Обхват на проекта Дата', unitId: project_date_range, group: time }
+    - { target: 'Информация за проекта', unitId: project_info, group: general }
+    - { target: 'Доклади по проекти на', unitId: project_reports, group: general }
+    - { target: Проекти, unitId: projects, group: general }
+    - { target: 'Punch In / Out', unitId: punch_in_out, group: general }
+    - { target: Набиране, unitId: recruitment, group: general }
+    - { target: Връзка, unitId: relationship, group: pim }
+    - { target: 'Замяна на текущото', unitId: replace_current, group: general }
+    - { target: 'Име на отчета', unitId: report_name, group: general }
+    - { target: 'Метод на отчитане', unitId: reporting_method, group: pim }
+    - { target: 'Методи за докладване', unitId: reporting_methods, group: pim }
+    - { target: Доклади, unitId: reports, group: general }
+    - { target: Задължително, unitId: required, group: general }
+    - { target: Проучване, unitId: reset, group: general }
+    - { target: 'Маршрутен номер', unitId: routing_number, group: pim }
+    - { target: Заплата, unitId: salary, group: general }
+    - { target: 'Заплата Компонент', unitId: salary_component, group: pim }
+    - { target: Събота, unitId: saturday, group: general }
+    - { target: Запази, unitId: save, group: general }
+    - { target: Резултат, unitId: score, group: pim }
+    - { target: Търсене, unitId: search, group: general }
+    - { target: 'Изберете File', unitId: select_file, group: general }
+    - { target: 'Критериите за подбор', unitId: selection_criteria, group: pim }
+    - { target: 'Трудов стаж', unitId: service_period, group: pim }
+    - { target: 'Трябва да бъде номер', unitId: should_be_a_number, group: general }
+    - { target: 'Трябва да бъде положително число', unitId: should_be_a_positive_number, group: general }
+    - { target: 'Трябва да бъде в рамките на Min / Max стойности', unitId: should_be_within_min_max_values, group: pim }
+    - { target: Размер, unitId: size, group: general }
+    - { target: Умение, unitId: skill, group: pim }
+    - { target: Умения, unitId: skills, group: general }
+    - { target: 'Начална дата', unitId: start_date, group: general }
+    - { target: 'Начална дата трябва да бъде преди крайната дата', unitId: start_date_should_be_before_end_date, group: general }
+    - { target: Състояние, unitId: state, group: general }
+    - { target: Статус, unitId: status, group: general }
+    - { target: Структура, unitId: structure, group: general }
+    - { target: 'Под звено', unitId: sub_unit, group: general }
+    - { target: Подчинените, unitId: subordinates, group: pim }
+    - { target: 'Размер на инвестициите', unitId: subscription_amount, group: pim }
+    - { target: 'Абонамент Започва Дата', unitId: subscription_commence_date, group: pim }
+    - { target: 'Абонамент Платено от', unitId: subscription_paid_by, group: pim }
+    - { target: 'Абонамент за подновяване Дата', unitId: subscription_renewal_date, group: pim }
+    - { target: 'Съхранен успешно', unitId: successfully_saved, group: general }
+    - { target: 'Успешно променен', unitId: successfully_updated, group: general }
+    - { target: Неделя, unitId: sunday, group: general }
+    - { target: Ръководител, unitId: supervisor, group: pim }
+    - { target: 'Надзорен орган по Име', unitId: supervisor_name, group: pim }
+    - { target: Надзорници, unitId: supervisors, group: pim }
+    - { target: 'Прекратяване Причини', unitId: termination_reasons, group: pim }
+    - { target: Четвъртък, unitId: thursday, group: general }
+    - { target: Време, unitId: time, group: general }
+    - { target: 'Работа на', unitId: timesheets, group: general }
+    - { target: За, unitId: to, group: general }
+    - { target: 'Към днешна дата трябва да бъде, след като от датата', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Вторник, unitId: tuesday, group: general }
+    - { target: Тип, unitId: type, group: general }
+    - { target: Потребителите, unitId: users, group: general }
+    - { target: 'Свободни работни места', unitId: vacancies, group: general }
+    - { target: Сряда, unitId: wednesday, group: general }
+    - { target: 'Работен имейл', unitId: work_email, group: general }
+    - { target: 'Професионален опит', unitId: work_experience, group: pim }
+    - { target: 'Работят на смени', unitId: work_shifts, group: admin }
+    - { target: 'Работа телефон', unitId: work_telephone, group: pim }
+    - { target: 'Работна седмица', unitId: work_week, group: leave }
+    - { target: Година, unitId: year, group: general }
+    - { target: 'Години на опит', unitId: years_of_experience, group: pim }
+    - { target: Да, unitId: 'yes', group: general }
+    - { target: 'Паролите не съвпадат', unitId: passwords_do_not_match, group: general }
+    - { target: Добре, unitId: ok, group: general }
+    - { target: 'Приема се до 1MB', unitId: accepts_up_to_1mb, group: general }
+    - { target: 'Потребителско име', unitId: username, group: general }
+    - { target: Парола, unitId: password, group: general }
+    - { target: Качи, unitId: upload, group: general }
+    - { target: Общо, unitId: total, group: general }
+    - { target: 'Прекратяване Дата', unitId: termination_date, group: pim }
+    - { target: 'Прекратяване Причина', unitId: termination_reason, group: pim }
+    - { target: 'Активност Име', unitId: activity_name, group: time }
+    - { target: 'Добави образование', unitId: add_education, group: general }
+    - { target: 'Добавяне на език', unitId: add_language, group: general }
+    - { target: 'Добави Лиценз', unitId: add_license, group: general }
+    - { target: 'Добави умения', unitId: add_skill, group: general }
+    - { target: 'Адрес Улица 1', unitId: address_street_1, group: general }
+    - { target: 'Адрес Street 2', unitId: address_street_2, group: general }
+    - { target: Град, unitId: city, group: general }
+    - { target: 'Потвърждение на паролата', unitId: confirm_password, group: general }
+    - { target: 'Копиране от', unitId: copy_from, group: time }
+    - { target: 'Наименование на проекта', unitId: project_name, group: time }
+    - { target: 'Редактиране на образованието', unitId: edit_education, group: general }
+    - { target: 'Редактиране Език', unitId: edit_language, group: general }
+    - { target: 'Редактиране на лиценз', unitId: edit_license, group: general }
+    - { target: 'Редактиране на умения', unitId: edit_skill, group: general }
+    - { target: 'Щат / Провинция', unitId: state_province, group: general }
+    - { target: 'Zip / Postal код', unitId: zip_postal_code, group: general }
+    - { target: Одобряване, unitId: approve, group: general }
+    - { target: Планиран, unitId: scheduled, group: leave }
+    - { target: Внимание, unitId: note, group: general }
+    - { target: 'Прикачени файлове', unitId: attachments, group: general }
+    - { target: Изтегляне, unitId: download, group: general }
+    - { target: E-mail, unitId: email, group: general }
+    - { target: 'Извършва се от', unitId: performed_by, group: general }
+    - { target: Отхвърли, unitId: reject, group: general }
+    - { target: Отхвърлено, unitId: rejected, group: leave }
+    - { target: Подайте, unitId: submit, group: general }
+    - { target: Преглед, unitId: view, group: general }
+    - { target: Квалификационна, unitId: qualifications, group: general }
+    - { target: 'Добавяне на друг', unitId: add_another, group: general }
+    - { target: Потвърдете, unitId: confirm, group: general }
+    - { target: 'Към днешна дата трябва да бъде след От дата', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Дейности, unitId: activities, group: time }
+    - { target: 'Добави валути', unitId: add_currency, group: admin }
+    - { target: 'Добави клиенти', unitId: add_customer, group: time }
+    - { target: 'Добави трудов статус', unitId: add_employment_status, group: admin }
+    - { target: 'Добави Категория работа', unitId: add_job_category, group: admin }
+    - { target: 'Добави длъжност', unitId: add_job_title, group: admin }
+    - { target: 'Добавяне място', unitId: add_location, group: admin }
+    - { target: 'Добави членство', unitId: add_membership, group: general }
+    - { target: 'Добави националност', unitId: add_nationality, group: admin }
+    - { target: 'Добави Плати степен', unitId: add_pay_grade, group: admin }
+    - { target: 'Добави проект', unitId: add_project, group: time }
+    - { target: 'Добави дейност по проекта', unitId: add_project_activity, group: time }
+    - { target: 'Добавяне на абоната', unitId: add_subscriber, group: admin }
+    - { target: 'Добави потребител', unitId: add_user, group: admin }
+    - { target: 'Добави работа на смени', unitId: add_work_shift, group: admin }
+    - { target: 'Присвоени Служителите', unitId: assigned_employees, group: admin }
+    - { target: По-добре, unitId: better, group: general }
+    - { target: 'Колона за да не трябва да се промени', unitId: column_order_should_not_be_changed, group: pim }
+    - { target: 'Копие Активност', unitId: copy_activity, group: time }
+    - { target: 'Настояща Парола', unitId: current_password, group: pim }
+    - { target: 'Customer Name', unitId: customer_name, group: time }
+    - { target: 'Формат на датата', unitId: date_format, group: admin }
+    - { target: 'Всеки внос на файла трябва да бъдат конфигурирани за 100 записа или по-малко', unitId: each_import_file_should_be_configured_for_100_records_or_less, group: pim }
+    - { target: 'Редактиране на валута', unitId: edit_currency, group: admin }
+    - { target: 'Редактиране на клиенти', unitId: edit_customer, group: time }
+    - { target: 'Редактиране трудов статус', unitId: edit_employment_status, group: admin }
+    - { target: 'Редактиране Категория работа', unitId: edit_job_category, group: admin }
+    - { target: 'Редактиране длъжност', unitId: edit_job_title, group: admin }
+    - { target: 'Редактиране на местоположението', unitId: edit_location, group: admin }
+    - { target: 'Редактиране на членство', unitId: edit_membership, group: general }
+    - { target: 'Редактиране на Националност', unitId: edit_nationality, group: admin }
+    - { target: 'Редактиране Плати степен', unitId: edit_pay_grade, group: admin }
+    - { target: 'Редактиране на проекта', unitId: edit_project, group: time }
+    - { target: 'Редактиране дейност по проекта', unitId: edit_project_activity, group: time }
+    - { target: 'Редактиране на абоната', unitId: edit_subscriber, group: admin }
+    - { target: 'Редактиране на потребителя', unitId: edit_user, group: admin }
+    - { target: 'Редактиране работа на смени', unitId: edit_work_shift, group: admin }
+    - { target: Факс, unitId: fax, group: general }
+    - { target: 'Име и фамилия са задължителни', unitId: first_name_and_last_name_are_compulsory, group: pim }
+    - { target: 'Часа на ден', unitId: hours_per_day, group: admin }
+    - { target: 'Описание на длъжността', unitId: job_description, group: admin }
+    - { target: 'Съобщение, изпратено като', unitId: mail_sent_as, group: admin }
+    - { target: 'Максимална Заплата', unitId: maximum_salary, group: admin }
+    - { target: 'Минималната работна заплата', unitId: minimum_salary, group: admin }
+    - { target: 'Модул конфигурация', unitId: module_configuration, group: admin }
+    - { target: 'За нова парола', unitId: new_password, group: auth }
+    - { target: 'Не е избран дейности', unitId: no_activities_selected, group: time }
+    - { target: 'Няма възложените дейности', unitId: no_assigned_activities, group: time }
+    - { target: 'Уведомление Вид', unitId: notification_type, group: admin }
+    - { target: 'Брой на заетите лица', unitId: number_of_employees, group: admin }
+    - { target: 'Име на организацията', unitId: organization_name, group: admin }
+    - { target: 'Път към Sendmail', unitId: path_to_sendmail, group: admin }
+    - { target: Телефон, unitId: phone, group: general }
+    - { target: Проект, unitId: project, group: time }
+    - { target: 'Проект Admin', unitId: project_admin, group: time }
+    - { target: 'Проект администратори', unitId: project_admins, group: time }
+    - { target: Номер, unitId: registration_number, group: admin }
+    - { target: 'Метод на изпращане', unitId: sending_method, group: admin }
+    - { target: 'Преместване Име', unitId: shift_name, group: admin }
+    - { target: 'SMTP Парола', unitId: smtp_password, group: admin }
+    - { target: 'SMTP Port', unitId: smtp_port, group: admin }
+    - { target: 'SMTP Потребител', unitId: smtp_user, group: admin }
+    - { target: Силната, unitId: strongest, group: general }
+    - { target: Абонати, unitId: subscribers, group: admin }
+    - { target: 'Потребители на системата', unitId: system_users, group: admin }
+    - { target: 'Данъчен номер', unitId: tax_id, group: admin }
+    - { target: 'Тест E-mail Адрес', unitId: test_email_address, group: admin }
+    - { target: 'Това звено ще бъде добавена под', unitId: this_unit_will_be_added_under, group: admin }
+    - { target: TLS, unitId: tls, group: admin }
+    - { target: 'Звеното Id', unitId: unit_id, group: admin }
+    - { target: 'Използвайте SMTP Authentication', unitId: use_smtp_authentication, group: admin }
+    - { target: 'Много слаб', unitId: very_weak, group: general }
+    - { target: Слаб, unitId: weak, group: general }
+    - { target: 'Трябва да бъде по-висока от минималната работна заплата', unitId: should_be_higher_than_minimum_salary, group: admin }
+    - { target: 'Всички полетата за дата трябва да бъде в ГГГГ-ММ-ДД формат', unitId: all_date_fields_should_be_in_yyyy_mm_dd_format, group: pim }
+    - { target: 'Множество файлове за внос може да се изисква', unitId: multiple_import_files_may_be_required, group: pim }
+    - { target: 'Нанесете Оставете', unitId: apply_leave, group: leave }
+    - { target: 'Действия, извършени на по график', unitId: actions_performed_on_the_timesheet, group: time }
+    - { target: 'Добави Row', unitId: add_row, group: time }
+    - { target: 'Добави график', unitId: add_timesheet, group: time }
+    - { target: 'Участие Общо обобщен доклад', unitId: attendance_total_summary_report, group: attendance }
+    - { target: 'Определете график Период', unitId: timesheet_period_config, group: time }
+    - { target: 'Редактиране на график за', unitId: edit_timesheet_for, group: time }
+    - { target: 'Служител доклад', unitId: employee_report, group: time }
+    - { target: 'Трябва да бъде по-малко от 24 и в HH: MM или десетичен формат', unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format, group: time }
+    - { target: Пт, unitId: fri, group: general }
+    - { target: Пн, unitId: mon, group: general }
+    - { target: 'Отчет за проекта', unitId: project_report, group: time }
+    - { target: Пет, unitId: sat, group: general }
+    - { target: 'Изберете ден, за да създадете график', unitId: select_a_day_to_create_timesheet, group: time }
+    - { target: 'Изберете служителите', unitId: select_employee, group: time }
+    - { target: Слънце, unitId: sun, group: general }
+    - { target: Чт, unitId: thu, group: general }
+    - { target: 'График за', unitId: timesheet_for, group: time }
+    - { target: 'График Период', unitId: timesheet_period, group: time }
+    - { target: 'Работа на В очакване на действие', unitId: timesheets_pending_action, group: time }
+    - { target: Вт, unitId: tue, group: general }
+    - { target: Омъжвам, unitId: wed, group: general }
+    - { target: 'Изберете проект и дейност', unitId: select_a_project_and_an_activity, group: time }
+    - { target: 'Няма работа на Намерени', unitId: no_timesheets_found, group: time }
+    - { target: 'График Одобрени', unitId: timesheet_approved, group: time }
+    - { target: 'График Прекратено', unitId: timesheet_rejected, group: time }
+    - { target: 'Общата сума трябва да бъде по-малко от 24 часа', unitId: total_should_be_less_than_24_hours, group: time }
+    - { target: 'Номер на сметката', unitId: account_number, group: pim }
+    - { target: 'Тип Сметка', unitId: account_type, group: pim }
+    - { target: 'Активирайте Employement', unitId: activate_employment, group: pim }
+    - { target: 'Добави персонализирано поле', unitId: add_custom_field, group: pim }
+    - { target: 'Добави зависимост', unitId: add_dependent, group: pim }
+    - { target: 'Добави имиграцията', unitId: add_immigration, group: pim }
+    - { target: 'Добави метод на отчитане', unitId: add_reporting_method, group: pim }
+    - { target: 'Добави Причина Прекратяване', unitId: add_termination_reason, group: pim }
+    - { target: 'Добави професионален опит', unitId: add_work_experience, group: pim }
+    - { target: 'Присвоени зависимите', unitId: assigned_dependents, group: pim }
+    - { target: 'Емисионни Контакти Спешни', unitId: assigned_emergency_contacts, group: pim }
+    - { target: 'Присвоени Членства', unitId: assigned_memberships, group: pim }
+    - { target: 'Присвоени подчинените', unitId: assigned_subordinates, group: pim }
+    - { target: 'Присвоени надзорници', unitId: assigned_supervisors, group: pim }
+    - { target: 'Най-малко един телефонен номер се изисква', unitId: at_least_one_phone_number_is_required, group: pim }
+    - { target: Дете, unitId: child, group: pim }
+    - { target: 'Договор Детайли', unitId: contract_details, group: pim }
+    - { target: 'Специфична за страната информация', unitId: country_specific_information, group: pim }
+    - { target: 'Създаване на вход', unitId: create_login_details, group: pim }
+    - { target: 'Име на персонализирано поле', unitId: custom_field_name, group: pim }
+    - { target: Документ, unitId: document, group: pim }
+    - { target: 'Падащо меню', unitId: drop_down, group: pim }
+    - { target: 'Редактиране на потребителски поле', unitId: edit_custom_field, group: pim }
+    - { target: 'Редактиране на зависимост', unitId: edit_dependent, group: pim }
+    - { target: 'Редактирайте се свържете с аварийния', unitId: edit_emergency_contact, group: pim }
+    - { target: 'Редактиране метод на отчитане', unitId: edit_reporting_method, group: pim }
+    - { target: 'Редактиране Причина Прекратяване', unitId: edit_termination_reason, group: pim }
+    - { target: 'Employee Information', unitId: employee_information, group: pim }
+    - { target: 'Въведете позволените опции, разделени със запетая', unitId: enter_allowed_options_separated_by_commas, group: pim }
+    - { target: Освобождаване, unitId: exemptions, group: pim }
+    - { target: 'Федерален данък', unitId: federal_income_tax, group: pim }
+    - { target: 'Име на поле', unitId: field_name, group: pim }
+    - { target: 'Тип на полето', unitId: field_type, group: pim }
+    - { target: 'От дата трябва да бъде преди към днешна дата', unitId: from_date_should_be_before_to_date, group: general }
+    - { target: 'GPA / Резултат', unitId: gpa_score, group: pim }
+    - { target: Институт, unitId: institute, group: pim }
+    - { target: 'Майор / Специализация', unitId: major_specialization, group: pim }
+    - { target: 'Военна служба', unitId: military_service, group: pim }
+    - { target: Паспорт, unitId: passport, group: pim }
+    - { target: 'Лични данни', unitId: personal_details, group: general }
+    - { target: 'Моля, посочете', unitId: please_specify, group: pim }
+    - { target: 'Доклад за', unitId: report_to, group: general }
+    - { target: Екран, unitId: screen, group: pim }
+    - { target: 'Изберете Опции', unitId: select_options, group: pim }
+    - { target: 'Покажи непрепоръчителен полета', unitId: show_deprecated_fields, group: pim }
+    - { target: 'Покажи номер, Пушене и военната служба в Лични данни', unitId: show_nick_name_smoker_and_military_service_in_personal_details, group: pim }
+    - { target: 'Покажи област SIN в лични детайли', unitId: show_sin_field_in_personal_details, group: pim }
+    - { target: 'Покажи област SSN в лични детайли', unitId: show_ssn_field_in_personal_details, group: pim }
+    - { target: 'Показване на САЩ Данък Освобождаване меню', unitId: show_us_tax_exemptions_menu, group: pim }
+    - { target: 'SIN Брой', unitId: sin_number, group: pim }
+    - { target: Пушач, unitId: smoker, group: pim }
+    - { target: 'SSN Брой', unitId: ssn_number, group: pim }
+    - { target: 'Освобождаване от данъци', unitId: tax_exemptions, group: general }
+    - { target: 'Прекратяване Employement', unitId: terminate_employment, group: pim }
+    - { target: 'Текст или брой', unitId: text_or_number, group: pim }
+    - { target: 'Безработицата членка', unitId: unemployment_state, group: pim }
+    - { target: Виза, unitId: visa, group: pim }
+    - { target: 'Работата на държавната', unitId: work_state, group: pim }
+    - { target: Мерки, unitId: actions, group: general }
+    - { target: Присвояване, unitId: assign, group: leave }
+    - { target: 'Текущ отпуск Период', unitId: current_leave_period, group: leave }
+    - { target: 'Продължителност (часове)', unitId: duration_hours, group: attendance }
+    - { target: 'След година', unitId: following_year, group: leave }
+    - { target: 'От Дата', unitId: from_date, group: general }
+    - { target: 'Цял ден', unitId: full_day, group: leave }
+    - { target: 'Половин ден', unitId: half_day, group: leave }
+    - { target: 'Оставете Баланс', unitId: leave_balance, group: leave }
+    - { target: 'Оставете Вид', unitId: leave_type, group: leave }
+    - { target: 'Списъка отпуската ми', unitId: my_leave_list, group: leave }
+    - { target: 'Няма отпуск Видове с разрешение баланс', unitId: no_leave_types_with_leave_balance, group: leave }
+    - { target: 'Неработен ден', unitId: non_working_day, group: leave }
+    - { target: 'Броя на дните', unitId: number_of_days, group: leave }
+    - { target: 'В очакване на одобрение', unitId: pending_approval, group: leave }
+    - { target: 'Повтаря годишно', unitId: repeats_annually, group: leave }
+    - { target: 'Покажи Оставете със статут', unitId: show_leave_with_status, group: leave }
+    - { target: Взети, unitId: taken, group: leave }
+    - { target: 'Към днешна дата', unitId: to_date, group: general }
+    - { target: 'Не успяха да представят: Няма Работни дни Избрани', unitId: failed_to_submit_no_working_days_selected, group: leave }
+    - { target: 'Не е представил', unitId: failed_to_submit, group: leave }
+    - { target: 'Добави Оставете Вид', unitId: add_leave_type, group: leave }
+    - { target: 'Редактиране Оставете Вид', unitId: edit_leave_type, group: leave }
+    - { target: 'Удар в', unitId: punch_in, group: attendance }
+    - { target: 'Punch в бележка', unitId: punch_in_note, group: attendance }
+    - { target: Пробийте, unitId: punch_out, group: attendance }
+    - { target: 'Пробийте Забележка', unitId: punch_out_note, group: attendance }
+    - { target: 'Припокриващи се Records са открити', unitId: overlapping_records_found, group: attendance }
+    - { target: 'Часовата зона', unitId: timezone, group: attendance }
+    - { target: В, unitId: in, group: attendance }
+    - { target: От, unitId: out, group: attendance }
+    - { target: 'Участие Конфигурация', unitId: attendance_configuration, group: attendance }
+    - { target: 'Служител може да се променя текущото време, когато пробиване /', unitId: employee_can_change_current_time_when_punching_in_out, group: attendance }
+    - { target: 'Служител може да редактира / изтривате собствените записи посещаемост', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
+    - { target: 'Надзорен орган могат да добавят / редактиране / изтриване на записи на посещаемост на подчинените', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
+    - { target: 'Присъствието ми записи', unitId: my_attendance_records, group: attendance }
+    - { target: 'Добавен успешно', unitId: successfully_deleted, group: general }
+    - { target: 'Удар време трябва да бъде по-висока, отколкото Punch във времето', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Потребителско име', unitId: username, group: auth }
+    - { target: Парола, unitId: password, group: auth }
+    - { target: Няма намерени резултати, unitId: no_records_found, group: general }
+    - { target: График представи, unitId: timesheet_submitted, group: time }
+    - { target: Бащино име, unitId: middle_name, group: general }
+    - { target: Собствено име, unitId: first_name, group: general }
+    - { target: Фамилия, unitId: last_name, group: general }

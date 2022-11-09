@@ -1,0 +1,51 @@
+dashboard_subunit_widget:
+  description: 'Dashboard - Subunit Widget Visibility'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+dashboard_location_widget:
+  description: 'Dashboard - Location Widget Visibility'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+dashboard_leave_widget:
+  description: 'Dashboard - Leave Widget Visibility'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+dashboard_time_widget:
+  description: 'Dashboard - Time Widget Visibility'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+dashboard_employees_on_leave_today_config:
+  description: 'Dashboard - Employees On Leave Today Config'
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }

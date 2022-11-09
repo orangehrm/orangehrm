@@ -1,0 +1,3008 @@
+# ohrm_i18n_language
+languages:
+  -
+    id: 1
+    name: "Chinese (Simplified, China) - 中文（简体，中国）"
+    code: "zh_Hans_CN"
+    enabled: 1
+    added: 1
+  -
+    id: 2
+    name: "Chinese (Traditional, Taiwan) - 中文（繁體，台灣）"
+    code: "zh_Hant_TW"
+    enabled: 1
+    added: 1
+  -
+    id: 3
+    name: "Dutch - Nederlands"
+    code: "nl"
+    enabled: 1
+    added: 1
+  -
+    id: 4
+    name: "English (United States)"
+    code: "en_US"
+    enabled: 1
+    added: 1
+  -
+    id: 5
+    name: "French - Français"
+    code: "fr"
+    enabled: 1
+    added: 1
+  -
+    id: 6
+    name: "German - Deutsch"
+    code: "de"
+    enabled: 1
+    added: 1
+  -
+    id: 7
+    name: "Spanish - Español"
+    code: "es"
+    enabled: 1
+    added: 1
+  -
+    id: 8
+    name: "Spanish (Costa Rica) - Español (Costa Rica)"
+    code: "es_CR"
+    enabled: 1
+    added: 1
+  -
+    id: 9
+    name: "test - TEST"
+    code: "zz_ZZ"
+    enabled: 0
+    added: 0
+  -
+    id: 10
+    name: "Afrikaans (Namibia) - Afrikaans (Namibië)"
+    code: "af_NA"
+    enabled: 1
+    added: 0
+  -
+    id: 11
+    name: "Afrikaans (South Africa) - Afrikaans (Suid-Afrika)"
+    code: "af_ZA"
+    enabled: 1
+    added: 0
+  -
+    id: 12
+    name: "Aghem (Cameroon)"
+    code: "agq_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 13
+    name: "Akan (Ghana)"
+    code: "ak_GH"
+    enabled: 1
+    added: 0
+  -
+    id: 14
+    name: "Albanian (Albania) - Albanian (Albania)"
+    code: "sq_AL"
+    enabled: 1
+    added: 0
+  -
+    id: 15
+    name: "Albanian (Macedonia) - Albanian (Macedonia)"
+    code: "sq_MK"
+    enabled: 1
+    added: 0
+  -
+    id: 16
+    name: "Amharic (Ethiopia) - Amharic (Ethiopia)"
+    code: "am_ET"
+    enabled: 1
+    added: 0
+  -
+    id: 17
+    name: "Arabic (Algeria) - العربية (الجزائر)"
+    code: "ar_DZ"
+    enabled: 1
+    added: 0
+  -
+    id: 18
+    name: "Arabic (Bahrain) - العربية (البحرين)"
+    code: "ar_BH"
+    enabled: 1
+    added: 0
+  -
+    id: 19
+    name: "Arabic (Chad) - العربية (تشاد)"
+    code: "ar_TD"
+    enabled: 1
+    added: 0
+  -
+    id: 20
+    name: "Arabic (Comoros) - العربية (جزر القمر)"
+    code: "ar_KM"
+    enabled: 1
+    added: 0
+  -
+    id: 21
+    name: "Arabic (Djibouti) - العربية (جيبوتي)"
+    code: "ar_DJ"
+    enabled: 1
+    added: 0
+  -
+    id: 22
+    name: "Arabic (Egypt) - العربية (مصر)"
+    code: "ar_EG"
+    enabled: 1
+    added: 0
+  -
+    id: 23
+    name: "Arabic (Eritrea) - العربية (إريتريا)"
+    code: "ar_ER"
+    enabled: 1
+    added: 0
+  -
+    id: 24
+    name: "Arabic (Iraq) - العربية (العراق)"
+    code: "ar_IQ"
+    enabled: 1
+    added: 0
+  -
+    id: 25
+    name: "Arabic (Israel) - العربية (إسرائيل)"
+    code: "ar_IL"
+    enabled: 1
+    added: 0
+  -
+    id: 26
+    name: "Arabic (Jordan) - العربية (الأردن)"
+    code: "ar_JO"
+    enabled: 1
+    added: 0
+  -
+    id: 27
+    name: "Arabic (Kuwait) - العربية (الكويت)"
+    code: "ar_KW"
+    enabled: 1
+    added: 0
+  -
+    id: 28
+    name: "Arabic (Lebanon) - العربية (لبنان)"
+    code: "ar_LB"
+    enabled: 1
+    added: 0
+  -
+    id: 29
+    name: "Arabic (Libya) - العربية (ليبيا)"
+    code: "ar_LY"
+    enabled: 1
+    added: 0
+  -
+    id: 30
+    name: "Arabic (Mauritania) - العربية (موريتانيا)"
+    code: "ar_MR"
+    enabled: 1
+    added: 0
+  -
+    id: 31
+    name: "Arabic (Morocco) - العربية (المغرب)"
+    code: "ar_MA"
+    enabled: 1
+    added: 0
+  -
+    id: 32
+    name: "Arabic (Oman) - العربية (عمان)"
+    code: "ar_OM"
+    enabled: 1
+    added: 0
+  -
+    id: 33
+    name: "Arabic (Palestinian Territories) - العربية (الأراضي الفلسطينية)"
+    code: "ar_PS"
+    enabled: 1
+    added: 0
+  -
+    id: 34
+    name: "Arabic (Qatar) - العربية (قطر)"
+    code: "ar_QA"
+    enabled: 1
+    added: 0
+  -
+    id: 35
+    name: "Arabic (Saudi Arabia) - العربية (المملكة العربية السعودية)"
+    code: "ar_SA"
+    enabled: 1
+    added: 0
+  -
+    id: 36
+    name: "Arabic (Somalia) - العربية (الصومال)"
+    code: "ar_SO"
+    enabled: 1
+    added: 0
+  -
+    id: 37
+    name: "Arabic (South Sudan) - العربية (جنوب السودان)"
+    code: "ar_SS"
+    enabled: 1
+    added: 0
+  -
+    id: 38
+    name: "Arabic (Sudan) - العربية (السودان)"
+    code: "ar_SD"
+    enabled: 1
+    added: 0
+  -
+    id: 39
+    name: "Arabic (Syria) - العربية (سوريا)"
+    code: "ar_SY"
+    enabled: 1
+    added: 0
+  -
+    id: 40
+    name: "Arabic (Tunisia) - العربية (تونس)"
+    code: "ar_TN"
+    enabled: 1
+    added: 0
+  -
+    id: 41
+    name: "Arabic (United Arab Emirates) - العربية (الإمارات العربية المتحدة)"
+    code: "ar_AE"
+    enabled: 1
+    added: 0
+  -
+    id: 42
+    name: "Arabic (Western Sahara) - العربية (الصحراء الغربية)"
+    code: "ar_EH"
+    enabled: 1
+    added: 0
+  -
+    id: 43
+    name: "Arabic (Yemen) - العربية (اليمن)"
+    code: "ar_YE"
+    enabled: 1
+    added: 0
+  -
+    id: 44
+    name: "Armenian (Armenia) - Հայերեն (Հայաստան)"
+    code: "hy_AM"
+    enabled: 1
+    added: 0
+  -
+    id: 45
+    name: "Assamese (India)"
+    code: "as_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 46
+    name: "Asturian (Spain)"
+    code: "ast_ES"
+    enabled: 1
+    added: 0
+  -
+    id: 47
+    name: "Asu (Tanzania)"
+    code: "asa_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 48
+    name: "Azerbaijani (Cyrillic, Azerbaijan) - Azərbaycan (kiril, Azərbaycan)"
+    code: "az_Cyrl_AZ"
+    enabled: 1
+    added: 0
+  -
+    id: 49
+    name: "Azerbaijani (Latin, Azerbaijan) - Azərbaycan (Latın, Azərbaycan)"
+    code: "az_Latn_AZ"
+    enabled: 1
+    added: 0
+  -
+    id: 50
+    name: "Bafia (Cameroon)"
+    code: "ksf_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 51
+    name: "Bambara (Mali)"
+    code: "bm_ML"
+    enabled: 1
+    added: 0
+  -
+    id: 52
+    name: "Bangla (Bangladesh) - বাংলা (বাংলাদেশ)"
+    code: "bn_BD"
+    enabled: 1
+    added: 0
+  -
+    id: 53
+    name: "Bangla (India) - বাংলা (ভারত)"
+    code: "bn_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 54
+    name: "Basaa (Cameroon)"
+    code: "bas_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 55
+    name: "Basque (Spain) - Basque (Espainia)"
+    code: "eu_ES"
+    enabled: 1
+    added: 0
+  -
+    id: 56
+    name: "Belarusian (Belarus) - Беларуская (Беларусь)"
+    code: "be_BY"
+    enabled: 1
+    added: 0
+  -
+    id: 57
+    name: "Bemba (Zambia)"
+    code: "bem_ZM"
+    enabled: 1
+    added: 0
+  -
+    id: 58
+    name: "Bena (Tanzania)"
+    code: "bez_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 59
+    name: "Bodo (India)"
+    code: "brx_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 60
+    name: "Bosnian (Cyrillic, Bosnia & Herzegovina) - Bosanski (ćirilica, Bosna i Hercegovina)"
+    code: "bs_Cyrl_BA"
+    enabled: 1
+    added: 0
+  -
+    id: 61
+    name: "Bosnian (Latin, Bosnia & Herzegovina) - Bosanski (latinica, Bosna i Hercegovina)"
+    code: "bs_Latn_BA"
+    enabled: 1
+    added: 0
+  -
+    id: 62
+    name: "Breton (France)"
+    code: "br_FR"
+    enabled: 1
+    added: 0
+  -
+    id: 63
+    name: "Bulgarian (Bulgaria) - Български (България)"
+    code: "bg_BG"
+    enabled: 1
+    added: 0
+  -
+    id: 64
+    name: "Burmese (Myanmar [Burma]) - မြန်မာ (မြန်မာ [မြန်မာနိုင်ငံ])"
+    code: "my_MM"
+    enabled: 1
+    added: 0
+  -
+    id: 65
+    name: "Cantonese (Simplified, China) - 广东话（简体中文）"
+    code: "yue_Hans_CN"
+    enabled: 1
+    added: 0
+  -
+    id: 66
+    name: "Cantonese (Traditional, Hong Kong SAR China) - 粵語（繁體中文，中國香港特別行政區）"
+    code: "yue_Hant_HK"
+    enabled: 1
+    added: 0
+  -
+    id: 67
+    name: "Catalan (Andorra) - Català (Andorra)"
+    code: "ca_AD"
+    enabled: 1
+    added: 0
+  -
+    id: 68
+    name: "Catalan (France) - Català (França)"
+    code: "ca_FR"
+    enabled: 1
+    added: 0
+  -
+    id: 69
+    name: "Catalan (Italy) - Català (Itàlia)"
+    code: "ca_IT"
+    enabled: 1
+    added: 0
+  -
+    id: 70
+    name: "Catalan (Spain) - Català (Espanya)"
+    code: "ca_ES"
+    enabled: 1
+    added: 0
+  -
+    id: 71
+    name: "Central Atlas Tamazight (Morocco)"
+    code: "tzm_MA"
+    enabled: 1
+    added: 0
+  -
+    id: 72
+    name: "Central Kurdish (Iran)"
+    code: "ckb_IR"
+    enabled: 1
+    added: 0
+  -
+    id: 73
+    name: "Central Kurdish (Iraq)"
+    code: "ckb_IQ"
+    enabled: 1
+    added: 0
+  -
+    id: 74
+    name: "Chakma (Bangladesh)"
+    code: "ccp_BD"
+    enabled: 1
+    added: 0
+  -
+    id: 75
+    name: "Chakma (India)"
+    code: "ccp_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 76
+    name: "Chechen (Russia)"
+    code: "ce_RU"
+    enabled: 1
+    added: 0
+  -
+    id: 77
+    name: "Cherokee (United States)"
+    code: "chr_US"
+    enabled: 1
+    added: 0
+  -
+    id: 78
+    name: "Chiga (Uganda)"
+    code: "cgg_UG"
+    enabled: 1
+    added: 0
+  -
+    id: 79
+    name: "Chinese (Simplified, Hong Kong SAR China) - 中文（简体，中国香港特别行政区）"
+    code: "zh_Hans_HK"
+    enabled: 1
+    added: 0
+  -
+    id: 80
+    name: "Chinese (Simplified, Macau SAR China) - 中文（简体，中国澳门特别行政区）"
+    code: "zh_Hans_MO"
+    enabled: 1
+    added: 0
+  -
+    id: 81
+    name: "Chinese (Simplified, Singapore) - 中文（简体，新加坡）"
+    code: "zh_Hans_SG"
+    enabled: 1
+    added: 0
+  -
+    id: 82
+    name: "Chinese (Traditional, Hong Kong SAR China) - 中文（繁體字，中國香港特別行政區）"
+    code: "zh_Hant_HK"
+    enabled: 1
+    added: 0
+  -
+    id: 83
+    name: "Chinese (Traditional, Macau SAR China) - 中文（繁體字，中國澳門特別行政區）"
+    code: "zh_Hant_MO"
+    enabled: 1
+    added: 0
+  -
+    id: 84
+    name: "Colognian (Germany)"
+    code: "ksh_DE"
+    enabled: 1
+    added: 0
+  -
+    id: 85
+    name: "Cornish (United Kingdom)"
+    code: "kw_GB"
+    enabled: 1
+    added: 0
+  -
+    id: 86
+    name: "Croatian (Bosnia & Herzegovina) - Hrvatska (Bosna i Hercegovina)"
+    code: "hr_BA"
+    enabled: 1
+    added: 0
+  -
+    id: 87
+    name: "Croatian (Croatia) - Hrvatski (Hrvatska)"
+    code: "hr_HR"
+    enabled: 1
+    added: 0
+  -
+    id: 88
+    name: "Czech (Czechia) - Český (Česko)"
+    code: "cs_CZ"
+    enabled: 1
+    added: 0
+  -
+    id: 89
+    name: "Danish (Denmark) - Dansk (Danmark)"
+    code: "da_DK"
+    enabled: 1
+    added: 0
+  -
+    id: 90
+    name: "Danish (Greenland) - Dansk (Grønland)"
+    code: "da_GL"
+    enabled: 1
+    added: 0
+  -
+    id: 91
+    name: "Duala (Cameroon)"
+    code: "dua_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 92
+    name: "Dutch (Aruba) - Nederlands (Aruba)"
+    code: "nl_AW"
+    enabled: 1
+    added: 0
+  -
+    id: 93
+    name: "Dutch (Belgium) - Nederlands (België)"
+    code: "nl_BE"
+    enabled: 1
+    added: 0
+  -
+    id: 94
+    name: "Dutch (Caribbean Netherlands) - Nederlands (Caribisch Nederland)"
+    code: "nl_BQ"
+    enabled: 1
+    added: 0
+  -
+    id: 95
+    name: "Dutch (Curaçao) - Nederlands (Curaçao)"
+    code: "nl_CW"
+    enabled: 1
+    added: 0
+  -
+    id: 96
+    name: "Dutch (Netherlands) - Nederlands (Nederland)"
+    code: "nl_NL"
+    enabled: 1
+    added: 0
+  -
+    id: 97
+    name: "Dutch (Sint Maarten) - Nederlands (Sint Maarten)"
+    code: "nl_SX"
+    enabled: 1
+    added: 0
+  -
+    id: 98
+    name: "Dutch (Suriname) - Nederlands (Suriname)"
+    code: "nl_SR"
+    enabled: 1
+    added: 0
+  -
+    id: 99
+    name: "Dzongkha (Bhutan)"
+    code: "dz_BT"
+    enabled: 1
+    added: 0
+  -
+    id: 100
+    name: "Embu (Kenya)"
+    code: "ebu_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 101
+    name: "English (American Samoa)"
+    code: "en_AS"
+    enabled: 1
+    added: 0
+  -
+    id: 102
+    name: "English (Anguilla)"
+    code: "en_AI"
+    enabled: 1
+    added: 0
+  -
+    id: 103
+    name: "English (Antigua & Barbuda)"
+    code: "en_AG"
+    enabled: 1
+    added: 0
+  -
+    id: 104
+    name: "English (Australia)"
+    code: "en_AU"
+    enabled: 1
+    added: 0
+  -
+    id: 105
+    name: "English (Austria)"
+    code: "en_AT"
+    enabled: 1
+    added: 0
+  -
+    id: 106
+    name: "English (Bahamas)"
+    code: "en_BS"
+    enabled: 1
+    added: 0
+  -
+    id: 107
+    name: "English (Barbados)"
+    code: "en_BB"
+    enabled: 1
+    added: 0
+  -
+    id: 108
+    name: "English (Belgium)"
+    code: "en_BE"
+    enabled: 1
+    added: 0
+  -
+    id: 109
+    name: "English (Belize)"
+    code: "en_BZ"
+    enabled: 1
+    added: 0
+  -
+    id: 110
+    name: "English (Bermuda)"
+    code: "en_BM"
+    enabled: 1
+    added: 0
+  -
+    id: 111
+    name: "English (Botswana)"
+    code: "en_BW"
+    enabled: 1
+    added: 0
+  -
+    id: 112
+    name: "English (British Indian Ocean Territory)"
+    code: "en_IO"
+    enabled: 1
+    added: 0
+  -
+    id: 113
+    name: "English (British Virgin Islands)"
+    code: "en_VG"
+    enabled: 1
+    added: 0
+  -
+    id: 114
+    name: "English (Burundi)"
+    code: "en_BI"
+    enabled: 1
+    added: 0
+  -
+    id: 115
+    name: "English (Cameroon)"
+    code: "en_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 116
+    name: "English (Canada)"
+    code: "en_CA"
+    enabled: 1
+    added: 0
+  -
+    id: 117
+    name: "English (Cayman Islands)"
+    code: "en_KY"
+    enabled: 1
+    added: 0
+  -
+    id: 118
+    name: "English (Christmas Island)"
+    code: "en_CX"
+    enabled: 1
+    added: 0
+  -
+    id: 119
+    name: "English (Cocos [Keeling] Islands)"
+    code: "en_CC"
+    enabled: 1
+    added: 0
+  -
+    id: 120
+    name: "English (Cook Islands)"
+    code: "en_CK"
+    enabled: 1
+    added: 0
+  -
+    id: 121
+    name: "English (Cyprus)"
+    code: "en_CY"
+    enabled: 1
+    added: 0
+  -
+    id: 122
+    name: "English (Denmark)"
+    code: "en_DK"
+    enabled: 1
+    added: 0
+  -
+    id: 123
+    name: "English (Dominica)"
+    code: "en_DM"
+    enabled: 1
+    added: 0
+  -
+    id: 124
+    name: "English (Eritrea)"
+    code: "en_ER"
+    enabled: 1
+    added: 0
+  -
+    id: 125
+    name: "English (Falkland Islands)"
+    code: "en_FK"
+    enabled: 1
+    added: 0
+  -
+    id: 126
+    name: "English (Fiji)"
+    code: "en_FJ"
+    enabled: 1
+    added: 0
+  -
+    id: 127
+    name: "English (Finland)"
+    code: "en_FI"
+    enabled: 1
+    added: 0
+  -
+    id: 128
+    name: "English (Gambia)"
+    code: "en_GM"
+    enabled: 1
+    added: 0
+  -
+    id: 129
+    name: "English (Germany)"
+    code: "en_DE"
+    enabled: 1
+    added: 0
+  -
+    id: 130
+    name: "English (Ghana)"
+    code: "en_GH"
+    enabled: 1
+    added: 0
+  -
+    id: 131
+    name: "English (Gibraltar)"
+    code: "en_GI"
+    enabled: 1
+    added: 0
+  -
+    id: 132
+    name: "English (Grenada)"
+    code: "en_GD"
+    enabled: 1
+    added: 0
+  -
+    id: 133
+    name: "English (Guam)"
+    code: "en_GU"
+    enabled: 1
+    added: 0
+  -
+    id: 134
+    name: "English (Guernsey)"
+    code: "en_GG"
+    enabled: 1
+    added: 0
+  -
+    id: 135
+    name: "English (Guyana)"
+    code: "en_GY"
+    enabled: 1
+    added: 0
+  -
+    id: 136
+    name: "English (Hong Kong SAR China)"
+    code: "en_HK"
+    enabled: 1
+    added: 0
+  -
+    id: 137
+    name: "English (India)"
+    code: "en_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 138
+    name: "English (Ireland)"
+    code: "en_IE"
+    enabled: 1
+    added: 0
+  -
+    id: 139
+    name: "English (Isle of Man)"
+    code: "en_IM"
+    enabled: 1
+    added: 0
+  -
+    id: 140
+    name: "English (Israel)"
+    code: "en_IL"
+    enabled: 1
+    added: 0
+  -
+    id: 141
+    name: "English (Jamaica)"
+    code: "en_JM"
+    enabled: 1
+    added: 0
+  -
+    id: 142
+    name: "English (Jersey)"
+    code: "en_JE"
+    enabled: 1
+    added: 0
+  -
+    id: 143
+    name: "English (Kenya)"
+    code: "en_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 144
+    name: "English (Kiribati)"
+    code: "en_KI"
+    enabled: 1
+    added: 0
+  -
+    id: 145
+    name: "English (Lesotho)"
+    code: "en_LS"
+    enabled: 1
+    added: 0
+  -
+    id: 146
+    name: "English (Liberia)"
+    code: "en_LR"
+    enabled: 1
+    added: 0
+  -
+    id: 147
+    name: "English (Macau SAR China)"
+    code: "en_MO"
+    enabled: 1
+    added: 0
+  -
+    id: 148
+    name: "English (Madagascar)"
+    code: "en_MG"
+    enabled: 1
+    added: 0
+  -
+    id: 149
+    name: "English (Malawi)"
+    code: "en_MW"
+    enabled: 1
+    added: 0
+  -
+    id: 150
+    name: "English (Malaysia)"
+    code: "en_MY"
+    enabled: 1
+    added: 0
+  -
+    id: 151
+    name: "English (Malta)"
+    code: "en_MT"
+    enabled: 1
+    added: 0
+  -
+    id: 152
+    name: "English (Marshall Islands)"
+    code: "en_MH"
+    enabled: 1
+    added: 0
+  -
+    id: 153
+    name: "English (Mauritius)"
+    code: "en_MU"
+    enabled: 1
+    added: 0
+  -
+    id: 154
+    name: "English (Micronesia)"
+    code: "en_FM"
+    enabled: 1
+    added: 0
+  -
+    id: 155
+    name: "English (Montserrat)"
+    code: "en_MS"
+    enabled: 1
+    added: 0
+  -
+    id: 156
+    name: "English (Namibia)"
+    code: "en_NA"
+    enabled: 1
+    added: 0
+  -
+    id: 157
+    name: "English (Nauru)"
+    code: "en_NR"
+    enabled: 1
+    added: 0
+  -
+    id: 158
+    name: "English (Netherlands)"
+    code: "en_NL"
+    enabled: 1
+    added: 0
+  -
+    id: 159
+    name: "English (New Zealand)"
+    code: "en_NZ"
+    enabled: 1
+    added: 0
+  -
+    id: 160
+    name: "English (Nigeria)"
+    code: "en_NG"
+    enabled: 1
+    added: 0
+  -
+    id: 161
+    name: "English (Niue)"
+    code: "en_NU"
+    enabled: 1
+    added: 0
+  -
+    id: 162
+    name: "English (Norfolk Island)"
+    code: "en_NF"
+    enabled: 1
+    added: 0
+  -
+    id: 163
+    name: "English (Northern Mariana Islands)"
+    code: "en_MP"
+    enabled: 1
+    added: 0
+  -
+    id: 164
+    name: "English (Pakistan)"
+    code: "en_PK"
+    enabled: 1
+    added: 0
+  -
+    id: 165
+    name: "English (Palau)"
+    code: "en_PW"
+    enabled: 1
+    added: 0
+  -
+    id: 166
+    name: "English (Papua New Guinea)"
+    code: "en_PG"
+    enabled: 1
+    added: 0
+  -
+    id: 167
+    name: "English (Philippines)"
+    code: "en_PH"
+    enabled: 1
+    added: 0
+  -
+    id: 168
+    name: "English (Pitcairn Islands)"
+    code: "en_PN"
+    enabled: 1
+    added: 0
+  -
+    id: 169
+    name: "English (Puerto Rico)"
+    code: "en_PR"
+    enabled: 1
+    added: 0
+  -
+    id: 170
+    name: "English (Rwanda)"
+    code: "en_RW"
+    enabled: 1
+    added: 0
+  -
+    id: 171
+    name: "English (Samoa)"
+    code: "en_WS"
+    enabled: 1
+    added: 0
+  -
+    id: 172
+    name: "English (Seychelles)"
+    code: "en_SC"
+    enabled: 1
+    added: 0
+  -
+    id: 173
+    name: "English (Sierra Leone)"
+    code: "en_SL"
+    enabled: 1
+    added: 0
+  -
+    id: 174
+    name: "English (Singapore)"
+    code: "en_SG"
+    enabled: 1
+    added: 0
+  -
+    id: 175
+    name: "English (Sint Maarten)"
+    code: "en_SX"
+    enabled: 1
+    added: 0
+  -
+    id: 176
+    name: "English (Slovenia)"
+    code: "en_SI"
+    enabled: 1
+    added: 0
+  -
+    id: 177
+    name: "English (Solomon Islands)"
+    code: "en_SB"
+    enabled: 1
+    added: 0
+  -
+    id: 178
+    name: "English (South Africa)"
+    code: "en_ZA"
+    enabled: 1
+    added: 0
+  -
+    id: 179
+    name: "English (South Sudan)"
+    code: "en_SS"
+    enabled: 1
+    added: 0
+  -
+    id: 180
+    name: "English (St. Helena)"
+    code: "en_SH"
+    enabled: 1
+    added: 0
+  -
+    id: 181
+    name: "English (St. Kitts & Nevis)"
+    code: "en_KN"
+    enabled: 1
+    added: 0
+  -
+    id: 182
+    name: "English (St. Lucia)"
+    code: "en_LC"
+    enabled: 1
+    added: 0
+  -
+    id: 183
+    name: "English (St. Vincent & Grenadines)"
+    code: "en_VC"
+    enabled: 1
+    added: 0
+  -
+    id: 184
+    name: "English (Sudan)"
+    code: "en_SD"
+    enabled: 1
+    added: 0
+  -
+    id: 185
+    name: "English (Swaziland)"
+    code: "en_SZ"
+    enabled: 1
+    added: 0
+  -
+    id: 186
+    name: "English (Sweden)"
+    code: "en_SE"
+    enabled: 1
+    added: 0
+  -
+    id: 187
+    name: "English (Switzerland)"
+    code: "en_CH"
+    enabled: 1
+    added: 0
+  -
+    id: 188
+    name: "English (Tanzania)"
+    code: "en_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 189
+    name: "English (Tokelau)"
+    code: "en_TK"
+    enabled: 1
+    added: 0
+  -
+    id: 190
+    name: "English (Tonga)"
+    code: "en_TO"
+    enabled: 1
+    added: 0
+  -
+    id: 191
+    name: "English (Trinidad & Tobago)"
+    code: "en_TT"
+    enabled: 1
+    added: 0
+  -
+    id: 192
+    name: "English (Turks & Caicos Islands)"
+    code: "en_TC"
+    enabled: 1
+    added: 0
+  -
+    id: 193
+    name: "English (Tuvalu)"
+    code: "en_TV"
+    enabled: 1
+    added: 0
+  -
+    id: 194
+    name: "English (U.S. Outlying Islands)"
+    code: "en_UM"
+    enabled: 1
+    added: 0
+  -
+    id: 195
+    name: "English (U.S. Virgin Islands)"
+    code: "en_VI"
+    enabled: 1
+    added: 0
+  -
+    id: 196
+    name: "English (Uganda)"
+    code: "en_UG"
+    enabled: 1
+    added: 0
+  -
+    id: 197
+    name: "English (United Kingdom)"
+    code: "en_GB"
+    enabled: 1
+    added: 0
+  -
+    id: 198
+    name: "English (United States, Computer)"
+    code: "en_US_POSIX"
+    enabled: 1
+    added: 0
+  -
+    id: 199
+    name: "English (Vanuatu)"
+    code: "en_VU"
+    enabled: 1
+    added: 0
+  -
+    id: 200
+    name: "English (Zambia)"
+    code: "en_ZM"
+    enabled: 1
+    added: 0
+  -
+    id: 201
+    name: "English (Zimbabwe)"
+    code: "en_ZW"
+    enabled: 1
+    added: 0
+  -
+    id: 202
+    name: "Estonian (Estonia) - Eesti (Eesti)"
+    code: "et_EE"
+    enabled: 1
+    added: 0
+  -
+    id: 203
+    name: "Ewe (Ghana)"
+    code: "ee_GH"
+    enabled: 1
+    added: 0
+  -
+    id: 204
+    name: "Ewe (Togo)"
+    code: "ee_TG"
+    enabled: 1
+    added: 0
+  -
+    id: 205
+    name: "Ewondo (Cameroon)"
+    code: "ewo_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 206
+    name: "Faroese (Denmark)"
+    code: "fo_DK"
+    enabled: 1
+    added: 0
+  -
+    id: 207
+    name: "Faroese (Faroe Islands)"
+    code: "fo_FO"
+    enabled: 1
+    added: 0
+  -
+    id: 208
+    name: "Filipino (Philippines) - Filipino (Pilipinas)"
+    code: "fil_PH"
+    enabled: 1
+    added: 0
+  -
+    id: 209
+    name: "Finnish (Finland) - Suomi (Suomi)"
+    code: "fi_FI"
+    enabled: 1
+    added: 0
+  -
+    id: 210
+    name: "French (Algeria) - Français (Algérie)"
+    code: "fr_DZ"
+    enabled: 1
+    added: 0
+  -
+    id: 211
+    name: "French (Belgium) - Français (Belgique)"
+    code: "fr_BE"
+    enabled: 1
+    added: 0
+  -
+    id: 212
+    name: "French (Benin) - Français (Bénin)"
+    code: "fr_BJ"
+    enabled: 1
+    added: 0
+  -
+    id: 213
+    name: "French (Burkina Faso) - Français (Burkina Faso)"
+    code: "fr_BF"
+    enabled: 1
+    added: 0
+  -
+    id: 214
+    name: "French (Burundi) - Français (Burundi)"
+    code: "fr_BI"
+    enabled: 1
+    added: 0
+  -
+    id: 215
+    name: "French (Cameroon) - Français (Cameroun)"
+    code: "fr_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 216
+    name: "French (Canada) - Français (Canada)"
+    code: "fr_CA"
+    enabled: 1
+    added: 0
+  -
+    id: 217
+    name: "French (Central African Republic) - Français (République centrafricaine)"
+    code: "fr_CF"
+    enabled: 1
+    added: 0
+  -
+    id: 218
+    name: "French (Chad) - Français (Tchad)"
+    code: "fr_TD"
+    enabled: 1
+    added: 0
+  -
+    id: 219
+    name: "French (Comoros) - Français (Comores)"
+    code: "fr_KM"
+    enabled: 1
+    added: 0
+  -
+    id: 220
+    name: "French (Congo - Brazzaville) (fr-CG) - Français (Congo-Brazzaville) (fr-CG)"
+    code: "fr_CG"
+    enabled: 1
+    added: 0
+  -
+    id: 221
+    name: "French (Congo - Kinshasa) - Français (Congo-Kinshasa)"
+    code: "fr_CD"
+    enabled: 1
+    added: 0
+  -
+    id: 222
+    name: "French (Côte d’Ivoire) - Français (Côte d'Ivoire)"
+    code: "fr_CI"
+    enabled: 1
+    added: 0
+  -
+    id: 223
+    name: "French (Djibouti) - Français (Djibouti)"
+    code: "fr_DJ"
+    enabled: 1
+    added: 0
+  -
+    id: 224
+    name: "French (Equatorial Guinea) - Français (Guinée équatoriale)"
+    code: "fr_GQ"
+    enabled: 1
+    added: 0
+  -
+    id: 225
+    name: "French (France) - France francaise)"
+    code: "fr_FR"
+    enabled: 1
+    added: 0
+  -
+    id: 226
+    name: "French (French Guiana) - Français (Guyane française)"
+    code: "fr_GF"
+    enabled: 1
+    added: 0
+  -
+    id: 227
+    name: "French (French Polynesia) - Français (Polynésie française)"
+    code: "fr_PF"
+    enabled: 1
+    added: 0
+  -
+    id: 228
+    name: "French (Gabon) - Français (Gabon)"
+    code: "fr_GA"
+    enabled: 1
+    added: 0
+  -
+    id: 229
+    name: "French (Guadeloupe) - Français (Guadeloupe)"
+    code: "fr_GP"
+    enabled: 1
+    added: 0
+  -
+    id: 230
+    name: "French (Guinea) - Français (Guinée)"
+    code: "fr_GN"
+    enabled: 1
+    added: 0
+  -
+    id: 231
+    name: "French (Haiti) - Français (Haïti)"
+    code: "fr_HT"
+    enabled: 1
+    added: 0
+  -
+    id: 232
+    name: "French (Luxembourg) - Français (Luxembourg)"
+    code: "fr_LU"
+    enabled: 1
+    added: 0
+  -
+    id: 233
+    name: "French (Madagascar) - Français (Madagascar)"
+    code: "fr_MG"
+    enabled: 1
+    added: 0
+  -
+    id: 234
+    name: "French (Mali) - Français (Mali)"
+    code: "fr_ML"
+    enabled: 1
+    added: 0
+  -
+    id: 235
+    name: "French (Martinique) - Français (Martinique)"
+    code: "fr_MQ"
+    enabled: 1
+    added: 0
+  -
+    id: 236
+    name: "French (Mauritania) - Français (Mauritanie)"
+    code: "fr_MR"
+    enabled: 1
+    added: 0
+  -
+    id: 237
+    name: "French (Mauritius) - Français (Maurice)"
+    code: "fr_MU"
+    enabled: 1
+    added: 0
+  -
+    id: 238
+    name: "French (Mayotte) - Français (Mayotte)"
+    code: "fr_YT"
+    enabled: 1
+    added: 0
+  -
+    id: 239
+    name: "French (Monaco) - Français (Monaco)"
+    code: "fr_MC"
+    enabled: 1
+    added: 0
+  -
+    id: 240
+    name: "French (Morocco) - Français (Maroc)"
+    code: "fr_MA"
+    enabled: 1
+    added: 0
+  -
+    id: 241
+    name: "French (New Caledonia) - Français (Nouvelle-Calédonie)"
+    code: "fr_NC"
+    enabled: 1
+    added: 0
+  -
+    id: 242
+    name: "French (Niger) - Français (Niger)"
+    code: "fr_NE"
+    enabled: 1
+    added: 0
+  -
+    id: 243
+    name: "French (Réunion) - Français (Réunion)"
+    code: "fr_RE"
+    enabled: 1
+    added: 0
+  -
+    id: 244
+    name: "French (Rwanda) - Français (Rwanda)"
+    code: "fr_RW"
+    enabled: 1
+    added: 0
+  -
+    id: 245
+    name: "French (Senegal) - Français (Sénégal)"
+    code: "fr_SN"
+    enabled: 1
+    added: 0
+  -
+    id: 246
+    name: "French (Seychelles) - Français (Seychelles)"
+    code: "fr_SC"
+    enabled: 1
+    added: 0
+  -
+    id: 247
+    name: "French (St. Barthélemy) - Français (Saint-Barthélemy)"
+    code: "fr_BL"
+    enabled: 1
+    added: 0
+  -
+    id: 248
+    name: "French (St. Martin) - Français (Saint-Martin)"
+    code: "fr_MF"
+    enabled: 1
+    added: 0
+  -
+    id: 249
+    name: "French (St. Pierre & Miquelon) - Français (Saint-Pierre-et-Miquelon)"
+    code: "fr_PM"
+    enabled: 1
+    added: 0
+  -
+    id: 250
+    name: "French (Switzerland) - Français (Suisse)"
+    code: "fr_CH"
+    enabled: 1
+    added: 0
+  -
+    id: 251
+    name: "French (Syria) - Français (Syrie)"
+    code: "fr_SY"
+    enabled: 1
+    added: 0
+  -
+    id: 252
+    name: "French (Togo) - Français (Togo)"
+    code: "fr_TG"
+    enabled: 1
+    added: 0
+  -
+    id: 253
+    name: "French (Tunisia) - Français (Tunisie)"
+    code: "fr_TN"
+    enabled: 1
+    added: 0
+  -
+    id: 254
+    name: "French (Vanuatu) - Français (Vanuatu)"
+    code: "fr_VU"
+    enabled: 1
+    added: 0
+  -
+    id: 255
+    name: "French (Wallis & Futuna) - Français (Wallis et Futuna)"
+    code: "fr_WF"
+    enabled: 1
+    added: 0
+  -
+    id: 256
+    name: "Friulian (Italy)"
+    code: "fur_IT"
+    enabled: 1
+    added: 0
+  -
+    id: 257
+    name: "Fulah (Cameroon)"
+    code: "ff_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 258
+    name: "Fulah (Guinea)"
+    code: "ff_GN"
+    enabled: 1
+    added: 0
+  -
+    id: 259
+    name: "Fulah (Mauritania)"
+    code: "ff_MR"
+    enabled: 1
+    added: 0
+  -
+    id: 260
+    name: "Fulah (Senegal)"
+    code: "ff_SN"
+    enabled: 1
+    added: 0
+  -
+    id: 261
+    name: "Galician (Spain) - Galicia (España)"
+    code: "gl_ES"
+    enabled: 1
+    added: 0
+  -
+    id: 262
+    name: "Ganda (Uganda)"
+    code: "lg_UG"
+    enabled: 1
+    added: 0
+  -
+    id: 263
+    name: "Georgian (Georgia) - Georgian (Georgia)"
+    code: "ka_GE"
+    enabled: 1
+    added: 0
+  -
+    id: 264
+    name: "German (Austria) - Deutsch (Österreich)"
+    code: "de_AT"
+    enabled: 1
+    added: 0
+  -
+    id: 265
+    name: "German (Belgium) - Deutsch (Belgien)"
+    code: "de_BE"
+    enabled: 1
+    added: 0
+  -
+    id: 266
+    name: "German (Germany) - Deutsches Deutschland)"
+    code: "de_DE"
+    enabled: 1
+    added: 0
+  -
+    id: 267
+    name: "German (Italy) - Deutsch (Italien)"
+    code: "de_IT"
+    enabled: 1
+    added: 0
+  -
+    id: 268
+    name: "German (Liechtenstein) - Deutsch (Liechtenstein)"
+    code: "de_LI"
+    enabled: 1
+    added: 0
+  -
+    id: 269
+    name: "German (Luxembourg) - Deutsch (Luxemburg)"
+    code: "de_LU"
+    enabled: 1
+    added: 0
+  -
+    id: 270
+    name: "German (Switzerland) - Deutsch (Schweiz)"
+    code: "de_CH"
+    enabled: 1
+    added: 0
+  -
+    id: 271
+    name: "Greek (Cyprus) - Ελληνικά (Κύπρος)"
+    code: "el_CY"
+    enabled: 1
+    added: 0
+  -
+    id: 272
+    name: "Greek (Greece) - Ελληνικά (Ελλάδα)"
+    code: "el_GR"
+    enabled: 1
+    added: 0
+  -
+    id: 273
+    name: "Gujarati (India) - ગુજરાતી (ભારત)"
+    code: "gu_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 274
+    name: "Gusii (Kenya)"
+    code: "guz_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 275
+    name: "Hausa (Ghana) - Hausa (Ghana)"
+    code: "ha_GH"
+    enabled: 1
+    added: 0
+  -
+    id: 276
+    name: "Hausa (Niger) - Hausa (Nijar)"
+    code: "ha_NE"
+    enabled: 1
+    added: 0
+  -
+    id: 277
+    name: "Hausa (Nigeria) - Hausa (Nigeria)"
+    code: "ha_NG"
+    enabled: 1
+    added: 0
+  -
+    id: 278
+    name: "Hawaiian (United States) - Hawaiian (United States)"
+    code: "haw_US"
+    enabled: 1
+    added: 0
+  -
+    id: 279
+    name: "Hebrew (Israel) - עברית (ישראל)"
+    code: "he_IL"
+    enabled: 1
+    added: 0
+  -
+    id: 280
+    name: "Hindi (India) - हिंदी भारत)"
+    code: "hi_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 281
+    name: "Hungarian (Hungary) - Magyar (Magyarország)"
+    code: "hu_HU"
+    enabled: 1
+    added: 0
+  -
+    id: 282
+    name: "Icelandic (Iceland) - Icelandic (Iceland)"
+    code: "is_IS"
+    enabled: 1
+    added: 0
+  -
+    id: 283
+    name: "Igbo (Nigeria) - Igbo (Nigeria)"
+    code: "ig_NG"
+    enabled: 1
+    added: 0
+  -
+    id: 284
+    name: "Inari Sami (Finland)"
+    code: "smn_FI"
+    enabled: 1
+    added: 0
+  -
+    id: 285
+    name: "Indonesian (Indonesia) - Indonesia (Indonesia)"
+    code: "id_ID"
+    enabled: 1
+    added: 0
+  -
+    id: 286
+    name: "Irish (Ireland) - Gaeilge (Éire)"
+    code: "ga_IE"
+    enabled: 1
+    added: 0
+  -
+    id: 287
+    name: "Italian (Italy) - Italiano (Italia)"
+    code: "it_IT"
+    enabled: 1
+    added: 0
+  -
+    id: 288
+    name: "Italian (San Marino) - Italiano (San Marino)"
+    code: "it_SM"
+    enabled: 1
+    added: 0
+  -
+    id: 289
+    name: "Italian (Switzerland) - Italiano (Svizzera)"
+    code: "it_CH"
+    enabled: 1
+    added: 0
+  -
+    id: 290
+    name: "Italian (Vatican City) - Italiano (Città del Vaticano)"
+    code: "it_VA"
+    enabled: 1
+    added: 0
+  -
+    id: 291
+    name: "Japanese (Japan) - 日本語（日本）"
+    code: "ja_JP"
+    enabled: 1
+    added: 0
+  -
+    id: 292
+    name: "Jola-Fonyi (Senegal)"
+    code: "dyo_SN"
+    enabled: 1
+    added: 0
+  -
+    id: 293
+    name: "Kabuverdianu (Cape Verde)"
+    code: "kea_CV"
+    enabled: 1
+    added: 0
+  -
+    id: 294
+    name: "Kabyle (Algeria)"
+    code: "kab_DZ"
+    enabled: 1
+    added: 0
+  -
+    id: 295
+    name: "Kako (Cameroon)"
+    code: "kkj_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 296
+    name: "Kalaallisut (Greenland)"
+    code: "kl_GL"
+    enabled: 1
+    added: 0
+  -
+    id: 297
+    name: "Kalenjin (Kenya)"
+    code: "kln_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 298
+    name: "Kamba (Kenya)"
+    code: "kam_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 299
+    name: "Kannada (India) - ಕನ್ನಡ (ಭಾರತ)"
+    code: "kn_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 300
+    name: "Kashmiri (India)"
+    code: "ks_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 301
+    name: "Kazakh (Kazakhstan) - Қазақ (Қазақстан)"
+    code: "kk_KZ"
+    enabled: 1
+    added: 0
+  -
+    id: 302
+    name: "Khmer (Cambodia) - ខ្មែរ (កម្ពុជា)"
+    code: "km_KH"
+    enabled: 1
+    added: 0
+  -
+    id: 303
+    name: "Kikuyu (Kenya)"
+    code: "ki_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 304
+    name: "Kinyarwanda (Rwanda) - Kinyarwanda (Rwanda)"
+    code: "rw_RW"
+    enabled: 1
+    added: 0
+  -
+    id: 305
+    name: "Konkani (India)"
+    code: "kok_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 306
+    name: "Korean (North Korea) - 한국어 (북한)"
+    code: "ko_KP"
+    enabled: 1
+    added: 0
+  -
+    id: 307
+    name: "Korean (South Korea) - 한국어 (한국)"
+    code: "ko_KR"
+    enabled: 1
+    added: 0
+  -
+    id: 308
+    name: "Koyra Chiini (Mali)"
+    code: "khq_ML"
+    enabled: 1
+    added: 0
+  -
+    id: 309
+    name: "Koyraboro Senni (Mali)"
+    code: "ses_ML"
+    enabled: 1
+    added: 0
+  -
+    id: 310
+    name: "Kwasio (Cameroon)"
+    code: "nmg_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 311
+    name: "Kyrgyz (Kyrgyzstan) - Kyrgyz (Kyrgyzstan)"
+    code: "ky_KG"
+    enabled: 1
+    added: 0
+  -
+    id: 312
+    name: "Lakota (United States)"
+    code: "lkt_US"
+    enabled: 1
+    added: 0
+  -
+    id: 313
+    name: "Langi (Tanzania)"
+    code: "lag_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 314
+    name: "Lao (Laos) - ລາວ (ລາວ)"
+    code: "lo_LA"
+    enabled: 1
+    added: 0
+  -
+    id: 315
+    name: "Latvian (Latvia) - Latviešu (Latvija)"
+    code: "lv_LV"
+    enabled: 1
+    added: 0
+  -
+    id: 316
+    name: "Lingala (Angola)"
+    code: "ln_AO"
+    enabled: 1
+    added: 0
+  -
+    id: 317
+    name: "Lingala (Central African Republic)"
+    code: "ln_CF"
+    enabled: 1
+    added: 0
+  -
+    id: 318
+    name: "Lingala (Congo - Brazzaville)"
+    code: "ln_CG"
+    enabled: 1
+    added: 0
+  -
+    id: 319
+    name: "Lingala (Congo - Kinshasa)"
+    code: "ln_CD"
+    enabled: 1
+    added: 0
+  -
+    id: 320
+    name: "Lithuanian (Lithuania) - Lietuvių (Lietuva)"
+    code: "lt_LT"
+    enabled: 1
+    added: 0
+  -
+    id: 321
+    name: "Low German (Germany)"
+    code: "nds_DE"
+    enabled: 1
+    added: 0
+  -
+    id: 322
+    name: "Low German (Netherlands)"
+    code: "nds_NL"
+    enabled: 1
+    added: 0
+  -
+    id: 323
+    name: "Lower Sorbian (Germany)"
+    code: "dsb_DE"
+    enabled: 1
+    added: 0
+  -
+    id: 324
+    name: "Luba-Katanga (Congo - Kinshasa)"
+    code: "lu_CD"
+    enabled: 1
+    added: 0
+  -
+    id: 325
+    name: "Luo (Kenya)"
+    code: "luo_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 326
+    name: "Luxembourgish (Luxembourg) - Lëtzebuergesch (Lëtzebuerg)"
+    code: "lb_LU"
+    enabled: 1
+    added: 0
+  -
+    id: 327
+    name: "Luyia (Kenya)"
+    code: "luy_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 328
+    name: "Macedonian (Macedonia) - Македонски (Macedonia)"
+    code: "mk_MK"
+    enabled: 1
+    added: 0
+  -
+    id: 329
+    name: "Machame (Tanzania)"
+    code: "jmc_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 330
+    name: "Makhuwa-Meetto (Mozambique)"
+    code: "mgh_MZ"
+    enabled: 1
+    added: 0
+  -
+    id: 331
+    name: "Makonde (Tanzania)"
+    code: "kde_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 332
+    name: "Malagasy (Madagascar) - Malagasy (Madagascar)"
+    code: "mg_MG"
+    enabled: 1
+    added: 0
+  -
+    id: 333
+    name: "Malay (Brunei) - Melayu (Brunei)"
+    code: "ms_BN"
+    enabled: 1
+    added: 0
+  -
+    id: 334
+    name: "Malay (Malaysia) - Melayu (Malaysia)"
+    code: "ms_MY"
+    enabled: 1
+    added: 0
+  -
+    id: 335
+    name: "Malay (Singapore) - Melayu (Singapura)"
+    code: "ms_SG"
+    enabled: 1
+    added: 0
+  -
+    id: 336
+    name: "Malayalam (India) - മലയാളം (ഇന്ത്യ)"
+    code: "ml_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 337
+    name: "Maltese (Malta) - Malti (Malta)"
+    code: "mt_MT"
+    enabled: 1
+    added: 0
+  -
+    id: 338
+    name: "Manx (Isle of Man)"
+    code: "gv_IM"
+    enabled: 1
+    added: 0
+  -
+    id: 339
+    name: "Marathi (India) - मराठी (भारत)"
+    code: "mr_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 340
+    name: "Masai (Kenya)"
+    code: "mas_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 341
+    name: "Masai (Tanzania)"
+    code: "mas_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 342
+    name: "Mazanderani (Iran)"
+    code: "mzn_IR"
+    enabled: 1
+    added: 0
+  -
+    id: 343
+    name: "Meru (Kenya)"
+    code: "mer_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 344
+    name: "Metaʼ (Cameroon)"
+    code: "mgo_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 345
+    name: "Mongolian (Mongolia) - Монгол улсын (Монгол)"
+    code: "mn_MN"
+    enabled: 1
+    added: 0
+  -
+    id: 346
+    name: "Morisyen (Mauritius)"
+    code: "mfe_MU"
+    enabled: 1
+    added: 0
+  -
+    id: 347
+    name: "Mundang (Cameroon)"
+    code: "mua_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 348
+    name: "Nama (Namibia)"
+    code: "naq_NA"
+    enabled: 1
+    added: 0
+  -
+    id: 349
+    name: "Nepali (India) - नेपाली (भारत)"
+    code: "ne_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 350
+    name: "Nepali (Nepal) - नेपाली (नेपाल)"
+    code: "ne_NP"
+    enabled: 1
+    added: 0
+  -
+    id: 351
+    name: "Ngiemboon (Cameroon)"
+    code: "nnh_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 352
+    name: "Ngomba (Cameroon)"
+    code: "jgo_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 353
+    name: "North Ndebele (Zimbabwe)"
+    code: "nd_ZW"
+    enabled: 1
+    added: 0
+  -
+    id: 354
+    name: "Northern Luri (Iran)"
+    code: "lrc_IR"
+    enabled: 1
+    added: 0
+  -
+    id: 355
+    name: "Northern Luri (Iraq)"
+    code: "lrc_IQ"
+    enabled: 1
+    added: 0
+  -
+    id: 356
+    name: "Northern Sami (Finland)"
+    code: "se_FI"
+    enabled: 1
+    added: 0
+  -
+    id: 357
+    name: "Northern Sami (Norway)"
+    code: "se_NO"
+    enabled: 1
+    added: 0
+  -
+    id: 358
+    name: "Northern Sami (Sweden)"
+    code: "se_SE"
+    enabled: 1
+    added: 0
+  -
+    id: 359
+    name: "Norwegian Bokmål (Norway) - Norsk bokmål (Norge)"
+    code: "nb_NO"
+    enabled: 1
+    added: 0
+  -
+    id: 360
+    name: "Norwegian Bokmål (Svalbard & Jan Mayen) - Norsk bokmål (Svalbard og Jan Mayen)"
+    code: "nb_SJ"
+    enabled: 1
+    added: 0
+  -
+    id: 361
+    name: "Norwegian Nynorsk (Norway)"
+    code: "nn_NO"
+    enabled: 1
+    added: 0
+  -
+    id: 362
+    name: "Nuer (South Sudan)"
+    code: "nus_SS"
+    enabled: 1
+    added: 0
+  -
+    id: 363
+    name: "Nyankole (Uganda)"
+    code: "nyn_UG"
+    enabled: 1
+    added: 0
+  -
+    id: 364
+    name: "Odia (India) - ଓଡ଼ିଆ (ଭାରତ)"
+    code: "or_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 365
+    name: "Oromo (Ethiopia)"
+    code: "om_ET"
+    enabled: 1
+    added: 0
+  -
+    id: 366
+    name: "Oromo (Kenya)"
+    code: "om_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 367
+    name: "Ossetic (Georgia)"
+    code: "os_GE"
+    enabled: 1
+    added: 0
+  -
+    id: 368
+    name: "Ossetic (Russia)"
+    code: "os_RU"
+    enabled: 1
+    added: 0
+  -
+    id: 369
+    name: "Pashto (Afghanistan) - پښتو (افغانستان)"
+    code: "ps_AF"
+    enabled: 1
+    added: 0
+  -
+    id: 370
+    name: "Persian (Afghanistan) - فارسی (افغانستان)"
+    code: "fa_AF"
+    enabled: 1
+    added: 0
+  -
+    id: 371
+    name: "Persian (Iran) - فارسی (ایران)"
+    code: "fa_IR"
+    enabled: 1
+    added: 0
+  -
+    id: 372
+    name: "Polish (Poland) - Polski (Polska)"
+    code: "pl_PL"
+    enabled: 1
+    added: 0
+  -
+    id: 373
+    name: "Portuguese (Angola) - Português (Angola)"
+    code: "pt_AO"
+    enabled: 1
+    added: 0
+  -
+    id: 374
+    name: "Portuguese (Brazil) - Português (Brasil)"
+    code: "pt_BR"
+    enabled: 1
+    added: 0
+  -
+    id: 375
+    name: "Portuguese (Cape Verde) - Português (Cabo Verde)"
+    code: "pt_CV"
+    enabled: 1
+    added: 0
+  -
+    id: 376
+    name: "Portuguese (Equatorial Guinea) - Português (Guiné Equatorial)"
+    code: "pt_GQ"
+    enabled: 1
+    added: 0
+  -
+    id: 377
+    name: "Portuguese (Guinea-Bissau) - Português (Guiné-Bissau)"
+    code: "pt_GW"
+    enabled: 1
+    added: 0
+  -
+    id: 378
+    name: "Portuguese (Luxembourg) - Português (Luxemburgo)"
+    code: "pt_LU"
+    enabled: 1
+    added: 0
+  -
+    id: 379
+    name: "Portuguese (Macau SAR China) - Português (Macau SAR China)"
+    code: "pt_MO"
+    enabled: 1
+    added: 0
+  -
+    id: 380
+    name: "Portuguese (Mozambique) - Português (Moçambique)"
+    code: "pt_MZ"
+    enabled: 1
+    added: 0
+  -
+    id: 381
+    name: "Portuguese (Portugal) - Português (Portugal)"
+    code: "pt_PT"
+    enabled: 1
+    added: 0
+  -
+    id: 382
+    name: "Portuguese (São Tomé & Príncipe) - Português (São Tomé e Príncipe)"
+    code: "pt_ST"
+    enabled: 1
+    added: 0
+  -
+    id: 383
+    name: "Portuguese (Switzerland) - Português (Suíça)"
+    code: "pt_CH"
+    enabled: 1
+    added: 0
+  -
+    id: 384
+    name: "Portuguese (Timor-Leste) - Português (Timor-Leste)"
+    code: "pt_TL"
+    enabled: 1
+    added: 0
+  -
+    id: 385
+    name: "Punjabi (Arabic, Pakistan) - ਪੰਜਾਬੀ (ਅਰਬੀ, ਪਾਕਿਸਤਾਨ)"
+    code: "pa_Arab_PK"
+    enabled: 1
+    added: 0
+  -
+    id: 386
+    name: "Punjabi (Gurmukhi, India) - ਪੰਜਾਬੀ (ਗੁਰਮੁਖੀ, ਭਾਰਤ)"
+    code: "pa_Guru_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 387
+    name: "Quechua (Bolivia)"
+    code: "qu_BO"
+    enabled: 1
+    added: 0
+  -
+    id: 388
+    name: "Quechua (Ecuador)"
+    code: "qu_EC"
+    enabled: 1
+    added: 0
+  -
+    id: 389
+    name: "Quechua (Peru)"
+    code: "qu_PE"
+    enabled: 1
+    added: 0
+  -
+    id: 390
+    name: "Romanian (Moldova) - Română (Moldova)"
+    code: "ro_MD"
+    enabled: 1
+    added: 0
+  -
+    id: 391
+    name: "Romanian (Romania) - Română (România)"
+    code: "ro_RO"
+    enabled: 1
+    added: 0
+  -
+    id: 392
+    name: "Romansh (Switzerland)"
+    code: "rm_CH"
+    enabled: 1
+    added: 0
+  -
+    id: 393
+    name: "Rombo (Tanzania)"
+    code: "rof_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 394
+    name: "Rundi (Burundi)"
+    code: "rn_BI"
+    enabled: 1
+    added: 0
+  -
+    id: 395
+    name: "Russian (Belarus) - России (Беларусь)"
+    code: "ru_BY"
+    enabled: 1
+    added: 0
+  -
+    id: 396
+    name: "Russian (Kazakhstan) - России (Казахстан)"
+    code: "ru_KZ"
+    enabled: 1
+    added: 0
+  -
+    id: 397
+    name: "Russian (Kyrgyzstan) - России (Кыргызстан)"
+    code: "ru_KG"
+    enabled: 1
+    added: 0
+  -
+    id: 398
+    name: "Russian (Moldova) - России (Молдова)"
+    code: "ru_MD"
+    enabled: 1
+    added: 0
+  -
+    id: 399
+    name: "Russian (Russia) - России (Россия)"
+    code: "ru_RU"
+    enabled: 1
+    added: 0
+  -
+    id: 400
+    name: "Russian (Ukraine) - России (Украина)"
+    code: "ru_UA"
+    enabled: 1
+    added: 0
+  -
+    id: 401
+    name: "Rwa (Tanzania)"
+    code: "rwk_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 402
+    name: "Sakha (Russia)"
+    code: "sah_RU"
+    enabled: 1
+    added: 0
+  -
+    id: 403
+    name: "Samburu (Kenya)"
+    code: "saq_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 404
+    name: "Sango (Central African Republic)"
+    code: "sg_CF"
+    enabled: 1
+    added: 0
+  -
+    id: 405
+    name: "Sangu (Tanzania)"
+    code: "sbp_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 406
+    name: "Scottish Gaelic (United Kingdom) - Gàidhlig na h-Alba (An Rìoghachd Aonaichte)"
+    code: "gd_GB"
+    enabled: 1
+    added: 0
+  -
+    id: 407
+    name: "Sena (Mozambique)"
+    code: "seh_MZ"
+    enabled: 1
+    added: 0
+  -
+    id: 408
+    name: "Serbian (Cyrillic, Bosnia & Herzegovina) - Српски језик (Ћирилица, Босна и Херцеговина)"
+    code: "sr_Cyrl_BA"
+    enabled: 1
+    added: 0
+  -
+    id: 409
+    name: "Serbian (Cyrillic, Montenegro) - Српски језик (Ћирилица, Црна Гора)"
+    code: "sr_Cyrl_ME"
+    enabled: 1
+    added: 0
+  -
+    id: 410
+    name: "Serbian (Cyrillic, Serbia) - Српски језик (Ћирилица, Србија)"
+    code: "sr_Cyrl_RS"
+    enabled: 1
+    added: 0
+  -
+    id: 411
+    name: "Serbian (Latin, Bosnia & Herzegovina) - Српски (Ћирилица, Босна и Херцеговина)"
+    code: "sr_Latn_BA"
+    enabled: 1
+    added: 0
+  -
+    id: 412
+    name: "Serbian (Latin, Montenegro) - Српски (латински, Црна Гора)"
+    code: "sr_Latn_ME"
+    enabled: 1
+    added: 0
+  -
+    id: 413
+    name: "Serbian (Latin, Serbia) - Српски (латински, Србија)"
+    code: "sr_Latn_RS"
+    enabled: 1
+    added: 0
+  -
+    id: 414
+    name: "Shambala (Tanzania)"
+    code: "ksb_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 415
+    name: "Shona (Zimbabwe) - Shona (Zimbabwe)"
+    code: "sn_ZW"
+    enabled: 1
+    added: 0
+  -
+    id: 416
+    name: "Sichuan Yi (China)"
+    code: "ii_CN"
+    enabled: 1
+    added: 0
+  -
+    id: 417
+    name: "Sinhala (Sri Lanka) - සිංහල (ශ්‍රී ලංකාව)"
+    code: "si_LK"
+    enabled: 1
+    added: 0
+  -
+    id: 418
+    name: "Slovak (Slovakia) - Slovenskú (Slovensko)"
+    code: "sk_SK"
+    enabled: 1
+    added: 0
+  -
+    id: 419
+    name: "Slovenian (Slovenia) - Slovensko (Slovenija)"
+    code: "sl_SI"
+    enabled: 1
+    added: 0
+  -
+    id: 420
+    name: "Soga (Uganda)"
+    code: "xog_UG"
+    enabled: 1
+    added: 0
+  -
+    id: 421
+    name: "Somali (Djibouti) - Soomaali (Jabuuti)"
+    code: "so_DJ"
+    enabled: 1
+    added: 0
+  -
+    id: 422
+    name: "Somali (Ethiopia) - Soomaali (Itoobiya)"
+    code: "so_ET"
+    enabled: 1
+    added: 0
+  -
+    id: 423
+    name: "Somali (Kenya) - Soomaali (Kenya)"
+    code: "so_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 424
+    name: "Somali (Somalia) - Soomaali (Soomaaliya)"
+    code: "so_SO"
+    enabled: 1
+    added: 0
+  -
+    id: 425
+    name: "Spanish (Argentina) - Español (Argentina)"
+    code: "es_AR"
+    enabled: 1
+    added: 0
+  -
+    id: 426
+    name: "Spanish (Belize) - Español (Belice)"
+    code: "es_BZ"
+    enabled: 1
+    added: 0
+  -
+    id: 427
+    name: "Spanish (Bolivia) - Español (Bolivia)"
+    code: "es_BO"
+    enabled: 1
+    added: 0
+  -
+    id: 428
+    name: "Spanish (Brazil) - Español (Brasil)"
+    code: "es_BR"
+    enabled: 1
+    added: 0
+  -
+    id: 429
+    name: "Spanish (Chile) - Español (Chile)"
+    code: "es_CL"
+    enabled: 1
+    added: 0
+  -
+    id: 430
+    name: "Spanish (Colombia) - Español (Colombia)"
+    code: "es_CO"
+    enabled: 1
+    added: 0
+  -
+    id: 431
+    name: "Spanish (Cuba) - Español (Cuba)"
+    code: "es_CU"
+    enabled: 1
+    added: 0
+  -
+    id: 432
+    name: "Spanish (Dominican Republic) - Española (República Dominicana)"
+    code: "es_DO"
+    enabled: 1
+    added: 0
+  -
+    id: 433
+    name: "Spanish (Ecuador) - Español (Ecuador)"
+    code: "es_EC"
+    enabled: 1
+    added: 0
+  -
+    id: 434
+    name: "Spanish (El Salvador) - Español (El Salvador)"
+    code: "es_SV"
+    enabled: 1
+    added: 0
+  -
+    id: 435
+    name: "Spanish (Equatorial Guinea) - Español (Guinea Ecuatorial)"
+    code: "es_GQ"
+    enabled: 1
+    added: 0
+  -
+    id: 436
+    name: "Spanish (Guatemala) - Español (Guatemala)"
+    code: "es_GT"
+    enabled: 1
+    added: 0
+  -
+    id: 437
+    name: "Spanish (Honduras) - Español (Honduras)"
+    code: "es_HN"
+    enabled: 1
+    added: 0
+  -
+    id: 438
+    name: "Spanish (Mexico) - Español (México)"
+    code: "es_MX"
+    enabled: 1
+    added: 0
+  -
+    id: 439
+    name: "Spanish (Nicaragua) - Español (Nicaragua)"
+    code: "es_NI"
+    enabled: 1
+    added: 0
+  -
+    id: 440
+    name: "Spanish (Panama) - Español (Panamá)"
+    code: "es_PA"
+    enabled: 1
+    added: 0
+  -
+    id: 441
+    name: "Spanish (Paraguay) - Español (Paraguay)"
+    code: "es_PY"
+    enabled: 1
+    added: 0
+  -
+    id: 442
+    name: "Spanish (Peru) - Español (Perú)"
+    code: "es_PE"
+    enabled: 1
+    added: 0
+  -
+    id: 443
+    name: "Spanish (Philippines) - Español (Filipinas)"
+    code: "es_PH"
+    enabled: 1
+    added: 0
+  -
+    id: 444
+    name: "Spanish (Puerto Rico) - Español (Puerto Rico)"
+    code: "es_PR"
+    enabled: 1
+    added: 0
+  -
+    id: 445
+    name: "Spanish (Spain) - Español (España)"
+    code: "es_ES"
+    enabled: 1
+    added: 0
+  -
+    id: 446
+    name: "Spanish (United States) - Español (Estados Unidos)"
+    code: "es_US"
+    enabled: 1
+    added: 0
+  -
+    id: 447
+    name: "Spanish (Uruguay) - Español (Uruguay)"
+    code: "es_UY"
+    enabled: 1
+    added: 0
+  -
+    id: 448
+    name: "Spanish (Venezuela) - Español (Venezuela)"
+    code: "es_VE"
+    enabled: 1
+    added: 0
+  -
+    id: 449
+    name: "Standard Moroccan Tamazight (Morocco)"
+    code: "zgh_MA"
+    enabled: 1
+    added: 0
+  -
+    id: 450
+    name: "Swahili (Congo - Kinshasa) - Kiswahili (Congo - Kinshasa)"
+    code: "sw_CD"
+    enabled: 1
+    added: 0
+  -
+    id: 451
+    name: "Swahili (Kenya) - Kiswahili (Kenya)"
+    code: "sw_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 452
+    name: "Swahili (Tanzania) - Kiswahili (Tanzania)"
+    code: "sw_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 453
+    name: "Swahili (Uganda) - Kiswahili (Uganda)"
+    code: "sw_UG"
+    enabled: 1
+    added: 0
+  -
+    id: 454
+    name: "Swedish (Åland Islands) - Svenska (Åland)"
+    code: "sv_AX"
+    enabled: 1
+    added: 0
+  -
+    id: 455
+    name: "Swedish (Finland) - Svenska (Finland)"
+    code: "sv_FI"
+    enabled: 1
+    added: 0
+  -
+    id: 456
+    name: "Swedish (Sweden) - Svenska (Sverige)"
+    code: "sv_SE"
+    enabled: 1
+    added: 0
+  -
+    id: 457
+    name: "Swiss German (France)"
+    code: "gsw_FR"
+    enabled: 1
+    added: 0
+  -
+    id: 458
+    name: "Swiss German (Liechtenstein)"
+    code: "gsw_LI"
+    enabled: 1
+    added: 0
+  -
+    id: 459
+    name: "Swiss German (Switzerland)"
+    code: "gsw_CH"
+    enabled: 1
+    added: 0
+  -
+    id: 460
+    name: "Tachelhit (Latin, Morocco)"
+    code: "shi_Latn_MA"
+    enabled: 1
+    added: 0
+  -
+    id: 461
+    name: "Tachelhit (Tifinagh, Morocco)"
+    code: "shi_Tfng_MA"
+    enabled: 1
+    added: 0
+  -
+    id: 462
+    name: "Taita (Kenya)"
+    code: "dav_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 463
+    name: "Tajik (Tajikistan) - Тоҷикистон (Тоҷикистон)"
+    code: "tg_TJ"
+    enabled: 1
+    added: 0
+  -
+    id: 464
+    name: "Tamil (India) - தமிழ் (இந்தியா)"
+    code: "ta_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 465
+    name: "Tamil (Malaysia) - தமிழ் (மலேஷியா)"
+    code: "ta_MY"
+    enabled: 1
+    added: 0
+  -
+    id: 466
+    name: "Tamil (Singapore) - தமிழ் (சிங்கப்பூர்)"
+    code: "ta_SG"
+    enabled: 1
+    added: 0
+  -
+    id: 467
+    name: "Tamil (Sri Lanka) - தமிழ் (இலங்கை)"
+    code: "ta_LK"
+    enabled: 1
+    added: 0
+  -
+    id: 468
+    name: "Tasawaq (Niger)"
+    code: "twq_NE"
+    enabled: 1
+    added: 0
+  -
+    id: 469
+    name: "Tatar (Russia) - Татар (Россия)"
+    code: "tt_RU"
+    enabled: 1
+    added: 0
+  -
+    id: 470
+    name: "Telugu (India) - తెలుగు (భారతదేశం)"
+    code: "te_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 471
+    name: "Teso (Kenya)"
+    code: "teo_KE"
+    enabled: 1
+    added: 0
+  -
+    id: 472
+    name: "Teso (Uganda)"
+    code: "teo_UG"
+    enabled: 1
+    added: 0
+  -
+    id: 473
+    name: "Thai (Thailand) - ไทย (ไทยแลนด์)"
+    code: "th_TH"
+    enabled: 1
+    added: 0
+  -
+    id: 474
+    name: "Tibetan (China)"
+    code: "bo_CN"
+    enabled: 1
+    added: 0
+  -
+    id: 475
+    name: "Tibetan (India)"
+    code: "bo_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 476
+    name: "Tigrinya (Eritrea)"
+    code: "ti_ER"
+    enabled: 1
+    added: 0
+  -
+    id: 477
+    name: "Tigrinya (Ethiopia)"
+    code: "ti_ET"
+    enabled: 1
+    added: 0
+  -
+    id: 478
+    name: "Tongan (Tonga)"
+    code: "to_TO"
+    enabled: 1
+    added: 0
+  -
+    id: 479
+    name: "Turkish (Cyprus) - Türk (Kıbrıs)"
+    code: "tr_CY"
+    enabled: 1
+    added: 0
+  -
+    id: 480
+    name: "Turkish (Turkey) - Türk (Türkiye)"
+    code: "tr_TR"
+    enabled: 1
+    added: 0
+  -
+    id: 481
+    name: "Ukrainian (Ukraine) - Український (Україна)"
+    code: "uk_UA"
+    enabled: 1
+    added: 0
+  -
+    id: 482
+    name: "Upper Sorbian (Germany)"
+    code: "hsb_DE"
+    enabled: 1
+    added: 0
+  -
+    id: 483
+    name: "Urdu (India) - اردو (بھارت)"
+    code: "ur_IN"
+    enabled: 1
+    added: 0
+  -
+    id: 484
+    name: "Urdu (Pakistan) - اردو (پاکستان)"
+    code: "ur_PK"
+    enabled: 1
+    added: 0
+  -
+    id: 485
+    name: "Uyghur (China) - ئۇيغۇر (جۇڭگو)"
+    code: "ug_CN"
+    enabled: 1
+    added: 0
+  -
+    id: 486
+    name: "Uzbek (Arabic, Afghanistan) - O'zbekiston (arab, Afg'oniston)"
+    code: "uz_Arab_AF"
+    enabled: 1
+    added: 0
+  -
+    id: 487
+    name: "Uzbek (Cyrillic, Uzbekistan) - O'zbek (kirill, O'zbekiston)"
+    code: "uz_Cyrl_UZ"
+    enabled: 1
+    added: 0
+  -
+    id: 488
+    name: "Uzbek (Latin, Uzbekistan) - O'zbek (Lotin, O'zbekiston)"
+    code: "uz_Latn_UZ"
+    enabled: 1
+    added: 0
+  -
+    id: 489
+    name: "Vai (Latin, Liberia)"
+    code: "vai_Latn_LR"
+    enabled: 1
+    added: 0
+  -
+    id: 490
+    name: "Vai (Vai, Liberia)"
+    code: "vai_Vaii_LR"
+    enabled: 1
+    added: 0
+  -
+    id: 491
+    name: "Vietnamese (Vietnam) - Việt (Việt Nam)"
+    code: "vi_VN"
+    enabled: 1
+    added: 0
+  -
+    id: 492
+    name: "Vunjo (Tanzania)"
+    code: "vun_TZ"
+    enabled: 1
+    added: 0
+  -
+    id: 493
+    name: "Walser (Switzerland)"
+    code: "wae_CH"
+    enabled: 1
+    added: 0
+  -
+    id: 494
+    name: "Welsh (United Kingdom) - Cymraeg (Welsh)"
+    code: "cy_GB"
+    enabled: 1
+    added: 0
+  -
+    id: 495
+    name: "Western Frisian (Netherlands) - Western Frysk (Nederland)"
+    code: "fy_NL"
+    enabled: 1
+    added: 0
+  -
+    id: 496
+    name: "Wolof (Senegal)"
+    code: "wo_SN"
+    enabled: 1
+    added: 0
+  -
+    id: 497
+    name: "Yangben (Cameroon)"
+    code: "yav_CM"
+    enabled: 1
+    added: 0
+  -
+    id: 498
+    name: "Yoruba (Benin) - Yorùbá (Benin)"
+    code: "yo_BJ"
+    enabled: 1
+    added: 0
+  -
+    id: 499
+    name: "Yoruba (Nigeria) - Yorùbá (Nigeria)"
+    code: "yo_NG"
+    enabled: 1
+    added: 0
+  -
+    id: 500
+    name: "Zarma (Niger)"
+    code: "dje_NE"
+    enabled: 1
+    added: 0
+  -
+    id: 501
+    name: "Zulu (South Africa) - Zulu (South Africa)"
+    code: "zu_ZA"
+    enabled: 1
+    added: 0

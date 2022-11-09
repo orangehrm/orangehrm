@@ -1,0 +1,69 @@
+#!/usr/bin/env php
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA
+ */
+
+if (php_sapi_name() !== 'cli') {
+    echo 'Unauthorized';
+    exit(1);
+}
+
+$pathToAutoload = realpath(__DIR__ . '/../src/vendor/autoload.php');
+
+$errorMessage = "
+Cannot find composer dependencies.
+Run below command and try again;\n
+$ cd %s
+$ composer install -d src
+";
+
+if (!$pathToAutoload) {
+    echo sprintf($errorMessage, realpath(__DIR__ . '/../'));
+    exit(1);
+}
+
+use OrangeHRM\Config\Config;
+use OrangeHRM\Framework\Console\Console;
+use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
+use OrangeHRM\Framework\Framework;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\PluginConfigurationInterface;
+
+set_time_limit(0);
+
+require_once $pathToAutoload;
+
+$env = 'prod';
+$debug = 'prod' !== $env;
+
+$console = new Console();
+new Framework($env, $debug); // initializing kernel
+
+$request = new Request();
+$pluginConfigs = Config::get('ohrm_plugin_configs');
+foreach (array_values($pluginConfigs) as $pluginConfig) {
+    require_once $pluginConfig['filepath'];
+    /** @var PluginConfigurationInterface $configClass */
+    $configClass = new $pluginConfig['classname']();
+    $configClass->initialize($request);
+    if ($configClass instanceof ConsoleConfigurationInterface) {
+        $configClass->registerCommands($console);
+    }
+}
+
+$console->run();

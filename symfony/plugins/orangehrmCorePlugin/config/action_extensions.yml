@@ -1,4 +1,0 @@
-#auth:
-#    validateCredentials:    
-#        post:
-#            - { service: LoginService, method: addLogin, messages: [] }      

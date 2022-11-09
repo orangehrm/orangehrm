@@ -1,0 +1,464 @@
+translations:
+    - { target: Thêm, unitId: add, group: general }
+    - { target: 'Thêm tập tin đính kèm', unitId: add_attachment, group: general }
+    - { target: 'Thêm nhân viên', unitId: add_employee, group: general }
+    - { target: 'Được thêm bởi', unitId: added_by, group: pim }
+    - { target: 'Địa chỉ', unitId: address, group: admin }
+    - { target: 'Quản trị viên', unitId: admin, group: general }
+    - { target: 'Nhóm Tuổi', unitId: age_group, group: pim }
+    - { target: 'Chỉ cho phép các con số và các ký tự + / ()', unitId: allows_phone_numbers_only, group: general }
+    - { target: 'Đã tồn tại', unitId: already_exists, group: general }
+    - { target: 'Số tiền', unitId: amount, group: pim }
+    - { target: 'Áp dụng', unitId: apply, group: general }
+    - { target: 'Chỉ định nghỉ phép', unitId: assign_leave, group: leave }
+    - { target: 'Chỉ định phần Lương', unitId: assigned_salary_components, group: pim }
+    - { target: 'Kích thước file đính kèm vượt quá giới hạn cho phép', unitId: attachment_size_exceeded, group: general }
+    - { target: 'Tham dự', unitId: attendance, group: general }
+    - { target: 'Tóm tắt Tham gia', unitId: attendance_summary, group: general }
+    - { target: 'Quay lại', unitId: back, group: general }
+    - { target: 'Hủy bỏ', unitId: cancel, group: general }
+    - { target: 'Ứng cử viên', unitId: candidates, group: general }
+    - { target: 'Thay đổi mật khẩu', unitId: change_password, group: general }
+    - { target: 'Bình luận', unitId: comment, group: general }
+    - { target: 'Bình luận', unitId: comments, group: general }
+    - { target: 'Công ty', unitId: company, group: pim }
+    - { target: 'Năng lực', unitId: competency, group: pim }
+    - { target: 'Cấu hình', unitId: configuration, group: general }
+    - { target: 'Cấu hình', unitId: configure, group: general }
+    - { target: 'Chi tiết liên lạc', unitId: contact_details, group: pim }
+    - { target: 'Ngày kết thúc hợp đồng', unitId: contract_end_date, group: pim }
+    - { target: 'Ngày bắt đầu hợp đồng', unitId: contract_start_date, group: pim }
+    - { target: 'Quốc gia', unitId: country, group: general }
+    - { target: 'Tiền tệ', unitId: currency, group: general }
+    - { target: 'Nhân viên hiện tại và nhân viên cũ', unitId: current_and_past_employees, group: general }
+    - { target: 'Chỉ Nhân viên hiện tại', unitId: current_employees_only, group: general }
+    - { target: 'Tuỳ chỉnh Fields', unitId: custom_fields, group: pim }
+    - { target: 'Khách hàng', unitId: customers, group: general }
+    - { target: 'Nhập dữ liệu', unitId: data_import, group: pim }
+    - { target: Ngày, unitId: date, group: general }
+    - { target: 'Ngày thêm vào', unitId: date_added, group: pim }
+    - { target: 'Ngày sinh', unitId: date_of_birth, group: pim }
+    - { target: Ngày, unitId: days, group: leave }
+    - { target: 'Xóa hiện tại', unitId: delete_current, group: general }
+    - { target: 'Người phụ thuộc', unitId: dependents, group: general }
+    - { target: 'Mô tả', unitId: description, group: general }
+    - { target: 'Số tài khoản gửi tiền trực tiếp', unitId: direct_deposit_account_number, group: pim }
+    - { target: 'Loại tài khoản gửi tiền trực tiếp', unitId: direct_deposit_account_type, group: pim }
+    - { target: 'Số tiền gửi trực tiếp', unitId: direct_deposit_amount, group: pim }
+    - { target: 'Vô hiệu hóa', unitId: disabled, group: general }
+    - { target: 'Hiển thị Fields', unitId: display_fields, group: pim }
+    - { target: 'Loại văn bản', unitId: document_type, group: pim }
+    - { target: 'Số Giấy phép lái xe', unitId: driver_license_number, group: pim }
+    - { target: 'Thời gian', unitId: duration, group: general }
+    - { target: 'Chỉnh sửa', unitId: edit, group: general }
+    - { target: 'Chỉnh sửa tập tin đính kèm', unitId: edit_attachment, group: general }
+    - { target: 'Chỉnh sửa xuất nhập cảnh', unitId: edit_immigration, group: pim }
+    - { target: 'Chỉnh sửa phần Lương', unitId: edit_salary_component, group: pim }
+    - { target: 'Giáo dục', unitId: education, group: general }
+    - { target: 'Ngày hội đủ điều kiện xét', unitId: eligible_review_date, group: pim }
+    - { target: 'Đủ điều kiện Status', unitId: eligible_status, group: pim }
+    - { target: 'Khẩn cấp Liên hệ', unitId: emergency_contacts, group: general }
+    - { target: 'Nhân viên', unitId: employee, group: general }
+    - { target: 'Nhân viên Tên', unitId: employee_first_name, group: pim }
+    - { target: 'Nhân viên Id', unitId: employee_id, group: general }
+    - { target: 'Nhân viên Last Name', unitId: employee_last_name, group: pim }
+    - { target: 'Nhân viên Danh sách', unitId: employee_list, group: general }
+    - { target: 'Tên nhân viên Trung', unitId: employee_middle_name, group: pim }
+    - { target: 'Tên người lao động', unitId: employee_name, group: general }
+    - { target: 'Nhân viên hồ sơ', unitId: employee_records, group: general }
+    - { target: 'Nhân viên báo cáo', unitId: employee_reports, group: general }
+    - { target: 'Nhân viên timesheets', unitId: employee_timesheets, group: general }
+    - { target: 'Công Việc', unitId: employment_status, group: general }
+    - { target: Bật, unitId: enabled, group: general }
+    - { target: 'Ngày kết thúc', unitId: end_date, group: general }
+    - { target: ESS, unitId: ess, group: general }
+    - { target: 'Dự kiến ​​định dạng: admin@example.com', unitId: expected_email_address_format_not_matched, group: general }
+    - { target: 'Ngày hết hiệu lực', unitId: expiry_date, group: general }
+    - { target: 'Thời hạn sử dụng sau ngày ban hành', unitId: expiry_date_should_be_after_issued_date, group: pim }
+    - { target: Nữ, unitId: female, group: general }
+    - { target: 'File Name', unitId: file_name, group: general }
+    - { target: Tên, unitId: first_name, group: pim }
+    - { target: 'Sử dụng thành thạo', unitId: fluency, group: pim }
+    - { target: 'Thứ Sáu', unitId: friday, group: general }
+    - { target: Từ, unitId: from, group: general }
+    - { target: 'Giới Tính', unitId: gender, group: pim }
+    - { target: 'Thông tin chung', unitId: general_information, group: admin }
+    - { target: 'Ngày lễ', unitId: holidays, group: leave }
+    - { target: 'Trang chủ Điện thoại', unitId: home_telephone, group: pim }
+    - { target: Id, unitId: id, group: general }
+    - { target: 'Nhập cư', unitId: immigration, group: general }
+    - { target: 'Bao gồm', unitId: include, group: pim }
+    - { target: 'Bao gồm tiêu đề', unitId: include_header, group: general }
+    - { target: 'Bao gồm các nhân viên trong quá khứ', unitId: include_past_employees, group: leave }
+    - { target: Do, unitId: issued_by, group: pim }
+    - { target: 'Ban hành ngày', unitId: issued_date, group: pim }
+    - { target: 'Công việc', unitId: job, group: general }
+    - { target: 'Công việc danh mục', unitId: job_categories, group: admin }
+    - { target: 'Ngành nghề', unitId: job_category, group: general }
+    - { target: 'Công việc kỹ thuật', unitId: job_specification, group: general }
+    - { target: 'Chức vụ', unitId: job_title, group: general }
+    - { target: 'Công việc trong tựa đề', unitId: job_titles, group: admin }
+    - { target: 'Ngày tham gia', unitId: joined_date, group: general }
+    - { target: 'Giữ hiện tại', unitId: keep_current, group: general }
+    - { target: 'Ngôn ngữ', unitId: language, group: general }
+    - { target: 'Ngôn ngữ', unitId: languages, group: general }
+    - { target: Họ, unitId: last_name, group: general }
+    - { target: 'Để lại', unitId: leave, group: general }
+    - { target: 'Để cân bằng (Ngày)', unitId: leave_balance_days, group: leave }
+    - { target: 'Để lại Danh sách', unitId: leave_list, group: leave }
+    - { target: 'Để lại thời kỳ', unitId: leave_period, group: leave }
+    - { target: 'Để loại', unitId: leave_types, group: leave }
+    - { target: Cấp, unitId: level, group: general }
+    - { target: 'Giấy phép', unitId: license, group: pim }
+    - { target: 'Giấy phép hết hạn ngày', unitId: license_expiry_date, group: pim }
+    - { target: 'Giấy phép số', unitId: license_number, group: pim }
+    - { target: 'Giấy phép Loại', unitId: license_type, group: pim }
+    - { target: 'Giấy phép', unitId: licenses, group: admin }
+    - { target: 'Nội địa hóa', unitId: localization, group: admin }
+    - { target: Nơi, unitId: location, group: general }
+    - { target: 'Địa điểm', unitId: locations, group: admin }
+    - { target: 'Đăng xuất', unitId: logout, group: general }
+    - { target: Nam, unitId: male, group: general }
+    - { target: 'Tình trạng hôn nhân', unitId: marital_status, group: pim }
+    - { target: 'Thành viên', unitId: membership, group: pim }
+    - { target: 'Thành viên', unitId: memberships, group: general }
+    - { target: 'Điện thoại di động', unitId: mobile, group: general }
+    - { target: Mô-đun, unitId: modules, group: general }
+    - { target: 'Thứ hai', unitId: monday, group: general }
+    - { target: 'Leave My', unitId: my_leave, group: general }
+    - { target: 'Hồ sơ của tôi', unitId: my_records, group: general }
+    - { target: 'Timesheets của tôi', unitId: my_timesheets, group: general }
+    - { target: Tên, unitId: name, group: general }
+    - { target: 'Dân tộc', unitId: nationalities, group: admin }
+    - { target: 'Quốc tịch', unitId: nationality, group: general }
+    - { target: Không, unitId: 'no', group: general }
+    - { target: 'Ghi chú', unitId: notes, group: general }
+    - { target: Số, unitId: number, group: pim }
+    - { target: 'Chỉ Bao gồm timesheets được chấp thuận', unitId: only_include_approved_timesheets, group: time }
+    - { target: 'Tùy chọn Fields', unitId: optional_fields, group: pim }
+    - { target: 'Tổ chức', unitId: organization, group: general }
+    - { target: Khác, unitId: other, group: pim }
+    - { target: 'Khác Email', unitId: other_email, group: general }
+    - { target: 'Khác Id', unitId: other_id, group: pim }
+    - { target: 'Quá khứ của nhân viên', unitId: past_employee, group: maintenance }
+    - { target: 'Qua nhân viên Chỉ', unitId: past_employees_only, group: general }
+    - { target: 'Trả Tần số', unitId: pay_frequency, group: pim }
+    - { target: 'Trả Lớp', unitId: pay_grade, group: general }
+    - { target: 'Trả Lớp', unitId: pay_grades, group: admin }
+    - { target: 'Hiệu suất', unitId: performance, group: general }
+    - { target: Riêng, unitId: personal, group: pim }
+    - { target: PIM, unitId: pim, group: general }
+    - { target: 'Phạm vi Ngày dự án', unitId: project_date_range, group: time }
+    - { target: 'Dự án Thông tin', unitId: project_info, group: general }
+    - { target: 'Dự án Báo cáo', unitId: project_reports, group: general }
+    - { target: 'Dự án', unitId: projects, group: general }
+    - { target: 'Cú đấm vào / ra', unitId: punch_in_out, group: general }
+    - { target: 'Tuyển dụng', unitId: recruitment, group: general }
+    - { target: 'Mối quan hệ', unitId: relationship, group: pim }
+    - { target: 'Thay thế hiện tại', unitId: replace_current, group: general }
+    - { target: 'Tên Báo cáo', unitId: report_name, group: general }
+    - { target: 'Báo cáo Phương pháp', unitId: reporting_method, group: pim }
+    - { target: 'Báo cáo Phương pháp', unitId: reporting_methods, group: pim }
+    - { target: 'Báo cáo', unitId: reports, group: general }
+    - { target: 'Yêu cầu', unitId: required, group: general }
+    - { target: 'Thiết lập lại', unitId: reset, group: general }
+    - { target: 'Định tuyến Số', unitId: routing_number, group: pim }
+    - { target: 'Mức lương', unitId: salary, group: general }
+    - { target: 'Lương Hợp phần', unitId: salary_component, group: pim }
+    - { target: 'Thứ bảy', unitId: saturday, group: general }
+    - { target: Lưu, unitId: save, group: general }
+    - { target: 'Điểm số', unitId: score, group: pim }
+    - { target: 'Tìm kiếm', unitId: search, group: general }
+    - { target: 'Chọn File', unitId: select_file, group: general }
+    - { target: 'Tiêu chuẩn tuyển chọn', unitId: selection_criteria, group: pim }
+    - { target: 'Dịch vụ Thời gian', unitId: service_period, group: pim }
+    - { target: 'Nên có một số', unitId: should_be_a_number, group: general }
+    - { target: 'Phải là một số dương', unitId: should_be_a_positive_number, group: general }
+    - { target: 'Nên nằm trong các giá trị Min / Max', unitId: should_be_within_min_max_values, group: pim }
+    - { target: 'Kích thước', unitId: size, group: general }
+    - { target: 'Kỹ năng', unitId: skill, group: pim }
+    - { target: 'Kỹ năng', unitId: skills, group: general }
+    - { target: 'Ngày bắt đầu', unitId: start_date, group: general }
+    - { target: 'Ngày bắt đầu trước ngày kết thúc', unitId: start_date_should_be_before_end_date, group: general }
+    - { target: 'Nhà nước', unitId: state, group: general }
+    - { target: 'Tình trạng', unitId: status, group: general }
+    - { target: 'Cơ cấu tổ chức', unitId: structure, group: general }
+    - { target: 'Tiểu đơn vị', unitId: sub_unit, group: general }
+    - { target: 'Nhân viên dưới quyền', unitId: subordinates, group: pim }
+    - { target: 'Thuê bao Số tiền', unitId: subscription_amount, group: pim }
+    - { target: 'Thuê bao Bắt ngày', unitId: subscription_commence_date, group: pim }
+    - { target: 'Thuê bao trả tiền', unitId: subscription_paid_by, group: pim }
+    - { target: 'Ngày đăng ký gia hạn', unitId: subscription_renewal_date, group: pim }
+    - { target: 'Thành công đã lưu', unitId: successfully_saved, group: general }
+    - { target: 'Thành công Cập nhật', unitId: successfully_updated, group: general }
+    - { target: 'Chủ Nhật', unitId: sunday, group: general }
+    - { target: 'Giám sát', unitId: supervisor, group: pim }
+    - { target: 'Giám sát Name', unitId: supervisor_name, group: pim }
+    - { target: 'Giám sát', unitId: supervisors, group: pim }
+    - { target: 'Chấm dứt lý do', unitId: termination_reasons, group: pim }
+    - { target: 'Thứ năm', unitId: thursday, group: general }
+    - { target: 'Thời gian', unitId: time, group: general }
+    - { target: Timesheets, unitId: timesheets, group: general }
+    - { target: Để, unitId: to, group: general }
+    - { target: 'Cho đến nay sau khi từ ngày', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: 'Thứ ba', unitId: tuesday, group: general }
+    - { target: Loại, unitId: type, group: general }
+    - { target: 'Người sử dụng', unitId: users, group: general }
+    - { target: 'Vị trí cần tuyển', unitId: vacancies, group: general }
+    - { target: 'Thứ tư', unitId: wednesday, group: general }
+    - { target: 'Làm việc Email', unitId: work_email, group: general }
+    - { target: 'Kinh nghiệm làm việc', unitId: work_experience, group: pim }
+    - { target: 'Công việc dịch chuyển', unitId: work_shifts, group: admin }
+    - { target: 'Công việc Điện thoại', unitId: work_telephone, group: pim }
+    - { target: 'Work Week', unitId: work_week, group: leave }
+    - { target: Năm, unitId: year, group: general }
+    - { target: 'Số năm kinh nghiệm', unitId: years_of_experience, group: pim }
+    - { target: Vâng, unitId: 'yes', group: general }
+    - { target: 'Mật khẩu không khớp', unitId: passwords_do_not_match, group: general }
+    - { target: Ok, unitId: ok, group: general }
+    - { target: 'Chấp nhận lên đến 1MB', unitId: accepts_up_to_1mb, group: general }
+    - { target: 'Tên đăng nhập', unitId: username, group: general }
+    - { target: 'Mật khẩu', unitId: password, group: general }
+    - { target: 'Tải lên', unitId: upload, group: general }
+    - { target: 'Tổng số', unitId: total, group: general }
+    - { target: 'Chấm dứt ngày', unitId: termination_date, group: pim }
+    - { target: 'Chấm dứt Lý do', unitId: termination_reason, group: pim }
+    - { target: 'Hoạt động Name', unitId: activity_name, group: time }
+    - { target: 'Thêm Giáo dục', unitId: add_education, group: general }
+    - { target: 'Thêm Ngôn ngữ', unitId: add_language, group: general }
+    - { target: 'Thêm Giấy phép', unitId: add_license, group: general }
+    - { target: 'Thêm kỹ năng', unitId: add_skill, group: general }
+    - { target: 'Địa chỉ đường phố 1', unitId: address_street_1, group: general }
+    - { target: 'Địa chỉ Đường số 2', unitId: address_street_2, group: general }
+    - { target: 'Thành phố', unitId: city, group: general }
+    - { target: 'Xác nhận mật khẩu', unitId: confirm_password, group: general }
+    - { target: 'Copy From', unitId: copy_from, group: time }
+    - { target: 'Tên dự án', unitId: project_name, group: time }
+    - { target: 'Sửa Giáo dục', unitId: edit_education, group: general }
+    - { target: 'Chỉnh sửa ngôn ngữ', unitId: edit_language, group: general }
+    - { target: 'Chỉnh sửa Giấy phép', unitId: edit_license, group: general }
+    - { target: 'Chỉnh sửa kỹ năng', unitId: edit_skill, group: general }
+    - { target: 'Tiểu bang / Tỉnh', unitId: state_province, group: general }
+    - { target: 'Zip / Postal Code', unitId: zip_postal_code, group: general }
+    - { target: 'Phê duyệt', unitId: approve, group: general }
+    - { target: 'Theo lịch trình', unitId: scheduled, group: leave }
+    - { target: Ghi, unitId: note, group: general }
+    - { target: 'File đính kèm', unitId: attachments, group: general }
+    - { target: 'Tải về', unitId: download, group: general }
+    - { target: Email, unitId: email, group: general }
+    - { target: 'Thực hiện By', unitId: performed_by, group: general }
+    - { target: 'Từ chối', unitId: reject, group: general }
+    - { target: 'Bị từ chối', unitId: rejected, group: leave }
+    - { target: Gửi, unitId: submit, group: general }
+    - { target: Xem, unitId: view, group: general }
+    - { target: 'Thông tin của tôi', unitId: my_info, group: general }
+    - { target: 'Trình độ chuyên môn', unitId: qualifications, group: general }
+    - { target: 'Thêm khác', unitId: add_another, group: general }
+    - { target: 'Xác nhận', unitId: confirm, group: general }
+    - { target: 'Cho đến nay nên được sau khi Từ ngày', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: 'Hoạt động', unitId: activities, group: time }
+    - { target: 'Thêm tiền tệ', unitId: add_currency, group: admin }
+    - { target: 'Thêm khách hàng', unitId: add_customer, group: time }
+    - { target: 'Thêm tình trạng việc làm', unitId: add_employment_status, group: admin }
+    - { target: 'Thêm Ngành nghề', unitId: add_job_category, group: admin }
+    - { target: 'Thêm tiêu đề công việc', unitId: add_job_title, group: admin }
+    - { target: 'Thêm Địa điểm', unitId: add_location, group: admin }
+    - { target: 'Thêm thành viên', unitId: add_membership, group: general }
+    - { target: 'Thêm Quốc tịch', unitId: add_nationality, group: admin }
+    - { target: 'Trả hạng', unitId: add_pay_grade, group: admin }
+    - { target: 'Thêm dự án', unitId: add_project, group: time }
+    - { target: 'Thêm Hoạt động dự án', unitId: add_project_activity, group: time }
+    - { target: 'Thêm đăng ký', unitId: add_subscriber, group: admin }
+    - { target: 'Thêm người dùng', unitId: add_user, group: admin }
+    - { target: 'Thêm ca làm việc', unitId: add_work_shift, group: admin }
+    - { target: 'Phân công nhân viên', unitId: assigned_employees, group: admin }
+    - { target: Hơn, unitId: better, group: general }
+    - { target: 'Không nên thay đổi thứ tự cột', unitId: column_order_should_not_be_changed, group: pim }
+    - { target: 'Bản sao cuối', unitId: copy_activity, group: time }
+    - { target: 'Mật khẩu hiện tại', unitId: current_password, group: pim }
+    - { target: 'Tên khách hàng', unitId: customer_name, group: time }
+    - { target: 'Ngày Định dạng', unitId: date_format, group: admin }
+    - { target: 'Mỗi tập tin nhập khẩu phải được cấu hình cho 100 hồ sơ hoặc ít hơn', unitId: each_import_file_should_be_configured_for_100_records_or_less, group: pim }
+    - { target: 'Chỉnh sửa tệ', unitId: edit_currency, group: admin }
+    - { target: 'Chỉnh sửa khách hàng', unitId: edit_customer, group: time }
+    - { target: 'Chỉnh sửa tình trạng việc làm', unitId: edit_employment_status, group: admin }
+    - { target: 'Chỉnh sửa Ngành nghề', unitId: edit_job_category, group: admin }
+    - { target: 'Chỉnh sửa tiêu đề công việc', unitId: edit_job_title, group: admin }
+    - { target: 'Chỉnh sửa Địa điểm', unitId: edit_location, group: admin }
+    - { target: 'Chỉnh sửa thành viên', unitId: edit_membership, group: general }
+    - { target: 'Chỉnh sửa Quốc tịch', unitId: edit_nationality, group: admin }
+    - { target: 'Chỉnh sửa Trả Lớp', unitId: edit_pay_grade, group: admin }
+    - { target: 'Chỉnh sửa dự án', unitId: edit_project, group: time }
+    - { target: 'Chỉnh sửa cuối dự án', unitId: edit_project_activity, group: time }
+    - { target: 'Chỉnh sửa thuê bao', unitId: edit_subscriber, group: admin }
+    - { target: 'Chỉnh sửa tài', unitId: edit_user, group: admin }
+    - { target: 'Chỉnh sửa phím Shift làm việc', unitId: edit_work_shift, group: admin }
+    - { target: Fax, unitId: fax, group: general }
+    - { target: 'Họ và Tên là bắt buộc', unitId: first_name_and_last_name_are_compulsory, group: pim }
+    - { target: 'Giờ mỗi ngày', unitId: hours_per_day, group: admin }
+    - { target: 'Mô tả công việc', unitId: job_description, group: admin }
+    - { target: 'Mail được gửi đi bởi', unitId: mail_sent_as, group: admin }
+    - { target: 'Mức lương tối đa', unitId: maximum_salary, group: admin }
+    - { target: 'Tối thiểu Mức lương', unitId: minimum_salary, group: admin }
+    - { target: 'Mô-đun cấu hình', unitId: module_configuration, group: admin }
+    - { target: 'Mật khẩu mới', unitId: new_password, group: auth }
+    - { target: 'Không có hoạt động được lựa chọn', unitId: no_activities_selected, group: time }
+    - { target: 'Không có chỉ định hoạt động', unitId: no_assigned_activities, group: time }
+    - { target: 'Loại thông báo', unitId: notification_type, group: admin }
+    - { target: 'Số lượng nhân viên', unitId: number_of_employees, group: admin }
+    - { target: 'Tên tổ chức', unitId: organization_name, group: admin }
+    - { target: 'Đường dẫn đến Sendmail', unitId: path_to_sendmail, group: admin }
+    - { target: 'Điện thoại', unitId: phone, group: general }
+    - { target: 'Dự án', unitId: project, group: time }
+    - { target: 'Dự án Quản trị viên', unitId: project_admin, group: time }
+    - { target: 'Dự án quản trị', unitId: project_admins, group: time }
+    - { target: 'Số đăng ký', unitId: registration_number, group: admin }
+    - { target: 'Phương thức gửi', unitId: sending_method, group: admin }
+    - { target: 'Thay đổi Tên', unitId: shift_name, group: admin }
+    - { target: 'Mật khẩu SMTP', unitId: smtp_password, group: admin }
+    - { target: 'Cổng SMTP', unitId: smtp_port, group: admin }
+    - { target: 'User SMTP', unitId: smtp_user, group: admin }
+    - { target: Strongest, unitId: strongest, group: general }
+    - { target: 'Đăng ký', unitId: subscribers, group: admin }
+    - { target: 'Danh sách người dùng hệ thống', unitId: system_users, group: admin }
+    - { target: 'ID thuế', unitId: tax_id, group: admin }
+    - { target: 'Kiểm tra địa chỉ Email', unitId: test_email_address, group: admin }
+    - { target: 'Đơn vị này sẽ được thêm vào dưới', unitId: this_unit_will_be_added_under, group: admin }
+    - { target: TLS, unitId: tls, group: admin }
+    - { target: 'Đơn vị Id', unitId: unit_id, group: admin }
+    - { target: 'Sử dụng xác thực SMTP', unitId: use_smtp_authentication, group: admin }
+    - { target: 'Rất yếu', unitId: very_weak, group: general }
+    - { target: Yếu, unitId: weak, group: general }
+    - { target: 'Nên được cao hơn lương tối thiểu', unitId: should_be_higher_than_minimum_salary, group: admin }
+    - { target: 'Tất cả các trường ngày phải ở trong định dạng YYYY-MM-DD', unitId: all_date_fields_should_be_in_yyyy_mm_dd_format, group: pim }
+    - { target: 'Nhiều tác phẩm nhập khẩu có thể được yêu cầu', unitId: multiple_import_files_may_be_required, group: pim }
+    - { target: 'Áp dụng lại', unitId: apply_leave, group: leave }
+    - { target: 'Hành động đã thực hiện trên bảng chấm công', unitId: actions_performed_on_the_timesheet, group: time }
+    - { target: 'Thêm dòng', unitId: add_row, group: time }
+    - { target: 'Thêm bảng chấm công', unitId: add_timesheet, group: time }
+    - { target: 'Báo cáo tóm tắt tổng số tham dự', unitId: attendance_total_summary_report, group: attendance }
+    - { target: 'Định nghĩa Thời gian bảng chấm công', unitId: timesheet_period_config, group: time }
+    - { target: 'Chỉnh sửa bảng chấm công cho', unitId: edit_timesheet_for, group: time }
+    - { target: 'Nhân viên báo cáo', unitId: employee_report, group: time }
+    - { target: 'Nên là ít hơn 24 và HH: MM hoặc Định dạng số thập phân', unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format, group: time }
+    - { target: 'Thứ 6', unitId: fri, group: general }
+    - { target: 'Thứ 2', unitId: mon, group: general }
+    - { target: 'Báo cáo dự án', unitId: project_report, group: time }
+    - { target: 'Thứ 7', unitId: sat, group: general }
+    - { target: 'Chọn một ngày để tạo bảng chấm công', unitId: select_a_day_to_create_timesheet, group: time }
+    - { target: 'Chọn nhân viên', unitId: select_employee, group: time }
+    - { target: CN, unitId: sun, group: general }
+    - { target: 'Thứ 5', unitId: thu, group: general }
+    - { target: 'Bảng chấm công cho', unitId: timesheet_for, group: time }
+    - { target: 'Thời gian bảng chấm công', unitId: timesheet_period, group: time }
+    - { target: 'Timesheets chờ hành động', unitId: timesheets_pending_action, group: time }
+    - { target: 'Thứ 3', unitId: tue, group: general }
+    - { target: 'Thứ 4', unitId: wed, group: general }
+    - { target: 'Chọn một dự án và hoạt động', unitId: select_a_project_and_an_activity, group: time }
+    - { target: 'Không tìm thấy bảng chấm công nào', unitId: no_timesheets_found, group: time }
+    - { target: 'Bảng chấm công được chấp thuận', unitId: timesheet_approved, group: time }
+    - { target: 'Bảng chấm công bị từ chối', unitId: timesheet_rejected, group: time }
+    - { target: 'Tổng số nên là ít hơn 24 giờ', unitId: total_should_be_less_than_24_hours, group: time }
+    - { target: 'Số tài khoản', unitId: account_number, group: pim }
+    - { target: 'Loại tài khoản', unitId: account_type, group: pim }
+    - { target: 'Nhân viên hoạt động', unitId: activate_employment, group: pim }
+    - { target: 'Thêm trường tuỳ chỉnh', unitId: add_custom_field, group: pim }
+    - { target: 'Thêm phụ thuộc', unitId: add_dependent, group: pim }
+    - { target: 'Thêm Di Trú', unitId: add_immigration, group: pim }
+    - { target: 'Thêm Phương pháp báo cáo', unitId: add_reporting_method, group: pim }
+    - { target: 'Thêm Lý do Chấm dứt', unitId: add_termination_reason, group: pim }
+    - { target: 'Thêm kinh nghiệm làm việc', unitId: add_work_experience, group: pim }
+    - { target: 'Phân công người phụ thuộc', unitId: assigned_dependents, group: pim }
+    - { target: 'Được giao khẩn cấp Liên hệ', unitId: assigned_emergency_contacts, group: pim }
+    - { target: 'Phân công thành viên', unitId: assigned_memberships, group: pim }
+    - { target: 'Phân công nhân viên dưới quyền', unitId: assigned_subordinates, group: pim }
+    - { target: 'Được giao giám sát', unitId: assigned_supervisors, group: pim }
+    - { target: 'Ít nhất một số điện thoại được yêu cầu', unitId: at_least_one_phone_number_is_required, group: pim }
+    - { target: 'Trẻ em', unitId: child, group: pim }
+    - { target: 'Hợp đồng Thông tin chi tiết', unitId: contract_details, group: pim }
+    - { target: 'Quốc gia cụ thể thông tin', unitId: country_specific_information, group: pim }
+    - { target: 'Tạo chi tiết đăng nhập', unitId: create_login_details, group: pim }
+    - { target: 'Tên Trường Tuỳ chỉnh', unitId: custom_field_name, group: pim }
+    - { target: 'Tài liệu', unitId: document, group: pim }
+    - { target: 'Drop Down', unitId: drop_down, group: pim }
+    - { target: 'Chỉnh sửa trường Tuỳ chỉnh', unitId: edit_custom_field, group: pim }
+    - { target: 'Chỉnh sửa phụ thuộc', unitId: edit_dependent, group: pim }
+    - { target: 'Chỉnh sửa liên lạc khẩn cấp', unitId: edit_emergency_contact, group: pim }
+    - { target: 'Chỉnh sửa Phương pháp báo cáo', unitId: edit_reporting_method, group: pim }
+    - { target: 'Chỉnh sửa Lý do Chấm dứt', unitId: edit_termination_reason, group: pim }
+    - { target: 'Nhân viên thông tin', unitId: employee_information, group: pim }
+    - { target: 'Nhập tùy chọn cho phép phân cách bằng dấu phẩy', unitId: enter_allowed_options_separated_by_commas, group: pim }
+    - { target: 'Miễn giảm', unitId: exemptions, group: pim }
+    - { target: 'Thuế thu nhập liên bang', unitId: federal_income_tax, group: pim }
+    - { target: 'Trường Name', unitId: field_name, group: pim }
+    - { target: 'Trường Type', unitId: field_type, group: pim }
+    - { target: 'Từ ngày nên được trước khi cho đến nay', unitId: from_date_should_be_before_to_date, group: general }
+    - { target: 'Điểm trung bình / điểm', unitId: gpa_score, group: pim }
+    - { target: Viện, unitId: institute, group: pim }
+    - { target: 'Chính / Chuyên ngành', unitId: major_specialization, group: pim }
+    - { target: 'Vụ quân sự', unitId: military_service, group: pim }
+    - { target: 'Hộ chiếu', unitId: passport, group: pim }
+    - { target: 'Thông tin cá nhân', unitId: personal_details, group: general }
+    - { target: 'Hãy xác định', unitId: please_specify, group: pim }
+    - { target: 'Báo cáo đến', unitId: report_to, group: general }
+    - { target: 'Màn hình', unitId: screen, group: pim }
+    - { target: 'Chọn Tùy chọn', unitId: select_options, group: pim }
+    - { target: 'Các trường phản đối', unitId: show_deprecated_fields, group: pim }
+    - { target: 'Hiển thị Nick Name, Hút Thuốc và vụ quân sự trong Thông tin cá nhân', unitId: show_nick_name_smoker_and_military_service_in_personal_details, group: pim }
+    - { target: 'Hiển thị trường SIN Thông tin cá nhân', unitId: show_sin_field_in_personal_details, group: pim }
+    - { target: 'Hiển thị trường SSN Thông tin cá nhân', unitId: show_ssn_field_in_personal_details, group: pim }
+    - { target: 'Hiển thị Mỹ đơn miễn giảm thuế', unitId: show_us_tax_exemptions_menu, group: pim }
+    - { target: 'SIN Số', unitId: sin_number, group: pim }
+    - { target: 'Hút Thuốc', unitId: smoker, group: pim }
+    - { target: 'SSN Số', unitId: ssn_number, group: pim }
+    - { target: 'Thuế miễn giảm', unitId: tax_exemptions, group: general }
+    - { target: 'Thôi việc nhân viên', unitId: terminate_employment, group: pim }
+    - { target: 'Văn bản hoặc số', unitId: text_or_number, group: pim }
+    - { target: 'Tỷ lệ thất nghiệp Nhà nước', unitId: unemployment_state, group: pim }
+    - { target: Visa, unitId: visa, group: pim }
+    - { target: 'Làm việc nhà nước', unitId: work_state, group: pim }
+    - { target: 'Hoạt động', unitId: actions, group: general }
+    - { target: 'Chỉ định', unitId: assign, group: leave }
+    - { target: 'Leave Thời gian hiện tại', unitId: current_leave_period, group: leave }
+    - { target: 'Thời gian (giờ)', unitId: duration_hours, group: attendance }
+    - { target: 'Sau năm', unitId: following_year, group: leave }
+    - { target: 'Từ ngày', unitId: from_date, group: general }
+    - { target: 'Full Day', unitId: full_day, group: leave }
+    - { target: 'Nửa ngày', unitId: half_day, group: leave }
+    - { target: 'Để cân bằng', unitId: leave_balance, group: leave }
+    - { target: 'Để Loại', unitId: leave_type, group: leave }
+    - { target: 'Danh sách của tôi Leave', unitId: my_leave_list, group: leave }
+    - { target: 'Không có loại Leave Balance Leave', unitId: no_leave_types_with_leave_balance, group: leave }
+    - { target: '-Ngày làm việc', unitId: non_working_day, group: leave }
+    - { target: 'Số ngày', unitId: number_of_days, group: leave }
+    - { target: 'Trong khi chờ phê duyệt', unitId: pending_approval, group: leave }
+    - { target: 'Lặp đi lặp lại hàng năm', unitId: repeats_annually, group: leave }
+    - { target: 'Hiện Để lại với trạng thái', unitId: show_leave_with_status, group: leave }
+    - { target: 'Thực hiện', unitId: taken, group: leave }
+    - { target: 'Đến ngày', unitId: to_date, group: general }
+    - { target: 'Không để gửi: Không có ngày làm việc lựa chọn', unitId: failed_to_submit_no_working_days_selected, group: leave }
+    - { target: 'Không để gửi', unitId: failed_to_submit, group: leave }
+    - { target: 'Để Loại', unitId: add_leave_type, group: leave }
+    - { target: 'Chỉnh sửa lại Loại', unitId: edit_leave_type, group: leave }
+    - { target: 'Cú đấm Trong', unitId: punch_in, group: attendance }
+    - { target: 'Cú đấm Trong chú giải', unitId: punch_in_note, group: attendance }
+    - { target: 'Đấm Out', unitId: punch_out, group: attendance }
+    - { target: 'Đấm Out Lưu ý', unitId: punch_out_note, group: attendance }
+    - { target: 'Ghi chồng lên nhau được tìm thấy', unitId: overlapping_records_found, group: attendance }
+    - { target: 'Múi giờ', unitId: timezone, group: attendance }
+    - { target: Trong, unitId: in, group: attendance }
+    - { target: Out, unitId: out, group: attendance }
+    - { target: 'Cấu hình tham dự', unitId: attendance_configuration, group: attendance }
+    - { target: 'Nhân viên có thể thay đổi thời gian hiện tại khi đấm vào / ra', unitId: employee_can_change_current_time_when_punching_in_out, group: attendance }
+    - { target: 'Nhân viên có thể chỉnh sửa / xóa hồ sơ tham dự của', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
+    - { target: 'Giám sát có thể thêm / sửa / xóa các bản ghi sự tham gia của cấp dưới', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
+    - { target: 'Hồ sơ tham dự của tôi', unitId: my_attendance_records, group: attendance }
+    - { target: 'Thành công Đã bị xóa', unitId: successfully_deleted, group: general }
+    - { target: 'Đấm ra thời gian nên là cao hơn cú đấm trong thời gian', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Tên đăng nhập', unitId: username, group: auth }
+    - { target: 'Mật khẩu', unitId: password, group: auth }
+    - { target: 'Hồ sơ tìm thấy', unitId: no_records_found, group: general }
+    - { target: 'Gửi bảng chấm công', unitId: timesheet_submitted, group: time }
+    - { target: 'Tên đệm', unitId: middle_name, group: general }
+    - { target: 'Tên', unitId: first_name, group: general }
+    - { target: 'Họ', unitId: last_name, group: general }

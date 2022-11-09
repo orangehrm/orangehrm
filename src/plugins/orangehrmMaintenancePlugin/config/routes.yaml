@@ -1,0 +1,49 @@
+apiv2_maintenance_purge:
+  path: /api/v2/maintenance/purge
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [DELETE]
+  defaults:
+    _api: OrangeHRM\Maintenance\Api\PurgeEmployeeAPI
+
+apiv2_maintenance_purge_candidate:
+  path: /api/v2/maintenance/candidates/purge
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ DELETE ]
+  defaults:
+    _api: OrangeHRM\Maintenance\Api\PurgeCandidateAPI
+
+apiv2_maintenance_candidates:
+  path: /api/v2/maintenance/candidates
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Maintenance\Api\PurgeCandidateAPI
+
+maintainence_employee_json:
+  path: /maintenance/accessEmployeeData/{empNumber}
+  controller: OrangeHRM\Maintenance\Controller\File\AccessEmployeeFileController::handle
+  methods: [GET]
+
+##########################
+#        Screens
+##########################
+
+maintainence_module:
+  path: /maintenance/viewMaintenanceModule
+  controller: OrangeHRM\Maintenance\Controller\MaintenanceModuleController::handle
+  methods: [ GET ]
+
+maintainence_access_employee_screen:
+  path: /maintenance/accessEmployeeData
+  controller: OrangeHRM\Maintenance\Controller\AccessEmployeeController::handle
+  methods: [GET]
+
+maintainence_purge_employee:
+  path: /maintenance/purgeEmployee
+  controller: OrangeHRM\Maintenance\Controller\PurgeEmployeeController::handle
+  methods: [GET]
+
+maintainence_candidate_records:
+  path: /maintenance/purgeCandidateData
+  controller: OrangeHRM\Maintenance\Controller\PurgeCandidateController::handle
+  methods: [ GET ]

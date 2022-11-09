@@ -1,0 +1,52 @@
+GetOne:
+  'get flag by employee work email (non exist)':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body: [ ]
+    query:
+      workEmail: 'kayla0001@xample.com'
+    data:
+      valid: true
+    meta: [ ]
+
+  'get flag by employee work email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body: [ ]
+    query:
+      workEmail: 'ashley@xample.com'
+    data:
+      valid: false
+    meta: [ ]
+
+  'get flag by employee work email (current email is null)':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 4
+    body: [ ]
+    query:
+      workEmail: 'Chaturanga@xample.com'
+    data:
+      valid: true
+    meta: [ ]
+
+  'get flag by employee work email (existing other email)':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body: [ ]
+    query:
+      workEmail: 'kayla@other.com'
+    data:
+      valid: false
+    meta: [ ]

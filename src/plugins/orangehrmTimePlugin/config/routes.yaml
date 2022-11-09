@@ -1,0 +1,276 @@
+apiv2_time_project:
+  path: /api/v2/time/projects/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectAPI
+    _key: id
+
+apiv2_time_projects:
+  path: /api/v2/time/projects
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectAPI
+
+apiv2_time_validate_project_name:
+  path: /api/v2/time/validation/project-name
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: projectName
+    _api: OrangeHRM\Time\Api\ValidateProjectNameAPI
+
+apiv2_time_time_sheet_period_config:
+  path: /api/v2/time/time-sheet-period
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Time\Api\TimeConfigPeriodAPI
+
+apiv2_time_customer:
+  path: /api/v2/time/customers/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\CustomerAPI
+
+apiv2_time_customers:
+  path: /api/v2/time/customers
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Time\Api\CustomerAPI
+
+apiv2_time_validate_customer_name:
+  path: /api/v2/time/validation/customer-name
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: customerName
+    _api: OrangeHRM\Time\Api\ValidationCustomerNameAPI
+
+apiv2_time_project_activities:
+  path: /api/v2/time/project/{projectId}/activities
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectActivityAPI
+
+apiv2_time_project_activity:
+  path: /api/v2/time/project/{projectId}/activities/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectActivityAPI
+
+apiv2_time_validate_project_activity_name:
+  path: /api/v2/time/validation/activity-name/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: activityName
+    _api: OrangeHRM\Time\Api\ValidationProjectActivityNameAPI
+
+apiv2_time_my_time_sheets:
+  path: /api/v2/time/timesheets
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Time\Api\MyTimesheetAPI
+
+apiv2_time_my_time_sheet:
+  path: /api/v2/time/timesheets/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\MyTimesheetAPI
+
+apiv2_time_employee_time_sheets:
+  path: /api/v2/time/employees/{empNumber}/timesheets
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Time\Api\EmployeeTimesheetAPI
+
+apiv2_time_employee_time_sheet:
+  path: /api/v2/time/employees/{empNumber}/timesheets/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\EmployeeTimesheetAPI
+
+apiv2_time_default_time_sheet:
+  path: /api/v2/time/timesheets/default
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Time\Api\DefaultTimesheetAPI
+
+apiv2_time_my_timesheets_entries:
+  path: /api/v2/time/timesheets/{timesheetId}/entries
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\MyTimesheetItemAPI
+
+apiv2_time_employees_timesheets_entries:
+  path: /api/v2/time/employees/timesheets/{timesheetId}/entries
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\EmployeeTimesheetItemAPI
+
+apiv2_time_timesheet_action_log:
+  path: /api/v2/time/timesheets/{timesheetId}/action-logs
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\TimesheetActionLogAPI
+
+apiv2_time_timesheet_project_activity_unique_validation:
+  path: /api/v2/time/validation/{timesheetId}/project-activity
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: activityId
+    _api: OrangeHRM\Time\Api\TimesheetProjectActivityUniqueValidationAPI
+
+apiv2_time_my_timesheet_entries_comments:
+  path: /api/v2/time/timesheets/{timesheetId}/entries/comment
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\TimesheetCommentAPI
+
+apiv2_time_my_timesheet_entries_comment:
+  path: /api/v2/time/timesheets/{timesheetId}/entries/{id}/comment
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\TimesheetCommentAPI
+
+apiv2_time_my_timesheet_time_format_config:
+  path: /api/v2/time/config/time-format
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Time\Api\TimesheetTimeFormatAPI
+
+apiv2_time_copy_activity:
+  path: /api/v2/time/projects/{toProjectId}/activities/copy/{fromProjectId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Time\Api\CopyProjectActivityAPI
+
+apiv2_time_employee_timesheets_list:
+  path: /api/v2/time/employees/timesheets/list
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\EmployeeTimesheetListAPI
+
+apiv2_time_reports:
+  path: /api/v2/time/reports
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\TimeReportAPI
+    _key: name
+
+apiv2_time_reports_data:
+  path: /api/v2/time/reports/data
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\TimeReportDataAPI
+
+apiv2_time_project_admins:
+  path: /api/v2/time/project-admins
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectAdminAPI
+
+##########################
+#        Screens
+##########################
+
+time_module:
+  path: /time/viewTimeModule
+  controller: OrangeHRM\Time\Controller\TimeModuleController::handle
+  methods: [ GET ]
+
+view_time_sheet_config:
+  path: /time/defineTimesheetPeriod
+  controller: OrangeHRM\Time\Controller\TimesheetPeriodConfigController::handle
+  methods: [ GET ]
+
+view_customers:
+  path: /time/viewCustomers
+  controller: OrangeHRM\Time\Controller\CustomerController::handle
+  methods: [ GET ]
+
+save_customer:
+  path: /time/addCustomer
+  controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
+  methods: [ GET ]
+
+edit_customer:
+  path: /time/addCustomer/{id}
+  controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
+  methods: [ GET ]
+
+time_my_timesheet:
+  path: /time/viewMyTimesheet
+  controller: OrangeHRM\Time\Controller\MyTimesheetController::handle
+  methods: [ GET ]
+
+time_edit_timesheet:
+  path: /time/editTimesheet/{id}
+  controller: OrangeHRM\Time\Controller\EditTimesheetController::handle
+  methods: [ GET ]
+
+time_view_projects:
+  path: /time/viewProjects
+  controller: OrangeHRM\Time\Controller\ProjectController::handle
+  methods: [ GET ]
+
+time_save_project:
+  path: /time/saveProject
+  controller: OrangeHRM\Time\Controller\SaveProjectController::handle
+  methods: [ GET ]
+
+time_edit_project:
+  path: /time/saveProject/{id}
+  controller: OrangeHRM\Time\Controller\SaveProjectController::handle
+  methods: [ GET ]
+
+time_employee_timesheet:
+  path: /time/viewEmployeeTimesheet
+  controller: OrangeHRM\Time\Controller\EmployeeTimesheetController::handle
+  methods: [ GET ]
+
+time_employee_view_timesheet:
+  path: /time/viewTimesheet/employeeId/{id}
+  controller: OrangeHRM\Time\Controller\EmployeeTimesheetController::handle
+  methods: [ GET ]
+
+time_employee_report:
+  path: /time/displayEmployeeReportCriteria
+  controller: OrangeHRM\Time\Controller\EmployeeTimeReportController::handle
+  methods: [ GET ]
+
+time_project_activity_report:
+  path: /time/displayProjectReportCriteria
+  controller: OrangeHRM\Time\Controller\ProjectActivityReportController::handle
+  methods: [ GET ]
+
+time_activity_details_report:
+  path: /time/displayProjectActivityDetailsReport
+  controller: OrangeHRM\Time\Controller\ActivityDetailsReportController::handle
+  methods: [ GET ]

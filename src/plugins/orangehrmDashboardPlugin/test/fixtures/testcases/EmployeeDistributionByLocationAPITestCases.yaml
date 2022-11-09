@@ -1,0 +1,50 @@
+GetAll:
+  'Get all employee count for location - Admin User':
+    userId: 1
+    services:
+      dashboard.chart_service: \OrangeHRM\Dashboard\Service\ChartService
+    data:
+      0:
+        location:
+          id: 2
+          name: location 2
+        count: 5
+      1:
+        location:
+          id: 4
+          name: location 4
+        count: 4
+      2:
+        location:
+          id: 5
+          name: location 5
+        count: 3
+      3:
+        location:
+          id: 3
+          name: location 3
+        count: 2
+      4:
+        location:
+          id: 7
+          name: location 7
+        count: 2
+      5:
+        location:
+          id: 1
+          name: location 1
+        count: 1
+      6:
+        location:
+          id: 10
+          name: location 10
+        count: 1
+      7:
+        location:
+          id: 6
+          name: location 6
+        count: 1
+    meta:
+      otherEmployeeCount: 2
+      unassignedEmployeeCount: 4
+      totalLocationCount: 10

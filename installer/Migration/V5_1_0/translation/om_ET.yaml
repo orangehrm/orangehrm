@@ -1,0 +1,72 @@
+translations:
+    - { target: 'Madaallii Dabali', unitId: add_review, group: performance }
+    - { target: Eebila, unitId: april, group: general }
+    - { target: Hagayya, unitId: august, group: general }
+    - { target: 'Haala amma irra jiru', unitId: current_status, group: recruitment }
+    - { target: Mudde, unitId: december, group: general }
+    - { target: Balleessi, unitId: delete, group: performance }
+    - { target: Guraandhala, unitId: february, group: general }
+    - { target: Jimaata, unitId: friday, group: general }
+    - { target: 'Maqaa Hanga Akaakayyuutti', unitId: full_name, group: general }
+    - { target: Amajji, unitId: january, group: general }
+    - { target: Adoolessa, unitId: july, group: general }
+    - { target: Waxabajji, unitId: june, group: general }
+    - { target: Bitootessa, unitId: march, group: general }
+    - { target: Caamsaa, unitId: may, group: general }
+    - { target: Wixata, unitId: monday, group: general }
+    - { target: Sadaasa, unitId: november, group: general }
+    - { target: Onkoloolessa, unitId: october, group: general }
+    - { target: Sanbata, unitId: saturday, group: general }
+    - { target: Fulbaana, unitId: september, group: general }
+    - { target: Dilbata, unitId: sunday, group: general }
+    - { target: Kamisa, unitId: thursday, group: general }
+    - { target: Kibxata, unitId: tuesday, group: general }
+    - { target: Roobii, unitId: wednesday, group: general }
+    - { target: 'Sirrii Miti', unitId: invalid, group: general }
+    - { target: '.docx, .doc, .odt, .pdf, .rtf, .txt, fi hanga MB 1 tii fudhata', unitId: accept_custom_format_file, group: general }
+    - { target: Jechabeekamtuu, unitId: keywords, group: recruitment }
+    - { target: 'Ragaa Barumsaa', unitId: resume, group: recruitment }
+    - { target: Jim, unitId: fri, group: general }
+    - { target: Wix, unitId: mon, group: general }
+    - { target: San, unitId: sat, group: general }
+    - { target: Dil, unitId: sun, group: general }
+    - { target: Kam, unitId: thu, group: general }
+    - { target: Kib, unitId: tue, group: general }
+    - { target: Rob, unitId: wed, group: general }
+    - { target: 'Inni Guddaan', unitId: max, group: performance }
+    - { target: 'Inni Xiqqaan', unitId: min, group: performance }
+    - { target: 'Ka''aa', unitId: active, group: general }
+    - { target: 'Dorgomaa Dabali', unitId: add_candidate, group: recruitment }
+    - { target: 'Iyyatni Kan Onnatame', unitId: application_initiated, group: recruitment }
+    - { target: Dorgomaa, unitId: candidate, group: recruitment }
+    - { target: 'Maqaa Dorgomaa', unitId: candidate_name, group: recruitment }
+    - { target: Cufameera, unitId: closed, group: general }
+    - { target: 'Guyyaa Itti Iyyate', unitId: date_of_application, group: recruitment }
+    - { target: 'Affeerraa Dhiisi', unitId: decline_offer, group: recruitment }
+    - { target: Qaxari, unitId: hire, group: recruitment }
+    - { target: Qaxarameere, unitId: hired, group: recruitment }
+    - { target: 'Hogganaan Qaxaru', unitId: hiring_manager, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Kufe', unitId: interview_failed, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Darbe', unitId: interview_passed, group: recruitment }
+    - { target: 'Gaaffiifi Deebiin Saganteeffameera', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Mata-Duree Gaaffifi Deebii', unitId: interview_title, group: recruitment }
+    - { target: 'Hojiif Affeerameera', unitId: job_offered, group: recruitment }
+    - { target: 'Iddoo Hojii banaa', unitId: job_vacancy, group: recruitment }
+    - { target: Maanuwaalii, unitId: manual, group: recruitment }
+    - { target: 'Akka Gaaffifi Deebi Kufetti Mallattoo agarsiisi', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Akka Gaaffifi Deebi Darbetti Mallattoo agarsiisi', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Akkaata Iyyannoo', unitId: method_of_application, group: recruitment }
+    - { target: 'Baay''ina Gita Hojii', unitId: num_of_positions, group: recruitment }
+    - { target: 'Affeerraan Dhiifameera', unitId: offer_declined, group: recruitment }
+    - { target: Sarararra, unitId: online, group: recruitment }
+    - { target: 'Gocha Raawwatame', unitId: performed_action, group: recruitment }
+    - { target: 'Guyyaa Raawwatame', unitId: performed_date, group: recruitment }
+    - { target: 'URL Qabiyyee RSS', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Gaaffiifi Deebii Saganteeffame', unitId: schedule_interview, group: recruitment }
+    - { target: Calallii, unitId: shortlist, group: recruitment }
+    - { target: Calalameera, unitId: shortlisted, group: recruitment }
+    - { target: 'Iddoo Hojii Banaa', unitId: vacancy, group: recruitment }
+    - { target: 'Maqaa Iddoo Hojii Banaa', unitId: vacancy_name, group: recruitment }
+    - { target: 'Ta''iiwwan Seenaa Mul''isi', unitId: view_action_history, group: recruitment }
+    - { target: 'URL Fuula Saphaphuu', unitId: web_page_url, group: recruitment }
+    - { target: 'Iyyatni Fudhatameera', unitId: application_received, group: recruitment }

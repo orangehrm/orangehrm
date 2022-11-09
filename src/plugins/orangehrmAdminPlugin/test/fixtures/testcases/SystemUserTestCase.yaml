@@ -1,0 +1,25 @@
+GetOne:
+  'get flag by user name':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    attributes: [ ]
+    body: [ ]
+    query:
+      userName: 'samantha'
+    data:
+      valid: false
+    meta: [ ]
+
+  'get flag by user name (non exist)':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    attributes: [ ]
+    body: [ ]
+    query:
+      userName: 'covid'
+      userId: 1
+    data:
+      valid: true
+    meta: [ ]

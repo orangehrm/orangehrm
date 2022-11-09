@@ -1,0 +1,189 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Subunit:
+  - {"id": 1,"name": "Organization","unit_id": "","description": "","lft": 1,"rgt": 10,"level": 0}
+  - {"id": 2,"name": "Development","unit_id": "2","description": "","lft": 2,"rgt": 5,"level": 1}
+  - {"id": 3,"name": "Open Source","unit_id": "3","description": "","lft": 3,"rgt": 4,"level": 2}
+  - {"id": 4,"name": "QA","unit_id": "4","description": "","lft": 6,"rgt": 9,"level": 1}
+  - {"id": 5,"name": "Enterprise","unit_id": "4","description": "","lft": 7,"rgt": 8,"level": 2}
+
+JobTitle:
+  - {"id": 1,"job_title": "Software Engineer","job_description": "","note": "","is_deleted": 0}
+  - {"id": 2,"job_title": "Senior Software Engineer","job_description": "","note": "","is_deleted": 0}
+  - {"id": 3,"job_title": "QA","job_description": "","note": "","is_deleted": 0}
+  - {"id": 4,"job_title": "Senior QA","job_description": "","note": "","is_deleted": 0}
+  - {"id": 5,"job_title": "BA","job_description": "","note": "","is_deleted": 0}
+
+TerminationReason:
+  - {"id": 1,"name": "Other"}
+
+EmployeeTerminationRecord:
+  - {"id": 1,"reason_id": 1,"termination_date": "2022-05-12","note": ""}
+  - {"id": 2,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
+  - {"id": 3,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
+  - {"id": 4,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
+  - {"id": 5,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
+
+Employee:
+  - {"emp_number": 1,"employee_id": "0001","emp_lastname": "Admin","emp_firstname": "Devi","emp_middle_name": "","job_title_code": null,"work_station": 1,"termination_id": null,"purged_at": null}
+  - {"emp_number": 2,"employee_id": "0002","emp_lastname": "Park","emp_firstname": "Jaesang","emp_middle_name": "","job_title_code": 4,"work_station": 4,"termination_id": null,"purged_at": null}
+  - {"emp_number": 3,"employee_id": "0003","emp_lastname": "Choi","emp_firstname": "Seungcheol","emp_middle_name": "","job_title_code": 2,"work_station": 2,"termination_id": null,"purged_at": null}
+  - {"emp_number": 4,"employee_id": "0004","emp_lastname": "Yoon","emp_firstname": "Jeonghan","emp_middle_name": "","job_title_code": 3,"work_station": 3,"termination_id": null,"purged_at": null}
+  - {"emp_number": 5,"employee_id": "0005","emp_lastname": "Lee","emp_firstname": "Chan","emp_middle_name": "","job_title_code": 1,"work_station": 3,"termination_id": null,"purged_at": null}
+  - {"emp_number": 6,"employee_id": "0006","emp_lastname": "Park","emp_firstname": "Jihoon","emp_middle_name": "","job_title_code": 1,"work_station": 5,"termination_id": null,"purged_at": null}
+  - {"emp_number": 7,"employee_id": "0007","emp_lastname": "Chew","emp_firstname": "Hansol","emp_middle_name": "","job_title_code": 1,"work_station": 5,"termination_id": null,"purged_at": null}
+  - {"emp_number": 8,"employee_id": "0008","emp_lastname": "Jang","emp_firstname": "Dahye","emp_middle_name": "","job_title_code": 3,"work_station": 3,"termination_id": null,"purged_at": null}
+  - {"emp_number": 9,"employee_id": "0009","emp_lastname": "Kim","emp_firstname": "Hyuna","emp_middle_name": "","job_title_code": 3,"work_station": 5,"termination_id": null,"purged_at": null}
+  - {"emp_number": 10,"employee_id": "0014","emp_lastname": "Test","emp_firstname": "Test","emp_middle_name": "","job_title_code": 1,"work_station": 5,"termination_id": 1,"purged_at": null}
+  - {"emp_number": 11,"employee_id": "0018","emp_lastname": "Wayne","emp_firstname": "Bruce","emp_middle_name": "","job_title_code": 2,"work_station": null,"termination_id": 4,"purged_at": null}
+  - {"emp_number": 12,"employee_id": "0019","emp_lastname": "Kent","emp_firstname": "Clark","emp_middle_name": "","job_title_code": 1,"work_station": null,"termination_id": 5,"purged_at": null}
+  - {"emp_number": 13,"employee_id": "0020","emp_lastname": "Employee","emp_firstname": "Purged","emp_middle_name": "","job_title_code": null,"work_station": null,"termination_id": 3,"purged_at": "2022-05-18 15:15:17"}
+  - {"emp_number": 14,"employee_id": "0021","emp_lastname": "Employee","emp_firstname": "Purged","emp_middle_name": "","job_title_code": null,"work_station": null,"termination_id": 2,"purged_at": "2022-05-18 15:13:35"}
+  - {"emp_number": 15,"employee_id": "0023","emp_lastname": "Sharuka","emp_firstname": "Perera","emp_middle_name": "Anuka","job_title_code": 5,"work_station": null,"termination_id": null,"purged_at": null}
+  - {"emp_number": 16,"employee_id": "0024","emp_lastname": "John","emp_firstname": "Richard","emp_middle_name": "Tudor","job_title_code": null,"work_station": null,"termination_id": null,"purged_at": null}
+
+UserRole:
+  - {"id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1}
+  - {"id": 2,"name": "ESS","display_name": "ESS","is_assignable": 1,"is_predefined": 1}
+  - {"id": 3,"name": "Supervisor","display_name": "Supervisor","is_assignable": 0,"is_predefined": 1}
+
+User:
+  - {"id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","user_password": "$2y$12$L6f2OlniaHiZfRoh/HYkCuVGyLLmpQHDDPWGYEAjxtQNX86u59C5y","deleted": 0,"status": 1,"date_entered": null,"date_modified": null,"modified_user_id": null,"created_by": null}
+  - {"id": 2,"user_role_id": 2,"emp_number": 2,"user_name": "psycho","user_password": "$2y$12$ZycUQ/B39Xe6C6sfD.vuh.N4HV8M5vB3OomxHaJUBjYLd8xvVs7u6","deleted": 0,"status": 1,"date_entered": "2022-05-12 15:52:28","date_modified": "2022-05-12 19:56:02","modified_user_id": 1,"created_by": 1}
+  - {"id": 3,"user_role_id": 2,"emp_number": 6,"user_name": "woozi","user_password": "$2y$12$FCBTsL4S6ZelyVG/dOna9.hEWCj3MxH.10M74q67fuZuHqme4XljC","deleted": 0,"status": 1,"date_entered": "2022-05-12 15:52:49","date_modified": null,"modified_user_id": null,"created_by": 1}
+  - {"id": 4,"user_role_id": 2,"emp_number": 3,"user_name": "scoups","user_password": "$2y$12$M9435QU8kzJM0RVYo1pkrurLIUfjtRDKHnKTYqLg4fGhwGzEKVLzi","deleted": 0,"status": 1,"date_entered": "2022-05-12 19:55:44","date_modified": null,"modified_user_id": null,"created_by": 1}
+
+Kpi:
+  - {"id": 1,"job_title_code": 1,"kpi_indicators": "Velocity","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 2,"job_title_code": 1,"kpi_indicators": "Code Coverage","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 3,"job_title_code": 1,"kpi_indicators": "Code Stability","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 4,"job_title_code": 2,"kpi_indicators": "A","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 5,"job_title_code": 3,"kpi_indicators": "B","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 6,"job_title_code": 4,"kpi_indicators": "C","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+
+PerformanceReview:
+  - {"id": 1,"status_id": 3,"employee_number": 10,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 1,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-12 19:55:11","final_comment": null,"final_rate": null}
+  - {"id": 2,"status_id": 3,"employee_number": 6,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 1,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-12 19:59:09","final_comment": null,"final_rate": null}
+  - {"id": 3,"status_id": 2,"employee_number": 7,"work_period_start": "2022-04-01","work_period_end": "2022-04-30","job_title_code": 1,"department_id": 5,"due_date": "2022-04-30","completed_date": null,"activated_date": "2022-05-12 19:59:39","final_comment": null,"final_rate": null}
+  - {"id": 4,"status_id": 3,"employee_number": 8,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 3,"department_id": 3,"due_date": "2022-06-30","completed_date": null,"activated_date": "2022-05-12 19:59:56","final_comment": null,"final_rate": null}
+  - {"id": 5,"status_id": 2,"employee_number": 9,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 3,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-12 20:00:10","final_comment": null,"final_rate": null}
+  - {"id": 6,"status_id": 2,"employee_number": 3,"work_period_start": "2022-07-01","work_period_end": "2022-07-31","job_title_code": 2,"department_id": 2,"due_date": "2022-07-31","completed_date": null,"activated_date": "2022-05-12 20:00:32","final_comment": null,"final_rate": null}
+  - {"id": 7,"status_id": 2,"employee_number": 2,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-06-30","completed_date": null,"activated_date": "2022-05-12 20:00:54","final_comment": null,"final_rate": null}
+  - {"id": 8,"status_id": 1,"employee_number": 3,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 2,"department_id": 2,"due_date": "2022-05-31","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
+  - {"id": 9,"status_id": 1,"employee_number": 6,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 1,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
+  - {"id": 10,"status_id": 4,"employee_number": 6,"work_period_start": "2022-04-01","work_period_end": "2022-04-30","job_title_code": 1,"department_id": 5,"due_date": "2022-04-30","completed_date": "2022-05-13","activated_date": "2022-05-13 20:36:51","final_comment": "Final","final_rate": 100.00}
+  - {"id": 11,"status_id": 2,"employee_number": 6,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 1,"department_id": 5,"due_date": "2022-06-30","completed_date": null,"activated_date": "2022-05-13 20:38:12","final_comment": null,"final_rate": null}
+  - {"id": 12,"status_id": 4,"employee_number": 7,"work_period_start": "2022-03-01","work_period_end": "2022-03-31","job_title_code": 1,"department_id": 5,"due_date": "2022-03-31","completed_date": "2022-05-31","activated_date": "2022-05-13 20:38:45","final_comment": "final","final_rate": 100.00}
+  - {"id": 13,"status_id": 3,"employee_number": 7,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 1,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-13 20:39:19","final_comment": null,"final_rate": null}
+  - {"id": 14,"status_id": 1,"employee_number": 7,"work_period_start": "2022-07-01","work_period_end": "2022-07-31","job_title_code": 1,"department_id": 5,"due_date": "2022-07-31","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
+  - {"id": 15,"status_id": 4,"employee_number": 4,"work_period_start": "2022-01-01","work_period_end": "2022-01-01","job_title_code": 1,"department_id": 3,"due_date": "2022-01-31","completed_date": "2022-01-31","activated_date": "2022-05-13 20:40:48","final_comment": "final","final_rate": 100.00}
+  - {"id": 16,"status_id": 1,"employee_number": 4,"work_period_start": "2022-02-01","work_period_end": "2022-02-28","job_title_code": 1,"department_id": 3,"due_date": "2022-02-28","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
+  - {"id": 17,"status_id": 3,"employee_number": 4,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 1,"department_id": 3,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-13 20:41:40","final_comment": null,"final_rate": null}
+  - {"id": 18,"status_id": 2,"employee_number": 4,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 1,"department_id": 3,"due_date": "2022-06-30","completed_date": null,"activated_date": "2022-05-13 20:42:16","final_comment": null,"final_rate": null}
+  - {"id": 20,"status_id": 3,"employee_number": 5,"work_period_start": "2022-04-01","work_period_end": "2022-04-30","job_title_code": 1,"department_id": 3,"due_date": "2022-04-30","completed_date": null,"activated_date": "2022-05-13 20:43:10","final_comment": null,"final_rate": null}
+  - {"id": 21,"status_id": 4,"employee_number": 5,"work_period_start": "2022-03-01","work_period_end": "2022-03-31","job_title_code": 1,"department_id": 3,"due_date": "2022-03-31","completed_date": "2022-03-31","activated_date": "2022-05-13 20:43:39","final_comment": "final","final_rate": 100.00}
+  - {"id": 22,"status_id": 4,"employee_number": 3,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 2,"department_id": 2,"due_date": "2022-06-30","completed_date": "2022-06-30","activated_date": "2022-05-13 20:44:38","final_comment": "final","final_rate": 100.00}
+  - {"id": 23,"status_id": 3,"employee_number": 3,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 2,"department_id": 2,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-13 20:45:30","final_comment": null,"final_rate": null}
+  - {"id": 24,"status_id": 3,"employee_number": 2,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 4,"department_id": 4,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-13 20:46:04","final_comment": null,"final_rate": null}
+  - {"id": 25,"status_id": 4,"employee_number": 2,"work_period_start": "2022-04-01","work_period_end": "2022-04-30","job_title_code": 4,"department_id": 4,"due_date": "2022-04-30","completed_date": "2022-04-30","activated_date": "2022-05-13 20:46:37","final_comment": "final","final_rate": 100.00}
+  - {"id": 26,"status_id": 1,"employee_number": 5,"work_period_start": "2021-05-01","work_period_end": "2021-05-31","job_title_code": 1,"department_id": 3,"due_date": "2021-05-31","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
+  - {"id": 27,"status_id": 2,"employee_number": 4,"work_period_start": "2021-04-01","work_period_end": "2021-04-30","job_title_code": 3,"department_id": 3,"due_date": "2021-04-30","completed_date": null,"activated_date": "2022-05-17 18:13:42","final_comment": null,"final_rate": null}
+  - {"id": 28,"status_id": 2,"employee_number": 8,"work_period_start": "2021-03-01","work_period_end": "2021-03-31","job_title_code": 3,"department_id": 3,"due_date": "2021-03-31","completed_date": null,"activated_date": "2022-05-17 18:14:01","final_comment": null,"final_rate": null}
+  - {"id": 29,"status_id": 2,"employee_number": 3,"work_period_start": "2020-01-01","work_period_end": "2020-01-31","job_title_code": 2,"department_id": 2,"due_date": "2020-01-31","completed_date": null,"activated_date": "2022-05-17 18:14:24","final_comment": null,"final_rate": null}
+  - {"id": 30,"status_id": 1,"employee_number": 12,"work_period_start": "2022-04-01","work_period_end": "2022-04-30","job_title_code": null,"department_id": null,"due_date": "2022-04-30","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
+  - {"id": 31,"status_id": 2,"employee_number": 12,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 1,"department_id": null,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-18 15:10:04","final_comment": null,"final_rate": null}
+  - {"id": 32,"status_id": 2,"employee_number": 3,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 2,"department_id": 2,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-18 15:10:23","final_comment": null,"final_rate": null}
+  - {"id": 33,"status_id": 2,"employee_number": 13,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 3,"department_id": null,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-18 15:11:36","final_comment": "","final_rate": null}
+  - {"id": 34,"status_id": 2,"employee_number": 13,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 3,"department_id": null,"due_date": "2022-06-30","completed_date": null,"activated_date": "2022-05-18 15:11:52","final_comment": "","final_rate": null}
+  - {"id": 35,"status_id": 2,"employee_number": 2,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 4,"department_id": 4,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-18 15:12:14","final_comment": null,"final_rate": null}
+  - {"id": 36,"status_id": 2,"employee_number": 2,"work_period_start": "2022-04-01","work_period_end": "2022-04-30","job_title_code": 4,"department_id": 4,"due_date": "2022-04-30","completed_date": null,"activated_date": "2022-05-18 15:12:36","final_comment": null,"final_rate": null}
+
+ReviewerGroup:
+  - {"id": 1,"name": "Supervisor","piority": 1}
+  - {"id": 2,"name": "Employee","piority": 2}
+
+Reviewer:
+  - {"id": 1,"review_id": 1,"employee_number": 10,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 2,"review_id": 1,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 3,"review_id": 2,"employee_number": 6,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 4,"review_id": 2,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 5,"review_id": 3,"employee_number": 7,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 6,"review_id": 3,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 7,"review_id": 4,"employee_number": 8,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 8,"review_id": 4,"employee_number": 2,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 9,"review_id": 5,"employee_number": 9,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 10,"review_id": 5,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 11,"review_id": 6,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 12,"review_id": 6,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 13,"review_id": 7,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 14,"review_id": 7,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 15,"review_id": 8,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 16,"review_id": 8,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 17,"review_id": 9,"employee_number": 6,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 18,"review_id": 9,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 19,"review_id": 10,"employee_number": 6,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-05-13 20:37:16","comment": null}
+  - {"id": 20,"review_id": 10,"employee_number": 3,"status": 3,"reviewer_group_id": 1,"completed_date": "2022-05-13 20:37:16","comment": ""}
+  - {"id": 21,"review_id": 11,"employee_number": 6,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 22,"review_id": 11,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 23,"review_id": 12,"employee_number": 7,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-05-13 20:38:58","comment": null}
+  - {"id": 24,"review_id": 12,"employee_number": 3,"status": 3,"reviewer_group_id": 1,"completed_date": "2022-05-13 20:38:58","comment": ""}
+  - {"id": 25,"review_id": 13,"employee_number": 7,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 26,"review_id": 13,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 27,"review_id": 14,"employee_number": 7,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 28,"review_id": 14,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 29,"review_id": 15,"employee_number": 4,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-05-13 20:41:01","comment": null}
+  - {"id": 30,"review_id": 15,"employee_number": 3,"status": 3,"reviewer_group_id": 1,"completed_date": "2022-05-13 20:41:01","comment": ""}
+  - {"id": 31,"review_id": 16,"employee_number": 4,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 32,"review_id": 16,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 33,"review_id": 17,"employee_number": 4,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 34,"review_id": 17,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 35,"review_id": 18,"employee_number": 4,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 36,"review_id": 18,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 39,"review_id": 20,"employee_number": 5,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 40,"review_id": 20,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 41,"review_id": 21,"employee_number": 5,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-05-13 20:43:52","comment": null}
+  - {"id": 42,"review_id": 21,"employee_number": 3,"status": 3,"reviewer_group_id": 1,"completed_date": "2022-05-13 20:43:52","comment": ""}
+  - {"id": 43,"review_id": 22,"employee_number": 3,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-05-13 20:44:57","comment": null}
+  - {"id": 44,"review_id": 22,"employee_number": 1,"status": 3,"reviewer_group_id": 1,"completed_date": "2022-05-13 20:44:57","comment": ""}
+  - {"id": 45,"review_id": 23,"employee_number": 3,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-05-17 21:50:13","comment": ""}
+  - {"id": 46,"review_id": 23,"employee_number": 1,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 47,"review_id": 24,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 48,"review_id": 24,"employee_number": 1,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 49,"review_id": 25,"employee_number": 2,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-05-13 20:46:56","comment": null}
+  - {"id": 50,"review_id": 25,"employee_number": 1,"status": 3,"reviewer_group_id": 1,"completed_date": "2022-05-13 20:46:56","comment": ""}
+  - {"id": 51,"review_id": 26,"employee_number": 5,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 52,"review_id": 26,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 53,"review_id": 27,"employee_number": 4,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 54,"review_id": 27,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 55,"review_id": 28,"employee_number": 8,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 56,"review_id": 28,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 57,"review_id": 29,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 58,"review_id": 29,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 59,"review_id": 30,"employee_number": 12,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 60,"review_id": 30,"employee_number": 11,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 61,"review_id": 31,"employee_number": 12,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 62,"review_id": 31,"employee_number": 11,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 63,"review_id": 32,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 64,"review_id": 32,"employee_number": 11,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 65,"review_id": 33,"employee_number": 13,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
+  - {"id": 66,"review_id": 33,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 67,"review_id": 34,"employee_number": 13,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
+  - {"id": 68,"review_id": 34,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 69,"review_id": 35,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 70,"review_id": 35,"employee_number": 14,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 71,"review_id": 36,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 72,"review_id": 36,"employee_number": 14,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+
+ReportingMethod:
+  0: {id: 1, name: 'Indirect'}
+  1: {id: 2, name: 'Direct'}
+  2: {id: 3, name: 'HR'}
+
+ReportTo:
+  0: { erep_sup_emp_number: 2, erep_sub_emp_number: 7, erep_reporting_mode: 1}
+  1: { erep_sup_emp_number: 1, erep_sub_emp_number: 3, erep_reporting_mode: 1}
+  2: { erep_sup_emp_number: 1, erep_sub_emp_number: 4, erep_reporting_mode: 2}
+  3: { erep_sup_emp_number: 2, erep_sub_emp_number: 5, erep_reporting_mode: 1}
+  4: { erep_sup_emp_number: 4, erep_sub_emp_number: 5, erep_reporting_mode: 2}
+  5: { erep_sup_emp_number: 2, erep_sub_emp_number: 16, erep_reporting_mode: 2}

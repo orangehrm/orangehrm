@@ -1,6 +1,0 @@
-api_wscall:
-    url: /apiv0/wsCall/:ws_method/*
-    param: { module:apiv0, action:wsCall }
-api_index:
-    url: /apiv0/:ws_method/*
-    param: { module:apiv0, action:wsCall }

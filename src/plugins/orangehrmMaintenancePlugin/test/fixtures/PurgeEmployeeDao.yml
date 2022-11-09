@@ -1,0 +1,108 @@
+Subunit:
+  - { id: 1, name: 'Organization', description: 'company description', lft: 1, rgt: 14, level: 0 }
+  - { id: 2, name: 'Sales', description: 'department description', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'Engineering', description: 'sub department description', lft: 6, rgt: 7, level: 1 }
+  - { id: 4, name: 'Marketing', description: 'sub department description', lft: 8, rgt: 9, level: 1 }
+  - { id: 5, name: 'Executive', description: 'sub department description', lft: 10, rgt: 13, level: 1 }
+  - { id: 6, name: 'Sub Executive', description: 'sub department description', lft: 11, rgt: 12, level: 2 }
+  - { id: 7, name: 'Sales Executive', description: 'sub department description', lft: 3, rgt: 4, level: 2 }
+
+JobTitle:
+  - { id: 1, job_title: 'Software Engineer', job_description: 'Enterprise Software Developer', note: 'Software Developer Note', is_deleted: 0 }
+  - { id: 2, job_title: 'Quality Assurance Engineer', job_description: 'Enterprise Quality Assurance Engineer', note: 'Quality Assurance Engineer Note', is_deleted: 0 }
+
+JobCategory:
+  - { id: 1, name: "Officials and Managers" }
+
+Nationality:
+  - { "id": 167, "name": "Sri Lanka" }
+
+EmploymentStatus:
+  - { "id": 1, "name": "Permanent" }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "2","name": "Retired" }
+  - { "id": "3","name": "Contract Not Renewed" }
+  - { "id": "4","name": "Resigned - Company Requested" }
+  - { "id": "5","name": "Resigned - Self Proposed" }
+  - { "id": "6","name": "Resigned" }
+  - { "id": "7","name": "Deceased" }
+  - { "id": "8","name": "Physically Disabled/Compensated" }
+  - { "id": "9","name": "Laid-off" }
+  - { "id": "10","name": "Dismissed" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "6", "termination_date": "2021-09-15", "note": "" }
+  - { "id": "2", "reason_id": "4", "termination_date": "2022-02-14", "note": "" }
+  - { "id": "3", "reason_id": "2", "termination_date": "2022-02-14", "note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Alwin","emp_firstname": "Odis","emp_middle_name": "Heath", "emp_nick_name": "Odie", "emp_smoker": 1, "ethnic_race_code": "race code", "emp_birthday": "2022-02-28", "nation_code": 167, "emp_gender": 1, "emp_marital_status": "Single", "emp_ssn_num": 123,"emp_sin_num": 1234, "emp_other_id": 12345, "emp_dri_lice_num": 123,"emp_dri_lice_exp_date": "2022-02-16","emp_military_service": "Yes","emp_status": 1,"job_title_code": 1,"eeo_cat_code": 1,"work_station": 1,"emp_street1": "Street 1", "emp_street2": "Street 2", "city_code": "City","coun_code": "LK", "provin_code": "State","emp_zipcode": "12345","emp_hm_telephone": "123", "emp_mobile": "1234","emp_work_telephone": "07777","emp_work_email": "work@email.com","joined_date": "2022-02-01","emp_oth_email": "other@email.com", "termination_id": "2", "custom1": "Custom 1" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane", "emp_nick_name": "Odie", "emp_smoker": 1, "ethnic_race_code": "race code", "emp_birthday": "2022-02-28", "nation_code": 167, "emp_gender": 1, "emp_marital_status": "Single", "emp_ssn_num": 123,"emp_sin_num": 1234, "emp_other_id": 12345, "emp_dri_lice_num": 123,"emp_dri_lice_exp_date": "2022-02-16","emp_military_service": "Yes","emp_status": 1,"job_title_code": 1,"eeo_cat_code": 1,"work_station": 1,"emp_street1": "Street 1", "emp_street2": "Street 2", "city_code": "City","coun_code": "LK", "provin_code": "State","emp_zipcode": "12345","emp_hm_telephone": "123", "emp_mobile": "1234","emp_work_telephone": "07777","emp_work_email": "work@email.com","joined_date": "2022-02-01","emp_oth_email": "other@email.com", "termination_id": "3", "custom2": "Custom 2" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
+
+EmpPicture:
+  - { emp_number: 1, epic_picture: 'test blob 1', epic_filename: 'profile.jpeg',  epic_type: 'image/jpeg', epic_file_size: '20692', epic_file_width: '200', epic_file_height: '200' }
+  - { emp_number: 2, epic_picture: 'test blob 2', epic_filename: 'profile2.jpeg',  epic_type: 'image/jpeg', epic_file_size: '20692', epic_file_width: '200', epic_file_height: '200' }
+
+EmpUsTaxExemption:
+  - { emp_number: 1, federalStatus: 'Single', federalExemptions: 2, state: 'AK', stateStatus: 'Single', stateExemptions: 1, unemploymentState: 'AK', workState: 'AK' }
+  - { emp_number: 2, federalStatus: 'Married', federalExemptions: 2, state: 'DC', stateStatus: 'Married', stateExemptions: 1, unemploymentState: 'DC', workState: 'DC' }
+
+PayGrade:
+  - { id: 1, name: 'Salary Grade A' }
+  - { id: 2, name: 'Salary Grade B' }
+
+CurrencyType:
+  - { "code": "85","currency_id": "LKR","currency_name": "Sri Lanka Rupee" }
+  - { "code": "131","currency_id": "SGD","currency_name": "Singapore Dollar" }
+  - { "code": "151","currency_id": "USD","currency_name": "United States Dollar" }
+
+PayGradeCurrency:
+  - { pay_grade_id: 1, currency_id: 'LKR', min_salary: '20000', max_salary: '3000000' }
+  - { pay_grade_id: 1, currency_id: 'USD', min_salary: '2000', max_salary: '30000' }
+  - { pay_grade_id: 2, currency_id: 'SGD', min_salary: '2000', max_salary: '30000' }
+
+EmployeeSalary:
+  - { id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', amount: '10000.00', salaryName: 'Main Salary' }
+  - { id: 2, emp_number: 1, sal_grd_code: 2, currency_id: 'USD', amount: '20000.00', salaryName: 'Allowance' }
+  - { id: 3, emp_number: 2, sal_grd_code: 2, currency_id: 'USD', amount: '15000.00', salaryName: 'Salary' }
+
+EmpDirectDebit:
+  - { "id": 1, "salary_id": 1, "dd_routing_num": "1111", "dd_account": "11111111", "dd_amount": "1000.00", "dd_account_type": "SAVINGS", "dd_transaction_type": "" }
+  - { "id": 2, "salary_id": 2, "dd_routing_num": "2222", "dd_account": "22222222", "dd_amount": "2000.00", "dd_account_type": "SAVINGS", "dd_transaction_type": "" }
+  - { "id": 3, "salary_id": 3, "dd_routing_num": "3333", "dd_account": "33333333", "dd_amount": "3000.00", "dd_account_type": "SAVINGS", "dd_transaction_type": "" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
+  - { id: 2, user_role_id: 3, emp_number: 1, user_name: 'yashika', user_password: 'yashika' }
+  - { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
+  - { id: 4, user_role_id: 2, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
+
+LeaveType:
+  - { id: 1, name: 'Casual', deleted: 0 }
+  - { id: 2, name: 'Medical', deleted: 0 }
+  - { id: 3, name: 'Company', deleted: 1 }
+  - { id: 4, name: 'Annual', deleted: 0 }
+
+LeaveRequest:
+  - { id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1 }
+  - { id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1 }
+  - { id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 3 }
+  - { id: 4, leave_type_id: 1, date_applied: '2010-08-04', emp_number: 3 }
+  - { id: 5, leave_type_id: 2, date_applied: '2010-08-05', emp_number: 4 }
+
+LeaveRequestComment:
+  - { id: 1, leave_request_id: 1, created: '2010-08-29 04:55:00', created_by_id: 3,created_by_emp_number: 3, comments: 'employee 3 comment on emp 1 leave request' }
+  - { id: 2, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 3,created_by_emp_number: 3, comments: 'employee 3 comment on emp 1 leave request' }
+  - { id: 3, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 4,created_by_emp_number: 4, comments: 'employee 4 comment on emp 1 leave request' }
+  - { id: 4, leave_request_id: 3, created: '2010-08-30 18:55:00', created_by_id: 4,created_by_emp_number: 4, comments: 'employee 4 comment on emp 3 leave request' }

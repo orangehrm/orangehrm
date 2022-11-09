@@ -1,0 +1,494 @@
+Update:
+  'save final evaluation for inactive review':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 8
+    body:
+      complete: false
+      finalRating: 25.5
+      finalComment: "Final comment"
+      completedDate: "2022-06-09"
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'save final evaluation for completed review':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 12
+    body:
+      complete: false
+      finalRating: 25.5
+      finalComment: "Final comment"
+      completedDate: "2022-06-09"
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'save final evaluation for non existent review':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1000
+    body:
+      complete: false
+      finalRating: 25.5
+      finalComment: "Final comment"
+      completedDate: "2022-06-09"
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException
+      message: 'Record Not Found'
+
+  'admin - save final evaluation for active review without details':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 18
+    body:
+      complete: false
+    data:
+      id: 18
+      jobTitle:
+        id: 1
+        name: "Software Engineer"
+        deleted: false
+      subunit:
+        id: 3
+        name: "Open Source"
+      reviewPeriodStart: "2022-06-01"
+      reviewPeriodEnd: "2022-06-30"
+      dueDate: "2022-06-30"
+      overallStatus:
+        statusId: 3
+        statusName: "In Progress"
+      finalRating: null
+      finalComment: null
+      completedDate: null
+
+  'admin - save final evaluation for active review with details':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 18
+    body:
+      complete: false
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+    data:
+      id: 18
+      jobTitle:
+        id: 1
+        name: "Software Engineer"
+        deleted: false
+      subunit:
+        id: 3
+        name: "Open Source"
+      reviewPeriodStart: "2022-06-01"
+      reviewPeriodEnd: "2022-06-30"
+      dueDate: "2022-06-30"
+      overallStatus:
+        statusId: 3
+        statusName: "In Progress"
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+
+  'admin - complete final evaluation for active review without details':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 18
+    body:
+      complete: true
+    invalidOnly: ['finalRating', 'finalComment', 'completedDate']
+
+  'admin - complete final evaluation for active review with details':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 18
+    body:
+      complete: true
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+    data:
+      id: 18
+      jobTitle:
+        id: 1
+        name: "Software Engineer"
+        deleted: false
+      subunit:
+        id: 3
+        name: "Open Source"
+      reviewPeriodStart: "2022-06-01"
+      reviewPeriodEnd: "2022-06-30"
+      dueDate: "2022-06-30"
+      overallStatus:
+        statusId: 4
+        statusName: "Completed"
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+
+  'admin - save final evaluation for in progress review with details':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 17
+    body:
+      complete: false
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+    data:
+      id: 17
+      jobTitle:
+        id: 1
+        name: "Software Engineer"
+        deleted: false
+      subunit:
+        id: 3
+        name: "Open Source"
+      reviewPeriodStart: "2022-05-01"
+      reviewPeriodEnd: "2022-05-31"
+      dueDate: "2022-05-31"
+      overallStatus:
+        statusId: 3
+        statusName: "In Progress"
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+
+  'supervisor - save final evaluation for non assigned review':
+    userId: 2
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 2
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'supervisor - save final evaluation for subordinate review':
+    userId: 4
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 13
+    body:
+      complete: false
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+    data:
+      id: 13
+      jobTitle:
+        id: 1
+        name: "Software Engineer"
+        deleted: false
+      subunit:
+        id: 5
+        name: "Enterprise"
+      reviewPeriodStart: "2022-05-01"
+      reviewPeriodEnd: "2022-05-31"
+      dueDate: "2022-05-31"
+      overallStatus:
+        statusId: 3
+        statusName: "In Progress"
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+
+  'ess - update final evaluation for own review':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 11
+    body:
+      complete: false
+      finalRating: 32.4
+      finalComment: "This is the final comment"
+      completedDate: "2022-06-09"
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+GetOne:
+  'admin - get final evaluation for inactive review':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 8
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+
+  'admin - get final evaluation for active review':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 7
+    data:
+      id: 7
+      jobTitle:
+        id: 4
+        name: "Senior QA"
+        deleted: false
+      subunit:
+        id: 4
+        name: "QA"
+      reviewPeriodStart: "2022-06-01"
+      reviewPeriodEnd: "2022-06-30"
+      dueDate: "2022-06-30"
+      overallStatus:
+        statusId: 2
+        statusName: "Activated"
+      finalRating: null
+      finalComment: null
+      completedDate: null
+
+  'admin - get final evaluation for in progress review':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 29
+    data:
+      id: 29
+      jobTitle:
+        id: 2
+        name: "Senior Software Engineer"
+        deleted: false
+      subunit:
+        id: 2
+        name: "Development"
+      reviewPeriodStart: "2020-01-01"
+      reviewPeriodEnd: "2020-01-31"
+      dueDate: "2020-01-31"
+      overallStatus:
+        statusId: 3
+        statusName: "In Progress"
+      finalRating: null
+      finalComment: null
+      completedDate: null
+
+  'admin - get final evaluation for completed review':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 25
+    data:
+      id: 25
+      jobTitle:
+        id: 4
+        name: "Senior QA"
+        deleted: false
+      subunit:
+        id: 4
+        name: "QA"
+      reviewPeriodStart: "2022-04-01"
+      reviewPeriodEnd: "2022-04-30"
+      dueDate: "2022-04-30"
+      overallStatus:
+        statusId: 4
+        statusName: "Completed"
+      finalRating: 100
+      finalComment: "final"
+      completedDate: "2022-04-30"
+
+  'supervisor - get final evaluation for assigned review':
+    userId: 4
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 13
+    data:
+      id: 13
+      jobTitle:
+        id: 1
+        name: "Software Engineer"
+        deleted: false
+      subunit:
+        id: 5
+        name: "Enterprise"
+      reviewPeriodStart: "2022-05-01"
+      reviewPeriodEnd: "2022-05-31"
+      dueDate: "2022-05-31"
+      overallStatus:
+        statusId: 3
+        statusName: "In Progress"
+      finalRating: null
+      finalComment: null
+      completedDate: null
+
+  'supervisor - get final evaluation for non assigned review':
+    userId: 4
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 4
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'ess - get final evaluation for own review':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 10
+    data:
+      id: 10
+      jobTitle:
+        id: 1
+        name: "Software Engineer"
+        deleted: false
+      subunit:
+        id: 5
+        name: "Enterprise"
+      reviewPeriodStart: "2022-04-01"
+      reviewPeriodEnd: "2022-04-30"
+      dueDate: "2022-04-30"
+      overallStatus:
+        statusId: 4
+        statusName: "Completed"
+      finalRating: 100
+      finalComment: "Final"
+      completedDate: "2022-05-13"
+
+  'ess - get final evaluation for non complete review':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 11
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'ess - get final evaluation for another review':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 15
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'

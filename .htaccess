@@ -1,4 +1,6 @@
 IndexIgnore *
+Options All -Indexes
+RedirectMatch 404 /\..*$
 
 <Files log.txt>
 order allow,deny
@@ -16,3 +18,17 @@ deny from all
 order allow,deny
 deny from all
 </Files>
+<FilesMatch "(\.(bak|config|dist|inc|swp|xml|sql|sh|xsl|conf|ini|json)|~)$">
+    ## Apache 2.2
+    order allow,deny
+    deny from all
+
+    ## Apache 2.4
+    # Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteRule (/)?(build|lib|license|tests|test|apps|cache|config|data|log|plugins)(/.*)?$ - [F,NC]
+</IfModule>

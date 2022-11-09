@@ -1,0 +1,103 @@
+Subunit:
+  - { id: 1, name: 'OrangeHRM', unit_id: '', description: '' ,lft: 1, rgt: 42, level: 0}
+  - { id: 2, name: 'Administration', unit_id: '', description: 'department description', lft: 2, rgt: 3, level: 1}
+  - { id: 3, name: 'Engineering', unit_id: '', description: 'department description', lft: 4, rgt: 11, level: 1}
+  - { id: 4, name: 'Development', unit_id: '', description: 'sub department description', lft: 5, rgt: 6, level: 2}
+  - { id: 5, name: 'Quality Assurance', unit_id: '', description: 'sub department description', lft: 7, rgt: 8, level: 2}
+  - { id: 6, name: 'TechOps', unit_id: '', description: 'sub department description', lft: 9,rgt: 10, level: 2}
+  - { id: 7, name: 'Sales Executive', description: 'department description', lft: 12, rgt: 17, level: 1}
+  - { id: 8, name: 'Technical', description: 'sub department description', lft: 13, rgt: 14, level: 2}
+  - { id: 9, name: 'Marketing', unit_id: '', description: 'sub department description', lft: 15, rgt: 16, level: 2}
+  - { id: 10, name: 'Client Services', unit_id: '', description: 'department description', lft: 18, rgt: 23, level: 1}
+  - { id: 11, name: 'Technical Support', unit_id: '', description: 'sub department description', lft: 19, rgt: 20, level: 2}
+  - { id: 12, name: 'Finance', unit_id: '', description: 'department description', lft: 24, rgt: 27, level: 1}
+  - { id: 13, name: 'Human Resources', unit_id: '', description: 'department description', lft: 28, rgt: 31, level: 1}
+  - { id: 15, name: 'Implementation Support', unit_id: '', description: 'sub department description', lft: 21, rgt: 22, level: 2}
+  - { id: 16, name: 'Internal Finance', unit_id: '', description: 'sub department description', lft: 25, rgt: 26, level: 2}
+  - { id: 18, name: 'Special Unit 1', unit_id: '', description: 'department description', lft: 32, rgt: 33, level: 1}
+  - { id: 19, name: 'Special Unit 2', unit_id: '', description: 'department description', lft: 34, rgt: 35, level: 1}
+  - { id: 20, name: 'Special Unit 3', unit_id: '', description: 'department description', lft: 36, rgt: 37, level: 1}
+  - { id: 21, name: 'Special Unit 4', unit_id: '', description: 'department description', lft: 38, rgt: 39, level: 1}
+  - { id: 22, name: 'Special Unit 5', unit_id: '', description: 'department description', lft: 40, rgt: 41, level: 1}
+
+Employee:
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', work_station: 1}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis', work_station: 2}
+  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', work_station: 13}
+  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', work_station: 3}
+  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', middleName: 'K', work_station: 5}
+  5: {empNumber: 6, firstName: 'Adalwin', lastName: 'Collings', work_station: 2}
+  6: {empNumber: 7, firstName: 'Grace', lastName: 'Fiona', middleName: 'Hamilton', work_station: 6}
+  7: {empNumber: 8, firstName: 'Haq', lastName: 'Aaliyah', work_station: 5}
+  8: {empNumber: 9, firstName: 'Harmony', lastName: 'Rebecca', work_station: null}
+  9: {empNumber: 10, firstName: 'Manning', lastName: 'Maggie', middleName: 'N', work_station: 7}
+  10: {empNumber: 11, firstName: 'Shaheen', lastName: 'Sania', work_station: 8}
+  11: {empNumber: 12, firstName: 'White', lastName: 'Garry', middleName: 'M', work_station: 9}
+  12: {empNumber: 13, firstName: 'Root', lastName: 'Anthony', work_station: 10}
+  13: {empNumber: 14, firstName: 'Uthpala', lastName: 'Ruwanara', middleName: 'Hamilton', work_station: 11}
+  15: {empNumber: 16, firstName: 'Ganesh', lastName: 'Goutam', work_station: 19 }
+  16: {empNumber: 17, firstName: 'Carter', lastName: 'Charlie', work_station: 12}
+  17: {empNumber: 18, firstName: 'Chuki', lastName: 'Chenzira', work_station: 18}
+  18: {empNumber: 19, firstName: 'Tencrady', lastName: 'Saraa', work_station: 2}
+  19: {empNumber: 20, firstName: 'Wright', lastName: 'Sania', work_station: 5}
+  20: {empNumber: 21, firstName: 'Ganesh', lastName: 'Supun', work_station: null}
+  21: {empNumber: 22, firstName: 'Grace', lastName: 'Charlie', work_station: 13}
+  22: {empNumber: 23, firstName: 'Mathews', lastName: 'Angello', work_station: 1}
+  23: {empNumber: 24, firstName: 'Manning', lastName: 'David', work_station: 22}
+  24: {empNumber: 25, firstName: 'Moris', lastName: 'Minor', work_station: 3}
+  25: {empNumber: 26, firstName: 'Henry', lastName: 'Ford', work_station: null}
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:53","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Duval","user_password": "Duval","deleted": "0","status": "1","date_entered": "2022-09-15 16:48:40","created_by": "1" }
+  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": "0","status": "1","date_entered": "2022-09-15 20:05:27","created_by": "1" }
+  - { "id": 6, "user_role_id": 3, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": "0","status": "1","date_entered": "2022-09-15 20:50:02","created_by": "1" }
+
+Country:
+  0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144}
+  1: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840}
+  2: {cou_code: 'SG', name: 'SINGAPORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702}
+  3: {cou_code: 'BR', name: 'BRAZIL', cou_name: 'Brazil', iso3: 'BRA', numcode: 076}
+  4: {cou_code: 'JP', name: 'JAPAN', cou_name: 'Japan', iso3: 'JPN', numcode: 392}
+
+Location:
+  0: {id: 1, name: 'location 1', country_code: 'LK', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
+  1: {id: 2, name: 'location 2', country_code: 'BR', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+  2: {id: 3, name: 'location 3', country_code: 'US', province: 'AK', city: 'city 3', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
+  3: {id: 4, name: 'location 4', country_code: 'US', province: 'TX', city: 'city 3', address: 'address 4', zip_code: 'zip004', phone: '0777000004', fax: '0112000004', notes: 'note 4' }
+  4: {id: 5, name: 'location 5', country_code: 'SG', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
+  5: {id: 6, name: 'location 6', country_code: 'BR', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+  6: {id: 7, name: 'location 7', country_code: 'US', province: 'AK', city: 'city 3', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
+  7: {id: 8, name: 'location 8', country_code: 'US', province: 'TX', city: 'city 3', address: 'address 4', zip_code: 'zip004', phone: '0777000004', fax: '0112000004', notes: 'note 4' }
+  8: {id: 9, name: 'location 9', country_code: 'JP', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
+  9: {id: 10, name: 'location 10', country_code: 'JP', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+
+EmpLocations:
+  0: {emp_number: 1, location_id: 1 }
+  1: {emp_number: 2, location_id: 2 }
+  2: {emp_number: 3, location_id: 2 }
+  3: {emp_number: 4, location_id: 2 }
+  4: {emp_number: 5, location_id: 4 }
+  5: {emp_number: 6, location_id: 3 }
+  6: {emp_number: 7, location_id: 5 }
+  7: {emp_number: 8, location_id: 7 }
+  8: {emp_number: 9, location_id: 7 }
+  9: {emp_number: 10, location_id: 8 }
+  10: {emp_number: 11, location_id: 9 }
+  11: {emp_number: 12, location_id: 10 }
+  12: {emp_number: 13, location_id: 4 }
+  13: {emp_number: 14, location_id: 3 }
+  14: {emp_number: 17, location_id: 5 }
+  15: {emp_number: 18, location_id: 6 }
+  16: {emp_number: 21, location_id: 2 }
+  17: {emp_number: 18, location_id: 2 }
+  18: {emp_number: 19, location_id: 4 }
+  19: {emp_number: 20, location_id: 4 }
+  20: {emp_number: 22, location_id: 5 }

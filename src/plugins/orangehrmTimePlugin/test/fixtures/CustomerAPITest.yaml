@@ -1,0 +1,49 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
+  - { name: 'timesheet_period_set', value: "Yes" }
+  - { name: 'timesheet_time_format', value: 1 }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel' }
+  - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri' }
+  - { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal' }
+  - { empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2,"user_name": "John.Smith","user_password": "password" }
+  - { "id": 3, "user_role_id": 1, "emp_number": 3,"user_name": "Odis.Adalwin","user_password": "password","status": 0 }
+  - { "id": 4, "user_role_id": 1, "emp_number": 4, "user_name": "Abel","user_password": "Abel","deleted": 1 }
+
+Customer:
+  - { id: 1, name: 'Orange', description: 'HRM', deleted: false }
+  - { id: 2, name: 'CUS', description: 'DES', deleted: false }
+  - { id: 3, name: 'CUS2', description: 'DES2', deleted: false }
+
+Project:
+  0: { project_id: 1, customer_id: 1, name: 'OrangeHRM', description: 'firstproject', is_deleted: 0 }
+  1: { project_id: 2, customer_id: 2, name: 'OrangeHRM2', description: 'secondproject', is_deleted: 0 }
+  2: { project_id: 3, customer_id: 3, name: 'OrangeHRM3', description: 'thirdproject', is_deleted: 0 }
+
+ProjectActivity:
+  0: { activity_id: 1, project_id: 1, name: 'Activity1 For Pro1', is_deleted: 0 }
+  1: { activity_id: 2, project_id: 1, name: 'Activity2 For Pro1', is_deleted: 0 }
+  2: { activity_id: 3, project_id: 2, name: 'Activity1 For Pro1', is_deleted: 0 }
+  3: { activity_id: 4, project_id: 2, name: 'Activity2 For Pro2', is_deleted: 0 }
+
+Timesheet:
+  0: { timesheet_id: 1, state: 'CREATED', start_date: '2011-04-18',end_date: '2011-04-19', employee_id: 1 }
+  1: { timesheet_id: 2, state: 'SUBMITTED', start_date: '2011-04-22',end_date: '2011-04-19', employee_id: 2 }
+  2: { timesheet_id: 3, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-19', employee_id: 3 }
+
+TimesheetItem:
+  0: { timesheet_item_id: 1, timesheet_id: 1, date: '2011-04-12', duration: 10, comment: 'Good', project_id: 1, employee_id: 1, activity_id: 1 }
+  1: { timesheet_item_id: 2, timesheet_id: 1, date: '2011-04-13', duration: 11, comment: 'Very Good', project_id: 1, employee_id: 2, activity_id: 1 }
+  2: { timesheet_item_id: 3, timesheet_id: 2, date: '2011-04-12', duration: 12, comment: 'Not Bad', project_id: 1, employee_id: 1, activity_id: 1 }

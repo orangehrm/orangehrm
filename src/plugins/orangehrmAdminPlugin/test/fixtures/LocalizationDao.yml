@@ -1,0 +1,21 @@
+I18NLanguage:
+  0: { id: 1, name: 'Chinese (Simplified, China) - 中文（简体，中国）', code: 'zh_Hans_CN', added: 1 }
+  1: { id: 2, name: 'English (United States)', code: 'en_US', added: 1 }
+  2: { id: 3, name: 'test - TEST', code: 'zz_ZZ', enabled: 0 }
+  3: { id: 4, name: 'Afrikaans (Namibia) - Afrikaans (Namibië)', code: 'af_NA', added: 0 }
+
+I18NGroup:
+  - { id: 1, name: general, title: General }
+  - { id: 2, name: admin, title: Admin }
+
+I18NLangString:
+  - { "id": 1, "unit_id": 'add_job_title', "group_id ": 1,"value": 'Add Job Title', "note": null, "version": null }
+  - { "id": 2, "unit_id": 'use_smtp_authentication', "group_id ": 1, "value": 'Use SMTP Authentication', "note": null, "version": null }
+  - { "id": 3, "unit_id": 'edit_subscriber', "group_id ": 2, "value": 'Edit Subscriber', "note": 'Note For Edit Subscriber', "version": null }
+  - { "id": 4, "unit_id": 'add_location', "group_id ": 2, "value": 'Add Location', "note": null, "version": null }
+
+I18NTranslation:
+  - { "id": 1, "lang_string_id": 2, "language_id": 1, "value": 'Добави', "customized": '0', "modified_at": null }
+  - { "id": 2, "lang_string_id": 3, "language_id": 1, "value": 'Вече съществува', "customized": '0', "modified_at": null }
+  - { "id": 3, "lang_string_id": 1, "language_id": 2, "value": 'Присвояване Оставете', "customized": '0', "modified_at": null }
+  - { "id": 4, "lang_string_id": 4, "language_id": 3, "value": 'Коментар', "customized": '0', "modified_at": null }

@@ -1,0 +1,100 @@
+GetOne:
+  'Get Configurations':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    data:
+      canUserChangeCurrentTime: false
+      canUserModifyAttendance: false
+      canSupervisorModifyAttendance: false
+    meta: [ ]
+
+Update:
+  'Upate Attendance Configuration - true/false/false':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      canUserChangeCurrentTime: true
+      canUserModifyAttendance: false
+      canSupervisorModifyAttendance: false
+    data:
+      canUserChangeCurrentTime: true
+      canUserModifyAttendance: false
+      canSupervisorModifyAttendance: false
+    meta: [ ]
+
+  'Upate Attendance Configuration - false/true/false':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      canUserChangeCurrentTime: false
+      canUserModifyAttendance: true
+      canSupervisorModifyAttendance: false
+    data:
+      canUserChangeCurrentTime: false
+      canUserModifyAttendance: true
+      canSupervisorModifyAttendance: false
+    meta: [ ]
+
+  'Upate Attendance Configuration - false/false/true':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      canUserChangeCurrentTime: false
+      canUserModifyAttendance: false
+      canSupervisorModifyAttendance: true
+    data:
+      canUserChangeCurrentTime: false
+      canUserModifyAttendance: false
+      canSupervisorModifyAttendance: true
+    meta: [ ]
+
+  'Upate Attendance Configuration - false/false/false':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      canUserChangeCurrentTime: false
+      canUserModifyAttendance: false
+      canSupervisorModifyAttendance: false
+    data:
+      canUserChangeCurrentTime: false
+      canUserModifyAttendance: false
+      canSupervisorModifyAttendance: false
+    meta: [ ]
+
+  'Upate Attendance Configuration - true/true/true':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      canUserChangeCurrentTime: true
+      canUserModifyAttendance: true
+      canSupervisorModifyAttendance: true
+    data:
+      canUserChangeCurrentTime: true
+      canUserModifyAttendance: true
+      canSupervisorModifyAttendance: true
+    meta: [ ]
+
+  'Upate Attendance Configuration - missing required parameter':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      canUserChangeCurrentTime: true
+      canUserModifyAttendance: true
+    invalidOnly: [ 'canSupervisorModifyAttendance' ]
+
+  'Upate Attendance Configuration - invalid parameter':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      canUserChangeCurrentTime: true
+      canUserModifyAttendance: true
+      canSupervisorModifyAttendanc: false
+    invalidOnly: [ 'canSupervisorModifyAttendance', 'canSupervisorModifyAttendanc' ]

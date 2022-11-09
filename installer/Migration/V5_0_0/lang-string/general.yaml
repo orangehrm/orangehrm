@@ -1,0 +1,868 @@
+langStrings:
+  -
+    value: 'Name'
+    unitId: name
+  -
+    value: 'City'
+    unitId: city
+  -
+    value: 'Country'
+    unitId: country
+  -
+    value: 'Reset'
+    unitId: reset
+  -
+    value: 'Search'
+    unitId: search
+  -
+    value: 'Add'
+    unitId: add
+  -
+    value: 'Phone'
+    unitId: phone
+  -
+    value: 'State/Province'
+    unitId: state_province
+  -
+    value: 'Zip/Postal Code'
+    unitId: zip_postal_code
+  -
+    value: 'Note'
+    unitId: note
+  -
+    value: 'Cancel'
+    unitId: cancel
+  -
+    value: 'Yes'
+    unitId: yes
+  -
+    value: 'No'
+    unitId: no
+  -
+    value: 'Email'
+    unitId: email
+  -
+    value: 'Fax'
+    unitId: fax
+  -
+    value: 'Nationality'
+    unitId: nationality
+  -
+    value: 'Edit'
+    unitId: edit
+  -
+    value: 'Address Street 1'
+    unitId: address_street_1
+  -
+    value: 'Address Street 2'
+    unitId: address_street_2
+  -
+    value: 'Description'
+    unitId: description
+  -
+    value: 'Currency'
+    unitId: currency
+  -
+    value: 'Currencies'
+    unitId: currencies
+  -
+    value: 'Edit Education'
+    unitId: edit_education
+  -
+    value: 'Level'
+    unitId: level
+  -
+    value: 'Education'
+    unitId: education
+  -
+    value: 'Add Education'
+    unitId: add_education
+  -
+    value: 'Edit Language'
+    unitId: edit_language
+  -
+    value: 'Add Language'
+    unitId: add_language
+  -
+    value: 'Languages'
+    unitId: languages
+  -
+    value: 'Edit License'
+    unitId: edit_license
+  -
+    value: 'Add License'
+    unitId: add_license
+  -
+    value: 'Edit Membership'
+    unitId: edit_membership
+  -
+    value: 'Add Membership'
+    unitId: add_membership
+  -
+    value: 'Memberships'
+    unitId: memberships
+  -
+    value: 'Edit Skill'
+    unitId: edit_skill
+  -
+    value: 'Add Skill'
+    unitId: add_skill
+  -
+    value: 'Skills'
+    unitId: skills
+  -
+    value: 'User Role'
+    unitId: user_role
+  -
+    value: 'Status'
+    unitId: status
+  -
+    value: 'Username'
+    unitId: username
+  -
+    value: 'Employee Name'
+    unitId: employee_name
+  -
+    value: 'From'
+    unitId: from
+  -
+    value: 'To'
+    unitId: to
+  -
+    value: 'Already exists'
+    unitId: already_exists
+  -
+    value: 'To time should be after from time'
+    unitId: to_time_should_be_after_from_time
+  -
+    value: 'Failed'
+    unitId: failed
+  -
+    value: 'Should not exceed {amount} characters'
+    unitId: should_not_exceed_n_charcters
+  -
+    value: 'Admin'
+    unitId: admin
+  -
+    value: 'Required'
+    unitId: required
+  -
+    value: 'Save'
+    unitId: save
+  -
+    value: 'Should be a valid date in hh:mm format'
+    unitId: should_be_a_valid_date_in_hh:mm_format
+  -
+    value: 'Job Category'
+    unitId: job_category
+  -
+    value: 'Allows Phone Numbers Only'
+    unitId: allows_phone_numbers_only
+  -
+    value: 'Should be a valid date in {format} format'
+    unitId: should_be_a_valid_date_in_x_format
+  -
+    value: 'Should be less than {amount}'
+    unitId: should_be_less_than_n
+  -
+    value: 'Should be a number'
+    unitId: should_be_a_number
+  -
+    value: 'End date should be after Start date'
+    unitId: end_date_should_be_after_start_date
+  -
+    value: 'End time should be after Start time'
+    unitId: end_time_should_be_after_start_time
+  -
+    value: 'Attachment Size Exceeded'
+    unitId: attachment_size_exceeded
+  -
+    value: 'File type not allowed'
+    unitId: file_type_not_allowed
+  -
+    value: 'Employment Status'
+    unitId: employment_status
+  -
+    value: 'Allows numbers and only + - / ( )'
+    unitId: allows_phone_numbers_only
+  -
+    value: 'Start date should be before end date'
+    unitId: start_date_should_be_before_end_date
+  -
+    value: 'Start time should be before end time'
+    unitId: start_time_should_be_before_end_time
+  -
+    value: 'Should be least {amount} characters'
+    unitId: should_be_least_n_characters
+  -
+    value: 'Should be higher than minimum value'
+    unitId: should_be_higher_than_minimum_value
+  -
+    value: 'ESS'
+    unitId: ess
+  -
+    value: 'Enabled'
+    unitId: enabled
+  -
+    value: 'Disabled'
+    unitId: disabled
+  -
+    value: 'Edit Attachment'
+    unitId: edit_attachment
+  -
+    value: 'Actions'
+    unitId: actions
+  -
+    value: 'Error'
+    unitId: error
+  -
+    value: 'Type'
+    unitId: type
+  -
+    value: 'Download'
+    unitId: download
+  -
+    value: 'Select File'
+    unitId: select_file
+  -
+    value: 'Browse'
+    unitId: browse
+  -
+    value: 'Accepts upto 1 MB'
+    unitId: accepts_up_to_1mb
+  -
+    value: 'Upload'
+    unitId: upload
+  -
+    value: 'Success'
+    unitId: success
+  -
+    value: 'Failed to Import'
+    unitId: failed_to_import
+  -
+    value: 'No Records Added'
+    unitId: no_records_added
+  -
+    value: 'Employee Id'
+    unitId: employee_id
+  -
+    value: 'Id'
+    unitId: id
+  -
+    value: 'Last Name'
+    unitId: last_name
+  -
+    value: 'Job Title'
+    unitId: job_title
+  -
+    value: 'Sub Unit'
+    unitId: sub_unit
+  -
+    value: 'Current and Past Employees'
+    unitId: current_and_past_employees
+  -
+    value: 'Past Employees Only'
+    unitId: past_employees_only
+  -
+    value: 'Current Employees Only'
+    unitId: current_employees_only
+  -
+    value: 'Mobile'
+    unitId: mobile
+  -
+    value: 'Email'
+    unitId: email
+  -
+    value: 'Expiry Date'
+    unitId: expiry_date
+  -
+    value: 'Joined Date'
+    unitId: joined_date
+  -
+    value: 'Location'
+    unitId: location
+  -
+    value: 'Male'
+    unitId: male
+  -
+    value: 'Female'
+    unitId: female
+  -
+    value: 'Qualifications'
+    unitId: qualifications
+  -
+    value: 'State'
+    unitId: state
+  -
+    value: 'Should be a positive number'
+    unitId: should_be_a_positive_number
+  -
+    value: 'Add Employee'
+    unitId: add_employee
+  -
+    value: 'Report Name'
+    unitId: report_name
+  -
+    value: 'Warning'
+    unitId: warning
+  -
+    value: 'Employee Reports'
+    unitId: employee_reports
+  -
+    value: 'Current File'
+    unitId: current_file
+  -
+    value: 'Replace With'
+    unitId: replace_with
+  -
+    value: 'Comment'
+    unitId: comment
+  -
+    value: 'Type comment here'
+    unitId: type_comment_here
+  -
+    value: 'Year'
+    unitId: year
+  -
+    value: 'Start Date'
+    unitId: start_date
+  -
+    value: 'End Date'
+    unitId: end_date
+  -
+    value: 'Comments'
+    unitId: comments
+  -
+    value: 'Type Comments here'
+    unitId: type_comments_here
+  -
+    value: 'Language'
+    unitId: language
+  -
+    value: 'Pay Grade'
+    unitId: pay_grade
+  -
+    value: 'To date should be after From date'
+    unitId: to_date_should_be_after_from_date
+  -
+    value: '(Past Employee)'
+    unitId: past_employee
+  -
+    value: 'First name'
+    unitId: first_name
+  -
+    value: 'Middle name'
+    unitId: middle_name
+  -
+    value: 'Employee Full Name'
+    unitId: employee_full_name
+  -
+    value: 'Job Specification'
+    unitId: job_specification
+  -
+    value: 'Attachments'
+    unitId: attachments
+  -
+    value: 'File Name'
+    unitId: file_name
+  -
+    value: 'Size'
+    unitId: size
+  -
+    value: 'Accepts jpg, .png, .gif up to 1MB. Recommended dimensions: 200px X 200px'
+    unitId: accept_jpg_png_upto_1mb_recomended_dimentions_200px_x_200px
+  -
+    value: 'From date should be before to date'
+    unitId: from_date_should_be_before_to_date
+  -
+    value: 'Should be less than upper bound'
+    unitId: should_be_less_than_upper_bound
+  -
+    value: 'Include Header'
+    unitId: include_header
+  -
+    value: 'Add Attachment'
+    unitId: add_attachment
+  -
+    value: 'Type here'
+    unitId: type_here
+  -
+    value: 'Date'
+    unitId: date
+  -
+    value: 'Monday'
+    unitId: monday
+  -
+    value: 'Tuesday'
+    unitId: tuesday
+  -
+    value: 'Wednesday'
+    unitId: wednesday
+  -
+    value: 'Thursday'
+    unitId: thursday
+  -
+    value: 'Friday'
+    unitId: friday
+  -
+    value: 'Saturday'
+    unitId: saturday
+  -
+    value: 'Sunday'
+    unitId: sunday
+  -
+    value: 'Employee'
+    unitId: employee
+  -
+    value: 'Generate'
+    unitId: generate
+  -
+    value: 'From Date'
+    unitId: from_date
+  -
+    value: 'To Date'
+    unitId: to_date
+  -
+    value: 'Duration'
+    unitId: duration
+  -
+    value: 'Apply'
+    unitId: apply
+  -
+    value: 'Back'
+    unitId: back
+  -
+    value: 'Confirm'
+    unitId: confirm
+  -
+    value: 'No matching employees'
+    unitId: no_matching_employees
+  -
+    value: 'No employees match the selected filters'
+    unitId: no_employees_match_filters
+  -
+    value: 'Ok'
+    unitId: ok
+  -
+    value: 'Leave'
+    unitId: leave
+  -
+    value: 'Comment here'
+    unitId: comment_here
+  -
+    value: 'From time should be before to time'
+    unitId: from_time_should_be_before_to_time
+  -
+    value: ' (Deleted)'
+    unitId: deleted
+  -
+    value: 'Add Comment'
+    unitId: add_comment
+  -
+    value: 'Approve'
+    unitId: approve
+  -
+    value: 'Reject'
+    unitId: reject
+  -
+    value: '{count,plural, =0{No Records Found} one{(1) Record Found} other{ (#) Records Found}}'
+    unitId: n_records_found
+  -
+    value: '{count,plural, =0{No Records Selected} one{(1) Record Selected} other{(#) Records Selected}}'
+    unitId: n_records_selected
+  -
+    value: 'Password'
+    unitId: password
+  -
+    value: 'For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers'
+    unitId: password_strength_message
+  -
+    value: 'Confirm Password'
+    unitId: confirm_password
+  -
+    value: 'Passwords do not match'
+    unitId: passwords_do_not_match
+  -
+    value: 'Weak'
+    unitId: weak
+  -
+    value: 'Very Weak'
+    unitId: very_weak
+  -
+    value: 'Better'
+    unitId: better
+  -
+    value: 'Strongest'
+    unitId: strongest
+  -
+    value: 'About'
+    unitId: about
+  -
+    value: 'Support'
+    unitId: support
+  -
+    value: 'Change Password'
+    unitId: change_password
+  -
+    value: 'Logout'
+    unitId: logout
+  -
+    value: 'No Records Found'
+    unitId: no_records_found
+  -
+    value: 'Change Password ?'
+    unitId: change_password_question
+  -
+    value: 'Type description here'
+    unitId: type_description_here
+  -
+    value: 'Add note'
+    unitId: add_note
+  -
+    value: 'Successfully Updated'
+    unitId: successfully_updated
+  -
+    value: 'Successfully Saved'
+    unitId: successfully_saved
+  -
+    value: 'Notes'
+    unitId: notes
+  -
+    value: 'Type here ...'
+    unitId: type_here_message
+  -
+    value: 'Job'
+    unitId: job
+  -
+    value: 'No, Cancel'
+    unitId: no_cancel
+  -
+    value: 'User Management'
+    unitId: user_management
+  -
+    value: 'Project Info'
+    unitId: project_info
+  -
+    value: 'Organization'
+    unitId: organization
+  -
+    value: 'Users'
+    unitId: users
+  -
+    value: 'Configuration'
+    unitId: configuration
+  -
+    value: 'Language Packages'
+    unitId: language_packages
+  -
+    value: 'Modules'
+    unitId: modules
+  -
+    value: 'Register OAuth Client'
+    unitId: register_oauth_client
+  -
+    value: 'Social Media Authentication'
+    unitId: social_media_authentication
+  -
+    value: 'Employee List'
+    unitId: employee_list
+  -
+    value: 'Reports'
+    unitId: reports
+  -
+    value: 'PIM'
+    unitId: pim
+  -
+    value: 'Recruitment'
+    unitId: recruitment
+  -
+    value: 'Time'
+    unitId: time
+  -
+    value: 'My Info'
+    unitId: my_info
+  -
+    value: 'Performance'
+    unitId: performance
+  -
+    value: 'Dashboard'
+    unitId: dashboard
+  -
+    value: 'Directory'
+    unitId: directory
+  -
+    value: 'Buzz'
+    unitId: buzz
+  -
+    value: 'Maintenance'
+    unitId: maintenance
+  -
+    value: 'My Timesheets'
+    unitId: my_timesheets
+  -
+    value: 'My Records'
+    unitId: my_records
+  -
+    value: 'Employee Timesheets'
+    unitId: employee_timesheets
+  -
+    value: 'Timesheets'
+    unitId: timesheets
+  -
+    value: 'Punch In/Out'
+    unitId: punch_in_out
+  -
+    value: 'Employee Records'
+    unitId: employee_records
+  -
+    value: 'Attendance'
+    unitId: attendance
+  -
+    value: 'Customers'
+    unitId: customers
+  -
+    value: 'Projects'
+    unitId: projects
+  -
+    value: 'Project Reports'
+    unitId: project_reports
+  -
+    value: 'Project Info'
+    unitId: project_info
+  -
+    value: 'Vacancies'
+    unitId: vacancies
+  -
+    value: 'Candidates'
+    unitId: candidates
+  -
+    value: 'KPIs'
+    unitId: kpis
+  -
+    value: 'Manage Reviews'
+    unitId: manage_reviews
+  -
+    value: 'My Reviews'
+    unitId: my_reviews
+  -
+    value: 'My Trackers'
+    unitId: my_trackers
+  -
+    value: 'Review List'
+    unitId: review_list
+  -
+    value: 'Trackers'
+    unitId: trackers
+  -
+    value: 'Employee Trackers'
+    unitId: employee_trackers
+  -
+    value: 'Candidate Records'
+    unitId: candidate_records
+  -
+    value: 'Access Records'
+    unitId: access_records
+  -
+    value: 'Purge Records'
+    unitId: purge_records
+  -
+    value: 'Structure'
+    unitId: structure
+  -
+    value: 'Sun'
+    unitId: sun
+  -
+    value: 'Mon'
+    unitId: mon
+  -
+    value: 'Tue'
+    unitId: tue
+  -
+    value: 'Wed'
+    unitId: wed
+  -
+    value: 'Thu'
+    unitId: thu
+  -
+    value: 'Fri'
+    unitId: fri
+  -
+    value: 'Sat'
+    unitId: sat
+  -
+    value: 'Performed By'
+    unitId: performed_by
+  -
+    value: 'Add another'
+    unitId: add_another
+  -
+    value: 'View'
+    unitId: view
+  -
+    value: 'Attendance Summary'
+    unitId: attendance_summary
+  -
+    value: 'My Leave'
+    unitId: my_leave
+  -
+    value: 'My Entitlements'
+    unitId: my_entitlements
+  -
+    value: 'Add Entitlements'
+    unitId: add_entitlements
+  -
+    value: 'Configure'
+    unitId: configure
+  -
+    value: 'Employee Entitlements'
+    unitId: employee_entitlements
+  -
+    value: 'Entitlements'
+    unitId: entitlements
+  -
+    value: 'Work Email'
+    unitId: work_email
+  -
+    value: 'Other Email'
+    unitId: other_email
+  -
+    value: 'Company Name'
+    unitId: company_name
+  -
+    value: 'Version'
+    unitId: version
+  -
+    value: 'Active Employees'
+    unitId: active_employees
+  -
+    value: 'Employees Terminated'
+    unitId: employees_terminated
+  -
+    value: 'Are you Sure?'
+    unitId: are_you_sure
+  -
+    value: 'The selected record will be permanently deleted. Are you sure you want to continue?'
+    unitId: delete_confirmation_message
+  -
+    value: 'Yes, Delete'
+    unitId: yes_delete
+  -
+    value: 'Keep Current'
+    unitId: keep_current
+  -
+    value: 'Delete Current'
+    unitId: delete_current
+  -
+    value: 'Replace Current'
+    unitId: replace_current
+  -
+    value: 'Module Forbidden'
+    unitId: module_forbidden
+  -
+    value: "The page you're trying to access has restricted access"
+    unitId: module_access_restriction
+  -
+    value: 'Launching Soon'
+    unitId: launching_soon
+  -
+    value: 'This page is currently under development for OrangeHRM OS 5.0.'
+    unitId: this_page_is_being_developed
+  -
+    value: "to download the latest stable release, which includes all of OrangeHRM's features."
+    unitId: download_latest_release_with_all_features
+  -
+    value: 'Click here'
+    unitId: click_here
+  -
+    value: 'Bad Request'
+    unitId: bad_request
+  -
+    value: 'Personal Details'
+    unitId: personal_details
+  -
+    value: 'Emergency Contacts'
+    unitId: emergency_contacts
+  -
+    value: 'Dependents'
+    unitId: dependents
+  -
+    value: 'Immigration'
+    unitId: immigration
+  -
+    value: 'Salary'
+    unitId: salary
+  -
+    value: 'Report-to'
+    unitId: report_to
+  -
+    value: 'Tax Exemptions'
+    unitId: tax_exemptions
+  -
+    value: 'Info'
+    unitId: info
+  -
+    value: 'Should not exceed {amount} characters'
+    unitId: should_be_less_n_characters
+  -
+    value: 'Expected format: admin@example.com'
+    unitId: expected_email_address_format_not_matched
+  -
+    value: 'Submit'
+    unitId: submit
+  -
+    value: 'Date Range'
+    unitId: date_range
+  -
+    value: 'yyyy-mm-dd'
+    unitId: date_format
+  -
+    value: 'Cannot be deleted'
+    unitId: cannot_be_deleted
+  -
+    value: 'Successfully Deleted'
+    unitId: successfully_deleted
+  -
+    value: 'Total'
+    unitId: total
+  -
+    value: 'Searching....'
+    unitId: searching
+  -
+    value: 'No file chosen'
+    unitId: no_file_chosen
+  -
+    value: 'No file selected'
+    unitId: no_file_selected
+  -
+    value: 'Type for hints...'
+    unitId: type_for_hints
+  -
+    value: '-- Select --'
+    unitId: select
+  -
+    value: 'Total'
+    unitId: total
+  -
+    value: 'Unexpected Error!'
+    unitId: unexpected_error
+  -
+    value: 'Delete Selected'
+    unitId: delete_selected
+  -
+    value: 'Corporate Branding'
+    unitId: corporate_branding
+  -
+    value: 'More'
+    unitId: more
+  -
+    value: 'Should be greater than lower bound'
+    unitId: should_be_greater_than_lower_bound
+  -
+    value: 'Less Than'
+    unitId: less_than
+  -
+    value: 'Greater Than'
+    unitId: greater_than
+  -
+    value: 'Range'
+    unitId: range

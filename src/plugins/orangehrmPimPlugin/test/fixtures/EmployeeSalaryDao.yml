@@ -1,0 +1,28 @@
+PayGrade:
+  - { id: 1, name: 'Salary Grade A' }
+  - { id: 2, name: 'Salary Grade B' }
+
+CurrencyType:
+  - { "code": "3","currency_id": "AED","currency_name": "Utd. Arab Emir. Dirham" }
+  - { "code": "10","currency_id": "AUD","currency_name": "Australian Dollar" }
+  - { "code": "42","currency_id": "EUR","currency_name": "Euro" }
+  - { "code": "85","currency_id": "LKR","currency_name": "Sri Lanka Rupee" }
+  - { "code": "131","currency_id": "SGD","currency_name": "Singapore Dollar" }
+  - { "code": "151","currency_id": "USD","currency_name": "United States Dollar" }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002' }
+  - { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', middleName: '',employeeId: '0003' }
+
+PayGradeCurrency:
+  - { pay_grade_id: 1, currency_id: 'LKR', min_salary: '20000', max_salary: '3000000' }
+  - { pay_grade_id: 1, currency_id: 'USD', min_salary: '2000', max_salary: '30000' }
+  - { pay_grade_id: 2, currency_id: 'SGD', min_salary: '2000', max_salary: '30000' }
+
+EmployeeSalary:
+  - { id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', amount: '10000.00', salaryName: 'Main Salary' }
+  - { id: 2, emp_number: 1, sal_grd_code: 2, currency_id: 'USD', amount: '20000.00', salaryName: 'Allowance' }
+
+EmpDirectDebit:
+  - { "id": 1, "salary_id": 2, "dd_routing_num": "1111", "dd_account": "11111111", "dd_amount": "1000.00", "dd_account_type": "SAVINGS", "dd_transaction_type": "" }

@@ -1,0 +1,18 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST', employeeId: '0002' }
+  - { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', middleName: '', employeeId: '0003' }
+  - { empNumber: 4, firstName: 'Ashley', lastName: 'Victoria', middleName: '', employeeId: '0004' }
+
+Language:
+  - { id: 1, name: 'English' }
+  - { id: 2, name: 'Spanish' }
+  - { id: 3, name: 'Dutch' }
+
+EmployeeLanguage:
+  - { emp_number: 1, lang_id: 1, fluency: 2, competency: 1, comments: 'comment1' }
+  - { emp_number: 1, lang_id: 2, fluency: 1, competency: 2, comments: 'comment2' }
+  - { emp_number: 2, lang_id: 2, fluency: 1, competency: 2 }
+  - { emp_number: 4, lang_id: 1, fluency: 1, competency: 2 }
+  - { emp_number: 4, lang_id: 1, fluency: 2, competency: 2 }
+  - { emp_number: 4, lang_id: 1, fluency: 3, competency: 2 }

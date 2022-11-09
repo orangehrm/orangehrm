@@ -1,0 +1,88 @@
+Config:
+  - { name: 'leave.leavePeriodStatus', value: 2 }
+
+LeaveType:
+  - { id: 1, name: 'Casual', deleted: 0 }
+  - { id: 2, name: 'Medical', deleted: 0 }
+  - { id: 3, name: 'Company', deleted: 1 }
+  - { id: 4, name: 'Annual', deleted: 0 }
+  - { id: 5, name: 'Sick', deleted: 1 }
+  - { id: 6, name: 'Wesak', deleted: 0 }
+  - { id: 7, name: 'Christmas', deleted: 0 }
+  - { id: 8, name: 'Other', deleted: 0 }
+  - { id: 9, name: 'Maternity', deleted: 0, situational: 1 }
+
+TerminationReason:
+  - { id: 1, name: 'Resign' }
+
+EmployeeTerminationRecord:
+  - { id: 1, reason_id: 1, date: '2011-11-20' }
+  - { id: 2, reason_id: 1, date: '2022-03-23' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Shneider', termination_id: 1 }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis' }
+  - { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham' }
+  - { empNumber: 4, firstName: 'Landon', lastName: 'Abrahams' }
+  - { empNumber: 5, firstName: 'James', lastName: 'Abrahamson', middleName: 'K' }
+  - { empNumber: 6, firstName: 'Jane', lastName: 'Edward' }
+  - { empNumber: 7, firstName: 'Dasun', lastName: 'Samarasinghe' }
+  - { empNumber: 8, firstName: 'Purged', lastName: 'Employee', termination_id: 2, purged_at: "2022-03-23" }
+
+LeaveEntitlementType:
+  - { id: 1, name: 'Added' }
+  - { id: 2, name: 'Accrual' }
+
+LeaveEntitlement:
+  - { id: 1, leave_type_id: 1, emp_number: 1, no_of_days: 3, fromDate: '2012-01-01', toDate: '2012-08-01', creditedDate: '2012-01-01', note: '', entitlement_type: 1, deleted: 0 }
+  - { id: 2, leave_type_id: 6, emp_number: 2, no_of_days: 4, days_used: 1, fromDate: '2013-08-05', toDate: '2013-09-01', creditedDate: '2013-01-06', note: '', entitlement_type: 1, deleted: 0 }
+  - { id: 3, leave_type_id: 2, emp_number: 1, no_of_days: 1, fromDate: '2012-01-01', toDate: '2012-12-31', creditedDate: '2012-01-01', note: '', entitlement_type: 1, deleted: 0 }
+  - { id: 4, leave_type_id: 2, emp_number: 1, no_of_days: 2, fromDate: '2013-01-01', toDate: '2013-12-31', creditedDate: '2012-02-01', note: '', entitlement_type: 1, deleted: 0 }
+  - { id: 5, leave_type_id: 1, emp_number: 5, no_of_days: 5, fromDate: '2012-06-06', toDate: '2012-09-01', creditedDate: '2012-01-01', note: '', entitlement_type: 1, deleted: 1 }
+  - { id: 6, leave_type_id: 1, emp_number: 7, no_of_days: 5, days_used: 2, fromDate: '2013-01-01', toDate: '2013-12-31', creditedDate: '2013-01-01', note: '', entitlement_type: 2, deleted: 0 }
+  - { id: 7, leave_type_id: 9, emp_number: 7, no_of_days: 5, days_used: 0, fromDate: '2014-01-01', toDate: '2014-12-31', creditedDate: '2014-01-01', note: '', entitlement_type: 1, deleted: 0 }
+  - { id: 8, leave_type_id: 1, emp_number: 8, no_of_days: 7, days_used: 0, fromDate: '2022-01-01', toDate: '2022-12-31', creditedDate: '2014-01-01', note: '', entitlement_type: 1, deleted: 0 }
+
+LeaveRequest:
+  - { id: 1, leave_type_id: 1, dateApplied: '2010-08-30', emp_number: 1 }
+  - { id: 2, leave_type_id: 1, dateApplied: '2010-08-02', emp_number: 1 }
+  - { id: 3, leave_type_id: 2, dateApplied: '2010-08-03', emp_number: 1 }
+  - { id: 4, leave_type_id: 8, dateApplied: '2010-08-02', emp_number: 6 }
+  - { id: 5, leave_type_id: 1, dateApplied: '2013-08-02', emp_number: 7 }
+  - { id: 6, leave_type_id: 1, dateApplied: '2012-08-02', emp_number: 7 }
+  - { id: 7, leave_type_id: 1, dateApplied: '2014-01-02', emp_number: 7 }
+  - { id: 8, leave_type_id: 1, dateApplied: '2013-03-02', emp_number: 7 }
+
+Leave:
+  - { id: 1, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1 }
+  - { id: 2, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-02', status: 1 }
+  - { id: 3, length_hours: 8, length_days: 1, leave_request_id: 2, leave_type_id: 1, emp_number: 1, date: '2010-09-06', status: '-1' }
+  - { id: 4, length_hours: 8, length_days: 1, leave_request_id: 2, leave_type_id: 1, emp_number: 1, date: '2010-09-07', status: '-1' }
+  - { id: 5, length_hours: 4, length_days: '0.5', leave_request_id: 3, leave_type_id: 2, emp_number: 1, date: '2010-09-09', status: '-1' }
+  - { id: 6, length_hours: 8, length_days: 1, leave_request_id: 4, leave_type_id: 8, emp_number: 6, date: '2010-08-02', status: 1 }
+  - { id: 7, length_hours: 8, length_days: 1, leave_request_id: 4, leave_type_id: 8, emp_number: 1, date: '2012-05-02', status: 2 }
+  - { id: 8, length_hours: 8, length_days: 1, leave_request_id: 5, leave_type_id: 1, emp_number: 7, date: '2013-08-13', status: 2 }
+  - { id: 9, length_hours: 8, length_days: 1, leave_request_id: 5, leave_type_id: 1, emp_number: 7, date: '2013-08-14', status: 2 }
+  - { id: 10, length_hours: 8, length_days: 1, leave_request_id: 6, leave_type_id: 1, emp_number: 7, date: '2012-08-21', status: 2 }
+  - { id: 11, length_hours: 8, length_days: 1, leave_request_id: 7, leave_type_id: 1, emp_number: 7, date: '2014-01-03', status: 2 }
+  - { id: 12, length_hours: 8, length_days: 1, leave_request_id: 7, leave_type_id: 1, emp_number: 7, date: '2014-01-04', status: 2 }
+  - { id: 13, length_hours: 8, length_days: 1, leave_request_id: 8, leave_type_id: 1, emp_number: 7, date: '2013-03-05', status: 2 }
+
+LeaveLeaveEntitlement:
+  - { id: 1, leave_id: 1, entitlement_id: 1, length_days: 0.5 }
+  - { id: 2, leave_id: 1, entitlement_id: 2, length_days: 0.5 }
+  - { id: 3, leave_id: 2, entitlement_id: 5, length_days: 1 }
+  - { id: 4, leave_id: 3, entitlement_id: 5, length_days: 1 }
+  - { id: 5, leave_id: 4, entitlement_id: 5, length_days: 1 }
+  - { id: 6, leave_id: 5, entitlement_id: 1, length_days: 1 }
+  - { id: 7, leave_id: 7, entitlement_id: 1, length_days: 0.75 }
+  - { id: 8, leave_id: 8, entitlement_id: 6, length_days: 1 }
+  - { id: 9, leave_id: 9, entitlement_id: 6, length_days: 1 }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }

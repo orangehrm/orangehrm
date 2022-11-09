@@ -1,0 +1,112 @@
+GetAll:
+  'get all customer list':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    data:
+      0:
+        id: 2
+        name: 'CUS'
+        description: 'DES'
+        deleted: false
+      1:
+        id: 3
+        name: 'CUS2'
+        description: 'DES2'
+        deleted: false
+      2:
+        id: 1
+        name: 'Orange'
+        description: 'HRM'
+        deleted: false
+    meta:
+      total: 3
+
+GetOne:
+  'get single customer by identifier':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body: [ ]
+    query: [ ]
+    data:
+      id: 2
+      name: 'CUS'
+      description: 'DES'
+      deleted: false
+    meta: [ ]
+
+Create:
+  'Add new customer':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+    attributes: [ ]
+    query: [ ]
+    body:
+      name: "Test"
+      description: "Test@ohrm.com"
+    data:
+      id: 4
+      name: "Test"
+      description: "Test@ohrm.com"
+      deleted: false
+    meta: [ ]
+
+Update:
+  'Edit an existing customer by identifier':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+    attributes:
+      id: 1
+    query: [ ]
+    body:
+      name: "ABCD"
+      description: "ABCD@ohrm.com"
+    data:
+      id: 1
+      name: "ABCD"
+      description: "ABCD@ohrm.com"
+      deleted: false
+    meta: [ ]
+
+Delete:
+  'delete an existing customer or customers by identifier':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+    attributes: [ ]
+    body:
+      ids: [ 2, 3 ]
+    query: [ ]
+    data:
+      [ 2, 3 ]
+    meta: [ ]
+
+  'delete customer Who Have Time Logged Against':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+    attributes: [ ]
+    body:
+      ids: [ 1, 2, 3 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against'

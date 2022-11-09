@@ -1,0 +1,17 @@
+Module:
+  0: {id: 1, name: 'admin', status: 1, displayName: 'Admin'}
+  1: {id: 2, name: 'pim', status: 1, displayName: 'PIM'}
+  2: {id: 3, name: 'leave', status: 1, displayName: 'Leave'}
+  3: {id: 4, name: 'time', status: 1, displayName: 'Time'}
+  4: {id: 5, name: 'recruitment', status: 1, displayName: 'Recruitment'}
+  5: {id: 6, name: 'performance', status: 1, displayName: 'Performance'}
+  6: {id: 7, name: 'maintenance', status: 0, displayName: 'Maintenance'}
+
+Employee:
+  0: {empNumber: 1, emp_firstname: 'Devi', emp_lastname: 'DS', employee_id: 'E001'}
+
+UserRole:
+  0: { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  0: { id: 1, user_role_id: 1, emp_number: 1, user_name: 'devi', user_password: 'admin@OHRM123' }

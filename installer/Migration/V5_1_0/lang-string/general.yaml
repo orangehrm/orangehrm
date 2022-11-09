@@ -1,0 +1,187 @@
+langStrings:
+  -
+    value: 'January'
+    unitId: january
+  -
+    value: 'February'
+    unitId: february
+  -
+    value: 'March'
+    unitId: march
+  -
+    value: 'April'
+    unitId: april
+  -
+    value: 'May'
+    unitId: may
+  -
+    value: 'June'
+    unitId: june
+  -
+    value: 'July'
+    unitId: july
+  -
+    value: 'August'
+    unitId: august
+  -
+    value: 'September'
+    unitId: september
+  -
+    value: 'October'
+    unitId: october
+  -
+    value: 'November'
+    unitId: november
+  -
+    value: 'December'
+    unitId: december
+  -
+    value: 'Jan'
+    unitId: jan
+  -
+    value: 'Feb'
+    unitId: feb
+  -
+    value: 'Mar'
+    unitId: mar
+  -
+    value: 'Apr'
+    unitId: apr
+  -
+    value: 'Jun'
+    unitId: jun
+  -
+    value: 'Jul'
+    unitId: jul
+  -
+    value: 'Aug'
+    unitId: aug
+  -
+    value: 'Sep'
+    unitId: sep
+  -
+    value: 'Oct'
+    unitId: oct
+  -
+    value: 'Nov'
+    unitId: nov
+  -
+    value: 'Dec'
+    unitId: dec
+  -
+    value: 'Sunday'
+    unitId: sunday
+  -
+    value: 'Monday'
+    unitId: monday
+  -
+    value: 'Tuesday'
+    unitId: tuesday
+  -
+    value: 'Wednesday'
+    unitId: wednesday
+  -
+    value: 'Thursday'
+    unitId: thursday
+  -
+    value: 'Friday'
+    unitId: friday
+  -
+    value: 'Saturday'
+    unitId: saturday
+  -
+    value: 'Sun'
+    unitId: sun
+  -
+    value: 'Mon'
+    unitId: mon
+  -
+    value: 'Tue'
+    unitId: tue
+  -
+    value: 'Wed'
+    unitId: wed
+  -
+    value: 'Thu'
+    unitId: thu
+  -
+    value: 'Fri'
+    unitId: fri
+  -
+    value: 'Sat'
+    unitId: sat
+  -
+    value: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB'
+    unitId: accept_custom_format_file
+  -
+    value: 'Should be lower than maximum value'
+    unitId: should_be_lower_than_maximum_value
+  -
+    value: 'Should be a number between {min}-{max}'
+    unitId: should_be_a_number_between_min_and_max
+  -
+    value: 'Active'
+    unitId: active
+  -
+    value: 'Closed'
+    unitId: closed
+  -
+    value: 'File Size'
+    unitId: file_size
+  -
+    value: 'File Type'
+    unitId: file_type
+  -
+    value: 'Full Name'
+    unitId: full_name
+  -
+    value: 'Reset to Default'
+    unitId: reset_to_default
+  -
+    value: 'Preview'
+    unitId: preview
+  -
+    value: 'Accepts jpg, .png, .gif, .svg up to {fileSize}. Recommended dimensions: {width}px X {height}px'
+    unitId: accept_jpg_png_gif_upto_recommended_dimensions
+  -
+    value: 'Incorrect Dimensions'
+    unitId: incorrect_dimensions
+  -
+    value: 'Invalid'
+    unitId: invalid
+  -
+    value: 'Or login with'
+    unitId: or_login_with
+  -
+    value: 'Successfully Activated'
+    unitId: successfully_activated
+  -
+    value: 'Publish'
+    unitId: publish
+  -
+    value: 'Number should be less than or equal to {maxValue}'
+    unitId: less_than_or_equal_to_n
+  -
+    value: 'Number should be greater than or equal to {minValue}'
+    unitId: greater_than_or_equal_to_n
+  -
+    value: 'Purged Employee'
+    unitId: purged_employee
+  -
+    value: 'Show More'
+    unitId: show_more
+  -
+    value: 'Show Less'
+    unitId: show_less
+  -
+    value: 'Upload {fileName}'
+    unitId: upload_n_file
+  -
+    value: 'This page is currently under development for OrangeHRM OS {version}.'
+    unitId: this_page_is_being_developed
+  -
+    value: 'Should be a numeric value'
+    unitId: should_be_a_numeric_value
+  -
+    value: 'Confirmation Required'
+    unitId: confirmation_required

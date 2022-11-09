@@ -1,68 +1,70 @@
-FROM ubuntu:14.04
+FROM php:8.1-apache-bullseye
 
-MAINTAINER Orangehrm <thulana@orangehrm.us.com>
+ENV OHRM_VERSION 5.2
+ENV OHRM_MD5 7c65683ee0025865c42e6049f47723c5
 
-RUN apt-get update
+RUN set -ex; \
+	savedAptMark="$(apt-mark showmanual)"; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		libfreetype6-dev \
+		libjpeg-dev \
+		libpng-dev \
+		libzip-dev \
+		libldap2-dev \
+		libicu-dev \
+		unzip \
+	; \
+	\
+	cd .. && rm -r html; \
+	curl -fSL -o orangehrm.zip "https://sourceforge.net/projects/orangehrm/files/stable/${OHRM_VERSION}/orangehrm-${OHRM_VERSION}.zip"; \
+	echo "${OHRM_MD5} orangehrm.zip" | md5sum -c -; \
+	unzip -q orangehrm.zip "orangehrm-${OHRM_VERSION}/*"; \
+	mv orangehrm-$OHRM_VERSION html; \
+	rm -rf orangehrm.zip; \
+	chown www-data:www-data html; \
+	chown -R www-data:www-data html/src/cache html/src/log html/src/config; \
+	chmod -R 775 html/src/cache html/src/log html/src/config; \
+	\
+	docker-php-ext-configure gd --with-freetype --with-jpeg; \
+	docker-php-ext-configure ldap \
+	    --with-libdir=lib/$(uname -m)-linux-gnu/ \
+	; \
+	\
+	docker-php-ext-install -j "$(nproc)" \
+		gd \
+		opcache \
+		intl \
+		pdo_mysql \
+		zip \
+		ldap \
+	; \
+	\
+	apt-mark auto '.*' > /dev/null; \
+	apt-mark manual $savedAptMark; \
+	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
+		| awk '/=>/ { print $3 }' \
+		| sort -u \
+		| xargs -r dpkg-query -S \
+		| cut -d: -f1 \
+		| sort -u \
+		| xargs -rt apt-mark manual; \
+	\
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	rm -rf /var/cache/apt/archives; \
+	rm -rf /var/lib/apt/lists/*
 
-# Install apache, PHP, and supplimentary programs. curl is for debugging the container.
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 mysql-server libapache2-mod-php5 php5-mysql php5-gd php-pear php-apc php5-curl curl supervisor
+RUN { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
+		echo 'opcache.enable_cli=1'; \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini; \
+	\
+	if command -v a2enmod; then \
+		a2enmod rewrite; \
+	fi;
 
-# Enable apache mods.
-RUN a2enmod php5
-RUN a2enmod rewrite
-
-# Manually set up the apache environment variables
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
-ENV APACHE_PID_FILE /var/run/apache2.pid
-
-
-ARG SEED=true
-# Export port 80
-EXPOSE 80
-
-# add source to image
-RUN mkdir -p var/www/site/orangehrm
-COPY . var/www/site/orangehrm
-
-#config mysql
-RUN /usr/sbin/mysqld & \
-
-    sleep 5s &&\
-
-    echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql
-
-
-# Fix Permission
-RUN cd var/www/site/orangehrm; bash fix_permissions.sh
-
-#install application
-RUN /usr/sbin/mysqld & \
-
-    sleep 5s &&\
- 
-    cd var/www/site/orangehrm; php installer/cli_install.php 0
-
-#Seed the database
-RUN /usr/sbin/mysqld & \
-
-    sleep 5s &&\
-
-    cd var/www/site/orangehrm/travis-config-files; ./seeddb.sh
-
-
-# Update the default apache site with the config we created.
-ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
-
-# Update the default apache ports with the config we created.
-ADD docker-build-files/ports.conf /etc/apache2/ports.conf
-
-# Copy Supervisor configuration
-ADD docker-build-files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Start apache/mysql
-CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-
-
+VOLUME ["/var/www/html"]

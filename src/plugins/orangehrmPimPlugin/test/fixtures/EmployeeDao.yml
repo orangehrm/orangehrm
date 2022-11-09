@@ -1,0 +1,116 @@
+Subunit:
+  0: {id: 1, name: 'Organization', description: 'company description', lft: 1, rgt: 14, level: 0}
+  1: {id: 2, name: 'Sales', description: 'department description', lft: 2, rgt: 5, level: 1}
+  2: {id: 3, name: 'Engineering', description: 'sub department description', lft: 6, rgt: 7, level: 1}
+  3: {id: 4, name: 'Marketing', description: 'sub department description', lft: 8, rgt: 9, level: 1}
+  4: {id: 5, name: 'Executive', description: 'sub department description', lft: 10, rgt: 13, level: 1}
+  5: {id: 6, name: 'Sub Executive', description: 'sub department description', lft: 11, rgt: 12, level: 2}
+  6: {id: 7, name: 'Sales Executive', description: 'sub department description', lft: 3, rgt: 4, level: 2}
+
+Employee:
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com', work_station: 2}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com', work_station: 4}
+  2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com'}
+  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004', emp_work_email: '', emp_oth_email: '', work_station: 4}
+  4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E005', emp_work_email: '', emp_oth_email: ''}
+
+EmployeeImmigrationRecord:
+    0: {emp_number: '1', recordId: '0', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', comment: 'test comment'}
+    1: {emp_number: '2', recordId: '1', type: 2, number: 'RTF33323411', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', comment: 'i modify this'}
+
+#EmpUsTaxExemption:
+#  0: {emp_number: '1', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}
+
+Membership:
+  0: {id: 1, name: 'membership1'}
+  1: {id: 2, name: 'membership2'}
+  2: {id: 3, name: 'membership3'}
+
+#EmployeeMembership:
+#  0: {id: '1', empNumber: '1', membershipId: 1, subscriptionFee: '4', subscriptionPaidBy: 'individual', subscriptionCurrency: 'Rs', subscriptionCommenceDate: '2011-05-20', subscriptionRenewalDate: '2011-05-22'}
+#  1: {id: '2', empNumber: '1', membershipId: 2, subscriptionFee: '6', subscriptionPaidBy: 'company', subscriptionCurrency: 'Rb', subscriptionCommenceDate: '2011-05-21', subscriptionRenewalDate: '2011-05-24'}
+
+ReportingMethod:
+  0: {id: '3', name: 'reportingMethodName1'}
+  1: {id: '4', name: 'reportingMethodName2'}
+
+ReportTo:
+  0: {erep_sup_emp_number: '4', erep_sub_emp_number: '3', erep_reporting_mode: '4'}
+  1: {erep_sup_emp_number: '5', erep_sub_emp_number: '3', erep_reporting_mode: '3'}
+  2: {erep_sup_emp_number: '3', erep_sub_emp_number: '2', erep_reporting_mode: '4'}
+  3: {erep_sup_emp_number: '3', erep_sub_emp_number: '1', erep_reporting_mode: '3'}
+
+EmpEmergencyContact:
+  0: {emp_number: '1', eec_seqno: '1', eec_name: 'Yasitha', eec_relationship: 'friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787'}
+  1: {emp_number: '2', eec_seqno: '2', eec_name: 'Renukshan', eec_relationship: 'friend1', eec_home_no: '0373245675', eec_mobile_no: '0776734237', eec_office_no: '0113676787'}
+  2: {emp_number: '1', eec_seqno: '2', eec_name: 'Rashmi', eec_relationship: 'friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787'}
+
+EmpWorkExperience:
+  0: {emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2'}
+  1: {emp_number: '1', eexp_seqno: '2', eexp_employer: 'IFS', eexp_jobtit: 'Architect', eexp_from_date: '2006-04-03', eexp_to_date: '2011-04-04', eexp_comments: 'Worked', eexp_internal: '3'}
+
+Skill:
+  0: {id: 1, name: 'good', description: 'good work'}
+  1: {id: 2, name: 'better', description: 'better work'}
+
+EmployeeSkill:
+  0: {emp_number: '1', skill_id: 1, years_of_exp: '4', comments: 'com1'}
+  1: {emp_number: '1', skill_id: 2, years_of_exp: '2', comments: 'com2'}
+
+#Language:
+#  0: {id: 1, name: 'English'}
+#  1: {id: 2, name: 'Sinhala'}
+
+#EmployeeLanguage:
+#  0: {empNumber: '1', langId: 1, fluency: '2', competency: '1', comments: 'comment1'}
+#  1: {empNumber: '1', langId: 2, fluency: '1', competency: '2', comments: 'comment2'}
+
+#License:
+#  0: {id: 1, name: 'sri lankan'}
+#  1: {id: 2, name: 'USA'}
+#
+#EmployeeLicense:
+#  0: {empNumber: '1', licenseId: 1, licenseNo: '2bja8768', licenseIssuedDate: '2004-02-23', licenseExpiryDate: '2007-02-23'}
+#  1: {empNumber: '1', licenseId: 2, licenseNo: '2bjghj768', licenseIssuedDate: '2002-02-23', licenseExpiryDate: '2004-02-23'}
+
+EmpDependent:
+    0: {emp_number: '1', ed_seqno: '1', ed_name: 'yasitha', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23'}
+    1: {emp_number: '1', ed_seqno: '2', ed_name: 'renukshan', ed_relationship_type: 'other', ed_relationship: 'friend', ed_date_of_birth: '2004-02-23'}
+
+#EmpChildren:
+#    0: {emp_number: '1', seqno: '1', ec_name: 'Anuradha', ec_date_of_birth: '2001-01-01'}
+#    1: {emp_number: '1', seqno: '2', ec_name: 'Sumith', ec_date_of_birth: '2003-01-09'}
+
+#EmpPicture:
+#    0: {emp_number: '1', epic_filename: 'test_file.jpg', epic_type: 'test/type', epic_file_size: '2000'}
+
+#Nationality:
+#    0: {id: 1, name: 'Test Nationality'}
+
+#EmployeeAttachment:
+#    0: {emp_number: '1', attach_id: '1', size: '1024', description: 'A file', filename: 'test.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0', attached_by_name: 'admin'}
+#    1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0', attached_by_name: 'admin'}
+
+WorkShift:
+  - {id: 1, name: 'General', hoursPerDay: 8, startTime: '09:00:00', endTime: '17:00:00'}
+
+EmployeeWorkShift:
+    - {work_shift_id: 1, emp_number: 1}
+
+PayGrade:
+    0: {id: 1, name: 'Salary Grade A'}
+    1: {id: 2, name: 'Salary Grade B'}
+
+CurrencyType:
+    0: {code: 1, currency_id : 'LKR', currency_name : 'Srilankan rupees'}
+    1: {code: 2, currency_id : 'USD', currency_name : 'Dollers'}
+    2: {code: 3, currency_id : 'YEN', currency_name : 'Japaneese '}
+
+PayGradeCurrency:
+    0: {pay_grade_id : 1, currency_id: 'LKR', min_salary: '20000', max_salary: '3000000' }
+    1: {pay_grade_id : 1, currency_id: 'USD', min_salary: '2000', max_salary: '30000' }
+    2: {pay_grade_id : 2, currency_id: 'YEN', min_salary: '2000', max_salary: '30000' }
+
+EmployeeSalary:
+    0: {id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', amount: '10000.00', salaryName: 'Main Salary'}
+    1: {id: 2, emp_number: 1, sal_grd_code: 2, currency_id: 'USD', amount: '20000.00', salaryName: 'Allowance'}

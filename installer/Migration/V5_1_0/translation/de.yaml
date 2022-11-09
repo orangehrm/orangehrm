@@ -1,0 +1,104 @@
+translations:
+    - { target: 'Bewertung hinzufügen', unitId: add_review, group: performance }
+    - { target: April, unitId: april, group: general }
+    - { target: August, unitId: august, group: general }
+    - { target: 'Aktueller Status', unitId: current_status, group: recruitment }
+    - { target: Dezember, unitId: december, group: general }
+    - { target: Löschen, unitId: delete, group: performance }
+    - { target: Februar, unitId: february, group: general }
+    - { target: Freitag, unitId: friday, group: general }
+    - { target: 'Vollständiger Name', unitId: full_name, group: general }
+    - { target: Januar, unitId: january, group: general }
+    - { target: Juli, unitId: july, group: general }
+    - { target: Juni, unitId: june, group: general }
+    - { target: März, unitId: march, group: general }
+    - { target: Mai, unitId: may, group: general }
+    - { target: Montag, unitId: monday, group: general }
+    - { target: November, unitId: november, group: general }
+    - { target: Oktober, unitId: october, group: general }
+    - { target: Samstag, unitId: saturday, group: general }
+    - { target: September, unitId: september, group: general }
+    - { target: Sonntag, unitId: sunday, group: general }
+    - { target: Donnerstag, unitId: thursday, group: general }
+    - { target: Dienstag, unitId: tuesday, group: general }
+    - { target: Mittwoch, unitId: wednesday, group: general }
+    - { target: Ungültig, unitId: invalid, group: general }
+    - { target: 'Es werden .docx, .doc, .odt, .pdf, .rtf und .txt bis zu 1MB akzeptiert', unitId: accept_custom_format_file, group: general }
+    - { target: Schlüsselwörter, unitId: keywords, group: recruitment }
+    - { target: 'Wieder aufnehmen / Lebenslauf', unitId: resume, group: recruitment }
+    - { target: Leistungsbeurteiler, unitId: performance_trackers, group: performance }
+    - { target: Protokoll, unitId: log, group: performance }
+    - { target: Gutachter, unitId: reviewer, group: performance }
+    - { target: 'hinzugefügt am', unitId: added_date, group: performance }
+    - { target: 'bearbeitet am', unitId: modified_date, group: performance }
+    - { target: 'Mitarbeiter können nicht als ihre eigenen Gutachter zugewiesen werden', unitId: employee_cannot_be_assigned_as_his_own_reviewer, group: performance }
+    - { target: Beobachtungsname, unitId: tracker_name, group: performance }
+    - { target: FR, unitId: fri, group: general }
+    - { target: MO, unitId: mon, group: general }
+    - { target: SA, unitId: sat, group: general }
+    - { target: SO, unitId: sun, group: general }
+    - { target: DO, unitId: thu, group: general }
+    - { target: DI, unitId: tue, group: general }
+    - { target: MI, unitId: wed, group: general }
+    - { target: Maximum, unitId: max, group: performance }
+    - { target: Minimum, unitId: min, group: performance }
+    - { target: Aktiv, unitId: active, group: general }
+    - { target: 'Bewerber hinzufügen', unitId: add_candidate, group: recruitment }
+    - { target: 'Bewerbung gestartet', unitId: application_initiated, group: recruitment }
+    - { target: Bewerber, unitId: candidate, group: recruitment }
+    - { target: Bewerbername, unitId: candidate_name, group: recruitment }
+    - { target: Geschlossen, unitId: closed, group: general }
+    - { target: Bewerbungsdatum, unitId: date_of_application, group: recruitment }
+    - { target: 'Angebot ausgeschlagen', unitId: decline_offer, group: recruitment }
+    - { target: Anstellen, unitId: hire, group: recruitment }
+    - { target: Angestellt, unitId: hired, group: recruitment }
+    - { target: Personalmanager, unitId: hiring_manager, group: recruitment }
+    - { target: 'Bewerbungsgespräch nicht bestanden', unitId: interview_failed, group: recruitment }
+    - { target: 'Bewerbungsgespräch bestanden', unitId: interview_passed, group: recruitment }
+    - { target: 'Bewerbungsgespräch geplant', unitId: interview_scheduled, group: recruitment }
+    - { target: Bewerbungsgesprächstitel, unitId: interview_title, group: recruitment }
+    - { target: 'Job angeboten', unitId: job_offered, group: recruitment }
+    - { target: Stellenangebot, unitId: job_vacancy, group: recruitment }
+    - { target: Manuell, unitId: manual, group: recruitment }
+    - { target: 'Das Bewerbungsgespräch als nicht bestanden markieren', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Das Bewerbungsgespräch als bestanden markieren', unitId: mark_interview_passed, group: recruitment }
+    - { target: Bewerbungsmethode, unitId: method_of_application, group: recruitment }
+    - { target: 'Anzahl der Stellen', unitId: num_of_positions, group: recruitment }
+    - { target: 'Angebot ausgeschlagen', unitId: offer_declined, group: recruitment }
+    - { target: Online, unitId: online, group: recruitment }
+    - { target: 'Durchgeführte Aktion / Aktion wurde durchgeführt', unitId: performed_action, group: recruitment }
+    - { target: 'Durchgeführtes Datum', unitId: performed_date, group: recruitment }
+    - { target: 'RSS Feed URL', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Interview planen', unitId: schedule_interview, group: recruitment }
+    - { target: 'In die engere Wahl nehmen', unitId: shortlist, group: recruitment }
+    - { target: Shortlist, unitId: shortlisted, group: recruitment }
+    - { target: Stellenangebot, unitId: vacancy, group: recruitment }
+    - { target: Stellenname, unitId: vacancy_name, group: recruitment }
+    - { target: 'Aktionsverlauf ansehen', unitId: view_action_history, group: recruitment }
+    - { target: 'Web Page URL', unitId: web_page_url, group: recruitment }
+    - { target: 'Bewerbung empfangen', unitId: application_received, group: recruitment }
+    - { target: Schlüsselleistungsindex, unitId: kpi, group: performance }
+    - { target: Fälligkeitsdatum, unitId: due_date, group: performance }
+    - { target: Evaluationszeitraum, unitId: review_period, group: performance }
+    - { target: Bewertungsstatus, unitId: review_status, group: performance }
+    - { target: Leistungsevaluation, unitId: performance_review, group: performance }
+    - { target: Aktivieren, unitId: activate, group: performance }
+    - { target: Evaluieren, unitId: evaluate, group: performance }
+    - { target: Schlüsselleistungsindikator, unitId: key_performance_indicator, group: performance }
+    - { target: Minimalwert, unitId: min_rate, group: performance }
+    - { target: Maximalwert, unitId: max_rate, group: performance }
+    - { target: 'Als Standard definieren', unitId: is_default, group: performance }
+    - { target: Bewertungs-Abgabedatum, unitId: review_due_date, group: performance }
+    - { target: Gesamtbewertung, unitId: final_rating, group: performance }
+    - { target: Vollständig, unitId: complete, group: performance }
+    - { target: Bewertung, unitId: rating, group: performance }
+    - { target: 'Schlüsselleistungsindikatoren für die Jobbezeichnung', unitId: key_performance_indicators_for_job_title, group: performance }
+    - { target: Minimalbewertung, unitId: minimum_rating, group: performance }
+    - { target: Maximalbewertung, unitId: maximum_rating, group: performance }
+    - { target: 'Standardskalierung einstellen', unitId: make_default_scale, group: performance }
+    - { target: Inaktiv, unitId: inactive, group: performance }
+    - { target: Aktiviert, unitId: activated, group: performance }
+    - { target: 'Ohne Schlüsselleistungsindizes kann keine Bewertung aktiviert werden', unitId: cannot_activate_review_without_kpi, group: performance }
+    - { target: 'Es kann keine Bewertung für Mitarbeiter aktiviert werden, die keine Berufsbezeichnung und/oder Unterabteilung besitzen', unitId: cannot_activate_review_without_job_title_subdivision, group: performance }
+    - { target: 'In Bearbeitung', unitId: in_progress, group: performance }
+    - { target: Abgeschlossen, unitId: completed, group: performance }

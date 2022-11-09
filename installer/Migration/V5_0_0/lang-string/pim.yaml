@@ -1,0 +1,514 @@
+langStrings:
+  -
+    value: 'Custom Fields'
+    unitId: custom_fields
+  -
+    value: 'Remaining number of custom fields:'
+    unitId: remaining_no_of_custom_fields
+  -
+    value: 'All custom fields are in use'
+    unitId: all_custom_fields_in_use
+  -
+    value: 'Custom Field Name'
+    unitId: custom_field_name
+  -
+    value: 'Screen'
+    unitId: screen
+  -
+    value: 'Field Type'
+    unitId: field_type
+  -
+    value: 'Custom field(s) in use'
+    unitId: custom_fields_in_use
+  -
+    value: 'Edit Custom Field'
+    unitId: edit_custom_field
+  -
+    value: 'Field Name'
+    unitId: field_name
+  -
+    value: 'Select Options'
+    unitId: select_options
+  -
+    value: 'Enter allowed options separated by commas'
+    unitId: enter_allowed_options_separated_by_commas
+  -
+    value: 'Add Custom Field'
+    unitId: add_custom_field
+  -
+    value: 'Data Import'
+    unitId: data_import
+  -
+    value: 'Column order should not be changed'
+    unitId: column_order_should_not_be_changed
+  -
+    value: 'First Name and Last Name are compulsory'
+    unitId: first_name_and_last_name_are_compulsory
+  -
+    value: 'All date fields should be in YYYY-MM-DD format'
+    unitId: all_date_fields_should_be_in_yyyy_mm_dd_format
+  -
+    value: 'If gender is specified, value should be either Male or Female'
+    unitId: gender_specified_value_should_be_either_m_or_f
+  -
+    value: 'Each import file should be configured for 100 records or less'
+    unitId: each_import_file_should_be_configured_for_100_records_or_less
+  -
+    value: 'Multiple import files may be required'
+    unitId: multiple_import_files_may_be_required
+  -
+    value: 'Sample CSV file'
+    unitId: sample_csv_file
+  -
+    value: 'Number of Records Imported: '
+    unitId: number_of_records_imported
+  -
+    value: 'Employee Information'
+    unitId: employee_information
+  -
+    value: 'Include'
+    unitId: include
+  -
+    value: 'Supervisor Name'
+    unitId: supervisor_name
+  -
+    value: 'First (& Middle) Name'
+    unitId: first_middle_name
+  -
+    value: 'Supervisor'
+    unitId: supervisor
+  -
+    value: 'Contact Details'
+    unitId: contact_details
+  -
+    value: 'Street 1'
+    unitId: street1
+  -
+    value: 'Street 2'
+    unitId: street2
+  -
+    value: 'Telephone'
+    unitId: telephone
+  -
+    value: 'Home'
+    unitId: home
+  -
+    value: 'Work'
+    unitId: work
+  -
+    value: 'Assigned Dependents'
+    unitId: assigned_dependents
+  -
+    value: 'Relationship'
+    unitId: relationship
+  -
+    value: 'Date of Birth'
+    unitId: date_of_birth
+  -
+    value: 'Assigned Emergency Contacts'
+    unitId: assigned_emergency_contacts
+  -
+    value: 'Home Telephone'
+    unitId: home_telephone
+  -
+    value: 'Work Telephone'
+    unitId: work_telephone
+  -
+    value: 'Assigned Immigration Records'
+    unitId: assigned_immigration_records
+  -
+    value: 'Document'
+    unitId: document
+  -
+    value: 'Number'
+    unitId: number
+  -
+    value: 'Issued By'
+    unitId: issued_by
+  -
+    value: 'Issued Date'
+    unitId: issued_date
+  -
+    value: 'Job Details'
+    unitId: job_details
+  -
+    value: 'Include Employment Contract Details'
+    unitId: include_employment_contract_details
+  -
+    value: 'Contract Start Date'
+    unitId: contract_start_date
+  -
+    value: 'Contract End Date'
+    unitId: contract_end_date
+  -
+    value: 'Contract Details'
+    unitId: contract_details
+  -
+    value: 'Assigned Memberships'
+    unitId: assigned_memberships
+  -
+    value: 'Membership'
+    unitId: membership
+  -
+    value: 'Subscription Paid By'
+    unitId: subscription_paid_by
+  -
+    value: 'Subscription Amount'
+    unitId: subscription_amount
+  -
+    value: 'Subscription Commence Date'
+    unitId: subscription_commence_date
+  -
+    value: 'Subscription Renewal Date'
+    unitId: subscription_renewal_date
+  -
+    value: 'Other Id'
+    unitId: other_id
+  -
+    value: "Driver License Number"
+    unitId: driver_license_number
+  -
+    value: 'License Expiry Date'
+    unitId: license_expiry_date
+  -
+    value: 'SSN Number'
+    unitId: ssn_number
+  -
+    value: 'SIN Number'
+    unitId: sin_number
+  -
+    value: 'Marital Status'
+    unitId: marital_status
+  -
+    value: 'Gender'
+    unitId: gender
+  -
+    value: 'Military Service'
+    unitId: military_service
+  -
+    value: 'Smoker'
+    unitId: smoker
+  -
+    value: 'Employee Id already exists'
+    unitId: employee_id_exists
+  -
+    value: 'Change Profile Picture'
+    unitId: change_profile_picture
+  -
+    value: 'Report to'
+    unitId: report_to
+  -
+    value: 'Salary Component'
+    unitId: salary_component
+  -
+    value: 'Amount'
+    unitId: amount
+  -
+    value: 'Pay Frequency'
+    unitId: pay_frequency
+  -
+    value: 'Direct Deposit Amount'
+    unitId: direct_deposit_amount
+  -
+    value: 'Federal Income Tax'
+    unitId: federal_income_tax
+  -
+    value: 'Exemptions'
+    unitId: exemptions
+  -
+    value: 'Unemployment State'
+    unitId: unemployment_state
+  -
+    value: 'Work State'
+    unitId: work_state
+  -
+    value: 'Create Login Details'
+    unitId: create_login_details
+  -
+    value: 'Optional Fields'
+    unitId: optional_fields
+  -
+    value: 'Show Deprecated Fields'
+    unitId: show_deprecated_fields
+  -
+    value: 'Show Nick Name, Smoker and Military Service in Personal Details'
+    unitId: show_nick_name_smoker_and_military_service_in_personal_details
+  -
+    value: 'Country Specific Information'
+    unitId: country_specific_information
+  -
+    value: 'Show SSN field in Personal Details'
+    unitId: show_ssn_field_in_personal_details
+  -
+    value: 'Show SIN field in Personal Details'
+    unitId: show_sin_field_in_personal_details
+  -
+    value: 'Show US Tax Exemptions menu'
+    unitId: show_us_tax_exemptions_menu
+  -
+    value: 'Edit Reporting Method'
+    unitId: edit_reporting_method
+  -
+    value: 'Add Reporting Method'
+    unitId: add_reporting_method
+  -
+    value: 'Edit Report'
+    unitId: edit_report
+  -
+    value: 'Reporting Methods'
+    unitId: reporting_methods
+  -
+    value: 'Reporting Method(s) in Use'
+    unitId: reporting_methods_in_use
+  -
+    value: 'Selection Criteria'
+    unitId: selection_criteria
+  -
+    value: 'Display Fields'
+    unitId: display_fields
+  -
+    value: 'Select Display Field Group'
+    unitId: select_display_field_group
+  -
+    value: 'Select Display Field'
+    unitId: select_display_field
+  -
+    value: 'At least one display field should be added'
+    unitId: at_least_one_display_field_should_be_added
+  -
+    value: 'Add Report'
+    unitId: add_report
+  -
+    value: 'Edit Termination Reason'
+    unitId: edit_termination_reason
+  -
+    value: 'Add Termination Reason'
+    unitId: add_termination_reason
+  -
+    value: 'Termination Reasons'
+    unitId: termination_reasons
+  -
+    value: 'Termination Reason(s) in Use'
+    unitId: termination_reasons_in_use
+  -
+    value: 'Update Password'
+    unitId: update_password
+  -
+    value: 'Current Password'
+    unitId: current_password
+  -
+    value: 'Current Password is Incorrect'
+    unitId: current_password_is_incorrect
+  -
+    value: 'Edit Dependent'
+    unitId: edit_dependent
+  -
+    value: 'Please Specify'
+    unitId: please_specify
+  -
+    value: 'Child'
+    unitId: child
+  -
+    value: 'Other'
+    unitId: other
+  -
+    value: 'Institute'
+    unitId: institute
+  -
+    value: 'Major/Specialization'
+    unitId: major_specialization
+  -
+    value: 'GPA/Score'
+    unitId: gpa_score
+  -
+    value: 'Edit Emergency Contact'
+    unitId: edit_emergency_contact
+  -
+    value: 'At least one phone number is required'
+    unitId: at_least_one_phone_number_is_required
+  -
+    value: 'Reporting Method'
+    unitId: reporting_method
+  -
+    value: 'Edit Immigration'
+    unitId: edit_immigration
+  -
+    value: 'Passport'
+    unitId: passport
+  -
+    value: 'Visa'
+    unitId: visa
+  -
+    value: 'Eligible Status'
+    unitId: eligible_status
+  -
+    value: 'Eligible Review Date'
+    unitId: eligible_review_date
+  -
+    value: 'Expiry date should be after issued date'
+    unitId: expiry_date_should_be_after_issued_date
+  -
+    value: 'Fluency'
+    unitId: fluency
+  -
+    value: 'Competency'
+    unitId: competency
+  -
+    value: 'License Type'
+    unitId: license_type
+  -
+    value: 'License Number'
+    unitId: license_number
+  -
+    value: 'Renewal date should be after the commencing date'
+    unitId: renewal_date_should_be_after_the_commencing_date
+  -
+    value: 'Edit Salary Component'
+    unitId: edit_salary_component
+  -
+    value: 'Assigned Salary Components'
+    unitId: assigned_salary_components
+  -
+    value: 'Include Direct Deposit Details'
+    unitId: include_direct_deposit_details
+  -
+    value: 'Account Number'
+    unitId: account_number
+  -
+    value: 'Account Type'
+    unitId: account_type
+  -
+    value: 'Routing Number'
+    unitId: routing_number
+  -
+    value: 'Skill'
+    unitId: skill
+  -
+    value: 'Years of Experience'
+    unitId: years_of_experience
+  -
+    value: 'Company'
+    unitId: company
+  -
+    value: 'License'
+    unitId: license
+  -
+    value: 'Assigned Subordinates'
+    unitId: assigned_subordinates
+  -
+    value: 'Assigned Supervisors'
+    unitId: assigned_supervisors
+  -
+    value: 'Work Experience'
+    unitId: work_experience
+  -
+    value: 'Add Work Experience'
+    unitId: add_work_experience
+  -
+    value: 'Date Added'
+    unitId: date_added
+  -
+    value: 'Added By'
+    unitId: added_by
+  -
+    value: 'Should be within Min/Max values'
+    unitId: should_be_within_min_max_values
+  -
+    value: 'Add Immigration'
+    unitId: add_immigration
+  -
+    value: 'Add Dependent'
+    unitId: add_dependent
+  -
+    value: 'Save Emergency Contact'
+    unitId: save_emergency_contact
+  -
+    value: 'Terminate Employment'
+    unitId: terminate_employment
+  -
+    value: 'Termination Date'
+    unitId: termination_date
+  -
+    value: 'Termination Reason'
+    unitId: termination_reason
+  -
+    value: 'Nickname'
+    unitId: nickname
+  -
+    value: 'Personal'
+    unitId: personal
+  -
+    value: 'Activate Employment'
+    unitId: activate_employment
+  -
+    value: 'Employee Last Name'
+    unitId: employee_last_name
+  -
+    value: 'Employee First Name'
+    unitId: employee_first_name
+  -
+    value: 'Employee Middle Name'
+    unitId: employee_middle_name
+  -
+    value: 'Eligibility Status'
+    unitId: eligibility_status
+  -
+    value: 'Eligibility Review Date'
+    unitId: eligibility_review_date
+  -
+    value: 'Document Type'
+    unitId: document_type
+  -
+    value: 'Termination Note'
+    unitId: termination_note
+  -
+    value: 'Direct Deposit Account Number'
+    unitId: direct_deposit_account_number
+  -
+    value: 'Direct Deposit Account Type'
+    unitId: direct_deposit_account_type
+  -
+    value: 'Direct Deposit Account Number'
+    unitId: direct_deposit_account_number
+  -
+    value: 'First Name'
+    unitId: first_name
+  -
+    value: 'Score'
+    unitId: score
+  -
+    value: 'Text or Number'
+    unitId: text_or_number
+  -
+    value: 'Drop Down'
+    unitId: drop_down
+  -
+    value: 'Supervisors'
+    unitId: supervisors
+  -
+    value: 'Subordinates'
+    unitId: subordinates
+  -
+    value: 'Service Period'
+    unitId: service_period
+  -
+    value: 'Age Group'
+    unitId: age_group
+  -
+    value: 'Employee Termination / Activiation'
+    unitId: employee_termination_activation
+  -
+    value: 'Terminated on'
+    unitId: terminated_on
+  -
+    value: 'Work Email and Other Email cannot be the same'
+    unitId: work_email_and_other_email_cannot_be_the_same
+  -
+    value: 'Joined before'
+    unitId: joined_before
+  -
+    value: 'Joined after'
+    unitId: joined_after
+  -
+    value: 'Joined in between'
+    unitId: joined_in_between

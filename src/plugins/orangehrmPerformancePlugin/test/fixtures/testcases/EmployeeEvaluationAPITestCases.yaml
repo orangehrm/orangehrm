@@ -1,0 +1,324 @@
+GetAll:
+  'Get all ratings for not completed employee review by admin':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 2
+    data:
+      []
+    meta:
+      total: 0
+      kpis:
+        0:
+          "id": 4
+          "title": "A"
+          "minRating": 0
+          "maxRating": 100
+        1:
+          "id": 5
+          "title": "B"
+          "minRating": 0
+          "maxRating": 100
+      reviewer:
+        "id": 3
+        "employee":
+          "empNumber": 6
+          "lastName": "Park"
+          "firstName": "Jihoon"
+          "middleName": ''
+          "employeeId": "0006"
+          "terminationId": null
+          "jobTitle":
+            "id": 2
+            "name": "Senior Software Engineer"
+            "deleted": false
+        "status": 1
+      generalComment: null
+      allowedActions: [ ]
+
+  'Get all ratings for self review by invalid supervisor':
+    userId: 2
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+
+  'Get all ratings for review that has empty self reviewer ratings':
+    userId: 5
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    data:
+      0:
+        "id": 7
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 1
+      1:
+        "id": 8
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 2
+      2:
+        "id": 9
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 3
+    meta:
+      total: 3
+      kpis:
+        0:
+          "id": 2
+          "title": "Code Coverage"
+          "minRating": 0
+          "maxRating": 100
+        1:
+          "id": 3
+          "title": "Code Stability"
+          "minRating": 0
+          "maxRating": 100
+        2:
+          "id": 1
+          "title": "Velocity"
+          "minRating": 0
+          "maxRating": 100
+      reviewer:
+          "id": 1
+          "employee":
+            "empNumber": 10
+            "lastName": "Anuka"
+            "firstName": "Christopher"
+            "middleName": ''
+            "employeeId": "0014"
+            "terminationId": 1
+            "jobTitle":
+              "id": 1
+              "name": "Software Engineer"
+              "deleted": false
+          "status": 1
+      generalComment: null
+      allowedActions:
+        0:
+          "action": 'save'
+          "name": 'Save'
+        1:
+          "action": 'complete'
+          "name": 'Complete'
+
+  'Get all ratings for completed self review':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 8
+    data:
+      0:
+        "id": 6
+        "rating": "2.00"
+        "comment": "testSelfb2"
+        "kpi":
+          "id": 6
+    meta:
+      total: 1
+      kpis:
+        0:
+          "id": 6
+          "title": "C"
+          "minRating": 0
+          "maxRating": 100
+      reviewer:
+          "id": 15
+          "employee":
+            "empNumber": 6
+            "lastName": "Park"
+            "firstName": "Jihoon"
+            "middleName": ''
+            "employeeId": "0006"
+            "terminationId": null
+            "jobTitle":
+              "id": 4
+              "name": "Senior QA"
+              "deleted": false
+          "status": 3
+      generalComment: null
+      allowedActions:
+        0:
+          "action": 'supervisorUpdate'
+          "name": 'Supervisorupdate'
+
+Update:
+  'Invalid User creating reviewer rating':
+    userId: 2
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    body:
+      ratings:
+        0:
+          "kpiId": 5
+          "rating": 2
+          "comment": "Test logs create"
+      "complete": false
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+      message: 'Unauthorized'
+
+  'No KPI':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    body:
+      ratings:
+        0:
+          "rating": 2
+          "comment": "Test logs create"
+      "complete": false
+    invalidOnly: [ 'ratings' ]
+
+  'Invalid KPI':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    body:
+      ratings:
+        0:
+          "kpiId": 5
+          "rating": 2
+          "comment": "Test logs create"
+      "complete": false
+    invalidOnly: [ 'ratings' ]
+
+  'without complete parameter':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 4
+    body:
+      ratings:
+        0:
+          "kpiId": 6
+          "rating": 20
+          "comment": "Test logs create"
+    invalidOnly: [ 'complete' ]
+
+  'Admin trying to add new self review for another user':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 4
+    body:
+      ratings:
+        0:
+          "kpiId": 6
+          "rating": 20
+          "comment": "Test logs create"
+      "complete": false
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+
+  'update existing reviewer ratings':
+    userId: 3
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 2
+    body:
+      ratings:
+        0:
+          "rating": "3.00"
+          "comment": "test self comment update"
+          "kpiId": 4
+        1:
+          "rating": "2.00"
+          "comment": "test self comment update 2"
+          "kpiId": 5
+      "complete": false
+    data:
+      0:
+        "id": 3
+        "rating": "3.00"
+        "comment": "test self comment update"
+        "kpi":
+          "id": 4
+      1:
+        "id": 4
+        "rating": "2.00"
+        "comment": "test self comment update 2"
+        "kpi":
+          "id": 5

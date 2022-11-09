@@ -1,0 +1,284 @@
+GetAll:
+  'without params':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    data: [ ]
+    meta: [ ]
+    invalidOnly: [ 'leaveRequestId' ]
+
+  'invalid leave request id':
+    userId: 1
+    services:
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    attributes:
+      leaveRequestId: -4
+    invalidOnly: [ 'leaveRequestId' ]
+
+  'get leaves':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      leaveRequestId: 3
+    now:
+      datetime: '2021-09-15'
+    data:
+      0:
+        id: 6
+        dates:
+          fromDate: "2021-12-30"
+          toDate: null
+          durationType:
+            id: 2
+            type: "half_day_afternoon"
+          startTime: '13:00'
+          endTime: '17:00'
+        lengthHours: 4.0
+        leaveBalance:
+          period:
+            startDate: "2021-01-01"
+            endDate: "2021-12-31"
+          balance:
+            entitled: 7.0
+            used: 7.0
+            scheduled: 6.0
+            pending: 1.0
+            taken: 0.0
+            balance: 0.0
+            asAtDate: "2021-12-30"
+            endDate: "2021-12-31"
+        leaveStatus:
+          id: 1
+          name: "Pending Approval"
+          lengthDays: 0.5
+        allowedActions: []
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        lastComment: null
+      1:
+        id: 7
+        dates:
+          fromDate: "2021-12-31"
+          toDate: null
+          durationType:
+            id: 0
+            type: "full_day"
+          startTime: null
+          endTime: null
+        lengthHours: 4.0
+        leaveBalance:
+          period:
+            startDate: "2021-01-01"
+            endDate: "2021-12-31"
+          balance:
+            entitled: 7.0
+            used: 7.0
+            scheduled: 6.0
+            pending: 1.0
+            taken: 0.0
+            balance: 0.0
+            asAtDate: "2021-12-30"
+            endDate: "2021-12-31"
+        leaveStatus:
+          id: 1
+          name: "Pending Approval"
+          lengthDays: 0.5
+        allowedActions: []
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        lastComment: null
+      2:
+        id: 8
+        dates:
+          fromDate: "2022-01-01"
+          toDate: null
+          durationType:
+            id: 0
+            type: "full_day"
+          startTime: null
+          endTime: null
+        lengthHours: 0.0
+        leaveBalance:
+          period:
+            startDate: "2022-01-01"
+            endDate: "2022-12-31"
+          balance:
+            entitled: 7.0
+            used: 1.0
+            scheduled: 0.0
+            pending: 1.0
+            taken: 0.0
+            balance: 6.0
+            asAtDate: "2021-12-30"
+            endDate: "2022-12-31"
+        leaveStatus:
+          id: 4
+          name: "Weekend"
+          lengthDays: 0.0
+        allowedActions: []
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        lastComment: null
+      3:
+        id: 9
+        dates:
+          fromDate: "2022-01-02"
+          toDate: null
+          durationType:
+            id: 0
+            type: "full_day"
+          startTime: null
+          endTime: null
+        lengthHours: 8.0
+        leaveBalance:
+          period:
+            startDate: "2022-01-01"
+            endDate: "2022-12-31"
+          balance:
+            entitled: 7.0
+            used: 1.0
+            scheduled: 0.0
+            pending: 1.0
+            taken: 0.0
+            balance: 6.0
+            asAtDate: "2021-12-30"
+            endDate: "2022-12-31"
+        leaveStatus:
+          id: 1
+          name: "Pending Approval"
+          lengthDays: 1.0
+        allowedActions: []
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        lastComment: null
+    meta:
+      total: 4
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      startDate: '2021-12-30'
+      endDate: '2022-01-02'
+
+  'get leaves with offset & limit':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      leaveRequestId: 3
+    query:
+      offset: 1
+      limit: 2
+    now:
+      datetime: '2021-09-15'
+    data:
+      0:
+        id: 7
+        dates:
+          fromDate: "2021-12-31"
+          toDate: null
+          durationType:
+            id: 0
+            type: "full_day"
+          startTime: null
+          endTime: null
+        lengthHours: 4.0
+        leaveBalance:
+          period:
+            startDate: "2021-01-01"
+            endDate: "2021-12-31"
+          balance:
+            entitled: 7.0
+            used: 7.0
+            scheduled: 6.0
+            pending: 1.0
+            taken: 0.0
+            balance: 0.0
+            asAtDate: "2021-12-30"
+            endDate: "2021-12-31"
+        leaveStatus:
+          id: 1
+          name: "Pending Approval"
+          lengthDays: 0.5
+        allowedActions: []
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        lastComment: null
+      1:
+        id: 8
+        dates:
+          fromDate: "2022-01-01"
+          toDate: null
+          durationType:
+            id: 0
+            type: "full_day"
+          startTime: null
+          endTime: null
+        lengthHours: 0.0
+        leaveBalance:
+          period:
+            startDate: "2022-01-01"
+            endDate: "2022-12-31"
+          balance:
+            entitled: 7.0
+            used: 1.0
+            scheduled: 0.0
+            pending: 1.0
+            taken: 0.0
+            balance: 6.0
+            asAtDate: "2021-12-30"
+            endDate: "2022-12-31"
+        leaveStatus:
+          id: 4
+          name: "Weekend"
+          lengthDays: 0.0
+        allowedActions: []
+        leaveType:
+          id: 6
+          name: "Medical"
+          deleted: false
+        lastComment: null
+    meta:
+      total: 4
+      employee:
+        empNumber: 2
+        lastName: 'Anderson'
+        firstName: 'Linda'
+        middleName: 'Jane'
+        employeeId: '0002'
+        terminationId: null
+      startDate: '2021-12-30'
+      endDate: '2022-01-02'

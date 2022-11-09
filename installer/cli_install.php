@@ -15,189 +15,132 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
-session_start();
-define('REAL_ROOT_PATH', dirname(__FILE__));
-define('ROOT_PATH',dirname( dirname(__FILE__) ));
 
-require_once(REAL_ROOT_PATH.'/utils/installUtil.php');
-require_once(REAL_ROOT_PATH.'/DetailsHandler.php');
-require_once(REAL_ROOT_PATH.'/BasicConfigurations.php');
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Installer\Framework\HttpKernel;
+use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\Installer\Util\StateContainer;
+use Symfony\Component\HttpFoundation\Request as BaseRequest;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Yaml\Yaml;
 
+$pathToAutoload = realpath(__DIR__ . '/../src/vendor/autoload.php');
 
-function setValueToLogFile($filePath, $content) {		
-	file_put_contents($filePath, $content , FILE_APPEND | LOCK_EX);
+$errorMessage = "
+Cannot find composer dependencies.
+Run below command and try again;\n
+$ cd %s
+$ composer install -d src
+";
+
+if ($pathToAutoload === false) {
+    die(sprintf($errorMessage, realpath(__DIR__ . '/../')));
 }
 
-function clearLogFile($filePath) {
-	file_put_contents($filePath, '' );
+require_once $pathToAutoload;
+
+if (Config::isInstalled()) {
+    die("This system already installed.\n");
 }
 
-function deleteFile($file)
-{
-if(is_file($file)){
-    if (!unlink($file))
+$kernel = new class ('prod', false) extends HttpKernel {
+    /**
+     * @inheritDoc
+     */
+    public function handle(BaseRequest $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true)
     {
-	  $messages = getMessages();
-      $messages->displayMessage(Messages::SEPERATOR."Error deleting $file");
+        return new Response();
     }
-  }
-}
+};
+$request = new Request();
+$kernel->handleRequest($request);
 
-function getMessages(){
-    if (!isset($messageList)) {
-        $messageList = new Messages();
+$cliConfig = Yaml::parseFile(realpath(__DIR__ . '/cli_install_config.yaml'));
+
+if ($cliConfig['license']['agree'] != 'y') {
+    $licenseFilePath = realpath(__DIR__ . "/../LICENSE");
+    echo "For continue installation need to accept OrangeHRM license agreement. It is available in '$licenseFilePath'.";
+    die;
+}
+echo "Agreed to license from config file\n";
+
+$dbType = $cliConfig['database']['isExistingDatabase'] == 'n' ? AppSetupUtility::INSTALLATION_DB_TYPE_NEW : AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING;
+$dbHost = $cliConfig['database']['hostName'];
+$dbPort = $cliConfig['database']['hostPort'];
+$dbUser = $cliConfig['database']['privilegedDatabaseUser'];
+$dbPassword = $cliConfig['database']['privilegedDatabasePassword'];
+$dbName = $cliConfig['database']['databaseName'];
+$useSameDbUserForOrangeHRM = $cliConfig['database']['useSameDbUserForOrangeHRM'] == 'y';
+$enableDataEncryption = $cliConfig['database']['enableDataEncryption'] == 'y';
+
+$organizationName = $cliConfig['organization']['name'];
+$countryCode = $cliConfig['organization']['country'];
+
+$adminUsername = $cliConfig['admin']['adminUserName'];
+$adminPassword = $cliConfig['admin']['adminPassword'];
+
+$firstName = $cliConfig['admin']['adminEmployeeFirstName'];
+$lastName = $cliConfig['admin']['adminEmployeeLastName'];
+$email = $cliConfig['admin']['workEmail'];
+$contact = $cliConfig['admin']['contactNumber'];
+
+
+if ($dbType === AppSetupUtility::INSTALLATION_DB_TYPE_NEW) {
+    $ohrmDbUser = $dbUser;
+    $ohrmDbPassword = $dbPassword;
+    if (!$useSameDbUserForOrangeHRM) {
+        $ohrmDbUser = $cliConfig['database']['orangehrmDatabaseUser'];
+        $ohrmDbPassword = $cliConfig['database']['orangehrmDatabasePassword'];
     }
-    return $messageList;
-}
-function getDetailsHandler(){
-    if (!isset($detailsHandler)) {
-        $detailsHandler = new DetailsHandler();
-    }
-    return $detailsHandler;
-}
-function getBasicConfigurations(){
-    if (!isset($basicConfigurations)) {
-        $basicConfigurations = new BasicConfigurations();
-    }
-    return $basicConfigurations;
-}
 
-$detailsHandler = getDetailsHandler();
-$messages = getMessages();
-$basicConfigurations = getBasicConfigurations();
-
-
-$licenseAgreementFromFile = parse_ini_file(REAL_ROOT_PATH."/config.ini");
-
-if($licenseAgreementFromFile['License'] != 'y'){
-
-$licenseFilePath=ROOT_PATH."/license/LICENSE.TXT";
-echo "For continue installation need to accept orangehrm license agreement. It is available in '$licenseFilePath'. Read it carefully and if you agree type word 'yes'. : ";
-$handle = fopen ("php://stdin","r");
-$acceptAggrement = fgets($handle);
-$acceptAggrement = (trim($acceptAggrement) == 'yes') ? true :  false;
-}
-else{
-  $acceptAggrement =true;
-  echo "Agreed to license from config file\n";
+    StateContainer::getInstance()->storeDbInfo(
+        $dbHost,
+        $dbPort,
+        new UserCredential($dbUser, $dbPassword),
+        $dbName,
+        new UserCredential($ohrmDbUser, $ohrmDbPassword)
+    );
+    StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_NEW);
+} else {
+    // `existing` database
+    StateContainer::getInstance()->storeDbInfo(
+        $dbHost,
+        $dbPort,
+        new UserCredential($dbUser, $dbPassword),
+        $dbName
+    );
+    StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING);
 }
 
+// Instance data
+StateContainer::getInstance()->storeInstanceData($organizationName, $countryCode, 'en_US', 'UTC');
 
+// Admin user
+StateContainer::getInstance()->storeAdminUserData(
+    $firstName,
+    $lastName,
+    $email,
+    new UserCredential($adminUsername, $adminPassword),
+    $contact
+);
 
-if(!$acceptAggrement){
-	$messages->displayMessage("Need accept license agreement to continue!");
-}
-//else if(posix_getuid() != 0){
-//	$messages->displayMessage(Messages::SUPER_USER_NEED);
-//}
-else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-        exit ("\nThis system already installed.\n");
-}else{ 
-        ($argv[1]<1) ? $detailsHandler->checkDetailsValidation() : setConfiguration($argv,$detailsHandler);
-	if(!($basicConfigurations->isFailBasicConfigurations()))
-	{
-//		shell_exec("chmod -R 777 ".ROOT_PATH);
-//		shell_exec("exit");
-		include "ApplicationSetupUtility.php";	
-	
-		ApplicationSetupUtility::createDB();
-		if (!isset($_SESSION['dbError']) && !isset($_SESSION['error'])) {
-			$messages->displayMessage("Please wait...");
-			$_SESSION['INSTALLING'] = 1;
-			$messages->displayMessage("Db Creating ...");
-			
-			$controlval = 0;
-			for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++){
-		
-			ApplicationSetupUtility::install();
-			if($_SESSION['INSTALLING']==2) $messages->displayMessage("Fill Data Phase 1 - No Errors...");
-			if($_SESSION['INSTALLING']==3) $messages->displayMessage("Fill Data Phase 2 - No Errors...");
-			if($_SESSION['INSTALLING']==4) $messages->displayMessage("Create DB user - No Errors...");
-			if($_SESSION['INSTALLING']==5) $messages->displayMessage("Create OrangeHRM user - No Errors...");
-			if($_SESSION['INSTALLING']==6) $messages->displayMessage("Write Conf - No Errors...");
-			if($_SESSION['INSTALLING']==7) $messages->displayMessage("Install Plugins  - No Errors...");
-			}
-		}
-
-		$error = false;
-	        if(isset($_SESSION['dbError'])){
-			$messages->displayMessage($_SESSION['dbError']);
-			$error = true; 
-		}		
-		else if (isset($_SESSION['error'])){
-			$messages->displayMessage($_SESSION['error']);
-			$error = true;
-		}
-                
-
-	    $logfileName = "logInsatall.log";
-		clearLogFile($logfileName);
-	    setValueToLogFile($logfileName,date("Y-m-d H:i:s "));
-
-		$result = shell_exec(__DIR__  . "/cli_common_commands.sh 2>> ". $logfileName); // Composer install and symfony commands
-
-		if(!isset($result) || trim($result)==='' || $error){
-			$messages->displayMessage("Error(s) found. Error log file will display below.");
-
-			$logFile = fopen("logInsatall.log", "r") or die("Unable to open file log file in cli!");
-			echo fread($logFile,filesize("logInsatall.log"));
-			fclose($logFile);
-
-			include(ROOT_PATH . '/installer/cleanUp.php');
-
-			deleteFile(ROOT_PATH . '/lib/confs/cryptokeys/key.ohrm');
-			deleteFile(ROOT_PATH . '/lib/confs/Conf.php');
-			$file = ROOT_PATH . '/symfony/config/databases.yml';
-			if(is_file($file)){
-				shell_exec("sudo rm  ". $file);
-			}
-		} else {
-			$messages->displayMessage("Please wait...");
-			$messages->displayMessage("Result - " . $result);
-			$messages->displayMessage("Installation successfully completed...");
-			setValueToLogFile($logfileName, "Installation successfully completed.\n");
-			require_once(ROOT_PATH.'/install.php');
-			saveBeaconData();
-			deleteFile('config.ini');
-		}
-	}
-	else{
-	 	$messages->displayMessage(Messages::INTERUPT_MESSAGE); 
-        }
+$appSetupUtility = new AppSetupUtility();
+echo "Database creation\n";
+$appSetupUtility->createDatabase();
+echo "Applying database changes\n";
+$appSetupUtility->runMigrations('3.3.3', Config::PRODUCT_VERSION);
+echo "Instance creation & Admin user creation\n";
+$appSetupUtility->insertSystemConfiguration();
+echo "Create OrangeHRM database user\n";
+$appSetupUtility->createDBUser();
+echo "Creating configuration files\n";
+$appSetupUtility->writeConfFile();
+if ($enableDataEncryption) {
+    $appSetupUtility->writeKeyFile();
 }
 
-function isUserFillFromBash($value){
-  return $value == "-N"? null:$value;
-}
-
-function setConfiguration($argv,$detailsHandler){
-		$dbHostName = isUserFillFromBash($argv[2]);
-		$dbHostPortID = isUserFillFromBash($argv[3]);
-		$dbName = isUserFillFromBash($argv[4]);
-
-		$adminUserName = isUserFillFromBash($argv[5]);
-	        $adminPassword = "";
-
-		$dbOHRMUserName = isUserFillFromBash($argv[6]);
-		$dbOHRMPassword = "";
-
-		$dbUserName = isUserFillFromBash($argv[7]);
-		$dbPassword = ""; 	
-
-		$databaseRootPassword = '';
-
-		$encryption = isUserFillFromBash($argv[8]); //"true = Active"/"Failed"
-		$dbCreateMethod = isUserFillFromBash($argv[9]); //existing/new
-		$sameOhrmUser  = isUserFillFromBash($argv[10]);
-
-		$companyName  = isUserFillFromBash($argv[11]);
-		$sendDataToOhrm  = isUserFillFromBash($argv[12]);
-		$SocketOrPort = isUserFillFromBash($argv[13]);
-
-		$detailsHandler->setConfigurationFromParameter($dbHostName,$dbHostPortID,$dbName,$adminUserName,$adminPassword,$dbOHRMUserName,$dbOHRMPassword,$dbUserName ,$dbPassword,$databaseRootPassword, $encryption , $dbCreateMethod , $sameOhrmUser, $companyName, $sendDataToOhrm,$SocketOrPort);
-}
-
-?>
-
+echo "Done\n";

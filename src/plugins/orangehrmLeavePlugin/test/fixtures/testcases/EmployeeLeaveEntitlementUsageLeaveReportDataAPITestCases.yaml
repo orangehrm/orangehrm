@@ -1,0 +1,808 @@
+GetAll:
+  'only with report name (current leave period)':
+    userId: 1
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+    data: [
+      {
+        "leaveTypeName": "CAN - Personal (Deleted)",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": true,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "CAN - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "Medical",
+        "entitlementDays": 7.0,
+        "pendingApprovalDays": 2.5,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 4.5,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Maternity",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Personal",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=3"
+        }
+      },
+    ]
+    meta:
+      total: 6
+      employee:
+        empNumber: 4
+        lastName: "Abbey"
+        firstName: "Kayla"
+        middleName: ""
+        employeeId: "0004"
+        terminationId: null
+
+  'with invalid report name':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'invalid'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Invalid report name'
+
+  'pagination - limit':
+    userId: 1
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+      limit: 5
+    data: [
+      {
+        "leaveTypeName": "CAN - Personal (Deleted)",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": true,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "CAN - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "Medical",
+        "entitlementDays": 7.0,
+        "pendingApprovalDays": 2.5,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 4.5,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Maternity",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Personal",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=3"
+        }
+      }
+    ]
+    meta:
+      total: 6
+      employee:
+        empNumber: 4
+        lastName: "Abbey"
+        firstName: "Kayla"
+        middleName: ""
+        employeeId: "0004"
+        terminationId: null
+
+  'pagination - offset':
+    userId: 1
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+      offset: 5
+    data: [
+      {
+        "leaveTypeName": "US - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=3"
+        }
+      },
+    ]
+    meta:
+      total: 6
+      employee:
+        empNumber: 4
+        lastName: "Abbey"
+        firstName: "Kayla"
+        middleName: ""
+        employeeId: "0004"
+        terminationId: null
+
+  'only with report name (next leave period)':
+    userId: 1
+    now:
+      datetime: '2022-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+    data: [
+      {
+        "leaveTypeName": "CAN - Personal (Deleted)",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": true,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "CAN - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "Medical",
+        "entitlementDays": 6.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 6.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Maternity",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Personal",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=3"
+        }
+      },
+    ]
+    meta:
+      total: 6
+      employee:
+        empNumber: 4
+        lastName: "Abbey"
+        firstName: "Kayla"
+        middleName: ""
+        employeeId: "0004"
+        terminationId: null
+
+  'only with report name (next leave period) employee having situational leave entitlement':
+    userId: 4
+    now:
+      datetime: '2022-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'my_leave_entitlements_and_usage'
+    data: [
+      {
+        "leaveTypeName": "CAN - Personal (Deleted)",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": true,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "CAN - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "Maternity",
+        "entitlementDays": 7.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 7.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "Medical",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Maternity",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Personal",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=3"
+        }
+      },
+    ]
+    meta:
+      total: 7
+      employee:
+        empNumber: 3
+        lastName: "Duval"
+        firstName: "Alice"
+        middleName: ""
+        employeeId: "0003"
+        terminationId: null
+
+  'only with report name (current leave period) employee not having situational leave entitlement':
+    userId: 4
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'my_leave_entitlements_and_usage'
+    data: [
+      {
+        "leaveTypeName": "CAN - Personal (Deleted)",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": true,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "CAN - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "Medical",
+        "entitlementDays": 7.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 7.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Maternity",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Personal",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=3"
+        }
+      },
+    ]
+    meta:
+      total: 6
+      employee:
+        empNumber: 3
+        lastName: "Duval"
+        firstName: "Alice"
+        middleName: ""
+        employeeId: "0003"
+        terminationId: null
+
+  'access subordinate report':
+    userId: 3
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+      empNumber: 3
+    data: [
+      {
+        "leaveTypeName": "CAN - Personal (Deleted)",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": true,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "CAN - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "Medical",
+        "entitlementDays": 7.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 7.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Maternity",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Personal",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=3"
+        }
+      },
+      {
+        "leaveTypeName": "US - Vacation",
+        "entitlementDays": 0.0,
+        "pendingApprovalDays": 0.0,
+        "scheduledDays": 0.0,
+        "takenDays": 0.0,
+        "balanceDays": 0.0,
+        "leaveTypeDeleted": false,
+        "_url": {
+          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2",
+          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=1",
+          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=2",
+          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=3"
+        }
+      },
+    ]
+    meta:
+      total: 6
+      employee:
+        empNumber: 3
+        lastName: "Duval"
+        firstName: "Alice"
+        middleName: ""
+        employeeId: "0003"
+        terminationId: null
+
+  'access inaccessible subordinate report':
+    userId: 3
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+      empNumber: 5
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'ESS user try to access report=employee_leave_entitlements_and_usage':
+    userId: 4
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'

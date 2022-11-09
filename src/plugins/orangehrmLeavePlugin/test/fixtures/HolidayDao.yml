@@ -1,0 +1,15 @@
+Country:
+  - {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+
+OperationalCountry:
+  - { id: 1, country_code: 'LK' }
+
+Holiday:
+  - {id: 1, recurring: 1, name: 'Public Holiday', date: '2010-05-27', length: 4}
+  - {id: 2, recurring: 0, name: 'Fullmoon Day', date: '2010-05-28', length: 8, operational_country_id: 1}
+  - {id: 3, recurring: 1, name: 'Home Holiday', date: '2010-06-21', length: 4}
+  - {id: 4, recurring: 0, name: 'Personal Holiday', date: '2010-08-28', length: 8}
+  - {id: 5, recurring: 1, name: 'Sports Day', date: '2021-07-23', length: 8}
+  - {id: 6, recurring: 1, name: "Father`s Day", date: '2021-07-25', length: 8}
+  - {id: 7, recurring: 0, name: 'Constitution Day', date: '2021-07-25', length: 8}
+  - {id: 8, recurring: 1, name: 'Christmas Day', date: '2021-12-25', length: 8}

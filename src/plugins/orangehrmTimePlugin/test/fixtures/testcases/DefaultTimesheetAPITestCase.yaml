@@ -1,0 +1,230 @@
+GetOne:
+  'Get default timesheet - self admin':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    query:
+      date: '2011-04-20'
+    body: [ ]
+    data:
+      id: 1
+      status:
+        id: "CREATED"
+        name: "Created"
+      startDate: "2011-04-18"
+      endDate: "2011-04-24"
+    meta: [ ]
+
+  'Get default timesheet - self ESS':
+    userId: 2
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    query:
+      date: '2011-05-25'
+    body: [ ]
+    data:
+      id: 2
+      status:
+        id: "SUBMITTED"
+        name: "Submitted"
+      startDate: "2011-05-23"
+      endDate: "2011-05-29"
+    meta: [ ]
+
+  'Get default timesheet - no timesheet found for given date':
+    userId: 2
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    query:
+      date: '2011-06-23'
+    body: [ ]
+    data:
+      id: null
+      status:
+        id: null
+        name: null
+      startDate: "2011-06-20"
+      endDate: "2011-06-26"
+    meta: [ ]
+
+  'Get default timesheet - Admin to Employee':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+      date: '2011-05-25'
+    body: [ ]
+    data:
+      id: 2
+      status:
+        id: 'SUBMITTED'
+        name: 'Submitted'
+      startDate: "2011-05-23"
+      endDate: "2011-05-29"
+    meta: [ ]
+
+  'Get default timesheet - Supervisor to subordinate':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      date: '2011-05-25'
+      empNumber: 2
+    body: [ ]
+    data:
+      id: 2
+      status:
+        id: 'SUBMITTED'
+        name: 'Submitted'
+      startDate: "2011-05-23"
+      endDate: "2011-05-29"
+    meta: [ ]
+
+  'Get default timesheet - Supervisor to non assingned subordinate':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      date: '2011-06-15'
+      empNumber: 4
+    body: [ ]
+    invalidOnly: ['empNumber']
+    meta: [ ]
+
+#
+  'Get default timesheet - ESS to another ESS':
+    userId: 2
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      date: '2011-06-15'
+      empNumber: 4
+    body: [ ]
+    invalidOnly: [ 'empNumber' ]
+    meta: [ ]
+
+  'Get default timesheet - without parm - Self (Common for auth users)':
+    userId: 2
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    query:
+    body: [ ]
+    data:
+      id: 4
+      status:
+        id: 'NOT SUBMITTED'
+        name: 'Not Submitted'
+      startDate: "2011-06-13"
+      endDate: "2011-06-19"
+    meta: [ ]
+
+  'Get default timesheet - without date parm - admin to employee':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+    body: [ ]
+    data:
+      id: 4
+      status:
+        id: 'NOT SUBMITTED'
+        name: 'Not Submitted'
+      startDate: "2011-06-13"
+      endDate: "2011-06-19"
+    meta: [ ]
+
+  'Get default timesheet - without date parm - admin to employee - no timesheet found':
+    userId: 1
+    now:
+      datetime: '2021-12-20'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 5
+    body: [ ]
+    data:
+      id: null
+      status:
+        id: null
+        name: null
+      startDate: "2021-12-20"
+      endDate: "2021-12-26"
+    meta: [ ]
+
+  'Get default timesheet - without date parm - supervisor to subordinate':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+    body: [ ]
+    data:
+      id: 4
+      status:
+        id: 'NOT SUBMITTED'
+        name: 'Not Submitted'
+      startDate: "2011-06-13"
+      endDate: "2011-06-19"
+    meta: [ ]
+
+  'Get default timesheet - without date parm - supervisor to non assingned subordinate':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      empNumber: 4
+    body: [ ]
+    invalidOnly: [ 'empNumber' ]
+    meta: [ ]
+
+  'Get default timesheet - without date parm - ESS to ESS':
+    userId: 2
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      empNumber: 4
+    body: [ ]
+    invalidOnly: [ 'empNumber' ]
+    meta: [ ]

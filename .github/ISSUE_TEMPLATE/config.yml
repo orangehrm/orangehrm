@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Need a help
+    url: https://forum.orangehrm.com
+    about: Please post an issue in our forum.

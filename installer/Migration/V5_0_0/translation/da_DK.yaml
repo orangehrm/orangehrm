@@ -1,0 +1,464 @@
+translations:
+    - { target: Tilføj, unitId: add, group: general }
+    - { target: 'Tilføj vedhæftet fil', unitId: add_attachment, group: general }
+    - { target: 'Tilføj Medarbejder', unitId: add_employee, group: general }
+    - { target: 'Tilføjet Af', unitId: added_by, group: pim }
+    - { target: Adresse, unitId: address, group: admin }
+    - { target: Admin, unitId: admin, group: general }
+    - { target: Aldersgruppe, unitId: age_group, group: pim }
+    - { target: 'Tillader tal og kun + - / ()', unitId: allows_phone_numbers_only, group: general }
+    - { target: 'Findes allerede', unitId: already_exists, group: general }
+    - { target: Beløb, unitId: amount, group: pim }
+    - { target: Anvend, unitId: apply, group: general }
+    - { target: 'Tildel fravær', unitId: assign_leave, group: leave }
+    - { target: 'Tildelte Løn Komponenter', unitId: assigned_salary_components, group: pim }
+    - { target: 'Størrelse for vedhæftning overskredet', unitId: attachment_size_exceeded, group: general }
+    - { target: Deltagelse, unitId: attendance, group: general }
+    - { target: 'Deltagelse Oversigt', unitId: attendance_summary, group: general }
+    - { target: Tilbage, unitId: back, group: general }
+    - { target: Annuller, unitId: cancel, group: general }
+    - { target: Kandidater, unitId: candidates, group: general }
+    - { target: 'Skift adgangskode', unitId: change_password, group: general }
+    - { target: Kommentar, unitId: comment, group: general }
+    - { target: Kommentarer, unitId: comments, group: general }
+    - { target: Firma, unitId: company, group: pim }
+    - { target: Kompetenceudvikling, unitId: competency, group: pim }
+    - { target: Konfiguration, unitId: configuration, group: general }
+    - { target: Konfigurer, unitId: configure, group: general }
+    - { target: 'Kontakt detaljer', unitId: contact_details, group: pim }
+    - { target: 'Kontrakt slutdato', unitId: contract_end_date, group: pim }
+    - { target: 'Kontrakt startdato', unitId: contract_start_date, group: pim }
+    - { target: Land, unitId: country, group: general }
+    - { target: Valuta, unitId: currency, group: general }
+    - { target: 'Nuværende og tidligere medarbejdere', unitId: current_and_past_employees, group: general }
+    - { target: 'Kun aktuelle medarbejderne', unitId: current_employees_only, group: general }
+    - { target: 'Brugerdefinerede felter', unitId: custom_fields, group: pim }
+    - { target: Kunder, unitId: customers, group: general }
+    - { target: Dataimport, unitId: data_import, group: pim }
+    - { target: Dato, unitId: date, group: general }
+    - { target: 'Dato tilføjet', unitId: date_added, group: pim }
+    - { target: Fødselsdato, unitId: date_of_birth, group: pim }
+    - { target: Dage, unitId: days, group: leave }
+    - { target: 'Slet nuværende', unitId: delete_current, group: general }
+    - { target: Pårørende, unitId: dependents, group: general }
+    - { target: Beskrivelse, unitId: description, group: general }
+    - { target: 'Kontonummer, direkte indbetaling', unitId: direct_deposit_account_number, group: pim }
+    - { target: 'Kontotype, direkte indbetaling', unitId: direct_deposit_account_type, group: pim }
+    - { target: 'Beløb, direkte indbetaling', unitId: direct_deposit_amount, group: pim }
+    - { target: Deaktiveret, unitId: disabled, group: general }
+    - { target: 'Vis felter', unitId: display_fields, group: pim }
+    - { target: Dokumenttyper, unitId: document_type, group: pim }
+    - { target: Kørekort, unitId: driver_license_number, group: pim }
+    - { target: Varighed, unitId: duration, group: general }
+    - { target: Rediger, unitId: edit, group: general }
+    - { target: 'Rediger vedhæftning', unitId: edit_attachment, group: general }
+    - { target: 'Rediger indvandring', unitId: edit_immigration, group: pim }
+    - { target: 'Rediger Løn Komponent', unitId: edit_salary_component, group: pim }
+    - { target: Uddannelse, unitId: education, group: general }
+    - { target: 'Kvalificeret anmeldelsedato', unitId: eligible_review_date, group: pim }
+    - { target: 'Privilegerede status', unitId: eligible_status, group: pim }
+    - { target: 'Kontakter ved nødsituation', unitId: emergency_contacts, group: general }
+    - { target: Medarbejder, unitId: employee, group: general }
+    - { target: 'Medarbejder Fornavn', unitId: employee_first_name, group: pim }
+    - { target: Medarbejder-id, unitId: employee_id, group: general }
+    - { target: 'Medarbejder Efternavn', unitId: employee_last_name, group: pim }
+    - { target: 'Medarbejder Liste', unitId: employee_list, group: general }
+    - { target: 'Medarbejder Mellemnavn', unitId: employee_middle_name, group: pim }
+    - { target: 'Medarbejder Navn', unitId: employee_name, group: general }
+    - { target: 'Medarbejder Journal', unitId: employee_records, group: general }
+    - { target: 'Medarbejder Rapporter', unitId: employee_reports, group: general }
+    - { target: 'Medarbejder Timesedler', unitId: employee_timesheets, group: general }
+    - { target: Beskæftigelsesstatus, unitId: employment_status, group: general }
+    - { target: Aktiveret, unitId: enabled, group: general }
+    - { target: Slutdato, unitId: end_date, group: general }
+    - { target: Selvbetjening, unitId: ess, group: general }
+    - { target: 'Forventet format: admin@example.com', unitId: expected_email_address_format_not_matched, group: general }
+    - { target: Udløbsdato, unitId: expiry_date, group: general }
+    - { target: 'Udløbsdato skal være efter udgivelsesdatoen', unitId: expiry_date_should_be_after_issued_date, group: pim }
+    - { target: Kvinde, unitId: female, group: general }
+    - { target: Filnavn, unitId: file_name, group: general }
+    - { target: Fornavn, unitId: first_name, group: pim }
+    - { target: Flydende, unitId: fluency, group: pim }
+    - { target: Fredag, unitId: friday, group: general }
+    - { target: Fra, unitId: from, group: general }
+    - { target: Køn, unitId: gender, group: pim }
+    - { target: 'Generelle oplysninger', unitId: general_information, group: admin }
+    - { target: 'Ferie- og helligdage', unitId: holidays, group: leave }
+    - { target: 'Telefon (hjem)', unitId: home_telephone, group: pim }
+    - { target: Id, unitId: id, group: general }
+    - { target: Indvandring, unitId: immigration, group: general }
+    - { target: Inkludér, unitId: include, group: pim }
+    - { target: 'Inkludér hoved', unitId: include_header, group: general }
+    - { target: 'Medtag tidligere medarbejdere', unitId: include_past_employees, group: leave }
+    - { target: 'Udstedt af', unitId: issued_by, group: pim }
+    - { target: 'Udgivelses dato', unitId: issued_date, group: pim }
+    - { target: Job, unitId: job, group: general }
+    - { target: Stillingskategorier, unitId: job_categories, group: admin }
+    - { target: Stillingskategori, unitId: job_category, group: general }
+    - { target: Jobspecifikation, unitId: job_specification, group: general }
+    - { target: Jobtitel, unitId: job_title, group: general }
+    - { target: Stillingsbetegnelser, unitId: job_titles, group: admin }
+    - { target: 'Tilmeldt dato', unitId: joined_date, group: general }
+    - { target: 'Hold dig opdateret', unitId: keep_current, group: general }
+    - { target: Sprog, unitId: language, group: general }
+    - { target: Sprog, unitId: languages, group: general }
+    - { target: Efternavn, unitId: last_name, group: general }
+    - { target: Lad, unitId: leave, group: general }
+    - { target: 'Ferie og fravær saldo (dage)', unitId: leave_balance_days, group: leave }
+    - { target: 'Ferie og fravær liste', unitId: leave_list, group: leave }
+    - { target: 'Ferie og fravær periode', unitId: leave_period, group: leave }
+    - { target: 'Ferie og fravær typer', unitId: leave_types, group: leave }
+    - { target: Niveau, unitId: level, group: general }
+    - { target: Licens, unitId: license, group: pim }
+    - { target: 'Licens Udløbsdato', unitId: license_expiry_date, group: pim }
+    - { target: Licensnummer, unitId: license_number, group: pim }
+    - { target: Licenstype, unitId: license_type, group: pim }
+    - { target: Licenser, unitId: licenses, group: admin }
+    - { target: Lokalisering, unitId: localization, group: admin }
+    - { target: Placering, unitId: location, group: general }
+    - { target: Steder, unitId: locations, group: admin }
+    - { target: Log, unitId: logout, group: general }
+    - { target: Mand, unitId: male, group: general }
+    - { target: Civilstand, unitId: marital_status, group: pim }
+    - { target: Medlemskab, unitId: membership, group: pim }
+    - { target: Medlemskaber, unitId: memberships, group: general }
+    - { target: Mobil, unitId: mobile, group: general }
+    - { target: Moduler, unitId: modules, group: general }
+    - { target: Mandag, unitId: monday, group: general }
+    - { target: 'Mit Ferie og fravær', unitId: my_leave, group: general }
+    - { target: 'Min journal', unitId: my_records, group: general }
+    - { target: 'Mine timesedler', unitId: my_timesheets, group: general }
+    - { target: Navn, unitId: name, group: general }
+    - { target: Nationaliteter, unitId: nationalities, group: admin }
+    - { target: Nationalitet, unitId: nationality, group: general }
+    - { target: Nej, unitId: 'no', group: general }
+    - { target: Noter, unitId: notes, group: general }
+    - { target: Nummer, unitId: number, group: pim }
+    - { target: 'Medtag kun godkendte timesedler', unitId: only_include_approved_timesheets, group: time }
+    - { target: 'Valgfrie felter', unitId: optional_fields, group: pim }
+    - { target: Organisation, unitId: organization, group: general }
+    - { target: Andet, unitId: other, group: pim }
+    - { target: 'Andre e-mail', unitId: other_email, group: general }
+    - { target: 'Andet Id', unitId: other_id, group: pim }
+    - { target: 'Tidligere medarbejder', unitId: past_employee, group: maintenance }
+    - { target: 'Kun tidligere medarbejdere', unitId: past_employees_only, group: general }
+    - { target: 'Løn frekvens', unitId: pay_frequency, group: pim }
+    - { target: Lønniveau, unitId: pay_grade, group: general }
+    - { target: Lønniveauer, unitId: pay_grades, group: admin }
+    - { target: Præstation, unitId: performance, group: general }
+    - { target: Personlig, unitId: personal, group: pim }
+    - { target: PIM, unitId: pim, group: general }
+    - { target: 'Projekt Datointerval', unitId: project_date_range, group: time }
+    - { target: 'Projekt Info', unitId: project_info, group: general }
+    - { target: 'Projekt rapporter', unitId: project_reports, group: general }
+    - { target: Projekter, unitId: projects, group: general }
+    - { target: 'Punch In / Out', unitId: punch_in_out, group: general }
+    - { target: Rekruttering, unitId: recruitment, group: general }
+    - { target: Relationship, unitId: relationship, group: pim }
+    - { target: 'Erstatte den aktuelle', unitId: replace_current, group: general }
+    - { target: 'Rapport Navn', unitId: report_name, group: general }
+    - { target: Rapporteringsmetode, unitId: reporting_method, group: pim }
+    - { target: Rapporteringsmetoder, unitId: reporting_methods, group: pim }
+    - { target: Rapporter, unitId: reports, group: general }
+    - { target: Påkrævet, unitId: required, group: general }
+    - { target: Nulstil, unitId: reset, group: general }
+    - { target: 'Routing Number', unitId: routing_number, group: pim }
+    - { target: Løn, unitId: salary, group: general }
+    - { target: 'Løn Komponent', unitId: salary_component, group: pim }
+    - { target: Lørdag, unitId: saturday, group: general }
+    - { target: Gem, unitId: save, group: general }
+    - { target: Score, unitId: score, group: pim }
+    - { target: Søg, unitId: search, group: general }
+    - { target: 'Vælg filer', unitId: select_file, group: general }
+    - { target: Udvælgelseskriterier, unitId: selection_criteria, group: pim }
+    - { target: Tjenesteperiode, unitId: service_period, group: pim }
+    - { target: 'Skal være et tal', unitId: should_be_a_number, group: general }
+    - { target: 'Skal være et positivt tal', unitId: should_be_a_positive_number, group: general }
+    - { target: 'Skal være inden for Min / Max værdier', unitId: should_be_within_min_max_values, group: pim }
+    - { target: Størrelse, unitId: size, group: general }
+    - { target: Evner, unitId: skill, group: pim }
+    - { target: Skills, unitId: skills, group: general }
+    - { target: Startdato, unitId: start_date, group: general }
+    - { target: 'Startdato skal være, før slutdato', unitId: start_date_should_be_before_end_date, group: general }
+    - { target: Stat, unitId: state, group: general }
+    - { target: Status, unitId: status, group: general }
+    - { target: Struktur, unitId: structure, group: general }
+    - { target: 'Sub Unit', unitId: sub_unit, group: general }
+    - { target: Underordnede, unitId: subordinates, group: pim }
+    - { target: Abonnementsbeløb, unitId: subscription_amount, group: pim }
+    - { target: 'Abonnement startdato', unitId: subscription_commence_date, group: pim }
+    - { target: 'Abonnement indbetalt af', unitId: subscription_paid_by, group: pim }
+    - { target: 'Abonnement fornyelsesdato', unitId: subscription_renewal_date, group: pim }
+    - { target: 'Gemt succesfuldt', unitId: successfully_saved, group: general }
+    - { target: 'Opdateret succesfuldt', unitId: successfully_updated, group: general }
+    - { target: Søndag, unitId: sunday, group: general }
+    - { target: Supervisor, unitId: supervisor, group: pim }
+    - { target: 'Supervisor Navn', unitId: supervisor_name, group: pim }
+    - { target: Vejledere, unitId: supervisors, group: pim }
+    - { target: 'Årsag til afslutning', unitId: termination_reasons, group: pim }
+    - { target: Torsdag, unitId: thursday, group: general }
+    - { target: Tid, unitId: time, group: general }
+    - { target: Timesedler, unitId: timesheets, group: general }
+    - { target: Til, unitId: to, group: general }
+    - { target: 'Til dato skal være efter fra dato', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Tirsdag, unitId: tuesday, group: general }
+    - { target: Type, unitId: type, group: general }
+    - { target: Brugere, unitId: users, group: general }
+    - { target: 'Ledige stillinger', unitId: vacancies, group: general }
+    - { target: Onsdag, unitId: wednesday, group: general }
+    - { target: 'E-mail arbejde', unitId: work_email, group: general }
+    - { target: 'Erhvervsmæssig erfaring', unitId: work_experience, group: pim }
+    - { target: Vagter, unitId: work_shifts, group: admin }
+    - { target: 'Telefon arbejde ', unitId: work_telephone, group: pim }
+    - { target: Arbejdsuge, unitId: work_week, group: leave }
+    - { target: År, unitId: year, group: general }
+    - { target: 'Års erfaring', unitId: years_of_experience, group: pim }
+    - { target: Ja, unitId: 'yes', group: general }
+    - { target: 'Passwords matcher ikke', unitId: passwords_do_not_match, group: general }
+    - { target: Ok, unitId: ok, group: general }
+    - { target: 'Accepterer op til 1 MB', unitId: accepts_up_to_1mb, group: general }
+    - { target: Brugernavn, unitId: username, group: general }
+    - { target: Adgangskode, unitId: password, group: general }
+    - { target: Upload, unitId: upload, group: general }
+    - { target: Total, unitId: total, group: general }
+    - { target: Opsigelsesdato, unitId: termination_date, group: pim }
+    - { target: Opsigelsesårsag, unitId: termination_reason, group: pim }
+    - { target: Aktivitetsnavn, unitId: activity_name, group: time }
+    - { target: 'Tilføj uddannelse', unitId: add_education, group: general }
+    - { target: 'Tilføj sprog', unitId: add_language, group: general }
+    - { target: 'Tilføj license', unitId: add_license, group: general }
+    - { target: 'Tilføj færdighed', unitId: add_skill, group: general }
+    - { target: 'Adresse Gade 1', unitId: address_street_1, group: general }
+    - { target: 'Adresse Gade 2', unitId: address_street_2, group: general }
+    - { target: By, unitId: city, group: general }
+    - { target: 'Bekræft adgangskode', unitId: confirm_password, group: general }
+    - { target: 'Kopiér fra', unitId: copy_from, group: time }
+    - { target: 'Projekt Navn', unitId: project_name, group: time }
+    - { target: 'Rediger uddannelse', unitId: edit_education, group: general }
+    - { target: 'Rediger sprog', unitId: edit_language, group: general }
+    - { target: 'Rediger License', unitId: edit_license, group: general }
+    - { target: 'Rediger færdighed', unitId: edit_skill, group: general }
+    - { target: 'Stat / provins', unitId: state_province, group: general }
+    - { target: 'Zip / Postnummer', unitId: zip_postal_code, group: general }
+    - { target: Godkend, unitId: approve, group: general }
+    - { target: Planlagt, unitId: scheduled, group: leave }
+    - { target: Bemærk, unitId: note, group: general }
+    - { target: Tilbehør, unitId: attachments, group: general }
+    - { target: Download, unitId: download, group: general }
+    - { target: E-mail, unitId: email, group: general }
+    - { target: 'Udføres af', unitId: performed_by, group: general }
+    - { target: Afvis, unitId: reject, group: general }
+    - { target: Afvist, unitId: rejected, group: leave }
+    - { target: Indsend, unitId: submit, group: general }
+    - { target: Vis, unitId: view, group: general }
+    - { target: 'Min info', unitId: my_info, group: general }
+    - { target: Kvalifikationer, unitId: qualifications, group: general }
+    - { target: 'Tilføj en anden', unitId: add_another, group: general }
+    - { target: Bekræft, unitId: confirm, group: general }
+    - { target: 'Til dato skal være efter Fra dato', unitId: to_date_should_be_after_from_date, group: general }
+    - { target: Aktiviteter, unitId: activities, group: time }
+    - { target: 'Tilføj Valuta', unitId: add_currency, group: admin }
+    - { target: 'Tilføj Kunde', unitId: add_customer, group: time }
+    - { target: 'Tilføj Beskæftigelsesstatus', unitId: add_employment_status, group: admin }
+    - { target: 'Tilføj Jobkategori', unitId: add_job_category, group: admin }
+    - { target: 'Tilføj Stillingsbetegnelse', unitId: add_job_title, group: admin }
+    - { target: 'Tilføj Placering', unitId: add_location, group: admin }
+    - { target: 'Tilføj Medlemskab', unitId: add_membership, group: general }
+    - { target: 'Tilføj Nationalitet', unitId: add_nationality, group: admin }
+    - { target: 'Tilføj Lønramme', unitId: add_pay_grade, group: admin }
+    - { target: 'Tilføj Projekt', unitId: add_project, group: time }
+    - { target: 'Tilføj Projektaktivitet', unitId: add_project_activity, group: time }
+    - { target: 'Tilføj Abonnement', unitId: add_subscriber, group: admin }
+    - { target: 'Tilføj Bruger', unitId: add_user, group: admin }
+    - { target: 'Tilføj Arbejdsskift', unitId: add_work_shift, group: admin }
+    - { target: 'Tildelte Medarbejdere', unitId: assigned_employees, group: admin }
+    - { target: Bedre, unitId: better, group: general }
+    - { target: 'Kolonne orden bør ikke ændres', unitId: column_order_should_not_be_changed, group: pim }
+    - { target: 'Kopier Aktivitet', unitId: copy_activity, group: time }
+    - { target: 'Nuværende adgangskode', unitId: current_password, group: pim }
+    - { target: Kundenavn, unitId: customer_name, group: time }
+    - { target: Datoformat, unitId: date_format, group: admin }
+    - { target: 'Hver import fil skal konfigureres til 100 poster eller mindre', unitId: each_import_file_should_be_configured_for_100_records_or_less, group: pim }
+    - { target: 'Rediger Valuta', unitId: edit_currency, group: admin }
+    - { target: 'Rediger Kunde', unitId: edit_customer, group: time }
+    - { target: 'Rediger Beskæftigelse status', unitId: edit_employment_status, group: admin }
+    - { target: 'Rediger Job Kategori', unitId: edit_job_category, group: admin }
+    - { target: 'Rediger Stillingsbetegnelse', unitId: edit_job_title, group: admin }
+    - { target: 'Rediger Placering', unitId: edit_location, group: admin }
+    - { target: 'Rediger Medlemskab', unitId: edit_membership, group: general }
+    - { target: 'Rediger Nationalitet', unitId: edit_nationality, group: admin }
+    - { target: 'Rediger Lønramme', unitId: edit_pay_grade, group: admin }
+    - { target: 'Rediger Project', unitId: edit_project, group: time }
+    - { target: 'Rediger Projekt Aktivitet', unitId: edit_project_activity, group: time }
+    - { target: 'Rediger Subscriber', unitId: edit_subscriber, group: admin }
+    - { target: 'Rediger Bruger', unitId: edit_user, group: admin }
+    - { target: 'Rediger arbejdsskift', unitId: edit_work_shift, group: admin }
+    - { target: Fax, unitId: fax, group: general }
+    - { target: 'Fornavn og Efternavn er obligatoriske', unitId: first_name_and_last_name_are_compulsory, group: pim }
+    - { target: 'Timer per dag', unitId: hours_per_day, group: admin }
+    - { target: Jobbeskrivelse, unitId: job_description, group: admin }
+    - { target: 'Mail Sendt som', unitId: mail_sent_as, group: admin }
+    - { target: 'Maksimal Løn', unitId: maximum_salary, group: admin }
+    - { target: 'Mindste Løn', unitId: minimum_salary, group: admin }
+    - { target: Modulkonfiguration, unitId: module_configuration, group: admin }
+    - { target: 'Ny adgangskode', unitId: new_password, group: auth }
+    - { target: 'Ingen udvalgte aktiviteter', unitId: no_activities_selected, group: time }
+    - { target: 'Ingen tildelt aktiviteter', unitId: no_assigned_activities, group: time }
+    - { target: Anmeldelsestype, unitId: notification_type, group: admin }
+    - { target: 'Antal medarbejdere', unitId: number_of_employees, group: admin }
+    - { target: 'Organisationens navn', unitId: organization_name, group: admin }
+    - { target: 'Sti til Sendmail', unitId: path_to_sendmail, group: admin }
+    - { target: Telefon, unitId: phone, group: general }
+    - { target: Projekt, unitId: project, group: time }
+    - { target: 'Projekt Admin', unitId: project_admin, group: time }
+    - { target: 'Projekt Admins', unitId: project_admins, group: time }
+    - { target: Registreringsnummer, unitId: registration_number, group: admin }
+    - { target: 'Sende Metode', unitId: sending_method, group: admin }
+    - { target: 'Skift navn', unitId: shift_name, group: admin }
+    - { target: SMTP-adgangskode, unitId: smtp_password, group: admin }
+    - { target: 'SMTP Port', unitId: smtp_port, group: admin }
+    - { target: SMTP-brugernavn, unitId: smtp_user, group: admin }
+    - { target: Stærkest, unitId: strongest, group: general }
+    - { target: Abonnenter, unitId: subscribers, group: admin }
+    - { target: Systembrugere, unitId: system_users, group: admin }
+    - { target: 'Skat ID', unitId: tax_id, group: admin }
+    - { target: 'Test e-mail adresse', unitId: test_email_address, group: admin }
+    - { target: 'Denne enhed vil blive tilføjet under', unitId: this_unit_will_be_added_under, group: admin }
+    - { target: TLS, unitId: tls, group: admin }
+    - { target: 'Unit Id', unitId: unit_id, group: admin }
+    - { target: 'Brug SMTP-godkendelse', unitId: use_smtp_authentication, group: admin }
+    - { target: 'Meget svag', unitId: very_weak, group: general }
+    - { target: Svag, unitId: weak, group: general }
+    - { target: 'Skal være højere end mindstelønnen', unitId: should_be_higher_than_minimum_salary, group: admin }
+    - { target: 'Alle datofelter skal være i ÅÅÅÅ-MM-DD format', unitId: all_date_fields_should_be_in_yyyy_mm_dd_format, group: pim }
+    - { target: 'Flere importere filer kan være påkrævet', unitId: multiple_import_files_may_be_required, group: pim }
+    - { target: 'Anvend Ferie og Fravær', unitId: apply_leave, group: leave }
+    - { target: 'Handlinger, der udføres på timeseddel', unitId: actions_performed_on_the_timesheet, group: time }
+    - { target: 'Tilføj række', unitId: add_row, group: time }
+    - { target: 'Tilføj timeseddel', unitId: add_timesheet, group: time }
+    - { target: 'Deltagelse alt sammenfattende rapport', unitId: attendance_total_summary_report, group: attendance }
+    - { target: 'Definer periode for timeseddel ', unitId: timesheet_period_config, group: time }
+    - { target: 'Rediger timeseddel for', unitId: edit_timesheet_for, group: time }
+    - { target: Medarbejderrapport, unitId: employee_report, group: time }
+    - { target: 'Bør være mindre end 24 og i TT: MM eller decimalformat', unitId: should_be_less_than_24_and_in_hh_mm_or_decimal_format, group: time }
+    - { target: Fre, unitId: fri, group: general }
+    - { target: Man, unitId: mon, group: general }
+    - { target: Projektrapport, unitId: project_report, group: time }
+    - { target: Sat, unitId: sat, group: general }
+    - { target: 'Vælg en dag til oprettelse af timeseddel', unitId: select_a_day_to_create_timesheet, group: time }
+    - { target: 'Vælg medarbejder', unitId: select_employee, group: time }
+    - { target: Søn, unitId: sun, group: general }
+    - { target: Tor, unitId: thu, group: general }
+    - { target: 'Timeseddel til', unitId: timesheet_for, group: time }
+    - { target: 'Timeseddel Periode', unitId: timesheet_period, group: time }
+    - { target: 'Timesedler verserende retssag', unitId: timesheets_pending_action, group: time }
+    - { target: Tir, unitId: tue, group: general }
+    - { target: Ons, unitId: wed, group: general }
+    - { target: 'Vælg et projekt og en aktivitet', unitId: select_a_project_and_an_activity, group: time }
+    - { target: 'Ingen Timesedler fundet', unitId: no_timesheets_found, group: time }
+    - { target: 'Timeseddel Godkendt', unitId: timesheet_approved, group: time }
+    - { target: 'Timeseddel Afvist', unitId: timesheet_rejected, group: time }
+    - { target: 'Samlet skal være mindre end 24 timer', unitId: total_should_be_less_than_24_hours, group: time }
+    - { target: Kontonummer, unitId: account_number, group: pim }
+    - { target: Kontotype, unitId: account_type, group: pim }
+    - { target: 'Aktiver ansættelse', unitId: activate_employment, group: pim }
+    - { target: 'Tilføj brugerdefineret felt', unitId: add_custom_field, group: pim }
+    - { target: 'Tilføj Afhængig', unitId: add_dependent, group: pim }
+    - { target: 'Tilføj Indvandring', unitId: add_immigration, group: pim }
+    - { target: 'Tilføj Rapporteringsmetode', unitId: add_reporting_method, group: pim }
+    - { target: 'Tilføj Opsigelsesårsag', unitId: add_termination_reason, group: pim }
+    - { target: 'Tilføj Erhvervserfaring', unitId: add_work_experience, group: pim }
+    - { target: 'Tildelte underordnede', unitId: assigned_dependents, group: pim }
+    - { target: 'Tildelte Nødkontakter', unitId: assigned_emergency_contacts, group: pim }
+    - { target: 'Tildelte Medlemsskaber', unitId: assigned_memberships, group: pim }
+    - { target: 'Tildelte Underordnede', unitId: assigned_subordinates, group: pim }
+    - { target: 'Tildelte Vejledere', unitId: assigned_supervisors, group: pim }
+    - { target: 'Mindst ét ​​telefonnummer er påkrævet', unitId: at_least_one_phone_number_is_required, group: pim }
+    - { target: Barn, unitId: child, group: pim }
+    - { target: 'Kontrakt Detaljer', unitId: contract_details, group: pim }
+    - { target: 'Landespecifikke oplysninger', unitId: country_specific_information, group: pim }
+    - { target: 'Opret login Detaljer', unitId: create_login_details, group: pim }
+    - { target: 'Tilpasset Feltnavn', unitId: custom_field_name, group: pim }
+    - { target: Dokument, unitId: document, group: pim }
+    - { target: 'Drop Down', unitId: drop_down, group: pim }
+    - { target: 'Redigér brugerdefineret felt', unitId: edit_custom_field, group: pim }
+    - { target: 'Edit Afhængig', unitId: edit_dependent, group: pim }
+    - { target: 'Rediger nødkontakt', unitId: edit_emergency_contact, group: pim }
+    - { target: 'Rediger Rapporteringsmetode', unitId: edit_reporting_method, group: pim }
+    - { target: 'Rediger Opsigelse Årsag', unitId: edit_termination_reason, group: pim }
+    - { target: 'Medarbejder Information', unitId: employee_information, group: pim }
+    - { target: 'Indtast tilladte valgmuligheder adskilt af komma', unitId: enter_allowed_options_separated_by_commas, group: pim }
+    - { target: Undtagelser, unitId: exemptions, group: pim }
+    - { target: 'Federal Income Tax', unitId: federal_income_tax, group: pim }
+    - { target: Feltnavn, unitId: field_name, group: pim }
+    - { target: Felttype, unitId: field_type, group: pim }
+    - { target: 'Fra dato skal være før til dato', unitId: from_date_should_be_before_to_date, group: general }
+    - { target: 'GPA / Score', unitId: gpa_score, group: pim }
+    - { target: Institut, unitId: institute, group: pim }
+    - { target: 'Videregående uddannelse/ Specialisering', unitId: major_specialization, group: pim }
+    - { target: Militærtjeneste, unitId: military_service, group: pim }
+    - { target: Pas, unitId: passport, group: pim }
+    - { target: 'Personlige oplysninger', unitId: personal_details, group: general }
+    - { target: Angiv, unitId: please_specify, group: pim }
+    - { target: 'Rapport til', unitId: report_to, group: general }
+    - { target: Skærm, unitId: screen, group: pim }
+    - { target: 'Vælg Valgmuligheder', unitId: select_options, group: pim }
+    - { target: 'Vis frabedte felter', unitId: show_deprecated_fields, group: pim }
+    - { target: 'Vis kaldenavn, ryger og værnepligt i personlige oplysninger', unitId: show_nick_name_smoker_and_military_service_in_personal_details, group: pim }
+    - { target: 'Vis CPR nummerfelt i personlige oplysninger', unitId: show_sin_field_in_personal_details, group: pim }
+    - { target: 'Vis CPR nummerfelt i personlige oplysninger', unitId: show_ssn_field_in_personal_details, group: pim }
+    - { target: 'Vis amerikanske skattefritagelser menuen', unitId: show_us_tax_exemptions_menu, group: pim }
+    - { target: 'CPR nummer', unitId: sin_number, group: pim }
+    - { target: Ryger, unitId: smoker, group: pim }
+    - { target: 'CPR Nummer', unitId: ssn_number, group: pim }
+    - { target: Afgiftsfritagelse, unitId: tax_exemptions, group: general }
+    - { target: 'Afslut ansættelse', unitId: terminate_employment, group: pim }
+    - { target: 'Tekst eller tal', unitId: text_or_number, group: pim }
+    - { target: 'Arbejdsløshed tilstand', unitId: unemployment_state, group: pim }
+    - { target: Visa, unitId: visa, group: pim }
+    - { target: 'Arbejde State', unitId: work_state, group: pim }
+    - { target: Handlinger, unitId: actions, group: general }
+    - { target: Tildel, unitId: assign, group: leave }
+    - { target: 'Aktuel orlov', unitId: current_leave_period, group: leave }
+    - { target: 'Varighed (timer)', unitId: duration_hours, group: attendance }
+    - { target: 'Efter År', unitId: following_year, group: leave }
+    - { target: 'Fra Dato', unitId: from_date, group: general }
+    - { target: 'Fuld dag', unitId: full_day, group: leave }
+    - { target: 'Halv Day', unitId: half_day, group: leave }
+    - { target: 'Ferie og fravær saldo', unitId: leave_balance, group: leave }
+    - { target: 'Ferie og fraværstype', unitId: leave_type, group: leave }
+    - { target: 'Min ferie og fraværsliste', unitId: my_leave_list, group: leave }
+    - { target: 'Ingen ferie og fraværstyper med ferie og fraværssaldo', unitId: no_leave_types_with_leave_balance, group: leave }
+    - { target: Fridag, unitId: non_working_day, group: leave }
+    - { target: 'Antal dage', unitId: number_of_days, group: leave }
+    - { target: 'Indtil godkendelse', unitId: pending_approval, group: leave }
+    - { target: 'Gentager Årligt', unitId: repeats_annually, group: leave }
+    - { target: 'Vis ferie og fravær med status', unitId: show_leave_with_status, group: leave }
+    - { target: Taget, unitId: taken, group: leave }
+    - { target: 'Til dato', unitId: to_date, group: general }
+    - { target: 'Undlod at indsende: Ingen Arbejdsdage Selected', unitId: failed_to_submit_no_working_days_selected, group: leave }
+    - { target: 'Undlod at indsende', unitId: failed_to_submit, group: leave }
+    - { target: 'Tilføj Lad Type', unitId: add_leave_type, group: leave }
+    - { target: 'Rediger Lad Type', unitId: edit_leave_type, group: leave }
+    - { target: 'Stempel ind', unitId: punch_in, group: attendance }
+    - { target: 'Stempel ind note', unitId: punch_in_note, group: attendance }
+    - { target: 'Stempel ud', unitId: punch_out, group: attendance }
+    - { target: 'Stempel ud Note', unitId: punch_out_note, group: attendance }
+    - { target: 'Overlappende Records fundet', unitId: overlapping_records_found, group: attendance }
+    - { target: Tidszone, unitId: timezone, group: attendance }
+    - { target: Ind, unitId: in, group: attendance }
+    - { target: Ud, unitId: out, group: attendance }
+    - { target: 'Deltagelse Konfiguration', unitId: attendance_configuration, group: attendance }
+    - { target: 'Medarbejder kan ændre aktuelle tidspunkt, hvor stansning ind / ud', unitId: employee_can_change_current_time_when_punching_in_out, group: attendance }
+    - { target: 'Medarbejder kan redigere / slette egne fremmødekontrol', unitId: employee_can_edit_delete_own_attendance_records, group: attendance }
+    - { target: 'Supervisor kan tilføje / redigere / slette fremmødekontrol af underordnede', unitId: supervisor_can_add_edit_delete_attendance_records_of_subordinates, group: attendance }
+    - { target: 'Min deltagelseregistrering', unitId: my_attendance_records, group: attendance }
+    - { target: 'Slettet succesfuldt', unitId: successfully_deleted, group: general }
+    - { target: Tiden for 'Stempel ud' bør være højere end tidspunkt for Stempel ind, unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Brugernavn', unitId: username, group: auth }
+    - { target: Adgangskode, unitId: password, group: auth }
+    - { target: Ingen poster fundet, unitId: no_records_found, group: general }
+    - { target: Timeseddel Indsendt, unitId: timesheet_submitted, group: time }
+    - { target: Mellemnavn, unitId: middle_name, group: general }
+    - { target: Fornavn, unitId: first_name, group: general }
+    - { target: Efternavn, unitId: last_name, group: general }

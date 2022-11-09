@@ -1,0 +1,177 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+
+    runs-on: ubuntu-20.04
+
+    services:
+      mysql:
+        image: mariadb:10.3
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+          --tmpfs /var/lib/mysql/
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate composer.json and composer.lock
+        run: |
+          cd src
+          composer validate --strict
+
+      - name: Parse Git short hash
+        run: echo "git_short_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          php7.4 -f /usr/bin/composer install -d src
+          php7.4 -f /usr/bin/composer install -d devTools/core
+          cd src/client
+          yarn install
+
+      - name: Install OrangeHRM
+        run: |
+          php7.4 installer/cli_install.php
+          mysqldump -V
+          php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
+
+      - name: Configure LDAP server
+        if: "${{ github.event_name == 'push' }}"
+        run: |
+          cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/config
+          docker run --detach --rm --name openldap \
+            --network ${{ job.container.network }} \
+            -p 389:1389 \
+            -e LDAP_ADMIN_USERNAME=admin \
+            -e LDAP_ADMIN_PASSWORD=admin \
+            -e LDAP_ROOT=dc=example,dc=org \
+            -e LDAP_CONFIG_ADMIN_ENABLED=yes \
+            -e LDAP_CONFIG_ADMIN_USERNAME=admin \
+            -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
+            -e LDAP_SKIP_DEFAULT_TREE=yes \
+            -v $PWD/ldifs:/ldifs \
+            bitnami/openldap:latest
+          cat server-config.tpl.yaml > server-config.yaml
+
+      - name: Run Jest
+        run: |
+          cd src/client
+          yarn test:unit --coverage
+
+      - name: Run test
+        run: |
+          XDEBUG_MODE=coverage ./src/vendor/bin/phpunit --coverage-html coverage -d memory_limit=1G
+          tar cf - coverage/ | xz -z - > coverage.tar.xz
+
+      - name: Upload jest coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: jest-coverage
+          path: src/client/coverage
+
+      - name: Upload phpunit coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage.tar.xz
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: logs
+          path: src/log
+
+      - name: Stop LDAP container
+        if: "${{ github.event_name == 'push' && always() }}"
+        run: docker stop openldap
+
+  composer_check:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate composer.json and composer.lock
+        run: |
+          cd src
+          php8.0 -f /usr/bin/composer validate --strict
+          php8.1 -f /usr/bin/composer validate --strict
+
+      - name: Install depandancies on PHP 8.0
+        run: |
+          cd src
+          rm -rf vendor
+          php8.0 -f /usr/bin/composer install
+          php8.0 -f /usr/bin/composer dump-autoload -o
+
+      - name: Install depandancies on PHP 8.1
+        run: |
+          cd src
+          rm -rf vendor
+          php8.1 -f /usr/bin/composer install
+          php8.1 -f /usr/bin/composer dump-autoload -o
+
+  installation:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-20.04
+
+    services:
+      mysql:
+        image: mariadb:10.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          php7.4 -f /usr/bin/composer install -d src
+          php7.4 -f /usr/bin/composer install -d devTools/core
+
+      - name: Install OrangeHRM with empty database password
+        run: |
+          sed -i 's/useSameDbUserForOrangeHRM: y/useSameDbUserForOrangeHRM: n/g' installer/cli_install_config.yaml
+          sed -i 's/orangehrmDatabaseUser: ~/orangehrmDatabaseUser: orangehrm_1/g' installer/cli_install_config.yaml
+          php7.4 installer/cli_install.php
+
+      - name: Install OrangeHRM with database user
+        run: |
+          php devTools/core/console.php i:reset
+          git checkout installer/cli_install_config.yaml
+          sed -i 's/useSameDbUserForOrangeHRM: y/useSameDbUserForOrangeHRM: n/g' installer/cli_install_config.yaml
+          sed -i 's/orangehrmDatabaseUser: ~/orangehrmDatabaseUser: orangehrm_2/g' installer/cli_install_config.yaml
+          sed -i 's/orangehrmDatabasePassword: ~/orangehrmDatabasePassword: 0rang3h!m/g' installer/cli_install_config.yaml
+          sed -i 's/databaseName: orangehrm_mysql/databaseName: db/g' installer/cli_install_config.yaml
+          php7.4 installer/cli_install.php
+
+      - name: Install OrangeHRM with existing database
+        run: |
+          php devTools/core/console.php i:reset
+          git checkout installer/cli_install_config.yaml
+          sed -i 's/isExistingDatabase: n/isExistingDatabase: y/g' installer/cli_install_config.yaml
+          sed -i 's/privilegedDatabaseUser: root/privilegedDatabaseUser: orangehrm_2/g' installer/cli_install_config.yaml
+          sed -i 's/privilegedDatabasePassword: root/privilegedDatabasePassword: 0rang3h!m/g' installer/cli_install_config.yaml
+          sed -i 's/databaseName: orangehrm_mysql/databaseName: db/g' installer/cli_install_config.yaml
+          mysql -u root -proot -h 127.0.0.1 -e "CREATE DATABASE db;"
+          php7.4 installer/cli_install.php
+
+      - name: Check dev tool reinstall command
+        run: |
+          php devTools/core/console.php i:reinstall

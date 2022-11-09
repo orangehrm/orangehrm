@@ -1,0 +1,36 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'leave.entitlement_consumption_algorithm', value: 'FIFOEntitlementConsumptionStrategy' }
+  - { name: 'leave.leavePeriodStatus', value: 1 }
+  - { name: 'leave.include_pending_leave_in_balance', value: 1 }
+  - { name: 'leave.work_schedule_implementation', value: 'BasicWorkSchedule' }
+  - { name: 'leave_period_defined', value: 'Yes' }
+  - { name: 'admin.default_workshift_end_time', value: '17:00' }
+  - { name: 'admin.default_workshift_start_time', value: '09:00' }
+
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  2: { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com' }
+  3: { empNumber: 4, firstName: 'Purged', lastName: 'Employee', middleName: '', employeeId: 'E004', "purged_at": "2022-03-22" }
+  4: { empNumber: 5, firstName: 'Purged', lastName: 'Employee', middleName: '', employeeId: 'E005', "purged_at": "2022-03-22" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 3, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+
+WorkShift:
+  0: { id: 1, name: 'Shift 1', hoursPerDay: 8, start_time: '07:00', end_time: '15:00' }
+  1: { id: 2, name: 'Shift 2', hoursPerDay: 8, start_time: '09:30', end_time: '17:30' }
+
+EmployeeWorkShift:
+  0: { work_shift_id: 1, emp_number: 1 }
+  1: { work_shift_id: 1, emp_number: 2 }
+  2: { work_shift_id: 2, emp_number: 4 }
+  3: { work_shift_id: 2, emp_number: 5 }

@@ -1,0 +1,95 @@
+GetAll:
+  'Get all KPIs for review':
+    userId: 1
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    data:
+      0:
+        "id": 2
+        "title": "Code Coverage"
+        "minRating": 0
+        "maxRating": 100
+      1:
+        "id": 3
+        "title": "Code Stability"
+        "minRating": 0
+        "maxRating": 100
+      2:
+        "id": 1
+        "title": "Velocity"
+        "minRating": 0
+        "maxRating": 100
+    meta:
+      total: 3
+
+  'Get all KPIs for review for invalid Supervisor':
+    userId: 2
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 1
+    exception:
+      class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
+
+  'Get all KPIs for review for valid Supervisor reviewer':
+    userId: 2
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 5
+    data:
+      0:
+        "id": 5
+        "title": "B"
+        "minRating": 0
+        "maxRating": 100
+    meta:
+      total: 1
+
+
+  'Get all KPIs for review for ESS self reviewer':
+    userId: 4
+    services:
+      performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      reviewId: 15
+    data:
+      0:
+        "id": 2
+        "title": "Code Coverage"
+        "minRating": 0
+        "maxRating": 100
+      1:
+        "id": 3
+        "title": "Code Stability"
+        "minRating": 0
+        "maxRating": 100
+      2:
+        "id": 1
+        "title": "Velocity"
+        "minRating": 0
+        "maxRating": 100
+    meta:
+      total: 3

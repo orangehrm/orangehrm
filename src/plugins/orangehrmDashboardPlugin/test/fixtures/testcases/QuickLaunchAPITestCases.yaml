@@ -1,0 +1,170 @@
+'GetAll - Modules enabled Periods defined':
+  'Admin - get quick launch items with modules enabled and periods enabled':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": true,
+      "leave.leave_list": true,
+      "leave.apply_leave": true,
+      "leave.my_leave": true,
+      "time.employee_timesheet": true,
+      "time.my_timesheet": true
+    }
+
+  'ESS - get quick launch items with modules enabled and periods enabled':
+    userId: 2
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": false,
+      "leave.leave_list": false,
+      "leave.apply_leave": true,
+      "leave.my_leave": true,
+      "time.employee_timesheet": false,
+      "time.my_timesheet": true
+    }
+
+  'Supervisor - get quick launch items with modules enabled and periods enabled':
+    userId: 3
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": true,
+      "leave.leave_list": true,
+      "leave.apply_leave": true,
+      "leave.my_leave": true,
+      "time.employee_timesheet": true,
+      "time.my_timesheet": true
+    }
+
+'GetAll - Modules enabled Periods undefined':
+  'Admin - get quick launch items with modules enabled and periods enabled':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": false,
+      "leave.leave_list": false,
+      "leave.apply_leave": false,
+      "leave.my_leave": false,
+      "time.employee_timesheet": false,
+      "time.my_timesheet": false
+    }
+
+  'ESS - get quick launch items with modules enabled and periods enabled':
+    userId: 2
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": false,
+      "leave.leave_list": false,
+      "leave.apply_leave": false,
+      "leave.my_leave": false,
+      "time.employee_timesheet": false,
+      "time.my_timesheet": false
+    }
+
+  'Supervisor - get quick launch items with modules enabled and periods enabled':
+    userId: 3
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": false,
+      "leave.leave_list": false,
+      "leave.apply_leave": false,
+      "leave.my_leave": false,
+      "time.employee_timesheet": false,
+      "time.my_timesheet": false
+    }
+
+'GetAll - Leave module disabled':
+  'Admin - get quick launch items with modules enabled and periods enabled':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": false,
+      "leave.leave_list": false,
+      "leave.apply_leave": false,
+      "leave.my_leave": false,
+      "time.employee_timesheet": true,
+      "time.my_timesheet": true
+    }
+
+  'ESS - get quick launch items with modules enabled and periods enabled':
+    userId: 2
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": false,
+      "leave.leave_list": false,
+      "leave.apply_leave": false,
+      "leave.my_leave": false,
+      "time.employee_timesheet": false,
+      "time.my_timesheet": true
+    }
+
+  'Supervisor - get quick launch items with modules enabled and periods enabled':
+    userId: 3
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      dashboard.quick_launch_service: \OrangeHRM\Dashboard\Service\QuickLaunchService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      "leave.assign_leave": false,
+      "leave.leave_list": false,
+      "leave.apply_leave": false,
+      "leave.my_leave": false,
+      "time.employee_timesheet": true,
+      "time.my_timesheet": true
+    }

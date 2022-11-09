@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block links %}
+    <link rel="icon" href="{{ publicPath }}/client/dist/favicon.ico?{{ assetsVersion }}">
+    <link href="{{ publicPath }}/client/dist/css/chunk-vendors.css?{{ assetsVersion }}" rel="preload" as="style">
+    <link href="{{ publicPath }}/client/dist/css/app.css?{{ assetsVersion }}" rel="preload" as="style">
+    <link href="{{ publicPath }}/client/dist/js/chunk-vendors.js?{{ assetsVersion }}" rel="preload" as="script">
+    <link href="{{ publicPath }}/client/dist/js/app.js?{{ assetsVersion }}" rel="preload" as="script">
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ publicPath }}/client/dist/css/chunk-vendors.css?{{ assetsVersion }}" rel="stylesheet"/>
+    <link href="{{ publicPath }}/client/dist/css/app.css?{{ assetsVersion }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <noscript>
+        <strong>
+            We're sorry but orangehrm doesn't work properly without JavaScript enabled. Please enable it to continue.
+        </strong>
+    </noscript>
+
+    <div id="app">
+        <installer-layout
+            :steps="{{ steps | json_encode() }}"
+            :current-step="{{ currentStep }}"
+        >
+            <{{ componentName }}
+            {% for prop in componentProps %}
+                :{{ prop.getName() }}="{{ prop.getValue() }}"
+            {% endfor %}
+            >
+            </{{ componentName }}>
+            <template v-slot:footer><br>{% include 'copyright.html.twig' %}<br></template>
+        </installer-layout>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        window.appGlobal = {
+            baseUrl: "{{ baseUrl }}",
+        }
+    </script>
+    <script src="{{ publicPath }}/client/dist/js/chunk-vendors.js?{{ assetsVersion }}"></script>
+    <script src="{{ publicPath }}/client/dist/js/app.js?{{ assetsVersion }}"></script>
+{% endblock %}

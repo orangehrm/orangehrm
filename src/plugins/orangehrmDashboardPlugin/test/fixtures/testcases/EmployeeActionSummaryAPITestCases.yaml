@@ -1,0 +1,164 @@
+GetOne:
+  'Get Employee Action Summary - User 01':
+    userId: 1
+    services:
+      dashboard.employee_action_summary_service: \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-09-16'
+    data:
+      - id: 1
+        group: 'Leave Requests To Approve'
+        pendingActionCount: 4
+      - id: 2
+        group: 'Timesheets To Approve'
+        pendingActionCount: 1
+      - id: 3
+        group: 'Pending Appraisal Reviews'
+        pendingActionCount: 1
+      - id: 5
+        group: 'Candidates To Interview'
+        pendingActionCount: 4
+    meta: [ ]
+
+  'Get Employee Action Summary - User 02':
+    userId: 2
+    services:
+      dashboard.employee_action_summary_service: \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-09-16'
+    data:
+      - id: 4
+        group: 'Pending Self Reviews'
+        pendingActionCount: 1
+      - id: 5
+        group: 'Candidates To Interview'
+        pendingActionCount: 1
+    meta: [ ]
+
+  'Get Employee Action Summary - User 03':
+    userId: 3
+    services:
+      dashboard.employee_action_summary_service: \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-09-16'
+    data:
+      - id: 1
+        group: 'Leave Requests To Approve'
+        pendingActionCount: 1
+      - id: 2
+        group: 'Timesheets To Approve'
+        pendingActionCount: 1
+      - id: 5
+        group: 'Candidates To Interview'
+        pendingActionCount: 2
+    meta: [ ]
+
+  'Get Employee Action Summary - User 04':
+    userId: 4
+    services:
+      dashboard.employee_action_summary_service: \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-09-16'
+    data:
+      - id: 1
+        group: 'Leave Requests To Approve'
+        pendingActionCount: 1
+      - id: 2
+        group: 'Timesheets To Approve'
+        pendingActionCount: 1
+      - id: 5
+        group: 'Candidates To Interview'
+        pendingActionCount: 2
+    meta: [ ]
+
+  'Get Employee Action Summary - User 05':
+    userId: 5
+    services:
+      dashboard.employee_action_summary_service: \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-09-16'
+    data:
+      - id: 3
+        group: 'Pending Appraisal Reviews'
+        pendingActionCount: 1
+      - id: 5
+        group: 'Candidates To Interview'
+        pendingActionCount: 2
+    meta: [ ]
+
+  'Get Employee Action Summary - User 06':
+    userId: 6
+    services:
+      dashboard.employee_action_summary_service: \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-09-16'
+    data:
+      - id: 5
+        group: 'Candidates To Interview'
+        pendingActionCount: 1
+    meta: [ ]
+
+  'Get Employee Action Summary - User 07':
+    userId: 7
+    services:
+      dashboard.employee_action_summary_service: \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.module_service: \OrangeHRM\Core\Service\ModuleService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-09-16'
+    data: [ ]
+    meta: [ ]

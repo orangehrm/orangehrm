@@ -1,0 +1,58 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel' }
+  - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri' }
+  - { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal' }
+  - { empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah' }
+  - { empNumber: 6,employeeId: "0006",lastName: "Abbey", firstName: "Kayla" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+  - { id: 4, name: ProjectAdmin, display_name: ProjectAdmin, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
+  - { id: 2, user_role_id: 2, emp_number: 2, user_name: 'yashika', user_password: 'yashika' }
+  - { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
+  - { id: 4, user_role_id: 1, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
+
+Customer:
+  - { name: 'Orange', description: 'HRM', deleted: false }
+  - { name: 'CUS', description: 'DES', deleted: false }
+  - { name: 'CUS2', description: 'DES2', deleted: false }
+
+Project:
+  - { project_id: 1, customer_id: 1, name: 'project_03', description: 'Project description for project_03', is_deleted: false }
+  - { project_id: 2, customer_id: 2, name: 'project_02', description: 'Project description for project_02', is_deleted: false }
+  - { project_id: 3, customer_id: 1, name: 'project_01', description: 'Project description for project_01', is_deleted: true }
+
+ProjectAdmin:
+  - { project_id: 1, emp_number: 1 }
+  - { project_id: 1, emp_number: 2 }
+  - { project_id: 2, emp_number: 3 }
+  - { project_id: 3, emp_number: 1 }
+  - { project_id: 3, emp_number: 2 }
+  - { project_id: 3, emp_number: 3 }
+  - { project_id: 1, emp_number: 3 }
+  - { project_id: 3, emp_number: 5 }
+  - { project_id: 2, emp_number: 6 }
+
+ProjectActivity:
+  - { activity_id: 1, project_id: 1, name: 'Debug', is_deleted: 0 }
+  - { activity_id: 2, project_id: 1, name: 'QA', is_deleted: 0 }
+  - { activity_id: 3, project_id: 1, name: 'TBS', is_deleted: 0 }
+  - { activity_id: 4, project_id: 2, name: 'SDLC', is_deleted: 0 }
+
+Timesheet:
+  - { timesheet_id: 1, state: 'SUBMITTED', start_date: '2011-04-18',end_date: '2011-04-24', employee_id: 1 }
+  - { timesheet_id: 2, state: 'SUBMITTED', start_date: '2011-05-22',end_date: '2011-05-29', employee_id: 2 }
+
+TimesheetItem:
+  - { "timesheet_item_id": "1","timesheet_id": "1","date": "2011-04-18","duration": "7200","comment": "Include meetings","project_id": "1","employee_id": "1","activity_id": "1" }
+  - { "timesheet_item_id": "2","timesheet_id": "1","date": "2011-04-19","duration": "3600","comment": "Meeting","project_id": "1","employee_id": "1","activity_id": "1" }
+  - { "timesheet_item_id": "3","timesheet_id": "1","date": "2011-04-20","duration": "3500","comment": "QA","project_id": "1","employee_id": "1","activity_id": "2" }
+  - { "timesheet_item_id": "4","timesheet_id": "1","date": "2011-04-21","duration": "3500","comment": "QA","project_id": "1","employee_id": "1","activity_id": "2" }
+  - { "timesheet_item_id": "5","timesheet_id": "2","date": "2011-05-23","duration": "3500","comment": "SDLC","project_id": "1","employee_id": "2","activity_id": "3" }
+  - { "timesheet_item_id": "6","timesheet_id": "2","date": "2011-05-24","duration": "3500","comment": "SCRUM","project_id": "1","employee_id": "2","activity_id": "3" }

@@ -1,0 +1,72 @@
+translations:
+    - { target: 'Ajouter un avis', unitId: add_review, group: performance }
+    - { target: Avril, unitId: april, group: general }
+    - { target: Août, unitId: august, group: general }
+    - { target: 'Statut actuel', unitId: current_status, group: recruitment }
+    - { target: Décembre, unitId: december, group: general }
+    - { target: Effacer, unitId: delete, group: performance }
+    - { target: Février, unitId: february, group: general }
+    - { target: Vendredi, unitId: friday, group: general }
+    - { target: 'Nom complet', unitId: full_name, group: general }
+    - { target: Janvier, unitId: january, group: general }
+    - { target: Juillet, unitId: july, group: general }
+    - { target: Juin, unitId: june, group: general }
+    - { target: Mars, unitId: march, group: general }
+    - { target: Mai, unitId: may, group: general }
+    - { target: Lundi, unitId: monday, group: general }
+    - { target: Novembre, unitId: november, group: general }
+    - { target: Octobre, unitId: october, group: general }
+    - { target: Samedi, unitId: saturday, group: general }
+    - { target: Septembre, unitId: september, group: general }
+    - { target: Dimanche, unitId: sunday, group: general }
+    - { target: Jeudi, unitId: thursday, group: general }
+    - { target: Mardi, unitId: tuesday, group: general }
+    - { target: Mercredi, unitId: wednesday, group: general }
+    - { target: Invalide, unitId: invalid, group: general }
+    - { target: 'Accepte. docx,. doc,. odt,. pdf,. rtf,. txt jusqu''à 1 Mo', unitId: accept_custom_format_file, group: general }
+    - { target: Mots-clés, unitId: keywords, group: recruitment }
+    - { target: Reprendre, unitId: resume, group: recruitment }
+    - { target: Ven., unitId: fri, group: general }
+    - { target: Lun., unitId: mon, group: general }
+    - { target: Sam, unitId: sat, group: general }
+    - { target: Dim., unitId: sun, group: general }
+    - { target: Jeu., unitId: thu, group: general }
+    - { target: Mar., unitId: tue, group: general }
+    - { target: Mer., unitId: wed, group: general }
+    - { target: Max, unitId: max, group: performance }
+    - { target: Min, unitId: min, group: performance }
+    - { target: Actif, unitId: active, group: general }
+    - { target: 'Ajouter candidat', unitId: add_candidate, group: recruitment }
+    - { target: 'Candidature soumise', unitId: application_initiated, group: recruitment }
+    - { target: Candidat, unitId: candidate, group: recruitment }
+    - { target: 'Nom du candidat', unitId: candidate_name, group: recruitment }
+    - { target: Fermé, unitId: closed, group: general }
+    - { target: 'Date de la demande', unitId: date_of_application, group: recruitment }
+    - { target: 'Décliner l''offre', unitId: decline_offer, group: recruitment }
+    - { target: Embaucher, unitId: hire, group: recruitment }
+    - { target: Embauché, unitId: hired, group: recruitment }
+    - { target: 'Manager qui recrute', unitId: hiring_manager, group: recruitment }
+    - { target: 'Entretien négatif', unitId: interview_failed, group: recruitment }
+    - { target: 'Entretien positif', unitId: interview_passed, group: recruitment }
+    - { target: 'Entretien prévu', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Titre de l''entretien', unitId: interview_title, group: recruitment }
+    - { target: 'Poste proposé', unitId: job_offered, group: recruitment }
+    - { target: 'Poste vacant', unitId: job_vacancy, group: recruitment }
+    - { target: Manuel, unitId: manual, group: recruitment }
+    - { target: 'Marquer entretien négatif', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Marquer entretien positif', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Méthode de candidature', unitId: method_of_application, group: recruitment }
+    - { target: 'Nombre de postes', unitId: num_of_positions, group: recruitment }
+    - { target: 'Refus de l''offre', unitId: offer_declined, group: recruitment }
+    - { target: 'En ligne', unitId: online, group: recruitment }
+    - { target: 'Action effectuée', unitId: performed_action, group: recruitment }
+    - { target: 'Date de réalisation', unitId: performed_date, group: recruitment }
+    - { target: 'URL de flux RSS', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Entretien programmé', unitId: schedule_interview, group: recruitment }
+    - { target: Shortlist, unitId: shortlist, group: recruitment }
+    - { target: 'Mis dans la shortlist', unitId: shortlisted, group: recruitment }
+    - { target: Vacant, unitId: vacancy, group: recruitment }
+    - { target: 'Nom du poste vacant', unitId: vacancy_name, group: recruitment }
+    - { target: 'Afficher l''historique d''action', unitId: view_action_history, group: recruitment }
+    - { target: 'URL de la page Web', unitId: web_page_url, group: recruitment }
+    - { target: 'Candidature reçue', unitId: application_received, group: recruitment }

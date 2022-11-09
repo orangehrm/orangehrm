@@ -27,6 +27,7 @@ $dbConnection = mysqli_connect($conf->dbhost, $conf->dbuser, $conf->dbpass, $con
 if (!$dbConnection) {
     die(mysqli_connect_error());
 }
+$dbConnection->set_charset("utf8mb4");
 
 mysqli_query($dbConnection, "SET foreign_key_checks = 0");
 
@@ -106,7 +107,7 @@ function truncateTables($dbConnection) {
     $result = mysqli_query($dbConnection, $q);
     checkQueryResult($result, $dbConnection);
 
-    $q = "TRUNCATE TABLE `hs_hr_job_title`";
+    $q = "TRUNCATE TABLE `ohrm_job_title`";
     display($q);
     $result = mysqli_query($dbConnection, $q);
     checkQueryResult($result, $dbConnection);    
@@ -115,18 +116,18 @@ function truncateTables($dbConnection) {
 
 function addJobTitles($dbConnection) {
     
-    $q = "INSERT INTO `hs_hr_job_title` VALUES 
-                                        ('JOB001', 'Computer Information Systems Manager', 'CISM', 'CISM', NULL, NULL, 1),
-                                        ('JOB002', 'Computer Programmer', 'CP', 'CP', NULL, NULL, 1),
-                                        ('JOB003', 'Computer Security Specialist', 'CSS', 'CSS', NULL, NULL, 1),
-                                        ('JOB004', 'Database Administrator', 'DBA', 'DBA', NULL, NULL, 1),
-                                        ('JOB005', 'Game Designer', 'GD', 'GD', NULL, NULL, 1)
+    $q = "INSERT INTO `ohrm_job_title` VALUES 
+                                        ('1', 'Computer Information Systems Manager', 'CISM', 'CISM', 0),
+                                        ('2', 'Computer Programmer', 'CP', 'CP', 0),
+                                        ('3', 'Computer Security Specialist', 'CSS', 'CSS', 0),
+                                        ('4', 'Database Administrator', 'DBA', 'DBA', 0),
+                                        ('5', 'Game Designer', 'GD', 'GD', 1)
                                         ";
     
     $result = mysqli_query($dbConnection, $q);
     checkQueryResult($result, $dbConnection);
     
-    $q = "UPDATE `hs_hr_unique_id` SET `last_id` = 5 WHERE `table_name` = 'hs_hr_job_title'";
+    $q = "UPDATE `hs_hr_unique_id` SET `last_id` = 5 WHERE `table_name` = 'ohrm_job_title'";
     display($q);
     $result = mysqli_query($dbConnection, $q);
     checkQueryResult($result, $dbConnection);  
@@ -152,14 +153,14 @@ function addJobVacancies($dbConnection) {
     $dateTime3 = date('Y-m-d H:i:s', strtotime("-8 days"));
     $dateTime4 = date('Y-m-d H:i:s', strtotime("-7 days"));
     $dateTime5 = date('Y-m-d H:i:s', strtotime("-6 days"));
-    
+
     $q = "INSERT INTO `ohrm_job_vacancy` (`id`, `job_title_code`, `hiring_manager_id`, `name`, `description`, `no_of_positions`,
                                           `status`, `published_in_feed`, `defined_time`, `updated_time`) VALUES 
-                                          (1, 'JOB001', '1', '$name1', '$vd1', 1, 1, 1, '$dateTime1', '$dateTime1'),
-                                          (2, 'JOB002', '2', '$name2', '$vd2', 2, 1, 1, '$dateTime2', '$dateTime2'),
-                                          (3, 'JOB003', '3', '$name3', '$vd3', 3, 1, 1, '$dateTime3', '$dateTime3'),
-                                          (4, 'JOB004', '4', '$name4', '$vd4', 4, 1, 1, '$dateTime4', '$dateTime4'),
-                                          (5, 'JOB005', '5', '$name5', '$vd5', 5, 1, 1, '$dateTime5', '$dateTime5')";
+                                          (1, '1', '1', '$name1', '$vd1', 1, 1, 1, '$dateTime1', '$dateTime1'),
+                                          (2, '2', '2', '$name2', '$vd2', 2, 1, 1, '$dateTime2', '$dateTime2'),
+                                          (3, '3', '3', '$name3', '$vd3', 3, 1, 1, '$dateTime3', '$dateTime3'),
+                                          (4, '4', '4', '$name4', '$vd4', 4, 1, 1, '$dateTime4', '$dateTime4'),
+                                          (5, '5', '5', '$name5', '$vd5', 5, 1, 1, '$dateTime5', '$dateTime5')";
 
     display($q);
     $result = mysqli_query($dbConnection, $q);

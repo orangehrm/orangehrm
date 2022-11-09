@@ -1,0 +1,104 @@
+translations:
+    - { target: 'Ajouter une Évaluation', unitId: add_review, group: performance }
+    - { target: Avril, unitId: april, group: general }
+    - { target: Août, unitId: august, group: general }
+    - { target: 'Statut actuel', unitId: current_status, group: recruitment }
+    - { target: Décembre, unitId: december, group: general }
+    - { target: Supprimer, unitId: delete, group: performance }
+    - { target: Février, unitId: february, group: general }
+    - { target: Vendredi, unitId: friday, group: general }
+    - { target: 'Nom complet', unitId: full_name, group: general }
+    - { target: Janvier, unitId: january, group: general }
+    - { target: Juillet, unitId: july, group: general }
+    - { target: Juin, unitId: june, group: general }
+    - { target: Mars, unitId: march, group: general }
+    - { target: Mai, unitId: may, group: general }
+    - { target: Lundi, unitId: monday, group: general }
+    - { target: Novembre, unitId: november, group: general }
+    - { target: Octobre, unitId: october, group: general }
+    - { target: Samedi, unitId: saturday, group: general }
+    - { target: Septembre, unitId: september, group: general }
+    - { target: Dimanche, unitId: sunday, group: general }
+    - { target: Jeudi, unitId: thursday, group: general }
+    - { target: Mardi, unitId: tuesday, group: general }
+    - { target: Mercredi, unitId: wednesday, group: general }
+    - { target: 'Non Valide', unitId: invalid, group: general }
+    - { target: 'Accepte les extensions .docx, .doc, .odt, .pdf, .rtf, .txt jusqu''à 1 Mo', unitId: accept_custom_format_file, group: general }
+    - { target: Mots-clés, unitId: keywords, group: recruitment }
+    - { target: CV, unitId: resume, group: recruitment }
+    - { target: 'Gestionnaires de Performance', unitId: performance_trackers, group: performance }
+    - { target: Historique, unitId: log, group: performance }
+    - { target: Examinateur, unitId: reviewer, group: performance }
+    - { target: 'Date ajoutée', unitId: added_date, group: performance }
+    - { target: 'Date modifiée', unitId: modified_date, group: performance }
+    - { target: 'L''employé ne peut être assigné comme son propre examinateur', unitId: employee_cannot_be_assigned_as_his_own_reviewer, group: performance }
+    - { target: 'Nom du gestionnaire', unitId: tracker_name, group: performance }
+    - { target: Ven., unitId: fri, group: general }
+    - { target: Lun., unitId: mon, group: general }
+    - { target: Sam., unitId: sat, group: general }
+    - { target: Dim., unitId: sun, group: general }
+    - { target: Jeu., unitId: thu, group: general }
+    - { target: Mar., unitId: tue, group: general }
+    - { target: Mer., unitId: wed, group: general }
+    - { target: Max, unitId: max, group: performance }
+    - { target: Min, unitId: min, group: performance }
+    - { target: Actif, unitId: active, group: general }
+    - { target: 'Ajouter candidat', unitId: add_candidate, group: recruitment }
+    - { target: 'Candidature démarrée', unitId: application_initiated, group: recruitment }
+    - { target: Candidat, unitId: candidate, group: recruitment }
+    - { target: 'Nom du candidat', unitId: candidate_name, group: recruitment }
+    - { target: Terminé, unitId: closed, group: general }
+    - { target: 'Date de la soumission', unitId: date_of_application, group: recruitment }
+    - { target: 'Décliner l''offre', unitId: decline_offer, group: recruitment }
+    - { target: Embaucher, unitId: hire, group: recruitment }
+    - { target: Embauché, unitId: hired, group: recruitment }
+    - { target: 'Responsable du Recrutement', unitId: hiring_manager, group: recruitment }
+    - { target: 'Entretien négatif', unitId: interview_failed, group: recruitment }
+    - { target: 'Entretien positif', unitId: interview_passed, group: recruitment }
+    - { target: 'Entretien programmé', unitId: interview_scheduled, group: recruitment }
+    - { target: 'Titre de l''entretien', unitId: interview_title, group: recruitment }
+    - { target: 'Poste proposé', unitId: job_offered, group: recruitment }
+    - { target: 'Poste à pourvoir', unitId: job_vacancy, group: recruitment }
+    - { target: Manuel, unitId: manual, group: recruitment }
+    - { target: 'Marquer l''entretien comme ayant échoué', unitId: mark_interview_failed, group: recruitment }
+    - { target: 'Marquer l''entretien comme réussi', unitId: mark_interview_passed, group: recruitment }
+    - { target: 'Méthode de candidature', unitId: method_of_application, group: recruitment }
+    - { target: 'Nombre de Postes', unitId: num_of_positions, group: recruitment }
+    - { target: 'Offre déclinée', unitId: offer_declined, group: recruitment }
+    - { target: 'En ligne', unitId: online, group: recruitment }
+    - { target: 'Action effectuée', unitId: performed_action, group: recruitment }
+    - { target: 'Date de réalisation', unitId: performed_date, group: recruitment }
+    - { target: 'URL du flux RSS', unitId: rss_feed_url, group: recruitment }
+    - { target: 'Programmer entretien', unitId: schedule_interview, group: recruitment }
+    - { target: Pré-sélection, unitId: shortlist, group: recruitment }
+    - { target: Pré-sélectionné, unitId: shortlisted, group: recruitment }
+    - { target: 'A pourvoir', unitId: vacancy, group: recruitment }
+    - { target: 'Nom du poste à pourvoir', unitId: vacancy_name, group: recruitment }
+    - { target: 'Afficher l''historique d''action', unitId: view_action_history, group: recruitment }
+    - { target: 'URL de la page Web', unitId: web_page_url, group: recruitment }
+    - { target: 'Candidature reçue', unitId: application_received, group: recruitment }
+    - { target: ICP, unitId: kpi, group: performance }
+    - { target: 'Date d''Échéance', unitId: due_date, group: performance }
+    - { target: 'Période d''Évaluation', unitId: review_period, group: performance }
+    - { target: 'Statut de l''Évaluation', unitId: review_status, group: performance }
+    - { target: 'Évaluation de Performance', unitId: performance_review, group: performance }
+    - { target: Activer, unitId: activate, group: performance }
+    - { target: Evaluer, unitId: evaluate, group: performance }
+    - { target: 'Indicateur Clé de Performance', unitId: key_performance_indicator, group: performance }
+    - { target: 'Note Min', unitId: min_rate, group: performance }
+    - { target: 'Note Max', unitId: max_rate, group: performance }
+    - { target: 'Par défaut', unitId: is_default, group: performance }
+    - { target: 'Date d''Échéance de l''Évaluation', unitId: review_due_date, group: performance }
+    - { target: 'Note finale', unitId: final_rating, group: performance }
+    - { target: Terminée, unitId: complete, group: performance }
+    - { target: Note, unitId: rating, group: performance }
+    - { target: 'Indicateurs Clés de performance pour le poste', unitId: key_performance_indicators_for_job_title, group: performance }
+    - { target: 'Note minimum', unitId: minimum_rating, group: performance }
+    - { target: 'Note maximale', unitId: maximum_rating, group: performance }
+    - { target: 'Echelle par défault', unitId: make_default_scale, group: performance }
+    - { target: Inactif, unitId: inactive, group: performance }
+    - { target: Activée, unitId: activated, group: performance }
+    - { target: 'Impossible d''activer l''évaluation sans ICP', unitId: cannot_activate_review_without_kpi, group: performance }
+    - { target: 'Impossible d''activer l''évaluation pour les employés dont le poste et/ou la division n''a pas été renseigné', unitId: cannot_activate_review_without_job_title_subdivision, group: performance }
+    - { target: 'En Cours', unitId: in_progress, group: performance }
+    - { target: Terminée, unitId: completed, group: performance }

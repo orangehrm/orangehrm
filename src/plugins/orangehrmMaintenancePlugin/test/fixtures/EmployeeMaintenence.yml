@@ -1,0 +1,265 @@
+JobTitle:
+  0: { id: 1, job_title: 'Software Architect', is_deleted: 0 }
+  1: { id: 2, job_title: 'Software Engineer', is_deleted: 0 }
+  2: { id: 3, job_title: 'Quality Assuarance', is_deleted: 0 }
+  3: { id: 4, job_title: 'Sales Person', is_deleted: 1 }
+
+Subunit:
+  0: { id: 1, name: 'Organization', unit_id: 'company', description: 'company description', lft: 1, rgt: 6, level: 0 }
+  1: { id: 2, name: 'Department 1', unit_id: 'dept', description: 'department description', lft: 2, rgt: 5, level: 1 }
+  2: { id: 3, name: 'Sub Department 1', unit_id: 'sub dept', description: 'sub department description', lft: 3, rgt: 4, level: 2 }
+
+JobCategory:
+  0: { id: 1, name: 'Job Category 1' }
+  1: { id: 2, name: 'Job Category 2' }
+  2: { id: 3, name: 'Job Category 3' }
+
+Nationality:
+  0: { id: 1, name: 'nationality 1' }
+  1: { id: 2, name: 'nationality 2' }
+  2: { id: 3, name: 'nationality 3' }
+
+
+EmploymentStatus:
+  0: { id: 1, name: 'Full Time' }
+  1: { id: 2, name: 'Part Time' }
+  2: { id: 3, name: 'Intern' }
+
+TerminationReason:
+  0: {id: 1, name: 'Resigned'}
+  1: {id: 2, name: 'Dismissed'}
+  2: {id: 3, name: 'Laid-off'}
+
+EmployeeTerminationRecord:
+  0: {id: 1, reason_id: 1, date: '2011-12-09'}
+
+Employee:
+  0: { empNumber: 1, emp_gender: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', nickName: 'sd', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com',"nation_code": '1',
+       emp_birthday : '1975-10-15',
+       emp_work_telephone: '112-898-7612', emp_smoker: 1, joined_date : "2022-02-01",
+       emp_marital_status: "Single", emp_ssn_num: "123", emp_sin_num: "1234",
+       emp_other_id: "12345", emp_dri_lice_num: "123", emp_dri_lice_exp_date: "2022-02-16", emp_military_service: "Yes",
+       emp_status: "1", eeo_cat_code: "1", work_station: 1, emp_street1: "Street 1", emp_street2: "Street 2",
+       city_code: "City",coun_code: "LK",provin_code: "State",emp_zipcode: "12345",
+       emp_hm_telephone: "123", emp_mobile: "1234",
+       termination_id: "1", custom1: "Custom 1",job_title_code: "1",purged_at : '2022-03-29 09:10:32'
+  }
+
+
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  2: { empNumber: 3, firstName: 'Ajiharan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com' }
+  3: { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004', emp_work_email: '', emp_oth_email: '' }
+  4: { empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E005', emp_work_email: '', emp_oth_email: '' }
+  5: { empNumber: 6, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E006', emp_work_email: '', emp_oth_email: '' }
+
+EmpPicture:
+  0: { emp_number: '1', epic_picture: "yasitha", epic_filename: 'test_file.jpg', epic_type: 'test/type' }
+  1: { emp_number: '2', epic_picture: "yasitha", epic_filename: 'test_file.jpg', epic_type: 'test/type' }
+
+EmployeeAttachment:
+  - { emp_number: 1, eattach_id: 1, screen: 'personal',  eattach_desc: 'Comment 1', eattach_filename: 'attachment.txt', eattach_size: '6', eattach_attachment: 'dGVzdA0K', eattach_type: 'text/plain', attached_by: '1', attached_by_name: 'Admin', attached_time: '2021-02-23' }
+  - { emp_number: 1, eattach_id: 2, screen: 'personal',  eattach_desc: 'Comment 2', eattach_filename: 'attachment.txt', eattach_size: '6', eattach_attachment: 'dGVzdA0K', eattach_type: 'text/plain', attached_by: '1', attached_by_name: 'Admin', attached_time: '2021-02-23' }
+
+
+EmpEmergencyContact:
+  - { emp_number: 1,  eec_seqno: '1', eec_name: 'Yasitha', eec_relationship: 'friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787' }
+  - { emp_number: 1, eec_seqno: '2', eec_name: 'Renukshan', eec_relationship: 'friend1', eec_home_no: '0373245675', eec_mobile_no: '0776734237', eec_office_no: '0113676787' }
+
+
+EmpDependent:
+  - { emp_number: '1', ed_seqno: '1', ed_name: 'yasitha', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23',ed_relationship: 'friend', }
+  - { emp_number: '1', ed_seqno: '2', ed_name: 'renukshan', ed_relationship_type: 'other', ed_relationship: 'friend', ed_date_of_birth: '2004-02-23' }
+
+
+EmployeeImmigrationRecord:
+  - { emp_number: '1', ep_seqno: '0', ep_passport_type_flg: 1, ep_passport_num: 'HVN0003472', ep_passportissueddate: '2010-12-12', ep_passportexpiredate: '2011-12-12', status: 'some status', cou_code: 'UK', reviewDate: '2011-12-30', ep_comments: 'test comment' }
+  - { emp_number: '1', recordId: '1', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', cou_code: 'UK', reviewDate: '2011-12-30', ep_comments: 'test comment' }
+
+EmpWorkExperience:
+  - { emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2' }
+  - { emp_number: '1', eexp_seqno: '2', eexp_employer: 'IFS', eexp_jobtit: 'Architect', eexp_from_date: '2006-04-03', eexp_to_date: '2011-04-04', eexp_comments: 'Worked', eexp_internal: '3' }
+
+Education:
+  - { id: 1, name: 'PhD' }
+  - { id: 2, name: 'BSc' }
+  - { id: 3, name: 'Msc' }
+
+EmployeeEducation:
+  - { id: 1, emp_number: '1', education_id: 1, major: 'ENG', year: '2007', score: '3.7', start_date: '2006-03-04', end_date: '2010-03-05' }
+  - { id: 2, emp_number: '1', education_id: 2, major: 'ENG1', year: '2008', score: '4', start_date: '2007-03-04', end_date: '2011-03-05' }
+
+Skill:
+  0: { id: 1, name: 'Driving', description: 'Ability to drive' }
+  1: { id: 2, name: 'Skydiving' }
+  2: { id: 3, name: 'Sign Language', description: 'Ability to communicate with disabled people' }
+
+EmployeeSkill:
+  0: { emp_number: '1', skill_id: 1, years_of_exp: '4', comments: 'com1' }
+  1: { emp_number: '1', skill_id: 2, years_of_exp: '2', comments: 'com2' }
+
+Language:
+  0: { id: 1, name: 'Spanish' }
+  1: { id: 2, name: 'English' }
+  2: { id: 3, name: 'French' }
+
+EmployeeLanguage:
+  0: { emp_number: '1', lang_id: 1, fluency: '2', competency: '1', comments: 'comment1' }
+  1: { emp_number: '1', lang_id: 2, fluency: '1', competency: '2', comments: 'comment2' }
+
+Membership:
+  0: { id: 1, name: 'membership 1' }
+  1: { id: 2, name: 'membership 2' }
+  2: { id: 3, name: 'membership 3' }
+
+EmployeeMembership:
+  0: { emp_number: '1', membship_code: 1, ememb_subscript_amount: '4', ememb_subscript_ownership: 'individual', ememb_subs_currency: 'Rs', ememb_commence_date: '2011-05-20', ememb_renewal_date: '2011-05-22' }
+  1: { emp_number: '1', membship_code: 2, ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24' }
+
+EmpUsTaxExemption:
+  0: { emp_number: '1', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska' }
+  1: { emp_number: '2', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska' }
+
+License:
+  0: { id: 1, name: 'li1' }
+  1: { id: 2, name: 'li1' }
+
+EmployeeLicense:
+  0: { emp_number: '1', license_id: 1, license_no: '2bja8768', license_issued_date: '2004-02-23', license_expiry_date: '2007-02-23' }
+  1: { emp_number: '1', license_id: 2, license_no: '2bjghj768', license_issued_date: '2002-02-23', license_expiry_date: '2004-02-23' }
+
+
+PayGrade:
+  0: { id: 1, name: 'Salary Grade A' }
+  1: { id: 2, name: 'Salary Grade B' }
+
+CurrencyType:
+  0: { code: 1, currency_id: 'USD', currency_name: 'United States Dollar' }
+  1: { code: 2, currency_id: 'LKR', currency_name: 'Australian Dollar' }
+
+PayPeriod:
+  - { "payperiod_code": "1","payperiod_name": "Weekly" }
+  - { "payperiod_code": "2","payperiod_name": "Bi Weekly" }
+  - { "payperiod_code": "3","payperiod_name": "Semi Monthly" }
+  - { "payperiod_code": "4","payperiod_name": "Monthly" }
+  - { "payperiod_code": "5","payperiod_name": "Monthly on first pay of month." }
+  - { "payperiod_code": "6","payperiod_name": "Hourly" }
+
+EmployeeSalary:
+  0: { id: 1, payperiod_code: "1", emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', ebsal_basic_salary: '10000.00', salary_component: 'Main Salary',comments: 'com1' }
+  1: { id: 2, payperiod_code: "1", emp_number: 1, sal_grd_code: 2, currency_id: 'USD', ebsal_basic_salary: '20000.00', salary_component: 'Allowance', ,comments: 'com2' }
+
+Country:
+  3: { cou_code: 'UK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+  4: { cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+  2: { cou_code: 'SG', name: 'SINGAPORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702 }
+  0: { cou_code: 'BR', name: 'BRAZIL', cou_name: 'Brazil', iso3: 'BRA', numcode: 076 }
+  1: { cou_code: 'JP', name: 'JAPAN', cou_name: 'Japan', iso3: 'JPN', numcode: 392 }
+
+
+Location:
+  0: { id: 1, name: 'location 1', country_code: 'UK', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
+  1: { id: 2, name: 'location 2', country_code: 'US', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+  2: { id: 3, name: 'location 3', country_code: 'US', province: 'AK', city: 'city 3', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
+  3: { id: 4, name: 'location 4', country_code: 'JP', province: 'province 3', city: 'city 4', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+
+EmpLocations:
+  0: { emp_number: 1, location_id: 1 }
+  3: { emp_number: 1, location_id: 2 }
+
+EmpContract:
+  - { emp_number: 1, econ_extend_id: 1, econ_extend_start_date: '2020-05-23',  econ_extend_end_date: '2021-05-23' }
+  - { emp_number: 1, econ_extend_id: 2, econ_extend_start_date: '2020-04-23',  econ_extend_end_date: '2021-05-23' }
+
+ReportingMethod:
+  - { "reporting_method_id": "1", "reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2", "reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "1", "erep_sub_emp_number": "2", "erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "3", "erep_sub_emp_number": "2", "erep_reporting_mode": "1" }
+
+LeaveType:
+  0: { id: 1, name: 'Casual', deleted: 0 }
+  1: { id: 2, name: 'Medical', deleted: 0 }
+  2: { id: 3, name: 'Company', deleted: 1 }
+  3: { id: 4, name: 'Annual', deleted: 0 }
+
+LeaveRequest:
+  0: { id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1 }
+  1: { id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1 }
+  2: { id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 1 }
+
+Leave:
+  0: { id: 1, length_hours: 8,start_time: '10:00:00', end_time: '10:00:00', length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1 }
+
+AttendanceRecord:
+  0: { id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-27 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-05-27 12:10:00', state: 'PUNCHED IN' }
+  1: { id: 2, employee_id: 1, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED IN' }
+  2: { id: 3, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED OUT' }
+
+Customer:
+  0: { customer_id: 1, is_deleted: 0, name: 'Xavier', description: 'customer description 1' }
+  1: { customer_id: 2, is_deleted: 0, name: 'ACME', description: 'customer description 2' }
+
+Project:
+  0: { project_id: 1, customer_id: 1, name: 'NUS' }
+  1: { project_id: 2, customer_id: 1, name: 'BUS' }
+
+ProjectActivity:
+  0: { activity_id: 1, project_id: 1, name: 'Debug', is_deleted: 0 }
+  1: { activity_id: 2, project_id: 1, name: 'Unit test', is_deleted: 0 }
+  2: { activity_id: 3, project_id: 1, name: 'Cypress', is_deleted: 0 }
+
+TimesheetItem:
+  0: { timesheet_item_id: 1, timesheet_id: 1, date: '2011-04-12', duration: 7200, comment: 'Good', project_id: 2, employee_id: 1, activity_id: 1 }
+
+UserRole:
+  0: { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  1: { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  2: { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  0: { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha',date_entered: '2011-04-12', date_modified: '2011-04-13' }
+  1: { id: 2, user_role_id: 3, emp_number: 1, user_name: 'yashika', user_password: 'yashika',date_entered: '2011-04-12', date_modified: '2011-04-13' }
+  2: { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0,date_entered: '2011-04-12', date_modified: '2011-04-13' }
+  3: { id: 4, user_role_id: 2, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1,date_entered: '2011-04-12', date_modified: '2011-04-13' }
+
+LeaveRequestComment:
+  - { id: 1, leave_request_id: 1, created: '2010-08-29 04:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 3 comment on emp 1 leave request' }
+  - { id: 2, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 3 comment on emp 1 leave request' }
+  - { id: 3, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 4 comment on emp 1 leave request' }
+  - { id: 4, leave_request_id: 3, created: '2010-08-30 18:55:00', created_by_id: 2,created_by_emp_number: 2, comments: 'employee 4 comment on emp 3 leave request' }
+
+LeaveComment:
+  - { "id": "1","leave_id": "1","created": "2021-09-15 19:56:38","created_by_id": "1","created_by_emp_number": "1","comments": "Cancelled upon request" }
+  - { "id": "2","leave_id": "1","created": "2021-09-15 19:58:30","created_by_id": "1","created_by_emp_number": "1","comments": "Rejected" }
+
+PerformanceReview:
+  0: { id: 1, status_id: 1,final_comment: 'last', final_rate: '2', employee_number: 1, work_period_start: '2011-01-01',completed_date: '2011-01-01',activated_date: '2011-01-02', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01',department_id: '1', }
+  1: { id: 2, status_id: 2,final_comment: 'last', final_rate: '2', employee_number: 1, work_period_start: '2011-01-01',completed_date: '2011-01-02',activated_date: '2011-01-03', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01',department_id: '1', }
+
+
+Kpi:
+  0: { id: 1, job_title_code: 1, kpi_indicators: 'Capacity Planning', min_rating: 1, max_rating: 100 }
+  1: { id: 2, job_title_code: 2, kpi_indicators: 'Code Clarity', min_rating: 1, max_rating: 10, default_kpi: 1 }
+  2: { id: 3, job_title_code: 3, kpi_indicators: 'Planning Methodologies', min_rating: 1, max_rating: 50, default_kpi: 1 }
+
+
+Reviewer:
+  0: { id: 1, review_id: 1, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 1' }
+  1: { id: 2, review_id: 1, employee_number: 1, status: 3, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 2' }
+  2: { id: 3, review_id: 2, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 3' }
+
+
+ReviewerRating:
+  0: { id: 1, rating: '5.5', kpi_id: 2, review_id: 1, reviewer_id: 1 ,comment: 'Test comment 1' }
+  1: { id: 2, rating: '4', kpi_id: 3, review_id: 1, reviewer_id: 2 ,comment: 'Test comment 2' }
+  2: { id: 3, rating: '2', kpi_id: 1, review_id: 2, reviewer_id: 1 ,comment: 'Test comment 3' }
+
+PerformanceTracker:
+  0: { id: 1, emp_number: 1, added_date: '2011-12-12', status: 1, tracker_name: 'tracker1' }
+  1: { id: 2, emp_number: 2, added_date: '2011-12-12', status: 1, tracker_name: 'tracker2' }
+
+PerformanceTrackerLog:
+  0: { id: 1, performance_track_id: 1, reviewer_id: 1, added_date: '2011-12-12', status: 1,achievement: 1, comment: 'test comment by 2', log: 'log by 2',  modified_date: '2011-12-12' }
+  1: { id: 2, performance_track_id: 2, reviewer_id: 2, added_date: '2011-12-12', status: 1,achievement: 2, comment: 'test comment by 3', log: 'log by 3',  modified_date: '2011-12-12' }

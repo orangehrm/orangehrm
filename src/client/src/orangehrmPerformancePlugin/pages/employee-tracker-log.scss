@@ -1,0 +1,154 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-container {
+  overflow: auto;
+  max-height: 400px;
+  min-height: 400px;
+  @include oxd-scrollbar();
+  &-loader {
+    margin: 0 auto;
+    background-color: $oxd-white-color;
+  }
+}
+.orangehrm-scroll-card {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  &-header {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.orangehrm-employee-tracker {
+  display: flex;
+  overflow: hidden;
+  @include oxd-respond-to('xs') {
+    flex-direction: column;
+  }
+  @include oxd-respond-to('sm') {
+    flex-direction: row;
+  }
+
+  &-image-wrapper {
+    padding: 0.6rem 1.2rem;
+  }
+
+  & img {
+    width: 90px;
+    height: 90px;
+    border-radius: 100%;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    box-sizing: border-box;
+    border: 0.5rem solid $oxd-background-pastel-white-color;
+  }
+
+  &-image-section {
+    display: flex;
+    align-items: center;
+    @include oxd-respond-to('xs') {
+      flex-direction: row-reverse;
+      justify-content: center;
+    }
+    @include oxd-respond-to('md') {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  &-header-section {
+    display: flex;
+    @include oxd-respond-to('xs') {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    @include oxd-respond-to('sm') {
+      flex-direction: row;
+      align-items: flex-start;
+      text-align: start;
+    }
+  }
+
+  &-header {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.2rem;
+    padding-right: 0.6rem;
+    padding-top: 1.2rem;
+
+    &-title {
+      font-weight: 700;
+      font-size: 21px;
+    }
+
+    &-subtitle {
+      font-weight: 700;
+      color: $oxd-interface-gray-color;
+    }
+  }
+
+  &-ratings {
+    display: flex;
+    padding-top: 1.2rem;
+
+    &-info {
+      display: flex;
+      flex-direction: row;
+      padding-left: 0.6rem;
+      padding-right: 0.6rem;
+      text-align: center;
+    }
+
+    &-icon {
+      padding-right: 0.6rem;
+      min-width: 21px;
+      min-height: 21px;
+    }
+
+    &-text {
+      font-size: 21px;
+    }
+  }
+
+  &-list-header {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  &-no-records {
+    display: flex;
+    min-height: inherit;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.--positive {
+  color: $oxd-feedback-success-color;
+}
+
+.--negative {
+  color: $oxd-feedback-danger-color;
+}
+
+.orangehrm-paper-container {
+  padding-bottom: 2.4rem;
+}

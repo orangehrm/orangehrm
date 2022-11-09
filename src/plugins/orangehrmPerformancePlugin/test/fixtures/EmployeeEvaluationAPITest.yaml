@@ -1,0 +1,253 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+WorkflowStateMachine:
+  - {"id": 1,"workflow": "0","state": "INITIAL","role": "SYSTEM","action": "7","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 2,"workflow": "0","state": "SUBMITTED","role": "ADMIN","action": "2","resulting_state": "APPROVED","roles_to_notify": "","priority": 0}
+  - {"id": 3,"workflow": "0","state": "SUBMITTED","role": "ADMIN","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 4,"workflow": "0","state": "SUBMITTED","role": "ADMIN","action": "0","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 5,"workflow": "0","state": "SUBMITTED","role": "ADMIN","action": "5","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 6,"workflow": "0","state": "SUBMITTED","role": "SUPERVISOR","action": "2","resulting_state": "APPROVED","roles_to_notify": "","priority": 0}
+  - {"id": 7,"workflow": "0","state": "SUBMITTED","role": "SUPERVISOR","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 8,"workflow": "0","state": "SUBMITTED","role": "SUPERVISOR","action": "5","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 9,"workflow": "0","state": "SUBMITTED","role": "SUPERVISOR","action": "0","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 10,"workflow": "0","state": "SUBMITTED","role": "ESS USER","action": "0","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 11,"workflow": "0","state": "SUBMITTED","role": "ESS USER","action": "5","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 12,"workflow": "0","state": "NOT SUBMITTED","role": "ESS USER","action": "1","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 13,"workflow": "0","state": "NOT SUBMITTED","role": "ESS USER","action": "5","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 15,"workflow": "0","state": "NOT SUBMITTED","role": "ESS USER","action": "0","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 16,"workflow": "0","state": "NOT SUBMITTED","role": "SUPERVISOR","action": "0","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 17,"workflow": "0","state": "NOT SUBMITTED","role": "SUPERVISOR","action": "5","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 18,"workflow": "0","state": "NOT SUBMITTED","role": "SUPERVISOR","action": "1","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 19,"workflow": "0","state": "NOT SUBMITTED","role": "ADMIN","action": "0","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 20,"workflow": "0","state": "NOT SUBMITTED","role": "ADMIN","action": "5","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 21,"workflow": "0","state": "NOT SUBMITTED","role": "ADMIN","action": "1","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 22,"workflow": "0","state": "REJECTED","role": "ESS USER","action": "1","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 23,"workflow": "0","state": "REJECTED","role": "ESS USER","action": "0","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 24,"workflow": "0","state": "REJECTED","role": "ESS USER","action": "5","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 25,"workflow": "0","state": "REJECTED","role": "SUPERVISOR","action": "1","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 26,"workflow": "0","state": "REJECTED","role": "SUPERVISOR","action": "0","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 27,"workflow": "0","state": "REJECTED","role": "SUPERVISOR","action": "5","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 28,"workflow": "0","state": "REJECTED","role": "ADMIN","action": "0","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 29,"workflow": "0","state": "REJECTED","role": "ADMIN","action": "5","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 30,"workflow": "0","state": "REJECTED","role": "ADMIN","action": "1","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 31,"workflow": "0","state": "APPROVED","role": "ESS USER","action": "0","resulting_state": "APPROVED","roles_to_notify": "","priority": 0}
+  - {"id": 32,"workflow": "0","state": "APPROVED","role": "SUPERVISOR","action": "0","resulting_state": "APPROVED","roles_to_notify": "","priority": 0}
+  - {"id": 33,"workflow": "0","state": "APPROVED","role": "ADMIN","action": "0","resulting_state": "APPROVED","roles_to_notify": "","priority": 0}
+  - {"id": 34,"workflow": "0","state": "APPROVED","role": "ADMIN","action": "4","resulting_state": "SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 35,"workflow": "1","state": "PUNCHED IN","role": "ESS USER","action": "1","resulting_state": "PUNCHED OUT","roles_to_notify": "","priority": 0}
+  - {"id": 36,"workflow": "1","state": "INITIAL","role": "ESS USER","action": "0","resulting_state": "PUNCHED IN","roles_to_notify": "","priority": 0}
+  - {"id": 37,"workflow": "2","state": "INITIAL","role": "ADMIN","action": "1","resulting_state": "APPLICATION INITIATED","roles_to_notify": "","priority": 0}
+  - {"id": 38,"workflow": "2","state": "APPLICATION INITIATED","role": "ADMIN","action": "2","resulting_state": "SHORTLISTED","roles_to_notify": "","priority": 0}
+  - {"id": 39,"workflow": "2","state": "APPLICATION INITIATED","role": "ADMIN","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 40,"workflow": "2","state": "SHORTLISTED","role": "ADMIN","action": "4","resulting_state": "INTERVIEW SCHEDULED","roles_to_notify": "","priority": 0}
+  - {"id": 41,"workflow": "2","state": "SHORTLISTED","role": "ADMIN","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 42,"workflow": "2","state": "INTERVIEW SCHEDULED","role": "ADMIN","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 43,"workflow": "2","state": "INTERVIEW SCHEDULED","role": "ADMIN","action": "5","resulting_state": "INTERVIEW PASSED","roles_to_notify": "","priority": 0}
+  - {"id": 44,"workflow": "2","state": "INTERVIEW SCHEDULED","role": "ADMIN","action": "6","resulting_state": "INTERVIEW FAILED","roles_to_notify": "","priority": 0}
+  - {"id": 45,"workflow": "2","state": "INTERVIEW PASSED","role": "ADMIN","action": "4","resulting_state": "INTERVIEW SCHEDULED","roles_to_notify": "","priority": 0}
+  - {"id": 46,"workflow": "2","state": "INTERVIEW PASSED","role": "ADMIN","action": "7","resulting_state": "JOB OFFERED","roles_to_notify": "","priority": 0}
+  - {"id": 47,"workflow": "2","state": "INTERVIEW PASSED","role": "ADMIN","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 48,"workflow": "2","state": "INTERVIEW FAILED","role": "ADMIN","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 49,"workflow": "2","state": "JOB OFFERED","role": "ADMIN","action": "8","resulting_state": "OFFER DECLINED","roles_to_notify": "","priority": 0}
+  - {"id": 50,"workflow": "2","state": "JOB OFFERED","role": "ADMIN","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 51,"workflow": "2","state": "JOB OFFERED","role": "ADMIN","action": "9","resulting_state": "HIRED","roles_to_notify": "","priority": 0}
+  - {"id": 52,"workflow": "2","state": "OFFER DECLINED","role": "ADMIN","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 53,"workflow": "2","state": "INITIAL","role": "HIRING MANAGER","action": "1","resulting_state": "APPLICATION INITIATED","roles_to_notify": "","priority": 0}
+  - {"id": 54,"workflow": "2","state": "APPLICATION INITIATED","role": "HIRING MANAGER","action": "2","resulting_state": "SHORTLISTED","roles_to_notify": "","priority": 0}
+  - {"id": 55,"workflow": "2","state": "APPLICATION INITIATED","role": "HIRING MANAGER","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 56,"workflow": "2","state": "SHORTLISTED","role": "HIRING MANAGER","action": "4","resulting_state": "INTERVIEW SCHEDULED","roles_to_notify": "","priority": 0}
+  - {"id": 57,"workflow": "2","state": "SHORTLISTED","role": "HIRING MANAGER","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 58,"workflow": "2","state": "INTERVIEW SCHEDULED","role": "HIRING MANAGER","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 59,"workflow": "2","state": "INTERVIEW SCHEDULED","role": "HIRING MANAGER","action": "5","resulting_state": "INTERVIEW PASSED","roles_to_notify": "","priority": 0}
+  - {"id": 60,"workflow": "2","state": "INTERVIEW SCHEDULED","role": "HIRING MANAGER","action": "6","resulting_state": "INTERVIEW FAILED","roles_to_notify": "","priority": 0}
+  - {"id": 61,"workflow": "2","state": "INTERVIEW PASSED","role": "HIRING MANAGER","action": "4","resulting_state": "INTERVIEW SCHEDULED","roles_to_notify": "","priority": 0}
+  - {"id": 62,"workflow": "2","state": "INTERVIEW PASSED","role": "HIRING MANAGER","action": "7","resulting_state": "JOB OFFERED","roles_to_notify": "","priority": 0}
+  - {"id": 63,"workflow": "2","state": "INTERVIEW PASSED","role": "HIRING MANAGER","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 64,"workflow": "2","state": "INTERVIEW FAILED","role": "HIRING MANAGER","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 65,"workflow": "2","state": "JOB OFFERED","role": "HIRING MANAGER","action": "8","resulting_state": "OFFER DECLINED","roles_to_notify": "","priority": 0}
+  - {"id": 66,"workflow": "2","state": "JOB OFFERED","role": "HIRING MANAGER","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 67,"workflow": "2","state": "JOB OFFERED","role": "HIRING MANAGER","action": "9","resulting_state": "HIRED","roles_to_notify": "","priority": 0}
+  - {"id": 68,"workflow": "2","state": "OFFER DECLINED","role": "HIRING MANAGER","action": "3","resulting_state": "REJECTED","roles_to_notify": "","priority": 0}
+  - {"id": 69,"workflow": "2","state": "INTERVIEW SCHEDULED","role": "INTERVIEWER","action": "5","resulting_state": "INTERVIEW PASSED","roles_to_notify": "","priority": 0}
+  - {"id": 70,"workflow": "2","state": "INTERVIEW SCHEDULED","role": "INTERVIEWER","action": "6","resulting_state": "INTERVIEW FAILED","roles_to_notify": "","priority": 0}
+  - {"id": 71,"workflow": "1","state": "INITIAL","role": "ADMIN","action": "5","resulting_state": "PUNCHED IN","roles_to_notify": "","priority": 0}
+  - {"id": 72,"workflow": "1","state": "PUNCHED IN","role": "ADMIN","action": "6","resulting_state": "PUNCHED OUT","roles_to_notify": "","priority": 0}
+  - {"id": 73,"workflow": "1","state": "PUNCHED IN","role": "ADMIN","action": "2","resulting_state": "PUNCHED IN","roles_to_notify": "","priority": 0}
+  - {"id": 74,"workflow": "1","state": "PUNCHED IN","role": "ADMIN","action": "7","resulting_state": "N/A","roles_to_notify": "","priority": 0}
+  - {"id": 75,"workflow": "1","state": "PUNCHED OUT","role": "ADMIN","action": "2","resulting_state": "PUNCHED OUT","roles_to_notify": "","priority": 0}
+  - {"id": 76,"workflow": "1","state": "PUNCHED OUT","role": "ADMIN","action": "3","resulting_state": "PUNCHED OUT","roles_to_notify": "","priority": 0}
+  - {"id": 77,"workflow": "1","state": "PUNCHED OUT","role": "ADMIN","action": "7","resulting_state": "N/A","roles_to_notify": "","priority": 0}
+  - {"id": 78,"workflow": "0","state": "INITIAL","role": "ADMIN","action": "7","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 79,"workflow": "0","state": "INITIAL","role": "ESS USER","action": "7","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 80,"workflow": "0","state": "INITIAL","role": "SUPERVISOR","action": "7","resulting_state": "NOT SUBMITTED","roles_to_notify": "","priority": 0}
+  - {"id": 81,"workflow": "3","state": "NOT_EXIST","role": "ADMIN","action": "1","resulting_state": "ACTIVE","roles_to_notify": "","priority": 0}
+  - {"id": 82,"workflow": "3","state": "ACTIVE","role": "ADMIN","action": "2","resulting_state": "NOT_EXIST","roles_to_notify": "","priority": 0}
+  - {"id": 83,"workflow": "3","state": "ACTIVE","role": "ADMIN","action": "3","resulting_state": "TERMINATED","roles_to_notify": "","priority": 0}
+  - {"id": 84,"workflow": "3","state": "TERMINATED","role": "ADMIN","action": "4","resulting_state": "ACTIVE","roles_to_notify": "","priority": 0}
+  - {"id": 85,"workflow": "3","state": "TERMINATED","role": "ADMIN","action": "5","resulting_state": "NOT_EXIST","roles_to_notify": "","priority": 0}
+  - {"id": 86,"workflow": "4","state": "INITIAL","role": "ESS","action": "APPLY","resulting_state": "PENDING APPROVAL","roles_to_notify": "supervisor,ber","priority": 0}
+  - {"id": 87,"workflow": "4","state": "INITIAL","role": "ADMIN","action": "ASSIGN","resulting_state": "SCHEDULED","roles_to_notify": "ess,sor,ber","priority": 0}
+  - {"id": 88,"workflow": "4","state": "INITIAL","role": "SUPERVISOR","action": "ASSIGN","resulting_state": "SCHEDULED","roles_to_notify": "ess,sor,ber","priority": 0}
+  - {"id": 89,"workflow": "4","state": "PENDING APPROVAL","role": "ADMIN","action": "APPROVE","resulting_state": "SCHEDULED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 90,"workflow": "4","state": "PENDING APPROVAL","role": "SUPERVISOR","action": "APPROVE","resulting_state": "SCHEDULED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 91,"workflow": "4","state": "PENDING APPROVAL","role": "ESS","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "supervisor,ber","priority": 0}
+  - {"id": 92,"workflow": "4","state": "PENDING APPROVAL","role": "ADMIN","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 93,"workflow": "4","state": "PENDING APPROVAL","role": "SUPERVISOR","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 94,"workflow": "4","state": "PENDING APPROVAL","role": "ADMIN","action": "REJECT","resulting_state": "REJECTED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 95,"workflow": "4","state": "PENDING APPROVAL","role": "SUPERVISOR","action": "REJECT","resulting_state": "REJECTED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 96,"workflow": "4","state": "SCHEDULED","role": "ESS","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "supervisor,ber","priority": 0}
+  - {"id": 97,"workflow": "4","state": "SCHEDULED","role": "ADMIN","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 98,"workflow": "4","state": "SCHEDULED","role": "SUPERVISOR","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 99,"workflow": "4","state": "TAKEN","role": "ADMIN","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 100,"workflow": "4","state": "LEAVE TYPE DELETED PENDING APPROVAL","role": "ESS","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "supervisor,ber","priority": 0}
+  - {"id": 101,"workflow": "4","state": "LEAVE TYPE DELETED PENDING APPROVAL","role": "ADMIN","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 102,"workflow": "4","state": "LEAVE TYPE DELETED PENDING APPROVAL","role": "SUPERVISOR","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 103,"workflow": "4","state": "LEAVE TYPE DELETED SCHEDULED","role": "ESS","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "supervisor,ber","priority": 0}
+  - {"id": 104,"workflow": "4","state": "LEAVE TYPE DELETED SCHEDULED","role": "ADMIN","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 105,"workflow": "4","state": "LEAVE TYPE DELETED SCHEDULED","role": "SUPERVISOR","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id": 106,"workflow": "4","state": "LEAVE TYPE DELETED TAKEN","role": "ADMIN","action": "CANCEL","resulting_state": "CANCELLED","roles_to_notify": "ess,ber","priority": 0}
+  - {"id":107,"workflow":"5","state":"INITIAL","role":"ADMIN","action":"1","resulting_state":"SAVED","roles_to_notify":null,"priority":"0"},
+  - {"id":108,"workflow":"5","state":"INITIAL","role":"ADMIN","action":"2","resulting_state":"ACTIVATED","roles_to_notify":null,"priority":"0"},
+  - {"id":109,"workflow":"5","state":"SAVED","role":"ADMIN","action":"1","resulting_state":"SAVED","roles_to_notify":null,"priority":"0"},
+  - {"id":110,"workflow":"5","state":"SAVED","role":"ADMIN","action":"2","resulting_state":"ACTIVATED","roles_to_notify":null,"priority":"0"},
+  - {"id":111,"workflow":"5","state":"ACTIVATED","role":"ADMIN","action":"3","resulting_state":"IN PROGRESS","roles_to_notify":null,"priority":"0"},
+  - {"id":112,"workflow":"5","state":"ACTIVATED","role":"ADMIN","action":"4","resulting_state":"COMPLETED","roles_to_notify":null,"priority":"0"},
+  - {"id":113,"workflow":"5","state":"IN PROGRESS","role":"ADMIN","action":"3","resulting_state":"IN PROGRESS","roles_to_notify":null,"priority":"0"},
+  - {"id":114,"workflow":"5","state":"IN PROGRESS","role":"ADMIN","action":"4","resulting_state":"COMPLETED","roles_to_notify":null,"priority":"0"},
+  - {"id":115,"workflow":"5","state":"ACTIVATED","role":"SUPERVISOR","action":"3","resulting_state":"IN PROGRESS","roles_to_notify":null,"priority":"0"},
+  - {"id":116,"workflow":"5","state":"ACTIVATED","role":"SUPERVISOR","action":"4","resulting_state":"COMPLETED","roles_to_notify":null,"priority":"0"},
+  - {"id":117,"workflow":"5","state":"IN PROGRESS","role":"SUPERVISOR","action":"3","resulting_state":"IN PROGRESS","roles_to_notify":null,"priority":"0"},
+  - {"id":118,"workflow":"5","state":"IN PROGRESS","role":"SUPERVISOR","action":"4","resulting_state":"COMPLETED","roles_to_notify":null,"priority":"0"},
+  - {"id":119,"workflow":"6","state":"SELF COMPLETED","role":"ADMIN","action":"3","resulting_state":"SUPERVISOR UPDATED","roles_to_notify":null,"priority":"0"},
+  - {"id":120,"workflow":"6","state":"SUPERVISOR UPDATED","role":"ADMIN","action":"3","resulting_state":"SUPERVISOR UPDATED","roles_to_notify":null,"priority":"0"},
+  - {"id":121,"workflow":"6","state":"SELF COMPLETED","role":"SUPERVISOR","action":"3","resulting_state":"SUPERVISOR UPDATED","roles_to_notify":null,"priority":"0"},
+  - {"id":122,"workflow":"6","state":"SUPERVISOR UPDATED","role":"SUPERVISOR","action":"3","resulting_state":"SUPERVISOR UPDATED","roles_to_notify":null,"priority":"0"},
+  - {"id":123,"workflow":"6","state":"INITIAL","role":"ESS USER","action":"1","resulting_state":"SELF IN PROGRESS","roles_to_notify":null,"priority":"0"},
+  - {"id":124,"workflow":"6","state":"INITIAL","role":"ESS USER","action":"2","resulting_state":"SELF COMPLETED","roles_to_notify":null,"priority":"0"},
+  - {"id":125,"workflow":"6","state":"SELF IN PROGRESS","role":"ESS USER","action":"1","resulting_state":"SELF IN PROGRESS","roles_to_notify":null,"priority":"0"},
+  - {"id":126,"workflow":"6","state":"SELF IN PROGRESS","role":"ESS USER","action":"2","resulting_state":"SELF COMPLETED","roles_to_notify":null,"priority":"0"}
+
+Subunit:
+  - {"id": 1,"name": "Organization","unit_id": "","description": "","lft": 1,"rgt": 10,"level": 0}
+  - {"id": 2,"name": "Development","unit_id": "2","description": "","lft": 2,"rgt": 5,"level": 1}
+  - {"id": 3,"name": "Open Source","unit_id": "3","description": "","lft": 3,"rgt": 4,"level": 2}
+  - {"id": 4,"name": "QA","unit_id": "4","description": "","lft": 6,"rgt": 9,"level": 1}
+  - {"id": 5,"name": "Enterprise","unit_id": "4","description": "","lft": 7,"rgt": 8,"level": 2}
+
+JobTitle:
+  - {"id": 1,"job_title": "Software Engineer","job_description": "","note": "","is_deleted": 0}
+  - {"id": 2,"job_title": "Senior Software Engineer","job_description": "","note": "","is_deleted": 0}
+  - {"id": 3,"job_title": "QA","job_description": "","note": "","is_deleted": 0}
+  - {"id": 4,"job_title": "Senior QA","job_description": "","note": "","is_deleted": 0}
+  - {"id": 5,"job_title": "BA","job_description": "","note": "","is_deleted": 0}
+
+TerminationReason:
+  - {"id": 1,"name": "Other"}
+
+EmployeeTerminationRecord:
+  - {"id": 1,"reason_id": 1,"termination_date": "2022-05-12","note": ""}
+  - {"id": 2,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
+  - {"id": 3,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
+  - {"id": 4,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
+  - {"id": 5,"reason_id": 1,"termination_date": "2022-05-18","note": ""}
+
+Employee:
+  - {"emp_number": 1,"employee_id": "0001","emp_lastname": "Admin","emp_firstname": "Devi","emp_middle_name": "","job_title_code": null,"work_station": 1,"termination_id": null,"purged_at": null}
+  - {"emp_number": 2,"employee_id": "0002","emp_lastname": "Park","emp_firstname": "Jaesang","emp_middle_name": "","job_title_code": 4,"work_station": 4,"termination_id": null,"purged_at": null}
+  - {"emp_number": 3,"employee_id": "0003","emp_lastname": "Choi","emp_firstname": "Seungcheol","emp_middle_name": "","job_title_code": 2,"work_station": 2,"termination_id": null,"purged_at": null}
+  - {"emp_number": 4,"employee_id": "0004","emp_lastname": "Yoon","emp_firstname": "Jeonghan","emp_middle_name": "","job_title_code": 3,"work_station": 3,"termination_id": null,"purged_at": null}
+  - {"emp_number": 5,"employee_id": "0005","emp_lastname": "Lee","emp_firstname": "Chan","emp_middle_name": "","job_title_code": 1,"work_station": 3,"termination_id": null,"purged_at": null}
+  - {"emp_number": 6,"employee_id": "0006","emp_lastname": "Park","emp_firstname": "Jihoon","emp_middle_name": "","job_title_code": 1,"work_station": 5,"termination_id": null,"purged_at": null}
+  - {"emp_number": 7,"employee_id": "0007","emp_lastname": "Chew","emp_firstname": "Hansol","emp_middle_name": "","job_title_code": 1,"work_station": 5,"termination_id": null,"purged_at": null}
+  - {"emp_number": 8,"employee_id": "0008","emp_lastname": "Jang","emp_firstname": "Dahye","emp_middle_name": "","job_title_code": 3,"work_station": 3,"termination_id": null,"purged_at": null}
+  - {"emp_number": 9,"employee_id": "0009","emp_lastname": "Kim","emp_firstname": "Hyuna","emp_middle_name": "","job_title_code": 3,"work_station": 5,"termination_id": null,"purged_at": null}
+  - {"emp_number": 10,"employee_id": "0014","emp_lastname": "Anuka","emp_firstname": "Christopher","emp_middle_name": "","job_title_code": 1,"work_station": 5,"termination_id": 1,"purged_at": null}
+  - {"emp_number": 11,"employee_id": "0018","emp_lastname": "Wayne","emp_firstname": "Bruce","emp_middle_name": "","job_title_code": 2,"work_station": null,"termination_id": 4,"purged_at": null}
+  - {"emp_number": 12,"employee_id": "0019","emp_lastname": "Kent","emp_firstname": "Clark","emp_middle_name": "","job_title_code": 1,"work_station": null,"termination_id": 5,"purged_at": null}
+  - {"emp_number": 13,"employee_id": "0020","emp_lastname": "Employee","emp_firstname": "Purged","emp_middle_name": "","job_title_code": null,"work_station": null,"termination_id": 3,"purged_at": "2022-05-18 15:15:17"}
+  - {"emp_number": 14,"employee_id": "0021","emp_lastname": "Employee","emp_firstname": "Purged","emp_middle_name": "","job_title_code": null,"work_station": null,"termination_id": 2,"purged_at": "2022-05-18 15:13:35"}
+  - {"emp_number": 15,"employee_id": "0023","emp_lastname": "Sharuka","emp_firstname": "Perera","emp_middle_name": "Anuka","job_title_code": 5,"work_station": null,"termination_id": null,"purged_at": null}
+  - {"emp_number": 16,"employee_id": "0024","emp_lastname": "John","emp_firstname": "Richard","emp_middle_name": "Tudor","job_title_code": null,"work_station": null,"termination_id": null,"purged_at": null}
+
+UserRole:
+  - {"id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1}
+  - {"id": 2,"name": "ESS","display_name": "ESS","is_assignable": 1,"is_predefined": 1}
+  - {"id": 3,"name": "Supervisor","display_name": "Supervisor","is_assignable": 0,"is_predefined": 1}
+
+User:
+  - {"id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","user_password": "$2y$12$L6f2OlniaHiZfRoh/HYkCuVGyLLmpQHDDPWGYEAjxtQNX86u59C5y","deleted": 0,"status": 1,"date_entered": null,"date_modified": null,"modified_user_id": null,"created_by": null}
+  - {"id": 2,"user_role_id": 2,"emp_number": 2,"user_name": "psycho","user_password": "$2y$12$ZycUQ/B39Xe6C6sfD.vuh.N4HV8M5vB3OomxHaJUBjYLd8xvVs7u6","deleted": 0,"status": 1,"date_entered": "2022-05-12 15:52:28","date_modified": "2022-05-12 19:56:02","modified_user_id": 1,"created_by": 1}
+  - {"id": 3,"user_role_id": 2,"emp_number": 6,"user_name": "woozi","user_password": "$2y$12$FCBTsL4S6ZelyVG/dOna9.hEWCj3MxH.10M74q67fuZuHqme4XljC","deleted": 0,"status": 1,"date_entered": "2022-05-12 15:52:49","date_modified": null,"modified_user_id": null,"created_by": 1}
+  - {"id": 4,"user_role_id": 2,"emp_number": 3,"user_name": "scoups","user_password": "$2y$12$M9435QU8kzJM0RVYo1pkrurLIUfjtRDKHnKTYqLg4fGhwGzEKVLzi","deleted": 0,"status": 1,"date_entered": "2022-05-12 19:55:44","date_modified": null,"modified_user_id": null,"created_by": 1}
+  - {"id": 5,"user_role_id": 2,"emp_number": 10,"user_name": "Yoongun","user_password": "$2y$12$9KOPXLlc.CFMahfWFalWheX.IVLE8Gqa1VQzK.7nqXbulCX0nlQzm","deleted": 0,"status": 1,"date_entered": "2022-05-06 01:09:06","date_modified": null,"modified_user_id": null,"created_by": 1}
+
+Kpi:
+  - {"id": 1,"job_title_code": 1,"kpi_indicators": "Velocity","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 2,"job_title_code": 1,"kpi_indicators": "Code Coverage","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 3,"job_title_code": 1,"kpi_indicators": "Code Stability","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 4,"job_title_code": 2,"kpi_indicators": "A","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 5,"job_title_code": 2,"kpi_indicators": "B","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+  - {"id": 6,"job_title_code": 4,"kpi_indicators": "C","min_rating": 0,"max_rating": 100,"default_kpi": null,"deleted_at": null}
+
+PerformanceReview:
+  - {"id": 1,"status_id": 2,"employee_number": 10,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 1,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-12 19:55:11","final_comment": null,"final_rate": null}
+  - {"id": 2,"status_id": 2,"employee_number": 6,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 2,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-12 19:59:09","final_comment": null,"final_rate": null}
+  - {"id": 3,"status_id": 2,"employee_number": 7,"work_period_start": "2022-04-01","work_period_end": "2022-04-30","job_title_code": 1,"department_id": 5,"due_date": "2022-04-30","completed_date": null,"activated_date": "2022-05-12 19:59:39","final_comment": null,"final_rate": null}
+  - {"id": 4,"status_id": 3,"employee_number": 8,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 3,"due_date": "2022-06-30","completed_date": null,"activated_date": "2022-05-12 19:59:56","final_comment": null,"final_rate": null}
+  - {"id": 5,"status_id": 2,"employee_number": 9,"work_period_start": "2022-05-01","work_period_end": "2022-05-31","job_title_code": 3,"department_id": 5,"due_date": "2022-05-31","completed_date": null,"activated_date": "2022-05-12 20:00:10","final_comment": null,"final_rate": null}
+  - {"id": 6,"status_id": 2,"employee_number": 3,"work_period_start": "2022-07-01","work_period_end": "2022-07-31","job_title_code": 2,"department_id": 2,"due_date": "2022-07-31","completed_date": null,"activated_date": "2022-05-12 20:00:32","final_comment": null,"final_rate": null}
+  - {"id": 7,"status_id": 1,"employee_number": 2,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-06-30","completed_date": null,"activated_date": null,"final_comment": null,"final_rate": null}
+  - {"id": 8,"status_id": 3,"employee_number": 6,"work_period_start": "2022-06-01","work_period_end": "2022-06-30","job_title_code": 4,"department_id": 4,"due_date": "2022-07-30","completed_date": "2022-07-29","activated_date": "2022-07-09","final_comment": "final comment","final_rate": 3}
+
+ReviewerGroup:
+  - {"id": 1,"name": "Supervisor","piority": 1}
+  - {"id": 2,"name": "Employee","piority": 2}
+
+Reviewer:
+  - {"id": 1,"review_id": 1,"employee_number": 10,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 2,"review_id": 1,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 3,"review_id": 2,"employee_number": 6,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 4,"review_id": 2,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 5,"review_id": 3,"employee_number": 7,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 6,"review_id": 3,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 7,"review_id": 4,"employee_number": 8,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 8,"review_id": 4,"employee_number": 2,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 9,"review_id": 5,"employee_number": 9,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 10,"review_id": 5,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 11,"review_id": 6,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 12,"review_id": 6,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 13,"review_id": 7,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
+  - {"id": 14,"review_id": 7,"employee_number": 1,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - {"id": 15,"review_id": 8,"employee_number": 6,"status": 3,"reviewer_group_id": 2,"completed_date": "2022-07-29","comment": null }
+  - {"id": 16,"review_id": 8,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": "2022-07-29","comment": null }
+
+ReviewerRating:
+  - { id: 1, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 4,comment: "test" }
+  - { id: 2, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 4,comment: "test2" }
+  - { id: 3, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 3,comment: "testSelf" }
+  - { id: 4, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 3,comment: "testSelf2" }
+  - { id: 5, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 16,comment: "testb2" }
+  - { id: 6, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 15,comment: "testSelfb2" }
+  - { id: 7, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 8, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 9, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 10, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 11, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 12, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 13, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 7,comment: null }
+  - { id: 14, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 8,comment: null }
+
+ReportingMethod:
+  0: {id: 1, name: 'Indirect'}
+  1: {id: 2, name: 'Direct'}
+  2: {id: 3, name: 'HR'}
+
+ReportTo:
+  0: { erep_sup_emp_number: 2, erep_sub_emp_number: 7, erep_reporting_mode: 1}
+  1: { erep_sup_emp_number: 1, erep_sub_emp_number: 3, erep_reporting_mode: 1}
+  2: { erep_sup_emp_number: 1, erep_sub_emp_number: 4, erep_reporting_mode: 2}
+  3: { erep_sup_emp_number: 2, erep_sub_emp_number: 5, erep_reporting_mode: 1}
+  4: { erep_sup_emp_number: 4, erep_sub_emp_number: 5, erep_reporting_mode: 2}
+  5: { erep_sup_emp_number: 2, erep_sub_emp_number: 16, erep_reporting_mode: 2}
+  6: { erep_sup_emp_number: 3, erep_sub_emp_number: 6, erep_reporting_mode: 2}

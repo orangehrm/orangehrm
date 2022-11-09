@@ -1,0 +1,189 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm {
+  &-background-container {
+    height: 80%;
+  }
+
+  &-vacancy-description {
+    font-size: $oxd-input-control-font-size;
+    font-weight: 700;
+  }
+
+  &-applicant {
+    &-card {
+      &-pre-tag {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-weight: 400;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: $oxd-font-family;
+      }
+
+      &-footer {
+        display: flex;
+        justify-content: left;
+      }
+
+      &-anchor-tag {
+        cursor: pointer;
+        padding-top: 0.5rem;
+        color: $oxd-primary-one-color;
+      }
+    }
+
+    &-container {
+      width: 100%;
+      display: block;
+
+      &-row {
+        width: inherit;
+      }
+
+      &-colspan-2 {
+        grid-column: 1 / span 2;
+      }
+
+      &-grid-checkbox {
+        .oxd-input-group {
+          flex-direction: row-reverse;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+
+  &-container {
+    height: 100%;
+    @include oxd-scrollbar();
+    overflow: auto;
+    position: relative;
+    margin: 0;
+
+    &-loader {
+      margin: 0 auto;
+      background-color: $oxd-white-color;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    &-img {
+      height: 40px;
+    }
+  }
+
+  &-card-container {
+    width: 80%;
+    margin: 1rem auto;
+    padding: 0.75rem 1.5rem;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column-reverse;
+      @include oxd-respond-to('md') {
+        flex-direction: row;
+      }
+
+      & .orangehrm-main-title {
+        word-break: break-word;
+        @include oxd-respond-to('md') {
+          align-self: center;
+        }
+      }
+    }
+  }
+
+  &-paper-container {
+    width: 80%;
+    background: unset;
+    margin: 0rem auto;
+    padding: 0.75rem 1.5rem;
+  }
+
+  &-vacancy {
+    &-card {
+      display: block;
+
+      &-header {
+        display: flex;
+        align-items: center;
+        word-break: break-word;
+        justify-content: space-between;
+        & button {
+          flex-shrink: 0;
+        }
+      }
+
+      &-anchor-tag {
+        cursor: pointer;
+        font-weight: 600;
+        padding-top: 0.5rem;
+        color: $oxd-primary-one-color;
+        font-size: $oxd-input-control-font-size;
+      }
+
+      &-body {
+        @include truncate(4, 15px, #ffff);
+        @include oxd-respond-to('md') {
+          @include truncate(2, 15px, #ffff);
+        }
+      }
+
+      &-pre-tag {
+        margin-top: 0;
+        font-family: $oxd-font-family;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      &-footer {
+        display: flex;
+        justify-content: left;
+      }
+    }
+
+    &-list-poweredby {
+      font-size: 12px;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.oxd-brand-banner {
+  flex: 1;
+  height: 32px;
+  margin-bottom: 8px;
+  @include oxd-respond-to('md') {
+    flex: 0;
+    margin-bottom: 0;
+  }
+}
+
+.orangehrm-container {
+  padding: 0;
+  height: 72vh;
+  @include oxd-respond-to('md') {
+    height: 75vh;
+  }
+}

@@ -1,0 +1,88 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+.org-root-container {
+  padding: 0.5em 2.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  & .oxd-text {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  & .oxd-text.--parent::after {
+    content: '';
+    border-left: 0.15rem solid $oxd-primary-one-color;
+    height: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+  }
+
+  & .oxd-text.--parent::before {
+    content: '';
+    border-top: 0.15rem solid $oxd-primary-one-color;
+    width: 1rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.org-container {
+  background-color: $oxd-interface-gray-lighten-2-color;
+  padding: 0.5rem 2rem;
+  & .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10rem 0;
+    .oxd-loading-spinner-container {
+      background-color: $oxd-white-color;
+    }
+  }
+}
+
+.org-structure-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: $oxd-white-color;
+  border-radius: 0.75rem;
+  min-height: 35px;
+}
+.org-name {
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+.org-structure-add {
+  min-width: unset;
+  padding: 0.5rem 1rem;
+}
+.org-action {
+  display: flex;
+  &-icon {
+    margin-right: 0.5rem;
+    &:last-child {
+      margin-right: unset;
+    }
+  }
+}
