@@ -45,7 +45,7 @@ class BuzzShareDecorator
     /**
      * @return BuzzShare
      */
-    public function getBuzzShare(): BuzzShare
+    protected function getBuzzShare(): BuzzShare
     {
         return $this->buzzShare;
     }

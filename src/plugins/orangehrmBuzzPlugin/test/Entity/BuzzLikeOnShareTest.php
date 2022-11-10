@@ -21,40 +21,32 @@ namespace OrangeHRM\Tests\Buzz\Entity;
 
 use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Entity\BuzzPost;
+use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * @group Buzz
- * @group Entity
- */
-class BuzzShareTest extends EntityTestCase
+class BuzzLikeOnShareTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/BuzzShare.yaml';
+        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/Employee.yaml';
         TestDataService::populate($fixture);
-        TestDataService::truncateSpecificTables([BuzzShare::class]);
+        TestDataService::truncateSpecificTables([BuzzLikeOnShare::class]);
     }
 
     public function testEntity(): void
     {
-        $share = new BuzzShare();
-        $share->setEmployee($this->getReference(Employee::class, 1));
-        $share->setPost($this->getReference(BuzzPost::class, 1));
-        $share->setNumOfLikes(1);
-        $share->setNumOfComments(2);
-        $share->setCreatedAt(new DateTime('2022-11-11 09:20'));
-        $share->setUpdatedAt(new DateTime('2022-11-11 09:20'));
+        $buzzLikeOnShare = new BuzzLikeOnShare();
+        $buzzLikeOnShare->setEmployee($this->getReference(Employee::class,1));
+        $buzzLikeOnShare->setShare($this->getReference(BuzzShare::class, 1));
+        $buzzLikeOnShare->setLikedAt(new DateTime('2022-11-01 09:20'));
+        $this->persist($buzzLikeOnShare);
 
-        $this->persist($share);
-
-        $this->assertEquals(1, $share->getId());
-        $this->assertEquals(1, $share->getNumOfLikes());
-        $this->assertEquals(2, $share->getNumOfComments());
-        $this->assertEquals('this is post text 01', $share->getPost()->getText());
+        $this->assertEquals(1, $buzzLikeOnShare->getEmployee()->getEmployeeId());
+        $this->assertEquals(1, $buzzLikeOnShare->getShare()->getId());
+        $this->assertEquals('2022-11-01', $buzzLikeOnShare->getLikedAt()->format('Y-m-d'));
+        $this->assertEquals('09:20:00', $buzzLikeOnShare->getLikedAt()->format('H:i:s'));
     }
 }

@@ -21,40 +21,32 @@ namespace OrangeHRM\Tests\Buzz\Entity;
 
 use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Entity\BuzzPost;
-use OrangeHRM\Entity\BuzzShare;
+use OrangeHRM\Entity\BuzzComment;
+use OrangeHRM\Entity\BuzzLikeOnComment;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * @group Buzz
- * @group Entity
- */
-class BuzzShareTest extends EntityTestCase
+class BuzzLikeOnCommentTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/BuzzShare.yaml';
+        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/BuzzLikeOnComment.yaml';
         TestDataService::populate($fixture);
-        TestDataService::truncateSpecificTables([BuzzShare::class]);
+        TestDataService::truncateSpecificTables([BuzzLikeOnComment::class]);
     }
 
     public function testEntity(): void
     {
-        $share = new BuzzShare();
-        $share->setEmployee($this->getReference(Employee::class, 1));
-        $share->setPost($this->getReference(BuzzPost::class, 1));
-        $share->setNumOfLikes(1);
-        $share->setNumOfComments(2);
-        $share->setCreatedAt(new DateTime('2022-11-11 09:20'));
-        $share->setUpdatedAt(new DateTime('2022-11-11 09:20'));
+        $buzzLikeOnComment = new BuzzLikeOnComment();
+        $buzzLikeOnComment->setEmployee($this->getReference(Employee::class, 1));
+        $buzzLikeOnComment->setComment($this->getReference(BuzzComment::class, 1));
+        $buzzLikeOnComment->setLikedAt(new DateTime('2022-11-02 13:20'));
+        $this->persist($buzzLikeOnComment);
 
-        $this->persist($share);
-
-        $this->assertEquals(1, $share->getId());
-        $this->assertEquals(1, $share->getNumOfLikes());
-        $this->assertEquals(2, $share->getNumOfComments());
-        $this->assertEquals('this is post text 01', $share->getPost()->getText());
+        $this->assertEquals(1, $buzzLikeOnComment->getEmployee()->getEmployeeId());
+        $this->assertEquals('Self Comment', $buzzLikeOnComment->getComment()->getText());
+        $this->assertEquals('2022-11-02' ,$buzzLikeOnComment->getLikedAt()->format('Y-m-d'));
+        $this->assertEquals('13:20:00', $buzzLikeOnComment->getLikedAt()->format('H:i:s'));
     }
 }

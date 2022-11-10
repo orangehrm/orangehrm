@@ -43,7 +43,7 @@ class BuzzPostDecorator
     /**
      * @return BuzzPost
      */
-    public function getBuzzPost(): BuzzPost
+    protected function getBuzzPost(): BuzzPost
     {
         return $this->buzzPost;
     }
@@ -54,6 +54,6 @@ class BuzzPostDecorator
     public function setEmployeeByEmpNumber(int $empNumber): void
     {
         $employee = $this->getReference(Employee::class, $empNumber);
-        $this->buzzPost->setEmployee($employee);
+        $this->getBuzzPost()->setEmployee($employee);
     }
 }

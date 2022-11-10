@@ -43,6 +43,13 @@ class BuzzDaoTest extends KernelTestCase
     {
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/BuzzDao.yaml';
         TestDataService::populate($fixture);
+
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturn(new DateTime('2022-09-09'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
     }
 
     public function testGetBuzzFeedPosts(): void
