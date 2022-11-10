@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Buzz\Api;
 
-use OrangeHRM\Buzz\Api\Model\BuzzShareModel;
+use OrangeHRM\Buzz\Api\Model\BuzzPostModel;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -42,7 +42,7 @@ use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\ORM\Exception\TransactionException;
 use Exception;
 
-class BuzzShareAPI extends Endpoint implements CollectionEndpoint
+class BuzzPostAPI extends Endpoint implements CollectionEndpoint
 {
     use EntityManagerHelperTrait;
     use BuzzServiceTrait;
@@ -103,7 +103,7 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
             $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
 
             $this->commitTransaction();
-            return new EndpointResourceResult(BuzzShareModel::class, $buzzPost);
+            return new EndpointResourceResult(BuzzPostModel::class, $buzzPost);
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);

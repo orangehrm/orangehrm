@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\BuzzPost;
 
-class BuzzShareModel implements Normalizable
+class BuzzPostModel implements Normalizable
 {
     use ModelTrait;
 

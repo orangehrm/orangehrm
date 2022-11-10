@@ -28,9 +28,9 @@ apiv2_buzz_feed:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
-apiv2_buzz_newsfeed_shares:
-  description: 'Buzz - Create NewsFeed Share'
-  api: OrangeHRM\Buzz\Api\BuzzShareAPI
+apiv2_buzz_posts:
+  description: 'Buzz - Posts'
+  api: OrangeHRM\Buzz\Api\BuzzPostAPI
   module: buzz
   allowed:
     read: true
