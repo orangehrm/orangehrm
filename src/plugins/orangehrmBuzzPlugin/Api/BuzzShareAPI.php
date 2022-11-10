@@ -84,28 +84,23 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
         try {
             $buzzPost = new BuzzPost();
             $this->setBuzzPost($buzzPost);
-            $empNumber = $this->getAuthUser()->getEmpNumber();
+            $buzzPost->setCreatedAtUtc();
+            $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
 
             $postType = $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_POST_TYPE
             );
-
-            $buzzPost->getDecorator()->setEmployeeByEmpNumber($empNumber);
-
-            $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
-
             if ($postType == BuzzShare::POST_TYPE_PHOTO) {
                 $this->setBuzzPhotos($buzzPost);
             } elseif ($postType == BuzzShare::POST_TYPE_VIDEO) {
-                $videoLink = $this->getRequestParams()->getString(
-                    RequestParams::PARAM_TYPE_BODY,
-                    self::PARAMETER_VIDEO_LINK
-                );
-                $this->setBuzzVideoPost($buzzPost, $videoLink);
+                $this->setBuzzVideoPost($buzzPost);
             }
 
-            $this->setBuzzShare($buzzPost, BuzzShare::TYPE_POST);
+            $buzzShare = new BuzzShare();
+            $this->setBuzzShare($buzzShare, $buzzPost);
+            $buzzShare->setCreatedAtUtc();
+            $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
 
             $this->commitTransaction();
             return new EndpointResourceResult(BuzzShareModel::class, $buzzPost);
@@ -138,27 +133,19 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_POST_TEXT
             )
         );
-
-        $buzzPost->setCreatedAt($this->getDateTimeHelper()->getNow());
-        $buzzPost->setUpdatedAt($this->getDateTimeHelper()->getNow());
+        $empNumber = $this->getAuthUser()->getEmpNumber();
+        $buzzPost->getDecorator()->setEmployeeByEmpNumber($empNumber);
     }
 
     /**
+     * @param BuzzShare $buzzShare
      * @param BuzzPost $buzzPost
-     * @param int      $type
-     *
-     * @return BuzzShare
      */
-    private function setBuzzShare(BuzzPost $buzzPost, int $type): BuzzShare
+    private function setBuzzShare(BuzzShare $buzzShare, BuzzPost $buzzPost): void
     {
-        $buzzShare = new BuzzShare();
         $buzzShare->setPost($buzzPost);
         $buzzShare->setEmployee($buzzPost->getEmployee());
-        $buzzShare->setType($type);
-        $buzzShare->setCreatedAt($this->getDateTimeHelper()->getNow());
-        $buzzShare->setUpdatedAt($this->getDateTimeHelper()->getNow());
-
-        return $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
+        $buzzShare->setType(BuzzShare::TYPE_POST);
     }
 
     /**
@@ -172,10 +159,8 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
         );
 
         foreach ($postPhotos as $photo) {
-            $buzzPhoto = new BuzzPhoto();
-
             $attachment = Base64Attachment::createFromArray($photo);
-
+            $buzzPhoto = new BuzzPhoto();
             $buzzPhoto->setPost($buzzPost);
             $buzzPhoto->setPhoto($attachment->getContent());
             $buzzPhoto->setFilename($attachment->getFilename());
@@ -188,17 +173,18 @@ class BuzzShareAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @param BuzzPost $buzzPost
-     * @param string   $videoLink
-     *
-     * @return BuzzLink
      */
-    private function setBuzzVideoPost(BuzzPost $buzzPost, string $videoLink): BuzzLink
+    private function setBuzzVideoPost(BuzzPost $buzzPost): void
     {
+        $videoLink = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_VIDEO_LINK
+        );
         $buzzVideoPost = new BuzzLink();
         $buzzVideoPost->setPost($buzzPost);
         $buzzVideoPost->setLink($videoLink);
 
-        return $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzVideoPost);
+        $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzVideoPost);
     }
 
     /**

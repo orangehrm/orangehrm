@@ -21,8 +21,10 @@ namespace OrangeHRM\Tests\Buzz\Entity;
 
 use DateTime;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\BuzzPost;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -41,22 +43,29 @@ class BuzzPostTest extends EntityTestCase
 
     public function testEntity(): void
     {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturn(new DateTime('2022-11-01 09:20'), new DateTime('2022-11-02 13:20'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
+
         $post = new BuzzPost();
         $post->setEmployee($this->getReference(Employee::class, 1));
         $post->setText(
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         );
-        $post->setCreatedAt(new DateTime('2022-11-01 09:20'));
-        $post->setUpdatedAt(new DateTime('2022-11-02 13:20'));
+        $post->setCreatedAtUtc();
+        $post->setUpdatedAtUtc();
         $this->persist($post);
 
         $this->assertEquals(1, $post->getId());
         $this->assertEquals('Odis', $post->getEmployee()->getFirstName());
         $this->assertEquals('Adalwin', $post->getEmployee()->getLastName());
         $this->assertEquals(574, strlen($post->getText()));
-        $this->assertEquals('2022-11-01', $post->getCreatedAt()->format('Y-m-d'));
-        $this->assertEquals('09:20:00', $post->getCreatedAt()->format('H:i:s'));
-        $this->assertEquals('2022-11-02', $post->getUpdatedAt()->format('Y-m-d'));
-        $this->assertEquals('13:20:00', $post->getUpdatedAt()->format('H:i:s'));
+        $this->assertEquals('2022-11-01', $post->getCreatedAtUtc()->format('Y-m-d'));
+        $this->assertEquals('09:20:00', $post->getCreatedAtUtc()->format('H:i:s'));
+        $this->assertEquals('2022-11-02', $post->getUpdatedAtUtc()->format('Y-m-d'));
+        $this->assertEquals('13:20:00', $post->getUpdatedAtUtc()->format('H:i:s'));
     }
 }

@@ -83,6 +83,11 @@ class Migration extends AbstractMigration
                 'Default' => null,
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
             ],
+            'comment_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
             'updated_at' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
                 'Notnull' => false,
@@ -104,6 +109,11 @@ class Migration extends AbstractMigration
                 'Notnull' => true,
                 'Type' => Type::getType(Types::INTEGER),
             ],
+            'like_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
             'like_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
                 'Notnull' => true,
@@ -114,6 +124,11 @@ class Migration extends AbstractMigration
             'employee_number' => [
                 'Notnull' => true,
                 'Type' => Type::getType(Types::INTEGER),
+            ],
+            'like_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
             ],
             'like_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -160,6 +175,11 @@ class Migration extends AbstractMigration
                 'Default' => null,
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
             ],
+            'post_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
+            ],
             'updated_at' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
                 'Notnull' => false,
@@ -189,6 +209,11 @@ class Migration extends AbstractMigration
                 'Notnull' => false,
                 'Default' => null,
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
+            ],
+            'share_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => false,
+                'Default' => null,
             ],
             'updated_at' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
