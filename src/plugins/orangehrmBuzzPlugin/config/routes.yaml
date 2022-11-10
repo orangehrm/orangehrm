@@ -12,12 +12,12 @@ apiv2_buzz_upcoming_anniversary:
   defaults:
     _api: OrangeHRM\Buzz\Api\EmployeeAnniversaryAPI
 
-apiv2_buzz_newsfeed_posts:
-  path: /api/v2/buzz/shares
+apiv2_buzz_posts:
+  path: /api/v2/buzz/posts
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST ]
   defaults:
-    _api: OrangeHRM\Buzz\Api\BuzzShareAPI
+    _api: OrangeHRM\Buzz\Api\BuzzPostAPI
 
 ##########################
 #        Files

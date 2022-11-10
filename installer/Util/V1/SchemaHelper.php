@@ -27,6 +27,7 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use InvalidArgumentException;
 use OrangeHRM\Installer\Util\V1\Dto\Table;
 use PDO;
 
@@ -108,6 +109,33 @@ class SchemaHelper
         $column = new Column($columnName, Type::getType($type), $options);
         $diff = new TableDiff($tableName, [$column]);
         $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * @param string $tableName
+     * @param array<string, array> $columnOptions
+     */
+    public function addOrChangeColumns(string $tableName, array $columnOptions): void
+    {
+        $addedColumns = [];
+        $changedColumns = [];
+        foreach ($columnOptions as $columnName => $options) {
+            $column = $this->getTableColumn($tableName, $columnName);
+            if ($column == null) {
+                if (!isset($options['Type'])) {
+                    throw new InvalidArgumentException("Option `Type` not defined under `$columnName` column");
+                }
+                $addedColumns[] = new Column($columnName, $options['Type'], $options);
+            } else {
+                $newColumn = clone $column;
+                $newColumn->setOptions($options);
+                $changedColumns[] = new ColumnDiff($columnName, $newColumn, array_keys($options), $column);
+            }
+        }
+        if (!(empty($addedColumns) && empty($changedColumns))) {
+            $diff = new TableDiff($tableName, $addedColumns, $changedColumns);
+            $this->getSchemaManager()->alterTable($diff);
+        }
     }
 
     /**

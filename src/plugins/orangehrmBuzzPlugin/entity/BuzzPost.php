@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Decorator\BuzzPostDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
@@ -34,6 +35,7 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
 class BuzzPost
 {
     use DecoratorTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var int
@@ -63,15 +65,31 @@ class BuzzPost
      * @var DateTime
      *
      * @ORM\Column(name="post_time", type="datetime")
+     * @deprecated
      */
     private DateTime $createdAt;
 
     /**
+     * @var DateTime|null
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @deprecated
+     */
+    private ?DateTime $updatedAt = null;
+
+    /**
      * @var DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @ORM\Column(name="post_utc_time", type="datetime")
      */
-    private DateTime $updatedAt;
+    private DateTime $createdAtUtc;
+
+    /**
+     * @var DateTime|null
+     *
+     * @ORM\Column(name="updated_utc_time", type="datetime", nullable=true)
+     */
+    private ?DateTime $updatedAtUtc = null;
 
     /**
      * @var BuzzPhoto[]
@@ -143,6 +161,7 @@ class BuzzPost
 
     /**
      * @return DateTime
+     * @deprecated
      */
     public function getCreatedAt(): DateTime
     {
@@ -151,6 +170,7 @@ class BuzzPost
 
     /**
      * @param DateTime $createdAt
+     * @deprecated
      */
     public function setCreatedAt(DateTime $createdAt): void
     {
@@ -159,6 +179,7 @@ class BuzzPost
 
     /**
      * @return DateTime
+     * @deprecated
      */
     public function getUpdatedAt(): DateTime
     {
@@ -167,9 +188,36 @@ class BuzzPost
 
     /**
      * @param DateTime $updatedAt
+     * @deprecated
      */
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAtUtc(): DateTime
+    {
+        return $this->createdAtUtc;
+    }
+
+    public function setCreatedAtUtc(): void
+    {
+        $this->createdAtUtc = $this->getDateTimeHelper()->getNowInUTC();
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getUpdatedAtUtc(): ?DateTime
+    {
+        return $this->updatedAtUtc;
+    }
+
+    public function setUpdatedAtUtc(): void
+    {
+        $this->updatedAtUtc = $this->getDateTimeHelper()->getNowInUTC();
     }
 }

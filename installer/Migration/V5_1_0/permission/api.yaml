@@ -557,4 +557,4 @@ apiv2_maintenance_purge_candidate:
     update: false
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: true } }

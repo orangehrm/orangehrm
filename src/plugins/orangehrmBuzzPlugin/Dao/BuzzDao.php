@@ -23,10 +23,10 @@ use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzFeedPost;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\BuzzLikeOnShare;
-use OrangeHRM\Entity\BuzzPhoto;
-use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\BuzzLink;
+use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzPost;
+use OrangeHRM\Entity\BuzzShare;
 
 class BuzzDao extends BaseDao
 {
@@ -55,8 +55,8 @@ class BuzzDao extends BaseDao
             ->getDQL();
         $select = 'NEW ' . BuzzFeedPost::class .
             '(employee.empNumber, employee.lastName, employee.firstName, employee.middleName, employee.employeeId,' .
-            'IDENTITY(employee.employeeTerminationRecord), share.id, share.type, share.createdAt, share.numOfLikes,' .
-            "share.numOfComments, ($sharesCount), ($liked), share.text, post.id, post.text, post.createdAt," .
+            'IDENTITY(employee.employeeTerminationRecord), share.id, share.type, share.createdAtUtc, share.numOfLikes,' .
+            "share.numOfComments, ($sharesCount), ($liked), share.text, post.id, post.text, post.createdAtUtc," .
             'postOwner.empNumber, postOwner.lastName, postOwner.firstName, postOwner.middleName, postOwner.employeeId,' .
             'IDENTITY(postOwner.employeeTerminationRecord), SIZE(post.photos), links.link)';
         $q->select($select)

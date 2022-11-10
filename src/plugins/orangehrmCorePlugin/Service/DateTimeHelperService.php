@@ -170,6 +170,14 @@ class DateTimeHelperService
     }
 
     /**
+     * @return DateTime
+     */
+    public function getNowInUTC(): DateTime
+    {
+        return $this->getNow()->setTimezone(new DateTimeZone(self::TIMEZONE_UTC));
+    }
+
+    /**
      * @param float $timezoneOffset
      * @return DateTimeZone eg:- 5.5 -> +0530, -5.5 -> -0530
      */
