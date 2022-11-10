@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Installer\Util\V1\Dto;
 
+use InvalidArgumentException;
+
 class Api extends DataGroup
 {
     private string $api;
@@ -51,6 +53,9 @@ class Api extends DataGroup
     {
         $permissions = [];
         foreach ($dataGroup['permissions'] as $userRolePermission) {
+            if (isset($userRolePermission['permission']['self']) && $userRolePermission['permission']['self'] !== true) {
+                throw new InvalidArgumentException("`self` key not allowed in `$name` > `permissions` > `permission`");
+            }
             $permissions[] = DataGroupPermission::createFromArray($userRolePermission);
         }
         return new self(

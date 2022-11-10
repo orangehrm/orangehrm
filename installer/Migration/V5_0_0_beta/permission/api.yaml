@@ -12,8 +12,8 @@ apiv2_core_data_groups:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_core_about_organization:
   description: 'API-v2 Core - About'
@@ -25,8 +25,8 @@ apiv2_core_about_organization:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 ##########################
 #        Admin
@@ -42,8 +42,8 @@ apiv2_admin_education:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_admin_employment_status:
   description: 'API-v2 Admin - Employment Status'
@@ -55,8 +55,8 @@ apiv2_admin_employment_status:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_admin_job_category:
   description: 'API-v2 Admin - Job Categories'
@@ -68,7 +68,7 @@ apiv2_admin_job_category:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_job_specification:
   description: 'API-v2 Admin - Job Specification'
@@ -80,8 +80,8 @@ apiv2_admin_job_specification:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_admin_job_title:
   description: 'API-v2 Admin - Job Titles'
@@ -93,8 +93,8 @@ apiv2_admin_job_title:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_admin_language:
   description: 'API-v2 Admin - Languages'
@@ -106,7 +106,7 @@ apiv2_admin_language:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_license:
   description: 'API-v2 Admin - Licenses'
@@ -118,7 +118,7 @@ apiv2_admin_license:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_membership:
   description: 'API-v2 Admin - Memberships'
@@ -130,7 +130,7 @@ apiv2_admin_membership:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_nationality:
   description: 'API-v2 Admin - Nationalities'
@@ -142,7 +142,7 @@ apiv2_admin_nationality:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_organization:
   description: 'API-v2 Admin - General Information'
@@ -154,7 +154,7 @@ apiv2_admin_organization:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
 
 apiv2_admin_paygrade_currency:
   description: 'API-v2 Admin - Pay Grade Currencies'
@@ -166,7 +166,7 @@ apiv2_admin_paygrade_currency:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_paygrade_allowed_currency:
   description: 'API-v2 Admin - Pay Grade Allowed Currencies'
@@ -178,7 +178,7 @@ apiv2_admin_paygrade_allowed_currency:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_admin_skill:
   description: 'API-v2 Admin - Skills'
@@ -190,7 +190,7 @@ apiv2_admin_skill:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_subunit:
   description: 'API-v2 Admin - Organization Structure'
@@ -202,8 +202,8 @@ apiv2_admin_subunit:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_admin_user:
   description: 'API-v2 Admin - Users'
@@ -215,7 +215,7 @@ apiv2_admin_user:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_email_configuration:
   description: 'API-v2 Admin - Email Configuration'
@@ -227,7 +227,7 @@ apiv2_admin_email_configuration:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
 
 apiv2_admin_oauth_client:
   description: 'API-v2 Admin - OAuth Clients'
@@ -239,7 +239,7 @@ apiv2_admin_oauth_client:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_location:
   description: 'API-v2 Admin - Locations'
@@ -251,7 +251,7 @@ apiv2_admin_location:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_pay_grade:
   description: 'API-v2 Admin - Pay Grade'
@@ -263,7 +263,7 @@ apiv2_admin_pay_grade:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_modules:
   description: 'API-v2 Admin - Modules'
@@ -275,7 +275,7 @@ apiv2_admin_modules:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
 
 apiv2_admin_work_shift:
   description: 'API-v2 Admin - Work Shift'
@@ -287,7 +287,7 @@ apiv2_admin_work_shift:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_work_shift_employee:
   description: 'API-v2 Admin - Work Shift Employee'
@@ -299,7 +299,7 @@ apiv2_admin_work_shift_employee:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_admin_email_subscriptions:
   description: 'API-v2 Admin - Email Subscription'
@@ -311,7 +311,7 @@ apiv2_admin_email_subscriptions:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
 
 apiv2_admin_email_subscribers:
   description: 'API-v2 Admin - Email Subscriber'
@@ -323,7 +323,7 @@ apiv2_admin_email_subscribers:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_admin_validation_user_name:
   description: 'Admin-v2 Admin - User Name Validation'
@@ -335,7 +335,7 @@ apiv2_admin_validation_user_name:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
 ##########################
 #        PIM
@@ -351,7 +351,7 @@ apiv2_pim_custom_field:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_pim_optional_field:
   description: 'API-v2 PIM - Optional Fields'
@@ -363,7 +363,7 @@ apiv2_pim_optional_field:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_pim_reporting_method:
   description: 'API-v2 PIM - Reporting Methods'
@@ -375,7 +375,7 @@ apiv2_pim_reporting_method:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_pim_termination_reason:
   description: 'API-v2 PIM - Termination Reasons'
@@ -387,7 +387,7 @@ apiv2_pim_termination_reason:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_pim_employee:
   description: 'API-v2 PIM - Employees'
@@ -399,9 +399,9 @@ apiv2_pim_employee:
     update: false
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: false, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_employee_emergency_contact:
@@ -414,9 +414,9 @@ apiv2_pim_employee_emergency_contact:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_contact_detail:
@@ -429,9 +429,9 @@ apiv2_pim_employee_contact_detail:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: true } }
 
 apiv2_pim_employee_dependent:
@@ -444,9 +444,9 @@ apiv2_pim_employee_dependent:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_education:
@@ -459,9 +459,9 @@ apiv2_pim_employee_education:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_immigration:
@@ -474,9 +474,9 @@ apiv2_pim_employee_immigration:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_job_detail:
@@ -489,9 +489,9 @@ apiv2_pim_employee_job_detail:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_employee_language:
@@ -504,9 +504,9 @@ apiv2_pim_employee_language:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_license:
@@ -519,9 +519,9 @@ apiv2_pim_employee_license:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_personal_detail:
@@ -534,9 +534,9 @@ apiv2_pim_employee_personal_detail:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: true } }
 
 apiv2_pim_employee_picture:
@@ -549,9 +549,9 @@ apiv2_pim_employee_picture:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: true } }
 
 apiv2_pim_employee_salary_component:
@@ -564,7 +564,7 @@ apiv2_pim_employee_salary_component:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
@@ -578,9 +578,9 @@ apiv2_pim_employee_skill:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_termination:
@@ -593,9 +593,9 @@ apiv2_pim_employee_termination:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_employee_work_experience:
@@ -608,9 +608,9 @@ apiv2_pim_employee_work_experience:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_employment_contract:
@@ -623,9 +623,9 @@ apiv2_pim_employee_employment_contract:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_employee_attachment:
@@ -638,9 +638,9 @@ apiv2_pim_employee_attachment:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_pim_employee_custom_field:
@@ -653,9 +653,9 @@ apiv2_pim_employee_custom_field:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: true } }
 
 apiv2_pim_employee_allowed_language:
@@ -668,7 +668,7 @@ apiv2_pim_employee_allowed_language:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_employee_allowed_license:
@@ -681,7 +681,7 @@ apiv2_pim_employee_allowed_license:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_employee_allowed_skill:
@@ -694,7 +694,7 @@ apiv2_pim_employee_allowed_skill:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_report_to_supervisor:
@@ -707,9 +707,9 @@ apiv2_pim_report_to_supervisor:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_report_to_subordinate:
@@ -722,9 +722,9 @@ apiv2_pim_report_to_subordinate:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_report_to_allowed_employees:
@@ -737,7 +737,7 @@ apiv2_pim_report_to_allowed_employees:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_pim_employee_memberships:
@@ -750,10 +750,10 @@ apiv2_pim_employee_memberships:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_pim_tax_exemptions:
   description: 'API-v2 PIM - Tax Exemptions'
@@ -765,10 +765,10 @@ apiv2_pim_tax_exemptions:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_pim_employee_work_shift:
   description: 'API-v2 PIM - Employee Work Shift'
@@ -780,8 +780,8 @@ apiv2_pim_employee_work_shift:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_pim_employee_count:
   description: 'API-v2 PIM - Employee Count'
@@ -793,7 +793,7 @@ apiv2_pim_employee_count:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_pim_employee_csv_import:
   description: 'API-v2 PIM - Employee CSV Import'
@@ -805,7 +805,7 @@ apiv2_pim_employee_csv_import:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }
 
 apiv2_pim_defined_reports:
   description: 'API-v2 PIM - Defined Reports'
@@ -817,7 +817,7 @@ apiv2_pim_defined_reports:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
 
 apiv2_pim_reports:
   description: 'API-v2 PIM - Reports'
@@ -829,7 +829,7 @@ apiv2_pim_reports:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_pim_reports_data:
   description: 'API-v2 PIM - Reports Data'
@@ -841,7 +841,7 @@ apiv2_pim_reports_data:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_pim_update_password:
   description: 'API-v2 PIM - Password Update'
@@ -883,8 +883,8 @@ apiv2_leave_holiday:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_workweek:
   description: 'API-v2 Leave - Work Week'
@@ -896,8 +896,8 @@ apiv2_leave_workweek:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_eligible_leave_types:
   description: 'API-v2 Leave - Eligible Leave Types'
@@ -910,10 +910,10 @@ apiv2_leave_eligible_leave_types:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_leave_types:
   description: 'API-v2 Leave - Leave Types'
@@ -925,8 +925,8 @@ apiv2_leave_leave_types:
     update: true
     delete: true
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_leave_period:
   description: 'API-v2 Leave - Leave Period'
@@ -938,8 +938,8 @@ apiv2_leave_leave_period:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_my_leave_requests:
   description: 'API-v2 Leave - My Leave Requests'
@@ -964,9 +964,9 @@ apiv2_leave_employee_leave_requests:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
-    - { role: ESS, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false } }
 
 apiv2_leave_employee_bulk_leave_requests:
   description: 'API-v2 Leave - Employee Bulk Leave Requests'
@@ -978,8 +978,8 @@ apiv2_leave_employee_bulk_leave_requests:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: ESS, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_leave_leave_entitlements:
   description: 'API-v2 Leave - Leave Entitlements'
@@ -992,10 +992,10 @@ apiv2_leave_leave_entitlements:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_leave_balance:
   description: 'API-v2 Leave - Leave Balance'
@@ -1008,10 +1008,10 @@ apiv2_leave_leave_balance:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_employee_leave_entitlements:
   description: 'API-v2 Leave - Employee Leave Entitlements'
@@ -1023,7 +1023,7 @@ apiv2_leave_employee_leave_entitlements:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_leave_entitlements_validation:
   description: 'API-v2 Leave - Leave Entitlements Validation'
@@ -1035,7 +1035,7 @@ apiv2_leave_leave_entitlements_validation:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_overlap_leaves:
   description: 'API-v2 Leave - Overlap Leaves'
@@ -1048,10 +1048,10 @@ apiv2_leave_overlap_leaves:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
 
 apiv2_leave_leave_request_comment:
   description: 'API-v2 Leave - Leave Request Comment'
@@ -1064,10 +1064,10 @@ apiv2_leave_leave_request_comment:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: false, delete: false, self: true } }
-    - { role: Admin, permission: { read: true, create: true, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: true, update: false, delete: false, self: true } }
     - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false } }
 
 apiv2_leave_leave_comment:
   description: 'API-v2 Leave - Leave Comment'
@@ -1079,10 +1079,10 @@ apiv2_leave_leave_comment:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: true, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }
     - { role: Admin, permission: { read: true, create: true, update: false, delete: false, self: true } }
     - { role: ESS, permission: { read: true, create: true, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false } }
     - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false, self: true } }
 
 apiv2_leave_leaves:
@@ -1095,10 +1095,10 @@ apiv2_leave_leaves:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: true } }
     - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: true } }
 
 apiv2_leave_bulk_leaves:
@@ -1111,8 +1111,8 @@ apiv2_leave_bulk_leaves:
     update: true
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: false, update: true, delete: false, self: false } }
-    - { role: ESS, permission: { read: false, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: true, delete: false } }
 
 apiv2_leave_reports:
   description: 'API-v2 Leave - Reports'
@@ -1124,10 +1124,10 @@ apiv2_leave_reports:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
     - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
 
 apiv2_leave_reports_data:
@@ -1140,6 +1140,6 @@ apiv2_leave_reports_data:
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
-    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
