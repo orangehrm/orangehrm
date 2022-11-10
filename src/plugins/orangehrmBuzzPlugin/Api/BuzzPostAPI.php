@@ -75,6 +75,30 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/buzz/shares",
+     *     tags={"Buzz/Shares"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="text", type="string"),
+     *             @OA\Property(property="type", type="string"),
+     *             @OA\Property(property="photos", ref="#/components/schemas/Base64AttachmentOrNull"),
+     *             required={"title", "type"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Buzz-ShareModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      * @throws TransactionException
      */
