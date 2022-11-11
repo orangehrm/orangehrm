@@ -25,21 +25,21 @@
       class="orangehrm-post-filters-button"
       :label="mostRecentButtonLabel"
       :display-type="mostRecentButtonType"
-      @click="$emit('updatePriority', 'most_recent')"
+      @click="$emit('updatePriority', 'share.createdAtUtc')"
     />
     <oxd-button
       icon-name="heart-fill"
       class="orangehrm-post-filters-button"
       :label="mostLikesButtonLabel"
       :display-type="mostLikesButtonType"
-      @click="$emit('updatePriority', 'most_likes')"
+      @click="$emit('updatePriority', 'share.numOfLikes')"
     />
     <oxd-button
       icon-name="chat-dots-fill"
       class="orangehrm-post-filters-button"
       :label="mostCommentsButtonLabel"
       :display-type="mostCommentsButtonType"
-      @click="$emit('updatePriority', 'most_comments')"
+      @click="$emit('updatePriority', 'share.numOfComments')"
     />
   </div>
 </template>
@@ -63,13 +63,13 @@ export default {
 
   computed: {
     isMostRecent() {
-      return this.filter === 'most_recent';
+      return this.filter === 'share.createdAtUtc';
     },
     isMostLikes() {
-      return this.filter === 'most_likes';
+      return this.filter === 'share.numOfLikes';
     },
     isMostComments() {
-      return this.filter === 'most_comments';
+      return this.filter === 'share.numOfComments';
     },
     mostRecentButtonType() {
       return this.isMostRecent ? 'label-warn' : 'text';

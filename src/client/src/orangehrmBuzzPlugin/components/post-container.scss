@@ -18,7 +18,6 @@
 
 .orangehrm-buzz {
   padding: 1rem;
-  min-height: 150px;
   margin-bottom: 1rem;
   &-like-icon {
     color: $oxd-feedback-danger-color;
@@ -59,17 +58,18 @@
     }
   }
   &-emp-name {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     @include truncate(1, 1, #fff);
   }
   &-time {
     font-size: 0.75rem;
+    color: $oxd-interface-gray-color;
   }
   &-footer {
     padding-top: 1rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
   }
 }

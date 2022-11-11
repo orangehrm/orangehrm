@@ -69,6 +69,7 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
+import {APIService} from '@/core/util/services/api.service';
 import GlassButton from '@ohrm/oxd/core/components/Button/GlassButton';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
@@ -99,9 +100,17 @@ export default {
     const showVideoModal = ref(false);
     const showPhotoModal = ref(false);
     const rules = [required, shouldNotExceedCharLength(63535)];
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
 
     const onSubmit = () => {
-      // todo
+      http
+        .create({
+          type: 'text',
+          text: post.value,
+        })
+        .then(() => {
+          post.value = null;
+        });
     };
 
     const onClickSharePhotos = () => {

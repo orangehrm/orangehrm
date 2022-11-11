@@ -17,7 +17,53 @@
 @import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-post-details {
-  width: 100%;
-  height: 100%;
+  padding: 1.2rem;
+  overflow-y: auto;
+  height: 100vh;
   background: $oxd-white-color;
+  @include oxd-scrollbar();
+
+  &-header {
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+  }
+  &-time {
+    font-size: 0.75rem;
+    color: $oxd-interface-gray-color;
+  }
+  &-emp-name {
+    font-size: 1rem;
+    font-weight: 600;
+    @include truncate(1, 1, #fff);
+  }
+  &-readmore {
+    cursor: pointer;
+    color: $oxd-primary-one-color;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &-text {
+    margin-top: 0.5rem;
+    font-weight: 300;
+    text-align: justify;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    &.--truncate {
+      @include truncate(6, 1.5, #fff);
+    }
+  }
+  &-actions {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  &-close {
+    display: block;
+    margin-bottom: 0.5rem;
+    @include oxd-respond-to('lg') {
+      display: none;
+    }
+  }
 }

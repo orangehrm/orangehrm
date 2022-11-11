@@ -24,7 +24,7 @@ use OrangeHRM\ORM\ListSorter;
 
 class BuzzFeedFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['share.createdAt', 'share.numOfLikes', 'share.numOfComments'];
+    public const ALLOWED_SORT_FIELDS = ['share.createdAtUtc', 'share.numOfLikes', 'share.numOfComments'];
 
     private int $authUserEmpNumber;
 

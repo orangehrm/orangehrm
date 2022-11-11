@@ -109,6 +109,7 @@ export default {
     return {
       viewMore: false,
       anniversaries: [],
+      anniversariesCount: 0,
     };
   },
 

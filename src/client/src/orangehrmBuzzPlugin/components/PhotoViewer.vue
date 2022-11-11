@@ -30,22 +30,29 @@
       alt="background"
       :src="selectedPhoto"
     />
-    <div v-if="post.photo.length > 1" class="orangehrm-photo-viewer-controls">
+    <div
+      v-if="post.photoIds.length > 1"
+      class="orangehrm-photo-viewer-controls"
+    >
       <oxd-icon-button
-        class="orangehrm-photo-viewer-icon"
+        class="orangehrm-photo-viewer-icon actions"
         name="chevron-left"
         :disabled="index === 0"
         @click="onClickPreviousPhoto"
       />
       <oxd-icon-button
-        class="orangehrm-photo-viewer-icon"
+        class="orangehrm-photo-viewer-icon actions"
         name="chevron-right"
-        :disabled="index === post.photo.length - 1"
+        :disabled="index === post.photoIds.length - 1"
         @click="onClickNextPhoto"
       />
     </div>
+    <div class="orangehrm-photo-viewer-actions">
+      <slot></slot>
+    </div>
+
     <oxd-icon-button
-      class="orangehrm-photo-viewer-close"
+      class="orangehrm-photo-viewer-close actions"
       name="x"
       @click="onClickClose"
     />
@@ -81,8 +88,8 @@ export default {
     const onClickPreviousPhoto = () => state.index--;
 
     const selectedPhoto = computed(() => {
-      const {type, base64} = props.post.photo[state.index];
-      return `data:${type};base64,${base64}`;
+      const photo = props.post.photoIds[state.index];
+      return `${window.appGlobal.baseUrl}/buzz/photo/${photo}`;
     });
 
     const onClickClose = () => context.emit('close');

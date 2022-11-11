@@ -32,9 +32,9 @@
       {{ $t('buzz.read_more') }}
     </oxd-text>
     <br v-if="post.text && (post.type === 'video') | (post.type === 'photo')" />
-    <video-frame v-if="post.type === 'video'" :video-src="post.video">
+    <video-frame v-if="post.type === 'video'" :video-src="post.video.link">
     </video-frame>
-    <photo-frame v-if="post.type === 'photo'" :media="post.photo">
+    <photo-frame v-if="post.type === 'photo'" :media="post.photoIds">
       <template #content="{index}">
         <div
           class="orangehrm-buzz-post-body-picture"

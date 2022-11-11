@@ -46,26 +46,39 @@
   &-controls {
     left: 0;
     right: 0;
-    gap: 1rem;
-    bottom: 50px;
     display: flex;
+    padding: 0 10px;
     position: absolute;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    @include oxd-respond-to('lg') {
+      gap: 1rem;
+      padding: 0;
+      bottom: 50px;
+      justify-content: center;
+    }
   }
   &-close {
     top: 1rem;
     left: 1rem;
     position: absolute;
   }
+  &-actions {
+    left: 0;
+    right: 0;
+    bottom: 25px;
+    margin: 0 0.75rem;
+    position: absolute;
+  }
 }
 
-::v-deep(.oxd-icon-button) {
+::v-deep(.actions) {
   padding: 0;
   font-size: 12px;
   min-width: 1.5625rem;
   min-height: 1.5625rem;
   color: $oxd-white-color;
+  background: rgba(0, 0, 0, 0.7);
   &:hover {
     background-color: $oxd-interface-gray-darken-1-color;
   }

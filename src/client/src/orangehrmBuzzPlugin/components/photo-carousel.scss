@@ -28,7 +28,7 @@
   box-sizing: border-box;
   z-index: $oxd-overlay-z-index;
 
-  &.web {
+  &.--web {
     display: grid;
     grid-template-columns: 70% 30%;
   }

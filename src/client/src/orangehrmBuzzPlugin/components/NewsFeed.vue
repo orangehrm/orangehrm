@@ -27,17 +27,13 @@
     <create-post :employee="employee"></create-post>
     <post-filters
       :mobile="mobile"
-      :filter="filters.priority"
+      :filter="filters.sortField"
       @updatePriority="onUpdatePriority"
     ></post-filters>
 
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
       <oxd-grid-item v-for="(post, index) in posts" :key="post">
-        <post-container
-          :post-id="post.id"
-          :employee="post.employee"
-          :posted-date="post.createdTime"
-        >
+        <post-container :post="post">
           <template #content>
             <post-body
               :post="post"
@@ -46,7 +42,7 @@
           </template>
           <template #actionButton>
             <post-actions
-              :like="post.like"
+              :like="post.liked"
               @like="onLike(index)"
               @share="onShare(index)"
               @comment="onComment(index)"
@@ -56,9 +52,9 @@
             <post-stats
               :mobile="mobile"
               :post-id="post.id"
-              :no-of-likes="post.stats.noOfLikes"
-              :no-of-shares="post.stats.noOfShares"
-              :no-of-comments="post.stats.noOfComments"
+              :no-of-likes="post.stats.numOfLikes"
+              :no-of-shares="post.stats.numOfShares"
+              :no-of-comments="post.stats.numOfComments"
             ></post-stats>
           </template>
           <!-- TODO: Add Post Comment Component -->
@@ -100,7 +96,8 @@ import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
 
 const defaultFilters = {
-  priority: 'most_recent', // most_recent | most_likes | most_comments
+  sortOrder: 'DESC',
+  sortField: 'share.createdAtUtc',
 };
 
 export default {
@@ -131,7 +128,7 @@ export default {
 
   setup() {
     const POST_LIMIT = 10;
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/feed');
 
     const state = reactive({
       total: 0,
@@ -153,7 +150,8 @@ export default {
         .getAll({
           limit: POST_LIMIT,
           offset: state.offset,
-          priority: state.filters.priority,
+          sortOrder: state.filters.sortOrder,
+          sortField: state.filters.sortField,
         })
         .then(response => {
           const {data, meta} = response.data;
@@ -175,7 +173,7 @@ export default {
       if ($event) {
         state.posts = [];
         state.offset = 0;
-        state.filters.priority = $event;
+        state.filters.sortField = $event;
         fetchData();
       }
     };
@@ -183,10 +181,10 @@ export default {
     const onLike = index => {
       http
         .update(state.posts[index].id, {
-          like: !state.posts[index].like,
+          like: !state.posts[index].liked,
         })
         .then(() => {
-          state.posts[index].like = !state.posts[index].like;
+          state.posts[index].liked = !state.posts[index].liked;
           // todo - update like count etc
         });
     };
@@ -194,6 +192,7 @@ export default {
     const onShare = index => {
       state.showShareModal = true;
       state.shareModalState = state.posts[index];
+      document.body.style.overflow = 'hidden';
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -201,8 +200,14 @@ export default {
       // todo
     };
 
+    const resetFeed = () => {
+      state.posts = [];
+      state.offset = 0;
+      state.filters = [...defaultFilters];
+      fetchData();
+    };
+
     const onSelectPhoto = ($event, index) => {
-      console.log($event, index);
       state.photoCarouselState = state.posts[index];
       state.showPhotoCarousel = true;
       document.body.style.overflow = 'hidden';
@@ -214,9 +219,11 @@ export default {
       document.body.style.overflow = 'auto';
     };
 
-    const onCloseShareModal = () => {
+    const onCloseShareModal = $event => {
       state.showShareModal = false;
       state.shareModalState = null;
+      document.body.style.overflow = 'auto';
+      if ($event) resetFeed();
     };
 
     onBeforeMount(() => fetchData());

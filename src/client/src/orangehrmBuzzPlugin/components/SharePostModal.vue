@@ -35,15 +35,15 @@
     </template>
     <video-frame v-if="data.type === 'video'" :video-src="data.video">
     </video-frame>
-    <photo-frame v-if="data.type === 'photo'" :media="data.photo">
+    <photo-frame v-if="data.type === 'photo'" :media="data.photoIds">
     </photo-frame>
     <oxd-text tag="p" class="orangehrm-buzz-share-employee">
       {{ employeeFullName }}
     </oxd-text>
     <oxd-text tag="p" class="orangehrm-buzz-share-date">
-      {{ postDate }}
+      {{ postDateTime }}
     </oxd-text>
-    <oxd-text v-if="data.text" tag="p">
+    <oxd-text v-if="data.text" tag="p" class="orangehrm-buzz-share-text">
       {{ data.text }}
     </oxd-text>
   </post-modal>
@@ -117,8 +117,15 @@ export default {
       });
     });
 
-    const postDate = computed(() => {
-      return formatDate(parseDate(props.data.createdTime), jsDateFormat, {
+    const postDateTime = computed(() => {
+      const {createdDate, createdTime} = props.data;
+
+      const utcDate = parseDate(
+        `${createdDate} ${createdTime} +00:00`,
+        'yyyy-MM-dd HH:mm xxx',
+      );
+
+      return formatDate(utcDate, `${jsDateFormat} HH:mm`, {
         locale,
       });
     });
@@ -126,7 +133,7 @@ export default {
     return {
       rules,
       onSubmit,
-      postDate,
+      postDateTime,
       employeeFullName,
       ...toRefs(state),
     };
@@ -137,12 +144,15 @@ export default {
 <style lang="scss" scoped>
 .orangehrm-buzz-share {
   &-employee {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
   }
   &-date {
-    font-size: 0.75rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.6rem;
     color: $oxd-interface-gray-color;
+  }
+  &-text {
+    font-weight: 300;
+    margin-top: 0.5rem;
   }
 }
 </style>

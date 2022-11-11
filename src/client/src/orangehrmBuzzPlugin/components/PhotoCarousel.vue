@@ -19,20 +19,25 @@
  -->
 
 <template>
-  <div v-if="!mobile" class="orangehrm-photo-carousel web">
+  <div :class="layoutClasses">
     <photo-viewer
+      v-if="showPhoto"
       :post="post"
       :photo-index="photoIndex"
       @close="$emit('close', false)"
-    ></photo-viewer>
-    <post-details :post="post"></post-details>
-  </div>
-  <div v-else class="orangehrm-photo-carousel">
-    <photo-viewer
+    >
+      <post-actions-pill
+        v-if="mobile"
+        :post="post"
+        @comment="onClickComment"
+      ></post-actions-pill>
+    </photo-viewer>
+    <post-details
+      v-if="showDetails"
       :post="post"
-      :photo-index="photoIndex"
       @close="$emit('close', false)"
-    ></photo-viewer>
+    >
+    </post-details>
   </div>
 </template>
 
@@ -40,6 +45,7 @@
 import {computed, reactive, toRefs} from 'vue';
 import PhotoViewer from '@/orangehrmBuzzPlugin/components/PhotoViewer';
 import PostDetails from '@/orangehrmBuzzPlugin/components/PostDetails';
+import PostActionsPill from '@/orangehrmBuzzPlugin/components/PostActionsPill';
 
 export default {
   name: 'PhotoCarousel',
@@ -47,6 +53,7 @@ export default {
   components: {
     'photo-viewer': PhotoViewer,
     'post-details': PostDetails,
+    'post-actions-pill': PostActionsPill,
   },
 
   props: {
@@ -68,17 +75,37 @@ export default {
 
   setup(props) {
     const state = reactive({
+      view: 'photo',
       index: props.photoIndex,
     });
-
-    const selectedPhoto = computed(() => props.post.photo[state.index]);
 
     const onClickNextPhoto = () => state.index++;
 
     const onClickPreviousPhoto = () => state.index--;
 
+    const onClickComment = () => (state.view = 'details');
+
+    const selectedPhoto = computed(() => props.post.photoIds[state.index]);
+
+    const layoutClasses = computed(() => ({
+      'orangehrm-photo-carousel': true,
+      '--web': props.mobile === false,
+    }));
+
+    const showPhoto = computed(
+      () => props.mobile === false || state.view === 'photo',
+    );
+
+    const showDetails = computed(
+      () => props.mobile === false || state.view === 'details',
+    );
+
     return {
+      showPhoto,
+      showDetails,
+      layoutClasses,
       selectedPhoto,
+      onClickComment,
       onClickNextPhoto,
       onClickPreviousPhoto,
       ...toRefs(state),
