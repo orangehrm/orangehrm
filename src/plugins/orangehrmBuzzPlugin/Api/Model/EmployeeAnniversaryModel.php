@@ -39,12 +39,12 @@ use OrangeHRM\Entity\Employee;
  *     ),
  *     @OA\Property(
  *         property="jobTitle",
- *         type="string",
+ *         type="object",
  *         @OA\Property(property="id", type="integer"),
  *         @OA\Property(property="title", type="string"),
  *         @OA\Property(property="isDeleted", type="boolean"),
  *     ),
- *     @OA\Property(property="joinedDate", type="date")
+ *     @OA\Property(property="joinedDate", type="string", format="date")
  * )
  */
 class EmployeeAnniversaryModel implements Normalizable

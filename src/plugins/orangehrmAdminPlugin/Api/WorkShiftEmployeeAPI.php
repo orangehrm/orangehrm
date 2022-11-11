@@ -52,12 +52,7 @@ class WorkShiftEmployeeAPI extends EndPoint implements CollectionEndpoint
      *         name="nameOrId",
      *         in="query",
      *         required=false,
-     *         @OA\Schema(
-     *             oneOf={
-     *			    @OA\Schema(type="boolean"),
-     *			    @OA\Schema(type="integer"),
-     *		        }
-     *         )
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="sortField",

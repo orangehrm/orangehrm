@@ -210,7 +210,7 @@ class RequestParams
      *     }
      * )
      *
-     * @OA\Schema(schema="Null")
+     * @OA\Schema(schema="Null", type="null")
      *
      * @param string $type
      * @param string $key

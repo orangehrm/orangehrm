@@ -99,8 +99,6 @@ use OpenApi\Annotations as OA;
  *     in="cookie",
  *     name="_orangehrm"
  * )
- *
- * @OA\Tag(name="Admin")
  */
 final class OpenApi
 {

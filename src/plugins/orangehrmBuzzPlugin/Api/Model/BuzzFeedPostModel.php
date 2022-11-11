@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Buzz\Api\Model;
 
-use OpenApi\Annotations as OA;
 use OrangeHRM\Buzz\Dto\BuzzFeedPost;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
@@ -63,8 +62,8 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     @OA\Property(property="createdTime", type="string"),
  *     @OA\Property(
  *         property="originalPost",
- *         type="object",
- *         @OA\Schema(ref="#/components/schemas/Null")
+ *         type="null",
+ *         default="null"
  *     ),
  *     @OA\Property(
  *         property="permission",
@@ -102,8 +101,8 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     @OA\Property(property="createdTime", type="string"),
  *     @OA\Property(
  *         property="originalPost",
- *         type="object",
- *         @OA\Schema(ref="#/components/schemas/Null")
+ *         type="null",
+ *         default="null"
  *     ),
  *     @OA\Property(
  *         property="permission",
@@ -142,8 +141,8 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     @OA\Property(property="createdTime", type="string"),
  *     @OA\Property(
  *         property="originalPost",
- *         type="object",
- *         @OA\Schema(ref="#/components/schemas/Null")
+ *         type="null",
+ *         default="null"
  *     ),
  *     @OA\Property(
  *         property="permission",
