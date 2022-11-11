@@ -16,33 +16,20 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-buzz-create-post {
-  margin: 0.5rem 0 1rem 0;
-  &-header {
-    gap: 1rem;
-    display: flex;
-    &-text {
-      width: 100%;
-    }
-  }
-  &-actions {
-    gap: 0.5rem;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    @include oxd-respond-to('sm') {
-      gap: unset;
-      flex-direction: row;
-      justify-content: space-around;
-    }
-  }
-}
-
-::v-deep(.oxd-glass-button) {
+.orangehrm-photo-carousel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  outline: 0;
   width: 100%;
-  justify-content: center;
-  @include oxd-respond-to('sm') {
-    width: unset;
-    justify-content: unset;
+  height: 100%;
+  box-sizing: border-box;
+  z-index: $oxd-overlay-z-index;
+
+  &.--web {
+    display: grid;
+    grid-template-columns: 70% 30%;
   }
 }

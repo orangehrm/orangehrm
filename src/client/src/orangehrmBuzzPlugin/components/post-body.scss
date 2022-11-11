@@ -16,33 +16,29 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-buzz-create-post {
-  margin: 0.5rem 0 1rem 0;
-  &-header {
-    gap: 1rem;
-    display: flex;
-    &-text {
-      width: 100%;
+.orangehrm-buzz-post-body {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  &-text {
+    font-weight: 300;
+    text-align: justify;
+    &.--truncate {
+      @include truncate(6, 1.5, #fff);
     }
   }
-  &-actions {
-    gap: 0.5rem;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    @include oxd-respond-to('sm') {
-      gap: unset;
-      flex-direction: row;
-      justify-content: space-around;
+  &-readmore {
+    cursor: pointer;
+    color: $oxd-primary-one-color;
+    &:hover {
+      text-decoration: underline;
     }
   }
-}
-
-::v-deep(.oxd-glass-button) {
-  width: 100%;
-  justify-content: center;
-  @include oxd-respond-to('sm') {
-    width: unset;
-    justify-content: unset;
+  &-picture {
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
   }
 }

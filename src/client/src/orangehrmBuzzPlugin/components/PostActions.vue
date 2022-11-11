@@ -75,8 +75,14 @@ export default {
 
 <style lang="scss" scoped>
 .orangehrm-buzz-post-actions {
-  width: 8rem;
+  gap: 5px;
   display: flex;
+  flex-shrink: 0;
   justify-content: space-between;
+}
+
+.oxd-icon-button {
+  width: 36px;
+  height: 36px;
 }
 </style>

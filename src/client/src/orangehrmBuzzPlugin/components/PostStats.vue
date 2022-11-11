@@ -46,26 +46,23 @@
           class="orangehrm-buzz-post-footer-comment"
           @click="$emit('showComment', $event)"
         >
-          {{ $t('buzz.n_comment', {commentCount: noOfComments}) }} ,
+          {{ $t('buzz.n_comment', {commentCount: noOfComments}) }},&nbsp;
         </oxd-text>
-        <div>
-          <oxd-text
-            tag="p"
-            @mouseleave="onShowSharesListMobile"
-            @mouseover="onShowSharesList"
-            @click="onShowSharesList"
-          >
-            {{ $t('buzz.n_share', {shareCount: noOfShares}) }}
-          </oxd-text>
-          <div v-if="showSharesList">
-            <post-stats-modal
-              :post-id="postId"
-              :mobile="mobile"
-              icon-name="share-fill"
-              status-name="shares"
-            ></post-stats-modal>
-          </div>
-        </div>
+        <oxd-text
+          tag="p"
+          @mouseleave="onShowSharesListMobile"
+          @mouseover="onShowSharesList"
+          @click="onShowSharesList"
+        >
+          {{ $t('buzz.n_share', {shareCount: noOfShares}) }}
+        </oxd-text>
+        <post-stats-modal
+          v-if="showSharesList"
+          :post-id="postId"
+          :mobile="mobile"
+          icon-name="share-fill"
+          status-name="shares"
+        ></post-stats-modal>
       </div>
     </div>
   </div>

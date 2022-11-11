@@ -49,9 +49,8 @@ export default {
     display: flex;
     flex-shrink: 0;
     border-radius: 100%;
-    margin-right: 0.5rem;
-    justify-content: center;
     box-sizing: border-box;
+    justify-content: center;
   }
 }
 </style>

@@ -71,3 +71,6 @@ langStrings:
   -
     value: 'Share Post'
     unitId: share_post
+  -
+    value: 'Read More'
+    unitId: read_more

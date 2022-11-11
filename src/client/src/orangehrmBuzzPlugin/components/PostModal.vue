@@ -102,6 +102,7 @@ export default {
 <style lang="scss" scoped>
 .orangehrm-buzz-post-modal {
   &-header {
+    gap: 1rem;
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;

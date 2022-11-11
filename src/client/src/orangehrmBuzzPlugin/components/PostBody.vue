@@ -1,0 +1,98 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <div class="orangehrm-buzz-post-body">
+    <oxd-text v-if="post.text" tag="p" :class="postClasses">
+      {{ post.text }}
+    </oxd-text>
+    <oxd-text
+      v-show="!readMore"
+      tag="p"
+      class="orangehrm-buzz-post-body-readmore"
+      @click="onClickReadMore"
+    >
+      {{ $t('buzz.read_more') }}
+    </oxd-text>
+    <br v-if="post.text && (post.type === 'video') | (post.type === 'photo')" />
+    <video-frame v-if="post.type === 'video'" :video-src="post.video.link">
+    </video-frame>
+    <photo-frame v-if="post.type === 'photo'" :media="post.photoIds">
+      <template #content="{index}">
+        <div
+          class="orangehrm-buzz-post-body-picture"
+          @click="onClickPicture(index)"
+        ></div>
+      </template>
+    </photo-frame>
+  </div>
+</template>
+
+<script>
+import {computed, reactive, toRefs} from 'vue';
+import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
+import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
+
+export default {
+  name: 'PostBody',
+
+  components: {
+    'photo-frame': PhotoFrame,
+    'video-frame': VideoFrame,
+  },
+
+  props: {
+    post: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  emits: ['close', 'selectPhoto'],
+
+  setup(props, context) {
+    const state = reactive({
+      readMore: props.post?.text.length < 500,
+    });
+
+    const postClasses = computed(() => ({
+      'orangehrm-buzz-post-body-text': true,
+      '--truncate': state.readMore === false,
+    }));
+
+    const onClickReadMore = () => {
+      state.readMore = !state.readMore;
+    };
+
+    const onClickPicture = index => {
+      context.emit('selectPhoto', index);
+    };
+
+    return {
+      postClasses,
+      onClickPicture,
+      onClickReadMore,
+      ...toRefs(state),
+    };
+  },
+};
+</script>
+
+<style src="./post-body.scss" lang="scss" scoped></style>

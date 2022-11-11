@@ -23,13 +23,13 @@
     <div class="orangehrm-buzz-post">
       <div class="orangehrm-buzz-post-header">
         <div class="orangehrm-buzz-post-header-details">
-          <profile-image :employee="employee"></profile-image>
+          <profile-image :employee="post.employee"></profile-image>
           <div class="orangehrm-buzz-post-header-text">
             <oxd-text tag="p" class="orangehrm-buzz-post-emp-name">
               {{ employeeFullName }}
             </oxd-text>
             <oxd-text tag="p" class="orangehrm-buzz-post-time">
-              {{ postDate }}
+              {{ postDateTime }}
             </oxd-text>
           </div>
         </div>
@@ -64,9 +64,7 @@
       <slot name="body"></slot>
     </div>
     <div class="orangehrm-buzz-post-footer">
-      <div class="orangehrm-buzz-post-footer-left">
-        <slot name="actionButton"> </slot>
-      </div>
+      <slot name="actionButton"> </slot>
       <slot name="postStats"> </slot>
     </div>
     <slot name="comments"></slot>
@@ -77,7 +75,6 @@ import {computed} from 'vue';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import useLocale from '@/core/util/composable/useLocale';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
-import {APIService} from '@/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
@@ -93,15 +90,7 @@ export default {
     'profile-image': ProfileImage,
   },
   props: {
-    postId: {
-      type: Number,
-      required: true,
-    },
-    postedDate: {
-      type: String,
-      default: null,
-    },
-    employee: {
+    post: {
       type: Object,
       required: true,
     },
@@ -114,34 +103,29 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
 
-    const postDate = computed(() => {
-      return formatDate(parseDate(props.postedDate), jsDateFormat, {locale});
-    });
-    const http = new APIService(window.appGlobal.baseUrl, '');
-
     const employeeFullName = computed(() => {
-      return $tEmpName(props.employee, {
+      return $tEmpName(props.post.employee, {
         includeMiddle: true,
         excludePastEmpTag: false,
       });
     });
 
-    return {
-      http,
-      postDate,
-      employeeFullName,
-    };
-  },
+    const postDateTime = computed(() => {
+      const {createdDate, createdTime} = props.post;
 
-  data() {
+      const utcDate = parseDate(
+        `${createdDate} ${createdTime} +00:00`,
+        'yyyy-MM-dd HH:mm xxx',
+      );
+
+      return formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+        locale,
+      });
+    });
+
     return {
-      isLoading: false,
-      showComments: false,
-      showDropdown: false,
-      showLikeList: false,
-      showSharesList: false,
-      likedList: [],
-      sharesList: [],
+      postDateTime,
+      employeeFullName,
     };
   },
 };

@@ -27,25 +27,22 @@
     <create-post :employee="employee"></create-post>
     <post-filters
       :mobile="mobile"
-      :filter="filters.priority"
+      :filter="filters.sortField"
       @updatePriority="onUpdatePriority"
     ></post-filters>
 
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
       <oxd-grid-item v-for="(post, index) in posts" :key="post">
-        <post-container
-          :post-id="post.id"
-          :employee="post.employee"
-          :posted-date="post.createdTime"
-        >
+        <post-container :post="post">
           <template #content>
-            <oxd-text v-if="post.text" tag="p">
-              {{ post.text }} {{ post.type }}
-            </oxd-text>
+            <post-body
+              :post="post"
+              @selectPhoto="onSelectPhoto($event, index)"
+            ></post-body>
           </template>
           <template #actionButton>
             <post-actions
-              :like="post.like"
+              :like="post.liked"
               @like="onLike(index)"
               @share="onShare(index)"
               @comment="onComment(index)"
@@ -55,9 +52,9 @@
             <post-stats
               :mobile="mobile"
               :post-id="post.id"
-              :no-of-likes="post.stats.noOfLikes"
-              :no-of-shares="post.stats.noOfShares"
-              :no-of-comments="post.stats.noOfComments"
+              :no-of-likes="post.stats.numOfLikes"
+              :no-of-shares="post.stats.numOfShares"
+              :no-of-comments="post.stats.numOfComments"
             ></post-stats>
           </template>
           <!-- TODO: Add Post Comment Component -->
@@ -75,33 +72,45 @@
     :data="shareModalState"
     @close="onCloseShareModal"
   ></share-post-modal>
+  <photo-carousel
+    v-if="showPhotoCarousel"
+    :photo-index="0"
+    :mobile="mobile"
+    :post="photoCarouselState"
+    @close="onClosePhotoCarousel"
+  ></photo-carousel>
 </template>
 
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import PostBody from '@/orangehrmBuzzPlugin/components/PostBody.vue';
 import PostStats from '@/orangehrmBuzzPlugin/components/PostStats.vue';
 import CreatePost from '@/orangehrmBuzzPlugin/components/CreatePost.vue';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
 import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
+import PhotoCarousel from '@/orangehrmBuzzPlugin/components/PhotoCarousel.vue';
 import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
 
 const defaultFilters = {
-  priority: 'most_recent', // most_recent | most_likes | most_comments
+  sortOrder: 'DESC',
+  sortField: 'share.createdAtUtc',
 };
 
 export default {
   name: 'NewsFeed',
 
   components: {
+    'post-body': PostBody,
     'post-stats': PostStats,
     'create-post': CreatePost,
     'post-actions': PostActions,
     'post-filters': PostFilters,
     'oxd-loading-spinner': Spinner,
+    'photo-carousel': PhotoCarousel,
     'post-container': PostContainer,
     'share-post-modal': SharePostModal,
   },
@@ -119,7 +128,7 @@ export default {
 
   setup() {
     const POST_LIMIT = 10;
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/feed');
 
     const state = reactive({
       total: 0,
@@ -131,6 +140,8 @@ export default {
       isLoading: false,
       showShareModal: false,
       shareModalState: null,
+      showPhotoCarousel: false,
+      photoCarouselState: null,
     });
 
     const fetchData = () => {
@@ -139,7 +150,8 @@ export default {
         .getAll({
           limit: POST_LIMIT,
           offset: state.offset,
-          priority: state.filters.priority,
+          sortOrder: state.filters.sortOrder,
+          sortField: state.filters.sortField,
         })
         .then(response => {
           const {data, meta} = response.data;
@@ -161,7 +173,7 @@ export default {
       if ($event) {
         state.posts = [];
         state.offset = 0;
-        state.filters.priority = $event;
+        state.filters.sortField = $event;
         fetchData();
       }
     };
@@ -169,10 +181,10 @@ export default {
     const onLike = index => {
       http
         .update(state.posts[index].id, {
-          like: !state.posts[index].like,
+          like: !state.posts[index].liked,
         })
         .then(() => {
-          state.posts[index].like = !state.posts[index].like;
+          state.posts[index].liked = !state.posts[index].liked;
           // todo - update like count etc
         });
     };
@@ -180,6 +192,7 @@ export default {
     const onShare = index => {
       state.showShareModal = true;
       state.shareModalState = state.posts[index];
+      document.body.style.overflow = 'hidden';
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -187,9 +200,30 @@ export default {
       // todo
     };
 
-    const onCloseShareModal = () => {
+    const resetFeed = () => {
+      state.posts = [];
+      state.offset = 0;
+      state.filters = [...defaultFilters];
+      fetchData();
+    };
+
+    const onSelectPhoto = ($event, index) => {
+      state.photoCarouselState = state.posts[index];
+      state.showPhotoCarousel = true;
+      document.body.style.overflow = 'hidden';
+    };
+
+    const onClosePhotoCarousel = () => {
+      state.showPhotoCarousel = false;
+      state.photoCarouselState = null;
+      document.body.style.overflow = 'auto';
+    };
+
+    const onCloseShareModal = $event => {
       state.showShareModal = false;
       state.shareModalState = null;
+      document.body.style.overflow = 'auto';
+      if ($event) resetFeed();
     };
 
     onBeforeMount(() => fetchData());
@@ -199,8 +233,10 @@ export default {
       onShare,
       onComment,
       fetchData,
+      onSelectPhoto,
       onUpdatePriority,
       onCloseShareModal,
+      onClosePhotoCarousel,
       ...toRefs(state),
     };
   },

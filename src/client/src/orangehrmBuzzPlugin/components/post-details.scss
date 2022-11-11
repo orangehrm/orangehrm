@@ -16,33 +16,54 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-buzz-create-post {
-  margin: 0.5rem 0 1rem 0;
+.orangehrm-post-details {
+  padding: 1.2rem;
+  overflow-y: auto;
+  height: 100vh;
+  background: $oxd-white-color;
+  @include oxd-scrollbar();
+
   &-header {
     gap: 1rem;
     display: flex;
-    &-text {
-      width: 100%;
+    align-items: center;
+  }
+  &-time {
+    font-size: 0.75rem;
+    color: $oxd-interface-gray-color;
+  }
+  &-emp-name {
+    font-size: 1rem;
+    font-weight: 600;
+    @include truncate(1, 1, #fff);
+  }
+  &-readmore {
+    cursor: pointer;
+    color: $oxd-primary-one-color;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &-text {
+    margin-top: 0.5rem;
+    font-weight: 300;
+    text-align: justify;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    &.--truncate {
+      @include truncate(6, 1.5, #fff);
     }
   }
   &-actions {
-    gap: 0.5rem;
     display: flex;
-    align-items: center;
-    flex-direction: column;
-    @include oxd-respond-to('sm') {
-      gap: unset;
-      flex-direction: row;
-      justify-content: space-around;
-    }
+    align-items: flex-start;
+    justify-content: space-between;
   }
-}
-
-::v-deep(.oxd-glass-button) {
-  width: 100%;
-  justify-content: center;
-  @include oxd-respond-to('sm') {
-    width: unset;
-    justify-content: unset;
+  &-close {
+    display: block;
+    margin-bottom: 0.5rem;
+    @include oxd-respond-to('lg') {
+      display: none;
+    }
   }
 }

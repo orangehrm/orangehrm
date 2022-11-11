@@ -85,6 +85,7 @@ export default {
       state.isLoading = true;
       http
         .create({
+          type: 'photo',
           text: state.post.text,
           photos: state.post.photos,
         })

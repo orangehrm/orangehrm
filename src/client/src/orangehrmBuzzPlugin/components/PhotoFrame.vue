@@ -51,6 +51,9 @@ export default {
     },
     photos() {
       return (this.media || []).map(photo => {
+        if (typeof photo === 'number') {
+          return `${window.appGlobal.baseUrl}/buzz/photo/${photo}`;
+        }
         const {type, base64} = photo;
         return `data:${type};base64,${base64}`;
       });
