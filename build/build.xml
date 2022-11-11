@@ -86,8 +86,10 @@
     <!-- done this way to avoid some quirks in phing behavior -->
     <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/log"/>
     <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/cache"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/var/session"/>
     <mkdir dir="${package.dir}/var/cache"/>
     <mkdir dir="${package.dir}/var/log"/>
+    <mkdir dir="${package.dir}/var/session"/>
 
     <copy todir="${dist.dir}">
       <fileset dir="${project.dir}">

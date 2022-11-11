@@ -45,6 +45,7 @@ class Config
     public const I18N_ENABLED = 'ohrm_i18n_enabled';
     public const DATE_FORMATTING_ENABLED = 'ohrm_date_formatting_enabled';
     public const VUE_BUILD_TIMESTAMP = 'ohrm_vue_build_timestamp';
+    public const MAX_SESSION_IDLE_TIME = 'ohrm_max_session_idle_time';
 
     public const MODE_DEV = 'dev';
     public const MODE_PROD = 'prod';
@@ -56,7 +57,7 @@ class Config
     public const PRODUCT_MODE = self::MODE_DEV;
     public const REGISTRATION_URL = 'https://ospenguin.orangehrm.com';
 
-    public const MAX_SESSION_IDLE_TIME = 1800;
+    public const DEFAULT_MAX_SESSION_IDLE_TIME = 1800;
 
     /**
      * @var array
