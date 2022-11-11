@@ -148,6 +148,9 @@ export class APIService {
     );
 
     if (process.env.NODE_ENV !== 'development') {
+      const removeETagWeakValidatorDirective = (etag: string) => {
+        return etag.startsWith('W/') ? etag.substring(2) : etag;
+      };
       // Additional interceptors for caching
       this._http.interceptors.request.use(
         (config: AxiosRequestConfig) => {
@@ -177,10 +180,16 @@ export class APIService {
             const cachedEtag = this._cacheStorage.getItem(url);
             if (etag && etag !== cachedEtag) {
               this._cacheStorage.removeItem(url);
-              this._cacheStorage.setItem(url, etag);
+              this._cacheStorage.setItem(
+                url,
+                removeETagWeakValidatorDirective(etag),
+              );
 
               if (cachedEtag) this._cacheStorage.removeItem(cachedEtag);
-              this._cacheStorage.setItem(etag, JSON.stringify(response.data));
+              this._cacheStorage.setItem(
+                removeETagWeakValidatorDirective(etag),
+                JSON.stringify(response.data),
+              );
             }
           }
           return response;
@@ -188,7 +197,9 @@ export class APIService {
         (error: AxiosError) => {
           if (error.response?.status === 304) {
             const etag = error.response.headers['etag'];
-            const cacheData = this._cacheStorage.getItem(etag);
+            const cacheData = this._cacheStorage.getItem(
+              removeETagWeakValidatorDirective(etag),
+            );
             if (cacheData) {
               return Promise.resolve({
                 ...error.response,
