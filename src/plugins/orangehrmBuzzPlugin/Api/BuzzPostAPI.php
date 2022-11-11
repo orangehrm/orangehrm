@@ -76,7 +76,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @OA\Post(
-     *     path="/api/v2/buzz/shares",
+     *     path="/api/v2/buzz/posts",
      *     tags={"Buzz/Shares"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
@@ -92,7 +92,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Buzz-ShareModel"
+     *                 ref="#/components/schemas/Buzz-PostModel"
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )

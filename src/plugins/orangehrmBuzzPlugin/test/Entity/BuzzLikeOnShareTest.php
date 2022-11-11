@@ -21,9 +21,11 @@ namespace OrangeHRM\Tests\Buzz\Entity;
 
 use DateTime;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -38,15 +40,22 @@ class BuzzLikeOnShareTest extends EntityTestCase
 
     public function testEntity(): void
     {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturn(new DateTime('2022-11-03 19:20'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
+
         $buzzLikeOnShare = new BuzzLikeOnShare();
-        $buzzLikeOnShare->setEmployee($this->getReference(Employee::class,1));
+        $buzzLikeOnShare->setEmployee($this->getReference(Employee::class, 1));
         $buzzLikeOnShare->setShare($this->getReference(BuzzShare::class, 1));
-        $buzzLikeOnShare->setLikedAt(new DateTime('2022-11-01 09:20'));
+        $buzzLikeOnShare->setLikedAtUtc();
         $this->persist($buzzLikeOnShare);
 
         $this->assertEquals(1, $buzzLikeOnShare->getEmployee()->getEmployeeId());
         $this->assertEquals(1, $buzzLikeOnShare->getShare()->getId());
-        $this->assertEquals('2022-11-01', $buzzLikeOnShare->getLikedAt()->format('Y-m-d'));
-        $this->assertEquals('09:20:00', $buzzLikeOnShare->getLikedAt()->format('H:i:s'));
+        $this->assertEquals('2022-11-03', $buzzLikeOnShare->getLikedAtUtc()->format('Y-m-d'));
+        $this->assertEquals('19:20:00', $buzzLikeOnShare->getLikedAtUtc()->format('H:i:s'));
     }
 }

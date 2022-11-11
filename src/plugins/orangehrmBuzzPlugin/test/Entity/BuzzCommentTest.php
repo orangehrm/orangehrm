@@ -21,9 +21,11 @@ namespace OrangeHRM\Tests\Buzz\Entity;
 
 use DateTime;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\BuzzComment;
 use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -38,21 +40,28 @@ class BuzzCommentTest extends EntityTestCase
 
     public function testEntity(): void
     {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturn(new DateTime('2022-11-01 09:20'), new DateTime('2022-11-02 13:20'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
+
         $buzzComment = new BuzzComment();
         $buzzComment->setShare($this->getReference(BuzzShare::class, 1));
-        $buzzComment->setEmployee($this->getReference(Employee::class,1));
+        $buzzComment->setEmployee($this->getReference(Employee::class, 1));
         $buzzComment->setNumOfLikes(2);
         $buzzComment->setText('this is comment for post 01');
-        $buzzComment->setCreatedAt(new DateTime('2022-11-01 09:20'));
-        $buzzComment->setUpdatedAt(new DateTime('2022-11-04 19:20'));
+        $buzzComment->setCreatedAtUtc();
+        $buzzComment->setUpdatedAtUtc();
         $this->persist($buzzComment);
 
         $this->assertEquals(1, $buzzComment->getEmployee()->getEmployeeId());
         $this->assertEquals(1, $buzzComment->getShare()->getId());
         $this->assertEquals('this is comment for post 01', $buzzComment->getText());
-        $this->assertEquals('2022-11-01', $buzzComment->getCreatedAt()->format('Y-m-d'));
-        $this->assertEquals('09:20:00', $buzzComment->getCreatedAt()->format('H:i:s'));
-        $this->assertEquals('2022-11-04', $buzzComment->getUpdatedAt()->format('Y-m-d'));
-        $this->assertEquals('19:20:00', $buzzComment->getUpdatedAt()->format('H:i:s'));
+        $this->assertEquals('2022-11-01', $buzzComment->getCreatedAtUtc()->format('Y-m-d'));
+        $this->assertEquals('09:20:00', $buzzComment->getCreatedAtUtc()->format('H:i:s'));
+        $this->assertEquals('2022-11-02', $buzzComment->getUpdatedAtUtc()->format('Y-m-d'));
+        $this->assertEquals('13:20:00', $buzzComment->getUpdatedAtUtc()->format('H:i:s'));
     }
 }
