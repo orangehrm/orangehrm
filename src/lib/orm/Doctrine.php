@@ -19,15 +19,23 @@
 
 namespace OrangeHRM\ORM;
 
+use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Cache\FilesystemAdapter;
+use OrangeHRM\Framework\Framework;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 use OrangeHRM\ORM\Functions\TimeDiff;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class Doctrine
 {
+    use ServiceContainerTrait;
+
     /**
      * @var null|Doctrine
      */
@@ -42,7 +50,9 @@ class Doctrine
      */
     private function __construct()
     {
-        $isDevMode = false;
+        $conf = Config::getConf();
+
+        $isDevMode = $this->isDevMode();
         $proxyDir = Config::get(Config::DOCTRINE_PROXY_DIR);
         $cache = new ArrayAdapter();
         $paths = $this->getPaths();
@@ -52,14 +62,20 @@ class Doctrine
             $proxyDir,
             $cache
         );
-        $config->setAutoGenerateProxyClasses(true);
-        $config->addCustomStringFunction('TIME_DIFF', TimeDiff::class);
-
-        if (!Config::isInstalled()) {
-            throw new ConfigNotFoundException('Application not installed');
+        if (!$isDevMode) {
+            $metadataCache = new FilesystemAdapter('doctrine_metadata', 0, Config::get(Config::CACHE_DIR));
+            $queryCache = new FilesystemAdapter('doctrine_queries', 0, Config::get(Config::CACHE_DIR));
+            $config->setMetadataCache($metadataCache);
+            $config->setQueryCache($queryCache);
         }
 
-        $conf = Config::getConf();
+        $config->setAutoGenerateProxyClasses(
+            $isDevMode
+                ? AbstractProxyFactory::AUTOGENERATE_ALWAYS
+                : AbstractProxyFactory::AUTOGENERATE_NEVER
+        );
+        $config->addCustomStringFunction('TIME_DIFF', TimeDiff::class);
+
         $connectionParams = [
             'dbname' => $conf->getDbName(),
             'user' => $conf->getDbUser(),
@@ -74,6 +90,20 @@ class Doctrine
         self::$entityManager->getConnection()
             ->getDatabasePlatform()
             ->registerDoctrineTypeMapping('enum', 'string');
+    }
+
+    /**
+     * @return bool
+     */
+    private function isDevMode(): bool
+    {
+        try {
+            /** @var Framework $kernel */
+            $kernel = $this->getContainer()->get(Services::HTTP_KERNEL);
+            return $kernel->isDebug();
+        } catch (ServiceNotFoundException $e) {
+            return false;
+        }
     }
 
     /**

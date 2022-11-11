@@ -65,7 +65,7 @@ abstract class AbstractVueController extends AbstractViewController
 
     public function __construct()
     {
-        $loader = new FilesystemLoader(Config::get('ohrm_app_template_dir'));
+        $loader = new FilesystemLoader(Config::get(Config::APP_TEMPLATE_DIR));
         $this->twig = new Environment($loader, ['cache' => false]);
         $this->context = new AttributeBag();
         $this->vueControllerHelper = new VueControllerHelper();

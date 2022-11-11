@@ -48,7 +48,7 @@ class SessionSubscriber extends AbstractEventSubscriber
         /** @var Session $session */
         $session = $this->getContainer()->get(Services::SESSION);
 
-        if (time() - $session->getMetadataBag()->getLastUsed() > Config::MAX_SESSION_IDLE_TIME) {
+        if (time() - $session->getMetadataBag()->getLastUsed() > Config::get(Config::MAX_SESSION_IDLE_TIME)) {
             $session->invalidate();
         }
     }
