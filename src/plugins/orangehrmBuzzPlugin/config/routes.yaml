@@ -29,34 +29,6 @@ buzz_photo:
   methods: [ GET ]
 
 ##########################
-#       Mock API
-##########################
-apiv2_buzz_newsfeed_post:
-  path: /api/v2/buzz/posts
-  controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::getPosts
-  methods: [ GET ]
-
-apiv2_buzz_newsfeed_update_post:
-  path: /api/v2/buzz/posts/{postId?}
-  controller: OrangeHRM\Buzz\Controller\BuzzMockAPIController::updatePost
-  methods: [ POST, PUT ]
-
-apiv2_buzz_post_comments:
-  path: /api/v2/buzz/posts/{postId}/comments
-  controller: OrangeHRM\Buzz\Controller\BuzzPostCommentsMockController::getPostComments
-  methods: [ GET ]
-
-apiv2_buzz_post_likes:
-  path: /api/v2/buzz/posts/{postId}/likes
-  controller: OrangeHRM\Buzz\Controller\BuzzPostLikesMockController::getPostLikes
-  methods: [ GET ]
-
-apiv2_buzz_post_shares:
-  path: /api/v2/buzz/posts/{postId}/shares
-  controller: OrangeHRM\Buzz\Controller\BuzzPostSharesMockController::getPostShares
-  methods: [ GET ]
-
-##########################
 #        Screens
 ##########################
 
