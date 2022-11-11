@@ -19,21 +19,22 @@
 
 namespace OrangeHRM\Core\Command;
 
-use OrangeHRM\Core\Traits\CacheTrait;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Console\Command;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CacheCleanCommand extends Command
+class GenerateDoctrineProxiesCommand extends Command
 {
-    use CacheTrait;
-
     /**
      * @inheritDoc
      */
     public function getCommandName(): string
     {
-        return 'cache:clear';
+        return 'orm:generate-proxies';
     }
 
     /**
@@ -41,12 +42,47 @@ class CacheCleanCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $success = $this->getCache()->clear();
-        if (!$success) {
-            $this->getIO()->error('Failed to clean cache');
-            return self::FAILURE;
-        }
-        $this->getIO()->success('Success');
+        $proxyDir = Config::get(Config::DOCTRINE_PROXY_DIR);
+        $cache = new ArrayAdapter();
+        $paths = $this->getPaths();
+        $config = ORMSetup::createAnnotationMetadataConfiguration(
+            $paths,
+            false,
+            $proxyDir,
+            $cache
+        );
+
+        $connectionParams = [
+            'driver' => 'pdo_sqlite',
+            'memory' => true,
+            'charset' => 'utf8mb4',
+        ];
+
+        $em = EntityManager::create($connectionParams, $config);
+
+        $metadata = $em->getMetadataFactory()
+            ->getAllMetadata();
+
+        $count = $em->getProxyFactory()
+            ->generateProxyClasses($metadata, $proxyDir);
+
+        $this->getIO()->success("$count proxy classes created");
         return self::SUCCESS;
+    }
+
+    /**
+     * @return array
+     */
+    private function getPaths(): array
+    {
+        $paths = [];
+        $pluginPaths = Config::get('ohrm_plugin_paths');
+        foreach ($pluginPaths as $pluginPath) {
+            $entityPath = realpath($pluginPath . '/entity');
+            if ($entityPath) {
+                $paths[] = $entityPath;
+            }
+        }
+        return $paths;
     }
 }

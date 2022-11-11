@@ -21,6 +21,7 @@ use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Installer\Exception\SessionStorageNotWritable;
 use OrangeHRM\Installer\Framework\HttpKernel;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\StateContainer;
@@ -57,7 +58,11 @@ $kernel = new class ('prod', false) extends HttpKernel {
     }
 };
 $request = new Request();
-$kernel->handleRequest($request);
+try {
+    $kernel->handleRequest($request);
+} catch (SessionStorageNotWritable $e) {
+    die($e->getMessage());
+}
 
 $cliConfig = Yaml::parseFile(realpath(__DIR__ . '/cli_install_config.yaml'));
 

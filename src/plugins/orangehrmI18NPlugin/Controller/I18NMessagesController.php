@@ -66,7 +66,7 @@ class I18NMessagesController extends AbstractFileController implements PublicCon
     {
         $response->headers->set('Content-Type', $contentType);
         $response->setPublic();
-        $response->setMaxAge(Config::MAX_SESSION_IDLE_TIME);
+        $response->setMaxAge(Config::get(Config::MAX_SESSION_IDLE_TIME));
         $response->headers->addCacheControlDirective('must-revalidate', true);
         $response->headers->set('Pragma', 'Public');
     }

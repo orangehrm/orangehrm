@@ -27,9 +27,11 @@ use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\DataRegistrationUtility;
+use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\StateContainer;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 use OrangeHRM\ORM\Doctrine;
+use Throwable;
 
 class ConfigFileAPI extends AbstractInstallerRestController
 {
@@ -63,9 +65,14 @@ class ConfigFileAPI extends AbstractInstallerRestController
 
         $this->sendRegistrationData();
 
-        return [
-            'success' => Doctrine::getEntityManager()->getConnection() instanceof Connection,
-        ];
+        $success = false;
+        try {
+            $success = Doctrine::getEntityManager()->getConnection() instanceof Connection;
+        } catch (Throwable $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+        }
+        return ['success' => $success];
     }
 
     /**

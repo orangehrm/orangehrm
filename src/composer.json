@@ -112,6 +112,9 @@
         }
     },
     "scripts": {
-        "test": "cd ../ && phpunit"
+        "test": "cd ../ && phpunit",
+        "post-autoload-dump": [
+            "php ../bin/console orm:generate-proxies"
+        ]
     }
 }

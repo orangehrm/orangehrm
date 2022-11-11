@@ -56,14 +56,18 @@ new Framework($env, $debug); // initializing kernel
 
 $request = new Request();
 $pluginConfigs = Config::get('ohrm_plugin_configs');
-foreach (array_values($pluginConfigs) as $pluginConfig) {
-    require_once $pluginConfig['filepath'];
-    /** @var PluginConfigurationInterface $configClass */
-    $configClass = new $pluginConfig['classname']();
-    $configClass->initialize($request);
-    if ($configClass instanceof ConsoleConfigurationInterface) {
-        $configClass->registerCommands($console);
+try {
+    foreach (array_values($pluginConfigs) as $pluginConfig) {
+        require_once $pluginConfig['filepath'];
+        /** @var PluginConfigurationInterface $configClass */
+        $configClass = new $pluginConfig['classname']();
+        $configClass->initialize($request);
+        if ($configClass instanceof ConsoleConfigurationInterface) {
+            $configClass->registerCommands($console);
+        }
     }
+} catch (Throwable $e) {
+    echo("\n" . $e->getMessage() . "\n\n");
 }
 
 $console->run();

@@ -283,27 +283,6 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “src/config” Check
-     * @return array
-     * @deprecated
-     */
-    public function isWritableSrcConfigDir(): array
-    {
-        if ($this->checkWritePermission(Config::get(Config::SRC_CONFIG_DIR))) {
-            return [
-                'message' => Messages::WRITEABLE,
-                'status' => self::PASSED
-            ];
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::NOT_WRITEABLE,
-                'status' => self::BLOCKER
-            ];
-        }
-    }
-
-    /**
      * Write Permissions for “var/cache” Check
      * @return array
      */
@@ -617,7 +596,7 @@ class SystemConfig
      * @param string $path
      * @return bool
      */
-    private function checkWritePermission(string $path): bool
+    public function checkWritePermission(string $path): bool
     {
         try {
             $this->filesystem->dumpFile($path . DIRECTORY_SEPARATOR . '_temp.txt', $path);
