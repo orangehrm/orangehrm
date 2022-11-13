@@ -83,7 +83,6 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      *             type="object",
      *             @OA\Property(property="text", type="string"),
      *             @OA\Property(property="type", type="string"),
-     *             @OA\Property(property="photos", ref="#/components/schemas/Base64AttachmentOrNull"),
      *             required={"title", "type"}
      *         )
      *     ),
@@ -97,6 +96,39 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      *             @OA\Property(property="meta", type="object")
      *         )
      *     )
+     * )
+     *
+     *  * @OA\Schema(
+     *     schema="Buzz-Post-Request",
+     *     oneOf={
+     *         @OA\Schema(ref="#/components/schemas/Buzz-Post-Text"),
+     *         @OA\Schema(ref="#/components/schemas/Buzz-Post-Photo"),
+     *         @OA\Schema(ref="#/components/schemas/Buzz-Post-Video"),
+     *     },
+     *     type="object"
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Text",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Photo",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     *     @OA\Property(property="photos", ref="#/components/schemas/Base64AttachmentOrNull"),
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Video",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     *     @OA\Property(property="link", type="string"),
      * )
      *
      * @inheritDoc

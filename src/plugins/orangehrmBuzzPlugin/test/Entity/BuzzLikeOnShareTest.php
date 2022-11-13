@@ -33,7 +33,7 @@ class BuzzLikeOnShareTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/Employee.yaml';
+        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/BuzzLikeOnShare.yaml';
         TestDataService::populate($fixture);
         TestDataService::truncateSpecificTables([BuzzLikeOnShare::class]);
     }
