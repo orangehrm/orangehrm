@@ -21,12 +21,10 @@ namespace OrangeHRM\Entity;
 
 namespace OrangeHRM\Entity;
 
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
-use League\OAuth2\Server\Entities\Traits\EntityTrait;
-use League\OAuth2\Server\Entities\Traits\RefreshTokenTrait;
 
 /**
  * @ORM\Table(name="ohrm_oauth2_refresh_tokens")
@@ -34,25 +32,98 @@ use League\OAuth2\Server\Entities\Traits\RefreshTokenTrait;
  */
 class OAuth2RefreshToken implements RefreshTokenEntityInterface
 {
-    use EntityTrait;
-    use RefreshTokenTrait;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private int $identifier;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="id", type="string", length=80)
+     * @ORM\Column(name="refresh_token", type="string", length=80)
      */
-    protected $identifier;
+    private string $refreshToken;
 
     /**
-     * @var AccessTokenEntityInterface
-     */
-    protected $accessToken;
-
-    /**
-     * @var DateTime
+     * @var OAuth2AccessToken
      *
-     * @ORM\Column(name="expiry", type="datetime_immutable")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\OAuth2AccessToken")
+     * @ORM\JoinColumn(name="access_token", referencedColumnName="id")
      */
-    protected $expiryDateTime;
+    private OAuth2AccessToken $accessToken;
+
+    /**
+     * @var DateTimeImmutable
+     *
+     * @ORM\Column(name="expiry_date_time", type="datetime_immutable")
+     */
+    private DateTimeImmutable $expiryDateTime;
+
+    /**
+     * @return int
+     */
+    public function getIdentifier(): int
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param int $identifier
+     */
+    public function setIdentifier($identifier): void
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRefreshToken(): string
+    {
+        return $this->refreshToken;
+    }
+
+    /**
+     * @param string $refreshToken
+     */
+    public function setRefreshToken(string $refreshToken): void
+    {
+        $this->refreshToken = $refreshToken;
+    }
+
+    /**
+     * @return OAuth2AccessToken
+     */
+    public function getAccessToken(): OAuth2AccessToken
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @param AccessTokenEntityInterface $accessToken
+     */
+    public function setAccessToken(AccessTokenEntityInterface $accessToken): void
+    {
+        $this->accessToken = $accessToken;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getExpiryDateTime(): DateTimeImmutable
+    {
+        return $this->expiryDateTime;
+    }
+
+    /**
+     * @param DateTimeImmutable $dateTime
+     */
+    public function setExpiryDateTime(DateTimeImmutable $dateTime): void
+    {
+        $this->expiryDateTime = $dateTime;
+    }
 }

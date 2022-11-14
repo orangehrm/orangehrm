@@ -19,16 +19,15 @@
 
 namespace OrangeHRM\Entity;
 
-use DateTime;
+use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Lcobucci\JWT\Configuration;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
-use League\OAuth2\Server\Entities\Traits\AccessTokenTrait;
-use League\OAuth2\Server\Entities\Traits\EntityTrait;
-use League\OAuth2\Server\Entities\Traits\TokenEntityTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
 /**
  * @ORM\Table(name="ohrm_oauth2_access_tokens")
@@ -36,40 +35,52 @@ use League\OAuth2\Server\Entities\Traits\TokenEntityTrait;
  */
 class OAuth2AccessToken implements AccessTokenEntityInterface
 {
-    use EntityTrait;
-    use TokenEntityTrait;
-    use AccessTokenTrait;
+    use EntityManagerHelperTrait;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private int $identifier;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="id", type="string", length="80", nullable=false)
+     * @ORM\Column(name="access_token", type="string", length=80)
      */
-    protected $identifier;
+    private string $accessToken;
 
     /**
+     * TODO
      * @var ScopeEntityInterface[]
      */
-    protected $scopes = [];
+    private iterable $scopes;
 
     /**
-     * @var DateTime
+     * @var DateTimeImmutable
      *
      * @ORM\Column(name="expiry_date_time", type="datetime_immutable")
      */
-    protected $expiryDateTime;
+    private DateTimeImmutable $expiryDateTime;
 
     /**
-     * @var string|int|null
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $userIdentifier;
+    private User $userIdentifier;
 
     /**
-     * @var ClientEntityInterface
+     * @var OAuth2Client
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\OAuth2Client")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
-    protected $client;
+    private OAuth2Client $client;
 
     /**
      * @var CryptKey
@@ -80,4 +91,136 @@ class OAuth2AccessToken implements AccessTokenEntityInterface
      * @var Configuration
      */
     private Configuration $jwtConfiguration;
+
+    public function __construct()
+    {
+        $this->scopes = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdentifier(): int
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param int $identifier
+     */
+    public function setIdentifier($identifier): void
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken(): string
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @param string $accessToken
+     */
+    public function setAccessToken(string $accessToken): void
+    {
+        $this->accessToken = $accessToken;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getScopes(): iterable
+    {
+        return $this->scopes;
+    }
+
+    /**
+     * @param iterable $scopes
+     */
+    public function setScopes(iterable $scopes): void
+    {
+        $this->scopes = $scopes;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getExpiryDateTime(): DateTimeImmutable
+    {
+        return $this->expiryDateTime;
+    }
+
+    /**
+     * @param DateTimeImmutable $dateTime
+     */
+    public function setExpiryDateTime(DateTimeImmutable $dateTime): void
+    {
+        $this->expiryDateTime = $dateTime;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUserIdentifier(): User
+    {
+        return $this->userIdentifier;
+    }
+
+    /**
+     * @param int $identifier
+     */
+    public function setUserIdentifier($identifier): void
+    {
+        $user = $this->getReference(User::class, $identifier);
+        $this->userIdentifier = $user;
+    }
+
+    /**
+     * @return OAuth2Client
+     */
+    public function getClient(): OAuth2Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param ClientEntityInterface $client
+     */
+    public function setClient(ClientEntityInterface $client): void
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * @return CryptKey
+     */
+    public function getPrivateKey(): CryptKey
+    {
+        return $this->privateKey;
+    }
+
+    /**
+     * @param CryptKey $privateKey
+     */
+    public function setPrivateKey(CryptKey $privateKey): void
+    {
+        $this->privateKey = $privateKey;
+    }
+
+    /**
+     * @param ScopeEntityInterface $scope
+     */
+    public function addScope(ScopeEntityInterface $scope): void
+    {
+        // TODO: Implement addScope() method.
+    }
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return 'Access Token To String';
+    }
 }

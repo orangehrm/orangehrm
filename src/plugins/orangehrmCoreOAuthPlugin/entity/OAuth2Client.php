@@ -21,8 +21,6 @@ namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Entities\Traits\ClientTrait;
-use League\OAuth2\Server\Entities\Traits\EntityTrait;
 
 /**
  * @ORM\Table(name="ohrm_oauth2_clients")
@@ -30,41 +28,74 @@ use League\OAuth2\Server\Entities\Traits\EntityTrait;
  */
 class OAuth2Client implements ClientEntityInterface
 {
-    use ClientTrait;
-    use EntityTrait;
-
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="id", type="string", length=80, nullable=false)
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $identifier;
+    private int $identifier;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=80)
      */
-    protected $name;
+    private string $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="client_secret", type="string", length=80)
      */
-    protected string $clientSecret;
+    private string $clientSecret;
 
     /**
      * @var string|string[]
      *
      * @ORM\Column(name="redirect_uri", type="string", length=2000)
      */
-    protected $redirectUri;
+    private string $redirectUri;
 
     /**
      * @var bool
+     *
+     * @ORM\Column(name="is_confidential", type="boolean")
      */
-    protected $isConfidential = false;
+    private bool $isConfidential = false;
+
+    /**
+     * @return int
+     */
+    public function getIdentifier(): int
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param int $identifier
+     */
+    public function setIdentifier(int $identifier): void
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
     /**
      * @return string
@@ -80,5 +111,37 @@ class OAuth2Client implements ClientEntityInterface
     public function setClientSecret(string $clientSecret): void
     {
         $this->clientSecret = $clientSecret;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRedirectUri(): string
+    {
+        return $this->redirectUri;
+    }
+
+    /**
+     * @param string $redirectUri
+     */
+    public function setRedirectUri(string $redirectUri): void
+    {
+        $this->redirectUri = $redirectUri;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConfidential(): bool
+    {
+        return $this->isConfidential;
+    }
+
+    /**
+     * @param bool $isConfidential
+     */
+    public function setIsConfidential(bool $isConfidential): void
+    {
+        $this->isConfidential = $isConfidential;
     }
 }

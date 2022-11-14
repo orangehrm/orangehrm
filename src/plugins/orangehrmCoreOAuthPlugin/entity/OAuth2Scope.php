@@ -23,34 +23,81 @@ use Doctrine\ORM\Mapping as ORM;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
 /**
- * @ORM\Table(name="ohrm_oauth2_scope")
+ * @ORM\Table(name="ohrm_oauth2_scopes")
  * @ORM\Entity
  */
 class OAuth2Scope implements ScopeEntityInterface
 {
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="id", type="string", length=80)
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private string $identifier;
+    private int $identifier;
 
     /**
-     * @return string
+     * @var string
+     *
+     * @ORM\Column(name="scope", type="string", length=80)
      */
-    public function getIdentifier(): string
+    private string $scope;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_default", type="boolean")
+     */
+    private bool $isDefault;
+
+    /**
+     * @return int
+     */
+    public function getIdentifier(): int
     {
         return $this->identifier;
     }
 
     /**
-     * @param string $identifier
+     * @param int $identifier
      */
-    public function setIdentifier(string $identifier): void
+    public function setIdentifier(int $identifier): void
     {
         $this->identifier = $identifier;
     }
 
+    /**
+     * @return string
+     */
+    public function getScope(): string
+    {
+        return $this->scope;
+    }
+
+    /**
+     * @param string $scope
+     */
+    public function setScope(string $scope): void
+    {
+        $this->scope = $scope;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDefault(): bool
+    {
+        return $this->isDefault;
+    }
+
+    /**
+     * @param bool $isDefault
+     */
+    public function setIsDefault(bool $isDefault): void
+    {
+        $this->isDefault = $isDefault;
+    }
 
     public function jsonSerialize()
     {

@@ -20,13 +20,11 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use DateTime;
+use DateTimeImmutable;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
-use League\OAuth2\Server\Entities\Traits\AuthCodeTrait;
-use League\OAuth2\Server\Entities\Traits\EntityTrait;
-use League\OAuth2\Server\Entities\Traits\TokenEntityTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
 /**
  * @ORM\Table(name="ohrm_oauth2_authorization_codes")
@@ -34,45 +32,175 @@ use League\OAuth2\Server\Entities\Traits\TokenEntityTrait;
  */
 class OAuth2AuthorizationCode implements AuthCodeEntityInterface
 {
-    use EntityTrait;
-    use TokenEntityTrait;
-    use AuthCodeTrait;
+    use EntityManagerHelperTrait;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private int $identifier;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="id", type="string", length=80)
+     * @ORM\Column(name="authorization_code", type="string", length=80)
      */
-    protected $identifier;
+    private string $authorizationCode;
 
     /**
-     * @var ScopeEntityInterface[]
-     */
-    protected $scopes = [];
-
-    /**
-     * @var DateTime
+     * @var DateTimeImmutable
      *
-     * @ORM\Column(name="expiry", type="datetime_immutable")
+     * @ORM\Column(name="expiry_date_time", type="datetime_immutable")
      */
-    protected $expiryDateTime;
+    private DateTimeImmutable $expiryDateTime;
 
     /**
-     * @var string|int|null
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $userIdentifier;
+    private User $userIdentifier;
 
     /**
-     * @var ClientEntityInterface
+     * @var OAuth2Client
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\OAuth2Client")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
-    protected $client;
+    private OAuth2Client $client;
 
     /**
      * @var null|string
      *
      * @ORM\Column(name="redirect_uri", type="string", length=2000)
      */
-    protected $redirectUri;
+    private string $redirectUri;
+
+    /**
+     * TODO
+     * @var ScopeEntityInterface[]
+     */
+    private iterable $scopes = [];
+
+    /**
+     * @return int
+     */
+    public function getIdentifier(): int
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param int $identifier
+     */
+    public function setIdentifier($identifier): void
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorizationCode(): string
+    {
+        return $this->authorizationCode;
+    }
+
+    /**
+     * @param string $authorizationCode
+     */
+    public function setAuthorizationCode(string $authorizationCode): void
+    {
+        $this->authorizationCode = $authorizationCode;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getExpiryDateTime(): DateTimeImmutable
+    {
+        return $this->expiryDateTime;
+    }
+
+    /**
+     * @param DateTimeImmutable $dateTime
+     */
+    public function setExpiryDateTime(DateTimeImmutable $dateTime): void
+    {
+        $this->expiryDateTime = $dateTime;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUserIdentifier(): User
+    {
+        return $this->userIdentifier;
+    }
+
+    /**
+     * @param int $identifier
+     */
+    public function setUserIdentifier($identifier): void
+    {
+        $user = $this->getReference(User::class, $identifier);
+        $this->userIdentifier = $user;
+    }
+
+    /**
+     * @return OAuth2Client
+     */
+    public function getClient(): OAuth2Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param ClientEntityInterface $client
+     */
+    public function setClient(ClientEntityInterface $client): void
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRedirectUri(): string
+    {
+        return $this->redirectUri;
+    }
+
+    /**
+     * @param string $uri
+     */
+    public function setRedirectUri($uri): void
+    {
+        $this->redirectUri = $uri;
+    }
+
+    /**
+     * @return ScopeEntityInterface[]
+     */
+    public function getScopes(): array
+    {
+        return $this->scopes;
+    }
+
+    /**
+     * @param ScopeEntityInterface[] $scopes
+     */
+    public function setScopes(array $scopes): void
+    {
+        $this->scopes = $scopes;
+    }
+
+    public function addScope(ScopeEntityInterface $scope)
+    {
+        // TODO: Implement addScope() method.
+    }
 }

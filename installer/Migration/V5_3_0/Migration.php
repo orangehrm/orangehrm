@@ -593,7 +593,7 @@ class Migration extends AbstractMigration
     private function createOAuth2Tables(): void
     {
         $this->getSchemaHelper()->createTable('ohrm_oauth2_clients')
-            ->addColumn('id', Types::STRING, ['Length' => 80])
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('name', Types::STRING, ['Length' => 80])
             ->addColumn('client_secret', Types::STRING, ['Length' => 80])
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
@@ -604,37 +604,36 @@ class Migration extends AbstractMigration
         // Foreign Keys
 
         $this->getSchemaHelper()->createTable('ohrm_oauth2_access_tokens')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('access_token', Types::STRING, ['Length' => 80])
-            ->addColumn('client_id', Types::STRING, ['Length' => 80])
+            ->addColumn('client_id', Types::INTEGER)
             ->addColumn('user_id', Types::INTEGER)
-            ->addColumn('expiryDateTime', Types::DATETIME_IMMUTABLE)
+            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
             ->addColumn('scope', Types::STRING, ['Length' => 4000])
-            ->setPrimaryKey(['access_token'])
+            ->setPrimaryKey(['id'])
             ->create();
 
         // Foreign Keys
 
         $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_codes')
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('authorization_code', Types::STRING, ['Length' => 40])
-            ->addColumn('client_id', Types::STRING, ['Length' => 80])
+            ->addColumn('client_id', Types::INTEGER)
             ->addColumn('user_id', Types::INTEGER)
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
-            ->addColumn('expires', Types::DATETIME_IMMUTABLE)
+            ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
             ->addColumn('scope', Types::STRING, ['Length' => 4000])
-            ->addColumn('id_token', Types::STRING, ['Length' => 1000])
-            ->setPrimaryKey(['authorization_code'])
+            ->setPrimaryKey(['id'])
             ->create();
 
         // Foreign Keys
 
         $this->getSchemaHelper()->createTable('ohrm_oauth2_refresh_tokens')
-            ->addColumn('id', Types::STRING, ['Length' => 80])
-            ->addColumn('refresh_token', Types::STRING, ['Length' => 40])
-            ->addColumn('client_id', TYPES::STRING, ['Length' => 80])
-            ->addColumn('user_id', TYPES::INTEGER)
-            ->addColumn('expires', Types::DATETIME_MUTABLE)
-            ->addColumn('scope', Types::STRING, ['Length' => 4000])
-            ->setPrimaryKey(['refresh_token'])
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+            ->addColumn('refresh_token', Types::STRING, ['Length' => 80])
+            ->addColumn('access_token', Types::INTEGER)
+            ->addColumn('expiry_date_time', Types::DATETIME_MUTABLE)
+            ->setPrimaryKey(['id'])
             ->create();
 
         // Foreign Keys
@@ -642,10 +641,10 @@ class Migration extends AbstractMigration
         // $this->getSchemaHelper()->createTable('ohrm_oauth2_users')
 
         $this->getSchemaHelper()->createTable('ohrm_oauth2_scopes')
-            ->addColumn('id', Types::STRING, ['Length' => 80])
+            ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('scope', Types::STRING, ['Length' => 80])
             ->addColumn('is_default', Types::BOOLEAN)
-            ->setPrimaryKey(['scope'])
+            ->setPrimaryKey(['id'])
             ->create();
 
         // $this->getSchemaHelper()->createTable('ohrm_oauth2_jwt')
