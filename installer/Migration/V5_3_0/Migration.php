@@ -607,7 +607,6 @@ class Migration extends AbstractMigration
             ->addColumn('client_id', Types::INTEGER)
             ->addColumn('user_id', Types::INTEGER)
             ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
-            ->addColumn('scope', Types::STRING, ['Length' => 4000, 'Default' => null])
             ->setPrimaryKey(['id'])
             ->create();
 
@@ -618,7 +617,6 @@ class Migration extends AbstractMigration
             ->addColumn('user_id', Types::INTEGER)
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
             ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
-            ->addColumn('scope', Types::STRING, ['Length' => 4000, 'Default' => null])
             ->setPrimaryKey(['id'])
             ->create();
 
@@ -635,6 +633,18 @@ class Migration extends AbstractMigration
             ->addColumn('scope', Types::STRING, ['Length' => 80])
             ->addColumn('is_default', Types::BOOLEAN)
             ->setPrimaryKey(['id'])
+            ->create();
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_access_scopes')
+            ->addColumn('access_token_id', Types::INTEGER)
+            ->addColumn('scope_id', Types::INTEGER)
+            ->setPrimaryKey(['access_token_id', 'scope_id'])
+            ->create();
+
+        $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_scopes')
+            ->addColumn('authorization_code_id', Types::INTEGER)
+            ->addColumn('scope_id', Types::INTEGER)
+            ->setPrimaryKey(['authorization_code_id', 'scope_id'])
             ->create();
     }
 }

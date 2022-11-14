@@ -2,6 +2,7 @@
 
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\OAuth2AccessToken;
+use OrangeHRM\Entity\OAuth2AccessTokenScope;
 use OrangeHRM\Entity\OAuth2Client;
 use OrangeHRM\Entity\OAuth2Scope;
 use OrangeHRM\Entity\User;
@@ -37,7 +38,8 @@ class OAuth2AccessTokenTest extends EntityTestCase
             UserRole::class,
             OAuth2Scope::class,
             OAuth2Client::class,
-            OAuth2AccessToken::class
+            OAuth2AccessToken::class,
+            OAuth2AccessTokenScope::class
         ]);
     }
 
@@ -88,5 +90,6 @@ class OAuth2AccessTokenTest extends EntityTestCase
         $this->assertEquals($user->getUserName(), $accessToken->getUserIdentifier()->getUserName());
         $this->assertEquals($client->getName(), $accessToken->getClient()->getName());
         $this->assertEquals($date, $accessToken->getExpiryDateTime());
+        $this->assertEquals($scope->getScope(), $accessToken->getScopes()[0]->getScope());
     }
 }

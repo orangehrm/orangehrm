@@ -54,8 +54,14 @@ class OAuth2AccessToken implements AccessTokenEntityInterface
     private string $accessToken;
 
     /**
-     * TODO
      * @var ScopeEntityInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\OAuth2Scope", inversedBy="accessTokens")
+     * @ORM\JoinTable(
+     *     name="ohrm_oauth2_access_scopes",
+     *     joinColumns={@ORM\JoinColumn(name="access_token_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="scope_id", referencedColumnName="id")}
+     * )
      */
     private iterable $scopes;
 
@@ -130,7 +136,7 @@ class OAuth2AccessToken implements AccessTokenEntityInterface
     }
 
     /**
-     * @return iterable
+     * @return ScopeEntityInterface[]
      */
     public function getScopes(): iterable
     {
@@ -138,7 +144,7 @@ class OAuth2AccessToken implements AccessTokenEntityInterface
     }
 
     /**
-     * @param iterable $scopes
+     * @param ScopeEntityInterface[] $scopes
      */
     public function setScopes(iterable $scopes): void
     {
@@ -215,7 +221,7 @@ class OAuth2AccessToken implements AccessTokenEntityInterface
      */
     public function addScope(ScopeEntityInterface $scope): void
     {
-        // TODO: Implement addScope() method.
+        $this->scopes[] = $scope;
     }
 
     public function __toString()

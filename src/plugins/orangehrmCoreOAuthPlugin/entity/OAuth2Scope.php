@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
@@ -50,6 +51,26 @@ class OAuth2Scope implements ScopeEntityInterface
      * @ORM\Column(name="is_default", type="boolean")
      */
     private bool $isDefault;
+
+    /**
+     * @var OAuth2AccessToken[]
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\OAuth2AccessToken", mappedBy="scopes")
+     */
+    private iterable $accessTokens;
+
+    /**
+     * @var OAuth2AuthorizationCode[]
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\OAuth2AuthorizationCode", mappedBy="scopes")
+     */
+    private iterable $authorizationCodes;
+
+    public function __construct()
+    {
+        $this->accessTokens = new ArrayCollection();
+        $this->authorizationCodes = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -97,6 +118,38 @@ class OAuth2Scope implements ScopeEntityInterface
     public function setIsDefault(bool $isDefault): void
     {
         $this->isDefault = $isDefault;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getAccessTokens(): iterable
+    {
+        return $this->accessTokens;
+    }
+
+    /**
+     * @param iterable $accessTokens
+     */
+    public function setAccessTokens(iterable $accessTokens): void
+    {
+        $this->accessTokens = $accessTokens;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getAuthorizationCodes(): iterable
+    {
+        return $this->authorizationCodes;
+    }
+
+    /**
+     * @param iterable $authorizationCodes
+     */
+    public function setAuthorizationCodes(iterable $authorizationCodes): void
+    {
+        $this->authorizationCodes = $authorizationCodes;
     }
 
     public function jsonSerialize()

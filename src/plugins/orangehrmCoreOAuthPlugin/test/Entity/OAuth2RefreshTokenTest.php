@@ -2,6 +2,7 @@
 
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\OAuth2AccessToken;
+use OrangeHRM\Entity\OAuth2AccessTokenScope;
 use OrangeHRM\Entity\OAuth2Client;
 use OrangeHRM\Entity\OAuth2RefreshToken;
 use OrangeHRM\Entity\OAuth2Scope;
@@ -39,6 +40,7 @@ class OAuth2RefreshTokenTest extends EntityTestCase
             OAuth2Scope::class,
             OAuth2Client::class,
             OAuth2AccessToken::class,
+            OAuth2AccessTokenScope::class,
             OAuth2RefreshToken::class
         ]);
     }

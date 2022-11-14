@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
@@ -81,10 +82,21 @@ class OAuth2AuthorizationCode implements AuthCodeEntityInterface
     private string $redirectUri;
 
     /**
-     * TODO
      * @var ScopeEntityInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\OAuth2Scope", inversedBy="authorizationCodes")
+     * @ORM\JoinTable(
+     *     name="ohrm_oauth2_authorization_scopes",
+     *     joinColumns={@ORM\JoinColumn(name="authorization_code_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="scope_id", referencedColumnName="id")}
+     * )
      */
-    private iterable $scopes = [];
+    private iterable $scopes;
+
+    public function __construct()
+    {
+        $this->scopes = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -186,7 +198,7 @@ class OAuth2AuthorizationCode implements AuthCodeEntityInterface
     /**
      * @return ScopeEntityInterface[]
      */
-    public function getScopes(): array
+    public function getScopes(): iterable
     {
         return $this->scopes;
     }
@@ -194,13 +206,13 @@ class OAuth2AuthorizationCode implements AuthCodeEntityInterface
     /**
      * @param ScopeEntityInterface[] $scopes
      */
-    public function setScopes(array $scopes): void
+    public function setScopes(iterable $scopes): void
     {
         $this->scopes = $scopes;
     }
 
     public function addScope(ScopeEntityInterface $scope)
     {
-        // TODO: Implement addScope() method.
+        $this->scopes[] = $scope;
     }
 }

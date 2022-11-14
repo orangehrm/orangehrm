@@ -19,6 +19,7 @@
 
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\OAuth2AuthorizationCode;
+use OrangeHRM\Entity\OAuth2AuthorizationCodeScope;
 use OrangeHRM\Entity\OAuth2Client;
 use OrangeHRM\Entity\OAuth2Scope;
 use OrangeHRM\Entity\User;
@@ -36,7 +37,8 @@ class OAuth2AuthorizationCodeTest extends EntityTestCase
             UserRole::class,
             OAuth2Scope::class,
             OAuth2Client::class,
-            OAuth2AuthorizationCode::class
+            OAuth2AuthorizationCode::class,
+            OAuth2AuthorizationCodeScope::class
         ]);
     }
 
@@ -89,5 +91,6 @@ class OAuth2AuthorizationCodeTest extends EntityTestCase
         $this->assertEquals($user->getUserName(), $authorizationCode->getUserIdentifier()->getUserName());
         $this->assertEquals($client->getName(), $authorizationCode->getClient()->getName());
         $this->assertEquals('redirect.com', $authorizationCode->getRedirectUri());
+        $this->assertEquals($scope->getScope(), $authorizationCode->getScopes()[0]->getScope());
     }
 }
