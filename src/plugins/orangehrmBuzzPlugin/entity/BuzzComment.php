@@ -78,22 +78,6 @@ class BuzzComment
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="comment_time", type="datetime")
-     * @deprecated
-     */
-    private DateTime $createdAt;
-
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     * @deprecated
-     */
-    private ?DateTime $updatedAt = null;
-
-    /**
-     * @var DateTime
-     *
      * @ORM\Column(name="comment_utc_time", type="datetime")
      */
     private DateTime $createdAtUtc;
@@ -183,42 +167,6 @@ class BuzzComment
     public function setText(string $text): void
     {
         $this->text = $text;
-    }
-
-    /**
-     * @return DateTime
-     * @deprecated
-     */
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param DateTime $createdAt
-     * @deprecated
-     */
-    public function setCreatedAt(DateTime $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return DateTime
-     * @deprecated
-     */
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param DateTime $updatedAt
-     * @deprecated
-     */
-    public function setUpdatedAt(DateTime $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
     }
 
     /**
