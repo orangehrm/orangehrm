@@ -53,3 +53,16 @@ apiv2_buzz_shares:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
+
+apiv2_buzz_comments:
+  description: 'Buzz - Comments'
+  api: OrangeHRM\Buzz\Api\BuzzCommentAPI
+  module: buzz
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }

@@ -19,14 +19,18 @@
 
 namespace OrangeHRM\Buzz\Dao;
 
+use OrangeHRM\Buzz\Dto\BuzzCommentSearchFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzFeedPost;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\BuzzComment;
+use OrangeHRM\Entity\BuzzLikeOnComment;
 use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzLink;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzPost;
 use OrangeHRM\Entity\BuzzShare;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class BuzzDao extends BaseDao
@@ -150,6 +154,24 @@ class BuzzDao extends BaseDao
     }
 
     /**
+     * @param BuzzComment $buzzComment
+     * @return BuzzComment
+     */
+    public function saveBuzzComment(BuzzComment $buzzComment): BuzzComment
+    {
+        $this->persist($buzzComment);
+        return $buzzComment;
+    }
+
+    /**
+     * @param BuzzComment $buzzComment
+     */
+    public function deleteBuzzComment(BuzzComment $buzzComment): void
+    {
+        $this->remove($buzzComment);
+    }
+
+    /**
      * @param int $photoId
      * @return BuzzPhoto|null
      */
@@ -175,5 +197,75 @@ class BuzzDao extends BaseDao
             ->setParameter('shareId', $shareId);
 
         return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $commentId
+     * @param int|null $shareId
+     * @return BuzzComment|null
+     */
+    public function getBuzzCommentById(int $commentId, ?int $shareId = null): ?BuzzComment
+    {
+        $q = $this->createQueryBuilder(BuzzComment::class, 'comment')
+            ->leftJoin('comment.employee', 'employee')
+            ->leftJoin('comment.share', 'share');
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'))
+            ->andWhere('comment.id = :commentId')
+            ->setParameter('commentId', $commentId);
+        if ($shareId !== null) {
+            $q->andWhere('share.id = :shareId')
+                ->setParameter('shareId', $shareId);
+        }
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param BuzzCommentSearchFilterParams $filterParams
+     * @return BuzzComment[]
+     */
+    public function getBuzzComments(BuzzCommentSearchFilterParams $filterParams): array
+    {
+        return $this->getBuzzCommentsPaginator($filterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param BuzzCommentSearchFilterParams $filterParams
+     * @return int
+     */
+    public function getBuzzCommentsCount(BuzzCommentSearchFilterParams $filterParams): int
+    {
+        return $this->getBuzzCommentsPaginator($filterParams)->count();
+    }
+
+    /**
+     * @param BuzzCommentSearchFilterParams $filterParams
+     * @return Paginator
+     */
+    private function getBuzzCommentsPaginator(BuzzCommentSearchFilterParams $filterParams): Paginator
+    {
+        $q = $this->createQueryBuilder(BuzzComment::class, 'comment')
+            ->leftJoin('comment.employee', 'employee')
+            ->leftJoin('comment.share', 'share');
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'))
+            ->andWhere('IDENTITY(comment.share) = :shareId')
+            ->setParameter('shareId', $filterParams->getShareId());
+
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param int $commentId
+     * @param int $empNumber
+     * @return bool
+     */
+    public function isEmployeeLikedOnComment(int $commentId, int $empNumber): bool
+    {
+        $q = $this->createQueryBuilder(BuzzLikeOnComment::class, 'likeOnComment')
+            ->andWhere('IDENTITY(likeOnComment.comment) = :commentId')
+            ->andWhere('IDENTITY(likeOnComment.employee) = :empNumber')
+            ->setParameter('commentId', $commentId)
+            ->setParameter('empNumber', $empNumber);
+        return $this->count($q) > 0;
     }
 }

@@ -22,13 +22,18 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Decorator\BuzzCommentDecorator;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method BuzzCommentDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_buzz_comment")
  * @ORM\Entity
  */
 class BuzzComment
 {
+    use DecoratorTrait;
     use DateTimeHelperTrait;
 
     /**

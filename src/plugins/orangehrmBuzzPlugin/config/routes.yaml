@@ -26,6 +26,23 @@ apiv2_buzz_shares:
   defaults:
     _api: OrangeHRM\Buzz\Api\BuzzShareAPI
 
+apiv2_buzz_comments:
+  path: /api/v2/buzz/shares/{shareId}/comments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzCommentAPI
+
+apiv2_buzz_comment:
+  path: /api/v2/buzz/shares/{shareId}/comments/{commentId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzCommentAPI
+    _key: commentId
+  requirements:
+    shareId: '\d+'
+
 ##########################
 #        Files
 ##########################

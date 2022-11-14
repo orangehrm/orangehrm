@@ -28,6 +28,7 @@ class BuzzService
 
     private BuzzDao $buzzDao;
     private array $buzzFeedPostPermissionCache = [];
+    private array $buzzCommentPermissionCache = [];
 
     /**
      * @return BuzzDao
@@ -38,12 +39,12 @@ class BuzzService
     }
 
     /**
-     * @param int $empNumber
+     * @param int $postOwnerEmpNumber
      * @return bool
      */
-    public function canUpdateBuzzFeedPost(int $empNumber): bool
+    public function canUpdateBuzzFeedPost(int $postOwnerEmpNumber): bool
     {
-        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($postOwnerEmpNumber);
         if (!isset($this->buzzFeedPostPermissionCache[$self])) {
             $this->buzzFeedPostPermissionCache[$self] = $this->getUserRoleManager()
                 ->getDataGroupPermissions('buzz_post', [], [], $self);
@@ -52,16 +53,44 @@ class BuzzService
     }
 
     /**
-     * @param int $empNumber
+     * @param int $postOwnerEmpNumber
      * @return bool
      */
-    public function canDeleteBuzzFeedPost(int $empNumber): bool
+    public function canDeleteBuzzFeedPost(int $postOwnerEmpNumber): bool
     {
-        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($postOwnerEmpNumber);
         if (!isset($this->buzzFeedPostPermissionCache[$self])) {
             $this->buzzFeedPostPermissionCache[$self] = $this->getUserRoleManager()
                 ->getDataGroupPermissions('buzz_post', [], [], $self);
         }
         return $this->buzzFeedPostPermissionCache[$self]->canDelete();
+    }
+
+    /**
+     * @param int $commentOwnerEmpNumber
+     * @return bool
+     */
+    public function canUpdateBuzzComment(int $commentOwnerEmpNumber): bool
+    {
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($commentOwnerEmpNumber);
+        if (!isset($this->buzzCommentPermissionCache[$self])) {
+            $this->buzzCommentPermissionCache[$self] = $this->getUserRoleManager()
+                ->getDataGroupPermissions('buzz_comment', [], [], $self);
+        }
+        return $this->buzzCommentPermissionCache[$self]->canUpdate();
+    }
+
+    /**
+     * @param int $commentOwnerEmpNumber
+     * @return bool
+     */
+    public function canDeleteBuzzComment(int $commentOwnerEmpNumber): bool
+    {
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($commentOwnerEmpNumber);
+        if (!isset($this->buzzCommentPermissionCache[$self])) {
+            $this->buzzCommentPermissionCache[$self] = $this->getUserRoleManager()
+                ->getDataGroupPermissions('buzz_comment', [], [], $self);
+        }
+        return $this->buzzCommentPermissionCache[$self]->canDelete();
     }
 }
