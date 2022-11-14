@@ -22,6 +22,192 @@ namespace OrangeHRM\Buzz\Api\Model;
 use OrangeHRM\Buzz\Dto\BuzzFeedPost;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
+/**
+ * @OA\Schema(
+ *     schema="Buzz-FeedPostModel",
+ *     oneOf={
+ *         @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel-Text"),
+ *         @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel-Photo"),
+ *         @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel-Video"),
+ *         @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel-Share"),
+ *     },
+ *     type="object"
+ * )
+ *
+ * @OA\Schema(
+ *     schema="Buzz-FeedPostModel-Text",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="type", type="string", default="text"),
+ *     @OA\Property(property="liked", type="boolean"),
+ *     @OA\Property(property="text", type="string"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     ),
+ *     @OA\Property(
+ *         property="stats",
+ *         type="object",
+ *         @OA\Property(property="numOfLikes", type="integer"),
+ *         @OA\Property(property="numOfComments", type="integer"),
+ *         @OA\Property(property="numOfShares", type="integer"),
+ *     ),
+ *     @OA\Property(property="createdDate", type="string", format="date"),
+ *     @OA\Property(property="createdTime", type="string"),
+ *     @OA\Property(
+ *         property="originalPost",
+ *         type="null",
+ *         default="null"
+ *     ),
+ *     @OA\Property(
+ *         property="permission",
+ *         type="object",
+ *         @OA\Property(property="canUpdate", type="boolean"),
+ *         @OA\Property(property="canDelete", type="boolean"),
+ *     )
+ * )
+ *
+ * @OA\Schema(
+ *     schema="Buzz-FeedPostModel-Photo",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="type", type="string", default="photo"),
+ *     @OA\Property(property="liked", type="boolean"),
+ *     @OA\Property(property="text", type="string"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     ),
+ *     @OA\Property(
+ *         property="stats",
+ *         type="object",
+ *         @OA\Property(property="numOfLikes", type="integer"),
+ *         @OA\Property(property="numOfComments", type="integer"),
+ *         @OA\Property(property="numOfShares", type="integer"),
+ *     ),
+ *     @OA\Property(property="createdDate", type="string", format="date"),
+ *     @OA\Property(property="createdTime", type="string"),
+ *     @OA\Property(
+ *         property="originalPost",
+ *         type="null",
+ *         default="null"
+ *     ),
+ *     @OA\Property(
+ *         property="permission",
+ *         type="object",
+ *         @OA\Property(property="canUpdate", type="boolean"),
+ *         @OA\Property(property="canDelete", type="boolean"),
+ *     ),
+ *     @OA\Property(property="photoIds", type="array", @OA\Items(type="integer"))
+ * )
+ *
+ * @OA\Schema(
+ *     schema="Buzz-FeedPostModel-Video",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="type", type="string", default="video"),
+ *     @OA\Property(property="liked", type="boolean"),
+ *     @OA\Property(property="text", type="string"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     ),
+ *     @OA\Property(
+ *         property="stats",
+ *         type="object",
+ *         @OA\Property(property="numOfLikes", type="integer"),
+ *         @OA\Property(property="numOfComments", type="integer"),
+ *         @OA\Property(property="numOfShares", type="integer"),
+ *     ),
+ *     @OA\Property(property="createdDate", type="string", format="date"),
+ *     @OA\Property(property="createdTime", type="string"),
+ *     @OA\Property(
+ *         property="originalPost",
+ *         type="null",
+ *         default="null"
+ *     ),
+ *     @OA\Property(
+ *         property="permission",
+ *         type="object",
+ *         @OA\Property(property="canUpdate", type="boolean"),
+ *         @OA\Property(property="canDelete", type="boolean"),
+ *     ),
+ *     @OA\Property(
+ *         property="video",
+ *         type="object",
+ *         @OA\Property(property="link", type="string")
+ *     )
+ * )
+ *
+ * @OA\Schema(
+ *     schema="Buzz-FeedPostModel-Share",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="type", type="string", default="text"),
+ *     @OA\Property(property="liked", type="boolean"),
+ *     @OA\Property(property="text", type="string"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     ),
+ *     @OA\Property(
+ *         property="stats",
+ *         type="object",
+ *         @OA\Property(property="numOfLikes", type="integer"),
+ *         @OA\Property(property="numOfComments", type="integer"),
+ *         @OA\Property(property="numOfShares", type="integer"),
+ *     ),
+ *     @OA\Property(property="createdDate", type="string", format="date"),
+ *     @OA\Property(property="createdTime", type="string"),
+ *     @OA\Property(
+ *         property="originalPost",
+ *         type="object",
+ *         @OA\Property(property="text", type="string"),
+ *         @OA\Property(
+ *             property="employee",
+ *             type="object",
+ *             @OA\Property(property="empNumber", type="integer"),
+ *             @OA\Property(property="lastName", type="string"),
+ *             @OA\Property(property="firstName", type="string"),
+ *             @OA\Property(property="middleName", type="string"),
+ *             @OA\Property(property="employeeId", type="string"),
+ *             @OA\Property(property="terminationId", type="integer")
+ *         ),
+ *         @OA\Property(property="createdDate", type="string", format="date"),
+ *         @OA\Property(property="createdTime", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="permission",
+ *         type="object",
+ *         @OA\Property(property="canUpdate", type="boolean"),
+ *         @OA\Property(property="canDelete", type="boolean"),
+ *     )
+ * )
+ */
 class BuzzFeedPostModel implements Normalizable
 {
     private BuzzFeedPost $buzzFeedPost;
