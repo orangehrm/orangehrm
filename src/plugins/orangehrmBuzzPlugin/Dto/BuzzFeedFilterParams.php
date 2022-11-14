@@ -28,9 +28,11 @@ class BuzzFeedFilterParams extends FilterParams
 
     private int $authUserEmpNumber;
 
+    private ?int $shareId = null;
+
     public function __construct()
     {
-        $this->setSortField('share.createdAt');
+        $this->setSortField('share.createdAtUtc');
         $this->setSortOrder(ListSorter::DESCENDING);
     }
 
@@ -48,5 +50,21 @@ class BuzzFeedFilterParams extends FilterParams
     public function setAuthUserEmpNumber(int $authUserEmpNumber): void
     {
         $this->authUserEmpNumber = $authUserEmpNumber;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getShareId(): ?int
+    {
+        return $this->shareId;
+    }
+
+    /**
+     * @param int|null $shareId
+     */
+    public function setShareId(?int $shareId): void
+    {
+        $this->shareId = $shareId;
     }
 }

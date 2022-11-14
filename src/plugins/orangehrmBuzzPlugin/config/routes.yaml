@@ -19,6 +19,13 @@ apiv2_buzz_posts:
   defaults:
     _api: OrangeHRM\Buzz\Api\BuzzPostAPI
 
+apiv2_buzz_shares:
+  path: /api/v2/buzz/shares
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzShareAPI
+
 ##########################
 #        Files
 ##########################
