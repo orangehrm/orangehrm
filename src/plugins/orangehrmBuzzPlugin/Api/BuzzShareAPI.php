@@ -94,12 +94,14 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_TEXT,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, BuzzPostAPI::PARAM_RULE_TEXT_MAX_LENGTH])
-            ),
-            new ParamRule(self::PARAMETER_SHARE_ID, new Rule(Rules::POSITIVE))
+            new ParamRule(self::PARAMETER_SHARE_ID, new Rule(Rules::POSITIVE)),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TEXT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, BuzzPostAPI::PARAM_RULE_TEXT_MAX_LENGTH])
+                )
+            )
         );
     }
 

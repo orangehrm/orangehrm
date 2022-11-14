@@ -247,6 +247,7 @@ class BuzzDao extends BaseDao
         $q = $this->createQueryBuilder(BuzzComment::class, 'comment')
             ->leftJoin('comment.employee', 'employee')
             ->leftJoin('comment.share', 'share');
+        $this->setSortingAndPaginationParams($q, $filterParams);
         $q->andWhere($q->expr()->isNull('employee.purgedAt'))
             ->andWhere('IDENTITY(comment.share) = :shareId')
             ->setParameter('shareId', $filterParams->getShareId());
