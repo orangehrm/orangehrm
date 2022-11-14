@@ -93,7 +93,8 @@ export default {
       state.isLoading = true;
       http
         .create({
-          url: state.post.url,
+          type: 'video',
+          link: state.post.url,
           text: state.post.text,
         })
         .then(() => context.emit('close', true));

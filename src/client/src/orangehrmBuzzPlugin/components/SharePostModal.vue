@@ -33,18 +33,24 @@
       >
       </oxd-buzz-post-input>
     </template>
-    <video-frame v-if="data.type === 'video'" :video-src="data.video">
+    <video-frame v-if="data.type === 'video'" :video-src="data.video.link">
     </video-frame>
     <photo-frame v-if="data.type === 'photo'" :media="data.photoIds">
     </photo-frame>
+    <br v-if="data.type === 'video' || data.type === 'photo'" />
+
     <oxd-text tag="p" class="orangehrm-buzz-share-employee">
-      {{ employeeFullName }}
+      {{ originalPost.employee }}
     </oxd-text>
     <oxd-text tag="p" class="orangehrm-buzz-share-date">
-      {{ postDateTime }}
+      {{ originalPost.dateTime }}
     </oxd-text>
-    <oxd-text v-if="data.text" tag="p" class="orangehrm-buzz-share-text">
-      {{ data.text }}
+    <oxd-text
+      v-if="originalPost.text"
+      tag="p"
+      class="orangehrm-buzz-share-text"
+    >
+      {{ originalPost.text }}
     </oxd-text>
   </post-modal>
 </template>
@@ -91,7 +97,7 @@ export default {
     const rules = {
       text: [required, shouldNotExceedCharLength(63535)],
     };
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/shares');
 
     const state = reactive({
       post: {
@@ -105,36 +111,37 @@ export default {
       http
         .create({
           text: state.post.text,
-          parentPostId: props.data.id,
+          shareId: props.data.id,
         })
         .then(() => context.emit('close', true));
     };
 
-    const employeeFullName = computed(() => {
-      return $tEmpName(props.data.employee, {
-        includeMiddle: true,
-        excludePastEmpTag: false,
-      });
-    });
-
-    const postDateTime = computed(() => {
-      const {createdDate, createdTime} = props.data;
-
+    const originalPost = computed(() => {
+      const originalText = props.data.originalPost?.text || props.data.text;
+      const originalEmployee =
+        props.data.originalPost?.employee || props.data.employee;
+      const {createdDate, createdTime} = props.data.originalPost || props.data;
       const utcDate = parseDate(
         `${createdDate} ${createdTime} +00:00`,
         'yyyy-MM-dd HH:mm xxx',
       );
 
-      return formatDate(utcDate, `${jsDateFormat} HH:mm`, {
-        locale,
-      });
+      return {
+        text: originalText,
+        employee: $tEmpName(originalEmployee, {
+          includeMiddle: true,
+          excludePastEmpTag: false,
+        }),
+        dateTime: formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+          locale,
+        }),
+      };
     });
 
     return {
       rules,
       onSubmit,
-      postDateTime,
-      employeeFullName,
+      originalPost,
       ...toRefs(state),
     };
   },
@@ -153,6 +160,7 @@ export default {
   &-text {
     font-weight: 300;
     margin-top: 0.5rem;
+    @include truncate(6, 1.5, #fff);
   }
 }
 </style>

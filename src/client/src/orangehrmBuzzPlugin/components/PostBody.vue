@@ -31,7 +31,7 @@
     >
       {{ $t('buzz.read_more') }}
     </oxd-text>
-    <br v-if="post.text && (post.type === 'video') | (post.type === 'photo')" />
+    <br v-if="post.text && (post.type === 'video' || post.type === 'photo')" />
     <video-frame v-if="post.type === 'video'" :video-src="post.video.link">
     </video-frame>
     <photo-frame v-if="post.type === 'photo'" :media="post.photoIds">
@@ -42,13 +42,33 @@
         ></div>
       </template>
     </photo-frame>
+    <template v-if="originalPost">
+      <br v-if="post.text || post.type === 'video' || post.type === 'photo'" />
+      <oxd-text tag="p" class="orangehrm-buzz-post-body-employee">
+        {{ originalPost.employee }}
+      </oxd-text>
+      <oxd-text tag="p" class="orangehrm-buzz-post-body-date">
+        {{ originalPost.dateTime }}
+      </oxd-text>
+      <oxd-text
+        v-if="originalPost.text"
+        tag="p"
+        class="orangehrm-buzz-post-body-original-text"
+      >
+        {{ originalPost.text }}
+      </oxd-text>
+    </template>
   </div>
 </template>
 
 <script>
 import {computed, reactive, toRefs} from 'vue';
+import useLocale from '@/core/util/composable/useLocale';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'PostBody',
@@ -68,6 +88,9 @@ export default {
   emits: ['close', 'selectPhoto'],
 
   setup(props, context) {
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const state = reactive({
       readMore: props.post?.text.length < 500,
     });
@@ -85,8 +108,30 @@ export default {
       context.emit('selectPhoto', index);
     };
 
+    const originalPost = computed(() => {
+      if (props.post.originalPost === null) return null;
+      const {createdDate, createdTime} = props.post.originalPost;
+
+      const utcDate = parseDate(
+        `${createdDate} ${createdTime} +00:00`,
+        'yyyy-MM-dd HH:mm xxx',
+      );
+
+      return {
+        text: props.post.originalPost.text,
+        employee: $tEmpName(props.post.originalPost.employee, {
+          includeMiddle: true,
+          excludePastEmpTag: false,
+        }),
+        dateTime: formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+          locale,
+        }),
+      };
+    });
+
     return {
       postClasses,
+      originalPost,
       onClickPicture,
       onClickReadMore,
       ...toRefs(state),

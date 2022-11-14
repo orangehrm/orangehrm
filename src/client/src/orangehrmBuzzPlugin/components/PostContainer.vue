@@ -33,11 +33,14 @@
             </oxd-text>
           </div>
         </div>
-        <div class="orangehrm-buzz-post-header-config">
+        <div
+          v-if="post.permission.canUpdate || post.permission.canDelete"
+          class="orangehrm-buzz-post-header-config"
+        >
           <oxd-dropdown>
             <oxd-icon-button name="three-dots" :with-container="true" />
             <template #content>
-              <li>
+              <li v-if="post.permission.canDelete">
                 <div class="orangehrm-buzz-post-header-config-item">
                   <oxd-icon name="trash" />
                   <oxd-text tag="p" @click="$emit('delete', $event)">
@@ -45,7 +48,7 @@
                   </oxd-text>
                 </div>
               </li>
-              <li>
+              <li v-if="post.permission.canUpdate">
                 <div class="orangehrm-buzz-post-header-config-item">
                   <oxd-icon name="pencil" />
                   <oxd-text tag="p" @click="$emit('edit', $event)">
