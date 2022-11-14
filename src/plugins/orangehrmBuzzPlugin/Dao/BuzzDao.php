@@ -27,6 +27,7 @@ use OrangeHRM\Entity\BuzzLink;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzPost;
 use OrangeHRM\Entity\BuzzShare;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class BuzzDao extends BaseDao
 {
@@ -35,10 +36,7 @@ class BuzzDao extends BaseDao
      */
     public function getBuzzFeedPosts(BuzzFeedFilterParams $buzzFeedFilterParams): array
     {
-        $q = $this->createQueryBuilder(BuzzShare::class, 'share')
-            ->leftJoin('share.employee', 'employee')
-            ->leftJoin('share.post', 'post')
-            ->leftJoin('post.employee', 'postOwner')
+        $q = $this->getBuzzFeedPostsQueryBuilder($buzzFeedFilterParams)->getQueryBuilder()
             ->leftJoin('post.links', 'links');
 
         $sharesCount = $this->createQueryBuilder(BuzzShare::class, 's')
@@ -63,11 +61,6 @@ class BuzzDao extends BaseDao
             ->setParameter('typeShare', BuzzShare::TYPE_SHARE)
             ->setParameter('loggedInEmpNumber', $buzzFeedFilterParams->getAuthUserEmpNumber());
 
-        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
-        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
-        $q->andWhere($q->expr()->isNull('postOwner.purgedAt'));
-        $this->setSortingAndPaginationParams($q, $buzzFeedFilterParams);
-
         return $q->getQuery()->execute();
     }
 
@@ -76,6 +69,15 @@ class BuzzDao extends BaseDao
      * @return int
      */
     public function getBuzzFeedPostsCount(BuzzFeedFilterParams $buzzFeedFilterParams): int
+    {
+        return $this->count($this->getBuzzFeedPostsQueryBuilder($buzzFeedFilterParams)->getQueryBuilder());
+    }
+
+    /**
+     * @param BuzzFeedFilterParams $buzzFeedFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getBuzzFeedPostsQueryBuilder(BuzzFeedFilterParams $buzzFeedFilterParams): QueryBuilderWrapper
     {
         $q = $this->createQueryBuilder(BuzzShare::class, 'share')
             ->leftJoin('share.employee', 'employee')
@@ -86,7 +88,12 @@ class BuzzDao extends BaseDao
         $q->andWhere($q->expr()->isNull('postOwner.purgedAt'));
         $this->setSortingAndPaginationParams($q, $buzzFeedFilterParams);
 
-        return $this->count($q);
+        if ($buzzFeedFilterParams->getShareId() !== null) {
+            $q->andWhere('share.id = :shareId')
+                ->setParameter('shareId', $buzzFeedFilterParams->getShareId());
+        }
+
+        return $this->getQueryBuilderWrapper($q);
     }
 
     /**
@@ -99,7 +106,7 @@ class BuzzDao extends BaseDao
             ->select('photo.id')
             ->andWhere('photo.post = :postId')
             ->setParameter('postId', $postId);
-        return $q->getQuery()->getSingleColumnResult();
+        return array_map(static fn ($result) => (int)$result['id'], $q->getQuery()->getArrayResult());
     }
 
     /**
@@ -149,5 +156,24 @@ class BuzzDao extends BaseDao
     public function getBuzzPhotoById(int $photoId): ?BuzzPhoto
     {
         return $this->getRepository(BuzzPhoto::class)->find($photoId);
+    }
+
+    /**
+     * @param int $shareId
+     * @return BuzzShare|null
+     */
+    public function getBuzzShareById(int $shareId): ?BuzzShare
+    {
+        $q = $this->createQueryBuilder(BuzzShare::class, 'share')
+            ->leftJoin('share.employee', 'employee')
+            ->leftJoin('share.post', 'post')
+            ->leftJoin('post.employee', 'postOwner');
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'))
+            ->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'))
+            ->andWhere($q->expr()->isNull('postOwner.purgedAt'))
+            ->andWhere('share.id = :shareId')
+            ->setParameter('shareId', $shareId);
+
+        return $q->getQuery()->getOneOrNullResult();
     }
 }
