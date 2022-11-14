@@ -242,11 +242,11 @@ class BuzzDaoTest extends KernelTestCase
 
         $buzzVideo = new BuzzLink();
         $buzzVideo->setPost($buzzPost);
-        $buzzVideo->setLink('https://youtu.be/oGZ1PVwJyPQ?list=RDoGZ1PVwJyPQ');
+        $buzzVideo->setLink('https://youtu.be/qMCMgedYqac');
         $result = $dao->saveBuzzVideo($buzzVideo);
         $this->assertInstanceOf(BuzzLink::class, $result);
         $this->assertInstanceOf(BuzzPost::class, $result->getPost());
-        $this->assertEquals('https://youtu.be/oGZ1PVwJyPQ?list=RDoGZ1PVwJyPQ', $result->getLink());
+        $this->assertEquals('https://youtu.be/qMCMgedYqac', $result->getLink());
         $this->assertEquals('This is sample text for video post test', $result->getPost()->getText());
     }
 

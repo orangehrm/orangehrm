@@ -19,4 +19,4 @@ BuzzShare:
   - { "id": 1, "post_id": 1,"employee_number": 1, "number_of_likes": 0, "number_of_comments": 0, "share_utc_time": "2022-10-27 00:51:35", "type": "0", "text": null}
 
 BuzzLink:
-  - { "id": 1, "post_id": 1, "link": "https://youtu.be/oGZ1PVwJyPQ?list=RDoGZ1PVwJyPQ"}
+  - { "id": 1, "post_id": 1, "link": "https://example.com/xyz"}

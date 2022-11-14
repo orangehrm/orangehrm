@@ -81,8 +81,11 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="text", type="string"),
-     *             @OA\Property(property="type", type="string"),
+     *             oneOf={
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Text"),
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Photo"),
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Video"),
+     *             },
      *             required={"title", "type"}
      *         )
      *     ),
@@ -98,16 +101,6 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      *     )
      * )
      *
-     *  * @OA\Schema(
-     *     schema="Buzz-Post-Request",
-     *     oneOf={
-     *         @OA\Schema(ref="#/components/schemas/Buzz-Post-Text"),
-     *         @OA\Schema(ref="#/components/schemas/Buzz-Post-Photo"),
-     *         @OA\Schema(ref="#/components/schemas/Buzz-Post-Video"),
-     *     },
-     *     type="object"
-     * )
-     *
      * @OA\Schema(
      *     schema="Buzz-Post-Text",
      *     type="object",
@@ -120,7 +113,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      *     type="object",
      *     @OA\Property(property="text", type="string"),
      *     @OA\Property(property="type", type="string"),
-     *     @OA\Property(property="photos", ref="#/components/schemas/Base64AttachmentOrNull"),
+     *     @OA\Property(property="photos", type="array", @OA\Items(ref="#/components/schemas/Base64Attachment")),
      * )
      *
      * @OA\Schema(

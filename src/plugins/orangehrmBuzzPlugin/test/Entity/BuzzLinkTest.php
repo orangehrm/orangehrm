@@ -38,10 +38,11 @@ class BuzzLinkTest extends EntityTestCase
     {
         $buzzLink = new BuzzLink();
         $buzzLink->setPost($this->getReference(BuzzPost::class, 1));
-        $buzzLink->setLink('https://dai.ly/x374w64');
+        $buzzLink->setLink('https://example.com/abcd');
         $this->persist($buzzLink);
 
+        $this->assertEquals(1, $buzzLink->getId());
         $this->assertEquals(1, $buzzLink->getPost()->getId());
-        $this->assertEquals('https://dai.ly/x374w64', $buzzLink->getLink());
+        $this->assertEquals('https://example.com/abcd', $buzzLink->getLink());
     }
 }

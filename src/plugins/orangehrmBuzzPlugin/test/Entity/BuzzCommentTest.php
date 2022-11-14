@@ -56,6 +56,7 @@ class BuzzCommentTest extends EntityTestCase
         $buzzComment->setUpdatedAtUtc();
         $this->persist($buzzComment);
 
+        $this->assertEquals(1, $buzzComment->getId());
         $this->assertEquals(1, $buzzComment->getEmployee()->getEmployeeId());
         $this->assertEquals(1, $buzzComment->getShare()->getId());
         $this->assertEquals('this is comment for post 01', $buzzComment->getText());

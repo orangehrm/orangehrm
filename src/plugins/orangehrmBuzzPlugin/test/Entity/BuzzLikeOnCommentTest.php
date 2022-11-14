@@ -53,6 +53,7 @@ class BuzzLikeOnCommentTest extends EntityTestCase
         $buzzLikeOnComment->setLikedAtUtc();
         $this->persist($buzzLikeOnComment);
 
+        $this->assertEquals(1, $buzzLikeOnComment->getId());
         $this->assertEquals(1, $buzzLikeOnComment->getEmployee()->getEmployeeId());
         $this->assertEquals('this is comment 01', $buzzLikeOnComment->getComment()->getText());
         $this->assertEquals('2022-11-02', $buzzLikeOnComment->getLikedAtUtc()->format('Y-m-d'));
