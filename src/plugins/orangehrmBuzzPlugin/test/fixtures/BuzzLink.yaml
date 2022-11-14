@@ -1,0 +1,22 @@
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', joinedDate: '2021-10-25' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis',  joinedDate: '2016-10-28' }
+  2: { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham',  joinedDate: '2020-01-05' }
+  3: { empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', joinedDate: '2016-12-31' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+
+BuzzPost:
+  - { "id": 1, "employee_number": 1, "text": "this is post text 01","post_utc_time": "2022-10-27 00:51:35" }
+
+BuzzShare:
+  - { "id": 1, "post_id": 1,"employee_number": 1, "number_of_likes": 0, "number_of_comments": 0, "share_utc_time": "2022-10-27 00:51:35", "type": "0", "text": null}
+
+BuzzLink:
+  - { "id": 1, "post_id": 1, "link": "https://example.com/xyz"}

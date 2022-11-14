@@ -75,6 +75,55 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/buzz/posts",
+     *     tags={"Buzz/Shares"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             oneOf={
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Text"),
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Photo"),
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Video"),
+     *             },
+     *             required={"title", "type"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Buzz-PostModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Text",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Photo",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     *     @OA\Property(property="photos", type="array", @OA\Items(ref="#/components/schemas/Base64Attachment")),
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Video",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     *     @OA\Property(property="link", type="string"),
+     * )
+     *
      * @inheritDoc
      * @throws TransactionException
      */

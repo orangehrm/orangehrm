@@ -17,43 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
+namespace OrangeHRM\Tests\Buzz\Entity;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\BuzzLink;
 use OrangeHRM\Entity\BuzzPost;
-use OrangeHRM\Entity\Employee;
+use OrangeHRM\Tests\Util\EntityTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class BuzzPostDecorator
+/**
+ * @group Buzz
+ * @group Entity
+ */
+class BuzzLinkTest extends EntityTestCase
 {
-    use EntityManagerHelperTrait;
-
-    /**
-     * @var BuzzPost
-     */
-    protected BuzzPost $buzzPost;
-
-    /**
-     * @param BuzzPost $buzzPost
-     */
-    public function __construct(BuzzPost $buzzPost)
+    protected function setUp(): void
     {
-        $this->buzzPost = $buzzPost;
+        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/BuzzLink.yaml';
+        TestDataService::populate($fixture);
+        TestDataService::truncateSpecificTables([BuzzLink::class]);
     }
 
-    /**
-     * @return BuzzPost
-     */
-    protected function getBuzzPost(): BuzzPost
+    public function testEntity(): void
     {
-        return $this->buzzPost;
-    }
+        $buzzLink = new BuzzLink();
+        $buzzLink->setPost($this->getReference(BuzzPost::class, 1));
+        $buzzLink->setLink('https://example.com/abcd');
+        $this->persist($buzzLink);
 
-    /**
-     * @param int $empNumber
-     */
-    public function setEmployeeByEmpNumber(int $empNumber): void
-    {
-        $employee = $this->getReference(Employee::class, $empNumber);
-        $this->getBuzzPost()->setEmployee($employee);
+        $this->assertEquals(1, $buzzLink->getId());
+        $this->assertEquals(1, $buzzLink->getPost()->getId());
+        $this->assertEquals('https://example.com/abcd', $buzzLink->getLink());
     }
 }
