@@ -601,8 +601,6 @@ class Migration extends AbstractMigration
             ->setPrimaryKey(['id'])
             ->create();
 
-        // Foreign Keys
-
         $this->getSchemaHelper()->createTable('ohrm_oauth2_access_tokens')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('access_token', Types::STRING, ['Length' => 80])
@@ -612,8 +610,6 @@ class Migration extends AbstractMigration
             ->addColumn('scope', Types::STRING, ['Length' => 4000])
             ->setPrimaryKey(['id'])
             ->create();
-
-        // Foreign Keys
 
         $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_codes')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
@@ -626,8 +622,6 @@ class Migration extends AbstractMigration
             ->setPrimaryKey(['id'])
             ->create();
 
-        // Foreign Keys
-
         $this->getSchemaHelper()->createTable('ohrm_oauth2_refresh_tokens')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('refresh_token', Types::STRING, ['Length' => 80])
@@ -636,21 +630,11 @@ class Migration extends AbstractMigration
             ->setPrimaryKey(['id'])
             ->create();
 
-        // Foreign Keys
-
-        // $this->getSchemaHelper()->createTable('ohrm_oauth2_users')
-
         $this->getSchemaHelper()->createTable('ohrm_oauth2_scopes')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
             ->addColumn('scope', Types::STRING, ['Length' => 80])
             ->addColumn('is_default', Types::BOOLEAN)
             ->setPrimaryKey(['id'])
             ->create();
-
-        // $this->getSchemaHelper()->createTable('ohrm_oauth2_jwt')
-        //    ->addColumn('client_id', Types::STRING,  ['Length' => 80])
-        //    ->addColumn('subject', Types::STRING,  ['Length' => 80])
-        //    ->addColumn('public_key', Types::STRING,  ['Length' => 2000])
-        //    ->create();
     }
 }
