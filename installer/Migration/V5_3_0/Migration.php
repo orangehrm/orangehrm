@@ -95,7 +95,8 @@ class Migration extends AbstractMigration
             ],
             'comment_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -116,7 +117,8 @@ class Migration extends AbstractMigration
             ],
             'like_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
         ]);
 
@@ -132,7 +134,8 @@ class Migration extends AbstractMigration
             ],
             'like_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
         ]);
 
@@ -187,7 +190,8 @@ class Migration extends AbstractMigration
             ],
             'post_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -222,7 +226,8 @@ class Migration extends AbstractMigration
             ],
             'share_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
