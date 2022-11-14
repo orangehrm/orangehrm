@@ -29,6 +29,10 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Buzz
+ * @group Entity
+ */
 class BuzzCommentTest extends EntityTestCase
 {
     protected function setUp(): void
