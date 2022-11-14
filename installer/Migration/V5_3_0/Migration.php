@@ -607,18 +607,18 @@ class Migration extends AbstractMigration
             ->addColumn('client_id', Types::INTEGER)
             ->addColumn('user_id', Types::INTEGER)
             ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
-            ->addColumn('scope', Types::STRING, ['Length' => 4000])
+            ->addColumn('scope', Types::STRING, ['Length' => 4000, 'Default' => null])
             ->setPrimaryKey(['id'])
             ->create();
 
         $this->getSchemaHelper()->createTable('ohrm_oauth2_authorization_codes')
             ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-            ->addColumn('authorization_code', Types::STRING, ['Length' => 40])
+            ->addColumn('authorization_code', Types::STRING, ['Length' => 80])
             ->addColumn('client_id', Types::INTEGER)
             ->addColumn('user_id', Types::INTEGER)
             ->addColumn('redirect_uri', Types::STRING, ['Length' => 2000])
             ->addColumn('expiry_date_time', Types::DATETIME_IMMUTABLE)
-            ->addColumn('scope', Types::STRING, ['Length' => 4000])
+            ->addColumn('scope', Types::STRING, ['Length' => 4000, 'Default' => null])
             ->setPrimaryKey(['id'])
             ->create();
 
