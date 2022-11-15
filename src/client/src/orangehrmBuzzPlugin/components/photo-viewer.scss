@@ -24,13 +24,10 @@
   justify-content: center;
   position: relative;
   &-photo {
-    width: 100%;
-    height: 100%;
+    height: 75vh;
+    width: inherit;
+    margin-top: -60px;
     object-fit: contain;
-    @include oxd-respond-to('lg') {
-      width: 80%;
-      height: 90%;
-    }
   }
   &-background {
     top: 0;
