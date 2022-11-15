@@ -59,14 +59,6 @@ class BuzzLikeOnShare
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="like_time", type="datetime")
-     * @deprecated
-     */
-    private DateTime $likedAt;
-
-    /**
-     * @var DateTime
-     *
      * @ORM\Column(name="like_utc_time", type="datetime")
      */
     private DateTime $likedAtUtc;
@@ -117,24 +109,6 @@ class BuzzLikeOnShare
     public function setEmployee(Employee $employee): void
     {
         $this->employee = $employee;
-    }
-
-    /**
-     * @return DateTime
-     * @deprecated
-     */
-    public function getLikedAt(): DateTime
-    {
-        return $this->likedAt;
-    }
-
-    /**
-     * @param DateTime $likedAt
-     * @deprecated
-     */
-    public function setLikedAt(DateTime $likedAt): void
-    {
-        $this->likedAt = $likedAt;
     }
 
     /**

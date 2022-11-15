@@ -20,14 +20,12 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\Employee;
 
 class BuzzShareDecorator
 {
     use EntityManagerHelperTrait;
-    use DateTimeHelperTrait;
 
     /**
      * @var BuzzShare
@@ -58,5 +56,15 @@ class BuzzShareDecorator
         /** @var Employee|null $employee */
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->getBuzzShare()->setEmployee($employee);
+    }
+
+    public function increaseNumOfCommentsByOne(): void
+    {
+        $this->getBuzzShare()->setNumOfComments($this->getBuzzShare()->getNumOfComments() + 1);
+    }
+
+    public function decreaseNumOfCommentsByOne(): void
+    {
+        $this->getBuzzShare()->setNumOfComments($this->getBuzzShare()->getNumOfComments() - 1);
     }
 }

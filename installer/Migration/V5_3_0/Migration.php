@@ -52,6 +52,7 @@ class Migration extends AbstractMigration
         $this->convertBuzzLikeOnShareTableTimesToUTC();
         $this->convertBuzzPostTableTimesToUTC();
         $this->convertBuzzShareTableTimesToUTC();
+        $this->changeBuzzTablesDateTimeColumnsAsNotNull();
     }
 
     private function modifyBuzzTables(): void
@@ -95,7 +96,8 @@ class Migration extends AbstractMigration
             ],
             'comment_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -116,7 +118,8 @@ class Migration extends AbstractMigration
             ],
             'like_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
         ]);
 
@@ -132,7 +135,8 @@ class Migration extends AbstractMigration
             ],
             'like_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
         ]);
 
@@ -187,7 +191,8 @@ class Migration extends AbstractMigration
             ],
             'post_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -222,7 +227,8 @@ class Migration extends AbstractMigration
             ],
             'share_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
-                'Notnull' => true,
+                'Notnull' => false,
+                'Default' => null,
             ],
             'updated_utc_time' => [
                 'Type' => Type::getType(Types::DATETIME_MUTABLE),
@@ -231,6 +237,44 @@ class Migration extends AbstractMigration
             ],
         ]);
         $this->getSchemaHelper()->enableConstraints();
+    }
+
+    private function changeBuzzTablesDateTimeColumnsAsNotNull(): void
+    {
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_comment', [
+            'comment_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => true,
+            ],
+        ]);
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_like_on_comment', [
+            'like_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => true,
+            ],
+        ]);
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_like_on_share', [
+            'like_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => true,
+            ],
+        ]);
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_post', [
+            'post_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => true,
+            ],
+        ]);
+
+        $this->getSchemaHelper()->addOrChangeColumns('ohrm_buzz_share', [
+            'share_utc_time' => [
+                'Type' => Type::getType(Types::DATETIME_MUTABLE),
+                'Notnull' => true,
+            ],
+        ]);
     }
 
     private function convertBuzzCommentTableTimesToUTC(): void

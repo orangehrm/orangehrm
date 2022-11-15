@@ -22,13 +22,18 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Decorator\BuzzCommentDecorator;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method BuzzCommentDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_buzz_comment")
  * @ORM\Entity
  */
 class BuzzComment
 {
+    use DecoratorTrait;
     use DateTimeHelperTrait;
 
     /**
@@ -69,22 +74,6 @@ class BuzzComment
      * @ORM\Column(name="comment_text",  type="string", nullable=true)
      */
     private string $text;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="comment_time", type="datetime")
-     * @deprecated
-     */
-    private DateTime $createdAt;
-
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     * @deprecated
-     */
-    private ?DateTime $updatedAt = null;
 
     /**
      * @var DateTime
@@ -178,42 +167,6 @@ class BuzzComment
     public function setText(string $text): void
     {
         $this->text = $text;
-    }
-
-    /**
-     * @return DateTime
-     * @deprecated
-     */
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param DateTime $createdAt
-     * @deprecated
-     */
-    public function setCreatedAt(DateTime $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return DateTime
-     * @deprecated
-     */
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param DateTime $updatedAt
-     * @deprecated
-     */
-    public function setUpdatedAt(DateTime $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
     }
 
     /**
