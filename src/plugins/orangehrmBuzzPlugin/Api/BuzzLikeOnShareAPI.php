@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Buzz\Api;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Buzz\Api\Model\BuzzLikeOnShareModel;
 use OrangeHRM\Buzz\Dto\BuzzLikeSearchFilterParams;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
@@ -47,6 +48,60 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_SHARE_ID = 'shareId';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/buzz/shares/{shareId}/likes",
+     *     tags={"Buzz/Share Likes"},
+     *     @OA\PathParameter(
+     *         name="shareId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=BuzzLikeSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Buzz-BuzzLikeOnShareModel")
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="Unprocessable Content - Invalid Share ID",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="422"),
+     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
+     *                 @OA\Property(
+     *                     property="data",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="invalidParamKeys",
+     *                         type="array",
+     *                         @OA\Items(default="shareId")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -90,6 +145,62 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/buzz/shares/{shareId}/likes",
+     *     tags={"Buzz/Share Likes"},
+     *     @OA\PathParameter(
+     *         name="shareId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Buzz-BuzzLikeOnShareModel"
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="Unprocessable Content - Invalid Share ID",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="422"),
+     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
+     *                 @OA\Property(
+     *                     property="data",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="invalidParamKeys",
+     *                         type="array",
+     *                         @OA\Items(default="shareId")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - Liking a post that is already liked",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Share is already liked")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -154,6 +265,58 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/buzz/shares/{shareId}/likes",
+     *     tags={"Buzz/Share Likes"},
+     *     @OA\PathParameter(
+     *         name="shareId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="shareId", type="integer")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="Unprocessable Content - Invalid Share ID",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="422"),
+     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
+     *                 @OA\Property(
+     *                     property="data",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="invalidParamKeys",
+     *                         type="array",
+     *                         @OA\Items(default="shareId")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Bad Request - Disliking a post that is not liked",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 @OA\Property(property="status", type="string", default="400"),
+     *                 @OA\Property(property="message", type="string", default="Share is not liked")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function delete(): EndpointResult

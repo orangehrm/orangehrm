@@ -19,10 +19,34 @@
 
 namespace OrangeHRM\Buzz\Api\Model;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\BuzzLikeOnShare;
 
+/**
+ * @OA\Schema(
+ *     schema="Buzz-BuzzLikeOnShareModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="likedAtDate", type="string"),
+ *     @OA\Property(property="likedAtTime", type="string"),
+ *     @OA\Property(
+ *         property="share",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer")
+ *     ),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     )
+ * )
+ */
 class BuzzLikeOnShareModel implements Normalizable
 {
     use ModelTrait;
