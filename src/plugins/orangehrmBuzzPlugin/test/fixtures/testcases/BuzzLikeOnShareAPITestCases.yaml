@@ -1,0 +1,225 @@
+GetAll:
+  'without params for shareId 1':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 1
+    data: [
+      {
+        "id": 1,
+        "date": "2022-11-16",
+        "time": "05:50",
+        "share": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      },
+      {
+        "id": 2,
+        "date": "2022-11-16",
+        "time": "05:50",
+        "share": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": 2
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  'without params for shareId 2':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 2
+    data: [
+      {
+        "id": 4,
+        "date": "2022-11-16",
+        "time": "05:51",
+        "share": {
+          "id": 2
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'without params for shareId 5':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 5
+    data: []
+    meta:
+      total: 0
+
+  'without params for non-existing shareId':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 1000
+    invalidOnly: ['shareId']
+
+  'ESS without params for shareId 1':
+    userId: 4
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 1
+    data: [
+      {
+        "id": 1,
+        "date": "2022-11-16",
+        "time": "05:50",
+        "share": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      },
+      {
+        "id": 2,
+        "date": "2022-11-16",
+        "time": "05:50",
+        "share": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": 2
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+Create:
+  'liking post with shareId 5':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    now:
+      datetime: '2022-11-16 13:00:00'
+    attributes:
+      shareId: 5
+    data: {
+      "id": 11,
+      "date": "2022-11-16",
+      "time": "13:00",
+      "share": {
+        "id": 5
+      },
+      "employee": {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      }
+    }
+
+  'liking already liked post':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Share is already liked'
+
+  'liking post with non-existing shareId':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 1000
+    invalidOnly: ['shareId']
+
+  'ESS liking post with shareId 4':
+    userId: 4
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    now:
+      datetime: '2022-11-16 13:00:00'
+    attributes:
+      shareId: 4
+    data: {
+      "id": 11,
+      "date": "2022-11-16",
+      "time": "13:00",
+      "share": {
+        "id": 4
+      },
+      "employee": {
+        "empNumber": 4,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0004",
+        "terminationId": null
+      }
+    }
+
+Delete:
+  'delete like from post with shareId 1':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 1
+    data: [ 1 ]
+
+  'delete like from post with non-existent shareId':
+    userId: 1
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 1000
+    invalidOnly: ['shareId']
+
+  'ESS delete like from post with shareId 1':
+    userId: 4
+    services:
+      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+    attributes:
+      shareId: 1
+    data: [ 1 ]

@@ -14,28 +14,37 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Buzz\Service\BuzzLikeService;
-use OrangeHRM\Buzz\Service\BuzzService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Buzz\Dto;
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Dto\FilterParams;
+
+class BuzzLikeSearchFilterParams extends FilterParams
 {
-    use ServiceContainerTrait;
+    public const ALLOWED_SORT_FIELDS = ['shareLikes.id'];
+
+    protected ?int $shareId = null;
+
+    public function __construct()
+    {
+        $this->setSortField('shareLikes.id');
+    }
 
     /**
-     * @inheritDoc
+     * @return int|null
      */
-    public function initialize(Request $request): void
+    public function getShareId(): ?int
     {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
-        $this->getContainer()->register(Services::BUZZ_LIKE_SERVICE, BuzzLikeService::class);
+        return $this->shareId;
+    }
+
+    /**
+     * @param int|null $shareId
+     */
+    public function setShareId(?int $shareId): void
+    {
+        $this->shareId = $shareId;
     }
 }

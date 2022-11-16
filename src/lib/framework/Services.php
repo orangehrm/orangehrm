@@ -408,4 +408,9 @@ final class Services
      * @see \OrangeHRM\Buzz\Service\BuzzService
      */
     public const BUZZ_SERVICE = 'buzz.buzz_service';
+
+    /**
+     * @see \OrangeHRM\Buzz\Service\BuzzLikeService
+     */
+    public const BUZZ_LIKE_SERVICE = 'buzz.buzz_like_service';
 }

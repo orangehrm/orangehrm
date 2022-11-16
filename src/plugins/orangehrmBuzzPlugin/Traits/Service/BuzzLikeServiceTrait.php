@@ -14,28 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
+namespace OrangeHRM\Buzz\Traits\Service;
+
 use OrangeHRM\Buzz\Service\BuzzLikeService;
-use OrangeHRM\Buzz\Service\BuzzService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
+trait BuzzLikeServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return BuzzLikeService
      */
-    public function initialize(Request $request): void
+    protected function getBuzzLikeService(): BuzzLikeService
     {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
-        $this->getContainer()->register(Services::BUZZ_LIKE_SERVICE, BuzzLikeService::class);
+        return $this->getContainer()->get(Services::BUZZ_LIKE_SERVICE);
     }
 }

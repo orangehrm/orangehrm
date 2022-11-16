@@ -14,28 +14,22 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Buzz\Service\BuzzLikeService;
-use OrangeHRM\Buzz\Service\BuzzService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Buzz\Service;
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Buzz\Dao\BuzzLikeDao;
+
+class BuzzLikeService
 {
-    use ServiceContainerTrait;
+    private BuzzLikeDao $buzzLikeDao;
 
     /**
-     * @inheritDoc
+     * @return BuzzLikeDao
      */
-    public function initialize(Request $request): void
+    public function getBuzzLikeDao(): BuzzLikeDao
     {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
-        $this->getContainer()->register(Services::BUZZ_LIKE_SERVICE, BuzzLikeService::class);
+        return $this->buzzLikeDao ??= new BuzzLikeDao();
     }
 }
