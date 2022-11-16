@@ -23,13 +23,13 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class BuzzLikeSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['shareLikes.id'];
+    public const ALLOWED_SORT_FIELDS = ['shareLike.id'];
 
     protected ?int $shareId = null;
 
     public function __construct()
     {
-        $this->setSortField('shareLikes.id');
+        $this->setSortField('shareLike.id');
     }
 
     /**

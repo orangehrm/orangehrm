@@ -97,13 +97,13 @@ class BuzzLikeDao extends BaseDao
      */
     private function getBuzzLikeOnShareQueryBuilderWrapper(BuzzLikeSearchFilterParams $buzzLikeSearchFilterParams): QueryBuilderWrapper
     {
-        $qb = $this->createQueryBuilder(BuzzLikeOnShare::class, 'shareLikes');
-        $qb->leftJoin('shareLikes.employee', 'employee');
+        $qb = $this->createQueryBuilder(BuzzLikeOnShare::class, 'shareLike');
+        $qb->leftJoin('shareLike.employee', 'employee');
 
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
 
         if (!is_null($buzzLikeSearchFilterParams->getShareId())) {
-            $qb->andWhere($qb->expr()->eq('shareLikes.share', ':share'))
+            $qb->andWhere($qb->expr()->eq('shareLike.share', ':share'))
                 ->setParameter('share', $buzzLikeSearchFilterParams->getShareId());
         }
 

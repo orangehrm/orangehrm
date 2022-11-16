@@ -2,7 +2,7 @@ GetAll:
   'without params for shareId 1':
     userId: 1
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       shareId: 1
     data: [
@@ -42,26 +42,52 @@ GetAll:
     meta:
       total: 2
 
-  'without params for shareId 2':
+  'without params for past employee share':
     userId: 1
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       shareId: 2
+    data: {
+      "invalidParamKeys": ["shareId"]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'without params for purged employee share':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 3
+    data: {
+      "invalidParamKeys": [ "shareId" ]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'without params for shareId 5':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 5
     data: [
       {
-        "id": 4,
+        "id": 11,
         "date": "2022-11-16",
-        "time": "05:51",
+        "time": "17:12",
         "share": {
-          "id": 2
+          "id": 5
         },
         "employee": {
-          "empNumber": 1,
-          "lastName": "Admin",
-          "firstName": "Devi",
+          "empNumber": 4,
+          "lastName": "Kumara",
+          "firstName": "Rajitha",
           "middleName": "",
-          "employeeId": "0001",
+          "employeeId": "0004",
           "terminationId": null
         }
       }
@@ -69,28 +95,23 @@ GetAll:
     meta:
       total: 1
 
-  'without params for shareId 5':
-    userId: 1
-    services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
-    attributes:
-      shareId: 5
-    data: []
-    meta:
-      total: 0
-
   'without params for non-existing shareId':
     userId: 1
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       shareId: 1000
-    invalidOnly: ['shareId']
+    data: {
+      "invalidParamKeys": ["shareId"]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
 
   'ESS without params for shareId 1':
     userId: 4
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       shareId: 1
     data: [
@@ -134,13 +155,13 @@ Create:
   'liking post with shareId 5':
     userId: 1
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     now:
       datetime: '2022-11-16 13:00:00'
     attributes:
       shareId: 5
     data: {
-      "id": 11,
+      "id": 12,
       "date": "2022-11-16",
       "time": "13:00",
       "share": {
@@ -159,7 +180,7 @@ Create:
   'liking already liked post':
     userId: 1
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       shareId: 1
     exception:
@@ -169,21 +190,52 @@ Create:
   'liking post with non-existing shareId':
     userId: 1
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       shareId: 1000
-    invalidOnly: ['shareId']
+    data: {
+      "invalidParamKeys": ["shareId"]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'liking post with past employee shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 2
+    data: {
+      "invalidParamKeys": [ "shareId" ]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'liking post with purged employee shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 3
+    data: {
+      "invalidParamKeys": [ "shareId" ]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
 
   'ESS liking post with shareId 4':
     userId: 4
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     now:
       datetime: '2022-11-16 13:00:00'
     attributes:
       shareId: 4
     data: {
-      "id": 11,
+      "id": 12,
       "date": "2022-11-16",
       "time": "13:00",
       "share": {
@@ -200,26 +252,71 @@ Create:
     }
 
 Delete:
-  'delete like from post with shareId 1':
+  'unliking post with shareId 1':
     userId: 1
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       shareId: 1
-    data: [ 1 ]
+    data: {
+      "shareId": 1
+    }
 
-  'delete like from post with non-existent shareId':
+  'unliking post with non-existent shareId':
     userId: 1
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       shareId: 1000
-    invalidOnly: ['shareId']
+    data: {
+      "invalidParamKeys": [ "shareId" ]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
 
-  'ESS delete like from post with shareId 1':
+  'unliking post with past employee shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 2
+    data: {
+      "invalidParamKeys": [ "shareId" ]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'unliking post with purged employee shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 3
+    data: {
+      "invalidParamKeys": [ "shareId" ]
+    }
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'unliking post that is not liked':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 5
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Share is not liked'
+
+  'ESS unliking post with shareId 5':
     userId: 4
     services:
-      buzz.buzz_like_service: \OrangeHRM\Buzz\Service\BuzzLikeService
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
-      shareId: 1
-    data: [ 1 ]
+      shareId: 5
+    data: {
+      "shareId": 5
+    }

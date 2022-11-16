@@ -40,7 +40,7 @@ class BuzzLikeOnShareDecorator
     /**
      * @return BuzzLikeOnShare
      */
-    public function getBuzzLikeOnShare(): BuzzLikeOnShare
+    protected function getBuzzLikeOnShare(): BuzzLikeOnShare
     {
         return $this->buzzLikeOnShare;
     }

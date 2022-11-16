@@ -21,7 +21,7 @@ namespace OrangeHRM\Buzz\Api;
 
 use OrangeHRM\Buzz\Api\Model\BuzzLikeOnShareModel;
 use OrangeHRM\Buzz\Dto\BuzzLikeSearchFilterParams;
-use OrangeHRM\Buzz\Traits\Service\BuzzLikeServiceTrait;
+use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -42,28 +42,31 @@ use OrangeHRM\Entity\BuzzShare;
 class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
 {
     use AuthUserTrait;
-    use BuzzLikeServiceTrait;
+    use BuzzServiceTrait;
 
-    public const FILTER_SHARE_ID = 'shareId';
+    public const PARAMETER_SHARE_ID = 'shareId';
 
     /**
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        $buzzLikeSearchFilterParams = new BuzzLikeSearchFilterParams();
-        $buzzLikeSearchFilterParams->setShareId(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_ATTRIBUTE,
-                self::FILTER_SHARE_ID
-            )
+        $shareId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_SHARE_ID
         );
+        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+        if (!$buzzShare instanceof BuzzShare) {
+            throw $this->getInvalidParamException(self::PARAMETER_SHARE_ID);
+        }
+
+        $buzzLikeSearchFilterParams = new BuzzLikeSearchFilterParams();
+        $buzzLikeSearchFilterParams->setShareId($shareId);
 
         $this->setSortingAndPaginationParams($buzzLikeSearchFilterParams);
 
-
-        $likes = $this->getBuzzLikeService()->getBuzzLikeDao()->getBuzzLikeOnShareList($buzzLikeSearchFilterParams);
-        $likeCount = $this->getBuzzLikeService()->getBuzzLikeDao()->getBuzzLikeOnShareCount($buzzLikeSearchFilterParams);
+        $likes = $this->getBuzzService()->getBuzzLikeDao()->getBuzzLikeOnShareList($buzzLikeSearchFilterParams);
+        $likeCount = $this->getBuzzService()->getBuzzLikeDao()->getBuzzLikeOnShareCount($buzzLikeSearchFilterParams);
 
         return new EndpointCollectionResult(
             BuzzLikeOnShareModel::class,
@@ -79,9 +82,8 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::FILTER_SHARE_ID,
+                self::PARAMETER_SHARE_ID,
                 new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [BuzzShare::class])
             ),
             ...$this->getSortingAndPaginationParamsRules(BuzzLikeSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
@@ -94,20 +96,28 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     {
         $shareId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::FILTER_SHARE_ID
+            self::PARAMETER_SHARE_ID
         );
 
-        if ($this->getBuzzLikeService()->getBuzzLikeDao()->getBuzzLikeOnShareByShareIdAndEmpNumber(
-            $shareId,
-            $this->getAuthUser()->getEmpNumber()
-        ) instanceof BuzzLikeOnShare) {
+        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+        if (!$buzzShare instanceof BuzzShare) {
+            throw $this->getInvalidParamException(self::PARAMETER_SHARE_ID);
+        }
+
+        $buzzShareOnLike = $this->getBuzzService()
+            ->getBuzzLikeDao()
+            ->getBuzzLikeOnShareByShareIdAndEmpNumber($shareId, $this->getAuthUser()->getEmpNumber());
+        if ($buzzShareOnLike instanceof BuzzLikeOnShare) {
             throw $this->getBadRequestException('Share is already liked');
         }
+
+        $buzzShare->getDecorator()->increaseNumOfLikesByOne();
+        $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
 
         $like = new BuzzLikeOnShare();
         $this->setBuzzLikeOnShare($like);
 
-        $like = $this->getBuzzLikeService()->getBuzzLikeDao()->saveBuzzLikeOnShare($like);
+        $like = $this->getBuzzService()->getBuzzLikeDao()->saveBuzzLikeOnShare($like);
         return new EndpointResourceResult(BuzzLikeOnShareModel::class, $like);
     }
 
@@ -119,7 +129,7 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
         $buzzLikeOnShare->getDecorator()->setShareByShareId(
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
-                self::FILTER_SHARE_ID
+                self::PARAMETER_SHARE_ID
             )
         );
 
@@ -137,9 +147,8 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::FILTER_SHARE_ID,
+                self::PARAMETER_SHARE_ID,
                 new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [BuzzShare::class])
             ),
         );
     }
@@ -151,10 +160,26 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     {
         $shareId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::FILTER_SHARE_ID
+            self::PARAMETER_SHARE_ID
         );
-        $this->getBuzzLikeService()->getBuzzLikeDao()->deleteBuzzLikeOnShare($shareId, $this->getAuthUser()->getEmpNumber());
-        return new EndpointResourceResult(ArrayModel::class, [$shareId]);
+
+        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+        if (!$buzzShare instanceof BuzzShare) {
+            throw $this->getInvalidParamException(self::PARAMETER_SHARE_ID);
+        }
+
+        $buzzShareOnLike = $this->getBuzzService()
+            ->getBuzzLikeDao()
+            ->getBuzzLikeOnShareByShareIdAndEmpNumber($shareId, $this->getAuthUser()->getEmpNumber());
+        if (!$buzzShareOnLike instanceof BuzzLikeOnShare) {
+            throw $this->getBadRequestException('Share is not liked');
+        }
+
+        $buzzShare->getDecorator()->decreaseNumOfLikesByOne();
+        $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
+
+        $this->getBuzzService()->getBuzzLikeDao()->deleteBuzzLikeOnShare($shareId, $this->getAuthUser()->getEmpNumber());
+        return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_SHARE_ID => $shareId]);
     }
 
     /**
@@ -164,9 +189,8 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::FILTER_SHARE_ID,
+                self::PARAMETER_SHARE_ID,
                 new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [BuzzShare::class])
             ),
         );
     }

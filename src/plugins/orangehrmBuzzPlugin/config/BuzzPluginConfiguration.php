@@ -18,7 +18,6 @@
  */
 
 use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Buzz\Service\BuzzLikeService;
 use OrangeHRM\Buzz\Service\BuzzService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
@@ -36,6 +35,5 @@ class BuzzPluginConfiguration implements PluginConfigurationInterface
     {
         $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
         $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
-        $this->getContainer()->register(Services::BUZZ_LIKE_SERVICE, BuzzLikeService::class);
     }
 }

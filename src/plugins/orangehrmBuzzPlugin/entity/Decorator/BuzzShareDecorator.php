@@ -67,4 +67,14 @@ class BuzzShareDecorator
     {
         $this->getBuzzShare()->setNumOfComments($this->getBuzzShare()->getNumOfComments() - 1);
     }
+
+    public function increaseNumOfLikesByOne(): void
+    {
+        $this->getBuzzShare()->setNumOfLikes($this->getBuzzShare()->getNumOfLikes() + 1);
+    }
+
+    public function decreaseNumOfLikesByOne(): void
+    {
+        $this->getBuzzShare()->setNumOfLikes($this->getBuzzShare()->getNumOfLikes() - 1);
+    }
 }
