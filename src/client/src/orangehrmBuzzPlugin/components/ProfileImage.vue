@@ -44,8 +44,8 @@ export default {
 <style lang="scss" scoped>
 .orangehrm-buzz-profile-image {
   & img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     display: flex;
     flex-shrink: 0;
     border-radius: 100%;

@@ -57,7 +57,13 @@
               :no-of-comments="post.stats.numOfComments"
             ></post-stats>
           </template>
-          <!-- TODO: Add Post Comment Component -->
+          <template v-if="post.showComments" #comments>
+            <oxd-divider />
+            <post-comment-container
+              :post-id="post.id"
+              :employee="employee"
+            ></post-comment-container>
+          </template>
         </post-container>
       </oxd-grid-item>
     </oxd-grid>
@@ -94,6 +100,7 @@ import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 import PhotoCarousel from '@/orangehrmBuzzPlugin/components/PhotoCarousel.vue';
 import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
+import PostCommentContainer from '@/orangehrmBuzzPlugin/components/PostCommentContainer.vue';
 
 const defaultFilters = {
   sortOrder: 'DESC',
@@ -113,6 +120,7 @@ export default {
     'photo-carousel': PhotoCarousel,
     'post-container': PostContainer,
     'share-post-modal': SharePostModal,
+    'post-comment-container': PostCommentContainer,
   },
 
   props: {
@@ -195,9 +203,12 @@ export default {
       document.body.style.overflow = 'hidden';
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onComment = index => {
-      // todo
+      if (state.posts[index].showComments) {
+        state.posts[index].showComments = false;
+      } else {
+        state.posts[index].showComments = true;
+      }
     };
 
     const resetFeed = () => {
