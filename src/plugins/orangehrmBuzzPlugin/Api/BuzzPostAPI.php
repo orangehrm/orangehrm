@@ -20,6 +20,7 @@
 namespace OrangeHRM\Buzz\Api;
 
 use OrangeHRM\Buzz\Api\Model\BuzzPostModel;
+use OrangeHRM\Buzz\Api\ValidationRules\BuzzVideoLinkValidationRule;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -293,7 +294,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
         return $this->getValidationDecorator()->notRequiredParamRule(
             new ParamRule(
                 self::PARAMETER_VIDEO_LINK,
-                new Rule(Rules::STRING_TYPE),
+                new Rule(BuzzVideoLinkValidationRule::class),
             ),
         );
     }
