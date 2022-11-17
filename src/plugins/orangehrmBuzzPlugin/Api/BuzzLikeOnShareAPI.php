@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Buzz\Api;
 
+use Exception;
 use OpenApi\Annotations as OA;
 use OrangeHRM\Buzz\Api\Model\BuzzLikeOnShareModel;
 use OrangeHRM\Buzz\Dto\BuzzLikeSearchFilterParams;
@@ -29,6 +30,8 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -37,13 +40,16 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzShare;
+use OrangeHRM\ORM\Exception\TransactionException;
 
 class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
 {
     use AuthUserTrait;
     use BuzzServiceTrait;
+    use EntityManagerHelperTrait;
 
     public const PARAMETER_SHARE_ID = 'shareId';
 
@@ -205,31 +211,45 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      */
     public function create(): EndpointResult
     {
-        $shareId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_SHARE_ID
-        );
+        $this->beginTransaction();
+        try {
+            $shareId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_SHARE_ID
+            );
 
-        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
-        if (!$buzzShare instanceof BuzzShare) {
-            throw $this->getInvalidParamException(self::PARAMETER_SHARE_ID);
-        }
+            $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+            if (!$buzzShare instanceof BuzzShare) {
+                throw $this->getInvalidParamException(self::PARAMETER_SHARE_ID);
+            }
 
-        $buzzShareOnLike = $this->getBuzzService()
+            $buzzShareOnLike = $this->getBuzzService()
             ->getBuzzLikeDao()
             ->getBuzzLikeOnShareByShareIdAndEmpNumber($shareId, $this->getAuthUser()->getEmpNumber());
-        if ($buzzShareOnLike instanceof BuzzLikeOnShare) {
-            throw $this->getBadRequestException('Share is already liked');
+            if ($buzzShareOnLike instanceof BuzzLikeOnShare) {
+                throw $this->getBadRequestException('Share is already liked');
+            }
+
+            $buzzShare->getDecorator()->increaseNumOfLikesByOne();
+            $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
+
+            $like = new BuzzLikeOnShare();
+            $this->setBuzzLikeOnShare($like);
+
+            $like = $this->getBuzzService()->getBuzzLikeDao()->saveBuzzLikeOnShare($like);
+            $this->commitTransaction();
+
+            return new EndpointResourceResult(BuzzLikeOnShareModel::class, $like);
+        } catch (InvalidParamException $invalidParamException) {
+            $this->rollBackTransaction();
+            throw $invalidParamException;
+        } catch (BadRequestException $badRequestException) {
+            $this->rollBackTransaction();
+            throw $badRequestException;
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
         }
-
-        $buzzShare->getDecorator()->increaseNumOfLikesByOne();
-        $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
-
-        $like = new BuzzLikeOnShare();
-        $this->setBuzzLikeOnShare($like);
-
-        $like = $this->getBuzzService()->getBuzzLikeDao()->saveBuzzLikeOnShare($like);
-        return new EndpointResourceResult(BuzzLikeOnShareModel::class, $like);
     }
 
     /**
@@ -321,28 +341,42 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      */
     public function delete(): EndpointResult
     {
-        $shareId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_SHARE_ID
-        );
+        $this->beginTransaction();
+        try {
+            $shareId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_SHARE_ID
+            );
 
-        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
-        if (!$buzzShare instanceof BuzzShare) {
-            throw $this->getInvalidParamException(self::PARAMETER_SHARE_ID);
-        }
+            $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+            if (!$buzzShare instanceof BuzzShare) {
+                throw $this->getInvalidParamException(self::PARAMETER_SHARE_ID);
+            }
 
-        $buzzShareOnLike = $this->getBuzzService()
+            $buzzShareOnLike = $this->getBuzzService()
             ->getBuzzLikeDao()
             ->getBuzzLikeOnShareByShareIdAndEmpNumber($shareId, $this->getAuthUser()->getEmpNumber());
-        if (!$buzzShareOnLike instanceof BuzzLikeOnShare) {
-            throw $this->getBadRequestException('Share is not liked');
+            if (!$buzzShareOnLike instanceof BuzzLikeOnShare) {
+                throw $this->getBadRequestException('Share is not liked');
+            }
+
+            $buzzShare->getDecorator()->decreaseNumOfLikesByOne();
+            $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
+
+            $this->getBuzzService()->getBuzzLikeDao()->deleteBuzzLikeOnShare($shareId, $this->getAuthUser()->getEmpNumber());
+            $this->commitTransaction();
+
+            return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_SHARE_ID => $shareId]);
+        } catch (InvalidParamException $invalidParamException) {
+            $this->rollBackTransaction();
+            throw $invalidParamException;
+        } catch (BadRequestException $badRequestException) {
+            $this->rollBackTransaction();
+            throw $badRequestException;
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
         }
-
-        $buzzShare->getDecorator()->decreaseNumOfLikesByOne();
-        $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
-
-        $this->getBuzzService()->getBuzzLikeDao()->deleteBuzzLikeOnShare($shareId, $this->getAuthUser()->getEmpNumber());
-        return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_SHARE_ID => $shareId]);
     }
 
     /**
