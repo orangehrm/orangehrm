@@ -52,8 +52,10 @@ class BuzzValidURL
     /**
      * @return string|null
      */
-    public function getEmbeddedURl(string $url): ?string
+    public function getEmbeddedURl(): ?string
     {
+        $url = $this->url;
+
         $buzzURLGroups = [];
         if ($this->getTextHelper()->strContains($url, 'youtube')
             || $this->getTextHelper()->strContains($url, 'youtu.be')
@@ -89,7 +91,7 @@ class BuzzValidURL
         } elseif (preg_match(self::DAILYMOTION_EMBEDDED_REGEX, $this->url)) {
             return $this->url;
         } else {
-            return $this->getEmbeddedURl($this->url);
+            return $this->getEmbeddedURl();
         }
     }
 }

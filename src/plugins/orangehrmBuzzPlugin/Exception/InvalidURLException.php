@@ -26,14 +26,6 @@ class InvalidURLException extends Exception
     /**
      * @return static
      */
-    public static function invalidURLProvided(): self
-    {
-        return new self('Invalid URL');
-    }
-
-    /**
-     * @return static
-     */
     public static function invalidYouTubeURLProvided(): self
     {
         return new self('Invalid YouTube URL');
