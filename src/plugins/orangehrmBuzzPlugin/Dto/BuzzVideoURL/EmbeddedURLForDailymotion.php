@@ -19,15 +19,33 @@
 
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
+use OrangeHRM\Buzz\Exception\InvalidURLException;
+
 class EmbeddedURLForDailymotion implements BuzzVideoURL
 {
+    private string $url;
+    private const DAILYMOTION_REGEX = '/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/';
 
     /**
-     * @inheritDoc
+     * @param string $url
+     */
+    public function __construct(string $url)
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * @return bool
+     * @throws InvalidURLException
      */
     public function getValidation(): bool
     {
-        // TODO: Implement getValidation() method.
+        if (preg_match(self::DAILYMOTION_REGEX, $this->url))
+        {
+            return true;
+        } else {
+            throw InvalidURLException::invalidDailymotionURLProvided();
+        }
     }
 
     /**

@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
+use OrangeHRM\Buzz\Exception\InvalidURLException;
+
 class EmbeddedURLForYoutube implements BuzzVideoURL
 {
     private string $url;
@@ -33,23 +35,28 @@ class EmbeddedURLForYoutube implements BuzzVideoURL
     }
 
     /**
-     * @inheritDoc
+     * @return bool
+     * @throws InvalidURLException
      */
     public function getValidation(): bool
     {
-        return preg_match(self::YOUTUBE_REGEX, $this->url);
+        if (preg_match(self::YOUTUBE_REGEX, $this->url)) {
+            return true;
+        } else {
+            throw InvalidURLException::invalidYouTubeURLProvided();
+        }
     }
 
     /**
      * @inheritDoc
+     * @throws InvalidURLException
      */
     public function getEmbeddedURL(): ?string
     {
-        //TODO - need to change
-        if ($this->getValidation())
-        {
-            parse_str( parse_url( $this->url, PHP_URL_QUERY ), $youtubeId );
-            return 'https://www.youtube.com/embed/' . $youtubeId ;
+        //TODO - need to check
+        if ($this->getValidation()) {
+            parse_str(parse_url($this->url, PHP_URL_QUERY), $youtubeId);
+            return 'https://www.youtube.com/embed/' . $youtubeId;
         }
         return null;
     }

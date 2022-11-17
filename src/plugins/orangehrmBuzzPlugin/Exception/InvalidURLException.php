@@ -17,23 +17,41 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Buzz\Api\ValidationRules;
+namespace OrangeHRM\Buzz\Exception;
 
-use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzValidURL;
-use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
+use Exception;
 
-class BuzzVideoLinkValidationRule extends AbstractRule
+class InvalidURLException extends Exception
 {
     /**
-     * @inheritDoc
+     * @return static
      */
-    public function validate($input): bool
+    public static function invalidURLProvided(): self
     {
-        $buzzEmbeddedURL = new BuzzValidURL($input);
-        if ($buzzEmbeddedURL->getValidURL())
-        {
-            return true;
-        }
-        return false;
+        return new self('Invalid URL');
+    }
+
+    /**
+     * @return static
+     */
+    public static function invalidYouTubeURLProvided(): self
+    {
+        return new self('Invalid YouTube URL');
+    }
+
+    /**
+     * @return static
+     */
+    public static function invalidVimeoURLProvided(): self
+    {
+        return new self('Invalid Vimeo URL');
+    }
+
+    /**
+     * @return static
+     */
+    public static function invalidDailymotionURLProvided(): self
+    {
+        return new self('Invalid Dailymotion URL');
     }
 }

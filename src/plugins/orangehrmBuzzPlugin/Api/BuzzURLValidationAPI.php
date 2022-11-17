@@ -52,7 +52,7 @@ class BuzzURLValidationAPI extends Endpoint implements CollectionEndpoint
      */
     public function create(): EndpointResult
     {
-        //TODO - save embedded url
+        //TODO - send true and embedded or send false
         throw $this->getNotImplementedException();
     }
 

@@ -34,23 +34,8 @@ class BuzzEmbeddedURL
         $this->buzzVideoURL = $buzzVideoURL;
     }
 
-    /**
-     * @return string|null
-     */
-    public function generateEmbeddedURl(): ?string
+    public function generateEmbeddedURL(): ?string
     {
-        if ($this->buzzVideoURL->getValidation())
-        {
-            return $this->buzzVideoURL->getEmbeddedURL();
-        }
-        return null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getURLValidation(): bool
-    {
-        return $this->buzzVideoURL->getValidation();
+        return $this->buzzVideoURL->getEmbeddedURL();
     }
 }

@@ -22,11 +22,6 @@ namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 interface BuzzVideoURL
 {
     /**
-     * @return bool
-     */
-    public function getValidation(): bool;
-
-    /**
      * @return string
      */
     public function getEmbeddedURL(): ?string;

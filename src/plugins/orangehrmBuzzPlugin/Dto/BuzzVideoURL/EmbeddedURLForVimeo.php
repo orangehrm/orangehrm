@@ -19,21 +19,52 @@
 
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
+use OrangeHRM\Buzz\Exception\InvalidURLException;
+
 class EmbeddedURLForVimeo implements BuzzVideoURL
 {
+    private string $url;
+    private const VIMEO_REGEX = '/(http|https)?:\/\/(www\.|player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/';
+
     /**
-     * @inheritDoc
+     * @param string $url
+     */
+    public function __construct(string $url)
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * @return bool
+     * @throws InvalidURLException
      */
     public function getValidation(): bool
     {
-        // TODO: Implement getValidation() method.
+        if (preg_match(self::VIMEO_REGEX, $this->url))
+        {
+            return true;
+        } else {
+            throw InvalidURLException::invalidVimeoURLProvided();
+        }
     }
 
     /**
      * @inheritDoc
+     * @throws InvalidURLException
      */
-    public function getEmbeddedURL(): string
+    public function getEmbeddedURL(): ?string
     {
-        // TODO: Implement getEmbeddedURL() method.
+        //TODO - need to check/change
+        if($this->getValidation()) {
+            preg_match(
+                '///(www.)?vimeo.com/(d+)($|/)/',
+                $this->url,
+                $matches
+            );
+
+            $id = $matches[2];
+            return 'https://player.vimeo.com/video/' .$id;
+        }
+        return null;
     }
 }
