@@ -19,48 +19,207 @@
  -->
 
 <template>
-  <div class="orangehrm-buzz-post-comment">
-    <oxd-divider />
-    <div class="orangehrm-buzz-post-comment-add">
-      <profile-image :employee="employee"></profile-image>
-      <oxd-form class="orangehrm-buzz-post-comment-input">
-        <oxd-form-row>
-          <oxd-grid-item>
-            <oxd-input-field :placeholder="$t('buzz.write_your_comment')" />
-          </oxd-grid-item>
-        </oxd-form-row>
+  <div class="orangehrm-comment-wrapper">
+    <profile-image :employee="data.employee"></profile-image>
+    <div class="orangehrm-post-comment">
+      <oxd-form v-if="edit" @submitValid="onSubmit">
+        <oxd-input-field
+          v-model="comment"
+          :rules="rules"
+          @keydown.esc="onCancelComment"
+        />
+        <oxd-text tag="span">{{ $t('buzz.press_esc_to') }}&nbsp;</oxd-text>
+        <oxd-text
+          tag="span"
+          class="orangehrm-post-comment-action --cancel"
+          @click="onCancelComment"
+        >
+          {{ $t('general.cancel') }}
+        </oxd-text>
       </oxd-form>
+      <div v-else class="orangehrm-post-comment-area">
+        <oxd-text tag="p" class="orangehrm-post-comment-employee">
+          {{ employeeFullName }}
+        </oxd-text>
+        <oxd-text
+          tag="span"
+          :class="{
+            'orangehrm-post-comment-text': true,
+            '--truncate': readMore === false,
+          }"
+        >
+          {{ comment }}
+        </oxd-text>
+        <oxd-text
+          v-show="!readMore"
+          tag="span"
+          class="orangehrm-post-comment-readmore"
+          @click="onClickReadMore"
+        >
+          {{ $t('buzz.read_more') }}
+        </oxd-text>
+        <oxd-text tag="p" class="orangehrm-post-comment-datetime">
+          {{ dateTime }}
+        </oxd-text>
+        <div
+          v-if="data.comment.numOfLikes > 0"
+          class="orangehrm-post-comment-stats"
+        >
+          <oxd-icon
+            name="heart-fill"
+            class="orangehrm-post-comment-stats-icon"
+          />
+          <oxd-text tag="p" class="orangehrm-post-comment-stats-text">
+            {{ data.comment.numOfLikes }}
+          </oxd-text>
+        </div>
+      </div>
+      <div v-if="!edit" class="orangehrm-post-comment-action-area">
+        <oxd-text
+          tag="p"
+          :class="{
+            'orangehrm-post-comment-action': true,
+            '--liked': data.comment.liked === true,
+          }"
+          @click="onClickLike"
+        >
+          {{ $t('buzz.like') }}
+        </oxd-text>
+        <oxd-text
+          tag="p"
+          class="orangehrm-post-comment-action"
+          @click="onClickEdit"
+        >
+          {{ $t('general.edit') }}
+        </oxd-text>
+        <oxd-text
+          tag="p"
+          class="orangehrm-post-comment-action"
+          @click="onClickDelete"
+        >
+          {{ $t('performance.delete') }}
+        </oxd-text>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@/core/util/validation/rules';
+import {computed, reactive, toRefs} from 'vue';
+import useLocale from '@/core/util/composable/useLocale';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {APIService} from '@/core/util/services/api.service';
+import {formatDate, parseDate} from '@/core/util/helper/datefns';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
+import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
-  name: 'ShowComments',
+  name: 'PostComment',
 
   components: {
+    'oxd-icon': Icon,
     'profile-image': ProfileImage,
   },
 
   props: {
-    employee: {
+    postId: {
+      type: Number,
+      required: true,
+    },
+    data: {
       type: Object,
       required: true,
     },
   },
+
+  emits: ['edit', 'delete'],
+
+  setup(props, context) {
+    const {locale} = useLocale();
+    const {jsDateFormat} = useDateFormat();
+    const {$tEmpName} = useEmployeeNameTranslate();
+    const rules = [required, shouldNotExceedCharLength(63535)];
+    const state = reactive({
+      edit: false,
+      comment: props.data.comment.text,
+      readMore: props.data.comment.text.length < 500,
+    });
+
+    const {updatePostComment} = useBuzzAPIs(
+      new APIService(window.appGlobal.baseUrl, ''),
+    );
+
+    const onSubmit = () => {
+      updatePostComment(
+        props.postId,
+        props.data.comment.id,
+        state.comment,
+      ).then(() => {
+        state.edit = false;
+        context.emit('edit', props.data.comment.id);
+      });
+    };
+
+    const onClickEdit = () => {
+      state.edit = true;
+    };
+
+    const onClickLike = () => {
+      // todo
+    };
+
+    const onClickDelete = () => {
+      context.emit('delete', props.data.comment.id);
+    };
+
+    const onClickReadMore = () => {
+      state.readMore = !state.readMore;
+    };
+
+    const onCancelComment = () => {
+      state.comment = props.data.comment.text;
+      state.edit = false;
+    };
+
+    const dateTime = computed(() => {
+      const {createdDate, createdTime} = props.data.comment;
+      const utcDate = parseDate(
+        `${createdDate} ${createdTime} +00:00`,
+        'yyyy-MM-dd HH:mm xxx',
+      );
+
+      return formatDate(utcDate, `${jsDateFormat} HH:mm`, {
+        locale,
+      });
+    });
+
+    const employeeFullName = computed(() => {
+      return $tEmpName(props.data.employee, {
+        includeMiddle: true,
+        excludePastEmpTag: false,
+      });
+    });
+
+    return {
+      rules,
+      dateTime,
+      onSubmit,
+      onClickEdit,
+      onClickLike,
+      onClickDelete,
+      onClickReadMore,
+      onCancelComment,
+      employeeFullName,
+      ...toRefs(state),
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-buzz-post-comment {
-  &-add {
-    display: flex;
-    align-items: center;
-  }
-  &-input {
-    width: 25rem;
-  }
-}
-</style>
+<style src="./post-comment.scss" lang="scss" scoped></style>

@@ -74,3 +74,9 @@ langStrings:
   -
     value: 'Read More'
     unitId: read_more
+  -
+    value: 'Press Esc to'
+    unitId: press_esc_to
+  -
+    value: 'Like'
+    unitId: like

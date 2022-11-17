@@ -40,6 +40,23 @@
     height: 100%;
     cursor: pointer;
     position: absolute;
+    &.--more {
+      gap: 10px;
+      height: 9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.75rem;
+      background: rgba(0, 0, 0, 0.5);
+      @include oxd-respond-to('md') {
+        height: 18rem;
+      }
+    }
+  }
+  &-more {
+    font-size: 3rem;
+    font-weight: 600;
+    color: $oxd-white-color;
   }
   &-employee {
     font-size: 0.9rem;
@@ -52,5 +69,11 @@
     font-weight: 300;
     margin-top: 0.5rem;
     @include truncate(6, 1.5, #fff);
+  }
+}
+
+::v-deep(.orangehrm-buzz-photos-item) {
+  &:nth-of-type(5) {
+    display: none;
   }
 }
