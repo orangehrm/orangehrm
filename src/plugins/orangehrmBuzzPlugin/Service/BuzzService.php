@@ -20,6 +20,7 @@
 namespace OrangeHRM\Buzz\Service;
 
 use OrangeHRM\Buzz\Dao\BuzzDao;
+use OrangeHRM\Buzz\Dao\BuzzLikeDao;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class BuzzService
@@ -27,6 +28,7 @@ class BuzzService
     use UserRoleManagerTrait;
 
     private BuzzDao $buzzDao;
+    private BuzzLikeDao $buzzLikeDao;
     private array $buzzFeedPostPermissionCache = [];
     private array $buzzCommentPermissionCache = [];
 
@@ -36,6 +38,14 @@ class BuzzService
     public function getBuzzDao(): BuzzDao
     {
         return $this->buzzDao ??= new BuzzDao();
+    }
+
+    /**
+     * @return BuzzLikeDao
+     */
+    public function getBuzzLikeDao(): BuzzLikeDao
+    {
+        return $this->buzzLikeDao ??= new BuzzLikeDao();
     }
 
     /**

@@ -21,15 +21,20 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\BuzzLikeOnShareDecorator;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method BuzzLikeOnShareDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_buzz_like_on_share")
  * @ORM\Entity
  */
 class BuzzLikeOnShare
 {
     use DateTimeHelperTrait;
+    use DecoratorTrait;
 
     /**
      * @var int
