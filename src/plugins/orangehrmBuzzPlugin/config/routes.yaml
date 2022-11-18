@@ -50,6 +50,15 @@ apiv2_buzz_url_validation:
   defaults:
     _api: OrangeHRM\Buzz\Api\BuzzURLValidationAPI
 
+apiv2_buzz_like_on_share:
+  path: /api/v2/buzz/shares/{shareId}/likes
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzLikeOnShareAPI
+  requirements:
+    shareId: '\d+'
+
 ##########################
 #        Files
 ##########################

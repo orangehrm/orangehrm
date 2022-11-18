@@ -37,6 +37,15 @@
     <photo-frame v-if="post.type === 'photo'" :media="post.photoIds">
       <template #content="{index}">
         <div
+          v-if="index === 3 && post.photoIds.length === 5"
+          class="orangehrm-buzz-post-body-picture --more"
+          @click="onClickPicture(index)"
+        >
+          <oxd-text tag="p" class="orangehrm-buzz-post-body-more">+1</oxd-text>
+          <oxd-icon class="orangehrm-buzz-post-body-more" name="images" />
+        </div>
+        <div
+          v-else
           class="orangehrm-buzz-post-body-picture"
           @click="onClickPicture(index)"
         ></div>
@@ -64,6 +73,7 @@
 <script>
 import {computed, reactive, toRefs} from 'vue';
 import useLocale from '@/core/util/composable/useLocale';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
@@ -74,6 +84,7 @@ export default {
   name: 'PostBody',
 
   components: {
+    'oxd-icon': Icon,
     'photo-frame': PhotoFrame,
     'video-frame': VideoFrame,
   },

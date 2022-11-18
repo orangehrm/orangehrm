@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -14,43 +14,37 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
- -->
 
-<template>
-  <div class="orangehrm-buzz-profile-image">
-    <img alt="profile picture" :src="imageSrc" />
-  </div>
-</template>
+namespace OrangeHRM\Buzz\Dto;
 
-<script>
-export default {
-  name: 'ProfileImage',
-  props: {
-    employee: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    imageSrc() {
-      return `../pim/viewPhoto/empNumber/${this.employee.empNumber}`;
-    },
-  },
-};
-</script>
+use OrangeHRM\Core\Dto\FilterParams;
 
-<style lang="scss" scoped>
-.orangehrm-buzz-profile-image {
-  & img {
-    width: 45px;
-    height: 45px;
-    display: flex;
-    flex-shrink: 0;
-    border-radius: 100%;
-    box-sizing: border-box;
-    justify-content: center;
-  }
+class BuzzLikeSearchFilterParams extends FilterParams
+{
+    public const ALLOWED_SORT_FIELDS = ['shareLike.id'];
+
+    protected ?int $shareId = null;
+
+    public function __construct()
+    {
+        $this->setSortField('shareLike.id');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getShareId(): ?int
+    {
+        return $this->shareId;
+    }
+
+    /**
+     * @param int|null $shareId
+     */
+    public function setShareId(?int $shareId): void
+    {
+        $this->shareId = $shareId;
+    }
 }
-</style>

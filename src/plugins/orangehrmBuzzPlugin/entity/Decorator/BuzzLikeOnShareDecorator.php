@@ -14,38 +14,35 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\Employee;
 
-class BuzzShareDecorator
+class BuzzLikeOnShareDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
-    /**
-     * @var BuzzShare
-     */
-    protected BuzzShare $buzzShare;
+    protected BuzzLikeOnShare $buzzLikeOnShare;
 
-    /**
-     * @param BuzzShare $buzzShare
-     */
-    public function __construct(BuzzShare $buzzShare)
+    public function __construct(BuzzLikeOnShare $buzzLikeOnShare)
     {
-        $this->buzzShare = $buzzShare;
+        $this->buzzLikeOnShare = $buzzLikeOnShare;
     }
 
     /**
-     * @return BuzzShare
+     * @return BuzzLikeOnShare
      */
-    protected function getBuzzShare(): BuzzShare
+    protected function getBuzzLikeOnShare(): BuzzLikeOnShare
     {
-        return $this->buzzShare;
+        return $this->buzzLikeOnShare;
     }
 
     /**
@@ -53,28 +50,34 @@ class BuzzShareDecorator
      */
     public function setEmployeeByEmpNumber(int $empNumber): void
     {
-        /** @var Employee|null $employee */
         $employee = $this->getReference(Employee::class, $empNumber);
-        $this->getBuzzShare()->setEmployee($employee);
+        $this->getBuzzLikeOnShare()->setEmployee($employee);
     }
 
-    public function increaseNumOfCommentsByOne(): void
+    /**
+     * @param int $shareId
+     */
+    public function setShareByShareId(int $shareId): void
     {
-        $this->getBuzzShare()->setNumOfComments($this->getBuzzShare()->getNumOfComments() + 1);
+        $share = $this->getReference(BuzzShare::class, $shareId);
+        $this->getBuzzLikeOnShare()->setShare($share);
     }
 
-    public function decreaseNumOfCommentsByOne(): void
+    /**
+     * @return string
+     */
+    public function getLikedAtDate(): string
     {
-        $this->getBuzzShare()->setNumOfComments($this->getBuzzShare()->getNumOfComments() - 1);
+        $dateTime = $this->getBuzzLikeOnShare()->getLikedAtUtc();
+        return $this->getDateTimeHelper()->formatDate($dateTime);
     }
 
-    public function increaseNumOfLikesByOne(): void
+    /**
+     * @return string
+     */
+    public function getLikedAtTime(): string
     {
-        $this->getBuzzShare()->setNumOfLikes($this->getBuzzShare()->getNumOfLikes() + 1);
-    }
-
-    public function decreaseNumOfLikesByOne(): void
-    {
-        $this->getBuzzShare()->setNumOfLikes($this->getBuzzShare()->getNumOfLikes() - 1);
+        $dateTime = $this->getBuzzLikeOnShare()->getLikedAtUtc();
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($dateTime);
     }
 }
