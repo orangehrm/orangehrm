@@ -189,7 +189,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @param BuzzShare $buzzShare
-     * @param BuzzPost $buzzPost
+     * @param BuzzPost  $buzzPost
      */
     private function setBuzzShare(BuzzShare $buzzShare, BuzzPost $buzzPost): void
     {
@@ -263,39 +263,59 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      */
     private function getPhotoValidationRule(): ParamRule
     {
+        $postType = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_POST_TYPE
+        );
+        if ($postType == 'photo') {
+            return $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_POST_PHOTOS,
+                    new Rule(Rules::ARRAY_TYPE),
+                    new Rule(
+                        Rules::EACH,
+                        [
+                            new Rules\Composite\AllOf(
+                                new Rule(
+                                    Rules::BASE_64_ATTACHMENT,
+                                    [
+                                        BuzzPhoto::ALLOWED_IMAGE_TYPES,
+                                        BuzzPhoto::ALLOWED_IMAGE_EXTENSIONS,
+                                        self::PARAM_RULE_PHOTO_NAME_MAX_LENGTH
+                                    ]
+                                ),
+                            )
+                        ]
+                    )
+                ),
+            );
+        }
         return $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(
-                self::PARAMETER_POST_PHOTOS,
-                new Rule(Rules::ARRAY_TYPE),
-                new Rule(
-                    Rules::EACH,
-                    [
-                        new Rules\Composite\AllOf(
-                            new Rule(
-                                Rules::BASE_64_ATTACHMENT,
-                                [
-                                    BuzzPhoto::ALLOWED_IMAGE_TYPES,
-                                    BuzzPhoto::ALLOWED_IMAGE_EXTENSIONS,
-                                    self::PARAM_RULE_PHOTO_NAME_MAX_LENGTH
-                                ]
-                            ),
-                        )
-                    ]
-                )
-            ),
+            new ParamRule(self::PARAMETER_POST_PHOTOS, new Rule(Rules::LENGTH, [null])),
+            false
         );
     }
 
     /**
-     * @return ParamRule
+     * @return ParamRule|null
      */
-    private function getVideoValidationRule(): ParamRule
+    private function getVideoValidationRule(): ?ParamRule
     {
+        $postType = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_POST_TYPE
+        );
+        if ($postType == 'video') {
+            return $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_VIDEO_LINK,
+                    new Rule(BuzzVideoLinkValidationRule::class),
+                ),
+            );
+        }
         return $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(
-                self::PARAMETER_VIDEO_LINK,
-                new Rule(BuzzVideoLinkValidationRule::class),
-            ),
+            new ParamRule(self::PARAMETER_VIDEO_LINK, new Rule(Rules::LENGTH, [null])),
+            false
         );
     }
 
