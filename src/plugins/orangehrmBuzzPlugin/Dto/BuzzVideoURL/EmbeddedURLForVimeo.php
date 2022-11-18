@@ -21,32 +21,10 @@ namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
 use OrangeHRM\Buzz\Exception\InvalidURLException;
 
-class EmbeddedURLForVimeo implements BuzzVideoURL
+class EmbeddedURLForVimeo extends AbstractBuzzVideoURL
 {
-    private string $url;
     private const VIMEO_REGEX = '/(http|https)?:\/\/(www\.|player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/';
-
-    /**
-     * @param string $url
-     */
-    public function __construct(string $url)
-    {
-        $this->url = $url;
-    }
-
-    /**
-     * @return bool
-     * @throws InvalidURLException
-     */
-    public function getValidation(): bool
-    {
-        if (preg_match(self::VIMEO_REGEX, $this->url))
-        {
-            return true;
-        } else {
-            throw InvalidURLException::invalidVimeoURLProvided();
-        }
-    }
+    private const VIMEO_EMBEDDED_REGEX = '/^(https|http):\/\/(?:www\.)?player.vimeo.com\/video\/[A-z0-9]+/';
 
     /**
      * @inheritDoc
@@ -54,17 +32,34 @@ class EmbeddedURLForVimeo implements BuzzVideoURL
      */
     public function getEmbeddedURL(): ?string
     {
-        //TODO - need to check/change
-        if($this->getValidation()) {
-            preg_match(
-                '///(www.)?vimeo.com/(d+)($|/)/',
-                $this->url,
-                $matches
-            );
-
-            $id = $matches[2];
-            return 'https://player.vimeo.com/video/' .$id;
+        if (!($this->getTextHelper()->strContains($this->getURL(), 'vimeo'))) {
+            return null;
         }
-        return null;
+
+        if (preg_match(self::VIMEO_EMBEDDED_REGEX, $this->getURL())) {
+            return $this->getURL();
+        }
+
+        if (preg_match(self::VIMEO_REGEX, $this->getURL())) {
+            $shortUrlRegex = '/vimeo.com\/([0-9]+)\??/i';
+            $longUrlRegex = '/player.vimeo.com\/video\/([0-9]+)\??/i';
+
+            $vimeo_id = null;
+            if (preg_match($longUrlRegex, $this->getURL(), $matches)) {
+                $vimeo_id = $matches[count($matches) - 1];
+            }
+
+            if (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
+                $vimeo_id = $matches[count($matches) - 1];
+            }
+
+            if ($vimeo_id != null) {
+                return 'https://player.vimeo.com/video/' . $vimeo_id;
+            } else {
+                throw InvalidURLException::invalidVimeoURLProvided();
+            }
+        } else {
+            throw InvalidURLException::invalidVimeoURLProvided();
+        }
     }
 }

@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Buzz\Api\ValidationRules;
 
-use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzValidURL;
+use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
 use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 
 class BuzzVideoLinkValidationRule extends AbstractRule
@@ -29,11 +29,7 @@ class BuzzVideoLinkValidationRule extends AbstractRule
      */
     public function validate($input): bool
     {
-        $buzzEmbeddedURL = new BuzzValidURL($input);
-        if ($buzzEmbeddedURL->getValidURL())
-        {
-            return true;
-        }
-        return false;
+        $buzzEmbeddedURL = new BuzzEmbeddedURL($input);
+        return $buzzEmbeddedURL->isValidURL();
     }
 }

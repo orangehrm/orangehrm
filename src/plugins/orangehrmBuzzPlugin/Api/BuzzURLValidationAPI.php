@@ -20,7 +20,8 @@
 namespace OrangeHRM\Buzz\Api;
 
 use OrangeHRM\Buzz\Api\ValidationRules\BuzzVideoLinkValidationRule;
-use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzValidURL;
+use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
+use OrangeHRM\Buzz\Exception\InvalidURLException;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -53,6 +54,7 @@ class BuzzURLValidationAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @inheritDoc
+     * @throws InvalidURLException
      */
     public function create(): EndpointResult
     {
@@ -61,11 +63,11 @@ class BuzzURLValidationAPI extends Endpoint implements CollectionEndpoint
             self::PARAMETER_VIDEO_LINK
         );
 
-        $buzzValidURL = new BuzzValidURL($videoLink);
+        $buzzEmbeddedURL = new BuzzEmbeddedURL($videoLink);
 
         $response = [
-            'url' => $buzzValidURL->getURL(),
-            'embeddedURl' => $buzzValidURL->getValidURL(),
+            'url' => $buzzEmbeddedURL->getURL(),
+            'embeddedURL' => $buzzEmbeddedURL->getEmbeddedURL(),
         ];
 
         return new EndpointResourceResult(ArrayModel::class, $response);

@@ -19,14 +19,13 @@
 
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
-use OrangeHRM\Buzz\Exception\InvalidURLException;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 
-class BuzzEmbeddedURL
+abstract class AbstractBuzzVideoURL
 {
     use TextHelperTrait;
 
-    protected string $url;
+    private string $url;
 
     /**
      * @param string $url
@@ -37,42 +36,15 @@ class BuzzEmbeddedURL
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getURL(): ?string
+    public function getURL(): string
     {
         return $this->url;
     }
 
     /**
      * @return string|null
-     * @throws InvalidURLException
      */
-    public function getEmbeddedURL(): ?string
-    {
-        $buzzURLGroups = [];
-        $buzzURLGroups[] = new EmbeddedURLForYoutube($this->getURL());
-        $buzzURLGroups[] = new EmbeddedURLForVimeo($this->getURL());
-        $buzzURLGroups[] = new EmbeddedURLForDailymotion($this->getURL());
-
-        foreach ($buzzURLGroups as $buzzURLGroup) {
-            $embeddedURL = $buzzURLGroup->getEmbeddedURL();
-            if ($embeddedURL != null) {
-                return $embeddedURL;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isValidURL(): bool
-    {
-        try {
-            return $this->getEmbeddedURL() != null;
-        } catch (InvalidURLException $e) {
-            return false;
-        }
-    }
+    abstract public function getEmbeddedURL(): ?string;
 }
