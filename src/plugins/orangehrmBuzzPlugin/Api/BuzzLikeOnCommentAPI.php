@@ -26,6 +26,7 @@ use OrangeHRM\Buzz\Dto\BuzzLikeOnCommentSearchFilterParams;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -44,7 +45,7 @@ use OrangeHRM\Entity\BuzzComment;
 use OrangeHRM\Entity\BuzzLikeOnComment;
 use OrangeHRM\ORM\Exception\TransactionException;
 
-class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements CollectionEndpoint
+class BuzzLikeOnCommentAPI extends Endpoint implements CollectionEndpoint
 {
     use AuthUserTrait;
     use BuzzServiceTrait;
@@ -55,7 +56,7 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
     /**
      * @OA\Get(
      *     path="/api/v2/buzz/comments/{commentId}/likes",
-     *     tags={"Buzz/Comment Likes"},
+     *     tags={"Buzz/Like on Comments"},
      *     @OA\PathParameter(
      *         name="commentId",
      *         @OA\Schema(type="integer")
@@ -84,27 +85,6 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
      *                 @OA\Property(property="total", type="integer")
      *             )
      *         )
-     *     ),
-     *     @OA\Response(
-     *         response="422",
-     *         description="Unprocessable Content - Invalid Comment ID",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="error",
-     *                 type="object",
-     *                 @OA\Property(property="status", type="string", default="422"),
-     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
-     *                 @OA\Property(
-     *                     property="data",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="invalidParamKeys",
-     *                         type="array",
-     *                         @OA\Items(default="commentId")
-     *                     )
-     *                 )
-     *             )
-     *         )
      *     )
      * )
      * @inheritDoc
@@ -125,8 +105,12 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
 
         $this->setSortingAndPaginationParams($buzzLikeOnCommentSearchFilterParams);
 
-        $likes = $this->getBuzzService()->getBuzzLikeDao()->getBuzzLikeOnCommentList($buzzLikeOnCommentSearchFilterParams);
-        $likeCount = $this->getBuzzService()->getBuzzLikeDao()->getBuzzLikeOnCommentCount($buzzLikeOnCommentSearchFilterParams);
+        $likes = $this->getBuzzService()
+            ->getBuzzLikeDao()
+            ->getBuzzLikeOnCommentList($buzzLikeOnCommentSearchFilterParams);
+        $likeCount = $this->getBuzzService()
+            ->getBuzzLikeDao()
+            ->getBuzzLikeOnCommentCount($buzzLikeOnCommentSearchFilterParams);
 
         return new EndpointCollectionResult(
             BuzzLikeOnCommentModel::class,
@@ -152,7 +136,7 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
     /**
      * @OA\Post(
      *     path="/api/v2/buzz/comments/{commentId}/likes",
-     *     tags={"Buzz/Comment Likes"},
+     *     tags={"Buzz/Like on Comments"},
      *     @OA\PathParameter(
      *         name="commentId",
      *         @OA\Schema(type="integer")
@@ -173,27 +157,6 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
      *         )
      *     ),
      *     @OA\Response(
-     *         response="422",
-     *         description="Unprocessable Content - Invalid Comment ID",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="error",
-     *                 type="object",
-     *                 @OA\Property(property="status", type="string", default="422"),
-     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
-     *                 @OA\Property(
-     *                     property="data",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="invalidParamKeys",
-     *                         type="array",
-     *                         @OA\Items(default="commentId")
-     *                     )
-     *                 )
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
      *         response="400",
      *         description="Bad Request - Liking a comment that is already liked",
      *         @OA\JsonContent(
@@ -201,7 +164,7 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
      *                 property="error",
      *                 type="object",
      *                 @OA\Property(property="status", type="string", default="400"),
-     *                 @OA\Property(property="message", type="string", default="Comment is already liked")
+     *                 @OA\Property(property="message", type="string", default="Already liked")
      *             )
      *         )
      *     )
@@ -226,7 +189,7 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
                 ->getBuzzLikeDao()
                 ->getBuzzLikeOnCommentByShareIdAndEmpNumber($commentId, $this->getAuthUser()->getEmpNumber());
             if ($buzzShareOnComment instanceof BuzzLikeOnComment) {
-                throw $this->getBadRequestException('Comment is already liked');
+                throw $this->getBadRequestException('Already liked');
             }
 
             $buzzComment->getDecorator()->increaseNumOfLikesByOne();
@@ -239,15 +202,12 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
             $this->commitTransaction();
 
             return new EndpointResourceResult(BuzzLikeOnCommentModel::class, $like);
-        } catch (InvalidParamException $invalidParamException) {
+        } catch (InvalidParamException | BadRequestException $e) {
             $this->rollBackTransaction();
-            throw $invalidParamException;
-        } catch (BadRequestException $badRequestException) {
+            throw $e;
+        } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw $badRequestException;
-        } catch (Exception $exception) {
-            $this->rollBackTransaction();
-            throw new TransactionException($exception);
+            throw new TransactionException($e);
         }
     }
 
@@ -286,7 +246,7 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
     /**
      * @OA\Delete(
      *     path="/api/v2/buzz/comments/{commentId}/likes",
-     *     tags={"Buzz/Comment Likes"},
+     *     tags={"Buzz/Like on Comments"},
      *     @OA\PathParameter(
      *         name="commentId",
      *         @OA\Schema(type="integer")
@@ -303,35 +263,14 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
      *         )
      *     ),
      *     @OA\Response(
-     *         response="422",
-     *         description="Unprocessable Content - Invalid Comment ID",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="error",
-     *                 type="object",
-     *                 @OA\Property(property="status", type="string", default="422"),
-     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
-     *                 @OA\Property(
-     *                     property="data",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="invalidParamKeys",
-     *                         type="array",
-     *                         @OA\Items(default="commentId")
-     *                     )
-     *                 )
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
      *         response="400",
-     *         description="Bad Request - Disliking a comment that is not liked",
+     *         description="Bad Request - Unlike a comment that is not liked",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="error",
      *                 type="object",
      *                 @OA\Property(property="status", type="string", default="400"),
-     *                 @OA\Property(property="messsage", type="string", default="Comment is not liked")
+     *                 @OA\Property(property="messsage", type="string", default="Not previously liked")
      *             )
      *         )
      *     )
@@ -356,25 +295,25 @@ class BuzzLikeOnCommentAPI extends \OrangeHRM\Core\Api\V2\Endpoint implements Co
                 ->getBuzzLikeDao()
                 ->getBuzzLikeOnCommentByShareIdAndEmpNumber($commentId, $this->getAuthUser()->getEmpNumber());
             if (!$buzzCommentOnLike instanceof BuzzLikeOnComment) {
-                throw $this->getBadRequestException('Comment is not liked');
+                throw $this->getBadRequestException('Not previously liked');
             }
 
             $buzzComment->getDecorator()->decreaseNumOfLikesByOne();
             $this->getBuzzService()->getBuzzDao()->saveBuzzComment($buzzComment);
 
-            $this->getBuzzService()->getBuzzLikeDao()->deleteBuzzLikeOnComment($commentId, $this->getAuthUser()->getEmpNumber());
+            $this->getBuzzService()->getBuzzLikeDao()->deleteBuzzLikeOnComment(
+                $commentId,
+                $this->getAuthUser()->getEmpNumber()
+            );
             $this->commitTransaction();
 
             return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_COMMENT_ID => $commentId]);
-        } catch (InvalidParamException $invalidParamException) {
+        } catch (InvalidParamException | BadRequestException $e) {
             $this->rollBackTransaction();
-            throw $invalidParamException;
-        } catch (BadRequestException $badRequestException) {
+            throw $e;
+        } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw $badRequestException;
-        } catch (Exception $exception) {
-            $this->rollBackTransaction();
-            throw new TransactionException($exception);
+            throw new TransactionException($e);
         }
     }
 

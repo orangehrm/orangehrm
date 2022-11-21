@@ -23,13 +23,13 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class BuzzLikeOnCommentSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['commentLike.id'];
+    public const ALLOWED_SORT_FIELDS = ['commentLike.id', 'commentLike.likedAtUtc'];
 
     protected ?int $commentId = null;
 
     public function __construct()
     {
-        $this->setSortField('commentLike.id');
+        $this->setSortField('commentLike.likedAtUtc');
     }
 
     /**
