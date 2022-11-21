@@ -1,24 +1,27 @@
-Create:
+GetOne:
   'Validate Buzz Youtube Video URL - Type 01 - ESS User':
     userId: 2
-    body:
-      link: 'https://youtu.be/JGkxRVEzUz0?list=PLW9NCQftUhFjMUjjWooQmvLGdkOgXr_pY'
+    body: [ ]
+    query:
+      url: 'https://youtu.be/JGkxRVEzUz0?list=PLW9NCQftUhFjMUjjWooQmvLGdkOgXr_pY'
     data:
       url: 'https://youtu.be/JGkxRVEzUz0?list=PLW9NCQftUhFjMUjjWooQmvLGdkOgXr_pY'
       embeddedURL: 'https://www.youtube.com/embed/JGkxRVEzUz0'
     meta: [ ]
   'Validate Buzz Vimeo Video URL - Type 01 - ESS User':
     userId: 2
-    body:
-      link: 'https://vimeo.com/732689681'
+    body: [ ]
+    query:
+      url: 'https://vimeo.com/732689681'
     data:
       url: 'https://vimeo.com/732689681'
       embeddedURL: 'https://player.vimeo.com/video/732689681'
     meta: [ ]
   'Validate Buzz Dailymotion Video URL - Type 01 - ESS User':
     userId: 2
-    body:
-      link: 'https://www.dailymotion.com/video/x8fi3pm?playlist=x6hzyp'
+    body: [ ]
+    query:
+      url: 'https://www.dailymotion.com/video/x8fi3pm?playlist=x6hzyp'
     data:
       url: 'https://www.dailymotion.com/video/x8fi3pm?playlist=x6hzyp'
       embeddedURL: 'https://www.dailymotion.com/embed/video/x8fi3pm'
@@ -26,24 +29,27 @@ Create:
 
   'Validate Buzz Youtube Video URL - Type 02 - ESS User':
     userId: 2
-    body:
-      link: 'https://youtu.be/oTJRivZTMLs?list=PLToa5JuFMsXTNkrLJbRlB--76IAOjRM9b'
+    body: [ ]
+    query:
+      url: 'https://youtu.be/oTJRivZTMLs?list=PLToa5JuFMsXTNkrLJbRlB--76IAOjRM9b'
     data:
       url: 'https://youtu.be/oTJRivZTMLs?list=PLToa5JuFMsXTNkrLJbRlB--76IAOjRM9b'
       embeddedURL: 'https://www.youtube.com/embed/oTJRivZTMLs'
     meta: [ ]
   'Validate Buzz Vimeo Video URL - Type 02 - ESS User':
     userId: 2
-    body:
-      link: 'https://vimeo.com/253989945'
+    body: [ ]
+    query:
+      url: 'https://vimeo.com/253989945'
     data:
       url: 'https://vimeo.com/253989945'
       embeddedURL: 'https://player.vimeo.com/video/253989945'
     meta: [ ]
   'Validate Buzz Dailymotion Video URL - Type 02 - ESS User':
     userId: 2
-    body:
-      link: 'https://dai.ly/x2rnn2s'
+    body: [ ]
+    query:
+      url: 'https://dai.ly/x2rnn2s'
     data:
       url: 'https://dai.ly/x2rnn2s'
       embeddedURL: 'https://www.dailymotion.com/embed/video/x2rnn2s'
@@ -51,8 +57,9 @@ Create:
 
   'Validate Buzz Youtube Video URL - Type 03 - ESS User':
     userId: 2
-    body:
-      link: 'https://www.youtube.com/watch?v=4dDP_1lGbYs&t=4s'
+    body: [ ]
+    query:
+      url: 'https://www.youtube.com/watch?v=4dDP_1lGbYs&t=4s'
     data:
       url: 'https://www.youtube.com/watch?v=4dDP_1lGbYs&t=4s'
       embeddedURL: 'https://www.youtube.com/embed/4dDP_1lGbYs'
@@ -60,8 +67,9 @@ Create:
 
   'Validate Buzz Youtube Video URL oldest video - Type 04 - Admin User':
     userId: 1
-    body:
-      link: 'https://www.youtube.com/watch?v=jNQXAC9IVRw'
+    body: [ ]
+    query:
+      url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw'
     data:
       url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw'
       embeddedURL: 'https://www.youtube.com/embed/jNQXAC9IVRw'
@@ -69,8 +77,9 @@ Create:
 
   'Validate Buzz Youtube Video URL with start at tag- Type 05 - Admin User':
     userId: 1
-    body:
-      link: 'https://youtu.be/s3unDu3QfW0?t=13'
+    body: [ ]
+    query:
+      url: 'https://youtu.be/s3unDu3QfW0?t=13'
     data:
       url: 'https://youtu.be/s3unDu3QfW0?t=13'
       embeddedURL: 'https://www.youtube.com/embed/s3unDu3QfW0'

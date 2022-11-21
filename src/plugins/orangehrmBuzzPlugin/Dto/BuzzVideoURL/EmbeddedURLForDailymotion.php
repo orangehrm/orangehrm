@@ -28,7 +28,6 @@ class EmbeddedURLForDailymotion extends AbstractBuzzVideoURL
 
     /**
      * @inheritDoc
-     * @throws InvalidURLException
      */
     public function getEmbeddedURL(): ?string
     {
@@ -46,22 +45,17 @@ class EmbeddedURLForDailymotion extends AbstractBuzzVideoURL
             $shortUrlRegex = '/dai.ly\/([a-zA-Z0-9_-]+)\??/i';
             $longUrlRegex = '/^.+dailymotion.com\/(?:video|swf\/video|embed\/video|hub|swf)\/([^&?]+)/i';
 
-            $dailymotion_id = null;
+            $dailymotionId = null;
             if (preg_match($longUrlRegex, $this->getURL(), $matches)) {
-                $dailymotion_id = $matches[count($matches) - 1];
+                $dailymotionId = end($matches);
+            } elseif (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
+                $dailymotionId = end($matches);
             }
 
-            if (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
-                $dailymotion_id = $matches[count($matches) - 1];
+            if ($dailymotionId != null) {
+                return 'https://www.dailymotion.com/embed/video/' . $dailymotionId;
             }
-
-            if ($dailymotion_id != null) {
-                return 'https://www.dailymotion.com/embed/video/' . $dailymotion_id;
-            } else {
-                throw InvalidURLException::invalidDailymotionURLProvided();
-            }
-        } else {
-            throw InvalidURLException::invalidDailymotionURLProvided();
         }
+        throw InvalidURLException::invalidDailymotionURLProvided();
     }
 }

@@ -21,6 +21,8 @@ namespace OrangeHRM\Buzz\Api;
 
 use OrangeHRM\Buzz\Api\Model\BuzzPostModel;
 use OrangeHRM\Buzz\Api\ValidationRules\BuzzVideoLinkValidationRule;
+use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
+use OrangeHRM\Buzz\Exception\InvalidURLException;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -165,11 +167,41 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            $this->getPhotoValidationRule(),
-            $this->getVideoValidationRule(),
-            ...$this->getCommonBodyValidationRules()
+        $paramRules = new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_POST_TYPE,
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::STRING_TYPE),
+                new Rule(
+                    Rules::IN,
+                    [[BuzzShare::POST_TYPE_TEXT, BuzzShare::POST_TYPE_PHOTO, BuzzShare::POST_TYPE_VIDEO]]
+                ),
+            )
         );
+
+        $postType = $this->getRequestParams()
+            ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_POST_TYPE);
+
+        if ($postType == BuzzShare::POST_TYPE_TEXT) {
+            $paramRules->addParamValidation(
+                $this->getTextValidationRuleForTextPost(),
+            );
+        } elseif ($postType == BuzzShare::POST_TYPE_PHOTO) {
+            $paramRules->addParamValidation(
+                $this->getPhotoValidationRule(),
+            );
+            $paramRules->addParamValidation(
+                $this->getTextValidationRuleForOtherPost(),
+            );
+        } elseif ($postType == BuzzShare::POST_TYPE_VIDEO) {
+            $paramRules->addParamValidation(
+                $this->getVideoValidationRule(),
+            );
+            $paramRules->addParamValidation(
+                $this->getTextValidationRuleForOtherPost(),
+            );
+        }
+        return $paramRules;
     }
 
     /**
@@ -223,6 +255,9 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @param BuzzPost $buzzPost
+     *
+     * @return void
+     * @throws InvalidURLException
      */
     private function setBuzzVideoPost(BuzzPost $buzzPost): void
     {
@@ -232,30 +267,11 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
         );
         $buzzVideoPost = new BuzzLink();
         $buzzVideoPost->setPost($buzzPost);
-        $buzzVideoPost->setLink($videoLink);
+
+        $buzzEmbeddedURL = new BuzzEmbeddedURL($videoLink);
+        $buzzVideoPost->setLink($buzzEmbeddedURL->getEmbeddedURL());
 
         $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzVideoPost);
-    }
-
-    /**
-     * @return array
-     */
-    private function getCommonBodyValidationRules(): array
-    {
-        return [
-            new ParamRule(
-                self::PARAMETER_POST_TEXT,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_POST_TYPE,
-                new Rule(
-                    Rules::IN,
-                    [[BuzzShare::POST_TYPE_TEXT, BuzzShare::POST_TYPE_PHOTO, BuzzShare::POST_TYPE_VIDEO]]
-                ),
-            )
-        ];
     }
 
     /**
@@ -263,36 +279,26 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      */
     private function getPhotoValidationRule(): ParamRule
     {
-        $postType = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_POST_TYPE
-        );
-        if ($postType == 'photo') {
-            return $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_POST_PHOTOS,
-                    new Rule(Rules::ARRAY_TYPE),
-                    new Rule(
-                        Rules::EACH,
-                        [
-                            new Rules\Composite\AllOf(
-                                new Rule(
-                                    Rules::BASE_64_ATTACHMENT,
-                                    [
-                                        BuzzPhoto::ALLOWED_IMAGE_TYPES,
-                                        BuzzPhoto::ALLOWED_IMAGE_EXTENSIONS,
-                                        self::PARAM_RULE_PHOTO_NAME_MAX_LENGTH
-                                    ]
-                                ),
-                            )
-                        ]
-                    )
-                ),
-            );
-        }
         return $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(self::PARAMETER_POST_PHOTOS, new Rule(Rules::LENGTH, [null])),
-            false
+            new ParamRule(
+                self::PARAMETER_POST_PHOTOS,
+                new Rule(Rules::ARRAY_TYPE),
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(
+                                Rules::BASE_64_ATTACHMENT,
+                                [
+                                    BuzzPhoto::ALLOWED_IMAGE_TYPES,
+                                    BuzzPhoto::ALLOWED_IMAGE_EXTENSIONS,
+                                    self::PARAM_RULE_PHOTO_NAME_MAX_LENGTH
+                                ]
+                            ),
+                        )
+                    ]
+                )
+            ),
         );
     }
 
@@ -301,21 +307,34 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      */
     private function getVideoValidationRule(): ?ParamRule
     {
-        $postType = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_POST_TYPE
+        return new ParamRule(
+            self::PARAMETER_VIDEO_LINK,
+            new Rule(BuzzVideoLinkValidationRule::class),
         );
-        if ($postType == 'video') {
-            return $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_VIDEO_LINK,
-                    new Rule(BuzzVideoLinkValidationRule::class),
-                ),
-            );
-        }
-        return $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(self::PARAMETER_VIDEO_LINK, new Rule(Rules::LENGTH, [null])),
-            false
+    }
+
+    /**
+     * @return ParamRule|null
+     */
+    private function getTextValidationRuleForOtherPost(): ?ParamRule
+    {
+        return new ParamRule(
+            self::PARAMETER_POST_TEXT,
+            new Rule(Rules::STRING_TYPE),
+            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
+        );
+    }
+
+    /**
+     * @return ParamRule|null
+     */
+    private function getTextValidationRuleForTextPost(): ?ParamRule
+    {
+        return new ParamRule(
+            self::PARAMETER_POST_TEXT,
+            new Rule(Rules::STRING_TYPE),
+            new Rule(Rules::REQUIRED),
+            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
         );
     }
 

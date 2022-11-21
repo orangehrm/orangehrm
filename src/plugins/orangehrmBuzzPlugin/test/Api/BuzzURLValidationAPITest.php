@@ -31,35 +31,35 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 class BuzzURLValidationAPITest extends EndpointIntegrationTestCase
 {
     /**
-     * @dataProvider dataProviderForTestCreate
+     * @dataProvider dataProviderForTestGetOne
      */
-    public function testCreate(TestCaseParams $testCaseParams): void
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
         $this->populateFixtures('BuzzURLValidationAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(BuzzURLValidationAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'create', $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function dataProviderForTestCreate(): array
+    public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('BuzzURLValidationAPIAPITestCases.yaml', 'Create');
+        return $this->getTestCases('BuzzURLValidationAPIAPITestCases.yaml', 'GetOne');
     }
 
-    public function testGetAll(): void
-    {
-        $api = new BuzzURLValidationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
-    }
-
-    public function dataProviderForTestGetAll(): array
+    public function testUpdate(): void
     {
         $api = new BuzzURLValidationAPI($this->getRequest());
         $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
+        $api->update();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new BuzzURLValidationAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
     }
 
     public function testDelete(): void

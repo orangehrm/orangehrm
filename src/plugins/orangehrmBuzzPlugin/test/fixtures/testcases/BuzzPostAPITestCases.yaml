@@ -84,3 +84,36 @@ Create:
         employeeId: null
         terminationId: null
     meta: [ ]
+
+  'Create Video Post Without Text In Buzz':
+    userId: 1
+    now:
+      datetime: '2022-09-09 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: ''
+      type: 'video'
+      link: 'https://youtu.be/ozv4q2ov3Mk?list=RD-rey3m8SWQI'
+    data:
+      post:
+        id: 7
+      employee:
+        empNumber: 4
+        lastName: 'Abrahams'
+        firstName: 'Landon'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Create Post Without Text In Buzz - ESS User':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: null
+      type: 'text'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'

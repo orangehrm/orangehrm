@@ -28,7 +28,6 @@ class EmbeddedURLForVimeo extends AbstractBuzzVideoURL
 
     /**
      * @inheritDoc
-     * @throws InvalidURLException
      */
     public function getEmbeddedURL(): ?string
     {
@@ -44,22 +43,17 @@ class EmbeddedURLForVimeo extends AbstractBuzzVideoURL
             $shortUrlRegex = '/vimeo.com\/([0-9]+)\??/i';
             $longUrlRegex = '/player.vimeo.com\/video\/([0-9]+)\??/i';
 
-            $vimeo_id = null;
+            $vimeoId = null;
             if (preg_match($longUrlRegex, $this->getURL(), $matches)) {
-                $vimeo_id = $matches[count($matches) - 1];
+                $vimeoId = end($matches);
+            } elseif (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
+                $vimeoId = end($matches);
             }
 
-            if (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
-                $vimeo_id = $matches[count($matches) - 1];
+            if ($vimeoId != null) {
+                return 'https://player.vimeo.com/video/' . $vimeoId;
             }
-
-            if ($vimeo_id != null) {
-                return 'https://player.vimeo.com/video/' . $vimeo_id;
-            } else {
-                throw InvalidURLException::invalidVimeoURLProvided();
-            }
-        } else {
-            throw InvalidURLException::invalidVimeoURLProvided();
         }
+        throw InvalidURLException::invalidVimeoURLProvided();
     }
 }

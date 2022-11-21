@@ -93,15 +93,15 @@ apiv2_buzz_like_on_comment:
     - { role: Admin, permission: { read: true, create: true, update: false, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: false, delete: true } }
 
-apiv2_buzz_url_validation:
+apiv2_buzz_validation_links:
   description: 'Buzz - Validate URL of Video Post'
   api: OrangeHRM\Buzz\Api\BuzzURLValidationAPI
   module: buzz
   allowed:
-    read: false
-    create: true
+    read: true
+    create: false
     update: false
     delete: false
   permissions:
-    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
-    - { role: ESS, permission: { read: false, create: true, update: false, delete: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }

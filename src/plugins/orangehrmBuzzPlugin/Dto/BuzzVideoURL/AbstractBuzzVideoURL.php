@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
+use OrangeHRM\Buzz\Exception\InvalidURLException;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 
 abstract class AbstractBuzzVideoURL
@@ -45,6 +46,7 @@ abstract class AbstractBuzzVideoURL
 
     /**
      * @return string|null
+     * @throws InvalidURLException
      */
     abstract public function getEmbeddedURL(): ?string;
 }

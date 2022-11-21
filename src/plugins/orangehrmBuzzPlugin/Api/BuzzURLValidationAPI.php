@@ -22,65 +22,105 @@ namespace OrangeHRM\Buzz\Api;
 use OrangeHRM\Buzz\Api\ValidationRules\BuzzVideoLinkValidationRule;
 use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
 use OrangeHRM\Buzz\Exception\InvalidURLException;
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 
-class BuzzURLValidationAPI extends Endpoint implements CollectionEndpoint
+class BuzzURLValidationAPI extends Endpoint implements ResourceEndpoint
 {
-    public const PARAMETER_VIDEO_LINK = 'link';
+    public const PARAMETER_VIDEO_LINK = 'url';
 
     /**
-     * @inheritDoc
-     */
-    public function getAll(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetAll(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
+     * @OA\Get(
+     *     path="/api/v2/buzz/validation/links",
+     *     tags={"Buzz/Link"},
+     *     @OA\PathParameter(
+     *         name="link",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="url", type="string"),
+     *                 @OA\Property(property="embeddedURL", type="string"),
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      * @throws InvalidURLException
      */
-    public function create(): EndpointResult
+    public function getOne(): EndpointResult
     {
         $videoLink = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
+            RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_VIDEO_LINK
         );
 
         $buzzEmbeddedURL = new BuzzEmbeddedURL($videoLink);
 
-        $response = [
-            'url' => $buzzEmbeddedURL->getURL(),
-            'embeddedURL' => $buzzEmbeddedURL->getEmbeddedURL(),
-        ];
-
+        try {
+            $response = [
+                'url' => $buzzEmbeddedURL->getURL(),
+                'embeddedURL' => $buzzEmbeddedURL->getEmbeddedURL(),
+            ];
+        } catch (InvalidURLException $e) {
+            throw new InvalidURLException($e);
+        }
         return new EndpointResourceResult(ArrayModel::class, $response);
     }
 
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForCreate(): ParamRuleCollection
+    public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             $this->getVideoValidationRule()
         );
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getVideoValidationRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::PARAMETER_VIDEO_LINK,
+                new Rule(BuzzVideoLinkValidationRule::class),
+            ),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -97,18 +137,5 @@ class BuzzURLValidationAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @return ParamRule
-     */
-    private function getVideoValidationRule(): ParamRule
-    {
-        return $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(
-                self::PARAMETER_VIDEO_LINK,
-                new Rule(BuzzVideoLinkValidationRule::class),
-            ),
-        );
     }
 }

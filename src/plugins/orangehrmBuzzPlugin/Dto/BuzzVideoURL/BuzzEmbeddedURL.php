@@ -20,12 +20,9 @@
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
 use OrangeHRM\Buzz\Exception\InvalidURLException;
-use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 
 class BuzzEmbeddedURL
 {
-    use TextHelperTrait;
-
     protected string $url;
 
     /**

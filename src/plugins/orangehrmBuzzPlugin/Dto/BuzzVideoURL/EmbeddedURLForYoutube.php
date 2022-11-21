@@ -27,8 +27,7 @@ class EmbeddedURLForYoutube extends AbstractBuzzVideoURL
     private const YOUTUBE_REGEX = '/(?:http:|https:)*?\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.|youtube-nocookie\.com).*(?:v=|v%3D|v\/|(?:a|p)\/(?:a|u)\/\d.*\/|watch\?|vi(?:=|\/)|\/embed\/|oembed\?|be\/|e\/)([^&?%#\/\n]*)/';
 
     /**
-     * @return string|null
-     * @throws InvalidURLException
+     * @inheritDoc
      */
     public function getEmbeddedURL(): ?string
     {
@@ -46,22 +45,17 @@ class EmbeddedURLForYoutube extends AbstractBuzzVideoURL
             $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
             $longUrlRegex = '/youtube.com\/((?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
 
-            $youtube_id = null;
+            $youtubeId = null;
             if (preg_match($longUrlRegex, $this->getURL(), $matches)) {
-                $youtube_id = $matches[count($matches) - 1];
+                $youtubeId = end($matches);
+            } elseif (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
+                $youtubeId = end($matches);
             }
 
-            if (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
-                $youtube_id = $matches[count($matches) - 1];
+            if ($youtubeId != null) {
+                return 'https://www.youtube.com/embed/' . $youtubeId;
             }
-
-            if ($youtube_id != null) {
-                return 'https://www.youtube.com/embed/' . $youtube_id;
-            } else {
-                throw InvalidURLException::invalidYouTubeURLProvided();
-            }
-        } else {
-            throw InvalidURLException::invalidYouTubeURLProvided();
         }
+        throw InvalidURLException::invalidYouTubeURLProvided();
     }
 }
