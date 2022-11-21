@@ -79,3 +79,16 @@ apiv2_buzz_like_on_share:
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: false, delete: true } }
     - { role: ESS, permission: { read: true, create: true, update: false, delete: true } }
+
+apiv2_buzz_like_on_comment:
+  description: 'Buzz - Likes on Comment'
+  api: OrangeHRM\Buzz\Api\BuzzLikeOnCommentAPI
+  module: buzz
+  allowed:
+    read: true
+    create: true
+    update: false
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: true } }
+    - { role: ESS, permission: { read: true, create: true, update: false, delete: true } }
