@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Buzz\Dao;
 
-use OrangeHRM\Buzz\Dto\BuzzLikeSearchFilterParams;
+use OrangeHRM\Buzz\Dto\BuzzLikeOnCommentSearchFilterParams;
+use OrangeHRM\Buzz\Dto\BuzzLikeOnShareSearchFilterParams;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\BuzzLikeOnComment;
 use OrangeHRM\Entity\BuzzLikeOnShare;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
@@ -40,6 +42,16 @@ class BuzzLikeDao extends BaseDao
     }
 
     /**
+     * @param BuzzLikeOnComment $buzzLikeOnComment
+     * @return BuzzLikeOnComment
+     */
+    public function saveBuzzLikeOnComment(BuzzLikeOnComment $buzzLikeOnComment): BuzzLikeOnComment
+    {
+        $this->persist($buzzLikeOnComment);
+        return $buzzLikeOnComment;
+    }
+
+    /**
      * @param int $shareId
      * @param int $empNumber
      * @return int
@@ -51,6 +63,23 @@ class BuzzLikeDao extends BaseDao
             ->andWhere($qb->expr()->eq('shareLike.share', ':shareId'))
             ->andWhere($qb->expr()->eq('shareLike.employee', ':empNumber'))
             ->setParameter('shareId', $shareId)
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $commentId
+     * @param int $empNumber
+     * @return int
+     */
+    public function deleteBuzzLikeOnComment(int $commentId, int $empNumber): int
+    {
+        $qb = $this->createQueryBuilder(BuzzLikeOnComment::class, 'commentLike');
+        $qb->delete()
+            ->andWhere($qb->expr()->eq('commentLike.comment', ':commentId'))
+            ->andWhere($qb->expr()->eq('commentLike.employee', ':empNumber'))
+            ->setParameter('commentId', $commentId)
             ->setParameter('empNumber', $empNumber);
 
         return $qb->getQuery()->execute();
@@ -72,42 +101,98 @@ class BuzzLikeDao extends BaseDao
     }
 
     /**
-     * @param BuzzLikeSearchFilterParams $buzzLikeSearchFilterParams
+     * @param int $commentId
+     * @param int $empNumber
+     * @return BuzzLikeOnComment|null
+     */
+    public function getBuzzLikeOnCommentByShareIdAndEmpNumber(int $commentId, int $empNumber): ?BuzzLikeOnComment
+    {
+        return $this->getRepository(BuzzLikeOnComment::class)->findOneBy(
+            [
+                'comment' => $commentId,
+                'employee' => $empNumber
+            ]
+        );
+    }
+
+    /**
+     * @param BuzzLikeOnShareSearchFilterParams $buzzLikeOnShareSearchFilterParams
      * @return BuzzLikeOnShare[]
      */
-    public function getBuzzLikeOnShareList(BuzzLikeSearchFilterParams $buzzLikeSearchFilterParams): array
+    public function getBuzzLikeOnShareList(BuzzLikeOnShareSearchFilterParams $buzzLikeOnShareSearchFilterParams): array
     {
-        $qb = $this->getBuzzLikeOnShareQueryBuilderWrapper($buzzLikeSearchFilterParams)->getQueryBuilder();
+        $qb = $this->getBuzzLikeOnShareQueryBuilderWrapper($buzzLikeOnShareSearchFilterParams)->getQueryBuilder();
         return $qb->getQuery()->execute();
     }
 
     /**
-     * @param BuzzLikeSearchFilterParams $buzzLikeSearchFilterParams
+     * @param BuzzLikeOnShareSearchFilterParams $buzzLikeOnShareSearchFilterParams
      * @return int
      */
-    public function getBuzzLikeOnShareCount(BuzzLikeSearchFilterParams $buzzLikeSearchFilterParams): int
+    public function getBuzzLikeOnShareCount(BuzzLikeOnShareSearchFilterParams $buzzLikeOnShareSearchFilterParams): int
     {
-        $qb = $this->getBuzzLikeOnShareQueryBuilderWrapper($buzzLikeSearchFilterParams)->getQueryBuilder();
+        $qb = $this->getBuzzLikeOnShareQueryBuilderWrapper($buzzLikeOnShareSearchFilterParams)->getQueryBuilder();
         return $this->getPaginator($qb)->count();
     }
 
     /**
-     * @param BuzzLikeSearchFilterParams $buzzLikeSearchFilterParams
+     * @param BuzzLikeOnShareSearchFilterParams $buzzLikeOnShareSearchFilterParams
      * @return QueryBuilderWrapper
      */
-    private function getBuzzLikeOnShareQueryBuilderWrapper(BuzzLikeSearchFilterParams $buzzLikeSearchFilterParams): QueryBuilderWrapper
+    private function getBuzzLikeOnShareQueryBuilderWrapper(BuzzLikeOnShareSearchFilterParams $buzzLikeOnShareSearchFilterParams): QueryBuilderWrapper
     {
         $qb = $this->createQueryBuilder(BuzzLikeOnShare::class, 'shareLike');
         $qb->leftJoin('shareLike.employee', 'employee');
 
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
 
-        if (!is_null($buzzLikeSearchFilterParams->getShareId())) {
-            $qb->andWhere($qb->expr()->eq('shareLike.share', ':share'))
-                ->setParameter('share', $buzzLikeSearchFilterParams->getShareId());
+        if (!is_null($buzzLikeOnShareSearchFilterParams->getShareId())) {
+            $qb->andWhere($qb->expr()->eq('shareLike.share', ':shareId'))
+                ->setParameter('shareId', $buzzLikeOnShareSearchFilterParams->getShareId());
         }
 
-        $this->setSortingAndPaginationParams($qb, $buzzLikeSearchFilterParams);
+        $this->setSortingAndPaginationParams($qb, $buzzLikeOnShareSearchFilterParams);
+
+        return $this->getQueryBuilderWrapper($qb);
+    }
+
+    /**
+     * @param BuzzLikeOnCommentSearchFilterParams $buzzLikeOnCommentSearchFilterParams
+     * @return BuzzLikeOnComment[]
+     */
+    public function getBuzzLikeOnCommentList(BuzzLikeOnCommentSearchFilterParams $buzzLikeOnCommentSearchFilterParams): array
+    {
+        $qb = $this->getBuzzLikeOnCommentQueryBuilderWrapper($buzzLikeOnCommentSearchFilterParams)->getQueryBuilder();
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param BuzzLikeOnCommentSearchFilterParams $buzzLikeOnCommentSearchFilterParams
+     * @return int
+     */
+    public function getBuzzLikeOnCommentCount(BuzzLikeOnCommentSearchFilterParams $buzzLikeOnCommentSearchFilterParams): int
+    {
+        $qb = $this->getBuzzLikeOnCommentQueryBuilderWrapper($buzzLikeOnCommentSearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($qb)->count();
+    }
+
+    /**
+     * @param BuzzLikeOnCommentSearchFilterParams $buzzLikeOnCommentSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getBuzzLikeOnCommentQueryBuilderWrapper(BuzzLikeOnCommentSearchFilterParams $buzzLikeOnCommentSearchFilterParams): QueryBuilderWrapper
+    {
+        $qb = $this->createQueryBuilder(BuzzLikeOnComment::class, 'commentLike');
+        $qb->leftJoin('commentLike.employee', 'employee');
+
+        $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
+
+        if (!is_null($buzzLikeOnCommentSearchFilterParams->getCommentId())) {
+            $qb->andWhere($qb->expr()->eq('commentLike.comment', ':commentId'))
+                ->setParameter('commentId', $buzzLikeOnCommentSearchFilterParams->getCommentId());
+        }
+
+        $this->setSortingAndPaginationParams($qb, $buzzLikeOnCommentSearchFilterParams);
 
         return $this->getQueryBuilderWrapper($qb);
     }

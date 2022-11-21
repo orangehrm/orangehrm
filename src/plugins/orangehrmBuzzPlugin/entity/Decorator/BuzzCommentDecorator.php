@@ -101,4 +101,14 @@ class BuzzCommentDecorator
             $this->getAuthUser()->getEmpNumber()
         );
     }
+
+    public function increaseNumOfLikesByOne(): void
+    {
+        $this->getBuzzComment()->setNumOfLikes($this->getBuzzComment()->getNumOfLikes() + 1);
+    }
+
+    public function decreaseNumOfLikesByOne(): void
+    {
+        $this->getBuzzComment()->setNumOfLikes($this->getBuzzComment()->getNumOfLikes() - 1);
+    }
 }

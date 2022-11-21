@@ -46,18 +46,6 @@ BuzzShare:
   - {"id": 4,"post_id": 4,"employee_number": 4,"number_of_likes": 1,"number_of_comments": 0,"share_time": "2022-11-16 18:52:20","type": 0,"text": null,"updated_at": "2022-11-16 05:52:24","share_utc_time": "2022-11-16 05:52:20","updated_utc_time": "2022-11-15 16:52:24"}
   - {"id": 5,"post_id": 5,"employee_number": 1,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-11-16 18:52:40","type": 0,"text": null,"updated_at": "2022-11-16 18:52:40","share_utc_time": "2022-11-16 05:52:40","updated_utc_time": "2022-11-16 05:52:40"}
 
-BuzzLikeOnShare:
-  - {"id": 1,"share_id": 1,"employee_number": 1,"like_time": "2022-11-16 18:50:28","like_utc_time": "2022-11-16 05:50:28"}
-  - {"id": 2,"share_id": 1,"employee_number": 2,"like_time": "2022-11-16 18:50:29","like_utc_time": "2022-11-16 05:50:29"}
-  - {"id": 3,"share_id": 1,"employee_number": 3,"like_time": "2022-11-16 18:50:30","like_utc_time": "2022-11-16 05:50:30"}
-  - {"id": 4,"share_id": 2,"employee_number": 1,"like_time": "2022-11-16 18:51:08","like_utc_time": "2022-11-16 05:51:08"}
-  - {"id": 5,"share_id": 2,"employee_number": 3,"like_time": "2022-11-16 18:51:11","like_utc_time": "2022-11-16 05:51:11"}
-  - {"id": 6,"share_id": 3,"employee_number": 3,"like_time": "2022-11-16 18:51:40","like_utc_time": "2022-11-16 05:51:40"}
-  - {"id": 7,"share_id": 3,"employee_number": 4,"like_time": "2022-11-16 18:51:44","like_utc_time": "2022-11-16 05:51:44"}
-  - {"id": 8,"share_id": 3,"employee_number": 1,"like_time": "2022-11-16 18:51:46","like_utc_time": "2022-11-16 05:51:46"}
-  - {"id": 9,"share_id": 3,"employee_number": 2,"like_time": "2022-11-16 18:51:52","like_utc_time": "2022-11-16 05:51:52"}
-  - {"id": 10,"share_id": 4,"employee_number": 1,"like_time": "2022-11-16 18:52:24","like_utc_time": "2022-11-16 05:52:24"}
-
 BuzzComment:
   - {"id": 1,"share_id": 1,"employee_number": 1,"number_of_likes": 3,"comment_text": "Comment by Admin","comment_time": "2022-11-17 18:14:04","updated_at": "2022-11-17 05:15:51","comment_utc_time": "2022-11-17 05:14:04","updated_utc_time": "2022-11-16 16:15:51"}
   - {"id": 2,"share_id": 1,"employee_number": 2,"number_of_likes": 2,"comment_text": "Comment by Sharuka","comment_time": "2022-11-17 18:14:39","updated_at": "2022-11-17 05:15:57","comment_utc_time": "2022-11-17 05:14:39","updated_utc_time": "2022-11-16 16:15:57"}

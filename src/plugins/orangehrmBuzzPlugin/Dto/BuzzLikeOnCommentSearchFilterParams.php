@@ -21,30 +21,30 @@ namespace OrangeHRM\Buzz\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class BuzzLikeSearchFilterParams extends FilterParams
+class BuzzLikeOnCommentSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['shareLike.id'];
+    public const ALLOWED_SORT_FIELDS = ['commentLike.id'];
 
-    protected ?int $shareId = null;
+    protected ?int $commentId = null;
 
     public function __construct()
     {
-        $this->setSortField('shareLike.id');
+        $this->setSortField('commentLike.id');
     }
 
     /**
      * @return int|null
      */
-    public function getShareId(): ?int
+    public function getCommentId(): ?int
     {
-        return $this->shareId;
+        return $this->commentId;
     }
 
     /**
-     * @param int|null $shareId
+     * @param int|null $commentId
      */
-    public function setShareId(?int $shareId): void
+    public function setCommentId(?int $commentId): void
     {
-        $this->shareId = $shareId;
+        $this->commentId = $commentId;
     }
 }

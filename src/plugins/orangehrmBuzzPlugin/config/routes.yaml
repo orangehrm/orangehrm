@@ -59,6 +59,15 @@ apiv2_buzz_like_on_share:
   requirements:
     shareId: '\d+'
 
+apiv2_buzz_comment_on_share:
+  path: /api/v2/buzz/comments/{commentId}/likes
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzLikeOnCommentAPI
+  requirements:
+    commentId: '\d+'
+
 ##########################
 #        Files
 ##########################
