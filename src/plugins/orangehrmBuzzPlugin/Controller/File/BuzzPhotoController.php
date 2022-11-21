@@ -19,8 +19,10 @@
 
 namespace OrangeHRM\Buzz\Controller\File;
 
+use InvalidArgumentException;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ETagHelperTrait;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Framework\Http\Request;
@@ -30,6 +32,19 @@ class BuzzPhotoController extends AbstractFileController
 {
     use ETagHelperTrait;
     use BuzzServiceTrait;
+    use CacheTrait;
+
+    public const BUZZ_PHOTO_CACHE_KEY_PREFIX = 'buzz.photo';
+    public const ETAG_CACHE_KEY_SUFFIX = 'etag';
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    private function generateBuzzPhotoETagCacheKey(int $id): string
+    {
+        return self::BUZZ_PHOTO_CACHE_KEY_PREFIX . ".$id." . self::ETAG_CACHE_KEY_SUFFIX;
+    }
 
     /**
      * @param Request $request
@@ -44,17 +59,35 @@ class BuzzPhotoController extends AbstractFileController
 
         $photoId = $request->attributes->getInt('id');
 
-        $photo = $this->getBuzzService()->getBuzzDao()->getBuzzPhotoById($photoId);
-        if (!$photo instanceof BuzzPhoto) {
+        $photo = null;
+        $generateCache = false;
+        $response = $this->getResponse();
+        try {
+            $etag = $this->getCache()->get(
+                $this->generateBuzzPhotoETagCacheKey($photoId),
+                function () use ($photoId, &$photo, &$generateCache): string {
+                    $photo = $this->getBuzzService()->getBuzzDao()->getBuzzPhotoById($photoId);
+                    if (!$photo instanceof BuzzPhoto) {
+                        throw new InvalidArgumentException('Invalid photo id');
+                    }
+                    $generateCache = true;
+                    return $this->generateEtag($photo->getDecorator()->getPhoto());
+                }
+            );
+        } catch (InvalidArgumentException $e) {
             $this->handleBadRequest();
             return $this->getResponse();
         }
 
-        $response = $this->getResponse();
-        // TODO:: get Etag from cache
-        $response->setEtag($this->generateEtag($photo->getDecorator()->getPhoto()));
-
+        $response->setEtag($etag);
         if (!$response->isNotModified($request)) {
+            if (!$generateCache) {
+                $photo = $this->getBuzzService()->getBuzzDao()->getBuzzPhotoById($photoId);
+            }
+            if (!$photo instanceof BuzzPhoto) {
+                $this->handleBadRequest();
+                return $this->getResponse();
+            }
             $response->setContent($photo->getDecorator()->getPhoto());
             $this->setCommonHeaders($response, $photo->getFileType());
         }
