@@ -20,38 +20,16 @@
 namespace OrangeHRM\Buzz\Api\ValidationRules;
 
 use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
-use OrangeHRM\Buzz\Dto\BuzzVideoURL\EmbeddedURLForDailymotion;
-use OrangeHRM\Buzz\Dto\BuzzVideoURL\EmbeddedURLForVimeo;
-use OrangeHRM\Buzz\Dto\BuzzVideoURL\EmbeddedURLForYoutube;
 use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 
 class BuzzVideoLinkValidationRule extends AbstractRule
 {
-    private const YOUTUBE_REGEX = '/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/';
-    private const VIMEO_REGEX = '/(http|https)?:\/\/(www\.|player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/';
-    private const DAILYMOTION_REGEX = '/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/';
-
     /**
      * @inheritDoc
      */
     public function validate($input): bool
     {
-        $youtubeMatch = preg_match(self::YOUTUBE_REGEX, $input);
-        $vimeoMatch = preg_match(self::VIMEO_REGEX, $input);
-        $dailymotionMatch = preg_match(self::DAILYMOTION_REGEX, $input);
-
-        $validationGroup = null;
-        if ($youtubeMatch) {
-            $validationGroup = new EmbeddedURLForYoutube($input);
-        }
-        if ($vimeoMatch) {
-            $validationGroup = new EmbeddedURLForVimeo($input);
-        }
-        if ($dailymotionMatch) {
-            $validationGroup = new EmbeddedURLForDailymotion($input);
-        }
-
-        $buzzEmbeddedURL = new BuzzEmbeddedURL($validationGroup);
-        return $buzzEmbeddedURL->getURLValidation();
+        $buzzEmbeddedURL = new BuzzEmbeddedURL($input);
+        return $buzzEmbeddedURL->isValidURL();
     }
 }

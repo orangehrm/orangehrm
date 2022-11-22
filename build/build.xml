@@ -60,17 +60,17 @@
         <exclude name="build/build.xml"/>
         <exclude name="build/phing-latest.phar"/>
         <exclude name=".github/**"/>
-        <exclude name="INSTALL.html"/>
         <exclude name="Dockerfile"/>
         <exclude name="devTools/**"/>
         <exclude name="lib/confs/Conf.php"/>
         <exclude name="lib/confs/cryptokeys/key.ohrm"/>
         <exclude name="orangehrm-quick-start-guide.html"/>
         <exclude name="src/test/**"/>
+        <exclude name="src/plugins/**/test/**"/>
 
         <exclude name="src/plugins/orangehrmAuthenticationPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmCoreOAuthPlugin/lib/**"/>
-        <exclude name="src/plugins/orangehrmMarketPlacePlugin/lib"/>
+        <exclude name="src/plugins/orangehrmMarketPlacePlugin/**"/>
         <exclude name="src/plugins/orangehrmOpenidAuthenticationPlugin/**"/>
         <exclude name="src/plugins/orangehrmRESTPlugin/**"/>
 

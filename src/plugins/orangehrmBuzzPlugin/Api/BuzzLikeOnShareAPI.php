@@ -56,7 +56,7 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Get(
      *     path="/api/v2/buzz/shares/{shareId}/likes",
-     *     tags={"Buzz/Share Likes"},
+     *     tags={"Buzz/Like on Shares"},
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -85,27 +85,6 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      *                 @OA\Property(property="total", type="integer")
      *             )
      *         )
-     *     ),
-     *     @OA\Response(
-     *         response="422",
-     *         description="Unprocessable Content - Invalid Share ID",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="error",
-     *                 type="object",
-     *                 @OA\Property(property="status", type="string", default="422"),
-     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
-     *                 @OA\Property(
-     *                     property="data",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="invalidParamKeys",
-     *                         type="array",
-     *                         @OA\Items(default="shareId")
-     *                     )
-     *                 )
-     *             )
-     *         )
      *     )
      * )
      * @inheritDoc
@@ -127,7 +106,9 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
         $this->setSortingAndPaginationParams($buzzLikeOnShareSearchFilterParams);
 
         $likes = $this->getBuzzService()->getBuzzLikeDao()->getBuzzLikeOnShareList($buzzLikeOnShareSearchFilterParams);
-        $likeCount = $this->getBuzzService()->getBuzzLikeDao()->getBuzzLikeOnShareCount($buzzLikeOnShareSearchFilterParams);
+        $likeCount = $this->getBuzzService()
+            ->getBuzzLikeDao()
+            ->getBuzzLikeOnShareCount($buzzLikeOnShareSearchFilterParams);
 
         return new EndpointCollectionResult(
             BuzzLikeOnShareModel::class,
@@ -153,7 +134,7 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Post(
      *     path="/api/v2/buzz/shares/{shareId}/likes",
-     *     tags={"Buzz/Share Likes"},
+     *     tags={"Buzz/Like on Shares"},
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -174,27 +155,6 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      *         )
      *     ),
      *     @OA\Response(
-     *         response="422",
-     *         description="Unprocessable Content - Invalid Share ID",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="error",
-     *                 type="object",
-     *                 @OA\Property(property="status", type="string", default="422"),
-     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
-     *                 @OA\Property(
-     *                     property="data",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="invalidParamKeys",
-     *                         type="array",
-     *                         @OA\Items(default="shareId")
-     *                     )
-     *                 )
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
      *         response="400",
      *         description="Bad Request - Liking a post that is already liked",
      *         @OA\JsonContent(
@@ -202,7 +162,7 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      *                 property="error",
      *                 type="object",
      *                 @OA\Property(property="status", type="string", default="400"),
-     *                 @OA\Property(property="message", type="string", default="Share is already liked")
+     *                 @OA\Property(property="message", type="string", default="Already liked")
      *             )
      *         )
      *     )
@@ -224,10 +184,10 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
             }
 
             $buzzShareOnLike = $this->getBuzzService()
-            ->getBuzzLikeDao()
-            ->getBuzzLikeOnShareByShareIdAndEmpNumber($shareId, $this->getAuthUser()->getEmpNumber());
+                ->getBuzzLikeDao()
+                ->getBuzzLikeOnShareByShareIdAndEmpNumber($shareId, $this->getAuthUser()->getEmpNumber());
             if ($buzzShareOnLike instanceof BuzzLikeOnShare) {
-                throw $this->getBadRequestException('Share is already liked');
+                throw $this->getBadRequestException('Already liked');
             }
 
             $buzzShare->getDecorator()->increaseNumOfLikesByOne();
@@ -240,15 +200,12 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
             $this->commitTransaction();
 
             return new EndpointResourceResult(BuzzLikeOnShareModel::class, $like);
-        } catch (InvalidParamException $invalidParamException) {
+        } catch (InvalidParamException | BadRequestException $e) {
             $this->rollBackTransaction();
-            throw $invalidParamException;
-        } catch (BadRequestException $badRequestException) {
+            throw $e;
+        } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw $badRequestException;
-        } catch (Exception $exception) {
-            $this->rollBackTransaction();
-            throw new TransactionException($exception);
+            throw new TransactionException($e);
         }
     }
 
@@ -287,7 +244,7 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
     /**
      * @OA\Delete(
      *     path="/api/v2/buzz/shares/{shareId}/likes",
-     *     tags={"Buzz/Share Likes"},
+     *     tags={"Buzz/Like on Shares"},
      *     @OA\PathParameter(
      *         name="shareId",
      *         @OA\Schema(type="integer")
@@ -304,35 +261,14 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
      *         )
      *     ),
      *     @OA\Response(
-     *         response="422",
-     *         description="Unprocessable Content - Invalid Share ID",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="error",
-     *                 type="object",
-     *                 @OA\Property(property="status", type="string", default="422"),
-     *                 @OA\Property(property="message", type="string", default="Invalid Parameter"),
-     *                 @OA\Property(
-     *                     property="data",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="invalidParamKeys",
-     *                         type="array",
-     *                         @OA\Items(default="shareId")
-     *                     )
-     *                 )
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
      *         response="400",
-     *         description="Bad Request - Disliking a post that is not liked",
+     *         description="Bad Request - Unlike a post that is not liked",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="error",
      *                 type="object",
      *                 @OA\Property(property="status", type="string", default="400"),
-     *                 @OA\Property(property="message", type="string", default="Share is not liked")
+     *                 @OA\Property(property="message", type="string", default="Not previously liked")
      *             )
      *         )
      *     )
@@ -354,28 +290,26 @@ class BuzzLikeOnShareAPI extends Endpoint implements CollectionEndpoint
             }
 
             $buzzShareOnLike = $this->getBuzzService()
-            ->getBuzzLikeDao()
-            ->getBuzzLikeOnShareByShareIdAndEmpNumber($shareId, $this->getAuthUser()->getEmpNumber());
+                ->getBuzzLikeDao()
+                ->getBuzzLikeOnShareByShareIdAndEmpNumber($shareId, $this->getAuthUser()->getEmpNumber());
             if (!$buzzShareOnLike instanceof BuzzLikeOnShare) {
-                throw $this->getBadRequestException('Share is not liked');
+                throw $this->getBadRequestException('Not previously liked');
             }
 
             $buzzShare->getDecorator()->decreaseNumOfLikesByOne();
             $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
 
-            $this->getBuzzService()->getBuzzLikeDao()->deleteBuzzLikeOnShare($shareId, $this->getAuthUser()->getEmpNumber());
+            $this->getBuzzService()->getBuzzLikeDao()
+                ->deleteBuzzLikeOnShare($shareId, $this->getAuthUser()->getEmpNumber());
             $this->commitTransaction();
 
             return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_SHARE_ID => $shareId]);
-        } catch (InvalidParamException $invalidParamException) {
+        } catch (InvalidParamException | BadRequestException $e) {
             $this->rollBackTransaction();
-            throw $invalidParamException;
-        } catch (BadRequestException $badRequestException) {
+            throw $e;
+        } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw $badRequestException;
-        } catch (Exception $exception) {
-            $this->rollBackTransaction();
-            throw new TransactionException($exception);
+            throw new TransactionException($e);
         }
     }
 

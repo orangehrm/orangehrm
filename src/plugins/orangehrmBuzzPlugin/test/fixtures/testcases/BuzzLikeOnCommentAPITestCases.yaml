@@ -1,5 +1,5 @@
 GetAll:
-  'without params for commentId 1':
+  'with commentId 1':
     userId: 1
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
@@ -42,7 +42,7 @@ GetAll:
     meta:
       total: 2
 
-  'without params for past employee comment':
+  'past employee comment':
     userId: 1
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
@@ -69,7 +69,7 @@ GetAll:
     meta:
       total: 1
 
-  'without params for purged employee comment':
+  'purged employee comment':
     userId: 1
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
@@ -82,7 +82,7 @@ GetAll:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
 
-  'without params for non-existent commentId':
+  'with non-existent commentId':
     userId: 1
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
@@ -95,7 +95,7 @@ GetAll:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
 
-  'ESS without params for commentId 1':
+  'ESS with commentId 1':
     userId: 4
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
@@ -198,7 +198,7 @@ Create:
       commentId: 1
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Comment is already liked'
+      message: 'Already liked'
 
   'ESS liking comment with commentId 5':
     userId: 4
@@ -270,7 +270,7 @@ Delete:
       commentId: 2
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Comment is not liked'
+      message: 'Not previously liked'
 
   'ESS unliking a comment with commentId 5':
     userId: 4

@@ -14,37 +14,36 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Buzz\Dto;
+namespace OrangeHRM\Buzz\Exception;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use Exception;
 
-class BuzzLikeOnCommentSearchFilterParams extends FilterParams
+class InvalidURLException extends Exception
 {
-    public const ALLOWED_SORT_FIELDS = ['commentLike.id', 'commentLike.likedAtUtc'];
-
-    protected ?int $commentId = null;
-
-    public function __construct()
+    /**
+     * @return static
+     */
+    public static function invalidYouTubeURLProvided(): self
     {
-        $this->setSortField('commentLike.likedAtUtc');
+        return new self('Invalid YouTube URL');
     }
 
     /**
-     * @return int|null
+     * @return static
      */
-    public function getCommentId(): ?int
+    public static function invalidVimeoURLProvided(): self
     {
-        return $this->commentId;
+        return new self('Invalid Vimeo URL');
     }
 
     /**
-     * @param int|null $commentId
+     * @return static
      */
-    public function setCommentId(?int $commentId): void
+    public static function invalidDailymotionURLProvided(): self
     {
-        $this->commentId = $commentId;
+        return new self('Invalid Dailymotion URL');
     }
 }

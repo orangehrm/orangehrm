@@ -20,7 +20,6 @@
 namespace OrangeHRM\Buzz\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
 
 class BuzzCommentSearchFilterParams extends FilterParams
 {
@@ -31,7 +30,6 @@ class BuzzCommentSearchFilterParams extends FilterParams
     public function __construct()
     {
         $this->setSortField('comment.createdAtUtc');
-        $this->setSortOrder(ListSorter::DESCENDING);
     }
 
     /**

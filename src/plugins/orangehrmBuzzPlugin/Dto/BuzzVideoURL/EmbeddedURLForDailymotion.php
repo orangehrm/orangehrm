@@ -19,22 +19,43 @@
 
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
-class EmbeddedURLForDailymotion implements BuzzVideoURL
+use OrangeHRM\Buzz\Exception\InvalidURLException;
+
+class EmbeddedURLForDailymotion extends AbstractBuzzVideoURL
 {
+    private const DAILYMOTION_REGEX = '/^(http|https)?:\/\/(?:www\.|dai)(?:dailymotion\.com\/video\/[A-z0-9]+|\.ly\/[A-z0-9]+|)./';
+    private const DAILYMOTION_EMBEDDED_REGEX = '/^(https|http):\/\/(?:www\.)?dailymotion.com\/embed\/video\/[A-z0-9]+/';
 
     /**
      * @inheritDoc
      */
-    public function getValidation(): bool
+    public function getEmbeddedURL(): ?string
     {
-        // TODO: Implement getValidation() method.
-    }
+        if (!($this->getTextHelper()->strContains($this->getURL(), 'dailymotion')
+            || $this->getTextHelper()->strContains($this->getURL(), 'dai.ly'))
+        ) {
+            return null;
+        }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEmbeddedURL(): string
-    {
-        // TODO: Implement getEmbeddedURL() method.
+        if (preg_match(self::DAILYMOTION_EMBEDDED_REGEX, $this->getURL())) {
+            return $this->getURL();
+        }
+
+        if (preg_match(self::DAILYMOTION_REGEX, $this->getURL())) {
+            $shortUrlRegex = '/dai.ly\/([a-zA-Z0-9_-]+)\??/i';
+            $longUrlRegex = '/^.+dailymotion.com\/(?:video|swf\/video|embed\/video|hub|swf)\/([^&?]+)/i';
+
+            $dailymotionId = null;
+            if (preg_match($longUrlRegex, $this->getURL(), $matches)) {
+                $dailymotionId = end($matches);
+            } elseif (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
+                $dailymotionId = end($matches);
+            }
+
+            if ($dailymotionId != null) {
+                return 'https://www.dailymotion.com/embed/video/' . $dailymotionId;
+            }
+        }
+        throw InvalidURLException::invalidDailymotionURLProvided();
     }
 }

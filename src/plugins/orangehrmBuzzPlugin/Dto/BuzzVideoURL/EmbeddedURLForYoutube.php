@@ -19,38 +19,43 @@
 
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
-class EmbeddedURLForYoutube implements BuzzVideoURL
+use OrangeHRM\Buzz\Exception\InvalidURLException;
+
+class EmbeddedURLForYoutube extends AbstractBuzzVideoURL
 {
-    private string $url;
-    private const YOUTUBE_REGEX = '/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/';
-
-    /**
-     * @param string $url
-     */
-    public function __construct(string $url)
-    {
-        $this->url = $url;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidation(): bool
-    {
-        return preg_match(self::YOUTUBE_REGEX, $this->url);
-    }
+    private const YOUTUBE_EMBEDDED_REGEX = '/(https|http):\/\/(?:www\.)?youtube.com\/embed\/[A-z0-9]+/';
+    private const YOUTUBE_REGEX = '/(?:http:|https:)*?\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.|youtube-nocookie\.com).*(?:v=|v%3D|v\/|(?:a|p)\/(?:a|u)\/\d.*\/|watch\?|vi(?:=|\/)|\/embed\/|oembed\?|be\/|e\/)([^&?%#\/\n]*)/';
 
     /**
      * @inheritDoc
      */
     public function getEmbeddedURL(): ?string
     {
-        //TODO - need to change
-        if ($this->getValidation())
-        {
-            parse_str( parse_url( $this->url, PHP_URL_QUERY ), $youtubeId );
-            return 'https://www.youtube.com/embed/' . $youtubeId ;
+        if (!($this->getTextHelper()->strContains($this->getURL(), 'youtube')
+            || $this->getTextHelper()->strContains($this->getURL(), 'youtu.be'))
+        ) {
+            return null;
         }
-        return null;
+
+        if (preg_match(self::YOUTUBE_EMBEDDED_REGEX, $this->getURL())) {
+            return $this->getURL();
+        }
+
+        if (preg_match(self::YOUTUBE_REGEX, $this->getURL())) {
+            $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
+            $longUrlRegex = '/youtube.com\/((?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
+
+            $youtubeId = null;
+            if (preg_match($longUrlRegex, $this->getURL(), $matches)) {
+                $youtubeId = end($matches);
+            } elseif (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
+                $youtubeId = end($matches);
+            }
+
+            if ($youtubeId != null) {
+                return 'https://www.youtube.com/embed/' . $youtubeId;
+            }
+        }
+        throw InvalidURLException::invalidYouTubeURLProvided();
     }
 }

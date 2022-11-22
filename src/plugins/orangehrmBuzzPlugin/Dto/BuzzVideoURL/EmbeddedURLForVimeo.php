@@ -19,21 +19,41 @@
 
 namespace OrangeHRM\Buzz\Dto\BuzzVideoURL;
 
-class EmbeddedURLForVimeo implements BuzzVideoURL
+use OrangeHRM\Buzz\Exception\InvalidURLException;
+
+class EmbeddedURLForVimeo extends AbstractBuzzVideoURL
 {
-    /**
-     * @inheritDoc
-     */
-    public function getValidation(): bool
-    {
-        // TODO: Implement getValidation() method.
-    }
+    private const VIMEO_REGEX = '/(http|https)?:\/\/(www\.|player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/';
+    private const VIMEO_EMBEDDED_REGEX = '/^(https|http):\/\/(?:www\.)?player.vimeo.com\/video\/[A-z0-9]+/';
 
     /**
      * @inheritDoc
      */
-    public function getEmbeddedURL(): string
+    public function getEmbeddedURL(): ?string
     {
-        // TODO: Implement getEmbeddedURL() method.
+        if (!($this->getTextHelper()->strContains($this->getURL(), 'vimeo'))) {
+            return null;
+        }
+
+        if (preg_match(self::VIMEO_EMBEDDED_REGEX, $this->getURL())) {
+            return $this->getURL();
+        }
+
+        if (preg_match(self::VIMEO_REGEX, $this->getURL())) {
+            $shortUrlRegex = '/vimeo.com\/([0-9]+)\??/i';
+            $longUrlRegex = '/player.vimeo.com\/video\/([0-9]+)\??/i';
+
+            $vimeoId = null;
+            if (preg_match($longUrlRegex, $this->getURL(), $matches)) {
+                $vimeoId = end($matches);
+            } elseif (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
+                $vimeoId = end($matches);
+            }
+
+            if ($vimeoId != null) {
+                return 'https://player.vimeo.com/video/' . $vimeoId;
+            }
+        }
+        throw InvalidURLException::invalidVimeoURLProvided();
     }
 }

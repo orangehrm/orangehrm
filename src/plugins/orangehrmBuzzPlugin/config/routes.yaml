@@ -43,12 +43,13 @@ apiv2_buzz_comment:
   requirements:
     shareId: '\d+'
 
-apiv2_buzz_url_validation:
-  path: /api/v2/buzz/shares/url
+aapiv2_buzz_video_url_validation:
+  path: /api/v2/buzz/validation/links
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST ]
+  methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Buzz\Api\BuzzURLValidationAPI
+    _key: url
+    _api: OrangeHRM\Buzz\Api\BuzzVideoURLValidationAPI
 
 apiv2_buzz_like_on_share:
   path: /api/v2/buzz/shares/{shareId}/likes
