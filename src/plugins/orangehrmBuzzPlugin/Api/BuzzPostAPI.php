@@ -60,6 +60,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
 
     public const PARAM_RULE_TEXT_MAX_LENGTH = 65530;
     public const PARAM_RULE_PHOTO_NAME_MAX_LENGTH = 100;
+    public const MAX_ATTACHMENT_SIZE = 2097152; //2MB
 
     /**
      * @inheritDoc
@@ -170,7 +171,6 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
         $paramRules = new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_POST_TYPE,
-                new Rule(Rules::REQUIRED),
                 new Rule(Rules::STRING_TYPE),
                 new Rule(
                     Rules::IN,
@@ -182,18 +182,18 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
         $postType = $this->getRequestParams()
             ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_POST_TYPE);
 
-        if ($postType == BuzzShare::POST_TYPE_TEXT) {
+        if ($postType === BuzzShare::POST_TYPE_TEXT) {
             $paramRules->addParamValidation(
                 $this->getTextValidationRuleForTextPost(),
             );
-        } elseif ($postType == BuzzShare::POST_TYPE_PHOTO) {
+        } elseif ($postType === BuzzShare::POST_TYPE_PHOTO) {
             $paramRules->addParamValidation(
                 $this->getPhotoValidationRule(),
             );
             $paramRules->addParamValidation(
                 $this->getTextValidationRuleForOtherPost(),
             );
-        } elseif ($postType == BuzzShare::POST_TYPE_VIDEO) {
+        } elseif ($postType === BuzzShare::POST_TYPE_VIDEO) {
             $paramRules->addParamValidation(
                 $this->getVideoValidationRule(),
             );
@@ -210,7 +210,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
     private function setBuzzPost(BuzzPost $buzzPost): void
     {
         $buzzPost->setText(
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_POST_TEXT
             )
@@ -270,6 +270,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
 
         $buzzEmbeddedURL = new BuzzEmbeddedURL($videoLink);
         $buzzVideoPost->setLink($buzzEmbeddedURL->getEmbeddedURL());
+        //TODO - save original url
 
         $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzVideoPost);
     }
@@ -279,26 +280,27 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      */
     private function getPhotoValidationRule(): ParamRule
     {
-        return $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(
-                self::PARAMETER_POST_PHOTOS,
-                new Rule(Rules::ARRAY_TYPE),
-                new Rule(
-                    Rules::EACH,
-                    [
-                        new Rules\Composite\AllOf(
-                            new Rule(
-                                Rules::BASE_64_ATTACHMENT,
-                                [
-                                    BuzzPhoto::ALLOWED_IMAGE_TYPES,
-                                    BuzzPhoto::ALLOWED_IMAGE_EXTENSIONS,
-                                    self::PARAM_RULE_PHOTO_NAME_MAX_LENGTH
-                                ]
-                            ),
-                        )
-                    ]
-                )
-            ),
+        return new ParamRule(
+            self::PARAMETER_POST_PHOTOS,
+            new Rule(Rules::ARRAY_TYPE),
+            new Rule(
+                Rules::EACH,
+                [
+                    new Rules\Composite\AllOf(
+                        new Rule(
+                            Rules::BASE_64_ATTACHMENT,
+                            [
+                                BuzzPhoto::ALLOWED_IMAGE_TYPES,
+                                BuzzPhoto::ALLOWED_IMAGE_EXTENSIONS,
+                                self::PARAM_RULE_PHOTO_NAME_MAX_LENGTH,
+                                null,
+                                true,
+                                self::MAX_ATTACHMENT_SIZE,
+                            ]
+                        ),
+                    )
+                ]
+            )
         );
     }
 
@@ -318,10 +320,8 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
      */
     private function getTextValidationRuleForOtherPost(): ?ParamRule
     {
-        return new ParamRule(
-            self::PARAMETER_POST_TEXT,
-            new Rule(Rules::STRING_TYPE),
-            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getTextValidationRuleForTextPost(),
         );
     }
 
@@ -333,7 +333,6 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
         return new ParamRule(
             self::PARAMETER_POST_TEXT,
             new Rule(Rules::STRING_TYPE),
-            new Rule(Rules::REQUIRED),
             new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
         );
     }

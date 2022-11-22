@@ -84,3 +84,22 @@ GetOne:
       url: 'https://youtu.be/s3unDu3QfW0?t=13'
       embeddedURL: 'https://www.youtube.com/embed/s3unDu3QfW0'
     meta: [ ]
+
+  'Validate Buzz Video URL - No URL Given - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: ''
+    data:
+      url: ''
+      embeddedURL: null
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL- wrong url type - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: 'https://youtu.be/###/s3unDu3QfW0?t=13'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
