@@ -93,7 +93,7 @@ export default {
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
-    const readMore = ref(props.post?.text.length < 500);
+    const readMore = ref(new String(props.post?.text).length < 500);
     const {updatePostLike} = useBuzzAPIs(
       new APIService(window.appGlobal.baseUrl, ''),
     );

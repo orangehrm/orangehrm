@@ -56,10 +56,6 @@
 </template>
 
 <script>
-import {
-  required,
-  shouldNotExceedCharLength,
-} from '@/core/util/validation/rules';
 import {computed, reactive, toRefs} from 'vue';
 import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
@@ -68,6 +64,7 @@ import useDateFormat from '@/core/util/composable/useDateFormat';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal';
 import PhotoFrame from '@/orangehrmBuzzPlugin/components/PhotoFrame';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame';
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
@@ -95,7 +92,7 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const rules = {
-      text: [required, shouldNotExceedCharLength(63535)],
+      text: [shouldNotExceedCharLength(63535)],
     };
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/shares');
 

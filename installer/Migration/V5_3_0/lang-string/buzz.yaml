@@ -83,3 +83,6 @@ langStrings:
   -
     value: 'No Posts Available'
     unitId: no_posts_available
+  -
+    value: 'No work anniversaries for the next 30 days'
+    unitId: no_work_anniversaries_for_the_next_30_days

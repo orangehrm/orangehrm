@@ -20,11 +20,7 @@
 
 <template>
   <div class="orangehrm-buzz-anniversary">
-    <oxd-text
-      v-if="anniversariesCount > 0"
-      type="card-title"
-      class="orangehrm-buzz-anniversary-title"
-    >
+    <oxd-text type="card-title" class="orangehrm-buzz-anniversary-title">
       {{ $t('buzz.upcoming_anniversaries') }}
     </oxd-text>
     <div class="orangehrm-buzz-anniversary-content">
@@ -61,6 +57,12 @@
           </div>
         </div>
       </div>
+      <div v-if="isEmpty" class="orangehrm-buzz-anniversary-nocontent">
+        <img :src="noContentPic" alt="No Content" />
+        <oxd-text tag="p">
+          {{ $t('buzz.no_work_anniversaries_for_the_next_30_days') }}
+        </oxd-text>
+      </div>
     </div>
     <div
       v-if="anniversariesCount > 5"
@@ -91,6 +93,7 @@ export default {
     const {locale} = useLocale();
     const {$tEmpName} = useEmployeeNameTranslate();
     const celebrationPic = `${window.appGlobal.baseUrl}/../images/year_celebration.png`;
+    const noContentPic = `${window.appGlobal.baseUrl}/../images/buzz_no_anniversaries.png`;
 
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -100,6 +103,7 @@ export default {
     return {
       http,
       locale,
+      noContentPic,
       celebrationPic,
       tEmpName: $tEmpName,
     };
@@ -116,6 +120,9 @@ export default {
   computed: {
     isViewDetails() {
       return !this.viewMore;
+    },
+    isEmpty() {
+      return this.anniversaries.length === 0;
     },
   },
 

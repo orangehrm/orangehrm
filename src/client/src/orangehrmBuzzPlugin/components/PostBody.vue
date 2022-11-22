@@ -103,7 +103,7 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const state = reactive({
-      readMore: props.post?.text.length < 500,
+      readMore: new String(props.post?.text).length < 500,
     });
 
     const postClasses = computed(() => ({

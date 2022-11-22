@@ -322,6 +322,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
     {
         return $this->getValidationDecorator()->notRequiredParamRule(
             $this->getTextValidationRuleForTextPost(),
+            true
         );
     }
 

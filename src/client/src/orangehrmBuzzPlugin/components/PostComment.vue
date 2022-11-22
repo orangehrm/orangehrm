@@ -148,7 +148,7 @@ export default {
     const state = reactive({
       edit: false,
       comment: props.data.comment.text,
-      readMore: props.data.comment.text.length < 500,
+      readMore: new String(props.data.comment.text).length < 500,
     });
 
     const {updatePostComment} = useBuzzAPIs(

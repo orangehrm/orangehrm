@@ -18,9 +18,11 @@
 
 .orangehrm-buzz-anniversary {
   &-content {
-    overflow: auto;
-    max-height: 292px;
-    @include oxd-scrollbar();
+    @include oxd-respond-to('lg') {
+      overflow: auto;
+      max-height: 292px;
+      @include oxd-scrollbar();
+    }
   }
   &-item {
     display: flex;
@@ -81,6 +83,20 @@
     ::v-deep(.oxd-text) {
       cursor: pointer;
       color: $oxd-primary-one-color;
+    }
+  }
+  &-nocontent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    img {
+      width: 45%;
+      margin: 1rem 0;
+      max-width: 270px;
+    }
+    p {
+      width: 60%;
+      text-align: center;
     }
   }
 }
