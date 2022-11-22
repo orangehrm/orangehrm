@@ -64,6 +64,16 @@
           </template>
         </post-container>
       </oxd-grid-item>
+
+      <oxd-grid-item
+        v-show="!isLoading && posts.length === 0"
+        class="orangehrm-buzz-newsfeed-noposts"
+      >
+        <img :src="noPostsPic" alt="No Posts" />
+        <oxd-text tag="p">
+          {{ $t('buzz.no_posts_available') }}
+        </oxd-text>
+      </oxd-grid-item>
     </oxd-grid>
     <oxd-loading-spinner
       v-if="isLoading"
@@ -138,6 +148,7 @@ export default {
     const {fetchPosts} = useBuzzAPIs(
       new APIService(window.appGlobal.baseUrl, ''),
     );
+    const noPostsPic = `${window.appGlobal.baseUrl}/../images/buzz_no_posts.svg`;
 
     const state = reactive({
       total: 0,
@@ -237,6 +248,7 @@ export default {
       onShare,
       onComment,
       fetchData,
+      noPostsPic,
       onSelectPhoto,
       onUpdatePriority,
       onCloseShareModal,

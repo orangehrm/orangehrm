@@ -80,3 +80,6 @@ langStrings:
   -
     value: 'Like'
     unitId: like
+  -
+    value: 'No Posts Available'
+    unitId: no_posts_available
