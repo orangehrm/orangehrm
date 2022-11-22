@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Tests\Buzz\Api;
 
-use OrangeHRM\Buzz\Api\BuzzURLValidationAPI;
+use OrangeHRM\Buzz\Api\BuzzVideoURLValidationAPI;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -35,43 +35,43 @@ class BuzzURLValidationAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('BuzzURLValidationAPITest.yaml');
+        $this->populateFixtures('BuzzVideoURLValidationAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(BuzzURLValidationAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzVideoURLValidationAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('BuzzURLValidationAPIAPITestCases.yaml', 'GetOne');
+        return $this->getTestCases('BuzzVideoURLValidationAPIAPITestCases.yaml', 'GetOne');
     }
 
     public function testUpdate(): void
     {
-        $api = new BuzzURLValidationAPI($this->getRequest());
+        $api = new BuzzVideoURLValidationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->update();
     }
 
     public function testGetValidationRuleForUpdate(): void
     {
-        $api = new BuzzURLValidationAPI($this->getRequest());
+        $api = new BuzzVideoURLValidationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForUpdate();
     }
 
     public function testDelete(): void
     {
-        $api = new BuzzURLValidationAPI($this->getRequest());
+        $api = new BuzzVideoURLValidationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new BuzzURLValidationAPI($this->getRequest());
+        $api = new BuzzVideoURLValidationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

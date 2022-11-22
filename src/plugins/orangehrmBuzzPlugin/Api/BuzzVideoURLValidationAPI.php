@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Buzz\Api;
 
-use OrangeHRM\Buzz\Api\ValidationRules\BuzzVideoLinkValidationRule;
 use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
 use OrangeHRM\Buzz\Exception\InvalidURLException;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -31,15 +30,17 @@ use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 
-class BuzzURLValidationAPI extends Endpoint implements ResourceEndpoint
+class BuzzVideoURLValidationAPI extends Endpoint implements ResourceEndpoint
 {
     public const PARAMETER_VIDEO_LINK = 'url';
+    public const PARAMETER_VALID_VIDEO_LINK = 'valid';
 
     /**
      * @OA\Get(
      *     path="/api/v2/buzz/validation/links",
-     *     tags={"Buzz/Link"},
+     *     tags={"Buzz/Validation"},
      *     @OA\PathParameter(
      *         name="link",
      *         in="query",
@@ -73,14 +74,18 @@ class BuzzURLValidationAPI extends Endpoint implements ResourceEndpoint
 
         $buzzEmbeddedURL = new BuzzEmbeddedURL($videoLink);
 
-        try {
-            $response = [
-                'url' => $buzzEmbeddedURL->getURL(),
-                'embeddedURL' => $buzzEmbeddedURL->getEmbeddedURL(),
-            ];
-        } catch (InvalidURLException $e) {
-            throw new InvalidURLException($e);
+        $isValid = $buzzEmbeddedURL->isValidURL();
+        $response = [
+            self::PARAMETER_VALID_VIDEO_LINK => $isValid,
+            'url' => null,
+            'embeddedURL' => null,
+        ];
+
+        if ($isValid) {
+            $response['url'] = $buzzEmbeddedURL->getURL();
+            $response['embeddedURL'] = $buzzEmbeddedURL->getEmbeddedURL();
         }
+
         return new EndpointResourceResult(ArrayModel::class, $response);
     }
 
@@ -99,11 +104,11 @@ class BuzzURLValidationAPI extends Endpoint implements ResourceEndpoint
      */
     private function getVideoValidationRule(): ParamRule
     {
-        return $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(
-                self::PARAMETER_VIDEO_LINK,
-                new Rule(BuzzVideoLinkValidationRule::class),
-            ),
+        return new ParamRule(
+            self::PARAMETER_VIDEO_LINK,
+            new Rule(Rules::REQUIRED),
+            new Rule(Rules::STRING_TYPE),
+        //TODO - length validation
         );
     }
 
