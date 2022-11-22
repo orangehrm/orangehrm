@@ -1,0 +1,27 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "6","name": "Resigned" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
+  - { "id": "2", "reason_id": "6","termination_date": "2021-03-22","note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
+  - { "emp_number": 7,"employee_id": "0007","emp_lastname": "Employee","emp_firstname": "Purged","emp_middle_name": "", "termination_id": "2", "purged_at": "2022-03-22" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
