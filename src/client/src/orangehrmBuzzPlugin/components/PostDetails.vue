@@ -51,13 +51,7 @@
     <oxd-divider></oxd-divider>
     <div class="orangehrm-post-details-actions">
       <post-like :like="post.liked" @click="onClickLike"></post-like>
-      <post-stats
-        :mobile="false"
-        :post-id="post.id"
-        :no-of-likes="post.stats.noOfLikes"
-        :no-of-shares="post.stats.noOfShares"
-        :no-of-comments="post.stats.noOfComments"
-      ></post-stats>
+      <post-stats :post="post" :mobile="mobile"></post-stats>
     </div>
     <oxd-divider></oxd-divider>
     <!-- TODO: Comment section -->
@@ -67,10 +61,12 @@
 <script>
 import {computed, ref} from 'vue';
 import useLocale from '@/core/util/composable/useLocale';
+import {APIService} from '@/core/util/services/api.service';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import PostStats from '@/orangehrmBuzzPlugin/components/PostStats';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
+import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import PostLikeButton from '@/orangehrmBuzzPlugin/components/PostLikeButton';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
@@ -93,10 +89,14 @@ export default {
   emits: ['close'],
 
   setup(props, context) {
+    let loading = false;
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const readMore = ref(props.post?.text.length < 500);
+    const {updatePostLike} = useBuzzAPIs(
+      new APIService(window.appGlobal.baseUrl, ''),
+    );
 
     const postDateTime = computed(() => {
       const {createdDate, createdTime} = props.post;
@@ -120,9 +120,13 @@ export default {
 
     const onClickClose = () => context.emit('close');
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onClickLike = () => {
-      // todo
+      if (!loading) {
+        loading = true;
+        updatePostLike(props.post.id, props.post.liked).then(() => {
+          loading = false;
+        });
+      }
     };
 
     const postClasses = computed(() => ({

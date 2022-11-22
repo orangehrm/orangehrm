@@ -28,6 +28,19 @@ export interface Employee {
   terminationId?: number;
 }
 
+export interface Post {
+  text: string;
+  employee: Employee;
+  createdDate: string;
+  createdTime: string;
+}
+
+type Capability = 'canRead' | 'canCreate' | 'canUpdate' | 'canDelete';
+
+type Permission = {
+  [key in Capability]: boolean;
+};
+
 interface CommentsResponse {
   data: Array<{
     comment: {
@@ -36,6 +49,23 @@ interface CommentsResponse {
       createdTime: string;
     };
     employee: Employee;
+  }>;
+  meta: {
+    total: number;
+  };
+}
+
+interface PostsResponse {
+  data: Array<{
+    id: number;
+    text: string;
+    type: string;
+    liked: boolean;
+    employee: Employee;
+    createdDate: string;
+    createdTime: string;
+    permission: Permission;
+    originalPost: Post | null;
   }>;
   meta: {
     total: number;
@@ -91,7 +121,48 @@ export default function useBuzzAPIs(http: APIService) {
     });
   };
 
+  const fetchPostLikes = (postId: number): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'GET',
+      url: `api/v2/buzz/shares/${postId}/likes`,
+    });
+  };
+
+  const fetchPosts = (
+    limit: number,
+    offset: number,
+    sortOrder: 'ASC' | 'DESC',
+    sortField:
+      | 'share.createdAtUtc'
+      | 'share.numOfLikes'
+      | 'share.numOfComments',
+  ): Promise<AxiosResponse<PostsResponse>> => {
+    return http.request({
+      method: 'GET',
+      url: 'api/v2/buzz/feed',
+      params: {
+        limit,
+        offset,
+        sortOrder,
+        sortField,
+      },
+    });
+  };
+
+  const updatePostLike = (
+    postId: number,
+    like: boolean,
+  ): Promise<AxiosResponse> => {
+    return http.request({
+      method: like ? 'DELETE' : 'POST',
+      url: `api/v2/buzz/shares/${postId}/likes`,
+    });
+  };
+
   return {
+    fetchPosts,
+    updatePostLike,
+    fetchPostLikes,
     savePostComment,
     updatePostComment,
     deletePostComment,

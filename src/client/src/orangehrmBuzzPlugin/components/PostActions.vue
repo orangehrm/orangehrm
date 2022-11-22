@@ -20,13 +20,15 @@
 
 <template>
   <div class="orangehrm-buzz-post-actions">
-    <post-like :like="like" @click="onClickAction('like')"></post-like>
+    <post-like :like="post.liked" @click="onClickAction('like')"></post-like>
     <post-comment @click="onClickAction('comment')"></post-comment>
     <post-share @click="onClickAction('share')"></post-share>
   </div>
 </template>
 
 <script>
+import {APIService} from '@/core/util/services/api.service';
+import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import PostLikeButton from '@/orangehrmBuzzPlugin/components/PostLikeButton.vue';
 import PostShareButton from '@/orangehrmBuzzPlugin/components/PostShareButton.vue';
 import PostCommentButton from '@/orangehrmBuzzPlugin/components/PostCommentButton.vue';
@@ -41,15 +43,20 @@ export default {
   },
 
   props: {
-    like: {
-      type: Boolean,
+    post: {
+      type: Object,
       required: true,
     },
   },
 
   emits: ['like', 'comment', 'share'],
 
-  setup(_, context) {
+  setup(props, context) {
+    let loading = false;
+    const {updatePostLike} = useBuzzAPIs(
+      new APIService(window.appGlobal.baseUrl, ''),
+    );
+
     const onClickAction = actionType => {
       switch (actionType) {
         case 'comment':
@@ -60,8 +67,17 @@ export default {
           context.emit('share');
           break;
 
+        case 'like':
+          if (!loading) {
+            loading = true;
+            updatePostLike(props.post.id, props.post.liked).then(() => {
+              loading = false;
+              context.emit('like');
+            });
+          }
+          break;
+
         default:
-          context.emit('like');
           break;
       }
     };

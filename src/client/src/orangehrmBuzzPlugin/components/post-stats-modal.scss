@@ -16,58 +16,61 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-buzz-loader {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5rem;
-}
 
-.orangehrm-buzz-post {
-  &-footer {
-    &-status-list {
-      right: 0;
-      z-index: 10;
-      padding: 4px;
-      bottom: 1.1rem;
-      max-width: 340px;
-      max-height: 18rem;
-      top: unset;
-      overflow: auto;
-      width: max-content;
-      position: absolute;
-      box-sizing: border-box;
-      @include oxd-scrollbar();
-    }
-    &-mobile-list {
-      &-header {
-        display: flex;
-        align-items: center;
-        &-icon {
-            margin-right: 0.5rem;
-        }
-      }
-      &-share {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-left: 0.5rem;
-      }
-    }
-    &-status-employee {
-      display: flex;
-      align-items: center;
-      margin: 0.15rem 0;
-      padding: 0.3rem 1rem;
-      & p {
-        font-weight: 400;
-        font-size: 0.9rem;
-        margin-left: 0.5rem;
-        @include truncate(2, 1, #fff);
-      }
-    }
+.orangehrm-buzz-stats-modal {
+  right: 0;
+  z-index: 1;
+  top: 1.5rem;
+  padding: 5px;
+  overflow: auto;
+  max-width: 270px;
+  max-height: 18rem;
+  width: max-content;
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: 0.65rem;
+  background-color: $oxd-white-color;
+  box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.15);
+  border: 1px solid $oxd-interface-gray-lighten-2-color;
+  &-employee {
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+  }
+  &-employee-name {
+    margin-left: 0.5rem;
+    @include truncate(2, 1.5, #fff);
+  }
+  & .orangehrm-buzz-loader {
+    margin: 0.5rem 3rem;
   }
 }
 
-::v-deep(.orangehrm-buzz-post-mobile) {
+.orangehrm-buzz-stats-dialog {
+  &-header {
+    display: flex;
+    align-items: center;
+    &-icon {
+      margin-right: 0.5rem;
+    }
+  }
+  &-employee {
+    gap: 0.5rem;
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+  }
+  &-employee-name {
+    margin-left: 0.5rem;
+    @include truncate(2, 1.5, #fff);
+  }
+
+  & .orangehrm-buzz-loader {
+    margin: 0 auto;
+  }
+}
+
+::v-deep(.orangehrm-buzz-stats-dialog) {
   margin: 0;
   bottom: 0;
   width: 100%;

@@ -45,6 +45,8 @@
 
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
+import {APIService} from '@/core/util/services/api.service';
+import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import PostLikeButton from '@/orangehrmBuzzPlugin/components/PostLikeButton';
 import PostCommentButton from '@/orangehrmBuzzPlugin/components/PostCommentButton';
 
@@ -66,13 +68,23 @@ export default {
 
   emits: ['comment'],
 
-  setup(_, context) {
+  setup(props, context) {
+    let loading = false;
+    const {updatePostLike} = useBuzzAPIs(
+      new APIService(window.appGlobal.baseUrl, ''),
+    );
+
     const onClickComment = () => {
       context.emit('comment');
     };
 
     const onClickLike = () => {
-      // todo
+      if (!loading) {
+        loading = true;
+        updatePostLike(props.post.id, props.post.liked).then(() => {
+          loading = false;
+        });
+      }
     };
 
     return {
