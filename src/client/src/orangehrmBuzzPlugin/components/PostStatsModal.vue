@@ -40,7 +40,10 @@
   <oxd-dialog v-else class="orangehrm-buzz-stats-dialog" @update:show="onClose">
     <div class="orangehrm-buzz-stats-dialog-header">
       <oxd-icon
-        class="orangehrm-buzz-stats-dialog-header-icon"
+        :class="{
+          'orangehrm-buzz-stats-dialog-icon': true,
+          '--likes': type === 'likes',
+        }"
         :name="icon"
         :with-container="true"
       />

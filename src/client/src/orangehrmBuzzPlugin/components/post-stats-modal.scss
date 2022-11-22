@@ -50,8 +50,11 @@
   &-header {
     display: flex;
     align-items: center;
-    &-icon {
-      margin-right: 0.5rem;
+  }
+  &-icon {
+    margin-right: 0.5rem;
+    &.--likes {
+      color: $oxd-feedback-danger-color;
     }
   }
   &-employee {
