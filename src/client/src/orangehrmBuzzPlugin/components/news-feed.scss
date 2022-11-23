@@ -26,4 +26,14 @@
   &-loader {
     margin: 0 auto;
   }
+  &-noposts {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    img {
+      width: 70%;
+      margin: 1rem 0;
+      max-width: 240px;
+    }
+  }
 }

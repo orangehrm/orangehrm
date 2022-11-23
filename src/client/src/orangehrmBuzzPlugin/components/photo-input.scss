@@ -19,8 +19,8 @@
     ::v-deep(.oxd-file-div) {
       all: unset;
       z-index: 1;
+      left: 1rem;
       top: 0.5rem;
-      left: 0.5rem;
       position: absolute;
     }
     ::v-deep(.oxd-input-group) {
@@ -38,12 +38,16 @@
     color: $oxd-white-color;
     &.--float {
       top: -5px;
-      right: -5px;
+      right: 0px;
       position: absolute;
       background-color: #b8bdc7;
     }
     &:hover {
       background-color: $oxd-interface-gray-darken-1-color;
     }
+  }
+
+  ::v-deep(.orangehrm-buzz-photos-item) {
+    padding: 0 5px;
   }
 }

@@ -95,7 +95,9 @@ export default {
     },
   },
 
-  setup() {
+  emits: ['refresh'],
+
+  setup(_, context) {
     const post = ref(null);
     const showVideoModal = ref(false);
     const showPhotoModal = ref(false);
@@ -110,6 +112,7 @@ export default {
         })
         .then(() => {
           post.value = null;
+          context.emit('refresh');
         });
     };
 
@@ -121,12 +124,14 @@ export default {
       showVideoModal.value = true;
     };
 
-    const onCloseVideoModal = () => {
+    const onCloseVideoModal = $event => {
       showVideoModal.value = false;
+      if ($event) context.emit('refresh');
     };
 
-    const onClosePhotoModal = () => {
+    const onClosePhotoModal = $event => {
       showPhotoModal.value = false;
+      if ($event) context.emit('refresh');
     };
 
     return {

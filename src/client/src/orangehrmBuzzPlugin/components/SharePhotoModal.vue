@@ -39,15 +39,12 @@
 </template>
 
 <script>
-import {
-  required,
-  shouldNotExceedCharLength,
-} from '@/core/util/validation/rules';
 import {computed, reactive, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal';
 import PhotoInput from '@/orangehrmBuzzPlugin/components/PhotoInput';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 
 export default {
   name: 'SharePhotoModal',
@@ -69,7 +66,7 @@ export default {
 
   setup(props, context) {
     const rules = {
-      text: [required, shouldNotExceedCharLength(63535)],
+      text: [shouldNotExceedCharLength(63535)],
     };
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
 
