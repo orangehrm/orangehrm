@@ -23,7 +23,9 @@ use OrangeHRM\Buzz\Exception\InvalidURLException;
 
 class BuzzEmbeddedURL
 {
-    protected string $url;
+    private string $url;
+    private ?string $embeddedURL = null;
+    private bool $generated = false;
 
     /**
      * @param string $url
@@ -42,11 +44,24 @@ class BuzzEmbeddedURL
     }
 
     /**
+     * @param string|null $embeddedURL
+     * @return string|null
+     */
+    private function setEmbeddedURL(?string $embeddedURL): ?string
+    {
+        $this->generated = true;
+        return $this->embeddedURL = $embeddedURL;
+    }
+
+    /**
      * @return string|null
      * @throws InvalidURLException
      */
     public function getEmbeddedURL(): ?string
     {
+        if ($this->generated) { // Handle caching since no setter for $this->url
+            return $this->embeddedURL;
+        }
         $buzzURLGroups = [];
         $buzzURLGroups[] = new EmbeddedURLForYoutube($this->getURL());
         $buzzURLGroups[] = new EmbeddedURLForVimeo($this->getURL());
@@ -55,10 +70,10 @@ class BuzzEmbeddedURL
         foreach ($buzzURLGroups as $buzzURLGroup) {
             $embeddedURL = $buzzURLGroup->getEmbeddedURL();
             if ($embeddedURL != null) {
-                return $embeddedURL;
+                return $this->setEmbeddedURL($embeddedURL);
             }
         }
-        return null;
+        return $this->setEmbeddedURL(null);
     }
 
     /**
