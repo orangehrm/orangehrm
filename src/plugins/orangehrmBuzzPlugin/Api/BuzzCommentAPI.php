@@ -33,6 +33,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -64,6 +65,43 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/buzz/shares/{shareId}/comments/{commentId}",
+     *     tags={"Buzz/Comments"},
+     *     @OA\PathParameter(
+     *         name="shareId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="commentId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DEFAULT, OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzCommentModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -112,6 +150,52 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/buzz/shares/{shareId}/comments",
+     *     tags={"Buzz/Comments"},
+     *     @OA\PathParameter(
+     *         name="shareId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DEFAULT, OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=BuzzCommentSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzCommentModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
+     *                 })
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -149,6 +233,46 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/buzz/shares/{shareId}/comments",
+     *     tags={"Buzz/Comments"},
+     *     @OA\PathParameter(
+     *         name="shareId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DEFAULT, OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="text", type="string"),
+     *             required={"text"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzCommentModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -207,6 +331,50 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/buzz/shares/{shareId}/comments/{commentId}",
+     *     tags={"Buzz/Comments"},
+     *     @OA\PathParameter(
+     *         name="shareId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="commentId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DEFAULT, OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DETAILED},
+     *             default=OrangeHRM\Buzz\Api\BuzzCommentAPI::MODEL_DEFAULT
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="text", type="string"),
+     *             required={"text"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-BuzzCommentModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Buzz-BuzzDetailedCommentModel"),
+     *                 }
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
@@ -245,6 +413,32 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/buzz/shares/{shareId}/comments/{commentId}",
+     *     tags={"Buzz/Comments"},
+     *     @OA\PathParameter(
+     *         name="shareId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\PathParameter(
+     *         name="commentId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="commentId", type="integer"),
+     *                 @OA\Property(property="shareId", type="integer"),
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult
@@ -270,7 +464,10 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
             $this->getBuzzService()->getBuzzDao()->saveBuzzShare($comment->getShare());
             $this->commitTransaction();
 
-            return new EndpointResourceResult(BuzzCommentModel::class, $comment);
+            return new EndpointResourceResult(ArrayModel::class, [
+                self::PARAMETER_COMMENT_ID => $commentId,
+                self::PARAMETER_SHARE_ID => $shareId
+            ]);
         } catch (RecordNotFoundException | ForbiddenException $e) {
             $this->rollBackTransaction();
             throw $e;
