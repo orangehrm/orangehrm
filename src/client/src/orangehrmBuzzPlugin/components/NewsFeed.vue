@@ -24,7 +24,11 @@
       {{ $t('buzz.buzz_newsfeed') }}
     </oxd-text>
 
-    <create-post :employee="employee"></create-post>
+    <create-post
+      :key="posts"
+      :employee="employee"
+      @refresh="resetFeed"
+    ></create-post>
     <post-filters
       :mobile="mobile"
       :filter="filters.sortField"
@@ -218,7 +222,7 @@ export default {
     const resetFeed = () => {
       state.posts = [];
       state.offset = 0;
-      state.filters = [...defaultFilters];
+      state.filters = {...defaultFilters};
       fetchData();
     };
 
@@ -246,8 +250,8 @@ export default {
     return {
       onLike,
       onShare,
+      resetFeed,
       onComment,
-      fetchData,
       noPostsPic,
       onSelectPhoto,
       onUpdatePriority,

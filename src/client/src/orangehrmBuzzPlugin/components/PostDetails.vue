@@ -54,7 +54,10 @@
       <post-stats :post="post" :mobile="mobile"></post-stats>
     </div>
     <oxd-divider></oxd-divider>
-    <!-- TODO: Comment section -->
+    <post-comment-container
+      :post-id="post.id"
+      :employee="post.employee"
+    ></post-comment-container>
   </div>
 </template>
 
@@ -69,6 +72,7 @@ import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import PostLikeButton from '@/orangehrmBuzzPlugin/components/PostLikeButton';
 import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import PostCommentContainer from '@/orangehrmBuzzPlugin/components/PostCommentContainer';
 
 export default {
   name: 'PostDetails',
@@ -77,6 +81,7 @@ export default {
     'post-stats': PostStats,
     'post-like': PostLikeButton,
     'profile-image': ProfileImage,
+    'post-comment-container': PostCommentContainer,
   },
 
   props: {
