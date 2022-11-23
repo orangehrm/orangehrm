@@ -24,7 +24,7 @@ use OrangeHRM\Buzz\Exception\InvalidURLException;
 class EmbeddedURLForYoutube extends AbstractBuzzVideoURL
 {
     private const YOUTUBE_EMBEDDED_REGEX = '/(https|http):\/\/(?:www\.)?youtube.com\/embed\/[A-z0-9]+/';
-    private const YOUTUBE_REGEX = '/(?:http:|https:)*?\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.|youtube-nocookie\.com).*(?:v=|v%3D|v\/|(?:a|p)\/(?:a|u)\/\d.*\/|watch\?|vi(?:=|\/)|\/embed\/|oembed\?|be\/|e\/)([^&?%#\/\n]*)/';
+    private const YOUTUBE_REGEX = '/(?:http:|https:)*?\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.|youtube-nocookie\.com).*(?:v=|v%3D|v\/|(?:a|p)\/(?:a|u)\/\d.*\/|watch\?|vi(?:=|\/)|\/embed\/|\/shorts\/|oembed\?|be\/|e\/)([^&?%#\/\n]*)/';
 
     /**
      * @inheritDoc
@@ -42,13 +42,10 @@ class EmbeddedURLForYoutube extends AbstractBuzzVideoURL
         }
 
         if (preg_match(self::YOUTUBE_REGEX, $this->getURL())) {
-            $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
-            $longUrlRegex = '/youtube.com\/((?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
+            $longUrlRegex = '/(?:http:|https:)*?\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.|youtube-nocookie\.com).*(?:v=|v%3D|v\/|(?:a|p)\/(?:a|u)\/\d.*\/|watch\?|vi(?:=|\/)|\/shorts\/|be\/|e\/)([^&?%#\/\n]*)/i';
 
             $youtubeId = null;
             if (preg_match($longUrlRegex, $this->getURL(), $matches)) {
-                $youtubeId = end($matches);
-            } elseif (preg_match($shortUrlRegex, $this->getURL(), $matches)) {
                 $youtubeId = end($matches);
             }
 

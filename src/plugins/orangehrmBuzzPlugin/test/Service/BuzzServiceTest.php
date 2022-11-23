@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Buzz\test\Service;
+namespace OrangeHRM\Tests\Buzz\Service;
 
 use OrangeHRM\Buzz\Dao\BuzzDao;
 use OrangeHRM\Buzz\Dao\BuzzLikeDao;
