@@ -52,6 +52,13 @@ class BuzzLink
     private string $link;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="original_link", type="text", nullable=true)
+     */
+    private string $originalLink;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -97,5 +104,13 @@ class BuzzLink
     public function setLink(string $link): void
     {
         $this->link = $link;
+    }
+
+    /**
+     * @param string $originalLink
+     */
+    public function setOriginalLink(string $originalLink): void
+    {
+        $this->originalLink = $originalLink;
     }
 }
