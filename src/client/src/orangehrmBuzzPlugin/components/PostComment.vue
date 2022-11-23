@@ -138,9 +138,10 @@ export default {
     },
   },
 
-  emits: ['edit', 'delete'],
+  emits: ['edit', 'delete', 'like'],
 
   setup(props, context) {
+    let loading = false;
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
@@ -151,7 +152,7 @@ export default {
       readMore: new String(props.data.comment.text).length < 500,
     });
 
-    const {updatePostComment} = useBuzzAPIs(
+    const {updatePostComment, updateCommentLike} = useBuzzAPIs(
       new APIService(window.appGlobal.baseUrl, ''),
     );
 
@@ -171,7 +172,14 @@ export default {
     };
 
     const onClickLike = () => {
-      // todo
+      if (loading) return;
+      loading = true;
+      updateCommentLike(props.data.comment.id, props.data.comment.liked).then(
+        () => {
+          loading = false;
+          context.emit('like', props.data.comment.id);
+        },
+      );
     };
 
     const onClickDelete = () => {

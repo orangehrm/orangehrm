@@ -203,6 +203,11 @@ export default {
 
     const onLike = index => {
       state.posts[index].liked = !state.posts[index].liked;
+      if (state.posts[index].liked) {
+        state.posts[index].stats.numOfLikes++;
+      } else {
+        state.posts[index].stats.numOfLikes--;
+      }
     };
 
     const onShare = index => {

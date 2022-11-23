@@ -159,6 +159,16 @@ export default function useBuzzAPIs(http: APIService) {
     });
   };
 
+  const updateCommentLike = (
+    commentId: number,
+    like: boolean,
+  ): Promise<AxiosResponse> => {
+    return http.request({
+      method: like ? 'DELETE' : 'POST',
+      url: `api/v2/buzz/comments/${commentId}/likes`,
+    });
+  };
+
   return {
     fetchPosts,
     updatePostLike,
@@ -167,5 +177,6 @@ export default function useBuzzAPIs(http: APIService) {
     updatePostComment,
     deletePostComment,
     fetchPostComments,
+    updateCommentLike,
   };
 }
