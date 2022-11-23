@@ -56,9 +56,10 @@ export default {
 
 <style lang="scss" scoped>
 .orangehrm-buzz-video {
-  position: relative;
   height: 0;
   width: 100%;
+  overflow: hidden;
+  position: relative;
   padding-bottom: 56.25%;
   &-frame {
     top: 0;

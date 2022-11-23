@@ -57,6 +57,7 @@
 
 <script>
 import {computed, reactive, toRefs} from 'vue';
+import useToast from '@/core/util/composable/useToast';
 import useLocale from '@/core/util/composable/useLocale';
 import {APIService} from '@/core/util/services/api.service';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
@@ -89,6 +90,7 @@ export default {
 
   setup(props, context) {
     const {locale} = useLocale();
+    const {saveSuccess} = useToast();
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const rules = {
@@ -110,7 +112,10 @@ export default {
           text: state.post.text,
           shareId: props.data.id,
         })
-        .then(() => context.emit('close', true));
+        .then(() => {
+          saveSuccess();
+          context.emit('close', true);
+        });
     };
 
     const originalPost = computed(() => {

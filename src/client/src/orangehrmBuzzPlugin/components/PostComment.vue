@@ -25,6 +25,7 @@
       <oxd-form v-if="edit" @submitValid="onSubmit">
         <oxd-input-field
           v-model="comment"
+          v-autofocus
           :rules="rules"
           @keydown.esc="onCancelComment"
         />
@@ -127,6 +128,15 @@ export default {
     'profile-image': ProfileImage,
   },
 
+  directives: {
+    autofocus: {
+      mounted(el) {
+        if (!el) return;
+        el.querySelector('input')?.focus();
+      },
+    },
+  },
+
   props: {
     postId: {
       type: Number,
@@ -218,8 +228,8 @@ export default {
       rules,
       dateTime,
       onSubmit,
-      onClickEdit,
       onClickLike,
+      onClickEdit,
       onClickDelete,
       onClickReadMore,
       onCancelComment,

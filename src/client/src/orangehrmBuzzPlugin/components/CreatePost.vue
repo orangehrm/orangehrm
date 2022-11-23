@@ -68,6 +68,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
+import useToast from '@/core/util/composable/useToast';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
 import GlassButton from '@ohrm/oxd/core/components/Button/GlassButton';
@@ -99,6 +100,7 @@ export default {
 
   setup(_, context) {
     const post = ref(null);
+    const {saveSuccess} = useToast();
     const showVideoModal = ref(false);
     const showPhotoModal = ref(false);
     const rules = [required, shouldNotExceedCharLength(63535)];
@@ -111,6 +113,7 @@ export default {
           text: post.value,
         })
         .then(() => {
+          saveSuccess();
           post.value = null;
           context.emit('refresh');
         });
@@ -126,12 +129,18 @@ export default {
 
     const onCloseVideoModal = $event => {
       showVideoModal.value = false;
-      if ($event) context.emit('refresh');
+      if ($event) {
+        saveSuccess();
+        context.emit('refresh');
+      }
     };
 
     const onClosePhotoModal = $event => {
       showPhotoModal.value = false;
-      if ($event) context.emit('refresh');
+      if ($event) {
+        saveSuccess();
+        context.emit('refresh');
+      }
     };
 
     return {

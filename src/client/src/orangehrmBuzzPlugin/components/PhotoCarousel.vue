@@ -35,6 +35,7 @@
     <post-details
       v-if="showDetails"
       :post="post"
+      :mobile="mobile"
       @close="$emit('close', false)"
     >
     </post-details>

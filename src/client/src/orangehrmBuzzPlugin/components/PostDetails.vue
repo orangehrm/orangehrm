@@ -89,6 +89,10 @@ export default {
       type: Object,
       required: true,
     },
+    mobile: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   emits: ['close'],
