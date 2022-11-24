@@ -14,10 +14,12 @@
     "axios": "0.27.2",
     "core-js": "^3.6.5",
     "date-fns": "^2.22.1",
+    "hammerjs": "^2.0.8",
     "intl-messageformat": "^9.11.4",
     "vue": "^3.2.2"
   },
   "devDependencies": {
+    "@types/hammerjs": "^2.0.41",
     "@types/jest": "^24.0.19",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",

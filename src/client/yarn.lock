@@ -1757,6 +1757,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/hammerjs@npm:^2.0.41":
+  version: 2.0.41
+  resolution: "@types/hammerjs@npm:2.0.41"
+  checksum: 52aa0d25a385a977a322b0975a8b757f4fdf6fd233186cd96e2fae9e90bd3bc77667b4e91b11403c340823787484a92c2a70cf2392de699c395eb9f5d1c1b5be
+  languageName: node
+  linkType: hard
+
 "@types/http-proxy@npm:^1.17.5":
   version: 1.17.7
   resolution: "@types/http-proxy@npm:1.17.7"
@@ -7095,6 +7102,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"hammerjs@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "hammerjs@npm:2.0.8"
+  checksum: 68178494e20c711ca4beefd644a57d09452436697e511c6777836ed184d5c96d9a92c001a7bb51eb2fa98220f814a7d79606dbd44ed569adad7d0c9d32d4ba77
+  languageName: node
+  linkType: hard
+
 "handle-thing@npm:^2.0.0":
   version: 2.0.1
   resolution: "handle-thing@npm:2.0.1"
@@ -10527,6 +10541,7 @@ fsevents@~2.3.2:
   resolution: "orangehrm@workspace:."
   dependencies:
     "@ohrm/oxd": 1.0.8-alpha.1
+    "@types/hammerjs": ^2.0.41
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0
@@ -10545,6 +10560,7 @@ fsevents@~2.3.2:
     eslint: ^6.7.2
     eslint-plugin-prettier: ^3.1.3
     eslint-plugin-vue: ^7.0.0-0
+    hammerjs: ^2.0.8
     intl-messageformat: ^9.11.4
     prettier: ^1.19.1
     sass: ^1.26.5
