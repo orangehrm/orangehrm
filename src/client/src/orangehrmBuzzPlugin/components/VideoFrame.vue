@@ -42,13 +42,7 @@ export default {
   },
   computed: {
     embedURL() {
-      const videoID =
-        new String(this.videoSrc)
-          .trim()
-          .match(
-            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(shorts|embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
-          )[7] || '';
-      return `https://www.youtube.com/embed/${videoID}`;
+      return new String(this.videoSrc).trim();
     },
   },
 };
@@ -56,9 +50,10 @@ export default {
 
 <style lang="scss" scoped>
 .orangehrm-buzz-video {
-  position: relative;
   height: 0;
   width: 100%;
+  overflow: hidden;
+  position: relative;
   padding-bottom: 56.25%;
   &-frame {
     top: 0;

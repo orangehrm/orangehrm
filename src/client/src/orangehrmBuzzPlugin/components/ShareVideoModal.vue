@@ -40,18 +40,19 @@
       :label="$t('buzz.video_url')"
       :placeholder="$t('buzz.paste_video_url')"
     />
-    <video-frame v-if="isValidURL" :video-src="post.url"></video-frame>
+    <video-frame v-if="embedURL" :video-src="embedURL"></video-frame>
   </post-modal>
 </template>
 
 <script>
 import {
   required,
-  validVideoURL,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
-import {computed, reactive, toRefs} from 'vue';
+import {reactive, toRefs} from 'vue';
+import usei18n from '@/core/util/composable/usei18n';
 import {APIService} from '@/core/util/services/api.service';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import PostModal from '@/orangehrmBuzzPlugin/components/PostModal.vue';
 import VideoFrame from '@/orangehrmBuzzPlugin/components/VideoFrame.vue';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
@@ -75,10 +76,7 @@ export default {
   emits: ['close'],
 
   setup(props, context) {
-    const rules = {
-      url: [required, validVideoURL],
-      text: [shouldNotExceedCharLength(63535)],
-    };
+    const {$t} = usei18n();
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
 
     const state = reactive({
@@ -86,8 +84,34 @@ export default {
         text: props.text || null,
         url: null,
       },
+      embedURL: null,
       isLoading: false,
     });
+
+    const rules = {
+      url: [
+        required,
+        promiseDebounce(async value => {
+          if (!value) return true;
+          state.embedURL = null;
+          const response = await http.request({
+            method: 'GET',
+            url: 'api/v2/buzz/validation/links',
+            params: {
+              url: value,
+            },
+          });
+          const {data} = response.data;
+          if (data?.valid === true) {
+            state.embedURL = data.embeddedURL;
+            return true;
+          } else {
+            return $t('general.invalid_video_url_message');
+          }
+        }, 500),
+      ],
+      text: [shouldNotExceedCharLength(63535)],
+    };
 
     const onSubmit = () => {
       state.isLoading = true;
@@ -100,14 +124,9 @@ export default {
         .then(() => context.emit('close', true));
     };
 
-    const isValidURL = computed(
-      () => !!state.post.url && validVideoURL(state.post.url) === true,
-    );
-
     return {
       rules,
       onSubmit,
-      isValidURL,
       ...toRefs(state),
     };
   },
