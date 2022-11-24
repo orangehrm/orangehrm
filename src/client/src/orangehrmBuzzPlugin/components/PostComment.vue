@@ -27,7 +27,7 @@
           v-model="comment"
           v-autofocus
           :rules="rules"
-          @keydown.esc="onCancelComment"
+          @keydown.esc.stop="onCancelComment"
         />
         <oxd-text tag="span">{{ $t('buzz.press_esc_to') }}&nbsp;</oxd-text>
         <oxd-text

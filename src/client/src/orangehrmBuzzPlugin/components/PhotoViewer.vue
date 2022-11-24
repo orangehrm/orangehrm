@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import {computed, reactive, toRefs} from 'vue';
+import {computed, onBeforeUnmount, reactive, toRefs} from 'vue';
 
 export default {
   name: 'PhotoViewer',
@@ -92,7 +92,14 @@ export default {
       return `${window.appGlobal.baseUrl}/buzz/photo/${photo}`;
     });
 
-    const onClickClose = () => context.emit('close');
+    const onClickClose = $event => {
+      if ($event.key && $event.key !== 'Escape') return;
+      context.emit('close');
+    };
+
+    window.addEventListener('keydown', onClickClose);
+
+    onBeforeUnmount(() => window.removeEventListener('keydown', onClickClose));
 
     return {
       onClickClose,
