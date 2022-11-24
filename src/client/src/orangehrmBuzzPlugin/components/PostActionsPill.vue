@@ -20,7 +20,7 @@
 <template>
   <div class="orangehrm-buzz-pill">
     <div class="orangehrm-buzz-pill-actions">
-      <post-like :like="false" @click="onClickLike"></post-like>
+      <post-like :like="post.liked" @click="onClickLike"></post-like>
       <post-comment @click="onClickComment"></post-comment>
     </div>
     <div class="orangehrm-buzz-pill-stats">
@@ -66,7 +66,7 @@ export default {
     },
   },
 
-  emits: ['comment'],
+  emits: ['like', 'comment'],
 
   setup(props, context) {
     let loading = false;
@@ -83,6 +83,7 @@ export default {
         loading = true;
         updatePostLike(props.post.id, props.post.liked).then(() => {
           loading = false;
+          context.emit('like');
         });
       }
     };
@@ -112,9 +113,10 @@ export default {
   &-stats {
     &-likes {
       gap: 5px;
+      display: flex;
       font-size: 1rem;
       font-weight: 700;
-      display: flex;
+      align-items: flex-end;
       justify-content: flex-end;
       ::v-deep(.oxd-icon) {
         color: $oxd-feedback-danger-color;

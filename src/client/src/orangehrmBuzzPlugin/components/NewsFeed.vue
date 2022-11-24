@@ -92,9 +92,10 @@
   ></share-post-modal>
   <photo-carousel
     v-if="showPhotoCarousel"
-    :photo-index="0"
     :mobile="mobile"
-    :post="photoCarouselState"
+    :post="photoCarouselState.post"
+    :photo-index="photoCarouselState.photoIndex"
+    @like="onLike(photoCarouselState.postIndex)"
     @close="onClosePhotoCarousel"
   ></photo-carousel>
 </template>
@@ -232,7 +233,11 @@ export default {
     };
 
     const onSelectPhoto = ($event, index) => {
-      state.photoCarouselState = state.posts[index];
+      state.photoCarouselState = {
+        postIndex: index,
+        photoIndex: $event,
+        post: state.posts[index],
+      };
       state.showPhotoCarousel = true;
       document.body.style.overflow = 'hidden';
     };

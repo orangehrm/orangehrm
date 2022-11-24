@@ -29,6 +29,7 @@
       <post-actions-pill
         v-if="mobile"
         :post="post"
+        @like="$emit('like')"
         @comment="onClickComment"
       ></post-actions-pill>
     </photo-viewer>
@@ -36,6 +37,7 @@
       v-if="showDetails"
       :post="post"
       :mobile="mobile"
+      @like="$emit('like')"
       @close="$emit('close', false)"
     >
     </post-details>
@@ -72,7 +74,7 @@ export default {
     },
   },
 
-  emits: ['close'],
+  emits: ['like', 'close'],
 
   setup(props) {
     const state = reactive({

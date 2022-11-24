@@ -87,6 +87,7 @@
           {{ $t('buzz.like') }}
         </oxd-text>
         <oxd-text
+          v-if="data.permission.canUpdate"
           tag="p"
           class="orangehrm-post-comment-action"
           @click="onClickEdit"
@@ -94,6 +95,7 @@
           {{ $t('general.edit') }}
         </oxd-text>
         <oxd-text
+          v-if="data.permission.canDelete"
           tag="p"
           class="orangehrm-post-comment-action"
           @click="onClickDelete"

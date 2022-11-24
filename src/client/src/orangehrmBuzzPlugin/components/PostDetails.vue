@@ -95,7 +95,7 @@ export default {
     },
   },
 
-  emits: ['close'],
+  emits: ['like', 'close'],
 
   setup(props, context) {
     let loading = false;
@@ -134,6 +134,7 @@ export default {
         loading = true;
         updatePostLike(props.post.id, props.post.liked).then(() => {
           loading = false;
+          context.emit('like');
         });
       }
     };
