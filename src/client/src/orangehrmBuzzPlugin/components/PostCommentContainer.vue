@@ -36,6 +36,7 @@
       :data="comment"
       :post-id="postId"
       @edit="onEditComment"
+      @like="onLikeComment"
       @delete="onDeleteComment"
     ></post-comment>
     <oxd-text
@@ -132,11 +133,16 @@ export default {
       });
     };
 
+    const onLikeComment = () => {
+      loadComments();
+    };
+
     onBeforeMount(() => loadComments());
 
     return {
       onSubmit,
       deleteDialog,
+      onLikeComment,
       onEditComment,
       onClickShowMore,
       onDeleteComment,

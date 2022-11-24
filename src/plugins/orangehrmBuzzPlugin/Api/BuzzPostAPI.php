@@ -270,7 +270,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
 
         $buzzEmbeddedURL = new BuzzEmbeddedURL($videoLink);
         $buzzVideoPost->setLink($buzzEmbeddedURL->getEmbeddedURL());
-        //TODO - save original url
+        $buzzVideoPost->setOriginalLink($videoLink);
 
         $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzVideoPost);
     }
@@ -322,6 +322,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
     {
         return $this->getValidationDecorator()->notRequiredParamRule(
             $this->getTextValidationRuleForTextPost(),
+            true
         );
     }
 

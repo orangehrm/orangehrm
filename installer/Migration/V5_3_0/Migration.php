@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Migration\V5_3_0;
 
 use DateTime;
 use DateTimeZone;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Core\Service\DateTimeHelperService;
@@ -53,6 +54,52 @@ class Migration extends AbstractMigration
         $this->convertBuzzPostTableTimesToUTC();
         $this->convertBuzzShareTableTimesToUTC();
         $this->changeBuzzTablesDateTimeColumnsAsNotNull();
+        $this->createColumnToStoreBuzzOriginalVideoLink();
+    }
+
+    private function createColumnToStoreBuzzOriginalVideoLink(): void
+    {
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_buzz_link',
+            'original_link',
+            Types::TEXT,
+            ['Notnull' => false, 'Default' => null]
+        );
+
+        $table = 'ohrm_buzz_link';
+        $count = $this->getTableRecordCount($table);
+        $batchSize = 10;
+        for ($i = 0; $i <= $count; $i = $i + $batchSize) {
+            $result = $this->createQueryBuilder()
+                ->select('buzzLink.id', 'buzzLink.post_id', 'buzzPost.text')
+                ->from($table, 'buzzLink')
+                ->leftJoin('buzzLink', 'ohrm_buzz_post', 'buzzPost', 'buzzPost.id = buzzLink.post_id')
+                ->setFirstResult($i)
+                ->setMaxResults($batchSize)
+                ->executeQuery();
+
+            $postIds = [];
+            foreach ($result->fetchAllAssociative() as $row) {
+                $postIds[] = $row['post_id'];
+                $this->createQueryBuilder()
+                    ->update($table, 'buzz')
+                    ->set('buzz.original_link', ':originalLink')
+                    ->where('buzz.id = :id')
+                    ->setParameter('id', $row['id'])
+                    ->setParameter('originalLink', $row['text'])
+                    ->executeStatement();
+            }
+
+            $q = $this->createQueryBuilder()
+                ->update('ohrm_buzz_post')
+                ->set('ohrm_buzz_post.text', ':newValue');
+            $q->where($q->expr()->in('ohrm_buzz_post.id', ':postIds'))
+                ->setParameter('postIds', $postIds, Connection::PARAM_INT_ARRAY)
+                ->setParameter('newValue', null)
+                ->executeStatement();
+
+            $result->free();
+        }
     }
 
     private function modifyBuzzTables(): void

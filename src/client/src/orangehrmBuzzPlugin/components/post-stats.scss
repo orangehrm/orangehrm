@@ -16,39 +16,27 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-buzz {
-  &-like-icon {
-    color: $oxd-feedback-danger-color;
-  }
-}
-.orangehrm-buzz-loader {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5rem;
-}
-
-.orangehrm-buzz-post {
-  &-footer {
+.orangehrm-buzz-stats {
+  &-row {
+    gap: 5px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    &-summery-top {
+    position: relative;
+    font-size: 0.75rem;
+    &:first-of-type {
       font-size: 1rem;
       font-weight: 700;
-      display: flex;
-      cursor: pointer;
-      position: relative;
       align-items: center;
       justify-content: flex-end;
-      & p {
-        margin-left: 0.5rem;
-      }
     }
-    &-summery-bottom {
-      font-size: 0.75rem;
-      display: flex;
-      cursor: pointer;
-      position: relative;
+  }
+  &-active {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
     }
+  }
+  &-like-icon {
+    height: 15px;
+    color: $oxd-feedback-danger-color;
   }
 }

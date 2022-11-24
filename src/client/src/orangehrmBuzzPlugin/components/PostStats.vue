@@ -19,59 +19,50 @@
  -->
 
 <template>
-  <div class="orangehrm-buzz-post-footer">
-    <div class="orangehrm-buzz-post-footer-right">
-      <div class="orangehrm-buzz-post-footer-summery-top">
-        <oxd-icon name="heart-fill" class="orangehrm-buzz-like-icon"></oxd-icon>
-        <oxd-text
-          tag="p"
-          @mouseleave="onShowLikeListMobile"
-          @mouseover="onShowLikeList"
-          @click="onShowLikeList"
-        >
-          {{ $t('buzz.n_like', {likesCount: noOfLikes}) }}
-        </oxd-text>
-        <div v-if="showLikeList">
-          <post-stats-modal
-            :post-id="postId"
-            :mobile="mobile"
-            icon-name="heart-fill"
-            status-name="likes"
-          ></post-stats-modal>
-        </div>
-      </div>
-      <div class="orangehrm-buzz-post-footer-summery-bottom">
-        <oxd-text
-          tag="p"
-          class="orangehrm-buzz-post-footer-comment"
-          @click="$emit('showComment', $event)"
-        >
-          {{ $t('buzz.n_comment', {commentCount: noOfComments}) }},&nbsp;
-        </oxd-text>
-        <oxd-text
-          tag="p"
-          @mouseleave="onShowSharesListMobile"
-          @mouseover="onShowSharesList"
-          @click="onShowSharesList"
-        >
-          {{ $t('buzz.n_share', {shareCount: noOfShares}) }}
-        </oxd-text>
-        <post-stats-modal
-          v-if="showSharesList"
-          :post-id="postId"
-          :mobile="mobile"
-          icon-name="share-fill"
-          status-name="shares"
-        ></post-stats-modal>
-      </div>
+  <div v-click-outside="onClose" class="orangehrm-buzz-stats">
+    <div class="orangehrm-buzz-stats-row">
+      <oxd-icon
+        name="heart-fill"
+        class="orangehrm-buzz-stats-like-icon"
+      ></oxd-icon>
+      <oxd-text tag="p" :class="likesClasses" @click="onShowLikeList">
+        {{ likesCount }}
+      </oxd-text>
+      <post-stats-modal
+        v-if="showLikeList"
+        type="likes"
+        icon="heart-fill"
+        :mobile="mobile"
+        :post-id="post.id"
+        @close="onClose"
+      ></post-stats-modal>
+    </div>
+    <div class="orangehrm-buzz-stats-row">
+      <oxd-text
+        tag="p"
+        class="orangehrm-buzz-stats-active"
+        @click="onShowComments"
+      >
+        {{ commentsCount }}&sbquo;
+      </oxd-text>
+      <oxd-text tag="p" :class="sharesClasses" @click="onShowSharesList">
+        {{ sharesCount }}
+      </oxd-text>
+      <post-stats-modal
+        v-if="showSharesList"
+        type="shares"
+        icon="share-fill"
+        :mobile="mobile"
+        :post-id="post.id"
+        @close="onClose"
+      ></post-stats-modal>
     </div>
   </div>
 </template>
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
-import {APIService} from '@/core/util/services/api.service';
 import PostStatsModal from '@/orangehrmBuzzPlugin/components/PostStatsModal.vue';
-import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import clickOutsideDirective from '@ohrm/oxd/directives/click-outside';
 
 export default {
   name: 'PostStats',
@@ -81,22 +72,14 @@ export default {
     'post-stats-modal': PostStatsModal,
   },
 
+  directives: {
+    'click-outside': clickOutsideDirective,
+  },
+
   props: {
-    postId: {
-      type: Number,
+    post: {
+      type: Object,
       required: true,
-    },
-    noOfLikes: {
-      type: Number,
-      default: 0,
-    },
-    noOfComments: {
-      type: Number,
-      default: 0,
-    },
-    noOfShares: {
-      type: Number,
-      default: 0,
     },
     mobile: {
       type: Boolean,
@@ -104,44 +87,60 @@ export default {
     },
   },
 
-  emits: ['showComment'],
-
-  setup() {
-    const {$tEmpName} = useEmployeeNameTranslate();
-    const http = new APIService(window.appGlobal.baseUrl, '');
-
-    return {
-      http,
-      tEmpName: $tEmpName,
-    };
-  },
+  emits: ['comment'],
 
   data() {
     return {
-      isLoading: false,
       showLikeList: false,
       showSharesList: false,
-      likedList: [],
-      sharesList: [],
     };
   },
 
+  computed: {
+    likesCount() {
+      return this.$t('buzz.n_like', {
+        likesCount: this.post.stats?.numOfLikes || 0,
+      });
+    },
+    sharesCount() {
+      return this.$t('buzz.n_share', {
+        shareCount: this.post.stats?.numOfShares || 0,
+      });
+    },
+    commentsCount() {
+      return this.$t('buzz.n_comment', {
+        commentCount: this.post.stats?.numOfComments || 0,
+      });
+    },
+    likesClasses() {
+      return {
+        'orangehrm-buzz-stats-active': this.post.stats?.numOfLikes > 0,
+      };
+    },
+    sharesClasses() {
+      return {
+        'orangehrm-buzz-stats-active': this.post.stats?.numOfLikes > 0,
+      };
+    },
+  },
+
   methods: {
+    onShowComments() {
+      this.$emit('comment');
+    },
     onShowLikeList() {
+      this.showSharesList = false;
+      if (!this.post.stats?.numOfLikes) return;
       this.showLikeList = true;
     },
     onShowSharesList() {
+      this.showLikeList = false;
+      if (!this.post.stats?.numOfShares) return;
       this.showSharesList = true;
     },
-    onShowSharesListMobile() {
-      if (!this.mobile) {
-        this.showSharesList = false;
-      }
-    },
-    onShowLikeListMobile() {
-      if (!this.mobile) {
-        this.showLikeList = false;
-      }
+    onClose() {
+      this.showLikeList = false;
+      this.showSharesList = false;
     },
   },
 };

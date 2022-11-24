@@ -24,7 +24,11 @@
       {{ $t('buzz.buzz_newsfeed') }}
     </oxd-text>
 
-    <create-post :employee="employee"></create-post>
+    <create-post
+      :key="posts"
+      :employee="employee"
+      @refresh="resetFeed"
+    ></create-post>
     <post-filters
       :mobile="mobile"
       :filter="filters.sortField"
@@ -42,7 +46,7 @@
           </template>
           <template #actionButton>
             <post-actions
-              :like="post.liked"
+              :post="post"
               @like="onLike(index)"
               @share="onShare(index)"
               @comment="onComment(index)"
@@ -50,11 +54,9 @@
           </template>
           <template #postStats>
             <post-stats
+              :post="post"
               :mobile="mobile"
-              :post-id="post.id"
-              :no-of-likes="post.stats.numOfLikes"
-              :no-of-shares="post.stats.numOfShares"
-              :no-of-comments="post.stats.numOfComments"
+              @comment="onComment(index)"
             ></post-stats>
           </template>
           <template v-if="post.showComments" #comments>
@@ -65,6 +67,16 @@
             ></post-comment-container>
           </template>
         </post-container>
+      </oxd-grid-item>
+
+      <oxd-grid-item
+        v-show="!isLoading && posts.length === 0"
+        class="orangehrm-buzz-newsfeed-noposts"
+      >
+        <img :src="noPostsPic" alt="No Posts" />
+        <oxd-text tag="p">
+          {{ $t('buzz.no_posts_available') }}
+        </oxd-text>
       </oxd-grid-item>
     </oxd-grid>
     <oxd-loading-spinner
@@ -97,6 +109,7 @@ import CreatePost from '@/orangehrmBuzzPlugin/components/CreatePost.vue';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
 import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
+import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import PhotoCarousel from '@/orangehrmBuzzPlugin/components/PhotoCarousel.vue';
 import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
@@ -136,7 +149,10 @@ export default {
 
   setup() {
     const POST_LIMIT = 10;
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/feed');
+    const {fetchPosts} = useBuzzAPIs(
+      new APIService(window.appGlobal.baseUrl, ''),
+    );
+    const noPostsPic = `${window.appGlobal.baseUrl}/../images/buzz_no_posts.svg`;
 
     const state = reactive({
       total: 0,
@@ -154,16 +170,15 @@ export default {
 
     const fetchData = () => {
       state.isLoading = true;
-      http
-        .getAll({
-          limit: POST_LIMIT,
-          offset: state.offset,
-          sortOrder: state.filters.sortOrder,
-          sortField: state.filters.sortField,
-        })
+      fetchPosts(
+        POST_LIMIT,
+        state.offset,
+        state.filters.sortOrder,
+        state.filters.sortField,
+      )
         .then(response => {
           const {data, meta} = response.data;
-          state.total = meta?.total || 0;
+          state.total = meta.total || 0;
           if (Array.isArray(data)) {
             state.posts = [...state.posts, ...data];
           }
@@ -187,14 +202,12 @@ export default {
     };
 
     const onLike = index => {
-      http
-        .update(state.posts[index].id, {
-          like: !state.posts[index].liked,
-        })
-        .then(() => {
-          state.posts[index].liked = !state.posts[index].liked;
-          // todo - update like count etc
-        });
+      state.posts[index].liked = !state.posts[index].liked;
+      if (state.posts[index].liked) {
+        state.posts[index].stats.numOfLikes++;
+      } else {
+        state.posts[index].stats.numOfLikes--;
+      }
     };
 
     const onShare = index => {
@@ -214,7 +227,7 @@ export default {
     const resetFeed = () => {
       state.posts = [];
       state.offset = 0;
-      state.filters = [...defaultFilters];
+      state.filters = {...defaultFilters};
       fetchData();
     };
 
@@ -242,8 +255,9 @@ export default {
     return {
       onLike,
       onShare,
+      resetFeed,
       onComment,
-      fetchData,
+      noPostsPic,
       onSelectPhoto,
       onUpdatePriority,
       onCloseShareModal,

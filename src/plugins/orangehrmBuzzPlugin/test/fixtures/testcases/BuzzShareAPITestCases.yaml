@@ -1,0 +1,89 @@
+Create:
+  'Share Text Post In Buzz - ESS User':
+    userId: 2
+    now:
+      datetime: '2022-09-09 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: 'this is text post 01'
+      shareId: 1
+    data:
+      share:
+        id: 7
+      post:
+        id: 1
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Share Photo Post In Buzz - Admin User':
+    userId: 1
+    now:
+      datetime: '2022-09-09 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: null
+      shareId: 2
+    data:
+      share:
+        id: 7
+      post:
+        id: 2
+      employee:
+        empNumber: 4
+        lastName: 'Abrahams'
+        firstName: 'Landon'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Share Video Post In Buzz - Admin User':
+    userId: 1
+    now:
+      datetime: '2022-09-09 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: null
+      shareId: 6
+    data:
+      share:
+        id: 7
+      post:
+        id: 6
+      employee:
+        empNumber: 4
+        lastName: 'Abrahams'
+        firstName: 'Landon'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Share Text Post In Buzz - Empty Text':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: ""
+      shareId: 2
+    invalidOnly: ['text']
+
+  'Share Text Post In Buzz - Not existed post':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: 'this is text post 01'
+      shareId: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'

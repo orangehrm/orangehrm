@@ -19,51 +19,91 @@
 
 namespace OrangeHRM\Buzz\Api\Model;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\BuzzComment;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
 
+/**
+ * @OA\Schema(
+ *     schema="Buzz-BuzzDetailedCommentModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="comment",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="text", type="string"),
+ *         @OA\Property(property="numOfLikes", type="integer"),
+ *         @OA\Property(property="liked", type="boolean"),
+ *         @OA\Property(property="createdDate", type="string"),
+ *         @OA\Property(property="createdTime", type="string"),
+ *     ),
+ *     @OA\Property(
+ *         property="share",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     ),
+ *     @OA\Property(
+ *         property="permission",
+ *         type="object",
+ *         @OA\Property(property="canUpdate", type="boolean"),
+ *         @OA\Property(property="canDelete", type="boolean"),
+ *     )
+ * )
+ */
 class BuzzDetailedCommentModel implements Normalizable
 {
-    use ModelTrait;
+    use BuzzServiceTrait;
+
+    private BuzzComment $buzzComment;
 
     public function __construct(BuzzComment $buzzComment)
     {
-        $this->setEntity($buzzComment);
-        $this->setFilters(
-            [
-                'id',
-                'text',
-                'numOfLikes',
-                ['getDecorator', 'isAuthEmployeeLiked'],
-                ['getDecorator', 'getCreatedDate'],
-                ['getDecorator', 'getCreatedTime'],
-                ['getShare', 'getId'],
-                ['getEmployee', 'getEmpNumber'],
-                ['getEmployee', 'getLastName'],
-                ['getEmployee', 'getFirstName'],
-                ['getEmployee', 'getMiddleName'],
-                ['getEmployee', 'getEmployeeId'],
-                ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
-            ]
-        );
+        $this->buzzComment = $buzzComment;
+    }
 
-        $this->setAttributeNames(
-            [
-                ['comment', 'id'],
-                ['comment', 'text'],
-                ['comment', 'numOfLikes'],
-                ['comment', 'liked'],
-                ['comment', 'createdDate'],
-                ['comment', 'createdTime'],
-                ['share', 'id'],
-                ['employee', 'empNumber'],
-                ['employee', 'lastName'],
-                ['employee', 'firstName'],
-                ['employee', 'middleName'],
-                ['employee', 'employeeId'],
-                ['employee', 'terminationId'],
-            ]
-        );
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        $empNumber = $this->buzzComment->getEmployee()->getEmpNumber();
+        $terminationRecord = $this->buzzComment->getEmployee()->getEmployeeTerminationRecord();
+        return [
+            'comment' => [
+                'id' => $this->buzzComment->getId(),
+                'text' => $this->buzzComment->getText(),
+                'numOfLikes' => $this->buzzComment->getNumOfLikes(),
+                'liked' => $this->buzzComment->getDecorator()->isAuthEmployeeLiked(),
+                'createdDate' => $this->buzzComment->getDecorator()->getCreatedDate(),
+                'createdTime' => $this->buzzComment->getDecorator()->getCreatedTime(),
+            ],
+            'share' => [
+                'id' => $this->buzzComment->getShare()->getId(),
+            ],
+            'employee' => [
+                'empNumber' => $empNumber,
+                'lastName' => $this->buzzComment->getEmployee()->getLastName(),
+                'firstName' => $this->buzzComment->getEmployee()->getFirstName(),
+                'middleName' => $this->buzzComment->getEmployee()->getMiddleName(),
+                'employeeId' => $this->buzzComment->getEmployee()->getEmployeeId(),
+                'terminationId' => $terminationRecord instanceof EmployeeTerminationRecord
+                    ? $terminationRecord->getId() : null,
+            ],
+            'permission' => [
+                'canUpdate' => $this->getBuzzService()->canUpdateBuzzComment($empNumber),
+                'canDelete' => $this->getBuzzService()->canDeleteBuzzComment($empNumber),
+            ],
+        ];
     }
 }

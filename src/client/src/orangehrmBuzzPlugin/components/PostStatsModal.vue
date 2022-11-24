@@ -19,57 +19,53 @@
  -->
 
 <template>
-  <div v-if="!mobile">
-    <oxd-sheet
-      :gutters="false"
-      type="white"
-      class="orangehrm-buzz-post-footer-status-list"
+  <oxd-sheet
+    v-if="!mobile"
+    :gutters="false"
+    type="white"
+    class="orangehrm-buzz-stats-modal"
+  >
+    <div
+      v-for="user in users"
+      :key="user"
+      class="orangehrm-buzz-stats-modal-employee"
     >
-      <div
-        v-for="user in users"
-        :key="user"
-        class="orangehrm-buzz-post-footer-status-employee"
-      >
-        <profile-image :employee="user.employee"></profile-image>
-        <oxd-text tag="p">
-          {{ user.employee.firstName }}{{ user.employee.lastName }}
-        </oxd-text>
-      </div>
-      <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
-    </oxd-sheet>
-  </div>
-  <oxd-dialog v-else class="orangehrm-buzz-post-mobile">
-    <oxd-sheet
-      :gutters="false"
-      type="white"
-      class="orangehrm-buzz-post-footer-mobile-list"
+      <profile-image :employee="user.employee"></profile-image>
+      <oxd-text tag="p" class="orangehrm-buzz-stats-modal-employee-name">
+        {{ user.fullName }}
+      </oxd-text>
+    </div>
+    <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
+  </oxd-sheet>
+  <oxd-dialog v-else class="orangehrm-buzz-stats-dialog" @update:show="onClose">
+    <div class="orangehrm-buzz-stats-dialog-header">
+      <oxd-icon
+        :class="{
+          'orangehrm-buzz-stats-dialog-icon': true,
+          '--likes': type === 'likes',
+        }"
+        :name="icon"
+        :with-container="true"
+      />
+      <oxd-text v-if="type === 'shares'">
+        {{ $t('buzz.n_share', {shareCount: total}) }}
+      </oxd-text>
+      <oxd-text v-if="type === 'likes'">
+        {{ $t('buzz.n_like', {likesCount: total}) }}
+      </oxd-text>
+    </div>
+    <oxd-divider />
+    <div
+      v-for="user in users"
+      :key="user"
+      class="orangehrm-buzz-stats-dialog-employee"
     >
-      <div class="orangehrm-buzz-post-footer-mobile-list-header">
-        <oxd-icon
-          class="orangehrm-buzz-post-footer-mobile-list-header-icon"
-          :name="iconName"
-          :with-container="true"
-        />
-        <oxd-text v-if="statusName === 'shares'">
-          {{ $t('buzz.n_share', {shareCount: total}) }}
-        </oxd-text>
-        <oxd-text v-if="statusName === 'likes'">
-          {{ $t('buzz.n_like', {likesCount: total}) }}
-        </oxd-text>
-      </div>
-      <oxd-divider />
-      <div
-        v-for="user in users"
-        :key="user"
-        class="orangehrm-buzz-post-footer-status-employee"
-      >
-        <profile-image :employee="user.employee"></profile-image>
-        <oxd-text tag="p">
-          {{ user.employee.firstName }}{{ user.employee.lastName }}
-        </oxd-text>
-      </div>
-      <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
-    </oxd-sheet>
+      <profile-image :employee="user.employee"></profile-image>
+      <oxd-text tag="p" class="orangehrm-buzz-stats-dialog-employee-name">
+        {{ user.fullName }}
+      </oxd-text>
+    </div>
+    <oxd-loading-spinner v-if="isLoading" class="orangehrm-buzz-loader" />
   </oxd-dialog>
 </template>
 
@@ -82,6 +78,7 @@ import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   name: 'PostStatsModal',
@@ -99,11 +96,11 @@ export default {
       type: Number,
       required: true,
     },
-    statusName: {
+    type: {
       type: String,
       required: true,
     },
-    iconName: {
+    icon: {
       type: String,
       required: true,
     },
@@ -113,11 +110,14 @@ export default {
     },
   },
 
-  setup(props) {
+  emits: ['close'],
+
+  setup(props, context) {
     const EMPLOYEE_LIMIT = 10;
+    const {$tEmpName} = useEmployeeNameTranslate();
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/buzz/posts/${props.postId}/${props.statusName}`,
+      `api/v2/buzz/shares/${props.postId}/${props.type}`,
     );
 
     const state = reactive({
@@ -136,9 +136,19 @@ export default {
         })
         .then(response => {
           const {data, meta} = response.data;
-          state.total = meta?.count || 0;
+          state.total = meta?.total || 0;
           if (Array.isArray(data)) {
-            state.users = [...state.users, ...data];
+            const _data = data.map(user => {
+              const {employee} = user;
+              return {
+                employee,
+                fullName: $tEmpName(employee, {
+                  includeMiddle: false,
+                  excludePastEmpTag: false,
+                }),
+              };
+            });
+            state.users = [...state.users, ..._data];
           }
         })
         .finally(() => (state.isLoading = false));
@@ -152,7 +162,12 @@ export default {
 
     onBeforeMount(() => fetchData());
 
+    const onClose = () => {
+      context.emit('close');
+    };
+
     return {
+      onClose,
       fetchData,
       ...toRefs(state),
     };
@@ -160,4 +175,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped src="./post-status-dialog.scss"></style>
+<style lang="scss" scoped src="./post-stats-modal.scss"></style>
