@@ -324,7 +324,7 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_TEXT,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, BuzzPostAPI::PARAM_RULE_TEXT_MAX_LENGTH])
+                new Rule(Rules::STR_LENGTH, [null, BuzzPostAPI::PARAM_RULE_TEXT_MAX_LENGTH, '8bit'])
             ),
             $this->getModelParamRule()
         );
