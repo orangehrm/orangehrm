@@ -23,6 +23,32 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\BuzzShare;
 
+/**
+ * @OA\Schema(
+ *     schema="Buzz-ShareModel",
+ *     type="object",
+ *     @OA\Property(
+ *         property="share",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="post",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer")
+ *     )
+ * )
+ */
 class BuzzShareModel implements Normalizable
 {
     use ModelTrait;

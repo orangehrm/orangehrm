@@ -58,6 +58,28 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/buzz/shares",
+     *     tags={"Buzz/Shares"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="text", type="string"),
+     *             @OA\Property(property="shareId", type="integer"),
+     *             required={"shareId"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Buzz-ShareModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function create(): EndpointResult

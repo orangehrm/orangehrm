@@ -134,3 +134,36 @@ GetOne:
       url: null
       embeddedURL: null
     meta: [ ]
+
+  'Validate Buzz Youtube Shorts Video URL - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: 'https://www.youtube.com/shorts/Fsa34Mo439qI0'
+    data:
+      valid: true
+      url: 'https://www.youtube.com/shorts/Fsa34Mo439qI0'
+      embeddedURL: 'https://www.youtube.com/embed/Fsa34Mo439qI0'
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL - Type 04 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'http://www.youtube.com/v/-wtIMTCHWuI?version=3&autohide=1'
+    data:
+      valid: true
+      url: 'http://www.youtube.com/v/-wtIMTCHWuI?version=3&autohide=1'
+      embeddedURL: 'https://www.youtube.com/embed/-wtIMTCHWuI'
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL - Type 05- ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'http://www.youtube.com/attribution_link?a=JdfC0C9V6ZI&u=%2Fwatch%3Fv%3DEhxJLojIE_o%26feature%3Dshare'
+    data:
+      valid: true
+      url: 'http://www.youtube.com/attribution_link?a=JdfC0C9V6ZI&u=%2Fwatch%3Fv%3DEhxJLojIE_o%26feature%3Dshare'
+      embeddedURL: 'https://www.youtube.com/embed/EhxJLojIE_o'
+    meta: [ ]
