@@ -1,13 +1,13 @@
 ---
-name: Bug report OrangeHRM 4.x
+name: Bug report OrangeHRM 5.x
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: '5x'
 assignees: ''
 
 ---
 **Environment details**
-OrangeHRM version: [e.g. 4.3, 4.3.4, 4.10.1]
+OrangeHRM version: [e.g. 5.0, 5.1]
 OrangeHRM source: Release build from [Sourceforge](https://sourceforge.net/projects/orangehrm) or Git clone
 Platform: output of `uname -a` (UNIX), or version and 32 or 64-bit (Windows), or Docker
 PHP version: output of `php -v`
@@ -30,11 +30,10 @@ Please describe what you expected to happen.
 Provide error logs depending on the issue. Make sure to remove sensitive data from log files.
 
 If issue related to installation:
-- symfony/log/installer.log
-- logInsatall.log
+- src/log/installer.log
 
 If issue related to any other
-- symfony/log/orangehrm.log
+- src/log/orangehrm.log 
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
