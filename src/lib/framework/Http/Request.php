@@ -36,11 +36,7 @@ class Request extends HttpRequest
             if (count($backtrace) > 0 && isset($backtrace[0]['file'])) {
                 $callerFile = $backtrace[0]['file'];
                 $callerFile = str_replace(Config::get(Config::BASE_DIR), '', $callerFile);
-                if (!in_array($callerFile, [
-                    '/src/vendor/symfony/http-foundation/Request.php',
-                    '/src/vendor/symfony/http-kernel/EventListener/ProfilerListener.php',
-                    '/src/vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php',
-                ])) {
+                if (false !== strpos($callerFile, '/src/plugins')) {
                     throw new BadFunctionCallException(
                         'Internal method since Symfony 5.4, use explicit request parameters from the appropriate public property (attributes, query, request) instead. ' .
                         'See more https://symfony.com/blog/new-in-symfony-5-4-controller-changes'
