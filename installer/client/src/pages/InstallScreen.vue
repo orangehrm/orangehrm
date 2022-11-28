@@ -98,10 +98,16 @@ export default {
       createDatabase,
       createConfigFiles,
       createDatabaseUser,
+      preMigrationCheck,
     } = useInstaller(new APIService(window.appGlobal.baseUrl, ''));
 
     const tasks = ref([
-      {name: 'Database Creation', state: 0, task: createDatabase},
+      {name: 'Database creation', state: 0, task: createDatabase},
+      {
+        name: 'Checking database prerequisites',
+        state: 0,
+        task: preMigrationCheck,
+      },
       {name: 'Applying database changes', state: 0, task: runMigrations},
       {
         name: 'Instance and Admin user creation',

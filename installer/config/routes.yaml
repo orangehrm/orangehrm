@@ -82,6 +82,11 @@ api_upgrader_database_config:
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\DatabaseConfigAPI::handle
   methods: [ GET, POST ]
 
+api_upgrader_pre_migration_check:
+  path: /upgrader/api/installation/pre-migration
+  controller: OrangeHRM\Installer\Controller\Installer\Api\PreMigrationCheck::handle
+  methods: [ POST ]
+
 api_upgrader_migration:
   path: /upgrader/api/migration
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\MigrationAPI::handle
@@ -164,6 +169,11 @@ api_installer_versions:
 api_installer_database:
   path: /installer/api/installation/database
   controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabaseAPI::handle
+  methods: [ POST ]
+
+api_installer_pre_migration_check:
+  path: /installer/api/installation/pre-migration
+  controller: OrangeHRM\Installer\Controller\Installer\Api\PreMigrationCheck::handle
   methods: [ POST ]
 
 api_installer_migration:
