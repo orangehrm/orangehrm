@@ -266,7 +266,7 @@ class SystemConfig
      */
 
     /**
-     * Write Permissions for “var/config” Check
+     * Write Permissions for “lib/confs” Check
      * @return array
      */
     public function isWritableConfigDir(): array
@@ -286,7 +286,7 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “var/cache” Check
+     * Write Permissions for “src/cache” Check
      * @return array
      */
     public function isWritableCacheDir(): array
@@ -306,7 +306,7 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “var/log” Check
+     * Write Permissions for “src/log” Check
      * @return array
      */
     public function isWritableLogDir(): array
@@ -326,27 +326,7 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “var/session” Check
-     * @return array
-     */
-    public function isWritableSessionDir(): array
-    {
-        if ($this->checkWritePermission(Config::get(Config::SESSION_DIR))) {
-            return [
-                'message' => Messages::WRITEABLE,
-                'status' => self::PASSED
-            ];
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::NOT_WRITEABLE,
-                'status' => self::BLOCKER
-            ];
-        }
-    }
-
-    /**
-     * Write Permissions for “var/cryptoKey” Check
+     * Write Permissions for “lib/confs/cryptokeys” Check
      * @return array
      */
     public function isWritableCryptoKeyDir(): array

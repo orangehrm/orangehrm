@@ -33,8 +33,7 @@ class ConfigHelper
     {
         $pathToProjectBase = realpath(__DIR__ . '/../../../');
         $pathToSrcDir = realpath($pathToProjectBase . '/src/');
-        $pathToVarDir = realpath($pathToProjectBase . '/var/');
-        $pathToConfigDir = $pathToVarDir . DIRECTORY_SEPARATOR . 'config';
+        $pathToConfigDir = $pathToProjectBase . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'confs';
         return [
             Config::BASE_DIR => $pathToProjectBase,
             Config::SRC_DIR => $pathToSrcDir,
@@ -44,12 +43,11 @@ class ConfigHelper
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
             Config::DOCTRINE_PROXY_DIR => realpath($pathToSrcDir . '/config/proxy'),
             Config::TEST_DIR => realpath($pathToSrcDir . '/test'),
-            Config::VAR_DIR => $pathToVarDir,
-            Config::LOG_DIR => $pathToVarDir . DIRECTORY_SEPARATOR . 'log',
-            Config::CACHE_DIR => $pathToVarDir . DIRECTORY_SEPARATOR . 'cache',
+            Config::LOG_DIR => $pathToSrcDir . DIRECTORY_SEPARATOR . 'log',
+            Config::CACHE_DIR => $pathToSrcDir . DIRECTORY_SEPARATOR . 'cache',
             Config::CONFIG_DIR => $pathToConfigDir,
-            Config::CRYPTO_KEY_DIR => $pathToVarDir . DIRECTORY_SEPARATOR . 'cryptoKey',
-            Config::SESSION_DIR => $pathToVarDir . DIRECTORY_SEPARATOR . 'session',
+            Config::CRYPTO_KEY_DIR => $pathToConfigDir . DIRECTORY_SEPARATOR . 'cryptokeys',
+            Config::SESSION_DIR => null,
             Config::CONF_FILE_PATH => $pathToConfigDir . DIRECTORY_SEPARATOR . 'Conf.php',
         ];
     }

@@ -35,7 +35,7 @@ class SystemCheckAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\System
             $systemConfig = new SystemConfig();
             $response = parent::handleGet($request);
             $response['data'][1]['checks'][] = [
-                'label' => 'Write Permissions for “var/cryptoKey”',
+                'label' => 'Write Permissions for “lib/confs/cryptokeys”',
                 'value' => $systemConfig->isWritableCryptoKeyDir()
             ];
             return $response;

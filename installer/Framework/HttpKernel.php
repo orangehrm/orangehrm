@@ -185,15 +185,13 @@ class HttpKernel extends BaseHttpKernel
     protected function configureSession(Request $request): void
     {
         $systemConfig = new SystemConfig();
-        if ($systemConfig->checkWritePermission(Config::get(Config::SESSION_DIR))) {
+        $savePath = Config::get(Config::SESSION_DIR);
+        if ($savePath != null && $systemConfig->checkWritePermission(Config::get(Config::SESSION_DIR))) {
             $savePath = Config::get(Config::SESSION_DIR);
         } elseif ($systemConfig->checkWritePermission(sys_get_temp_dir())) {
             $savePath = sys_get_temp_dir();
         } else {
-            throw new SessionStorageNotWritable(
-                'Session storage not writable. ' .
-                'Please provide write permission to {path to OrangeHRM}/var/session directory.'
-            );
+            throw new SessionStorageNotWritable('Session storage not writable.');
         }
         $session = $this->createSession($request, $savePath);
         $session->start();
