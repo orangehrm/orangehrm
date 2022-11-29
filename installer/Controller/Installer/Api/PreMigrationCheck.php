@@ -14,10 +14,11 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-$logFilePath = realpath(__DIR__ . '/../log') . DIRECTORY_SEPARATOR . 'orangehrm.log';
+namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-ini_set('log_errors', true);
-ini_set('error_log', $logFilePath);
+class PreMigrationCheck extends \OrangeHRM\Installer\Controller\Upgrader\Api\PreMigrationCheck
+{
+}

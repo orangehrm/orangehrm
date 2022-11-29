@@ -14,10 +14,25 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-$logFilePath = realpath(__DIR__ . '/../log') . DIRECTORY_SEPARATOR . 'orangehrm.log';
+namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
-ini_set('log_errors', true);
-ini_set('error_log', $logFilePath);
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\Connection;
+use OrangeHRM\Installer\Util\DatabaseUserPermissionEvaluator;
+
+class PreMigrationCheck extends AbstractInstallerRestController
+{
+    /**
+     * @inheritDoc
+     */
+    protected function handlePost(Request $request): array
+    {
+        $evaluator = new DatabaseUserPermissionEvaluator(Connection::getConnection());
+        $evaluator->evalPrivilegeDatabaseUserPermission();
+        return [];
+    }
+}
