@@ -97,7 +97,7 @@ export default {
       useUpgrader(new APIService(window.appGlobal.baseUrl, ''));
     const tasks = ref([
       {
-        name: 'Checking database prerequisites',
+        name: 'Checking database permissions',
         state: 0,
         task: preMigrationCheck,
       },

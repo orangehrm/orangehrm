@@ -104,7 +104,7 @@ export default {
     const tasks = ref([
       {name: 'Database creation', state: 0, task: createDatabase},
       {
-        name: 'Checking database prerequisites',
+        name: 'Checking database permissions',
         state: 0,
         task: preMigrationCheck,
       },
