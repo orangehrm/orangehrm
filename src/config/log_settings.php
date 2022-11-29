@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-$logFilePath = realpath(__DIR__ . '/../../src/log') . DIRECTORY_SEPARATOR . 'orangehrm.log';
+$logFilePath = realpath(__DIR__ . '/../log') . DIRECTORY_SEPARATOR . 'orangehrm.log';
 
 ini_set('log_errors', true);
 ini_set('error_log', $logFilePath);
