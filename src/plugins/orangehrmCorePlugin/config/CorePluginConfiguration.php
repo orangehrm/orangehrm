@@ -26,7 +26,6 @@ use OrangeHRM\Core\Command\GenerateDoctrineProxiesCommand;
 use OrangeHRM\Core\Command\RunScheduleCommand;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPersistSubscriber;
-use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPublishSubscriber;
 use OrangeHRM\Core\Service\CacheService;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
@@ -118,7 +117,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
         $this->getEventDispatcher()->addSubscriber(new MailerSubscriber());
         $this->getEventDispatcher()->addSubscriber(new ModuleNotAvailableSubscriber());
         $this->getEventDispatcher()->addSubscriber(new RegistrationEventPersistSubscriber());
-        $this->getEventDispatcher()->addSubscriber(new RegistrationEventPublishSubscriber());
         $this->getEventDispatcher()->addSubscriber(new GlobalConfigSubscriber());
     }
 
