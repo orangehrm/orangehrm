@@ -23,6 +23,7 @@ use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Registration\Processor\RegistrationEventProcessorFactory;
 use OrangeHRM\Entity\RegistrationEventQueue;
 use OrangeHRM\Framework\Http\Response;
+use Throwable;
 
 class PushEventController extends AbstractController
 {
@@ -31,11 +32,14 @@ class PushEventController extends AbstractController
      */
     public function handle(): Response
     {
-        $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
-        $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
-            RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT
-        );
-        $registrationEventProcessor->publishRegistrationEvents();
+        try {
+            $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
+            $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
+                RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT
+            );
+            $registrationEventProcessor->publishRegistrationEvents();
+        } catch (Throwable $e) {
+        }
 
         return $this->getResponse();
     }

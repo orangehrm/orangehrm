@@ -20,7 +20,6 @@
 namespace OrangeHRM\Installer\Util\SystemConfig;
 
 use DateTime;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\ConfigHelper;
@@ -52,7 +51,6 @@ class SystemConfiguration
 
     /**
      * @return AbstractSchemaManager
-     * @throws Exception
      */
     private function getSchemaManager(): AbstractSchemaManager
     {
@@ -61,7 +59,6 @@ class SystemConfiguration
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getOrganizationName(): string
     {
@@ -74,7 +71,6 @@ class SystemConfiguration
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getCountry(): string
     {
@@ -96,7 +92,6 @@ class SystemConfiguration
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getAdminFirstName(): string
     {
@@ -112,7 +107,6 @@ class SystemConfiguration
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getAdminLastName(): string
     {
@@ -126,7 +120,6 @@ class SystemConfiguration
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getAdminEmail(): string
     {
@@ -140,7 +133,6 @@ class SystemConfiguration
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getAdminContactNumber(): string
     {
@@ -155,7 +147,6 @@ class SystemConfiguration
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getAdminUserName(): string
     {
@@ -189,7 +180,6 @@ class SystemConfiguration
 
     /**
      * @return int|null
-     * @throws Exception
      */
     private function getAdminEmployeeNumber(): ?int
     {
@@ -351,7 +341,6 @@ class SystemConfiguration
 
     /**
      * @return bool
-     * @throws Exception
      */
     public function isRegistrationEventQueueAvailable(): bool
     {
@@ -360,10 +349,10 @@ class SystemConfiguration
 
     /**
      * @param int $eventType
-     * @param int $published
+     * @param bool $published
      * @param string|null $data
      */
-    public function setRegistrationEventQueue(int $eventType, int $published, string $data = null)
+    public function setRegistrationEventQueue(int $eventType, bool $published, string $data = null): void
     {
         $eventTime = new DateTime();
 
@@ -372,10 +361,10 @@ class SystemConfiguration
             ->setValue('event_type', ':eventType')
             ->setParameter('eventType', $eventType)
             ->setValue('published', ':published')
-            ->setParameter('published', $published)
+            ->setParameter('published', $published, Types::BOOLEAN)
             ->setValue('event_time', ':eventTime')
             ->setParameter('eventTime', $eventTime, Types::DATETIME_MUTABLE);
-        if ($published !== 0) {
+        if ($published) {
             $qb->setValue('publish_time', ':publishTime')
                 ->setParameter('publishTime', $eventTime, Types::DATETIME_MUTABLE);
         }
@@ -383,16 +372,15 @@ class SystemConfiguration
             $qb->setValue('data', ':data')
                 ->setParameter('data', $data);
         }
-        $qb->executeQuery();
+        $qb->executeStatement();
     }
 
     /**
      * @param int $eventType
-     * @param int $published
+     * @param bool $published
      * @param string|null $data
-     * @throws Exception
      */
-    public function updateRegistrationEventQueue(int $eventType, int $published, string $data = null)
+    public function updateRegistrationEventQueue(int $eventType, bool $published, string $data = null): void
     {
         $qb = $this->getConnection()->createQueryBuilder();
         $eventQueueId = $qb->select('eventQueue.id')
@@ -406,7 +394,7 @@ class SystemConfiguration
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->update('ohrm_registration_event_queue', 'eventQueue')
             ->set('eventQueue.published', ':published')
-            ->setParameter('published', $published)
+            ->setParameter('published', $published, Types::BOOLEAN)
             ->set('eventQueue.publish_time', ':publishTime')
             ->setParameter('publishTime', new DateTime(), Types::DATETIME_MUTABLE);
         if (!is_null($data)) {
@@ -415,6 +403,6 @@ class SystemConfiguration
         }
         $qb->andWhere('eventQueue.id  = :eventQueueId')
             ->setParameter('eventQueueId', $eventQueueId)
-            ->executeQuery();
+            ->executeStatement();
     }
 }
