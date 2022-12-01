@@ -139,7 +139,7 @@ export class APIService {
         }
 
         const $toast = vm?.appContext.config.globalProperties.$toast;
-        if ($toast) {
+        if ($toast && error.code !== 'ECONNABORTED') {
           const message = error.response?.data?.error?.message;
           $toast.unexpectedError(message);
         }
