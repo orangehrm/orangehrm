@@ -19,24 +19,34 @@
 
 namespace OrangeHRM\Buzz\Api;
 
+use Exception;
 use OrangeHRM\Buzz\Api\Model\BuzzShareModel;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\BuzzShare;
+use OrangeHRM\ORM\Exception\TransactionException;
 
 class BuzzShareAPI extends Endpoint implements CrudEndpoint
 {
     use BuzzServiceTrait;
     use AuthUserTrait;
+    use EntityManagerHelperTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_TEXT = 'text';
     public const PARAMETER_SHARE_ID = 'shareId';
@@ -132,7 +142,33 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $this->beginTransaction();
+        try {
+            $shareId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            );
+
+            $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+            if (!$buzzShare instanceof BuzzShare) {
+                throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
+            }
+
+            if (!$this->getUserRoleManager()->isEntityAccessible(BuzzShare::class, $shareId)) {
+                throw $this->getForbiddenException();
+            }
+
+            $this->getBuzzService()->getBuzzDao()->deleteBuzzPost($buzzShare->getPost()->getId());
+            $this->commitTransaction();
+
+            return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_SHARE_ID => $shareId]);
+        } catch (InvalidParamException | ForbiddenException $e) {
+            $this->rollBackTransaction();
+            throw $e;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
     }
 
     /**
@@ -140,7 +176,12 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            )
+        );
     }
 
     /**
