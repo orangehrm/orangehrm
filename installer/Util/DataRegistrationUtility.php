@@ -154,7 +154,8 @@ class DataRegistrationUtility
     {
         return [
             'instance_identifier' => $this->systemConfiguration->getInstanceIdentifier(),
-            'type' => self::REGISTRATION_TYPE_SUCCESS
+            'type' => self::REGISTRATION_TYPE_SUCCESS,
+            'system_details' => json_encode($this->systemConfig->getSystemDetails()),
         ];
     }
 
@@ -227,7 +228,7 @@ class DataRegistrationUtility
         $successRegistrationDataBody = $this->getSuccessRegistrationDataBody();
         $published = $this->dataRegistrationService->sendRegistrationData($successRegistrationDataBody);
 
-        $this->systemConfiguration->setRegistrationEventQueue(
+        $this->systemConfiguration->saveRegistrationEvent(
             self::REGISTRATION_TYPE_SUCCESS,
             $published,
             json_encode($successRegistrationDataBody)

@@ -30,8 +30,8 @@ class SystemConfiguration
     public const NOT_CAPTURED = 'Not Captured';
     public const DEFAULT_LANGUAGE = 'en_US';
 
-    public const INSTANCE_IDENTIFIER = "instance.identifier";
-    public const INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
+    public const INSTANCE_IDENTIFIER = 'instance.identifier';
+    public const INSTANCE_IDENTIFIER_CHECKSUM = 'instance.identifier_checksum';
 
     private ?ConfigHelper $configHelper = null;
     private ?int $adminEmpNumber = null;
@@ -351,10 +351,15 @@ class SystemConfiguration
      * @param int $eventType
      * @param bool $published
      * @param string|null $data
+     * @param DateTime|null $eventTime
      */
-    public function setRegistrationEventQueue(int $eventType, bool $published, string $data = null): void
-    {
-        $eventTime = new DateTime();
+    public function saveRegistrationEvent(
+        int $eventType,
+        bool $published,
+        string $data = null,
+        ?DateTime $eventTime = null
+    ): void {
+        $eventTime = $eventTime ?? new DateTime();
 
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->insert('ohrm_registration_event_queue')
@@ -373,36 +378,5 @@ class SystemConfiguration
                 ->setParameter('data', $data);
         }
         $qb->executeStatement();
-    }
-
-    /**
-     * @param int $eventType
-     * @param bool $published
-     * @param string|null $data
-     */
-    public function updateRegistrationEventQueue(int $eventType, bool $published, string $data = null): void
-    {
-        $qb = $this->getConnection()->createQueryBuilder();
-        $eventQueueId = $qb->select('eventQueue.id')
-            ->from('ohrm_registration_event_queue', 'eventQueue')
-            ->where('eventQueue.event_type  = :eventType')
-            ->setParameter('eventType', $eventType)
-            ->orderBy('eventQueue.id', 'DESC')
-            ->setMaxResults(1)
-            ->fetchOne();
-
-        $qb = $this->getConnection()->createQueryBuilder();
-        $qb->update('ohrm_registration_event_queue', 'eventQueue')
-            ->set('eventQueue.published', ':published')
-            ->setParameter('published', $published, Types::BOOLEAN)
-            ->set('eventQueue.publish_time', ':publishTime')
-            ->setParameter('publishTime', new DateTime(), Types::DATETIME_MUTABLE);
-        if (!is_null($data)) {
-            $qb->set('data', ':data')
-                ->setParameter('data', $data);
-        }
-        $qb->andWhere('eventQueue.id  = :eventQueueId')
-            ->setParameter('eventQueueId', $eventQueueId)
-            ->executeStatement();
     }
 }

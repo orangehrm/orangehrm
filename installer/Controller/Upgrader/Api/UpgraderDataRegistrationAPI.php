@@ -50,7 +50,7 @@ class UpgraderDataRegistrationAPI extends AbstractInstallerRestController
         $published = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
         $upgraderStartedEventStored = false;
         if ($this->systemConfiguration->isRegistrationEventQueueAvailable()) {
-            $this->systemConfiguration->setRegistrationEventQueue(
+            $this->systemConfiguration->saveRegistrationEvent(
                 DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
                 $published,
                 json_encode($initialRegistrationDataBody)

@@ -85,10 +85,11 @@ class ConfigFileAPI extends AbstractInstallerRestController
         $published = $initialData[StateContainer::IS_INITIAL_REG_DATA_SENT];
         $installerStartedEventStored = $initialData[StateContainer::INSTALLER_STARTED_EVENT_STORED];
         if (!$installerStartedEventStored) {
-            $this->systemConfiguration->setRegistrationEventQueue(
+            $this->systemConfiguration->saveRegistrationEvent(
                 $this->getRegistrationType(),
                 $published,
-                json_encode($initialRegistrationDataBody)
+                json_encode($initialRegistrationDataBody),
+                $initialData[StateContainer::INSTALLER_STARTED_AT] ?? null
             );
         }
 
@@ -96,7 +97,7 @@ class ConfigFileAPI extends AbstractInstallerRestController
             $this->dataRegistrationUtility->sendRegistrationDataOnSuccess();
         } else {
             $successRegistrationDataBody = $this->dataRegistrationUtility->getSuccessRegistrationDataBody();
-            $this->systemConfiguration->setRegistrationEventQueue(
+            $this->systemConfiguration->saveRegistrationEvent(
                 DataRegistrationUtility::REGISTRATION_TYPE_SUCCESS,
                 false,
                 json_encode($successRegistrationDataBody)

@@ -21,17 +21,25 @@ namespace OrangeHRM\Core\Registration\Controller;
 
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Registration\Processor\RegistrationEventProcessorFactory;
+use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Entity\RegistrationEventQueue;
 use OrangeHRM\Framework\Http\Response;
 use Throwable;
 
 class PushEventController extends AbstractController
 {
+    use CacheTrait;
+
     /**
      * @return Response
      */
     public function handle(): Response
     {
+        $cacheItem = $this->getCache()->getItem('core.registration.event.pushed');
+        if ($cacheItem->isHit()) {
+            return $this->getResponse();
+        }
+
         try {
             $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
             $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
@@ -41,6 +49,9 @@ class PushEventController extends AbstractController
         } catch (Throwable $e) {
         }
 
+        $cacheItem->expiresAfter(3600);
+        $cacheItem->set(true);
+        $this->getCache()->save($cacheItem);
         return $this->getResponse();
     }
 }
