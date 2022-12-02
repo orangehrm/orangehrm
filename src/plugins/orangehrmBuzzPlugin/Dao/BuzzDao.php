@@ -322,4 +322,45 @@ class BuzzDao extends BaseDao
 
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
+
+    public function adjustLikeAndCommentCountsOnShares(): void
+    {
+        $likesCountQuery = $this->createQueryBuilder(BuzzLikeOnShare::class, 'l')
+            ->leftJoin('l.employee', 'le')
+            ->select('COUNT(l.id)')
+            ->andWhere('IDENTITY(l.share) = share.id');
+        $likesCountQuery->andWhere($likesCountQuery->expr()->isNull('le.purgedAt'));
+        $likesCount = $likesCountQuery->getQuery()->getDQL();
+
+        $commentsCountQuery = $this->createQueryBuilder(BuzzComment::class, 'c')
+            ->leftJoin('c.employee', 'ce')
+            ->select('COUNT(c.id)')
+            ->andWhere('IDENTITY(c.share) = share.id');
+        $commentsCountQuery->andWhere($commentsCountQuery->expr()->isNull('ce.purgedAt'));
+        $commentsCount = $commentsCountQuery->getQuery()->getDQL();
+
+        $this->createQueryBuilder(BuzzShare::class, 'share')
+            ->update()
+            ->set('share.numOfLikes', "($likesCount)")
+            ->set('share.numOfComments', "($commentsCount)")
+            //->set('share.numOfShares', "($sharesCount)") // TODO
+            ->getQuery()
+            ->execute();
+    }
+
+    public function adjustLikeCountOnComments(): void
+    {
+        $likesOnCommentCountQuery = $this->createQueryBuilder(BuzzLikeOnComment::class, 'lc')
+            ->leftJoin('lc.employee', 'lce')
+            ->select('COUNT(lc.id)')
+            ->andWhere('IDENTITY(lc.comment) = comment.id');
+        $likesOnCommentCountQuery->andWhere($likesOnCommentCountQuery->expr()->isNull('lce.purgedAt'));
+        $likesOnCommentCount = $likesOnCommentCountQuery->getQuery()->getDQL();
+
+        $this->createQueryBuilder(BuzzComment::class, 'comment')
+            ->update()
+            ->set('comment.numOfLikes', "($likesOnCommentCount)")
+            ->getQuery()
+            ->execute();
+    }
 }

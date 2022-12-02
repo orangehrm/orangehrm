@@ -14,31 +14,28 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Buzz\Service\BuzzService;
-use OrangeHRM\Buzz\Subscriber\BuzzEmployeePurgeSubscriber;
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Maintenance\Event;
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
+class PurgeEmployee
 {
-    use ServiceContainerTrait;
-    use EventDispatcherTrait;
+    private int $empNumber;
 
     /**
-     * @inheritDoc
+     * @param int $empNumber
      */
-    public function initialize(Request $request): void
+    public function __construct(int $empNumber)
     {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
+        $this->empNumber = $empNumber;
+    }
 
-        $this->getEventDispatcher()->addSubscriber(new BuzzEmployeePurgeSubscriber());
+    /**
+     * @return int
+     */
+    public function getEmpNumber(): int
+    {
+        return $this->empNumber;
     }
 }
