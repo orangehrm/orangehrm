@@ -60,6 +60,7 @@ import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/Employ
 import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
 import EmployeeAttendanceWidget from '@/orangehrmDashboardPlugin/components/EmployeeAttendanceWidget.vue';
 import MyActionSummaryWidget from '@/orangehrmDashboardPlugin/components/MyActionSummaryWidget.vue';
+import {APIService} from '@/core/util/services/api.service';
 
 export default {
   components: {
@@ -69,6 +70,10 @@ export default {
     'employees-on-leave-widget': EmployeesOnLeaveWidget,
     'employee-attendance-widget': EmployeeAttendanceWidget,
     'my-action-summary-widget': MyActionSummaryWidget,
+  },
+  mounted() {
+    const http = new APIService(window.appGlobal.baseUrl, 'events/push');
+    http.create();
   },
 };
 </script>

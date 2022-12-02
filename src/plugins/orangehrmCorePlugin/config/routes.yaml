@@ -12,3 +12,8 @@ apiv2_core_about_organization:
   defaults:
     id: 0
     _api: OrangeHRM\Core\Api\Rest\AboutOrganizationAPI
+
+push_events:
+  path: /events/push
+  controller: OrangeHRM\Core\Registration\Controller\PushEventController::handle
+  methods: [ POST ]

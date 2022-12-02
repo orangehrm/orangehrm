@@ -20,8 +20,6 @@
 namespace OrangeHRM\Installer\Util;
 
 use DateTime;
-use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Installer\Util\Service\DataRegistrationService;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
@@ -32,16 +30,9 @@ class DataRegistrationUtility
     public const REGISTRATION_TYPE_UPGRADER_STARTED = 4;
     public const REGISTRATION_TYPE_SUCCESS = 3;
 
-    public const NOT_PUBLISHED = 0;
-    public const PUBLISHED = 1;
-
-    public const IS_INITIAL_REG_DATA_SENT = 'isInitialRegDataSent';
-    public const INITIAL_REGISTRATION_DATA_BODY = 'initialRegistrationDataBody';
-
     private SystemConfiguration $systemConfiguration;
     private DataRegistrationService $dataRegistrationService;
     private SystemConfig $systemConfig;
-    private array $initialRegistrationDataBody = [];
 
     public function __construct()
     {
@@ -52,8 +43,6 @@ class DataRegistrationUtility
 
     /**
      * @return array
-     * @throws \Doctrine\DBAL\Exception
-     * @throws Exception
      */
     private function getInitialRegistrationData(): array
     {
@@ -124,9 +113,9 @@ class DataRegistrationUtility
      * else the method is for installer and data is fetched from the session
      * @param string $type
      * @param string|null $uniqueIdentifier
-     * @throws \Doctrine\DBAL\Exception
+     * @return array
      */
-    public function setInitialRegistrationDataBody(string $type, string $uniqueIdentifier = null): void
+    public function getInitialRegistrationDataBody(string $type, ?string $uniqueIdentifier = null): array
     {
         list(
             $organizationName,
@@ -142,7 +131,7 @@ class DataRegistrationUtility
             $this->getInitialRegistrationData() :
             $this->getInstallerInitialRegistrationData();
 
-        $this->initialRegistrationDataBody = [
+        return [
             'username' => $adminUserName,
             'email' => $adminEmail,
             'telephone' => $adminContactNumber,
@@ -161,19 +150,12 @@ class DataRegistrationUtility
     /**
      * @return array
      */
-    public function getInitialRegistrationDataBody(): array
-    {
-        return $this->initialRegistrationDataBody;
-    }
-
-    /**
-     * @return array
-     */
     public function getSuccessRegistrationDataBody(): array
     {
         return [
             'instance_identifier' => $this->systemConfiguration->getInstanceIdentifier(),
-            'type' => self::REGISTRATION_TYPE_SUCCESS
+            'type' => self::REGISTRATION_TYPE_SUCCESS,
+            'system_details' => json_encode($this->systemConfig->getSystemDetails()),
         ];
     }
 
@@ -185,7 +167,6 @@ class DataRegistrationUtility
      * @param string $country
      * @param int $currentTimestamp
      * @return string
-     * @throws Exception
      */
     protected function setInstanceIdentifier(
         string $adminFirstName,
@@ -218,7 +199,6 @@ class DataRegistrationUtility
      * @param string $country
      * @param int $currentTimestamp
      * @return string
-     * @throws Exception
      */
     protected function setInstanceIdentifierChecksum(
         string $adminFirstName,
@@ -243,51 +223,15 @@ class DataRegistrationUtility
         return $this->systemConfiguration->getInstanceIdentifierChecksum();
     }
 
-    /**
-     * @param string $type
-     * @throws \Doctrine\DBAL\Exception
-     * @throws GuzzleException
-     */
-    public function sendRegistrationDataOnFailure(string $type)
-    {
-        $this->systemConfiguration->setRegistrationEventQueue(
-            $type,
-            self::NOT_PUBLISHED
-        );
-        $this->setInitialRegistrationDataBody($type);
-        $initialRegistrationDataBody = $this->getInitialRegistrationDataBody();
-        $result = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
-
-        if ($result) {
-            $this->systemConfiguration->updateRegistrationEventQueue(
-                $type,
-                self::PUBLISHED,
-                json_encode($initialRegistrationDataBody)
-            );
-            StateContainer::getInstance()->removeAttribute(
-                DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT
-            );
-        }
-    }
-
-    /**
-     * @throws GuzzleException
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function sendRegistrationDataOnSuccess(): void
     {
-        $this->systemConfiguration->setRegistrationEventQueue(
-            self::REGISTRATION_TYPE_SUCCESS,
-            self::NOT_PUBLISHED
-        );
         $successRegistrationDataBody = $this->getSuccessRegistrationDataBody();
-        $result = $this->dataRegistrationService->sendRegistrationData($successRegistrationDataBody);
-        if ($result) {
-            $this->systemConfiguration->updateRegistrationEventQueue(
-                self::REGISTRATION_TYPE_SUCCESS,
-                self::PUBLISHED,
-                json_encode($successRegistrationDataBody)
-            );
-        }
+        $published = $this->dataRegistrationService->sendRegistrationData($successRegistrationDataBody);
+
+        $this->systemConfiguration->saveRegistrationEvent(
+            self::REGISTRATION_TYPE_SUCCESS,
+            $published,
+            json_encode($successRegistrationDataBody)
+        );
     }
 }

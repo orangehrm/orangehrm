@@ -20,8 +20,6 @@
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
@@ -63,7 +61,12 @@ class ConfigFileAPI extends AbstractInstallerRestController
         $appSetupUtility = new AppSetupUtility();
         $appSetupUtility->writeConfFile();
 
-        $this->sendRegistrationData();
+        try {
+            $this->sendRegistrationData();
+        } catch (Throwable $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+        }
 
         $success = false;
         try {
@@ -75,28 +78,31 @@ class ConfigFileAPI extends AbstractInstallerRestController
         return ['success' => $success];
     }
 
-    /**
-     * @throws Exception
-     * @throws GuzzleException
-     */
     protected function sendRegistrationData(): void
     {
-        $registrationType = $this->getRegistrationType();
-        if (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY)) {
-            $this->systemConfiguration->setRegistrationEventQueue(
-                $registrationType,
-                DataRegistrationUtility::PUBLISHED,
-                json_encode(
-                    StateContainer::getInstance()->getAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY)
-                )
+        $initialData = StateContainer::getInstance()->getInitialRegistrationData();
+        $initialRegistrationDataBody = $initialData[StateContainer::INITIAL_REGISTRATION_DATA_BODY];
+        $published = $initialData[StateContainer::IS_INITIAL_REG_DATA_SENT];
+        $installerStartedEventStored = $initialData[StateContainer::INSTALLER_STARTED_EVENT_STORED];
+        if (!$installerStartedEventStored) {
+            $this->systemConfiguration->saveRegistrationEvent(
+                $this->getRegistrationType(),
+                $published,
+                json_encode($initialRegistrationDataBody),
+                $initialData[StateContainer::INSTALLER_STARTED_AT] ?? null
             );
-            StateContainer::getInstance()->removeAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY);
-        } elseif (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT)) {
-            $this->dataRegistrationUtility->sendRegistrationDataOnFailure($registrationType);
         }
-        //else initial registration data successfully sent at the beginning.
 
-        $this->dataRegistrationUtility->sendRegistrationDataOnSuccess();
+        if ($published) {
+            $this->dataRegistrationUtility->sendRegistrationDataOnSuccess();
+        } else {
+            $successRegistrationDataBody = $this->dataRegistrationUtility->getSuccessRegistrationDataBody();
+            $this->systemConfiguration->saveRegistrationEvent(
+                DataRegistrationUtility::REGISTRATION_TYPE_SUCCESS,
+                false,
+                json_encode($successRegistrationDataBody)
+            );
+        }
     }
 
     /**

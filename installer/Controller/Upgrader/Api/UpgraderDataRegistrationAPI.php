@@ -44,43 +44,27 @@ class UpgraderDataRegistrationAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
-        $registrationType = $this->getRegistrationType();
-        $this->dataRegistrationUtility->setInitialRegistrationDataBody($registrationType);
-        $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody();
-        $result = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
-
-        if (!$result) {
-            StateContainer::getInstance()->setAttribute(
-                DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT,
-                false
-            );
-        } elseif ($this->systemConfiguration->isRegistrationEventQueueAvailable()) {
-            $this->systemConfiguration->setRegistrationEventQueue(
-                $registrationType,
-                DataRegistrationUtility::PUBLISHED,
+        $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody(
+            DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED
+        );
+        $published = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
+        $upgraderStartedEventStored = false;
+        if ($this->systemConfiguration->isRegistrationEventQueueAvailable()) {
+            $this->systemConfiguration->saveRegistrationEvent(
+                DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
+                $published,
                 json_encode($initialRegistrationDataBody)
             );
-        } else {
-            StateContainer::getInstance()->setAttribute(
-                DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY,
-                $initialRegistrationDataBody
-            );
+            $upgraderStartedEventStored = true;
         }
+        StateContainer::getInstance()->storeInitialRegistrationData($initialRegistrationDataBody, $published, $upgraderStartedEventStored);
 
         $response = $this->getResponse();
-        $message = $result ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
+        $message = $published ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
 
         return [
             'status' => $response->getStatusCode(),
             'message' => $message
         ];
-    }
-
-    /**
-     * @return int
-     */
-    protected function getRegistrationType(): int
-    {
-        return DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED;
     }
 }
