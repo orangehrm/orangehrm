@@ -1,3 +1,6 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
 Employee:
   0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', joinedDate: '2021-10-25' }
   1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis',  joinedDate: '2016-10-28' }
@@ -19,6 +22,7 @@ BuzzPost:
   - { "id": 4, "employee_number": 1, "text": "this is post text 04", "post_time": "2021-05-11 16:51:16", "post_utc_time": "2021-05-11 16:51:16", "updated_at": "2021-05-11 16:51:16" }
   - { "id": 5, "employee_number": 2, "text": "this is post text 05", "post_time": "2021-04-12 16:51:16", "post_utc_time": "2021-04-12 16:51:16", "updated_at": "2021-04-12 16:51:16" }
   - { "id": 6, "employee_number": 3, "text": "this is post text 06", "post_time": "2021-03-13 16:51:16", "post_utc_time": "2021-03-13 16:51:16", "updated_at": "2021-03-13 16:51:16" }
+  - { "id": 7, "employee_number": 4, "text": "this is post text 07", "post_time": "2021-03-13 16:51:16", "post_utc_time": "2021-03-13 16:51:16", "updated_at": "2021-03-13 16:51:16" }
 
 BuzzShare:
   - { "id": 1, "post_id": 1,"employee_number": 1, "number_of_likes": 1, "number_of_comments": 0, "share_time":  "2021-09-15 16:51:16", "share_utc_time":  "2021-09-15 16:51:16", "type": "0", "text": null, "updated_at": "2021-09-15 16:51:16"}
@@ -27,6 +31,7 @@ BuzzShare:
   - { "id": 4, "post_id": 4,"employee_number": 1, "number_of_likes": 2, "number_of_comments": 1, "share_time":  "2021-05-11 16:51:16", "share_utc_time":  "2021-05-11 16:51:16", "type": "0", "text": null, "updated_at": "2021-05-11 16:51:16"}
   - { "id": 5, "post_id": 5,"employee_number": 2, "number_of_likes": 0, "number_of_comments": 0, "share_time":  "2021-04-12 16:51:16", "share_utc_time":  "2021-04-12 16:51:16", "type": "0", "text": null, "updated_at": "2021-04-12 16:51:16"}
   - { "id": 6, "post_id": 6,"employee_number": 3, "number_of_likes": 23, "number_of_comments": 1, "share_time":  "2021-03-13 16:51:16", "share_utc_time":  "2021-03-13 16:51:16", "type": "0", "text": null, "updated_at": "2021-03-13 16:51:16"}
+  - { "id": 7, "post_id": 7,"employee_number": 4, "number_of_likes": 3, "number_of_comments": 1, "share_time":  "2021-03-13 16:51:16", "share_utc_time":  "2021-03-13 16:51:16", "type": "0", "text": null, "updated_at": "2021-03-13 16:51:16"}
 
 BuzzLink:
   - { "id": 1, "post_id": 1, "link": "~~~"}

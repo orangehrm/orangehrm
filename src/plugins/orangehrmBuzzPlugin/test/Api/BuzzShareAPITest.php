@@ -62,18 +62,22 @@ class BuzzShareAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForGetAll();
     }
 
-    public function testDelete(): void
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $api = new BuzzShareAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
+        $this->populateFixtures('BuzzShareAPI.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzShareAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
-    public function testGetValidationRuleForDelete(): void
+    public function dataProviderForTestDelete(): array
     {
-        $api = new BuzzShareAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
+        return $this->getTestCases('BuzzShareAPITestCases.yaml', 'Delete');
     }
 
     public function testGetOne(): void
