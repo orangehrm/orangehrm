@@ -20,6 +20,7 @@
 namespace OrangeHRM\Config;
 
 use Conf;
+use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 
 class Config
 {
@@ -33,6 +34,8 @@ class Config
     public const LOG_DIR = 'ohrm_log_dir';
     public const CACHE_DIR = 'ohrm_cache_dir';
     public const CONFIG_DIR = 'ohrm_config_dir';
+    public const CRYPTO_KEY_DIR = 'ohrm_crypto_key_dir';
+    public const SESSION_DIR = 'ohrm_session_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
     public const APP_TEMPLATE_DIR = 'ohrm_app_template_dir';
     public const TEST_DIR = 'ohrm_test_dir';
@@ -40,6 +43,7 @@ class Config
     public const I18N_ENABLED = 'ohrm_i18n_enabled';
     public const DATE_FORMATTING_ENABLED = 'ohrm_date_formatting_enabled';
     public const VUE_BUILD_TIMESTAMP = 'ohrm_vue_build_timestamp';
+    public const MAX_SESSION_IDLE_TIME = 'ohrm_max_session_idle_time';
 
     public const MODE_DEV = 'dev';
     public const MODE_PROD = 'prod';
@@ -51,7 +55,7 @@ class Config
     public const PRODUCT_MODE = self::MODE_DEV;
     public const REGISTRATION_URL = 'https://ospenguin.orangehrm.com';
 
-    public const MAX_SESSION_IDLE_TIME = 1800;
+    public const DEFAULT_MAX_SESSION_IDLE_TIME = 1800;
 
     /**
      * @var array
@@ -139,20 +143,25 @@ class Config
      */
     public static function isInstalled(): bool
     {
-        return realpath(self::get(self::CONF_FILE_PATH)) !== false;
+        try {
+            Config::getConf();
+            return true;
+        } catch (ConfigNotFoundException $e) {
+            return false;
+        }
     }
 
     /**
      * @param bool $force
-     * @return Conf|null
+     * @return Conf
+     * @throws ConfigNotFoundException
      */
-    public static function getConf(bool $force = false): ?Conf
+    public static function getConf(bool $force = false): Conf
     {
-        if (!self::isInstalled()) {
-            return null;
-        }
         if (!self::$conf instanceof Conf || $force) {
-            require_once self::get(self::CONF_FILE_PATH);
+            if (!@include_once(self::get(self::CONF_FILE_PATH))) {
+                throw ConfigNotFoundException::notInstalled();
+            }
             self::$conf = new Conf();
         }
         return self::$conf;

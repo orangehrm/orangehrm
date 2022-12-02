@@ -37,6 +37,7 @@ class BuzzFeedAPITest extends EndpointIntegrationTestCase
     {
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
     }
+
     /**
      * @dataProvider dataProviderForTestGetAll
      */

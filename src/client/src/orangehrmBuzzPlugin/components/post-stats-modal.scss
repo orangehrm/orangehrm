@@ -16,17 +16,15 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-
 .orangehrm-buzz-stats-modal {
   right: 0;
   z-index: 1;
   top: 1.5rem;
-  padding: 5px;
+  width: 225px;
   overflow: auto;
-  max-width: 270px;
   max-height: 18rem;
-  width: max-content;
   position: absolute;
+  padding: 5px 10px;
   box-sizing: border-box;
   border-radius: 0.65rem;
   background-color: $oxd-white-color;
@@ -36,9 +34,18 @@
     display: flex;
     margin-bottom: 5px;
     align-items: center;
+    ::v-deep(.orangehrm-buzz-profile-image img) {
+      width: 40px;
+      height: 40px;
+    }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
   &-employee-name {
-    margin-left: 0.5rem;
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-left: 15px;
     @include truncate(2, 1.5, #fff);
   }
   & .orangehrm-buzz-loader {
@@ -64,6 +71,8 @@
     align-items: center;
   }
   &-employee-name {
+    font-weight: 400;
+    font-size: 0.9rem;
     margin-left: 0.5rem;
     @include truncate(2, 1.5, #fff);
   }

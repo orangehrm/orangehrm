@@ -32,8 +32,10 @@ use OrangeHRM\Framework\Routing\RequestContext;
 use OrangeHRM\Framework\Routing\UrlMatcher;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Installer\Exception\SessionStorageNotWritable;
 use OrangeHRM\Installer\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Installer\Subscriber\LoggerSubscriber;
+use OrangeHRM\Installer\Util\SystemConfig;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -178,9 +180,30 @@ class HttpKernel extends BaseHttpKernel
 
     /**
      * @param Request $request
-     * @return void
+     * @throws SessionStorageNotWritable
      */
     protected function configureSession(Request $request): void
+    {
+        $systemConfig = new SystemConfig();
+        $savePath = Config::get(Config::SESSION_DIR);
+        if ($savePath != null && $systemConfig->checkWritePermission(Config::get(Config::SESSION_DIR))) {
+            $savePath = Config::get(Config::SESSION_DIR);
+        } elseif ($systemConfig->checkWritePermission(sys_get_temp_dir())) {
+            $savePath = sys_get_temp_dir();
+        } else {
+            throw new SessionStorageNotWritable('Session storage not writable.');
+        }
+        $session = $this->createSession($request, $savePath);
+        $session->start();
+        ServiceContainer::getContainer()->set(Services::SESSION, $session);
+    }
+
+    /**
+     * @param Request $request
+     * @param string|null $savePath
+     * @return Session
+     */
+    protected function createSession(Request $request, string $savePath = null): Session
     {
         $isSecure = $request->isSecure();
         $path = $request->getBasePath();
@@ -191,12 +214,9 @@ class HttpKernel extends BaseHttpKernel
             'cookie_path' => $path,
             'cookie_samesite' => 'Strict',
         ];
-        $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler());
-        $session = new Session($sessionStorage);
-        $session->start();
-
+        $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler($savePath));
         ServiceContainer::getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
-        ServiceContainer::getContainer()->set(Services::SESSION, $session);
+        return new Session($sessionStorage);
     }
 
     protected function configureSubscribers(): void

@@ -52,6 +52,13 @@ export default function useInstaller(http: APIService) {
     });
   };
 
+  const preMigrationCheck = (): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'POST',
+      url: 'installer/api/installation/pre-migration',
+    });
+  };
+
   const runMigrations = async (): Promise<void> => {
     const doMigration = (version: string): Promise<AxiosResponse> => {
       return http.request({
@@ -100,5 +107,6 @@ export default function useInstaller(http: APIService) {
     createDatabase,
     createConfigFiles,
     createDatabaseUser,
+    preMigrationCheck,
   };
 }

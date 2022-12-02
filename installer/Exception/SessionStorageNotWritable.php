@@ -17,32 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-include_once('../src/config/log_settings.php');
+namespace OrangeHRM\Installer\Exception;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Framework;
-use OrangeHRM\Framework\Http\RedirectResponse;
-use OrangeHRM\Framework\Http\Request;
-use Symfony\Component\ErrorHandler\Debug;
+use Exception;
 
-require realpath(__DIR__ . '/../src/vendor/autoload.php');
-
-$env = 'prod';
-$debug = 'prod' !== $env;
-
-if ($debug) {
-    umask(0000);
-    Debug::enable();
+class SessionStorageNotWritable extends Exception
+{
 }
-
-$kernel = new Framework($env, $debug);
-$request = Request::createFromGlobals();
-
-if (Config::isInstalled()) {
-    $response = $kernel->handleRequest($request);
-} else {
-    $response = new RedirectResponse(str_replace('/web/index.php', '', $request->getBaseUrl()));
-}
-
-$response->send();
-$kernel->terminate($request, $response);

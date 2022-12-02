@@ -14,45 +14,44 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Registration\Subscriber;
+namespace OrangeHRM\Core\Registration\Controller;
 
+use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Registration\Processor\RegistrationEventProcessorFactory;
-use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Entity\RegistrationEventQueue;
-use OrangeHRM\Framework\Event\AbstractEventSubscriber;
-use Symfony\Component\HttpKernel\Event\TerminateEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
+use OrangeHRM\Framework\Http\Response;
+use Throwable;
 
-class RegistrationEventPublishSubscriber extends AbstractEventSubscriber
+class PushEventController extends AbstractController
 {
-    use TextHelperTrait;
+    use CacheTrait;
 
     /**
-     * @inheritDoc
+     * @return Response
      */
-    public static function getSubscribedEvents(): array
+    public function handle(): Response
     {
-        return [
-            KernelEvents::TERMINATE => [
-                ['onTerminateEvent', 0],
-            ],
-        ];
-    }
+        $cacheItem = $this->getCache()->getItem('core.registration.event.pushed');
+        if ($cacheItem->isHit()) {
+            return $this->getResponse();
+        }
 
-    /**
-     * @param TerminateEvent $event
-     */
-    public function onTerminateEvent(TerminateEvent $event): void
-    {
-        if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/auth/validate')) {
+        try {
             $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
             $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
                 RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT
             );
             $registrationEventProcessor->publishRegistrationEvents();
+        } catch (Throwable $e) {
         }
+
+        $cacheItem->expiresAfter(3600);
+        $cacheItem->set(true);
+        $this->getCache()->save($cacheItem);
+        return $this->getResponse();
     }
 }

@@ -20,13 +20,12 @@
 namespace OrangeHRM\Core\Utility;
 
 use Exception;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\KeyHandlerException;
 use Symfony\Component\Filesystem\Filesystem;
 
 class KeyHandler
 {
-    public const PATH_TO_KEY = __DIR__ . '/../../../../lib/confs/cryptokeys/key.ohrm';
-
     private static string $key;
     private static bool $keySet = false;
 
@@ -47,7 +46,7 @@ class KeyHandler
             $cryptKey = str_shuffle($cryptKey);
 
             $fs = new Filesystem();
-            $fs->dumpFile(self::PATH_TO_KEY, $cryptKey);
+            $fs->dumpFile(self::getPathToKey(), $cryptKey);
             clearstatcache(true);
         } catch (Exception $e) {
             throw KeyHandlerException::failedToCreateKey();
@@ -89,7 +88,15 @@ class KeyHandler
      */
     public static function getRealPathToKey(): ?string
     {
-        $path = realpath(self::PATH_TO_KEY);
+        $path = realpath(self::getPathToKey());
         return $path === false ? null : $path;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getPathToKey(): string
+    {
+        return Config::get(Config::CRYPTO_KEY_DIR) . DIRECTORY_SEPARATOR . 'key.ohrm';
     }
 }

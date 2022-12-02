@@ -21,72 +21,34 @@
 namespace OrangeHRM\Core\Registration\Processor;
 
 use DateTime;
-use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\OrganizationService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Registration\Dao\RegistrationEventQueueDao;
 use OrangeHRM\Core\Registration\Helper\SystemConfigurationHelper;
 use OrangeHRM\Core\Registration\Service\RegistrationAPIClientService;
-use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\LoggerTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\RegistrationEventQueue;
-use OrangeHRM\Pim\Dao\EmployeeDao;
 use Throwable;
 
 abstract class AbstractRegistrationEventProcessor
 {
     use LoggerTrait;
+    use ConfigServiceTrait;
+    use UserServiceTrait;
 
-    public ?RegistrationEventQueueDao $registrationEventQueueDao = null;
-    public ?ConfigService $configService = null;
-    public ?RegistrationAPIClientService $registrationAPIClientService = null;
-    public ?OrganizationService $organizationService = null;
-    public ?UserDao $userDao = null;
+    private RegistrationEventQueueDao $registrationEventQueueDao;
+    private RegistrationAPIClientService $registrationAPIClientService;
+    private OrganizationService $organizationService;
 
     /**
      * @return RegistrationEventQueueDao
      */
     public function getRegistrationEventQueueDao(): RegistrationEventQueueDao
     {
-        if (!($this->registrationEventQueueDao instanceof RegistrationEventQueueDao)) {
-            $this->registrationEventQueueDao = new RegistrationEventQueueDao();
-        }
-        return $this->registrationEventQueueDao;
-    }
-
-    /**
-     * @return EmployeeDao
-     */
-    public function getEmployeeDao(): EmployeeDao
-    {
-        if (!isset($this->employeeDao)) {
-            $this->employeeDao = new EmployeeDao();
-        }
-        return $this->employeeDao;
-    }
-
-    /**
-     * @return UserDao
-     */
-    public function getUserDao(): UserDao
-    {
-        if (!isset($this->userDao)) {
-            $this->userDao = new UserDao();
-        }
-        return $this->userDao;
-    }
-
-    /**
-     * @return ConfigService
-     */
-    public function getConfigService(): ConfigService
-    {
-        if (!($this->configService instanceof ConfigService)) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
+        return $this->registrationEventQueueDao ??= new RegistrationEventQueueDao();
     }
 
     /**
@@ -94,10 +56,7 @@ abstract class AbstractRegistrationEventProcessor
      */
     public function getRegistrationAPIClientService(): RegistrationAPIClientService
     {
-        if (!($this->registrationAPIClientService instanceof RegistrationAPIClientService)) {
-            $this->registrationAPIClientService = new RegistrationAPIClientService();
-        }
-        return $this->registrationAPIClientService;
+        return $this->registrationAPIClientService ??= new RegistrationAPIClientService();
     }
 
     /**
@@ -105,15 +64,11 @@ abstract class AbstractRegistrationEventProcessor
      */
     public function getOrganizationService(): OrganizationService
     {
-        if (!($this->organizationService instanceof OrganizationService)) {
-            $this->organizationService = new OrganizationService();
-        }
-        return $this->organizationService;
+        return $this->organizationService ??= new OrganizationService();
     }
 
     /**
      * @return string
-     * @throws CoreServiceException
      */
     private function getInstanceIdentifier(): string
     {
@@ -121,13 +76,13 @@ abstract class AbstractRegistrationEventProcessor
     }
 
     /**
-     * @return RegistrationEventQueue|void
+     * @param DateTime $eventTime
      */
-    public function saveRegistrationEvent($eventTime)
+    public function saveRegistrationEvent(DateTime $eventTime)
     {
         if ($this->getEventToBeSavedOrNot()) {
             $registrationEvent = $this->processRegistrationEventToSave($eventTime);
-            return $this->getRegistrationEventQueueDao()->saveRegistrationEvent($registrationEvent);
+            $this->getRegistrationEventQueueDao()->saveRegistrationEvent($registrationEvent);
         }
     }
 
@@ -138,7 +93,7 @@ abstract class AbstractRegistrationEventProcessor
     {
         $registrationData = [];
         try {
-            $adminUser = $this->getUserDao()->getDefaultAdminUser();
+            $adminUser = $this->getUserService()->geUserDao()->getDefaultAdminUser();
             $adminEmployee = $adminUser->getEmployee();
             $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage()
                 ? $this->getConfigService()->getAdminLocalizationDefaultLanguage()
@@ -193,7 +148,7 @@ abstract class AbstractRegistrationEventProcessor
         $registrationEvent = new RegistrationEventQueue();
         $registrationEvent->setEventTime($eventTime);
         $registrationEvent->setEventType($this->getEventType());
-        $registrationEvent->setPublished(0);
+        $registrationEvent->setPublished(false);
         $registrationEvent->setData($registrationData);
         return $registrationEvent;
     }
@@ -208,7 +163,7 @@ abstract class AbstractRegistrationEventProcessor
                     $postData = $this->getRegistrationEventPublishDataPrepared($event);
                     $result = $this->getRegistrationAPIClientService()->publishData($postData);
                     if ($result) {
-                        $event->setPublished(1);
+                        $event->setPublished(true);
                         $event->setPublishTime(new DateTime());
                         $this->getRegistrationEventQueueDao()->saveRegistrationEvent($event);
                     }

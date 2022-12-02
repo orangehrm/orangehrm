@@ -25,8 +25,9 @@
       <oxd-form v-if="edit" @submitValid="onSubmit">
         <oxd-input-field
           v-model="comment"
+          v-autofocus
           :rules="rules"
-          @keydown.esc="onCancelComment"
+          @keydown.esc.stop="onCancelComment"
         />
         <oxd-text tag="span">{{ $t('buzz.press_esc_to') }}&nbsp;</oxd-text>
         <oxd-text
@@ -86,6 +87,7 @@
           {{ $t('buzz.like') }}
         </oxd-text>
         <oxd-text
+          v-if="data.permission.canUpdate"
           tag="p"
           class="orangehrm-post-comment-action"
           @click="onClickEdit"
@@ -93,6 +95,7 @@
           {{ $t('general.edit') }}
         </oxd-text>
         <oxd-text
+          v-if="data.permission.canDelete"
           tag="p"
           class="orangehrm-post-comment-action"
           @click="onClickDelete"
@@ -125,6 +128,15 @@ export default {
   components: {
     'oxd-icon': Icon,
     'profile-image': ProfileImage,
+  },
+
+  directives: {
+    autofocus: {
+      mounted(el) {
+        if (!el) return;
+        el.querySelector('input')?.focus();
+      },
+    },
   },
 
   props: {
@@ -218,8 +230,8 @@ export default {
       rules,
       dateTime,
       onSubmit,
-      onClickEdit,
       onClickLike,
+      onClickEdit,
       onClickDelete,
       onClickReadMore,
       onCancelComment,
