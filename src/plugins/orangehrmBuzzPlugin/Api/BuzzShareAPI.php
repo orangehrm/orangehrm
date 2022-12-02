@@ -177,7 +177,11 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
                 throw $this->getForbiddenException();
             }
 
-            $this->getBuzzService()->getBuzzDao()->deleteBuzzPost($buzzShare->getPost()->getId());
+            if ($buzzShare->getType() === BuzzShare::TYPE_POST) {
+                $this->getBuzzService()->getBuzzDao()->deleteBuzzPost($buzzShare->getPost()->getId());
+            } else {
+                $this->getBuzzService()->getBuzzDao()->deleteBuzzShare($buzzShare->getId());
+            }
             $this->commitTransaction();
 
             return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_SHARE_ID => $shareId]);

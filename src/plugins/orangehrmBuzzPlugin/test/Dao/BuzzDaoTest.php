@@ -329,6 +329,27 @@ class BuzzDaoTest extends KernelTestCase
         $this->assertEmpty($this->getRepository(BuzzLink::class)->findBy(['post' => 4]));
     }
 
+    public function testDeleteBuzzShare(): void
+    {
+        $dao = new BuzzDao();
+        $dao->deleteBuzzShare(4);
+
+        $this->assertEmpty($this->getRepository(BuzzShare::class)->find(4));
+        $this->assertInstanceOf(BuzzPost::class, $this->getRepository(BuzzPost::class)->find(1));
+        $this->assertCount(2, $this->getRepository(BuzzShare::class)->findBy(['post' => 1]));
+    }
+
+    public function testDeleteBuzzShare2(): void
+    {
+        $dao = new BuzzDao();
+        $dao->deleteBuzzShare(7);
+
+        $this->assertEmpty($this->getRepository(BuzzShare::class)->find(7));
+        $this->assertInstanceOf(BuzzPost::class, $this->getRepository(BuzzPost::class)->find(4));
+        $this->assertCount(1, $this->getRepository(BuzzShare::class)->findBy(['post' => 4]));
+        $this->assertCount(1, $this->getRepository(BuzzLink::class)->findBy(['post' => 4]));
+    }
+
     public function testGetBuzzShareIdList(): void
     {
         $dao = new BuzzDao();

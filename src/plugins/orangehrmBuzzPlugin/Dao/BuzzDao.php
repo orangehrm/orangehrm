@@ -286,6 +286,21 @@ class BuzzDao extends BaseDao
     }
 
     /**
+     * @param int $shareId
+     * @return int
+     */
+    public function deleteBuzzShare(int $shareId): int
+    {
+        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
+
+        $qb->delete()
+            ->andWhere($qb->expr()->eq('share.id', ':id'))
+            ->setParameter('id', $shareId);
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
      * @return int[]
      */
     public function getBuzzShareIdList(): array
