@@ -159,7 +159,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
             return new EndpointResourceResult(BuzzPostModel::class, $buzzPost);
         } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw new TransactionException($e);
+            throw $e;
         }
     }
 
@@ -334,7 +334,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
         return new ParamRule(
             self::PARAMETER_POST_TEXT,
             new Rule(Rules::STRING_TYPE),
-            new Rule(Rules::STR_LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH, '8bit'])
+            new Rule(Rules::STR_LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
         );
     }
 
