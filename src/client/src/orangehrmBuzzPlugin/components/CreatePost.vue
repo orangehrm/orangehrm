@@ -103,7 +103,7 @@ export default {
     const {saveSuccess} = useToast();
     const showVideoModal = ref(false);
     const showPhotoModal = ref(false);
-    const rules = [required, shouldNotExceedCharLength(63535)];
+    const rules = [required, shouldNotExceedCharLength(65530)];
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
 
     const onSubmit = () => {
