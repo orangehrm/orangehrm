@@ -21,11 +21,9 @@ namespace OrangeHRM\Buzz\Api;
 
 use OrangeHRM\Buzz\Api\Model\BuzzPostModel;
 use OrangeHRM\Buzz\Api\ValidationRules\BuzzVideoLinkValidationRule;
-use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
 use OrangeHRM\Buzz\Exception\InvalidURLException;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -33,6 +31,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -288,7 +287,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      */
     private function getPhotoValidationRule(): ParamRule
     {
-        //TODO -
         return new ParamRule(
             self::PARAMETER_POST_PHOTOS,
             new Rule(Rules::ARRAY_TYPE),
@@ -374,15 +372,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointResult
     {
         throw $this->getNotImplementedException();
-//        $shareId = $this->getRequestParams()->getInt(
-//            RequestParams::PARAM_TYPE_ATTRIBUTE,
-//            self::PARAMETER_SHARE_ID
-//        );
-//
-//        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
-//        if (!$buzzShare instanceof BuzzShare) {
-//            throw $this->getInvalidParamException(self::PARAMETER_SHARE_ID);
-//        }
     }
 
     /**
@@ -390,101 +379,84 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_POST_ID,
-                new Rule(Rules::POSITIVE),
-            )
-        );
+        throw $this->getNotImplementedException();
     }
 
     /**
-     * @inheritDoc
+     * @return EndpointResult
+     * @throws BadRequestException
      * @throws InvalidParamException
-     * @throws InvalidURLException
+     * @throws TransactionException
+     * @throws NormalizeException
      */
     public function update(): EndpointResult
     {
         $this->beginTransaction();
-//        try {
-        $postId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_POST_ID
-        );
+        try {
+            $postId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                self::PARAMETER_POST_ID
+            );
 
-        $buzzPost = $this->getBuzzService()->getBuzzDao()->getBuzzPostById($postId);
-        if (!$buzzPost instanceof BuzzPost) {
-            throw $this->getInvalidParamException(self::PARAMETER_POST_ID);
-        }
-
-        $originalPostType = $this->getBuzzService()->getBuzzDao()->getBuzzPostTypeByPostId($postId);
-
-        $postType = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_POST_TYPE
-        );
-
-        if ($postType == BuzzShare::POST_TYPE_PHOTO) {
-            $this->setBuzzPhotos($buzzPost);
-        } elseif ($postType == BuzzShare::POST_TYPE_VIDEO) {
-            $this->setBuzzVideoPost($buzzPost);
-        }
-
-        //get updated content
-        $editedText = $this->getRequestParams()
-            ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_POST_TEXT);
-
-        $editedPostPhotos = $this->getRequestParams()
-            ->getArrayOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_POST_PHOTOS);
-
-        $deletedPhotoIds = $this->getRequestParams()
-            ->getArrayOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DELETED_PHOTO_IDS);
-
-        //if text , can add photos too
-        if ($postType === BuzzShare::POST_TYPE_TEXT || $postType === BuzzShare::POST_TYPE_PHOTO) {
-            //
-            $buzzPost->setText($editedText);
-            if ($editedPostPhotos) {
-                $this->setBuzzPhotos($buzzPost);
+            $buzzPost = $this->getBuzzService()->getBuzzDao()->getBuzzPostById($postId);
+            if (!$buzzPost instanceof BuzzPost) {
+                throw $this->getInvalidParamException(self::PARAMETER_POST_ID);
             }
-            //if photo , remove deleted, add text, add new photos
-        } elseif ($postType === BuzzShare::POST_TYPE_PHOTO) {
-            if ($deletedPhotoIds) {
+
+            $originalPostType = $this->getBuzzService()->getBuzzDao()->getBuzzPostTypeByPostId($postId);
+
+            $postType = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_POST_TYPE
+            );
+
+            $text = $this->getRequestParams()
+                ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_POST_TEXT);
+            $link = $this->getRequestParams()
+                ->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_VIDEO_LINK);
+            $photos = $this->getRequestParams()
+                ->getArrayOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_POST_PHOTOS);
+            $deletedPhotoIds = $this->getRequestParams()
+                ->getArrayOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DELETED_PHOTO_IDS);
+
+            if (sizeof($deletedPhotoIds) > 5) {
+                throw $this->getInvalidParamException(self::PARAMETER_DELETED_PHOTO_IDS);
+            }
+
+            if ($originalPostType === BuzzShare::POST_TYPE_VIDEO) {
+                if ($postType === BuzzShare::POST_TYPE_PHOTO || $postType === BuzzShare::POST_TYPE_TEXT) {
+                    throw $this->getInvalidParamException(self::PARAMETER_POST_TYPE);
+                } elseif (!($link === null)) {
+                    $buzzPost->setText($text);
+                    $this->updateBuzzVideoPost($buzzPost, $link);
+                }
+            }
+
+            if ($originalPostType === BuzzShare::POST_TYPE_TEXT || $originalPostType === BuzzShare::POST_TYPE_PHOTO) {
+                if ($postType === BuzzShare::POST_TYPE_VIDEO) {
+                    throw $this->getInvalidParamException(self::PARAMETER_POST_TYPE);
+                } elseif (!empty($photos)) {
+                    $this->getBuzzService()->getBuzzDao()->deleteBuzzPostPhotos($deletedPhotoIds, $postId);
+                    $this->setBuzzPhotos($buzzPost);
+                    $buzzPost->setText($text);
+                }
                 $this->getBuzzService()->getBuzzDao()->deleteBuzzPostPhotos($deletedPhotoIds, $postId);
-            }
-            if ($editedText) {
-                $buzzPost->setText($editedText);
-            }
-            if ($editedPostPhotos) {
-                //update photos
-                $this->updateBuzzPhotos($buzzPost, $editedPostPhotos);
+                $buzzPost->setText($text);
             }
 
-            //if video , add new url, add new text
-        } elseif ($postType === BuzzShare::POST_TYPE_VIDEO) {
-            //have link ? -  link required
-            //check null
-            $buzzPost->setText($editedText);
-            $this->setBuzzVideoPost($buzzPost);
+            $this->setBuzzPost($buzzPost);
+            $buzzPost->setUpdatedAtUtc();
+            $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
+
+            $this->commitTransaction();
+        } catch (InvalidParamException|BadRequestException $e) {
+            $this->rollBackTransaction();
+            throw $e;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
         }
-
-        $this->setBuzzPost($buzzPost);
-        $buzzPost->setUpdatedAtUtc();
-        $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
-
-        $this->commitTransaction();
-
-
-//        } catch (InvalidParamException | BadRequestException $e) {
-//            $this->rollBackTransaction();
-//            throw $e;
-//        } catch (Exception $e) {
-//            $this->rollBackTransaction();
-//            throw new TransactionException($e);
-//        }
-
-        die();
-        return new EndpointResourceResult();
+        return new EndpointResourceResult(BuzzPostModel::class, $buzzPost);
     }
 
     /**
@@ -515,28 +487,19 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param BuzzPost $buzzPost
-     * @param array    $editedPhotos
+     * @param string   $link
      *
      * @return void
+     * @throws InvalidURLException
      */
-    private function updateBuzzPhotos(BuzzPost $buzzPost, array $editedPhotos): void
+    private function updateBuzzVideoPost(BuzzPost $buzzPost, string $link): void
     {
-        $postPhotoIds = $this->getBuzzService()->getBuzzDao()
-            ->getBuzzPhotoIdsByPostId($buzzPost->getId());
+        $buzzLink = $this->getBuzzService()->getBuzzDao()->getBuzzLinkByPostId($buzzPost->getId());
+        $buzzLink->setOriginalLink($link);
 
-//        foreach ($postPhotoIds as $photoId) {
-//            $postPhoto = $this->getBuzzService()->getBuzzDao()->getBuzzPhotoById($photoId);
-//            foreach ($editedPhotos as $editedPhoto) {
-//                $attachment = Base64Attachment::createFromArray($editedPhoto);
-//
-//                $postPhoto->setPost($buzzPost);
-//                $postPhoto->setPhoto($attachment->getContent());
-//                $postPhoto->setFilename($attachment->getFilename());
-//                $postPhoto->setFileType($attachment->getFileType());
-//                $postPhoto->setSize($attachment->getSize());
-//
-//                $this->getBuzzService()->getBuzzDao()->saveBuzzPhoto($postPhoto);
-//            }
-//        }
+        $buzzEmbeddedURL = new BuzzEmbeddedURL($link);
+        $buzzLink->setLink($buzzEmbeddedURL->getEmbeddedURL());
+
+        $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzLink);
     }
 }
