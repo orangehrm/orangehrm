@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -245,16 +246,18 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_POST_PHOTOS
         );
 
-        foreach ($postPhotos as $photo) {
-            $attachment = Base64Attachment::createFromArray($photo);
-            $buzzPhoto = new BuzzPhoto();
-            $buzzPhoto->setPost($buzzPost);
-            $buzzPhoto->setPhoto($attachment->getContent());
-            $buzzPhoto->setFilename($attachment->getFilename());
-            $buzzPhoto->setFileType($attachment->getFileType());
-            $buzzPhoto->setSize($attachment->getSize());
+        if (!empty($postPhotos)) {
+            foreach ($postPhotos as $photo) {
+                $attachment = Base64Attachment::createFromArray($photo);
+                $buzzPhoto = new BuzzPhoto();
+                $buzzPhoto->setPost($buzzPost);
+                $buzzPhoto->setPhoto($attachment->getContent());
+                $buzzPhoto->setFilename($attachment->getFilename());
+                $buzzPhoto->setFileType($attachment->getFileType());
+                $buzzPhoto->setSize($attachment->getSize());
 
-            $this->getBuzzService()->getBuzzDao()->saveBuzzPhoto($buzzPhoto);
+                $this->getBuzzService()->getBuzzDao()->saveBuzzPhoto($buzzPhoto);
+            }
         }
     }
 
@@ -285,6 +288,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      */
     private function getPhotoValidationRule(): ParamRule
     {
+        //TODO -
         return new ParamRule(
             self::PARAMETER_POST_PHOTOS,
             new Rule(Rules::ARRAY_TYPE),
@@ -326,7 +330,11 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     private function getTextValidationRuleForOtherPost(): ?ParamRule
     {
         return $this->getValidationDecorator()->notRequiredParamRule(
-            $this->getTextValidationRuleForTextPost(),
+            new ParamRule(
+                self::PARAMETER_POST_TEXT,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
+            ),
             true
         );
     }
@@ -339,7 +347,8 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
         return new ParamRule(
             self::PARAMETER_POST_TEXT,
             new Rule(Rules::STRING_TYPE),
-            new Rule(Rules::STR_LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH, '8bit'])
+            new Rule(Rules::REQUIRED),
+            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
         );
     }
 
@@ -396,9 +405,8 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-//        try {
         $this->beginTransaction();
-
+//        try {
         $postId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_POST_ID
@@ -409,8 +417,18 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             throw $this->getInvalidParamException(self::PARAMETER_POST_ID);
         }
 
-        //get type
-        $postType = $this->getBuzzService()->getBuzzDao()->getBuzzPostTypeByPostId($postId);
+        $originalPostType = $this->getBuzzService()->getBuzzDao()->getBuzzPostTypeByPostId($postId);
+
+        $postType = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_POST_TYPE
+        );
+
+        if ($postType == BuzzShare::POST_TYPE_PHOTO) {
+            $this->setBuzzPhotos($buzzPost);
+        } elseif ($postType == BuzzShare::POST_TYPE_VIDEO) {
+            $this->setBuzzVideoPost($buzzPost);
+        }
 
         //get updated content
         $editedText = $this->getRequestParams()
@@ -423,7 +441,8 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             ->getArrayOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DELETED_PHOTO_IDS);
 
         //if text , can add photos too
-        if ($postType === BuzzShare::POST_TYPE_TEXT) {
+        if ($postType === BuzzShare::POST_TYPE_TEXT || $postType === BuzzShare::POST_TYPE_PHOTO) {
+            //
             $buzzPost->setText($editedText);
             if ($editedPostPhotos) {
                 $this->setBuzzPhotos($buzzPost);
@@ -438,13 +457,14 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             }
             if ($editedPostPhotos) {
                 //update photos
+                $this->updateBuzzPhotos($buzzPost, $editedPostPhotos);
             }
 
             //if video , add new url, add new text
         } elseif ($postType === BuzzShare::POST_TYPE_VIDEO) {
-            if ($editedText) {
-                $buzzPost->setText($editedText);
-            }
+            //have link ? -  link required
+            //check null
+            $buzzPost->setText($editedText);
             $this->setBuzzVideoPost($buzzPost);
         }
 
@@ -455,6 +475,9 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
         $this->commitTransaction();
 
 
+//        } catch (InvalidParamException | BadRequestException $e) {
+//            $this->rollBackTransaction();
+//            throw $e;
 //        } catch (Exception $e) {
 //            $this->rollBackTransaction();
 //            throw new TransactionException($e);
@@ -469,33 +492,22 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $paramRules = new ParamRuleCollection(
+        $paramRules = $this->getValidationRuleForCreate();
+
+        $paramRules->addParamValidation(
             new ParamRule(
                 self::PARAMETER_POST_ID,
                 new Rule(Rules::POSITIVE),
             ),
+        );
+
+        $paramRules->addParamValidation(
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DELETED_PHOTO_IDS,
-                    new Rule(Rules::ARRAY_TYPE),
+                    new Rule(Rules::INT_ARRAY),
                 )
             )
-        );
-
-        $paramRules->addParamValidation(
-            $this->getTextValidationRuleForOtherPost(),
-        );
-
-        $paramRules->addParamValidation(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                $this->getPhotoValidationRule()
-            ),
-        );
-
-        $paramRules->addParamValidation(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                $this->getVideoValidationRule()
-            ),
         );
 
         return $paramRules;
@@ -512,19 +524,19 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
         $postPhotoIds = $this->getBuzzService()->getBuzzDao()
             ->getBuzzPhotoIdsByPostId($buzzPost->getId());
 
-        foreach ($postPhotoIds as $photoId) {
-            $postPhoto = $this->getBuzzService()->getBuzzDao()->getBuzzPhotoById($photoId);
-            foreach ($editedPhotos as $editedPhoto) {
-                $attachment = Base64Attachment::createFromArray($editedPhoto);
-
-                $postPhoto->setPost($buzzPost);
-                $postPhoto->setPhoto($attachment->getContent());
-                $postPhoto->setFilename($attachment->getFilename());
-                $postPhoto->setFileType($attachment->getFileType());
-                $postPhoto->setSize($attachment->getSize());
-
-                $this->getBuzzService()->getBuzzDao()->saveBuzzPhoto($postPhoto);
-            }
-        }
+//        foreach ($postPhotoIds as $photoId) {
+//            $postPhoto = $this->getBuzzService()->getBuzzDao()->getBuzzPhotoById($photoId);
+//            foreach ($editedPhotos as $editedPhoto) {
+//                $attachment = Base64Attachment::createFromArray($editedPhoto);
+//
+//                $postPhoto->setPost($buzzPost);
+//                $postPhoto->setPhoto($attachment->getContent());
+//                $postPhoto->setFilename($attachment->getFilename());
+//                $postPhoto->setFileType($attachment->getFileType());
+//                $postPhoto->setSize($attachment->getSize());
+//
+//                $this->getBuzzService()->getBuzzDao()->saveBuzzPhoto($postPhoto);
+//            }
+//        }
     }
 }
