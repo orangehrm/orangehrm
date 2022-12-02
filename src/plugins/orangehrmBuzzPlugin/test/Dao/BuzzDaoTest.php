@@ -54,6 +54,7 @@ class BuzzDaoTest extends KernelTestCase
         $buzzFeedFilterParams = new BuzzFeedFilterParams();
         $buzzFeedFilterParams->setAuthUserEmpNumber(1);
         $buzzFeedFilterParams->setLimit(2);
+        $buzzFeedFilterParams->setOffset(3);
         $feedPosts = $dao->getBuzzFeedPosts($buzzFeedFilterParams);
         $expected = [
             [
@@ -143,8 +144,7 @@ class BuzzDaoTest extends KernelTestCase
         $dao = new BuzzDao();
         $buzzFeedFilterParams = new BuzzFeedFilterParams();
         $buzzFeedFilterParams->setAuthUserEmpNumber(1);
-        $buzzFeedFilterParams->setLimit(2);
-        $this->assertEquals(5, $dao->getBuzzFeedPostsCount($buzzFeedFilterParams));
+        $this->assertEquals(8, $dao->getBuzzFeedPostsCount($buzzFeedFilterParams));
         // Out of 10 shares, 3 shares (direct posts) from terminated employees, 2 shares (share of posts) from purged employees
     }
 

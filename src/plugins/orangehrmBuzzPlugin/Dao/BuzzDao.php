@@ -88,7 +88,6 @@ class BuzzDao extends BaseDao
             ->leftJoin('share.post', 'post')
             ->leftJoin('post.employee', 'postOwner');
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
-        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         $q->andWhere($q->expr()->isNull('postOwner.purgedAt'));
         $this->setSortingAndPaginationParams($q, $buzzFeedFilterParams);
 
@@ -191,7 +190,6 @@ class BuzzDao extends BaseDao
             ->leftJoin('share.post', 'post')
             ->leftJoin('post.employee', 'postOwner');
         $q->andWhere($q->expr()->isNull('employee.purgedAt'))
-            ->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'))
             ->andWhere($q->expr()->isNull('postOwner.purgedAt'))
             ->andWhere('share.id = :shareId')
             ->setParameter('shareId', $shareId);
