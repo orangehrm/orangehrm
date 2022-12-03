@@ -57,11 +57,9 @@ class BuzzDao extends BaseDao
             ->getDQL();
         $select = 'NEW ' . BuzzFeedPost::class .
             '(employee.empNumber, employee.lastName, employee.firstName, employee.middleName, employee.employeeId,' .
-            'IDENTITY(employee.employeeTerminationRecord), share.id, share.type, share.createdAtUtc, share.numOfLikes,'
-            .
+            'IDENTITY(employee.employeeTerminationRecord), share.id, share.type, share.createdAtUtc, share.numOfLikes,' .
             "share.numOfComments, ($sharesCount), ($liked), share.text, post.id, post.text, post.createdAtUtc," .
-            'postOwner.empNumber, postOwner.lastName, postOwner.firstName, postOwner.middleName, postOwner.employeeId,'
-            .
+            'postOwner.empNumber, postOwner.lastName, postOwner.firstName, postOwner.middleName, postOwner.employeeId,' .
             'IDENTITY(postOwner.employeeTerminationRecord), SIZE(post.photos), links.link)';
         $q->select($select)
             ->setParameter('typeShare', BuzzShare::TYPE_SHARE)
@@ -202,7 +200,7 @@ class BuzzDao extends BaseDao
     }
 
     /**
-     * @param int      $commentId
+     * @param int $commentId
      * @param int|null $shareId
      * @return BuzzComment|null
      */

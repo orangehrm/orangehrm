@@ -103,7 +103,7 @@ class BuzzPostAPITest extends EndpointIntegrationTestCase
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function dataProviderForTestUpdate()
+    public function dataProviderForTestUpdate(): array
     {
         return $this->getTestCases('BuzzPostAPITestCases.yaml', 'Update');
     }

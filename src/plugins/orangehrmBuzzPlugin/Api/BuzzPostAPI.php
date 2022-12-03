@@ -31,7 +31,6 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -237,6 +236,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @param BuzzPost $buzzPost
+     * @throws InvalidParamException
      */
     private function setBuzzPhotos(BuzzPost $buzzPost): void
     {
@@ -245,18 +245,20 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_POST_PHOTOS
         );
 
-        if (!empty($postPhotos)) {
-            foreach ($postPhotos as $photo) {
-                $attachment = Base64Attachment::createFromArray($photo);
-                $buzzPhoto = new BuzzPhoto();
-                $buzzPhoto->setPost($buzzPost);
-                $buzzPhoto->setPhoto($attachment->getContent());
-                $buzzPhoto->setFilename($attachment->getFilename());
-                $buzzPhoto->setFileType($attachment->getFileType());
-                $buzzPhoto->setSize($attachment->getSize());
+        if (empty($postPhotos)) {
+            throw $this->getInvalidParamException(self::PARAMETER_POST_PHOTOS);
+        }
 
-                $this->getBuzzService()->getBuzzDao()->saveBuzzPhoto($buzzPhoto);
-            }
+        foreach ($postPhotos as $photo) {
+            $attachment = Base64Attachment::createFromArray($photo);
+            $buzzPhoto = new BuzzPhoto();
+            $buzzPhoto->setPost($buzzPost);
+            $buzzPhoto->setPhoto($attachment->getContent());
+            $buzzPhoto->setFilename($attachment->getFilename());
+            $buzzPhoto->setFileType($attachment->getFileType());
+            $buzzPhoto->setSize($attachment->getSize());
+
+            $this->getBuzzService()->getBuzzDao()->saveBuzzPhoto($buzzPhoto);
         }
     }
 
@@ -331,7 +333,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_POST_TEXT,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
+                new Rule(Rules::STR_LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH, '8bit'])
             ),
             true
         );
@@ -383,11 +385,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws BadRequestException
-     * @throws InvalidParamException
-     * @throws TransactionException
-     * @throws NormalizeException
+     * @inheritDoc
      */
     public function update(): EndpointResult
     {
@@ -430,9 +428,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
                     $buzzPost->setText($text);
                     $this->updateBuzzVideoPost($buzzPost, $link);
                 }
-            }
-
-            if ($originalPostType === BuzzShare::POST_TYPE_TEXT || $originalPostType === BuzzShare::POST_TYPE_PHOTO) {
+            } elseif ($originalPostType === BuzzShare::POST_TYPE_TEXT || $originalPostType === BuzzShare::POST_TYPE_PHOTO) {
                 if ($postType === BuzzShare::POST_TYPE_VIDEO) {
                     throw $this->getInvalidParamException(self::PARAMETER_POST_TYPE);
                 } elseif (!empty($photos)) {
