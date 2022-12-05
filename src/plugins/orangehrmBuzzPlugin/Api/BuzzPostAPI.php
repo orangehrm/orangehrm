@@ -159,7 +159,7 @@ class BuzzPostAPI extends Endpoint implements CollectionEndpoint
             return new EndpointResourceResult(BuzzPostModel::class, $buzzPost);
         } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw $e;
+            throw new TransactionException($e);
         }
     }
 
