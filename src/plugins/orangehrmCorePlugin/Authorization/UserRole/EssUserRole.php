@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
+use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\PerformanceReview;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -35,6 +37,7 @@ class EssUserRole extends AbstractUserRole
     use PerformanceTrackerLogServiceTrait;
     use PerformanceReviewServiceTrait;
     use QuickLaunchServiceTrait;
+    use BuzzServiceTrait;
 
     public const ALLOWED_REVIEW_STATUSES = 'allowed_review_statuses';
 
@@ -50,6 +53,8 @@ class EssUserRole extends AbstractUserRole
                 return $this->getAccessiblePerformanceTrackerIdsForESS($requiredPermissions);
             case PerformanceTrackerLog::class:
                 return $this->getAccessiblePerformanceTrackerLogIdsForESS($requiredPermissions);
+            case BuzzShare::class:
+                return $this->getAccessibleBuzzShareIdsForESS($requiredPermissions);
             default:
                 return [];
         }
@@ -103,5 +108,16 @@ class EssUserRole extends AbstractUserRole
         return $this->getQuickLaunchService()
             ->getQuickLaunchDao()
             ->getQuickLaunchListForESS();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    public function getAccessibleBuzzShareIdsForESS(array $requiredPermissions = []): array
+    {
+        return $this->getBuzzService()
+            ->getBuzzDao()
+            ->getBuzzShareIdsByEmpNumber($this->getAuthUser()->getEmpNumber());
     }
 }

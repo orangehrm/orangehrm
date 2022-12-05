@@ -20,7 +20,9 @@
 namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Admin\Service\LocationService;
+use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
+use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Customer;
@@ -59,6 +61,7 @@ class AdminUserRole extends AbstractUserRole
     use RecruitmentAttachmentServiceTrait;
     use VacancyServiceTrait;
     use QuickLaunchServiceTrait;
+    use BuzzServiceTrait;
 
     protected ?LocationService $locationService = null;
 
@@ -111,6 +114,8 @@ class AdminUserRole extends AbstractUserRole
                 return $this->getAccessibleCandidateHistoryIds($requiredPermissions);
             case CandidateActionHistory::class:
                 return $this->getAccessibleCandidateActionHistoryIds($requiredPermissions);
+            case BuzzShare::class:
+                return $this->getAccessibleBuzzShareList($requiredPermissions);
             default:
                 return [];
         }
@@ -313,5 +318,14 @@ class AdminUserRole extends AbstractUserRole
         return $this->getQuickLaunchService()
             ->getQuickLaunchDao()
             ->getQuickLaunchList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    public function getAccessibleBuzzShareList(array $requiredPermissions = []): array
+    {
+        return $this->getBuzzService()->getBuzzDao()->getBuzzShareIdList();
     }
 }
