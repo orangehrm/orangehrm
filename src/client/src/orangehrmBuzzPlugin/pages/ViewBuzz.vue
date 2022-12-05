@@ -110,7 +110,7 @@ export default {
 <style lang="scss" scoped>
 .orangehrm-buzz-layout {
   justify-content: center;
-  grid-template-columns: minmax(240px, 640px) minmax(0, 375px);
+  grid-template-columns: minmax(240px, 750px) minmax(0, 375px);
 }
 ::v-deep(.oxd-tab-bar) {
   width: 100%;
