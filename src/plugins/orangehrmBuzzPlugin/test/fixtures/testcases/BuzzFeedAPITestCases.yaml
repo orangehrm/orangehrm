@@ -14,6 +14,9 @@ GetAll:
     data: [
       {
         'id': 10,
+        'post': {
+          'id': 6
+        }
         'employee': {
           'empNumber': 5,
           'lastName': 'Abel',
@@ -41,6 +44,9 @@ GetAll:
       },
       {
         'id': 7,
+        'post': {
+          'id': 4
+        }
         'employee': {
           'empNumber': 5,
           'lastName': 'Abel',
@@ -98,6 +104,9 @@ GetAll:
     data: [
       {
         'id': 5,
+        'post': {
+          'id': 4
+        }
         'employee': {
           'empNumber': 6,
           'lastName': 'Morgan',
@@ -125,6 +134,9 @@ GetAll:
       },
       {
         'id': 4,
+        'post': {
+          'id': 1
+        }
         'employee': {
           'empNumber': 6,
           'lastName': 'Morgan',
@@ -181,6 +193,9 @@ GetAll:
     data: [
       {
         'id': 3,
+        'post': {
+          'id': 3
+        }
         'employee': {
           'empNumber': 6,
           'lastName': 'Morgan',
@@ -208,6 +223,9 @@ GetAll:
       },
       {
         'id': 2,
+        'post': {
+          'id': 2
+        }
         'employee': {
           'empNumber': 1,
           'lastName': 'Adalwin',
@@ -254,6 +272,9 @@ GetAll:
     data: [
       {
         'id': 2,
+        'post': {
+          'id': 2
+        }
         'employee': {
           'empNumber': 1,
           'lastName': 'Adalwin',
@@ -281,6 +302,9 @@ GetAll:
       },
       {
         'id': 3,
+        'post': {
+          'id': 3
+        }
         'employee': {
           'empNumber': 6,
           'lastName': 'Morgan',
@@ -327,6 +351,9 @@ GetAll:
     data: [
       {
         'id': 1,
+        'post': {
+          'id': 1
+        }
         'employee': {
           'empNumber': 1,
           'lastName': 'Adalwin',
@@ -353,6 +380,9 @@ GetAll:
       },
       {
         'id': 2,
+        'post': {
+          'id': 2
+        }
         'employee': {
           'empNumber': 1,
           'lastName': 'Adalwin',

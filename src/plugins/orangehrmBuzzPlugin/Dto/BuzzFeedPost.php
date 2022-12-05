@@ -109,6 +109,14 @@ class BuzzFeedPost
     }
 
     /**
+     * @return int
+     */
+    public function getPostId(): int
+    {
+        return $this->post['postId'];
+    }
+
+    /**
      * @return string|null
      */
     public function getText(): ?string
