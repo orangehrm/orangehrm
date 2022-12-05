@@ -24,6 +24,7 @@ use OrangeHRM\Buzz\Dao\BuzzDao;
 use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\BuzzLink;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzPost;
@@ -39,6 +40,8 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class BuzzDaoTest extends KernelTestCase
 {
+    use EntityManagerHelperTrait;
+
     protected function setUp(): void
     {
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmBuzzPlugin/test/fixtures/BuzzDao.yaml';
@@ -295,5 +298,78 @@ class BuzzDaoTest extends KernelTestCase
         $this->assertEquals('16559', $result->getSize());
         $this->assertEquals('400', $result->getWidth());
         $this->assertEquals('410', $result->getHeight());
+    }
+
+    public function testDeleteBuzzPost1(): void
+    {
+        $dao = new BuzzDao();
+        $dao->deleteBuzzPost(1);
+
+        $this->assertEmpty($this->getRepository(BuzzPost::class)->find(1));
+        $this->assertEmpty($this->getRepository(BuzzShare::class)->findBy(['post' => 1]));
+    }
+
+    public function testDeleteBuzzPost2(): void
+    {
+        $dao = new BuzzDao();
+        $dao->deleteBuzzPost(3);
+
+        $this->assertEmpty($this->getRepository(BuzzPost::class)->find(3));
+        $this->assertEmpty($this->getRepository(BuzzShare::class)->findBy(['post' => 3]));
+        $this->assertEmpty($this->getRepository(BuzzPhoto::class)->findBy(['post' => 3]));
+    }
+
+    public function testDeleteBuzzPost3(): void
+    {
+        $dao = new BuzzDao();
+        $dao->deleteBuzzPost(4);
+
+        $this->assertEmpty($this->getRepository(BuzzPost::class)->find(4));
+        $this->assertEmpty($this->getRepository(BuzzShare::class)->findBy(['post' => 4]));
+        $this->assertEmpty($this->getRepository(BuzzLink::class)->findBy(['post' => 4]));
+    }
+
+    public function testDeleteBuzzShare(): void
+    {
+        $dao = new BuzzDao();
+        $dao->deleteBuzzShare(4);
+
+        $this->assertEmpty($this->getRepository(BuzzShare::class)->find(4));
+        $this->assertInstanceOf(BuzzPost::class, $this->getRepository(BuzzPost::class)->find(1));
+        $this->assertCount(2, $this->getRepository(BuzzShare::class)->findBy(['post' => 1]));
+    }
+
+    public function testDeleteBuzzShare2(): void
+    {
+        $dao = new BuzzDao();
+        $dao->deleteBuzzShare(7);
+
+        $this->assertEmpty($this->getRepository(BuzzShare::class)->find(7));
+        $this->assertInstanceOf(BuzzPost::class, $this->getRepository(BuzzPost::class)->find(4));
+        $this->assertCount(1, $this->getRepository(BuzzShare::class)->findBy(['post' => 4]));
+        $this->assertCount(1, $this->getRepository(BuzzLink::class)->findBy(['post' => 4]));
+    }
+
+    public function testGetBuzzShareIdList(): void
+    {
+        $dao = new BuzzDao();
+        $ids = $dao->getBuzzShareIdList();
+
+        $expected = [1, 2, 9, 6, 7, 10, 3, 4, 5, 8]; //ordered by empNumber
+
+        $this->assertEquals($expected, $ids);
+    }
+
+    public function testGetBuzzShareIdsByEmpNumber(): void
+    {
+        $dao = new BuzzDao();
+
+        $ids = $dao->getBuzzShareIdsByEmpNumber(1);
+        $expected = [1, 2, 9];
+        $this->assertEquals($expected, $ids);
+
+        $ids = $dao->getBuzzShareIdsByEmpNumber(5);
+        $expected = [6, 7, 10];
+        $this->assertEquals($expected, $ids);
     }
 }

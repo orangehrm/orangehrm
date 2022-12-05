@@ -269,4 +269,59 @@ class BuzzDao extends BaseDao
             ->setParameter('empNumber', $empNumber);
         return $this->count($q) > 0;
     }
+
+    /**
+     * @param int $postId
+     * @return int
+     */
+    public function deleteBuzzPost(int $postId): int
+    {
+        $qb = $this->createQueryBuilder(BuzzPost::class, 'post');
+
+        $qb->delete()
+            ->andWhere($qb->expr()->eq('post.id', ':id'))
+            ->setParameter('id', $postId);
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $shareId
+     * @return int
+     */
+    public function deleteBuzzShare(int $shareId): int
+    {
+        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
+
+        $qb->delete()
+            ->andWhere($qb->expr()->eq('share.id', ':id'))
+            ->setParameter('id', $shareId);
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getBuzzShareIdList(): array
+    {
+        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
+        $qb->select('share.id');
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getBuzzShareIdsByEmpNumber(int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
+        $qb->select('share.id');
+        $qb->andWhere($qb->expr()->eq('share.employee', ':empNumber'))
+            ->setParameter('empNumber', $empNumber);
+
+
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
 }

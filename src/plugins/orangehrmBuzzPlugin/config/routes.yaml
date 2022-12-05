@@ -26,6 +26,13 @@ apiv2_buzz_shares:
   defaults:
     _api: OrangeHRM\Buzz\Api\BuzzShareAPI
 
+apiv2_buzz_share:
+  path: /api/v2/buzz/shares/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ DELETE ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzShareAPI
+
 apiv2_buzz_comments:
   path: /api/v2/buzz/shares/{shareId}/comments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
