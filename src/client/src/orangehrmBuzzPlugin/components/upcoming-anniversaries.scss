@@ -99,4 +99,8 @@
       text-align: center;
     }
   }
+  @include oxd-respond-to('lg') {
+    top: 9rem;
+    position: sticky;
+  }
 }
