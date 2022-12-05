@@ -18,7 +18,9 @@
 
 .orangehrm-buzz-anniversary {
   &-content {
+    height: 100vh;
     @include oxd-respond-to('lg') {
+      height: unset;
       overflow: auto;
       max-height: 292px;
       @include oxd-scrollbar();
