@@ -169,8 +169,16 @@ export default function useBuzzAPIs(http: APIService) {
     });
   };
 
+  const deletePost = (postId: number): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'DELETE',
+      url: `/api/v2/buzz/shares/${postId}`,
+    });
+  };
+
   return {
     fetchPosts,
+    deletePost,
     updatePostLike,
     fetchPostLikes,
     savePostComment,
