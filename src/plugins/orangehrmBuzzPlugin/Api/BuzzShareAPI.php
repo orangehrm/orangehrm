@@ -37,7 +37,6 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\ORM\Exception\TransactionException;
 
@@ -46,7 +45,6 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
     use BuzzServiceTrait;
     use AuthUserTrait;
     use EntityManagerHelperTrait;
-    use UserRoleManagerTrait;
 
     public const PARAMETER_TEXT = 'text';
     public const PARAMETER_SHARE_ID = 'shareId';
@@ -173,7 +171,7 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
                 throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
             }
 
-            if (!$this->getUserRoleManager()->isEntityAccessible(BuzzShare::class, $shareId)) {
+            if (!$this->getBuzzService()->canDeleteBuzzFeedPost($buzzShare->getEmployee()->getEmpNumber())) {
                 throw $this->getForbiddenException();
             }
 

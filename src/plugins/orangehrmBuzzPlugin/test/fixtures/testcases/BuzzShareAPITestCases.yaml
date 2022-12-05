@@ -95,8 +95,6 @@ Delete:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       id: 1000
-    data:
-      invalidParamKeys: 1000
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
@@ -108,6 +106,7 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -122,6 +121,7 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -136,6 +136,7 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -149,8 +150,6 @@ Delete:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       id: 1000
-    data:
-      invalidParamKeys: 1000
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
@@ -162,6 +161,7 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -177,6 +177,7 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -192,6 +193,7 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -206,6 +208,7 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:

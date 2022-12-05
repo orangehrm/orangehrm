@@ -298,31 +298,6 @@ class BuzzDao extends BaseDao
         return $qb->getQuery()->execute();
     }
 
-    /**
-     * @return int[]
-     */
-    public function getBuzzShareIdList(): array
-    {
-        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
-        $qb->select('share.id');
-        return array_column($qb->getQuery()->getArrayResult(), 'id');
-    }
-
-    /**
-     * @param int $empNumber
-     * @return int[]
-     */
-    public function getBuzzShareIdsByEmpNumber(int $empNumber): array
-    {
-        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
-        $qb->select('share.id');
-        $qb->andWhere($qb->expr()->eq('share.employee', ':empNumber'))
-            ->setParameter('empNumber', $empNumber);
-
-
-        return array_column($qb->getQuery()->getArrayResult(), 'id');
-    }
-
     public function adjustLikeAndCommentCountsOnShares(): void
     {
         $likesCountQuery = $this->createQueryBuilder(BuzzLikeOnShare::class, 'l')
