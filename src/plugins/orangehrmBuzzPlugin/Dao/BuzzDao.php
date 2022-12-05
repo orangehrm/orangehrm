@@ -327,7 +327,6 @@ class BuzzDao extends BaseDao
 
     /**
      * @param int $postId
-     *
      * @return BuzzLink|null
      */
     public function getBuzzLinkByPostId(int $postId): ?BuzzLink
