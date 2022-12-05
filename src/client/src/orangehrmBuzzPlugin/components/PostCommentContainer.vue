@@ -47,7 +47,10 @@
     >
       {{ showAllComments ? $t('general.show_less') : $t('general.show_more') }}
     </oxd-text>
-    <delete-confirmation ref="deleteDialog"></delete-confirmation>
+    <delete-confirmation
+      ref="deleteDialog"
+      :message="$t('buzz.post_delete_confirmation_message')"
+    ></delete-confirmation>
   </div>
 </template>
 

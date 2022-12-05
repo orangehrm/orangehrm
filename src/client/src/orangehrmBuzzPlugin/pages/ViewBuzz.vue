@@ -19,7 +19,12 @@
  -->
 
 <template>
-  <oxd-tab-container v-if="isMobile" v-model="tabSelector">
+  <oxd-tab-container
+    v-if="isMobile"
+    ref="swipeContainer"
+    v-model="tabSelector"
+    :keep-alive="true"
+  >
     <oxd-tab-panel key="buzz_newsfeed" :name="$t('buzz.buzz_newsfeed')">
       <news-feed :mobile="true" :employee="employee"></news-feed>
     </oxd-tab-panel>
@@ -46,6 +51,8 @@ import useResponsive, {
   DEVICE_LG,
   DEVICE_XL,
 } from '@ohrm/oxd/composables/useResponsive';
+import usei18n from '@/core/util/composable/usei18n';
+import useSwipe from '@/core/util/composable/useSwipe';
 import TabPanel from '@ohrm/oxd/core/components/Tab/TabPanel';
 import NewsFeed from '@/orangehrmBuzzPlugin/components/NewsFeed.vue';
 import TabContainer from '@ohrm/oxd/core/components/Tab/TabContainer';
@@ -67,6 +74,7 @@ export default {
   },
 
   setup() {
+    const {$t} = usei18n();
     const tabSelector = ref(null);
     const responsiveState = useResponsive();
 
@@ -77,9 +85,23 @@ export default {
       );
     });
 
+    const {swipeContainer} = useSwipe($event => {
+      const direction = $event.offsetDirection;
+      // swipe right
+      if (direction === 2) {
+        tabSelector.value = $t('buzz.upcoming_anniversaries');
+      }
+
+      // swipe left
+      if (direction === 4) {
+        tabSelector.value = $t('buzz.buzz_newsfeed');
+      }
+    });
+
     return {
       isMobile,
       tabSelector,
+      swipeContainer,
     };
   },
 };
@@ -88,12 +110,6 @@ export default {
 <style lang="scss" scoped>
 .orangehrm-buzz-layout {
   justify-content: center;
-  grid-template-columns: minmax(240px, 640px) minmax(0, 375px);
-}
-::v-deep(.oxd-tab-bar) {
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  grid-template-columns: minmax(240px, 750px) minmax(0, 375px);
 }
 </style>

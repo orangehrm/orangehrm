@@ -25,7 +25,7 @@ type useInfiniteScrollArgs = {
   debounceInterval?: number;
 };
 
-interface CustomElement extends HTMLElement {
+export interface CustomElement extends HTMLElement {
   $el: HTMLElement;
 }
 

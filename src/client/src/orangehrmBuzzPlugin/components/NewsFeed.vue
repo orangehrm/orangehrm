@@ -37,7 +37,7 @@
 
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
       <oxd-grid-item v-for="(post, index) in posts" :key="post">
-        <post-container :post="post">
+        <post-container :post="post" @delete="onDelete(index)">
           <template #content>
             <post-body
               :post="post"
@@ -98,10 +98,15 @@
     @like="onLike(photoCarouselState.postIndex)"
     @close="onClosePhotoCarousel"
   ></photo-carousel>
+  <delete-confirmation
+    ref="deleteDialog"
+    :message="$t('buzz.post_delete_confirmation_message')"
+  ></delete-confirmation>
 </template>
 
 <script>
-import {onBeforeMount, reactive, toRefs} from 'vue';
+import useToast from '@/core/util/composable/useToast';
+import {onBeforeMount, reactive, ref, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import PostBody from '@/orangehrmBuzzPlugin/components/PostBody.vue';
@@ -114,6 +119,7 @@ import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import PhotoCarousel from '@/orangehrmBuzzPlugin/components/PhotoCarousel.vue';
 import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import PostCommentContainer from '@/orangehrmBuzzPlugin/components/PostCommentContainer.vue';
 
 const defaultFilters = {
@@ -135,6 +141,7 @@ export default {
     'post-container': PostContainer,
     'share-post-modal': SharePostModal,
     'post-comment-container': PostCommentContainer,
+    'delete-confirmation': DeleteConfirmationDialog,
   },
 
   props: {
@@ -150,7 +157,9 @@ export default {
 
   setup() {
     const POST_LIMIT = 10;
-    const {fetchPosts} = useBuzzAPIs(
+    const deleteDialog = ref();
+    const {deleteSuccess} = useToast();
+    const {fetchPosts, deletePost} = useBuzzAPIs(
       new APIService(window.appGlobal.baseUrl, ''),
     );
     const noPostsPic = `${window.appGlobal.baseUrl}/../images/buzz_no_posts.svg`;
@@ -255,14 +264,27 @@ export default {
       if ($event) resetFeed();
     };
 
+    const onDelete = index => {
+      deleteDialog.value.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          deletePost(state.posts[index].id).then(() => {
+            resetFeed();
+            deleteSuccess();
+          });
+        }
+      });
+    };
+
     onBeforeMount(() => fetchData());
 
     return {
       onLike,
       onShare,
+      onDelete,
       resetFeed,
       onComment,
       noPostsPic,
+      deleteDialog,
       onSelectPhoto,
       onUpdatePriority,
       onCloseShareModal,
