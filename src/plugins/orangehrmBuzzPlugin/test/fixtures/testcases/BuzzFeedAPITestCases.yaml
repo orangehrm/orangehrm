@@ -59,7 +59,7 @@ GetAll:
         'stats': {
           'numOfLikes': 0,
           'numOfComments': 0,
-          'numOfShares': 1,
+          'numOfShares': null,
         },
         'type': 'video',
         'createdDate': '2022-10-27',
@@ -149,7 +149,7 @@ GetAll:
         'stats': {
           'numOfLikes': 0,
           'numOfComments': 0,
-          'numOfShares': 2,
+          'numOfShares': null,
         },
         'type': 'text',
         'createdDate': '2022-10-27',
