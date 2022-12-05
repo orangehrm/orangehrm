@@ -42,7 +42,6 @@ class BuzzDao extends BaseDao
     {
         $q = $this->getBuzzFeedPostsQueryBuilder($buzzFeedFilterParams)->getQueryBuilder()
             ->leftJoin('post.links', 'links');
-
         $sharesCount = $this->createQueryBuilder(BuzzShare::class, 's')
             ->select('COUNT(s.id)')
             ->andWhere('s.type = :typeShare')
@@ -64,10 +63,8 @@ class BuzzDao extends BaseDao
         $q->select($select)
             ->setParameter('typeShare', BuzzShare::TYPE_SHARE)
             ->setParameter('loggedInEmpNumber', $buzzFeedFilterParams->getAuthUserEmpNumber());
-
         return $q->getQuery()->execute();
     }
-
     /**
      * @param BuzzFeedFilterParams $buzzFeedFilterParams
      * @return int
@@ -76,7 +73,6 @@ class BuzzDao extends BaseDao
     {
         return $this->count($this->getBuzzFeedPostsQueryBuilder($buzzFeedFilterParams)->getQueryBuilder());
     }
-
     /**
      * @param BuzzFeedFilterParams $buzzFeedFilterParams
      * @return QueryBuilderWrapper
@@ -91,15 +87,12 @@ class BuzzDao extends BaseDao
         $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         $q->andWhere($q->expr()->isNull('postOwner.purgedAt'));
         $this->setSortingAndPaginationParams($q, $buzzFeedFilterParams);
-
         if ($buzzFeedFilterParams->getShareId() !== null) {
             $q->andWhere('share.id = :shareId')
                 ->setParameter('shareId', $buzzFeedFilterParams->getShareId());
         }
-
         return $this->getQueryBuilderWrapper($q);
     }
-
     /**
      * @param int $postId
      * @return int[]
@@ -112,7 +105,6 @@ class BuzzDao extends BaseDao
             ->setParameter('postId', $postId);
         return array_map(static fn ($result) => (int)$result['id'], $q->getQuery()->getArrayResult());
     }
-
     /**
      * @param BuzzPost $buzzPost
      * @return BuzzPost
@@ -122,7 +114,6 @@ class BuzzDao extends BaseDao
         $this->persist($buzzPost);
         return $buzzPost;
     }
-
     /**
      * @param BuzzShare $buzzShare
      * @return BuzzShare
@@ -132,7 +123,6 @@ class BuzzDao extends BaseDao
         $this->persist($buzzShare);
         return $buzzShare;
     }
-
     /**
      * @param BuzzLink $buzzVideo
      * @return BuzzLink
@@ -142,7 +132,6 @@ class BuzzDao extends BaseDao
         $this->persist($buzzVideo);
         return $buzzVideo;
     }
-
     /**
      * @param BuzzPhoto $buzzPhoto
      * @return BuzzPhoto
@@ -152,7 +141,6 @@ class BuzzDao extends BaseDao
         $this->persist($buzzPhoto);
         return $buzzPhoto;
     }
-
     /**
      * @param BuzzComment $buzzComment
      * @return BuzzComment
@@ -162,7 +150,6 @@ class BuzzDao extends BaseDao
         $this->persist($buzzComment);
         return $buzzComment;
     }
-
     /**
      * @param BuzzComment $buzzComment
      */
@@ -170,7 +157,6 @@ class BuzzDao extends BaseDao
     {
         $this->remove($buzzComment);
     }
-
     /**
      * @param int $photoId
      * @return BuzzPhoto|null
@@ -179,7 +165,6 @@ class BuzzDao extends BaseDao
     {
         return $this->getRepository(BuzzPhoto::class)->find($photoId);
     }
-
     /**
      * @param int $shareId
      * @return BuzzShare|null
@@ -195,10 +180,8 @@ class BuzzDao extends BaseDao
             ->andWhere($q->expr()->isNull('postOwner.purgedAt'))
             ->andWhere('share.id = :shareId')
             ->setParameter('shareId', $shareId);
-
         return $q->getQuery()->getOneOrNullResult();
     }
-
     /**
      * @param int $commentId
      * @param int|null $shareId
@@ -216,10 +199,8 @@ class BuzzDao extends BaseDao
             $q->andWhere('share.id = :shareId')
                 ->setParameter('shareId', $shareId);
         }
-
         return $q->getQuery()->getOneOrNullResult();
     }
-
     /**
      * @param BuzzCommentSearchFilterParams $filterParams
      * @return BuzzComment[]
@@ -228,7 +209,6 @@ class BuzzDao extends BaseDao
     {
         return $this->getBuzzCommentsPaginator($filterParams)->getQuery()->execute();
     }
-
     /**
      * @param BuzzCommentSearchFilterParams $filterParams
      * @return int
@@ -237,7 +217,6 @@ class BuzzDao extends BaseDao
     {
         return $this->getBuzzCommentsPaginator($filterParams)->count();
     }
-
     /**
      * @param BuzzCommentSearchFilterParams $filterParams
      * @return Paginator
@@ -251,10 +230,8 @@ class BuzzDao extends BaseDao
         $q->andWhere($q->expr()->isNull('employee.purgedAt'))
             ->andWhere('IDENTITY(comment.share) = :shareId')
             ->setParameter('shareId', $filterParams->getShareId());
-
         return $this->getPaginator($q);
     }
-
     /**
      * @param int $commentId
      * @param int $empNumber
@@ -268,6 +245,71 @@ class BuzzDao extends BaseDao
             ->setParameter('commentId', $commentId)
             ->setParameter('empNumber', $empNumber);
         return $this->count($q) > 0;
+    }
+    /**
+     * @param int $postId
+     * @return int
+     */
+    public function deleteBuzzPost(int $postId): int
+    {
+        $qb = $this->createQueryBuilder(BuzzPost::class, 'post');
+
+        $qb->delete()
+            ->andWhere($qb->expr()->eq('post.id', ':id'))
+            ->setParameter('id', $postId);
+
+        return $qb->getQuery()->execute();
+    }
+    /**
+     * @param int $shareId
+     * @return int
+     */
+    public function deleteBuzzShare(int $shareId): int
+    {
+        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
+
+        $qb->delete()
+            ->andWhere($qb->expr()->eq('share.id', ':id'))
+            ->setParameter('id', $shareId);
+
+        return $qb->getQuery()->execute();
+    }
+    /**
+     * @return int[]
+     */
+    public function getBuzzShareIdList(): array
+    {
+        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
+        $qb->select('share.id');
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
+     * @param int $empNumber
+     * @return int[]
+     */
+    public function getBuzzShareIdsByEmpNumber(int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
+        $qb->select('share.id');
+        $qb->andWhere($qb->expr()->eq('share.employee', ':empNumber'))
+            ->setParameter('empNumber', $empNumber);
+
+
+        return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
+    /**
+     * @param int $postId
+     * @return BuzzLink|null
+     */
+    public function getBuzzLinkByPostId(int $postId): ?BuzzLink
+    {
+        $q = $this->createQueryBuilder(BuzzLink::class, 'link')
+            ->select()
+            ->andWhere('link.post = :postId')
+            ->setParameter('postId', $postId);
+
+        return $q->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -323,19 +365,5 @@ class BuzzDao extends BaseDao
 
 
         return array_column($qb->getQuery()->getArrayResult(), 'id');
-    }
-
-    /**
-     * @param int $postId
-     * @return BuzzLink|null
-     */
-    public function getBuzzLinkByPostId(int $postId): ?BuzzLink
-    {
-        $q = $this->createQueryBuilder(BuzzLink::class, 'link')
-            ->select()
-            ->andWhere('link.post = :postId')
-            ->setParameter('postId', $postId);
-
-        return $q->getQuery()->getOneOrNullResult();
     }
 }
