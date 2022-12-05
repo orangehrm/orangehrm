@@ -385,6 +385,79 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/buzz/posts/{id}",
+     *     tags={"Buzz/Shares"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             oneOf={
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Text-Edit"),
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Photo-Edit"),
+     *                 @OA\Schema(ref="#/components/schemas/Buzz-Post-Video-Edit"),
+     *             },
+     *             required={"title", "type"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Buzz-PostModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Text-Edit",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     *     @OA\Property(
+     *         property="deletedPhotos",
+     *         type="array",
+     *         @OA\Items(
+     *             @OA\Property(property="id", type="integer"),
+     *         ),
+     *         example="59,60"
+     *     ),
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Photo-Edit",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     *     @OA\Property(
+     *         property="deletedPhotos",
+     *         type="array",
+     *         @OA\Items(
+     *             @OA\Property(property="id", type="integer"),
+     *         ),
+     *         example="59,60"
+     *     ),
+     *     @OA\Property(property="photos", type="array", @OA\Items(ref="#/components/schemas/Base64Attachment")),
+     * )
+     *
+     * @OA\Schema(
+     *     schema="Buzz-Post-Video-Edit",
+     *     type="object",
+     *     @OA\Property(property="text", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     *     @OA\Property(property="link", type="string"),
+     *     @OA\Property(
+     *         property="deletedPhotos",
+     *         type="array",
+     *         @OA\Items(
+     *             @OA\Property(property="id", type="integer"),
+     *         ),
+     *         example="59,60"
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
