@@ -33,9 +33,14 @@
       <div class="orangehrm-buzz-pill-stats-other">
         <oxd-text tag="p">
           {{
-            $t('buzz.n_comment', {commentCount: post.stats.numOfShares})
-          }},&nbsp;{{
-            $t('buzz.n_share', {shareCount: post.stats.numOfComments})
+            $t('buzz.n_comment', {
+              commentCount: post.stats.numOfComments,
+            })
+          }}&sbquo;
+          {{
+            $t('buzz.n_share', {
+              shareCount: post.stats.numOfShares,
+            })
           }}
         </oxd-text>
       </div>
