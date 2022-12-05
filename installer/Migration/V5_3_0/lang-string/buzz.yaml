@@ -88,4 +88,4 @@ langStrings:
     unitId: no_work_anniversaries_for_the_next_30_days
   -
     value: 'The selected item will be permanently deleted. Are you sure you want to continue?'
-    unitId: delete_confirmation_message
+    unitId: post_delete_confirmation_message

@@ -49,7 +49,7 @@
     </oxd-text>
     <delete-confirmation
       ref="deleteDialog"
-      :message="$t('buzz.delete_confirmation_message')"
+      :message="$t('buzz.post_delete_confirmation_message')"
     ></delete-confirmation>
   </div>
 </template>
