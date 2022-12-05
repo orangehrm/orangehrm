@@ -75,9 +75,6 @@ GetAll:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       commentId: 3
-    data: {
-      "invalidParamKeys": ["commentId"]
-    }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
@@ -88,9 +85,6 @@ GetAll:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       commentId: 3000
-    data: {
-      "invalidParamKeys": ["commentId"]
-    }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
@@ -170,9 +164,6 @@ Create:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       commentId: 3
-    data: {
-      "invalidParamKeys": ["commentId"]
-    }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
@@ -183,9 +174,6 @@ Create:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       commentId: 3000
-    data: {
-      "invalidParamKeys": ["commentId"]
-    }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
@@ -242,9 +230,6 @@ Delete:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       commentId: 1000
-    data: {
-      "invalidParamKeys": ["commentId"]
-    }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
@@ -255,9 +240,6 @@ Delete:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
     attributes:
       commentId: 3
-    data: {
-      "invalidParamKeys": ["commentId"]
-    }
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'

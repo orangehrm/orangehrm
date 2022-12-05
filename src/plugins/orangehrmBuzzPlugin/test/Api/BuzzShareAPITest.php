@@ -20,9 +20,11 @@
 namespace OrangeHRM\Tests\Buzz\Api;
 
 use OrangeHRM\Buzz\Api\BuzzShareAPI;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Buzz
@@ -30,12 +32,17 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class BuzzShareAPITest extends EndpointIntegrationTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
+    }
+
     /**
      * @dataProvider dataProviderForTestCreate
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('BuzzShareAPI.yaml');
+        $this->populateFixtures('BuzzShareAPI.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -67,7 +74,7 @@ class BuzzShareAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('BuzzShareAPI.yaml');
+        $this->populateFixtures('BuzzShareAPI.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);

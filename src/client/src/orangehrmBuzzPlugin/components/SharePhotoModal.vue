@@ -66,7 +66,7 @@ export default {
 
   setup(props, context) {
     const rules = {
-      text: [shouldNotExceedCharLength(63535)],
+      text: [shouldNotExceedCharLength(65530)],
     };
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
 

@@ -110,7 +110,7 @@ export default {
           }
         }, 500),
       ],
-      text: [shouldNotExceedCharLength(63535)],
+      text: [shouldNotExceedCharLength(65530)],
     };
 
     const onSubmit = () => {

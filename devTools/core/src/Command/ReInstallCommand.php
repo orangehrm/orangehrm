@@ -147,6 +147,15 @@ class ReInstallCommand extends Command
         }
 
         $io->success('Done');
+
+        define('ENVIRONMENT', 'test');
+        $testConf = Config::getConf(true);
+        $this->tryClosure(function () use ($testConf, $io) {
+            $sm = $this->getEntityManager()->getConnection()->createSchemaManager();
+            $sm->dropDatabase($testConf->getDbName());
+            $io->success('Dropped test database');
+        });
+
         return Command::SUCCESS;
     }
 

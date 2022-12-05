@@ -88,7 +88,6 @@ class BuzzDao extends BaseDao
             ->leftJoin('share.post', 'post')
             ->leftJoin('post.employee', 'postOwner');
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
-        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         $q->andWhere($q->expr()->isNull('postOwner.purgedAt'));
         $this->setSortingAndPaginationParams($q, $buzzFeedFilterParams);
 
@@ -191,7 +190,6 @@ class BuzzDao extends BaseDao
             ->leftJoin('share.post', 'post')
             ->leftJoin('post.employee', 'postOwner');
         $q->andWhere($q->expr()->isNull('employee.purgedAt'))
-            ->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'))
             ->andWhere($q->expr()->isNull('postOwner.purgedAt'))
             ->andWhere('share.id = :shareId')
             ->setParameter('shareId', $shareId);
@@ -300,28 +298,44 @@ class BuzzDao extends BaseDao
         return $qb->getQuery()->execute();
     }
 
-    /**
-     * @return int[]
-     */
-    public function getBuzzShareIdList(): array
+    public function adjustLikeAndCommentCountsOnShares(): void
     {
-        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
-        $qb->select('share.id');
-        return array_column($qb->getQuery()->getArrayResult(), 'id');
+        $likesCountQuery = $this->createQueryBuilder(BuzzLikeOnShare::class, 'l')
+            ->leftJoin('l.employee', 'le')
+            ->select('COUNT(l.id)')
+            ->andWhere('IDENTITY(l.share) = share.id');
+        $likesCountQuery->andWhere($likesCountQuery->expr()->isNull('le.purgedAt'));
+        $likesCount = $likesCountQuery->getQuery()->getDQL();
+
+        $commentsCountQuery = $this->createQueryBuilder(BuzzComment::class, 'c')
+            ->leftJoin('c.employee', 'ce')
+            ->select('COUNT(c.id)')
+            ->andWhere('IDENTITY(c.share) = share.id');
+        $commentsCountQuery->andWhere($commentsCountQuery->expr()->isNull('ce.purgedAt'));
+        $commentsCount = $commentsCountQuery->getQuery()->getDQL();
+
+        $this->createQueryBuilder(BuzzShare::class, 'share')
+            ->update()
+            ->set('share.numOfLikes', "($likesCount)")
+            ->set('share.numOfComments', "($commentsCount)")
+            //->set('share.numOfShares', "($sharesCount)") // TODO
+            ->getQuery()
+            ->execute();
     }
 
-    /**
-     * @param int $empNumber
-     * @return int[]
-     */
-    public function getBuzzShareIdsByEmpNumber(int $empNumber): array
+    public function adjustLikeCountOnComments(): void
     {
-        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
-        $qb->select('share.id');
-        $qb->andWhere($qb->expr()->eq('share.employee', ':empNumber'))
-            ->setParameter('empNumber', $empNumber);
+        $likesOnCommentCountQuery = $this->createQueryBuilder(BuzzLikeOnComment::class, 'lc')
+            ->leftJoin('lc.employee', 'lce')
+            ->select('COUNT(lc.id)')
+            ->andWhere('IDENTITY(lc.comment) = comment.id');
+        $likesOnCommentCountQuery->andWhere($likesOnCommentCountQuery->expr()->isNull('lce.purgedAt'));
+        $likesOnCommentCount = $likesOnCommentCountQuery->getQuery()->getDQL();
 
-
-        return array_column($qb->getQuery()->getArrayResult(), 'id');
+        $this->createQueryBuilder(BuzzComment::class, 'comment')
+            ->update()
+            ->set('comment.numOfLikes', "($likesOnCommentCount)")
+            ->getQuery()
+            ->execute();
     }
 }

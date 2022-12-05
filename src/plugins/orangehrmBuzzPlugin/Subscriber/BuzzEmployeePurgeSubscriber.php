@@ -14,31 +14,36 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Buzz\Service\BuzzService;
-use OrangeHRM\Buzz\Subscriber\BuzzEmployeePurgeSubscriber;
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Buzz\Subscriber;
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
+use OrangeHRM\Framework\Event\AbstractEventSubscriber;
+use OrangeHRM\Maintenance\Event\MaintenanceEvent;
+use OrangeHRM\Maintenance\Event\PurgeEmployee;
+
+class BuzzEmployeePurgeSubscriber extends AbstractEventSubscriber
 {
-    use ServiceContainerTrait;
-    use EventDispatcherTrait;
+    use BuzzServiceTrait;
 
     /**
      * @inheritDoc
      */
-    public function initialize(Request $request): void
+    public static function getSubscribedEvents(): array
     {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
+        return [
+            MaintenanceEvent::PURGE_EMPLOYEE_END => 'onEmployeePurgingEnd',
+        ];
+    }
 
-        $this->getEventDispatcher()->addSubscriber(new BuzzEmployeePurgeSubscriber());
+    /**
+     * @param PurgeEmployee $purgeEmployee
+     */
+    public function onEmployeePurgingEnd(PurgeEmployee $purgeEmployee): void
+    {
+        $this->getBuzzService()->getBuzzDao()->adjustLikeAndCommentCountsOnShares();
+        $this->getBuzzService()->getBuzzDao()->adjustLikeCountOnComments();
     }
 }

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\DevTools\Command;
 
-use Conf;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Utility\KeyHandler;
@@ -28,6 +27,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
+use Throwable;
 
 class ResetInstallationCommand extends Command
 {
@@ -55,13 +55,15 @@ class ResetInstallationCommand extends Command
         }
 
         $pathToConf = Config::get(Config::CONF_FILE_PATH);
-        require_once $pathToConf;
-        $conf = new Conf();
+        $conf = Config::getConf();
         $dbName = $conf->getDbName();
 
         $sm = $this->getEntityManager()->getConnection()->createSchemaManager();
         $sm->dropDatabase("`$dbName`");
         $io->note("Dropped database `$dbName`");
+
+        define('ENVIRONMENT', 'test');
+        $testConf = Config::getConf(true);
 
         $fs = new Filesystem();
         $fs->remove($pathToConf);
@@ -70,6 +72,12 @@ class ResetInstallationCommand extends Command
         $pathToKey = KeyHandler::getPathToKey();
         $fs->remove($pathToKey);
         $io->note("Deleted key.ohrm file `$pathToKey`");
+
+        try {
+            $sm->dropDatabase($testConf->getDbName());
+            $io->note('Dropped test database');
+        } catch (Throwable $e) {
+        }
 
         $io->success('Done');
         return Command::SUCCESS;
