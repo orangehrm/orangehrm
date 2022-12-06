@@ -115,8 +115,10 @@ export default {
       fetchEvents(fromDate, endDate);
     };
 
-    onBeforeMount(fetchWorkWeek);
-    onBeforeMount(onSelectYear({year: new Date().getFullYear()}));
+    onBeforeMount(async () => {
+      await fetchWorkWeek();
+      await onSelectYear({year: new Date().getFullYear()});
+    });
 
     return {
       jsDateFormat,

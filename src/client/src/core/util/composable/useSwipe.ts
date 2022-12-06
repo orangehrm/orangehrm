@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,28 +16,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Buzz\Service\BuzzService;
-use OrangeHRM\Buzz\Subscriber\BuzzEmployeePurgeSubscriber;
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+import Hammer from 'hammerjs';
+import {onBeforeUnmount, onMounted, ref} from 'vue';
+import {CustomElement} from './useInfiniteScroll';
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
-{
-    use ServiceContainerTrait;
-    use EventDispatcherTrait;
+export default function useSwipe(executor: ($event: HammerInput) => void) {
+  let manager: HammerManager;
+  const swipeContainer = ref<CustomElement>();
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
-    {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
+  onMounted(() => {
+    if (!swipeContainer.value) return;
 
-        $this->getEventDispatcher()->addSubscriber(new BuzzEmployeePurgeSubscriber());
-    }
+    manager = new Hammer.Manager(
+      swipeContainer.value?.$el || swipeContainer.value,
+    );
+    const Swipe = new Hammer.Swipe();
+    manager.add(Swipe);
+    manager.on('swipe', executor);
+  });
+
+  onBeforeUnmount(() => {
+    manager?.destroy();
+  });
+
+  return {
+    swipeContainer,
+  };
 }

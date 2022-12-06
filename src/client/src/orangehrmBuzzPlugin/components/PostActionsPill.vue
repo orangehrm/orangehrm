@@ -33,10 +33,11 @@
       <div class="orangehrm-buzz-pill-stats-other">
         <oxd-text tag="p">
           {{
-            $t('buzz.n_comment', {commentCount: post.stats.numOfShares})
-          }},&nbsp;{{
-            $t('buzz.n_share', {shareCount: post.stats.numOfComments})
-          }}
+            $t('buzz.n_comment', {
+              commentCount: post.stats.numOfComments,
+            })
+          }}<template v-if="sharesCount !== null">&sbquo;</template>
+          {{ sharesCount !== null ? sharesCount : undefined }}
         </oxd-text>
       </div>
     </div>
@@ -92,6 +93,17 @@ export default {
       onClickLike,
       onClickComment,
     };
+  },
+
+  computed: {
+    sharesCount() {
+      if (this.post.stats?.numOfShares === null) {
+        return null;
+      }
+      return this.$t('buzz.n_share', {
+        shareCount: this.post.stats?.numOfShares || 0,
+      });
+    },
   },
 };
 </script>

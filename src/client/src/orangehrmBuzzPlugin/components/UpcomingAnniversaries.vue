@@ -112,6 +112,7 @@ export default {
   data() {
     return {
       viewMore: false,
+      isLoading: false,
       anniversaries: [],
       anniversariesCount: 0,
     };
@@ -122,7 +123,7 @@ export default {
       return !this.viewMore;
     },
     isEmpty() {
-      return this.anniversaries.length === 0;
+      return !this.isLoading && this.anniversaries.length === 0;
     },
   },
 
@@ -142,26 +143,30 @@ export default {
       this.getAnniversaries();
     },
     getAnniversaries() {
-      this.http.getAll({limit: this.anniversariesLimit}).then(response => {
-        const {data, meta} = response.data;
-        this.anniversaries = data.map(item => {
-          const {employee, jobTitle, joinedDate} = item;
-          return {
-            empNumber: employee.empNumber,
-            empName: this.tEmpName(employee, {
-              includeMiddle: false,
-              excludePastEmpTag: false,
-            }),
-            jobTitle: jobTitle.title,
-            joinedDate: formatDate(parseDate(joinedDate), 'MMM dd', {
-              locale: this.locale,
-            }),
-            anniversaryYear:
-              new Date().getFullYear() - new Date(joinedDate).getFullYear(),
-          };
-        });
-        this.anniversariesCount = meta?.total;
-      });
+      this.isLoading = true;
+      this.http
+        .getAll({limit: this.anniversariesLimit})
+        .then(response => {
+          const {data, meta} = response.data;
+          this.anniversaries = data.map(item => {
+            const {employee, jobTitle, joinedDate} = item;
+            return {
+              empNumber: employee.empNumber,
+              empName: this.tEmpName(employee, {
+                includeMiddle: false,
+                excludePastEmpTag: false,
+              }),
+              jobTitle: jobTitle.title,
+              joinedDate: formatDate(parseDate(joinedDate), 'MMM dd', {
+                locale: this.locale,
+              }),
+              anniversaryYear:
+                new Date().getFullYear() - new Date(joinedDate).getFullYear(),
+            };
+          });
+          this.anniversariesCount = meta?.total;
+        })
+        .finally(() => (this.isLoading = false));
     },
   },
 };

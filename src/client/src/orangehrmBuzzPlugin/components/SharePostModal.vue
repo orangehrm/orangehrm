@@ -94,7 +94,7 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
     const rules = {
-      text: [shouldNotExceedCharLength(63535)],
+      text: [shouldNotExceedCharLength(65530)],
     };
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/shares');
 

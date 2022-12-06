@@ -14,31 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-use OrangeHRM\Buzz\Service\BuzzAnniversaryService;
-use OrangeHRM\Buzz\Service\BuzzService;
-use OrangeHRM\Buzz\Subscriber\BuzzEmployeePurgeSubscriber;
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Maintenance\Event;
 
-class BuzzPluginConfiguration implements PluginConfigurationInterface
+final class MaintenanceEvent
 {
-    use ServiceContainerTrait;
-    use EventDispatcherTrait;
+    /**
+     * This event triggers before commit the transaction
+     *
+     * @see \OrangeHRM\Maintenance\Event\PurgeEmployee
+     */
+    public const PURGE_EMPLOYEE_END = 'maintenance.purge_employee.end';
 
     /**
-     * @inheritDoc
+     * This event triggers after commit the transaction
+     *
+     * @see \OrangeHRM\Maintenance\Event\PurgeEmployee
      */
-    public function initialize(Request $request): void
-    {
-        $this->getContainer()->register(Services::BUZZ_ANNIVERSARY_SERVICE, BuzzAnniversaryService::class);
-        $this->getContainer()->register(Services::BUZZ_SERVICE, BuzzService::class);
-
-        $this->getEventDispatcher()->addSubscriber(new BuzzEmployeePurgeSubscriber());
-    }
+    public const PURGE_EMPLOYEE_FINISHED = 'maintenance.purge_employee.finished';
 }

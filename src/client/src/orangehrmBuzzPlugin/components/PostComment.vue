@@ -157,7 +157,7 @@ export default {
     const {locale} = useLocale();
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
-    const rules = [required, shouldNotExceedCharLength(63535)];
+    const rules = [required, shouldNotExceedCharLength(65530)];
     const state = reactive({
       edit: false,
       comment: props.data.comment.text,

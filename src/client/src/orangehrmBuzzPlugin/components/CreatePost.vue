@@ -64,13 +64,10 @@
 
 <script>
 import {ref} from 'vue';
-import {
-  required,
-  shouldNotExceedCharLength,
-} from '@/core/util/validation/rules';
 import useToast from '@/core/util/composable/useToast';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import {APIService} from '@/core/util/services/api.service';
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import GlassButton from '@ohrm/oxd/core/components/Button/GlassButton';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import BuzzPostInput from '@ohrm/oxd/core/components/Buzz/BuzzPostInput';
@@ -103,10 +100,11 @@ export default {
     const {saveSuccess} = useToast();
     const showVideoModal = ref(false);
     const showPhotoModal = ref(false);
-    const rules = [required, shouldNotExceedCharLength(63535)];
+    const rules = [shouldNotExceedCharLength(65530)];
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/buzz/posts');
 
     const onSubmit = () => {
+      if (post.value === null || String(post.value).trim() === '') return;
       http
         .create({
           type: 'text',

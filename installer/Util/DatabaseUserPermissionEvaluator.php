@@ -97,7 +97,7 @@ class DatabaseUserPermissionEvaluator
         }
 
         $count = $this->getConnection()->createQueryBuilder()
-            ->select('COUNT(_ohrm_temp_table.id)')
+            ->select('COUNT(*)')
             ->from('_ohrm_temp_table')
             ->executeQuery()
             ->fetchOne();

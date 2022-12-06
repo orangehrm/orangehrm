@@ -13,7 +13,100 @@ GetAll:
       limit: 2
     data: [
       {
+        'id': 10,
+        'post': {
+          'id': 6
+        }
+        'employee': {
+          'empNumber': 5,
+          'lastName': 'Abel',
+          'firstName': 'Ashley',
+          'middleName': '',
+          'employeeId': '0005',
+          'terminationId': 1,
+        },
+        'text': 'Employee terminated after this post',
+        'stats': {
+          'numOfLikes': 0,
+          'numOfComments': 0,
+          'numOfShares': 0,
+        },
+        'type': 'photo',
+        'createdDate': '2022-10-28',
+        'createdTime': '02:40',
+        'originalPost': null,
+        'liked': false,
+        'photoIds': [ 6 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      },
+      {
+        'id': 7,
+        'post': {
+          'id': 4
+        }
+        'employee': {
+          'empNumber': 5,
+          'lastName': 'Abel',
+          'firstName': 'Ashley',
+          'middleName': '',
+          'employeeId': '0005',
+          'terminationId': 1,
+        },
+        'text': 'Video sharing',
+        'stats': {
+          'numOfLikes': 0,
+          'numOfComments': 0,
+          'numOfShares': null,
+        },
+        'type': 'video',
+        'createdDate': '2022-10-27',
+        'createdTime': '01:07',
+        'originalPost': {
+          'text': "https://youtu.be/qMCMgedYqac",
+          'employee': {
+            'empNumber': 6,
+            'lastName': 'Morgan',
+            'firstName': 'Jasmine',
+            'middleName': '',
+            'employeeId': '0006',
+            'terminationId': null,
+          },
+          'createdDate': '2022-10-27',
+          'createdTime': '00:58',
+        },
+        'liked': false,
+        'video': { 'link': https://www.youtube.com/embed/qMCMgedYqac },
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      }
+    ]
+    meta:
+      total: 8
+
+  'Get recent posts - with limit & offset':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 2
+      offset: 3
+    data: [
+      {
         'id': 5,
+        'post': {
+          'id': 4
+        }
         'employee': {
           'empNumber': 6,
           'lastName': 'Morgan',
@@ -41,6 +134,9 @@ GetAll:
       },
       {
         'id': 4,
+        'post': {
+          'id': 1
+        }
         'employee': {
           'empNumber': 6,
           'lastName': 'Morgan',
@@ -53,7 +149,7 @@ GetAll:
         'stats': {
           'numOfLikes': 0,
           'numOfComments': 0,
-          'numOfShares': 2,
+          'numOfShares': null,
         },
         'type': 'text',
         'createdDate': '2022-10-27',
@@ -79,7 +175,7 @@ GetAll:
       }
     ]
     meta:
-      total: 5
+      total: 8
 
   'Get recent posts - with offset':
     userId: 1
@@ -93,10 +189,13 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
-      offset: 2
+      offset: 5
     data: [
       {
         'id': 3,
+        'post': {
+          'id': 3
+        }
         'employee': {
           'empNumber': 6,
           'lastName': 'Morgan',
@@ -124,6 +223,9 @@ GetAll:
       },
       {
         'id': 2,
+        'post': {
+          'id': 2
+        }
         'employee': {
           'empNumber': 1,
           'lastName': 'Adalwin',
@@ -151,7 +253,7 @@ GetAll:
       }
     ]
     meta:
-      total: 5
+      total: 8
 
   'Get most liked posts':
     userId: 1
@@ -170,6 +272,9 @@ GetAll:
     data: [
       {
         'id': 2,
+        'post': {
+          'id': 2
+        }
         'employee': {
           'empNumber': 1,
           'lastName': 'Adalwin',
@@ -197,6 +302,9 @@ GetAll:
       },
       {
         'id': 3,
+        'post': {
+          'id': 3
+        }
         'employee': {
           'empNumber': 6,
           'lastName': 'Morgan',
@@ -224,7 +332,7 @@ GetAll:
       }
     ]
     meta:
-      total: 5
+      total: 8
 
   'Get most cmmented posts':
     userId: 2
@@ -243,6 +351,9 @@ GetAll:
     data: [
       {
         'id': 1,
+        'post': {
+          'id': 1
+        }
         'employee': {
           'empNumber': 1,
           'lastName': 'Adalwin',
@@ -269,6 +380,9 @@ GetAll:
       },
       {
         'id': 2,
+        'post': {
+          'id': 2
+        }
         'employee': {
           'empNumber': 1,
           'lastName': 'Adalwin',
@@ -296,4 +410,4 @@ GetAll:
       }
     ]
     meta:
-      total: 5
+      total: 8

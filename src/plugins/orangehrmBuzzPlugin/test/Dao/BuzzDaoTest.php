@@ -54,6 +54,7 @@ class BuzzDaoTest extends KernelTestCase
         $buzzFeedFilterParams = new BuzzFeedFilterParams();
         $buzzFeedFilterParams->setAuthUserEmpNumber(1);
         $buzzFeedFilterParams->setLimit(2);
+        $buzzFeedFilterParams->setOffset(3);
         $feedPosts = $dao->getBuzzFeedPosts($buzzFeedFilterParams);
         $expected = [
             [
@@ -95,7 +96,7 @@ class BuzzDaoTest extends KernelTestCase
                 'stats' => [
                     'numOfLikes' => 0,
                     'numOfComments' => 0,
-                    'numOfShares' => 2,
+                    'numOfShares' => null,
                 ],
                 'type' => 'text',
                 'shareId' => 4,
@@ -143,8 +144,7 @@ class BuzzDaoTest extends KernelTestCase
         $dao = new BuzzDao();
         $buzzFeedFilterParams = new BuzzFeedFilterParams();
         $buzzFeedFilterParams->setAuthUserEmpNumber(1);
-        $buzzFeedFilterParams->setLimit(2);
-        $this->assertEquals(5, $dao->getBuzzFeedPostsCount($buzzFeedFilterParams));
+        $this->assertEquals(8, $dao->getBuzzFeedPostsCount($buzzFeedFilterParams));
         // Out of 10 shares, 3 shares (direct posts) from terminated employees, 2 shares (share of posts) from purged employees
     }
 
@@ -350,34 +350,10 @@ class BuzzDaoTest extends KernelTestCase
         $this->assertCount(1, $this->getRepository(BuzzLink::class)->findBy(['post' => 4]));
     }
 
-    public function testGetBuzzShareIdList(): void
-    {
-        $dao = new BuzzDao();
-        $ids = $dao->getBuzzShareIdList();
-
-        $expected = [1, 2, 9, 6, 7, 10, 3, 4, 5, 8]; //ordered by empNumber
-
-        $this->assertEquals($expected, $ids);
-    }
-
-    public function testGetBuzzShareIdsByEmpNumber(): void
-    {
-        $dao = new BuzzDao();
-
-        $ids = $dao->getBuzzShareIdsByEmpNumber(1);
-        $expected = [1, 2, 9];
-        $this->assertEquals($expected, $ids);
-
-        $ids = $dao->getBuzzShareIdsByEmpNumber(5);
-        $expected = [6, 7, 10];
-        $this->assertEquals($expected, $ids);
-    }
-
     public function testGetBuzzShareByPostId(): void
     {
         $dao = new BuzzDao();
         $result = $dao->getBuzzShareByPostId(1);
-
         $this->assertInstanceOf(BuzzShare::class, $result);
         $this->assertEquals('0', $result->getType());
     }

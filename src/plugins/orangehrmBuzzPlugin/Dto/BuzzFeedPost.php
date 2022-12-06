@@ -109,6 +109,14 @@ class BuzzFeedPost
     }
 
     /**
+     * @return int
+     */
+    public function getPostId(): int
+    {
+        return $this->post['postId'];
+    }
+
+    /**
      * @return string|null
      */
     public function getText(): ?string
@@ -140,7 +148,7 @@ class BuzzFeedPost
         return [
             'numOfLikes' => $this->share['numOfLikes'],
             'numOfComments' => $this->share['numOfComments'],
-            'numOfShares' => $this->share['numOfShares'],
+            'numOfShares' => $this->type === BuzzShare::TYPE_POST ? $this->share['numOfShares'] : null,
         ];
     }
 

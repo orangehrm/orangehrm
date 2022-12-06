@@ -347,7 +347,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_POST_TEXT,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::STR_LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH, '8bit'])
+                new Rule(Rules::STR_LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
             ),
             true
         );
@@ -362,7 +362,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_POST_TEXT,
             new Rule(Rules::STRING_TYPE),
             new Rule(Rules::REQUIRED),
-            new Rule(Rules::STR_LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH, '8bit'])
+            new Rule(Rules::STR_LENGTH, [null, self::PARAM_RULE_TEXT_MAX_LENGTH])
         );
     }
 

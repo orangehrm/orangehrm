@@ -45,6 +45,7 @@ class BuzzDao extends BaseDao
         $sharesCount = $this->createQueryBuilder(BuzzShare::class, 's')
             ->select('COUNT(s.id)')
             ->andWhere('s.type = :typeShare')
+            ->andWhere('share.type = :typePost')
             ->andWhere('IDENTITY(s.post) = post.id')
             ->getQuery()
             ->getDQL();
@@ -56,12 +57,13 @@ class BuzzDao extends BaseDao
             ->getDQL();
         $select = 'NEW ' . BuzzFeedPost::class .
             '(employee.empNumber, employee.lastName, employee.firstName, employee.middleName, employee.employeeId,' .
-            'IDENTITY(employee.employeeTerminationRecord), share.id, share.type, share.createdAtUtc, share.numOfLikes,' .
-            "share.numOfComments, ($sharesCount), ($liked), share.text, post.id, post.text, post.createdAtUtc," .
-            'postOwner.empNumber, postOwner.lastName, postOwner.firstName, postOwner.middleName, postOwner.employeeId,' .
-            'IDENTITY(postOwner.employeeTerminationRecord), SIZE(post.photos), links.link)';
+            'IDENTITY(employee.employeeTerminationRecord), share.id, share.type, share.createdAtUtc,' .
+            "share.numOfLikes, share.numOfComments, ($sharesCount), ($liked), share.text, post.id, post.text," .
+            'post.createdAtUtc, postOwner.empNumber, postOwner.lastName, postOwner.firstName, postOwner.middleName,' .
+            'postOwner.employeeId, IDENTITY(postOwner.employeeTerminationRecord), SIZE(post.photos), links.link)';
         $q->select($select)
             ->setParameter('typeShare', BuzzShare::TYPE_SHARE)
+            ->setParameter('typePost', BuzzShare::TYPE_POST)
             ->setParameter('loggedInEmpNumber', $buzzFeedFilterParams->getAuthUserEmpNumber());
         return $q->getQuery()->execute();
     }
@@ -86,7 +88,6 @@ class BuzzDao extends BaseDao
             ->leftJoin('share.post', 'post')
             ->leftJoin('post.employee', 'postOwner');
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
-        $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
         $q->andWhere($q->expr()->isNull('postOwner.purgedAt'));
         $this->setSortingAndPaginationParams($q, $buzzFeedFilterParams);
         if ($buzzFeedFilterParams->getShareId() !== null) {
@@ -187,7 +188,6 @@ class BuzzDao extends BaseDao
             ->leftJoin('share.post', 'post')
             ->leftJoin('post.employee', 'postOwner');
         $q->andWhere($q->expr()->isNull('employee.purgedAt'))
-            ->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'))
             ->andWhere($q->expr()->isNull('postOwner.purgedAt'))
             ->andWhere('share.id = :shareId')
             ->setParameter('shareId', $shareId);
@@ -359,29 +359,45 @@ class BuzzDao extends BaseDao
         return $qb->getQuery()->execute();
     }
 
-    /**
-     * @return int[]
-     */
-    public function getBuzzShareIdList(): array
+    public function adjustLikeAndCommentCountsOnShares(): void
     {
-        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
-        $qb->select('share.id');
-        return array_column($qb->getQuery()->getArrayResult(), 'id');
+        $likesCountQuery = $this->createQueryBuilder(BuzzLikeOnShare::class, 'l')
+            ->leftJoin('l.employee', 'le')
+            ->select('COUNT(l.id)')
+            ->andWhere('IDENTITY(l.share) = share.id');
+        $likesCountQuery->andWhere($likesCountQuery->expr()->isNull('le.purgedAt'));
+        $likesCount = $likesCountQuery->getQuery()->getDQL();
+
+        $commentsCountQuery = $this->createQueryBuilder(BuzzComment::class, 'c')
+            ->leftJoin('c.employee', 'ce')
+            ->select('COUNT(c.id)')
+            ->andWhere('IDENTITY(c.share) = share.id');
+        $commentsCountQuery->andWhere($commentsCountQuery->expr()->isNull('ce.purgedAt'));
+        $commentsCount = $commentsCountQuery->getQuery()->getDQL();
+
+        $this->createQueryBuilder(BuzzShare::class, 'share')
+            ->update()
+            ->set('share.numOfLikes', "($likesCount)")
+            ->set('share.numOfComments', "($commentsCount)")
+            //->set('share.numOfShares', "($sharesCount)") // TODO
+            ->getQuery()
+            ->execute();
     }
 
-    /**
-     * @param int $empNumber
-     * @return int[]
-     */
-    public function getBuzzShareIdsByEmpNumber(int $empNumber): array
+    public function adjustLikeCountOnComments(): void
     {
-        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
-        $qb->select('share.id');
-        $qb->andWhere($qb->expr()->eq('share.employee', ':empNumber'))
-            ->setParameter('empNumber', $empNumber);
+        $likesOnCommentCountQuery = $this->createQueryBuilder(BuzzLikeOnComment::class, 'lc')
+            ->leftJoin('lc.employee', 'lce')
+            ->select('COUNT(lc.id)')
+            ->andWhere('IDENTITY(lc.comment) = comment.id');
+        $likesOnCommentCountQuery->andWhere($likesOnCommentCountQuery->expr()->isNull('lce.purgedAt'));
+        $likesOnCommentCount = $likesOnCommentCountQuery->getQuery()->getDQL();
 
-
-        return array_column($qb->getQuery()->getArrayResult(), 'id');
+        $this->createQueryBuilder(BuzzComment::class, 'comment')
+            ->update()
+            ->set('comment.numOfLikes', "($likesOnCommentCount)")
+            ->getQuery()
+            ->execute();
     }
 
     /**

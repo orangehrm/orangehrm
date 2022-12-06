@@ -129,6 +129,7 @@ class Migration extends AbstractMigration
             'comment_text' => [
                 'Notnull' => false,
                 'Default' => null,
+                'Length'=> 16_777_215, // MEDIUMTEXT
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
             ],
             'comment_time' => [
@@ -224,6 +225,7 @@ class Migration extends AbstractMigration
             'text' => [
                 'Notnull' => false,
                 'Default' => null,
+                'Length'=> 16_777_215, // MEDIUMTEXT
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
             ],
             'post_time' => [
@@ -260,6 +262,7 @@ class Migration extends AbstractMigration
             'text' => [
                 'Notnull' => false,
                 'Default' => null,
+                'Length'=> 16_777_215, // MEDIUMTEXT
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
             ],
             'share_time' => [
