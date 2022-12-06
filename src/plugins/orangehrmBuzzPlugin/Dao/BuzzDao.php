@@ -300,11 +300,11 @@ class BuzzDao extends BaseDao
     }
 
     /**
-     * @param array|null $deletedPhotoIds
+     * @param array $deletedPhotoIds
      * @param int $postId
      * @return int
      */
-    public function deleteBuzzPostPhotos(?array $deletedPhotoIds, int $postId): int
+    public function deleteBuzzPostPhotos(array $deletedPhotoIds, int $postId): int
     {
         $q = $this->createQueryBuilder(BuzzPhoto::class, 'photos');
         $q->delete()

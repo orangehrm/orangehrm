@@ -71,11 +71,10 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
 
     public const MODEL_DEFAULT_POST = 'default';
     public const MODEL_DETAILED_POST = 'detailed';
-    public const MODEL_MAP
-        = [
+    public const MODEL_MAP = [
             self::MODEL_DEFAULT_POST => BuzzPostModel::class,
             self::MODEL_DETAILED_POST => BuzzFeedPostModel::class,
-        ];
+    ];
 
     /**
      * @inheritDoc

@@ -249,7 +249,6 @@ Update:
     body:
       text: 'this is text post 01 with updated text'
       type: 'text'
-      deletedPhotos: []
     data:
       post:
         id: 3
@@ -273,7 +272,6 @@ Update:
     body:
       text: 'this is text post 01 with updated Photos'
       type: 'photo'
-      deletedPhotos: []
       photos: [
         {
           name: 'image02.jpeg',
@@ -306,7 +304,6 @@ Update:
       text: 'this is video post 01 with updated text'
       type: 'video'
       link: 'https://youtu.be/ozv4q2ov3Mk?list=RD-rey3m8SWQI'
-      deletedPhotos: []
     data:
       post:
         id: 1
@@ -330,7 +327,6 @@ Update:
     body:
       text: 'this is photo post 01 with updated photos'
       type: 'photo'
-      deletedPhotos: []
       photos: [
         {
           name: 'image12.jpeg',
@@ -424,4 +420,52 @@ Update:
       permission:
         canUpdate: false
         canDelete: false
+    meta: [ ]
+
+  'Update Video Post In Buzz - Detailed Model':
+    userId: 2
+    now:
+      datetime: '2022-12-01 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    query:
+      model: detailed
+    body:
+      text: 'this is video post with updated text'
+      type: 'video'
+      link: 'https://youtu.be/ozv4q2ov3Mk?list=RD-rey3m8SWQI'
+    data:
+      id: 1
+      post:
+        id: 1
+      type: video
+      liked: false
+      text: this is video post with updated text
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+      stats:
+        numOfLikes: 1
+        numOfComments: 0
+        numOfShares: 0
+      createdDate: '2021-09-15'
+      createdTime: '16:51'
+      originalPost: null
+      permission:
+        canUpdate: true
+        canDelete: true
+      video:
+        link: 'https://www.youtube.com/embed/ozv4q2ov3Mk'
     meta: [ ]
