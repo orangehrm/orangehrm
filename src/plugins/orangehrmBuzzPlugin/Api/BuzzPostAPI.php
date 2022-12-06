@@ -176,6 +176,9 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
 
             $this->commitTransaction();
             return new EndpointResourceResult(BuzzPostModel::class, $buzzPost);
+        } catch (InvalidParamException|BadRequestException $e) {
+            $this->rollBackTransaction();
+            throw $e;
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
@@ -548,7 +551,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $buzzFeedFilterParams = new BuzzFeedFilterParams();
             $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
             $buzzFeedFilterParams->setShareId($buzzShare->getId());
-
             $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
             $buzzPost = $buzzFeedPosts[0];
         }
