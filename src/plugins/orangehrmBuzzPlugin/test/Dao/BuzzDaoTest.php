@@ -349,4 +349,12 @@ class BuzzDaoTest extends KernelTestCase
         $this->assertCount(1, $this->getRepository(BuzzShare::class)->findBy(['post' => 4]));
         $this->assertCount(1, $this->getRepository(BuzzLink::class)->findBy(['post' => 4]));
     }
+
+    public function testGetBuzzShareByPostId(): void
+    {
+        $dao = new BuzzDao();
+        $result = $dao->getBuzzShareByPostId(1);
+        $this->assertInstanceOf(BuzzShare::class, $result);
+        $this->assertEquals('0', $result->getType());
+    }
 }

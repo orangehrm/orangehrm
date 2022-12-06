@@ -76,6 +76,15 @@ apiv2_buzz_comment_on_share:
   requirements:
     commentId: '\d+'
 
+apiv2_buzz_post:
+  path: /api/v2/buzz/posts/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Buzz\Api\BuzzPostAPI
+  requirements:
+    id: '\d+'
+
 ##########################
 #        Files
 ##########################

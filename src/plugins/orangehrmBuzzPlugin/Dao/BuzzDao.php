@@ -42,7 +42,6 @@ class BuzzDao extends BaseDao
     {
         $q = $this->getBuzzFeedPostsQueryBuilder($buzzFeedFilterParams)->getQueryBuilder()
             ->leftJoin('post.links', 'links');
-
         $sharesCount = $this->createQueryBuilder(BuzzShare::class, 's')
             ->select('COUNT(s.id)')
             ->andWhere('s.type = :typeShare')
@@ -66,7 +65,6 @@ class BuzzDao extends BaseDao
             ->setParameter('typeShare', BuzzShare::TYPE_SHARE)
             ->setParameter('typePost', BuzzShare::TYPE_POST)
             ->setParameter('loggedInEmpNumber', $buzzFeedFilterParams->getAuthUserEmpNumber());
-
         return $q->getQuery()->execute();
     }
 
@@ -92,12 +90,10 @@ class BuzzDao extends BaseDao
         $q->andWhere($q->expr()->isNull('employee.purgedAt'));
         $q->andWhere($q->expr()->isNull('postOwner.purgedAt'));
         $this->setSortingAndPaginationParams($q, $buzzFeedFilterParams);
-
         if ($buzzFeedFilterParams->getShareId() !== null) {
             $q->andWhere('share.id = :shareId')
                 ->setParameter('shareId', $buzzFeedFilterParams->getShareId());
         }
-
         return $this->getQueryBuilderWrapper($q);
     }
 
@@ -195,7 +191,6 @@ class BuzzDao extends BaseDao
             ->andWhere($q->expr()->isNull('postOwner.purgedAt'))
             ->andWhere('share.id = :shareId')
             ->setParameter('shareId', $shareId);
-
         return $q->getQuery()->getOneOrNullResult();
     }
 
@@ -216,7 +211,6 @@ class BuzzDao extends BaseDao
             $q->andWhere('share.id = :shareId')
                 ->setParameter('shareId', $shareId);
         }
-
         return $q->getQuery()->getOneOrNullResult();
     }
 
@@ -251,7 +245,6 @@ class BuzzDao extends BaseDao
         $q->andWhere($q->expr()->isNull('employee.purgedAt'))
             ->andWhere('IDENTITY(comment.share) = :shareId')
             ->setParameter('shareId', $filterParams->getShareId());
-
         return $this->getPaginator($q);
     }
 
@@ -268,6 +261,72 @@ class BuzzDao extends BaseDao
             ->setParameter('commentId', $commentId)
             ->setParameter('empNumber', $empNumber);
         return $this->count($q) > 0;
+    }
+
+    /**
+     * @param int $postId
+     * @return BuzzPost|null
+     */
+    public function getBuzzPostById(int $postId): ?BuzzPost
+    {
+        $q = $this->createQueryBuilder(BuzzPost::class, 'post')
+            ->leftJoin('post.employee', 'employee')
+            ->leftJoin('post.photos', 'photos')
+            ->leftJoin('post.links', 'links');
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'))
+            ->andWhere('post.id = :postId')
+            ->setParameter('postId', $postId);
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $postId
+     * @return string
+     */
+    public function getBuzzPostTypeByPostId(int $postId): string
+    {
+        $q = $this->createQueryBuilder(BuzzPost::class, 'post')
+            ->leftJoin('post.links', 'links')
+            ->select('SIZE(post.photos) AS photoCount', 'links.link')
+            ->andWhere('post.id = :postId')
+            ->setParameter('postId', $postId);
+        $result = $q->getQuery()->getOneOrNullResult();
+        if ($result['photoCount'] > 0) {
+            return BuzzShare::POST_TYPE_PHOTO;
+        } elseif ($result['link'] !== null) {
+            return BuzzShare::POST_TYPE_VIDEO;
+        }
+        return BuzzShare::POST_TYPE_TEXT;
+    }
+
+    /**
+     * @param array $deletedPhotoIds
+     * @param int $postId
+     * @return int
+     */
+    public function deleteBuzzPostPhotos(array $deletedPhotoIds, int $postId): int
+    {
+        $q = $this->createQueryBuilder(BuzzPhoto::class, 'photos');
+        $q->delete()
+            ->where($q->expr()->in('photos.id', ':ids'))
+            ->andWhere('photos.post = :postId')
+            ->setParameter('ids', $deletedPhotoIds)
+            ->setParameter('postId', $postId);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $postId
+     * @return BuzzLink|null
+     */
+    public function getBuzzLinkByPostId(int $postId): ?BuzzLink
+    {
+        $q = $this->createQueryBuilder(BuzzLink::class, 'link')
+            ->select()
+            ->andWhere('link.post = :postId')
+            ->setParameter('postId', $postId);
+
+        return $q->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -339,5 +398,20 @@ class BuzzDao extends BaseDao
             ->set('comment.numOfLikes', "($likesOnCommentCount)")
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * @param int $postId
+     * @return BuzzShare|null
+     */
+    public function getBuzzShareByPostId(int $postId): ?BuzzShare
+    {
+        $q = $this->createQueryBuilder(BuzzShare::class, 'share')
+            ->andWhere('share.post = :postId')
+            ->andWhere('share.type = :type')
+            ->setParameter('postId', $postId)
+            ->setParameter('type', BuzzShare::TYPE_POST);
+
+        return $q->getQuery()->getOneOrNullResult();
     }
 }
