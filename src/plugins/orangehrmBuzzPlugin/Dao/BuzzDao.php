@@ -46,6 +46,7 @@ class BuzzDao extends BaseDao
         $sharesCount = $this->createQueryBuilder(BuzzShare::class, 's')
             ->select('COUNT(s.id)')
             ->andWhere('s.type = :typeShare')
+            ->andWhere('share.type = :typePost')
             ->andWhere('IDENTITY(s.post) = post.id')
             ->getQuery()
             ->getDQL();
@@ -57,12 +58,13 @@ class BuzzDao extends BaseDao
             ->getDQL();
         $select = 'NEW ' . BuzzFeedPost::class .
             '(employee.empNumber, employee.lastName, employee.firstName, employee.middleName, employee.employeeId,' .
-            'IDENTITY(employee.employeeTerminationRecord), share.id, share.type, share.createdAtUtc, share.numOfLikes,' .
-            "share.numOfComments, ($sharesCount), ($liked), share.text, post.id, post.text, post.createdAtUtc," .
-            'postOwner.empNumber, postOwner.lastName, postOwner.firstName, postOwner.middleName, postOwner.employeeId,' .
-            'IDENTITY(postOwner.employeeTerminationRecord), SIZE(post.photos), links.link)';
+            'IDENTITY(employee.employeeTerminationRecord), share.id, share.type, share.createdAtUtc,' .
+            "share.numOfLikes, share.numOfComments, ($sharesCount), ($liked), share.text, post.id, post.text," .
+            'post.createdAtUtc, postOwner.empNumber, postOwner.lastName, postOwner.firstName, postOwner.middleName,' .
+            'postOwner.employeeId, IDENTITY(postOwner.employeeTerminationRecord), SIZE(post.photos), links.link)';
         $q->select($select)
             ->setParameter('typeShare', BuzzShare::TYPE_SHARE)
+            ->setParameter('typePost', BuzzShare::TYPE_POST)
             ->setParameter('loggedInEmpNumber', $buzzFeedFilterParams->getAuthUserEmpNumber());
 
         return $q->getQuery()->execute();

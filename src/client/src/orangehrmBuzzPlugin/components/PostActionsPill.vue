@@ -36,12 +36,8 @@
             $t('buzz.n_comment', {
               commentCount: post.stats.numOfComments,
             })
-          }}&sbquo;
-          {{
-            $t('buzz.n_share', {
-              shareCount: post.stats.numOfShares,
-            })
-          }}
+          }}<template v-if="sharesCount !== null">&sbquo;</template>
+          {{ sharesCount !== null ? sharesCount : undefined }}
         </oxd-text>
       </div>
     </div>
@@ -97,6 +93,17 @@ export default {
       onClickLike,
       onClickComment,
     };
+  },
+
+  computed: {
+    sharesCount() {
+      if (this.post.stats?.numOfShares === null) {
+        return null;
+      }
+      return this.$t('buzz.n_share', {
+        shareCount: this.post.stats?.numOfShares || 0,
+      });
+    },
   },
 };
 </script>

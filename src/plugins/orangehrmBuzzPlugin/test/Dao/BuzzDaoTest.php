@@ -96,7 +96,7 @@ class BuzzDaoTest extends KernelTestCase
                 'stats' => [
                     'numOfLikes' => 0,
                     'numOfComments' => 0,
-                    'numOfShares' => 2,
+                    'numOfShares' => null,
                 ],
                 'type' => 'text',
                 'shareId' => 4,

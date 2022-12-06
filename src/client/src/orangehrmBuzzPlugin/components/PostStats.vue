@@ -43,9 +43,14 @@
         class="orangehrm-buzz-stats-active"
         @click="onShowComments"
       >
-        {{ commentsCount }}&sbquo;
+        {{ commentsCount }}{{ sharesCount !== null ? '&sbquo;' : undefined }}
       </oxd-text>
-      <oxd-text tag="p" :class="sharesClasses" @click="onShowSharesList">
+      <oxd-text
+        v-if="sharesCount !== null"
+        tag="p"
+        :class="sharesClasses"
+        @click="onShowSharesList"
+      >
         {{ sharesCount }}
       </oxd-text>
       <post-stats-modal
@@ -103,6 +108,9 @@ export default {
       });
     },
     sharesCount() {
+      if (this.post.stats?.numOfShares === null) {
+        return null;
+      }
       return this.$t('buzz.n_share', {
         shareCount: this.post.stats?.numOfShares || 0,
       });
@@ -119,7 +127,7 @@ export default {
     },
     sharesClasses() {
       return {
-        'orangehrm-buzz-stats-active': this.post.stats?.numOfLikes > 0,
+        'orangehrm-buzz-stats-active': this.post.stats?.numOfShares > 0,
       };
     },
   },

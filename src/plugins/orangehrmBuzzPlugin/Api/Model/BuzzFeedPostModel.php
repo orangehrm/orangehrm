@@ -38,6 +38,11 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     schema="Buzz-FeedPostModel-Text",
  *     type="object",
  *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="post",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
  *     @OA\Property(property="type", type="string", default="text"),
  *     @OA\Property(property="liked", type="boolean"),
  *     @OA\Property(property="text", type="string"),
@@ -77,6 +82,11 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     schema="Buzz-FeedPostModel-Photo",
  *     type="object",
  *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="post",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
  *     @OA\Property(property="type", type="string", default="photo"),
  *     @OA\Property(property="liked", type="boolean"),
  *     @OA\Property(property="text", type="string"),
@@ -117,6 +127,11 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     schema="Buzz-FeedPostModel-Video",
  *     type="object",
  *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="post",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
  *     @OA\Property(property="type", type="string", default="video"),
  *     @OA\Property(property="liked", type="boolean"),
  *     @OA\Property(property="text", type="string"),
@@ -161,6 +176,11 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     schema="Buzz-FeedPostModel-Share",
  *     type="object",
  *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="post",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *     ),
  *     @OA\Property(property="type", type="string", default="text"),
  *     @OA\Property(property="liked", type="boolean"),
  *     @OA\Property(property="text", type="string"),
@@ -224,6 +244,7 @@ class BuzzFeedPostModel implements Normalizable
     {
         $result = [
             'id' => $this->buzzFeedPost->getId(),
+            'post' => ['id' => $this->buzzFeedPost->getPostId()],
             'type' => $this->buzzFeedPost->getType(),
             'liked' => $this->buzzFeedPost->isLiked(),
             'text' => $this->buzzFeedPost->getText(),
