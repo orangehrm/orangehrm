@@ -357,4 +357,36 @@ class BuzzDaoTest extends KernelTestCase
         $this->assertInstanceOf(BuzzShare::class, $result);
         $this->assertEquals('0', $result->getType());
     }
+
+    public function testGetBuzzPostSharesById1(): void
+    {
+        $dao = new BuzzDao();
+
+        // Get shares of share id 1 (type post)
+        $result = $dao->getBuzzPostSharesById(1);
+        $this->assertEquals(4, $result[0]->getId());
+        $this->assertEquals(1, $result[0]->getPost()->getId());
+        $this->assertEquals(6, $result[0]->getEmployee()->getEmpNumber());
+        $this->assertEquals(6, $result[1]->getId());
+        $this->assertEquals(1, $result[1]->getPost()->getId());
+        $this->assertEquals(5, $result[1]->getEmployee()->getEmpNumber());
+    }
+
+    public function testGetBuzzPostSharesById2(): void
+    {
+        $dao = new BuzzDao();
+
+        // Get shares of share id 2 (type post with no reshares)
+        $result = $dao->getBuzzPostSharesById(2);
+        $this->assertEmpty($result);
+    }
+
+    public function testGetBuzzPostSharesById3(): void
+    {
+        $dao = new BuzzDao();
+
+        // Get shares of share id 4 (type share)
+        $result = $dao->getBuzzPostSharesById(4);
+        $this->assertEmpty($result);
+    }
 }

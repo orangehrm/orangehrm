@@ -414,4 +414,22 @@ class BuzzDao extends BaseDao
 
         return $q->getQuery()->getOneOrNullResult();
     }
+
+    /**
+     * @param int $shareId
+     * @return BuzzShare[]
+     */
+    public function getBuzzPostSharesById(int $shareId): array
+    {
+        /** @var BuzzShare $share */
+        $share = $this->getRepository(BuzzShare::class)->find($shareId);
+
+        if ($share->getType() === BuzzShare::TYPE_SHARE) {
+            return [];
+        }
+
+        return $this->getRepository(BuzzShare::class)->findBy(
+            ['post' => $share->getPost()->getId(), 'type' => BuzzShare::TYPE_SHARE]
+        );
+    }
 }
