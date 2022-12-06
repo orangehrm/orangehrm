@@ -21,6 +21,7 @@ namespace OrangeHRM\Buzz\Api;
 
 use OpenApi\Annotations as OA;
 use OrangeHRM\Buzz\Api\Model\BuzzShareModel;
+use OrangeHRM\Buzz\Dto\BuzzPostShareSearchFilterParams;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
@@ -49,6 +50,15 @@ class BuzzPostShareAPI extends Endpoint implements CollectionEndpoint
      *         name="id",
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=BuzzPostShareSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -70,21 +80,26 @@ class BuzzPostShareAPI extends Endpoint implements CollectionEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $shareId = $this->getRequestParams()->getInt(
+        $postId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_POST_ID
         );
-        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareByPostId($postId);
         if (!$buzzShare instanceof BuzzShare) {
             throw $this->getInvalidParamException(self::PARAMETER_POST_ID);
         }
 
-        $shares = $this->getBuzzService()->getBuzzDao()->getBuzzPostSharesById($shareId);
+        $buzzSharePostSearchFilterParams = new BuzzPostShareSearchFilterParams();
+        $buzzSharePostSearchFilterParams->setPostId($postId);
+        $this->setSortingAndPaginationParams($buzzSharePostSearchFilterParams);
+
+        $shares = $this->getBuzzService()->getBuzzDao()->getBuzzPostSharesList($buzzSharePostSearchFilterParams);
+        $count = $this->getBuzzService()->getBuzzDao()->getBuzzPostSharesCount($buzzSharePostSearchFilterParams);
 
         return new EndpointCollectionResult(
             BuzzShareModel::class,
             $shares,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($shares)])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 

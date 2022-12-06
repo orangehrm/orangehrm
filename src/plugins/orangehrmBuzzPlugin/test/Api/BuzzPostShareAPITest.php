@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace Api;
+namespace OrangeHRM\Tests\Buzz\Api;
 
 use OrangeHRM\Buzz\Api\BuzzPostShareAPI;
 use OrangeHRM\Framework\Services;

@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Buzz\Dao;
 use DateTime;
 use OrangeHRM\Buzz\Dao\BuzzDao;
 use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
+use OrangeHRM\Buzz\Dto\BuzzPostShareSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
@@ -358,12 +359,15 @@ class BuzzDaoTest extends KernelTestCase
         $this->assertEquals('0', $result->getType());
     }
 
-    public function testGetBuzzPostSharesById1(): void
+    public function testGetBuzzPostSharesList1(): void
     {
         $dao = new BuzzDao();
+        $buzzPostSharesSearchFilterParams = new BuzzPostShareSearchFilterParams();
+        $buzzPostSharesSearchFilterParams->setPostId(1);
 
-        // Get shares of share id 1 (type post)
-        $result = $dao->getBuzzPostSharesById(1);
+        // Get shares of post id 1
+        $result = $dao->getBuzzPostSharesList($buzzPostSharesSearchFilterParams);
+        $this->assertCount(2, $result);
         $this->assertEquals(4, $result[0]->getId());
         $this->assertEquals(1, $result[0]->getPost()->getId());
         $this->assertEquals(6, $result[0]->getEmployee()->getEmpNumber());
@@ -372,21 +376,36 @@ class BuzzDaoTest extends KernelTestCase
         $this->assertEquals(5, $result[1]->getEmployee()->getEmpNumber());
     }
 
-    public function testGetBuzzPostSharesById2(): void
+    public function testGetBuzzPostSharesList2(): void
     {
         $dao = new BuzzDao();
+        $buzzPostSharesSearchFilterParams = new BuzzPostShareSearchFilterParams();
+        $buzzPostSharesSearchFilterParams->setPostId(2);
 
-        // Get shares of share id 2 (type post with no reshares)
-        $result = $dao->getBuzzPostSharesById(2);
+        // Get shares of post id 2 (no reshares)
+        $result = $dao->getBuzzPostSharesList($buzzPostSharesSearchFilterParams);
         $this->assertEmpty($result);
     }
 
-    public function testGetBuzzPostSharesById3(): void
+    public function testGetBuzzPostSharesCount1(): void
     {
         $dao = new BuzzDao();
+        $buzzPostSharesSearchFilterParams = new BuzzPostShareSearchFilterParams();
+        $buzzPostSharesSearchFilterParams->setPostId(1);
 
-        // Get shares of share id 4 (type share)
-        $result = $dao->getBuzzPostSharesById(4);
-        $this->assertEmpty($result);
+        // Get shares of post id 1
+        $result = $dao->getBuzzPostSharesCount($buzzPostSharesSearchFilterParams);
+        $this->assertEquals(2, $result);
+    }
+
+    public function testGetBuzzPostSharesCount2(): void
+    {
+        $dao = new BuzzDao();
+        $buzzPostSharesSearchFilterParams = new BuzzPostShareSearchFilterParams();
+        $buzzPostSharesSearchFilterParams->setPostId(2);
+
+        // Get shares of post id 2 (no reshares)
+        $result = $dao->getBuzzPostSharesCount($buzzPostSharesSearchFilterParams);
+        $this->assertEquals(0, $result);
     }
 }
