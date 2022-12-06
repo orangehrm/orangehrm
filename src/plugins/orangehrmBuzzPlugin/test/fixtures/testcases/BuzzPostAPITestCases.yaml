@@ -176,6 +176,16 @@ Create:
         terminationId: null
     meta: [ ]
 
+  'Create Text Post In Buzz - Without Text':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    body:
+      text: ''
+      type: 'text'
+    invalidOnly: [ "text" ]
+    meta: [ ]
+
 Update:
   'Update Text Post In Buzz - ESS User':
     userId: 2
@@ -318,4 +328,47 @@ Update:
         middleName: ''
         employeeId: null
         terminationId: null
+    meta: [ ]
+
+  'Update Text Post In Buzz - Detailed Model':
+    userId: 1
+    now:
+      datetime: '2022-12-01 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 3
+    query:
+      model: detailed
+    body:
+      text: 'this is text post 01 with updated text'
+      type: 'text'
+    data:
+      id: 3
+      type: text
+      liked: false
+      text: this is text post 01 with updated text
+      employee:
+        empNumber: 3
+        lastName: 'Abraham'
+        firstName: 'Tyler'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+      stats:
+        numOfLikes: 8
+        numOfComments: 0
+        numOfShares: 0
+      createdDate: '2021-06-10'
+      createdTime: '16:51'
+      originalPost: null
+      permission:
+        canUpdate: false
+        canDelete: true
     meta: [ ]

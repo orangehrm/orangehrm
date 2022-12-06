@@ -306,11 +306,11 @@ class BuzzDao extends BaseDao
      */
     public function deleteBuzzPostPhotos(?array $deletedPhotoIds, int $postId): int
     {
-        $q = $this->createQueryBuilder(BuzzPhoto::class, 'photos')
-            ->delete()
-            ->andWhere('photos.id = :photoId')
+        $q = $this->createQueryBuilder(BuzzPhoto::class, 'photos');
+        $q->delete()
+            ->where($q->expr()->in('photos.id', ':ids'))
             ->andWhere('photos.post = :postId')
-            ->setParameter('photoId', $deletedPhotoIds)
+            ->setParameter('ids', $deletedPhotoIds)
             ->setParameter('postId', $postId);
         return $q->getQuery()->execute();
     }
@@ -382,5 +382,20 @@ class BuzzDao extends BaseDao
 
 
         return array_column($qb->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
+     * @param int $postId
+     * @return BuzzShare|null
+     */
+    public function getBuzzShareByPostId(int $postId): ?BuzzShare
+    {
+        $q = $this->createQueryBuilder(BuzzShare::class, 'share')
+            ->andWhere('share.post = :postId')
+            ->andWhere('share.type = :type')
+            ->setParameter('postId', $postId)
+            ->setParameter('type', BuzzShare::TYPE_POST);
+
+        return $q->getQuery()->getOneOrNullResult();
     }
 }

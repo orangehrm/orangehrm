@@ -19,11 +19,14 @@
 
 namespace OrangeHRM\Buzz\Api;
 
+use OrangeHRM\Buzz\Api\Model\BuzzFeedPostModel;
 use OrangeHRM\Buzz\Api\Model\BuzzPostModel;
 use OrangeHRM\Buzz\Api\ValidationRules\BuzzVideoLinkValidationRule;
+use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
 use OrangeHRM\Buzz\Exception\InvalidURLException;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -59,12 +62,20 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_POST_TYPE = 'type';
     public const PARAMETER_VIDEO_LINK = 'link';
     public const PARAMETER_POST_PHOTOS = 'photos';
-    public const PARAMETER_POST_ID = 'id';
     public const PARAMETER_DELETED_PHOTO_IDS = 'deletedPhotos';
+    public const PARAMETER_MODEL = 'model';
 
     public const PARAM_RULE_TEXT_MAX_LENGTH = 65530;
     public const PARAM_RULE_PHOTO_NAME_MAX_LENGTH = 100;
     public const MAX_ATTACHMENT_SIZE = 2097152; //2MB
+
+    public const MODEL_DEFAULT_POST = 'default';
+    public const MODEL_DETAILED_POST = 'detailed';
+    public const MODEL_MAP
+        = [
+            self::MODEL_DEFAULT_POST => BuzzPostModel::class,
+            self::MODEL_DETAILED_POST => BuzzFeedPostModel::class,
+        ];
 
     /**
      * @inheritDoc
@@ -102,7 +113,11 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Buzz-PostModel"
+     *                 type="array",
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-PostModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
+     *                 })
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -133,7 +148,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      * )
      *
      * @inheritDoc
-     * @throws TransactionException
+     * @throws InvalidURLException
      */
     public function create(): EndpointResult
     {
@@ -245,10 +260,9 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_POST_PHOTOS
         );
 
-        if (empty($postPhotos)) {
+        if (empty($postPhotos) || count($postPhotos) > 5) {
             throw $this->getInvalidParamException(self::PARAMETER_POST_PHOTOS);
         }
-
         foreach ($postPhotos as $photo) {
             $attachment = Base64Attachment::createFromArray($photo);
             $buzzPhoto = new BuzzPhoto();
@@ -416,14 +430,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      *     type="object",
      *     @OA\Property(property="text", type="string"),
      *     @OA\Property(property="type", type="string"),
-     *     @OA\Property(
-     *         property="deletedPhotos",
-     *         type="array",
-     *         @OA\Items(
-     *             @OA\Property(property="id", type="integer"),
-     *         ),
-     *         example="59,60"
-     *     ),
      * )
      *
      * @OA\Schema(
@@ -448,14 +454,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      *     @OA\Property(property="text", type="string"),
      *     @OA\Property(property="type", type="string"),
      *     @OA\Property(property="link", type="string"),
-     *     @OA\Property(
-     *         property="deletedPhotos",
-     *         type="array",
-     *         @OA\Items(
-     *             @OA\Property(property="id", type="integer"),
-     *         ),
-     *         example="59,60"
-     *     ),
      * )
      *
      * @inheritDoc
@@ -466,12 +464,12 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
         try {
             $postId = $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
-                self::PARAMETER_POST_ID
+                CommonParams::PARAMETER_ID
             );
 
             $buzzPost = $this->getBuzzService()->getBuzzDao()->getBuzzPostById($postId);
             if (!$buzzPost instanceof BuzzPost) {
-                throw $this->getInvalidParamException(self::PARAMETER_POST_ID);
+                throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
             }
 
             $originalPostType = $this->getBuzzService()->getBuzzDao()->getBuzzPostTypeByPostId($postId);
@@ -490,26 +488,44 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $deletedPhotoIds = $this->getRequestParams()
                 ->getArrayOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DELETED_PHOTO_IDS);
 
-            if (sizeof($deletedPhotoIds) > 5) {
+            if ($deletedPhotoIds !== null && count($deletedPhotoIds) > 5) {
                 throw $this->getInvalidParamException(self::PARAMETER_DELETED_PHOTO_IDS);
             }
 
             if ($originalPostType === BuzzShare::POST_TYPE_VIDEO) {
                 if ($postType === BuzzShare::POST_TYPE_PHOTO || $postType === BuzzShare::POST_TYPE_TEXT) {
                     throw $this->getInvalidParamException(self::PARAMETER_POST_TYPE);
-                } elseif (!($link === null)) {
+                } elseif ($link !== null) {
                     $buzzPost->setText($text);
                     $this->updateBuzzVideoPost($buzzPost, $link);
                 }
-            } elseif ($originalPostType === BuzzShare::POST_TYPE_TEXT || $originalPostType === BuzzShare::POST_TYPE_PHOTO) {
+            } elseif ($originalPostType === BuzzShare::POST_TYPE_TEXT
+                || $originalPostType === BuzzShare::POST_TYPE_PHOTO
+            ) {
                 if ($postType === BuzzShare::POST_TYPE_VIDEO) {
                     throw $this->getInvalidParamException(self::PARAMETER_POST_TYPE);
-                } elseif (!empty($photos)) {
-                    $this->getBuzzService()->getBuzzDao()->deleteBuzzPostPhotos($deletedPhotoIds, $postId);
-                    $this->setBuzzPhotos($buzzPost);
-                    $buzzPost->setText($text);
                 }
-                $this->getBuzzService()->getBuzzDao()->deleteBuzzPostPhotos($deletedPhotoIds, $postId);
+
+                $addedPhotoIds = $this->getBuzzService()->getBuzzDao()->getBuzzPhotoIdsByPostId($postId);
+
+                if (!empty($deletedPhotoIds)) {
+                    $wrongPhotoIds = array_diff($deletedPhotoIds, $addedPhotoIds);
+                    if (!empty($wrongPhotoIds)) {
+                        throw $this->getInvalidParamException(self::PARAMETER_DELETED_PHOTO_IDS);
+                    }
+                    $this->getBuzzService()->getBuzzDao()->deleteBuzzPostPhotos($deletedPhotoIds, $postId);
+                }
+
+                if (!empty($photos)) {
+                    if (count($photos) + count($addedPhotoIds) > 5) {
+                        throw $this->getInvalidParamException(self::PARAMETER_POST_PHOTOS);
+                    } elseif (!empty($deletedPhotoIds)
+                        && (count($photos) + count($addedPhotoIds) - count($deletedPhotoIds) > 5)
+                    ) {
+                        throw $this->getInvalidParamException(self::PARAMETER_POST_PHOTOS);
+                    }
+                    $this->setBuzzPhotos($buzzPost);
+                }
                 $buzzPost->setText($text);
             }
 
@@ -525,7 +541,19 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
-        return new EndpointResourceResult(BuzzPostModel::class, $buzzPost);
+
+        $modelClass = $this->getModelClass();
+        if ($modelClass == BuzzFeedPostModel::class) {
+            $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareByPostId($postId);
+            $buzzFeedFilterParams = new BuzzFeedFilterParams();
+            $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
+            $buzzFeedFilterParams->setShareId($buzzShare->getId());
+
+            $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
+            $buzzPost = $buzzFeedPosts[0];
+        }
+
+        return new EndpointResourceResult($modelClass, $buzzPost);
     }
 
     /**
@@ -537,7 +565,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
 
         $paramRules->addParamValidation(
             new ParamRule(
-                self::PARAMETER_POST_ID,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE),
             ),
         );
@@ -547,6 +575,15 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_DELETED_PHOTO_IDS,
                     new Rule(Rules::INT_ARRAY),
+                )
+            )
+        );
+
+        $paramRules->addParamValidation(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MODEL,
+                    new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
                 )
             )
         );
@@ -570,5 +607,18 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
         $buzzLink->setLink($buzzEmbeddedURL->getEmbeddedURL());
 
         $this->getBuzzService()->getBuzzDao()->saveBuzzVideo($buzzLink);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
+    {
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_MODEL,
+            self::MODEL_DEFAULT_POST
+        );
+        return self::MODEL_MAP[$model];
     }
 }
