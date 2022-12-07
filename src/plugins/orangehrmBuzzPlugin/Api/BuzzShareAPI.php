@@ -183,7 +183,7 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
             $this->commitTransaction();
 
             return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_SHARE_ID => $shareId]);
-        } catch (InvalidParamException | ForbiddenException $e) {
+        } catch (InvalidParamException|ForbiddenException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -222,11 +222,59 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/buzz/shares/{id}",
+     *     tags={"Buzz/Shares"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="text", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Buzz-ShareModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $this->beginTransaction();
+        try {
+            $shareId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            );
+
+            $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+            if (!$buzzShare instanceof BuzzShare || $buzzShare->getType() === BuzzShare::TYPE_POST) {
+                throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
+            }
+
+            if (!$this->getBuzzService()->canUpdateBuzzFeedPost($buzzShare->getEmployee()->getEmpNumber())) {
+                throw $this->getForbiddenException();
+            }
+
+            $this->setBuzzShareText($buzzShare);
+            $buzzShare->setUpdatedAtUtc();
+            $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
+            $this->commitTransaction();
+
+            return new EndpointResourceResult(BuzzShareModel::class, $buzzShare);
+        } catch (InvalidParamException|ForbiddenException $e) {
+            $this->rollBackTransaction();
+            throw $e;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
     }
 
     /**
@@ -234,6 +282,18 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TEXT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::STR_LENGTH, [null, BuzzPostAPI::PARAM_RULE_TEXT_MAX_LENGTH])
+                )
+            )
+        );
     }
 }

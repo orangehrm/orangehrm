@@ -215,3 +215,70 @@ Delete:
       id: 8
     data:
       shareId: 8
+
+Update:
+  'Update Shared Text Post In Buzz - ESS User':
+    userId: 1
+    now:
+      datetime: '2022-12-08 08:42:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 9
+    body:
+      text: 'this is edited text for share'
+    data:
+      share:
+        id: 9
+      post:
+        id: 7
+      employee:
+        empNumber: 4
+        lastName: 'Abrahams'
+        firstName: 'Landon'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Update Shared Text Post In Buzz - Other User':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 9
+    body:
+      text: 'this is edited text for share'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Update Shared Text Post In Buzz - Type Post':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 3
+    body:
+      text: 'this is edited text for share'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'

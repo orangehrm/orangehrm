@@ -101,17 +101,21 @@ class BuzzShareAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForGetOne();
     }
 
-    public function testUpdate(): void
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $api = new BuzzShareAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->update();
+        $this->populateFixtures('BuzzShareAPI.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzShareAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function testGetValidationRuleForUpdate(): void
+    public function dataProviderForTestUpdate(): array
     {
-        $api = new BuzzShareAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
+        return $this->getTestCases('BuzzShareAPITestCases.yaml', 'Update');
     }
 }
