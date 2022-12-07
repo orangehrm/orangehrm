@@ -105,3 +105,16 @@ apiv2_buzz_video_url_validation:
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
     - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_buzz_post_share:
+  description: 'Buzz - Post Share'
+  api: OrangeHRM\Buzz\Api\BuzzPostShareAPI
+  module: buzz
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }

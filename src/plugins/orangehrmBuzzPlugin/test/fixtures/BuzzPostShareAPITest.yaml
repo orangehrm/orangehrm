@@ -1,0 +1,32 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+Employee:
+  - {"emp_number": 1,"employee_id": "0001","emp_lastname": "Admin","emp_firstname": "Devi","emp_middle_name": "","termination_id": null,"purged_at": null}
+  - {"emp_number": 2,"employee_id": "0002","emp_lastname": "Perera","emp_firstname": "Sharuka","emp_middle_name": "","termination_id": null,"purged_at": null}
+
+UserRole:
+  - {"id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1}
+  - {"id": 2,"name": "ESS","display_name": "ESS","is_assignable": 1,"is_predefined": 1}
+
+User:
+  - {"id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","user_password": "$2y$12$n.ADhSmL5T2CjUXOGEWp2uPhxJKC9ZylckA8o88/cbxcvU13yzPCm"}
+  - {"id": 2,"user_role_id": 2,"emp_number": 2,"user_name": "sharuka","user_password": "$2y$12$UFFhriIfI6zs6jIG8FmTi.yC2fsA1GaWPk5kxnYGDy7LHW73vT.be"}
+
+BuzzPost:
+  - {"id": 1,"employee_number": 1,"text": "Post by Admin","post_time": "2022-12-06 21:56:19","updated_at": "2022-12-06 21:56:19","post_utc_time": "2022-12-06 08:56:19","updated_utc_time": "2022-12-06 08:56:19"}
+  - {"id": 2,"employee_number": 2,"text": "Post by Sharuka","post_time": "2022-12-06 21:56:25","updated_at": "2022-12-06 21:56:25","post_utc_time": "2022-12-06 08:56:25","updated_utc_time": "2022-12-06 08:56:25"}
+  - {"id": 3,"employee_number": 1,"text": "Second Post By Admin","post_time": "2022-12-06 21:56:54","updated_at": "2022-12-06 21:56:54","post_utc_time": "2022-12-06 08:56:54","updated_utc_time": "2022-12-06 08:56:54"}
+  - {"id": 4,"employee_number": 2,"text": "Second Post By Sharuka","post_time": "2022-12-06 21:57:00","updated_at": "2022-12-06 21:57:00","post_utc_time": "2022-12-06 08:57:00","updated_utc_time": "2022-12-06 08:57:00"}
+
+BuzzShare:
+  - {"id": 1,"post_id": 1,"employee_number": 1,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 21:56:19","type": 0,"text": null,"updated_at": "2022-12-06 21:56:19","share_utc_time": "2022-12-06 08:56:19","updated_utc_time": "2022-12-06 08:56:19"}
+  - {"id": 2,"post_id": 2,"employee_number": 2,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 21:56:25","type": 0,"text": null,"updated_at": "2022-12-06 21:56:25","share_utc_time": "2022-12-06 08:56:25","updated_utc_time": "2022-12-06 08:56:25"}
+  - {"id": 3,"post_id": 3,"employee_number": 1,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 21:56:54","type": 0,"text": null,"updated_at": "2022-12-06 21:56:54","share_utc_time": "2022-12-06 08:56:54","updated_utc_time": "2022-12-06 08:56:54"}
+  - {"id": 4,"post_id": 4,"employee_number": 2,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 21:57:00","type": 0,"text": null,"updated_at": "2022-12-06 21:57:00","share_utc_time": "2022-12-06 08:57:00","updated_utc_time": "2022-12-06 08:57:00"}
+  - {"id": 5,"post_id": 1,"employee_number": 2,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 21:57:26","type": 1,"text": "First Share of Admin Post 1 By Sharuka","updated_at": "2022-12-06 08:57:59","share_utc_time": "2022-12-06 08:57:26","updated_utc_time": "2022-12-05 19:57:59"}
+  - {"id": 6,"post_id": 1,"employee_number": 2,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 21:58:23","type": 1,"text": "Second Share of Admin Post 1 by Sharuka","updated_at": "2022-12-06 21:58:23","share_utc_time": "2022-12-06 08:58:23","updated_utc_time": "2022-12-06 08:58:23"}
+  - {"id": 7,"post_id": 1,"employee_number": 2,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 21:59:21","type": 1,"text": "Third Share of Admin Post 1 By Sharuka","updated_at": "2022-12-06 21:59:21","share_utc_time": "2022-12-06 08:59:21","updated_utc_time": "2022-12-06 08:59:21"}
+  - {"id": 8,"post_id": 2,"employee_number": 1,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 22:00:02","type": 1,"text": "First Share of Sharuka Post 1 By Admin","updated_at": "2022-12-06 22:00:02","share_utc_time": "2022-12-06 09:00:02","updated_utc_time": "2022-12-06 09:00:02"}
+  - {"id": 9,"post_id": 4,"employee_number": 1,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 22:00:43","type": 1,"text": "First Share of Sharuka Post 2 By Admin","updated_at": "2022-12-06 22:00:43","share_utc_time": "2022-12-06 09:00:43","updated_utc_time": "2022-12-06 09:00:43"}
+  - {"id": 10,"post_id": 4,"employee_number": 2,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-12-06 22:01:39","type": 1,"text": "First Share of Sharuka Post 2 by Sharuka","updated_at": "2022-12-06 22:01:39","share_utc_time": "2022-12-06 09:01:39","updated_utc_time": "2022-12-06 09:01:39"}

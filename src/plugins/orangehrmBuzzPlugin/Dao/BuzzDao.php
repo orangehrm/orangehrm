@@ -22,6 +22,7 @@ namespace OrangeHRM\Buzz\Dao;
 use OrangeHRM\Buzz\Dto\BuzzCommentSearchFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzFeedPost;
+use OrangeHRM\Buzz\Dto\BuzzPostShareSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\BuzzComment;
 use OrangeHRM\Entity\BuzzLikeOnComment;
@@ -413,5 +414,41 @@ class BuzzDao extends BaseDao
             ->setParameter('type', BuzzShare::TYPE_POST);
 
         return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param BuzzPostShareSearchFilterParams $buzzPostShareSearchFilterParams
+     * @return BuzzShare[]
+     */
+    public function getBuzzPostSharesList(BuzzPostShareSearchFilterParams $buzzPostShareSearchFilterParams): array
+    {
+        $qb = $this->getBuzzPostSharesQueryBuilderWrapper($buzzPostShareSearchFilterParams)->getQueryBuilder();
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param BuzzPostShareSearchFilterParams $buzzPostShareSearchFilterParams
+     * @return int
+     */
+    public function getBuzzPostSharesCount(BuzzPostShareSearchFilterParams $buzzPostShareSearchFilterParams): int
+    {
+        return $this->count($this->getBuzzPostSharesQueryBuilderWrapper($buzzPostShareSearchFilterParams)->getQueryBuilder());
+    }
+
+    /**
+     * @param BuzzPostShareSearchFilterParams $buzzPostShareSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getBuzzPostSharesQueryBuilderWrapper(BuzzPostShareSearchFilterParams $buzzPostShareSearchFilterParams): QueryBuilderWrapper
+    {
+        $qb = $this->createQueryBuilder(BuzzShare::class, 'share');
+        $qb->andWhere($qb->expr()->eq('share.post', ':postId'))
+            ->setParameter('postId', $buzzPostShareSearchFilterParams->getPostId());
+        $qb->andWhere($qb->expr()->eq('share.type', ':type'))
+            ->setParameter('type', BuzzShare::TYPE_SHARE);
+
+        $this->setSortingAndPaginationParams($qb, $buzzPostShareSearchFilterParams);
+
+        return $this->getQueryBuilderWrapper($qb);
     }
 }

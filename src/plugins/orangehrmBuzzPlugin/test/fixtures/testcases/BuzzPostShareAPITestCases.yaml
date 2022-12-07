@@ -1,0 +1,361 @@
+GetAll:
+  'Admin - get all shares for post id 1':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 1
+    data: [
+      {
+        "share": {
+          "id": 5
+        },
+        "post": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      },
+      {
+        "share": {
+          "id": 6
+        },
+        "post": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      },
+      {
+        "share": {
+          "id": 7
+        },
+        "post": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 3
+
+  'Admin - get all shares for post id 1 with limit':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 1
+    query:
+      limit: 1
+    data: [
+      {
+        "share": {
+          "id": 5
+        },
+        "post": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 3
+
+  'Admin - get all shares for post id 1 with limit and offset':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 1
+    query:
+      limit: 1
+      offset: 1
+    data: [
+      {
+        "share": {
+          "id": 6
+        },
+        "post": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 3
+
+  'Admin - get all shares for post id 2':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 2
+    data: [
+      {
+        "share": {
+          "id": 8
+        },
+        "post": {
+          "id": 2
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'Admin - get all shares for post id 3':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 3
+    data: []
+    meta:
+      total: 0
+
+  'Admin - get all shares for post id 4':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 4
+    data: [
+      {
+        "share": {
+          "id": 9
+        },
+        "post": {
+          "id": 4
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      },
+      {
+        "share": {
+          "id": 10
+        },
+        "post": {
+          "id": 4
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  'Admin - get all shares for post id 5 (non existent)':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 5
+    data:
+      invalidParamKeys: "postId"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'ESS - get all shares for post id 1':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 1
+    data: [
+      {
+        "share": {
+          "id": 5
+        },
+        "post": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      },
+      {
+        "share": {
+          "id": 6
+        },
+        "post": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      },
+      {
+        "share": {
+          "id": 7
+        },
+        "post": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 3
+
+  'ESS - get all shares for post id 2':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 2
+    data: [
+      {
+        "share": {
+          "id": 8
+        },
+        "post": {
+          "id": 2
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'ESS - get all shares for post id 3':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 3
+    data: []
+    meta:
+      total: 0
+
+  'ESS - get all shares for post id 4':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 4
+    data: [
+      {
+        "share": {
+          "id": 9
+        },
+        "post": {
+          "id": 4
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      },
+      {
+        "share": {
+          "id": 10
+        },
+        "post": {
+          "id": 4
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  'ESS - get all shares for post id 5 (non existent)':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      postId: 5
+    data:
+      invalidParamKeys: "postId"
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
