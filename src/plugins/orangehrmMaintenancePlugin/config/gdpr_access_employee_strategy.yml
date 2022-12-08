@@ -264,7 +264,7 @@ Entities :
     AccessStrategy:
       Basic:
         match_by:
-          - {match: reviewer, join: PerformanceReview}
+          - {match: employee, join: performanceReview}
         parameters:
           - {field: "kpi" ,getter: ['getKpi','getTitle']}
           - {field: "rating" }
@@ -274,7 +274,7 @@ Entities :
     AccessStrategy:
       Basic:
         match_by:
-          - {match: employee, join: PerformanceReview}
+          - {match: employee, join: review}
         parameters:
           - {field: "employee",class: 'FormatWithEmployeeName' ,getter :['getEmployee', 'getEmpNumber'] }
           - {field: "completedDate",class: 'FormatWithDateTime' }
@@ -284,7 +284,7 @@ Entities :
     AccessStrategy:
       Basic:
         match_by:
-          - {match: employee, join: PerformanceTracker}
+          - {match: employee, join: performanceTracker}
         parameters:
           - {field: "log" }
           - {field: "comment" }
@@ -296,7 +296,7 @@ Entities :
     AccessStrategy:
       Basic:
         match_by:
-          - {match: createdByEmployee, join: leaveRequest}
+          - {match: employee, join: leaveRequest}
         parameters:
           - {field: "createdAt", class: 'FormatWithDateTime'}
           - {field: "createdBy", getter : ['getCreatedBy','getUserName']}
@@ -315,7 +315,7 @@ Entities :
     AccessStrategy:
       Basic:
         match_by:
-          - {match: createdByEmployee, join: Leave}
+          - {match: employee, join: leave}
         parameters:
           - {field: "createdBy", getter : ['getCreatedBy','getUserName'] }
           - {field: "createdByEmployee", class: 'FormatWithEmployeeName' ,getter :['getCreatedByEmployee', 'getEmpNumber'] }
@@ -360,3 +360,54 @@ Entities :
           - {field: "date",class : 'FormatWithDate'}
           - {field: "duration" }
           - {field: "comment" }
+
+  BuzzPost:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "text"}
+          - {field: "createdAtUtc", class: 'FormatWithDateTime'}
+          - {field: "updatedAtUtc", class: 'FormatWithDateTime'}
+
+  BuzzShare:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "text"}
+          - {field: "numOfLikes"}
+          - {field: "numOfComments"}
+          - {field: "createdAtUtc", class: 'FormatWithDateTime'}
+          - {field: "updatedAtUtc", class: 'FormatWithDateTime'}
+
+  BuzzPhoto:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee, join: post}
+        parameters:
+          - {field: "photo", class: 'FormatWithBase64Encode', getter: ['getDecorator', 'getPhoto']}
+          - {field: "filename" }
+          - {field: "fileType" }
+
+  BuzzLink:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee, join: post}
+        parameters:
+          - {field: "link"}
+
+  BuzzComment:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "text"}
+          - {field: "numOfLikes"}
+          - {field: "createdAtUtc", class: 'FormatWithDateTime'}
+          - {field: "updatedAtUtc", class: 'FormatWithDateTime'}

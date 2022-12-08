@@ -129,7 +129,7 @@ abstract class AccessStrategy
         $entityFieldMap = [];
         $entityFieldMap[$this->getMatchBy()[0]['match']] = $employeeNumber;
 
-        if (in_array('join', $this->getMatchBy()[0])) {
+        if (isset($this->getMatchBy()[0]['join'])) {
             $entityFieldMap['join'] = $this->getMatchBy()[0]['join'];
         }
 

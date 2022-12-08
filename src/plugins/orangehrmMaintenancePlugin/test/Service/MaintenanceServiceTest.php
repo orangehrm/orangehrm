@@ -286,7 +286,7 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('2010-08-29 04:55:00', $result['LeaveRequestComment'][0]['createdAt']);
         $this->assertEquals('samantha', $result['LeaveRequestComment'][0]['createdBy']);
         $this->assertEquals('employee 3 comment on emp 1 leave request', $result['LeaveRequestComment'][0]['comment']);
-        $this->assertCount(3, $result['LeaveRequestComment']);
+        $this->assertCount(4, $result['LeaveRequestComment']);
     }
 
     public function testLeaveComment(): void
@@ -357,16 +357,16 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('Code Clarity', $result['ReviewerRating'][0]['kpi']);
         $this->assertEquals('5.50', $result['ReviewerRating'][0]['rating']);
         $this->assertEquals('Test comment 1', $result['ReviewerRating'][0]['comment']);
-        $this->assertCount(2, $result['ReviewerRating']);
+        $this->assertCount(3, $result['ReviewerRating']);
     }
 
     public function testReviewer(): void
     {
         $result = $this->maintenanceService->accessEmployeeData(1);
-        $this->assertEquals('Kayla T Abbey', $result['Reviewer'][0]['employee']);
+        $this->assertEquals('Ashley ST Abel', $result['Reviewer'][0]['employee']);
         $this->assertEquals('2014-10-30 00:00:00', $result['Reviewer'][0]['completedDate']);
-        $this->assertEquals('Test Comment 2', $result['Reviewer'][0]['comment']);
-        $this->assertCount(2, $result['Reviewer']);
+        $this->assertEquals('Test Comment 1', $result['Reviewer'][0]['comment']);
+        $this->assertCount(3, $result['Reviewer']);
     }
 
     public function testPerformanceTrackerLog(): void
@@ -383,7 +383,7 @@ class MaintenanceServiceTest extends KernelTestCase
     public function testGetPurgeableEntities(): void
     {
         $purgeableEntities = $this->maintenanceService->getPurgeableEntities('gdpr_access_employee_strategy');
-        $this->assertCount(28, $purgeableEntities);
+        $this->assertCount(33, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);
@@ -406,6 +406,11 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertArrayHasKey("LeaveComment", $purgeableEntities);
         $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
         $this->assertArrayHasKey("TimesheetItem", $purgeableEntities);
+        $this->assertArrayHasKey('BuzzPost', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzShare', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzPhoto', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzLink', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzComment', $purgeableEntities);
     }
 
 
