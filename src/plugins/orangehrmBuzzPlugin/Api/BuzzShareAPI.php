@@ -20,7 +20,9 @@
 namespace OrangeHRM\Buzz\Api;
 
 use Exception;
+use OrangeHRM\Buzz\Api\Model\BuzzFeedPostModel;
 use OrangeHRM\Buzz\Api\Model\BuzzShareModel;
+use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -48,6 +50,15 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_TEXT = 'text';
     public const PARAMETER_SHARE_ID = 'shareId';
+
+    public const PARAMETER_MODEL = 'model';
+    public const MODEL_DEFAULT_POST = 'default';
+    public const MODEL_DETAILED_POST = 'detailed';
+    public const MODEL_MAP
+        = [
+            self::MODEL_DEFAULT_POST => BuzzShareModel::class,
+            self::MODEL_DETAILED_POST => BuzzFeedPostModel::class,
+        ];
 
     /**
      * @inheritDoc
@@ -183,7 +194,7 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
             $this->commitTransaction();
 
             return new EndpointResourceResult(ArrayModel::class, [self::PARAMETER_SHARE_ID => $shareId]);
-        } catch (InvalidParamException | ForbiddenException $e) {
+        } catch (InvalidParamException|ForbiddenException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
@@ -222,11 +233,86 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/buzz/shares/{id}",
+     *     tags={"Buzz/Shares"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="text", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-ShareModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
+     *                 })
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $this->beginTransaction();
+        try {
+            $shareId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            );
+
+            $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareById($shareId);
+            if (!$buzzShare instanceof BuzzShare || $buzzShare->getType() === BuzzShare::TYPE_POST) {
+                throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
+            }
+
+            if (!$this->getBuzzService()->canUpdateBuzzFeedPost($buzzShare->getEmployee()->getEmpNumber())) {
+                throw $this->getForbiddenException();
+            }
+
+            $this->setBuzzShareText($buzzShare);
+            $buzzShare->setUpdatedAtUtc();
+            $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
+            $this->commitTransaction();
+
+            $modelClass = $this->getModelClass();
+            $data = $buzzShare;
+            if ($modelClass == BuzzFeedPostModel::class) {
+                $buzzFeedFilterParams = new BuzzFeedFilterParams();
+                $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
+                $buzzFeedFilterParams->setShareId($shareId);
+                $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
+                $data = $buzzFeedPosts[0];
+            }
+
+            return new EndpointResourceResult($modelClass, $data);
+        } catch (InvalidParamException|ForbiddenException $e) {
+            $this->rollBackTransaction();
+            throw $e;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
+    {
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_MODEL,
+            self::MODEL_DEFAULT_POST
+        );
+        return self::MODEL_MAP[$model];
     }
 
     /**
@@ -234,6 +320,24 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TEXT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::STR_LENGTH, [null, BuzzPostAPI::PARAM_RULE_TEXT_MAX_LENGTH])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MODEL,
+                    new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+                )
+            )
+        );
     }
 }

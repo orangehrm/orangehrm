@@ -420,7 +420,11 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Buzz-PostModel"
+     *                 type="array",
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-PostModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
+     *                 })
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -488,9 +492,9 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $photos = $this->getRequestParams()
                 ->getArrayOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_POST_PHOTOS);
             $deletedPhotoIds = $this->getRequestParams()
-                ->getArrayOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DELETED_PHOTO_IDS);
+                ->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DELETED_PHOTO_IDS, []);
 
-            if ($deletedPhotoIds !== null && count($deletedPhotoIds) > 5) {
+            if (count($deletedPhotoIds) > 5) {
                 throw $this->getInvalidParamException(self::PARAMETER_DELETED_PHOTO_IDS);
             }
 
@@ -519,11 +523,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
                 }
 
                 if (!empty($photos)) {
-                    if (count($photos) + count($addedPhotoIds) > 5) {
-                        throw $this->getInvalidParamException(self::PARAMETER_POST_PHOTOS);
-                    } elseif (!empty($deletedPhotoIds)
-                        && (count($photos) + count($addedPhotoIds) - count($deletedPhotoIds) > 5)
-                    ) {
+                    if (count($photos) + count($addedPhotoIds) - count($deletedPhotoIds) > 5) {
                         throw $this->getInvalidParamException(self::PARAMETER_POST_PHOTOS);
                     }
                     $this->setBuzzPhotos($buzzPost);
