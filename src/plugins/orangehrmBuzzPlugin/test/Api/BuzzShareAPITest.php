@@ -62,7 +62,7 @@ class BuzzShareAPITest extends EndpointIntegrationTestCase
         $api->getAll();
     }
 
-    public function dataProviderForTestGetAll(): array
+    public function testGetValidationRuleForGetAll(): array
     {
         $api = new BuzzShareAPI($this->getRequest());
         $this->expectNotImplementedException();

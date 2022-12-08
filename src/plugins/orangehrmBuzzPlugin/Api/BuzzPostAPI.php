@@ -420,7 +420,11 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Buzz-PostModel"
+     *                 type="array",
+     *                 @OA\Items(oneOf={
+     *                     @OA\Schema(ref="#/components/schemas/Buzz-PostModel"),
+     *			           @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
+     *                 })
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
