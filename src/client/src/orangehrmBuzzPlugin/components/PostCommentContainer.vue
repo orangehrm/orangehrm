@@ -25,6 +25,7 @@
       <oxd-form @submitValid="onSubmit">
         <oxd-input-field
           v-model="text"
+          v-autofocus
           :placeholder="$t('buzz.write_your_comment')"
         />
       </oxd-form>
@@ -58,6 +59,7 @@
 import useToast from '@/core/util/composable/useToast';
 import {onBeforeMount, reactive, ref, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
+import useAutoFocus from '@/core/util/composable/useAutoFocus';
 import PostComment from '@/orangehrmBuzzPlugin/components/PostComment';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
@@ -71,6 +73,8 @@ export default {
     'profile-image': ProfileImage,
     'delete-confirmation': DeleteConfirmationDialog,
   },
+
+  directives: {...useAutoFocus()},
 
   props: {
     postId: {
