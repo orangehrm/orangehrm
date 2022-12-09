@@ -37,7 +37,11 @@
 
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
       <oxd-grid-item v-for="(post, index) in posts" :key="post">
-        <post-container :post="post" @delete="onDelete(index)">
+        <post-container
+          :post="post"
+          @edit="onEdit(index)"
+          @delete="onDelete(index)"
+        >
           <template #content>
             <post-body
               :post="post"
@@ -84,6 +88,13 @@
       class="orangehrm-buzz-newsfeed-loader"
     />
   </div>
+
+  <edit-post-modal
+    v-if="showEditModal"
+    :employee="employee"
+    :data="editModalState"
+    @close="onCloseEditModal"
+  ></edit-post-modal>
   <share-post-modal
     v-if="showShareModal"
     :employee="employee"
@@ -116,6 +127,7 @@ import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
 import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
+import EditPostModal from '@/orangehrmBuzzPlugin/components/EditPostModal.vue';
 import PhotoCarousel from '@/orangehrmBuzzPlugin/components/PhotoCarousel.vue';
 import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
@@ -139,6 +151,7 @@ export default {
     'oxd-loading-spinner': Spinner,
     'photo-carousel': PhotoCarousel,
     'post-container': PostContainer,
+    'edit-post-modal': EditPostModal,
     'share-post-modal': SharePostModal,
     'post-comment-container': PostCommentContainer,
     'delete-confirmation': DeleteConfirmationDialog,
@@ -172,6 +185,8 @@ export default {
         ...defaultFilters,
       },
       isLoading: false,
+      showEditModal: false,
+      editModalState: null,
       showShareModal: false,
       shareModalState: null,
       showPhotoCarousel: false,
@@ -220,6 +235,12 @@ export default {
       }
     };
 
+    const onEdit = index => {
+      state.showEditModal = true;
+      state.editModalState = state.posts[index];
+      document.body.style.overflow = 'hidden';
+    };
+
     const onShare = index => {
       state.showShareModal = true;
       state.shareModalState = state.posts[index];
@@ -264,6 +285,13 @@ export default {
       if ($event) resetFeed();
     };
 
+    const onCloseEditModal = $event => {
+      state.showEditModal = false;
+      state.editModalState = null;
+      document.body.style.overflow = 'auto';
+      if ($event) resetFeed();
+    };
+
     const onDelete = index => {
       deleteDialog.value.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -279,6 +307,7 @@ export default {
 
     return {
       onLike,
+      onEdit,
       onShare,
       onDelete,
       resetFeed,
@@ -287,6 +316,7 @@ export default {
       deleteDialog,
       onSelectPhoto,
       onUpdatePriority,
+      onCloseEditModal,
       onCloseShareModal,
       onClosePhotoCarousel,
       ...toRefs(state),

@@ -404,6 +404,20 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      * @OA\Put(
      *     path="/api/v2/buzz/posts/{id}",
      *     tags={"Buzz/Shares"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="model",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={OrangeHRM\Buzz\Api\BuzzPostAPI::MODEL_DEFAULT_POST, OrangeHRM\Buzz\Api\BuzzPostAPI::MODEL_DETAILED_POST},
+     *             default=OrangeHRM\Buzz\Api\BuzzPostAPI::MODEL_DEFAULT_POST
+     *         )
+     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             type="object",

@@ -42,7 +42,7 @@
         <oxd-button
           type="submit"
           :disabled="disabled"
-          :label="$t('buzz.share')"
+          :label="actionLabel || $t('buzz.share')"
         />
       </oxd-form-actions>
     </oxd-form>
@@ -77,6 +77,11 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    actionLabel: {
+      type: String,
+      default: null,
+      required: false,
     },
   },
 
