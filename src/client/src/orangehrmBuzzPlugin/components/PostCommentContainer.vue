@@ -83,7 +83,9 @@ export default {
     },
   },
 
-  setup(props) {
+  emits: ['create', 'delete'],
+
+  setup(props, context) {
     const deleteDialog = ref();
     const state = reactive({
       text: null,
@@ -112,6 +114,7 @@ export default {
         state.text = null;
         loadComments();
         saveSuccess();
+        context.emit('create');
       });
     };
 
@@ -131,6 +134,7 @@ export default {
           deletePostComment(props.postId, commentId).then(() => {
             loadComments();
             deleteSuccess();
+            context.emit('delete');
           });
         }
       });

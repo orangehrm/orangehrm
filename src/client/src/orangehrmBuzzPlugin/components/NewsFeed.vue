@@ -68,6 +68,8 @@
             <post-comment-container
               :post-id="post.id"
               :employee="employee"
+              @create="onCreateComment(index)"
+              @delete="onDeleteComment(index)"
             ></post-comment-container>
           </template>
         </post-container>
@@ -106,8 +108,10 @@
     :mobile="mobile"
     :post="photoCarouselState.post"
     :photo-index="photoCarouselState.photoIndex"
-    @like="onLike(photoCarouselState.postIndex)"
     @close="onClosePhotoCarousel"
+    @like="onLike(photoCarouselState.postIndex)"
+    @create-comment="onCreateComment(photoCarouselState.postIndex)"
+    @delete-comment="onDeleteComment(photoCarouselState.postIndex)"
   ></photo-carousel>
   <delete-confirmation
     ref="deleteDialog"
@@ -307,6 +311,14 @@ export default {
       });
     };
 
+    const onCreateComment = index => {
+      state.posts[index].stats.numOfComments++;
+    };
+
+    const onDeleteComment = index => {
+      state.posts[index].stats.numOfComments--;
+    };
+
     onBeforeMount(() => fetchData());
 
     return {
@@ -319,6 +331,8 @@ export default {
       noPostsPic,
       deleteDialog,
       onSelectPhoto,
+      onCreateComment,
+      onDeleteComment,
       onUpdatePriority,
       onCloseEditModal,
       onCloseShareModal,
