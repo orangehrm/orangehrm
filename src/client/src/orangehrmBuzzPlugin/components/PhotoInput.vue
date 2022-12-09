@@ -83,7 +83,7 @@ export default {
 
   setup(props, context) {
     const {$t} = usei18n();
-    const validationMessage = ref(null);
+    const validationMessage = ref('');
     const fileTypeValidator = validFileTypes([
       'image/gif',
       'image/jpeg',
@@ -96,7 +96,7 @@ export default {
 
     const onFileChange = $file => {
       if (!$file) return;
-      validationMessage.value = null;
+      validationMessage.value = '';
       if (fileSizeValidator($file) !== true) {
         return (validationMessage.value = $t(
           'buzz.file_size_validation_message',
@@ -111,7 +111,7 @@ export default {
     };
 
     const onClickRemove = index => {
-      validationMessage.value = null;
+      validationMessage.value = '';
       context.emit(
         'update:modelValue',
         (props.modelValue || []).filter((_, i) => index !== i),
@@ -119,7 +119,7 @@ export default {
     };
 
     const onClickCloseAlert = () => {
-      validationMessage.value = null;
+      validationMessage.value = '';
     };
 
     const showUploadArea = computed(

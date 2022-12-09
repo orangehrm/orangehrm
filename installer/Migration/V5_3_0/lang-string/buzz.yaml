@@ -89,3 +89,6 @@ langStrings:
   -
     value: 'The selected item will be permanently deleted. Are you sure you want to continue?'
     unitId: post_delete_confirmation_message
+  -
+    value: 'Edit Post'
+    unitId: edit_post

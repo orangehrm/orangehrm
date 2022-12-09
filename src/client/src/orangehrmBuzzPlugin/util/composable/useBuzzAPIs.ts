@@ -35,6 +35,14 @@ export interface Post {
   createdTime: string;
 }
 
+export interface PostBody {
+  text: string;
+  type: string;
+  link?: string;
+  photos?: Array<object>;
+  deletedPhotos?: Array<number>;
+}
+
 type Capability = 'canRead' | 'canCreate' | 'canUpdate' | 'canDelete';
 
 type Permission = {
@@ -176,12 +184,49 @@ export default function useBuzzAPIs(http: APIService) {
     });
   };
 
+  const updatePost = (
+    postId: number,
+    post: PostBody,
+  ): Promise<AxiosResponse> => {
+    if (post.type === 'photo') {
+      delete post['link'];
+    }
+    if (post.type === 'video') {
+      delete post['photos'];
+      delete post['deletedPhotos'];
+    }
+    if (post.type === 'text') {
+      delete post['link'];
+      delete post['photos'];
+    }
+    return http.request({
+      method: 'PUT',
+      url: `api/v2/buzz/posts/${postId}`,
+      data: {...post},
+      params: {model: 'detailed'},
+    });
+  };
+
+  const updateSharedPost = (
+    postId: number,
+    text: string,
+  ): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'PUT',
+      url: `api/v2/buzz/shares/${postId}`,
+      data: {text},
+      params: {model: 'detailed'},
+    });
+  };
+
   return {
     fetchPosts,
+    updatePost,
     deletePost,
     updatePostLike,
     fetchPostLikes,
     savePostComment,
+    updateSharedPost,
     updatePostComment,
     deletePostComment,
     fetchPostComments,
