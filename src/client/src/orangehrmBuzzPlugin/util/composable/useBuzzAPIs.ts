@@ -198,12 +198,23 @@ export default function useBuzzAPIs(http: APIService) {
     if (post.type === 'text') {
       delete post['link'];
       delete post['photos'];
-      delete post['deletedPhotos'];
     }
     return http.request({
       method: 'PUT',
       url: `api/v2/buzz/posts/${postId}`,
       data: {...post},
+      params: {model: 'detailed'},
+    });
+  };
+
+  const updateSharedPost = (
+    postId: number,
+    text: string,
+  ): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'PUT',
+      url: `api/v2/buzz/shares/${postId}`,
+      data: {text},
       params: {model: 'detailed'},
     });
   };
@@ -215,6 +226,7 @@ export default function useBuzzAPIs(http: APIService) {
     updatePostLike,
     fetchPostLikes,
     savePostComment,
+    updateSharedPost,
     updatePostComment,
     deletePostComment,
     fetchPostComments,

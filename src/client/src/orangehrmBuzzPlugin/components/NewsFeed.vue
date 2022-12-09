@@ -92,7 +92,7 @@
   <edit-post-modal
     v-if="showEditModal"
     :employee="employee"
-    :data="editModalState"
+    :data="editModalState.post"
     @close="onCloseEditModal"
   ></edit-post-modal>
   <share-post-modal
@@ -237,7 +237,10 @@ export default {
 
     const onEdit = index => {
       state.showEditModal = true;
-      state.editModalState = state.posts[index];
+      state.editModalState = {
+        postIndex: index,
+        post: state.posts[index],
+      };
       document.body.style.overflow = 'hidden';
     };
 
@@ -286,10 +289,11 @@ export default {
     };
 
     const onCloseEditModal = $event => {
+      const {data} = $event;
+      if (data) state.posts[state.editModalState.postIndex] = {...data};
       state.showEditModal = false;
       state.editModalState = null;
       document.body.style.overflow = 'auto';
-      if ($event) resetFeed();
     };
 
     const onDelete = index => {
