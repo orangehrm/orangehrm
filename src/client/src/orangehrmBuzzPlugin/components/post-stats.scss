@@ -18,15 +18,14 @@
 
 .orangehrm-buzz-stats {
   &-row {
-    gap: 5px;
     display: flex;
     position: relative;
     font-size: 0.75rem;
+    justify-content: flex-end;
     &:first-of-type {
       font-size: 1rem;
       font-weight: 700;
       align-items: center;
-      justify-content: flex-end;
     }
   }
   &-active {
@@ -37,6 +36,7 @@
   }
   &-like-icon {
     height: 15px;
+    margin-right: 5px;
     color: $oxd-feedback-danger-color;
   }
 }

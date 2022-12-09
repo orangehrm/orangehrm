@@ -113,12 +113,24 @@ export default {
   emits: ['close'],
 
   setup(props, context) {
+    let apiPath;
     const EMPLOYEE_LIMIT = 10;
     const {$tEmpName} = useEmployeeNameTranslate();
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/buzz/shares/${props.postId}/${props.type}`,
-    );
+
+    switch (props.type) {
+      case 'likes':
+        apiPath = `api/v2/buzz/shares/${props.postId}/likes`;
+        break;
+
+      case 'shares':
+        apiPath = `api/v2/buzz/posts/${props.postId}/shares`;
+        break;
+
+      default:
+        break;
+    }
+
+    const http = new APIService(window.appGlobal.baseUrl, apiPath);
 
     const state = reactive({
       total: 0,

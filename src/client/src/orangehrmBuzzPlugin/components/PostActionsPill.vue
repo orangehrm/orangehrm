@@ -31,14 +31,7 @@
         </oxd-text>
       </div>
       <div class="orangehrm-buzz-pill-stats-other">
-        <oxd-text tag="p">
-          {{
-            $t('buzz.n_comment', {
-              commentCount: post.stats.numOfComments,
-            })
-          }}<template v-if="sharesCount !== null">&sbquo;</template>
-          {{ sharesCount !== null ? sharesCount : undefined }}
-        </oxd-text>
+        <oxd-text tag="p">{{ combinedPostStats }}</oxd-text>
       </div>
     </div>
   </div>
@@ -96,13 +89,18 @@ export default {
   },
 
   computed: {
-    sharesCount() {
-      if (this.post.stats?.numOfShares === null) {
-        return null;
-      }
-      return this.$t('buzz.n_share', {
+    combinedPostStats() {
+      const commentsCount = this.$t('buzz.n_comment', {
+        commentCount: this.post.stats?.numOfComments || 0,
+      });
+
+      const sharesCount = this.$t('buzz.n_share', {
         shareCount: this.post.stats?.numOfShares || 0,
       });
+
+      return this.post.stats?.numOfShares === null
+        ? commentsCount
+        : `${commentsCount}, ${sharesCount}`;
     },
   },
 };
@@ -120,23 +118,29 @@ export default {
     gap: 5px;
     display: flex;
     flex-shrink: 0;
+    align-items: center;
     justify-content: space-between;
+    ::v-deep(.oxd-icon-button) {
+      width: 36px;
+      height: 36px;
+    }
   }
   &-stats {
     &-likes {
-      gap: 5px;
       display: flex;
       font-size: 1rem;
       font-weight: 700;
       align-items: flex-end;
       justify-content: flex-end;
       ::v-deep(.oxd-icon) {
+        margin-right: 5px;
         color: $oxd-feedback-danger-color;
       }
     }
     &-other {
       display: flex;
       font-size: 0.75rem;
+      justify-content: flex-end;
     }
   }
 }

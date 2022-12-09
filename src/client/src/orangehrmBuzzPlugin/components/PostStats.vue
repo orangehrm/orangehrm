@@ -43,22 +43,20 @@
         class="orangehrm-buzz-stats-active"
         @click="onShowComments"
       >
-        {{ commentsCount }}{{ sharesCount !== null ? '&sbquo;' : undefined }}
+        {{ commentsCount }}
       </oxd-text>
-      <oxd-text
-        v-if="sharesCount !== null"
-        tag="p"
-        :class="sharesClasses"
-        @click="onShowSharesList"
-      >
-        {{ sharesCount }}
-      </oxd-text>
+      <template v-if="sharesCount">
+        &sbquo;&nbsp;
+        <oxd-text tag="p" :class="sharesClasses" @click="onShowSharesList">
+          {{ sharesCount }}
+        </oxd-text>
+      </template>
       <post-stats-modal
         v-if="showSharesList"
         type="shares"
         icon="share-fill"
         :mobile="mobile"
-        :post-id="post.id"
+        :post-id="post.post.id"
         @close="onClose"
       ></post-stats-modal>
     </div>
@@ -108,9 +106,7 @@ export default {
       });
     },
     sharesCount() {
-      if (this.post.stats?.numOfShares === null) {
-        return null;
-      }
+      if (this.post.stats?.numOfShares === null) return null;
       return this.$t('buzz.n_share', {
         shareCount: this.post.stats?.numOfShares || 0,
       });
@@ -154,4 +150,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped src="./post-stats.scss"></style>
+<style lang="scss" src="./post-stats.scss" scoped></style>
