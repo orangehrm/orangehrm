@@ -40,21 +40,25 @@
           <oxd-dropdown>
             <oxd-icon-button name="three-dots" :with-container="true" />
             <template #content>
-              <li v-if="post.permission.canDelete">
-                <div class="orangehrm-buzz-post-header-config-item">
-                  <oxd-icon name="trash" />
-                  <oxd-text tag="p" @click="$emit('delete', $event)">
-                    {{ $t('buzz.delete_post') }}
-                  </oxd-text>
-                </div>
+              <li
+                v-if="post.permission.canDelete"
+                class="orangehrm-buzz-post-header-config-item"
+                @click="$emit('delete', $event)"
+              >
+                <oxd-icon name="trash" />
+                <oxd-text tag="p">
+                  {{ $t('buzz.delete_post') }}
+                </oxd-text>
               </li>
-              <li v-if="post.permission.canUpdate">
-                <div class="orangehrm-buzz-post-header-config-item">
-                  <oxd-icon name="pencil" />
-                  <oxd-text tag="p" @click="$emit('edit', $event)">
-                    {{ $t('buzz.edit_post') }}
-                  </oxd-text>
-                </div>
+              <li
+                v-if="post.permission.canUpdate"
+                class="orangehrm-buzz-post-header-config-item"
+                @click="$emit('edit', $event)"
+              >
+                <oxd-icon name="pencil" />
+                <oxd-text tag="p">
+                  {{ $t('buzz.edit_post') }}
+                </oxd-text>
               </li>
             </template>
           </oxd-dropdown>
@@ -63,16 +67,17 @@
       <oxd-divider />
     </div>
     <div class="orangehrm-buzz-post-body">
-      <slot name="content"> </slot>
+      <slot name="content"></slot>
       <slot name="body"></slot>
     </div>
     <div class="orangehrm-buzz-post-footer">
-      <slot name="actionButton"> </slot>
-      <slot name="postStats"> </slot>
+      <slot name="actionButton"></slot>
+      <slot name="postStats"></slot>
     </div>
     <slot name="comments"></slot>
   </oxd-sheet>
 </template>
+
 <script>
 import {computed} from 'vue';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';

@@ -25,6 +25,7 @@
       <oxd-form @submitValid="onSubmit">
         <oxd-input-field
           v-model="text"
+          v-autofocus
           :placeholder="$t('buzz.write_your_comment')"
         />
       </oxd-form>
@@ -58,6 +59,7 @@
 import useToast from '@/core/util/composable/useToast';
 import {onBeforeMount, reactive, ref, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
+import useAutoFocus from '@/core/util/composable/useAutoFocus';
 import PostComment from '@/orangehrmBuzzPlugin/components/PostComment';
 import ProfileImage from '@/orangehrmBuzzPlugin/components/ProfileImage';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
@@ -72,6 +74,8 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
+  directives: {...useAutoFocus()},
+
   props: {
     postId: {
       type: Number,
@@ -83,7 +87,9 @@ export default {
     },
   },
 
-  setup(props) {
+  emits: ['create', 'delete'],
+
+  setup(props, context) {
     const deleteDialog = ref();
     const state = reactive({
       text: null,
@@ -112,6 +118,7 @@ export default {
         state.text = null;
         loadComments();
         saveSuccess();
+        context.emit('create');
       });
     };
 
@@ -131,6 +138,7 @@ export default {
           deletePostComment(props.postId, commentId).then(() => {
             loadComments();
             deleteSuccess();
+            context.emit('delete');
           });
         }
       });

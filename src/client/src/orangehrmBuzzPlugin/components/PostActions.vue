@@ -94,11 +94,11 @@ export default {
   gap: 5px;
   display: flex;
   flex-shrink: 0;
+  align-items: center;
   justify-content: space-between;
-}
-
-.oxd-icon-button {
-  width: 36px;
-  height: 36px;
+  ::v-deep(.oxd-icon-button) {
+    width: 36px;
+    height: 36px;
+  }
 }
 </style>

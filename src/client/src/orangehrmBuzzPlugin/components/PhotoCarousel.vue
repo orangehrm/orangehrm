@@ -39,6 +39,8 @@
       :mobile="mobile"
       @like="$emit('like')"
       @close="$emit('close', false)"
+      @create-comment="$emit('createComment', $event)"
+      @delete-comment="$emit('deleteComment', $event)"
     >
     </post-details>
   </div>
@@ -74,7 +76,7 @@ export default {
     },
   },
 
-  emits: ['like', 'close'],
+  emits: ['like', 'close', 'createComment', 'deleteComment'],
 
   setup(props) {
     const state = reactive({

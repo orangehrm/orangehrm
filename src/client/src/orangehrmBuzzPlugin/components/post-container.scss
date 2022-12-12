@@ -41,18 +41,17 @@
       margin-left: 1rem;
     }
     &-config {
-      margin-left: 0.5rem;
+      list-style: none;
       position: relative;
       &-item {
+        gap: 10px;
         display: flex;
         cursor: pointer;
-        padding: 10px 20px;
-      }
-      & li {
-        display: flex;
-        & p {
-          font-size: 12px;
-          margin-left: 0.5rem;
+        font-size: 12px;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        &:hover {
+          background-color: $oxd-dropdown-item-hover-color;
         }
       }
     }

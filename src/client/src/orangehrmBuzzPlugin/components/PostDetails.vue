@@ -57,6 +57,8 @@
     <post-comment-container
       :post-id="post.id"
       :employee="post.employee"
+      @create="$emit('createComment', $event)"
+      @delete="$emit('deleteComment', $event)"
     ></post-comment-container>
   </div>
 </template>
@@ -95,7 +97,7 @@ export default {
     },
   },
 
-  emits: ['like', 'close'],
+  emits: ['like', 'close', 'createComment', 'deleteComment'],
 
   setup(props, context) {
     let loading = false;

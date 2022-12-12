@@ -229,3 +229,20 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-buzz-share {
+  &-employee {
+    font-size: 0.9rem;
+  }
+  &-date {
+    font-size: 0.6rem;
+    color: $oxd-interface-gray-color;
+  }
+  &-text {
+    font-weight: 300;
+    margin-top: 0.5rem;
+    @include truncate(6, 1.5, #fff);
+  }
+}
+</style>
