@@ -533,7 +533,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $this->setBuzzPost($buzzPost);
             $buzzPost->setUpdatedAtUtc();
             $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
-
         } catch (InvalidParamException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
