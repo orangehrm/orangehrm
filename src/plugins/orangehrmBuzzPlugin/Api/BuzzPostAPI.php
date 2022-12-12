@@ -533,6 +533,18 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $this->setBuzzPost($buzzPost);
             $buzzPost->setUpdatedAtUtc();
             $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
+
+            $modelClass = $this->getModelClass();
+            if ($modelClass == BuzzFeedPostModel::class) {
+                $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareByPostId($postId);
+                $buzzFeedFilterParams = new BuzzFeedFilterParams();
+                $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
+                $buzzFeedFilterParams->setShareId($buzzShare->getId());
+                $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
+                $buzzPost = $buzzFeedPosts[0];
+            }
+
+            $this->commitTransaction();
         } catch (InvalidParamException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
@@ -540,18 +552,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
-
-        $modelClass = $this->getModelClass();
-        if ($modelClass == BuzzFeedPostModel::class) {
-            $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareByPostId($postId);
-            $buzzFeedFilterParams = new BuzzFeedFilterParams();
-            $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
-            $buzzFeedFilterParams->setShareId($buzzShare->getId());
-            $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
-            $buzzPost = $buzzFeedPosts[0];
-        }
-
-        $this->commitTransaction();
         return new EndpointResourceResult($modelClass, $buzzPost);
     }
 
