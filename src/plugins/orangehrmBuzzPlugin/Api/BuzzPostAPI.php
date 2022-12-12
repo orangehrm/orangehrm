@@ -434,11 +434,10 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(oneOf={
+     *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Buzz-PostModel"),
      *			           @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
-     *                 })
+     *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -549,6 +548,16 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $buzzPost->setUpdatedAtUtc();
             $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
 
+            $modelClass = $this->getModelClass();
+            if ($modelClass == BuzzFeedPostModel::class) {
+                $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareByPostId($postId);
+                $buzzFeedFilterParams = new BuzzFeedFilterParams();
+                $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
+                $buzzFeedFilterParams->setShareId($buzzShare->getId());
+                $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
+                $buzzPost = $buzzFeedPosts[0];
+            }
+
             $this->commitTransaction();
         } catch (InvalidParamException|BadRequestException $e) {
             $this->rollBackTransaction();
@@ -557,17 +566,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
-
-        $modelClass = $this->getModelClass();
-        if ($modelClass == BuzzFeedPostModel::class) {
-            $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareByPostId($postId);
-            $buzzFeedFilterParams = new BuzzFeedFilterParams();
-            $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
-            $buzzFeedFilterParams->setShareId($buzzShare->getId());
-            $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
-            $buzzPost = $buzzFeedPosts[0];
-        }
-
         return new EndpointResourceResult($modelClass, $buzzPost);
     }
 

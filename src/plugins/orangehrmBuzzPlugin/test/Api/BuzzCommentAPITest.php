@@ -54,4 +54,22 @@ class BuzzCommentAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('BuzzCommentAPITestCases.yaml', 'Create');
     }
+
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('BuzzCommentAPI.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzCommentAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetOne()
+    {
+        return $this->getTestCases('BuzzCommentAPITestCases.yaml', 'GetOne');
+    }
 }

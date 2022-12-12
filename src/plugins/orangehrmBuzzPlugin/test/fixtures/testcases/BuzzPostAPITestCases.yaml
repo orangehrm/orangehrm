@@ -469,3 +469,57 @@ Update:
       video:
         link: 'https://www.youtube.com/embed/ozv4q2ov3Mk'
     meta: [ ]
+
+  'Update Photo Post In Buzz - Wrong Deleted ID':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      id: 2
+    body:
+      text: 'this is photo post 01 with updated text'
+      type: 'text'
+      deletedPhotos: [8, 9]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Update Photo Post In Buzz - Wrong Deleted ID With Correct Id':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      id: 2
+    body:
+      text: 'this is photo post 01 with updated text'
+      type: 'text'
+      deletedPhotos: [1, 9]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Update Photo Post To Video Post - Invalid Post Type':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      id: 4
+    body:
+      text: 'this is video post text'
+      type: 'video'
+      link: 'https://youtu.be/9KMtWCry_PU?list=PLW9NCQftUhFjMUjjWooQmvLGdkOgXr_pY'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Update Video Post - Invalid Link':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      id: 4
+    body:
+      text: 'this is video post text'
+      type: 'video'
+      link: 'https://abcd.com/PLW9NCQftUhF'
+    invalidOnly: [ "link" ]
