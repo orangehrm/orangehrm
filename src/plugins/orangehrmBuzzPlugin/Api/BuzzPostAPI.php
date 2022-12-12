@@ -420,11 +420,10 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(oneOf={
+     *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Buzz-PostModel"),
      *			           @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
-     *                 })
+     *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -535,7 +534,6 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $buzzPost->setUpdatedAtUtc();
             $this->getBuzzService()->getBuzzDao()->saveBuzzPost($buzzPost);
 
-            $this->commitTransaction();
         } catch (InvalidParamException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
@@ -554,6 +552,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             $buzzPost = $buzzFeedPosts[0];
         }
 
+        $this->commitTransaction();
         return new EndpointResourceResult($modelClass, $buzzPost);
     }
 

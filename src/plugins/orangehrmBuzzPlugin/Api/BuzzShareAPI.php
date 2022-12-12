@@ -54,8 +54,7 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MODEL = 'model';
     public const MODEL_DEFAULT_POST = 'default';
     public const MODEL_DETAILED_POST = 'detailed';
-    public const MODEL_MAP
-        = [
+    public const MODEL_MAP = [
             self::MODEL_DEFAULT_POST => BuzzShareModel::class,
             self::MODEL_DETAILED_POST => BuzzFeedPostModel::class,
         ];
@@ -247,11 +246,10 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(oneOf={
+     *                 oneOf={
      *                     @OA\Schema(ref="#/components/schemas/Buzz-ShareModel"),
      *			           @OA\Schema(ref="#/components/schemas/Buzz-FeedPostModel"),
-     *                 })
+     *                 }
      *             ),
      *             @OA\Property(property="meta", type="object")
      *         )
@@ -280,7 +278,6 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
             $this->setBuzzShareText($buzzShare);
             $buzzShare->setUpdatedAtUtc();
             $this->getBuzzService()->getBuzzDao()->saveBuzzShare($buzzShare);
-            $this->commitTransaction();
 
             $modelClass = $this->getModelClass();
             $data = $buzzShare;
@@ -292,6 +289,7 @@ class BuzzShareAPI extends Endpoint implements CrudEndpoint
                 $data = $buzzFeedPosts[0];
             }
 
+            $this->commitTransaction();
             return new EndpointResourceResult($modelClass, $data);
         } catch (InvalidParamException|ForbiddenException $e) {
             $this->rollBackTransaction();
