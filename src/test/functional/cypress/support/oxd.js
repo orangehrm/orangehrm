@@ -26,7 +26,7 @@ const OXD_INPUT_ELEMENTS = {
   textbox: '.oxd-textarea',
   select: '.oxd-select-text-input',
   multiselect: '.oxd-select-text-input',
-  autocomplete: '.oxd-autocomplete-text-input',
+  autoComplete: '.oxd-autocomplete-text-input',
 };
 
 const OXD_TOASTS = {
@@ -41,8 +41,10 @@ const OXD_ELEMENTS = {
   form: '.oxd-form',
   toast: '.oxd-toast',
   button: '.oxd-button',
+  date: '.oxd-date-input',
   inputGroup: '.oxd-input-group',
   pageContext: '.oxd-layout-context',
+  filterTitle: '.oxd-table-filter-title',
   pageTitle: '.orangehrm-main-title',
   subTitle: '.oxd-text--subtitle-2',
   numRecords: '.oxd-text--span',
