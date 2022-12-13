@@ -32,13 +32,13 @@ class DataRegistrationUtility
 
     private SystemConfiguration $systemConfiguration;
     private DataRegistrationService $dataRegistrationService;
-    private SystemConfig $systemConfig;
+    private SystemCheck $systemConfig;
 
     public function __construct()
     {
         $this->systemConfiguration = new SystemConfiguration();
         $this->dataRegistrationService = new DataRegistrationService();
-        $this->systemConfig = new SystemConfig();
+        $this->systemConfig = new SystemCheck();
     }
 
     /**

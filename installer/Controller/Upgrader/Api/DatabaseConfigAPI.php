@@ -19,20 +19,16 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
-use Doctrine\DBAL\Exception;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\Installer\Exception\SystemCheckException;
 use OrangeHRM\Installer\Util\StateContainer;
-use OrangeHRM\Installer\Util\SystemConfig;
 use OrangeHRM\Installer\Util\UpgraderConfigUtility;
 
 class DatabaseConfigAPI extends AbstractInstallerRestController
 {
-    private ?AppSetupUtility $appSetupUtility = null;
-
     /**
      * @inheritDoc
      */
@@ -47,63 +43,29 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         StateContainer::getInstance()->storeDbInfo($dbHost, $dbPort, new UserCredential($dbUser, $dbPassword), $dbName);
 
         $response = $this->getResponse();
-
-        $systemConfig = new SystemConfig();
         $upgraderConfigUtility = new UpgraderConfigUtility();
-
-        if (!$systemConfig->checkPDOExtensionEnabled()) {
+        try {
+            $upgraderConfigUtility->checkDatabaseConnection();
+        } catch (SystemCheckException $e) {
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return
                 [
                     'error' => [
                         'status' => $response->getStatusCode(),
-                        'message' => 'Please Enable PDO Extension To Proceed'
+                        'message' => $e->getMessage(),
                     ]
                 ];
         }
 
-        if (!$systemConfig->checkPDOMySqlExtensionEnabled()) {
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-            return
-                [
-                    'error' => [
-                        'status' => $response->getStatusCode(),
-                        'message' => 'Please Enable PDO-MYSQL Extension To Proceed'
-                    ]
-                ];
-        }
-
-        $connection = $upgraderConfigUtility->checkDatabaseConnection();
-        if ($connection instanceof Exception) {
-            $message = $this->getAppSetupUtility()
-                ->getExistingDBConnectionErrorMessage($connection, $dbHost, $dbPort);
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-            return
-                [
-                    'error' => [
-                        'status' => $response->getStatusCode(),
-                        'message' => $message
-                    ]
-                ];
-        } elseif ($upgraderConfigUtility->checkDatabaseStatus()) {
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-            return [
-                'error' => [
-                    'status' => $response->getStatusCode(),
-                    'message' => 'Failed to Proceed: Interrupted Database'
-                ]
-            ];
-        } else {
-            return [
-                'data' => [
-                    'dbHost' => $dbHost,
-                    'dbPort' => $dbPort,
-                    'dbUser' => $dbUser,
-                    'dbName' => $dbName,
-                ],
-                'meta' => []
-            ];
-        }
+        return [
+            'data' => [
+                'dbHost' => $dbHost,
+                'dbPort' => $dbPort,
+                'dbUser' => $dbUser,
+                'dbName' => $dbName,
+            ],
+            'meta' => []
+        ];
     }
 
     /**
@@ -122,16 +84,5 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
             'meta' => []
 
         ];
-    }
-
-    /**
-     * @return AppSetupUtility
-     */
-    private function getAppSetupUtility(): AppSetupUtility
-    {
-        if (is_null($this->appSetupUtility)) {
-            $this->appSetupUtility = new AppSetupUtility();
-        }
-        return $this->appSetupUtility;
     }
 }

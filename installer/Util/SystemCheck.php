@@ -26,7 +26,7 @@ use PDO;
 use Symfony\Component\Filesystem\Filesystem;
 use Throwable;
 
-class SystemConfig
+class SystemCheck
 {
     public const PASSED = 1;
     public const ACCEPTABLE = 2;
@@ -48,7 +48,7 @@ class SystemConfig
     public const INSTALL_UTIL_MEMORY_OK = 4;
 
     private bool $interruptContinue = false;
-    private ?Filesystem $filesystem = null;
+    private Filesystem $filesystem;
     private array $systemRequirements = [];
     private ?Connection $connection;
 
@@ -86,7 +86,7 @@ class SystemConfig
             $allowedPHPConfigs['max']
         )) {
             return [
-                'message' => Messages::STATUS_OK . " (ver " . $currentPHPVersion . ")",
+                'message' => Messages::STATUS_OK . ' (ver ' . $currentPHPVersion . ')',
                 'status' => self::PASSED
             ];
         } else {
@@ -119,7 +119,7 @@ class SystemConfig
             $mysqlClientVersion = $matches[0];
             if (version_compare($mysqlClientVersion, $this->systemRequirements['mysqlversion']['min']) < 0) {
                 return [
-                    'message' => Messages::MYSQL_CLIENT_RECOMMEND_MESSAGE . "(reported ver " . $mysqlClientVersion . ")",
+                    'message' => Messages::MYSQL_CLIENT_RECOMMEND_MESSAGE . '(reported ver ' . $mysqlClientVersion . ')',
                     'status' => self::ACCEPTABLE
                 ];
             } else {
@@ -189,7 +189,7 @@ class SystemConfig
     {
         if ($this->getPDOConnection()) {
             $connection = $this->getPDOConnection();
-            $engines = $connection->query("SHOW ENGINES")->fetchAll(PDO::FETCH_ASSOC);
+            $engines = $connection->query('SHOW ENGINES')->fetchAll(PDO::FETCH_ASSOC);
             $innoDBEngine = array_values(
                 array_filter($engines, function ($engine) {
                     return $engine['Engine'] === self::ENGINE_INNODB;
@@ -224,7 +224,7 @@ class SystemConfig
                 } else {
                     $this->interruptContinue = true;
                     return [
-                        'message' => "Unknown Error!",
+                        'message' => 'Unknown Error!',
                         'status' => self::BLOCKER
                     ];
                 }
@@ -232,7 +232,7 @@ class SystemConfig
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => "Cannot connect to the database",
+                'message' => 'Cannot connect to the database',
                 'status' => self::BLOCKER
             ];
         }
@@ -245,9 +245,9 @@ class SystemConfig
     public function isWebServerCompatible(): array
     {
         $supportedWebServers = $this->systemRequirements['webserver'];
-        $currentWebServer = $_SERVER['SERVER_SOFTWARE'];
+        $currentWebServer = $this->getWebServerDetails();
         foreach ($supportedWebServers as $supportedWebServer) {
-            if (strpos($currentWebServer, $supportedWebServer) !== false) {
+            if ($currentWebServer !== null && strpos($currentWebServer, $supportedWebServer) !== false) {
                 return [
                     'message' => Messages::STATUS_OK . "(ver ${currentWebServer})",
                     'status' => self::PASSED
@@ -256,7 +256,7 @@ class SystemConfig
         }
         $this->interruptContinue = true;
         return [
-            'message' => "FAILED",
+            'message' => 'FAILED',
             'status' => self::BLOCKER
         ];
     }
@@ -354,8 +354,8 @@ class SystemConfig
      */
     public function isMaximumSessionIdle(): array
     {
-        $gcMaxLifeTimeMinutes = floor(ini_get("session.gc_maxlifetime") / 60);
-        $gcMaxLifeTimeSeconds = ini_get(" session.gc_maxlifetime") % 60;
+        $gcMaxLifeTimeMinutes = floor(ini_get('session.gc_maxlifetime') / 60);
+        $gcMaxLifeTimeSeconds = ini_get(' session.gc_maxlifetime') % 60;
         $timeSpan = "($gcMaxLifeTimeMinutes minutes and $gcMaxLifeTimeSeconds seconds)";
         if ($gcMaxLifeTimeMinutes > 15) {
             return [
@@ -382,7 +382,7 @@ class SystemConfig
      */
     public function isRegisterGlobalsOff(): array
     {
-        $registerGlobalsValue = (bool)ini_get("register_globals");
+        $registerGlobalsValue = (bool)ini_get('register_globals');
         if ($registerGlobalsValue) {
             $this->interruptContinue = true;
             return [
@@ -412,11 +412,11 @@ class SystemConfig
         $result = $this->checkPhpMemory($hardLimit, $softLimit, $maxMemory);
         switch ($result) {
             case self::INSTALL_UTIL_MEMORY_NO_LIMIT:
-                $message = "OK (No Limit)";
+                $message = 'OK (No Limit)';
                 break;
 
             case self::INSTALL_UTIL_MEMORY_UNLIMITED:
-                $message = "OK (Unlimited)";
+                $message = 'OK (Unlimited)';
                 break;
 
             case self::INSTALL_UTIL_MEMORY_HARD_LIMIT_FAIL:
@@ -430,7 +430,7 @@ class SystemConfig
                 break;
 
             case self::INSTALL_UTIL_MEMORY_OK:
-                $message = "OK";
+                $message = 'OK';
                 break;
         }
         return [
@@ -684,12 +684,12 @@ class SystemConfig
         $message = '';
 
         if ($this->isExcluded($currentVersion, $excludeRange)) {
-            $message = $message . $component . " Version " . $currentVersion . " is not supported";
+            $message = $message . $component . ' Version ' . $currentVersion . ' is not supported';
         } else {
-            $message = $component . " Version should be higher than " . $min . " and lower than " . $max;
+            $message = $component . ' Version should be higher than ' . $min . ' and lower than ' . $max;
         }
 
-        return $message . ". Installed version is " . $currentVersion;
+        return $message . '. Installed version is ' . $currentVersion;
     }
 
     /**
@@ -757,9 +757,9 @@ class SystemConfig
     public function getOSDetails(): array
     {
         return [
-            "os" => php_uname('s'),
-            "release_name" => php_uname('r'),
-            "version_info" => php_uname('v'),
+            'os' => php_uname('s'),
+            'release_name' => php_uname('r'),
+            'version_info' => php_uname('v'),
         ];
     }
 
@@ -796,6 +796,101 @@ class SystemConfig
             'server' => $this->getWebServerDetails(),
             'ohrm' => [
                 'version' => Config::PRODUCT_VERSION
+            ]
+        ];
+    }
+
+    /**
+     * @param bool $isCli
+     * @return array[]
+     */
+    public function getSystemCheckResults(bool $isCli = false): array
+    {
+        return [
+            [
+                'category' => 'Environment',
+                'checks' => [
+                    [
+                        'label' => 'PHP version',
+                        'value' => $this->isPHPVersionCompatible()
+                    ],
+                    [
+                        'label' => 'MYSQL Client',
+                        'value' => $this->isMySqlClientCompatible()
+                    ],
+                    [
+                        'label' => 'MYSQL Server',
+                        'value' => $this->isMySqlServerCompatible()
+                    ],
+                    [
+                        'label' => 'MYSQL InnoDB Support',
+                        'value' => $this->isInnoDBSupport()
+                    ],
+                    [
+                        'label' => 'Web Server',
+                        'value' => $isCli
+                            ? ['message' => 'N/A', 'status' => self::ACCEPTABLE]
+                            : $this->isWebServerCompatible()
+                    ]
+                ]
+            ],
+            [
+                'category' => 'Permissions',
+                'checks' => [
+                    [
+                        'label' => 'Write Permissions for “lib/confs”',
+                        'value' => $this->isWritableConfigDir()
+                    ],
+                    [
+                        'label' => 'Write Permissions for “src/cache”',
+                        'value' => $this->isWritableCacheDir()
+                    ],
+                    [
+                        'label' => 'Write Permissions for “src/log”',
+                        'value' => $this->isWritableLogDir()
+                    ],
+                ]
+            ],
+            [
+                'category' => 'Extensions',
+                'checks' => [
+                    [
+                        'label' => 'Maximum Session idle time before timeout',
+                        'value' => $this->isMaximumSessionIdle()
+                    ],
+                    [
+                        'label' => 'Register Global turned-off',
+                        'value' => $this->isRegisterGlobalsOff()
+                    ],
+                    [
+                        'label' => 'Memory Allocated for PHP script',
+                        'value' => $this->getAllocatedMemoryStatus()
+                    ],
+                    [
+                        'label' => 'cURL Status',
+                        'value' => $this->isCurlEnabled()
+                    ],
+                    [
+                        'label' => 'SimpleXML status',
+                        'value' => $this->isSimpleXMLEnabled()
+                    ],
+                    [
+                        'label' => 'Zip extension status',
+                        'value' => $this->isZipExtensionEnabled()
+                    ],
+                    [
+                        'label' => 'Intl extension status',
+                        'value' => $this->isIntlExtensionEnabled()
+                    ],
+                    [
+                        'label' => 'GD extension status',
+                        'value' => $this->isGdExtensionEnabled()
+                    ],
+                    [
+                        'label' => 'LDAP extension status',
+                        'value' => $this->isLDAPExtensionEnabled()
+                    ],
+                ]
             ]
         ];
     }
