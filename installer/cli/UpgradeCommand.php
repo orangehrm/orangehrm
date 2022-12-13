@@ -21,11 +21,12 @@ namespace OrangeHRM\Installer\cli;
 
 use InvalidArgumentException;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Framework\Console\Command;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\Upgrader\Api\ConfigFileAPI;
 use OrangeHRM\Installer\Controller\Upgrader\Api\UpgraderDataRegistrationAPI;
 use OrangeHRM\Installer\Exception\SystemCheckException;
+use OrangeHRM\Installer\Framework\InstallerCommand;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\Connection;
 use OrangeHRM\Installer\Util\DatabaseUserPermissionEvaluator;
@@ -36,9 +37,10 @@ use OrangeHRM\Installer\Util\UpgraderConfigUtility;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Throwable;
 
-class UpgradeCommand extends Command
+class UpgradeCommand extends InstallerCommand
 {
     public const REQUIRED_TAG = '<comment>(required)</comment>';
     public const REQUIRED_WARNING = 'This field cannot be empty';
@@ -55,7 +57,7 @@ class UpgradeCommand extends Command
     /**
      * @inheritDoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->addOption('dbHost', null, InputOption::VALUE_REQUIRED)
             ->addOption('dbPort', null, InputOption::VALUE_REQUIRED)
@@ -69,7 +71,7 @@ class UpgradeCommand extends Command
     /**
      * @inheritDoc
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->getIO()->title('Database Information');
         $this->getIO()->block('Please provide the database information of the database you are going to upgrade.');
@@ -98,7 +100,7 @@ class UpgradeCommand extends Command
                 $input->setOption('dbUser', $dbUser);
             }
             if (!$this->hasOption($input, 'dbUserPassword')) {
-                $dbPassword = $this->getIO()->askHidden('Database User Password');
+                $dbPassword = $this->getIO()->askHidden('Database User Password <comment>(hidden)</comment>');
                 $input->setOption('dbUserPassword', $dbPassword);
             }
         }
@@ -127,16 +129,18 @@ class UpgradeCommand extends Command
         $this->drawSystemCheckTable($systemCheck->getSystemCheckResults(true));
         if ($systemCheck->isInterruptContinue()) {
             $this->getIO()->error('System check failed');
-            if ($input->isInteractive()) {
+            if (!$this->hasOption($input, 'systemCheckAcceptRisk') && $input->isInteractive()) {
                 $input->setOption(
                     'systemCheckAcceptRisk',
-                    $this->getIO()->confirm('Do you want to accept risk and continue?', false)
+                    $this->getIO()->confirm('Do you want to accept the risk and continue?', false)
                 );
             }
 
-            if (!$input->getOption('systemCheckAcceptRisk')) {
+            if ($input->getOption('systemCheckAcceptRisk') !== true) {
                 return self::INVALID;
             }
+
+            $this->getIO()->warning('Accepted the risk, so continue the upgrader.');
         }
 
         $this->getIO()->title('Current Version Details');
@@ -146,14 +150,39 @@ class UpgradeCommand extends Command
 
         $appSetupUtility = new AppSetupUtility();
         $currentVersion = $appSetupUtility->getCurrentProductVersionFromDatabase();
-        if ($input->isInteractive() && $currentVersion == null) {
-            $input->setOption('currentVersion', $this->getCurrentVersion());
-        }
         $currentVersion = $currentVersion ?? $input->getOption('currentVersion');
+        $versions = array_keys(AppSetupUtility::MIGRATIONS_MAP);
+        array_pop($versions);
+        if ($input->isInteractive() && $currentVersion == null) {
+            $question = new ChoiceQuestion('Current OrangeHRM Version ' . self::REQUIRED_TAG, $versions);
+            $question->setValidator(function ($value) use ($versions) {
+                if (!in_array($value, $versions, true)) {
+                    throw new InvalidArgumentException('Invalid version.');
+                }
+                return $value;
+            });
+            $currentVersion = $this->getIO()->askQuestion($question);
+        }
+        if (!in_array($currentVersion, $versions, true)) {
+            throw new InvalidArgumentException(
+                'Invalid `currentVersion` option. Accepted values are: '
+                . implode(', ', $versions)
+            );
+        }
         $this->getIO()->note("Current version: $currentVersion");
 
         $this->getIO()->title('Upgrading OrangeHRM');
-        $this->getIO()->confirm('Do you want to start the upgrader?', true);
+        $fromAndToVersions = "from <comment>OrangeHRM $currentVersion</comment> to <comment>OrangeHRM " . Config::PRODUCT_VERSION . '</comment>';
+        $continue = $this->getIO()->confirm("Do you want to start the upgrader $fromAndToVersions?", true);
+        if ($continue !== true) {
+            $this->getIO()->info('Aborted');
+            return self::INVALID;
+        }
+        if (!$input->isInteractive()) {
+            $this->getIO()->info(
+                "Upgrading from OrangeHRM $currentVersion to OrangeHRM " . Config::PRODUCT_VERSION . '.'
+            );
+        }
         $section1 = $output->section();
         $section2 = $output->section();
         $section3 = $output->section();
@@ -193,19 +222,9 @@ class UpgradeCommand extends Command
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
         (new ConfigFileAPI())->handle($request);
-        $section3->overwrite(sprintf('<fg=green>%s</>', '* Creating configuration files ✓'));
+        $section3->overwrite(sprintf('<fg=green>%s</>', "* Creating configuration files ✓\n"));
 
         return self::SUCCESS;
-    }
-
-    /**
-     * @return string
-     */
-    private function getCurrentVersion(): string
-    {
-        $versions = array_keys(AppSetupUtility::MIGRATIONS_MAP);
-        array_pop($versions);
-        return $this->getIO()->choice('Current OrangeHRM Version ' . self::REQUIRED_TAG, $versions);
     }
 
     /**
