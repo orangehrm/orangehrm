@@ -418,3 +418,178 @@ GetOne:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
+
+GetAll:
+  'Get All Comments By Share Id':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 2
+    data: [
+      {
+        'comment': {
+          id: 1,
+          createdDate: '2022-10-27',
+          createdTime: '00:52',
+        },
+        'share': {
+          'id': 2
+        },
+        'employee': {
+          'empNumber': 1,
+          'lastName': 'Adalwin',
+          'firstName': 'Odis',
+          'middleName': '',
+          'employeeId': '0001',
+          'terminationId': null,
+        },
+      },
+      {
+        'comment': {
+          id: 6,
+          createdDate: '2022-10-27',
+          createdTime: '01:00',
+        },
+        'share': {
+          'id': 2
+        },
+        'employee': {
+          'empNumber': 5,
+          'lastName': 'Abel',
+          'firstName': 'Ashley',
+          'middleName': '',
+          'employeeId': '0005',
+          'terminationId': 1,
+        },
+      },
+    ]
+    meta:
+      total: 2
+
+  'Get All Comments By Share Id - Detailed Model':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      shareId: 3
+    query:
+      model: detailed
+    data: [
+      {
+        'comment': {
+          id: 4,
+          text: 'self comment',
+          numOfLikes: 1,
+          liked: false,
+          createdDate: '2022-10-27',
+          createdTime: '00:58',
+        },
+        'share': {
+          'id': 3
+        },
+        'employee': {
+          'empNumber': 6,
+          'lastName': 'Morgan',
+          'firstName': 'Jasmine',
+          'middleName': '',
+          'employeeId': '0006',
+          'terminationId': null,
+        },
+        permission: {
+          canUpdate: false,
+          canDelete: true
+        },
+      }
+    ]
+    meta:
+      total: 1
+
+  'Get All Comments By Share Id - with limit':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 2
+    query:
+      limit: 1
+    data: [
+      {
+        'comment': {
+          id: 1,
+          createdDate: '2022-10-27',
+          createdTime: '00:52',
+        },
+        'share': {
+          'id': 2
+        },
+        'employee': {
+          'empNumber': 1,
+          'lastName': 'Adalwin',
+          'firstName': 'Odis',
+          'middleName': '',
+          'employeeId': '0001',
+          'terminationId': null,
+        },
+      }
+    ]
+    meta:
+      total: 2
+
+  'Get All Comments By Share Id - with limit and offset':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 1
+    query:
+      limit: 1
+      offset: 1
+    data: [
+      {
+        'comment': {
+          id: 3,
+          createdDate: '2022-10-27',
+          createdTime: '00:58',
+        },
+        'share': {
+          'id': 1
+        },
+        'employee': {
+          'empNumber': 6,
+          'lastName': 'Morgan',
+          'firstName': 'Jasmine',
+          'middleName': '',
+          'employeeId': '0006',
+          'terminationId': null,
+        },
+      }
+    ]
+    meta:
+      total: 3
+
+  'Get All Comments By Share Id - Wrong Share ID':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 30
+    data: []
+    meta:
+      total: 0
+
+  'Get All Comments By Share Id - No Added Comments':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 4
+    data: []
+    meta:
+      total: 0
