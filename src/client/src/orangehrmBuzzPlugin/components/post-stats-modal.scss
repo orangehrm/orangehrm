@@ -1,0 +1,100 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-buzz-stats-modal {
+  right: 0;
+  z-index: 1;
+  top: 1.5rem;
+  width: 225px;
+  overflow: auto;
+  max-height: 18rem;
+  position: absolute;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border-radius: 0.65rem;
+  background-color: $oxd-white-color;
+  box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.15);
+  border: 1px solid $oxd-interface-gray-lighten-2-color;
+  &-employee {
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+    ::v-deep(.orangehrm-buzz-profile-image img) {
+      width: 40px;
+      height: 40px;
+    }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+  &-employee-name {
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-left: 15px;
+    @include truncate(2, 1.5, #fff);
+  }
+  & .orangehrm-buzz-loader {
+    margin: 0.5rem 3rem;
+  }
+}
+
+.orangehrm-buzz-stats-dialog {
+  &-header {
+    display: flex;
+    align-items: center;
+  }
+  &-icon {
+    margin-right: 0.5rem;
+    &.--likes {
+      color: $oxd-feedback-danger-color;
+    }
+  }
+  &-employee {
+    gap: 0.5rem;
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+  }
+  &-employee-name {
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+    @include truncate(2, 1.5, #fff);
+  }
+
+  & .orangehrm-buzz-loader {
+    margin: 0 auto;
+  }
+}
+
+::v-deep(.orangehrm-buzz-stats-dialog) {
+  margin: 0;
+  bottom: 0;
+  width: 100%;
+  max-height: 30rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: fixed;
+  padding: inherit;
+  border-radius: 1.2rem 1.2rem 0rem 0rem;
+  @include oxd-scrollbar();
+}
+
+::v-deep(.oxd-dialog-close-button) {
+  display: none;
+}

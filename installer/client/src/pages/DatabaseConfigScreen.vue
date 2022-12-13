@@ -132,6 +132,16 @@
         />
       </oxd-grid-item>
     </oxd-grid>
+    <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+      <oxd-grid-item>
+        <oxd-input-field
+          v-model="database.enableDataEncryption"
+          label="&nbsp;"
+          type="checkbox"
+          option-label="Enable Data Encryption"
+        />
+      </oxd-grid-item>
+    </oxd-grid>
     <oxd-text class="orangehrm-installer-page-content">
       Click <b>Next</b> to continue
     </oxd-text>
@@ -216,6 +226,7 @@ export default {
         ohrmDbUser: null,
         ohrmDbPassword: null,
         useSameDbUserForOrangeHRM: true,
+        enableDataEncryption: false,
       },
       errorMessage: '',
     };

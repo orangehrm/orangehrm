@@ -227,4 +227,13 @@ abstract class AbstractUserRole
 
         return $permitted;
     }
+
+    /**
+     * @param array $requiredPermissions
+     * @return string[]
+     */
+    public function getAccessibleQuickLaunchList(array $requiredPermissions): array
+    {
+        return [];
+    }
 }

@@ -63,7 +63,9 @@ import EmailSubscription from './pages/emailSubscription/EmailSubscription.vue';
 import EditEmailSubscription from './pages/emailSubscription/EditEmailSubscription.vue';
 import LocalizationConfiguration from './pages/localization/LocalizationConfiguration.vue';
 import CorporateBranding from './pages/corporateBranding/CorporateBranding.vue';
-import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/languagePackage.vue';
+import LanguagePackages from '@/orangehrmAdminPlugin/pages/languagePackage/LanguagePackage.vue';
+import EditLanguagePackage from '@/orangehrmAdminPlugin/pages/languageTranslation/languageTranslation.vue';
+import LdapConfiguration from './pages/ldap/LdapConfiguration.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -114,4 +116,6 @@ export default {
   'localization-configuration': LocalizationConfiguration,
   'corporate-branding': CorporateBranding,
   'language-package-list': LanguagePackages,
+  'language-translation-edit': EditLanguagePackage,
+  'ldap-configuration': LdapConfiguration,
 };

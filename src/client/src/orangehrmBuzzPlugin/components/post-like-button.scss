@@ -1,0 +1,209 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+.orangehrm-heart-icon {
+  background-color: rgba(100, 114, 140, 0.1);
+  border-radius: 50px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  overflow: visible;
+  &-path {
+    transform-origin: center;
+    animation: animateHeartOut 0.3s linear forwards;
+  }
+  &-circle {
+    transform-origin: 29.5px 29.5px;
+  }
+}
+
+.orangehrm-like-animation {
+  .orangehrm-heart-icon-path {
+    fill: #e2264d;
+    transform: scale(0.2);
+    animation: animateHeart 0.3s linear forwards 0.25s;
+  }
+  .orangehrm-heart-icon-circle {
+    opacity: 1;
+    transition: all 2s;
+    animation: animateCircle 0.3s linear forwards;
+  }
+  .orangehrm-heart-icon-group1 {
+    opacity: 1;
+    transition: 0.1s all 0.3s;
+    .orangehrm-heart-icon-oval1 {
+      transform: scale(0) translate(0, -30px);
+      transform-origin: 0 0 0;
+      transition: 0.5s transform 0.3s;
+    }
+    .orangehrm-heart-icon-oval2 {
+      transform: scale(0) translate(10px, -50px);
+      transform-origin: 0 0 0;
+      transition: 1.5s transform 0.3s;
+    }
+  }
+  .orangehrm-heart-icon-group2 {
+    opacity: 1;
+    transition: 0.1s all 0.3s;
+    .orangehrm-heart-icon-oval1 {
+      transform: scale(0) translate(30px, -15px);
+      transform-origin: 0 0 0;
+      transition: 0.5s transform 0.3s;
+    }
+    .orangehrm-heart-icon-oval2 {
+      transform: scale(0) translate(60px, -15px);
+      transform-origin: 0 0 0;
+      transition: 1.5s transform 0.3s;
+    }
+  }
+  .orangehrm-heart-icon-group3 {
+    opacity: 1;
+    transition: 0.1s all 0.3s;
+    .orangehrm-heart-icon-oval1 {
+      transform: scale(0) translate(30px, 0px);
+      transform-origin: 0 0 0;
+      transition: 0.5s transform 0.3s;
+    }
+    .orangehrm-heart-icon-oval2 {
+      transform: scale(0) translate(60px, 10px);
+      transform-origin: 0 0 0;
+      transition: 1.5s transform 0.3s;
+    }
+  }
+  .orangehrm-heart-icon-group4 {
+    opacity: 1;
+    transition: 0.1s all 0.3s;
+    .orangehrm-heart-icon-oval1 {
+      transform: scale(0) translate(30px, 15px);
+      transform-origin: 0 0 0;
+      transition: 0.5s transform 0.3s;
+    }
+    .orangehrm-heart-icon-oval2 {
+      transform: scale(0) translate(40px, 50px);
+      transform-origin: 0 0 0;
+      transition: 1.5s transform 0.3s;
+    }
+  }
+  .orangehrm-heart-icon-group5 {
+    opacity: 1;
+    transition: 0.1s all 0.3s;
+    .orangehrm-heart-icon-oval1 {
+      transform: scale(0) translate(-10px, 20px);
+      transform-origin: 0 0 0;
+      transition: 0.5s transform 0.3s;
+    }
+    .orangehrm-heart-icon-oval2 {
+      transform: scale(0) translate(-60px, 30px);
+      transform-origin: 0 0 0;
+      transition: 1.5s transform 0.3s;
+    }
+  }
+  .orangehrm-heart-icon-group6 {
+    opacity: 1;
+    transition: 0.1s all 0.3s;
+    .orangehrm-heart-icon-oval1 {
+      transform: scale(0) translate(-30px, 0px);
+      transform-origin: 0 0 0;
+      transition: 0.5s transform 0.3s;
+    }
+    .orangehrm-heart-icon-oval2 {
+      transform: scale(0) translate(-60px, -5px);
+      transform-origin: 0 0 0;
+      transition: 1.5s transform 0.3s;
+    }
+  }
+  .orangehrm-heart-icon-group7 {
+    opacity: 1;
+    transition: 0.1s all 0.3s;
+    .orangehrm-heart-icon-oval1 {
+      transform: scale(0) translate(-30px, -15px);
+      transform-origin: 0 0 0;
+      transition: 0.5s transform 0.3s;
+    }
+    .orangehrm-heart-icon-oval2 {
+      transform: scale(0) translate(-55px, -30px);
+      transform-origin: 0 0 0;
+      transition: 1.5s transform 0.3s;
+    }
+  }
+}
+
+@keyframes animateCircle {
+  40% {
+    transform: scale(10);
+    opacity: 1;
+    fill: #dd4688;
+  }
+  55% {
+    transform: scale(11);
+    opacity: 1;
+    fill: #d46abf;
+  }
+  65% {
+    transform: scale(12);
+    opacity: 1;
+    fill: #cc8ef5;
+  }
+  75% {
+    transform: scale(13);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.5;
+  }
+  85% {
+    transform: scale(17);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.2;
+  }
+  95% {
+    transform: scale(18);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.1;
+  }
+  100% {
+    transform: scale(19);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0;
+  }
+}
+
+@keyframes animateHeart {
+  0% {
+    transform: scale(0.2);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animateHeartOut {
+  0% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

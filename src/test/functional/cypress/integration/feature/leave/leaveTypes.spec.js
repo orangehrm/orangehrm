@@ -92,11 +92,8 @@ describe('Leave - leave types', function () {
   describe('update leave type', function () {
     it('update leave type', function () {
       cy.task('db:restore', {name: 'leaveTypes'});
-      cy.loginTo(this.user, '/leave/leaveTypeList');
+      cy.loginTo(this.user, '/leave/defineLeaveType/1');
       cy.wait('@getLeaveTypes');
-      cy.get(
-        '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(2)',
-      ).click();
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').clear().type(this.strings.chars30.text);
         cy.getOXD('button').contains('Save').click();

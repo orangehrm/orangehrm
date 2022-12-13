@@ -56,7 +56,7 @@ class AuthenticationServiceTest extends KernelTestCase
             ->willReturn($userService);
 
         $credentials = new UserCredential('username', 'password');
-        $result = $authenticationService->setCredentials($credentials, []);
+        $result = $authenticationService->setCredentials($credentials);
         $this->assertFalse($result);
     }
 
@@ -88,7 +88,7 @@ class AuthenticationServiceTest extends KernelTestCase
 
         $credentials = new UserCredential('username', 'password');
         try {
-            $authenticationService->setCredentials($credentials, []);
+            $authenticationService->setCredentials($credentials);
         } catch (AuthenticationException $e) {
             $this->assertEquals(
                 ['error' => AuthenticationException::EMPLOYEE_NOT_ASSIGNED, 'message' => 'Employee not assigned'],
@@ -126,7 +126,7 @@ class AuthenticationServiceTest extends KernelTestCase
 
         $credentials = new UserCredential('username', 'password');
         try {
-            $authenticationService->setCredentials($credentials, []);
+            $authenticationService->setCredentials($credentials);
         } catch (AuthenticationException $e) {
             $this->assertEquals(
                 ['error' => AuthenticationException::USER_DISABLED, 'message' => 'Account disabled'],
@@ -176,7 +176,7 @@ class AuthenticationServiceTest extends KernelTestCase
 
         $credentials = new UserCredential('username', 'password');
         try {
-            $authenticationService->setCredentials($credentials, []);
+            $authenticationService->setCredentials($credentials);
         } catch (AuthenticationException $e) {
             $this->assertEquals(
                 ['error' => AuthenticationException::EMPLOYEE_TERMINATED, 'message' => 'Employee is terminated'],
@@ -210,7 +210,7 @@ class AuthenticationServiceTest extends KernelTestCase
         $session = $this->getMockBuilder(Session::class)
             ->onlyMethods(['set'])
             ->getMock();
-        $session->expects($this->exactly(3))
+        $session->expects($this->never())
             ->method('set');
 
         $this->createKernelWithMockServices([Services::SESSION => $session]);
@@ -219,13 +219,19 @@ class AuthenticationServiceTest extends KernelTestCase
         $authenticationService->expects($this->once())
             ->method('getUserService')
             ->willReturn($userService);
-        $authenticationService->expects($this->exactly(3))
+        $authenticationService->expects($this->never())
             ->method('getAuthUser')
             ->willReturn($authUser);
 
         $credentials = new UserCredential('username', 'password');
-        $result = $authenticationService->setCredentials($credentials, []);
-        $this->assertTrue($result);
+        try {
+            $authenticationService->setCredentials($credentials);
+        } catch (AuthenticationException $e) {
+            $this->assertEquals(
+                ['error' => AuthenticationException::EMPLOYEE_NOT_ASSIGNED, 'message' => 'Employee not assigned'],
+                $e->normalize()
+            );
+        }
     }
 
     public function testsSetCredentials(): void
@@ -271,7 +277,7 @@ class AuthenticationServiceTest extends KernelTestCase
             ->willReturn($authUser);
 
         $credentials = new UserCredential('username', 'password');
-        $result = $authenticationService->setCredentials($credentials, []);
+        $result = $authenticationService->setCredentials($credentials);
         $this->assertTrue($result);
     }
 }

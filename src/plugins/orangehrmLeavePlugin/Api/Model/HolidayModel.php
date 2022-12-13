@@ -23,6 +23,18 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Holiday;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-HolidayModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="date", type="string"),
+ *     @OA\Property(property="recurring", type="boolean"),
+ *     @OA\Property(property="length", type="string", enum={ 0, 4}),
+ *     @OA\Property(property="lengthName", type="string", enum={ "Full Day", "Half Day"})
+ * )
+ */
 class HolidayModel implements Normalizable
 {
     use ModelTrait;

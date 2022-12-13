@@ -57,7 +57,7 @@ class AttributeBag implements IteratorAggregate, Countable
     /**
      * @param array $parameters
      */
-    public function replace(array $parameters = [])
+    public function replace(array $parameters = []): void
     {
         $this->parameters = $parameters;
     }
@@ -65,7 +65,7 @@ class AttributeBag implements IteratorAggregate, Countable
     /**
      * @param array $parameters
      */
-    public function add(array $parameters = [])
+    public function add(array $parameters = []): void
     {
         $this->parameters = array_replace($this->parameters, $parameters);
     }
@@ -101,7 +101,7 @@ class AttributeBag implements IteratorAggregate, Countable
     /**
      * @param string $key
      */
-    public function remove(string $key)
+    public function remove(string $key): void
     {
         unset($this->parameters[$key]);
     }

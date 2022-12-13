@@ -23,6 +23,20 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeaveBalanceModel",
+ *     type="object",
+ *     @OA\Property(property="entitled", type="integer"),
+ *     @OA\Property(property="used", type="integer"),
+ *     @OA\Property(property="scheduled", type="integer"),
+ *     @OA\Property(property="pending", type="integer"),
+ *     @OA\Property(property="taken", type="integer"),
+ *     @OA\Property(property="balance", type="integer"),
+ *     @OA\Property(property="asAtDate", type="number"),
+ *     @OA\Property(property="endDate", type="number")
+ * )
+ */
 class LeaveBalanceModel implements Normalizable
 {
     use ModelTrait;

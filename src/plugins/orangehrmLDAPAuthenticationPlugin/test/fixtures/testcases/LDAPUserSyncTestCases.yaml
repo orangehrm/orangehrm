@@ -1,0 +1,89 @@
+GetOne:
+  'Get Last Sync Details - LDAP not Configured':
+    userId: 1
+    attributes: [ ]
+    query: [ ]
+    data:
+      syncStartedAt:
+        date: null
+        time: null
+      syncFinishedAt:
+        date: null
+        time: null
+      syncStatus: 2
+    meta: [ ]
+
+  'Get Last Sync Details - LDAP Configured - Status Pass':
+    userId: 1
+    attributes: [ ]
+    query: [ ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\LDAP\Api\LDAPUserSyncAPITest', 'syncPassPreHook' ]
+    data:
+      syncStartedAt:
+        date: '2022-10-12'
+        time: '01:31'
+      syncFinishedAt:
+        date: '2022-10-12'
+        time: '01:32'
+      syncStatus: 1
+    meta: [ ]
+
+  'Get Last Sync Details - LDAP Configured - Status Failed':
+    userId: 1
+    attributes: [ ]
+    query: [ ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\LDAP\Api\LDAPUserSyncAPITest', 'syncFailedPreHook' ]
+    data:
+      syncStartedAt:
+        date: '2022-10-12'
+        time: '01:31'
+      syncFinishedAt:
+        date: null
+        time: null
+      syncStatus: 0
+    meta: [ ]
+
+Create:
+  'Sync LDAP Users - Failed - LDAP Not Configured':
+    userId: 1
+    services:
+      ldap.logger: \OrangeHRM\Tests\Util\Mock\MockLogger
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'LDAP settings not configured'
+
+  'Sync LDAP Users - Failed - LDAP sync not enabled':
+    userId: 1
+    services:
+      ldap.logger: \OrangeHRM\Tests\Util\Mock\MockLogger
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes: [ ]
+    query: [ ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\LDAP\Api\LDAPUserSyncAPITest', 'ldapConfigPreHook' ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'LDAP sync not enabled'
+
+  'Sync LDAP Users - Failed - Invalid LDAP Config':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      ldap.logger: \OrangeHRM\Tests\Util\Mock\MockLogger
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    now:
+      datetime: '2022-10-12 08:00:00'
+      timezone: 'Pacific/Auckland'
+    attributes: [ ]
+    query: [ ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\LDAP\Api\LDAPUserSyncAPITest', 'ldapInvalidConfigPreHook' ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Please check the settings for your LDAP configuration'

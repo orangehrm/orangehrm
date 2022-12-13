@@ -127,4 +127,18 @@ class Base64Attachment
             $uploadedFile->getSize()
         );
     }
+
+    /**
+     * @param array $attachment
+     * @return static
+     */
+    public static function createFromArray(array $attachment): self
+    {
+        return new self(
+            $attachment['name'],
+            $attachment['type'],
+            $attachment['base64'],
+            $attachment['size']
+        );
+    }
 }

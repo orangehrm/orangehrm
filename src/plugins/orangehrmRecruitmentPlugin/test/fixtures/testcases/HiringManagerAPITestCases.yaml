@@ -1,0 +1,46 @@
+GetAll:
+  'Get Hiring Managers List':
+    userId: 1
+    services:
+      recruitment.vacancy_service: \OrangeHRM\Recruitment\Service\VacancyService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Abbey",
+        "firstName": "Kayla",
+        "middleName": "T",
+        "employeeId": "E001",
+        "terminationId": null
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "employeeId": "E002",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "Saputhanthri",
+        "firstName": "Renukshan",
+        "middleName": "RT",
+        "employeeId": "E003",
+        "terminationId": null
+      },
+      {
+        "empNumber": 4,
+        "lastName": "Sherin",
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "employeeId": "E004",
+        "terminationId": null
+      }
+    ],
+    "meta":
+      "total": 4

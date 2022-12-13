@@ -42,7 +42,7 @@
       </template>
       <template #footer-title>
         <oxd-text v-show="timesheetStatus" type="subtitle-2">
-          {{ $t('general.status') }}: {{ timesheetStatus }}
+          {{ $t('general.status') }}: {{ employeeTimesheetStatus }}
         </oxd-text>
       </template>
       <template #footer-options>
@@ -100,6 +100,7 @@ import useTimesheet from '@/orangehrmTimePlugin/util/composable/useTimesheet';
 import TimesheetPeriod from '@/orangehrmTimePlugin/components/TimesheetPeriod.vue';
 import TimesheetActions from '@/orangehrmTimePlugin/components/TimesheetActions.vue';
 import SaveTimesheetAction from '@/orangehrmTimePlugin/components/SaveTimesheetAction.vue';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   components: {
@@ -149,6 +150,7 @@ export default {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {employee, ...rest} = toRefs(state);
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     return {
       ...rest,
@@ -168,15 +170,32 @@ export default {
       canApproveTimesheet,
       showCreateTimesheet,
       onClickCreateTimesheet,
+      translateEmpName: $tEmpName,
     };
   },
-
+  data() {
+    return {
+      statuses: [
+        {id: 1, label: this.$t('time.submitted'), name: 'Submitted'},
+        {id: 2, label: this.$t('leave.rejected'), name: 'Rejected'},
+        {id: 3, label: this.$t('time.not_submitted'), name: 'Not Submitted'},
+        {id: 4, label: this.$t('time.approved'), name: 'Approved'},
+      ],
+    };
+  },
   computed: {
     title() {
-      const empName = this.employee.terminationId
-        ? `${this.employee.firstName} ${this.employee.lastName} (Past Employee)`
-        : `${this.employee.firstName} ${this.employee.lastName}`;
+      const empName = this.translateEmpName(this.employee, {
+        includeMiddle: false,
+        excludePastEmpTag: false,
+      });
       return `${this.$t('time.timesheet_for')} ${empName}`;
+    },
+    employeeTimesheetStatus() {
+      return (
+        this.statuses.find(item => item.name === this.timesheetStatus)?.label ||
+        null
+      );
     },
   },
 };

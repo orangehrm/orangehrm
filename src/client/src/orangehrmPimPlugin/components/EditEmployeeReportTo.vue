@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import {required} from '@ohrm/core/util/validation/rules';
+import {required, validSelection} from '@ohrm/core/util/validation/rules';
 import ReportToEmployeeAutocomplete from '@/orangehrmPimPlugin/components/ReportToEmployeeAutocomplete';
 
 const reportToModel = {
@@ -120,7 +120,7 @@ export default {
       isLoading: false,
       reportTo: {...reportToModel},
       rules: {
-        employee: [required],
+        employee: [required, validSelection],
         reportingMethod: [required],
       },
     };

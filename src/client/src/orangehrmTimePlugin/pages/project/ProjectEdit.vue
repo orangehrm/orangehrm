@@ -73,8 +73,8 @@
                 v-for="(projectAdmin, index) in projectAdmins"
                 :key="index"
                 v-model="projectAdmin.value"
+                :rules="rules.projectAdmin"
                 :show-delete="index > 0 && $can.update(`time_projects`)"
-                :rules="index > 0 ? rules.projectAdmin : []"
                 :disabled="!$can.update(`time_projects`)"
                 include-employees="onlyCurrent"
                 @remove="onRemoveAdmin(index)"
@@ -117,6 +117,7 @@
 <script>
 import {
   required,
+  validSelection,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
@@ -172,9 +173,9 @@ export default {
       rules: {
         name: [required, shouldNotExceedCharLength(50)],
         description: [shouldNotExceedCharLength(255)],
-        customer: [required],
+        customer: [required, validSelection],
         projectAdmin: [
-          shouldNotExceedCharLength(100),
+          validSelection,
           value => {
             return this.projectAdmins.filter(
               ({value: admin}) => admin && admin.id === value?.id,

@@ -917,4 +917,37 @@ class BasicUserRoleManager extends AbstractUserRoleManager
 
         return $fixedName;
     }
+
+    /**
+     * Returns an array of accessible quick launch items
+     * e.g. - ['leave.leave_list', 'leave.my_leave', 'time.my_timesheet']
+     *
+     * @param string[] $rolesToExclude
+     * @param string[] $rolesToInclude
+     * @param array $requiredPermissions
+     * @return string[]
+     */
+    public function getAccessibleQuickLaunchList(
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): array {
+        $quickLaunchList = [];
+        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
+
+        foreach ($filteredRoles as $role) {
+            $shortcuts = [];
+            $roleClass = $this->getUserRoleClass($role->getName());
+
+            if ($roleClass) {
+                $shortcuts = $roleClass->getAccessibleQuickLaunchList($requiredPermissions);
+            }
+
+            if (count($shortcuts) > 0) {
+                $quickLaunchList = array_unique(array_merge($quickLaunchList, $shortcuts));
+            }
+        }
+
+        return $quickLaunchList;
+    }
 }

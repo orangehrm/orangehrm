@@ -37,14 +37,14 @@ class EmpEmergencyContact
 
     /**
      * @var string|null
-     * @ORM\Column(name="eec_name", type="string", length=100 , nullable=true, options={"default" : ""})
+     * @ORM\Column(name="eec_name", type="string", length=100, nullable=true, options={"default" : ""})
      */
     private ?string $name = "";
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="eec_relationship", type="string", length=100 , nullable=true, options={"default" : ""})
+     * @ORM\Column(name="eec_relationship", type="string", length=100, nullable=true, options={"default" : ""})
      */
     private ?string $relationship = "";
 

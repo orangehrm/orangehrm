@@ -47,14 +47,14 @@ class Interview
     /**
      * @var CandidateVacancy|null
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\CandidateVacancy", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="candidate_vacancy_id", referencedColumnName="id",nullable=true)
+     * @ORM\JoinColumn(name="candidate_vacancy_id", referencedColumnName="id", nullable=true)
      */
     private ?CandidateVacancy $candidateVacancy;
 
     /**
      * @var Candidate|null
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Candidate", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="candidate_id", referencedColumnName="id",nullable=true)
+     * @ORM\JoinColumn(name="candidate_id", referencedColumnName="id", nullable=true)
      */
     private ?Candidate $candidate;
 
@@ -89,9 +89,9 @@ class Interview
     /**
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee")
      * @ORM\JoinTable(name="ohrm_job_interview_interviewer",
-     *      joinColumns={@ORM\JoinColumn(name="interview_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="interviewer_id", referencedColumnName="emp_number")}
-     *      )
+     *     joinColumns={@ORM\JoinColumn(name="interview_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="interviewer_id", referencedColumnName="emp_number")}
+     * )
      */
     private iterable $interviewers;
 

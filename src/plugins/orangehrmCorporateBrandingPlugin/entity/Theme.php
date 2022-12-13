@@ -159,7 +159,7 @@ class Theme
     /**
      * @var bool
      *
-     * @ORM\Column(name="show_social_media_icons",type="boolean",options={"default":1})
+     * @ORM\Column(name="show_social_media_icons", type="boolean", options={"default" : 1})
      */
     private bool $showSocialMediaIcons = true;
 

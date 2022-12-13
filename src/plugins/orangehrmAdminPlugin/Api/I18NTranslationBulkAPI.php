@@ -61,6 +61,39 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/i18n/languages/{languageId}/translations/bulk",
+     *     tags={"Admin/I18N"},
+     *     @OA\PathParameter(
+     *         name="languageId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="langStringId", type="integer"),
+     *                     @OA\Property(property="translatedValue", type="string")
+     *                 ),
+     *             ),
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-LanguageModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @throws TransactionException
      */
@@ -95,7 +128,6 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException(); // TODO:: this line should remove in 5.2 release
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_LANGUAGE_ID,
@@ -119,7 +151,10 @@ class I18NTranslationBulkAPI extends Endpoint implements ResourceEndpoint
                                 Rules::KEY,
                                 [
                                     self::PARAMETER_TRANSLATED_VALUE,
-                                    new Rules\Composite\AllOf(new Rule(Rules::STRING_TYPE))
+                                    new Rules\Composite\OneOf(
+                                        new Rule(Rules::NOT_REQUIRED, [true]),
+                                        new Rule(Rules::STRING_TYPE)
+                                    )
                                 ]
                             ),
                         )

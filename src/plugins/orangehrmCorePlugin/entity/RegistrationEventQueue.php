@@ -65,7 +65,7 @@ class RegistrationEventQueue
      *
      * @ORM\Column(name="event_time", type="datetime", nullable=true)
      */
-    private ?DateTime $event_time = null;
+    private ?DateTime $eventTime = null;
 
     /**
      * @var DateTime|null
@@ -134,15 +134,15 @@ class RegistrationEventQueue
      */
     public function getEventTime(): ?DateTime
     {
-        return $this->event_time;
+        return $this->eventTime;
     }
 
     /**
-     * @param DateTime|null $event_time
+     * @param DateTime|null $eventTime
      */
-    public function setEventTime(?DateTime $event_time): void
+    public function setEventTime(?DateTime $eventTime): void
     {
-        $this->event_time = $event_time;
+        $this->eventTime = $eventTime;
     }
 
     /**

@@ -24,6 +24,7 @@ use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Config;
+use OrangeHRM\LDAP\Dto\LDAPSetting;
 
 class ConfigService
 {
@@ -42,7 +43,6 @@ class ConfigService
     public const KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE = 'admin.localization.use_browser_language';
     public const KEY_ADMIN_LOCALIZATION_DEFAULT_DATE_FORMAT = 'admin.localization.default_date_format';
     public const KEY_INCLUDE_SUPERVISOR_CHAIN = 'include_supervisor_chain';
-    public const KEY_THEME_NAME = 'themeName';
     public const KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME = 'admin.default_workshift_start_time';
     public const KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME = 'admin.default_workshift_end_time';
     public const KEY_OPENID_PROVIDER_ADDED = 'openId.provider.added';
@@ -50,6 +50,8 @@ class ConfigService
     public const KEY_INSTANCE_IDENTIFIER = 'instance.identifier';
     public const KEY_INSTANCE_IDENTIFIER_CHECKSUM = 'instance.identifier_checksum';
     public const KEY_SENDMAIL_PATH = 'email_config.sendmail_path';
+    public const KEY_LDAP_SETTINGS = 'ldap_settings';
+    public const KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE = 'dashboard.employees_on_leave_today.show_only_accessible';
 
     public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
     public const ALLOWED_FILE_TYPES = [
@@ -248,22 +250,6 @@ class ConfigService
     {
         $val = $this->_getConfigValue(self::KEY_PIM_SHOW_TAX_EXEMPTIONS);
         return ($val == 1);
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setThemeName(string $value): void
-    {
-        $this->_setConfigValue(self::KEY_THEME_NAME, $value);
-    }
-
-    /**
-     * @return string
-     */
-    public function getThemeName(): string
-    {
-        return $this->_getConfigValue(self::KEY_THEME_NAME);
     }
 
     /**
@@ -509,5 +495,39 @@ class ConfigService
     public function getTimesheetTimeFormatConfig(): ?string
     {
         return $this->_getConfigValue(self::KEY_TIMESHEET_TIME_FORMAT);
+    }
+
+    /**
+     * @return LDAPSetting|null
+     */
+    public function getLDAPSetting(): ?LDAPSetting
+    {
+        $ldapSetting = $this->_getConfigValue(self::KEY_LDAP_SETTINGS);
+        return $ldapSetting === null ? null : LDAPSetting::fromString($ldapSetting);
+    }
+
+    /**
+     * @param LDAPSetting $ldapSetting
+     */
+    public function setLDAPSetting(LDAPSetting $ldapSetting): void
+    {
+        $this->_setConfigValue(self::KEY_LDAP_SETTINGS, (string)$ldapSetting);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDashboardEmployeesOnLeaveTodayShowOnlyAccessibleConfig(): bool
+    {
+        $val = $this->_getConfigValue(self::KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE);
+        return ($val == 1);
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setDashboardEmployeesOnLeaveTodayShowOnlyAccessibleConfig(bool $value): void
+    {
+        $this->_setConfigValue(self::KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE, $value ? 1 : 0);
     }
 }

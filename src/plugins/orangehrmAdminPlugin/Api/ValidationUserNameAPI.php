@@ -43,6 +43,34 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_USER_NAME_MAX_LENGTH = 40;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/validation/user-name",
+     *     tags={"Admin/Users"},
+     *     @OA\Parameter(
+     *         name="userName",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="valid", type="boolean")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -50,11 +78,11 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
         $userName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_NAME);
         $userId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_Id);
         if (!is_null($userId)) {
-            $user = $this->getUserService()->getSystemUserDao()->getSystemUser($userId);
+            $user = $this->getUserService()->geUserDao()->getSystemUser($userId);
             $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
         }
         $isChangeableUserName = !$this->getUserService()
-            ->getSystemUserDao()
+            ->geUserDao()
             ->isUserNameExistByUserName($userName, $userId);
         return new EndpointResourceResult(
             ArrayModel::class,

@@ -70,16 +70,8 @@ class I18NTranslation
 
     /**
      * @var bool
-     * @deprecated
      *
-     * @ORM\Column(name="translated", type="boolean", options={"default":1})
-     */
-    private bool $translated = true;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="customized", type="boolean", options={"default":0})
+     * @ORM\Column(name="customized", type="boolean", options={"default" : 0})
      */
     private bool $customized = false;
 
@@ -157,24 +149,6 @@ class I18NTranslation
     public function setValue(?string $value): void
     {
         $this->value = $value;
-    }
-
-    /**
-     * @return bool
-     * @deprecated
-     */
-    public function isTranslated(): bool
-    {
-        return $this->translated;
-    }
-
-    /**
-     * @param bool $translated
-     * @deprecated
-     */
-    public function setTranslated(bool $translated): void
-    {
-        $this->translated = $translated;
     }
 
     /**

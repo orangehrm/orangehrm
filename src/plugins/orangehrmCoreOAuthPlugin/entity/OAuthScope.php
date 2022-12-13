@@ -28,6 +28,15 @@ use Doctrine\ORM\Mapping as ORM;
 class OAuthScope
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private int $id;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="scope", type="string", length=255, nullable=false)
@@ -37,7 +46,7 @@ class OAuthScope
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_default", type="boolean", nullable=true, options={"default":0})
+     * @ORM\Column(name="is_default", type="boolean", nullable=true, options={"default" : 0})
      */
     private bool $isDefault;
 

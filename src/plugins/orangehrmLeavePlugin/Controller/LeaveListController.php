@@ -68,7 +68,7 @@ class LeaveListController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('leave-list');
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->query->get('empNumber');
         if (!is_null($empNumber)) {
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
@@ -119,7 +119,7 @@ class LeaveListController extends AbstractVueController
      */
     protected function addLeaveTypeProp(Request $request, Component $component): void
     {
-        $leaveTypeId = $request->get('leaveTypeId');
+        $leaveTypeId = $request->query->get('leaveTypeId');
         if (!is_null($leaveTypeId)) {
             $leaveType = $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId);
             $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
@@ -132,7 +132,7 @@ class LeaveListController extends AbstractVueController
      */
     protected function addLeaveStatusProp(Request $request, Component $component): void
     {
-        $leaveStatus = $request->get('status');
+        $leaveStatus = $request->query->get('status');
         if (!is_null($leaveStatus)) {
             $key = array_search($leaveStatus, array_column(self::LEAVE_STATUSES, 'id'));
             if ($key) {
@@ -147,8 +147,8 @@ class LeaveListController extends AbstractVueController
      */
     protected function addFromToDateProps(Request $request, Component $component): void
     {
-        $fromDate = $request->get('fromDate');
-        $toDate = $request->get('toDate');
+        $fromDate = $request->query->get('fromDate');
+        $toDate = $request->query->get('toDate');
         if ($fromDate && $toDate) {
             $component->addProp(new Prop('from-date', Prop::TYPE_STRING, $fromDate));
             $component->addProp(new Prop('to-date', Prop::TYPE_STRING, $toDate));

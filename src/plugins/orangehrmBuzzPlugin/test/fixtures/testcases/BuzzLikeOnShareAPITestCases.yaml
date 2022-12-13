@@ -1,0 +1,328 @@
+GetAll:
+  'with shareId 1':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 1
+    data: [
+      {
+        "id": 1,
+        "date": "2022-11-16",
+        "time": "05:50",
+        "share": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      },
+      {
+        "id": 2,
+        "date": "2022-11-16",
+        "time": "05:50",
+        "share": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": 2
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  'past employee share':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 2
+    data: [
+      {
+        "id": 4,
+        "date": "2022-11-16",
+        "time": "05:51",
+        "share": {
+          "id": 2
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      }
+    ]
+    meta: {
+      total: 1
+    }
+
+  'purged employee share':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'with shareId 5':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 5
+    data: [
+      {
+        "id": 11,
+        "date": "2022-11-16",
+        "time": "17:12",
+        "share": {
+          "id": 5
+        },
+        "employee": {
+          "empNumber": 4,
+          "lastName": "Kumara",
+          "firstName": "Rajitha",
+          "middleName": "",
+          "employeeId": "0004",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'non-existing shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 1000
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'ESS with shareId 1':
+    userId: 4
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 1
+    data: [
+      {
+        "id": 1,
+        "date": "2022-11-16",
+        "time": "05:50",
+        "share": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      },
+      {
+        "id": 2,
+        "date": "2022-11-16",
+        "time": "05:50",
+        "share": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": 2
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+Create:
+  'liking post with shareId 5':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    now:
+      datetime: '2022-11-16 13:00:00'
+    attributes:
+      shareId: 5
+    data: {
+      "id": 12,
+      "date": "2022-11-16",
+      "time": "13:00",
+      "share": {
+        "id": 5
+      },
+      "employee": {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      }
+    }
+
+  'liking already liked post':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Already liked'
+
+  'liking post with non-existing shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 1000
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'liking post with past employee shareId':
+    userId: 4
+    now:
+      datetime: '2022-11-16 13:00:00'
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 2
+    data: {
+      "id": 12,
+      "date": "2022-11-16",
+      "time": "13:00",
+      "share": {
+        "id": 2
+      },
+      "employee": {
+        "empNumber": 4,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0004",
+        "terminationId": null
+      }
+    }
+
+  'liking post with purged employee shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'ESS liking post with shareId 4':
+    userId: 4
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    now:
+      datetime: '2022-11-16 13:00:00'
+    attributes:
+      shareId: 4
+    data: {
+      "id": 12,
+      "date": "2022-11-16",
+      "time": "13:00",
+      "share": {
+        "id": 4
+      },
+      "employee": {
+        "empNumber": 4,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0004",
+        "terminationId": null
+      }
+    }
+
+Delete:
+  'unliking post with shareId 1':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 1
+    data: {
+      "shareId": 1
+    }
+
+  'unliking post with non-existent shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 1000
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'unliking post with past employee shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 2
+    data: {
+      "shareId": 2
+    }
+
+  'unliking post with purged employee shareId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: "Invalid Parameter"
+
+  'unliking post that is not liked':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 5
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Not previously liked'
+
+  'ESS unliking post with shareId 5':
+    userId: 4
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      shareId: 5
+    data: {
+      "shareId": 5
+    }

@@ -40,7 +40,7 @@ class WorkWeek
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", length=10, options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", length=10, options={"unsigned" : true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -57,49 +57,49 @@ class WorkWeek
     /**
      * @var int
      *
-     * @ORM\Column(name="mon", type="integer", length=3, options={"default":0, "unsigned":true})
+     * @ORM\Column(name="mon", type="integer", length=3, options={"default" : 0, "unsigned" : true})
      */
     private int $monday = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="tue", type="integer", length=3, options={"default":0, "unsigned":true})
+     * @ORM\Column(name="tue", type="integer", length=3, options={"default" : 0, "unsigned" : true})
      */
     private int $tuesday = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wed", type="integer", length=3, options={"default":0, "unsigned":true})
+     * @ORM\Column(name="wed", type="integer", length=3, options={"default" : 0, "unsigned" : true})
      */
     private int $wednesday = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="thu", type="integer", length=3, options={"default":0, "unsigned":true})
+     * @ORM\Column(name="thu", type="integer", length=3, options={"default" : 0, "unsigned" : true})
      */
     private int $thursday = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="fri", type="integer", length=3, options={"default":0, "unsigned":true})
+     * @ORM\Column(name="fri", type="integer", length=3, options={"default" : 0, "unsigned" : true})
      */
     private int $friday = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="sat", type="integer", length=3, options={"default":0, "unsigned":true})
+     * @ORM\Column(name="sat", type="integer", length=3, options={"default" : 0, "unsigned" : true})
      */
     private int $saturday = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="sun", type="integer", length=3, options={"default":0, "unsigned":true})
+     * @ORM\Column(name="sun", type="integer", length=3, options={"default" : 0, "unsigned" : true})
      */
     private int $sunday = 0;
 

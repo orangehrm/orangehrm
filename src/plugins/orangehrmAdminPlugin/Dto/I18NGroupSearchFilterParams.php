@@ -27,6 +27,6 @@ class I18NGroupSearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('g.name');
+        $this->setSortField(null);
     }
 }

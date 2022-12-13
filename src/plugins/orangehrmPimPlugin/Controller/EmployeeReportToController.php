@@ -48,7 +48,7 @@ class EmployeeReportToController extends BaseViewEmployeeController
      */
     public function preRender(Request $request): void
     {
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->attributes->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-report-to');
             $reportingMethodParamHolder = new ReportingMethodSearchFilterParams();

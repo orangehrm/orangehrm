@@ -199,36 +199,37 @@ GetAll:
     meta:
       total: 1
 
-  #  'with limit':
-  #    userId: 1
-  #    services:
-  #      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-  #      core.config_service: \OrangeHRM\Core\Service\ConfigService
-  #      admin.user_service: \OrangeHRM\Admin\Service\UserService
-  #    factories:
-  #      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-  #    query:
-  #      limit: '2'
-  #    data: [
-  #      {
-  #        "empNumber": 1,
-  #        "lastName": "Admin",
-  #        "firstName": "Devi",
-  #        "middleName": "",
-  #        "employeeId": "0001",
-  #        "terminationId": null
-  #      },
-  #      {
-  #        "empNumber": 3,
-  #        "lastName": "de Silva",
-  #        "firstName": "Devishke",
-  #        "middleName": "Romesh",
-  #        "employeeId": "0003",
-  #        "terminationId": null
-  #      }
-  #    ]
-  #    meta:
-  #      total: 4
+  'with limit':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      offset: 0
+      limit: 2
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 4
 
   'with name':
     userId: 1
@@ -260,6 +261,54 @@ GetAll:
     ]
     meta:
       total: 2
+
+  'search by name: with middle name':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'Linda Jane Anderson'
+      includeEmployees: 'currentAndPast'
+    data: [
+      {
+        "empNumber": 7,
+        "lastName": "Anderson",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "employeeId": "0007",
+        "terminationId": 3
+      }
+    ]
+    meta:
+      total: 1
+
+  'search by name: with only first last names':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'Linda Anderson'
+      includeEmployees: 'currentAndPast'
+    data: [
+      {
+        "empNumber": 7,
+        "lastName": "Anderson",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "employeeId": "0007",
+        "terminationId": 3
+      }
+    ]
+    meta:
+      total: 1
 
   'with nonexistent name':
     userId: 1
@@ -293,6 +342,54 @@ GetAll:
         "middleName": "",
         "employeeId": "0001",
         "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'search by nameOrId: with middle name':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      nameOrId: 'Linda Jane Anderson'
+      includeEmployees: 'currentAndPast'
+    data: [
+      {
+        "empNumber": 7,
+        "lastName": "Anderson",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "employeeId": "0007",
+        "terminationId": 3
+      }
+    ]
+    meta:
+      total: 1
+
+  'search by nameOrId: with only first last names':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      nameOrId: 'Linda Anderson'
+      includeEmployees: 'currentAndPast'
+    data: [
+      {
+        "empNumber": 7,
+        "lastName": "Anderson",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "employeeId": "0007",
+        "terminationId": 3
       }
     ]
     meta:
@@ -669,6 +766,14 @@ GetAll:
         "terminationId": null
       },
       {
+        "empNumber": 7,
+        "lastName": "Anderson",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "employeeId": "0007",
+        "terminationId": 3
+      },
+      {
         "empNumber": 3,
         "lastName": "de Silva",
         "firstName": "Devishke",
@@ -702,7 +807,7 @@ GetAll:
       }
     ]
     meta:
-      total: 5
+      total: 6
 
   'with include only past employees':
     userId: 1
@@ -714,6 +819,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       includeEmployees: 3
+      sortField: 'employee.firstName'
     data: [
       {
         "empNumber": 6,
@@ -722,10 +828,18 @@ GetAll:
         "middleName": "",
         "employeeId": "0006",
         "terminationId": 2
+      },
+      {
+        "empNumber": 7,
+        "lastName": "Anderson",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "employeeId": "0007",
+        "terminationId": 3
       }
     ]
     meta:
-      total: 1
+      total: 2
 
   'with supervisor emp numbers':
     userId: 1
@@ -952,11 +1066,11 @@ Create:
       firstName: "Chamara"
       lastName: "Abesinghe"
     data: {
-      "empNumber": 7,
+      "empNumber": 8,
       "lastName": "Abesinghe",
       "firstName": "Chamara",
       "middleName": "",
-      "employeeId": "",
+      "employeeId": null,
       "terminationId": null
     }
 
@@ -976,7 +1090,7 @@ Create:
       middleName: "Middle Name"
       employeeId: "0007"
     data: {
-      "empNumber": 7,
+      "empNumber": 8,
       "lastName": "Abesinghe",
       "firstName": "Chamara",
       "middleName": "Middle Name",
@@ -1007,7 +1121,7 @@ Create:
       }
     }
     data: {
-      "empNumber": 7,
+      "empNumber": 8,
       "lastName": "Abesinghe",
       "firstName": "Chamara",
       "middleName": "Middle Name",

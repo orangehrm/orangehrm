@@ -61,7 +61,7 @@ class LeaveLeaveEntitlement
     /**
      * @var float
      *
-     * @ORM\Column(name="length_days", type="decimal", precision=6, scale=4, nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="length_days", type="decimal", precision=6, scale=4, nullable=true, options={"unsigned" : true})
      */
     private float $lengthDays;
 

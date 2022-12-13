@@ -10,11 +10,11 @@ on:
 jobs:
   db_test:
     runs-on: ubuntu-20.04
-    continue-on-error: true
 
     strategy:
+      fail-fast: false
       matrix:
-        database: [ 'mysql:5.5', 'mysql:5.6', 'mysql:5.7', 'mariadb:5.5', 'mariadb:10.0', 'mariadb:10.1', 'mariadb:10.2', 'mariadb:10.3', 'mariadb:10.4', 'mariadb:10.5', 'mariadb:10.6', 'mariadb:10.7', 'mariadb:10.8' ]
+        database: [ 'mysql:5.5', 'mysql:5.6', 'mysql:5.7', 'mysql:8.0', 'mariadb:5.5', 'mariadb:10.0', 'mariadb:10.1', 'mariadb:10.2', 'mariadb:10.3', 'mariadb:10.4', 'mariadb:10.5', 'mariadb:10.6', 'mariadb:10.7', 'mariadb:10.8', 'mariadb:10.9' ]
 
     services:
       mysql:
@@ -23,17 +23,23 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 --name="database"
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+          --name="database"
+          --tmpfs /var/lib/mysql/
 
     env:
       WORKFLOW_BRANCH: ${{ secrets.WORKFLOW_BRANCH }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
           ref: ${{ secrets.WORKFLOW_BRANCH }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
       - name: Source info
@@ -59,36 +65,62 @@ jobs:
         if: ${{ matrix.database == 'mysql:5.7' || matrix.database == 'mysql:8.0' }}
         run: docker exec database bash -c "mysql -uroot -proot -e \"SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));\""
 
+      - name: Configure LDAP server
+        run: |
+          cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/config
+          docker run --detach --rm --name openldap \
+            --network ${{ job.container.network }} \
+            -p 389:1389 \
+            -e LDAP_ADMIN_USERNAME=admin \
+            -e LDAP_ADMIN_PASSWORD=admin \
+            -e LDAP_ROOT=dc=example,dc=org \
+            -e LDAP_CONFIG_ADMIN_ENABLED=yes \
+            -e LDAP_CONFIG_ADMIN_USERNAME=admin \
+            -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
+            -e LDAP_SKIP_DEFAULT_TREE=yes \
+            -v $PWD/ldifs:/ldifs \
+            bitnami/openldap:latest
+          cat server-config.tpl.yaml > server-config.yaml
+
       - name: Run test
         run: |
           ./src/vendor/bin/phpunit
 
+      - name: Stop LDAP container
+        if: ${{ always() }}
+        run: docker stop openldap
+
   php_test:
     runs-on: ubuntu-20.04
-    continue-on-error: true
 
     strategy:
+      fail-fast: false
       matrix:
         php: [ 'php7.4', 'php8.0', 'php8.1' ]
 
     services:
       mysql:
-        image: 'mariadb:5.5'
+        image: 'mariadb:10.0'
         env:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+          --tmpfs /var/lib/mysql/
 
     env:
       WORKFLOW_BRANCH: ${{ secrets.WORKFLOW_BRANCH }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: "${{ github.event_name != 'push' && env.WORKFLOW_BRANCH != '' }}"
         with:
           ref: ${{ secrets.WORKFLOW_BRANCH }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: "${{ github.event_name == 'push' || env.WORKFLOW_BRANCH == ''}}"
 
       - name: Install dependencies
@@ -102,6 +134,27 @@ jobs:
           mysqldump -V
           ${{ matrix.php }} devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
 
+      - name: Configure LDAP server
+        run: |
+          cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/config
+          docker run --detach --rm --name openldap \
+            --network ${{ job.container.network }} \
+            -p 389:1389 \
+            -e LDAP_ADMIN_USERNAME=admin \
+            -e LDAP_ADMIN_PASSWORD=admin \
+            -e LDAP_ROOT=dc=example,dc=org \
+            -e LDAP_CONFIG_ADMIN_ENABLED=yes \
+            -e LDAP_CONFIG_ADMIN_USERNAME=admin \
+            -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
+            -e LDAP_SKIP_DEFAULT_TREE=yes \
+            -v $PWD/ldifs:/ldifs \
+            bitnami/openldap:latest
+          cat server-config.tpl.yaml > server-config.yaml
+
       - name: Run test
         run: |
           ${{ matrix.php }} ./src/vendor/bin/phpunit
+
+      - name: Stop LDAP container
+        if: ${{ always() }}
+        run: docker stop openldap

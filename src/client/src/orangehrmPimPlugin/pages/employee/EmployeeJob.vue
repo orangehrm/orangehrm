@@ -20,8 +20,9 @@
 
 <template>
   <edit-employee-layout
-    :employee-id="empNumber"
     screen="job"
+    :employee-id="empNumber"
+    :max-file-size="maxFileSize"
     :allowed-file-types="allowedFileTypes"
   >
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
@@ -338,7 +339,7 @@ export default {
         return {
           id: jobTitle.id,
           label: jobTitle?.deleted
-            ? jobTitle.label + ' (Deleted)'
+            ? jobTitle.label + this.$t('general.deleted')
             : jobTitle.label,
         };
       });

@@ -23,6 +23,17 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\WorkShift;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-WorkShiftModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="hoursPerDay", type="number"),
+ *     @OA\Property(property="startTime", type="string"),
+ *     @OA\Property(property="endTime", type="string")
+ * )
+ */
 class WorkShiftModel implements Normalizable
 {
     use ModelTrait;

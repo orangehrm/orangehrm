@@ -1,0 +1,10 @@
+langStrings:
+  -
+    value: 'Punched In'
+    unitId: punched_in
+  -
+    value: 'Punched Out'
+    unitId: punched_out
+  -
+    value: 'Not Punched In'
+    unitId: not_punched_in

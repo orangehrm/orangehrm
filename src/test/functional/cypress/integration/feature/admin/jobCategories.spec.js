@@ -23,7 +23,7 @@ describe('Admin - Job Category', function () {
       cy.viewport(HD.width, HD.height);
     });
     cy.fixture('chars').as('strings');
-    cy.intercept('GET', '**/api/v2/admin/job-categories?*').as(
+    cy.intercept('GET', '**/api/v2/admin/job-categories*').as(
       'getJobCategories',
     );
     cy.intercept('POST', '**/api/v2/admin/job-categories').as(
@@ -52,6 +52,7 @@ describe('Admin - Job Category', function () {
   describe('Add job Category', function () {
     it('add job category', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory');
+      cy.wait('@getJobCategories');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars50.text);
         cy.getOXD('button').contains('Save').click();
@@ -61,6 +62,7 @@ describe('Admin - Job Category', function () {
     });
     it('Job Category form validations', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory');
+      cy.wait('@getJobCategories');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name')
           .type(this.strings.chars100.text)
@@ -73,6 +75,7 @@ describe('Admin - Job Category', function () {
     });
     it('add a job category and click cancel', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory');
+      cy.wait('@getJobCategories');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').type(this.strings.chars50.text);
         cy.getOXD('button').contains('Cancel').click();
@@ -85,6 +88,7 @@ describe('Admin - Job Category', function () {
   describe('Update job Category', function () {
     it('Edit job category', function () {
       cy.loginTo(this.user, '/admin/saveJobCategory/1');
+      cy.wait('@getJobCategories');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').clear().type(this.strings.chars50.text);
         cy.getOXD('button').contains('Save').click();

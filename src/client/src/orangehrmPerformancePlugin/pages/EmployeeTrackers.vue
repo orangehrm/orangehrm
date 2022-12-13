@@ -29,6 +29,7 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.empName"
+                :rules="rules.employee"
                 api-path="api/v2/performance/trackers/reviewers"
                 :params="{
                   includeEmployees: filters.includeEmployees.param,
@@ -101,6 +102,7 @@ import useLocale from '@/core/util/composable/useLocale';
 import usei18n from '@/core/util/composable/usei18n';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
+import {validSelection} from '@/core/util/validation/rules';
 
 const defaultFilters = {
   empName: null,
@@ -244,6 +246,9 @@ export default {
           },
         },
       ],
+      rules: {
+        employee: [validSelection],
+      },
     };
   },
 

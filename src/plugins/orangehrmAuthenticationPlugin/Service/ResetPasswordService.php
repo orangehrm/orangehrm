@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Service;
 
+use Exception;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
@@ -36,6 +37,7 @@ use OrangeHRM\Entity\ResetPasswordRequest;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Exception\TransactionException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class ResetPasswordService
@@ -124,32 +126,36 @@ class ResetPasswordService
     {
         $userFilterParams = new UserSearchFilterParams();
         $userFilterParams->setUsername($username);
+        $userFilterParams->setHasPassword(true);
         $users = $this->getUserService()->searchSystemUsers($userFilterParams);
 
         if (empty($users)) {
-            $this->getLogger()->error('There are no user account for the current username');
+            $this->getLogger()->error("Reset Password: There are no user account for the `$username` username");
             return null;
         }
         $user = $users[0];
+
+        if (!$user->getStatus()) {
+            $this->getLogger()->error("Reset Password: User account `$username` disabled");
+            return null;
+        }
+
         $associatedEmployee = $user->getEmployee();
         if (!$associatedEmployee instanceof Employee) {
-            $this->getLogger()->error('User account is not associated with an employee');
+            $this->getLogger()->error("Reset Password: User account `$username` is not associated with an employee");
             return null;
         }
 
         if ($associatedEmployee->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
-            $this->getLogger()->error('Please contact HR admin in order to reset the password');
-            return null;
-        }
-
-        if (!$user->getStatus()) {
-            $this->getLogger()->error('Account disabled');
+            $empNumber = $associatedEmployee->getEmpNumber();
+            $this->getLogger()->error("Reset Password: Employee: `$empNumber` terminated");
             return null;
         }
 
         if (empty($associatedEmployee->getWorkEmail())) {
+            $empNumber = $associatedEmployee->getEmpNumber();
             $this->getLogger()->error(
-                'Work email is not set. Please contact HR admin in order to reset the password'
+                "Reset Password: Work email is not set for employee: `$empNumber`"
             );
             return null;
         }
@@ -263,7 +269,7 @@ class ResetPasswordService
                     $this->getLogger()->error('Password reset code expired');
                     return null;
                 }
-                $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
+                $user = $this->getUserService()->geUserDao()->getUserByUserName($username);
                 return $this->validateUser($user);
             }
             return null;
@@ -301,14 +307,21 @@ class ResetPasswordService
      */
     public function saveResetPassword(UserCredential $credential): bool
     {
-        $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($credential->getUsername());
-        if ($this->validateUser($user) instanceof User) {
-            $hashPassword = $this->getUserService()->hashPassword($credential->getPassword());
-            $isUpdate = $this->getUserService()->getSystemUserDao()->updatePassword($user->getId(), $hashPassword);
-            if ($isUpdate) {
-                return $this->getResetPasswordDao()->updateResetPasswordValid($user->getEmployee()->getWorkEmail(), 0);
+        $this->beginTransaction();
+        try {
+            $success = false;
+            $user = $this->getUserService()->geUserDao()->getUserByUserName($credential->getUsername());
+            if ($this->validateUser($user) instanceof User) {
+                $user->getDecorator()->setNonHashedPassword($credential->getPassword());
+                $this->getUserService()->saveSystemUser($user);
+                $success = $this->getResetPasswordDao()
+                    ->updateResetPasswordValid($user->getEmployee()->getWorkEmail(), 0);
             }
+            $this->commitTransaction();
+            return $success;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
         }
-        return false;
     }
 }

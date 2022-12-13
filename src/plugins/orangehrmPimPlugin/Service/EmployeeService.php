@@ -20,13 +20,17 @@
 namespace OrangeHRM\Pim\Service;
 
 use DateTime;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Registration\Event\RegistrationEvent;
 use OrangeHRM\Core\Service\IDGeneratorService;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Event\EmployeeAddedEvent;
@@ -39,6 +43,14 @@ class EmployeeService
     use EventDispatcherTrait;
     use ConfigServiceTrait;
     use NormalizerServiceTrait;
+    use UserServiceTrait;
+    use UserRoleManagerTrait;
+
+    public const FIRST_NAME_MAX_LENGTH = 30;
+    public const MIDDLE_NAME_MAX_LENGTH = 30;
+    public const LAST_NAME_MAX_LENGTH = 30;
+    public const EMPLOYEE_ID_MAX_LENGTH = 10;
+    public const WORK_EMAIL_MAX_LENGTH = 50;
 
     /**
      * @var EmployeeDao|null
@@ -285,7 +297,6 @@ class EmployeeService
      * @param bool|null $includeChain Include Supervisor chain or not
      * @param int|null $maxDepth
      * @return int[] An array of empNumbers
-     * @throws CoreServiceException
      */
     public function getSupervisorIdListBySubordinateId(
         int $subordinateId,
@@ -322,5 +333,48 @@ class EmployeeService
     public function getAvailableEmployeesForWorkShift(EmployeeSearchFilterParams $employeeSearchParamHolder): array
     {
         return $this->getEmployeeDao()->getAvailableEmployeeListForWorkShift($employeeSearchParamHolder);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getUndeletableEmpNumbers(): array
+    {
+        $undeletableIds = [$this->getUserRoleManager()->getUser()->getEmpNumber()];
+        if (Config::PRODUCT_MODE === Config::MODE_DEMO &&
+            ($user = $this->getUserService()->geUserDao()->getDefaultAdminUser()) instanceof User) {
+            $undeletableIds[] = $user->getEmpNumber();
+        }
+        return $undeletableIds;
+    }
+
+    /**
+     * @param string $email
+     * @param string|null $currentEmail
+     * @return bool
+     */
+    public function isUniqueEmail(string $email, ?string $currentEmail = null): bool
+    {
+        // we need to skip the current email on checking, otherwise count always return 1 (if current work email is not null)
+        // if the current email is set and input email equals current email, return true to skip validation
+        if ($currentEmail !== null && $email === $currentEmail) {
+            return true;
+        }
+
+        return !$this->getEmployeeDao()->isEmailAvailable($email);
+    }
+
+    /**
+     * @param string $employeeId
+     * @param string|null $currentEmployeeId
+     * @return bool
+     */
+    public function isUniqueEmployeeId(string $employeeId, ?string $currentEmployeeId = null): bool
+    {
+        if ($currentEmployeeId !== null && $employeeId === $currentEmployeeId) {
+            return true;
+        }
+
+        return $this->getEmployeeDao()->isUniqueEmployeeId($employeeId);
     }
 }

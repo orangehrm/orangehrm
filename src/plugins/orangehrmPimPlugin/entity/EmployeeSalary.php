@@ -28,6 +28,7 @@ use OrangeHRM\Entity\Decorator\EmployeeSalaryDecorator;
  *
  * @ORM\Table(name="hs_hr_emp_basicsalary")
  * @ORM\Entity
+ * @ORM\EntityListeners({"OrangeHRM\Entity\Listener\EmployeeSalaryListener"})
  */
 class EmployeeSalary
 {

@@ -26,13 +26,14 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table("ohrm_email_configuration")
  * @ORM\Entity
+ * @ORM\EntityListeners({"OrangeHRM\Entity\Listener\EmailConfigurationListener"})
  */
 class EmailConfiguration
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="id",type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */

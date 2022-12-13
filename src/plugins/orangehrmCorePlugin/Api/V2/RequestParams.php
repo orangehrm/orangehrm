@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Api\V2;
 
 use DateTime;
 use DateTimeZone;
+use OpenApi\Annotations as OA;
 use OrangeHRM\Core\Dto\Base64Attachment;
 
 class RequestParams
@@ -180,6 +181,15 @@ class RequestParams
     }
 
     /**
+     * @OA\Schema(
+     *     schema="Base64Attachment",
+     *     type="object",
+     *     @OA\Property(property="name", type="string"),
+     *     @OA\Property(property="type", type="string"),
+     *     @OA\Property(property="base64", type="string", format="base64"),
+     *     @OA\Property(property="size", type="integer"),
+     * )
+     *
      * @param string $type
      * @param string $key
      * @param array|null $default
@@ -191,6 +201,17 @@ class RequestParams
     }
 
     /**
+     * @OA\Schema(
+     *     schema="Base64AttachmentOrNull",
+     *     type="object",
+     *     oneOf={
+     *         @OA\Schema(ref="#/components/schemas/Base64Attachment"),
+     *         @OA\Schema(ref="#/components/schemas/Null")
+     *     }
+     * )
+     *
+     * @OA\Schema(schema="Null", type="null")
+     *
      * @param string $type
      * @param string $key
      * @param array|null $default

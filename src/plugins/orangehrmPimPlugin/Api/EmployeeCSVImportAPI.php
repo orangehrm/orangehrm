@@ -44,6 +44,9 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
     use EntityManagerHelperTrait;
 
     public const PARAMETER_ATTACHMENT = 'attachment';
+    public const PARAMETER_SUCCESS = 'success';
+    public const PARAMETER_FAILED = 'failed';
+    public const PARAMETER_FAILED_ROWS = 'failedRows';
 
     public const PARAM_RULE_IMPORT_FILE_FORMAT = ["text/csv", 'text/comma-separated-values', "application/csv", "application/vnd.ms-excel"];
     public const PARAM_RULE_IMPORT_FILE_EXTENSIONS = ["csv"];
@@ -107,7 +110,12 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
         return new EndpointResourceResult(
             ArrayModel::class,
             [],
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => $result])
+            new ParameterBag([
+                CommonParams::PARAMETER_TOTAL => $result['success'] + $result['failed'],
+                self::PARAMETER_SUCCESS => $result['success'],
+                self::PARAMETER_FAILED => $result['failed'],
+                self::PARAMETER_FAILED_ROWS => $result['failedRows']
+            ])
         );
     }
 

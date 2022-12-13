@@ -113,6 +113,25 @@ class LocalizationDao extends BaseDao
 
     /**
      * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+     * @return array
+     */
+    public function getNormalizedTranslationsForExport(
+        I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
+    ): array {
+        $q = $this->getTranslationsQueryBuilderWrapper($i18NTargetLangStringSearchFilterParams)->getQueryBuilder();
+        $q->select(
+            'langString.id AS langStringId',
+            'langString.unitId AS unitId',
+            'langString.value AS source',
+            'langString.note AS note',
+            'langString.version AS version',
+            'translation.value AS target',
+        );
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param I18NTranslationSearchFilterParams $i18NTargetLangStringSearchFilterParams
      * @return QueryBuilderWrapper
      */
     private function getTranslationsQueryBuilderWrapper(
@@ -129,9 +148,9 @@ class LocalizationDao extends BaseDao
 
         if (!is_null($i18NTargetLangStringSearchFilterParams->getOnlyTranslated())) {
             if ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === true) {
-                $q->andWhere($q->expr()->isNotNull('translation.translated'));
+                $q->andWhere($q->expr()->isNotNull('translation.value'));
             } elseif ($i18NTargetLangStringSearchFilterParams->getOnlyTranslated() === false) {
-                $q->andWhere($q->expr()->isNull('translation.translated'));
+                $q->andWhere($q->expr()->isNull('translation.value'));
             }
         }
 
@@ -207,6 +226,8 @@ class LocalizationDao extends BaseDao
         foreach ($i18NTranslations as $key => $i18NTranslation) {
             if (isset($updatableTranslationValues[$key])) {
                 $updatableTranslationValues[$key]->setValue($i18NTranslation->getValue());
+                $updatableTranslationValues[$key]->setCustomized($i18NTranslation->isCustomized());
+                $updatableTranslationValues[$key]->setModifiedAt($i18NTranslation->getModifiedAt());
 
                 //update
                 $this->getEntityManager()->persist($updatableTranslationValues[$key]);

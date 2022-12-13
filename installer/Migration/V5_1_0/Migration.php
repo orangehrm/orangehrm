@@ -179,7 +179,7 @@ class Migration extends AbstractMigration
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
         $this->modifyThemeTable();
 
-        $groupId = $this->getLangStringHelper()->getGroupId('general');
+        $groupId = $this->getLangHelper()->getGroupIdByName('general');
         $toDeleteLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows Phone Numbers Only', $groupId);
         $toPreserveLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows numbers and only + - / ( )', $groupId);
 

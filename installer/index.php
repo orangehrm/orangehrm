@@ -18,6 +18,7 @@
  */
 
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Exception\SessionStorageNotWritable;
 use OrangeHRM\Installer\Framework\HttpKernel;
 use Symfony\Component\ErrorHandler\Debug;
 
@@ -61,6 +62,10 @@ if ($debug) {
 
 $kernel = new HttpKernel($env, $debug);
 $request = Request::createFromGlobals();
-$response = $kernel->handleRequest($request);
-$response->send();
-$kernel->terminate($request, $response);
+try {
+    $response = $kernel->handleRequest($request);
+    $response->send();
+    $kernel->terminate($request, $response);
+} catch (SessionStorageNotWritable $e) {
+    die($e->getMessage());
+}

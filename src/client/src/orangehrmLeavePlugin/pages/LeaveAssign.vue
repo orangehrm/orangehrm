@@ -169,6 +169,7 @@
 <script>
 import {
   required,
+  validSelection,
   validDateFormat,
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
@@ -263,7 +264,7 @@ export default {
           ),
         ],
         comment: [shouldNotExceedCharLength(250)],
-        employee: [required],
+        employee: [required, validSelection],
       },
       partialOptions: [
         {id: 1, label: this.$t('leave.all_days'), key: 'all'},
@@ -299,7 +300,7 @@ export default {
 
   watch: {
     'leave.employee': function(employee) {
-      if (employee) {
+      if (employee?.id) {
         this.http
           .request({
             method: 'GET',

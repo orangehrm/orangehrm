@@ -50,6 +50,7 @@ final class Rules
     public const PHONE = OHRMRules\Phone::class;
     public const PASSWORD = OHRMRules\Password::class;
     public const INT_ARRAY = OHRMRules\IntArray::class;
+    public const STR_LENGTH = OHRMRules\StrLength::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;

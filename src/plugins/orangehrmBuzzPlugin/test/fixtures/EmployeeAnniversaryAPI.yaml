@@ -1,0 +1,53 @@
+JobTitle:
+  0: {id: 1, jobTitleName: 'Software Architect', isDeleted: 0}
+  1: {id: 2, jobTitleName: 'Software Engineer', isDeleted: 0}
+  2: {id: 3, jobTitleName: 'Quality Assuarance', isDeleted: 0}
+  3: {id: 4, jobTitleName: 'Sales Person', isDeleted: 1}
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+
+EmployeeTerminationRecord:
+  - {"id":"1","reason_id":"1","termination_date":"2022-03-01","note":null}
+  - {"id":"2","reason_id":"1","termination_date":"2022-03-01","note":null}
+
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', job_title_code: 4,joinedDate: '2021-10-25' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis', job_title_code: 3, joinedDate: '2016-10-28' }
+  2: { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', job_title_code: 1, joinedDate: '2020-01-05' }
+  3: { empNumber: 4, firstName: 'Landon', lastName: 'Abrahams', job_title_code: 2, joinedDate: '2016-12-31' }
+  4: { empNumber: 5, firstName: 'James', lastName: 'Abrahamson', middleName: 'K', job_title_code: 3, joinedDate: '2015-01-08' }
+  5: { empNumber: 6, firstName: 'Adalwin', lastName: 'Collings',job_title_code: 2, joinedDate: '2021-02-08' }
+  6: { empNumber: 7, firstName: 'Grace', lastName: 'Fiona', middleName: 'Hamilton', job_title_code: 3, joinedDate: '2021-02-18' }
+  7: { empNumber: 8, firstName: 'Haq', lastName: 'Aaliyah', job_title_code: 4, joinedDate: '2020-03-09' }
+  8: { empNumber: 9, firstName: 'Harmony', lastName: 'Rebecca', job_title_code: 3, joinedDate: '2022-05-21' }
+  9: { empNumber: 10, firstName: 'Manning', lastName: 'Maggie', middleName: 'N', job_title_code: 1, joinedDate: '2018-07-15' }
+  10: { empNumber: 11, firstName: 'Shaheen', lastName: 'Sania', job_title_code: 2, joinedDate: '2015-01-01', termination_id: 2}
+  11: { empNumber: 12, firstName: 'White', lastName: 'Garry', middleName: 'M',job_title_code: 1, joinedDate: '2021-08-18' }
+  12: { empNumber: 13, firstName: 'Root', lastName: 'Anthony', job_title_code: 2, joinedDate: '2018-08-12' }
+  13: { empNumber: 14, firstName: 'Uthpala', lastName: 'Ruwanara',job_title_code: 4,  joinedDate: '2020-09-13' }
+  15: { empNumber: 16, firstName: 'Ganesh', lastName: 'Goutam',job_title_code: 3,  joinedDate: '2019-09-04' }
+  16: { empNumber: 17, firstName: 'Carter', lastName: 'Charlie', job_title_code: 4, joinedDate: '2021-10-15' }
+  17: { empNumber: 18, firstName: 'Chuki', lastName: 'Chenzira', job_title_code: 3, joinedDate: '2019-11-16' }
+  18: { empNumber: 19, firstName: 'Tencrady', lastName: 'Saraa', job_title_code: 4, joinedDate: '2021-10-17' }
+  19: { empNumber: 20, firstName: 'Wright', lastName: 'Sania', job_title_code: 2, joinedDate: '2020-12-01' }
+  20: { empNumber: 21, firstName: 'Ganesh', lastName: 'Supun', job_title_code: 4, joinedDate: '2017-12-30' }
+  21: { empNumber: 22, firstName: 'Grace', lastName: 'Charlie',job_title_code: 1, joinedDate: '2000-02-29' }
+  22: { empNumber: 23, firstName: 'Mathews', lastName: 'Angello', job_title_code: 4, joinedDate: '2020-05-18', termination_id: 1}
+  23: { empNumber: 24, firstName: 'Manning', lastName: 'David', job_title_code: 2, joinedDate: '2022-06-19' }
+  24: { empNumber: 25, firstName: 'Moris', lastName: 'Minor', job_title_code: 3, joinedDate: '1998-07-28' }
+  25: { empNumber: 26, firstName: 'Henry', lastName: 'Ford',job_title_code: 1, joinedDate: '2020-08-20' }
+  26: { empNumber: 27, firstName: 'Enzo', lastName: 'Ferrari',job_title_code: 1, joinedDate: '2020-12-31' }
+  27: { empNumber: 28, firstName: 'Soichiro', lastName: 'Honda',job_title_code: 1, joinedDate: '2020-01-02' }
+  28: { empNumber: 29, firstName: 'Carl', lastName: 'Benz',job_title_code: 1, joinedDate: '2020-02-29' }
+  29: { empNumber: 30, firstName: 'Ferdinand', lastName: 'Porsche',job_title_code: 1, joinedDate: '2021-02-28' }
+  30: { empNumber: 31, firstName: 'Henry', lastName: 'Royce',job_title_code: 1, joinedDate: '1980-04-20' }
+  31: { empNumber: 32, firstName: 'Charles', lastName: 'Rolls',job_title_code: 1, joinedDate: '2024-11-20' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
