@@ -38,7 +38,7 @@
       v-if="loading"
       class="orangehrm-dashboard-widget-loader"
     />
-    <div v-else class="orangehrm-dashboard-widget-body">
+    <div v-else ref="widgetRef" :class="widgetBodyClasses">
       <slot></slot>
       <div v-if="empty" class="orangehrm-dashboard-widget-body-nocontent">
         <img
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import {computed, ref} from 'vue';
 import Icon from '@ohrm/oxd/core/components/Icon/Icon';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
@@ -93,10 +94,19 @@ export default {
     },
   },
   setup() {
+    const widgetRef = ref();
     const defaultPic = `${window.appGlobal.baseUrl}/../images/dashboard_empty_widget_watermark.png`;
 
+    const widgetBodyClasses = computed(() => ({
+      'orangehrm-dashboard-widget-body': true,
+      '--scroll-visible':
+        widgetRef.value?.scrollHeight > widgetRef.value?.clientHeight,
+    }));
+
     return {
+      widgetRef,
       defaultPic,
+      widgetBodyClasses,
     };
   },
 };

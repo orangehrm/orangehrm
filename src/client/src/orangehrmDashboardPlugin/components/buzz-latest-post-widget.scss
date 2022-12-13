@@ -14,62 +14,48 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-dashboard-widget {
-  width: auto;
-  height: 380px;
-  margin: 0 auto;
-  overflow: hidden;
-  max-width: 350px;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  box-sizing: border-box;
-
+.orangehrm-buzz-widget {
+  margin: 0;
+  grid-gap: 10px;
+  &-card {
+    display: block;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid $oxd-interface-gray-lighten-2-color;
+  }
   &-header {
     display: flex;
+    cursor: pointer;
     align-items: center;
-    justify-content: space-between;
-  }
-
-  &-name {
-    display: flex;
-    font-size: 14px;
-    font-weight: 700;
-    align-items: center;
-  }
-
-  &-icon {
-    height: 15px;
-    margin-right: 0.5rem;
-  }
-
-  &-body {
-    height: 318px;
-    overflow: auto;
-    &-nocontent {
+    &-text {
+      margin-left: 10px;
+    }
+    &-emp {
+      font-size: 12px;
+      font-weight: 700;
+      @include truncate(1, 1, #fff);
+    }
+    &-time {
       font-size: 10px;
-      text-align: center;
-      margin-top: 2.5rem;
+      color: $oxd-interface-gray-color;
     }
-    &.--scroll-visible{
-      padding-right: 5px;
+    ::v-deep(.orangehrm-buzz-profile-image img) {
+      width: 35px;
+      height: 35px;
     }
-    @include oxd-scrollbar();
   }
-
-  &-watermark {
-    width: 175px;
-    text-align: center;
-    margin: 60px auto auto;
+  &-body {
+    font-size: 12px;
+    text-align: justify;
+    margin-bottom: 0.5rem;
+    word-break: break-word;
   }
-
-  &-img {
-    width: 60%;
+  &-picture {
+    width: 100%;
+    object-fit: contain;
+    border-radius: 0.75rem;
   }
-
-  &-loader {
-    margin: 9rem auto;
-    background-color: $oxd-white-color;
+  &-divider {
+    border-style: dashed;
   }
 }
