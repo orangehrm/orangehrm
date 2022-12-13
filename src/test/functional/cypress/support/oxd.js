@@ -52,7 +52,6 @@ const OXD_ELEMENTS = {
   option2: '.oxd-autocomplete-option > span',
   autoCompleteOption: '.oxd-autocomplete-option > span',
   selectWrapper: '.oxd-select-wrapper',
-  date: '.oxd-date-input',
   leaveBalance: 'orangehrm-leave-balance-text',
   ...OXD_INPUT_ELEMENTS,
 };
