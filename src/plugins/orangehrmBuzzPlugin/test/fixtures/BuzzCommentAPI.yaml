@@ -25,6 +25,7 @@ UserRole:
 User:
   - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1" }
   - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 5, "user_name": "AbelAshley","user_password": "Ashley12","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
 
 BuzzPost:
   - { "id": "1","employee_number": "1","text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.","post_time": "2022-10-27 00:51:35", "post_utc_time": "2022-10-27 00:51:35","updated_at": "2022-10-27 00:51:35" }

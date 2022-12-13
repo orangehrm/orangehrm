@@ -593,3 +593,93 @@ GetAll:
     data: []
     meta:
       total: 0
+
+Delete:
+  'Delete Comment By Share Id and Comment Id - Admin User':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      shareId: 2
+      commentId: 1
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      commentId: 1,
+      shareId: 2
+    }
+    meta: []
+
+  'Delete Comment By Share Id and Comment Id - ESS User - Own Comment':
+    userId: 3
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      shareId: 2
+      commentId: 6
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: {
+      commentId: 6,
+      shareId: 2
+    }
+    meta: []
+
+  'Delete Comment By Share Id and Comment Id - ESS User - Other Comment':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      shareId: 2
+      commentId: 6
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Delete Comment By Share Id and Comment Id - Not added Comment':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      shareId: 2
+      commentId: 10
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Delete Comment By Share Id and Comment Id - Not added Share':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      shareId: 20
+      commentId: 10
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
