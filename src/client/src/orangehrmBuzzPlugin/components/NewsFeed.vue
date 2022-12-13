@@ -29,11 +29,7 @@
       :employee="employee"
       @refresh="resetFeed"
     ></create-post>
-    <post-filters
-      :mobile="mobile"
-      :filter="filters.sortField"
-      @updatePriority="onUpdatePriority"
-    ></post-filters>
+    <slot></slot>
 
     <oxd-grid :cols="1" class="orangehrm-buzz-newsfeed-posts">
       <oxd-grid-item v-for="(post, index) in posts" :key="post">
@@ -121,15 +117,14 @@
 
 <script>
 import useToast from '@/core/util/composable/useToast';
-import {onBeforeMount, reactive, ref, toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import {onBeforeMount, reactive, ref, toRefs, watch} from 'vue';
 import PostBody from '@/orangehrmBuzzPlugin/components/PostBody.vue';
 import PostStats from '@/orangehrmBuzzPlugin/components/PostStats.vue';
 import CreatePost from '@/orangehrmBuzzPlugin/components/CreatePost.vue';
 import useInfiniteScroll from '@/core/util/composable/useInfiniteScroll';
 import PostActions from '@/orangehrmBuzzPlugin/components/PostActions.vue';
-import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 import useBuzzAPIs from '@/orangehrmBuzzPlugin/util/composable/useBuzzAPIs';
 import EditPostModal from '@/orangehrmBuzzPlugin/components/EditPostModal.vue';
 import PhotoCarousel from '@/orangehrmBuzzPlugin/components/PhotoCarousel.vue';
@@ -137,11 +132,6 @@ import PostContainer from '@/orangehrmBuzzPlugin/components/PostContainer.vue';
 import SharePostModal from '@/orangehrmBuzzPlugin/components/SharePostModal.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import PostCommentContainer from '@/orangehrmBuzzPlugin/components/PostCommentContainer.vue';
-
-const defaultFilters = {
-  sortOrder: 'DESC',
-  sortField: 'share.createdAtUtc',
-};
 
 export default {
   name: 'NewsFeed',
@@ -151,7 +141,6 @@ export default {
     'post-stats': PostStats,
     'create-post': CreatePost,
     'post-actions': PostActions,
-    'post-filters': PostFilters,
     'oxd-loading-spinner': Spinner,
     'photo-carousel': PhotoCarousel,
     'post-container': PostContainer,
@@ -166,13 +155,17 @@ export default {
       type: Object,
       required: true,
     },
+    sortField: {
+      type: String,
+      required: true,
+    },
     mobile: {
       type: Boolean,
       default: false,
     },
   },
 
-  setup() {
+  setup(props) {
     const POST_LIMIT = 10;
     const deleteDialog = ref();
     const {deleteSuccess} = useToast();
@@ -185,9 +178,6 @@ export default {
       total: 0,
       offset: 0,
       posts: [],
-      filters: {
-        ...defaultFilters,
-      },
       isLoading: false,
       showEditModal: false,
       editModalState: null,
@@ -199,12 +189,7 @@ export default {
 
     const fetchData = () => {
       state.isLoading = true;
-      fetchPosts(
-        POST_LIMIT,
-        state.offset,
-        state.filters.sortOrder,
-        state.filters.sortField,
-      )
+      fetchPosts(POST_LIMIT, state.offset, 'DESC', props.sortField)
         .then(response => {
           const {data, meta} = response.data;
           state.total = meta.total || 0;
@@ -220,15 +205,6 @@ export default {
       state.offset += POST_LIMIT;
       fetchData();
     });
-
-    const onUpdatePriority = $event => {
-      if ($event) {
-        state.posts = [];
-        state.offset = 0;
-        state.filters.sortField = $event;
-        fetchData();
-      }
-    };
 
     const onLike = index => {
       state.posts[index].liked = !state.posts[index].liked;
@@ -265,7 +241,6 @@ export default {
     const resetFeed = () => {
       state.posts = [];
       state.offset = 0;
-      state.filters = {...defaultFilters};
       fetchData();
     };
 
@@ -321,6 +296,15 @@ export default {
 
     onBeforeMount(() => fetchData());
 
+    watch(
+      () => props.sortField,
+      () => {
+        state.posts = [];
+        state.offset = 0;
+        fetchData();
+      },
+    );
+
     return {
       onLike,
       onEdit,
@@ -333,7 +317,6 @@ export default {
       onSelectPhoto,
       onCreateComment,
       onDeleteComment,
-      onUpdatePriority,
       onCloseEditModal,
       onCloseShareModal,
       onClosePhotoCarousel,

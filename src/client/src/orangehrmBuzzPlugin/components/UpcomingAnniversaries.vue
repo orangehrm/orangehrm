@@ -60,7 +60,7 @@
       <div v-if="isEmpty" class="orangehrm-buzz-anniversary-nocontent">
         <img :src="noContentPic" alt="No Content" />
         <oxd-text tag="p">
-          {{ $t('buzz.no_work_anniversaries_for_the_next_30_days') }}
+          {{ $t('general.no_records_found') }}
         </oxd-text>
       </div>
     </div>

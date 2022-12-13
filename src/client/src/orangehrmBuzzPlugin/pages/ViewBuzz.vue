@@ -19,25 +19,52 @@
  -->
 
 <template>
-  <oxd-tab-container
-    v-if="isMobile"
-    ref="swipeContainer"
-    v-model="tabSelector"
-    :keep-alive="true"
-  >
-    <oxd-tab-panel key="buzz_newsfeed" :name="$t('buzz.buzz_newsfeed')">
-      <news-feed :mobile="true" :employee="employee"></news-feed>
-    </oxd-tab-panel>
-    <oxd-tab-panel
-      key="buzz_anniversary"
-      :name="$t('buzz.upcoming_anniversaries')"
-    >
-      <upcoming-anniversaries></upcoming-anniversaries>
-    </oxd-tab-panel>
-  </oxd-tab-container>
-  <oxd-grid v-else :cols="2" class="orangehrm-buzz-layout">
+  <!-- Mobile -->
+  <template v-if="isMobile">
+    <oxd-tab-container ref="swipeRef" v-model="tabSelector" :keep-alive="true">
+      <oxd-tab-panel key="buzz_newsfeed" :name="$t('buzz.buzz_newsfeed')">
+        <news-feed :mobile="true" :employee="employee" :sort-field="sortField">
+          <post-filters
+            :mobile="true"
+            :filter="sortField"
+            @updatePriority="onUpdatePriority"
+          ></post-filters>
+        </news-feed>
+      </oxd-tab-panel>
+      <oxd-tab-panel
+        key="buzz_anniversary"
+        :name="$t('buzz.upcoming_anniversaries')"
+      >
+        <upcoming-anniversaries></upcoming-anniversaries>
+      </oxd-tab-panel>
+    </oxd-tab-container>
+  </template>
+
+  <!-- Medium Res -->
+  <oxd-grid v-else-if="width < 1920" :cols="2" class="orangehrm-buzz-layout">
     <oxd-grid-item>
-      <news-feed :employee="employee"></news-feed>
+      <news-feed :employee="employee" :sort-field="sortField">
+        <post-filters
+          :filter="sortField"
+          @updatePriority="onUpdatePriority"
+        ></post-filters>
+      </news-feed>
+    </oxd-grid-item>
+    <oxd-grid-item>
+      <upcoming-anniversaries></upcoming-anniversaries>
+    </oxd-grid-item>
+  </oxd-grid>
+
+  <!-- High Res -->
+  <oxd-grid v-else :cols="3" class="orangehrm-buzz-layout">
+    <oxd-grid-item>
+      <post-filters
+        :filter="sortField"
+        @updatePriority="onUpdatePriority"
+      ></post-filters>
+    </oxd-grid-item>
+    <oxd-grid-item>
+      <news-feed :employee="employee" :sort-field="sortField"></news-feed>
     </oxd-grid-item>
     <oxd-grid-item>
       <upcoming-anniversaries></upcoming-anniversaries>
@@ -56,12 +83,14 @@ import useSwipe from '@/core/util/composable/useSwipe';
 import TabPanel from '@ohrm/oxd/core/components/Tab/TabPanel';
 import NewsFeed from '@/orangehrmBuzzPlugin/components/NewsFeed.vue';
 import TabContainer from '@ohrm/oxd/core/components/Tab/TabContainer';
+import PostFilters from '@/orangehrmBuzzPlugin/components/PostFilters.vue';
 import UpcomingAnniversaries from '@/orangehrmBuzzPlugin/components/UpcomingAnniversaries.vue';
 
 export default {
   components: {
     'news-feed': NewsFeed,
     'oxd-tab-panel': TabPanel,
+    'post-filters': PostFilters,
     'oxd-tab-container': TabContainer,
     'upcoming-anniversaries': UpcomingAnniversaries,
   },
@@ -77,6 +106,7 @@ export default {
     const {$t} = usei18n();
     const tabSelector = ref(null);
     const responsiveState = useResponsive();
+    const sortField = ref('share.createdAtUtc');
 
     const isMobile = computed(() => {
       return !(
@@ -84,6 +114,8 @@ export default {
         responsiveState.screenType === DEVICE_XL
       );
     });
+
+    const width = computed(() => responsiveState.windowWidth);
 
     const {swipeContainer} = useSwipe($event => {
       const direction = $event.offsetDirection;
@@ -98,18 +130,20 @@ export default {
       }
     });
 
+    const onUpdatePriority = $event => {
+      if ($event) sortField.value = $event;
+    };
+
     return {
+      width,
       isMobile,
+      sortField,
       tabSelector,
-      swipeContainer,
+      onUpdatePriority,
+      swipeRef: swipeContainer,
     };
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-buzz-layout {
-  justify-content: center;
-  grid-template-columns: minmax(240px, 750px) minmax(0, 375px);
-}
-</style>
+<style src="./view-buzz.scss" lang="scss" scoped></style>
