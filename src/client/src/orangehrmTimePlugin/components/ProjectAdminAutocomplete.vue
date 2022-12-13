@@ -52,7 +52,7 @@ export default {
       type: Boolean,
       required: true,
     },
-    includeEmployee: {
+    includeEmployees: {
       type: String,
       default: 'currentAndPast',
     },

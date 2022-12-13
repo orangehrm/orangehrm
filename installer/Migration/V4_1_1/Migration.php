@@ -31,8 +31,10 @@ class Migration extends AbstractMigration
     public function up(): void
     {
         $this->getSchemaHelper()->disableConstraints();
-        $this->getSchemaHelper()->dropForeignKeys('hs_hr_emp_member_detail', ['hs_hr_emp_member_detail_ibfk_1']);
-        $this->getSchemaHelper()->dropForeignKeys('hs_hr_emp_member_detail', ['hs_hr_emp_member_detail_ibfk_2']);
+        $this->getSchemaHelper()->dropForeignKeys(
+            'hs_hr_emp_member_detail',
+            $this->getSchemaManager()->listTableForeignKeys('hs_hr_emp_member_detail')
+        );
 
         $this->getSchemaHelper()->dropPrimaryKey('hs_hr_emp_member_detail');
 

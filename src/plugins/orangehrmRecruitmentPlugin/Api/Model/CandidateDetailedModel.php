@@ -43,12 +43,11 @@ class CandidateDetailedModel implements Normalizable
      */
     public function toArray(): array
     {
-        $addedPerson = $this->candidate->getAddedPerson();
         $candidateVacancies = $this->candidate->getCandidateVacancy();
         $candidateVacancy = !empty($candidateVacancies) ? $candidateVacancies[0] : null;
-        $candidateAttachment = $this->getRecruitmentAttachmentService()
+        $hasCandidateAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getCandidateAttachmentByCandidateId($this->candidate->getId());
+            ->hasCandidateAttachmentByCandidateId($this->candidate->getId());
         /**
          * @var Vacancy
          */
@@ -65,17 +64,11 @@ class CandidateDetailedModel implements Normalizable
             'keywords' => $this->candidate->getKeywords(),
             'modeOfApplication' => $this->candidate->getModeOfApplication(),
             'dateOfApplication' => $this->candidate->getDecorator()->getDateOfApplication(),
-            'addedPerson' => [
-                'id' => $addedPerson->getEmpNumber(),
-                'firstName' => $addedPerson->getFirstName(),
-                'middleName' => $addedPerson->getMiddleName(),
-                'lastName' => $addedPerson->getLastName(),
-                'terminationId' => $addedPerson->getEmployeeTerminationRecord()
-            ],
             'vacancy' => is_null($vacancy) ? null :
                 [
                     'id' => $vacancy->getId(),
                     'name' => $vacancy->getName(),
+                    'status' => $vacancy->getStatus(),
                     'jobTitle' => [
                         'id' => $vacancy->getJobTitle()->getId(),
                         'title' => $vacancy->getJobTitle()->getJobTitleName(),
@@ -86,12 +79,16 @@ class CandidateDetailedModel implements Normalizable
                         'firstName' => $vacancy->getHiringManager()->getFirstName(),
                         'middleName' => $vacancy->getHiringManager()->getMiddleName(),
                         'lastName' => $vacancy->getHiringManager()->getLastName(),
-                        'terminationId' => $vacancy->getHiringManager()->getEmployeeTerminationRecord(),
+                        'terminationId' => is_null($vacancy->getHiringManager()->getEmployeeTerminationRecord()) ?
+                            null :
+                            $vacancy->getHiringManager()->getEmployeeTerminationRecord()->getId()
+                        ,
                     ]
                 ],
             'status' => is_null($candidateVacancy) ? null :
                 $candidateVacancy->getDecorator()->getCandidateVacancyStatus(),
-            'hasAttachment' => !is_null($candidateAttachment)
+            'hasAttachment' => $hasCandidateAttachment,
+            'consentToKeepData' => $this->candidate->isConsentToKeepData()
         ];
     }
 }

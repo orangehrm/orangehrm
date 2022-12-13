@@ -23,6 +23,15 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\CurrencyType;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-CurrencyTypeModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="string"),
+ *     @OA\Property(property="code", type="integer"),
+ *     @OA\Property(property="name", type="string")
+ * )
+ */
 class CurrencyTypeModel implements Normalizable
 {
     use ModelTrait;

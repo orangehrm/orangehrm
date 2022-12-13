@@ -37,6 +37,11 @@ import {
   greaterThanOrEqual,
   lessThanOrEqual,
   File,
+  validLangString,
+  validSelection,
+  validHostnameFormat,
+  validPortRange,
+  validVideoURL,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -65,6 +70,10 @@ jest.mock('@/core/plugins/i18n/translate', () => {
         'Number should be less than or equal to 100',
       'general.greater_than_or_equal_to_n':
         'Number should be greater than or equal to 0',
+      'general.enter_valid_port_between_a_to_b':
+        'Enter a valid port number between 0 to 65535',
+      'general.invalid_video_url_message':
+        'This URL is not a valid URL of a video or it is not supported by the system',
     };
     return mockStrings[langString];
   };
@@ -750,19 +759,25 @@ describe('core/util/validation/rules::imageShouldHaveDimensions', () => {
 
   test('imageShouldHaveDimensions:: Invalid file dimensions', async () => {
     mockDomImage(100, 75);
-    const result = await imageShouldHaveDimensions(50, 50)(createMockFile());
+    const result = await imageShouldHaveDimensions(50 / 50)(createMockFile());
     expect(result).toStrictEqual('Incorrect Dimensions');
   });
 
   test('imageShouldHaveDimensions:: Valid file dimensions', async () => {
     mockDomImage(50, 50);
-    const result = await imageShouldHaveDimensions(50, 50)(createMockFile());
+    const result = await imageShouldHaveDimensions(50 / 50)(createMockFile());
     expect(result).toStrictEqual(true);
   });
 
   test('imageShouldHaveDimensions:: should allow null files', async () => {
-    mockDomImage(0, 0);
-    const result = await imageShouldHaveDimensions(50, 50)(null);
+    const result = await imageShouldHaveDimensions(50 / 50)(null);
+    expect(result).toStrictEqual(true);
+  });
+
+  test('imageShouldHaveDimensions:: ignore SVG size validation', async () => {
+    const result = await imageShouldHaveDimensions(50 / 50)(
+      createMockFile('image/svg+xml', '', 'mock.svg'),
+    );
     expect(result).toStrictEqual(true);
   });
 });
@@ -838,5 +853,202 @@ describe('core/util/validation/rules::greaterThanOrEqual', () => {
   test('greaterThanOrEqual:: with decimal number higher than min', () => {
     const result = greaterThanOrEqual(0)('0.1');
     expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::validLangString', () => {
+  test('validLangString:: without close brace', () => {
+    const result = validLangString('{abcd');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validLangString:: with close brace', () => {
+    const result = validLangString('{abcd}');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validLangString:: multiple strings with close brace', () => {
+    const result = validLangString('{abcd} {pqrs}');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validLangString:: without close brace - multiple string', () => {
+    const result = validLangString('{abcd} {pqrs');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validLangString:: without braces', () => {
+    const result = validLangString('abcd pqrs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validLangString:: multiple strings with close brace', () => {
+    const result = validLangString('abcd {pqrs}');
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::validSelection', () => {
+  test('validSelection:: with property selected', () => {
+    const result = validSelection({id: 1, label: 'System User'});
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validSelection:: with string value', () => {
+    const result = validSelection('system user');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validSelection:: with null value', () => {
+    const result = validSelection(null);
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validSelection:: with empty array value', () => {
+    const result = validSelection([]);
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::validHostnameFormat', () => {
+  test('validHostnameFormat:: without top level domain', () => {
+    const result = validHostnameFormat('localhost');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: with top level domain', () => {
+    const result = validHostnameFormat('orangehrm.com');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: with sub domain', () => {
+    const result = validHostnameFormat('osohrm.orangehrm.com');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: valid local ip', () => {
+    const result = validHostnameFormat('127.0.0.1');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: valid ipv4 ip', () => {
+    const result = validHostnameFormat('8.8.8.8');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: hostname with invalid characters', () => {
+    const result = validHostnameFormat('orangehrm_company.com');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: hostname with space characters', () => {
+    const result = validHostnameFormat('orangehrm com');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: hostname with protocol', () => {
+    const result = validHostnameFormat('http://orangehrm.com');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: hostname with invalid ip', () => {
+    const result = validHostnameFormat('555.555.555.555');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: hostname with incomplete ip', () => {
+    const result = validHostnameFormat('1.1.1');
+    expect(result).toStrictEqual('Invalid');
+  });
+
+  test('validHostnameFormat:: with null value', () => {
+    const result = validSelection(null);
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: hostname with unicode characters', () => {
+    const result = validHostnameFormat('localhost.世界');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validHostnameFormat:: hostname with punycode', () => {
+    const result = validHostnameFormat('xn--ggle-0nda.com');
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::validPortRange', () => {
+  const _validPortRange = validPortRange(5, 0, 65535);
+
+  test('validPortRange:: with port value in range', () => {
+    const result = _validPortRange('389');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPortRange:: with port value out of range', () => {
+    const result = _validPortRange('150000');
+    expect(result).toStrictEqual(
+      'Enter a valid port number between 0 to 65535',
+    );
+  });
+
+  test('validPortRange:: with invalid port value', () => {
+    const result = _validPortRange('port9');
+    expect(result).toStrictEqual(
+      'Enter a valid port number between 0 to 65535',
+    );
+  });
+
+  test('validPortRange:: with negative value', () => {
+    const result = _validPortRange('-333');
+    expect(result).toStrictEqual(
+      'Enter a valid port number between 0 to 65535',
+    );
+  });
+});
+
+describe('core/util/validation/rules::validVideoURL', () => {
+  test('validVideoURL:valid full youtube URL', () => {
+    const result = validVideoURL('https://www.youtube.com/watch?v=4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid shortened youtube URL', () => {
+    const result = validVideoURL('https://youtu.be/4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid mobile youtube URL', () => {
+    const result = validVideoURL('https://m.youtube.com/watch?v=4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid embed youtube URL', () => {
+    const result = validVideoURL('https://www.youtube.com/embed/4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid youtube short URL', () => {
+    const result = validVideoURL('https://www.youtube.com/shorts/dCsmH5BfpdQ');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:valid youtube URL without protocol', () => {
+    const result = validVideoURL('www.youtube.com/watch?v=4dDP_1lGbYs');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validVideoURL:not a url', () => {
+    const result = validVideoURL('abcd');
+    expect(result).toBe(
+      'This URL is not a valid URL of a video or it is not supported by the system',
+    );
+  });
+
+  test('validVideoURL:invalid url', () => {
+    const result = validVideoURL('https://www.youtube.com');
+    expect(result).toBe(
+      'This URL is not a valid URL of a video or it is not supported by the system',
+    );
   });
 });

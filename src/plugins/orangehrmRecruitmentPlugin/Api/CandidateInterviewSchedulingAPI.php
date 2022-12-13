@@ -27,6 +27,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -65,7 +66,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_INTERVIEW_NAME_MAX_LENGTH = 100;
     public const PARAMETER_RULE_INTERVIEWERS_MIN_COUNT = 1;
     public const PARAMETER_RULE_INTERVIEWERS_MAX_COUNT = 5;
-    public const PARAMETER_RULE_NOTE_MAX_LENGTH = 100;
+    public const PARAMETER_RULE_NOTE_MAX_LENGTH = 2000;
 
     public const MAXIMUM_ALLOWED_INTERVIEWS_COUNT = 2;
 
@@ -111,19 +112,16 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             ) {
                 throw $this->getForbiddenException();
             }
-
             $numberOfInterviewsScheduled = $this->getCandidateService()
                 ->getCandidateDao()
-                ->getInterviewCountByCandidateId($candidateId);
-
+                ->getInterviewCountByCandidateIdAndVacancyId($candidateId, $candidateVacancy->getVacancy()->getId());
             if ($numberOfInterviewsScheduled >= self::MAXIMUM_ALLOWED_INTERVIEWS_COUNT) {
-                throw $this->getBadRequestException('You Can not Schedule More Than Two Interviews Per Candidate');
+                throw $this->getBadRequestException('You Can not Schedule More Than Two Interviews Per Candidate For The Same Vacancy');
             }
 
             $interview = new Interview();
             $this->setInterview($interview, $candidateVacancy);
             $interview = $this->getCandidateService()->getCandidateDao()->saveCandidateInterview($interview);
-
             $candidateVacancy->setStatus(
                 CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW]
             );
@@ -131,10 +129,16 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
 
             $candidateHistory = new CandidateHistory();
             $this->setCandidateHistory($candidateHistory, $candidateVacancy, $interview);
-            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
+            $candidateHistory = $this->getCandidateService()
+                ->getCandidateDao()
+                ->saveCandidateHistory($candidateHistory);
 
             $this->commitTransaction();
-            return new EndpointResourceResult(CandidateInterviewModel::class, $interview);
+            return new EndpointResourceResult(
+                CandidateInterviewModel::class,
+                $interview,
+                new ParameterBag(['historyId' => $candidateHistory->getId()])
+            );
         } catch (RecordNotFoundException|ForbiddenException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
@@ -170,7 +174,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             )
         );
         $interview->setInterviewDate(
-            $this->getRequestParams()->getDateTime(
+            $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_INTERVIEW_DATE
             )
@@ -244,7 +248,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_INTERVIEW_TIME,
-                    new Rule(Rules::TIME)
+                    new Rule(Rules::TIME, ['H:i'])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -252,7 +256,8 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_NOTE,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NOTE_MAX_LENGTH])
-                )
+                ),
+                true
             ),
             new ParamRule(
                 self::PARAMETER_INTERVIEWERS,
@@ -308,7 +313,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
+                new Rule(Rules::POSITIVE)
             )
         );
     }
@@ -354,7 +359,7 @@ class CandidateInterviewSchedulingAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
+                new Rule(Rules::POSITIVE),
             ),
             ...$this->getCommonBodyValidationRules()
         );

@@ -69,6 +69,7 @@
 <script>
 import {
   required,
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@/core/util/validation/rules';
@@ -158,14 +159,14 @@ export default {
     });
     const checkedItems = ref([]);
     const {$t} = usei18n();
-    const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
 
     const rules = {
-      fromDate: [required],
+      fromDate: [required, validDateFormat(userDateFormat)],
       toDate: [
         required,
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
           $t('general.to_date_should_be_after_from_date'),
@@ -173,6 +174,7 @@ export default {
         ),
       ],
       statuses: [required],
+      employee: [validSelection],
     };
 
     const serializedFilters = computed(() => {
@@ -511,12 +513,6 @@ export default {
         action: actionType,
       };
 
-      const action =
-        actionType === 'APPROVE'
-          ? 'Approved'
-          : actionType === 'REJECT'
-          ? 'Rejected'
-          : 'Cancelled';
       const ids = this.checkedItems.map(index => {
         return this.items.data[index].id;
       });
@@ -534,7 +530,7 @@ export default {
             this.$toast.success({
               title: this.$t('general.success'),
               message: this.$t('leave.leave_requests_action', {
-                action: action,
+                action: actionType,
                 count: data.length,
               }),
             });

@@ -19,39 +19,39 @@
 import ViewJobVacancy from './pages/ViewJobVacancy.vue';
 import AddJobVacancy from './pages/AddJobVacancy.vue';
 import EditJobVacancy from './pages/EditJobVacancy.vue';
-import ApplicationInitiatedAction from './pages/ApplicationInitiatedAction.vue';
-import HiredAction from './pages/HiredAction.vue';
-import InterviewFailedAction from './pages/InterviewFailedAction.vue';
+import HireAction from './pages/HireAction.vue';
+import InterviewFailedAction from './pages/InterviewFailAction.vue';
 import InterviewPassedAction from './pages/InterviewPassedAction.vue';
 import InterviewScheduleAction from './pages/InterviewScheduleAction.vue';
-import JobOfferedAction from './pages/JobOfferedAction.vue';
-import OfferDeclinedAction from './pages/OfferDeclinedAction.vue';
+import OfferJobAction from './pages/OfferJobAction.vue';
+import OfferDeclinedAction from './pages/DeclineOfferAction.vue';
 import RejectAction from './pages/RejectAction.vue';
 import ShortlistAction from './pages/ShortlistAction.vue';
-import ShortlistCandidateScreen from './pages/ShortlistCandidateScreen.vue';
-import ShortlistHistoryScreen from './pages/ShortlistHistoryScreen.vue';
-import ScheduleInterview from './pages/ScheduleInterview.vue';
-import ScheduleInterviewHistory from './pages/ScheduleInterviewHistory.vue';
-import ViewCandidate from './pages/ViewCandidate.vue';
 import SaveCandidate from './pages/SaveCandidate.vue';
+import ViewCandidatesList from './pages/ViewCandidatesList.vue';
+import ViewCandidateProfile from './pages/ViewCandidateProfile.vue';
+import ViewActionHistory from './pages/ViewActionHistory.vue';
+import VacancyList from './pages/VacancyList.vue';
+import ApplyJobVacancy from './pages/ApplyJobVacancy.vue';
+import ViewInterviewAttachments from './pages/ViewInterviewAttachments.vue';
 
 export default {
   'view-job-vacancy': ViewJobVacancy,
   'add-job-vacancy': AddJobVacancy,
   'edit-job-vacancy': EditJobVacancy,
-  'application-initiated-action': ApplicationInitiatedAction,
-  'hired-action': HiredAction,
-  'interview-failed-action': InterviewFailedAction,
-  'interview-passed-action': InterviewPassedAction,
-  'interview-schedule-action': InterviewScheduleAction,
-  'job-offered-action': JobOfferedAction,
-  'reject-action': RejectAction,
-  'shortlist-action': ShortlistAction,
-  'offer-declined-action': OfferDeclinedAction,
-  'schedule-interview': ScheduleInterview,
-  'schedule-interview-history': ScheduleInterviewHistory,
-  'shortlist-candidate': ShortlistCandidateScreen,
-  'shortlist-history': ShortlistHistoryScreen,
-  'view-candidate': ViewCandidate,
   'save-candidate': SaveCandidate,
+  'view-candidates-list': ViewCandidatesList,
+  'view-candidate-profile': ViewCandidateProfile,
+  'shortlist-action': ShortlistAction,
+  'reject-action': RejectAction,
+  'interview-schedule-action': InterviewScheduleAction,
+  'interview-passed-action': InterviewPassedAction,
+  'interview-failed-action': InterviewFailedAction,
+  'offer-job-action': OfferJobAction,
+  'offer-decline-action': OfferDeclinedAction,
+  'hire-action': HireAction,
+  'view-action-history': ViewActionHistory,
+  'vacancy-list': VacancyList,
+  'apply-job-vacancy': ApplyJobVacancy,
+  'view-interview-attachments': ViewInterviewAttachments,
 };

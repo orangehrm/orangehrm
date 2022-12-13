@@ -26,6 +26,7 @@ class ReviewKpiSearchFilterParams extends FilterParams
     public const ALLOWED_SORT_FIELDS = ['kpi.title'];
 
     protected ?int $reviewId = null;
+    protected string $reviewerGroupName;
 
     /**
      * @param int $reviewId
@@ -49,5 +50,21 @@ class ReviewKpiSearchFilterParams extends FilterParams
     public function setReviewId(int $reviewId): void
     {
         $this->reviewId = $reviewId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReviewerGroupName(): string
+    {
+        return $this->reviewerGroupName;
+    }
+
+    /**
+     * @param string $reviewerGroupName
+     */
+    public function setReviewerGroupName(string $reviewerGroupName): void
+    {
+        $this->reviewerGroupName = $reviewerGroupName;
     }
 }

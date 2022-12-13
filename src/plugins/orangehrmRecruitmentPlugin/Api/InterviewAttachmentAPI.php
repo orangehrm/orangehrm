@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -35,6 +36,7 @@ use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
 use OrangeHRM\Recruitment\Api\Model\InterviewAttachmentModel;
 use OrangeHRM\Recruitment\Dto\InterviewAttachmentSearchFilterParams;
+use OrangeHRM\Recruitment\Dto\RecruitmentAttachment;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
@@ -96,7 +98,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
                 new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
-            )
+            ),
+            ...$this->getSortingAndPaginationParamsRules(InterviewAttachmentSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -115,7 +118,10 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->saveInterviewAttachment($interviewAttachment);
-        return new EndpointResourceResult(InterviewAttachmentModel::class, $interviewAttachment);
+        return new EndpointResourceResult(
+            InterviewAttachmentModel::class,
+            $this->getRecruitmentAttachment($interviewAttachment)
+        );
     }
 
     /**
@@ -200,7 +206,18 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $interviewId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_INTERVIEW_ID
+        );
+        $toBeDeletedAttachmentIds = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_IDS
+        );
+        $this->getRecruitmentAttachmentService()
+            ->getRecruitmentAttachmentDao()
+            ->deleteInterviewAttachments($interviewId, $toBeDeletedAttachmentIds);
+        return new EndpointResourceResult(ArrayModel::class, $toBeDeletedAttachmentIds);
     }
 
     /**
@@ -208,7 +225,16 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_INTERVIEW_ID,
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class])
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            ),
+        );
     }
 
     /**
@@ -226,8 +252,8 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $interviewAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getInterviewAttachmentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
-        $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, InterviewAttachment::class);
+            ->getPartialInterviewAttachmentByAttachmentIdAndInterviewId($attachmentId, $interviewId);
+        $this->throwRecordNotFoundExceptionIfNotExist($interviewAttachment, RecruitmentAttachment::class);
 
         return new EndpointResourceResult(InterviewAttachmentModel::class, $interviewAttachment);
     }
@@ -278,7 +304,10 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->saveInterviewAttachment($interviewAttachment);
-        return new EndpointResourceResult(InterviewAttachmentModel::class, $interviewAttachment);
+        return new EndpointResourceResult(
+            InterviewAttachmentModel::class,
+            $this->getRecruitmentAttachment($interviewAttachment)
+        );
     }
 
     /**
@@ -317,6 +346,22 @@ class InterviewAttachmentAPI extends Endpoint implements CrudEndpoint
                     )
                 )
             )
+        );
+    }
+
+    /**
+     * @param InterviewAttachment $interviewAttachment
+     * @return RecruitmentAttachment
+     */
+    private function getRecruitmentAttachment(InterviewAttachment $interviewAttachment): RecruitmentAttachment
+    {
+        return new RecruitmentAttachment(
+            $interviewAttachment->getId(),
+            $interviewAttachment->getFileName(),
+            $interviewAttachment->getFileType(),
+            $interviewAttachment->getFileSize(),
+            $interviewAttachment->getInterview()->getId(),
+            $interviewAttachment->getComment()
         );
     }
 }

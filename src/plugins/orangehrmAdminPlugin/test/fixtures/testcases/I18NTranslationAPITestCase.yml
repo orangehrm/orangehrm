@@ -1,0 +1,156 @@
+GetAll:
+  'Get all language strings without parameters':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 1
+    data:
+      - langStringId: 1
+        source: 'Add Job Title'
+        note: null
+        target: '添加位置'
+      - langStringId: 4
+        source: 'Add Location'
+        note: null
+        target: null
+      - langStringId: 3
+        source: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: null
+      - langStringId: 2
+        source: 'Use SMTP Authentication'
+        note: null
+        target: '使用 SMTP 验证'
+    meta:
+      total: 4
+  'Get all language strings filter by source text':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 1
+    query:
+      sourceText: 'sc'
+    data:
+      - langStringId: 3
+        source: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: null
+    meta:
+      total: 1
+  'Get all language strings filter by translated text':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 1
+    query:
+      translatedText: '添加位置'
+    data:
+      - langStringId: 1
+        source: 'Add Job Title'
+        note: null
+        target: '添加位置'
+    meta:
+      total: 1
+  'Get all language strings filter by module':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 1
+    query:
+      groupId: 2
+    data:
+      - langStringId: 4
+        source: 'Add Location'
+        note: null
+        target: null
+      - langStringId: 3
+        source: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: null
+    meta:
+      total: 2
+  'Get all language strings filter by translated':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 3
+    query:
+      onlyTranslated: true
+    data:
+      - langStringId: 4
+        source: 'Add Location'
+        note: null
+        target: 'Voeg locatie toe'
+    meta:
+      total: 1
+  'Get all language strings filter by not translated':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 3
+    query:
+      onlyTranslated: false
+    data:
+      - langStringId: 1
+        source: 'Add Job Title'
+        note: null
+        target: null
+      - langStringId: 3
+        source: 'Edit Subscriber'
+        note: 'Note For Edit Subscriber'
+        target: null
+      - langStringId: 2
+        source: 'Use SMTP Authentication'
+        note: null
+        target: null
+    meta:
+      total: 3
+  'Get all language strings filter by module and translated':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 3
+    query:
+      groupId: 2
+      onlyTranslated: true
+    data:
+      - langStringId: 4
+        source: 'Add Location'
+        note: null
+        target: 'Voeg locatie toe'
+    meta:
+      total: 1
+  'Get all language strings filter by module and not translated':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      languageId: 2
+    query:
+      groupId: 1
+      onlyTranslated: false
+    data:
+      - langStringId: 1
+        source: 'Add Job Title'
+        note: null
+        target: null
+      - langStringId: 2
+        source: 'Use SMTP Authentication'
+        note: null
+        target: null
+    meta:
+      total: 2
+  'Get all language strings for wrong language id':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    attributes:
+      id: -2
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }

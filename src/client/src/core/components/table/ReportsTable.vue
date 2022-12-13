@@ -194,7 +194,7 @@ export default {
       },
     );
 
-    props.prefetch && onBeforeMount(generateReport());
+    props.prefetch && onBeforeMount(() => generateReport());
 
     return {
       total,

@@ -1,0 +1,413 @@
+GetAll:
+  'Get recent posts - with limit':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 2
+    data: [
+      {
+        'id': 10,
+        'post': {
+          'id': 6
+        }
+        'employee': {
+          'empNumber': 5,
+          'lastName': 'Abel',
+          'firstName': 'Ashley',
+          'middleName': '',
+          'employeeId': '0005',
+          'terminationId': 1,
+        },
+        'text': 'Employee terminated after this post',
+        'stats': {
+          'numOfLikes': 0,
+          'numOfComments': 0,
+          'numOfShares': 0,
+        },
+        'type': 'photo',
+        'createdDate': '2022-10-28',
+        'createdTime': '02:40',
+        'originalPost': null,
+        'liked': false,
+        'photoIds': [ 6 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      },
+      {
+        'id': 7,
+        'post': {
+          'id': 4
+        }
+        'employee': {
+          'empNumber': 5,
+          'lastName': 'Abel',
+          'firstName': 'Ashley',
+          'middleName': '',
+          'employeeId': '0005',
+          'terminationId': 1,
+        },
+        'text': 'Video sharing',
+        'stats': {
+          'numOfLikes': 0,
+          'numOfComments': 0,
+          'numOfShares': null,
+        },
+        'type': 'video',
+        'createdDate': '2022-10-27',
+        'createdTime': '01:07',
+        'originalPost': {
+          'text': "https://youtu.be/qMCMgedYqac",
+          'employee': {
+            'empNumber': 6,
+            'lastName': 'Morgan',
+            'firstName': 'Jasmine',
+            'middleName': '',
+            'employeeId': '0006',
+            'terminationId': null,
+          },
+          'createdDate': '2022-10-27',
+          'createdTime': '00:58',
+        },
+        'liked': false,
+        'video': { 'link': https://www.youtube.com/embed/qMCMgedYqac },
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      }
+    ]
+    meta:
+      total: 8
+
+  'Get recent posts - with limit & offset':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 2
+      offset: 3
+    data: [
+      {
+        'id': 5,
+        'post': {
+          'id': 4
+        }
+        'employee': {
+          'empNumber': 6,
+          'lastName': 'Morgan',
+          'firstName': 'Jasmine',
+          'middleName': '',
+          'employeeId': '0006',
+          'terminationId': null,
+        },
+        'text': 'https://youtu.be/qMCMgedYqac',
+        'stats': {
+          'numOfLikes': 1,
+          'numOfComments': 1,
+          'numOfShares': 1,
+        },
+        'type': 'video',
+        'createdDate': '2022-10-27',
+        'createdTime': '00:58',
+        'originalPost': null,
+        'liked': false,
+        'video': { 'link': https://www.youtube.com/embed/qMCMgedYqac },
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      },
+      {
+        'id': 4,
+        'post': {
+          'id': 1
+        }
+        'employee': {
+          'empNumber': 6,
+          'lastName': 'Morgan',
+          'firstName': 'Jasmine',
+          'middleName': '',
+          'employeeId': '0006',
+          'terminationId': null,
+        },
+        'text': 'Write something........',
+        'stats': {
+          'numOfLikes': 0,
+          'numOfComments': 0,
+          'numOfShares': null,
+        },
+        'type': 'text',
+        'createdDate': '2022-10-27',
+        'createdTime': '00:54',
+        'originalPost': {
+          'text': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+          'employee': {
+            'empNumber': 1,
+            'lastName': 'Adalwin',
+            'firstName': 'Odis',
+            'middleName': '',
+            'employeeId': '0001',
+            'terminationId': null,
+          },
+          'createdDate': '2022-10-27',
+          'createdTime': '00:51',
+        },
+        'liked': false,
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      }
+    ]
+    meta:
+      total: 8
+
+  'Get recent posts - with offset':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 2
+      offset: 5
+    data: [
+      {
+        'id': 3,
+        'post': {
+          'id': 3
+        }
+        'employee': {
+          'empNumber': 6,
+          'lastName': 'Morgan',
+          'firstName': 'Jasmine',
+          'middleName': '',
+          'employeeId': '0006',
+          'terminationId': null,
+        },
+        'text': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        'stats': {
+          'numOfLikes': 2,
+          'numOfComments': 1,
+          'numOfShares': 0,
+        },
+        'type': 'photo',
+        'createdDate': '2022-10-27',
+        'createdTime': '00:53',
+        'originalPost': null,
+        'liked': false,
+        'photoIds': [ 1,2,3,4 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      },
+      {
+        'id': 2,
+        'post': {
+          'id': 2
+        }
+        'employee': {
+          'empNumber': 1,
+          'lastName': 'Adalwin',
+          'firstName': 'Odis',
+          'middleName': '',
+          'employeeId': '0001',
+          'terminationId': null,
+        },
+        'text': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. :-) :) :0",
+        'stats': {
+          'numOfLikes': 2,
+          'numOfComments': 2,
+          'numOfShares': 0,
+        },
+        'type': 'photo',
+        'createdDate': '2022-10-27',
+        'createdTime': '00:51',
+        'originalPost': null,
+        'liked': false,
+        'photoIds': [ 7 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      }
+    ]
+    meta:
+      total: 8
+
+  'Get most liked posts':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 2
+      sortField: share.numOfLikes
+      sortOrder: DESC
+    data: [
+      {
+        'id': 2,
+        'post': {
+          'id': 2
+        }
+        'employee': {
+          'empNumber': 1,
+          'lastName': 'Adalwin',
+          'firstName': 'Odis',
+          'middleName': '',
+          'employeeId': '0001',
+          'terminationId': null,
+        },
+        'text': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. :-) :) :0",
+        'stats': {
+          'numOfLikes': 2,
+          'numOfComments': 2,
+          'numOfShares': 0,
+        },
+        'type': 'photo',
+        'createdDate': '2022-10-27',
+        'createdTime': '00:51',
+        'originalPost': null,
+        'liked': false,
+        'photoIds': [ 7 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      },
+      {
+        'id': 3,
+        'post': {
+          'id': 3
+        }
+        'employee': {
+          'empNumber': 6,
+          'lastName': 'Morgan',
+          'firstName': 'Jasmine',
+          'middleName': '',
+          'employeeId': '0006',
+          'terminationId': null,
+        },
+        'text': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        'stats': {
+          'numOfLikes': 2,
+          'numOfComments': 1,
+          'numOfShares': 0,
+        },
+        'type': 'photo',
+        'createdDate': '2022-10-27',
+        'createdTime': '00:53',
+        'originalPost': null,
+        'liked': false,
+        'photoIds': [ 1,2,3,4 ],
+        'permission': {
+          'canUpdate': false,
+          'canDelete': true
+        }
+      }
+    ]
+    meta:
+      total: 8
+
+  'Get most cmmented posts':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 2
+      sortField: share.numOfComments
+      sortOrder: DESC
+    data: [
+      {
+        'id': 1,
+        'post': {
+          'id': 1
+        }
+        'employee': {
+          'empNumber': 1,
+          'lastName': 'Adalwin',
+          'firstName': 'Odis',
+          'middleName': '',
+          'employeeId': '0001',
+          'terminationId': null,
+        },
+        'text': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        'stats': {
+          'numOfLikes': 1,
+          'numOfComments': 3,
+          'numOfShares': 2,
+        },
+        'type': 'text',
+        'createdDate': '2022-10-27',
+        'createdTime': '00:51',
+        'originalPost': null,
+        'liked': false,
+        'permission': {
+          'canUpdate': true,
+          'canDelete': true
+        }
+      },
+      {
+        'id': 2,
+        'post': {
+          'id': 2
+        }
+        'employee': {
+          'empNumber': 1,
+          'lastName': 'Adalwin',
+          'firstName': 'Odis',
+          'middleName': '',
+          'employeeId': '0001',
+          'terminationId': null,
+        },
+        'text': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. :-) :) :0",
+        'stats': {
+          'numOfLikes': 2,
+          'numOfComments': 2,
+          'numOfShares': 0,
+        },
+        'type': 'photo',
+        'createdDate': '2022-10-27',
+        'createdTime': '00:51',
+        'originalPost': null,
+        'liked': true,
+        'photoIds': [ 7 ],
+        'permission': {
+          'canUpdate': true,
+          'canDelete': true
+        }
+      }
+    ]
+    meta:
+      total: 8

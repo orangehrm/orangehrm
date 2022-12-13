@@ -188,12 +188,12 @@ performance_tracker_list:
   controller: OrangeHRM\Performance\Controller\TrackerListController::handle
   methods: [ GET ]
 
-add_performance_tracker:
+performance_add_tracker:
   path: /performance/addPerformanceTracker
   controller: OrangeHRM\Performance\Controller\SavePerformanceTrackerController::handle
   methods: [ GET ]
 
-edit_performance_tracker:
+performance_edit_tracker:
   path: /performance/addPerformanceTracker/{id}
   controller: OrangeHRM\Performance\Controller\SavePerformanceTrackerController::handle
   methods: [ GET ]
@@ -204,7 +204,7 @@ performance_my_reviews:
   methods: [ GET ]
 
 performance_review_list:
-  path: /performance/searchEvaluatePerformancReview
+  path: /performance/searchEvaluatePerformanceReview
   controller: OrangeHRM\Performance\Controller\ReviewListController::handle
   methods: [ GET ]
 

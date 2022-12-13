@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -20,18 +19,16 @@
 
 namespace OrangeHRM\Recruitment\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 
-/**
- * VacancyDao for CRUD operation
- *
- */
 class VacancyDao extends BaseDao
 {
     /**
@@ -40,16 +37,27 @@ class VacancyDao extends BaseDao
      */
     public function getVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder): array
     {
-        $qb = $this->getVacanciesPaginator($vacancySearchFilterParamHolder);
+        $qb = $this->getVacancyListPaginator($vacancySearchFilterParamHolder);
         return $qb->getQuery()->execute();
     }
 
     /**
-     * @param VacancySearchFilterParams $vacancySearchFilterParamHolder
+     * @param VacancySearchFilterParams $vacancySearchFilterParams
      * @return Paginator
      */
-    protected function getVacanciesPaginator(VacancySearchFilterParams $vacancySearchFilterParamHolder): Paginator
+    private function getVacancyListPaginator(VacancySearchFilterParams $vacancySearchFilterParams): Paginator
     {
+        $q = $this->getVacanciesQueryBuilderWrapper($vacancySearchFilterParams)->getQueryBuilder();
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param VacancySearchFilterParams $vacancySearchFilterParamHolder
+     * @return QueryBuilderWrapper
+     */
+    protected function getVacanciesQueryBuilderWrapper(
+        VacancySearchFilterParams $vacancySearchFilterParamHolder
+    ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
         $q->leftJoin('vacancy.jobTitle', 'jobTitle');
         $q->leftJoin('vacancy.hiringManager', 'hiringManager');
@@ -70,11 +78,11 @@ class VacancyDao extends BaseDao
                     $vacancySearchFilterParamHolder->getEmpNumber()
                 );
         }
-        if (!is_null($vacancySearchFilterParamHolder->getVacancyId())) {
-            $q->andWhere('vacancy.id = :vacancyId')
+        if (!is_null($vacancySearchFilterParamHolder->getVacancyIds())) {
+            $q->andWhere($q->expr()->in('vacancy.id', ':vacancyIds'))
                 ->setParameter(
-                    'vacancyId',
-                    $vacancySearchFilterParamHolder->getVacancyId()
+                    'vacancyIds',
+                    $vacancySearchFilterParamHolder->getVacancyIds()
                 );
         }
         if (!is_null($vacancySearchFilterParamHolder->getStatus())) {
@@ -84,33 +92,35 @@ class VacancyDao extends BaseDao
                     $vacancySearchFilterParamHolder->getStatus()
                 );
         }
-
-        return $this->getPaginator($q);
+        if (!is_null($vacancySearchFilterParamHolder->getName())) {
+            $q->andWhere(
+                $q->expr()->like('vacancy.name', ':name')
+            )->setParameter('name', '%' . $vacancySearchFilterParamHolder->getName() . '%');
+        }
+        if (!is_null($vacancySearchFilterParamHolder->isPublished())) {
+            $q->andWhere('vacancy.isPublished = :isPublished')
+                ->setParameter('isPublished', $vacancySearchFilterParamHolder->isPublished());
+        }
+        return $this->getQueryBuilderWrapper($q);
     }
 
 
     /**
-     * Retrieve vacancy list
      * @returns doctrine collection
-     * @throws DaoException
      */
     public function saveJobVacancy(Vacancy $jobVacancy): Vacancy
     {
-        try {
-            $this->persist($jobVacancy);
-            return $jobVacancy;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($jobVacancy);
+        return $jobVacancy;
     }
 
     /**
      * @param $vacancySearchFilterParamHolder
      * @return int
      */
-    public function searchVacanciesCount($vacancySearchFilterParamHolder): int
+    public function getVacanciesCount($vacancySearchFilterParamHolder): int
     {
-        return $this->getVacanciesPaginator($vacancySearchFilterParamHolder)->count();
+        return $this->getVacancyListPaginator($vacancySearchFilterParamHolder)->count();
     }
 
     /**
@@ -133,25 +143,20 @@ class VacancyDao extends BaseDao
 
     public function deleteVacancies(array $toBeDeletedVacancyIds): bool
     {
-        $qr = $this->createQueryBuilder(Vacancy::class, 'v');
+        $qr = $this->createQueryBuilder(Vacancy::class, 'vacancy');
         $qr->delete()
-            ->andWhere('v.id IN (:ids)')
+            ->andWhere($qr->expr()->in('vacancy.id', ':ids'))
             ->setParameter('ids', $toBeDeletedVacancyIds);
-
-        $result = $qr->getQuery()->execute();
-        if ($result > 0) {
-            return true;
-        }
-        return false;
+        return $qr->getQuery()->execute() > 0;
     }
 
     /**
-     * @return Vacancy[]
+     * @param VacancySearchFilterParams $vacancySearchFilterParams
+     * @return array
      */
-    public function getVacanciesGroupByHiringManagers(): array
+    public function getVacancyListGroupByHiringManager(VacancySearchFilterParams $vacancySearchFilterParams): array
     {
-        $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
-        $qb->leftJoin('vacancy.hiringManager', 'hiringManager');
+        $qb = $this->getVacanciesQueryBuilderWrapper($vacancySearchFilterParams)->getQueryBuilder();
         $qb->groupBy('hiringManager.empNumber');
         return $qb->getQuery()->execute();
     }
@@ -194,5 +199,47 @@ class VacancyDao extends BaseDao
             ->andWhere('vacancy.hiringManager = :empNumber')
             ->setParameter('empNumber', $empNumber);
         return $this->getPaginator($q)->count() > 0;
+    }
+
+    /**
+     * @return Vacancy[]
+     */
+    public function getPublishedVacancyList(): array
+    {
+        $qb = $this->createQueryBuilder(Vacancy::class, 'vacancy');
+        $qb->andWhere('vacancy.isPublished = :isPublished')
+            ->setParameter('isPublished', true)
+            ->andWhere('vacancy.status = :status')
+            ->setParameter('status', true);
+        $qb->addOrderBy('vacancy.updatedTime', ListSorter::DESCENDING);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int $jobTitleId
+     * @return bool
+     */
+    public function isActiveJobTitle(int $jobTitleId): bool
+    {
+        return $this->getRepository(JobTitle::class)->findOneBy(
+            [
+                    'id' => $jobTitleId,
+                    'isDeleted' => false
+                ]
+        ) instanceof JobTitle;
+    }
+
+    /**
+     * @param int $hiringManagerId
+     * @return bool
+     */
+    public function isActiveHiringManger(int $hiringManagerId): bool
+    {
+        return $this->getRepository(Employee::class)->findOneBy(
+            [
+                    'empNumber' => $hiringManagerId,
+                    'employeeTerminationRecord' => null
+                ]
+        ) instanceof Employee;
     }
 }

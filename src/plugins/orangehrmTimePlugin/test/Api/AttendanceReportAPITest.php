@@ -38,6 +38,7 @@ class AttendanceReportAPITest extends EndpointIntegrationTestCase
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
+        $this->populateFixtures('AttendanceReportAPITest.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(TimeReportAPI::class, $testCaseParams);

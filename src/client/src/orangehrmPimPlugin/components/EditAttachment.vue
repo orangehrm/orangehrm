@@ -20,9 +20,9 @@
 
 <template>
   <div class="orangehrm-card-container">
-    <oxd-text tag="h6" class="orangehrm-main-title">{{
-      $t('general.edit_attachment')
-    }}</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">
+      {{ $t('general.edit_attachment') }}
+    </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -111,6 +111,10 @@ export default {
       type: Array,
       required: true,
     },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
   },
 
   emits: ['close'],
@@ -125,7 +129,7 @@ export default {
       rules: {
         description: [shouldNotExceedCharLength(200)],
         attachment: [
-          maxFileSize(1024 * 1024),
+          maxFileSize(this.maxFileSize),
           validFileTypes(this.allowedFileTypes),
         ],
       },

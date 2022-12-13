@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -36,15 +37,7 @@ class VacancyModel implements Normalizable
             'description',
             'numOfPositions',
             'status',
-            'isPublished',
-            ['getJobTitle', 'getId'],
-            ['getJobTitle', 'getJobTitleName'],
-            ['getJobTitle', 'isDeleted'],
-            ['getHiringManager', 'getEmpNumber'],
-            ['getHiringManager', 'getFirstName'],
-            ['getHiringManager', 'getMiddleName'],
-            ['getHiringManager', 'getLastName'],
-            ['getHiringManager', 'getEmployeeTerminationRecord', 'getId'],
+            ['isPublished'],
         ]);
 
         $this->setAttributeNames([
@@ -54,14 +47,6 @@ class VacancyModel implements Normalizable
             'numOfPositions',
             'status',
             'isPublished',
-            ['jobTitle', 'id'],
-            ['jobTitle', 'title'],
-            ['jobTitle', 'isDeleted'],
-            ['hiringManager', 'id'],
-            ['hiringManager', 'firstName'],
-            ['hiringManager', 'middleName'],
-            ['hiringManager', 'lastName'],
-            ['hiringManager', 'terminationId'],
         ]);
     }
 }

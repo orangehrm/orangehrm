@@ -1,0 +1,41 @@
+GetAll:
+  'Get all enabled and added i18n groups':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    data:
+      - id: 1
+        name: 'general'
+        title: 'General'
+      - id: 2
+        name: 'admin'
+        title: 'Admin'
+      - id: 3
+        name: 'help'
+        title: 'Help'
+      - id: 4
+        name: 'attendance'
+        title: 'Attendance'
+    meta:
+      total: 4
+  'Get all enabled and added i18n groups - order by DESC':
+    userId: 1
+    services:
+      admin.localization_service: OrangeHRM\Admin\Service\LocalizationService
+    query:
+      sortOrder: DESC
+    data:
+      - id: 1
+        name: 'general'
+        title: 'General'
+      - id: 2
+        name: 'admin'
+        title: 'Admin'
+      - id: 3
+        name: 'help'
+        title: 'Help'
+      - id: 4
+        name: 'attendance'
+        title: 'Attendance'
+    meta:
+      total: 4

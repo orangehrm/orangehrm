@@ -1,0 +1,265 @@
+GetAll:
+  'with commentId 1':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 1
+    data: [
+      {
+        "id": 1,
+        "date": "2022-11-17",
+        "time": "05:14",
+        "comment": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      },
+      {
+        "id": 2,
+        "date": "2022-11-17",
+        "time": "05:14",
+        "comment": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": 2
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  'past employee comment':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 2
+    data: [
+      {
+        "id": 7,
+        "date": "2022-11-17",
+        "time": "05:15",
+        "comment": {
+          "id": 2
+        },
+        "employee": {
+          "empNumber": 4,
+          "lastName": "Kumara",
+          "firstName": "Rajitha",
+          "middleName": "",
+          "employeeId": "0004",
+          "terminationId": null
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'purged employee comment':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'with non-existent commentId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 3000
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'ESS with commentId 1':
+    userId: 4
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 1
+    data: [
+      {
+        "id": 1,
+        "date": "2022-11-17",
+        "time": "05:14",
+        "comment": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Admin",
+          "firstName": "Devi",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        }
+      },
+      {
+        "id": 2,
+        "date": "2022-11-17",
+        "time": "05:14",
+        "comment": {
+          "id": 1
+        },
+        "employee": {
+          "empNumber": 2,
+          "lastName": "Perera",
+          "firstName": "Sharuka",
+          "middleName": "",
+          "employeeId": "0002",
+          "terminationId": 2
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+Create:
+  'liking past employee comment':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    now:
+      datetime: '2022-11-17 13:00:00'
+    attributes:
+      commentId: 2
+    data: {
+      "id": 16,
+      "date": "2022-11-17",
+      "time": "13:00",
+      "comment": {
+        "id": 2
+      },
+      "employee": {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      }
+    }
+
+  'liking purged employee comment':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'liking comment with non-existent commentId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 3000
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'liking comment that is already liked':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Already liked'
+
+  'ESS liking comment with commentId 5':
+    userId: 4
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    now:
+      datetime: '2022-11-17 13:00:00'
+    attributes:
+      commentId: 6
+    data: {
+      "id": 16,
+      "date": "2022-11-17",
+      "time": "13:00",
+      "comment": {
+        "id": 6
+      },
+      "employee": {
+        "empNumber": 4,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0004",
+        "terminationId": null
+      }
+    }
+
+Delete:
+  'unliking a comment with commentId 1':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 1
+    data: {
+      "commentId": 1
+    }
+
+  'unliking comment with non-existent commentId':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 1000
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'unliking purged employee comment':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'unliking comment that is not liked':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 2
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Not previously liked'
+
+  'ESS unliking a comment with commentId 5':
+    userId: 4
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      commentId: 5
+    data: {
+      "commentId": 5
+    }

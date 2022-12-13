@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
-*/
+ */
 
 namespace OrangeHRM\Recruitment\Service;
 
@@ -25,34 +24,18 @@ use OrangeHRM\Recruitment\Dao\VacancyDao;
 class VacancyService
 {
     /**
-     * @var VacancyDao | null
+     * @var VacancyDao|null
      */
     private ?VacancyDao $vacancyDao = null;
 
     /**
-     * Get Vacancy Dao
      * @return VacancyDao
      */
-    public function getVacancyDao(): ?VacancyDao
+    public function getVacancyDao(): VacancyDao
     {
+        if (!$this->vacancyDao instanceof VacancyDao) {
+            $this->vacancyDao = new VacancyDao();
+        }
         return $this->vacancyDao;
-    }
-
-    /**
-     * Set Vacancy Dao
-     * @param VacancyDao $vacancyDao
-     * @return void
-     */
-    public function setVacancyDao(VacancyDao $vacancyDao)
-    {
-        $this->vacancyDao = $vacancyDao;
-    }
-
-    /**
-     * Construct
-     */
-    public function __construct()
-    {
-        $this->vacancyDao = new VacancyDao();
     }
 }

@@ -313,6 +313,27 @@ apiv2_admin_i18n_language:
   defaults:
     _api: OrangeHRM\Admin\Api\I18NLanguageAPI
 
+apiv2_admin_i18n_language_translations:
+  path: /api/v2/admin/i18n/languages/{languageId}/translations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NTranslationAPI
+
+apiv2_admin_i18n_language_bulk_translations:
+  path: /api/v2/admin/i18n/languages/{languageId}/translations/bulk
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NTranslationBulkAPI
+
+apiv2_admin_i18n_groups:
+  path: /api/v2/admin/i18n/groups
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\I18NGroupAPI
+
 ##########################
 #        Files
 ##########################
@@ -320,6 +341,11 @@ apiv2_admin_i18n_language:
 admin_job_specification_attachment:
   path: /admin/viewJobSpecification/attachId/{attachId}
   controller: OrangeHRM\Admin\Controller\File\JobSpecification::handle
+  methods: [ GET ]
+
+admin_language_package_attachment:
+  path: /admin/viewLanguagePackage/languageId/{languageId}
+  controller: OrangeHRM\Admin\Controller\File\LanguagePackage::handle
   methods: [ GET ]
 
 ##########################
@@ -571,4 +597,14 @@ admin_register_oauth_client: # remove this
 admin_language_package:
   path: /admin/languagePackage
   controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle
+  methods: [ GET ]
+
+admin_language_translation:
+  path: /admin/languageCustomization/{languageId}
+  controller: OrangeHRM\Admin\Controller\LanguageTranslationController::handle
+  methods: [ GET ]
+
+admin_ldap_configuration:
+  path: /admin/ldapConfiguration
+  controller: OrangeHRM\Admin\Controller\LdapConfigurationController::handle
   methods: [ GET ]

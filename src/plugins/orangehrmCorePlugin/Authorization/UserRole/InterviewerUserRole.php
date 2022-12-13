@@ -20,8 +20,11 @@
 namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewAttachment;
+use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Recruitment\Dto\CandidateActionHistory;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
@@ -36,12 +39,18 @@ class InterviewerUserRole extends AbstractUserRole
     protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
         switch ($entityType) {
+            case Vacancy::class:
+                return $this->getAccessibleVacancyIds($requiredPermissions);
             case Candidate::class:
                 return $this->getAccessibleCandidateIds($requiredPermissions);
             case Interview::class:
                 return $this->getAccessibleInterviewIds($requiredPermissions);
             case InterviewAttachment::class:
                 return $this->getAccessibleInterviewAttachmentIds($requiredPermissions);
+            case CandidateHistory::class:
+                return $this->getAccessibleCandidateHistoryIds($requiredPermissions);
+            case CandidateActionHistory::class:
+                return $this->getAccessibleCandidateActionHistoryIds($requiredPermissions);
             default:
                 return [];
         }
@@ -78,5 +87,37 @@ class InterviewerUserRole extends AbstractUserRole
         return $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->getInterviewAttachmentListForInterviewer($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleCandidateHistoryIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateHistoryIdListForInterviewer($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleVacancyIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getVacancyIdListForInterviewer($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleCandidateActionHistoryIds(array $requiredPermissions = []): array
+    {
+        $candidateActionHistory = new CandidateActionHistory();
+        return $candidateActionHistory->getAccessibleCandidateHistoryIdsForInterviewer();
     }
 }

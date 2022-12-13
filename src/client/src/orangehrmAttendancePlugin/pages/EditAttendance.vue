@@ -162,11 +162,13 @@
 import {
   required,
   shouldNotExceedCharLength,
+  validDateFormat,
 } from '@/core/util/validation/rules';
-import {diffInTime, secondsTohhmm} from '@/core/util/helper/datefns';
+import {diffInTime, parseDate, secondsTohhmm} from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
 
 const attendanceRecordModal = {
@@ -202,8 +204,11 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/attendance/records`,
     );
+    const {userDateFormat} = useDateFormat();
+
     return {
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -218,6 +223,7 @@ export default {
         punchIn: {
           userDate: [
             required,
+            validDateFormat(this.userDateFormat),
             promiseDebounce(
               () => this.validateRecord('punch-in-overlaps'),
               500,
@@ -235,6 +241,7 @@ export default {
         punchOut: {
           userDate: [
             required,
+            validDateFormat(this.userDateFormat),
             promiseDebounce(
               () => this.validateRecord('punch-out-overlaps'),
               500,
@@ -255,6 +262,12 @@ export default {
   computed: {
     totalDuration() {
       if (!this.attendance.punchOut?.userDate) return null;
+      if (
+        parseDate(this.attendance.punchIn.userDate) === null ||
+        parseDate(this.attendance.punchOut.userDate) === null
+      ) {
+        return null;
+      }
 
       const startTime = `${this.attendance.punchIn.userDate} ${this.attendance.punchIn.userTime}`;
       const punchInTz =
@@ -363,6 +376,15 @@ export default {
         });
     },
     validateRecord(apiPath) {
+      if (parseDate(this.attendance.punchIn.userDate) === null) {
+        return true;
+      }
+      if (
+        this.attendance.punchOut &&
+        parseDate(this.attendance.punchOut.userDate) === null
+      ) {
+        return true;
+      }
       return new Promise(resolve => {
         this.http
           .request({

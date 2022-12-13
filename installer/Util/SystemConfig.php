@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Installer\Util;
 
+use Doctrine\DBAL\Connection;
 use Exception;
 use OrangeHRM\Config\Config;
 use PDO;
 use Symfony\Component\Filesystem\Filesystem;
+use Throwable;
 
 class SystemConfig
 {
@@ -48,11 +50,13 @@ class SystemConfig
     private bool $interruptContinue = false;
     private ?Filesystem $filesystem = null;
     private array $systemRequirements = [];
+    private ?Connection $connection;
 
-    public function __construct()
+    public function __construct(?Connection $connection = null)
     {
         $this->filesystem = new Filesystem();
         $this->systemRequirements = require realpath(__DIR__ . '/../config/system_requirements.php');
+        $this->connection = $connection;
     }
 
     /**
@@ -105,7 +109,6 @@ class SystemConfig
     /**
      * MYSQL Client Check
      * @return array
-     * @throws \Doctrine\DBAL\Exception
      */
     public function isMySqlClientCompatible(): array
     {
@@ -137,7 +140,6 @@ class SystemConfig
     /**
      * MYSQL Server Check
      * @return array
-     * @throws \Doctrine\DBAL\Exception
      */
     public function isMySqlServerCompatible(): array
     {
@@ -182,7 +184,6 @@ class SystemConfig
     /**
      * MYSQL InnoDB Support Check
      * @return array|void
-     * @throws \Doctrine\DBAL\Exception
      */
     public function isInnoDBSupport()
     {
@@ -268,29 +269,9 @@ class SystemConfig
      * Write Permissions for “lib/confs” Check
      * @return array
      */
-    public function isWritableLibConfs(): array
+    public function isWritableConfigDir(): array
     {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/confs'))) {
-            return [
-                'message' => Messages::WRITEABLE,
-                'status' => self::PASSED
-            ];
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::NOT_WRITEABLE,
-                'status' => self::BLOCKER
-            ];
-        }
-    }
-
-    /**
-     * Write Permissions for “src/configs” Check
-     * @return array
-     */
-    public function isWritableSymfonyConfig(): array
-    {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../src/config'))) {
+        if ($this->checkWritePermission(Config::get(Config::CONFIG_DIR))) {
             return [
                 'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
@@ -308,7 +289,7 @@ class SystemConfig
      * Write Permissions for “src/cache” Check
      * @return array
      */
-    public function isWritableSymfonyCache(): array
+    public function isWritableCacheDir(): array
     {
         if ($this->checkWritePermission(Config::get(Config::CACHE_DIR))) {
             return [
@@ -328,9 +309,29 @@ class SystemConfig
      * Write Permissions for “src/log” Check
      * @return array
      */
-    public function isWritableSymfonyLog(): array
+    public function isWritableLogDir(): array
     {
         if ($this->checkWritePermission(Config::get(Config::LOG_DIR))) {
+            return [
+                'message' => Messages::WRITEABLE,
+                'status' => self::PASSED
+            ];
+        } else {
+            $this->interruptContinue = true;
+            return [
+                'message' => Messages::NOT_WRITEABLE,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
+     * Write Permissions for “lib/confs/cryptokeys” Check
+     * @return array
+     */
+    public function isWritableCryptoKeyDir(): array
+    {
+        if ($this->checkWritePermission(Config::get(Config::CRYPTO_KEY_DIR))) {
             return [
                 'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
@@ -499,6 +500,42 @@ class SystemConfig
     }
 
     /**
+     * @return array
+     */
+    public function isGdExtensionEnabled(): array
+    {
+        if (extension_loaded('gd')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::ACCEPTABLE
+            ];
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function isIntlExtensionEnabled(): array
+    {
+        if (extension_loaded('intl')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::ACCEPTABLE
+            ];
+        }
+    }
+
+    /**
      * @return bool
      */
     public function checkPDOExtensionEnabled(): bool
@@ -521,14 +558,32 @@ class SystemConfig
     }
 
     /**
+     * @return array
+     */
+    public function isLDAPExtensionEnabled(): array
+    {
+        if (extension_loaded('ldap')) {
+            return [
+                'message' => Messages::ENABLED,
+                'status' => self::PASSED
+            ];
+        } else {
+            return [
+                'message' => Messages::DISABLED,
+                'status' => self::BLOCKER
+            ];
+        }
+    }
+
+    /**
      * @param string $path
      * @return bool
      */
-    private function checkWritePermission(string $path): bool
+    public function checkWritePermission(string $path): bool
     {
         try {
-            $this->filesystem->dumpFile($path . '/_temp.txt', $path);
-            $this->filesystem->remove($path . '/_temp.txt');
+            $this->filesystem->dumpFile($path . DIRECTORY_SEPARATOR . '_temp.txt', $path);
+            $this->filesystem->remove($path . DIRECTORY_SEPARATOR . '_temp.txt');
             return true;
         } catch (Exception $e) {
             Logger::getLogger()->error($e->getMessage());
@@ -661,17 +716,16 @@ class SystemConfig
 
     /**
      * Return web server details
-     * @return string
+     * @return string|null
      */
-    public function getWebServerDetails(): string
+    public function getWebServerDetails(): ?string
     {
-        return $_SERVER['SERVER_SOFTWARE'];
+        return $_SERVER['SERVER_SOFTWARE'] ?? null;
     }
 
     /**
      * Return MySql client version
      * @return string
-     * @throws \Doctrine\DBAL\Exception
      */
     public function getMysqlClientVersion(): string
     {
@@ -681,7 +735,6 @@ class SystemConfig
     /**
      * Return MySql server version
      * @return string
-     * @throws \Doctrine\DBAL\Exception
      */
     public function getMysqlServerVersion(): string
     {
@@ -691,7 +744,6 @@ class SystemConfig
     /**
      * Return MySql host info
      * @return string
-     * @throws \Doctrine\DBAL\Exception
      */
     public function getMySqlHostInfo(): string
     {
@@ -713,20 +765,21 @@ class SystemConfig
 
     /**
      * @return PDO|null
-     * @throws \Doctrine\DBAL\Exception
      */
     private function getPDOConnection(): ?PDO
     {
-        $conn = DatabaseServerConnection::getConnection()->getWrappedConnection();
-        if ($conn instanceof \Doctrine\DBAL\Driver\PDO\Connection) {
-            return $conn->getWrappedConnection();
+        try {
+            if ($this->connection instanceof Connection) {
+                return $this->connection->getNativeConnection();
+            }
+            return DatabaseServerConnection::getConnection()->getNativeConnection();
+        } catch (Throwable $e) {
         }
         return null;
     }
 
     /**
      * @return array
-     * @throws \Doctrine\DBAL\Exception
      */
     public function getSystemDetails(): array
     {

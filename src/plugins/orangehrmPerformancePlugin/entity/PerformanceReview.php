@@ -52,35 +52,35 @@ class PerformanceReview
     /**
      * @var int|null
      *
-     * @ORM\Column(name="status_id", type="integer", length=7,nullable=true)
+     * @ORM\Column(name="status_id", type="integer", length=7, nullable=true)
      */
     private ?int $statusId;
 
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="work_period_start", type="date",nullable=true)
+     * @ORM\Column(name="work_period_start", type="date", nullable=true)
      */
     private ?DateTime $reviewPeriodStart;
 
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="work_period_end", type="date",nullable=true)
+     * @ORM\Column(name="work_period_end", type="date", nullable=true)
      */
     private ?DateTime $reviewPeriodEnd;
 
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="due_date", type="date",nullable=true)
+     * @ORM\Column(name="due_date", type="date", nullable=true)
      */
     private ?DateTime $dueDate;
 
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="completed_date", type="date",nullable=true)
+     * @ORM\Column(name="completed_date", type="date", nullable=true)
      */
     private ?DateTime $completedDate;
 
@@ -94,7 +94,7 @@ class PerformanceReview
     /**
      * @var string|null
      *
-     * @ORM\Column(name="final_comment", type="text", length=65532, nullable=true)
+     * @ORM\Column(name="final_comment", type="text", nullable=true)
      */
     private ?string $finalComment;
 
@@ -110,7 +110,7 @@ class PerformanceReview
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\ReviewerRating", mappedBy="PerformanceReview")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="review_id")
+     *     @ORM\JoinColumn(name="id", referencedColumnName="review_id")
      * })
      */
     private iterable $reviewerRatings;
@@ -125,9 +125,9 @@ class PerformanceReview
     /**
      * @var JobTitle|null
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\JobTitle", inversedBy="PerformanceReview")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle", inversedBy="PerformanceReview")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="job_title_code", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="job_title_code", referencedColumnName="id")
      * })
      */
     private ?JobTitle $jobTitle;
@@ -135,9 +135,9 @@ class PerformanceReview
     /**
      * @var Subunit|null
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\Subunit", inversedBy="PerformanceReview")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Subunit", inversedBy="PerformanceReview")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="department_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="department_id", referencedColumnName="id")
      * })
      */
     private ?Subunit $subunit;
@@ -145,9 +145,9 @@ class PerformanceReview
     /**
      * @var Employee|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy ="PerformanceReview")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="PerformanceReview")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
+     *     @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
      * })
      */
     private ?Employee $employee;

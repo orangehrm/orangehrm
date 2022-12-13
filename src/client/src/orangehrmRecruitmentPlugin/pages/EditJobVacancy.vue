@@ -39,6 +39,7 @@
             <jobtitle-dropdown
               v-model="vacancy.jobTitle"
               :rules="rules.jobTitle"
+              required
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -67,11 +68,13 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-input-field
-                v-model.number="vacancy.numOfPositions"
-                :label="$t('recruitment.num_of_positions')"
-                :rules="rules.numOfPositions"
-              />
+              <oxd-grid-item>
+                <oxd-input-field
+                  v-model="vacancy.numOfPositions"
+                  :label="$t('recruitment.num_of_positions')"
+                  :rules="rules.numOfPositions"
+                />
+              </oxd-grid-item>
             </oxd-grid>
           </oxd-grid-item>
         </oxd-grid>
@@ -93,17 +96,19 @@
           </oxd-grid-item>
         </oxd-grid>
         <br />
-        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-          <div class="orangehrm-container orangehrm-container--border">
-            <vacancy-link-card
-              :label="$t('recruitment.rss_feed_url')"
-              :url="rssFeedUrl"
-            />
-            <vacancy-link-card
-              :label="$t('recruitment.web_page_url')"
-              :url="webUrl"
-            />
-          </div>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="orangehrm-grid-item-span-2">
+            <div class="orangehrm-vacancy-links">
+              <vacancy-link-card
+                :label="$t('recruitment.rss_feed_url')"
+                :url="rssFeedUrl"
+              />
+              <vacancy-link-card
+                :label="$t('recruitment.web_page_url')"
+                :url="webUrl"
+              />
+            </div>
+          </oxd-grid-item>
         </oxd-grid>
         <br />
         <oxd-divider />
@@ -163,7 +168,7 @@
             :label="$t('general.cancel')"
             @click="updateVisibility"
           />
-          <submit-button :label="$t('general.upload')" />
+          <submit-button :label="$t('general.save')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -215,7 +220,7 @@
             :label="$t('general.cancel')"
             @click="updateVisibility"
           />
-          <submit-button :label="$t('general.upload')" />
+          <submit-button :label="$t('general.save')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -265,14 +270,14 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
-
 import {
   required,
-  shouldNotExceedCharLength,
-  digitsOnly,
-  max,
-  validFileTypes,
+  numericOnly,
   maxFileSize,
+  validSelection,
+  validFileTypes,
+  shouldNotExceedCharLength,
+  numberShouldBeBetweenMinAndMaxValue,
 } from '@ohrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
@@ -295,6 +300,8 @@ const VacancyAttachmentModel = {
   newAttachment: null,
   method: 'keepCurrent',
 };
+
+const basePath = `${window.location.protocol}//${window.location.host}${window.appGlobal.baseUrl}`;
 
 const attachmentNormalizer = data => {
   return data.map(item => {
@@ -361,8 +368,19 @@ export default {
       rules: {
         jobTitle: [required],
         name: [required, shouldNotExceedCharLength(50)],
-        hiringManager: [required],
-        numOfPositions: [max(99), digitsOnly],
+        hiringManager: [
+          required,
+          validSelection,
+          v => (v?.isPastEmployee ? this.$t('general.invalid') : true),
+        ],
+        numOfPositions: [
+          value => {
+            if (value === null || value === '') return true;
+            return typeof numericOnly(value) === 'string'
+              ? numericOnly(value)
+              : numberShouldBeBetweenMinAndMaxValue(1, 99)(value);
+          },
+        ],
         description: [],
         status: [required],
         isPublished: [required],
@@ -437,8 +455,8 @@ export default {
       ],
       attachments: [],
       checkedItems: [],
-      rssFeedUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.rss`,
-      webUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.html`,
+      rssFeedUrl: `${basePath}/recruitmentApply/jobs.rss`,
+      webUrl: `${basePath}/recruitmentApply/jobs.html`,
     };
   },
   created() {
@@ -452,18 +470,20 @@ export default {
         this.currentName = data.name;
         this.vacancy.name = data.name;
         this.vacancy.description = data.description;
-        this.vacancy.numOfPositions = data.numOfPositions;
-        this.vacancy.status = data.status === 1 ? true : false;
+        this.vacancy.numOfPositions = data.numOfPositions || '';
+        this.vacancy.status = data.status;
         this.vacancy.isPublished = data.isPublished;
         this.vacancy.hiringManager = {
           id: data.hiringManager.id,
           label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
           isPastEmployee: data.hiringManager.terminationId ? true : false,
         };
-        this.vacancy.jobTitle = {
-          id: data.jobTitle.id,
-          label: data.jobTitle.title,
-        };
+        this.vacancy.jobTitle = data.jobTitle.isDeleted
+          ? null
+          : {
+              id: data.jobTitle.id,
+              label: data.jobTitle.title,
+            };
         return this.http.getAll({limit: 0});
       })
       .then(response => {
@@ -501,9 +521,11 @@ export default {
         name: this.vacancy.name,
         jobTitleId: this.vacancy.jobTitle.id,
         employeeId: this.vacancy.hiringManager.id,
-        numOfPositions: this.vacancy.numOfPositions,
+        numOfPositions: this.vacancy.numOfPositions
+          ? parseInt(this.vacancy.numOfPositions)
+          : null,
         description: this.vacancy.description,
-        status: this.vacancy.status ? 1 : 2,
+        status: this.vacancy.status,
         isPublished: this.vacancy.isPublished,
       };
       this.http
@@ -512,7 +534,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          navigate(`/recruitment/addJobVacancy/${this.vacancyId}`);
+          navigate('/recruitment/addJobVacancy/{id}', {id: this.vacancyId});
         });
     },
     onSaveAttachment() {

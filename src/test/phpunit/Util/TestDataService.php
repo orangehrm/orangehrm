@@ -20,7 +20,6 @@
 namespace OrangeHRM\Tests\Util;
 
 use DateTime;
-use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\MappingException;
 use Exception;
@@ -280,8 +279,8 @@ class TestDataService
             $query = '';
 
             try {
-                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
-                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 Doctrine::getEntityManager()->beginTransaction();
 
                 foreach ($tableNames as $tableName) {
@@ -301,13 +300,13 @@ class TestDataService
                 echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
                     "\nQuery: [" . $query . "]\n" . 'Fixture: ' . self::$lastFixture . "\n\n";
             } finally {
-                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
+                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
             }
 
             // Clear table cache
             if (is_array(self::$data)) {
                 foreach (self::$data as $alias => $values) {
-                    Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
+                    Doctrine::getEntityManager()->clear();
                 }
             }
 
@@ -316,11 +315,11 @@ class TestDataService
     }
 
     /**
-     * @return Connection
+     * @return PDO
      */
-    private static function _getDbConnection(): Connection
+    private static function _getDbConnection(): PDO
     {
-        return Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
+        return Doctrine::getEntityManager()->getConnection()->getNativeConnection();
     }
 
     /**
@@ -350,7 +349,7 @@ class TestDataService
         foreach ($aliasArray as $alias) {
             try {
                 $tableNames[] = self::_getTableName($alias);
-                Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
+                Doctrine::getEntityManager()->clear();
             } catch (MappingException $e) {
                 echo __FILE__ . ':' . __LINE__ . ') Skipping unknown table alias: ' . $alias . "\n";
             }
@@ -395,7 +394,7 @@ class TestDataService
     {
         $entityName = self::getFQEntityName($alias);
         if ($clearEntities) {
-            Doctrine::getEntityManager()->clear($entityName);
+            Doctrine::getEntityManager()->clear();
         }
         $q = Doctrine::getEntityManager()->getRepository($entityName)->createQueryBuilder('a');
         $q->setMaxResults(1);
@@ -419,7 +418,7 @@ class TestDataService
     public static function fetchObject(string $alias, $primaryKey): ?object
     {
         $entityName = self::getFQEntityName($alias);
-        Doctrine::getEntityManager()->clear($entityName);
+        Doctrine::getEntityManager()->clear();
         return Doctrine::getEntityManager()->find($entityName, $primaryKey);
     }
 

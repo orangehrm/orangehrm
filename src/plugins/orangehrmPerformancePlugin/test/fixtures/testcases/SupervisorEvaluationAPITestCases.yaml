@@ -51,7 +51,7 @@ GetAll:
             "name": "Senior Software Engineer"
             "deleted": false
         "status": 2
-      generalComment: null
+      generalComment: "comment 3"
       allowedActions:
         0:
           "action": 'save'
@@ -75,7 +75,7 @@ GetAll:
     exception:
       class: \OrangeHRM\Core\Api\V2\Exception\ForbiddenException
 
-  'Get all ratings for Admin supervisor review that has no reviewer ratings':
+  'Get all ratings for Admin supervisor review that has empty reviewer ratings':
     userId: 1
     services:
       performance.performance_review_service: \OrangeHRM\Performance\Service\PerformanceReviewService
@@ -88,9 +88,26 @@ GetAll:
     attributes:
       reviewId: 1
     data:
-        []
+      0:
+        "id": 12
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 1
+      1:
+        "id": 13
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 2
+      2:
+        "id": 14
+        "rating": null
+        "comment": null
+        "kpi":
+          "id": 3
     meta:
-      total: 0
+      total: 3
       kpis:
         0:
           "id": 2
@@ -117,11 +134,11 @@ GetAll:
           "employeeId": "0003"
           "terminationId": null
           "jobTitle":
-            "id": 1
-            "name": "Software Engineer"
+            "id": 2
+            "name": "Senior Software Engineer"
             "deleted": false
         "status": 2
-      generalComment: null
+      generalComment: "comment 1"
       allowedActions:
         0:
           "action": 'save'
@@ -167,11 +184,11 @@ GetAll:
           "employeeId": "0003"
           "terminationId": null
           "jobTitle":
-            "id": 4
-            "name": "Senior QA"
+            "id": 2
+            "name": "Senior Software Engineer"
             "deleted": false
         "status" : 4
-      generalComment: null
+      generalComment: ''
       allowedActions: []
 
 Update:
@@ -256,7 +273,7 @@ Update:
           "comment": "Test logs create"
     data:
       0:
-        id: 4
+        id: 16
         "rating": 20
         "comment": "Test logs create"
         "kpi":

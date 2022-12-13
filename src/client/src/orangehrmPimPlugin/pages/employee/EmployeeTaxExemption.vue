@@ -53,7 +53,7 @@
         </oxd-form-row>
 
         <oxd-text class="orangehrm-sub-title" tag="h6">
-          State Income Tax
+          {{ $t('pim.state_income_tax') }}
         </oxd-text>
         <oxd-divider />
         <oxd-form-row>

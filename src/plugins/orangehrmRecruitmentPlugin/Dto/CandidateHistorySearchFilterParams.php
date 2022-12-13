@@ -24,6 +24,15 @@ use OrangeHRM\ORM\ListSorter;
 
 class CandidateHistorySearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = [
+        'candidateHistory.performedDate',
+    ];
+
+    /**
+     * @var array
+     */
+    private array $actionIds;
+
     /**
      * @var int
      */
@@ -49,5 +58,21 @@ class CandidateHistorySearchFilterParams extends FilterParams
     public function setCandidateId(int $candidateId): void
     {
         $this->candidateId = $candidateId;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActionIds(): array
+    {
+        return $this->actionIds;
+    }
+
+    /**
+     * @param array $actionIds
+     */
+    public function setActionIds(array $actionIds): void
+    {
+        $this->actionIds = $actionIds;
     }
 }

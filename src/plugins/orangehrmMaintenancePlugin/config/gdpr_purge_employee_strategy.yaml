@@ -221,3 +221,33 @@ Entities:
           - { match: employee }
         parameters:
           - { field: "comment", class: 'FormatWithPurgeString' }
+
+  BuzzPost:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }
+
+  BuzzShare:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }
+
+  BuzzComment:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }
+
+  BuzzLikeOnComment:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }
+
+  BuzzLikeOnShare:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }

@@ -56,10 +56,8 @@ class RegistrationAPIClientService
                     'form_params' => $data,
                 ]
             );
-            if ($response->getStatusCode() == 200) {
-                return true;
-            }
-            return false;
+
+            return $response->getStatusCode() == 200;
         } catch (Exception $e) {
             $this->getLogger()->error($e->getMessage());
             $this->getLogger()->error($e->getTraceAsString());

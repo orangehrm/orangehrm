@@ -23,13 +23,16 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeController extends AbstractVueController
 {
     use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
 
     /**
      * @inheritDoc
@@ -37,6 +40,13 @@ class EmployeeController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('employee-list');
+        $component->addProp(
+            new Prop(
+                'unselectable-emp-numbers',
+                Prop::TYPE_ARRAY,
+                $this->getEmployeeService()->getUndeletableEmpNumbers()
+            )
+        );
         $this->setComponent($component);
 
         $allowedToDeleteActive = $this->getUserRoleManager()->isActionAllowed(

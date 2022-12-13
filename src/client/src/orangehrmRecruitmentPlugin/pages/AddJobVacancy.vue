@@ -68,11 +68,13 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-input-field
-                v-model.number="vacancy.numOfPositions"
-                :label="$t('recruitment.num_of_positions')"
-                :rules="rules.numOfPositions"
-              />
+              <oxd-grid-item>
+                <oxd-input-field
+                  v-model="vacancy.numOfPositions"
+                  :label="$t('recruitment.num_of_positions')"
+                  :rules="rules.numOfPositions"
+                />
+              </oxd-grid-item>
             </oxd-grid>
           </oxd-grid-item>
         </oxd-grid>
@@ -94,17 +96,19 @@
           </oxd-grid-item>
         </oxd-grid>
         <br />
-        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-          <div class="orangehrm-container orangehrm-container--border">
-            <vacancy-link-card
-              :label="$t('recruitment.rss_feed_url')"
-              :url="rssFeedUrl"
-            />
-            <vacancy-link-card
-              :label="$t('recruitment.web_page_url')"
-              :url="webUrl"
-            />
-          </div>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="orangehrm-grid-item-span-2">
+            <div class="orangehrm-vacancy-links">
+              <vacancy-link-card
+                :label="$t('recruitment.rss_feed_url')"
+                :url="rssFeedUrl"
+              />
+              <vacancy-link-card
+                :label="$t('recruitment.web_page_url')"
+                :url="webUrl"
+              />
+            </div>
+          </oxd-grid-item>
         </oxd-grid>
         <br />
         <oxd-divider />
@@ -125,14 +129,14 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
-
 import {
   required,
+  numericOnly,
+  validSelection,
   shouldNotExceedCharLength,
-  digitsOnly,
-  max,
+  numberShouldBeBetweenMinAndMaxValue,
 } from '@ohrm/core/util/validation/rules';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import VacancyLinkCard from '../components/VacancyLinkCard.vue';
@@ -146,6 +150,8 @@ const vacancyModel = {
   status: true,
   isPublished: true,
 };
+
+const basePath = `${window.location.protocol}//${window.location.host}${window.appGlobal.baseUrl}`;
 
 export default {
   components: {
@@ -171,14 +177,21 @@ export default {
       rules: {
         jobTitle: [required],
         name: [required, shouldNotExceedCharLength(50)],
-        hiringManager: [required],
-        numOfPositions: [max(99), digitsOnly],
+        hiringManager: [required, validSelection],
+        numOfPositions: [
+          value => {
+            if (value === null || value === '') return true;
+            return typeof numericOnly(value) === 'string'
+              ? numericOnly(value)
+              : numberShouldBeBetweenMinAndMaxValue(1, 99)(value);
+          },
+        ],
         description: [],
         status: [required],
         isPublished: [required],
       },
-      rssFeedUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.rss`,
-      webUrl: `${window.appGlobal.baseUrl}/recruitmentApply/jobs.html`,
+      rssFeedUrl: `${basePath}/recruitmentApply/jobs.rss`,
+      webUrl: `${basePath}/recruitmentApply/jobs.html`,
     };
   },
   created() {
@@ -206,15 +219,17 @@ export default {
         name: this.vacancy.name,
         jobTitleId: this.vacancy.jobTitle.id,
         employeeId: this.vacancy.hiringManager.id,
-        numOfPositions: this.vacancy.numOfPositions,
+        numOfPositions: this.vacancy.numOfPositions
+          ? parseInt(this.vacancy.numOfPositions)
+          : null,
         description: this.vacancy.description,
-        status: this.vacancy.status ? 1 : 2,
+        status: this.vacancy.status,
         isPublished: this.vacancy.isPublished,
       };
       this.http.create({...this.vacancy}).then(response => {
         const {data} = response.data;
         this.$toast.saveSuccess();
-        navigate(`/recruitment/addJobVacancy/${data.id}`);
+        navigate('/recruitment/addJobVacancy/{id}', {id: data.id});
       });
     },
   },

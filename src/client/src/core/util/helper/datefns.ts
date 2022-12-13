@@ -8,6 +8,7 @@ import {
   getDaysInMonth,
   addDays,
   isSameDay,
+  isToday,
   differenceInSeconds,
   differenceInCalendarDays,
 } from 'date-fns';
@@ -134,7 +135,10 @@ const parseDate = (
 ): Date | null => {
   try {
     const parsed = parse(value, dateFormat, freshDate(), options);
-    return !isNaN(parsed.valueOf()) ? parsed : null;
+    if (!isNaN(parsed.valueOf()) && parsed.getFullYear() >= 1000) {
+      return parsed;
+    }
+    return null;
   } catch (error) {
     return null;
   }
@@ -368,4 +372,5 @@ export {
   setClockInterval,
   guessTimezone,
   getStandardTimezone,
+  isToday,
 };

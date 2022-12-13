@@ -1,0 +1,96 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-attendance-card {
+  font-size: 12px;
+  margin-bottom: 0.5rem;
+  &-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &-image {
+      & img {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        flex-shrink: 0;
+        overflow: hidden;
+        border-radius: 100%;
+        box-sizing: border-box;
+        justify-content: center;
+        border: 0.15rem solid $oxd-primary-one-color;
+      }
+    }
+    &-record {
+      margin-left: 1rem;
+    }
+  }
+  &-bar {
+    display: flex;
+    padding: 0.35rem;
+    position: relative;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+    background-color: $oxd-background-light-gray-color;
+  }
+  &-summary {
+    display: flex;
+    font-size: 10px;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    justify-content: space-between;
+    p:first-of-type {
+      font-weight: 700;
+    }
+    &-total {
+      gap: 5px;
+      display: flex;
+      font-weight: 700;
+      padding: 0.35rem;
+      border-radius: 0.75rem;
+      background-color: $oxd-background-light-gray-color;
+    }
+  }
+  &-icon {
+    height: 15px;
+    font-size: 15px;
+  }
+  &-state {
+    font-weight: 700;
+    white-space: nowrap;
+    color: $oxd-primary-one-color;
+  }
+  &-details {
+    font-size: 10px;
+    word-break: break-word;
+  }
+  &-action {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    font-size: 20px;
+    transform: translate(0%, -50%);
+    outline: 5px solid $oxd-white-color !important;
+  }
+}
+
+.emp-attendance-chart {
+  height: 170px;
+  padding: 0 1rem;
+}

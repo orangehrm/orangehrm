@@ -1,0 +1,120 @@
+##########################
+#        Buzz
+##########################
+
+apiv2_buzz_upcoming_anniversaries:
+  description: 'Buzz - Upcoming Anniversaries'
+  api: OrangeHRM\Buzz\Api\EmployeeAnniversaryAPI
+  module: buzz
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_buzz_feed:
+  description: 'Buzz - Feed'
+  api: OrangeHRM\Buzz\Api\BuzzFeedAPI
+  module: buzz
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_buzz_posts:
+  description: 'Buzz - Posts'
+  api: OrangeHRM\Buzz\Api\BuzzPostAPI
+  module: buzz
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
+
+apiv2_buzz_shares:
+  description: 'Buzz - Shares'
+  api: OrangeHRM\Buzz\Api\BuzzShareAPI
+  module: buzz
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
+
+apiv2_buzz_comments:
+  description: 'Buzz - Comments'
+  api: OrangeHRM\Buzz\Api\BuzzCommentAPI
+  module: buzz
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
+
+apiv2_buzz_like_on_share:
+  description: 'Buzz - Likes on Share'
+  api: OrangeHRM\Buzz\Api\BuzzLikeOnShareAPI
+  module: buzz
+  allowed:
+    read: true
+    create: true
+    update: false
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: true } }
+    - { role: ESS, permission: { read: true, create: true, update: false, delete: true } }
+
+apiv2_buzz_like_on_comment:
+  description: 'Buzz - Likes on Comment'
+  api: OrangeHRM\Buzz\Api\BuzzLikeOnCommentAPI
+  module: buzz
+  allowed:
+    read: true
+    create: true
+    update: false
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: true } }
+    - { role: ESS, permission: { read: true, create: true, update: false, delete: true } }
+
+apiv2_buzz_video_url_validation:
+  description: 'Buzz - Validate URL of Video Post'
+  api: OrangeHRM\Buzz\Api\BuzzVideoURLValidationAPI
+  module: buzz
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_buzz_post_share:
+  description: 'Buzz - Post Share'
+  api: OrangeHRM\Buzz\Api\BuzzPostShareAPI
+  module: buzz
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }

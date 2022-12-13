@@ -49,7 +49,7 @@ class Project
      * @var Customer
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Customer", inversedBy="projects", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id",nullable=false)
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id", nullable=false)
      */
     private Customer $customer;
 
@@ -70,7 +70,7 @@ class Project
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_deleted", type="boolean", options={"default":0})
+     * @ORM\Column(name="is_deleted", type="boolean", options={"default" : 0})
      */
     private bool $deleted = false;
 
@@ -170,7 +170,7 @@ class Project
     }
 
     /**
-     * @return iterable
+     * @return iterable|Employee[]
      */
     public function getProjectAdmins(): iterable
     {

@@ -68,6 +68,12 @@
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
+                {{ $t('admin.directory_module') }}
+              </oxd-text>
+              <oxd-switch-input v-model="modules.directory" />
+            </div>
+            <div class="orangehrm-module-field-row">
+              <oxd-text tag="p" class="orangehrm-module-field-label">
                 {{ $t('admin.maintenance_module') }}
               </oxd-text>
               <oxd-switch-input v-model="modules.maintenance" />
@@ -105,6 +111,7 @@ const modulesModel = {
   performance: false,
   maintenance: false,
   mobile: false,
+  directory: false,
 };
 
 export default {
@@ -140,6 +147,7 @@ export default {
         this.modules.performance = data.performance;
         this.modules.maintenance = data.maintenance;
         this.modules.mobile = data.mobile;
+        this.modules.directory = data.directory;
       })
       .finally(() => {
         this.isLoading = false;
@@ -157,6 +165,7 @@ export default {
         performance: this.modules.performance,
         maintenance: this.modules.maintenance,
         mobile: this.modules.mobile,
+        directory: this.modules.directory,
       };
       this.http
         .request({

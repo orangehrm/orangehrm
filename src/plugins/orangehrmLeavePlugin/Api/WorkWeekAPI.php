@@ -66,6 +66,30 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/workweek",
+     *     tags={"Leave/Configure"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="monday", type="integer"),
+     *                 @OA\Property(property="tuesday", type="integer"),
+     *                 @OA\Property(property="wednesday", type="integer"),
+     *                 @OA\Property(property="thursday", type="integer"),
+     *                 @OA\Property(property="friday", type="integer"),
+     *                 @OA\Property(property="saturday", type="integer"),
+     *                 @OA\Property(property="sunday", type="integer"),
+     *                 description="0 - working day, 4 - half day, 8 - non working day"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -129,6 +153,44 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/leave/workweek",
+     *     tags={"Leave/Configure"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="monday", type="integer"),
+     *             @OA\Property(property="tuesday", type="integer"),
+     *             @OA\Property(property="wednesday", type="integer"),
+     *             @OA\Property(property="thursday", type="integer"),
+     *             @OA\Property(property="friday", type="integer"),
+     *             @OA\Property(property="saturday", type="integer"),
+     *             @OA\Property(property="sunday", type="integer"),
+     *             required={"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"},
+     *             description="0 - working day, 4 - half day, 8 - non working day"
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="monday", type="integer"),
+     *                 @OA\Property(property="tuesday", type="integer"),
+     *                 @OA\Property(property="wednesday", type="integer"),
+     *                 @OA\Property(property="thursday", type="integer"),
+     *                 @OA\Property(property="friday", type="integer"),
+     *                 @OA\Property(property="saturday", type="integer"),
+     *                 @OA\Property(property="sunday", type="integer"),
+     *                 description="0 - working day, 4 - half day, 8 - non working day"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

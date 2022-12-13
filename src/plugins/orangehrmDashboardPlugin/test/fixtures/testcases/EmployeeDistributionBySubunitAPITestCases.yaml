@@ -1,0 +1,56 @@
+GetAll:
+  'Get all subunit count - Admin User':
+    userId: 1
+    services:
+      dashboard.chart_service: \OrangeHRM\Dashboard\Service\ChartService
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    data:
+      0:
+        subunit:
+          id: 3
+          name: Engineering
+        count: 6
+      1:
+        subunit:
+          id: 2
+          name: Administration
+        count: 3
+      2:
+        subunit:
+          id: 7
+          name: Sales Executive
+        count: 3
+      3:
+        subunit:
+          id: 10
+          name: Client Services
+        count: 2
+      4:
+        subunit:
+          id: 13
+          name: Human Resources
+        count: 2
+      5:
+        subunit:
+          id: 12
+          name: Finance
+        count: 1
+      6:
+        subunit:
+          id: 18
+          name: Special Unit 1
+        count: 1
+      7:
+        subunit:
+          id: 19
+          name: Special Unit 2
+        count: 1
+      8:
+        subunit:
+          id: 22
+          name: Special Unit 5
+        count: 1
+    meta:
+      otherEmployeeCount: 0
+      unassignedEmployeeCount: 3
+      totalSubunitCount: 9

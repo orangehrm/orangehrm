@@ -25,10 +25,12 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class EmployeeSalaryController extends BaseViewEmployeeController
 {
     use ServiceContainerTrait;
+    use I18NHelperTrait;
 
     /**
      * @return PayGradeService
@@ -40,7 +42,7 @@ class EmployeeSalaryController extends BaseViewEmployeeController
 
     public function preRender(Request $request): void
     {
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->attributes->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-salary');
 
@@ -55,8 +57,32 @@ class EmployeeSalaryController extends BaseViewEmployeeController
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('currencies', Prop::TYPE_ARRAY, $currencies));
             $component->addProp(new Prop('paygrades', Prop::TYPE_ARRAY, $paygrades));
-            $component->addProp(new Prop('pay-frequencies', Prop::TYPE_ARRAY, $payFrequencies));
-            $component->addProp(new Prop('account-types', Prop::TYPE_ARRAY, $accountTypes));
+            $component->addProp(
+                new Prop(
+                    'account-types',
+                    Prop::TYPE_ARRAY,
+                    array_map(
+                        fn (array $accountTypes) => [
+                            'id' => $accountTypes['id'],
+                            'label' => $this->getI18NHelper()->transBySource($accountTypes['label'])
+                        ],
+                        $accountTypes
+                    )
+                )
+            );
+            $component->addProp(
+                new Prop(
+                    'pay-frequencies',
+                    Prop::TYPE_ARRAY,
+                    array_map(
+                        fn (array $payFrequencies) => [
+                            'id' => $payFrequencies['id'],
+                            'label' => $this->getI18NHelper()->transBySource($payFrequencies['label'])
+                        ],
+                        $payFrequencies
+                    )
+                )
+            );
 
             $this->setComponent($component);
 

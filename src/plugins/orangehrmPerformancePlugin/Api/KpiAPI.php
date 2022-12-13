@@ -50,12 +50,34 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MIN_RATING = 'minRating';
     public const PARAMETER_MAX_RATING = 'maxRating';
     public const PARAMETER_DEFAULT_KPI = 'isDefault';
+    public const PARAMETER_EDITABLE = 'editable';
 
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
 
     public const PARAM_RULE_TITLE_MAX_LENGTH = 100;
 
     /**
+     *@OA\Get(
+     *     path="/api/v2/performance/kpis/{id}",
+     *     tags={"Performance/Configure Kpis"},
+     * @OA\PathParameter(
+     *     name="id",
+     *     @OA\Schema(type="integer")
+     * ),
+     * @OA\Response(
+     *     response="200",
+     *     description="Success",
+     *     @OA\JsonContent(
+     *         @OA\Property(
+     *             property="data",
+     *             ref="#/components/schemas/Performance-KpiModel"
+     *         ),
+     *         @OA\Property(property="meta", type="object")
+     *     )
+     * ),
+     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -63,8 +85,12 @@ class KpiAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $kpi = $this->getKpiService()->getKpiDao()->getKpiById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($kpi, Kpi::class);
-
-        return new EndpointResourceResult(KpiModel::class, $kpi);
+        $editable = $this->getKpiService()->getKpiDao()->isKpiEditable($id);
+        return new EndpointResourceResult(
+            KpiModel::class,
+            $kpi,
+            new ParameterBag([self::PARAMETER_EDITABLE => $editable])
+        );
     }
 
     /**
@@ -81,6 +107,40 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/performance/kpis",
+     *     tags={"Performance/Configure Kpis"},
+     *     @OA\Parameter(
+     *         name="jobTitleId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=KpiSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Performance-KpiModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -119,16 +179,42 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/performance/kpis",
+     *     tags={"Performance/Configure Kpis"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="jobTitleId", type="integer", description="Should be an existing Job title Id"),
+     *             @OA\Property(property="minRating", type="integer"),
+     *             @OA\Property(property="maxRating", type="integer"),
+     *             @OA\Property(property="isDefault", type="boolean"),
+     *             required={"title", "jobTitleId", "minRating", "maxRating"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-KpiModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      * @throws BadRequestException|TransactionException
      */
     public function create(): EndpointResult
     {
         $kpi = new Kpi();
-        $this->setKpi($kpi);
+        $this->setKpi($kpi, true);
 
         try {
-            $kpi = $this->getKpiService()->saveKpi($kpi);
+            $kpi = $this->getKpiService()->saveKpi($kpi, false);
             return new EndpointResourceResult(KpiModel::class, $kpi);
         } catch (KpiServiceException $e) {
             throw $this->getBadRequestException($e->getMessage());
@@ -138,14 +224,30 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     /**
      * @param Kpi $kpi
      */
-    private function setKpi(Kpi $kpi): void
+    private function setKpi(Kpi $kpi, bool $notRestrictedUpdate): void
     {
-        $kpi->setTitle(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_TITLE
-            )
-        );
+        if ($notRestrictedUpdate) {
+            $kpi->setTitle(
+                $this->getRequestParams()->getString(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_TITLE
+                )
+            );
+
+            $kpi->setMinRating(
+                $this->getRequestParams()->getInt(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_MIN_RATING
+                )
+            );
+            $kpi->setMaxRating(
+                $this->getRequestParams()->getInt(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_MAX_RATING
+                )
+            );
+        }
+
         $jobTitleId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_JOB_TITLE_CODE
@@ -153,18 +255,6 @@ class KpiAPI extends Endpoint implements CrudEndpoint
 
         $kpi->getDecorator()->setJobTitleById($jobTitleId);
 
-        $kpi->setMinRating(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_MIN_RATING
-            )
-        );
-        $kpi->setMaxRating(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_MAX_RATING
-            )
-        );
         $kpi->setDefaultKpi(
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_BODY,
@@ -219,6 +309,37 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/performance/kpis/{id}",
+     *     tags={"Performance/Configure Kpis"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="jobTitleId", type="integer", description="Should be an existing Job title Id"),
+     *             @OA\Property(property="minRating", type="integer"),
+     *             @OA\Property(property="maxRating", type="integer"),
+     *             @OA\Property(property="isDefault", type="boolean"),
+     *             required={"title", "jobTitleId", "minRating", "maxRating"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-KpiModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      * @throws BadRequestException|TransactionException
      */
@@ -227,8 +348,8 @@ class KpiAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $kpi = $this->getKpiService()->getKpiDao()->getKpiById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($kpi, Kpi::class);
-        $this->setKpi($kpi);
-
+        $editable = $this->getKpiService()->getKpiDao()->isKpiEditable($id);
+        $this->setKpi($kpi, $editable);
         try {
             $this->getKpiService()->saveKpi($kpi);
             return new EndpointResourceResult(KpiModel::class, $kpi);
@@ -249,6 +370,13 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/performance/kpis",
+     *     tags={"Performance/Configure Kpis"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult

@@ -27,6 +27,28 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Theme
 {
+    public const ALLOWED_IMAGE_TYPES = [
+        'image/gif',
+        'image/jpeg',
+        'image/jpg',
+        'image/pjpeg',
+        'image/png',
+        'image/x-png',
+        'image/svg+xml',
+    ];
+    public const ALLOWED_IMAGE_EXTENSIONS = [
+        'gif',
+        'jpeg',
+        'jpg',
+        'png',
+        'svg',
+        'jfif',
+    ];
+    public const CLIENT_LOGO_ASPECT_RATIO = 1; // 50 x 50
+    public const CLIENT_BANNER_ASPECT_RATIO = 91 / 25; // 182 x 50
+    public const LOGIN_BANNER_ASPECT_RATIO = 68 / 13; // 340 x 65
+    public const IMAGE_ASPECT_RATIO_TOLERANCE = 0.1;
+
     /**
      * @var int
      *
@@ -137,7 +159,7 @@ class Theme
     /**
      * @var bool
      *
-     * @ORM\Column(name="show_social_media_icons",type="boolean",options={"default":1})
+     * @ORM\Column(name="show_social_media_icons", type="boolean", options={"default" : 1})
      */
     private bool $showSocialMediaIcons = true;
 

@@ -48,6 +48,7 @@
               <oxd-grid-item>
                 <project-autocomplete
                   v-model="filters.project"
+                  :rules="rules.project"
                   :label="$t('time.project_name')"
                   :only-allowed="false"
                 />
@@ -115,6 +116,7 @@
 import {computed, ref} from 'vue';
 import {
   required,
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -125,6 +127,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const defaultFilters = {
   employee: null,
@@ -147,11 +150,13 @@ export default {
   setup() {
     const filters = ref({...defaultFilters});
     const {$t} = usei18n();
+    const {userDateFormat} = useDateFormat();
 
     const rules = {
-      employee: [required],
+      project: [validSelection],
+      employee: [required, validSelection],
       fromDate: [
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
           $t('general.from_date_should_be_before_to_date'),
@@ -159,7 +164,7 @@ export default {
         ),
       ],
       toDate: [
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
           $t('general.to_date_should_be_after_from_date'),

@@ -1,0 +1,22 @@
+Employee:
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey'}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel'}
+  2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri'}
+  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal'}
+  4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
+
+JobTitle:
+  0: {id: 1, jobTitleName: 'SE', jobDescription: 'Software Engineer', isDeleted: 0}
+  1: {id: 2, jobTitleName: 'Architect', jobDescription: 'Software Architect', isDeleted: 0}
+
+Vacancy:
+  0: {id: 1, job_title_code: 1, hiring_manager_id: 1, name: 'Software Engineer 2011', description: 'SE for 2011', numOfPositions: 2, status: 1, isPublished: 1, definedTime: '2011-06-03 10:20:15', updatedTime: '2011-06-03 10:20:15'}
+  1: {id: 2, job_title_code: 2, hiring_manager_id: 2, name: 'Software Architect 2011', description: 'Architect for 2011', numOfPositions: 1, status: 1, isPublished: 0, definedTime: '2011-06-05 11:54:35', updatedTime: '2011-06-05 11:54:35'}
+  2: {id: 3, job_title_code: 2, hiring_manager_id: 3, name: 'Software Architect 2010', description: 'Architect for 2011', numOfPositions: 1, status: 1, isPublished: 1, definedTime: '2011-06-07 14:58:35', updatedTime: '2011-06-07 14:58:35'}
+  3: {id: 4, job_title_code: 1, hiring_manager_id: 4, name: 'Software Architect 2012', description: 'Architect for 2012', numOfPositions: 1, status: 0, isPublished: 1, definedTime: '2011-06-09 19:16:29', updatedTime: '2011-06-09 19:16:29'}
+  4: {id: 5, job_title_code: 1, hiring_manager_id: 1, name: 'Accountant Grade 1', description: 'Accountant grade 1', numOfPositions: 1, status: 0, isPublished: 1, definedTime: '2011-06-09 17:16:29', updatedTime: '2011-06-09 18:16:29'}
+
+Candidate:
+  0: {id: 1, firstName: 'Yasitha', lastName: 'Pandi', contactNumber: '0372243567', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 1, dateOfApplication: '2011-06-03', email: 'namal@gmail.com'}
+  1: {id: 2, firstName: 'Chanaka', lastName: 'Bandara', contactNumber: '0352243224', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 2, dateOfApplication: '2011-06-07', email: 'ren@gmail.com'}
+  3: {id: 3, firstName: 'Chanaka', lastName: 'Gunara', contactNumber: '035223224', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 1, dateOfApplication: '2011-06-02', email: 'ren@gmail.com'}

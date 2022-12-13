@@ -19,31 +19,66 @@
 
 namespace OrangeHRM\Recruitment\Controller;
 
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Controller\VueComponentPermissionTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
-class SaveCandidateController extends AbstractVueController
+class SaveCandidateController extends AbstractVueController implements CapableViewController
 {
-    protected ?ConfigService $configService = null;
-
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
+    use CandidateServiceTrait;
+    use ConfigServiceTrait;
+    use UserRoleManagerTrait;
+    use VueComponentPermissionTrait;
+    use AuthUserTrait;
 
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('save-candidate');
+        if ($request->attributes->has('id')) {
+            $id = $request->attributes->getInt('id');
+
+            if (is_null($this->getCandidateService()->getCandidateDao()->getCandidateById($id))) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+            $component = new Component('view-candidate-profile');
+            $candidateVacancy = $this->getCandidateService()->getCandidateDao()->getCandidateVacancyByCandidateId($id);
+            $updatable = true;
+            if ($candidateVacancy instanceof CandidateVacancy) {
+                $rolesToExclude = [];
+                $hiringManagerEmpNumber = $candidateVacancy->getVacancy()->getHiringManager()->getEmpNumber();
+                if ($hiringManagerEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+                    $rolesToExclude = ['HiringManager', 'Interviewer'];
+                }
+                $updatable = $this->getUserRoleManager()->isEntityAccessible(
+                    Candidate::class,
+                    $id,
+                    null,
+                    $rolesToExclude
+                );
+            }
+            $component->addProp(new Prop('updatable', Prop::TYPE_BOOLEAN, $updatable));
+            $component->addProp(new Prop('candidate-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('save-candidate');
+        }
+
+        $component->addProp(
+            new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize())
+        );
         $component->addProp(
             new Prop(
                 'allowed-file-types',
@@ -52,5 +87,27 @@ class SaveCandidateController extends AbstractVueController
             )
         );
         $this->setComponent($component);
+    }
+
+    /**
+     * @throws RequestForwardableException
+     */
+    public function isCapable(Request $request): bool
+    {
+        if ($request->attributes->has('id')) {
+            $id = $request->attributes->getInt('id');
+
+            if (is_null($this->getCandidateService()->getCandidateDao()->getCandidateById($id))) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+            if (!$this->getUserRoleManager()->isEntityAccessible(Candidate::class, $id)) {
+                return false;
+            }
+            return true;
+        } elseif (!$this->getUserRoleManager()->getDataGroupPermissions(['recruitment_candidates'])->canCreate()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

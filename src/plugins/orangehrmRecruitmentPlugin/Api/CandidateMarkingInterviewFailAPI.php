@@ -37,7 +37,7 @@ class CandidateMarkingInterviewFailAPI extends AbstractCandidateActionAPI
         $paramRuleCollection->addParamValidation(
             new ParamRule(
                 self::PARAMETER_INTERVIEW_ID,
-                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Interview::class]),
+                new Rule(Rules::POSITIVE),
                 new Rule(Rules::ENTITY_ID_EXISTS, [Interview::class])
             ),
         );

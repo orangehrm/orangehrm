@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Core\Dto;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 class Base64Attachment
 {
     private string $filename;
@@ -110,5 +112,33 @@ class Base64Attachment
     public function getContent(): ?string
     {
         return base64_decode($this->base64Content) ?? null;
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @return static
+     */
+    public static function createFromUploadedFile(UploadedFile $uploadedFile): self
+    {
+        return new self(
+            $uploadedFile->getClientOriginalName(),
+            $uploadedFile->getClientMimeType(),
+            base64_encode($uploadedFile->getContent()),
+            $uploadedFile->getSize()
+        );
+    }
+
+    /**
+     * @param array $attachment
+     * @return static
+     */
+    public static function createFromArray(array $attachment): self
+    {
+        return new self(
+            $attachment['name'],
+            $attachment['type'],
+            $attachment['base64'],
+            $attachment['size']
+        );
     }
 }

@@ -157,7 +157,7 @@ class Migration extends AbstractMigration
                     'level' => ':level',
                     'order_hint' => ':orderHint',
                     'url_extras' => ':urlExtras',
-                    'status' => 'status'
+                    'status' => ':status'
                 ]
             )
             ->setParameter('menuTitle', $menuTitle)

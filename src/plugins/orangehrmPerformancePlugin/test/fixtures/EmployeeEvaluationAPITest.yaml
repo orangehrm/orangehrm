@@ -223,12 +223,20 @@ Reviewer:
   - {"id": 16,"review_id": 8,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": "2022-07-29","comment": null }
 
 ReviewerRating:
-  - {id: 1, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 4,comment: "test"}
-  - {id: 2, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 4,comment: "test2"}
-  - {id: 3, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 3,comment: "testSelf" }
-  - {id: 4, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 3,comment: "testSelf2" }
-  - {id: 5, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 16,comment: "testb2"}
-  - {id: 6, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 15,comment: "testSelfb2"}
+  - { id: 1, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 4,comment: "test" }
+  - { id: 2, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 4,comment: "test2" }
+  - { id: 3, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 3,comment: "testSelf" }
+  - { id: 4, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 3,comment: "testSelf2" }
+  - { id: 5, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 16,comment: "testb2" }
+  - { id: 6, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 15,comment: "testSelfb2" }
+  - { id: 7, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 8, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 9, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 10, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 11, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 12, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 13, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 7,comment: null }
+  - { id: 14, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 8,comment: null }
 
 ReportingMethod:
   0: {id: 1, name: 'Indirect'}

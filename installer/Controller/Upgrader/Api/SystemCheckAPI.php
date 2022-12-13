@@ -63,19 +63,15 @@ class SystemCheckAPI extends AbstractInstallerRestController
                     'checks' => [
                         [
                             'label' => 'Write Permissions for “lib/confs”',
-                            'value' => $systemConfig->isWritableLibConfs()
-                        ],
-                        [
-                            'label' => 'Write Permissions for “src/config”',
-                            'value' => $systemConfig->isWritableSymfonyConfig()
+                            'value' => $systemConfig->isWritableConfigDir()
                         ],
                         [
                             'label' => 'Write Permissions for “src/cache”',
-                            'value' => $systemConfig->isWritableSymfonyCache()
+                            'value' => $systemConfig->isWritableCacheDir()
                         ],
                         [
                             'label' => 'Write Permissions for “src/log”',
-                            'value' => $systemConfig->isWritableSymfonyLog()
+                            'value' => $systemConfig->isWritableLogDir()
                         ],
                     ]
                 ],
@@ -105,7 +101,19 @@ class SystemCheckAPI extends AbstractInstallerRestController
                         [
                             'label' => 'Zip extension status',
                             'value' => $systemConfig->isZipExtensionEnabled()
-                        ]
+                        ],
+                        [
+                            'label' => 'Intl extension status',
+                            'value' => $systemConfig->isIntlExtensionEnabled()
+                        ],
+                        [
+                            'label' => 'GD extension status',
+                            'value' => $systemConfig->isGdExtensionEnabled()
+                        ],
+                        [
+                            'label' => 'LDAP extension status',
+                            'value' => $systemConfig->isLDAPExtensionEnabled()
+                        ],
                     ]
                 ]
             ],

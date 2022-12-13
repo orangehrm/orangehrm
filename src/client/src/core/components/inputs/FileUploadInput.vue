@@ -62,7 +62,7 @@
     <oxd-input-field
       v-bind="$attrs"
       type="file"
-      :label="label"
+      :label="fieldLabel"
       :model-value="newFile"
       :disabled="disabled"
       :placeholder="$t('general.no_file_selected')"
@@ -91,7 +91,7 @@ export default {
       default: '',
     },
     url: {
-      type: String,
+      type: [String, Function],
       required: true,
     },
     method: {
@@ -122,11 +122,23 @@ export default {
     fileSelected() {
       return this.file && Object.keys(this.file).length > 0;
     },
+    fieldLabel() {
+      return this.method === 'replaceCurrent' && this.fileSelected
+        ? this.$t('general.upload_n_file', {
+            fileName: this.label,
+          })
+        : this.label;
+    },
   },
   methods: {
     downloadFile() {
-      if (!this.file?.id) return;
-      const downUrl = `${window.appGlobal.baseUrl}/${this.url}/${this.file.id}`;
+      let downUrl;
+      if (typeof this.url === 'function') {
+        downUrl = this.url(this.$props);
+      } else {
+        if (!this.file?.id) return;
+        downUrl = `${window.appGlobal.baseUrl}/${this.url}/${this.file.id}`;
+      }
       window.open(downUrl, '_blank');
     },
   },
@@ -154,6 +166,7 @@ export default {
     font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-word;
   }
   &-options {
     display: flex;

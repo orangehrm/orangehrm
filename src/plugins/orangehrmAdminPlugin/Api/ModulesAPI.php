@@ -28,13 +28,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Service\ModuleService;
+use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Service\OAuthService;
 
 class ModulesAPI extends Endpoint implements CrudEndpoint
 {
+    use MenuServiceTrait;
+
     public const PARAMETER_ADMIN = 'admin';
     public const PARAMETER_PIM = 'pim';
     public const PARAMETER_LEAVE = 'leave';
@@ -43,6 +45,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_PERFORMANCE = 'performance';
     public const PARAMETER_MAINTENANCE = 'maintenance';
     public const PARAMETER_MOBILE = 'mobile';
+    public const PARAMETER_DIRECTORY = 'directory';
 
     /**
      * @var ModuleService|null
@@ -52,23 +55,20 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      * @var OAuthService|null
      */
     protected ?OAuthService $oAuthService = null;
-    /**
-     * @var MenuService|null
-     */
-    protected ?MenuService $menuService = null;
 
     /**
      * @var array
      */
     protected const CONFIGURABLE_MODULES = [
-        self::PARAMETER_ADMIN => false,
-        self::PARAMETER_PIM => false,
+        self::PARAMETER_ADMIN => true,
+        self::PARAMETER_PIM => true,
         self::PARAMETER_LEAVE => false,
         self::PARAMETER_TIME => false,
         self::PARAMETER_RECRUITMENT => false,
         self::PARAMETER_PERFORMANCE => false,
         self::PARAMETER_MAINTENANCE => false,
-        self::PARAMETER_MOBILE => false
+        self::PARAMETER_MOBILE => false,
+        self::PARAMETER_DIRECTORY => false,
     ];
 
     /**
@@ -84,16 +84,6 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * Set Module Service
-     * @param ModuleService $moduleService
-     * @return void
-     */
-    public function setModuleService(ModuleService $moduleService): void
-    {
-        $this->moduleService = $moduleService;
-    }
-
-    /**
      * Get OAuth Service
      * @return OAuthService|null
      */
@@ -106,27 +96,34 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * Set OAuth Service
-     * @param OAuthService $oAuthService
-     * @return void
-     */
-    public function setOAuthService(OAuthService $oAuthService): void
-    {
-        $this->oAuthService = $oAuthService;
-    }
-
-    /**
-     * @return MenuService
-     */
-    public function getMenuService(): MenuService
-    {
-        if (is_null($this->menuService)) {
-            $this->menuService = new MenuService();
-        }
-        return $this->menuService;
-    }
-
-    /**
+     * @OA\Get(
+     *     path="/api/v2/admin/modules",
+     *     tags={"Admin/Modules"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 description="Module name and the boolean value to denote if it is enabled",
+     *                 @OA\Items(
+     *                     @OA\Property(property="admin", type="boolean"),
+     *                     @OA\Property(property="pim", type="boolean"),
+     *                     @OA\Property(property="leave", type="boolean"),
+     *                     @OA\Property(property="time", type="boolean"),
+     *                     @OA\Property(property="recruitment", type="boolean"),
+     *                     @OA\Property(property="performance", type="boolean"),
+     *                     @OA\Property(property="maintenance", type="boolean"),
+     *                     @OA\Property(property="mobile", type="boolean"),
+     *                     @OA\Property(property="directory", type="boolean")
+     *                 ),
+     *                 example="admin: true, pim: true, leave: false, time: true,...",
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * Get Configurable Modules Array
      *
      * This function fetch the configurable modules from a predefined array and return them with
@@ -200,13 +197,47 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/modules",
+     *     tags={"Admin/Modules"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             description="Module name and the boolean value to denote if it is enabled",
+     *             @OA\Property(property="admin", type="boolean"),
+     *             @OA\Property(property="pim", type="boolean"),
+     *             @OA\Property(property="leave", type="boolean"),
+     *             @OA\Property(property="time", type="boolean"),
+     *             @OA\Property(property="recruitment", type="boolean"),
+     *             @OA\Property(property="performance", type="boolean"),
+     *             @OA\Property(property="maintenance", type="boolean"),
+     *             @OA\Property(property="mobile", type="boolean"),
+     *             @OA\Property(property="directory", type="boolean")
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 description="Module name and the boolean value to denote if it is enabled",
+     *                 @OA\Items(
+     *                     @OA\Property(property="module", type="boolean"),
+     *                 ),
+     *                 example="admin: true, pim: true, leave: true, time: true,...",
+     *             )
+     *         )
+     *     ),
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResourceResult
     {
         $modules = self::CONFIGURABLE_MODULES;
         foreach ($modules as $key => $module) {
-            $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key);
+            $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key, true);
         }
         $this->getModuleService()->updateModuleStatus($modules);
         $this->updateMobileStatus($modules[self::PARAMETER_MOBILE]);
@@ -227,7 +258,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      */
     protected function updateMobileStatus(?bool $enableMobile): void
     {
-        $enableMobile ? $this->deleteMobileClient() : $this->createMobileClient();
+        $enableMobile ? $this->createMobileClient() : $this->deleteMobileClient();
     }
 
     /**
@@ -260,13 +291,17 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_ADMIN,
-                new Rule(Rules::TRUE_VAL),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ADMIN,
+                    new Rule(Rules::TRUE_VAL),
+                )
             ),
-            new ParamRule(
-                self::PARAMETER_PIM,
-                new Rule(Rules::TRUE_VAL),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PIM,
+                    new Rule(Rules::TRUE_VAL),
+                )
             ),
             new ParamRule(
                 self::PARAMETER_LEAVE,
@@ -290,6 +325,10 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_MOBILE,
+                new Rule(Rules::BOOL_TYPE),
+            ),
+            new ParamRule(
+                self::PARAMETER_DIRECTORY,
                 new Rule(Rules::BOOL_TYPE),
             ),
         );

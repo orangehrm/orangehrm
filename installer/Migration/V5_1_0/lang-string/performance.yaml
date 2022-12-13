@@ -201,9 +201,6 @@ langStrings:
     value: 'Supervisor Evaluation by'
     unitId: supervisor_evaluation_by
   -
-    value: 'KPIs'
-    unitId: kpis
-  -
     value: 'KPI'
     unitId: kpi
   -
@@ -236,3 +233,15 @@ langStrings:
   -
     value: 'General Comment'
     unitId: general_comment
+  -
+    value: 'Confirm Review Submission'
+    unitId: confirm_review_submission
+  -
+    value: 'The review will be made read-only after completion. This action cannot be undone. Are you sure you want to continue?'
+    unitId: confirm_review_submission_message
+  -
+    value: 'Cannot add a past employee as a reviewer'
+    unitId: cannot_add_a_past_employee_as_a_reviewer
+  -
+    value: 'Edit Review'
+    unitId: edit_review

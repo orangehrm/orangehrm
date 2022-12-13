@@ -171,7 +171,7 @@ class MenuServiceTest extends KernelTestCase
             [
                 'id' => 96,
                 'name' => 'Maintenance',
-                'url' => '/maintenance/purgeEmployee',
+                'url' => '/maintenance/viewMaintenanceModule',
                 'icon' => 'maintenance',
             ],
             [
@@ -333,6 +333,11 @@ class MenuServiceTest extends KernelTestCase
                         'id' => 95,
                         'name' => 'Register OAuth Client',
                         'url' => '/admin/registerOAuthClient',
+                    ],
+                    [
+                        'id' => 104,
+                        'name' => 'LDAP Configuration',
+                        'url' => '/admin/ldapConfiguration',
                     ],
                 ],
             ],

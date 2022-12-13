@@ -8,6 +8,7 @@ database:
   orangehrmDatabaseUser: ~
   orangehrmDatabasePassword: ~
   isExistingDatabase: n # y/n
+  enableDataEncryption: n # y/n
 
 organization:
   name: OrangeHRM

@@ -17,155 +17,114 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Api;
+namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\ModulesAPI;
-use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Service\ModuleService;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\OAuth\Service\OAuthService;
-use OrangeHRM\Tests\Util\EndpointTestCase;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\Mock\MockAuthUser;
 use OrangeHRM\Tests\Util\TestDataService;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @group Admin
  * @group APIv2
  */
-class ModulesAPITest extends EndpointTestCase
+class ModulesAPITest extends EndpointIntegrationTestCase
 {
-    private ModulesAPI $modulesApi;
-
     protected function setUp(): void
     {
-        $this->modulesApi = new ModulesAPI($this->getRequest());
-        TestDataService::truncateSpecificTables(['OAuthClient']);
-        TestDataService::populate(
-            Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/ModuleDao.yml'
-        );
-    }
-
-    protected function getTestCasesByKey($testCaseKey): array
-    {
-        $testCases = Yaml::parseFile(
-            Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/testcases/ModulesAPI.yml'
-        );
-        if (array_key_exists($testCaseKey, $testCases)) {
-            return $testCases[$testCaseKey];
-        }
-        return [];
-    }
-
-    public function testGettersAndSetters(): void
-    {
-        $classFieldTypeMap = [
-            'moduleService' => ModuleService::class,
-            'oAuthService' => OAuthService::class
-        ];
-        foreach ($classFieldTypeMap as $field => $type) {
-            $setter = 'set' . ucfirst($field);
-            $getter = 'get' . ucfirst($field);
-            $this->assertInstanceOf($type, $this->modulesApi->$getter());
-            $this->modulesApi->$setter(new $type());
-            $this->assertInstanceOf($type, $this->modulesApi->$getter());
-        }
-    }
-
-    public function dataProviderForTestGetAll(): array
-    {
-        return $this->getTestCasesByKey('GetAll');
+        TestDataService::truncateSpecificTables([OAuthClient::class]);
     }
 
     /**
      * @dataProvider dataProviderForTestGetAll
      */
-    public function testGetAll($params, $result, $exception = false): void
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        if ($exception) {
-            $this->expectException($exception['class']);
-            $this->expectExceptionMessage($exception['message']);
-        }
-        $this->modulesApi = new ModulesAPI($this->getRequest($params));
-        $modules = $this->modulesApi->getAll();
-        $this->assertEquals($result, $modules->normalize());
+        $this->populateFixtures('ModulesAPI.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(ModulesAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    public function dataProviderForTestGetValidationRuleForGetAll(): array
+    public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCasesByKey('GetValidationRuleForGetAll');
-    }
-
-    /**
-     * @dataProvider dataProviderForTestGetValidationRuleForGetAll
-     */
-    public function testGetValidationRuleForGetAll($params, $exception = false): void
-    {
-        if ($exception) {
-            $this->expectException($exception['class']);
-            $this->expectExceptionMessage($exception['message']);
-        }
-        $validationRule = $this->modulesApi->getValidationRuleForGetAll();
-        $this->assertTrue($this->validate($params, $validationRule));
-    }
-
-    public function dataProviderForTestUpdate(): array
-    {
-        return $this->getTestCasesByKey('Update');
+        return $this->getTestCases('ModulesAPITestCases.yaml', 'GetAll');
     }
 
     /**
      * @dataProvider dataProviderForTestUpdate
      */
-    public function testUpdate($params, $result, $exception = false): void
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        if ($exception) {
-            $this->expectException($exception['class']);
-            $this->expectExceptionMessage($exception['message']);
-        }
-
+        $this->populateFixtures('ModulesAPI.yaml');
         $authUser = $this->getMockBuilder(MockAuthUser::class)
-            ->onlyMethods(['getUserId', 'getEmpNumber', 'removeAttribute', 'getAttribute'])
+            ->onlyMethods(['getUserId', 'getEmpNumber','removeAttribute', 'getAttribute'])
             ->disableOriginalConstructor()
             ->getMock();
-        $authUser->method('getUserId')
-            ->willReturn(1);
-        $authUser->method('removeAttribute')
-            ->willReturnCallback(function (string $key) {
-            });
-        $authUser->method('getAttribute')
-            ->willReturnCallback(fn (string $key, $default) => $default);
-        $authUser->method('getEmpNumber')
-            ->willReturn(
-                $this->getEntityReference(
-                    User::class,
-                    1
-                )->getEmployee()->getEmpNumber()
-            );
-
+        $authUser->expects($this->atMost(2))
+            ->method('removeAttribute')
+            ->willReturnMap([
+                ['core.menu.side_panel'],
+                ['core.menu.top_ribbon_keys']
+            ]);
+        $authUser->expects($this->atMost(1))
+            ->method('getAttribute')
+            ->with('core.menu.top_ribbon_keys')
+            ->willReturn([]);
         $this->createKernelWithMockServices([Services::AUTH_USER => $authUser]);
-
-        $this->modulesApi = new ModulesAPI($this->getRequest([], $params, []));
-        $modules = $this->modulesApi->update();
-        $this->assertEquals($result, $modules->normalize());
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(ModulesAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function dataProviderForTestGetValidationRuleForUpdate(): array
+    public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCasesByKey('GetValidationRuleForUpdate');
+        return $this->getTestCases('ModulesAPITestCases.yaml', 'Update');
     }
 
-    /**
-     * @dataProvider dataProviderForTestGetValidationRuleForUpdate
-     */
-    public function testGetValidationRuleForUpdate($params, $exception = false): void
+    public function testCreate(): void
     {
-        if ($exception) {
-            $this->expectException($exception['class']);
-            $this->expectExceptionMessage($exception['message']);
-        }
-        $validationRule = $this->modulesApi->getValidationRuleForUpdate();
-        $this->assertTrue($this->validate($params, $validationRule));
+        $api = new ModulesAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new ModulesAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new ModulesAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new ModulesAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new ModulesAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new ModulesAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
     }
 }

@@ -22,7 +22,7 @@ namespace OrangeHRM\Admin\Service;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\Employee;
@@ -33,31 +33,26 @@ class UserService
 {
     use UserRoleManagerTrait;
 
-    /**
-     * @var UserDao|null
-     */
-    protected ?UserDao $systemUserDao = null;
+    public const USERNAME_MIN_LENGTH = 5;
+    public const USERNAME_MAX_LENGTH = 40;
 
-    /** @property PasswordHash $passwordHasher */
-    private ?PasswordHash $passwordHasher = null;
+    private UserDao $userDao;
+    private PasswordHash $passwordHasher;
 
     /**
      * @return UserDao
      */
-    public function getSystemUserDao(): UserDao
+    public function geUserDao(): UserDao
     {
-        if (empty($this->systemUserDao)) {
-            $this->systemUserDao = new UserDao();
-        }
-        return $this->systemUserDao;
+        return $this->userDao ??= new UserDao();
     }
 
     /**
-     * @param UserDao $systemUserDao
+     * @param UserDao $userDao
      */
-    public function setSystemUserDao(UserDao $systemUserDao): void
+    public function setUserDao(UserDao $userDao): void
     {
-        $this->systemUserDao = $systemUserDao;
+        $this->userDao = $userDao;
     }
 
     /**
@@ -65,10 +60,7 @@ class UserService
      */
     public function getPasswordHasher(): PasswordHash
     {
-        if (empty($this->passwordHasher)) {
-            $this->passwordHasher = new PasswordHash();
-        }
-        return $this->passwordHasher;
+        return $this->passwordHasher ??= new PasswordHash();
     }
 
     /**
@@ -80,31 +72,20 @@ class UserService
     }
 
     /**
-     * Save System User
-     *
-     * @param User $systemUser
-     * @param bool $changePassword
+     * @param User $user
      * @return User|null
      */
-    public function saveSystemUser(User $systemUser, bool $changePassword = false): ?User
+    public function saveSystemUser(User $user): ?User
     {
-        if ($changePassword) {
-            $systemUser->setUserPassword($this->hashPassword($systemUser->getUserPassword()));
+        if ((Config::PRODUCT_MODE === Config::MODE_DEMO && is_null($user->getCreatedBy()))) {
+            return $user;
+        }
+        if (!is_null($user->getDecorator()->getNonHashedPassword())) {
+            $user->setUserPassword($this->hashPassword($user->getDecorator()->getNonHashedPassword()));
+            $user->getDecorator()->setNonHashedPassword(null);
         }
 
-        return $this->getSystemUserDao()->saveSystemUser($systemUser);
-    }
-
-    /**
-     * Check is existing user according to user name
-     * @param string $userName
-     * @param int $userId
-     * @return User|null
-     */
-    public function isExistingSystemUser(string $userName, int $userId): ?User
-    {
-        $credentials = new UserCredential($userName);
-        return $this->getSystemUserDao()->isExistingSystemUser($credentials, $userId);
+        return $this->geUserDao()->saveSystemUser($user);
     }
 
     /**
@@ -114,27 +95,17 @@ class UserService
      */
     public function getSystemUser(int $userId): ?User
     {
-        return $this->getSystemUserDao()->getSystemUser($userId);
-    }
-
-    /**
-     * Get System Users
-     * @return User[]
-     */
-    public function getSystemUsers(): array
-    {
-        return $this->getSystemUserDao()->getSystemUsers();
+        return $this->geUserDao()->getSystemUser($userId);
     }
 
     /**
      * Soft Delete System Users
      * @param array $deletedIds
      * @return int
-     * @throws DaoException
      */
     public function deleteSystemUsers(array $deletedIds): int
     {
-        return $this->getSystemUserDao()->deleteSystemUsers($deletedIds);
+        return $this->geUserDao()->deleteSystemUsers($deletedIds);
     }
 
     /**
@@ -144,26 +115,7 @@ class UserService
      */
     public function getUserRole(string $roleName): ?UserRole
     {
-        return $this->getSystemUserDao()->getUserRole($roleName);
-    }
-
-    /**
-     * @param int $id
-     * @return UserRole|null
-     * @throws DaoException
-     */
-    public function getUserRoleById(int $id): ?UserRole
-    {
-        return $this->getSystemUserDao()->getUserRoleById($id);
-    }
-
-    /**
-     * @return UserRole[]
-     * @throws DaoException
-     */
-    public function getNonPredefinedUserRoles(): array
-    {
-        return $this->getSystemUserDao()->getNonPredefinedUserRoles();
+        return $this->geUserDao()->getUserRole($roleName);
     }
 
     /**
@@ -172,55 +124,39 @@ class UserService
      */
     public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
-        return $this->getSystemUserDao()->getSearchSystemUsersCount($userSearchParamHolder);
+        return $this->geUserDao()->getSearchSystemUsersCount($userSearchParamHolder);
     }
 
     /**
      * @param UserSearchFilterParams $userSearchParamHolder
-     * @return array
+     * @return User[]
      */
     public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
-        return $this->getSystemUserDao()->searchSystemUsers($userSearchParamHolder);
+        return $this->geUserDao()->searchSystemUsers($userSearchParamHolder);
     }
 
     /**
      * @param int $userId
      * @param string $password
      * @return bool
-     * @throws DaoException
      */
     public function isCurrentPassword(int $userId, string $password): bool
     {
-        $systemUser = $this->getSystemUserDao()->getSystemUser($userId);
+        $user = $this->geUserDao()->getSystemUser($userId);
 
-        if (!($systemUser instanceof User)) {
+        if (!$user instanceof User || $user->getUserPassword() === null) {
             return false;
         }
 
-        $hash = $systemUser->getUserPassword();
+        $hash = $user->getUserPassword();
         if ($this->checkPasswordHash($password, $hash)) {
             return true;
-        } else {
-            if ($this->checkForOldHash($password, $hash)) {
-                return true;
-            }
+        } elseif ($this->checkForOldHash($password, $hash)) {
+            return true;
         }
 
         return false;
-    }
-
-    /**
-     * Updates the password of given user
-     *
-     * @param int $userId User ID of the user
-     * @param string $password Non-encrypted password
-     * @return bool
-     * @throws DaoException
-     */
-    public function updatePassword(int $userId, string $password): bool
-    {
-        return $this->getSystemUserDao()->updatePassword($userId, $this->hashPassword($password));
     }
 
     /**
@@ -228,32 +164,30 @@ class UserService
      * @param bool $includeInactive
      * @param bool $includeTerminated
      * @return Employee[]
-     * @throws DaoException
      */
     public function getEmployeesByUserRole(
         string $roleName,
         bool $includeInactive = false,
         bool $includeTerminated = false
     ): array {
-        return $this->getSystemUserDao()->getEmployeesByUserRole($roleName, $includeInactive, $includeTerminated);
+        return $this->geUserDao()->getEmployeesByUserRole($roleName, $includeInactive, $includeTerminated);
     }
 
     /**
      * @param UserCredential $credentials
      * @return User|null
-     * @throws DaoException
      */
     public function getCredentials(UserCredential $credentials): ?User
     {
-        $user = $this->getSystemUserDao()->isExistingSystemUser($credentials);
+        $user = $this->geUserDao()->isExistingSystemUser($credentials);
         if ($user instanceof User) {
             $hash = $user->getUserPassword();
             if ($this->checkPasswordHash($credentials->getPassword(), $hash)) {
                 return $user;
             } elseif ($this->checkForOldHash($credentials->getPassword(), $hash)) {
                 // password matches, but in old format. Need to update hash
-                $user->setUserPassword($credentials->getPassword());
-                return $this->saveSystemUser($user, true);
+                $user->getDecorator()->setNonHashedPassword($credentials->getPassword());
+                return $this->saveSystemUser($user);
             }
         }
 
@@ -265,7 +199,7 @@ class UserService
      * @param string $password
      * @return string hashed password
      */
-    public function hashPassword(string $password): string
+    private function hashPassword(string $password): string
     {
         return $this->getPasswordHasher()->hash($password);
     }
@@ -276,7 +210,7 @@ class UserService
      * @param string $hash
      * @return bool
      */
-    public function checkPasswordHash(string $password, string $hash): bool
+    private function checkPasswordHash(string $password, string $hash): bool
     {
         return $this->getPasswordHasher()->verify($password, $hash);
     }
@@ -288,15 +222,9 @@ class UserService
      * @param string $hash
      * @return bool
      */
-    public function checkForOldHash(string $password, string $hash): bool
+    private function checkForOldHash(string $password, string $hash): bool
     {
-        $valid = false;
-
-        if ($hash == md5($password)) {
-            $valid = true;
-        }
-
-        return $valid;
+        return $hash == md5($password);
     }
 
     /**
@@ -308,6 +236,10 @@ class UserService
         $user = $this->getUserRoleManager()->getUser();
         if ($user instanceof User) {
             $undeletableIds[] = $user->getId();
+        }
+        if (Config::PRODUCT_MODE === Config::MODE_DEMO &&
+            ($defaultAdminUser = $this->geUserDao()->getDefaultAdminUser()) instanceof User) {
+            $undeletableIds[] = $defaultAdminUser->getId();
         }
 
         return $undeletableIds;

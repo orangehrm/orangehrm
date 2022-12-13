@@ -29,7 +29,8 @@ $ composer install -d devTools/core\n
 ";
 
 if (!($pathToAutoload && $pathToDevAutoload)) {
-    die(sprintf($errorMessage, realpath(__DIR__ . '/../../')));
+    echo sprintf($errorMessage, realpath(__DIR__ . '/../../'));
+    exit(1);
 }
 
 require_once $pathToAutoload;
@@ -37,13 +38,13 @@ require_once $pathToDevAutoload;
 
 use OrangeHRM\DevTools\Command\AddDataGroupCommand;
 use OrangeHRM\DevTools\Command\AddRolePermissionCommand;
-use OrangeHRM\DevTools\Command\AddTestTranslationCommand;
+use OrangeHRM\DevTools\Command\CreateTestDatabaseCommand;
 use OrangeHRM\DevTools\Command\EventDispatcherDebugCommand;
-use OrangeHRM\DevTools\Command\PHPFixCodingStandards;
-use OrangeHRM\DevTools\Command\ReInstall;
-use OrangeHRM\DevTools\Command\ResetInstallation;
-use OrangeHRM\DevTools\Command\TranslationCreate;
-use OrangeHRM\DevTools\Command\AddLangStrings;
+use OrangeHRM\DevTools\Command\GenerateOpenApiDocCommand;
+use OrangeHRM\DevTools\Command\PHPFixCodingStandardsCommand;
+use OrangeHRM\DevTools\Command\ReInstallCommand;
+use OrangeHRM\DevTools\Command\ResetInstallationCommand;
+use OrangeHRM\DevTools\Command\RunMigrationClassCommand;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
@@ -53,13 +54,13 @@ $application = new Application();
 
 $application->add(new AddDataGroupCommand());
 $application->add(new AddRolePermissionCommand());
-$application->add(new PHPFixCodingStandards());
+$application->add(new PHPFixCodingStandardsCommand());
 $application->add(new EventDispatcherDebugCommand());
-$application->add(new TranslationCreate());
-$application->add(new AddTestTranslationCommand());
-$application->add(new ResetInstallation());
-$application->add(new ReInstall());
-$application->add(new AddLangStrings());
+$application->add(new ResetInstallationCommand());
+$application->add(new ReInstallCommand());
+$application->add(new CreateTestDatabaseCommand());
+$application->add(new RunMigrationClassCommand());
+$application->add(new GenerateOpenApiDocCommand());
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);

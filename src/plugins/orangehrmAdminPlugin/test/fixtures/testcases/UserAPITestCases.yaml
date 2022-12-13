@@ -1,0 +1,879 @@
+GetAll:
+  'get all with limit':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      limit: 2
+    data: [
+      {
+        "id": 2,
+        "userName": "Adalwin",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 1,
+          "employeeId": "0001",
+          "firstName": "Odis",
+          "middleName": "",
+          "lastName": "Adalwin",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      },
+      {
+        "id": 1,
+        "userName": "admin",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 4,
+          "employeeId": "0004",
+          "firstName": "Kayla",
+          "middleName": "",
+          "lastName": "Abbey",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 1,
+          "name": "Admin",
+          "displayName": "Admin"
+        }
+      }
+    ]
+    meta: {
+      "total": 7
+    }
+
+  'get all with offset':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      offset: 2
+    data: [
+      {
+        "id": 8,
+        "userName": "Alice",
+        "deleted": false,
+        "status": false,
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Alice",
+          "middleName": "",
+          "lastName": "Duval",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      },
+      {
+        "id": 3,
+        "userName": "Anderson",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 2,
+          "employeeId": "0002",
+          "firstName": "Linda",
+          "middleName": "Jane",
+          "lastName": "Anderson",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      },
+      {
+        "id": 5,
+        "userName": "Ashley",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Ashley",
+          "middleName": "",
+          "lastName": "Abel",
+          "terminationId": 1
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      },
+      {
+        "id": 7,
+        "userName": "Duval",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Alice",
+          "middleName": "",
+          "lastName": "Duval",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 1,
+          "name": "Admin",
+          "displayName": "Admin"
+        }
+      },
+      {
+        "id": 6,
+        "userName": "Morgan",
+        "deleted": false,
+        "status": false,
+        "employee": {
+          "empNumber": 6,
+          "employeeId": "0006",
+          "firstName": "Jasmine",
+          "middleName": "",
+          "lastName": "Morgan",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      }
+    ]
+    meta: {
+      "total": 7
+    }
+
+  'get all - filter by status=false':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      status: false
+    data: [
+      {
+        "id": 8,
+        "userName": "Alice",
+        "deleted": false,
+        "status": false,
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Alice",
+          "middleName": "",
+          "lastName": "Duval",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      },
+      {
+        "id": 6,
+        "userName": "Morgan",
+        "deleted": false,
+        "status": false,
+        "employee": {
+          "empNumber": 6,
+          "employeeId": "0006",
+          "firstName": "Jasmine",
+          "middleName": "",
+          "lastName": "Morgan",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      }
+    ]
+    meta: {
+      "total": 2
+    }
+
+  'get all - filter by deleted username':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      username: "Duval"
+    data: [
+      {
+        "id": 7,
+        "userName": "Duval",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Alice",
+          "middleName": "",
+          "lastName": "Duval",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 1,
+          "name": "Admin",
+          "displayName": "Admin"
+        }
+      }
+    ]
+    meta: {
+      "total": 1
+    }
+
+  'get all - filter by partial username':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      username: "Ad"
+    data: [ ]
+    meta: {
+      "total": 0
+    }
+
+  'get all - filter by empNumber':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      empNumber: 3
+    data: [
+      {
+        "id": 8,
+        "userName": "Alice",
+        "deleted": false,
+        "status": false,
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Alice",
+          "middleName": "",
+          "lastName": "Duval",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      },
+      {
+        "id": 7,
+        "userName": "Duval",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Alice",
+          "middleName": "",
+          "lastName": "Duval",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 1,
+          "name": "Admin",
+          "displayName": "Admin"
+        }
+      }
+    ]
+    meta: {
+      "total": 2
+    }
+
+  'get all - filter by terminated empNumber':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      empNumber: 5
+    data: [
+      {
+        "id": 5,
+        "userName": "Ashley",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Ashley",
+          "middleName": "",
+          "lastName": "Abel",
+          "terminationId": 1
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      }
+    ]
+    meta: {
+      "total": 1
+    }
+
+  'get all with sortField':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      sortField: "e.lastName"
+      limit: 2
+    data: [
+      {
+        "id": 1,
+        "userName": "admin",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 4,
+          "employeeId": "0004",
+          "firstName": "Kayla",
+          "middleName": "",
+          "lastName": "Abbey",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 1,
+          "name": "Admin",
+          "displayName": "Admin"
+        }
+      },
+      {
+        "id": 5,
+        "userName": "Ashley",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 5,
+          "employeeId": "0005",
+          "firstName": "Ashley",
+          "middleName": "",
+          "lastName": "Abel",
+          "terminationId": 1
+        },
+        "userRole": {
+          "id": 2,
+          "name": "ESS",
+          "displayName": "ESS"
+        }
+      }
+    ]
+    meta: {
+      "total": 7
+    }
+
+  'get all - filter by userRoleId':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    query:
+      userRoleId: 1
+    data: [
+      {
+        "id": 1,
+        "userName": "admin",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 4,
+          "employeeId": "0004",
+          "firstName": "Kayla",
+          "middleName": "",
+          "lastName": "Abbey",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 1,
+          "name": "Admin",
+          "displayName": "Admin"
+        }
+      },
+      {
+        "id": 7,
+        "userName": "Duval",
+        "deleted": false,
+        "status": true,
+        "employee": {
+          "empNumber": 3,
+          "employeeId": "0003",
+          "firstName": "Alice",
+          "middleName": "",
+          "lastName": "Duval",
+          "terminationId": null
+        },
+        "userRole": {
+          "id": 1,
+          "name": "Admin",
+          "displayName": "Admin"
+        }
+      }
+    ]
+    meta: {
+      "total": 2
+    }
+
+GetOne:
+  'get one for deleted user':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    attributes:
+      id: 4
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'get one - invalid id':
+    userId: 1
+    attributes:
+      id: "invalid"
+    invalidOnly: [ "id" ]
+
+  'get user for terminated employee':
+    userId: 1
+    services:
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    attributes:
+      id: 5
+    data: {
+      "id": 5,
+      "userName": "Ashley",
+      "deleted": false,
+      "status": true,
+      "employee": {
+        "empNumber": 5,
+        "employeeId": "0005",
+        "firstName": "Ashley",
+        "middleName": "",
+        "lastName": "Abel",
+        "terminationId": 1
+      },
+      "userRole": {
+        "id": 2,
+        "name": "ESS",
+        "displayName": "ESS"
+      }
+    }
+    meta: [ ]
+
+Create:
+  'create an user':
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body: {
+      "username": "Jacqueline",
+      "password": "Jacqueline@123",
+      "status": true,
+      "userRoleId": 2,
+      "empNumber": 16
+    }
+    data: {
+      "id": 10,
+      "userName": "Jacqueline",
+      "deleted": false,
+      "status": true,
+      "employee": {
+        "empNumber": 16,
+        "employeeId": "",
+        "firstName": "Jacqueline",
+        "middleName": "",
+        "lastName": "White",
+        "terminationId": null
+      },
+      "userRole": {
+        "id": 2,
+        "name": "ESS",
+        "displayName": "ESS"
+      }
+    }
+    meta: [ ]
+
+  'create disabled user':
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body: {
+      "username": "Jacqueline",
+      "password": "Jacqueline@123",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 16
+    }
+    data: {
+      "id": 10,
+      "userName": "Jacqueline",
+      "deleted": false,
+      "status": false,
+      "employee": {
+        "empNumber": 16,
+        "employeeId": "",
+        "firstName": "Jacqueline",
+        "middleName": "",
+        "lastName": "White",
+        "terminationId": null
+      },
+      "userRole": {
+        "id": 1,
+        "name": "Admin",
+        "displayName": "Admin"
+      }
+    }
+    meta: [ ]
+
+  'create user with employee who have middle name':
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body: {
+      "username": "Linda",
+      "password": "Linda@123",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 2
+    }
+    data: {
+      "id": 10,
+      "userName": "Linda",
+      "deleted": false,
+      "status": false,
+      "employee": {
+        "empNumber": 2,
+        "employeeId": "0002",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "lastName": "Anderson",
+        "terminationId": null
+      },
+      "userRole": {
+        "id": 1,
+        "name": "Admin",
+        "displayName": "Admin"
+      }
+    }
+    meta: [ ]
+
+  'create user with non-existing empNumber':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body: {
+      "username": "Linda",
+      "password": "Linda@123",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 100
+    }
+    invalidOnly: [ "empNumber" ]
+
+  'create user with existing username':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body: {
+      "username": "Alice",
+      "password": "Alice@123",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 3
+    }
+    invalidOnly: [ "username" ]
+
+  'create user with existing but deleted username':
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body: {
+      "username": "Mathews",
+      "password": "Mathews@123",
+      "status": true,
+      "userRoleId": 2,
+      "empNumber": 17
+    }
+    data: {
+      "id": 10,
+      "userName": "Mathews",
+      "deleted": false,
+      "status": true,
+      "employee": {
+        "empNumber": 17,
+        "employeeId": "",
+        "firstName": "Kevin",
+        "middleName": "",
+        "lastName": "Mathews",
+        "terminationId": null
+      },
+      "userRole": {
+        "id": 2,
+        "name": "ESS",
+        "displayName": "ESS"
+      }
+    }
+    meta: [ ]
+
+Update:
+  'update an user':
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body: {
+      "username": "Ashley",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 5,
+      "changePassword": false,
+      "password": "",
+    }
+    data: {
+      "id": 5,
+      "userName": "Ashley",
+      "deleted": false,
+      "status": false,
+      "employee": {
+        "empNumber": 5,
+        "employeeId": "0005",
+        "firstName": "Ashley",
+        "middleName": "",
+        "lastName": "Abel",
+        "terminationId": 1
+      },
+      "userRole": {
+        "id": 1,
+        "name": "Admin",
+        "displayName": "Admin"
+      }
+    }
+    meta: [ ]
+
+  "update an user's employee":
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body: {
+      "username": "Ashley",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 16,
+      "changePassword": false,
+      "password": "",
+    }
+    data: {
+      "id": 5,
+      "userName": "Ashley",
+      "deleted": false,
+      "status": false,
+      "employee": {
+        "empNumber": 16,
+        "employeeId": "",
+        "firstName": "Jacqueline",
+        "middleName": "",
+        "lastName": "White",
+        "terminationId": null
+      },
+      "userRole": {
+        "id": 1,
+        "name": "Admin",
+        "displayName": "Admin"
+      }
+    }
+    meta: [ ]
+
+  'update an user with existing username':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body: {
+      "username": "Duval",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 5,
+      "changePassword": false,
+      "password": "",
+    }
+    invalidOnly: [ "username" ]
+
+  'update an user with deleted existing username':
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body: {
+      "username": "Mathews",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 5,
+      "changePassword": false,
+      "password": "",
+    }
+    data: {
+      "id": 5,
+      "userName": "Mathews",
+      "deleted": false,
+      "status": false,
+      "employee": {
+        "empNumber": 5,
+        "employeeId": "0005",
+        "firstName": "Ashley",
+        "middleName": "",
+        "lastName": "Abel",
+        "terminationId": 1
+      },
+      "userRole": {
+        "id": 1,
+        "name": "Admin",
+        "displayName": "Admin"
+      }
+    }
+    meta: [ ]
+
+  "update user's password with empty string":
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body: {
+      "username": "Mathews",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 5,
+      "changePassword": true,
+      "password": "",
+    }
+    invalidOnly: [ "password" ]
+
+  "update user's password":
+    userId: 1
+    now:
+      datetime: '2022-10-04'
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body: {
+      "username": "Mathews",
+      "status": false,
+      "userRoleId": 1,
+      "empNumber": 5,
+      "changePassword": true,
+      "password": "Mathews@123",
+    }
+    data: {
+      "id": 5,
+      "userName": "Mathews",
+      "deleted": false,
+      "status": false,
+      "employee": {
+        "empNumber": 5,
+        "employeeId": "0005",
+        "firstName": "Ashley",
+        "middleName": "",
+        "lastName": "Abel",
+        "terminationId": 1
+      },
+      "userRole": {
+        "id": 1,
+        "name": "Admin",
+        "displayName": "Admin"
+      }
+    }
+    meta: [ ]

@@ -56,7 +56,7 @@ abstract class AbstractDisplayField
      * @var bool
      * @deprecated
      *
-     * @ORM\Column(name="is_sortable", type="boolean", options={"default":0})
+     * @ORM\Column(name="is_sortable", type="boolean", options={"default" : 0})
      */
     protected bool $sortable = false;
 
@@ -103,7 +103,7 @@ abstract class AbstractDisplayField
      * @var bool
      * @deprecated
      *
-     * @ORM\Column(name="is_exportable", type="boolean", options={"default":0})
+     * @ORM\Column(name="is_exportable", type="boolean", options={"default" : 0})
      */
     protected bool $exportable = false;
 
@@ -118,7 +118,7 @@ abstract class AbstractDisplayField
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_value_list", type="boolean", options={"default":0})
+     * @ORM\Column(name="is_value_list", type="boolean", options={"default" : 0})
      */
     protected bool $isValueList = false;
 
@@ -140,7 +140,7 @@ abstract class AbstractDisplayField
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_encrypted", type="boolean", options={"default":0})
+     * @ORM\Column(name="is_encrypted", type="boolean", options={"default" : 0})
      */
     protected bool $encrypted = false;
 
@@ -148,7 +148,7 @@ abstract class AbstractDisplayField
      * @var bool
      * @deprecated
      *
-     * @ORM\Column(name="is_meta", type="boolean", options={"default":0})
+     * @ORM\Column(name="is_meta", type="boolean", options={"default" : 0})
      */
     protected bool $meta = false;
 

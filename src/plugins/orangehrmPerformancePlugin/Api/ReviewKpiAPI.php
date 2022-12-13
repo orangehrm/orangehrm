@@ -32,7 +32,8 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\PerformanceReview;
-use OrangeHRM\Performance\Api\Model\KpiModel;
+use OrangeHRM\Entity\ReviewerGroup;
+use OrangeHRM\Performance\Api\Model\KpiSummaryModel;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 
@@ -44,6 +45,38 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_REVIEW_ID = 'reviewId';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/performance/reviews/{reviewId}/kpis",
+     *     tags={"Performance/Review Evaluation"},
+     *     @OA\PathParameter(
+     *         name="trackerId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=ReviewKpiSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Performance-KpiSummaryModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -55,6 +88,7 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_REVIEW_ID
             )
         );
+        $reviewKpiParamHolder->setReviewerGroupName(ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
         $this->setSortingAndPaginationParams($reviewKpiParamHolder);
         $reviewKpis = $this->getPerformanceReviewService()->getPerformanceReviewDao()
             ->getKpisForReview($reviewKpiParamHolder);
@@ -62,7 +96,7 @@ class ReviewKpiAPI extends Endpoint implements CollectionEndpoint
             ->getKpisForReviewCount($reviewKpiParamHolder);
 
         return new EndpointCollectionResult(
-            KpiModel::class,
+            KpiSummaryModel::class,
             $reviewKpis,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $reviewCount])
         );

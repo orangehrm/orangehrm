@@ -23,7 +23,6 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Recruitment\Service\CandidateService;
 
 class CandidateDecorator
 {
@@ -54,18 +53,6 @@ class CandidateDecorator
      */
     public function getDateOfApplication(): string
     {
-        return $this->candidate->getDateOfApplication()->format('Y-m-d');
-    }
-
-    /**
-     * @return array
-     */
-    public function getStatus(): array
-    {
-        $status = $this->candidate->getStatus();
-        return [
-            'id' => $status,
-            'label' => ucwords(strtolower(CandidateService::STATUS_MAP[$status]))
-        ];
+        return $this->getDateTimeHelper()->formatDate($this->candidate->getDateOfApplication());
     }
 }

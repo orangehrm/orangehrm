@@ -141,7 +141,7 @@ langStrings:
     value: 'Preview'
     unitId: preview
   -
-    value: 'Accepts jpg, .png, .gif up to {fileSize}. Recommended dimensions: {width}px X {height}px'
+    value: 'Accepts jpg, .png, .gif, .svg up to {fileSize}. Recommended dimensions: {width}px X {height}px'
     unitId: accept_jpg_png_gif_upto_recommended_dimensions
   -
     value: 'Incorrect Dimensions'
@@ -167,3 +167,21 @@ langStrings:
   -
     value: 'Purged Employee'
     unitId: purged_employee
+  -
+    value: 'Show More'
+    unitId: show_more
+  -
+    value: 'Show Less'
+    unitId: show_less
+  -
+    value: 'Upload {fileName}'
+    unitId: upload_n_file
+  -
+    value: 'This page is currently under development for OrangeHRM OS {version}.'
+    unitId: this_page_is_being_developed
+  -
+    value: 'Should be a numeric value'
+    unitId: should_be_a_numeric_value
+  -
+    value: 'Confirmation Required'
+    unitId: confirmation_required

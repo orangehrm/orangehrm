@@ -31,8 +31,10 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
@@ -40,8 +42,11 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
 {
     use CandidateServiceTrait;
     use UserRoleManagerTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_CANDIDATE_ID = 'candidateId';
+
+    public const MAX_ALLOWED_INTERVIEW_COUNT = 2;
 
     public const STATE_INITIAL = 'INITIAL';
 
@@ -76,13 +81,43 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
             ->getCandidateDao()
             ->getCandidateVacancyByCandidateId($candidateId);
 
+        if (!is_null($candidateVacancy)) {
+            /**
+             * if vacancy is closed, no action is allowed to perform on candidates, assigned to the vacancy
+             */
+            if (!$candidateVacancy->getVacancy()->getStatus()) {
+                return new EndpointCollectionResult(
+                    ArrayModel::class,
+                    [],
+                    new ParameterBag([CommonParams::PARAMETER_TOTAL => 0])
+                );
+            }
+        }
+
         $currentState = is_null($candidateVacancy) ? self::STATE_INITIAL : $candidateVacancy->getStatus();
+
+        $rolesToExclude = [];
+        if (!is_null($candidateVacancy) && !$this->isHiringManager($candidateVacancy)) {
+            $rolesToExclude = ['HiringManager'];
+        }
 
         $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_RECRUITMENT,
-            $currentState
+            $currentState,
+            $rolesToExclude
         );
-
+        if (!is_null($candidateVacancy)) {
+            $interviewCount = $this->getCandidateService()
+                ->getCandidateDao()
+                ->getInterviewCountByCandidateIdAndVacancyId($candidateId, $candidateVacancy->getVacancy()->getId());
+            if ($interviewCount >= self::MAX_ALLOWED_INTERVIEW_COUNT &&
+                in_array(
+                    WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW,
+                    array_keys($allowedWorkflowItems)
+                )) {
+                unset($allowedWorkflowItems[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW]);
+            }
+        }
         ksort($allowedWorkflowItems);
 
         $actionableStates = array_map(function ($item) {
@@ -96,6 +131,18 @@ class CandidateAllowedActionAPI extends Endpoint implements CollectionEndpoint
             $actionableStates,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => count($actionableStates)])
         );
+    }
+
+    /**
+     * @param CandidateVacancy $candidateVacancy
+     * @return bool
+     */
+    private function isHiringManager(CandidateVacancy $candidateVacancy): bool
+    {
+        $hiringMangerEmpNumber = $candidateVacancy->getVacancy()
+            ->getHiringManager()
+            ->getEmpNumber();
+        return $hiringMangerEmpNumber === $this->getAuthUser()->getEmpNumber();
     }
 
     /**

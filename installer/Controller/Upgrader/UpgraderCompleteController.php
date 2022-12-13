@@ -25,6 +25,7 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\StateContainer;
 
 class UpgraderCompleteController extends AbstractInstallerVueController
@@ -41,5 +42,9 @@ class UpgraderCompleteController extends AbstractInstallerVueController
         $this->setComponent($component);
         StateContainer::getInstance()->setCurrentScreen(self::UPGRADER_COMPLETE_SCREEN, true);
         StateContainer::getInstance()->clean();
+
+        Logger::getLogger()->info(
+            'OrangeHRM ' . Config::PRODUCT_VERSION . ' status: ' . var_export(Config::isInstalled(), true)
+        );
     }
 }

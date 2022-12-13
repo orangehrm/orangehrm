@@ -22,14 +22,19 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\I18NTranslationDecorator;
 
 /**
+ * @method I18NTranslationDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_i18n_translate", uniqueConstraints={@ORM\UniqueConstraint(name="translateUniqueId", columns={"lang_string_id", "language_id"})})
  * @ORM\Entity
  */
 class I18NTranslation
 {
     use DateTimeHelperTrait;
+    use DecoratorTrait;
 
     /**
      * @var int
@@ -65,16 +70,8 @@ class I18NTranslation
 
     /**
      * @var bool
-     * @deprecated
      *
-     * @ORM\Column(name="translated", type="boolean", options={"default":1})
-     */
-    private bool $translated = true;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="customized", type="boolean", options={"default":0})
+     * @ORM\Column(name="customized", type="boolean", options={"default" : 0})
      */
     private bool $customized = false;
 
@@ -152,24 +149,6 @@ class I18NTranslation
     public function setValue(?string $value): void
     {
         $this->value = $value;
-    }
-
-    /**
-     * @return bool
-     * @deprecated
-     */
-    public function isTranslated(): bool
-    {
-        return $this->translated;
-    }
-
-    /**
-     * @param bool $translated
-     * @deprecated
-     */
-    public function setTranslated(bool $translated): void
-    {
-        $this->translated = $translated;
     }
 
     /**

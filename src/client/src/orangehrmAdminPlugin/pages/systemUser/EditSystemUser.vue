@@ -111,6 +111,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import PasswordInput from '@/core/components/inputs/PasswordInput';
 import {
   required,
+  validSelection,
   shouldNotExceedCharLength,
   shouldNotLessThanCharLength,
 } from '@ohrm/core/util/validation/rules';
@@ -159,7 +160,7 @@ export default {
           promiseDebounce(this.validateUserName, 500),
         ],
         role: [required],
-        employee: [required],
+        employee: [required, validSelection],
         status: [required],
       },
       userRoles: [

@@ -70,14 +70,17 @@ export const shouldNotExceedCharLength = function(charLength: number) {
   };
 };
 
-export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
+export const validDateFormat = function(
+  displayFormat = 'yyyy-mm-dd',
+  dateFormat = 'yyyy-MM-dd',
+) {
   return function(value: string): boolean | string {
     if (!value) return true;
     const parsed = parseDate(value, dateFormat);
     return parsed
       ? true
       : translate('general.should_be_a_valid_date_in_x_format', {
-          format: dateFormat,
+          format: displayFormat,
         });
   };
 };
@@ -117,6 +120,14 @@ export const digitsOnly = function(value: string): boolean | string {
     value == '' ||
     (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
     translate('general.should_be_a_number')
+  );
+};
+
+export const numericOnly = function(value: string): boolean | string {
+  return (
+    value == '' ||
+    (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
+    translate('general.should_be_a_numeric_value')
   );
 };
 
@@ -552,21 +563,21 @@ export const validHexFormat = function(value: string): boolean | string {
 
 /**
  * Validate image dimensions
- * @param {number} width in pixels
- * @param {number} height in pixels
+ * @param {number} aspectRatio width/height
+ * @param {number} tolerance
  * @returns {Promise<boolean|string>}
  */
 export const imageShouldHaveDimensions = function(
-  width: number,
-  height: number,
+  aspectRatio: number,
+  tolerance = 0.1,
 ) {
   return function(file: File | null): Promise<boolean | string> {
     return new Promise(resolve => {
-      if (file === null) return resolve(true);
+      if (file === null || file.type === 'image/svg+xml') return resolve(true);
       const image = new Image();
       image.src = `data:${file.type};base64, ${file.base64}`;
       image.decode().then(() => {
-        if (image.width === width && image.height === height) {
+        if (Math.abs(image.width / image.height - aspectRatio) < tolerance) {
           resolve(true);
         } else {
           resolve(translate('general.incorrect_dimensions'));
@@ -602,4 +613,75 @@ export const lessThanOrEqual = function(maxValue: number, message?: string) {
     }
     return parseFloat(value) <= maxValue || resolvedMessage;
   };
+};
+
+export const validLangString = function(value: string) {
+  if (value === null || value === '') {
+    return true;
+  }
+  return value.split('').reduce((accumulator, currentValue) => {
+    if (currentValue === '{') accumulator++;
+    if (currentValue === '}') accumulator--;
+    return accumulator;
+  }, 0) !== 0
+    ? translate('general.invalid')
+    : true;
+};
+
+/**
+ * Validate autocomplete selection
+ * @param {string|object|null} value
+ * @returns {boolean|string}
+ */
+export const validSelection = function(value: string | object | null) {
+  return typeof value === 'string' ? translate('general.invalid') : true;
+};
+
+export const validHostnameFormat = function(value: string): boolean | string {
+  let fqdnRegex;
+
+  // If string contains any letters, treat the string as a hostname. else ip address
+  if (/\p{L}/u.test(value)) {
+    fqdnRegex = /^([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu;
+  } else {
+    fqdnRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+  }
+
+  return !value || fqdnRegex.test(value) || translate('general.invalid');
+};
+
+export const validPortRange = function(
+  charLength: number,
+  rangeFrom: number,
+  rangeTo: number,
+) {
+  return function(value: string): boolean | string {
+    return (
+      !value ||
+      (/^\d+$/.test(value) &&
+        !Number.isNaN(parseFloat(value)) &&
+        String(value).length <= charLength &&
+        parseInt(value) >= rangeFrom &&
+        parseInt(value) <= rangeTo) ||
+      translate('general.enter_valid_port_between_a_to_b', {
+        minValue: rangeFrom,
+        maxValue: rangeTo,
+      })
+    );
+  };
+};
+
+/**
+ * Validate url to be a valid youtube video
+ * @param {string} value url string
+ * @returns
+ */
+export const validVideoURL = function(value: string): boolean | string {
+  return (
+    !value ||
+    /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:shorts\/|embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(\?\S*)?$/.test(
+      value,
+    ) ||
+    translate('general.invalid_video_url_message')
+  );
 };

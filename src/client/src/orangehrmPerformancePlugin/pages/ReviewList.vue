@@ -26,6 +26,7 @@
           <oxd-grid-item>
             <employee-autocomplete
               v-model="filters.employee"
+              :rules="rules.employee"
               :params="{
                 includeEmployees: filters.includeEmployees.param,
               }"
@@ -109,6 +110,8 @@
 import {computed, ref, inject} from 'vue';
 import {navigate} from '@/core/util/helper/navigation';
 import {
+  validSelection,
+  validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
@@ -162,7 +165,7 @@ export default {
   },
   setup(props) {
     const {$t} = usei18n();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
     const reviewListDateFormat = date =>
@@ -264,6 +267,7 @@ export default {
       items: response,
       filters,
       sortDefinition,
+      userDateFormat,
     };
   },
   data() {
@@ -315,7 +319,9 @@ export default {
         },
       ],
       rules: {
+        employee: [validSelection],
         fromDate: [
+          validDateFormat(this.userDateFormat),
           startDateShouldBeBeforeEndDate(
             () => this.filters.toDate,
             this.$t('general.from_date_should_be_before_to_date'),
@@ -323,6 +329,7 @@ export default {
           ),
         ],
         toDate: [
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.filters.fromDate,
             this.$t('general.to_date_should_be_after_from_date'),

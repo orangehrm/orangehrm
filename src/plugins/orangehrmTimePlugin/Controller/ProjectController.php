@@ -21,15 +21,15 @@
 namespace OrangeHRM\Time\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Controller\VueComponentPermissionTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Time\Controller\Traits\PermissionTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ProjectController extends AbstractVueController
 {
-    use PermissionTrait;
+    use VueComponentPermissionTrait;
     use ProjectServiceTrait;
 
     /**

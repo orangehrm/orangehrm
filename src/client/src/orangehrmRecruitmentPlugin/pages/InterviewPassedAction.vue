@@ -19,91 +19,100 @@
  -->
 
 <template>
-  <candidate-profile-layout
-    :candidate-id="candidateId"
-    :action="action"
-    :allowed-file-types="allowedFileTypes"
-    :max-file-size="maxFileSize"
-  >
-    <template #form-footer>
-      <div class="orangehrm-form-footer">
-        <oxd-text type="subtitle-2" class="orangehrm-status-title">
-          {{ $t('general.status') }}: {{ action.label }}
-        </oxd-text>
-        <oxd-form-actions class="orangehrm-form-buttons">
-          <oxd-button
-            display-type="ghost-danger"
-            :label="$t('general.reject')"
-            @click="onReject"
-          />
-          <oxd-button
-            display-type="ghost-success"
-            :label="$t('recruitment.schedule_interview')"
-            @click="onSchedule"
-          />
-          <oxd-button
-            display-type="secondary"
-            :label="$t('recruitment.offer_job')"
-            @click="onOffer"
-          />
-        </oxd-form-actions>
-      </div>
-    </template>
-  </candidate-profile-layout>
+  <div class="orangehrm-background-container">
+    <candidate-action-layout
+      v-model:loading="isLoading"
+      :candidate-id="candidateId"
+      :title="$t('recruitment.mark_interview_passed')"
+      @submitValid="onSave"
+    >
+      <oxd-form-row>
+        <oxd-grid :cols="3">
+          <oxd-grid-item class="--span-column-2">
+            <oxd-input-field
+              v-model="note"
+              :rules="rules.note"
+              :label="$t('general.notes')"
+              :placeholder="$t('general.type_here')"
+              type="textarea"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
+      <oxd-divider />
+      <oxd-form-actions>
+        <oxd-button
+          display-type="ghost"
+          :label="$t('general.cancel')"
+          @click="onClickBack"
+        />
+        <submit-button />
+      </oxd-form-actions>
+    </candidate-action-layout>
+  </div>
 </template>
 
 <script>
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
+import CandidateActionLayout from '@/orangehrmRecruitmentPlugin/components/CandidateActionLayout';
+import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
-import CandidateProfileLayout from '@/orangehrmRecruitmentPlugin/components/CandidateProfileLayout';
+
 export default {
-  name: 'InterviewPassedAction',
   components: {
-    'candidate-profile-layout': CandidateProfileLayout,
+    'candidate-action-layout': CandidateActionLayout,
   },
   props: {
     candidateId: {
       type: Number,
       required: true,
     },
-    action: {
-      type: Object,
-      required: true,
-    },
-    allowedFileTypes: {
-      type: Array,
-      required: true,
-    },
-    maxFileSize: {
+    interviewId: {
       type: Number,
       required: true,
     },
   },
+
+  setup(props) {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/recruitment/candidates/${props.candidateId}/interviews/${props.interviewId}/pass`,
+    );
+
+    return {
+      http,
+    };
+  },
   data() {
     return {
-      data: null,
-      status: null,
-      isLoading: true,
-      vacancyId: null,
+      isLoading: false,
+      note: null,
+      rules: {
+        note: [shouldNotExceedCharLength(2000)],
+      },
     };
   },
   methods: {
-    getData(data) {
-      this.data = data.stage;
-      this.vacancyId = data.vacancyId;
-      this.isLoading = false;
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .request({
+          method: 'PUT',
+          data: {
+            note: this.note,
+          },
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
+        });
     },
-    onReject() {
-      navigate('recruitment/vacancy/action');
-    },
-    onSchedule() {
-      navigate(
-        `/recruitment/jobInterview/vacancy/${this.vacancyId}/action/${this.action.id}`,
-      );
-    },
-    onOffer() {
-      navigate('recruitment/vacancy/action');
+    onClickBack() {
+      navigate('/recruitment/addCandidate/{id}', {id: this.candidateId});
     },
   },
 };
 </script>
-<style scoped lang="scss" src="./candidate-profile.scss"></style>

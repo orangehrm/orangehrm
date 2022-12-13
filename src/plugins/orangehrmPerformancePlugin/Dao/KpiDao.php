@@ -22,6 +22,8 @@ namespace OrangeHRM\Performance\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Kpi;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Performance\Dto\KpiSearchFilterParams;
 
@@ -109,12 +111,25 @@ class KpiDao extends BaseDao
      */
     public function deleteKpi(array $toBeDeletedKpiIds): int
     {
+        $qb = $this->createQueryBuilder(ReviewerRating::class, 'rating');
+        $qb->select('kpi.id')
+            ->leftJoin('rating.kpi', 'kpi')
+            ->leftJoin('rating.performanceReview', 'review')
+            ->andWhere('review.statusId > :inactiveStatus')
+            ->setParameter('inactiveStatus', PerformanceReview::STATUS_INACTIVE)
+            ->distinct('kpi.id');
+
+        $nonDeletableKpiIds = array_column($qb->getQuery()->execute(), 'id');
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
         $q->update()
             ->set('kpi.deletedAt', ':deletedAt')
             ->setParameter('deletedAt', $this->getDateTimeHelper()->getNow())
             ->where($q->expr()->in('kpi.id', ':ids'))
             ->setParameter('ids', $toBeDeletedKpiIds);
+        if (! empty($nonDeletableKpiIds)) {
+            $q->andWhere($q->expr()->notIn('kpi.id', ':nonDeletableKpiIds'))
+                ->setParameter('nonDeletableKpiIds', $nonDeletableKpiIds);
+        }
         return $q->getQuery()->execute();
     }
 
@@ -136,5 +151,35 @@ class KpiDao extends BaseDao
         }
 
         $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $kpiId
+     * @return bool
+     */
+    public function isKpiEditable(int $kpiId): bool
+    {
+        $q = $this->createQueryBuilder(ReviewerRating::class, 'rating');
+        $q->leftJoin('rating.performanceReview', 'review')
+            ->andWhere('review.statusId > :activatedStatus')
+            ->setParameter('activatedStatus', PerformanceReview::STATUS_ACTIVATED)
+            ->andWhere('rating.kpi = :kpiId')
+            ->setParameter('kpiId', $kpiId);
+        return $this->getPaginator($q)->count() == 0;
+    }
+
+    /**
+     * @param int $kpiId
+     * @return bool
+     */
+    public function isKpiDeletable(int $kpiId): bool
+    {
+        $q = $this->createQueryBuilder(ReviewerRating::class, 'rating');
+        $q->leftJoin('rating.performanceReview', 'review')
+            ->andWhere('review.statusId > :inactiveStatus')
+            ->setParameter('inactiveStatus', PerformanceReview::STATUS_INACTIVE)
+            ->andWhere('rating.kpi = :kpiId')
+            ->setParameter('kpiId', $kpiId);
+        return $this->getPaginator($q)->count() == 0;
     }
 }

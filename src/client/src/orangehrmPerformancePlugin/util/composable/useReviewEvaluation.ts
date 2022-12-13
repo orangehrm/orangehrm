@@ -49,6 +49,7 @@ export interface Reviewer {
   empNumber: number;
   firstName: string;
   lastName: string;
+  middleName: string;
   terminationId: number;
   jobTitle: JobTitle;
 }
@@ -115,7 +116,11 @@ export default function useReviewEvaluation(http: APIService) {
     return http.request({
       method: 'PUT',
       url: `/api/v2/performance/reviews/${reviewId}/evaluation/final`,
-      data: {...reviewData},
+      data: {
+        ...reviewData,
+        finalComment:
+          reviewData.finalComment === '' ? null : reviewData.finalComment,
+      },
     });
   };
 
@@ -177,13 +182,17 @@ export default function useReviewEvaluation(http: APIService) {
   const generateEvaluationFormData = (
     evaluationData: EvaluationData[],
     generalComment: string,
+    kpis: Array<{kpiId: number}>,
   ) => {
     return {
-      kpis: evaluationData.map(datum => ({
-        kpiId: datum.kpi.id,
-        rating: datum.rating,
-        comment: datum.comment,
-      })),
+      kpis: kpis.map(({kpiId}) => {
+        const _kpi = evaluationData.find(datum => datum.kpi.id === kpiId);
+        return {
+          kpiId,
+          rating: _kpi?.rating,
+          comment: _kpi?.comment,
+        };
+      }),
       generalComment: generalComment,
     };
   };
@@ -194,6 +203,7 @@ export default function useReviewEvaluation(http: APIService) {
         empNumber: reviewerData.employee.empNumber,
         firstName: reviewerData.employee.firstName,
         lastName: reviewerData.employee.lastName,
+        middleName: reviewerData.employee.middleName,
         terminationId: reviewerData.employee.terminationId,
       },
       jobTitle: reviewerData.employee.jobTitle.name,

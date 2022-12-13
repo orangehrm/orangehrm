@@ -117,7 +117,7 @@ class SummaryDisplayField
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_value_list", type="boolean", options={"default":0})
+     * @ORM\Column(name="is_value_list", type="boolean", options={"default" : 0})
      */
     private bool $isValueList = false;
 

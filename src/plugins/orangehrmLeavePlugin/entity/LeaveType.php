@@ -48,14 +48,14 @@ class LeaveType
     /**
      * @var bool
      *
-     * @ORM\Column(name="exclude_in_reports_if_no_entitlement", type="boolean", options={"default": 0})
+     * @ORM\Column(name="exclude_in_reports_if_no_entitlement", type="boolean", options={"default" : 0})
      */
     private bool $situational = false;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="deleted", type="boolean", options={"default": 0})
+     * @ORM\Column(name="deleted", type="boolean", options={"default" : 0})
      */
     private bool $deleted = false;
 

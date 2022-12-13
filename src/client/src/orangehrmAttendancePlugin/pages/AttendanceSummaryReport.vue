@@ -36,6 +36,7 @@
               <oxd-grid-item>
                 <employee-autocomplete
                   v-model="filters.employee"
+                  :rules="rules.employee"
                   :params="{
                     includeEmployees: 'currentAndPast',
                   }"
@@ -99,6 +100,7 @@
 <script>
 import {computed, ref} from 'vue';
 import {
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -108,6 +110,7 @@ import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
 import usei18n from '@/core/util/composable/usei18n';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const defaultFilters = {
   employee: null,
@@ -138,10 +141,11 @@ export default {
       ...defaultFilters,
     });
     const {$t} = usei18n();
+    const {userDateFormat} = useDateFormat();
 
     const rules = {
       fromDate: [
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
           $t('general.from_date_should_be_before_to_date'),
@@ -149,13 +153,14 @@ export default {
         ),
       ],
       toDate: [
-        validDateFormat(),
+        validDateFormat(userDateFormat),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
           $t('general.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],
+      employee: [validSelection],
     };
 
     const serializedFilters = computed(() => {

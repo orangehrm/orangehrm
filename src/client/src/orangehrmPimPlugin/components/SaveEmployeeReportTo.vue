@@ -20,9 +20,20 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title"
-      >{{ $t('general.add') }} {{ type }}</oxd-text
+    <oxd-text
+      v-if="type === 'Supervisor'"
+      tag="h6"
+      class="orangehrm-main-title"
     >
+      {{ $t('pim.add_supervisor') }}
+    </oxd-text>
+    <oxd-text
+      v-if="type === 'Subordinate'"
+      tag="h6"
+      class="orangehrm-main-title"
+    >
+      {{ $t('pim.add_subordinate') }}
+    </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -65,7 +76,7 @@
 
 <script>
 import ReportToEmployeeAutocomplete from '@/orangehrmPimPlugin/components/ReportToEmployeeAutocomplete';
-import {required} from '@ohrm/core/util/validation/rules';
+import {required, validSelection} from '@ohrm/core/util/validation/rules';
 
 const reportToModel = {
   employee: null,
@@ -112,7 +123,7 @@ export default {
       isLoading: false,
       reportTo: {...reportToModel},
       rules: {
-        employee: [required],
+        employee: [required, validSelection],
         reportingMethod: [required],
       },
     };

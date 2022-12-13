@@ -20,17 +20,44 @@
 namespace OrangeHRM\Recruitment\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Controller\VueComponentPermissionTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Recruitment\Service\CandidateService;
+use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 
 class ViewCandidateController extends AbstractVueController
 {
+    use VueComponentPermissionTrait;
+    use CandidateServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('view-candidate');
+        $component = new Component('view-candidates-list');
+
+        if ($request->query->has('statusId')) {
+            $statusId = $request->query->getInt('statusId');
+            $candidateStatus = array_map(function ($key, $value) {
+                return [
+                    'id' => $key,
+                    'label' => $value,
+                ];
+            }, array_keys(CandidateService::STATUS_MAP), CandidateService::STATUS_MAP);
+
+            $component->addProp(
+                new Prop(
+                    'status',
+                    Prop::TYPE_OBJECT,
+                    $candidateStatus[$statusId - 1],
+                )
+            );
+        }
+
         $this->setComponent($component);
+        $this->setPermissions(['recruitment_candidates']);
     }
 }

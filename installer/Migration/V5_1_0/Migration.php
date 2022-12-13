@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_1_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
@@ -45,6 +46,16 @@ class Migration extends AbstractMigration
             ->setParameter('name', 'Manage_Trackers')
             ->executeQuery();
 
+        $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.action_url ', ':actionUrl')
+            ->setParameter('actionUrl', 'searchEvaluatePerformanceReview')
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName('performance'))
+            ->andWhere('screen.name = :name')
+            ->setParameter('name', 'Search Evaluate Performance')
+            ->executeQuery();
+
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         $this->addValidColumnToRequestResetPassword();
 
@@ -68,16 +79,28 @@ class Migration extends AbstractMigration
             ->setParameter('name', 'Search Performance Review')
             ->executeQuery();
 
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'this_page_is_being_developed',
+            $this->getLangHelper()->getGroupIdByName('general')
+        );
+
+        $this->updateLangStringVersion('5.0.0');
         $groups = ['recruitment', 'performance'];
         foreach ($groups as $group) {
             $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
 
-        $oldGroups = ['admin', 'general'];
+        $oldGroups = ['admin', 'general', 'maintenance'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
+
+        $this->createQueryBuilder()
+            ->delete('ohrm_i18n_lang_string')
+            ->andWhere('ohrm_i18n_lang_string.group_id = :groupId')
+            ->setParameter('groupId', $this->getLangHelper()->getGroupIdByName('directory'))
+            ->executeQuery();
 
         $langCodes = [
             'bg_BG',
@@ -103,19 +126,20 @@ class Migration extends AbstractMigration
         foreach ($langCodes as $langCode) {
             $this->getTranslationHelper()->addTranslations($langCode);
         }
+        $this->updateLangStringVersion($this->getVersion());
 
         $performanceModuleId = $this->getDataGroupHelper()->getModuleIdByName('performance');
 
         $this->insertModuleDefaultPage(
             $performanceModuleId,
             $this->getDataGroupHelper()->getUserRoleIdByName('Admin'),
-            'performance/searchEvaluatePerformancReview',
+            'performance/searchEvaluatePerformanceReview',
             20
         );
         $this->insertModuleDefaultPage(
             $performanceModuleId,
             $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor'),
-            'performance/searchEvaluatePerformancReview',
+            'performance/searchEvaluatePerformanceReview',
             10
         );
         $this->insertModuleDefaultPage(
@@ -128,7 +152,7 @@ class Migration extends AbstractMigration
         $reviewListScreenId = $this->getDataGroupHelper()
             ->getScreenIdByModuleAndUrl(
                 $performanceModuleId,
-                'searchEvaluatePerformancReview',
+                'searchEvaluatePerformanceReview',
             );
 
         $this->createQueryBuilder()
@@ -155,7 +179,7 @@ class Migration extends AbstractMigration
         $this->insertReviewListScreenForAdminRole($reviewListScreenId);
         $this->modifyThemeTable();
 
-        $groupId = $this->getLangStringHelper()->getGroupId('general');
+        $groupId = $this->getLangHelper()->getGroupIdByName('general');
         $toDeleteLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows Phone Numbers Only', $groupId);
         $toPreserveLangStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup('Allows numbers and only + - / ( )', $groupId);
 
@@ -174,6 +198,54 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $this->modifyTrackerLogsUserForeignKey();
+
+        $maintenanceModuleId = $this->getDataGroupHelper()->getModuleIdByName('maintenance');
+        $maintenanceModuleScreenId = $this->getDataGroupHelper()
+            ->getScreenIdByModuleAndUrl($maintenanceModuleId, 'viewMaintenanceModule');
+        $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menu_item')
+            ->set('menu_item.screen_id', ':screenId')
+            ->setParameter('screenId', $maintenanceModuleScreenId)
+            ->andWhere('menu_item.menu_title = :menuTitle')
+            ->setParameter('menuTitle', 'Maintenance')
+            ->andWhere('level = :level')
+            ->setParameter('level', 1)
+            ->executeQuery();
+
+        $this->updateRecruitmentMenuItems();
+        $this->updatePerformanceMenuItems();
+
+        $this->modifyEmployeeTrackerScreenRolePermission($performanceModuleId);
+
+        $this->createQueryBuilder()
+            ->update('ohrm_job_vacancy', 'vacancy')
+            ->set('vacancy.status', ':newClosedStatus')
+            ->setParameter('newClosedStatus', 0)
+            ->andWhere('vacancy.status = :closedStatus')
+            ->setParameter('closedStatus', 2)
+            ->executeQuery();
+        $this->getSchemaHelper()->changeColumn(
+            'ohrm_job_vacancy',
+            'status',
+            ['Type' => Type::getType(Types::BOOLEAN), 'Default' => true, 'Notnull' => true]
+        );
+
+        $this->getDataGroupHelper()->addDataGroupPermissions('apiv2_admin_job_title', 'Interviewer', true);
+        $this->getDataGroupHelper()->addDataGroupPermissions('apiv2_admin_job_title', 'HiringManager', true);
+    }
+
+
+    /**
+     * @param string $version
+     */
+    private function updateLangStringVersion(string $version): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'lang_string')
+            ->set('lang_string.version', ':version')
+            ->setParameter('version', $version);
+        $qb->andWhere($qb->expr()->isNull('lang_string.version'))
+            ->executeQuery();
     }
 
     /**
@@ -425,6 +497,34 @@ class Migration extends AbstractMigration
     }
 
     /**
+     * @param int $performanceModuleId
+     */
+    private function modifyEmployeeTrackerScreenRolePermission(int $performanceModuleId): void
+    {
+        $employeeTrackerScreenId = $this->getDataGroupHelper()
+            ->getScreenIdByModuleAndUrl(
+                $performanceModuleId,
+                'viewEmployeePerformanceTrackerList',
+            );
+
+        $this->createQueryBuilder()
+            ->update('ohrm_user_role_screen', 'userRoleScreen')
+            ->set('userRoleScreen.user_role_id', ':userRoleId')
+            ->setParameter(
+                'userRoleId',
+                $this->getDataGroupHelper()->getUserRoleIdByName('Reviewer')
+            )
+            ->andWhere('userRoleScreen.screen_id = :screenId')
+            ->andWhere('userRoleScreen.user_role_id = :oldUserRoleId')
+            ->setParameter('screenId', $employeeTrackerScreenId)
+            ->setParameter(
+                'oldUserRoleId',
+                $this->getDataGroupHelper()->getUserRoleIdByName('ESS')
+            )
+            ->executeQuery();
+    }
+
+    /**
      * @inheritDoc
      */
     public function getVersion(): string
@@ -452,5 +552,88 @@ class Migration extends AbstractMigration
             $this->translationHelper = new TranslationHelper($this->getConnection());
         }
         return $this->translationHelper;
+    }
+
+    /**
+     * @param string $module
+     * @param string|null $screenUrl
+     * @param string $menuConfiguratorClassName
+     */
+    private function updateMenuConfigurator(string $module, ?string $screenUrl, string $menuConfiguratorClassName): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.menu_configurator', ':menuConfiguratorClassName')
+            ->setParameter('menuConfiguratorClassName', $menuConfiguratorClassName)
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName($module));
+        if (!is_null($screenUrl)) {
+            $qb->andWhere('screen.action_url = :screenUrl')
+                ->setParameter('screenUrl', $screenUrl);
+        }
+        $qb->executeQuery();
+    }
+
+    private function updateRecruitmentMenuItems(): void
+    {
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'addJobVacancy',
+            'OrangeHRM\\Recruitment\\Menu\\VacancyMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'addCandidate',
+            'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'changeCandidateVacancyStatus',
+            'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'candidateHistory',
+            'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'recruitment',
+            'interviewAttachments',
+            'OrangeHRM\\Recruitment\\Menu\\CandidateMenuConfigurator'
+        );
+    }
+
+    private function updatePerformanceMenuItems(): void
+    {
+        $this->updateMenuConfigurator(
+            'performance',
+            'saveKpi',
+            'OrangeHRM\\Performance\\Menu\\KpiMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'addPerformanceTracker',
+            'OrangeHRM\\Performance\\Menu\\PerformanceTrackerMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'addPerformanceTrackerLog',
+            'OrangeHRM\\Performance\\Menu\\PerformanceTrackerLogMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'saveReview',
+            'OrangeHRM\\Performance\\Menu\\ManageReviewMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'reviewEvaluate',
+            'OrangeHRM\\Performance\\Menu\\MyReviewMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'performance',
+            'reviewEvaluateByAdmin',
+            'OrangeHRM\\Performance\\Menu\\AdminReviewMenuConfigurator'
+        );
     }
 }

@@ -1,0 +1,130 @@
+##########################
+#        Dashboard
+##########################
+apiv2_dashboard_employees_on_leave:
+  description: 'API-v2 Dashboard - Employees On Leave'
+  api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
+
+apiv2_dashboard_employees_by_subunit:
+  description: 'API-v2 Dashboard - Employees Distribution By Subunit'
+  api: OrangeHRM\Dashboard\Api\EmployeeDistributionBySubunitAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_dashboard_employees_by_location:
+  description: 'API-v2 Dashboard - Employees Distribution By Location'
+  api: OrangeHRM\Dashboard\Api\EmployeeDistributionByLocationAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_dashboard_quick_launch:
+  description: 'API-v2 Dashboard - Quick Launch'
+  api: OrangeHRM\Dashboard\Api\QuickLaunchAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_dashboard_employee_time_at_work:
+  description: "API-v2 Dashboard - Employee Time At Work"
+  api: OrangeHRM\Dashboard\Api\EmployeeTimeAtWorkAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_dashboard_employee_action_summary:
+  description: "API-v2 Dashboard - Employee Action Summary"
+  api: OrangeHRM\Dashboard\Api\EmployeeActionSummaryAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_dashboard_employees_on_leave_today_configuration:
+  description: "API-v2 Dashboard - Employees On Leave Today Configuration"
+  api: OrangeHRM\Dashboard\Api\EmployeeOnLeaveTodayConfigAPI
+  module: dashboard
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+
+##########################
+#        LDAP
+##########################
+
+apiv2_admin_ldap_config:
+  description: 'API-v2 Admin - LDAP Configurations'
+  api: OrangeHRM\LDAP\Api\LDAPConfigAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+
+apiv2_admin_ldap_test_connection:
+  description: 'API-v2 Admin - LDAP Test Connection'
+  api: OrangeHRM\LDAP\Api\LDAPTestConnectionAPI
+  module: admin
+  allowed:
+    read: false
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: false, create: true, update: false, delete: false } }
+
+apiv2_admin_ldap_user_sync:
+  description: 'API-v2 Admin - LDAP User Sync'
+  api: OrangeHRM\LDAP\Api\LDAPUserSyncAPI
+  module: admin
+  allowed:
+    read: true
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }

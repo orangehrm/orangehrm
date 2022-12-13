@@ -93,10 +93,14 @@ export default {
     const errorText = ref(null);
     const {progress, start, stop, end} = useProgress();
 
-    const {runAllMigrations, createConfigFiles} = useUpgrader(
-      new APIService(window.appGlobal.baseUrl, ''),
-    );
+    const {runAllMigrations, createConfigFiles, preMigrationCheck} =
+      useUpgrader(new APIService(window.appGlobal.baseUrl, ''));
     const tasks = ref([
+      {
+        name: 'Checking database permissions',
+        state: 0,
+        task: preMigrationCheck,
+      },
       {name: 'Applying database changes', state: 0, task: runAllMigrations},
       {name: 'Creating configuration files', state: 0, task: createConfigFiles},
     ]);

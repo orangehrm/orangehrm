@@ -1,0 +1,94 @@
+langStrings:
+  -
+    value: 'Upcoming Anniversaries'
+    unitId: upcoming_anniversaries
+  -
+    value: '{yearsCount,plural, =0{} one{Year} other{Years}}'
+    unitId: n_year
+  -
+    value: 'Buzz Newsfeed'
+    unitId: buzz_newsfeed
+  -
+    value: 'Post'
+    unitId: post
+  -
+    value: "What's on your mind?"
+    unitId: post_placeholder
+  -
+    value: 'Share Photos'
+    unitId: share_photos
+  -
+    value: 'Share Video'
+    unitId: share_video
+  -
+    value: 'Years'
+    unitId: years
+  -
+    value: '{likesCount,plural, =0{0 Likes} one{1 Like} other{# Likes}}'
+    unitId: n_like
+  -
+    value: '{commentCount,plural, =0{0 Comments} one{1 Comment} other{# Comments}}'
+    unitId: n_comment
+  -
+    value: '{shareCount,plural, =0{0 Shares} one{1 Share} other{# Shares}}'
+    unitId: n_share
+  -
+    value: 'Write your comment...'
+    unitId: write_your_comment
+  -
+    value: 'Delete Post'
+    unitId: delete_post
+  -
+    value: 'Edit Post'
+    unitId: edit_post
+
+  - value: 'Most Recent Posts'
+    unitId: most_recent_posts
+  -
+    value: 'Most Liked Posts'
+    unitId: most_liked_posts
+  -
+    value: 'Most Commented Posts'
+    unitId: most_commented_posts
+  -
+    value: 'Share'
+    unitId: share
+  -
+    value: 'Video URL'
+    unitId: video_url
+  -
+    value: 'Paste Video URL'
+    unitId: paste_video_url
+  -
+    value: 'Add Photos'
+    unitId: add_photos
+  -
+    value: "Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!"
+    unitId: file_type_validation_message
+  -
+    value: 'Maximum allowed file size is 2MB'
+    unitId: file_size_validation_message
+  -
+    value: 'Share Post'
+    unitId: share_post
+  -
+    value: 'Read More'
+    unitId: read_more
+  -
+    value: 'Press Esc to'
+    unitId: press_esc_to
+  -
+    value: 'Like'
+    unitId: like
+  -
+    value: 'No Posts Available'
+    unitId: no_posts_available
+  -
+    value: 'No work anniversaries for the next 30 days'
+    unitId: no_work_anniversaries_for_the_next_30_days
+  -
+    value: 'The selected item will be permanently deleted. Are you sure you want to continue?'
+    unitId: post_delete_confirmation_message
+  -
+    value: 'Edit Post'
+    unitId: edit_post

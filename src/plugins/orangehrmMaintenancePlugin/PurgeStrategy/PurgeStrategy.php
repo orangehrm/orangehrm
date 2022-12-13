@@ -21,7 +21,7 @@ namespace OrangeHRM\Maintenance\PurgeStrategy;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Maintenance\Dto\InfoArray;
-use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
+use OrangeHRM\Maintenance\Service\PurgeService;
 
 abstract class PurgeStrategy
 {
@@ -30,7 +30,7 @@ abstract class PurgeStrategy
     protected string $entityClassName;
     protected ?array $parameters;
     protected ?array $entityFieldMap;
-    protected PurgeEmployeeService $purgeEmployeeService;
+    protected PurgeService $purgeService;
 
     /**
      * @param string $entityClassName
@@ -50,14 +50,14 @@ abstract class PurgeStrategy
     abstract public function purge(int $employeeNumber): void;
 
     /**
-     * @return PurgeEmployeeService
+     * @return PurgeService
      */
-    public function getPurgeEmployeeService(): PurgeEmployeeService
+    public function getPurgeService(): PurgeService
     {
-        if (!isset($this->purgeEmployeeService)) {
-            $this->purgeEmployeeService = new PurgeEmployeeService();
+        if (!isset($this->purgeService)) {
+            $this->purgeService = new PurgeService();
         }
-        return $this->purgeEmployeeService;
+        return $this->purgeService;
     }
 
     /**
@@ -82,7 +82,7 @@ abstract class PurgeStrategy
      */
     protected function getEntityRecords(array $matchByValues, string $table): array
     {
-        return $this->getPurgeEmployeeService()->getPurgeEmployeeDao()->extractDataFromEmpNumber($matchByValues, $table);
+        return $this->getPurgeService()->getPurgeDao()->extractDataFromEmpNumber($matchByValues, $table);
     }
 
     /**

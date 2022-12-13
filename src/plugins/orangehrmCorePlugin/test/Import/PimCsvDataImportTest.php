@@ -25,13 +25,13 @@ use OrangeHRM\Admin\Dao\CountryDao;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Import\PimCsvDataImport;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Nationality;
 use OrangeHRM\Entity\Province;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -179,15 +179,6 @@ class PimCsvDataImportTest extends KernelTestCase
             ->method('saveEmployee')
             ->with($employee)
             ->will($this->returnValue($employee));
-
-        $mockEmployeeDao = $this->getMockBuilder(EmployeeDao::class)
-            ->onlyMethods(['getEmailList'])
-            ->getMock();
-        $mockEmployeeDao->expects($this->exactly(2))
-            ->method('getEmailList')
-            ->with()
-            ->will($this->returnValue($emailList));
-        $mockEmployeeService->setEmployeeDao($mockEmployeeDao);
 
         $this->createKernelWithMockServices(
             [Services::COUNTRY_SERVICE => $mockCountryService, Services::EMPLOYEE_SERVICE => $mockEmployeeService]
@@ -376,5 +367,30 @@ class PimCsvDataImportTest extends KernelTestCase
         $result = $this->pimCsvDataImport->import($data);
 
         $this->assertFalse($result);
+    }
+
+    public function testImportWhenEmployeeIdDuplicated(): void
+    {
+        $this->createKernelWithMockServices(
+            [
+                Services::COUNTRY_SERVICE => new CountryService(),
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()
+            ]
+        );
+
+        $data1 = ["Devi", "", "DS", "0002", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+        $data2 = ["Sharuka", "", "Perera", "0002", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+        $data3 = ["Chenuka", "", "Gamage", "0002", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+
+        $result1 = $this->pimCsvDataImport->import($data1);
+        $result2 = $this->pimCsvDataImport->import($data2);
+        $result3 = $this->pimCsvDataImport->import($data3);
+
+        $this->assertTrue($result1);
+        $this->assertFalse($result2);
+        $this->assertFalse($result3);
+
+        $this->assertCount(1, $this->getRepository(Employee::class)->findAll());
     }
 }

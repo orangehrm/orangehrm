@@ -24,14 +24,14 @@ use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group @Admin
- * @group @Entity
+ * @group Admin
+ * @group Entity
  */
 class CountryTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateTables([Country::class]);
+        TestDataService::truncateSpecificTables([Country::class]);
     }
 
     public function testCountryEntity(): void

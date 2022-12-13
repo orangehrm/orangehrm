@@ -24,32 +24,22 @@
   }
 
   &-sidebar {
-    margin-left: 16px;
+    min-width: 250px;
+    max-width: 250px;
+    margin-left: 1rem;
+    border-radius: 1.2rem;
+    background-color: $oxd-white-color;
   }
 }
 
 .orangehrm-container {
-  overflow: auto;
   height: 512px;
-  position: relative;
-  margin: 0px;
-  @include oxd-respond-to('md') {
-    min-width: 678px;
-  }
-  &-min-display {
-    min-width: auto;
-  }
-
+  overflow: auto;
+  overflow-x: hidden;
   @include oxd-scrollbar();
-
   &-loader {
     margin: 0 auto;
     background-color: $oxd-white-color;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    bottom: 0;
   }
 }
 
@@ -57,6 +47,6 @@
   padding: 0.5rem 0.75rem;
 }
 
-.orangehrm-full-width {
-    width: 100%;
+.orangehrm-paper-container {
+  width: 100%;
 }

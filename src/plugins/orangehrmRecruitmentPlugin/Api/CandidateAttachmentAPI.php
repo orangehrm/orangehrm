@@ -32,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Recruitment\Api\Model\CandidateAttachmentModel;
+use OrangeHRM\Recruitment\Dto\RecruitmentAttachment;
 use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 
@@ -80,7 +81,10 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
         $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->saveCandidateAttachment($candidateAttachment);
-        return new EndpointResourceResult(CandidateAttachmentModel::class, $candidateAttachment);
+        return new EndpointResourceResult(
+            CandidateAttachmentModel::class,
+            $this->getRecruitmentAttachment($candidateAttachment)
+        );
     }
 
     /**
@@ -162,8 +166,8 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
         );
         $candidateAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getCandidateAttachmentByCandidateId($candidateId);
-        $this->throwRecordNotFoundExceptionIfNotExist($candidateAttachment, CandidateAttachment::class);
+            ->getPartialCandidateAttachmentByCandidateId($candidateId);
+        $this->throwRecordNotFoundExceptionIfNotExist($candidateAttachment, RecruitmentAttachment::class);
 
         return new EndpointResourceResult(CandidateAttachmentModel::class, $candidateAttachment);
     }
@@ -211,7 +215,10 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
                 ->deleteCandidateAttachment($candidateId);
             return new EndpointResourceResult(ArrayModel::class, [$candidateId]);
         }
-        return new EndpointResourceResult(CandidateAttachmentModel::class, $candidateAttachment);
+        return new EndpointResourceResult(
+            CandidateAttachmentModel::class,
+            $this->getRecruitmentAttachment($candidateAttachment)
+        );
     }
 
     /**
@@ -229,13 +236,30 @@ class CandidateAttachmentAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH]),
             ),
-            new ParamRule(
-                self::PARAMETER_ATTACHMENT,
-                new Rule(
-                    Rules::BASE_64_ATTACHMENT,
-                    [null, null, self::PARAM_RULE_FILE_NAME_MAX_LENGTH]
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ATTACHMENT,
+                    new Rule(
+                        Rules::BASE_64_ATTACHMENT,
+                        [null, null, self::PARAM_RULE_FILE_NAME_MAX_LENGTH]
+                    )
                 )
-            )
+            ),
+        );
+    }
+
+    /**
+     * @param CandidateAttachment $candidateAttachment
+     * @return RecruitmentAttachment
+     */
+    private function getRecruitmentAttachment(CandidateAttachment $candidateAttachment): RecruitmentAttachment
+    {
+        return new RecruitmentAttachment(
+            $candidateAttachment->getId(),
+            $candidateAttachment->getFileName(),
+            $candidateAttachment->getFileType(),
+            $candidateAttachment->getFileSize(),
+            $candidateAttachment->getCandidate()->getId()
         );
     }
 }

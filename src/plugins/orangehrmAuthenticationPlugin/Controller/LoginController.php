@@ -20,7 +20,7 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
@@ -37,6 +37,7 @@ class LoginController extends AbstractVueController implements PublicControllerI
     use AuthUserTrait;
     use EventDispatcherTrait;
     use ThemeServiceTrait;
+    use CsrfTokenManagerTrait;
 
     /**
      * @var HomePageService|null
@@ -71,12 +72,15 @@ class LoginController extends AbstractVueController implements PublicControllerI
             );
         }
 
-        $csrfTokenManager = new CsrfTokenManager();
         $component->addProp(
-            new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('login')->getValue())
+            new Prop(
+                'token',
+                Prop::TYPE_STRING,
+                $this->getCsrfTokenManager()->getToken('login')->getValue()
+            )
         );
         $component->addProp(
-            new Prop('login-logo-src', Prop::TYPE_STRING, $request->getBasePath() . "/images/ohrm_logo.png")
+            new Prop('login-logo-src', Prop::TYPE_STRING, $request->getBasePath() . '/images/ohrm_logo.png')
         );
 
         $assetsVersion = Config::get(Config::VUE_BUILD_TIMESTAMP);
@@ -92,6 +96,7 @@ class LoginController extends AbstractVueController implements PublicControllerI
         $component->addProp(
             new Prop('show-social-media', Prop::TYPE_BOOLEAN, $this->getThemeService()->showSocialMediaImages())
         );
+        $component->addProp(new Prop('is-demo-mode', Prop::TYPE_BOOLEAN, Config::PRODUCT_MODE === Config::MODE_DEMO));
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }

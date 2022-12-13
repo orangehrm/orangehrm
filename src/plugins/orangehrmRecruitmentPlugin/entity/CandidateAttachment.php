@@ -44,7 +44,7 @@ class CandidateAttachment
     /**
      * @var Candidate
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Candidate", inversedBy="candidateAttachments", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="candidate_id", referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="candidate_id", referencedColumnName="id", nullable=false)
      */
     private Candidate $candidate;
 

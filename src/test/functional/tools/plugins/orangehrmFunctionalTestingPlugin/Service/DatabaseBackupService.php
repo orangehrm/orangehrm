@@ -22,15 +22,17 @@ namespace OrangeHRM\FunctionalTesting\Service;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Exception;
+use OrangeHRM\Core\Service\CacheService;
 use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\CacheItem;
 
 class DatabaseBackupService
 {
     use EntityManagerHelperTrait;
-    use CacheTrait;
+    use CacheTrait {CacheTrait::getCache as getAppCache;}
     use LoggerTrait;
 
     public const DB_SAVEPOINT_CACHE_KEY_PREFIX = 'db.savepoint';
@@ -51,6 +53,14 @@ class DatabaseBackupService
     {
         $conn = $this->getConnection();
         return $conn->createSchemaManager();
+    }
+
+    /**
+     * @return AdapterInterface
+     */
+    private function getCache(): AdapterInterface
+    {
+        return CacheService::getCache('functional-testing');
     }
 
     /**
@@ -137,6 +147,7 @@ class DatabaseBackupService
      */
     public function restoreToSavepoint(string $savepointName): array
     {
+        $this->getAppCache()->clear();
         return $this->_restoreToSavepoint($this->genSavepointCacheKeyPrefix($savepointName));
     }
 
@@ -145,6 +156,7 @@ class DatabaseBackupService
      */
     public function restoreToInitialSavepoint(): array
     {
+        $this->getAppCache()->clear();
         return $this->_restoreToSavepoint(self::INITIAL_SAVEPOINT_CACHE_KEY_PREFIX);
     }
 

@@ -30,13 +30,13 @@ class VacancyAttachment extends AbstractFileController
 
     public function handle(Request $request): Response
     {
-        $attachId = $request->get('attachId');
+        $attachId = $request->attributes->get('attachId');
         $response = $this->getResponse();
 
         if ($attachId) {
-            $attachment = $this->getRecruitmentAttachmentService()->getRecruitmentAttachmentDao()->getVacancyAttachmentById(
-                $attachId
-            );
+            $attachment = $this->getRecruitmentAttachmentService()
+                ->getRecruitmentAttachmentDao()
+                ->getVacancyAttachmentById($attachId);
             if ($attachment instanceof \OrangeHRM\Entity\VacancyAttachment) {
                 $this->setCommonHeadersToResponse(
                     $attachment->getFileName(),

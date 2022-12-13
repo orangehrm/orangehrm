@@ -1,0 +1,1621 @@
+GetOne:
+  'Get Employee at work - Admin Self':
+    userId: 1
+    now:
+      datetime: '2022-09-06'
+      timezone: 'Asia/Colombo'
+    query:
+      empNumber: 1
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-05"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 35
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-06"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 50
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-07"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 59
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-08"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-09"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-09-10"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-09-11"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    "meta": {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-09-06",
+        "utcTime": "20:29",
+        "userDate": "2022-09-07",
+        "userTime": "01:59",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-06",
+          "label": "Sep 06"
+        },
+        "totalTime": {
+          "hours": 1,
+          "minutes": 50
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-05",
+          "label": "Sep 05"
+        },
+        "endDate": {
+          "date": "2022-09-11",
+          "label": "Sep 11"
+        },
+        "totalTime": {
+          "hours": 6,
+          "minutes": 24
+        }
+      },
+      "currentUser": {
+        "empNumber": 1,
+        "firstName": "Kayla",
+        "middleName": "T",
+        "lastName": "Abbey",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - Admin to employee':
+    userId: 1
+    now:
+      datetime: '2022-09-06'
+      timezone: 'Asia/Colombo'
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-05"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 35
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-06"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 50
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-07"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 59
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-08"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-09"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-09-10"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-09-11"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    "meta": {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-09-06",
+        "utcTime": "20:29",
+        "userDate": "2022-09-07",
+        "userTime": "01:59",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-06",
+          "label": "Sep 06"
+        },
+        "totalTime": {
+          "hours": 1,
+          "minutes": 50
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-05",
+          "label": "Sep 05"
+        },
+        "endDate": {
+          "date": "2022-09-11",
+          "label": "Sep 11"
+        },
+        "totalTime": {
+          "hours": 6,
+          "minutes": 24
+        }
+      },
+      "currentUser": {
+        "empNumber": 2,
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "lastName": "Abel",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - ESS User Self':
+    userId: 2
+    now:
+      datetime: '2022-09-06'
+      timezone: 'Asia/Colombo'
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      empNumber: 2
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-05"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 35
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-06"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 50
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-07"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 59
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-08"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-09"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-09-10"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-09-11"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    "meta": {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-09-06",
+        "utcTime": "20:29",
+        "userDate": "2022-09-07",
+        "userTime": "01:59",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-06",
+          "label": "Sep 06"
+        },
+        "totalTime": {
+          "hours": 1,
+          "minutes": 50
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-05",
+          "label": "Sep 05"
+        },
+        "endDate": {
+          "date": "2022-09-11",
+          "label": "Sep 11"
+        },
+        "totalTime": {
+          "hours": 6,
+          "minutes": 24
+        }
+      },
+      "currentUser": {
+        "empNumber": 2,
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "lastName": "Abel",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - ESS User Self - With date and timezoneOffset':
+    userId: 4
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2022-09-06"
+      currentTime: "11:30"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-05"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-06"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-07"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-08"
+          },
+          "totalTime": {
+            "hours": 16,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-09"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-09-10"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-09-11"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-09-17",
+        "utcTime": "21:30",
+        "userDate": "2022-09-18",
+        "userTime": "03:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-06",
+          "label": "Sep 06"
+        },
+        "totalTime": {
+          "hours": 0,
+          "minutes": 0
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-05",
+          "label": "Sep 05"
+        },
+        "endDate": {
+          "date": "2022-09-11",
+          "label": "Sep 11"
+        },
+        "totalTime": {
+          "hours": 19,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 4,
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "lastName": "Sherin",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - ESS User Self - With date and timezoneOffset - Punched in 09/13 nad punched out 09/15':
+    userId: 4
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2022-09-13"
+      currentTime: "11:30"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-12"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-13"
+          },
+          "totalTime": {
+            "hours": 4,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-14"
+          },
+          "totalTime": {
+            "hours": 24,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-15"
+          },
+          "totalTime": {
+            "hours": 4,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-16"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-09-17"
+          },
+          "totalTime": {
+            "hours": 6,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-09-18"
+          },
+          "totalTime": {
+            "hours": 3,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-09-17",
+        "utcTime": "21:30",
+        "userDate": "2022-09-18",
+        "userTime": "03:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-13",
+          "label": "Sep 13"
+        },
+        "totalTime": {
+          "hours": 4,
+          "minutes": 0
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-12",
+          "label": "Sep 12"
+        },
+        "endDate": {
+          "date": "2022-09-18",
+          "label": "Sep 18"
+        },
+        "totalTime": {
+          "hours": 43,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 4,
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "lastName": "Sherin",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - ESS User Self - With date and timezoneOffset - Punched in +5.5 nad punched out +6.5':
+    userId: 5
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2022-10-13"
+      currentTime: "11:30"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-10-10"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-10-11"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-10-12"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-10-13"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-10-14"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-10-15"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-10-16"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-12-24",
+        "utcTime": "21:30",
+        "userDate": "2022-12-25",
+        "userTime": "03:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-10-13",
+          "label": "Oct 13"
+        },
+        "totalTime": {
+          "hours": 2,
+          "minutes": 0
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-10-10",
+          "label": "Oct 10"
+        },
+        "endDate": {
+          "date": "2022-10-16",
+          "label": "Oct 16"
+        },
+        "totalTime": {
+          "hours": 2,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 5,
+        "firstName": "Paul",
+        "middleName": "William",
+        "lastName": "Walker",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - ESS User Self - With date and timezoneOffset - Punched in 12/17 +5.5 nad punched out 12/17 +4.5':
+    userId: 5
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2022-12-17"
+      currentTime: "11:30"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-12-12"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-12-13"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-12-14"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-12-15"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-12-16"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-12-17"
+          },
+          "totalTime": {
+            "hours": 5,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-12-18"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-12-24",
+        "utcTime": "21:30",
+        "userDate": "2022-12-25",
+        "userTime": "03:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-12-17",
+          "label": "Dec 17"
+        },
+        "totalTime": {
+          "hours": 5,
+          "minutes": 0
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-12-12",
+          "label": "Dec 12"
+        },
+        "endDate": {
+          "date": "2022-12-18",
+          "label": "Dec 18"
+        },
+        "totalTime": {
+          "hours": 5,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 5,
+        "firstName": "Paul",
+        "middleName": "William",
+        "lastName": "Walker",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - ESS User Self - With date and timezoneOffset - Punched in 12/24 +4.5 nad punched out 12/25 +5.5':
+    userId: 5
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2022-12-24"
+      currentTime: "11:30"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-12-19"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-12-20"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-12-21"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-12-22"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-12-23"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-12-24"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-12-25"
+          },
+          "totalTime": {
+            "hours": 3,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-12-24",
+        "utcTime": "21:30",
+        "userDate": "2022-12-25",
+        "userTime": "03:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-12-24",
+          "label": "Dec 24"
+        },
+        "totalTime": {
+          "hours": 1,
+          "minutes": 0
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-12-19",
+          "label": "Dec 19"
+        },
+        "endDate": {
+          "date": "2022-12-25",
+          "label": "Dec 25"
+        },
+        "totalTime": {
+          "hours": 4,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 5,
+        "firstName": "Paul",
+        "middleName": "William",
+        "lastName": "Walker",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - ESS User Self - No attendance records':
+    userId: 4
+    now:
+      datetime: '2022-09-25'
+      timezone: 'Asia/Colombo'
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      empNumber: 4
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-19"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-20"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-21"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-22"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-23"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-09-24"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-09-25"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    "meta": {
+      "lastAction": {
+        "state": 'PUNCHED OUT',
+        "utcDate": '2022-09-17',
+        "utcTime": '21:30',
+        "userDate": '2022-09-18',
+        "userTime": '03:00',
+        "timezoneOffset": '5.5'
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-25",
+          "label": "Sep 25"
+        },
+        "totalTime": {
+          "hours": 0,
+          "minutes": 00
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-19",
+          "label": "Sep 19"
+        },
+        "endDate": {
+          "date": "2022-09-25",
+          "label": "Sep 25"
+        },
+        "totalTime": {
+          "hours": 0,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 4,
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "lastName": "Sherin",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - Supervisor to Subordinate':
+    userId: 3
+    now:
+      datetime: '2022-09-06'
+      timezone: 'Asia/Colombo'
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-05"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 35
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-06"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 50
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-07"
+          },
+          "totalTime": {
+            "hours": 1,
+            "minutes": 59
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-08"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-09"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-09-10"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-09-11"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    "meta": {
+      "lastAction": {
+        "state": "PUNCHED OUT",
+        "utcDate": "2022-09-06",
+        "utcTime": "20:29",
+        "userDate": "2022-09-07",
+        "userTime": "01:59",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-06",
+          "label": "Sep 06"
+        },
+        "totalTime": {
+          "hours": 1,
+          "minutes": 50
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-05",
+          "label": "Sep 05"
+        },
+        "endDate": {
+          "date": "2022-09-11",
+          "label": "Sep 11"
+        },
+        "totalTime": {
+          "hours": 6,
+          "minutes": 24
+        }
+      },
+      "currentUser": {
+        "empNumber": 2,
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "lastName": "Abel",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - Supervisor to non assigned subordinate':
+    userId: 3
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 4
+    invalidOnly: [ 'empNumber' ]
+
+  'Get Employee at work - ESS to ESS':
+    userId: 4
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+    invalidOnly: [ 'empNumber' ]
+
+  'Get Employee at work - ESS User Self - Open punch in record scenario 01':
+    userId: 7
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2022-09-28"
+      currentTime: "05:30"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-26"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-27"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-28"
+          },
+          "totalTime": {
+            "hours": 2,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-29"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-30"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-10-01"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-10-02"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED IN",
+        "utcDate": "2022-09-27",
+        "utcTime": "21:30",
+        "userDate": "2022-09-28",
+        "userTime": "03:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-28",
+          "label": "Sep 28"
+        },
+        "totalTime": {
+          "hours": 4,
+          "minutes": 30
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-26",
+          "label": "Sep 26"
+        },
+        "endDate": {
+          "date": "2022-10-02",
+          "label": "Oct 02"
+        },
+        "totalTime": {
+          "hours": 4,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 7,
+        "firstName": "Serina",
+        "middleName": "serine",
+        "lastName": "Williams",
+        "terminationId": null
+      }
+    }
+
+  'Get Employee at work - ESS User Self - Open punch in record scenario 02':
+    userId: 8
+    services:
+      dashboard.employee_time_at_work_service: \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    query:
+      currentDate: "2022-09-29"
+      currentTime: "02:00"
+      timezoneOffset: 5.5
+    data:
+      [
+        {
+          "workDay": {
+            "id": "1",
+            "day": "Mon",
+            "date": "2022-09-26"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "2",
+            "day": "Tue",
+            "date": "2022-09-27"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "3",
+            "day": "Wed",
+            "date": "2022-09-28"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "4",
+            "day": "Thu",
+            "date": "2022-09-29"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "5",
+            "day": "Fri",
+            "date": "2022-09-30"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "6",
+            "day": "Sat",
+            "date": "2022-10-01"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        },
+        {
+          "workDay": {
+            "id": "0",
+            "day": "Sun",
+            "date": "2022-10-02"
+          },
+          "totalTime": {
+            "hours": 0,
+            "minutes": 0
+          }
+        }
+      ],
+    meta: {
+      "lastAction": {
+        "state": "PUNCHED IN",
+        "utcDate": "2022-09-27",
+        "utcTime": "16:30",
+        "userDate": "2022-09-27",
+        "userTime": "22:00",
+        "timezoneOffset": "5.5"
+      },
+      "currentDay": {
+        "currentDate": {
+          "date": "2022-09-29",
+          "label": "Sep 29"
+        },
+        "totalTime": {
+          "hours": 2,
+          "minutes": 00
+        }
+      },
+      "currentWeek": {
+        "startDate": {
+          "date": "2022-09-26",
+          "label": "Sep 26"
+        },
+        "endDate": {
+          "date": "2022-10-02",
+          "label": "Oct 02"
+        },
+        "totalTime": {
+          "hours": 0,
+          "minutes": 0
+        }
+      },
+      "currentUser": {
+        "empNumber": 8,
+        "firstName": "Chamika",
+        "middleName": "CK29",
+        "lastName": "Karunarathne",
+        "terminationId": null
+      }
+    }

@@ -21,16 +21,18 @@ use Doctrine\DBAL\Exception\ConnectionException;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 use OrangeHRM\Tests\Util\CoreFixtureService;
 
 define('ENVIRONMENT', 'test');
+date_default_timezone_set('UTC');
 
 require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
 $errorMessage = "
 Can't connect to test database.
 Run below command and try again;
-$ php ./devTools/general/create-test-db.php
+$ php ./devTools/core/console.php i:create-test-db -p root
 
 Error:
 %s\n
@@ -48,6 +50,8 @@ try {
         $e->getMessage()
     );
     die;
+} catch (ConfigNotFoundException $e) {
+    die($e->getMessage() . "\n\n");
 }
 
 $coreFixtureService = new CoreFixtureService();
@@ -55,7 +59,7 @@ if (!$coreFixtureService->isReady()) {
     $errorMessage = "
 Core fixtures not found.
 Run below command and try again;
-$ php ./devTools/general/create-test-db.php
+$ php ./devTools/core/console.php i:create-test-db -p root
 \n
 ";
     echo $errorMessage;

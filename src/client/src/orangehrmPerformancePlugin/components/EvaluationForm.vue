@@ -23,39 +23,46 @@
     <oxd-text class="orangehrm-main-title">
       {{ title }}
     </oxd-text>
+
     <div class="orangehrm-evaluation-header">
-      <div class="orangehrm-evaluation-header-title">
-        <img
-          class="orangehrm-evaluation-header-profile-image"
-          alt="profile picture"
-          :src="profileImgSrc"
-        />
-        <div class="orangehrm-evaluation-header-name">
-          <oxd-text type="card-title">
-            {{ employeeName }}
-          </oxd-text>
+      <oxd-grid :cols="3" class="orangehrm-evaluation-header-grid">
+        <oxd-grid-item class="orangehrm-evaluation-title">
+          <img
+            class="orangehrm-evaluation-title-profile-image"
+            alt="profile picture"
+            :src="profileImgSrc"
+          />
+          <div class="orangehrm-evaluation-title-name">
+            <oxd-text type="card-title">
+              {{ employeeName }}
+            </oxd-text>
+            <oxd-text type="card-body">
+              {{ jobTitle }}
+            </oxd-text>
+          </div>
+        </oxd-grid-item>
+        <oxd-grid-item>
           <oxd-text type="card-body">
-            {{ jobTitle }}
+            {{ $t('general.status') }}
           </oxd-text>
-        </div>
-      </div>
-      <div class="orangehrm-evaluation-header-action">
-        <oxd-text type="card-title">
-          {{ evaluationLabel }}
-        </oxd-text>
-        <oxd-icon-button
-          v-if="collapsible"
-          :with-container="false"
-          :name="isCollapsed ? 'chevron-down' : 'chevron-up'"
-          @click="toggleForm"
-        />
-      </div>
+          <oxd-text type="card-title">
+            {{ evaluationLabel }}
+          </oxd-text>
+        </oxd-grid-item>
+      </oxd-grid>
+      <oxd-icon-button
+        v-if="collapsible"
+        :with-container="false"
+        :name="isCollapsed ? 'chevron-down' : 'chevron-up'"
+        @click="toggleForm"
+      />
     </div>
-    <oxd-divider v-show="!isCollapsed" />
+
     <template v-if="!isCollapsed">
-      <oxd-grid :cols="3" class="orangehrm-evaluation-grid">
+      <oxd-divider />
+      <oxd-grid :cols="4" class="orangehrm-evaluation-grid">
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
-          <oxd-text type="subtitle-2">{{ $t('performance.kpis') }}</oxd-text>
+          <oxd-text type="subtitle-2">{{ $t('general.kpis') }}</oxd-text>
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
           <oxd-text type="subtitle-2">{{ $t('performance.rating') }}</oxd-text>
@@ -63,6 +70,9 @@
         <oxd-grid-item class="orangehrm-evaluation-grid-header">
           <oxd-text type="subtitle-2">{{ $t('general.comments') }}</oxd-text>
         </oxd-grid-item>
+        <oxd-grid-item
+          class="orangehrm-evaluation-grid-spacer-md"
+        ></oxd-grid-item>
 
         <template v-for="(kpi, index) in kpis" :key="kpi.id">
           <oxd-grid-item class="orangehrm-evaluation-grid-kpi">
@@ -118,9 +128,12 @@
               @update:modelValue="onUpdateComment($event, index)"
             />
           </oxd-grid-item>
-          <div class="orangehrm-evaluation-grid-spacer"></div>
+          <oxd-grid-item
+            class="orangehrm-evaluation-grid-spacer-md"
+          ></oxd-grid-item>
         </template>
       </oxd-grid>
+
       <oxd-divider />
       <oxd-grid :cols="3" class="orangehrm-evaluation-grid">
         <oxd-grid-item class="orangehrm-evaluation-grid-general">
@@ -150,6 +163,9 @@ import {computed, ref} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+
+const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
 export default {
   components: {
@@ -204,17 +220,18 @@ export default {
 
   setup(props, context) {
     const {$t} = usei18n();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const isCollapsed = ref(props.collapsed);
     const commentValidators = [shouldNotExceedCharLength(2000)];
 
     const profileImgSrc = computed(() => {
-      return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`;
+      return props.employee.empNumber
+        ? `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employee.empNumber}`
+        : defaultPic;
     });
 
     const employeeName = computed(() => {
-      return `${props.employee.firstName} ${props.employee.lastName} ${
-        props.employee.terminationId ? $t('general.past_employee') : ''
-      }`;
+      return $tEmpName(props.employee);
     });
 
     const toggleForm = () => {

@@ -53,7 +53,7 @@ class ModuleDefaultPage
     /**
      * @var int
      *
-     * @ORM\Column(name="priority", type="integer", options={"default":0})
+     * @ORM\Column(name="priority", type="integer", options={"default" : 0})
      */
     private int $priority;
 

@@ -21,12 +21,13 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\CandidateDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @method CandidateDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_job_candidate")
  * @ORM\Entity
  *
@@ -34,6 +35,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Candidate
 {
     use DecoratorTrait;
+
+    public const MODE_OF_APPLICATION_MANUAL = 1;
+    public const MODE_OF_APPLICATION_ONLINE = 2;
 
     /**
      * @var int
@@ -77,8 +81,9 @@ class Candidate
     /**
      * @var int
      * @ORM\Column(name="status", type="integer", length=4)
+     * @deprecated
      */
-    private int $status;
+    private int $status = 1;
 
     /**
      * @var string|null
@@ -101,12 +106,14 @@ class Candidate
     /**
      * @var int|null
      * @ORM\Column(name="cv_file_id", type="integer", length=13, nullable=true)
+     * @deprecated
      */
     private ?int $cvFileId = null;
 
     /**
      * @var string|null
      * @ORM\Column(name="cv_text_version", type="text", nullable=true)
+     * @deprecated
      */
     private ?string $cvTextVersion = null;
 
@@ -118,8 +125,8 @@ class Candidate
 
     /**
      * @var Employee|null
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="candidates", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="added_person", referencedColumnName="emp_number",nullable=true)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="candidates", cascade={"persist"})
+     * @ORM\JoinColumn(name="added_person", referencedColumnName="emp_number", nullable=true)
      */
     private ?Employee $addedPerson = null;
 
@@ -130,21 +137,28 @@ class Candidate
     private bool $consentToKeepData = false;
 
     /**
-     * @var iterable|ArrayCollection
+     * @var iterable|CandidateVacancy[]
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\CandidateVacancy", mappedBy="candidate")
      */
     private iterable $candidateVacancy;
 
     /**
-     * @var iterable|ArrayCollection
+     * @var iterable|CandidateAttachment[]
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\CandidateAttachment", mappedBy="candidate")
      */
     private iterable $candidateAttachment;
+
+    /**
+     * @var iterable|CandidateHistory[]
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\CandidateHistory", mappedBy="candidate")
+     */
+    private iterable $candidateHistory;
 
     public function __construct()
     {
         $this->candidateVacancy = new ArrayCollection();
         $this->candidateAttachment = new ArrayCollection();
+        $this->candidateHistory = new ArrayCollection();
     }
 
     /**
@@ -245,6 +259,7 @@ class Candidate
 
     /**
      * @return int
+     * @deprecated
      */
     public function getStatus(): int
     {
@@ -253,6 +268,7 @@ class Candidate
 
     /**
      * @param int $status
+     * @deprecated
      */
     public function setStatus(int $status): void
     {
@@ -309,6 +325,7 @@ class Candidate
 
     /**
      * @return int|null
+     * @deprecated
      */
     public function getCvFileId(): ?int
     {
@@ -317,6 +334,7 @@ class Candidate
 
     /**
      * @param int|null $cvFileId
+     * @deprecated
      */
     public function setCvFileId(?int $cvFileId): void
     {
@@ -325,6 +343,7 @@ class Candidate
 
     /**
      * @return string|null
+     * @deprecated
      */
     public function getCvTextVersion(): ?string
     {
@@ -333,6 +352,7 @@ class Candidate
 
     /**
      * @param string|null $cvTextVersion
+     * @deprecated
      */
     public function setCvTextVersion(?string $cvTextVersion): void
     {
@@ -388,7 +408,7 @@ class Candidate
     }
 
     /**
-     * @return ArrayCollection|iterable
+     * @return CandidateVacancy[]|iterable
      */
     public function getCandidateVacancy()
     {
@@ -396,10 +416,18 @@ class Candidate
     }
 
     /**
-     * @return ArrayCollection|iterable
+     * @return CandidateAttachment[]|iterable
      */
     public function getCandidateAttachment()
     {
         return $this->candidateAttachment;
+    }
+
+    /**
+     * @return iterable|CandidateHistory[]
+     */
+    public function getCandidateHistory()
+    {
+        return $this->candidateHistory;
     }
 }

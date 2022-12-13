@@ -27,6 +27,7 @@
           <oxd-grid-item>
             <employee-autocomplete
               v-model="filters.employee"
+              :rules="rules.employee"
               :params="{
                 includeEmployees: filters.includeEmployees.param,
               }"
@@ -132,6 +133,8 @@ import {computed, ref, inject} from 'vue';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {
+  validSelection,
+  validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
@@ -155,6 +158,7 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import ReviewStatusDropdown from '@/orangehrmPerformancePlugin/components/ReviewStatusDropdown';
 import IncludeEmployeeDropdown from '@/core/components/dropdown/IncludeEmployeeDropdown';
 import ReviewPeriodCell from '@/orangehrmPerformancePlugin/components/ReviewPeriodCell';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 const defaultSortOrder = {
   'employee.lastName': 'DEFAULT',
@@ -188,9 +192,9 @@ export default {
   },
   setup(props) {
     const {$t} = usei18n();
-    const {jsDateFormat} = useDateFormat();
+    const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
-
+    const {$tEmpName} = useEmployeeNameTranslate();
     const reviewListDateFormat = date =>
       formatDate(parseDate(date), jsDateFormat, {locale});
 
@@ -207,12 +211,8 @@ export default {
         const reviewer = item.reviewer?.employee;
         return {
           id: item.id,
-          employee: `${employee?.firstName} ${employee?.lastName} ${
-            employee?.terminationId ? ` ${$t('general.past_employee')}` : ''
-          }`,
-          reviewer: `${reviewer?.firstName} ${reviewer?.lastName} ${
-            reviewer?.terminationId ? ` ${$t('general.past_employee')}` : ''
-          }`,
+          employee: $tEmpName(employee),
+          reviewer: $tEmpName(reviewer),
           jobTitle: item.jobTitle?.name,
           reviewPeriod: {
             reviewPeriodStart: reviewListDateFormat(item.reviewPeriodStart),
@@ -296,6 +296,7 @@ export default {
       filters,
       sortDefinition,
       statusOpts,
+      userDateFormat,
     };
   },
   data() {
@@ -350,7 +351,9 @@ export default {
       ],
       checkedItems: [],
       rules: {
+        employee: [validSelection],
         fromDate: [
+          validDateFormat(this.userDateFormat),
           startDateShouldBeBeforeEndDate(
             () => this.filters.toDate,
             this.$t('general.from_date_should_be_before_to_date'),
@@ -358,6 +361,7 @@ export default {
           ),
         ],
         toDate: [
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.filters.fromDate,
             this.$t('general.to_date_should_be_after_from_date'),

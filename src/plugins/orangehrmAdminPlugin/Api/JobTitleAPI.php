@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use OpenApi\Annotations as OA;
 use OrangeHRM\Admin\Api\Model\JobTitleModel;
 use OrangeHRM\Admin\Dto\JobTitleSearchFilterParams;
 use OrangeHRM\Admin\Service\JobTitleService;
@@ -63,14 +64,11 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public const JOB_SPECIFICATION_KEEP_CURRENT = 'keepCurrent';
     public const JOB_SPECIFICATION_DELETE_CURRENT = 'deleteCurrent';
     public const JOB_SPECIFICATION_REPLACE_CURRENT = 'replaceCurrent';
-
-    /**
-     * @param JobTitleService $jobTitleService
-     */
-    public function setJobTitleService(JobTitleService $jobTitleService)
-    {
-        $this->jobTitleService = $jobTitleService;
-    }
+    public const CURRENT_JOB_SPECIFICATION = [
+        self::JOB_SPECIFICATION_KEEP_CURRENT,
+        self::JOB_SPECIFICATION_DELETE_CURRENT,
+        self::JOB_SPECIFICATION_REPLACE_CURRENT
+    ];
 
     /**
      * @return JobTitleService
@@ -84,6 +82,27 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/job-titles/{id}",
+     *     tags={"Admin/Job Title"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-JobTitleModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -108,6 +127,41 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/job-titles",
+     *     tags={"Admin/Job Title"},
+     *     @OA\Parameter(
+     *         name="activeOnly",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=JobTitleSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Admin-JobTitleModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -147,6 +201,31 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/job-titles",
+     *     tags={"Admin/Job Title"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="description", type="string", default=null),
+     *             @OA\Property(property="note", type="string", default=null),
+     *             @OA\Property(property="specification", ref="#/components/schemas/Base64AttachmentOrNull"),
+     *             required={"title"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-JobTitleModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResult
@@ -176,13 +255,13 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
             )
         );
         $jobTitle->setJobDescription(
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_DESCRIPTION
             )
         );
         $jobTitle->setNote(
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_NOTE
             )
@@ -296,12 +375,43 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/job-titles/{id}",
+     *     tags={"Admin/Job Title"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="description", type="string", default=null),
+     *             @OA\Property(property="note", type="string", default=null),
+     *             @OA\Property(property="currentJobSpecification", type="string", enum=OrangeHRM\Admin\Api\JobTitleAPI::CURRENT_JOB_SPECIFICATION, default=null),
+     *             @OA\Property(property="specification", ref="#/components/schemas/Base64AttachmentOrNull"),
+     *             required={"title"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-JobTitleModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $currentJobSpecification = $this->getRequestParams()->getString(
+        $currentJobSpecification = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_CURRENT_JOB_SPECIFICATION
         );
@@ -313,11 +423,11 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
         $jobSpecification = $jobTitle->getJobSpecificationAttachment();
         $base64Attachment = $this->getBase64JobSpecification();
 
-        if (!$jobSpecification instanceof JobSpecificationAttachment && $currentJobSpecification) {
+        if (!$jobSpecification instanceof JobSpecificationAttachment && !is_null($currentJobSpecification)) {
             throw $this->getBadRequestException(
                 "`" . self::PARAMETER_CURRENT_JOB_SPECIFICATION . "` should not define if there is no job specification"
             );
-        } elseif ($jobSpecification instanceof JobSpecificationAttachment && !$currentJobSpecification) {
+        } elseif ($jobSpecification instanceof JobSpecificationAttachment && is_null($currentJobSpecification)) {
             throw $this->getBadRequestException(
                 "`" . self::PARAMETER_CURRENT_JOB_SPECIFICATION . "` should define if there is a job specification"
             );
@@ -360,16 +470,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CURRENT_JOB_SPECIFICATION,
-                    new Rule(
-                        Rules::IN,
-                        [
-                            [
-                                self::JOB_SPECIFICATION_KEEP_CURRENT,
-                                self::JOB_SPECIFICATION_DELETE_CURRENT,
-                                self::JOB_SPECIFICATION_REPLACE_CURRENT
-                            ]
-                        ]
-                    ),
+                    new Rule(Rules::IN, [self::CURRENT_JOB_SPECIFICATION]),
                 )
             ),
             ...$this->getCommonBodyValidationRules(),
@@ -390,6 +491,13 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/admin/job-titles",
+     *     tags={"Admin/Job Title"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResult

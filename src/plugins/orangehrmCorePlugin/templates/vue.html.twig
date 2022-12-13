@@ -31,7 +31,7 @@
         brand-banner-src="{{ clientBannerUrl }}"
         logout-url="{{ baseUrl }}/auth/logout"
         support-url="{{ baseUrl }}/help/support"
-        update-password-url="{{ baseUrl }}/pim/updatePassword"
+        :update-password-url="{{ user.hasPassword ? "\"#{baseUrl}/pim/updatePassword\"" : "null" }}"
         :permissions="{{ (permissions ? permissions : []) | json_encode() }}"
         :breadcrumb="{{ breadcrumb | json_encode() }}"
         :date-format="{{ dateFormat | json_encode() }}"

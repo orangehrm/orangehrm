@@ -31,6 +31,8 @@ use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
+use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Module;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
@@ -206,6 +208,7 @@ class VueControllerHelper
             'firstName' => $firstName,
             'lastName' => $lastName,
             'profImgSrc' => $profileImgUrl,
+            'hasPassword' => !is_null($user->getUserPassword()),
         ];
     }
 
@@ -250,25 +253,23 @@ class VueControllerHelper
      */
     public function getBreadcrumb(): array
     {
-        // this function will return an array that contains the module name and level in the particular screen dynamically
         $breadcrumb = [];
-        // TODO
-        $breadcrumb['moduleName'] = $this->getCurrentModuleAndScreen()->getModule() === 'pim' ? strtoupper(
-            $this->getCurrentModuleAndScreen()->getModule()
-        ) : ucfirst($this->getCurrentModuleAndScreen()->getModule());
+        $module = $this->getMenuService()
+            ->getMenuDao()
+            ->getModuleByName($this->getCurrentModuleAndScreen()->getModule());
+        if ($module instanceof Module) {
+            $breadcrumb['moduleName'] = $this->getI18NHelper()->transBySource($module->getDisplayName());
+        }
+
         $menuItem = $this->getMenuService()->getMenuDao()->getMenuItemByModuleAndScreen(
             $this->getCurrentModuleAndScreen()->getModule(),
             $this->getCurrentModuleAndScreen()->getScreen()
         );
-        if ($menuItem) {
-            //TODO needed to fix for add screens
+        if ($menuItem instanceof MenuItem) {
             $breadcrumb['level'] = $menuItem->getLevel() == 3 ? $menuItem->getParent()->getMenuTitle() : null;
             if (!is_null($breadcrumb['level'])) {
                 $breadcrumb['level'] = $this->getI18NHelper()->transBySource($breadcrumb['level']);
             }
-        }
-        if ($breadcrumb['moduleName']) {
-            $breadcrumb['moduleName'] = $this->getI18NHelper()->transBySource($breadcrumb['moduleName']);
         }
         return $breadcrumb;
     }

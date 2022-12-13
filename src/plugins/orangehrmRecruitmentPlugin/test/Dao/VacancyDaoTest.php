@@ -114,7 +114,7 @@ class VacancyDaoTest extends KernelTestCase
     public function testGetVacanciesFilterByVacancyId(): void
     {
         $vacancyParamHolder = new VacancySearchFilterParams();
-        $vacancyParamHolder->setVacancyId(2);
+        $vacancyParamHolder->setVacancyIds([2]);
         $vacancies = $this->vacancyDao->getVacancies($vacancyParamHolder);
         $this->assertCount(1, $vacancies);
         $this->assertEquals('Senior Technical Supervisor', $vacancies[0]->getName());
@@ -132,7 +132,7 @@ class VacancyDaoTest extends KernelTestCase
     public function testGetVacanciesFilterByStatus(): void
     {
         $vacancyParamHolder = new VacancySearchFilterParams();
-        $vacancyParamHolder->setStatus(2);
+        $vacancyParamHolder->setStatus(false);
         $vacancies = $this->vacancyDao->getVacancies($vacancyParamHolder);
         $this->assertCount(1, $vacancies);
         $this->assertEquals('Part-Time Technical Assistant', $vacancies[0]->getName());
@@ -140,14 +140,16 @@ class VacancyDaoTest extends KernelTestCase
 
     public function testGetVacanciesGroupByHiringManagers(): void
     {
-        $vacancies = $this->vacancyDao->getVacanciesGroupByHiringManagers();
-        $this->assertCount(4, $vacancies);
+        $vacancySearchFilterParams = new VacancySearchFilterParams();
+        $vacancySearchFilterParams->setVacancyIds([1,2,3,4]);
+        $vacancies = $this->vacancyDao->getVacancyListGroupByHiringManager($vacancySearchFilterParams);
+        $this->assertCount(3, $vacancies);
     }
 
     public function testSearchVacanciesCount(): void
     {
         $vacancyParamHolder = new VacancySearchFilterParams();
-        $vacanciesCount = $this->vacancyDao->searchVacanciesCount($vacancyParamHolder);
+        $vacanciesCount = $this->vacancyDao->getVacanciesCount($vacancyParamHolder);
         $this->assertEquals(6, $vacanciesCount);
     }
 }

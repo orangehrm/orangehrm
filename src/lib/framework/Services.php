@@ -141,6 +141,16 @@ final class Services
      */
     public const MENU_SERVICE = 'core.menu_service';
 
+    /**
+     * @see \OrangeHRM\Core\Service\ReportGeneratorService
+     */
+    public const REPORT_GENERATOR_SERVICE = 'core.report_generator_service';
+
+    /**
+     * @see \OrangeHRM\Core\Service\ModuleService
+     */
+    public const MODULE_SERVICE = 'core.module_service';
+
     ///////////////////////////////////////////////////////////////
     /// Authentication plugin services
     ///////////////////////////////////////////////////////////////
@@ -149,6 +159,22 @@ final class Services
      * @see \OrangeHRM\Authentication\Auth\User
      */
     public const AUTH_USER = 'auth.user';
+
+    /**
+     * @see \OrangeHRM\Authentication\Auth\AuthProviderChain
+     */
+    public const AUTH_PROVIDER_CHAIN = 'auth.provider_chain';
+
+    /**
+     * @see \OrangeHRM\Authentication\Csrf\CsrfTokenManager
+     */
+    public const CSRF_TOKEN_MANAGER = 'auth.csrf_token_manager';
+
+    /**
+     * @see \Symfony\Component\Security\Csrf\TokenStorage\NativeSessionTokenStorage
+     * @see \Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface
+     */
+    public const CSRF_TOKEN_STORAGE = 'auth.csrf_token_storage';
 
     ///////////////////////////////////////////////////////////////
     /// Admin plugin services
@@ -331,4 +357,55 @@ final class Services
      * @see \OrangeHRM\Performance\Service\PerformanceTrackerLogService
      */
     public const PERFORMANCE_TRACKER_LOG_SERVICE = 'performance.performance_tracker_log_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Dashboard plugin services
+    ///////////////////////////////////////////////////////////////
+    /**
+     * @see \OrangeHRM\Dashboard\Service\EmployeeOnLeaveService
+     */
+    public const EMPLOYEE_ON_LEAVE_SERVICE = 'dashboard.employee_on_leave_service';
+
+    /**
+     * @see \OrangeHRM\Dashboard\Service\ChartService
+     */
+    public const CHART_SERVICE = 'dashboard.chart_service';
+
+    /**
+     * @see \OrangeHRM\Dashboard\Service\QuickLaunchService
+     */
+    public const QUICK_LAUNCH_SERVICE = 'dashboard.quick_launch_service';
+
+    /**
+     * @see \OrangeHRM\Dashboard\Service\EmployeeTimeAtWorkService
+     */
+    public const EMPLOYEE_TIME_AT_WORK_SERVICE = 'dashboard.employee_time_at_work_service';
+
+    /**
+     * @see \OrangeHRM\Dashboard\Service\EmployeeActionSummaryService
+     */
+    public const EMPLOYEE_ACTION_SUMMARY_SERVICE = 'dashboard.employee_action_summary_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// LDAP plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Framework\Logger\Logger
+     */
+    public const LDAP_LOGGER = 'ldap.logger';
+
+    ///////////////////////////////////////////////////////////////
+    /// Buzz plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Buzz\Service\BuzzAnniversaryService
+     */
+    public const BUZZ_ANNIVERSARY_SERVICE = 'buzz.buzz_anniversary_service';
+
+    /**
+     * @see \OrangeHRM\Buzz\Service\BuzzService
+     */
+    public const BUZZ_SERVICE = 'buzz.buzz_service';
 }

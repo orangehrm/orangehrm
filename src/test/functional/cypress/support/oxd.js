@@ -21,8 +21,8 @@ const OXD_INPUT_ELEMENTS = {
   radio: '.oxd-radio-input',
   switch: '.oxd-switch-input',
   checkbox: '.oxd-checkbox-input',
-  file: '.oxd-file-input',
   time: '.oxd-time-input',
+  file: '.oxd-file-input',
   textbox: '.oxd-textarea',
   select: '.oxd-select-text-input',
   multiselect: '.oxd-select-text-input',
@@ -46,9 +46,13 @@ const OXD_ELEMENTS = {
   pageContext: '.oxd-layout-context',
   filterTitle: '.oxd-table-filter-title',
   pageTitle: '.orangehrm-main-title',
+  subTitle: '.oxd-text--subtitle-2',
   numRecords: '.oxd-text--span',
   option: '.oxd-select-option',
+  autoCompleteOption: '.oxd-autocomplete-option > span',
   selectWrapper: '.oxd-select-wrapper',
+  date: '.oxd-date-input',
+  leaveBalance: 'orangehrm-leave-balance-text',
   ...OXD_INPUT_ELEMENTS,
 };
 

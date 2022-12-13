@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Dao;
 
 use OrangeHRM\Core\Menu\DetailedMenuItem;
 use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Module;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
@@ -204,5 +205,14 @@ class MenuDao extends BaseDao
                 ->setParameter('level', $level);
         }
         return $this->fetchOne($q);
+    }
+
+    /**
+     * @param string $moduleName
+     * @return Module|null
+     */
+    public function getModuleByName(string $moduleName): ?Module
+    {
+        return $this->getRepository(Module::class)->findOneBy(['name' => $moduleName]);
     }
 }

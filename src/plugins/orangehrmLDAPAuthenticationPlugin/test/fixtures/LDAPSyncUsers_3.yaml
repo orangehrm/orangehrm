@@ -1,0 +1,42 @@
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "2","name": "Retired" }
+  - { "id": "6","name": "Resigned" }
+  - { "id": "9","name": "Laid-off" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "","emp_sin_num": "890 785 234" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" , "emp_dri_lice_num": "97204831", "emp_other_id": "78TH67845" }
+  - { "emp_number": 7,"employee_id": "0007","emp_lastname": "Collings","emp_firstname": "Paul","emp_middle_name": "", "emp_ssn_num": "790714615", "emp_work_email": "paul@example.org" }
+  - { "emp_number": 8,"employee_id": "0008","emp_lastname": "Collings","emp_firstname": "Paul","emp_middle_name": "" , "emp_dri_lice_num": "44101073", "emp_other_id": "78TH67845" }
+  - { "emp_number": 15,"employee_id": "0015","emp_lastname": "Smith","emp_firstname": "John","emp_middle_name": "", "emp_work_email": "john@example.org" }
+  - { "emp_number": 16,"emp_lastname": "#","emp_firstname": "Jacqueline","emp_middle_name": "" , "emp_other_id": "12MK56785", "emp_work_email": "Jacqueline@example.org" }
+  - { "emp_number": 17,"emp_lastname": "Mathews","emp_firstname": "Kevin","emp_middle_name": "", "emp_ssn_num": "778-62-8144", "emp_oth_email": "kevin@example.com" }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "1","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "1","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "3","erep_reporting_mode": "2" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": 0,"status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Anderson","user_password": "Anderson","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Duval","user_password": "Duval","deleted": 0,"status": "1","date_entered": "2021-09-15 16:48:40","created_by": "1" }
+  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": 0,"status": "1","date_entered": "2021-09-15 20:05:27","created_by": "1" }

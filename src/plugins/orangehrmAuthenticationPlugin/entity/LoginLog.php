@@ -21,6 +21,7 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 /**
  * @ORM\Table(name="ohrm_login")
@@ -28,10 +29,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class LoginLog
 {
+    use DateTimeHelperTrait;
+
     /**
      * @var int
      *
-     * @ORM\Column(name="id",type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -40,7 +43,7 @@ class LoginLog
     /**
      * @var int
      *
-     * @ORM\Column(name="user_id",type="integer")
+     * @ORM\Column(name="user_id", type="integer")
      */
     private int $userId;
 
@@ -61,16 +64,21 @@ class LoginLog
     /**
      * @var int
      *
-     * @ORM\Column(name="user_role_predefined",type="integer")
+     * @ORM\Column(name="user_role_predefined", type="integer")
      */
     private int $userRolePredefined;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="login_time",type="time")
+     * @ORM\Column(name="login_time", type="datetime")
      */
     private DateTime $loginTime;
+
+    public function __construct()
+    {
+        $this->setLoginTime($this->getDateTimeHelper()->getNow());
+    }
 
     /**
      * @return int

@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\Province;
 use OrangeHRM\ORM\ListSorter;
@@ -31,17 +29,12 @@ class CountryDao extends BaseDao
     /**
      * Get Country list
      * @return Country[]
-     * @throws DaoException
      */
     public function getCountryList(): array
     {
-        try {
-            $q = $this->createQueryBuilder(Country::class, 'c');
-            $q->orderBy('c.name', ListSorter::ASCENDING);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->createQueryBuilder(Country::class, 'c');
+        $q->orderBy('c.name', ListSorter::ASCENDING);
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -52,20 +45,16 @@ class CountryDao extends BaseDao
      */
     public function getProvinceList(?string $countryCode = null): array
     {
-        try {
-            $q = $this->createQueryBuilder(Province::class, 'p');
+        $q = $this->createQueryBuilder(Province::class, 'p');
 
-            if (!empty($countryCode)) {
-                $q->andWhere('p.countryCode = :countryCode')
+        if (!empty($countryCode)) {
+            $q->andWhere('p.countryCode = :countryCode')
                     ->setParameter('countryCode', $countryCode);
-            }
-
-            $q->addOrderBy('p.provinceName', ListSorter::ASCENDING);
-
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
         }
+
+        $q->addOrderBy('p.provinceName', ListSorter::ASCENDING);
+
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -73,19 +62,14 @@ class CountryDao extends BaseDao
      *
      * @param string $countryName
      * @return Country|null
-     * @throws DaoException
      */
     public function getCountryByCountryName(string $countryName): ?Country
     {
-        try {
-            $country = $this->getRepository(Country::class)->findOneBy(['countryName' => $countryName]);
-            if ($country instanceof Country) {
-                return $country;
-            }
-            return null;
-        } catch (Exception $exception) {
-            throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
+        $country = $this->getRepository(Country::class)->findOneBy(['countryName' => $countryName]);
+        if ($country instanceof Country) {
+            return $country;
         }
+        return null;
     }
 
     /**
@@ -93,54 +77,39 @@ class CountryDao extends BaseDao
      *
      * @param string $countryCode
      * @return Country|null
-     * @throws DaoException
      */
     public function getCountryByCountryCode(string $countryCode): ?Country
     {
-        try {
-            $q = $this->createQueryBuilder(Country::class, 'c');
-            $q->where('c.countryCode = :countryCode')
+        $q = $this->createQueryBuilder(Country::class, 'c');
+        $q->where('c.countryCode = :countryCode')
                 ->setParameter('countryCode', $countryCode);
 
-            return $this->fetchOne($q);
-        } catch (Exception $exception) {
-            throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
-        }
+        return $this->fetchOne($q);
     }
 
     /**
      * @param string $provinceCode
      * @return Province|null
-     * @throws DaoException
      */
     public function getProvinceByProvinceCode(string $provinceCode): ?Province
     {
-        try {
-            $q = $this->createQueryBuilder(Province::class, 'p');
-            $q->where('p.provinceCode = :provinceCode')
+        $q = $this->createQueryBuilder(Province::class, 'p');
+        $q->where('p.provinceCode = :provinceCode')
                 ->setParameter('provinceCode', $provinceCode);
 
-            return $this->fetchOne($q);
-        } catch (Exception $exception) {
-            throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
-        }
+        return $this->fetchOne($q);
     }
 
     /**
      * @param string $provinceName
      * @return Province|null
-     * @throws DaoException
      */
     public function getProvinceByProvinceName(string $provinceName): ?Province
     {
-        try {
-            $q = $this->createQueryBuilder(Province::class, 'p');
-            $q->where('p.provinceName = :provinceName')
-                ->setParameter('provinceName', $provinceName);
+        $q = $this->createQueryBuilder(Province::class, 'p');
+        $q->where('p.provinceName = :provinceName')
+            ->setParameter('provinceName', $provinceName);
 
-            return $this->fetchOne($q);
-        } catch (Exception $exception) {
-            throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
-        }
+        return $this->fetchOne($q);
     }
 }

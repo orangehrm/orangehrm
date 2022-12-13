@@ -1,4 +1,0 @@
-JobCandidate:
- invalid_email: {id: 9, firstName: 'invalid mail', middleName: 'Malith', lastName: 'No mail', contactNumber: '0777-754075', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'invalid email', comment:'invalid mail'}
- invalid_phone: {id: 10, firstName: 'InvalidContact', middleName: 'Malith', lastName: 'InvalidContact', contactNumber: 'invalid123', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'invalid email', comment:'invalid contact'}
- invalid_date: {id: 10, firstName: 'InvalidContact', middleName: 'Malith', lastName: 'InvalidContact', contactNumber: 'invalid123', keywords: 'java,mysql,oracle', status: 2, modeOfApplication: 2, dateOfApplication: '2010-14-04', email: 'invalid email', comment:'invalid contact'}

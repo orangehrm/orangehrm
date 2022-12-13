@@ -59,12 +59,11 @@
 
     <Notice title="important">
       <oxd-text tag="p" class="orangehrm-installer-page-content">
-        OrangeHRM Starter 5.0 only supports Admin, PIM, Leave, Time and
-        Attendance, and Maintenance modules. If you are already utilising other
-        modules, Add-ons or the mobile app and are thinking about upgrading, we
-        recommend waiting for version 5.1. You can, however, continue with the
-        update while ignoring the unsupported modules and add-ons, but please
-        note that data will be inaccessible.
+        OrangeHRM Starter 5.2 does not support the Buzz module. If you are
+        already utilizing Buzz and are thinking about upgrading, we recommend
+        waiting for version 5.3. You can, however, continue with the update
+        while ignoring the unsupported modules and add-ons, but please note that
+        data will be inaccessible.
       </oxd-text>
     </Notice>
     <br />

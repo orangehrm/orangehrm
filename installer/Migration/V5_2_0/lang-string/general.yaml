@@ -1,0 +1,22 @@
+langStrings:
+  -
+    value: 'Ascending'
+    unitId: ascending
+  -
+    value: 'Descending'
+    unitId: descending
+  -
+    value: 'LDAP Configuration'
+    unitId: ldap_configuration
+  -
+    value: 'Enable'
+    unitId: enable
+  -
+    value: 'Enter a valid port number between {minValue} to {maxValue}'
+    unitId: enter_valid_port_between_a_to_b
+  -
+    value: 'User Status'
+    unitId: user_status
+  -
+    value: 'Should be at least {amount} characters'
+    unitId: should_be_least_n_characters

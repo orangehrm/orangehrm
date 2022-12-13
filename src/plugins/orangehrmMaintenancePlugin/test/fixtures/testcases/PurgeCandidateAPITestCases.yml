@@ -1,0 +1,115 @@
+Delete:
+  'with no vacancyId':
+    userId: 1
+    invalidOnly: [ 'vacancyId' ]
+
+  'with non-existent vacancyId':
+    userId: 1
+    body:
+      vacancyId: 100
+    invalidOnly: [ 'vacancyId' ]
+
+  'with existing vacancyId':
+    userId: 1
+    body:
+      vacancyId: 1
+    data:
+      purged:
+        vacancyId: 1
+
+GetAll:
+  'with no vacancyId':
+    userId: 1
+    invalidOnly: [ 'vacancyId' ]
+
+  'with non-existent vacancyId':
+    userId: 1
+    query:
+      vacancyId: 100
+    invalidOnly: [ 'vacancyId' ]
+
+  'with vacancy id 3 - no applied candidates':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    query:
+      vacancyId: 3
+    data: [ ]
+    meta:
+      total: 0
+
+  'with vacancy id 1 - none have consented to keep data':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    query:
+      vacancyId: 1
+    data: [
+      {
+        "id": 4,
+        "firstName": "Ani for SE 1",
+        "middleName": "",
+        "lastName": "Sapra",
+        "dateOfApplication": "2022-06-25",
+        "status": {
+          "id": 1,
+          "label": "Application Initiated"
+        }
+      },
+      {
+        "id": 1,
+        "firstName": "Devi for SE 1",
+        "middleName": "",
+        "lastName": "DS",
+        "dateOfApplication": "2022-06-22",
+        "status": {
+          "id": 1,
+          "label": "Application Initiated"
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  'with vacancy id 2 - all have consented to keep data':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    query:
+      vacancyId: 2
+    data: [ ]
+    meta:
+      total: 0
+
+  'with vacancy id 4 - some have consented to keep data':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+    query:
+      vacancyId: 4
+    data: [
+      {
+        "id": 6,
+        "firstName": "Devi for QA 2",
+        "middleName": "",
+        "lastName": "DS",
+        "dateOfApplication": "2022-06-27",
+        "status": {
+          "id": 1,
+          "label": "Application Initiated"
+        }
+      },
+      {
+        "id": 3,
+        "firstName": "Chen for QA 2",
+        "middleName": "",
+        "lastName": "Ga",
+        "dateOfApplication": "2022-06-24",
+        "status": {
+          "id": 1,
+          "label": "Application Initiated"
+        }
+      }
+    ]
+    meta:
+      total: 2

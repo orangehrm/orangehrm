@@ -100,6 +100,7 @@ import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@ohrm/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const workExpModel = {
   company: '',
@@ -121,6 +122,14 @@ export default {
 
   emits: ['close'],
 
+  setup() {
+    const {userDateFormat} = useDateFormat();
+
+    return {
+      userDateFormat,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
@@ -128,9 +137,9 @@ export default {
       rules: {
         company: [required, shouldNotExceedCharLength(100)],
         jobTitle: [required, shouldNotExceedCharLength(100)],
-        fromDate: [validDateFormat()],
+        fromDate: [validDateFormat(this.userDateFormat)],
         toDate: [
-          validDateFormat(),
+          validDateFormat(this.userDateFormat),
           endDateShouldBeAfterStartDate(
             () => this.workExperience.fromDate,
             this.$t('general.to_date_should_be_after_from_date'),

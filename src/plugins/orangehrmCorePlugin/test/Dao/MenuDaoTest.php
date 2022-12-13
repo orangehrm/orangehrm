@@ -106,4 +106,14 @@ class MenuDaoTest extends KernelTestCase
         $this->assertEquals(400, $menuItem->getOrderHint());
         $this->assertEquals(true, $menuItem->getStatus());
     }
+
+    public function testGetModuleByName(): void
+    {
+        $module = $this->menuDao->getModuleByName('leave');
+        $this->assertEquals('Leave', $module->getDisplayName());
+        $module = $this->menuDao->getModuleByName('pim');
+        $this->assertEquals('PIM', $module->getDisplayName());
+        $module = $this->menuDao->getModuleByName('invalid');
+        $this->assertNull($module);
+    }
 }

@@ -39,7 +39,10 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-autocomplete v-model="filters.empNumber" />
+              <employee-autocomplete
+                v-model="filters.empNumber"
+                :rules="rules.employee"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -117,6 +120,9 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import useSort from '@ohrm/core/util/composable/useSort';
+import {validSelection} from '@/core/util/validation/rules';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
+import usei18n from '@/core/util/composable/usei18n';
 
 const defaultFilters = {
   username: '',
@@ -145,15 +151,19 @@ export default {
   },
 
   setup(props) {
+    const {$t} = usei18n();
+    const {$tEmpName} = useEmployeeNameTranslate();
     const userdataNormalizer = data => {
       return data.map(item => {
         const selectable = props.unselectableIds.findIndex(id => id == item.id);
         return {
           id: item.id,
           userName: item.userName,
-          role: item.userRole?.displayName,
-          empName: `${item.employee?.firstName} ${item.employee?.lastName}
-          ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
+          role:
+            item.userRole?.displayName === 'Admin'
+              ? $t('general.admin')
+              : $t('general.ess'),
+          empName: $tEmpName(item.employee, {includeMiddle: false}),
           status: item.status ? 'Enabled' : 'Disabled',
           isSelectable: selectable === -1,
         };
@@ -267,6 +277,9 @@ export default {
         {id: 2, label: this.$t('general.disabled')},
       ],
       checkedItems: [],
+      rules: {
+        employee: [validSelection],
+      },
     };
   },
 

@@ -23,6 +23,14 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\JobCategory;
 
+/**
+ * @OA\Schema(
+ *     schema="Admin-JobCategoryModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string")
+ * )
+ */
 class JobCategoryModel implements Normalizable
 {
     use ModelTrait;

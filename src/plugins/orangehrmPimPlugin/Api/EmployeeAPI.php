@@ -40,6 +40,7 @@ use OrangeHRM\Pim\Api\Model\EmployeeDetailedModel;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeePictureService;
+use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeAPI extends Endpoint implements CrudEndpoint
@@ -64,10 +65,10 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_EMPLOYEE_ID = 'employeeId';
     public const PARAMETER_EMP_PICTURE = 'empPicture';
 
-    public const PARAM_RULE_FIRST_NAME_MAX_LENGTH = 30;
-    public const PARAM_RULE_MIDDLE_NAME_MAX_LENGTH = 30;
-    public const PARAM_RULE_LAST_NAME_MAX_LENGTH = 30;
-    public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = 50;
+    public const PARAM_RULE_FIRST_NAME_MAX_LENGTH = EmployeeService::FIRST_NAME_MAX_LENGTH;
+    public const PARAM_RULE_MIDDLE_NAME_MAX_LENGTH = EmployeeService::MIDDLE_NAME_MAX_LENGTH;
+    public const PARAM_RULE_LAST_NAME_MAX_LENGTH = EmployeeService::LAST_NAME_MAX_LENGTH;
+    public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = EmployeeService::EMPLOYEE_ID_MAX_LENGTH;
     public const PARAM_RULE_EMP_PICTURE_FILE_NAME_MAX_LENGTH = 100;
     public const PARAM_RULE_FILTER_NAME_MAX_LENGTH = 100;
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
@@ -473,11 +474,20 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
             throw $this->getBadRequestException('Not allowed to delete employees');
         }
 
+        $undeletableIds = $this->getEmployeeService()->getUndeletableEmpNumbers();
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
-                new Rule(Rules::ARRAY_TYPE)
-            )
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(Rules::POSITIVE),
+                            new Rule(Rules::NOT_IN, [$undeletableIds])
+                        )
+                    ]
+                )
+            ),
         );
     }
 }

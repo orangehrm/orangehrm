@@ -205,8 +205,10 @@ abstract class AbstractRestController extends AbstractController
             $response->setContent(
                 Response::formatError(
                     [
-                        'error' => ['status' => '400',
-                        'message' => $this->getI18NHelper()->transBySource($e->getMessage())]
+                        'error' => [
+                            'status' => '400',
+                            'message' => $this->getI18NHelper()->transBySource($e->getMessage())
+                        ]
                     ]
                 )
             );

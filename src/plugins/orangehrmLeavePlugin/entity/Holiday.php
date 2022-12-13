@@ -48,7 +48,7 @@ class Holiday
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", length=10, options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", length=10, options={"unsigned" : true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -78,7 +78,7 @@ class Holiday
     /**
      * @var int
      *
-     * @ORM\Column(name="length", type="integer", length=10, nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="length", type="integer", length=10, nullable=true, options={"unsigned" : true})
      */
     private int $length;
 

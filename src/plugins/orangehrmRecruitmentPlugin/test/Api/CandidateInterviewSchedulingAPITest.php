@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Recruitment\Api;
 
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Interview;
 use OrangeHRM\Entity\InterviewInterviewer;
 use OrangeHRM\Framework\Services;
@@ -37,6 +38,7 @@ class CandidateInterviewSchedulingAPITest extends EndpointIntegrationTestCase
     {
         TestDataService::truncateSpecificTables([InterviewInterviewer::class]);
         TestDataService::truncateSpecificTables([Interview::class]);
+        TestDataService::truncateSpecificTables([CandidateHistory::class]);
     }
 
     public function testGetAll(): void
@@ -83,5 +85,41 @@ class CandidateInterviewSchedulingAPITest extends EndpointIntegrationTestCase
         $api = new CandidateInterviewSchedulingAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('CandidateScheduleInterview.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(CandidateInterviewSchedulingAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetOne(): array
+    {
+        return $this->getTestCases('CandidateScheduleInterviewTestCases.yaml', 'GetOne');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('CandidateScheduleInterview.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(CandidateInterviewSchedulingAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('CandidateScheduleInterviewTestCases.yaml', 'Update');
     }
 }

@@ -69,8 +69,8 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_NEW_PASSWORD
         );
-        $user->setUserPassword($newPassword);
-        $user = $this->getUserService()->saveSystemUser($user, true);
+        $user->getDecorator()->setNonHashedPassword($newPassword);
+        $user = $this->getUserService()->saveSystemUser($user);
         return new EndpointResourceResult(UserModel::class, $user);
     }
 

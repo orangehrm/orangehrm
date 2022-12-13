@@ -18,20 +18,17 @@
  */
  -->
 <template>
-  <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-    <oxd-grid-item class="orangehrm-label-link-wrapper">
-      <oxd-text class="orangehrm-text orangehrm-text-label" tag="p">
-        {{ label }} :
-      </oxd-text>
-      <a :href="url" target="_blank" class="orangehrm-vacancy-link">
-        {{ url }}
-      </a>
-    </oxd-grid-item>
-  </oxd-grid>
+  <div class="orangehrm-label-link-wrapper">
+    <oxd-text class="orangehrm-text-label" tag="p">{{ label }} : </oxd-text>
+    <a :href="url" target="_blank" class="orangehrm-vacancy-link">
+      {{ url }}
+    </a>
+  </div>
 </template>
 
 <script>
 export default {
+  name: 'VacancyLinkCard',
   props: {
     label: {
       type: String,
@@ -49,29 +46,23 @@ export default {
 .orangehrm-label-link-wrapper {
   display: flex;
   flex-wrap: wrap;
+  &:first-of-type {
+    margin-bottom: 0.25rem;
+  }
 }
 .orangehrm-text-label {
-  flex: 1;
+  font-size: 12px;
+  font-weight: 600;
   padding-right: 0.2rem;
+  color: $oxd-interface-gray-darken-1-color;
 }
 .orangehrm-vacancy-link {
   font-size: 12px;
   font-weight: 600;
+  margin-left: 1rem;
+  text-decoration: none;
+  word-break: break-all;
   font-family: $oxd-font-family;
   color: $oxd-primary-one-color;
-  text-decoration: none;
-  word-break: break-all;
-  flex: 7;
-}
-.orangehrm-href {
-  font-family: $oxd-font-family;
-  text-decoration: none;
-  word-break: break-all;
-  flex: 7;
-}
-.orangehrm-text {
-  font-size: 12px;
-  font-weight: 600;
-  color: $oxd-interface-gray-darken-1-color;
 }
 </style>

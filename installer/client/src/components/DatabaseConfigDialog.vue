@@ -14,7 +14,7 @@
         class="orangehrm-database-config-dialog-content orangehrm-database-config--title"
       >
         Following modules or add-ons are not supported by OrangeHRM Starter
-        version 5.0. You may continue to upgrade your system to version 5.0, but
+        version 5.2. You may continue to upgrade your system to version 5.2, but
         please note that any data used in these modules will be inaccessible.
       </oxd-text>
       <oxd-classic-table
@@ -24,7 +24,7 @@
       ></oxd-classic-table>
       <oxd-check-box
         v-model="checked"
-        option-label="I want to continue upgrading the OrangeHRM system to version 5.0 and I am aware that by doing so, any data gathered in incompatible modules/add-ons will be inaccessible."
+        option-label="I want to continue upgrading the OrangeHRM system to version 5.2 and I am aware that by doing so, any data gathered in incompatible modules/add-ons will be inaccessible."
       ></oxd-check-box>
       <oxd-divider class="orangehrm-divider" />
       <oxd-form-actions class="orangehrm-database-config-dialog-action">
@@ -69,33 +69,12 @@ export default {
       ],
       items: [
         {
-          module: '- Recruitment Module',
-          addon: '- Corporate Branding',
-          other: '- Dashboard',
-        },
-        {
-          module: '- Performance Module',
-          addon: '- LDAP',
+          module: '- Buzz',
+          addon: '- Claim',
           other: '- Marketplace',
         },
         {
-          module: '- Buzz',
-          addon: '- Claim',
-          other: '- Custom Language Packages',
-        },
-        {
-          module: '- Directory',
           addon: '- Toggl',
-          other: '- Custom Date Formats',
-        },
-        {
-          module: '',
-          addon: '',
-          other: '- Encrypted Data',
-        },
-        {
-          module: '',
-          addon: '',
           other: '- Mobile App',
         },
       ],
@@ -144,6 +123,7 @@ export default {
   }
   &-table {
     margin-bottom: 2em;
+    table-layout: fixed;
   }
 }
 </style>

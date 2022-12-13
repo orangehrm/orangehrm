@@ -21,22 +21,22 @@
 namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Core\Exception\CSVUploadFailedException;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Import\CsvDataImportFactory;
-use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
+use Throwable;
 
 class CsvDataImportService
 {
-    use TextHelperTrait;
+    use LoggerTrait;
 
     /**
      * @param string $fileContent
      * @param string $importType
      * @param array $headerValues
-     * @return int
-     * @throws DaoException|CSVUploadFailedException
+     * @return array
+     * @throws CSVUploadFailedException
      */
-    public function import(string $fileContent, string $importType, array $headerValues): int
+    public function import(string $fileContent, string $importType, array $headerValues): array
     {
         $factory = new CsvDataImportFactory();
         $instance = $factory->getImportClassInstance($importType);
@@ -44,15 +44,24 @@ class CsvDataImportService
         $employeesDataArray = $this->getEmployeeArrayFromCSV($fileContent, $headerValues);
 
         $rowsImported = 0;
+        $failList = [];
         if ($headerValues == $employeesDataArray[0]) {
             for ($i = 1; $i < sizeof($employeesDataArray); $i++) {
-                $result = $instance->import($employeesDataArray[$i]);
+                try {
+                    $result = $instance->import($employeesDataArray[$i]);
+                } catch (Throwable $e) {
+                    $this->getLogger()->error($e->getMessage());
+                    $this->getLogger()->error($e->getTraceAsString());
+                    $result = false;
+                }
                 if ($result) {
                     $rowsImported++;
+                } else {
+                    $failList[] = $i + 1; // since the first row contains headers
                 }
             }
         }
-        return $rowsImported;
+        return ['success' => $rowsImported, 'failed' => count($failList), 'failedRows' => $failList];
     }
 
     /**

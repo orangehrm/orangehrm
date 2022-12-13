@@ -19,12 +19,14 @@
 
 namespace OrangeHRM\Tests\Pim\Service;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Service\EmployeeEventService;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Pim\Service\EmployeeTerminationService;
 use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Pim
@@ -190,5 +192,31 @@ class EmployeeServiceTest extends TestCase
         $employeeService->setEmployeeDao($mockDao);
         $result = $employeeService->getSupervisorIdListBySubordinateId(5);
         $this->assertEquals($supervisorIdList, $result);
+    }
+
+    public function testIsUniqueEmail(): void
+    {
+        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPimPlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($fixture);
+
+        $employeeService = new EmployeeService();
+        $status = $employeeService->isUniqueEmail('kayla0001@xample.com', 'kayla@xample.com');
+        $this->assertTrue($status);
+
+        //with existing work email
+        $status = $employeeService->isUniqueEmail('kayla@xample.com', 'nihan@xample.com');
+        $this->assertFalse($status);
+
+        //with existing other email
+        $status = $employeeService->isUniqueEmail('kayla2@xample.com', 'nihan2@xample.com');
+        $this->assertFalse($status);
+
+        //with same email
+        $status = $employeeService->isUniqueEmail('ashley@xample.com', 'ashley@xample.com');
+        $this->assertTrue($status);
+
+        //with null email
+        $status = $employeeService->isUniqueEmail('devi@admin.com', null);
+        $this->assertTrue($status);
     }
 }

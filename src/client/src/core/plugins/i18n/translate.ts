@@ -39,7 +39,11 @@ export interface LanguageOptions {
   resourceUrl: string;
 }
 
-export type TranslateAPI = (key: string, fallback?: string) => string;
+export type TranslateAPI = (
+  key: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  parameters?: {[key: string]: any},
+) => string;
 
 export const langStrings: Record<string, IntlMessageFormat> = {};
 
@@ -88,9 +92,10 @@ function createI18n(options: LanguageOptions) {
             method: 'GET',
             headers: {
               Accept: 'application/json',
-              'Content-Type': 'application/json',
-              'Cache-Control':
-                'public, only-if-cached, stale-while-revalidate, max-age=60',
+              contentType: 'application/json',
+              ...(process.env.NODE_ENV === 'development' && {
+                'Cache-Control': 'public,  max-age=60',
+              }),
             },
           })
           .then((response: AxiosResponse<LanguageResponse>) => {

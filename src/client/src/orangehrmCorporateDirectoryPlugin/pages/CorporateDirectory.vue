@@ -21,12 +21,13 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('general.directory')">
-      <oxd-form>
+      <oxd-form @submitValid="onSearch" @reset="onReset">
         <oxd-form-row>
           <oxd-grid :cols="3">
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.employeeNumber"
+                :rules="rules.employee"
                 api-path="api/v2/directory/employees"
               />
             </oxd-grid-item>
@@ -41,9 +42,9 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.locationId"
+                type="select"
                 :label="$t('general.location')"
                 :options="locations"
-                type="select"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -56,55 +57,66 @@
             :label="$t('general.reset')"
             display-type="ghost"
             type="reset"
-            @click="triggerReset"
           />
-          <oxd-button
-            :label="$t('general.search')"
-            class="orangehrm-left-space"
-            display-type="secondary"
-            type="submit"
-            @click="triggerSearch"
-          />
+          <submit-button :label="$t('general.search')" />
         </oxd-form-actions>
       </oxd-form>
     </oxd-table-filter>
+
     <br />
-    <div :class="{'orangehrm-corporate-directory': isEmployeeSelected}">
-      <div class="orangehrm-paper-container orangehrm-full-width">
+
+    <div class="orangehrm-corporate-directory">
+      <div class="orangehrm-paper-container">
         <table-header
           :selected="0"
           :total="total"
-          :loading="isLoading"
+          :loading="false"
           :show-divider="false"
         ></table-header>
-        <oxd-grid ref="scrollerRef" :cols="colSize" :class="oxdGridClasses">
-          <oxd-grid-item v-for="(employee, index) in employees" :key="employee">
-            <summary-card
-              :employee-designation="employee.employeeJobTitle"
-              :employee-id="employee.id"
-              :employee-location="employee.employeeLocation"
-              :employee-name="employee.employeeName"
-              :employee-sub-unit="employee.employeeSubUnit"
-              @click="showEmployeeDetails(index)"
+        <div ref="scrollerRef" class="orangehrm-container">
+          <oxd-grid :cols="colSize">
+            <oxd-grid-item
+              v-for="(employee, index) in employees"
+              :key="employee"
             >
-              <employee-details
+              <summary-card
                 v-if="isMobile && currentIndex === index"
                 :employee-id="employee.id"
-                :is-mobile="isMobile"
+                :employee-name="employee.employeeName"
+                :employee-sub-unit="employee.employeeSubUnit"
+                :employee-location="employee.employeeLocation"
+                :employee-designation="employee.employeeJobTitle"
+                @click="showEmployeeDetails(index)"
               >
-              </employee-details>
-            </summary-card>
-          </oxd-grid-item>
+                <employee-details
+                  :employee-id="employee.id"
+                  :is-mobile="isMobile"
+                >
+                </employee-details>
+              </summary-card>
+              <summary-card
+                v-else
+                :employee-id="employee.id"
+                :employee-name="employee.employeeName"
+                :employee-sub-unit="employee.employeeSubUnit"
+                :employee-location="employee.employeeLocation"
+                :employee-designation="employee.employeeJobTitle"
+                @click="showEmployeeDetails(index)"
+              >
+              </summary-card>
+            </oxd-grid-item>
+          </oxd-grid>
           <oxd-loading-spinner
             v-if="isLoading"
             class="orangehrm-container-loader"
           />
-        </oxd-grid>
+        </div>
         <div class="orangehrm-bottom-container"></div>
       </div>
+
       <div
         v-if="isEmployeeSelected && isMobile === false"
-        class="orangehrm-paper-container orangehrm-corporate-directory-sidebar"
+        class="orangehrm-corporate-directory-sidebar"
       >
         <oxd-grid-item>
           <summary-card-details
@@ -120,11 +132,13 @@
     </div>
   </div>
 </template>
+
 <script>
 import {reactive, toRefs} from 'vue';
 import usei18n from '@/core/util/composable/usei18n';
 import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
+import {validSelection} from '@/core/util/validation/rules';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import useInfiniteScroll from '@ohrm/core/util/composable/useInfiniteScroll';
@@ -143,11 +157,11 @@ export default {
   name: 'CorporateDirectory',
 
   components: {
-    'employee-autocomplete': EmployeeAutocomplete,
     'summary-card': SummaryCard,
-    'summary-card-details': SummaryCardDetails,
-    'employee-details': EmployeeDetails,
     'oxd-loading-spinner': Spinner,
+    'employee-details': EmployeeDetails,
+    'summary-card-details': SummaryCardDetails,
+    'employee-autocomplete': EmployeeAutocomplete,
   },
 
   props: {
@@ -165,6 +179,10 @@ export default {
     const {$t} = usei18n();
     const {noRecordsFound} = useToast();
     const responsiveState = useResponsive();
+
+    const rules = {
+      employee: [validSelection],
+    };
 
     const employeeDataNormalizer = data => {
       return data.map(item => {
@@ -187,7 +205,8 @@ export default {
       'api/v2/directory/employees',
     );
 
-    const limit = 8; // this is a static limit since no pagination
+    const limit = 14;
+
     const state = reactive({
       total: 0,
       offset: 0,
@@ -232,6 +251,7 @@ export default {
     });
 
     return {
+      rules,
       fetchData,
       scrollerRef,
       ...toRefs(state),
@@ -241,7 +261,7 @@ export default {
 
   computed: {
     isMobile() {
-      return this.windowWidth < 600;
+      return this.windowWidth < 800;
     },
     isEmployeeSelected() {
       return this.currentIndex >= 0;
@@ -275,18 +295,17 @@ export default {
         this.hideEmployeeDetails();
       }
     },
-    triggerSearch() {
+    onSearch() {
       this.hideEmployeeDetails();
       this.employees = [];
       this.offset = 0;
       this.fetchData();
     },
-    triggerReset() {
+    onReset() {
       this.hideEmployeeDetails();
       this.employees = [];
-      this.filters.employeeNumber = null;
-      this.filters.jobTitleId = null;
-      this.filters.locationId = null;
+      this.offset = 0;
+      this.filters = {...defaultFilters};
       this.fetchData();
     },
   },

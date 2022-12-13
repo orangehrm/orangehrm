@@ -39,6 +39,7 @@ use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -93,9 +94,21 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
                 ->getCandidateVacancyByCandidateId($candidateId);
             $this->throwRecordNotFoundExceptionIfNotExist($candidateVacancy, CandidateVacancy::class);
 
+            $vacancy = $candidateVacancy->getVacancy();
+
+            if (!$vacancy->getStatus()) {
+                throw $this->getForbiddenException();
+            }
+
+            $rolesToExclude = [];
+            if (!$this->isAuthUserHiringManager($vacancy)) {
+                $rolesToExclude = ['HiringManager'];
+            }
+
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_RECRUITMENT,
-                $candidateVacancy->getStatus()
+                $candidateVacancy->getStatus(),
+                $rolesToExclude
             );
             if (
                 !in_array($this->getResultingState(), array_keys($allowedWorkflowItems))
@@ -155,6 +168,16 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
     }
 
     /**
+     * @param Vacancy $vacancy
+     * @return bool
+     */
+    private function isAuthUserHiringManager(Vacancy $vacancy): bool
+    {
+        $hiringMangerEmpNumber = $vacancy->getHiringManager()->getEmpNumber();
+        return $hiringMangerEmpNumber === $this->getAuthUser()->getEmpNumber();
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
@@ -168,7 +191,8 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
                 new ParamRule(
                     self::PARAMETER_NOTE,
                     new Rule(Rules::STRING_TYPE)
-                )
+                ),
+                true
             )
         );
     }
@@ -208,7 +232,7 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
     protected function setCandidateAsEmployee(CandidateVacancy $candidateVacancy, Employee $employee)
     {
         $employee->setFirstName($candidateVacancy->getCandidate()->getFirstName());
-        $employee->setMiddleName($candidateVacancy->getCandidate()->getMiddleName());
+        $employee->setMiddleName($candidateVacancy->getCandidate()->getMiddleName() ?? '');
         $employee->setLastName($candidateVacancy->getCandidate()->getLastName());
         $employee->setOtherEmail($candidateVacancy->getCandidate()->getEmail());
         $employee->getDecorator()->setJobTitleById(

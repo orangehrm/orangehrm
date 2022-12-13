@@ -20,6 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
+    <review-confirm-modal ref="confirmDialog"> </review-confirm-modal>
     <div class="orangehrm-card-container">
       <oxd-text tag="h5" class="orangehrm-performance-review-title">
         {{ $t('performance.performance_review') }}
@@ -64,23 +65,24 @@
           :status="employee.status"
           :title="$t('performance.self_evaluation_by')"
         >
-          <oxd-divider />
-          <oxd-form-actions>
+          <oxd-form-actions v-show="hasActions">
+            <oxd-divider />
             <div class="orangehrm-performance-review-actions">
               <oxd-button
+                v-if="hasCancelAction"
                 display-type="ghost"
-                :label="$t('general.back')"
-                @click="onClickBack"
+                :label="$t('general.cancel')"
+                @click="onClickCancel"
               />
               <oxd-button
-                v-show="hasSaveAction"
+                v-if="hasSaveAction"
                 display-type="ghost"
                 type="button"
                 :label="$t('general.save')"
                 @click="onSubmit(false)"
               />
               <oxd-button
-                v-show="hasCompleteAction"
+                v-if="hasCompleteAction"
                 type="button"
                 display-type="secondary"
                 :label="$t('performance.complete')"
@@ -124,16 +126,6 @@
             :status="status"
             :is-required="false"
           />
-          <oxd-divider />
-          <oxd-form-actions>
-            <div class="orangehrm-performance-review-actions">
-              <oxd-button
-                display-type="ghost"
-                :label="$t('general.back')"
-                @click="onClickBack"
-              />
-            </div>
-          </oxd-form-actions>
         </evaluation-form>
       </div>
     </oxd-form>
@@ -141,15 +133,14 @@
 </template>
 
 <script>
-import {provide, readonly} from 'vue';
 import {navigate, reloadPage} from '@/core/util/helper/navigation';
-import useResponsive from '@ohrm/oxd/composables/useResponsive';
 import {APIService} from '@/core/util/services/api.service';
 import ReviewSummary from '../components/ReviewSummary';
 import FinalEvaluation from '../components/FinalEvaluation';
 import EvaluationForm from '../components/EvaluationForm';
 import useForm from '@ohrm/core/util/composable/useForm';
 import useReviewEvaluation from '@/orangehrmPerformancePlugin/util/composable/useReviewEvaluation';
+import ReviewConfirmModal from '@/orangehrmPerformancePlugin/components/ReviewConfirmModal';
 
 const reviewerModel = {
   details: {
@@ -169,6 +160,7 @@ export default {
     'review-summary': ReviewSummary,
     'final-evaluation': FinalEvaluation,
     'evaluation-form': EvaluationForm,
+    'review-confirm-modal': ReviewConfirmModal,
   },
   props: {
     reviewId: {
@@ -195,9 +187,6 @@ export default {
   setup() {
     const {formRef, invalid, validate} = useForm();
     const http = new APIService(window.appGlobal.baseUrl, '');
-
-    const responsiveState = useResponsive();
-    provide('screenState', readonly(responsiveState));
 
     const {
       getAllKpis,
@@ -252,6 +241,14 @@ export default {
     hasCompleteAction() {
       return this.employee.actions.has('complete');
     },
+    hasCancelAction() {
+      return !(this.status === 4 || this.employee?.status === 3);
+    },
+    hasActions() {
+      return (
+        this.hasSaveAction || this.hasCancelAction || this.hasCompleteAction
+      );
+    },
   },
   beforeMount() {
     this.isLoading = true;
@@ -274,6 +271,7 @@ export default {
         this.employeeReview = this.generateEvaluationFormData(
           data,
           meta.generalComment,
+          this.employeeReview.kpis,
         );
         return this.getSupervisorReview(this.reviewId);
       })
@@ -287,6 +285,7 @@ export default {
         this.supervisorReview = this.generateEvaluationFormData(
           data,
           meta.generalComment,
+          this.supervisorReview.kpis,
         );
         return this.status === 4 ? this.getFinalReview(this.reviewId) : {};
       })
@@ -306,19 +305,30 @@ export default {
     onSubmit(complete = false) {
       this.$nextTick()
         .then(() => this.validate())
-        .then(() => {
+        .then(async () => {
           if (this.invalid === true) return;
-          this.isLoading = true;
-          this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
-            .then(() => {
-              return this.$toast.saveSuccess();
-            })
-            .finally(() => {
-              reloadPage();
+          if (complete) {
+            this.$refs.confirmDialog.showDialog().then(confirmation => {
+              if (confirmation === 'ok') {
+                this.submitReview(true);
+              }
             });
+          } else {
+            this.submitReview(false);
+          }
         });
     },
-    onClickBack() {
+    submitReview(complete = false) {
+      this.isLoading = true;
+      this.saveEmployeeReview(this.reviewId, complete, this.employeeReview)
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .finally(() => {
+          reloadPage();
+        });
+    },
+    onClickCancel() {
       navigate('/performance/myPerformanceReview');
     },
   },

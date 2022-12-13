@@ -101,8 +101,8 @@ describe('Admin - Employment Status', function () {
   describe('update emp status', function () {
     it('update emp status', function () {
       cy.task('db:restore', {name: 'empStatus'});
-      cy.loginTo(this.user, '/admin/employmentStatus');
-      cy.get(':nth-child(2) > .oxd-icon').click();
+      cy.loginTo(this.user, '/admin/saveEmploymentStatus/1');
+      cy.wait('@getEmpStatus');
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Name').clear().type(this.strings.chars30.text);
         cy.getOXD('button').contains('Save').click();
@@ -116,8 +116,11 @@ describe('Admin - Employment Status', function () {
     it('delete emp status', function () {
       cy.task('db:restore', {name: 'empStatus'});
       cy.loginTo(this.user, '/admin/employmentStatus');
-      cy.get('.oxd-table-cell-actions > :nth-child(1)').click();
-      cy.get('.oxd-button--label-danger').click();
+      cy.wait('@getEmpStatus');
+      cy.get(
+        '.oxd-table-body > :nth-child(1) .oxd-table-cell-actions > :nth-child(1)',
+      ).click();
+      cy.getOXD('button').contains('Yes, Delete').click();
       cy.wait('@deleteEmpStatus');
       cy.toast('success', 'Successfully Deleted');
     });

@@ -21,9 +21,9 @@
 <template>
   <oxd-dialog class="orangehrm-dialog-modal" @update:show="onCancel(false)">
     <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">{{
-        $t('pim.terminate_employment')
-      }}</oxd-text>
+      <oxd-text type="card-title">
+        {{ $t('pim.terminate_employment') }}
+      </oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -78,6 +78,7 @@ import {
   shouldNotExceedCharLength,
   validDateFormat,
 } from '@ohrm/core/util/validation/rules';
+import useDateFormat from '@/core/util/composable/useDateFormat';
 
 const terminationModel = {
   terminationReason: null,
@@ -111,8 +112,11 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.employeeId}/terminations`,
     );
+    const {userDateFormat} = useDateFormat();
+
     return {
       http,
+      userDateFormat,
     };
   },
   data() {
@@ -121,7 +125,7 @@ export default {
       termination: {...terminationModel},
       rules: {
         terminationReason: [required],
-        date: [required, validDateFormat()],
+        date: [required, validDateFormat(this.userDateFormat)],
         note: [shouldNotExceedCharLength(250)],
       },
     };

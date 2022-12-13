@@ -13,6 +13,7 @@ UserRole:
   - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
   - { id: 4, name: ProjectAdmin, display_name: Project Admin, is_assignable: 0, is_predefined: 1 }
   - { id: 5, name: HiringManager, display_name: Hiring Manager, is_assignable: 0, is_predefined: 1 }
+  - { id: 6, name: Interviewer, display_name: Interviewer, is_assignable: 0, is_predefined: 1 }
 
 User:
   - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
@@ -29,7 +30,7 @@ JobTitle:
 Vacancy:
   - { id: 1, job_title_code: 1, hiring_manager_id: 1, name: 'Technical Assistant Intern', description: 'Assists the engineers', no_of_positions: 2, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
   - { id: 2, job_title_code: 2, hiring_manager_id: 2, name: 'Senior Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 3, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
-  - { id: 3, job_title_code: 1, hiring_manager_id: 2, name: 'Part-Time Technical Assistant', description: '', no_of_positions: 1, status: 2, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
+  - { id: 3, job_title_code: 1, hiring_manager_id: 2, name: 'Part-Time Technical Assistant', description: '', no_of_positions: 1, status: 0, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
   - { id: 4, job_title_code: 3, hiring_manager_id: 4, name: 'Charted Engineer', description: 'Manages Engineers', no_of_positions: 4, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
   - { id: 5, job_title_code: 2, hiring_manager_id: 3, name: 'Assistant Technical Supervisor', description: 'Oversees technical assistant', no_of_positions: 9, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
   - { id: 6, job_title_code: 4, hiring_manager_id: 1, name: 'Electrical Engineer Officer', description: 'Engineer', no_of_positions: 10, status: 1, published_in_feed: 1, defined_time: '2020-10-08 03:48:00', updated_time: '2020-10-08 03:48:00' }
@@ -50,3 +51,13 @@ CandidateVacancy:
 Interview:
   - {"id":"1","candidate_vacancy_id":"5","candidate_id":"5","interview_name":"Test interview 01","interview_date":"2022-10-05","interview_time":"05:00:00","note":"Will be delayed due to the power cuts"}
   - {"id":"2","candidate_vacancy_id":"5","candidate_id":"5","interview_name":"Test interview 02","interview_date":"2022-10-07","interview_time":"05:00:00","note":"Will be delayed due to the power cuts"}
+
+InterviewInterviewer:
+  - {"interview_id":1, "interviewer_id":1 }
+  - {"interview_id":1, "interviewer_id":2 }
+  - {"interview_id":2, "interviewer_id":2 }
+  - {"interview_id":2, "interviewer_id":3 }
+
+CandidateHistory:
+  - {"id":"1","candidate_id":"5","vacancy_id":"2","candidate_vacancy_name":"Senior Technical Supervisor","interview_id":1,"action":"4","performed_by":"1","performed_date":"2020-10-08 07:52:31","note":null,"interviewers":null},
+  - {"id":"2","candidate_id":"5","vacancy_id":"2","candidate_vacancy_name":"Senior Technical Supervisor","interview_id":2,"action":"4","performed_by":"1","performed_date":"2020-10-08 07:55:54","note":null,"interviewers":null}

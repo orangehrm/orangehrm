@@ -19,12 +19,13 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Auth\AuthProviderChain;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Authentication\Dto\AuthParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
-use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Authentication\Service\LoginService;
+use OrangeHRM\Authentication\Traits\CsrfTokenManagerTrait;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -35,19 +36,16 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
+use Throwable;
 
 class ValidateController extends AbstractController implements PublicControllerInterface
 {
     use AuthUserTrait;
     use ServiceContainerTrait;
+    use CsrfTokenManagerTrait;
 
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
-
-    /**
-     * @var AuthenticationService|null
-     */
-    protected ?AuthenticationService $authenticationService = null;
 
     /**
      * @var null|LoginService
@@ -58,17 +56,6 @@ class ValidateController extends AbstractController implements PublicControllerI
      * @var HomePageService|null
      */
     protected ?HomePageService $homePageService = null;
-
-    /**
-     * @return AuthenticationService
-     */
-    public function getAuthenticationService(): AuthenticationService
-    {
-        if (!$this->authenticationService instanceof AuthenticationService) {
-            $this->authenticationService = new AuthenticationService();
-        }
-        return $this->authenticationService;
-    }
 
     /**
      * @return HomePageService
@@ -92,11 +79,10 @@ class ValidateController extends AbstractController implements PublicControllerI
         return $this->loginService;
     }
 
-
     public function handle(Request $request): RedirectResponse
     {
-        $username = $request->get(self::PARAMETER_USERNAME, '');
-        $password = $request->get(self::PARAMETER_PASSWORD, '');
+        $username = $request->request->get(self::PARAMETER_USERNAME, '');
+        $password = $request->request->get(self::PARAMETER_PASSWORD, '');
         $credentials = new UserCredential($username, $password);
 
         /** @var UrlGenerator $urlGenerator */
@@ -104,13 +90,15 @@ class ValidateController extends AbstractController implements PublicControllerI
         $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
 
         try {
-            $csrfTokenManager = new CsrfTokenManager();
-            $token = $request->get('_token');
-            if (!$csrfTokenManager->isValid('login', $token)) {
+            $token = $request->request->get('_token');
+            if (!$this->getCsrfTokenManager()->isValid('login', $token)) {
                 throw AuthenticationException::invalidCsrfToken();
             }
 
-            $success = $this->getAuthenticationService()->setCredentials($credentials, []);
+            /** @var AuthProviderChain $authProviderChain */
+            $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
+            $success = $authProviderChain->authenticate(new AuthParams($credentials));
+
             if (!$success) {
                 throw AuthenticationException::invalidCredentials();
             }
@@ -118,6 +106,15 @@ class ValidateController extends AbstractController implements PublicControllerI
             $this->getLoginService()->addLogin($credentials);
         } catch (AuthenticationException $e) {
             $this->getAuthUser()->addFlash(AuthUser::FLASH_LOGIN_ERROR, $e->normalize());
+            return new RedirectResponse($loginUrl);
+        } catch (Throwable $e) {
+            $this->getAuthUser()->addFlash(
+                AuthUser::FLASH_LOGIN_ERROR,
+                [
+                    'error' => AuthenticationException::UNEXPECT_ERROR,
+                    'message' => 'Unexpected error occurred',
+                ]
+            );
             return new RedirectResponse($loginUrl);
         }
 

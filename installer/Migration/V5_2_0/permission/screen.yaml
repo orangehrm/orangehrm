@@ -1,0 +1,89 @@
+'PIM - Personal Details':
+  module: pim
+  url: viewPersonalDetails
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Contact Details':
+  module: pim
+  url: contactDetails
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Emergency Contacts':
+  module: pim
+  url: viewEmergencyContacts
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Dependents':
+  module: pim
+  url: viewDependents
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Immigration':
+  module: pim
+  url: viewImmigration
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Job':
+  module: pim
+  url: viewJobDetails
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Salary':
+  module: pim
+  url: viewSalaryList
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Tax Exemptions':
+  module: pim
+  url: viewUsTaxExemptions
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Report-to':
+  module: pim
+  url: viewReportToDetails
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Qualifications':
+  module: pim
+  url: viewQualifications
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Memberships':
+  module: pim
+  url: viewMemberships
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'PIM - Change Profile Picture':
+  module: pim
+  url: viewPhotograph
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: ESS, permission: { read: true } }
+
+'Admin - LDAP Configuration':
+  module: admin
+  url: ldapConfiguration
+  permissions:
+    - { role: Admin, permission: { read: true } }

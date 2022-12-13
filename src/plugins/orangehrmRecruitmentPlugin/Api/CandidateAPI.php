@@ -39,6 +39,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\CandidateVacancy;
@@ -52,14 +53,17 @@ use OrangeHRM\Recruitment\Dto\CandidateSearchFilterParams;
 use OrangeHRM\Recruitment\Service\CandidateService;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
+use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 
 class CandidateAPI extends Endpoint implements CrudEndpoint
 {
     use CandidateServiceTrait;
+    use VacancyServiceTrait;
     use RecruitmentAttachmentServiceTrait;
     use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
     use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_CANDIDATE_ID = 'candidateId';
@@ -82,17 +86,21 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_KEYWORDS = 'keywords';
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_DATE_OF_APPLICATION = 'dateOfApplication';
-    public const PARAMETER_MODE_OF_APPLICATION = 'modeOfApplication';
     public const PARAMETER_CONSENT_TO_KEEP_DATA = 'consentToKeepData';
-    public const PARAMETER_STATUS = 'status';
 
     public const MODEL_DEFAULT = 'default';
     public const MODEL_CANDIDATE_LIST = 'list';
+    public const MODEL_CANDIDATE_DETAILED = 'detailed';
 
     public const MODEL_MAP = [
         self::MODEL_DEFAULT => CandidateModel::class,
         self::MODEL_CANDIDATE_LIST => CandidateListModel::class,
+        self::MODEL_CANDIDATE_DETAILED => CandidateDetailedModel::class,
     ];
+
+    public const PARAMETER_RULE_NAME_MAX_LENGTH = 30;
+    public const PARAMETER_RULE_KEYWORDS_MAX_LENGTH = 250;
+    public const PARAMETER_RULE_COMMENT_MAX_LENGTH = 250;
 
     /**
      * @inheritDoc
@@ -101,6 +109,19 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointResult
     {
         $candidateSearchFilterParamHolder = new CandidateSearchFilterParams();
+
+        $candidateId = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_CANDIDATE_ID
+        );
+
+        if (!is_null($candidateId)) {
+            $candidateSearchFilterParamHolder->setCandidateIds([$candidateId]);
+        } else {
+            $accessibleCandidateIds = $this->getUserRoleManager()->getAccessibleEntityIds(Candidate::class);
+            $candidateSearchFilterParamHolder->setCandidateIds($accessibleCandidateIds);
+        }
+
         $this->setSortingAndPaginationParams($candidateSearchFilterParamHolder);
         $this->validateDateFilterParams();
         $candidateSearchFilterParamHolder->setJobTitleId(
@@ -198,7 +219,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         $toDate = $this->getToDateFilterParam();
 
         if (($fromDate && $toDate) && $fromDate >= $toDate) {
-            throw $this->getBadRequestException("From Date Should Be Earlier Than To Date");
+            throw $this->getBadRequestException('From Date Should Be Earlier Than To Date');
         }
     }
 
@@ -227,6 +248,19 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @return ParamRule
+     */
+    protected function getModelClassParamRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::FILTER_MODEL,
+                new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+            ),
+        );
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
@@ -235,7 +269,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_CANDIDATE_ID,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -259,7 +294,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_STATUS,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::IN, [array_keys(CandidateService::STATUS_MAP)])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -294,12 +329,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 ),
                 true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_MODEL,
-                    new Rule(Rules::STRING_TYPE)
-                ),
-            ),
+            $this->getModelClassParamRule(),
             ...$this->getSortingAndPaginationParamsRules(CandidateSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -331,28 +361,12 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             );
 
             if (!is_null($vacancyId)) {
-                $candidateVacancy = new CandidateVacancy();
-                $this->setCandidateVacancy(
-                    $candidateVacancy,
-                    $lastInsertedCandidateId,
-                    CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
-                );
-                $this->getCandidateService()->getCandidateDao()->saveCandidateVacancy($candidateVacancy);
-
-                $candidateHistory = new CandidateHistory();
-                $this->setCommonCandidateHistoryAttributes(
-                    $candidateHistory,
-                    $lastInsertedCandidateId,
-                    WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY
-                );
-                $candidateHistory->getDecorator()->setVacancyById($vacancyId);
-                $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
-                $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
+                $this->attachVacancy($lastInsertedCandidateId, $vacancyId);
             }
 
             $this->commitTransaction();
             $candidate = $this->getCandidateService()->getCandidateDao()->getCandidateById($lastInsertedCandidateId);
-            return new EndpointResourceResult(CandidateDetailedModel::class, $candidate);
+            return new EndpointResourceResult($this->getModelClass(), $candidate);
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
@@ -371,7 +385,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             )
         );
         $candidate->setMiddleName(
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_MIDDLE_NAME
             ),
@@ -406,26 +420,16 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_COMMENT
             )
         );
+        $applicationDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DATE_OF_APPLICATION,
+        );
         $candidate->setDateOfApplication(
-            $this->getRequestParams()->getDateTimeOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_DATE_OF_APPLICATION,
-                null,
+            $applicationDate instanceof DateTime ?
+                $applicationDate :
                 $this->getDateTimeHelper()->getNow()
-            )
         );
-        $candidate->setModeOfApplication(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_MODE_OF_APPLICATION
-            )
-        );
-        $candidate->setStatus(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_STATUS
-            )
-        );
+        $candidate->setModeOfApplication(Candidate::MODE_OF_APPLICATION_MANUAL);
         $candidate->setConsentToKeepData(
             $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_BODY,
@@ -442,6 +446,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     /**
      * @param CandidateVacancy $candidateVacancy
      * @param int $candidateId
+     * @param string $status
      */
     private function setCandidateVacancy(CandidateVacancy $candidateVacancy, int $candidateId, string $status): void
     {
@@ -476,7 +481,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(...$this->getCommonBodyValidationRules());
+        return new ParamRuleCollection($this->getModelClassParamRule(), ...$this->getCommonBodyValidationRules());
     }
 
     /**
@@ -487,18 +492,21 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         return [
             new ParamRule(
                 self::PARAMETER_FIRST_NAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_MIDDLE_NAME,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
                 ),
                 true
             ),
             new ParamRule(
                 self::PARAMETER_LAST_NAME,
-                new Rule(Rules::STRING_TYPE)
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_EMAIL,
@@ -508,7 +516,8 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_CONTACT_NUMBER,
                     new Rule(Rules::PHONE)
-                )
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -519,14 +528,18 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_KEYWORDS,
-                    new Rule(Rules::STRING_TYPE)
-                )
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_KEYWORDS_MAX_LENGTH])
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_COMMENT,
-                    new Rule(Rules::STRING_TYPE)
-                )
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_COMMENT_MAX_LENGTH])
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -534,20 +547,12 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::API_DATE)
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_MODE_OF_APPLICATION,
-                new Rule(Rules::POSITIVE)
-            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CONSENT_TO_KEEP_DATA,
                     new Rule(Rules::BOOL_TYPE)
                 )
             ),
-            new ParamRule(
-                self::PARAMETER_STATUS,
-                new Rule(Rules::POSITIVE)
-            )
         ];
     }
 
@@ -599,7 +604,7 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
             )
         );
     }
@@ -612,67 +617,23 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
     {
         $this->beginTransaction();
         try {
-            $id = $this->getRequestParams()->getInt(
+            $candidateId = $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                 CommonParams::PARAMETER_ID
             );
-            $vacancyId = $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_VACANCY_ID
-            );
-            $candidate = $this->getCandidateService()->getCandidateDao()->getCandidateById($id);
+
+            $candidate = $this->getCandidateService()->getCandidateDao()->getCandidateById($candidateId);
             $this->throwRecordNotFoundExceptionIfNotExist($candidate, Candidate::class);
             $this->setCandidate($candidate);
             $this->getCandidateService()->getCandidateDao()->saveCandidate($candidate);
 
             $candidateVacancy = $this->getCandidateService()
                 ->getCandidateDao()
-                ->getCandidateVacancyByCandidateId($id);
-
-            /**
-             * vacancyId is not null
-             */
-            if (!is_null($vacancyId)) {
-                /**
-                 * already existing candidate vacancy available
-                 */
-                if (!is_null($candidateVacancy)) {
-                    /**
-                     * provided vacancyId is not equal to existing candidateVacancy's vacancyId
-                     * in that case, existing candidateVacancy record get deleted and new candidateVacancy initiated
-                     */
-                    if ($vacancyId !== $candidateVacancy->getVacancy()->getId()) {
-                        $this->getCandidateService()->getCandidateDao()->deleteCandidateVacancy($id);
-                        $candidateVacancy = new CandidateVacancy();
-                    }
-                    //else not attempting to change existing candidateVacancy
-                } /**
-                 * if the candidate is not assigned to a vacancy, and vacancyId is not null
-                 * initiate new candidateVacancy
-                 */
-                else {
-                    $candidateVacancy = new CandidateVacancy();
-                }
-                $this->setCandidateVacancy(
-                    $candidateVacancy,
-                    $id,
-                    CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
-                );
-                $this->getCandidateService()
-                    ->getCandidateDao()
-                    ->saveCandidateVacancy($candidateVacancy);
-            } /**
-             * already existing candidateVacancy available but null vacancyId given
-             * In this case, the existing candidateVacancy record get deleted and
-             * now the candidate has not assigned to a vacancy
-             */
-            elseif (!is_null($candidateVacancy)) {
-                $this->getCandidateService()->getCandidateDao()->deleteCandidateVacancy($id);
-            }
-            //else vacancyId is null and no existing vacancy available - Do nothing
+                ->getCandidateVacancyByCandidateId($candidateId);
+            $this->performCandidateVacancyUpdateCriteria($candidateId, $candidateVacancy);
 
             $this->commitTransaction();
-            return new EndpointResourceResult(CandidateDetailedModel::class, $candidate);
+            return new EndpointResourceResult($this->getModelClass(), $candidate);
         } catch (RecordNotFoundException $e) {
             $this->rollBackTransaction();
             throw $e;
@@ -690,9 +651,105 @@ class CandidateAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Candidate::class])
             ),
+            $this->getModelClassParamRule(),
             ...$this->getCommonBodyValidationRules(),
         );
+    }
+
+    /**
+     * @param int $candidateId
+     * @param CandidateVacancy|null $candidateVacancy
+     */
+    private function performCandidateVacancyUpdateCriteria(int $candidateId, ?CandidateVacancy $candidateVacancy)
+    {
+        $vacancyId = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_VACANCY_ID
+        );
+        /**
+         * vacancyId is not null
+         */
+        if (!is_null($vacancyId)) {
+            /**
+             * already existing candidate vacancy available
+             */
+            if (!is_null($candidateVacancy)) {
+                /**
+                 * provided vacancyId is not equal to existing candidateVacancy's vacancyId
+                 * in that case, existing candidateVacancy record get deleted and new candidateVacancy initiated
+                 */
+                if ($vacancyId !== $candidateVacancy->getVacancy()->getId()) {
+                    $this->removeVacancy($candidateVacancy);
+                } else {
+                    return;
+                }
+            }
+            $this->attachVacancy($candidateId, $vacancyId);
+        } /**
+         * already existing candidateVacancy available but null vacancyId given
+         * In this case, the existing candidateVacancy record get deleted and
+         * now the candidate has not assigned to a vacancy
+         */
+        elseif (!is_null($candidateVacancy)) {
+            $this->removeVacancy($candidateVacancy);
+        }
+        //else vacancyId is null and no existing vacancy available - Do nothing
+    }
+
+    /**
+     * @param int $candidateId
+     * @param int $vacancyId
+     */
+    private function attachVacancy(int $candidateId, int $vacancyId): void
+    {
+        $candidateVacancy = new CandidateVacancy();
+        $this->setCandidateVacancy(
+            $candidateVacancy,
+            $candidateId,
+            CandidateService::STATUS_MAP[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY]
+        );
+        $this->getCandidateService()
+            ->getCandidateDao()
+            ->saveCandidateVacancy($candidateVacancy);
+        $candidateHistory = new CandidateHistory();
+        $this->setCommonCandidateHistoryAttributes(
+            $candidateHistory,
+            $candidateId,
+            WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY
+        );
+        $candidateHistory->getDecorator()->setVacancyById($vacancyId);
+        $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
+        $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
+    }
+
+    /**
+     * @param CandidateVacancy $candidateVacancy
+     */
+    private function removeVacancy(CandidateVacancy $candidateVacancy)
+    {
+        $candidateHistoryRecords = $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateHistoryByCandidateIdAndVacancyId(
+                $candidateVacancy->getCandidate()->getId(),
+                $candidateVacancy->getVacancy()->getId()
+            );
+        foreach ($candidateHistoryRecords as $candidateHistoryRecord) {
+            $candidateHistoryRecord->setVacancy(null);
+            $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistoryRecord);
+        }
+        $this->getCandidateService()->getCandidateDao()->deleteCandidateVacancy(
+            $candidateVacancy->getCandidate()->getId()
+        );
+        $candidateHistory = new CandidateHistory();
+        $this->setCommonCandidateHistoryAttributes(
+            $candidateHistory,
+            $candidateVacancy->getCandidate()->getId(),
+            CandidateService::RECRUITMENT_CANDIDATE_VACANCY_REMOVED
+        );
+        $candidateHistory->setCandidateVacancyName($candidateVacancy->getVacancy()->getName());
+        $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
     }
 }

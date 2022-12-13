@@ -63,6 +63,7 @@
               <oxd-grid-item>
                 <employee-autocomplete
                   v-model="filters.employee"
+                  :rules="rules.employee"
                   :params="{
                     includeEmployees: filters.includePastEmps
                       ? 'currentAndPast'

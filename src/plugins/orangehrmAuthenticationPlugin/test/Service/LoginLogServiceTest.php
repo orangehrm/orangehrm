@@ -19,10 +19,13 @@
 
 namespace OrangeHRM\Tests\Authentication\Service;
 
+use DateTime;
+use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dao\LoginLogDao;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Service\LoginService;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LoginLog;
 use OrangeHRM\Entity\User;
@@ -67,13 +70,20 @@ class LoginLogServiceTest extends KernelTestCase
         $user->setUserName('username');
         $user->setEmployee($employee);
 
+        $userDao = $this->getMockBuilder(UserDao::class)
+            ->onlyMethods(['getUserByUserName'])
+            ->getMock();
+        $userDao->expects($this->once())
+            ->method('getUserByUserName')
+            ->willReturn($user);
+
         $userService = $this->getMockBuilder(UserService::class)
-            ->onlyMethods(['getCredentials'])
+            ->onlyMethods(['geUserDao'])
             ->getMock();
 
         $userService->expects($this->once())
-            ->method('getCredentials')
-            ->willReturn($user);
+            ->method('geUserDao')
+            ->willReturn($userDao);
 
         $loginService = $this->getMockBuilder(LoginService::class)
             ->onlyMethods(['getUserService'])
@@ -92,11 +102,21 @@ class LoginLogServiceTest extends KernelTestCase
             ->willReturn($userService);
 
         $credentials = new UserCredential('username', 'password');
+
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturn(new DateTime('2022-07-04 10:56:56'));
+        $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
+
         $result = $loginService->addLogin($credentials);
         $this->assertTrue($result instanceof LoginLog);
         $this->assertEquals(1, $result->getUserId());
         $this->assertEquals('username', $result->getUserName());
         $this->assertEquals('Admin', $result->getUserRoleName());
         $this->assertEquals(0, $result->getUserRolePredefined());
+        $this->assertEquals('2022-07-04 10:56', $result->getLoginTime()->format('Y-m-d H:i'));
     }
 }

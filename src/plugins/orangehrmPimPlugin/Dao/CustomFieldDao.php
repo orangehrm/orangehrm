@@ -24,7 +24,11 @@ use InvalidArgumentException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\CustomField;
+use OrangeHRM\Entity\DisplayField;
+use OrangeHRM\Entity\DisplayFieldGroup;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\ReportGroup;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\CustomFieldSearchFilterParams;
 
@@ -33,6 +37,7 @@ class CustomFieldDao extends BaseDao
     /**
      * @param CustomField $customField
      * @return CustomField
+     * @throws TransactionException
      */
     public function saveCustomField(CustomField $customField): CustomField
     {
@@ -64,9 +69,52 @@ class CustomFieldDao extends BaseDao
         if (!(strlen((string)$seqNo) <= 10 && $seqNo > 0)) {
             throw new InvalidArgumentException('Invalid `seqNo`');
         }
+        $this->beginTransaction();
+        try {
+            $this->persist($customField);
+            $this->addCustomFieldToDisplayField($customField);
+            $this->commitTransaction();
+            return $customField;
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
+        }
+    }
 
-        $this->persist($customField);
-        return $customField;
+    /**
+     * @param CustomField $customField
+     * @return void
+     */
+    private function addCustomFieldToDisplayField(CustomField $customField): void
+    {
+        $customFieldName = 'Custom Fields';
+        $customFieldDisplayFieldGroup = $this->getRepository(DisplayFieldGroup::class)
+            ->findOneBy(['name' => $customFieldName]);
+        $displayFieldName = 'hs_hr_employee.custom' . $customField->getFieldNum();
+        $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
+        $q->andWhere('displayField.name = :name')->setParameter('name', $displayFieldName);
+        $displayField = $this->getRepository(DisplayField::class)
+            ->findOneBy(['name' => $displayFieldName, 'displayFieldGroup' => $customFieldDisplayFieldGroup]);
+        $reportGroup = $this->getRepository(ReportGroup::class)->findOneBy(['name' => 'pim']);
+        if (!$displayField instanceof DisplayField) {
+            $displayField = new DisplayField();
+            $displayField->setName($displayFieldName);
+            $displayField->setReportGroup($reportGroup);
+            $displayField->setDisplayFieldGroup($customFieldDisplayFieldGroup);
+            $displayField->setFieldAlias('customField' . $customField->getFieldNum());
+            $displayField->setElementType('label');
+            $displayField->setElementProperty(
+                '<xml><getter>customField' . $customField->getFieldNum() . '</getter></xml>'
+            );
+            $displayField->setWidth(200);
+            $displayField->setSortable(false);
+            $displayField->setExportable(true);
+            $displayField->setDefaultValue('---');
+            $displayField->setClassName('OrangeHRM\Core\Report\DisplayField\GenericBasicDisplayField');
+        }
+        $displayField->setLabel($customField->getName());
+
+        $this->persist($displayField);
     }
 
     /**
@@ -94,19 +142,42 @@ class CustomFieldDao extends BaseDao
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function deleteCustomFields(array $toDeleteIds): int
     {
+        $this->beginTransaction();
         try {
+            $this->deleteDisplayFieldsOfCustomFields($toDeleteIds);
             $q = $this->createQueryBuilder(CustomField::class, 'cf');
-            $q->delete()
-                ->andWhere($q->expr()->in('cf.fieldNum', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
+            $q->delete()->andWhere($q->expr()->in('cf.fieldNum', ':ids'))->setParameter('ids', $toDeleteIds);
+            $this->commitTransaction();
             return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
         }
+    }
+
+    /**
+     * @param array $toDeleteCustomFieldIds
+     * @return void
+     */
+    private function deleteDisplayFieldsOfCustomFields(array $toDeleteCustomFieldIds): void
+    {
+        if (empty($toDeleteCustomFieldIds)) {
+            return;
+        }
+        $displayFieldNames = [];
+        foreach ($toDeleteCustomFieldIds as $toDeleteCustomFieldId) {
+            $customField = $this->getCustomFieldById($toDeleteCustomFieldId);
+            $displayFieldNames[] = 'hs_hr_employee.custom' . $customField->getFieldNum();
+        }
+        $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
+        $q->delete()
+            ->andWhere($q->expr()->in('displayField.name', ':displayFieldNames'))
+            ->setParameter('displayFieldNames', $displayFieldNames);
+        $q->getQuery()->execute();
     }
 
     /**

@@ -8,12 +8,12 @@ jobs:
 
     steps:
       - name: Checkout Environment
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: orangehrm/orangehrm-os-dev-environment
 
       - name: Checkout OrangeHRM
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: html
 
@@ -33,7 +33,7 @@ jobs:
 
       - name: Cache docker image
         id: cache-docker-images
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: image-cache
           key: images-${{ env.git_hash }}
@@ -45,7 +45,7 @@ jobs:
           docker-compose -f docker-compose.yml -f docker-compose-build.yml build nginx php-8.0
           docker images
           mkdir image-cache
-          docker save --output image-cache/images.tar samanthajayasinghe/ohrm-nginx samanthajayasinghe/ohrm-php80
+          docker save --output image-cache/images.tar orangehrm/os-dev:nginx orangehrm/os-dev:php80
           ls -sh image-cache/images.tar
 
       - name: Load docker image from cache
@@ -56,14 +56,16 @@ jobs:
 
       - name: Start docker containers
         run: |
+          sed -i '156s/volumes/tmpfs/' docker-compose.yml
+          sed -i '157s/mysql-data-55://' docker-compose.yml
           docker-compose up -d php-8.0 mysql55
           docker ps
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -80,7 +82,7 @@ jobs:
 
       - name: Install OrangeHRM
         run: |
-          docker exec os_dev_php80 bash --login -c 'cd src/client && yarn build'
+          docker exec os_dev_php80 bash --login -c 'cd src/client && yarn build --mode development'
           docker exec os_dev_php80 bash -c "sed -i 's/hostName: 127.0.0.1/hostName: mysql55/g' installer/cli_install_config.yaml"
           docker exec os_dev_php80 bash -c "sed -i 's/adminPassword: Ohrm@1423/adminPassword: Admin@123/g' installer/cli_install_config.yaml"
           docker exec os_dev_php80 bash -c "sed -i 's/adminEmployeeFirstName: OrangeHRM/adminEmployeeFirstName: Jacqueline/g' installer/cli_install_config.yaml"
@@ -101,8 +103,15 @@ jobs:
           yarn test
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: videos-${{ github.sha }}
           path: html/src/test/functional/cypress/videos
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: logs-${{ github.sha }}
+          path: html/src/log

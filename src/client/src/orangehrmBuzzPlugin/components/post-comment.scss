@@ -1,0 +1,98 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-comment-wrapper {
+  gap: 10px;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+.orangehrm-post-comment {
+  width: 100%;
+  &-employee {
+    font-size: 1rem;
+    font-weight: 600;
+    overflow-wrap: break-word;
+  }
+  &-datetime {
+    font-weight: 300;
+    font-size: 0.6rem;
+    color: $oxd-interface-gray-color;
+  }
+  &-area {
+    padding: 0.5rem;
+    position: relative;
+    border-radius: 0.8rem;
+    background-color: $oxd-background-pastel-white-color;
+  }
+  &-action-area {
+    gap: 1rem;
+    display: flex;
+    font-size: 0.75rem;
+    margin-top: 0.1rem;
+  }
+  &-action {
+    &.--cancel {
+      color: $oxd-primary-one-color;
+    }
+    &.--liked {
+      color: $oxd-feedback-danger-color;
+    }
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+      color: $oxd-primary-one-color;
+    }
+  }
+  & form {
+    font-size: 0.75rem;
+  }
+  &-text {
+    font-weight: 300;
+    font-size: 0.75rem;
+    overflow-wrap: break-word;
+    &.--truncate {
+      @include truncate(6, 1.5, #fff);
+    }
+  }
+  &-readmore {
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: $oxd-primary-one-color;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &-stats {
+    right: 0;
+    bottom: -5px;
+    gap: 2.5px;
+    padding: 2.5px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    background-color: $oxd-background-white-shadow-color;
+    &-icon {
+      height: 12px;
+      color: $oxd-feedback-danger-color;
+    }
+  }
+}

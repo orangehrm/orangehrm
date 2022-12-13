@@ -22,10 +22,33 @@ namespace OrangeHRM\Performance\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Kpi;
+use OrangeHRM\Performance\Traits\Service\KpiServiceTrait;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-KpiModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="title", type="string"),
+ *     @OA\Property(
+ *         property="jobTitle",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(property="minRating", type="integer"),
+ *     @OA\Property(property="maxRating", type="integer"),
+ *     @OA\Property(property="isDefault", type="boolean"),
+ *     @OA\Property(property="deletable", type="boolean")
+ * )
+ */
 class KpiModel implements Normalizable
 {
-    use ModelTrait;
+    use ModelTrait {
+        ModelTrait::toArray as entityToArray;
+    }
+    use KpiServiceTrait;
 
     public function __construct(Kpi $kpi)
     {
@@ -54,5 +77,15 @@ class KpiModel implements Normalizable
                 'isDefault',
             ]
         );
+    }
+
+    public function toArray(): array
+    {
+        $deletable = $this->getKpiService()->getKpiDao()->isKpiDeletable(
+            $this->getEntity()->getId()
+        );
+        $result = $this->entityToArray();
+        $result['deletable'] = $deletable;
+        return $result;
     }
 }

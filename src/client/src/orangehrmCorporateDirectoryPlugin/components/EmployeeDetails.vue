@@ -19,7 +19,9 @@
  -->
 
 <template>
-  <oxd-divider></oxd-divider>
+  <oxd-divider
+    v-show="employeeWorkEmail || employeeWorkTelephone"
+  ></oxd-divider>
   <div
     v-show="employeeWorkEmail || employeeWorkTelephone"
     class="orangehrm-directory-card-rounded-body"
@@ -201,12 +203,14 @@ export default {
       color: $oxd-interface-gray-darken-1-color;
       font-size: 14px;
       display: flex;
+      flex-shrink: 0;
+      align-items: center;
       justify-content: center;
     }
-  }
 
-  &-hover:hover {
-    background-color: $oxd-background-white-shadow-color;
+    &:hover {
+      background-color: $oxd-background-white-shadow-color;
+    }
   }
 
   &-icon {

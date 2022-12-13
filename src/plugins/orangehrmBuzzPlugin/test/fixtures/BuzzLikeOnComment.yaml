@@ -1,0 +1,24 @@
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 2, "user_name": "admin","user_password": "admin","deleted": "0","status": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+
+BuzzPost:
+  - { "id": "1","employee_number": "1","text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.","post_time": "2022-10-27 00:51:35", "post_utc_time": "2022-10-27 00:51:35","updated_at": "2022-10-27 00:51:35" }
+
+BuzzShare:
+  - { "id": "1","post_id": "1","employee_number": "1","number_of_likes": "1","number_of_comments": "2","share_time": "2022-10-27 00:51:35", "share_utc_time": "2022-10-27 00:51:35", "type": "0","text": null,"updated_at": "2022-10-26 12:01:10" }
+
+BuzzComment:
+  - { "id": "1","share_id": "1","employee_number": "1","number_of_likes": "0","comment_text": "this is comment 01","comment_time": "2022-10-27 00:52:30", "comment_utc_time": "2022-10-27 00:52:30", "updated_at": "2022-10-26 11:52:35" }
+  - { "id": "2","share_id": "1","employee_number": "2","number_of_likes": "1","comment_text": "this is comment 02","comment_time": "2022-10-27 00:58:24", "comment_utc_time": "2022-10-27 00:58:24", "updated_at": "2022-10-26 12:01:08" }
+
+BuzzLikeOnComment:
+  - { "id": "1","comment_id": "2","employee_number": "1","like_time": "2022-10-27 00:52:23", "like_utc_time": "2022-10-27 00:52:23" }

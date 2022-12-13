@@ -165,26 +165,42 @@ Reviewer:
   - {"id": 60,"review_id": 30,"employee_number": 11,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
   - {"id": 61,"review_id": 31,"employee_number": 12,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
   - {"id": 62,"review_id": 31,"employee_number": 11,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
-  - {"id": 63,"review_id": 32,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
-  - {"id": 64,"review_id": 32,"employee_number": 11,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
-  - {"id": 65,"review_id": 33,"employee_number": 13,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
-  - {"id": 66,"review_id": 33,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
-  - {"id": 67,"review_id": 34,"employee_number": 13,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": ""}
-  - {"id": 68,"review_id": 34,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
-  - {"id": 69,"review_id": 35,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
-  - {"id": 70,"review_id": 35,"employee_number": 14,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
-  - {"id": 71,"review_id": 36,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
-  - {"id": 72,"review_id": 36,"employee_number": 14,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
+  - { "id": 63,"review_id": 32,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null }
+  - { "id": 64,"review_id": 32,"employee_number": 11,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null }
+  - { "id": 65,"review_id": 33,"employee_number": 13,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": "" }
+  - { "id": 66,"review_id": 33,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": "" }
+  - { "id": 67,"review_id": 34,"employee_number": 13,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": "" }
+  - { "id": 68,"review_id": 34,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": "" }
+  - { "id": 69,"review_id": 35,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null }
+  - { "id": 70,"review_id": 35,"employee_number": 14,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null }
+  - { "id": 71,"review_id": 36,"employee_number": 2,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null }
+  - { "id": 72,"review_id": 36,"employee_number": 14,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null }
+
+ReviewerRating:
+  - { id: 1, rating: 2.00, kpi_id: 5,review_id: 5,reviewer_id: 10,comment: "test" }
+  - { id: 2, rating: 2.00, kpi_id: 5,review_id: 5,reviewer_id: 11,comment: "test2" }
+  - { id: 3, rating: 2.00, kpi_id: 1,review_id: 15,reviewer_id: 29,comment: "comment 3a" }
+  - { id: 4, rating: null, kpi_id: 2,review_id: 15,reviewer_id: 29,comment: null }
+  - { id: 5, rating: null, kpi_id: 3,review_id: 15,reviewer_id: 29,comment: null }
+  - { id: 6, rating: null, kpi_id: 1,review_id: 15,reviewer_id: 30,comment: null }
+  - { id: 7, rating: null, kpi_id: 2,review_id: 15,reviewer_id: 30,comment: null }
+  - { id: 8, rating: null, kpi_id: 3,review_id: 15,reviewer_id: 30,comment: null }
+  - { id: 9, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 10, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 11, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 12, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 13, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 14, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 2,comment: null }
 
 ReportingMethod:
-  0: {id: 1, name: 'Indirect'}
-  1: {id: 2, name: 'Direct'}
-  2: {id: 3, name: 'HR'}
+  0: { id: 1, name: 'Indirect' }
+  1: { id: 2, name: 'Direct' }
+  2: { id: 3, name: 'HR' }
 
 ReportTo:
-  0: { erep_sup_emp_number: 2, erep_sub_emp_number: 7, erep_reporting_mode: 1}
-  1: { erep_sup_emp_number: 1, erep_sub_emp_number: 3, erep_reporting_mode: 1}
-  2: { erep_sup_emp_number: 1, erep_sub_emp_number: 4, erep_reporting_mode: 2}
+  0: { erep_sup_emp_number: 2, erep_sub_emp_number: 7, erep_reporting_mode: 1 }
+  1: { erep_sup_emp_number: 1, erep_sub_emp_number: 3, erep_reporting_mode: 1 }
+  2: { erep_sup_emp_number: 1, erep_sub_emp_number: 4, erep_reporting_mode: 2 }
   3: { erep_sup_emp_number: 2, erep_sub_emp_number: 5, erep_reporting_mode: 1}
   4: { erep_sup_emp_number: 4, erep_sub_emp_number: 5, erep_reporting_mode: 2}
   5: { erep_sup_emp_number: 2, erep_sub_emp_number: 16, erep_reporting_mode: 2}

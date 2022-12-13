@@ -57,14 +57,14 @@ class I18NLanguage
     /**
      * @var bool
      *
-     * @ORM\Column(name="enabled", type="boolean", options={"default":1})
+     * @ORM\Column(name="enabled", type="boolean", options={"default" : 1})
      */
     private bool $enabled = true;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="added", type="boolean", options={"default":0})
+     * @ORM\Column(name="added", type="boolean", options={"default" : 0})
      */
     private bool $added = false;
 

@@ -27,6 +27,7 @@
     <oxd-label :label="label" :class="classes.label" />
     <oxd-color-input
       v-bind="$attrs"
+      :disabled="disabled"
       :has-error="hasError"
       :model-value="modelValue"
       dropdown-position="left"
@@ -69,9 +70,15 @@ export default {
       default: null,
       required: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
   },
   emits: ['update:modelValue'],
   setup(props, context) {
+    const disabled = toRef(props, 'disabled');
     const modelValue = toRef(props, 'modelValue');
     const initialValue = modelValue.value;
 
@@ -85,6 +92,7 @@ export default {
       rules: props.rules,
       modelValue,
       onReset,
+      disabled,
     });
 
     const classes = computed(() => ({

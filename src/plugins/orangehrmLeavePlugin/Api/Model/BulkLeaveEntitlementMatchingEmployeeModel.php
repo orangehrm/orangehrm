@@ -25,6 +25,24 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-BulkLeaveEntitlementMatchingEmployeeModel",
+ *     type="object",
+ *     @OA\Property(property="empNumber", type="integer"),
+ *     @OA\Property(property="lastName", type="string"),
+ *     @OA\Property(property="firstName", type="string"),
+ *     @OA\Property(property="middleName", type="string"),
+ *     @OA\Property(property="employeeId", type="string"),
+ *     @OA\Property(property="terminationId", type="integer"),
+ *     @OA\Property(
+ *         property="entitlement",
+ *         type="object",
+ *         @OA\Property(property="current", type="integer"),
+ *         @OA\Property(property="updateAs", type="integer")
+ *     )
+ * )
+ */
 class BulkLeaveEntitlementMatchingEmployeeModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     /**

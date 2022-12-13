@@ -24,6 +24,8 @@ use Doctrine\DBAL\Types\Types;
 use Exception;
 use InvalidArgumentException;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Exception\KeyHandlerException;
+use OrangeHRM\Core\Utility\KeyHandler;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
@@ -61,6 +63,8 @@ class AppSetupUtility
             \OrangeHRM\Installer\Migration\V5_0_0\Migration::class,
         ],
         '5.1' => \OrangeHRM\Installer\Migration\V5_1_0\Migration::class,
+        '5.2' => \OrangeHRM\Installer\Migration\V5_2_0\Migration::class,
+        '5.3' => \OrangeHRM\Installer\Migration\V5_3_0\Migration::class,
     ];
 
     public const INSTALLATION_DB_TYPE_NEW = 'new';
@@ -70,26 +74,32 @@ class AppSetupUtility
     public const ERROR_CODE_INVALID_HOST_PORT = 2002;
     public const ERROR_CODE_DATABASE_NOT_EXISTS = 1049;
 
-    private ?ConfigHelper $configHelper = null;
-    private ?SystemConfiguration $systemConfiguration = null;
+    private ConfigHelper $configHelper;
+    private SystemConfiguration $systemConfiguration;
+    private MigrationHelper $migrationHelper;
 
     /**
      * @return ConfigHelper
      */
     protected function getConfigHelper(): ConfigHelper
     {
-        if (!$this->configHelper instanceof ConfigHelper) {
-            $this->configHelper = new ConfigHelper();
-        }
-        return $this->configHelper;
+        return $this->configHelper ??= new ConfigHelper();
     }
 
+    /**
+     * @return SystemConfiguration
+     */
     protected function getSystemConfiguration(): SystemConfiguration
     {
-        if (!$this->systemConfiguration instanceof SystemConfiguration) {
-            $this->systemConfiguration = new SystemConfiguration();
-        }
-        return $this->systemConfiguration;
+        return $this->systemConfiguration ??= new SystemConfiguration();
+    }
+
+    /**
+     * @return MigrationHelper
+     */
+    protected function getMigrationHelper(): MigrationHelper
+    {
+        return $this->migrationHelper ??= new MigrationHelper();
     }
 
     /**
@@ -211,6 +221,7 @@ class AppSetupUtility
     {
         $this->insertCsrfKey();
         $this->insertOrganizationInfo();
+        $this->insertSubunitOrganizationName();
         $this->setDefaultLanguage();
         $this->insertAdminEmployee();
         $this->insertAdminUser();
@@ -235,6 +246,18 @@ class AppSetupUtility
             ])
             ->setParameter('name', $instanceData[StateContainer::INSTANCE_ORG_NAME])
             ->setParameter('countryCode', $instanceData[StateContainer::INSTANCE_COUNTRY_CODE])
+            ->executeQuery();
+    }
+
+    protected function insertSubunitOrganizationName(): void
+    {
+        $instanceData = StateContainer::getInstance()->getInstanceData();
+        Connection::getConnection()->createQueryBuilder()
+            ->update('ohrm_subunit', 'subunit')
+            ->set('subunit.name', ':organizationName')
+            ->setParameter('organizationName', $instanceData[StateContainer::INSTANCE_ORG_NAME])
+            ->andWhere('subunit.level = :topLevel')
+            ->setParameter('topLevel', 0)
             ->executeQuery();
     }
 
@@ -405,31 +428,36 @@ class AppSetupUtility
             $dbName = $dbInfo[StateContainer::DB_NAME];
             $dbUser = $dbInfo[StateContainer::DB_USER];
             $ohrmDbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER];
-            if ($dbUser === $ohrmDbUser) {
+            if ($ohrmDbUser === null || $dbUser === $ohrmDbUser) {
                 return;
             }
             $ohrmDbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD];
-            Connection::getConnection()->executeStatement(
-                $this->getUserCreationQuery($dbName, $ohrmDbUser, $ohrmDbPassword, 'localhost')
-            );
-            Connection::getConnection()->executeStatement(
-                $this->getUserCreationQuery($dbName, $ohrmDbUser, $ohrmDbPassword, '%')
-            );
+            $queries = [
+                ...$this->getUserCreationQueries($dbName, $ohrmDbUser, $ohrmDbPassword, 'localhost'),
+                ...$this->getUserCreationQueries($dbName, $ohrmDbUser, $ohrmDbPassword, '%'),
+                'FLUSH PRIVILEGES;'
+            ];
+            foreach ($queries as $query) {
+                Connection::getConnection()->executeStatement($query);
+            }
         }
     }
 
-    protected function getUserCreationQuery(
+    protected function getUserCreationQueries(
         string $dbName,
         string $ohrmDbUser,
         ?string $ohrmDbPassword,
         string $grantHost
-    ) {
+    ): array {
         $conn = Connection::getConnection();
         $dbName = $conn->quoteIdentifier($dbName);
         $ohrmDbUser = $conn->quote($ohrmDbUser);
-        $queryIdentifiedBy = empty($ohrmDbPassword) ? '' : "IDENTIFIED BY " . $conn->quote($ohrmDbPassword);
-        return "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE " .
-            "ON $dbName.* TO $ohrmDbUser@'$grantHost' $queryIdentifiedBy;";
+
+        $queryIdentifiedBy = is_null($ohrmDbPassword) ? '' : "IDENTIFIED BY " . $conn->quote($ohrmDbPassword);
+        $createQuery = "CREATE USER $ohrmDbUser@'$grantHost' $queryIdentifiedBy;";
+        $grantQuery = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, REFERENCES, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE " .
+            "ON $dbName.* TO $ohrmDbUser@'$grantHost';";
+        return [$createQuery, $grantQuery];
     }
 
     public function writeConfFile(): void
@@ -447,6 +475,16 @@ class AppSetupUtility
 
         $fs = new Filesystem();
         $fs->dumpFile(Config::get(Config::CONF_FILE_PATH), str_replace($search, $replace, $template));
+        clearstatcache(true);
+    }
+
+    /**
+     * @throws KeyHandlerException
+     */
+    public function writeKeyFile(): void
+    {
+        $keyHandler = new KeyHandler();
+        $keyHandler::createKey();
     }
 
     /**
@@ -514,8 +552,11 @@ class AppSetupUtility
     {
         $migration = new $migrationClass();
         if ($migration instanceof AbstractMigration) {
+            $version = $migration->getVersion();
+            $this->getMigrationHelper()->logMigrationStarted($version);
             $migration->up();
-            $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
+            $this->getConfigHelper()->setConfigValue('instance.version', $version);
+            $this->getMigrationHelper()->logMigrationFinished($version);
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");
@@ -526,7 +567,26 @@ class AppSetupUtility
      */
     public function getCurrentProductVersionFromDatabase(): ?string
     {
-        return $this->getConfigHelper()->getConfigValue('instance.version');
+        $instanceVersion = $this->getConfigHelper()->getConfigValue('instance.version');
+        if ($instanceVersion == null) {
+            return null;
+        }
+
+        $migrationMap = self::MIGRATIONS_MAP;
+        for (end($migrationMap); ($version = key($migrationMap)) !== null; prev($migrationMap)) {
+            $migrationClasses = current($migrationMap);
+            if (!is_array($migrationClasses)) {
+                $migrationClasses = [$migrationClasses];
+            }
+            foreach ($migrationClasses as $migrationClass) {
+                $migration = new $migrationClass();
+                if ($migration instanceof AbstractMigration && $migration->getVersion() == $instanceVersion) {
+                    return $version;
+                }
+            }
+        }
+
+        return null;
     }
 
     public function cleanUpInstallOnFailure(): void

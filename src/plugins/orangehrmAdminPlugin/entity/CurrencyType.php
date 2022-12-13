@@ -54,7 +54,7 @@ class CurrencyType
 
     /**
      * @var Collection|PayGradeCurrency[]
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PayGradeCurrency",mappedBy="currencyType")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PayGradeCurrency", mappedBy="currencyType")
      */
     private $payGradeCurrencies;
 

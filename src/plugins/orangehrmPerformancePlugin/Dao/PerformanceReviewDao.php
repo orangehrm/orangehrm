@@ -137,9 +137,10 @@ class PerformanceReviewDao extends BaseDao
     private function saveReviewerRating(PerformanceReview $performanceReview, ReviewerGroup $reviewerGroup): void
     {
         $reviewer = $this->getReviewerRecord($performanceReview->getId(), $reviewerGroup->getName());
-        $kpiIdArrayForReview = $this->getKpiIdsForReviewId($performanceReview->getId());
+        $jobTitleId = $this->getReviewById($performanceReview->getId())->getJobTitle()->getId();
+        $kpiIdArrayForJobTitle = $this->getKpiIdsForJobTitleId($jobTitleId);
 
-        foreach ($kpiIdArrayForReview as $kpiId) {
+        foreach ($kpiIdArrayForJobTitle as $kpiId) {
             $reviewerRating = new ReviewerRating();
             $reviewerRating->setPerformanceReview($performanceReview);
             $reviewerRating->getDecorator()->setKpiByKpiId($kpiId);
@@ -260,6 +261,7 @@ class PerformanceReviewDao extends BaseDao
         $this->setSortingAndPaginationParams($qb, $performanceReviewSearchFilterParams);
         $qb->addOrderBy('performanceReview.dueDate', ListSorter::DESCENDING);
         $qb->addOrderBy('employee.lastName');
+        $qb->addOrderBy('performanceReview.id');
         return $this->getQueryBuilderWrapper($qb);
     }
 
@@ -407,15 +409,20 @@ class PerformanceReviewDao extends BaseDao
      * @param ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
      * @return QueryBuilderWrapper
      */
-    private function getKpisForReviewQueryBuilderWrapper(ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams): QueryBuilderWrapper
-    {
-        $jobTitleId = $this->getReviewById($reviewKpiSearchFilterParams->getReviewId())->getJobTitle()->getId();
-        $q = $this->createQueryBuilder(Kpi::class, 'kpi');
-        $q->andWhere('kpi.jobTitle =:jobTitle')
-            ->setParameter('jobTitle', $jobTitleId);
-        $this->setSortingAndPaginationParams($q, $reviewKpiSearchFilterParams);
-
-        return $this->getQueryBuilderWrapper($q);
+    private function getKpisForReviewQueryBuilderWrapper(
+        ReviewKpiSearchFilterParams $reviewKpiSearchFilterParams
+    ): QueryBuilderWrapper {
+        $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
+        $qb->leftJoin('reviewerRating.performanceReview', 'performanceReview')
+            ->leftJoin('reviewerRating.reviewer', 'reviewer')
+            ->leftJoin('reviewerRating.kpi', 'kpi')
+            ->leftJoin('reviewer.group', 'reviewerGroup')
+            ->andWhere('performanceReview.id = :reviewId')
+            ->setParameter('reviewId', $reviewKpiSearchFilterParams->getReviewId())
+            ->andWhere('reviewerGroup.name = :groupName')
+            ->setParameter('groupName', $reviewKpiSearchFilterParams->getReviewerGroupName());
+        $this->setSortingAndPaginationParams($qb, $reviewKpiSearchFilterParams);
+        return $this->getQueryBuilderWrapper($qb);
     }
 
     /**
@@ -458,9 +465,15 @@ class PerformanceReviewDao extends BaseDao
             ->setParameter('statusId', PerformanceReview::STATUS_INACTIVE);
         $q->andWhere($q->expr()->eq('reviewGroup.name', ':groupName'))
             ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+        $purgedEmployeeReviewIds = $this->getPurgeEmployeeReviewIds();
+        if (! empty($purgedEmployeeReviewIds)) {
+            $q->andWhere($q->expr()->notIn('performanceReview.id', ':purgedRecords'))
+                ->setParameter('purgedRecords', $purgedEmployeeReviewIds);
+        }
         /** @var Reviewer[] $reviewers */
         $reviewers = $q->getQuery()->execute();
-        $reviewIds =[];
+
+        $reviewIds = [];
 
         foreach ($reviewers as $reviewer) {
             $reviewIds[] =$reviewer->getReview()->getId();
@@ -469,13 +482,26 @@ class PerformanceReviewDao extends BaseDao
     }
 
     /**
+     * @return array
+     */
+    private function getPurgeEmployeeReviewIds(): array
+    {
+        $q = $this->createQueryBuilder(PerformanceReview::class, 'review');
+        $q->select('review.id')
+            ->leftJoin('review.employee', 'employee')
+            ->andWhere($q->expr()->isNotNull('employee.purgedAt'));
+        return array_column($q->getQuery()->getArrayResult(), 'id');
+    }
+
+    /**
      * @return int[]
      */
     public function getReviewIdList(): array
     {
-        // TODO check purged employee permissions
         $qb = $this->createQueryBuilder(PerformanceReview::class, 'performanceReview');
-        $qb->select('performanceReview.id');
+        $qb->select('performanceReview.id')
+            ->leftJoin('performanceReview.employee', 'employee')
+            ->andWhere($qb->expr()->isNull('employee.purgedAt'));
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
 
@@ -560,11 +586,31 @@ class PerformanceReviewDao extends BaseDao
      */
     public function getKpiIdsForReviewId(int $reviewId): array
     {
-        $jobTitleId = $this->getReviewById($reviewId)->getJobTitle()->getId();
+        $qb = $this->createQueryBuilder(ReviewerRating::class, 'reviewerRating');
+        $qb->select('kpi.id')
+            ->leftJoin('reviewerRating.performanceReview', 'performanceReview')
+            ->leftJoin('reviewerRating.reviewer', 'reviewer')
+            ->leftJoin('reviewerRating.kpi', 'kpi')
+            ->leftJoin('reviewer.group', 'reviewerGroup')
+            ->andWhere('performanceReview.id = :reviewId')
+            ->setParameter('reviewId', $reviewId)
+            ->andWhere('reviewerGroup.name = :groupName')
+            ->setParameter('groupName', ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
+
+        return array_column($qb->getQuery()->execute(), 'id');
+    }
+
+    /**
+     * @param int $jobTitleId
+     * @return array
+     */
+    public function getKpiIdsForJobTitleId(int $jobTitleId): array
+    {
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
         $q->select('kpi.id')
             ->andWhere('kpi.jobTitle =:jobTitle')
             ->setParameter('jobTitle', $jobTitleId);
+        $q->andWhere($q->expr()->isNull('kpi.deletedAt'));
         return array_column($q->getQuery()->execute(), 'id');
     }
 

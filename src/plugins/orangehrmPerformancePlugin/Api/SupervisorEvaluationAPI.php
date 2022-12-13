@@ -43,8 +43,8 @@ use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Performance\Api\Model\KpiSummaryModel;
-use OrangeHRM\Performance\Api\Model\ReviewerModel;
 use OrangeHRM\Performance\Api\Model\ReviewerRatingModel;
+use OrangeHRM\Performance\Api\Model\SupervisorReviewerModel;
 use OrangeHRM\Performance\Api\ValidationRules\ReviewReviewerRatingParamRule;
 use OrangeHRM\Performance\Dto\ReviewKpiSearchFilterParams;
 use OrangeHRM\Performance\Dto\SupervisorEvaluationSearchFilterParams;
@@ -87,6 +87,53 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     ];
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/performance/reviews/{reviewId}/evaluation/supervisor",
+     *     tags={"Performance/Review Evaluation"},
+     *     @OA\PathParameter(
+     *         name="reviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=SupervisorEvaluationSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Performance-ReviewerRatingModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer"),
+     *                 @OA\Property(property="generalComment", type="string"),
+     *                 @OA\Property(
+     *                     property="kpis",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/Performance-KpiSummaryModel")
+     *                 ),
+     *                 @OA\Property(
+     *                     property="reviewer",
+     *                     ref="#/components/schemas/Performance-KpiSummaryModel"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="allowedActions",
+     *                     type="array",
+     *                     @OA\Items(ref="#/components/schemas/Core-WorkflowStateModel")
+     *                 ),
+     *             )
+     *         )
+     *     )
+     * )
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -106,7 +153,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         $sendRatings = true;
         $supervisorReviewer = $review->getDecorator()->getSupervisorReviewer();
         // Check if ESS is accessing API
-        if ($this->getAuthUser()->getEmpNumber() === $review->getEmployee()->getEmpNumber()) {
+        if (!$this->isAdminAccessingApi() && $this->getAuthUser()->getEmpNumber() === $review->getEmployee()->getEmpNumber()) {
             // Don't send ratings if supervisor status is activated / in progress
             if (
                 $supervisorReviewer->getStatus() === Reviewer::STATUS_ACTIVATED ||
@@ -211,6 +258,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_REVIEW_ID
             )
         );
+        $reviewKpiParamHolder->setReviewerGroupName(ReviewerGroup::REVIEWER_GROUP_SUPERVISOR);
         $this->setSortingAndPaginationParams($reviewKpiParamHolder);
         return $this->getNormalizerService()->normalizeArray(
             KpiSummaryModel::class,
@@ -230,7 +278,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
         );
 
         return $this->getNormalizerService()->normalize(
-            ReviewerModel::class,
+            SupervisorReviewerModel::class,
             $this->getPerformanceReviewService()->getPerformanceReviewDao()
                 ->getReviewerRecord($reviewId, ReviewerGroup::REVIEWER_GROUP_SUPERVISOR)
         );
@@ -286,6 +334,43 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/performance/reviews/{reviewId}/evaluation/supervisor",
+     *     tags={"Performance/Review Evaluation"},
+     *     @OA\PathParameter(
+     *         name="reviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="reviewers",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="rating", type="number"),
+     *                     @OA\Property(property="comment", type="string"),
+     *                     required={"id", "rating", "comment"}
+     *                 ),
+     *             ),
+     *             @OA\Property(property="generalComment", type="string"),
+     *             required={"reviewers"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-ReviewerRatingModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
@@ -356,7 +441,7 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
      */
     private function getPerformanceReviewStatus(PerformanceReview $performanceReview): int
     {
-        if ($this->getAuthUser()->getEmpNumber() === $performanceReview->getEmployee()->getEmpNumber()) {
+        if (!$this->isAdminAccessingApi() && $this->getAuthUser()->getEmpNumber() === $performanceReview->getEmployee()->getEmpNumber()) {
             $selfReviewer = $this->getPerformanceReviewService()
                 ->getPerformanceReviewDao()
                 ->getPerformanceSelfReviewer($performanceReview);
@@ -446,8 +531,19 @@ class SupervisorEvaluationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_GENERAL_COMMENT,
                     new Rule(Rules::STRING_TYPE),
-                )
+                ),
+                true
             )
         );
+    }
+
+    private function isAdminAccessingApi(): bool
+    {
+        $permission = $this->getUserRoleManager()->getDataGroupPermissions(
+            'apiv2_performance_review_supervisor_evaluation',
+            ['ESS', 'Supervisor']
+        );
+
+        return $permission->canRead() || $permission->canUpdate();
     }
 }

@@ -85,6 +85,7 @@
         </div>
       </oxd-form>
     </div>
+    <br />
     <slot name="footer"></slot>
   </div>
 </template>
@@ -159,16 +160,21 @@ export default {
 
 .orangehrm-card-container {
   box-shadow: 3px 3px 10px $oxd-interface-gray-color;
-  width: 50vh;
 }
 
 .orangehrm-admin-access {
   &-container {
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
+    width: inherit;
+    height: inherit;
+    padding: 1rem 2rem;
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    @include oxd-respond-to('md') {
+      margin: 0 auto;
+      max-width: 450px;
+    }
   }
   &-title {
     font-weight: 700;
@@ -178,12 +184,20 @@ export default {
   }
   &-button {
     flex: 1;
-    margin-left: 0.6rem;
-    margin-right: 0.6rem;
+    &:nth-child(2) {
+      margin-top: 0.5rem;
+      @include oxd-respond-to('md') {
+        margin: 0;
+        margin-left: 0.5rem;
+      }
+    }
     &-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: center;
+      @include oxd-respond-to('md') {
+        flex-direction: row;
+      }
     }
   }
 }

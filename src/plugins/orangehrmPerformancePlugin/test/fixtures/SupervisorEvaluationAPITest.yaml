@@ -202,13 +202,13 @@ ReviewerGroup:
 
 Reviewer:
   - {"id": 1,"review_id": 1,"employee_number": 10,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
-  - {"id": 2,"review_id": 1,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 2,"review_id": 1,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": "comment 1"}
   - {"id": 3,"review_id": 2,"employee_number": 6,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
-  - {"id": 4,"review_id": 2,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 4,"review_id": 2,"employee_number": 3,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": "comment 3"}
   - {"id": 5,"review_id": 3,"employee_number": 7,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
   - {"id": 6,"review_id": 3,"employee_number": 3,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
   - {"id": 7,"review_id": 4,"employee_number": 8,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
-  - {"id": 8,"review_id": 4,"employee_number": 2,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": ""}
+  - {"id": 8,"review_id": 4,"employee_number": 2,"status": 2,"reviewer_group_id": 1,"completed_date": null,"comment": "comment 2"}
   - {"id": 9,"review_id": 5,"employee_number": 9,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
   - {"id": 10,"review_id": 5,"employee_number": 2,"status": 1,"reviewer_group_id": 1,"completed_date": null,"comment": null}
   - {"id": 11,"review_id": 6,"employee_number": 3,"status": 1,"reviewer_group_id": 2,"completed_date": null,"comment": null}
@@ -219,9 +219,17 @@ Reviewer:
   - {"id": 16,"review_id": 8,"employee_number": 3,"status": 4,"reviewer_group_id": 1,"completed_date": "2022-07-29","comment": null }
 
 ReviewerRating:
-  - {id: 1, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 4,comment: "test"}
-  - {id: 2, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 4,comment: "test2"}
-  - {id: 3, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 16,comment: "testb2"}
+  - { id: 1, rating: 2.00, kpi_id: 4,review_id: 2,reviewer_id: 4,comment: "test" }
+  - { id: 2, rating: 2.00, kpi_id: 5,review_id: 2,reviewer_id: 4,comment: "test2" }
+  - { id: 3, rating: 2.00, kpi_id: 6,review_id: 8,reviewer_id: 16,comment: "testb2" }
+  - { id: 9, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 10, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 11, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 1,comment: null }
+  - { id: 12, rating: null, kpi_id: 1,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 13, rating: null, kpi_id: 2,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 14, rating: null, kpi_id: 3,review_id: 1,reviewer_id: 2,comment: null }
+  - { id: 15, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 7,comment: null }
+  - { id: 16, rating: null, kpi_id: 6,review_id: 4,reviewer_id: 8,comment: null }
 
 ReportingMethod:
   0: {id: 1, name: 'Indirect'}
@@ -236,3 +244,11 @@ ReportTo:
   4: { erep_sup_emp_number: 4, erep_sub_emp_number: 5, erep_reporting_mode: 2}
   5: { erep_sup_emp_number: 2, erep_sub_emp_number: 16, erep_reporting_mode: 2}
   6: { erep_sup_emp_number: 3, erep_sub_emp_number: 6, erep_reporting_mode: 2}
+
+DataGroup:
+  - {"id": 205,"name": "apiv2_performance_review_supervisor_evaluation","description": "API-v2 Performance - Performance Review Supervisor Evaluation","can_read": 1,"can_create": 0,"can_update": 1,"can_delete": 0}
+
+DataGroupPermission:
+  - {"id": 558,"user_role_id": 1,"data_group_id": 205,"can_read": 1,"can_create": 0,"can_update": 1,"can_delete": 0,"self": 0}
+  - {"id": 559,"user_role_id": 3,"data_group_id": 205,"can_read": 1,"can_create": 0,"can_update": 1,"can_delete": 0,"self": 0}
+  - {"id": 560,"user_role_id": 2,"data_group_id": 205,"can_read": 1,"can_create": 0,"can_update": 0,"can_delete": 0,"self": 0}

@@ -93,6 +93,13 @@ export default function useUpgrader(http: APIService) {
     }
   };
 
+  const preMigrationCheck = (): Promise<AxiosResponse> => {
+    return http.request({
+      method: 'POST',
+      url: 'upgrader/api/installation/pre-migration',
+    });
+  };
+
   return {
     getVersionList,
     getCurrentVersion,
@@ -100,5 +107,6 @@ export default function useUpgrader(http: APIService) {
     runAllMigrations,
     createConfigFiles,
     versionGenerator,
+    preMigrationCheck,
   };
 }

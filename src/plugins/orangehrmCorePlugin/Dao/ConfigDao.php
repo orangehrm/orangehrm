@@ -21,15 +21,13 @@ namespace OrangeHRM\Core\Dao;
 
 use Exception;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\Config;
-use OrangeHRM\Framework\Logger;
 
-/**
- * Config Dao: Manages configuration entries in hs_hr_config
- *
- */
 class ConfigDao extends BaseDao
 {
+    use LoggerTrait;
+
     /**
      * Set $key to given $value
      * @param string $name Key
@@ -49,8 +47,8 @@ class ConfigDao extends BaseDao
             $this->persist($config);
             return $config;
         } catch (Exception $e) {
-            Logger::getLogger()->error($e->getMessage());
-            Logger::getLogger()->error($e->getTraceAsString());
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -69,8 +67,8 @@ class ConfigDao extends BaseDao
             }
             return null;
         } catch (Exception $e) {
-            Logger::getLogger()->error($e->getMessage());
-            Logger::getLogger()->error($e->getTraceAsString());
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }

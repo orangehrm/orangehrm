@@ -34,15 +34,52 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\I18NLanguage;
 
 class I18NLanguageAPI extends Endpoint implements CrudEndpoint
 {
     use LocalizationServiceTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_ACTIVE_ONLY = 'activeOnly';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/i18n/languages",
+     *     tags={"Admin/I18N"},
+     *     @OA\Parameter(
+     *         name="activeOnly",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=I18NLanguageSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Admin-I18NLanguageModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -57,14 +94,14 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
 
         $i18NLanguageSearchParams->setEnabledOnly(true);
         $this->setSortingAndPaginationParams($i18NLanguageSearchParams);
-        $i18languages = $this->getLocalizationService()->getLocalizationDao()->searchLanguages(
+        $i18NLanguages = $this->getLocalizationService()->getLocalizationDao()->searchLanguages(
             $i18NLanguageSearchParams
         );
         $count = $this->getLocalizationService()->getLocalizationDao()->getLanguagesCount($i18NLanguageSearchParams);
 
         return new EndpointCollectionResult(
             I18NLanguageModel::class,
-            $i18languages,
+            $i18NLanguages,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
@@ -132,6 +169,32 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/i18n/languages/{id}",
+     *     tags={"Admin/I18N"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             description="Empty body as the language is enabled without any parameters"
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-I18NLanguageModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
@@ -140,6 +203,7 @@ class I18NLanguageAPI extends Endpoint implements CrudEndpoint
         $language = $this->getLocalizationService()->getLocalizationDao()->getLanguageById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($language, I18NLanguage::class);
         $language->setAdded(true);
+        $language->setModifiedAt($this->getDateTimeHelper()->getNow());
         $this->getLocalizationService()->getLocalizationDao()->saveI18NLanguage($language);
         return new EndpointResourceResult(I18NLanguageModel::class, $language);
     }

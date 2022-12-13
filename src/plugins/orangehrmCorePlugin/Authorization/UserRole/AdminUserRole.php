@@ -20,7 +20,10 @@
 namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Admin\Service\LocationService;
+use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
+use OrangeHRM\Dashboard\Traits\Service\QuickLaunchServiceTrait;
 use OrangeHRM\Entity\Candidate;
+use OrangeHRM\Entity\CandidateHistory;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Interview;
@@ -38,6 +41,7 @@ use OrangeHRM\Performance\Traits\Service\PerformanceReviewServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerLogServiceTrait;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Recruitment\Dto\CandidateActionHistory;
 use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
@@ -55,6 +59,8 @@ class AdminUserRole extends AbstractUserRole
     use CandidateServiceTrait;
     use RecruitmentAttachmentServiceTrait;
     use VacancyServiceTrait;
+    use QuickLaunchServiceTrait;
+    use BuzzServiceTrait;
 
     protected ?LocationService $locationService = null;
 
@@ -103,6 +109,10 @@ class AdminUserRole extends AbstractUserRole
                 return $this->getAccessibleInterviewIds($requiredPermissions);
             case InterviewAttachment::class:
                 return $this->getAccessibleInterviewAttachmentIds($requiredPermissions);
+            case CandidateHistory::class:
+                return $this->getAccessibleCandidateHistoryIds($requiredPermissions);
+            case CandidateActionHistory::class:
+                return $this->getAccessibleCandidateActionHistoryIds($requiredPermissions);
             default:
                 return [];
         }
@@ -133,7 +143,7 @@ class AdminUserRole extends AbstractUserRole
     protected function getAccessibleSystemUserIds(array $requiredPermissions = []): array
     {
         return $this->getUserService()
-            ->getSystemUserDao()
+            ->geUserDao()
             ->getSystemUserIdList();
     }
 
@@ -144,7 +154,7 @@ class AdminUserRole extends AbstractUserRole
     protected function getAccessibleUserRoleIds(array $requiredPermissions = []): array
     {
         $userRoles = $this->getUserService()
-            ->getSystemUserDao()
+            ->geUserDao()
             ->getAssignableUserRoles();
 
         $ids = [];
@@ -274,5 +284,36 @@ class AdminUserRole extends AbstractUserRole
         return $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->getVacancyAttachmentIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleCandidateHistoryIds(array $requiredPermissions = []): array
+    {
+        return $this->getCandidateService()
+            ->getCandidateDao()
+            ->getCandidateHistoryIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    private function getAccessibleCandidateActionHistoryIds(array $requiredPermissions = []): array
+    {
+        $candidateActionHistory = new CandidateActionHistory();
+        return $candidateActionHistory->getAccessibleCandidateActionHistoryIds();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccessibleQuickLaunchList(array $requiredPermissions): array
+    {
+        return $this->getQuickLaunchService()
+            ->getQuickLaunchDao()
+            ->getQuickLaunchList();
     }
 }
