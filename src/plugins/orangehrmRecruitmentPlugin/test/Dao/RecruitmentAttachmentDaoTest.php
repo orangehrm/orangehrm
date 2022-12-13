@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\Recruitment\Dao\RecruitmentAttachmentDao;
+use OrangeHRM\Recruitment\Dto\RecruitmentAttachment;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -64,7 +65,7 @@ class RecruitmentAttachmentDaoTest extends KernelTestCase
         $this->assertEquals('attachment_05_content', $result->getFileContent());
     }
 
-    public function testGetVacancyAttachmentById(): void
+    public function testGetVacancyAttachmentContentById(): void
     {
         $attachment = $this->recruitmentAttachmentDao->getVacancyAttachmentById(1);
         $this->assertInstanceOf(VacancyAttachment::class, $attachment);
@@ -76,10 +77,11 @@ class RecruitmentAttachmentDaoTest extends KernelTestCase
     {
         $attachments = $this->recruitmentAttachmentDao->getVacancyAttachmentsByVacancyId(1);
         $this->assertCount(2, $attachments);
-        $this->assertInstanceOf(VacancyAttachment::class, $attachments[0]);
+        $this->assertInstanceOf(RecruitmentAttachment::class, $attachments[0]);
         $this->assertEquals('1', $attachments[0]->getId());
         $this->assertEquals('Attachment1.pdf', $attachments[0]->getFileName());
         $this->assertEquals('application/pdf', $attachments[0]->getFileType());
+        $this->assertEquals(1, $attachments[0]->getFkIdentity());
     }
 
     public function testDeleteVacancyAttachments(): void

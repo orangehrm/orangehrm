@@ -81,6 +81,7 @@ import useTimesheetAPIs from '@/orangehrmTimePlugin/util/composable/useTimesheet
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {formatDate, parseDate} from '@/core/util/helper/datefns';
 import useLocale from '@/core/util/composable/useLocale';
+import useEmployeeNameTranslate from '@/core/util/composable/useEmployeeNameTranslate';
 
 export default {
   components: {
@@ -116,6 +117,7 @@ export default {
     } = useTimesheetAPIs(http);
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
+    const {$tEmpName} = useEmployeeNameTranslate();
 
     const loadTimesheet = () => {
       state.isLoading = true;
@@ -227,6 +229,7 @@ export default {
       ...toRefs(state),
       jsDateFormat,
       locale,
+      translateEmpName: $tEmpName,
     };
   },
 
@@ -235,9 +238,10 @@ export default {
       if (this.myTimesheet) {
         return this.$t('time.edit_timesheet');
       } else if (this.employee) {
-        const empName = this.employee?.terminationId
-          ? `${this.employee.firstName} ${this.employee.lastName} (Past Employee)`
-          : `${this.employee.firstName} ${this.employee.lastName}`;
+        const empName = this.translateEmpName(this.employee, {
+          includeMiddle: false,
+          excludePastEmpTag: false,
+        });
         return `${this.$t('time.edit_timesheet_for')} ${empName}`;
       }
       return '';

@@ -18,12 +18,19 @@
  */
 
 use Composer\Autoload\ClassLoader;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
+use OrangeHRM\Framework\Console\Console;
+use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\FunctionalTesting\Command\CreateDatabaseSavepointCommand;
+use OrangeHRM\FunctionalTesting\Command\DeleteDatabaseSavepointCommand;
+use OrangeHRM\FunctionalTesting\Command\ResetDatabaseCommand;
+use OrangeHRM\FunctionalTesting\Command\RestoreDatabaseToSavepointCommand;
 use OrangeHRM\FunctionalTesting\Subscriber\FunctionalTestingPluginSubscriber;
 
-class FunctionalTestingPluginConfiguration implements PluginConfigurationInterface
+class FunctionalTestingPluginConfiguration implements PluginConfigurationInterface, ConsoleConfigurationInterface
 {
     use EventDispatcherTrait;
 
@@ -37,5 +44,18 @@ class FunctionalTestingPluginConfiguration implements PluginConfigurationInterfa
         $loader->register();
 
         $this->getEventDispatcher()->addSubscriber(new FunctionalTestingPluginSubscriber());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function registerCommands(Console $console): void
+    {
+        if (Config::PRODUCT_MODE !== Config::MODE_PROD) {
+            $console->add(new CreateDatabaseSavepointCommand());
+            $console->add(new RestoreDatabaseToSavepointCommand());
+            $console->add(new DeleteDatabaseSavepointCommand());
+            $console->add(new ResetDatabaseCommand());
+        }
     }
 }

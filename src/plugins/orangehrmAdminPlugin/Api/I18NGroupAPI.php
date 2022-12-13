@@ -35,6 +35,35 @@ class I18NGroupAPI extends Endpoint implements CollectionEndpoint
     use LocalizationServiceTrait;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/i18n/groups",
+     *     tags={"Admin/I18N"},
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=I18NGroupSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Admin-I18NGroupModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -58,7 +87,6 @@ class I18NGroupAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException(); // TODO:: this line should remove in 5.2 release
         return new ParamRuleCollection(
             ...$this->getSortingAndPaginationParamsRules(I18NGroupSearchFilterParams::ALLOWED_SORT_FIELDS)
         );

@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Authentication\Dto;
 
-class UserCredential
+class UserCredential implements UserCredentialInterface
 {
     private ?string $username = null;
     private ?string $password = null;

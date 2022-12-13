@@ -8,6 +8,7 @@ import {
   getDaysInMonth,
   addDays,
   isSameDay,
+  isToday,
   differenceInSeconds,
   differenceInCalendarDays,
 } from 'date-fns';
@@ -371,4 +372,5 @@ export {
   setClockInterval,
   guessTimezone,
   getStandardTimezone,
+  isToday,
 };

@@ -1,0 +1,108 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-buzz-anniversary {
+  &-content {
+    height: 100vh;
+    @include oxd-respond-to('lg') {
+      height: unset;
+      overflow: auto;
+      max-height: 292px;
+      @include oxd-scrollbar();
+    }
+  }
+  &-item {
+    display: flex;
+    padding: 0.5rem 0;
+    position: relative;
+    align-items: center;
+  }
+  &-title {
+    display: none;
+    @include oxd-respond-to('lg') {
+      display: block;
+    }
+  }
+  &-profile {
+    display: flex;
+    &-details {
+      margin: auto;
+      word-break: break-word;
+      padding-left: 1rem;
+    }
+  }
+  &-emp-name {
+    font-weight: 400;
+    font-size: 0.85rem;
+    @include truncate(2, 1, #fff);
+  }
+  &-job-details {
+    font-weight: 700;
+    margin-top: 0.1rem;
+    font-size: 0.75rem;
+    @include truncate(2, 1, #fff);
+  }
+  &-duration {
+    padding: 0 20px;
+    font-weight: 600;
+    margin-left: auto;
+    white-space: nowrap;
+    & img {
+      width: 4rem;
+      position: absolute;
+    }
+    &-years {
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+    &-date {
+      font-size: 0.5rem;
+    }
+  }
+  &-durations-text {
+    margin-left: 1.2rem;
+    text-align: center;
+  }
+  &-footer {
+    font-weight: 700;
+    text-align: right;
+    font-size: 0.75rem;
+    ::v-deep(.oxd-text) {
+      cursor: pointer;
+      color: $oxd-primary-one-color;
+    }
+  }
+  &-nocontent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    img {
+      width: 45%;
+      margin: 1rem 0;
+      max-width: 270px;
+    }
+    p {
+      width: 60%;
+      text-align: center;
+    }
+  }
+  @include oxd-respond-to('lg') {
+    top: 9rem;
+    position: sticky;
+  }
+}

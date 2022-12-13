@@ -104,7 +104,7 @@ class PurgeServiceTest extends KernelTestCase
     {
         $purgeableEntities = $this->purgeService->getPurgeableEntities('gdpr_purge_employee_strategy');
 
-        $this->assertCount(27, $purgeableEntities);
+        $this->assertCount(32, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);

@@ -1,0 +1,101 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+JobTitle:
+  - { id: 1, jobTitleName: 'Software Architect', isDeleted: 0 }
+  - { id: 2, jobTitleName: 'Software Engineer', isDeleted: 0 }
+  - { id: 3, jobTitleName: 'Quality Assurance', isDeleted: 0 }
+  - { id: 4, jobTitleName: 'Sales Person', isDeleted: 1 }
+
+# 1=Organization
+#    2=Engineering
+#       5=Support
+#    3=QA
+#    4=Agriculture
+Subunit:
+  - { id: 1, name: 'Organization', unitId: 'company', lft: 1, rgt: 10, level: 0 }
+  - { id: 2, name: 'Engineering', unitId: 'eng', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'QA', unitId: 'qa', lft: 6, rgt: 7, level: 1 }
+  - { id: 4, name: 'Agriculture', unitId: 'ag', lft: 8, rgt: 9, level: 1 }
+  - { id: 5, name: 'Support', unitId: 'sup', lft: 3, rgt: 4, level: 2 }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "2","name": "Retired" }
+  - { "id": "6","name": "Resigned" }
+  - { "id": "9","name": "Laid-off" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "", job_title_code: 4 }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane", job_title_code: 1 }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "", work_station: 2 }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "", work_station: 5 ,"emp_sin_num": "890 785 234" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1", work_station: 3 }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" , "emp_dri_lice_num": "97204831", "emp_other_id": "78TH67845" }
+  - { "emp_number": 7,"employee_id": "0007","emp_lastname": "Collings","emp_firstname": "Paul","emp_middle_name": "", "emp_ssn_num": "790714615", "emp_work_email": "paul@example.org" }
+  - { "emp_number": 8,"employee_id": "0008","emp_lastname": "Collings","emp_firstname": "Paul","emp_middle_name": "" , "emp_dri_lice_num": "44101073", "emp_other_id": "78TH67845" }
+  - { "emp_number": 9,"employee_id": "0009","emp_lastname": "Bonaparte","emp_firstname": "Cecil","emp_middle_name": "", "emp_work_email": "cecil@example.org" }
+  - { "emp_number": 10,"employee_id": "0010","emp_lastname": "Morris","emp_firstname": "David","emp_middle_name": "" , "emp_dri_lice_num": "23464488", "emp_oth_email": "david@example.com" }
+  - { "emp_number": 11,"employee_id": "0011","emp_lastname": "Grace","emp_firstname": "Fiona","emp_middle_name": "", "emp_ssn_num": "003 06 8815", "emp_dri_lice_num": "86055639" }
+  - { "emp_number": 12,"employee_id": "0012","emp_lastname": "White","emp_firstname": "Garry","emp_middle_name": "" , "emp_other_id": "86YH34567" , "emp_sin_num": "255 345 345" }
+  - { "emp_number": 13,"employee_id": "0013","emp_lastname": "Carter","emp_firstname": "Charlie","emp_middle_name": "" , "emp_other_id": "34HJ76894" , "emp_sin_num": "945 234 567" }
+  - { "emp_number": 14,"employee_id": "0014","emp_lastname": "Jackie","emp_firstname": "Jadine","emp_middle_name": "", "emp_work_email": "jadine@example.org" }
+  - { "emp_number": 15,"employee_id": "0015","emp_lastname": "Smith","emp_firstname": "John","emp_middle_name": "", "emp_work_email": "john@example.org" }
+  - { "emp_number": 16,"emp_lastname": "White","emp_firstname": "Jacqueline","emp_middle_name": "" , "emp_other_id": "12MK56785", "emp_oth_email": "jacqueline@example.com" }
+  - { "emp_number": 17,"emp_lastname": "Mathews","emp_firstname": "Kevin","emp_middle_name": "", "emp_ssn_num": "778-62-8144", "emp_oth_email": "kevin@example.com" }
+
+Country:
+  - { cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+  - { cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+
+Location:
+  - { id: 1, name: 'Head', country_code: 'US' }
+  - { id: 2, name: 'Development', country_code: 'US' }
+  - { id: 3, name: 'Support', country_code: 'LK' }
+
+EmpLocations:
+  - { emp_number: 2, location_id: 2 }
+  - { emp_number: 3, location_id: 2 }
+  - { emp_number: 4, location_id: 2 }
+  - { emp_number: 5, location_id: 3 }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "1","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "1","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "3","erep_reporting_mode": "2" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": 0,"status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Anderson","user_password": "Anderson","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Duval","user_password": null,"deleted": 0,"status": "1","date_entered": "2021-09-15 16:48:40","created_by": "1" }
+  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": 0,"status": "1","date_entered": "2021-09-15 20:05:27","created_by": "1" }
+  - { "id": 6, "user_role_id": 2, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": 0,"status": "1","date_entered": "2021-09-15 20:50:02","created_by": "1" }
+  - { "id": 7, "user_role_id": 1, "emp_number": 6, "user_name": "Jasmine","user_password": "Jasmine","deleted": 0,"status": "1","date_entered": "2021-09-15 20:50:02","created_by": "1" }
+  - { "id": 8, "user_role_id": 1, "emp_number": 2, "user_name": "Linda","user_password": "Linda","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 9, "user_role_id": 2, "emp_number": 2, "user_name": "Jane","user_password": null,"deleted": 0,"status": "0","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 10, "user_role_id": 2, "emp_number": 3, "user_name": "Alice","user_password": "Alice","deleted": 1,"status": "1","date_entered": "2021-09-15 16:48:40","created_by": "1" }
+  - { "id": 11, "user_role_id": 2, "emp_number": 10, "user_name": "Peter","user_password": "Peter","deleted": 0,"status": "1","date_entered": "2021-09-15 16:48:40","created_by": "1" }
+
+UserAuthProvider:
+  - { "id": 1, "user_id": 8, "type": 2, "ldapUserDN": "uid=Linda.Anderson,ou=admin,ou=users,dc=example,dc=org","ldapUserUniqueId": "dd963bd8-bca1-103c-9492-f5289009f541" }
+  - { "id": 2, "user_id": 8, "type": 3 }
+  - { "id": 3, "user_id": 4, "type": 3 }
+  - { "id": 4, "user_id": 11, "type": 2, "ldapUserDN": "cn=Peter.Anderson,ou=finance,ou=users,dc=example,dc=org","ldapUserUniqueId": "df2567d0-bca1-103c-98f9-f5289009f541", "ldapUserHash": "b698c9bc564c09b72faf894827d1b141" }
+  - { "id": 5, "user_id": 10, "type": 2, "ldapUserDN": "cn=Alice,ou=finance,ou=users,dc=example,dc=org","ldapUserUniqueId": "df2567d0-bca1-103c-98f9-f5289009f541" }
+
+LDAPSyncStatus:
+  - { "id": "1","sync_started_at": "2022-10-12 01:31:00","sync_finished_at": "2022-10-12","synced_by": "1","sync_status": "1" },
+  - { "id": "2","sync_started_at": "2022-10-12 02:31:00","sync_finished_at": null,"synced_by": "1","sync_status": "0" }

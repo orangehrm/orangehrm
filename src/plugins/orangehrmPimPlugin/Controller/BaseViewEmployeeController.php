@@ -58,7 +58,7 @@ abstract class BaseViewEmployeeController extends AbstractVueController implemen
      */
     public function render(Request $request): string
     {
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->attributes->get('empNumber');
         if (empty($empNumber)) {
             throw new Exception('`empNumber` required attribute for ' . __METHOD__);
         }
@@ -85,7 +85,7 @@ abstract class BaseViewEmployeeController extends AbstractVueController implemen
      */
     public function isCapable(Request $request): bool
     {
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->attributes->get('empNumber');
         if (!$this->isEmployeeAccessible($empNumber)) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }

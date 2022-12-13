@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Core\Api\V2\Exception;
 
+use InvalidArgumentException;
+
 trait EndpointExceptionTrait
 {
     /**
@@ -75,5 +77,17 @@ trait EndpointExceptionTrait
         if (($entityClass && !$entity instanceof $entityClass) || is_null($entity)) {
             throw $this->getRecordNotFoundException($message);
         }
+    }
+
+    /**
+     * @param string $paramKey
+     * @param string|null $message
+     * @return InvalidParamException
+     */
+    protected function getInvalidParamException(string $paramKey, ?string $message = null): InvalidParamException
+    {
+        return new InvalidParamException([
+            $paramKey => new InvalidArgumentException($message ?? "Invalid parameter `$paramKey`")
+        ]);
     }
 }

@@ -1,0 +1,84 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+TerminationReason:
+  - {"id": 1,"name": "Other"}
+  - {"id": 2,"name": "Retired"}
+  - {"id": 3,"name": "Contract Not Renewed"}
+  - {"id": 4,"name": "Resigned - Company Requested"}
+  - {"id": 5,"name": "Resigned - Self Proposed"}
+  - {"id": 6,"name": "Resigned"}
+  - {"id": 7,"name": "Deceased"}
+  - {"id": 8,"name": "Physically Disabled/Compensated"}
+  - {"id": 9,"name": "Laid-off"}
+  - {"id": 10,"name": "Dismissed"}
+
+EmployeeTerminationRecord:
+  - {"id": 1,"reason_id": 2,"termination_date": "2022-11-22","note": null}
+  - {"id": 2,"reason_id": 2,"termination_date": "2022-11-15","note": null}
+
+Employee:
+  - {"emp_number": 1,"employee_id": "0001","emp_lastname": "Admin","emp_firstname": "Devi","emp_middle_name": "","termination_id": null,"purged_at": null}
+  - {"emp_number": 2,"employee_id": "0002","emp_lastname": "Perera","emp_firstname": "Sharuka","emp_middle_name": "","termination_id": 2,"purged_at": null}
+  - {"emp_number": 3,"employee_id": "0003","emp_lastname": "Employee","emp_firstname": "Purged","emp_middle_name": "","termination_id": 1,"purged_at": "2022-11-16 19:12:58"}
+  - {"emp_number": 4,"employee_id": "0004","emp_lastname": "Kumara","emp_firstname": "Rajitha","emp_middle_name": "","termination_id": null,"purged_at": null}
+
+UserRole:
+  - {"id": 1,"name": "Admin","display_name": "Admin","is_assignable": 1,"is_predefined": 1}
+  - {"id": 2,"name": "ESS","display_name": "ESS","is_assignable": 1,"is_predefined": 1}
+
+User:
+  - {"id": 1,"user_role_id": 1,"emp_number": 1,"user_name": "admin","user_password": "$2y$12$n.ADhSmL5T2CjUXOGEWp2uPhxJKC9ZylckA8o88/cbxcvU13yzPCm"}
+  - {"id": 2,"user_role_id": 2,"emp_number": 2,"user_name": "sharuka","user_password": "$2y$12$UFFhriIfI6zs6jIG8FmTi.yC2fsA1GaWPk5kxnYGDy7LHW73vT.be"}
+  - {"id": 4,"user_role_id": 2,"emp_number": 4,"user_name": "rajitha","user_password": "$2y$12$THztRJDs3zvdd/V2v7ZZ8ujPBfaAb6/zaBHAdh3S1mvS5Six5kege"}
+
+BuzzPost:
+  - {"id": 1,"employee_number": 1,"text": "Buzz Post By Admin","post_time": "2022-11-16 18:50:19","updated_at": "2022-11-16 05:50:50","post_utc_time": "2022-11-16 05:50:19","updated_utc_time": "2022-11-15 16:50:50"}
+  - {"id": 2,"employee_number": 2,"text": "Buzz Post by Sharuka","post_time": "2022-11-16 18:51:04","updated_at": "2022-11-16 18:51:04","post_utc_time": "2022-11-16 05:51:04","updated_utc_time": "2022-11-16 05:51:04"}
+  - {"id": 3,"employee_number": 3,"text": "Buzz Post by Chenuka","post_time": "2022-11-16 18:51:37","updated_at": "2022-11-16 18:51:37","post_utc_time": "2022-11-16 05:51:37","updated_utc_time": "2022-11-16 05:51:37"}
+  - {"id": 4,"employee_number": 4,"text": "Buzz Post by Rajitha","post_time": "2022-11-16 18:52:20","updated_at": "2022-11-16 18:52:20","post_utc_time": "2022-11-16 05:52:20","updated_utc_time": "2022-11-16 05:52:20"}
+  - {"id": 5,"employee_number": 1,"text": "Buzz Post by Admin 2","post_time": "2022-11-16 18:52:40","updated_at": "2022-11-16 18:52:40","post_utc_time": "2022-11-16 05:52:40","updated_utc_time": "2022-11-16 05:52:40"}
+
+BuzzShare:
+  - {"id": 1,"post_id": 1,"employee_number": 1,"number_of_likes": 3,"number_of_comments": 0,"share_time": "2022-11-16 18:50:19","type": 0,"text": null,"updated_at": "2022-11-16 05:50:30","share_utc_time": "2022-11-16 05:50:19","updated_utc_time": "2022-11-15 16:50:30"}
+  - {"id": 2,"post_id": 2,"employee_number": 2,"number_of_likes": 2,"number_of_comments": 0,"share_time": "2022-11-16 18:51:04","type": 0,"text": null,"updated_at": "2022-11-16 05:51:11","share_utc_time": "2022-11-16 05:51:04","updated_utc_time": "2022-11-15 16:51:11"}
+  - {"id": 3,"post_id": 3,"employee_number": 3,"number_of_likes": 4,"number_of_comments": 0,"share_time": "2022-11-16 18:51:37","type": 0,"text": null,"updated_at": "2022-11-16 05:51:52","share_utc_time": "2022-11-16 05:51:37","updated_utc_time": "2022-11-15 16:51:52"}
+  - {"id": 4,"post_id": 4,"employee_number": 4,"number_of_likes": 1,"number_of_comments": 0,"share_time": "2022-11-16 18:52:20","type": 0,"text": null,"updated_at": "2022-11-16 05:52:24","share_utc_time": "2022-11-16 05:52:20","updated_utc_time": "2022-11-15 16:52:24"}
+  - {"id": 5,"post_id": 5,"employee_number": 1,"number_of_likes": 0,"number_of_comments": 0,"share_time": "2022-11-16 18:52:40","type": 0,"text": null,"updated_at": "2022-11-16 18:52:40","share_utc_time": "2022-11-16 05:52:40","updated_utc_time": "2022-11-16 05:52:40"}
+
+BuzzLikeOnShare:
+  - {"id": 1,"share_id": 1,"employee_number": 1,"like_time": "2022-11-16 18:50:28","like_utc_time": "2022-11-16 05:50:28"}
+  - {"id": 2,"share_id": 1,"employee_number": 2,"like_time": "2022-11-16 18:50:29","like_utc_time": "2022-11-16 05:50:29"}
+  - {"id": 3,"share_id": 1,"employee_number": 3,"like_time": "2022-11-16 18:50:30","like_utc_time": "2022-11-16 05:50:30"}
+  - {"id": 4,"share_id": 2,"employee_number": 1,"like_time": "2022-11-16 18:51:08","like_utc_time": "2022-11-16 05:51:08"}
+  - {"id": 5,"share_id": 2,"employee_number": 3,"like_time": "2022-11-16 18:51:11","like_utc_time": "2022-11-16 05:51:11"}
+  - {"id": 6,"share_id": 3,"employee_number": 3,"like_time": "2022-11-16 18:51:40","like_utc_time": "2022-11-16 05:51:40"}
+  - {"id": 7,"share_id": 3,"employee_number": 4,"like_time": "2022-11-16 18:51:44","like_utc_time": "2022-11-16 05:51:44"}
+  - {"id": 8,"share_id": 3,"employee_number": 1,"like_time": "2022-11-16 18:51:46","like_utc_time": "2022-11-16 05:51:46"}
+  - {"id": 9,"share_id": 3,"employee_number": 2,"like_time": "2022-11-16 18:51:52","like_utc_time": "2022-11-16 05:51:52"}
+  - {"id": 10,"share_id": 4,"employee_number": 1,"like_time": "2022-11-16 18:52:24","like_utc_time": "2022-11-16 05:52:24"}
+
+BuzzComment:
+  - {"id": 1,"share_id": 1,"employee_number": 1,"number_of_likes": 3,"comment_text": "Comment by Admin","comment_time": "2022-11-17 18:14:04","updated_at": "2022-11-17 05:15:51","comment_utc_time": "2022-11-17 05:14:04","updated_utc_time": "2022-11-16 16:15:51"}
+  - {"id": 2,"share_id": 1,"employee_number": 2,"number_of_likes": 2,"comment_text": "Comment by Sharuka","comment_time": "2022-11-17 18:14:39","updated_at": "2022-11-17 05:15:57","comment_utc_time": "2022-11-17 05:14:39","updated_utc_time": "2022-11-16 16:15:57"}
+  - {"id": 3,"share_id": 1,"employee_number": 3,"number_of_likes": 3,"comment_text": "Comment by Cheunka","comment_time": "2022-11-17 18:14:55","updated_at": "2022-11-17 05:16:02","comment_utc_time": "2022-11-17 05:14:55","updated_utc_time": "2022-11-16 16:16:02"}
+  - {"id": 4,"share_id": 1,"employee_number": 4,"number_of_likes": 2,"comment_text": "Comment by Rajitha","comment_time": "2022-11-17 18:15:03","updated_at": "2022-11-17 05:16:01","comment_utc_time": "2022-11-17 05:15:03","updated_utc_time": "2022-11-16 16:16:01"}
+  - {"id": 5,"share_id": 4,"employee_number": 4,"number_of_likes": 4,"comment_text": "Comment by Rajitha","comment_time": "2022-11-17 18:15:12","updated_at": "2022-11-17 05:17:42","comment_utc_time": "2022-11-17 05:15:12","updated_utc_time": "2022-11-16 16:17:42"}
+  - {"id": 6,"share_id": 4,"employee_number": 1,"number_of_likes": 1,"comment_text": "Comment by Admin","comment_time": "2022-11-17 18:15:19","updated_at": "2022-11-17 05:16:24","comment_utc_time": "2022-11-17 05:15:19","updated_utc_time": "2022-11-16 16:16:24"}
+
+BuzzLikeOnComment:
+  - {"id": 1,"comment_id": 1,"employee_number": 1,"like_time": "2022-11-17 18:14:06","like_utc_time": "2022-11-17 05:14:06"}
+  - {"id": 2,"comment_id": 1,"employee_number": 2,"like_time": "2022-11-17 18:14:15","like_utc_time": "2022-11-17 05:14:15"}
+  - {"id": 3,"comment_id": 1,"employee_number": 3,"like_time": "2022-11-17 18:15:51","like_utc_time": "2022-11-17 05:15:51"}
+  - {"id": 4,"comment_id": 2,"employee_number": 3,"like_time": "2022-11-17 18:15:53","like_utc_time": "2022-11-17 05:15:53"}
+  - {"id": 5,"comment_id": 4,"employee_number": 3,"like_time": "2022-11-17 18:15:54","like_utc_time": "2022-11-17 05:15:54"}
+  - {"id": 6,"comment_id": 3,"employee_number": 4,"like_time": "2022-11-17 18:15:55","like_utc_time": "2022-11-17 05:15:55"}
+  - {"id": 7,"comment_id": 2,"employee_number": 4,"like_time": "2022-11-17 18:15:57","like_utc_time": "2022-11-17 05:15:57"}
+  - {"id": 8,"comment_id": 3,"employee_number": 2,"like_time": "2022-11-17 18:16:00","like_utc_time": "2022-11-17 05:16:00"}
+  - {"id": 9,"comment_id": 4,"employee_number": 1,"like_time": "2022-11-17 18:16:01","like_utc_time": "2022-11-17 05:16:01"}
+  - {"id": 10,"comment_id": 3,"employee_number": 1,"like_time": "2022-11-17 18:16:02","like_utc_time": "2022-11-17 05:16:02"}
+  - {"id": 11,"comment_id": 5,"employee_number": 2,"like_time": "2022-11-17 18:16:18","like_utc_time": "2022-11-17 05:16:18"}
+  - {"id": 12,"comment_id": 6,"employee_number": 1,"like_time": "2022-11-17 18:16:24","like_utc_time": "2022-11-17 05:16:24"}
+  - {"id": 13,"comment_id": 5,"employee_number": 4,"like_time": "2022-11-17 18:17:31","like_utc_time": "2022-11-17 05:17:31"}
+  - {"id": 14,"comment_id": 5,"employee_number": 3,"like_time": "2022-11-17 18:17:33","like_utc_time": "2022-11-17 05:17:33"}
+  - {"id": 15,"comment_id": 5,"employee_number": 1,"like_time": "2022-11-17 18:17:42","like_utc_time": "2022-11-17 05:17:42"}

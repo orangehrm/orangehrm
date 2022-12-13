@@ -20,9 +20,12 @@
 namespace OrangeHRM\Maintenance\Service;
 
 use Exception;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Maintenance\Dao\PurgeDao;
 use OrangeHRM\Maintenance\Dto\InfoArray;
+use OrangeHRM\Maintenance\Event\MaintenanceEvent;
+use OrangeHRM\Maintenance\Event\PurgeEmployee;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
 use OrangeHRM\ORM\Exception\TransactionException;
 use Symfony\Component\Yaml\Yaml;
@@ -30,6 +33,7 @@ use Symfony\Component\Yaml\Yaml;
 class PurgeService
 {
     use EntityManagerHelperTrait;
+    use EventDispatcherTrait;
 
     private const GDPR_PURGE_EMPLOYEE = 'gdpr_purge_employee_strategy';
     private const GDPR_PURGE_CANDIDATE = 'gdpr_purge_candidate_strategy';
@@ -69,7 +73,17 @@ class PurgeService
                 }
             }
             $this->getEntityManager()->flush();
+
+            $this->getEventDispatcher()->dispatch(
+                new PurgeEmployee($empNumber),
+                MaintenanceEvent::PURGE_EMPLOYEE_END
+            );
             $this->commitTransaction();
+
+            $this->getEventDispatcher()->dispatch(
+                new PurgeEmployee($empNumber),
+                MaintenanceEvent::PURGE_EMPLOYEE_FINISHED
+            );
         } catch (Exception $exception) {
             $this->rollBackTransaction();
             throw new TransactionException($exception);
@@ -128,7 +142,7 @@ class PurgeService
         string $strategy,
         InfoArray $infoArray
     ): PurgeStrategy {
-        $purgeStrategyClass = 'OrangeHRM\\Maintenance\\PurgeStrategy\\' . $strategy . "PurgeStrategy";
+        $purgeStrategyClass = 'OrangeHRM\\Maintenance\\PurgeStrategy\\' . $strategy . 'PurgeStrategy';
         return new $purgeStrategyClass($purgeableEntityClassName, $infoArray);
     }
 }

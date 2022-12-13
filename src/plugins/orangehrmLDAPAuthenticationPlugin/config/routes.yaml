@@ -1,0 +1,22 @@
+apiv2_admin_ldap_configuration:
+  path: /api/v2/admin/ldap-config
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\LDAP\Api\LDAPConfigAPI
+
+apiv2_admin_ldap_test_connection:
+  path: /api/v2/admin/ldap-test-connection
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\LDAP\Api\LDAPTestConnectionAPI
+
+apiv2_admin_ldap_user_sync:
+  path: /api/v2/admin/ldap/user-sync
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\LDAP\Api\LDAPUserSyncAPI

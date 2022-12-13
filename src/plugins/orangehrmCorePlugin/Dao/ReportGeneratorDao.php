@@ -30,12 +30,15 @@ use OrangeHRM\Entity\SelectedDisplayField;
 use OrangeHRM\Entity\SelectedDisplayFieldGroup;
 use OrangeHRM\Entity\SelectedFilterField;
 use OrangeHRM\Entity\SummaryDisplayField;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 
 class ReportGeneratorDao extends BaseDao
 {
+    use I18NHelperTrait;
+
     /**
      * @param int $reportId
      * @return DisplayField[]
@@ -430,6 +433,40 @@ class ReportGeneratorDao extends BaseDao
             ->setParameter('reportId', $reportId);
         $q->andWhere('sff.filterFieldOrder != :order')
             ->setParameter('order', 1);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @return DisplayFieldGroup[]
+     */
+    public function getAllDisplayFieldGroups(): array
+    {
+        $q = $this->createQueryBuilder(DisplayFieldGroup::class, 'displayFieldGroup');
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @return DisplayField[]
+     */
+    public function getAllDisplayFields(): array
+    {
+        $q = $this->createQueryBuilder(DisplayField::class, 'displayField');
+        $q->andWhere($q->expr()->isNotNull('displayFieldGroup.id'))
+            ->leftJoin('displayField.displayFieldGroup', 'displayFieldGroup');
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @return FilterField[]
+     */
+    public function getAllFilterFields(): array
+    {
+        $q = $this->createQueryBuilder(FilterField::class, 'filterField');
+        $q->leftJoin('filterField.reportGroup', 'reportGroup')
+            ->andWhere('reportGroup.name = :pimReportGroup')
+            ->setParameter('pimReportGroup', 'pim')
+            ->andWhere('filterField.name != :includeFilter')
+            ->setParameter('includeFilter', 'include');
         return $q->getQuery()->execute();
     }
 }

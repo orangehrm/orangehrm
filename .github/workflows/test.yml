@@ -7,7 +7,7 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     services:
       mysql:
@@ -16,10 +16,15 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+          --tmpfs /var/lib/mysql/
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Validate composer.json and composer.lock
         run: |
@@ -40,7 +45,25 @@ jobs:
         run: |
           php7.4 installer/cli_install.php
           mysqldump -V
-          php7.4 devTools/core/console.php i:create-test-db -p root
+          php7.4 devTools/core/console.php i:create-test-db -p root --dump-options="--column-statistics=0"
+
+      - name: Configure LDAP server
+        if: "${{ github.event_name == 'push' }}"
+        run: |
+          cd src/plugins/orangehrmLDAPAuthenticationPlugin/test/config
+          docker run --detach --rm --name openldap \
+            --network ${{ job.container.network }} \
+            -p 389:1389 \
+            -e LDAP_ADMIN_USERNAME=admin \
+            -e LDAP_ADMIN_PASSWORD=admin \
+            -e LDAP_ROOT=dc=example,dc=org \
+            -e LDAP_CONFIG_ADMIN_ENABLED=yes \
+            -e LDAP_CONFIG_ADMIN_USERNAME=admin \
+            -e LDAP_CONFIG_ADMIN_PASSWORD=admin \
+            -e LDAP_SKIP_DEFAULT_TREE=yes \
+            -v $PWD/ldifs:/ldifs \
+            bitnami/openldap:latest
+          cat server-config.tpl.yaml > server-config.yaml
 
       - name: Run Jest
         run: |
@@ -53,22 +76,33 @@ jobs:
           tar cf - coverage/ | xz -z - > coverage.tar.xz
 
       - name: Upload jest coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: jest-coverage
           path: src/client/coverage
 
       - name: Upload phpunit coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: coverage.tar.xz
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: logs
+          path: src/log
+
+      - name: Stop LDAP container
+        if: "${{ github.event_name == 'push' && always() }}"
+        run: docker stop openldap
 
   composer_check:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Validate composer.json and composer.lock
         run: |
@@ -104,7 +138,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install dependencies
         run: |

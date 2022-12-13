@@ -112,10 +112,11 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import SupervisorAutoComplete from '@/orangehrmPerformancePlugin/components/SupervisorAutoComplete';
 import {APIService} from '@/core/util/services/api.service';
 import {
-  endDateShouldBeAfterStartDate,
   required,
-  startDateShouldBeBeforeEndDate,
+  validSelection,
   validDateFormat,
+  endDateShouldBeAfterStartDate,
+  startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
 import useForm from '@/core/util/composable/useForm';
 import useDateFormat from '@/core/util/composable/useDateFormat';
@@ -154,8 +155,8 @@ export default {
       isLoading: false,
       review: {...reviewModel},
       rules: {
-        employee: [required],
-        supervisorReviewer: [required],
+        employee: [required, validSelection],
+        supervisorReviewer: [required, validSelection],
         startDate: [
           required,
           validDateFormat(this.userDateFormat),

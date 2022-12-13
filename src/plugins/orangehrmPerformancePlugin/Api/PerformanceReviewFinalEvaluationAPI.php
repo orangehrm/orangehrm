@@ -62,6 +62,36 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
     public const PARAM_RULE_FINAL_RATING_MAX_VALUE = 100;
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/performance/reviews/{reviewId}/evaluation/final",
+     *     tags={"Performance/Review Evaluation"},
+     *     @OA\PathParameter(
+     *         name="reviewId",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="finalRating", type="string"),
+     *             @OA\Property(property="completedDate", type="number"),
+     *             @OA\Property(property="finalComment", type="string"),
+     *             @OA\Property(property="complete", type="string"),
+     *             required={"finalRating", "completedDate", "finalComment", "complete"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Performance-ReviewerRatingModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult
@@ -205,6 +235,27 @@ class PerformanceReviewFinalEvaluationAPI extends Endpoint implements ResourceEn
     }
 
     /**
+     *@OA\Get(
+     *     path="/api/v2/performance/reviews/{reviewId}/evaluation/final",
+     *     tags={"Performance/Review Evaluation"},
+     * @OA\PathParameter(
+     *     name="reviewId",
+     *     @OA\Schema(type="integer")
+     * ),
+     * @OA\Response(
+     *     response="200",
+     *     description="Success",
+     *     @OA\JsonContent(
+     *         @OA\Property(
+     *             property="data",
+     *             ref="#/components/schemas/Performance-CompletedPerformanceReviewModel"
+     *         ),
+     *         @OA\Property(property="meta", type="object")
+     *     )
+     * ),
+     * @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

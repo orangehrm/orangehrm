@@ -72,19 +72,19 @@ class Vacancy
 
     /**
      * @var int |null
-     * @ORM\Column(name="no_of_positions", type="integer", length=13,nullable=true)
+     * @ORM\Column(name="no_of_positions", type="integer", length=13, nullable=true)
      */
     private ?int $numOfPositions = null;
 
     /**
      * @var bool
-     * @ORM\Column(name="status",type="boolean", options={"default":1})
+     * @ORM\Column(name="status", type="boolean", options={"default" : 1})
      */
     private bool $status = true;
 
     /**
      * @var bool
-     * @ORM\Column(name="published_in_feed", type="boolean", options={"default":0})
+     * @ORM\Column(name="published_in_feed", type="boolean", options={"default" : 0})
      */
     private bool $isPublished = false;
 
@@ -96,7 +96,7 @@ class Vacancy
 
     /**
      * @var DateTime
-     * @ORM\Column(name="updated_time",type="datetime")
+     * @ORM\Column(name="updated_time", type="datetime")
      */
     private DateTime $updatedTime;
 

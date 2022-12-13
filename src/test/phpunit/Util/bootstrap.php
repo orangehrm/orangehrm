@@ -21,6 +21,7 @@ use Doctrine\DBAL\Exception\ConnectionException;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 use OrangeHRM\Tests\Util\CoreFixtureService;
 
 define('ENVIRONMENT', 'test');
@@ -49,6 +50,8 @@ try {
         $e->getMessage()
     );
     die;
+} catch (ConfigNotFoundException $e) {
+    die($e->getMessage() . "\n\n");
 }
 
 $coreFixtureService = new CoreFixtureService();

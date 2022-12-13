@@ -23,6 +23,16 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\ReviewerRating;
 
+/**
+ * @OA\Schema(
+ *     schema="Performance-KpiSummaryModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="title", type="string"),
+ *     @OA\Property(property="minRating", type="integer"),
+ *     @OA\Property(property="maxRating", type="integer")
+ * )
+ */
 class KpiSummaryModel implements Normalizable
 {
     use ModelTrait;

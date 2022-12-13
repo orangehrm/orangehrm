@@ -55,6 +55,31 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
     public const META_PARAMETER_CURRENT_LEAVE_PERIOD = 'currentLeavePeriod';
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/leave-period",
+     *     tags={"Leave/Configure"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeavePeriodHistoryModel"
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="currentLeavePeriod",
+     *                     ref="#/components/schemas/Leave-LeavePeriodModel"
+     *                 ),
+     *                 @OA\Property(property="leavePeriodDefined", type="boolean"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult
@@ -103,6 +128,31 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/leave-periods",
+     *     tags={"Leave/Configure"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeavePeriodModel"
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="currentLeavePeriod",
+     *                     ref="#/components/schemas/Leave-LeavePeriodModel"
+     *                 ),
+     *                 @OA\Property(property="leavePeriodDefined", type="boolean"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointResult
@@ -129,6 +179,37 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/leave/leave-period",
+     *     tags={"Leave/Configure"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="startDay", type="integer"),
+     *             @OA\Property(property="startMonth", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Leave-LeavePeriodHistoryModel"
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="currentLeavePeriod",
+     *                     ref="#/components/schemas/Leave-LeavePeriodModel"
+     *                 ),
+     *                 @OA\Property(property="leavePeriodDefined", type="boolean"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResult

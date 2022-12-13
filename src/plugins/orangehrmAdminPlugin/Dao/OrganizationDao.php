@@ -23,6 +23,8 @@ use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Organization;
+use OrangeHRM\Entity\Subunit;
+use OrangeHRM\ORM\Exception\TransactionException;
 
 class OrganizationDao extends BaseDao
 {
@@ -46,15 +48,31 @@ class OrganizationDao extends BaseDao
     /**
      * @param Organization $organization
      * @return Organization
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function saveOrganizationGeneralInformation(Organization $organization): Organization
     {
+        $this->beginTransaction();
         try {
             $this->persist($organization);
+            $this->updateOrganizationStructure($organization);
+            $this->commitTransaction();
             return $organization;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
         }
+    }
+
+    /**
+     * @param Organization $organization
+     * @return void
+     */
+    private function updateOrganizationStructure(Organization $organization): void
+    {
+        $baseUnit = $this->getRepository(Subunit::class)->findOneBy(['level' => 0]);
+        /** @var Subunit $baseUnit */
+        $baseUnit->setName($organization->getName());
+        $this->persist($baseUnit);
     }
 }

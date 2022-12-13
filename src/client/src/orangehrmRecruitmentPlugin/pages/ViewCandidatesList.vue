@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-candidate-page">
     <oxd-table-filter :filter-title="$t('general.candidates')">
-      <oxd-form @submitValid="filterItems">
+      <oxd-form @submitValid="filterItems" @reset="onReset">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -43,7 +43,10 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <candidate-autocomplete v-model="filters.candidate" />
+              <candidate-autocomplete
+                v-model="filters.candidate"
+                :rules="rules.candidate"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -88,16 +91,11 @@
 
         <oxd-form-actions>
           <oxd-button
+            type="reset"
             display-type="ghost"
             :label="$t('general.reset')"
-            @click="onClickReset"
           />
-          <oxd-button
-            class="orangehrm-left-space"
-            display-type="secondary"
-            :label="$t('general.search')"
-            type="submit"
-          />
+          <submit-button :label="$t('general.search')" />
         </oxd-form-actions>
       </oxd-form>
     </oxd-table-filter>
@@ -148,6 +146,7 @@
 <script>
 import {computed, ref} from 'vue';
 import {
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -175,7 +174,7 @@ const defaultFilters = {
   status: null,
   keywords: null,
   application: null,
-  candidate: '',
+  candidate: null,
   fromDate: null,
   toDate: null,
 };
@@ -197,7 +196,16 @@ export default {
     'hiring-manager-dropdown': HiringManagerDropdown,
     'candidate-status-dropdown': CandidateStatusDropdown,
   },
-  setup() {
+
+  props: {
+    status: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
+
+  setup(props) {
     const {$t} = usei18n();
     const {locale} = useLocale();
     const {jsDateFormat, userDateFormat} = useDateFormat();
@@ -231,8 +239,12 @@ export default {
         };
       });
     };
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      ...defaultFilters,
+      ...(props.status && {status: props.status}),
+    });
     const rules = {
+      candidate: [validSelection],
       fromDate: [
         validDateFormat(userDateFormat),
         startDateShouldBeBeforeEndDate(
@@ -453,7 +465,7 @@ export default {
     async filterItems() {
       await this.execQuery();
     },
-    onClickReset() {
+    onReset() {
       this.filters = {...defaultFilters};
       this.filterItems();
     },

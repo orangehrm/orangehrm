@@ -26,6 +26,7 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.empNumber"
+                :rules="rules.employee"
                 :params="{
                   includeEmployees: 'currentAndPast',
                 }"
@@ -94,6 +95,7 @@ import {computed, ref} from 'vue';
 import useSort from '@/core/util/composable/useSort';
 import {navigate} from '@/core/util/helper/navigation';
 import useLocale from '@/core/util/composable/useLocale';
+import {validSelection} from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
 import useDateFormat from '@/core/util/composable/useDateFormat';
@@ -253,6 +255,9 @@ export default {
         },
       ],
       checkedItems: [],
+      rules: {
+        employee: [validSelection],
+      },
     };
   },
 

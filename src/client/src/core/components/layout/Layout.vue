@@ -19,7 +19,7 @@
           {{ $t('general.support') }}
         </a>
       </li>
-      <li>
+      <li v-if="updatePasswordUrl">
         <a
           :href="updatePasswordUrl"
           role="menuitem"

@@ -24,19 +24,22 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Pim\Dto\PartialEmployeeAttachment;
 
 class EmployeeAttachmentDao extends BaseDao
 {
     /**
      * @param int $empNumber
      * @param string $screen
-     * @return EmployeeAttachment[]
+     * @return PartialEmployeeAttachment[]
      * @throws DaoException
      */
     public function getEmployeeAttachments(int $empNumber, string $screen): array
     {
         try {
+            $select = 'NEW ' . PartialEmployeeAttachment::class . "(a.attachId,a.description,a.filename,a.size,a.fileType,a.attachedBy,a.attachedByName,a.attachedTime)";
             $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
+            $q->select($select);
             $q->andWhere('a.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
             $q->andWhere('a.screen = :screen')
@@ -71,6 +74,27 @@ class EmployeeAttachmentDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param int $empNumber
+     * @param int $attachId
+     * @param string|null $screen
+     * @return PartialEmployeeAttachment|null
+     */
+    public function getPartialEmployeeAttachment(int $empNumber, int $attachId, ?string $screen): ?PartialEmployeeAttachment
+    {
+        $select = 'NEW ' . PartialEmployeeAttachment::class . "(a.attachId,a.description,a.filename,a.size,a.fileType,a.attachedBy,a.attachedByName,a.attachedTime)";
+        $q = $this->createQueryBuilder(EmployeeAttachment::class, 'a');
+        $q->select($select);
+        $q->andWhere('a.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        $q->andWhere('a.screen = :screen')
+            ->setParameter('screen', $screen);
+        $q->andWhere('a.attachId = :attachId')
+            ->setParameter('attachId', $attachId);
+        $q->addOrderBy('a.attachId', ListSorter::ASCENDING);
+        return $q->getQuery()->getOneOrNullResult();
     }
 
     /**

@@ -24,6 +24,78 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeaveRequestDetailedModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="dates",
+ *         type="object",
+ *         @OA\Property(
+ *             property="durationType",
+ *             type="object",
+ *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="type", type="string"),
+ *         ),
+ *         @OA\Property(property="endTime", type="number"),
+ *         @OA\Property(property="fromDate", type="number"),
+ *         @OA\Property(property="startTime", type="number"),
+ *         @OA\Property(property="toDate", type="number")
+ *     ),
+ *     @OA\Property(property="noOfDays", type="integer"),
+ *     @OA\Property(
+ *         property="leaveBalances",
+ *         type="array",
+ *         @OA\Items(
+ *             @OA\Property(property="period", ref="#/components/schemas/Leave-LeavePeriodModel"),
+ *             @OA\Property(property="balance", ref="#/components/schemas/Leave-LeaveBalanceModel"),
+ *         )
+ *     ),
+ *     @OA\Property(property="multiPeriod", type="boolean"),
+ *     @OA\Property(
+ *         property="leaveBreakdown",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="lengthDays", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="allowedActions",
+ *         type="array",
+ *         @OA\Items(
+ *             @OA\Property(property="action", type="string"),
+ *             @OA\Property(property="name", type="string"),
+ *         )
+ *     ),
+ *     @OA\Property(property="hasMultipleStatus", type="boolean"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ *     @OA\Property(
+ *         property="leaveType",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean"),
+ *     ),
+ *     @OA\Property(
+ *         property="lastComment",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="comment", type="string"),
+ *         @OA\Property(property="date", type="number"),
+ *         @OA\Property(property="time", type="number"),
+ *     ),
+ * )
+ */
 class LeaveRequestDetailedModel implements Normalizable
 {
     use DateTimeHelperTrait;

@@ -22,7 +22,6 @@ namespace OrangeHRM\Admin\Service;
 use OrangeHRM\Admin\Dao\CountryDao;
 use OrangeHRM\Admin\Service\Model\CountryModel;
 use OrangeHRM\Admin\Service\Model\ProvinceModel;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\Province;
@@ -58,7 +57,6 @@ class CountryService
     /**
      * Get Country list
      * @return Country[]
-     * @throws DaoException
      */
     public function getCountryList(): array
     {
@@ -78,7 +76,6 @@ class CountryService
      * Get Country By Country Name
      * @param string $countryName
      * @return Country|null
-     * @throws DaoException
      */
     public function getCountryByCountryName(string $countryName): ?Country
     {
@@ -90,7 +87,6 @@ class CountryService
      *
      * @param string $countryCode
      * @return Country|null
-     * @throws DaoException
      */
     public function getCountryByCountryCode(string $countryCode): ?Country
     {
@@ -100,7 +96,6 @@ class CountryService
     /**
      * @param string $provinceCode
      * @return Province|null
-     * @throws DaoException
      */
     public function getProvinceByProvinceCode(string $provinceCode): ?Province
     {

@@ -126,7 +126,7 @@ class Candidate
     /**
      * @var Employee|null
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="candidates", cascade={"persist"})
-     * @ORM\JoinColumn(name="added_person", referencedColumnName="emp_number",nullable=true)
+     * @ORM\JoinColumn(name="added_person", referencedColumnName="emp_number", nullable=true)
      */
     private ?Employee $addedPerson = null;
 

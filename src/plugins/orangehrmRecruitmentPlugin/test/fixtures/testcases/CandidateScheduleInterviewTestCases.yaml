@@ -274,3 +274,139 @@ Create:
       interviewerEmpNumbers: [ 1,2,3,4 ]
       note: 'Will be delayed due to the power cuts'
     invalidOnly: [ 'interviewDate' ]
+
+GetOne:
+  'Get Interview':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 5
+      interviewId: 1
+    data:
+      id: 1
+      name: 'Test interview 01'
+      candidate:
+        id: 5
+        firstName: 'Charles'
+        middleName: ''
+        lastName: 'Haywire'
+      vacancy:
+        id: 2
+        name: 'Senior Technical Supervisor'
+      "interviewers": [
+        {
+          "empNumber": 1,
+          "lastName": "Abbey",
+          "firstName": "Kayla",
+          "middleName": "T",
+          "terminationId": null
+        },
+        {
+          "empNumber": 2,
+          "lastName": "Abel",
+          "firstName": "Ashley",
+          "middleName": "ST",
+          "terminationId": null
+        },
+      ],
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00'
+      note: 'Will be delayed due to the power cuts'
+    meta:
+      historyId: 1
+
+  'Get Interview - Record not found':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 5
+      interviewId: 5
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+Update:
+  'Update interview':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 5
+      interviewId: 1
+    body:
+      interviewName: 'Test interview - Updated'
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00'
+      interviewerEmpNumbers: [ 1,2 ]
+      note: 'Will be delayed due to the power cuts'
+    data:
+      id: 1
+      name: 'Test interview - Updated'
+      candidate:
+        id: 5
+        firstName: 'Charles'
+        middleName: ''
+        lastName: 'Haywire'
+      vacancy:
+        id: 2
+        name: 'Senior Technical Supervisor'
+      "interviewers": [
+        {
+          "empNumber": 1,
+          "lastName": "Abbey",
+          "firstName": "Kayla",
+          "middleName": "T",
+          "terminationId": null
+        },
+        {
+          "empNumber": 2,
+          "lastName": "Abel",
+          "firstName": "Ashley",
+          "middleName": "ST",
+          "terminationId": null
+        }
+      ],
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00'
+      note: 'Will be delayed due to the power cuts'
+    meta:
+      historyId: 3
+
+  'Update interview - No interview found for candidate':
+    userId: 1
+    services:
+      recruitment.candidate_service: \OrangeHRM\Recruitment\Service\CandidateService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      candidateId: 5
+      interviewId: 7
+    body:
+      interviewName: 'Test interview - Updated'
+      interviewDate: '2022-10-05'
+      interviewTime: '05:00'
+      interviewerEmpNumbers: [ 1,2 ]
+      note: 'Will be delayed due to the power cuts'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'

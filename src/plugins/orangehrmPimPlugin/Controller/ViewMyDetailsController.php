@@ -21,18 +21,18 @@ namespace OrangeHRM\Pim\Controller;
 
 use OrangeHRM\Core\Controller\AbstractModuleController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Framework\Http\RedirectResponse;
 
 class ViewMyDetailsController extends AbstractModuleController
 {
     use AuthUserTrait;
 
     /**
-     * @return Response
+     * @return RedirectResponse
      */
-    public function handle(): Response
+    public function handle(): RedirectResponse
     {
         $empNumber = $this->getAuthUser()->getEmpNumber();
-        return $this->forward(EmployeePersonalDetailController::class . '::handle', ['empNumber' => $empNumber]);
+        return $this->redirect("/pim/viewPersonalDetails/empNumber/$empNumber");
     }
 }

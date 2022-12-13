@@ -20,7 +20,7 @@
 namespace OrangeHRM\Framework;
 
 use Exception;
-use Monolog\Handler\StreamHandler;
+use OrangeHRM\Authentication\Auth\AuthProviderChain;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Subscriber\LoggerSubscriber;
 use OrangeHRM\Framework\Event\EventDispatcher;
@@ -28,6 +28,7 @@ use OrangeHRM\Framework\Http\ControllerResolver;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
 use OrangeHRM\Framework\Logger\Logger;
+use OrangeHRM\Framework\Logger\LoggerFactory;
 use OrangeHRM\Framework\Routing\RequestContext;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Routing\UrlMatcher;
@@ -80,18 +81,14 @@ class Framework extends HttpKernel
         ServiceContainer::getContainer()->set(Services::HTTP_KERNEL, $this);
         ServiceContainer::getContainer()->register(Services::DOCTRINE)
             ->setFactory([Doctrine::class, 'getEntityManager']);
+        ServiceContainer::getContainer()->register(Services::AUTH_PROVIDER_CHAIN, AuthProviderChain::class);
     }
 
     protected function configureLogger(): void
     {
-        $logger = new Logger('orangehrm');
-        $logger->pushHandler(
-            new StreamHandler(
-                Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'orangehrm.log',
-                $this->isDebug() ? Logger::DEBUG : Logger::WARNING
-            )
-        );
-        ServiceContainer::getContainer()->set(Services::LOGGER, $logger);
+        ServiceContainer::getContainer()->register(Services::LOGGER)
+            ->setFactory([LoggerFactory::class, 'getLogger'])
+            ->addArgument('orangehrm');
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
@@ -133,7 +130,7 @@ class Framework extends HttpKernel
 
     protected function configurePlugins(Request $request): void
     {
-        $pluginConfigs = Config::get('ohrm_plugin_configs');
+        $pluginConfigs = Config::get(Config::PLUGIN_CONFIGS);
         foreach (array_values($pluginConfigs) as $pluginConfig) {
             require_once $pluginConfig['filepath'];
             /** @var PluginConfigurationInterface $configClass */

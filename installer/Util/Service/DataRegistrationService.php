@@ -19,31 +19,26 @@
 
 namespace OrangeHRM\Installer\Util\Service;
 
-use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Installer\Util\Logger;
+use Throwable;
 
 class DataRegistrationService
 {
-    private ?Client $httpClient = null;
+    private Client $httpClient;
 
     /**
      * @return Client
      */
     private function getHttpClient(): Client
     {
-        if (!isset($this->httpClient)) {
-            $this->httpClient = new Client(['base_uri' => Config::REGISTRATION_URL]);
-        }
-        return $this->httpClient;
+        return $this->httpClient ??= new Client(['base_uri' => Config::REGISTRATION_URL]);
     }
 
     /**
      * @param array $body
      * @return bool
-     * @throws GuzzleException
      */
     public function sendRegistrationData(array $body): bool
     {
@@ -60,7 +55,7 @@ class DataRegistrationService
                 return true;
             }
             return false;
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             Logger::getLogger()->error($exception->getMessage());
             Logger::getLogger()->error($exception->getTraceAsString());
             return false;

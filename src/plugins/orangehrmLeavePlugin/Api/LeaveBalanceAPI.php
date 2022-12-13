@@ -130,6 +130,59 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/leave/leave-balance/leave-type/{leaveTypeId}",
+     *     tags={"Leave/Leave Balance"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         description="Not needed if getting the leave balance of logged in user",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="balance",
+     *                         type="object",
+     *                         @OA\Property(property="asAtDate", type="number", example="2022-10-01"),
+     *                         @OA\Property(property="balance", type="integer"),
+     *                         @OA\Property(property="endDate", type="number", example="2022-12-31"),
+     *                         @OA\Property(property="entitled", type="integer"),
+     *                         @OA\Property(property="pending", type="integer"),
+     *                         @OA\Property(property="scheduled", type="integer"),
+     *                         @OA\Property(property="taken", type="integer"),
+     *                         @OA\Property(property="used", type="integer")
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="employee",
+     *                     ref="#/components/schemas/Pim-EmployeeModel"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="leaveType",
+     *                     ref="#/components/schemas/Leave-LeaveTypeModel"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResult

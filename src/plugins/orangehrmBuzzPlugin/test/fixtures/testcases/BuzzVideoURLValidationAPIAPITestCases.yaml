@@ -1,0 +1,169 @@
+GetOne:
+  'Validate Buzz Youtube Video URL - Type 01 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'https://youtu.be/JGkxRVEzUz0?list=PLW9NCQftUhFjMUjjWooQmvLGdkOgXr_pY'
+    data:
+      valid: true
+      url: 'https://youtu.be/JGkxRVEzUz0?list=PLW9NCQftUhFjMUjjWooQmvLGdkOgXr_pY'
+      embeddedURL: 'https://www.youtube.com/embed/JGkxRVEzUz0'
+    meta: [ ]
+  'Validate Buzz Vimeo Video URL - Type 01 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'https://vimeo.com/732689681'
+    data:
+      valid: true
+      url: 'https://vimeo.com/732689681'
+      embeddedURL: 'https://player.vimeo.com/video/732689681'
+    meta: [ ]
+  'Validate Buzz Dailymotion Video URL - Type 01 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'https://www.dailymotion.com/video/x8fi3pm?playlist=x6hzyp'
+    data:
+      valid: true
+      url: 'https://www.dailymotion.com/video/x8fi3pm?playlist=x6hzyp'
+      embeddedURL: 'https://www.dailymotion.com/embed/video/x8fi3pm'
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL - Type 02 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'https://youtu.be/oTJRivZTMLs?list=PLToa5JuFMsXTNkrLJbRlB--76IAOjRM9b'
+    data:
+      valid: true
+      url: 'https://youtu.be/oTJRivZTMLs?list=PLToa5JuFMsXTNkrLJbRlB--76IAOjRM9b'
+      embeddedURL: 'https://www.youtube.com/embed/oTJRivZTMLs'
+    meta: [ ]
+  'Validate Buzz Vimeo Video URL - Type 02 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'https://vimeo.com/253989945'
+    data:
+      valid: true
+      url: 'https://vimeo.com/253989945'
+      embeddedURL: 'https://player.vimeo.com/video/253989945'
+    meta: [ ]
+  'Validate Buzz Dailymotion Video URL - Type 02 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'https://dai.ly/x2rnn2s'
+    data:
+      valid: true
+      url: 'https://dai.ly/x2rnn2s'
+      embeddedURL: 'https://www.dailymotion.com/embed/video/x2rnn2s'
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL - Type 03 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'https://www.youtube.com/watch?v=4dDP_1lGbYs&t=4s'
+    data:
+      valid: true
+      url: 'https://www.youtube.com/watch?v=4dDP_1lGbYs&t=4s'
+      embeddedURL: 'https://www.youtube.com/embed/4dDP_1lGbYs'
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL oldest video - Type 04 - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw'
+    data:
+      valid: true
+      url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw'
+      embeddedURL: 'https://www.youtube.com/embed/jNQXAC9IVRw'
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL with start at tag- Type 05 - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: 'https://youtu.be/s3unDu3QfW0?t=13'
+    data:
+      valid: true
+      url: 'https://youtu.be/s3unDu3QfW0?t=13'
+      embeddedURL: 'https://www.youtube.com/embed/s3unDu3QfW0'
+    meta: [ ]
+
+  'Validate Buzz Video URL - No URL Given - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: ''
+    invalidOnly: ['url']
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL- wrong url type - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: 'https://youtu.be/###/s3unDu3QfW0?t=13'
+    data:
+      valid: false
+      url: null
+      embeddedURL: null
+    meta: [ ]
+
+  'Validate Buzz Vimeo Video URL- wrong url type - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: 'https://vimeo.com/###/253989945'
+    data:
+      valid: false
+      url: null
+      embeddedURL: null
+    meta: [ ]
+
+  'Validate Buzz Dailymotion Video URL- wrong url type - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: 'https://dai.ly/###/253989945'
+    data:
+      valid: false
+      url: null
+      embeddedURL: null
+    meta: [ ]
+
+  'Validate Buzz Youtube Shorts Video URL - Admin User':
+    userId: 1
+    body: [ ]
+    query:
+      url: 'https://www.youtube.com/shorts/Fsa34Mo439qI0'
+    data:
+      valid: true
+      url: 'https://www.youtube.com/shorts/Fsa34Mo439qI0'
+      embeddedURL: 'https://www.youtube.com/embed/Fsa34Mo439qI0'
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL - Type 04 - ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'http://www.youtube.com/v/-wtIMTCHWuI?version=3&autohide=1'
+    data:
+      valid: true
+      url: 'http://www.youtube.com/v/-wtIMTCHWuI?version=3&autohide=1'
+      embeddedURL: 'https://www.youtube.com/embed/-wtIMTCHWuI'
+    meta: [ ]
+
+  'Validate Buzz Youtube Video URL - Type 05- ESS User':
+    userId: 2
+    body: [ ]
+    query:
+      url: 'http://www.youtube.com/attribution_link?a=JdfC0C9V6ZI&u=%2Fwatch%3Fv%3DEhxJLojIE_o%26feature%3Dshare'
+    data:
+      valid: true
+      url: 'http://www.youtube.com/attribution_link?a=JdfC0C9V6ZI&u=%2Fwatch%3Fv%3DEhxJLojIE_o%26feature%3Dshare'
+      embeddedURL: 'https://www.youtube.com/embed/EhxJLojIE_o'
+    meta: [ ]

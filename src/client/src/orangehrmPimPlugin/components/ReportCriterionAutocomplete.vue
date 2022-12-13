@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {required} from '@ohrm/core/util/validation/rules';
+import {required, validSelection} from '@ohrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 export default {
@@ -58,7 +58,7 @@ export default {
   },
   emits: ['update:valueX', 'update:operator'],
   setup(_, context) {
-    const rules = [required];
+    const rules = [required, validSelection];
     context.emit('update:operator', {id: 'eq', label: 'Equal'});
 
     return {

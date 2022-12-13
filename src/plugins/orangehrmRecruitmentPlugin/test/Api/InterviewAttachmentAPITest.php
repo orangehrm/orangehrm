@@ -101,4 +101,22 @@ class InterviewAttachmentAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('InterviewAttachmentTestCases.yaml', 'Update');
     }
+
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('InterviewAttachmentAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(InterviewAttachmentAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
+    }
+
+    public function dataProviderForTestDelete(): array
+    {
+        return $this->getTestCases('InterviewAttachmentTestCases.yaml', 'Delete');
+    }
 }

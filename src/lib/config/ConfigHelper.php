@@ -33,19 +33,20 @@ class ConfigHelper
     {
         $pathToProjectBase = realpath(__DIR__ . '/../../../');
         $pathToSrcDir = realpath($pathToProjectBase . '/src/');
+        $pathToConfigDir = $pathToProjectBase . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'confs';
         return [
             Config::BASE_DIR => $pathToProjectBase,
             Config::SRC_DIR => $pathToSrcDir,
-            'ohrm_lib_dir' => realpath($pathToSrcDir . '/lib'),
-            'ohrm_log_dir' => realpath($pathToSrcDir . '/log'),
-            'ohrm_data_dir' => realpath($pathToSrcDir . '/data'),
-            'ohrm_config_dir' => realpath($pathToSrcDir . '/config'),
             Config::PLUGINS_DIR => realpath($pathToSrcDir . '/plugins'),
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
-            Config::CACHE_DIR => realpath($pathToSrcDir . '/cache'),
             Config::DOCTRINE_PROXY_DIR => realpath($pathToSrcDir . '/config/proxy'),
             Config::TEST_DIR => realpath($pathToSrcDir . '/test'),
-            Config::CONF_FILE_PATH => realpath($pathToProjectBase . '/lib/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
+            Config::LOG_DIR => $pathToSrcDir . DIRECTORY_SEPARATOR . 'log',
+            Config::CACHE_DIR => $pathToSrcDir . DIRECTORY_SEPARATOR . 'cache',
+            Config::CONFIG_DIR => $pathToConfigDir,
+            Config::CRYPTO_KEY_DIR => $pathToConfigDir . DIRECTORY_SEPARATOR . 'cryptokeys',
+            Config::SESSION_DIR => null,
+            Config::CONF_FILE_PATH => $pathToConfigDir . DIRECTORY_SEPARATOR . 'Conf.php',
         ];
     }
 
@@ -55,7 +56,7 @@ class ConfigHelper
      */
     private function getPluginConfigs(): array
     {
-        $pluginsDir = $this->get('ohrm_plugins_dir');
+        $pluginsDir = $this->get(Config::PLUGINS_DIR);
 
         $pluginAbsPaths = [];
         $plugins = [];
@@ -78,8 +79,8 @@ class ConfigHelper
 
         return [
             Config::PLUGINS => $plugins,
-            'ohrm_plugin_paths' => $pluginAbsPaths,
-            'ohrm_plugin_configs' => $pluginConfigs,
+            Config::PLUGIN_PATHS => $pluginAbsPaths,
+            Config::PLUGIN_CONFIGS => $pluginConfigs,
         ];
     }
 
@@ -119,9 +120,10 @@ class ConfigHelper
         $pathToBuildTimestampFile = realpath($pathToVueBuildDir . '/build');
         return [
             'ohrm_client_dir' => realpath($pathToSrcDir . '/client'),
-            'ohrm_app_template_dir' => realpath($pathToSrcDir . '/plugins/orangehrmCorePlugin/templates'),
+            Config::APP_TEMPLATE_DIR => realpath($pathToSrcDir . '/plugins/orangehrmCorePlugin/templates'),
             'ohrm_vue_build_dir' => $pathToVueBuildDir,
-            Config::VUE_BUILD_TIMESTAMP => $pathToBuildTimestampFile ? file_get_contents($pathToBuildTimestampFile) : '',
+            Config::VUE_BUILD_TIMESTAMP => $pathToBuildTimestampFile
+                ? file_get_contents($pathToBuildTimestampFile) : '',
         ];
     }
 
@@ -133,6 +135,7 @@ class ConfigHelper
         return [
             Config::I18N_ENABLED => true,
             Config::DATE_FORMATTING_ENABLED => false,
+            Config::MAX_SESSION_IDLE_TIME => Config::DEFAULT_MAX_SESSION_IDLE_TIME,
         ];
     }
 

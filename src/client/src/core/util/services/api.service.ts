@@ -22,6 +22,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios';
+import {WebStorage} from '../helper/storage';
 import {ComponentInternalInstance, getCurrentInstance} from 'vue';
 import {reloadPage} from '@ohrm/core/util/helper/navigation';
 
@@ -29,6 +30,7 @@ export class APIService {
   private _http: AxiosInstance;
   private _baseUrl: string;
   private _apiSection: string;
+  private _cacheStorage: WebStorage;
   private _ignorePathRegex: RegExp | undefined;
 
   constructor(baseUrl: string, path: string) {
@@ -37,6 +39,7 @@ export class APIService {
     this._http = axios.create({
       baseURL: this._baseUrl,
     });
+    this._cacheStorage = new WebStorage(localStorage);
     this.setupResponseInterceptors(getCurrentInstance());
   }
 
@@ -136,13 +139,79 @@ export class APIService {
         }
 
         const $toast = vm?.appContext.config.globalProperties.$toast;
-        if ($toast) {
+        if ($toast && error.code !== 'ECONNABORTED') {
           const message = error.response?.data?.error?.message;
           $toast.unexpectedError(message);
         }
         return Promise.reject(error);
       },
     );
+
+    if (process.env.NODE_ENV !== 'development') {
+      const removeETagWeakValidatorDirective = (etag: string) => {
+        return etag.startsWith('W/') ? etag.substring(2) : etag;
+      };
+      // Additional interceptors for caching
+      this._http.interceptors.request.use(
+        (config: AxiosRequestConfig) => {
+          if (config.url) {
+            const url = config.url;
+            const cachedEtag = this._cacheStorage.getItem(url);
+            if (cachedEtag) {
+              config.headers = {
+                ...config.headers,
+                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
+                'If-None-Match': cachedEtag,
+              };
+            }
+          }
+          return config;
+        },
+        (error: AxiosError): Promise<AxiosError> => {
+          return Promise.reject(error);
+        },
+      );
+      this._http.interceptors.response.use(
+        (response: AxiosResponse) => {
+          const {config, headers} = response;
+          if (config.url && headers) {
+            const url = config.url;
+            const etag = headers['etag'];
+            const cachedEtag = this._cacheStorage.getItem(url);
+            if (etag && etag !== cachedEtag) {
+              this._cacheStorage.removeItem(url);
+              this._cacheStorage.setItem(
+                url,
+                removeETagWeakValidatorDirective(etag),
+              );
+
+              if (cachedEtag) this._cacheStorage.removeItem(cachedEtag);
+              this._cacheStorage.setItem(
+                removeETagWeakValidatorDirective(etag),
+                JSON.stringify(response.data),
+              );
+            }
+          }
+          return response;
+        },
+        (error: AxiosError) => {
+          if (error.response?.status === 304) {
+            const etag = error.response.headers['etag'];
+            const cacheData = this._cacheStorage.getItem(
+              removeETagWeakValidatorDirective(etag),
+            );
+            if (cacheData) {
+              return Promise.resolve({
+                ...error.response,
+                status: 200,
+                data: JSON.parse(cacheData),
+              });
+            }
+          }
+          return Promise.reject(error);
+        },
+      );
+    }
   }
 
   public get http() {

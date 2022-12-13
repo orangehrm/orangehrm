@@ -50,7 +50,9 @@ class LoginService
      */
     public function addLogin(UserCredential $credentials): LoginLog
     {
-        $user = $this->getUserService()->getCredentials($credentials);
+        $user = $this->getUserService()
+            ->geUserDao()
+            ->getUserByUserName($credentials->getUsername());
         $loginLog = new LoginLog();
         $loginLog->setUserId($user->getId());
         $loginLog->setUserName($user->getUserName());

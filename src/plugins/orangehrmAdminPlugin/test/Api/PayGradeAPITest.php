@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Api;
+namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\PayGradeAPI;
 use OrangeHRM\Admin\Dto\PayGradeSearchFilterParams;

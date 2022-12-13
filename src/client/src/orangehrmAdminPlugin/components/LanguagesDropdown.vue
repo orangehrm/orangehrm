@@ -23,6 +23,7 @@
     type="select"
     :label="$t('general.name')"
     :options="options"
+    required
   />
 </template>
 <script>

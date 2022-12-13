@@ -21,6 +21,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -57,11 +58,32 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_STATUS = 'status';
 
-    public const PARAM_RULE_USERNAME_MIN_LENGTH = 5;
-    public const PARAM_RULE_USERNAME_MAX_LENGTH = 40;
+    public const PARAM_RULE_USERNAME_MIN_LENGTH = UserService::USERNAME_MIN_LENGTH;
+    public const PARAM_RULE_USERNAME_MAX_LENGTH = UserService::USERNAME_MAX_LENGTH;
     public const PARAM_RULE_PASSWORD_MAX_LENGTH = 64;
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/users/{id}",
+     *     tags={"Admin/Users"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-UserModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
@@ -79,11 +101,64 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
         );
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/v2/admin/users",
+     *     tags={"Admin/Users"},
+     *     @OA\Parameter(
+     *         name="username",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="userRoleId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="status",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sortField",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string", enum=UserSearchFilterParams::ALLOWED_SORT_FIELDS)
+     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/sortOrder"),
+     *     @OA\Parameter(ref="#/components/parameters/limit"),
+     *     @OA\Parameter(ref="#/components/parameters/offset"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Admin-UserModel")
+     *             ),
+     *             @OA\Property(property="meta",
+     *                 type="object",
+     *                 @OA\Property(property="total", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
@@ -130,15 +205,47 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_USER_ROLE_ID),
-            new ParamRule(self::FILTER_USERNAME),
-            new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
-            new ParamRule(self::FILTER_STATUS),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_USER_ROLE_ID, new Rule(Rules::POSITIVE))
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_USERNAME, new Rule(Rules::STRING_TYPE))
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_EMPLOYEE_NUMBER, new Rule(Rules::POSITIVE))
+            ),
+            new ParamRule(self::FILTER_STATUS, new Rule(Rules::BOOL_VAL)),
             ...$this->getSortingAndPaginationParamsRules(UserSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/admin/users",
+     *     tags={"Admin/Users"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(property="status", type="boolean"),
+     *             @OA\Property(property="userRoleId", type="integer"),
+     *             @OA\Property(property="empNumber", type="integer"),
+     *             required={"username", "password", "status", "userRoleId", "empNumber"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-UserModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
+     *
      * @inheritDoc
      */
     public function create(): EndpointResourceResult
@@ -211,17 +318,20 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     protected function getUsernameAndPasswordRule(bool $update): array
     {
-        $uniquePropertyParams = [User::class, 'userName'];
         $passwordConstructor = [true];
+        $entityProperties = new EntityUniquePropertyOption();
+        $entityProperties->setIgnoreValues(['isDeleted' => true]);
+        $uniquePropertyParams = [User::class, 'userName', $entityProperties];
         if ($update) {
-            $entityProperties = new EntityUniquePropertyOption();
             $entityProperties->setIgnoreValues(
-                ['getId' => $this->getRequestParams()->getInt(
-                    RequestParams::PARAM_TYPE_ATTRIBUTE,
-                    CommonParams::PARAMETER_ID
-                )]
+                [
+                    'getId' => $this->getRequestParams()->getInt(
+                        RequestParams::PARAM_TYPE_ATTRIBUTE,
+                        CommonParams::PARAMETER_ID
+                    ),
+                    'isDeleted' => true,
+                ]
             );
-            $uniquePropertyParams[] = $entityProperties;
 
             $passwordConstructor = [
                 $this->getRequestParams()->getBoolean(
@@ -248,6 +358,37 @@ class UserAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/v2/admin/users/{id}",
+     *     tags={"Admin/Users"},
+     *     @OA\PathParameter(
+     *         name="id",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(property="status", type="boolean"),
+     *             @OA\Property(property="userRoleId", type="integer"),
+     *             @OA\Property(property="empNumber", type="integer"),
+     *             required={"username", "password", "status", "userRoleId", "empNumber"}
+     *         )
+     *     ),
+     *     @OA\Response(response="200",
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Admin-UserModel"
+     *             ),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(response="404", ref="#/components/responses/RecordNotFound")
+     * )
+     *
      * @inheritDoc
      */
     public function update(): EndpointResourceResult
@@ -288,6 +429,13 @@ class UserAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/v2/admin/users/{id}",
+     *     tags={"Admin/Users"},
+     *     @OA\RequestBody(ref="#/components/requestBodies/DeleteRequestBody"),
+     *     @OA\Response(response="200", ref="#/components/responses/DeleteResponse")
+     * )
+     *
      * @inheritDoc
      */
     public function delete(): EndpointResourceResult

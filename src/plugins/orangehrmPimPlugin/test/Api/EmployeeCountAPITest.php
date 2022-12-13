@@ -70,10 +70,10 @@ class EmployeeCountAPITest extends EndpointTestCase
         $this->assertTrue($this->validate([], $rules));
 
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_EMPLOYEE_ID => '0001'], $rules));
-        $this->assertTrue($this->validate([EmployeeAPI::FILTER_EMPLOYEE_ID => str_repeat('00001', 10)], $rules));
+        $this->assertTrue($this->validate([EmployeeAPI::FILTER_EMPLOYEE_ID => str_repeat('00001', 2)], $rules));
         $this->assertInvalidParamException(
         // maximum 50 allowed in the rule
-            fn () => $this->validate([EmployeeAPI::FILTER_EMPLOYEE_ID => str_repeat('00001', 10) . '1'], $rules),
+            fn () => $this->validate([EmployeeAPI::FILTER_EMPLOYEE_ID => str_repeat('00001', 2) . '1'], $rules),
             [EmployeeAPI::FILTER_EMPLOYEE_ID]
         );
 

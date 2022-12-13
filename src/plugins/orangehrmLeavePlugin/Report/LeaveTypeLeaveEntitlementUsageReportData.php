@@ -26,6 +26,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Leave\Api\Model\LeaveTypeModel;
 use OrangeHRM\Leave\Dto\LeaveTypeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
@@ -40,6 +41,7 @@ class LeaveTypeLeaveEntitlementUsageReportData implements ReportData
     use DateTimeHelperTrait;
     use NormalizerServiceTrait;
     use NumberHelperTrait;
+    use I18NHelperTrait;
 
     private LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams;
 
@@ -74,8 +76,8 @@ class LeaveTypeLeaveEntitlementUsageReportData implements ReportData
 
             $employeeName = $employee->getDecorator()->getFirstAndLastNames();
             if ($employee->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
-                // TODO:: Need to handle localization
-                $employeeName .= ' (Past Employee)';
+                $pastEmpTag  = $this->getI18NHelper()->transBySource('(Past Employee)');
+                $employeeName .= ' ' .$pastEmpTag;
             }
             $result[] = [
                 LeaveTypeLeaveEntitlementUsageReport::PARAMETER_EMPLOYEE_NAME => $employeeName,

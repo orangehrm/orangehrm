@@ -46,7 +46,7 @@ class CandidateHistory
     /**
      * @var Candidate
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Candidate", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="candidate_id", referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="candidate_id", referencedColumnName="id", nullable=false)
      */
     private Candidate $candidate;
 
@@ -82,7 +82,7 @@ class CandidateHistory
     /**
      * @var Employee|null
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="candidates", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="performed_by", referencedColumnName="emp_number",nullable=true)
+     * @ORM\JoinColumn(name="performed_by", referencedColumnName="emp_number", nullable=true)
      */
     private ?Employee $performedBy = null;
 

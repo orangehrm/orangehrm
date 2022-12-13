@@ -56,7 +56,7 @@ class EmployeePictureController extends AbstractFileController
      */
     public function handle(Request $request)
     {
-        $empNumber = $request->get('empNumber');
+        $empNumber = $request->attributes->get('empNumber');
         if (!is_null($empNumber)) {
             $empPicture = $this->getEmployeePictureService()->getEmpPictureByEmpNumber($empNumber);
             if ($empPicture instanceof EmpPicture) {

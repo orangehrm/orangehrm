@@ -23,6 +23,16 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\LeaveType;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeaveTypeModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="deleted", type="boolean"),
+ *     @OA\Property(property="situational", type="boolean")
+ * )
+ */
 class LeaveTypeModel implements Normalizable
 {
     use ModelTrait;

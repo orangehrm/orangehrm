@@ -32,7 +32,7 @@ class Migration extends AbstractMigration
     public function up(): void
     {
         if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_post'])) {
-            $this->getSchemaHelper()->createTable('ohrm_buzz_post')
+            $this->getSchemaHelper()->createTable('ohrm_buzz_post', 'utf8mb4')
                 ->addColumn('id', Types::BIGINT, ['Autoincrement' => true])
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
                 ->addColumn('text', Types::TEXT)
@@ -51,7 +51,7 @@ class Migration extends AbstractMigration
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_post', $foreignKeyConstraint);
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_share'])) {
-            $this->getSchemaHelper()->createTable('ohrm_buzz_share')
+            $this->getSchemaHelper()->createTable('ohrm_buzz_share', 'utf8mb4')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('post_id', Types::BIGINT, ['Length' => 20, 'Notnull' => true])
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
@@ -94,7 +94,7 @@ class Migration extends AbstractMigration
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_share', $foreignKeyConstraint2);
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_comment'])) {
-            $this->getSchemaHelper()->createTable('ohrm_buzz_comment')
+            $this->getSchemaHelper()->createTable('ohrm_buzz_comment', 'utf8mb4')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('share_id', Types::BIGINT, ['Length' => 20])
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
@@ -213,7 +213,7 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->createTable('ohrm_buzz_photo')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('post_id', Types::BIGINT, ['Length' => 20])
-                ->addColumn('photo', Types::BLOB, ['Length' => 7]) //change
+                ->addColumn('photo', Types::BLOB)
                 ->addColumn('filename', Types::STRING, ['Length' => 100])
                 ->addColumn('file_type', Types::STRING, ['Length' => 50])
                 ->addColumn('size', Types::STRING, ['Length' => 20])

@@ -30,7 +30,7 @@
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="card-body">
-          {{ $t('general.delete_confirmation_message') }}
+          {{ message || $t('general.delete_confirmation_message') }}
         </oxd-text>
       </div>
       <div class="orangehrm-modal-footer">
@@ -58,6 +58,13 @@ import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 export default {
   components: {
     'oxd-dialog': Dialog,
+  },
+  props: {
+    message: {
+      type: String,
+      default: null,
+      required: false,
+    },
   },
   data() {
     return {

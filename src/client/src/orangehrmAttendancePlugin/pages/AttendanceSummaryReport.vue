@@ -36,6 +36,7 @@
               <oxd-grid-item>
                 <employee-autocomplete
                   v-model="filters.employee"
+                  :rules="rules.employee"
                   :params="{
                     includeEmployees: 'currentAndPast',
                   }"
@@ -99,6 +100,7 @@
 <script>
 import {computed, ref} from 'vue';
 import {
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -158,6 +160,7 @@ export default {
           {allowSameDate: true},
         ),
       ],
+      employee: [validSelection],
     };
 
     const serializedFilters = computed(() => {

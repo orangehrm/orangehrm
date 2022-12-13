@@ -36,7 +36,6 @@ class LeaveRequestController extends AbstractVueController
 
     public function preRender(Request $request): void
     {
-        $mode = $request->attributes->get('mode');
         if (!$request->attributes->has('id')) {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
@@ -55,7 +54,7 @@ class LeaveRequestController extends AbstractVueController
 
         $component = new Component('leave-view-request');
         $component->addProp(new Prop('leave-request-id', Prop::TYPE_NUMBER, $id));
-        if ($mode && $mode == "my-leave") {
+        if ($request->query->has('mode') && $request->query->get('mode') === "my-leave") {
             $component->addProp(new Prop('my-leave-request', Prop::TYPE_BOOLEAN, true));
         }
         $this->setComponent($component);

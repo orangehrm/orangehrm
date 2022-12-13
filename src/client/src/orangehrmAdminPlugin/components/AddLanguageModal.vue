@@ -27,7 +27,10 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
-        <languages-dropdown v-model="language"></languages-dropdown>
+        <languages-dropdown
+          v-model="language"
+          :rules="rules.language"
+        ></languages-dropdown>
       </oxd-form-row>
       <oxd-form-row>
         <div class="addlanguage-note">
@@ -63,6 +66,7 @@
 import {APIService} from '@ohrm/core/util/services/api.service';
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import LanguagesDropdown from '@/orangehrmAdminPlugin/components/LanguagesDropdown.vue';
+import {required} from '@/core/util/validation/rules';
 
 export default {
   name: 'AddLanguageModal',
@@ -85,6 +89,9 @@ export default {
     return {
       isLoading: false,
       language: null,
+      rules: {
+        language: [required],
+      },
     };
   },
   methods: {

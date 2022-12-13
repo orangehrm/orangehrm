@@ -15,7 +15,7 @@ I18NLangString:
   - { "id": 4, "unit_id": 'add_location', "group_id ": 2, "value": 'Add Location', "note": null, "version": null }
 
 I18NTranslation:
-  - { "id": 1, "lang_string_id": 2, "language_id": 1, "value": 'Добави', "translated": 1, "customized": '0', "modified_at": null }
-  - { "id": 2, "lang_string_id": 3, "language_id": 1, "value": 'Вече съществува', "translated": 1, "customized": '0', "modified_at": null }
-  - { "id": 3, "lang_string_id": 1, "language_id": 2, "value": 'Присвояване Оставете', "translated": 1, "customized": '0', "modified_at": null }
-  - { "id": 4, "lang_string_id": 4, "language_id": 3, "value": 'Коментар', "translated": 1, "customized": '0', "modified_at": null }
+  - { "id": 1, "lang_string_id": 2, "language_id": 1, "value": 'Добави', "customized": '0', "modified_at": null }
+  - { "id": 2, "lang_string_id": 3, "language_id": 1, "value": 'Вече съществува', "customized": '0', "modified_at": null }
+  - { "id": 3, "lang_string_id": 1, "language_id": 2, "value": 'Присвояване Оставете', "customized": '0', "modified_at": null }
+  - { "id": 4, "lang_string_id": 4, "language_id": 3, "value": 'Коментар', "customized": '0', "modified_at": null }

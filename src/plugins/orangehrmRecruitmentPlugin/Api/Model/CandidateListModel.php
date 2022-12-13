@@ -73,7 +73,7 @@ class CandidateListModel implements Normalizable
         }
         $candidateAttachment = $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
-            ->getCandidateAttachmentByCandidateId($this->candidate->getId());
+            ->getPartialCandidateAttachmentByCandidateId($this->candidate->getId());
 
         return [
             'id' => $this->candidate->getId(),

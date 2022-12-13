@@ -21,14 +21,18 @@ namespace OrangeHRM\Tests\Admin\Service;
 
 use DateTime;
 use Exception;
+use OrangeHRM\Admin\Controller\File\LanguagePackage;
 use OrangeHRM\Admin\Dao\LocalizationDao;
+use OrangeHRM\Admin\Dto\I18NGroupSearchFilterParams;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\LocalizationService;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
@@ -45,6 +49,10 @@ class LocalizationServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->localizationService = new LocalizationService();
+
+        $fixture = Config::get(Config::PLUGINS_DIR)
+            . '/orangehrmAdminPlugin/test/fixtures/I18NTranslationExport.yml';
+        TestDataService::populate($fixture);
     }
 
     public function testGetLocalizationDateFormats(): void
@@ -126,5 +134,58 @@ class LocalizationServiceTest extends KernelTestCase
     public function testGenerateLangStringLanguageKey(): void
     {
         $this->assertEquals('1_2_', $this->localizationService->generateLangStringLanguageKey(1, 2));
+    }
+
+    public function testExportLanguagePackage(): void
+    {
+        $i18NGroupSearchFilterParams = new I18NGroupSearchFilterParams();
+        $groups = $this->localizationService->getLocalizationDao()->searchGroups($i18NGroupSearchFilterParams);
+        $this->assertCount(3, $groups);
+    }
+
+    public function testGetXliffXmlSources(): void
+    {
+        $this->createKernelWithMockServices([
+            Services::LOCALIZATION_SERVICE => new LocalizationService(),
+        ]);
+        $controller = new LanguagePackage();
+        $request = $this->getHttpRequest([], [], ['languageId' => '1']);
+        $response =  $controller->handle($request);
+
+        $xml =  simplexml_load_string($response->getContent());
+        $json = json_encode($xml);
+        $result = json_decode($json, true);
+
+        $this->assertEquals('application/xml', $response->headers->get('content-type'));
+        $this->assertEquals('2.0', $result['@attributes']['version']);
+        $this->assertCount(3, $result['file']['group']);
+        $this->assertEquals('Add Job Title', $result['file']['group'][0]['unit'][0]['segment']['source']);
+        $this->assertEquals('使用 SMTP 验证', $result['file']['group'][0]['unit'][1]['segment']['target']);
+        $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
+        $this->assertEquals('([{\|/?!~#@$%^&amp;*)-=_+;&quot;&gt;&lt;}]', $result['file']['group'][2]['unit']['segment']['target']);
+
+        $request = $this->getHttpRequest([], [], ['languageId' => '3']);
+        $response =  $controller->handle($request);
+
+        $xml =  simplexml_load_string($response->getContent());
+        $json = json_encode($xml);
+        $result = json_decode($json, true);
+        $this->assertCount(3, $result['file']['group']);
+        $this->assertEquals('Edit Subscriber', $result['file']['group'][1]['unit'][1]['segment']['source']);
+        $this->assertEquals('රැකියා මාතෘකාව එක් කරන්න', $result['file']['group'][0]['unit'][0]['segment']['target']);
+        $this->assertEquals('SMTP සත්‍යාපනය භාවිතා කරන්න', $result['file']['group'][0]['unit'][1]['segment']['target']);
+        $this->assertCount(2, $result['file']['group'][0]['unit'][1]);
+
+        $request = $this->getHttpRequest([], [], ['languageId' => '22']);
+        $response =  $controller->handle($request);
+
+        $xml =  simplexml_load_string($response->getContent());
+        $json = json_encode($xml);
+        $result = json_decode($json, true);
+
+        $this->assertCount(3, $result['file']['group']);
+        $this->assertEquals('Add Job Title', $result['file']['group'][0]['unit'][0]['segment']['source']);
+        $this->assertEquals('حول', $result['file']['group'][1]['unit'][0]['segment']['target']);
+        $this->assertCount(2, $result['file']['group'][1]['unit'][1]);
     }
 }

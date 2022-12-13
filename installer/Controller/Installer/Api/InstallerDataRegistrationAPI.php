@@ -20,18 +20,22 @@
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\Upgrader\Api\UpgraderDataRegistrationAPI;
+use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\DataRegistrationUtility;
+use OrangeHRM\Installer\Util\Service\DataRegistrationService;
 use OrangeHRM\Installer\Util\StateContainer;
 
-class InstallerDataRegistrationAPI extends UpgraderDataRegistrationAPI
+class InstallerDataRegistrationAPI extends AbstractInstallerRestController
 {
-    private ?AppSetupUtility $appSetupUtility = null;
+    private AppSetupUtility $appSetupUtility;
+    protected DataRegistrationService $dataRegistrationService;
+    protected DataRegistrationUtility $dataRegistrationUtility;
 
     public function __construct()
     {
-        parent::__construct();
+        $this->dataRegistrationService = new DataRegistrationService();
+        $this->dataRegistrationUtility = new DataRegistrationUtility();
         $this->appSetupUtility = new AppSetupUtility();
     }
 
@@ -46,37 +50,20 @@ class InstallerDataRegistrationAPI extends UpgraderDataRegistrationAPI
             ) = $this->appSetupUtility->getInstanceUniqueIdentifyingData();
         StateContainer::getInstance()->storeInstanceIdentifierData($instanceIdentifier, $instanceIdentifierChecksum);
 
-        $registrationType = $this->getRegistrationType();
-        $this->dataRegistrationUtility->setInitialRegistrationDataBody($registrationType, $instanceIdentifier);
-        $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody();
+        $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody(
+            DataRegistrationUtility::REGISTRATION_TYPE_INSTALLER_STARTED,
+            $instanceIdentifier
+        );
 
-        $result = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
-        if (!$result) {
-            StateContainer::getInstance()->setAttribute(
-                DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT,
-                false
-            );
-        } else {
-            StateContainer::getInstance()->setAttribute(
-                DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY,
-                $initialRegistrationDataBody
-            );
-        }
+        $published = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
+        StateContainer::getInstance()->storeInitialRegistrationData($initialRegistrationDataBody, $published);
 
         $response = $this->getResponse();
-        $message = $result ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
+        $message = $published ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
 
         return [
             'status' => $response->getStatusCode(),
             'message' => $message
         ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function getRegistrationType(): int
-    {
-        return DataRegistrationUtility::REGISTRATION_TYPE_INSTALLER_STARTED;
     }
 }

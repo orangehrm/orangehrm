@@ -25,7 +25,7 @@ type useInfiniteScrollArgs = {
   debounceInterval?: number;
 };
 
-interface CustomElement extends HTMLElement {
+export interface CustomElement extends HTMLElement {
   $el: HTMLElement;
 }
 
@@ -43,12 +43,15 @@ export default function useInfiniteScroll(
   const onScroll = promiseDebounce(async () => executor(), debounceInterval);
 
   const onScrollEvent = () => {
-    if (!scrollContainer.value) return;
     let scrollHeight, clientHeight, scrollTop;
-    if (scrollContainer.value?.$el) {
-      ({scrollHeight, clientHeight, scrollTop} = scrollContainer.value.$el);
+
+    if (scrollContainer.value) {
+      ({scrollHeight, clientHeight, scrollTop} =
+        scrollContainer.value.$el || scrollContainer.value);
     } else {
-      ({scrollHeight, clientHeight, scrollTop} = scrollContainer.value);
+      scrollTop = window.scrollY;
+      scrollHeight = document.body.scrollHeight;
+      clientHeight = document.body.clientHeight;
     }
 
     // compare previous scroll with current scroll top to find vertical direction
@@ -60,23 +63,30 @@ export default function useInfiniteScroll(
     // scrollTop = how much content is scrolled vertically in pixels
     const scrollerAtBottom =
       scrollTop + clientHeight >= scrollHeight - (scrollDistance || 0);
+
     if (isScrollDown && scrollerAtBottom) onScroll();
   };
 
   onMounted(async () => {
     await nextTick();
-    if (scrollContainer.value?.$el) {
-      scrollContainer.value.$el.addEventListener('scroll', onScrollEvent);
+    if (scrollContainer.value) {
+      (scrollContainer.value.$el || scrollContainer.value).addEventListener(
+        'scroll',
+        onScrollEvent,
+      );
     } else {
-      scrollContainer.value?.addEventListener('scroll', onScrollEvent);
+      document.addEventListener('scroll', onScrollEvent);
     }
   });
 
   onBeforeUnmount(() => {
-    if (scrollContainer.value?.$el) {
-      scrollContainer.value?.$el.removeEventListener('scroll', onScrollEvent);
+    if (scrollContainer.value) {
+      (scrollContainer.value.$el || scrollContainer.value).removeEventListener(
+        'scroll',
+        onScrollEvent,
+      );
     } else {
-      scrollContainer.value?.removeEventListener('scroll', onScrollEvent);
+      document.removeEventListener('scroll', onScrollEvent);
     }
   });
 

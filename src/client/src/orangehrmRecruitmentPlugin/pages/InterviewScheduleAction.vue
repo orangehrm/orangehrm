@@ -103,9 +103,10 @@
 <script>
 import {
   required,
-  shouldNotExceedCharLength,
+  validSelection,
   validDateFormat,
   validTimeFormat,
+  shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
@@ -155,6 +156,7 @@ export default {
         interviewTime: [validTimeFormat],
         interviewerName: [
           required,
+          validSelection,
           value => {
             return this.interviewers.filter(
               interviewer => interviewer && interviewer.id === value?.id,

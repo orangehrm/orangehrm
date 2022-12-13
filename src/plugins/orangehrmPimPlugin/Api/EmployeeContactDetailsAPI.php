@@ -24,16 +24,16 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeContactDetailsModel;
+use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
@@ -62,7 +62,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH = 25;
     public const PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH = 25;
     public const PARAM_RULE_MOBILE_MAX_LENGTH = 25;
-    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
+    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = EmployeeService::WORK_EMAIL_MAX_LENGTH;
     public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
 
     /**
@@ -227,10 +227,9 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_WORK_EMAIL,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::EMAIL),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail', $this->getEntityPropertiesForEmailRule()]),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'otherEmail']),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
+                    new Rule(Rules::EMAIL),
+                    new Rule(Rules::CALLBACK, [[$this, 'isUniqueEmail'], 'getWorkEmail']),
                 ),
                 true
             ),
@@ -238,10 +237,9 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_OTHER_EMAIL,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::EMAIL),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'otherEmail', $this->getEntityPropertiesForEmailRule()]),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail']),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH]),
+                    new Rule(Rules::EMAIL),
+                    new Rule(Rules::CALLBACK, [[$this, 'isUniqueEmail'], 'getOtherEmail']),
                 ),
                 true
             ),
@@ -249,27 +247,31 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EntityUniquePropertyOption
+     * @param string $email
+     * @param string $currentEmailGetter
+     * @return bool
      */
-    private function getEntityPropertiesForEmailRule(): EntityUniquePropertyOption
+    public function isUniqueEmail(string $email, string $currentEmailGetter): bool
     {
-        $entityProperties = new EntityUniquePropertyOption();
-        $entityProperties->setIgnoreValues(
-            [
-                'getEmpNumber' => $this->getRequestParams()->getInt(
-                    RequestParams::PARAM_TYPE_ATTRIBUTE,
-                    self::PARAMETER_EMP_NUMBER
-                )
-            ]
+        if (in_array($email, [null,''])) {
+            return true;
+        }
+
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_EMP_NUMBER
         );
-        return $entityProperties;
+        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
+        if (!$employee instanceof Employee) {
+            return false;
+        }
+
+        return $this->getEmployeeService()->isUniqueEmail($email, $employee->$currentEmailGetter());
     }
 
     /**
      * @return Employee
-     * @throws DaoException
-     * @throws DaoException
-     * @throws RecordNotFoundException
+     * @throws RecordNotFoundException|BadRequestException
      */
     public function saveContactDetails(): Employee
     {

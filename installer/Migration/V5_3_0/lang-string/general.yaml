@@ -1,0 +1,4 @@
+langStrings:
+  -
+    value: 'This URL is not a valid URL of a video or it is not supported by the system'
+    unitId: invalid_video_url_message

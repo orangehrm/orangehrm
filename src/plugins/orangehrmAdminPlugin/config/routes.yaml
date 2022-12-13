@@ -343,6 +343,11 @@ admin_job_specification_attachment:
   controller: OrangeHRM\Admin\Controller\File\JobSpecification::handle
   methods: [ GET ]
 
+admin_language_package_attachment:
+  path: /admin/viewLanguagePackage/languageId/{languageId}
+  controller: OrangeHRM\Admin\Controller\File\LanguagePackage::handle
+  methods: [ GET ]
+
 ##########################
 #        Screens
 ##########################
@@ -591,6 +596,15 @@ admin_register_oauth_client: # remove this
 
 admin_language_package:
   path: /admin/languagePackage
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
-  #controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle ## Uncomment this in 5.2 release
+  controller: OrangeHRM\Admin\Controller\LanguagePackageController::handle
+  methods: [ GET ]
+
+admin_language_translation:
+  path: /admin/languageCustomization/{languageId}
+  controller: OrangeHRM\Admin\Controller\LanguageTranslationController::handle
+  methods: [ GET ]
+
+admin_ldap_configuration:
+  path: /admin/ldapConfiguration
+  controller: OrangeHRM\Admin\Controller\LdapConfigurationController::handle
   methods: [ GET ]

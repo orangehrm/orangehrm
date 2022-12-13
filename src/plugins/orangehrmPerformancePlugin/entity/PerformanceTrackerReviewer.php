@@ -60,7 +60,7 @@ class PerformanceTrackerReviewer
     /**
      * @var PerformanceTracker
      *
-     * @ORM\ManyToOne (targetEntity="PerformanceTracker")
+     * @ORM\ManyToOne(targetEntity="PerformanceTracker")
      * @ORM\JoinColumn(name="performance_track_id", referencedColumnName="id")
      */
     private PerformanceTracker $performanceTracker;
@@ -68,7 +68,7 @@ class PerformanceTrackerReviewer
     /**
      * @var Employee
      *
-     * @ORM\ManyToOne (targetEntity="Employee")
+     * @ORM\ManyToOne(targetEntity="Employee")
      * @ORM\JoinColumn(name="reviewer_id", referencedColumnName="emp_number")
      */
     private Employee $reviewer;

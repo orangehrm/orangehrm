@@ -1,0 +1,8 @@
+langStrings:
+  -
+    value: 'Entitlement Type'
+    unitId: entitlement_type
+  -
+    value: '{action, select, APPROVE {{count, plural, =0 {No Leave Requests Approved} =1 {1 Leave Request Approved} other {# Leave Requests Approved} }} REJECT {{count, plural, =0 {No Leave Requests Rejected} =1 {1 Leave Request Rejected} other {# Leave Requests Rejected} }} other {{count, plural, =0 {No Leave Requests Cancelled} =1 {1 Leave Request Cancelled} other {# Leave Requests Cancelled} }} }'
+    unitId: leave_requests_action
+    note: 'Action might either be Approve, Reject or Cancel of a single/number of leave requests'

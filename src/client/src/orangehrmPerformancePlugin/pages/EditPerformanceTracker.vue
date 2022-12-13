@@ -79,6 +79,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import ReviewerAutoComplete from '@/orangehrmPerformancePlugin/components/ReviewerAutoComplete';
 import {
   required,
+  validSelection,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
@@ -120,6 +121,7 @@ export default {
         tracker: [required, shouldNotExceedCharLength(200)],
         employee: [
           required,
+          validSelection,
           value => {
             if (value === null) {
               return true;
@@ -135,7 +137,7 @@ export default {
             );
           },
         ],
-        reviewers: [required],
+        reviewers: [required, validSelection],
       },
     };
   },

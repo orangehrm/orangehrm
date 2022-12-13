@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Authentication\Auth\AuthProviderChain;
+use OrangeHRM\Authentication\Auth\LocalAuthProvider;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Subscriber\AdministratorAccessSubscriber;
@@ -46,5 +48,8 @@ class AuthenticationPluginConfiguration implements PluginConfigurationInterface
 
         $this->getContainer()->register(Services::CSRF_TOKEN_STORAGE, NativeSessionTokenStorage::class);
         $this->getContainer()->register(Services::CSRF_TOKEN_MANAGER, CsrfTokenManager::class);
+        /** @var AuthProviderChain $authProviderChain */
+        $authProviderChain = $this->getContainer()->get(Services::AUTH_PROVIDER_CHAIN);
+        $authProviderChain->addProvider(new LocalAuthProvider());
     }
 }

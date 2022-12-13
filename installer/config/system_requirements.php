@@ -20,19 +20,19 @@
 return [
     'phpversion' => [
         'min' => '7.4',
-        'max' => '8.1',
+        'max' => '8.2',
         'excludeRange' => [],
     ],
 
     'mysqlversion' => [
         'min' => '5.5',
-        'max' => '5.7',
+        'max' => '8.0',
         'excludeRange' => [],
     ],
 
     'mariadbversion' => [
         'min' => '5.5',
-        'max' => '10.8',
+        'max' => '10.10',
         'excludeRange' => [],
     ],
 

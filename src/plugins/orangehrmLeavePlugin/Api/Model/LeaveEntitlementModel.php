@@ -23,6 +23,43 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\LeaveEntitlement;
 
+/**
+ * @OA\Schema(
+ *     schema="Leave-LeaveEntitlementModel",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(
+ *         property="employee",
+ *         type="object",
+ *         @OA\Property(property="empNumber", type="integer"),
+ *         @OA\Property(property="firstName", type="string"),
+ *         @OA\Property(property="lastName", type="string"),
+ *         @OA\Property(property="middleName", type="string"),
+ *         @OA\Property(property="employeeId", type="string"),
+ *         @OA\Property(property="terminationId", type="integer"),
+ *     ),
+ *     @OA\Property(property="entitlement", type="integer"),
+ *     @OA\Property(property="daysUsed", type="integer"),
+ *     @OA\Property(
+ *         property="leaveType",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="deleted", type="boolean")
+ *     ),
+ *     @OA\Property(property="fromDate", type="number"),
+ *     @OA\Property(property="toDate", type="number"),
+ *     @OA\Property(property="creditedDate", type="number"),
+ *     @OA\Property(
+ *         property="entitlementType",
+ *         type="object",
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *     ),
+ *     @OA\Property(property="deleted", type="boolean"),
+ *     @OA\Property(property="deletable", type="boolean")
+ * )
+ */
 class LeaveEntitlementModel implements Normalizable
 {
     use ModelTrait;

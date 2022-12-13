@@ -26,6 +26,7 @@
           <oxd-grid-item>
             <employee-autocomplete
               v-model="filters.employee"
+              :rules="rules.employee"
               :params="{
                 includeEmployees: filters.includeEmployees.param,
               }"
@@ -109,9 +110,10 @@
 import {computed, ref, inject} from 'vue';
 import {navigate} from '@/core/util/helper/navigation';
 import {
+  validSelection,
+  validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
-  validDateFormat,
 } from '@/core/util/validation/rules';
 import {
   viewIcon,
@@ -317,6 +319,7 @@ export default {
         },
       ],
       rules: {
+        employee: [validSelection],
         fromDate: [
           validDateFormat(this.userDateFormat),
           startDateShouldBeBeforeEndDate(

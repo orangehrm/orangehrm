@@ -70,14 +70,14 @@ class Leave
     /**
      * @var float
      *
-     * @ORM\Column(name="length_hours", type="decimal", precision=6, scale=2, options={"unsigned":true})
+     * @ORM\Column(name="length_hours", type="decimal", precision=6, scale=2, options={"unsigned" : true})
      */
     private float $lengthHours;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="length_days", type="decimal", precision=6, scale=4, options={"unsigned":true})
+     * @ORM\Column(name="length_days", type="decimal", precision=6, scale=4, options={"unsigned" : true})
      */
     private float $lengthDays;
 
@@ -129,7 +129,7 @@ class Leave
     /**
      * @var int
      *
-     * @ORM\Column(name="duration_type", type="integer", options={"default":0})
+     * @ORM\Column(name="duration_type", type="integer", options={"default" : 0})
      */
     private int $durationType = 0;
 

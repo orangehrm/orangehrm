@@ -209,7 +209,7 @@ export default {
         },
         {
           name: 'entitlementType',
-          title: this.$t('leave.leave_type'),
+          title: this.$t('leave.entitlement_type'),
           style: {flex: 1},
         },
         {

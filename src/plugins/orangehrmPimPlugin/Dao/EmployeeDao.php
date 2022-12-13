@@ -74,6 +74,7 @@ class EmployeeDao extends BaseDao
         EmployeeSearchFilterParams $employeeSearchParamHolder
     ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->distinct();
         $q->leftJoin('employee.jobTitle', 'jobTitle');
         $q->leftJoin('employee.subDivision', 'subunit');
         $q->leftJoin('employee.empStatus', 'empStatus');
@@ -105,6 +106,24 @@ class EmployeeDao extends BaseDao
                     $q->expr()->like('employee.firstName', ':name'),
                     $q->expr()->like('employee.lastName', ':name'),
                     $q->expr()->like('employee.middleName', ':name'),
+                    $q->expr()->like(
+                        $q->expr()->concat(
+                            'employee.firstName',
+                            $q->expr()->literal(' '),
+                            'employee.lastName',
+                        ),
+                        ':name'
+                    ),
+                    $q->expr()->like(
+                        $q->expr()->concat(
+                            'employee.firstName',
+                            $q->expr()->literal(' '),
+                            'employee.middleName',
+                            $q->expr()->literal(' '),
+                            'employee.lastName',
+                        ),
+                        ':name'
+                    ),
                 )
             );
             $q->setParameter('name', '%' . $employeeSearchParamHolder->getName() . '%');
@@ -117,6 +136,24 @@ class EmployeeDao extends BaseDao
                     $q->expr()->like('employee.lastName', ':nameOrId'),
                     $q->expr()->like('employee.middleName', ':nameOrId'),
                     $q->expr()->like('employee.employeeId', ':nameOrId'),
+                    $q->expr()->like(
+                        $q->expr()->concat(
+                            'employee.firstName',
+                            $q->expr()->literal(' '),
+                            'employee.lastName',
+                        ),
+                        ':nameOrId'
+                    ),
+                    $q->expr()->like(
+                        $q->expr()->concat(
+                            'employee.firstName',
+                            $q->expr()->literal(' '),
+                            'employee.middleName',
+                            $q->expr()->literal(' '),
+                            'employee.lastName',
+                        ),
+                        ':nameOrId'
+                    ),
                 )
             );
             $q->setParameter('nameOrId', '%' . $employeeSearchParamHolder->getNameOrId() . '%');
@@ -447,22 +484,27 @@ class EmployeeDao extends BaseDao
     }
 
     /**
-     **this function for validating (update on validation) the work email availability. ( false -> email already exist, true - email is not exist )
      * @param string $email
-     * @param string|null $currentEmail
      * @return bool
      */
-    public function isEmailAvailable(string $email, ?string $currentEmail): bool
+    public function isEmailAvailable(string $email): bool
     {
-        // we need to skip the current email on checking, otherwise count always return 1 (if current work email is not null)
-        // if the current email is set and input email equals current email, return true to skip validation
-        if (isset($currentEmail) && $email === $currentEmail) {
-            return true;
-        }
-
         $q = $this->createQueryBuilder(Employee::class, 'employee');
-        $q->andWhere('employee.workEmail = :email OR employee.otherEmail = :email');
+        $q->andWhere(
+            $q->expr()->orX(
+                'employee.workEmail = :email',
+                'employee.otherEmail = :email'
+            )
+        );
         $q->setParameter('email', $email);
-        return $this->getPaginator($q)->count() === 0;
+        return $this->getPaginator($q)->count() > 0;
+    }
+
+    public function isUniqueEmployeeId(string $employeeId): bool
+    {
+        $q = $this->createQueryBuilder(Employee::class, 'employee')
+            ->andWhere('employee.employeeId = :employeeId')
+            ->setParameter('employeeId', $employeeId);
+        return $this->count($q) === 0;
     }
 }

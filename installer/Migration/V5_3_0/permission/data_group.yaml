@@ -1,0 +1,25 @@
+buzz_post:
+  description: 'Buzz - Post'
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: false, delete: true, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: true, self: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: false, create: false, update: true, delete: true, self: true } }
+
+buzz_comment:
+  description: 'Buzz - Comment'
+  allowed:
+    read: false
+    create: false
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: false, create: false, update: false, delete: true, self: false } }
+    - { role: Admin, permission: { read: false, create: false, update: true, delete: true, self: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: false, create: false, update: true, delete: true, self: true } }

@@ -69,6 +69,7 @@
 <script>
 import {
   required,
+  validSelection,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@/core/util/validation/rules';
@@ -173,6 +174,7 @@ export default {
         ),
       ],
       statuses: [required],
+      employee: [validSelection],
     };
 
     const serializedFilters = computed(() => {
@@ -511,12 +513,6 @@ export default {
         action: actionType,
       };
 
-      const action =
-        actionType === 'APPROVE'
-          ? 'Approved'
-          : actionType === 'REJECT'
-          ? 'Rejected'
-          : 'Cancelled';
       const ids = this.checkedItems.map(index => {
         return this.items.data[index].id;
       });
@@ -534,7 +530,7 @@ export default {
             this.$toast.success({
               title: this.$t('general.success'),
               message: this.$t('leave.leave_requests_action', {
-                action: action,
+                action: actionType,
                 count: data.length,
               }),
             });

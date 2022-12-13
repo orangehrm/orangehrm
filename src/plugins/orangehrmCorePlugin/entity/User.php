@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\UserDecorator;
@@ -51,11 +52,11 @@ class User
     private string $userName;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="user_password", type="string", length=255)
+     * @ORM\Column(name="user_password", type="string", length=255, nullable=true)
      */
-    private string $userPassword;
+    private ?string $userPassword = null;
 
     /**
      * @var bool
@@ -114,10 +115,18 @@ class User
      */
     private UserRole $userRole;
 
+    /**
+     * @var UserAuthProvider[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\UserAuthProvider", mappedBy="user")
+     */
+    private iterable $authProviders;
+
     public function __construct()
     {
         $this->status = true;
         $this->deleted = false;
+        $this->authProviders = new ArrayCollection();
     }
 
     /**
@@ -153,17 +162,17 @@ class User
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUserPassword(): string
+    public function getUserPassword(): ?string
     {
         return $this->userPassword;
     }
 
     /**
-     * @param string $userPassword
+     * @param string|null $userPassword
      */
-    public function setUserPassword(string $userPassword): void
+    public function setUserPassword(?string $userPassword): void
     {
         $this->userPassword = $userPassword;
     }
@@ -302,5 +311,21 @@ class User
     public function setUserRole(UserRole $userRole): void
     {
         $this->userRole = $userRole;
+    }
+
+    /**
+     * @return UserAuthProvider[]
+     */
+    public function getAuthProviders(): iterable
+    {
+        return $this->authProviders;
+    }
+
+    /**
+     * @param UserAuthProvider[] $authProviders
+     */
+    public function setAuthProviders(array $authProviders): void
+    {
+        $this->authProviders = $authProviders;
     }
 }
