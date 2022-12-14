@@ -32,6 +32,9 @@
     <oxd-grid-item class="orangehrm-dashboard-widget">
       <quick-launch-widget></quick-launch-widget>
     </oxd-grid-item>
+    <oxd-grid-item class="orangehrm-dashboard-widget">
+      <buzz-latest-post-widget></buzz-latest-post-widget>
+    </oxd-grid-item>
     <oxd-grid-item
       v-if="$can.read('dashboard_leave_widget')"
       class="orangehrm-dashboard-widget"
@@ -54,22 +57,24 @@
 </template>
 
 <script>
+import {APIService} from '@/core/util/services/api.service';
 import QuickLaunchWidget from '@/orangehrmDashboardPlugin/components/QuickLaunchWidget.vue';
+import BuzzLatestPostWidget from '@/orangehrmDashboardPlugin/components/BuzzLatestPostWidget.vue';
 import EmployeeSubunitWidget from '@/orangehrmDashboardPlugin/components/EmployeeSubunitWidget.vue';
+import MyActionSummaryWidget from '@/orangehrmDashboardPlugin/components/MyActionSummaryWidget.vue';
 import EmployeeLocationWidget from '@/orangehrmDashboardPlugin/components/EmployeeLocationWidget.vue';
 import EmployeesOnLeaveWidget from '@/orangehrmDashboardPlugin/components/EmployeesOnLeaveWidget.vue';
 import EmployeeAttendanceWidget from '@/orangehrmDashboardPlugin/components/EmployeeAttendanceWidget.vue';
-import MyActionSummaryWidget from '@/orangehrmDashboardPlugin/components/MyActionSummaryWidget.vue';
-import {APIService} from '@/core/util/services/api.service';
 
 export default {
   components: {
     'quick-launch-widget': QuickLaunchWidget,
+    'buzz-latest-post-widget': BuzzLatestPostWidget,
     'employee-subunit-widget': EmployeeSubunitWidget,
+    'my-action-summary-widget': MyActionSummaryWidget,
     'employee-location-widget': EmployeeLocationWidget,
     'employees-on-leave-widget': EmployeesOnLeaveWidget,
     'employee-attendance-widget': EmployeeAttendanceWidget,
-    'my-action-summary-widget': MyActionSummaryWidget,
   },
   mounted() {
     const http = new APIService(window.appGlobal.baseUrl, 'events/push');

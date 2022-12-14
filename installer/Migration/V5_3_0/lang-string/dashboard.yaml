@@ -1,0 +1,7 @@
+langStrings:
+  -
+    value: 'Buzz Latest Posts'
+    unitId: buzz_latest_posts
+  -
+    value: 'No Posts Added'
+    unitId: no_posts_added

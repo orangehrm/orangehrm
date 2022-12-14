@@ -41,7 +41,7 @@ class Migration extends AbstractMigration
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
 
-        $oldGroups = ['buzz', 'general'];
+        $oldGroups = ['buzz', 'general', 'dashboard'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
