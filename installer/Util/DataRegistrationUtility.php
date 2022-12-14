@@ -32,13 +32,13 @@ class DataRegistrationUtility
 
     private SystemConfiguration $systemConfiguration;
     private DataRegistrationService $dataRegistrationService;
-    private SystemCheck $systemConfig;
+    private SystemCheck $systemCheck;
 
     public function __construct()
     {
         $this->systemConfiguration = new SystemConfiguration();
         $this->dataRegistrationService = new DataRegistrationService();
-        $this->systemConfig = new SystemCheck();
+        $this->systemCheck = new SystemCheck();
     }
 
     /**
@@ -143,7 +143,7 @@ class DataRegistrationUtility
             'organization_name' => $organizationName,
             'type' => $type,
             'instance_identifier' => $instanceIdentifier,
-            'system_details' => json_encode($this->systemConfig->getSystemDetails())
+            'system_details' => json_encode($this->systemCheck->getSystemDetails())
         ];
     }
 
@@ -155,7 +155,7 @@ class DataRegistrationUtility
         return [
             'instance_identifier' => $this->systemConfiguration->getInstanceIdentifier(),
             'type' => self::REGISTRATION_TYPE_SUCCESS,
-            'system_details' => json_encode($this->systemConfig->getSystemDetails()),
+            'system_details' => json_encode($this->systemCheck->getSystemDetails()),
         ];
     }
 
@@ -182,7 +182,7 @@ class DataRegistrationUtility
                 $organizationEmail,
                 $adminFirstName,
                 $adminLastName,
-                $_SERVER['HTTP_HOST'],
+                $_SERVER['HTTP_HOST'], // TODO
                 $country,
                 Config::PRODUCT_VERSION,
                 $currentTimestamp

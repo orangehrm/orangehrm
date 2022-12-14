@@ -76,7 +76,7 @@ class MigrationHelper
                 ->create();
         }
 
-        $config = new SystemCheck($this->getConnection());
+        $systemCheck = new SystemCheck($this->getConnection());
 
         return $this->getConnection()->createQueryBuilder()
             ->insert('ohrm_migration_log')
@@ -85,8 +85,8 @@ class MigrationHelper
             ->setValue('php_version', ':phpVersion')
             ->setValue('started_at', ':startedAt')
             ->setParameter('migrationVersion', $version)
-            ->setParameter('databaseVersion', substr($config->getMysqlServerVersion(), 0, 255))
-            ->setParameter('phpVersion', $config->getPhpVersion())
+            ->setParameter('databaseVersion', substr($systemCheck->getMysqlServerVersion(), 0, 255))
+            ->setParameter('phpVersion', $systemCheck->getPhpVersion())
             ->setParameter(
                 'startedAt',
                 (new DateTime())->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)),

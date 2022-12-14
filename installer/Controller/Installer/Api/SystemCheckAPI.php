@@ -32,11 +32,11 @@ class SystemCheckAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\System
     {
         $dbInfo = StateContainer::getInstance()->getDbInfo();
         if (isset($dbInfo[StateContainer::ENABLE_DATA_ENCRYPTION]) && $dbInfo[StateContainer::ENABLE_DATA_ENCRYPTION] == true) {
-            $systemConfig = new SystemCheck();
+            $systemCheck = new SystemCheck();
             $response = parent::handleGet($request);
             $response['data'][1]['checks'][] = [
                 'label' => 'Write Permissions for “lib/confs/cryptokeys”',
-                'value' => $systemConfig->isWritableCryptoKeyDir()
+                'value' => $systemCheck->isWritableCryptoKeyDir()
             ];
             return $response;
         }
