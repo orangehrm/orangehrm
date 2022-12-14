@@ -21,39 +21,37 @@ namespace OrangeHRM\Installer\Util;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Exception;
+use OrangeHRM\Installer\Exception\SystemCheckException;
 
 class UpgraderConfigUtility
 {
     /**
-     * @return bool|Exception
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function checkDatabaseConnection()
+    private function connectToDatabase(): void
     {
         try {
             $connection = $this->getConnection();
             $connection->connect();
-            return true;
-        } catch (Exception $exception) {
-            Logger::getLogger()->error($exception->getMessage());
-            Logger::getLogger()->error($exception->getTraceAsString());
-            return $exception;
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            throw $e;
         }
     }
 
     /**
      * @return bool
-     * @throws \Doctrine\DBAL\Exception
      */
     public function checkDatabaseStatus(): bool
     {
-        $connection = $this->getConnection();
         return $this->getSchemaManager()->tablesExist(['ohrm_upgrade_status']);
     }
 
     /**
      * @return \Doctrine\DBAL\Connection
      */
-    public function getConnection(): \Doctrine\DBAL\Connection
+    private function getConnection(): \Doctrine\DBAL\Connection
     {
         return Connection::getConnection();
     }
@@ -65,5 +63,36 @@ class UpgraderConfigUtility
     private function getSchemaManager(): AbstractSchemaManager
     {
         return $this->getConnection()->createSchemaManager();
+    }
+
+    /**
+     * @throws SystemCheckException
+     */
+    public function checkDatabaseConnection(): void
+    {
+        $systemCheck = new SystemCheck();
+        if (!$systemCheck->checkPDOExtensionEnabled()) {
+            throw new SystemCheckException('Please Enable `PDO` Extension To Proceed');
+        }
+
+        if (!$systemCheck->checkPDOMySqlExtensionEnabled()) {
+            throw new SystemCheckException('Please Enable `pdo_mysql` Extension To Proceed');
+        }
+
+        try {
+            $this->connectToDatabase();
+        } catch (\Doctrine\DBAL\Exception $e) {
+            $dbInfo = StateContainer::getInstance()->getDbInfo();
+            $dbHost = $dbInfo[StateContainer::DB_HOST];
+            $dbPort = $dbInfo[StateContainer::DB_PORT];
+
+            $appSetupUtility = new AppSetupUtility();
+            $message = $appSetupUtility->getExistingDBConnectionErrorMessage($e, $dbHost, $dbPort);
+            throw new SystemCheckException($message);
+        }
+
+        if ($this->checkDatabaseStatus()) {
+            throw new SystemCheckException('Failed to Proceed: Interrupted Database');
+        }
     }
 }

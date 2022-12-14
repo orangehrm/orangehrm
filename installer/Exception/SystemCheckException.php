@@ -14,28 +14,13 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Api;
+namespace OrangeHRM\Installer\Exception;
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Util\SystemCheck;
+use Exception;
 
-class SystemCheckAPI extends AbstractInstallerRestController
+class SystemCheckException extends Exception
 {
-    /**
-     * @inheritDoc
-     */
-    protected function handleGet(Request $request): array
-    {
-        $systemCheck = new SystemCheck();
-        return [
-            'data' => $systemCheck->getSystemCheckResults(),
-            'meta' => [
-                'isInterrupted' => $systemCheck->isInterruptContinue()
-            ]
-        ];
-    }
 }

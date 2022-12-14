@@ -19,14 +19,13 @@
 
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\Installer\Exception\SessionStorageNotWritable;
+use OrangeHRM\Framework\Http\Session\Session;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Installer\Framework\HttpKernel;
+use OrangeHRM\Installer\Framework\MemorySessionStorage;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\StateContainer;
-use Symfony\Component\HttpFoundation\Request as BaseRequest;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Yaml\Yaml;
 
 $pathToAutoload = realpath(__DIR__ . '/../src/vendor/autoload.php');
@@ -48,26 +47,17 @@ if (Config::isInstalled()) {
     die("This system already installed.\n");
 }
 
-$kernel = new class ('prod', false) extends HttpKernel {
-    /**
-     * @inheritDoc
-     */
-    public function handle(BaseRequest $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true)
-    {
-        return new Response();
-    }
-};
-$request = new Request();
-try {
-    $kernel->handleRequest($request);
-} catch (SessionStorageNotWritable $e) {
-    die($e->getMessage());
-}
+new HttpKernel('prod', false);
+$sessionStorage = new MemorySessionStorage();
+ServiceContainer::getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
+$session = new Session($sessionStorage);
+$session->start();
+ServiceContainer::getContainer()->set(Services::SESSION, $session);
 
 $cliConfig = Yaml::parseFile(realpath(__DIR__ . '/cli_install_config.yaml'));
 
 if ($cliConfig['license']['agree'] != 'y') {
-    $licenseFilePath = realpath(__DIR__ . "/../LICENSE");
+    $licenseFilePath = realpath(__DIR__ . '/../LICENSE');
     echo "For continue installation need to accept OrangeHRM license agreement. It is available in '$licenseFilePath'.";
     die;
 }

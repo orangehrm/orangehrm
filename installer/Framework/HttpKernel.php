@@ -35,7 +35,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Installer\Exception\SessionStorageNotWritable;
 use OrangeHRM\Installer\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Installer\Subscriber\LoggerSubscriber;
-use OrangeHRM\Installer\Util\SystemConfig;
+use OrangeHRM\Installer\Util\SystemCheck;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -184,7 +184,7 @@ class HttpKernel extends BaseHttpKernel
      */
     protected function configureSession(Request $request): void
     {
-        $systemConfig = new SystemConfig();
+        $systemConfig = new SystemCheck();
         $savePath = Config::get(Config::SESSION_DIR);
         if ($savePath != null && $systemConfig->checkWritePermission(Config::get(Config::SESSION_DIR))) {
             $savePath = Config::get(Config::SESSION_DIR);

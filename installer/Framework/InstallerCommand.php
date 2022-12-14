@@ -14,28 +14,30 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Api;
+namespace OrangeHRM\Installer\Framework;
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Util\SystemCheck;
+use OrangeHRM\Framework\Console\Command;
+use OrangeHRM\Installer\Util\Logger;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
-class SystemCheckAPI extends AbstractInstallerRestController
+abstract class InstallerCommand extends Command
 {
     /**
      * @inheritDoc
      */
-    protected function handleGet(Request $request): array
+    public function run(InputInterface $input, OutputInterface $output)
     {
-        $systemCheck = new SystemCheck();
-        return [
-            'data' => $systemCheck->getSystemCheckResults(),
-            'meta' => [
-                'isInterrupted' => $systemCheck->isInterruptContinue()
-            ]
-        ];
+        try {
+            return parent::run($input, $output);
+        } catch (Throwable $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            throw $e;
+        }
     }
 }

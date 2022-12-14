@@ -76,7 +76,7 @@ class MigrationHelper
                 ->create();
         }
 
-        $config = new SystemConfig($this->getConnection());
+        $config = new SystemCheck($this->getConnection());
 
         return $this->getConnection()->createQueryBuilder()
             ->insert('ohrm_migration_log')

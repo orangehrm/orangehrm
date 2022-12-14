@@ -54,7 +54,7 @@ class Connection
         try {
             /** @var Logger $logger */
             $logger = $this->getContainer()->get(Services::LOGGER);
-            $systemConfig = new SystemConfig();
+            $systemConfig = new SystemCheck();
             $logger->info('Instance details: ' . json_encode($systemConfig->getSystemDetails()));
         } catch (Throwable $e) {
         }
