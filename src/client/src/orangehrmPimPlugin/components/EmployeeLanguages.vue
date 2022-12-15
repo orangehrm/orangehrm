@@ -118,7 +118,7 @@ export default {
       `api/v2/pim/employees/${props.employeeId}/languages`,
     );
 
-    const languagesEndpoint = `api/v2/pim/employees/${props.employeeId}/languages/allowed?limit=0`;
+    const languagesEndpoint = `api/v2/pim/employees/${props.employeeId}/languages/allowed`;
 
     const {
       showPaginator,

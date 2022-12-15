@@ -45,6 +45,7 @@ export default {
           .request({
             method: 'GET',
             url: `/api/v2/time/project/${props.projectId}/activities`,
+            params: {limit: 0},
           })
           .then(({data}) => {
             options.value = data.data.map(item => {

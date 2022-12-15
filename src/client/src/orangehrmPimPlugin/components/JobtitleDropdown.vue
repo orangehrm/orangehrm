@@ -38,7 +38,7 @@ export default {
       'api/v2/admin/job-titles',
     );
     onBeforeMount(() => {
-      http.getAll().then(({data}) => {
+      http.getAll({limit: 0}).then(({data}) => {
         options.value = data.data.map(item => {
           return {
             id: item.id,

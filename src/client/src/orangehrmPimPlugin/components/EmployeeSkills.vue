@@ -104,7 +104,7 @@ export default {
       `api/v2/pim/employees/${props.employeeId}/skills`,
     );
 
-    const skillsEndpoint = `api/v2/pim/employees/${props.employeeId}/skills/allowed?limit=0`;
+    const skillsEndpoint = `api/v2/pim/employees/${props.employeeId}/skills/allowed`;
 
     const {
       showPaginator,

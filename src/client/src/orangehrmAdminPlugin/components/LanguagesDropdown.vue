@@ -35,10 +35,10 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/i18n/languages?limit=0',
+      '/api/v2/admin/i18n/languages',
     );
     onBeforeMount(() => {
-      http.getAll({activeOnly: false}).then(({data}) => {
+      http.getAll({activeOnly: false, limit: 0}).then(({data}) => {
         options.value = data.data.map(item => {
           return {
             id: item.id,

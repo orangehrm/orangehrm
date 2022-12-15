@@ -168,6 +168,7 @@ export default {
       .request({
         method: 'GET',
         url: this.api,
+        params: {limit: 0},
       })
       .then(response => {
         const {data} = response.data;

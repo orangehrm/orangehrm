@@ -63,15 +63,19 @@ export default {
     if (props.api) {
       const http = new APIService(window.appGlobal.baseUrl, props.api);
       onBeforeMount(() => {
-        http.getAll().then(({data}) => {
-          opts.value = data.data.map(item => {
-            return {
-              id: item.id,
-              label: item.name ? item.name : item.title,
-              _indent: item.level ? item.level + 1 : 1,
-            };
+        http
+          .getAll({
+            ...(props.api !== 'api/v2/admin/subunits' && {limit: 0}),
+          })
+          .then(({data}) => {
+            opts.value = data.data.map(item => {
+              return {
+                id: item.id,
+                label: item.name ? item.name : item.title,
+                _indent: item.level ? item.level + 1 : 1,
+              };
+            });
           });
-        });
       });
     }
 

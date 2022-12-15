@@ -129,7 +129,7 @@ export default {
     this.http
       .request({
         method: 'GET',
-        url: `api/v2/admin/pay-grades/${this.payGradeId}/currencies/allowed?limit=0`,
+        url: `api/v2/admin/pay-grades/${this.payGradeId}/currencies/allowed`,
         params: {
           limit: 0,
         },

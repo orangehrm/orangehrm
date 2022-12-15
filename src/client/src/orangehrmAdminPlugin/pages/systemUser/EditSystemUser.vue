@@ -135,7 +135,7 @@ export default {
   },
   props: {
     systemUserId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
