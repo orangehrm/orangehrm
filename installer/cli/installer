@@ -36,6 +36,7 @@ use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Installer\cli\InstallOnNewDatabaseCommand;
 use OrangeHRM\Installer\cli\UpgradeCommand;
 use OrangeHRM\Installer\Framework\HttpKernel;
 use OrangeHRM\Installer\Framework\MemorySessionStorage;
@@ -55,6 +56,7 @@ $session = new Session($sessionStorage);
 $session->start();
 ServiceContainer::getContainer()->set(Services::SESSION, $session);
 
+$console->add(new InstallOnNewDatabaseCommand());
 $console->add(new UpgradeCommand());
 
 $console->setName('OrangeHRM Command Line Installer');

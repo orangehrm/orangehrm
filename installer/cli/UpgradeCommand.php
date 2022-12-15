@@ -42,8 +42,14 @@ use Throwable;
 
 class UpgradeCommand extends InstallerCommand
 {
+    use InstallerCommandHelperTrait;
+
     public const REQUIRED_TAG = '<comment>(required)</comment>';
     public const REQUIRED_WARNING = 'This field cannot be empty';
+
+    public const STEP_1 = 'Checking database permissions';
+    public const STEP_2 = 'Applying database changes';
+    public const STEP_3 = 'Creating configuration files';
 
     /**
      * @inheritDoc
@@ -183,14 +189,11 @@ class UpgradeCommand extends InstallerCommand
                 "Upgrading from OrangeHRM $currentVersion to OrangeHRM " . Config::PRODUCT_VERSION . '.'
             );
         }
-        $section1 = $output->section();
-        $section2 = $output->section();
-        $section3 = $output->section();
+        $step1 = $this->startSection($output, self::STEP_1);
+        $step2 = $this->startSection($output, self::STEP_2);
+        $step3 = $this->startSection($output, self::STEP_3, "\n");
 
-        $section1->writeln('* Checking database permissions');
-        $section2->writeln('* Applying database changes');
-        $section3->writeln("* Creating configuration files\n");
-
+        $this->startStep($step1, self::STEP_1);
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
         (new UpgraderDataRegistrationAPI())->handle($request);
@@ -206,8 +209,10 @@ class UpgradeCommand extends InstallerCommand
             );
             return self::FAILURE;
         }
-        $section1->overwrite(sprintf('<fg=green>%s</>', '* Checking database permissions ✓'));
+        $step1->overwrite(sprintf('<fg=green>%s</>', '* Checking database permissions ✓'));
+        $this->completeStep($step1, self::STEP_1);
 
+        $this->startStep($step2, self::STEP_2);
         $migrationVersions = $appSetupUtility->getVersionsInRange($currentVersion, null, false);
         if (empty($migrationVersions)) {
             $this->getIO()->error('Invalid current version');
@@ -217,60 +222,15 @@ class UpgradeCommand extends InstallerCommand
             Logger::getLogger()->info(json_encode(['version' => $version]));
             $appSetupUtility->runMigrationFor($version);
         }
-        $section2->overwrite(sprintf('<fg=green>%s</>', '* Applying database changes ✓'));
+        $this->completeStep($step2, self::STEP_2);
 
+        $this->startStep($step3, self::STEP_3, "\n");
         $request = new Request();
         $request->setMethod(Request::METHOD_POST);
         (new ConfigFileAPI())->handle($request);
-        $section3->overwrite(sprintf('<fg=green>%s</>', "* Creating configuration files ✓\n"));
+        $this->completeStep($step3, self::STEP_3, "\n");
 
         return self::SUCCESS;
-    }
-
-    /**
-     * @param string $label
-     * @return string
-     */
-    private function getRequiredField(string $label): string
-    {
-        return $this->getIO()->ask($label . ' ' . self::REQUIRED_TAG, null, function ($answer) {
-            if (strlen(trim($answer)) == 0) {
-                throw new InvalidArgumentException(self::REQUIRED_WARNING);
-            }
-            return $answer;
-        });
-    }
-
-    /**
-     * @param array $systemCheckResults
-     */
-    private function drawSystemCheckTable(array $systemCheckResults): void
-    {
-        $this->getIO()->title('System Check');
-        $this->getIO()->block(
-            'In order for your OrangeHRM installation to function properly, please ensure that all of the system check items listed below are green. If any are red, please take the necessary steps to fix them.'
-        );
-        foreach ($systemCheckResults as $category) {
-            $rows = [];
-            foreach ($category['checks'] as $check) {
-                switch ($check['value']['status']) {
-                    case SystemCheck::PASSED:
-                        $style = '<fg=black;bg=green>%s</>';
-                        break;
-                    case SystemCheck::BLOCKER:
-                        $style = '<fg=white;bg=red>%s</>';
-                        break;
-                    case SystemCheck::ACCEPTABLE:
-                        $style = '<fg=black;bg=yellow>%s</>';
-                        break;
-                    default:
-                        $style = '<fg=default;bg=default>%s</>';
-                }
-                $status = sprintf($style, $check['value']['message']);
-                $rows[] = [$check['label'], $status];
-            }
-            $this->getIO()->table([$category['category']], $rows);
-        }
     }
 
     /**
