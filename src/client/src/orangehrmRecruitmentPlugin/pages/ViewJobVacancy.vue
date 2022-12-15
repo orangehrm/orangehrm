@@ -205,7 +205,6 @@ export default {
       items: response,
       filters,
       sortDefinition,
-      $t,
     };
   },
 
