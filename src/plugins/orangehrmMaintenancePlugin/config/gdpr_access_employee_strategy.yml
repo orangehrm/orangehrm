@@ -411,3 +411,19 @@ Entities :
           - {field: "numOfLikes"}
           - {field: "createdAtUtc", class: 'FormatWithDateTime'}
           - {field: "updatedAtUtc", class: 'FormatWithDateTime'}
+
+  BuzzLikeOnComment:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "likedAtUtc", class: 'FormatWithDateTime'}
+
+  BuzzLikeOnShare:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "likedAtUtc", class: 'FormatWithDateTime'}
