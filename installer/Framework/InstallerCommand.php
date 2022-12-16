@@ -30,7 +30,7 @@ abstract class InstallerCommand extends Command
     /**
      * @inheritDoc
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         try {
             return parent::run($input, $output);

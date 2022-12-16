@@ -138,13 +138,15 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
         $this->getIO()->title('Database Configuration');
         $this->getIO()->block('Please enter your database configuration information below.');
         $dbHost = $this->getRequiredField('Database Host Name');
-        $dbPort = $this->getIO()->ask('Database Host Port', 3306);
+        $dbPort = $this->getIO()->ask(
+            'Database Host Port',
+            3306,
+            fn (?string $value) => $this->databasePortValidator($value)
+        );
         $dbName = $this->getRequiredField('Database Name', function ($value) {
-            if (!$this->validateStrLength($value, 64)) {
-                throw InvalidArgumentException::shouldNotExceedCharacters(64);
-            }
-            return $value;
-        }); // TODO:: validate char
+            $value = $this->validateStrLength($value, 64);
+            return $this->alphanumericValidator($value, 'Database name should not contain special characters');
+        });
 
         $this->getIO()->writeln(
             "<comment>Privileged Database User:</comment>\nShould have the rights to create databases, create tables, insert data into table, alter table structure and to create database users."
@@ -231,12 +233,10 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
         $this->getIO()->block(
             'Fill in your organization details here. Details entered in this section will be captured to create your OrangeHRM Instance'
         );
-        $organizationName = $this->getRequiredField('Organization Name', function ($value) {
-            if (!$this->validateStrLength($value, 100)) {
-                throw InvalidArgumentException::shouldNotExceedCharacters(100);
-            }
-            return $value;
-        });
+        $organizationName = $this->getRequiredField(
+            'Organization Name',
+            fn ($value) => $this->validateStrLength($value, 100)
+        );
 
         $countries = array_combine(
             array_column(InstanceCreationHelper::COUNTRIES, 'id'),
@@ -317,50 +317,20 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
 
     protected function adminUserCreation(): void
     {
-        $firstName = $this->getRequiredField('Employee First Name', function ($value) {
-            if (!$this->validateStrLength($value, 30)) {
-                throw InvalidArgumentException::shouldNotExceedCharacters(30);
-            }
-            return $value;
-        });
-        $lastName = $this->getRequiredField('Employee Last Name', function ($value) {
-            if (!$this->validateStrLength($value, 30)) {
-                throw InvalidArgumentException::shouldNotExceedCharacters(30);
-            }
-            return $value;
-        });
-        $email = $this->getRequiredField('Email', function ($value) {
-            if (!$this->validateStrLength($value, 50)) {
-                throw InvalidArgumentException::shouldNotExceedCharacters(50);
-            }
-            return $value;
-        });
-        $contact = $this->getIO()->ask('Contact Number', null, function ($value) {
-            if (!$this->validateStrLength($value, 25)) {
-                throw InvalidArgumentException::shouldNotExceedCharacters(25);
-            }
-            return $value;
-        });
-        $username = $this->getRequiredField('Admin Username', function ($value) {
-            if (!$this->validateStrLength($value, 40)) {
-                throw InvalidArgumentException::shouldNotExceedCharacters(40);
-            }
-            return $value;
-        });
+        $firstName = $this->getRequiredField('Employee First Name', fn ($value) => $this->validateStrLength($value, 30));
+        $lastName = $this->getRequiredField('Employee Last Name', fn ($value) => $this->validateStrLength($value, 30));
+        $email = $this->getRequiredField('Email', fn ($value) => $this->validateStrLength($value, 50));
+        $contact = $this->getIO()->ask('Contact Number', null, fn ($value) => $this->validateStrLength($value, 25));
+        $username = $this->getRequiredField('Admin Username', fn ($value) => $this->validateStrLength($value, 40));
         $password = $this->getIO()->askHidden('Password <comment>(hidden)</comment>', function ($value) {
             $value = $this->requiredValidator($value);
-            if (!$this->validateStrLength($value, 64)) {
-                throw InvalidArgumentException::shouldNotExceedCharacters(64);
-            }
-            return $value;
+            return $this->validateStrLength($value, 64);
         });
         $this->getIO()->askHidden(
             'Confirm Password <comment>(hidden)</comment>',
             function ($value) use ($password) {
                 $value = $this->requiredValidator($value);
-                if (!$this->validateStrLength($value, 64)) {
-                    throw InvalidArgumentException::shouldNotExceedCharacters(64);
-                }
+                $value = $this->validateStrLength($value, 64);
                 if ($value !== $password) {
                     throw new InvalidArgumentException('Passwords do not match');
                 }

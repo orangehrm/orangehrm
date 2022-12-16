@@ -94,11 +94,15 @@ class UpgradeCommand extends InstallerCommand
                 $input->setOption('dbHost', $dbHost);
             }
             if (!$this->hasOption($input, 'dbPort')) {
-                $dbPort = $this->getIO()->ask('Database Host Port', 3306);
+                $dbPort = $this->getIO()->ask(
+                    'Database Host Port',
+                    3306,
+                    fn(?string $value) => $this->databasePortValidator($value)
+                );
                 $input->setOption('dbPort', $dbPort);
             }
             if (!$this->hasOption($input, 'dbName')) {
-                $dbName = $this->getRequiredField('Database Name');
+                $dbName = $this->getRequiredField('Database Name'); // not validated because database already there
                 $input->setOption('dbName', $dbName);
             }
             if (!$this->hasOption($input, 'dbUser')) {

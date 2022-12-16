@@ -32,7 +32,6 @@ class DatabaseConnectionWrapper
     public const ERROR_CODE_INVALID_HOST_PORT = 2002;
     public const ERROR_CODE_DATABASE_NOT_EXISTS = 1049;
 
-
     private ?DBALConnection $conn;
     private ?Throwable $e;
 
@@ -81,6 +80,10 @@ class DatabaseConnectionWrapper
         return $this->e;
     }
 
+    /**
+     * @param callable $dbalConnectionGetter
+     * @return self
+     */
     public static function establishConnection(callable $dbalConnectionGetter): self
     {
         try {

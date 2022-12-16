@@ -182,7 +182,7 @@ class DataRegistrationUtility
                 $organizationEmail,
                 $adminFirstName,
                 $adminLastName,
-                $_SERVER['HTTP_HOST'], // TODO
+                $_SERVER['HTTP_HOST'],
                 $country,
                 Config::PRODUCT_VERSION,
                 $currentTimestamp

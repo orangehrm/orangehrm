@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Installer\cli;
 
-use InvalidArgumentException;
+use OrangeHRM\Installer\Exception\InvalidArgumentException;
 use OrangeHRM\Installer\Util\SystemCheck;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
@@ -59,6 +59,32 @@ trait InstallerCommandHelperTrait
             throw new InvalidArgumentException(self::REQUIRED_WARNING);
         }
         return $answer;
+    }
+
+    /**
+     * @param string|null $value
+     * @return string|null
+     */
+    private function databasePortValidator(?string $value): ?string
+    {
+        if (($value === null || strlen(trim($value)) === 0)
+            || (is_numeric($value) && (int)$value >= 0 && (int)$value <= 65535)) {
+            return $value;
+        }
+        throw new InvalidArgumentException('Enter a valid port number: 0 - 65535');
+    }
+
+    /**
+     * @param string|null $value
+     * @param string $message
+     * @return string|null
+     */
+    private function alphanumericValidator(?string $value, string $message): ?string
+    {
+        if (preg_match('/^[a-zA-Z0-9_]*$/', $value) === 1) {
+            return $value;
+        }
+        throw new InvalidArgumentException($message);
     }
 
     /**
@@ -142,12 +168,15 @@ trait InstallerCommandHelperTrait
     }
 
     /**
-     * @param string $text
+     * @param string|null $text
      * @param int $length
-     * @return bool
+     * @return string|null
      */
-    private function validateStrLength(string $text, int $length): bool
+    private function validateStrLength(?string $text, int $length): ?string
     {
-        return mb_strlen($text) <= $length;
+        if ($text === null || mb_strlen($text) <= $length) {
+            return $text;
+        }
+        throw InvalidArgumentException::shouldNotExceedCharacters($length);
     }
 }

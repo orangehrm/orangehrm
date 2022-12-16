@@ -41,8 +41,12 @@ class InstallOnExistingDatabaseCommand extends InstallOnNewDatabaseCommand
         $this->getIO()->title('Database Configuration');
         $this->getIO()->block('Please enter your database configuration information below.');
         $dbHost = $this->getRequiredField('Database Host Name');
-        $dbPort = $this->getIO()->ask('Database Host Port', 3306);
-        $dbName = $this->getRequiredField('Database Name'); // TODO:: validate char
+        $dbPort = $this->getIO()->ask(
+            'Database Host Port',
+            3306,
+            fn (?string $value) => $this->databasePortValidator($value)
+        );
+        $dbName = $this->getRequiredField('Database Name'); // not validated because existing database
         $dbUser = $this->getRequiredField('OrangeHRM Database Username');
         $dbPassword = $this->getIO()->askHidden('OrangeHRM Database User Password <comment>(hidden)</comment>');
         $enableDataEncryption = $this->getIO()->confirm('Enable Data Encryption', false);
