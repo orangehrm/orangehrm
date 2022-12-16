@@ -25,6 +25,13 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\BuzzComment;
+use OrangeHRM\Entity\BuzzLikeOnComment;
+use OrangeHRM\Entity\BuzzLikeOnShare;
+use OrangeHRM\Entity\BuzzLink;
+use OrangeHRM\Entity\BuzzPhoto;
+use OrangeHRM\Entity\BuzzPost;
+use OrangeHRM\Entity\BuzzShare;
 use OrangeHRM\Entity\Candidate;
 use OrangeHRM\Entity\CandidateAttachment;
 use OrangeHRM\Entity\CandidateHistory;
@@ -132,6 +139,11 @@ class PurgeServiceTest extends KernelTestCase
         $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
         $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
         $this->assertArrayHasKey("TimesheetItem", $purgeableEntities);
+        $this->assertArrayHasKey("BuzzPost", $purgeableEntities);
+        $this->assertArrayHasKey("BuzzShare", $purgeableEntities);
+        $this->assertArrayHasKey("BuzzComment", $purgeableEntities);
+        $this->assertArrayHasKey("BuzzLikeOnComment", $purgeableEntities);
+        $this->assertArrayHasKey("BuzzLikeOnShare", $purgeableEntities);
     }
 
     public function testGetPurgeStrategy(): void
@@ -394,6 +406,34 @@ class PurgeServiceTest extends KernelTestCase
         $this->assertEquals('Comment by Emp 1', $preservedPerformanceTrackerLogs[0]->getComment());
         $this->assertEquals('Comment by Emp 1', $preservedPerformanceTrackerLogs[1]->getComment());
         $this->assertEquals('Comment by Emp 2', $preservedPerformanceTrackerLogs[2]->getComment());
+
+        $buzzPosts = $this->getRepository(BuzzPost::class);
+        $this->assertEmpty($buzzPosts->findBy(['employee' => 1]));
+        $this->assertCount(4, $buzzPosts->findAll());
+
+        $buzzShares = $this->getRepository(BuzzShare::class);
+        $this->assertEmpty($buzzShares->findBy(['employee' => 1]));
+        $this->assertCount(4, $buzzShares->findAll());
+
+        $buzzComments = $this->getRepository(BuzzComment::class);
+        $this->assertEmpty($buzzComments->findBy(['employee' => 1]));
+        $this->assertEmpty($buzzComments->findAll());
+
+        $buzzPhotos = $this->getRepository(BuzzPhoto::class);
+        $this->assertEmpty($buzzPhotos->findBy(['post' => 3]));
+        $this->assertCount(1, $buzzPhotos->findAll());
+
+        $buzzLinks = $this->getRepository(BuzzLink::class);
+        $this->assertEmpty($buzzLinks->findBy(['post' => 4]));
+        $this->assertCount(1, $buzzLinks->findAll());
+
+        $buzzLikeOnShares = $this->getRepository(BuzzLikeOnShare::class);
+        $this->assertEmpty($buzzLikeOnShares->findBy(['employee' => 1]));
+        $this->assertCount(2, $buzzLikeOnShares->findAll());
+
+        $buzzLikeOnComments = $this->getRepository(BuzzLikeOnComment::class);
+        $this->assertEmpty($buzzLikeOnComments->findBy(['employee' => 1]));
+        $this->assertEmpty($buzzLikeOnComments->findAll());
     }
 
     public function testPurgeEmployeeDataWithTransactionException(): void

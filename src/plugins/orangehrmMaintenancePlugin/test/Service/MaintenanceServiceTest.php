@@ -286,7 +286,7 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('2010-08-29 04:55:00', $result['LeaveRequestComment'][0]['createdAt']);
         $this->assertEquals('samantha', $result['LeaveRequestComment'][0]['createdBy']);
         $this->assertEquals('employee 3 comment on emp 1 leave request', $result['LeaveRequestComment'][0]['comment']);
-        $this->assertCount(3, $result['LeaveRequestComment']);
+        $this->assertCount(4, $result['LeaveRequestComment']);
     }
 
     public function testLeaveComment(): void
@@ -357,16 +357,16 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('Code Clarity', $result['ReviewerRating'][0]['kpi']);
         $this->assertEquals('5.50', $result['ReviewerRating'][0]['rating']);
         $this->assertEquals('Test comment 1', $result['ReviewerRating'][0]['comment']);
-        $this->assertCount(2, $result['ReviewerRating']);
+        $this->assertCount(3, $result['ReviewerRating']);
     }
 
     public function testReviewer(): void
     {
         $result = $this->maintenanceService->accessEmployeeData(1);
-        $this->assertEquals('Kayla T Abbey', $result['Reviewer'][0]['employee']);
+        $this->assertEquals('Ashley ST Abel', $result['Reviewer'][0]['employee']);
         $this->assertEquals('2014-10-30 00:00:00', $result['Reviewer'][0]['completedDate']);
-        $this->assertEquals('Test Comment 2', $result['Reviewer'][0]['comment']);
-        $this->assertCount(2, $result['Reviewer']);
+        $this->assertEquals('Test Comment 1', $result['Reviewer'][0]['comment']);
+        $this->assertCount(3, $result['Reviewer']);
     }
 
     public function testPerformanceTrackerLog(): void
@@ -380,10 +380,113 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(1, $result['PerformanceTrackerLog']);
     }
 
+    public function testBuzzPost(): void
+    {
+        $result = $this->maintenanceService->accessEmployeeData(1);
+        $this->assertCount(4, $result['BuzzPost']);
+        $this->assertEquals('Post 1', $result['BuzzPost'][0]['text']);
+        $this->assertEquals('2022-12-15 09:40:19', $result['BuzzPost'][0]['createdAtUtc']);
+        $this->assertEquals('2022-12-15 09:40:19', $result['BuzzPost'][0]['updatedAtUtc']);
+        $this->assertEquals('Post 2', $result['BuzzPost'][1]['text']);
+        $this->assertEquals('2022-12-15 09:40:23', $result['BuzzPost'][1]['createdAtUtc']);
+        $this->assertEquals('2022-12-15 09:40:23', $result['BuzzPost'][1]['updatedAtUtc']);
+        $this->assertEquals('Image 1', $result['BuzzPost'][2]['text']);
+        $this->assertEquals('2022-12-15 09:40:30', $result['BuzzPost'][2]['createdAtUtc']);
+        $this->assertEquals('2022-12-15 09:40:30', $result['BuzzPost'][2]['updatedAtUtc']);
+        $this->assertEquals('2022-12-15 09:40:49', $result['BuzzPost'][3]['createdAtUtc']);
+        $this->assertEquals('2022-12-15 09:40:49', $result['BuzzPost'][3]['updatedAtUtc']);
+    }
+
+    public function testBuzzShare(): void
+    {
+        $result = $this->maintenanceService->accessEmployeeData(1);
+        $this->assertCount(6, $result['BuzzShare']);
+        $this->assertEquals(2, $result['BuzzShare'][0]['numOfLikes']);
+        $this->assertEquals(1, $result['BuzzShare'][0]['numOfComments']);
+        $this->assertEquals('2022-12-15 09:40:19', $result['BuzzShare'][0]['createdAtUtc']);
+        $this->assertEquals('2022-12-14 20:43:24', $result['BuzzShare'][0]['updatedAtUtc']);
+        $this->assertEquals(1, $result['BuzzShare'][1]['numOfLikes']);
+        $this->assertEquals(1, $result['BuzzShare'][1]['numOfComments']);
+        $this->assertEquals('2022-12-15 09:40:23', $result['BuzzShare'][1]['createdAtUtc']);
+        $this->assertEquals('2022-12-14 20:43:05', $result['BuzzShare'][1]['updatedAtUtc']);
+        $this->assertEquals(2, $result['BuzzShare'][2]['numOfLikes']);
+        $this->assertEquals(2, $result['BuzzShare'][2]['numOfComments']);
+        $this->assertEquals('2022-12-15 09:40:30', $result['BuzzShare'][2]['createdAtUtc']);
+        $this->assertEquals('2022-12-14 20:42:34', $result['BuzzShare'][2]['updatedAtUtc']);
+        $this->assertEquals(1, $result['BuzzShare'][3]['numOfLikes']);
+        $this->assertEquals(1, $result['BuzzShare'][3]['numOfComments']);
+        $this->assertEquals('2022-12-15 09:40:49', $result['BuzzShare'][3]['createdAtUtc']);
+        $this->assertEquals('2022-12-14 20:43:17', $result['BuzzShare'][3]['updatedAtUtc']);
+        $this->assertEquals('Reshare 1', $result['BuzzShare'][4]['text']);
+        $this->assertEquals(1, $result['BuzzShare'][4]['numOfLikes']);
+        $this->assertEquals(1, $result['BuzzShare'][4]['numOfComments']);
+        $this->assertEquals('2022-12-15 09:41:31', $result['BuzzShare'][4]['createdAtUtc']);
+        $this->assertEquals('2022-12-14 20:44:04', $result['BuzzShare'][4]['updatedAtUtc']);
+        $this->assertEquals('Reshare 4', $result['BuzzShare'][5]['text']);
+        $this->assertEquals(1, $result['BuzzShare'][5]['numOfLikes']);
+        $this->assertEquals(0, $result['BuzzShare'][5]['numOfComments']);
+        $this->assertEquals('2022-12-15 09:43:43', $result['BuzzShare'][5]['createdAtUtc']);
+        $this->assertEquals('2022-12-14 20:43:46', $result['BuzzShare'][5]['updatedAtUtc']);
+    }
+
+    public function testBuzzPhoto(): void
+    {
+        $result = $this->maintenanceService->accessEmployeeData(1);
+        $this->assertCount(1, $result['BuzzPhoto']);
+        $this->assertEquals('cGhvdG8x', $result['BuzzPhoto'][0]['photo']);
+        $this->assertEquals('icon.png', $result['BuzzPhoto'][0]['filename']);
+        $this->assertEquals('image/jpeg', $result['BuzzPhoto'][0]['fileType']);
+    }
+
+    public function testBuzzLink(): void
+    {
+        $result = $this->maintenanceService->accessEmployeeData(1);
+        $this->assertCount(1, $result['BuzzLink']);
+        $this->assertEquals('https://www.youtube.com/embed/qMCMgedYqac?rel=0', $result['BuzzLink'][0]['link']);
+    }
+
+    public function testBuzzComment(): void
+    {
+        $result = $this->maintenanceService->accessEmployeeData(1);
+        $this->assertCount(3, $result['BuzzComment']);
+        $this->assertEquals('Comment 1', $result['BuzzComment'][0]['text']);
+        $this->assertEquals(0, $result['BuzzComment'][0]['numOfLikes']);
+        $this->assertEquals('2022-12-15 09:40:59', $result['BuzzComment'][0]['createdAtUtc']);
+        $this->assertEquals('2022-12-15 09:40:59', $result['BuzzComment'][0]['updatedAtUtc']);
+        $this->assertEquals('Comment 2', $result['BuzzComment'][1]['text']);
+        $this->assertEquals(1, $result['BuzzComment'][1]['numOfLikes']);
+        $this->assertEquals('2022-12-15 09:41:04', $result['BuzzComment'][1]['createdAtUtc']);
+        $this->assertEquals('2022-12-14 20:43:20', $result['BuzzComment'][1]['updatedAtUtc']);
+        $this->assertEquals('Comment 3', $result['BuzzComment'][2]['text']);
+        $this->assertEquals(2, $result['BuzzComment'][2]['numOfLikes']);
+        $this->assertEquals('2022-12-15 09:41:13', $result['BuzzComment'][2]['createdAtUtc']);
+        $this->assertEquals('2022-12-14 20:43:19', $result['BuzzComment'][2]['updatedAtUtc']);
+    }
+
+    public function testBuzzLikeOnComment(): void
+    {
+        $result = $this->maintenanceService->accessEmployeeData(1);
+        $this->assertCount(1, $result['BuzzLikeOnComment']);
+        $this->assertEquals('2022-12-15 09:41:19', $result['BuzzLikeOnComment'][0]['likedAtUtc']);
+    }
+
+    public function testBuzzLikeOnShare(): void
+    {
+        $result = $this->maintenanceService->accessEmployeeData(1);
+        $this->assertCount(7, $result['BuzzLikeOnShare']);
+        $this->assertEquals('2022-12-15 09:41:16', $result['BuzzLikeOnShare'][0]['likedAtUtc']);
+        $this->assertEquals('2022-12-15 09:41:17', $result['BuzzLikeOnShare'][1]['likedAtUtc']);
+        $this->assertEquals('2022-12-15 09:41:18', $result['BuzzLikeOnShare'][2]['likedAtUtc']);
+        $this->assertEquals('2022-12-15 09:43:46', $result['BuzzLikeOnShare'][3]['likedAtUtc']);
+        $this->assertEquals('2022-12-15 09:44:04', $result['BuzzLikeOnShare'][4]['likedAtUtc']);
+        $this->assertEquals('2022-12-15 09:44:05', $result['BuzzLikeOnShare'][5]['likedAtUtc']);
+        $this->assertEquals('2022-12-15 09:44:07', $result['BuzzLikeOnShare'][6]['likedAtUtc']);
+    }
+
     public function testGetPurgeableEntities(): void
     {
         $purgeableEntities = $this->maintenanceService->getPurgeableEntities('gdpr_access_employee_strategy');
-        $this->assertCount(28, $purgeableEntities);
+        $this->assertCount(35, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);
@@ -406,8 +509,14 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertArrayHasKey("LeaveComment", $purgeableEntities);
         $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
         $this->assertArrayHasKey("TimesheetItem", $purgeableEntities);
+        $this->assertArrayHasKey('BuzzPost', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzShare', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzPhoto', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzLink', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzComment', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzLikeOnComment', $purgeableEntities);
+        $this->assertArrayHasKey('BuzzLikeOnShare', $purgeableEntities);
     }
-
 
     public function testGetAccessStrategy(): void
     {
