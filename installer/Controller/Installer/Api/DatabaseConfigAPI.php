@@ -120,7 +120,9 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
             $dbHost,
             $dbPort,
             new UserCredential($dbUser, $dbPassword),
-            $dbName
+            $dbName,
+            null,
+            $enableDataEncryption
         );
         StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING);
 
