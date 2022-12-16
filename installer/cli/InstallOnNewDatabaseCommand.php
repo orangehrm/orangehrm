@@ -20,13 +20,13 @@
 namespace OrangeHRM\Installer\cli;
 
 use DateTimeZone;
-use InvalidArgumentException;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\Installer\Api\ConfigFileAPI;
 use OrangeHRM\Installer\Controller\Installer\Api\InstallerDataRegistrationAPI;
 use OrangeHRM\Installer\Exception\InterruptProcessException;
+use OrangeHRM\Installer\Exception\InvalidArgumentException;
 use OrangeHRM\Installer\Framework\InstallerCommand;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\Connection;
@@ -55,6 +55,10 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
     public const STEP_5 = 'Create OrangeHRM database user';
     public const STEP_6 = 'Creating configuration files';
 
+    private InputInterface $input;
+    private OutputInterface $output;
+    private AppSetupUtility $appSetupUtility;
+
     /**
      * @inheritDoc
      */
@@ -68,6 +72,8 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->input = $input;
+        $this->output = $output;
         try {
             return $this->executeCommand($input, $output);
         } catch (InterruptProcessException $e) {
@@ -87,62 +93,33 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
         $this->systemCheck();
         $this->instanceCreation();
         $this->adminUserCreation();
-
-        $continue = $this->getIO()->confirm('Do you want to start the installer?', true);
-        if ($continue !== true) {
-            $this->getIO()->info('Aborted');
-            return self::INVALID;
-        }
-
-        $step1 = $this->startSection($output, self::STEP_1);
-        $step2 = $this->startSection($output, self::STEP_2);
-        $step3 = $this->startSection($output, self::STEP_3);
-        $step4 = $this->startSection($output, self::STEP_4);
-        $step5 = $this->startSection($output, self::STEP_5);
-        $step6 = $this->startSection($output, self::STEP_6, "\n");
-
-        $this->startStep($step1, self::STEP_1);
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        (new InstallerDataRegistrationAPI())->handle($request);
-
-        $appSetupUtility = new AppSetupUtility();
-        $appSetupUtility->createDatabase();
-        $this->completeStep($step1, self::STEP_1);
-
-        $this->startStep($step2, self::STEP_2);
-        try {
-            $evaluator = new DatabaseUserPermissionEvaluator(Connection::getConnection());
-            $evaluator->evalPrivilegeDatabaseUserPermission();
-        } catch (Throwable $e) {
-            Logger::getLogger()->error($e->getMessage());
-            Logger::getLogger()->error($e->getTraceAsString());
-            $this->getIO()->error(
-                '`Checking database permissions` failed. For more details check the error log in /src/log/installer.log file'
-            );
-            return self::FAILURE;
-        }
-        $this->completeStep($step2, self::STEP_2);
-
-        $this->startStep($step3, self::STEP_3);
-        $appSetupUtility->runMigrations('3.3.3', Config::PRODUCT_VERSION);
-        $this->completeStep($step3, self::STEP_3);
-
-        $this->startStep($step4, self::STEP_4);
-        $appSetupUtility->insertSystemConfiguration();
-        $this->completeStep($step4, self::STEP_4);
-
-        $this->startStep($step5, self::STEP_5);
-        $appSetupUtility->createDBUser();
-        $this->completeStep($step5, self::STEP_5);
-
-        $this->startStep($step6, self::STEP_6, "\n");
-        $request = new Request();
-        $request->setMethod(Request::METHOD_POST);
-        (new ConfigFileAPI())->handle($request);
-        $this->completeStep($step6, self::STEP_6, "\n");
+        $this->installation();
 
         return self::SUCCESS;
+    }
+
+    /**
+     * @return InputInterface
+     */
+    protected function getInput(): InputInterface
+    {
+        return $this->input;
+    }
+
+    /**
+     * @return OutputInterface
+     */
+    protected function getOutput(): OutputInterface
+    {
+        return $this->output;
+    }
+
+    /**
+     * @return AppSetupUtility
+     */
+    public function getAppSetupUtility(): AppSetupUtility
+    {
+        return $this->appSetupUtility ??= new AppSetupUtility();
     }
 
     protected function licenseAcceptance(): void
@@ -157,11 +134,17 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
 
     protected function databaseInformation(): void
     {
+        dbInfo:
         $this->getIO()->title('Database Configuration');
         $this->getIO()->block('Please enter your database configuration information below.');
         $dbHost = $this->getRequiredField('Database Host Name');
         $dbPort = $this->getIO()->ask('Database Host Port', 3306);
-        $dbName = $this->getRequiredField('Database Name'); // TODO:: validate char
+        $dbName = $this->getRequiredField('Database Name', function ($value) {
+            if (!$this->validateStrLength($value, 64)) {
+                throw InvalidArgumentException::shouldNotExceedCharacters(64);
+            }
+            return $value;
+        }); // TODO:: validate char
 
         $this->getIO()->writeln(
             "<comment>Privileged Database User:</comment>\nShould have the rights to create databases, create tables, insert data into table, alter table structure and to create database users."
@@ -173,7 +156,8 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
         $dbUser = $this->getRequiredField('Privileged Database Username');
         $dbPassword = $this->getIO()->askHidden('Privileged Database User Password <comment>(hidden)</comment>');
         $useSameDbUser = $this->getIO()->confirm(
-            'Use the same `Privileged Database User` as `OrangeHRM Database User`'
+            'Use the same `Privileged Database User` as `OrangeHRM Database User`',
+            false
         );
 
         $ohrmDbUser = $dbUser;
@@ -195,6 +179,25 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
             $enableDataEncryption
         );
         StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_NEW);
+
+        $connection = $this->getAppSetupUtility()->connectToDatabaseServer();
+        if ($connection->hasError()) {
+            $this->getIO()->error($connection->getErrorMessage());
+            StateContainer::getInstance()->clearDbInfo();
+            goto dbInfo;
+        }
+        if ($this->getAppSetupUtility()->isDatabaseExist($dbName)) {
+            $this->getIO()->error('Database Already Exist');
+            StateContainer::getInstance()->clearDbInfo();
+            goto dbInfo;
+        }
+        if (!$useSameDbUser && $this->getAppSetupUtility()->isDatabaseUserExist($ohrmDbUser)) {
+            $this->getIO()->error(
+                "Database User `$ohrmDbUser` Already Exist. Please Use Another Username for `OrangeHRM Database Username`."
+            );
+            StateContainer::getInstance()->clearDbInfo();
+            goto dbInfo;
+        }
     }
 
     protected function systemCheck(): void
@@ -210,6 +213,16 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
             ];
         }
         $this->drawSystemCheckTable($results);
+        if ($systemCheck->isInterruptContinue()) {
+            $this->getIO()->error('System check failed');
+            $systemCheckAcceptRisk = $this->getIO()->confirm('Do you want to accept the risk and continue?', false);
+
+            if ($systemCheckAcceptRisk !== true) {
+                throw new InterruptProcessException();
+            }
+
+            $this->getIO()->warning('Accepted the risk, so continue the upgrader.');
+        }
     }
 
     protected function instanceCreation(): void
@@ -218,7 +231,12 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
         $this->getIO()->block(
             'Fill in your organization details here. Details entered in this section will be captured to create your OrangeHRM Instance'
         );
-        $organizationName = $this->getRequiredField('Organization Name');
+        $organizationName = $this->getRequiredField('Organization Name', function ($value) {
+            if (!$this->validateStrLength($value, 100)) {
+                throw InvalidArgumentException::shouldNotExceedCharacters(100);
+            }
+            return $value;
+        });
 
         $countries = array_combine(
             array_column(InstanceCreationHelper::COUNTRIES, 'id'),
@@ -297,17 +315,57 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
         StateContainer::getInstance()->storeInstanceData($organizationName, $countryCode, $langCode, $timezone);
     }
 
-    private function adminUserCreation(): void
+    protected function adminUserCreation(): void
     {
-        $firstName = $this->getRequiredField('Employee First Name');
-        $lastName = $this->getRequiredField('Employee Last Name');
-        $email = $this->getRequiredField('Email');
-        $contact = $this->getIO()->ask('Contact Number');
-        $username = $this->getRequiredField('Admin Username');
-        $password = $this->getIO()->askHidden('Password <comment>(hidden)</comment>', [$this, 'requiredValidator']);
-        $confirmPassword = $this->getIO()->askHidden(
+        $firstName = $this->getRequiredField('Employee First Name', function ($value) {
+            if (!$this->validateStrLength($value, 30)) {
+                throw InvalidArgumentException::shouldNotExceedCharacters(30);
+            }
+            return $value;
+        });
+        $lastName = $this->getRequiredField('Employee Last Name', function ($value) {
+            if (!$this->validateStrLength($value, 30)) {
+                throw InvalidArgumentException::shouldNotExceedCharacters(30);
+            }
+            return $value;
+        });
+        $email = $this->getRequiredField('Email', function ($value) {
+            if (!$this->validateStrLength($value, 50)) {
+                throw InvalidArgumentException::shouldNotExceedCharacters(50);
+            }
+            return $value;
+        });
+        $contact = $this->getIO()->ask('Contact Number', null, function ($value) {
+            if (!$this->validateStrLength($value, 25)) {
+                throw InvalidArgumentException::shouldNotExceedCharacters(25);
+            }
+            return $value;
+        });
+        $username = $this->getRequiredField('Admin Username', function ($value) {
+            if (!$this->validateStrLength($value, 40)) {
+                throw InvalidArgumentException::shouldNotExceedCharacters(40);
+            }
+            return $value;
+        });
+        $password = $this->getIO()->askHidden('Password <comment>(hidden)</comment>', function ($value) {
+            $value = $this->requiredValidator($value);
+            if (!$this->validateStrLength($value, 64)) {
+                throw InvalidArgumentException::shouldNotExceedCharacters(64);
+            }
+            return $value;
+        });
+        $this->getIO()->askHidden(
             'Confirm Password <comment>(hidden)</comment>',
-            [$this, 'requiredValidator']
+            function ($value) use ($password) {
+                $value = $this->requiredValidator($value);
+                if (!$this->validateStrLength($value, 64)) {
+                    throw InvalidArgumentException::shouldNotExceedCharacters(64);
+                }
+                if ($value !== $password) {
+                    throw new InvalidArgumentException('Passwords do not match');
+                }
+                return $value;
+            }
         );
 
         StateContainer::getInstance()->storeAdminUserData(
@@ -317,5 +375,62 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
             new UserCredential($username, $password),
             $contact
         );
+    }
+
+    protected function installation(): void
+    {
+        $continue = $this->getIO()->confirm('Do you want to start the installer?', true);
+        if ($continue !== true) {
+            $this->getIO()->info('Aborted');
+            throw new InterruptProcessException();
+        }
+
+        $step1 = $this->startSection($this->getOutput(), self::STEP_1);
+        $step2 = $this->startSection($this->getOutput(), self::STEP_2);
+        $step3 = $this->startSection($this->getOutput(), self::STEP_3);
+        $step4 = $this->startSection($this->getOutput(), self::STEP_4);
+        $step5 = $this->startSection($this->getOutput(), self::STEP_5);
+        $step6 = $this->startSection($this->getOutput(), self::STEP_6, "\n");
+
+        $this->startStep($step1, self::STEP_1);
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        (new InstallerDataRegistrationAPI())->handle($request);
+
+        $appSetupUtility = $this->getAppSetupUtility();
+        $appSetupUtility->createDatabase();
+        $this->completeStep($step1, self::STEP_1);
+
+        $this->startStep($step2, self::STEP_2);
+        try {
+            $evaluator = new DatabaseUserPermissionEvaluator(Connection::getConnection());
+            $evaluator->evalPrivilegeDatabaseUserPermission();
+        } catch (Throwable $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            $this->getIO()->error(
+                '`Checking database permissions` failed. For more details check the error log in /src/log/installer.log file'
+            );
+            throw new InterruptProcessException();
+        }
+        $this->completeStep($step2, self::STEP_2);
+
+        $this->startStep($step3, self::STEP_3);
+        $appSetupUtility->runMigrations('3.3.3', Config::PRODUCT_VERSION);
+        $this->completeStep($step3, self::STEP_3);
+
+        $this->startStep($step4, self::STEP_4);
+        $appSetupUtility->insertSystemConfiguration();
+        $this->completeStep($step4, self::STEP_4);
+
+        $this->startStep($step5, self::STEP_5);
+        $appSetupUtility->createDBUser();
+        $this->completeStep($step5, self::STEP_5);
+
+        $this->startStep($step6, self::STEP_6, "\n");
+        $request = new Request();
+        $request->setMethod(Request::METHOD_POST);
+        (new ConfigFileAPI())->handle($request);
+        $this->completeStep($step6, self::STEP_6, "\n");
     }
 }

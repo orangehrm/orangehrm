@@ -28,6 +28,7 @@ use OrangeHRM\Core\Exception\KeyHandlerException;
 use OrangeHRM\Core\Utility\KeyHandler;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
+use OrangeHRM\Installer\Util\Dto\DatabaseConnectionWrapper;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 use Symfony\Component\Filesystem\Filesystem;
@@ -69,10 +70,6 @@ class AppSetupUtility
 
     public const INSTALLATION_DB_TYPE_NEW = 'new';
     public const INSTALLATION_DB_TYPE_EXISTING = 'existing';
-
-    public const ERROR_CODE_ACCESS_DENIED = 1045;
-    public const ERROR_CODE_INVALID_HOST_PORT = 2002;
-    public const ERROR_CODE_DATABASE_NOT_EXISTS = 1049;
 
     private ConfigHelper $configHelper;
     private SystemConfiguration $systemConfiguration;
@@ -117,18 +114,11 @@ class AppSetupUtility
 
     /**
      * Trying to connect database server without selecting a database
-     * @return bool|Exception
+     * @return DatabaseConnectionWrapper
      */
-    public function connectToDatabaseServer()
+    public function connectToDatabaseServer(): DatabaseConnectionWrapper
     {
-        try {
-            DatabaseServerConnection::getConnection()->connect();
-            return true;
-        } catch (Exception $e) {
-            Logger::getLogger()->error($e->getMessage());
-            Logger::getLogger()->error($e->getTraceAsString());
-            return $e;
-        }
+        return DatabaseConnectionWrapper::establishConnection(fn () => DatabaseServerConnection::getConnection());
     }
 
     /**
@@ -170,18 +160,11 @@ class AppSetupUtility
 
     /**
      * Trying to connect existing database
-     * @return bool|Exception
+     * @return DatabaseConnectionWrapper
      */
-    public function connectToDatabase()
+    public function connectToDatabase(): DatabaseConnectionWrapper
     {
-        try {
-            Connection::getConnection()->connect();
-            return true;
-        } catch (Exception $e) {
-            Logger::getLogger()->error($e->getMessage());
-            Logger::getLogger()->error($e->getTraceAsString());
-            return $e;
-        }
+        return DatabaseConnectionWrapper::establishConnection(fn () => Connection::getConnection());
     }
 
     /**
@@ -453,9 +436,9 @@ class AppSetupUtility
         $dbName = $conn->quoteIdentifier($dbName);
         $ohrmDbUser = $conn->quote($ohrmDbUser);
 
-        $queryIdentifiedBy = is_null($ohrmDbPassword) ? '' : "IDENTIFIED BY " . $conn->quote($ohrmDbPassword);
+        $queryIdentifiedBy = is_null($ohrmDbPassword) ? '' : 'IDENTIFIED BY ' . $conn->quote($ohrmDbPassword);
         $createQuery = "CREATE USER $ohrmDbUser@'$grantHost' $queryIdentifiedBy;";
-        $grantQuery = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, REFERENCES, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE " .
+        $grantQuery = 'GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, REFERENCES, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE ' .
             "ON $dbName.* TO $ohrmDbUser@'$grantHost';";
         return [$createQuery, $grantQuery];
     }
@@ -602,57 +585,5 @@ class AppSetupUtility
     {
         $dbName = StateContainer::getInstance()->getDbInfo()[StateContainer::DB_NAME];
         Connection::getConnection()->createSchemaManager()->dropDatabase($dbName);
-    }
-
-    /**
-     * get possible errors based on DBAL exception when connecting to server with database
-     * @param \Doctrine\DBAL\Exception $exception
-     * @param string $dbHost
-     * @param string $dbPort
-     * @return string
-     */
-    public function getExistingDBConnectionErrorMessage(
-        \Doctrine\DBAL\Exception $exception,
-        string $dbHost,
-        string $dbPort
-    ): string {
-        $errorMessage = $exception->getMessage();
-        $errorCode = $exception->getCode();
-
-        if ($errorCode === self::ERROR_CODE_INVALID_HOST_PORT) {
-            $message = "The MySQL server isn't running on `$dbHost:$dbPort`. " . Messages::ERROR_MESSAGE_INVALID_HOST_PORT;
-        } elseif ($errorCode === self::ERROR_CODE_ACCESS_DENIED) {
-            $message = Messages::ERROR_MESSAGE_ACCESS_DENIED;
-        } elseif ($errorCode === self::ERROR_CODE_DATABASE_NOT_EXISTS) {
-            $message = 'Database Not Exist';
-        } else {
-            $message = $errorMessage . ' ' . Messages::ERROR_MESSAGE_REFER_LOG_FOR_MORE;
-        }
-        return $message;
-    }
-
-    /**
-     * get possible errors based on DBAL exception when connecting to server without database
-     * @param \Doctrine\DBAL\Exception $exception
-     * @param string $dbHost
-     * @param string $dbPort
-     * @return string
-     */
-    public function getNewDBConnectionErrorMessage(
-        \Doctrine\DBAL\Exception $exception,
-        string $dbHost,
-        string $dbPort
-    ): string {
-        $errormessage = $exception->getMessage();
-        $errorCode = $exception->getCode();
-
-        if ($errorCode === self::ERROR_CODE_INVALID_HOST_PORT) {
-            $message = "The MySQL server isn't running on `$dbHost:$dbPort`. " . Messages::ERROR_MESSAGE_INVALID_HOST_PORT;
-        } elseif ($errorCode === self::ERROR_CODE_ACCESS_DENIED) {
-            $message = Messages::ERROR_MESSAGE_ACCESS_DENIED;
-        } else {
-            $message = $errormessage . ' ' . Messages::ERROR_MESSAGE_REFER_LOG_FOR_MORE;
-        }
-        return $message;
     }
 }

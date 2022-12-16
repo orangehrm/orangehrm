@@ -19,27 +19,14 @@
 
 namespace OrangeHRM\Installer\Util;
 
+use Doctrine\DBAL\Connection as DBALConnection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use Exception;
 use OrangeHRM\Installer\Exception\SystemCheckException;
+use OrangeHRM\Installer\Util\Dto\DatabaseConnectionWrapper;
 
 class UpgraderConfigUtility
 {
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
-    private function connectToDatabase(): void
-    {
-        try {
-            $connection = $this->getConnection();
-            $connection->connect();
-        } catch (Exception $e) {
-            Logger::getLogger()->error($e->getMessage());
-            Logger::getLogger()->error($e->getTraceAsString());
-            throw $e;
-        }
-    }
-
     /**
      * @return bool
      */
@@ -49,16 +36,16 @@ class UpgraderConfigUtility
     }
 
     /**
-     * @return \Doctrine\DBAL\Connection
+     * @return DBALConnection
      */
-    private function getConnection(): \Doctrine\DBAL\Connection
+    private function getConnection(): DBALConnection
     {
         return Connection::getConnection();
     }
 
     /**
      * @return AbstractSchemaManager
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function getSchemaManager(): AbstractSchemaManager
     {
@@ -79,16 +66,9 @@ class UpgraderConfigUtility
             throw new SystemCheckException('Please Enable `pdo_mysql` Extension To Proceed');
         }
 
-        try {
-            $this->connectToDatabase();
-        } catch (\Doctrine\DBAL\Exception $e) {
-            $dbInfo = StateContainer::getInstance()->getDbInfo();
-            $dbHost = $dbInfo[StateContainer::DB_HOST];
-            $dbPort = $dbInfo[StateContainer::DB_PORT];
-
-            $appSetupUtility = new AppSetupUtility();
-            $message = $appSetupUtility->getExistingDBConnectionErrorMessage($e, $dbHost, $dbPort);
-            throw new SystemCheckException($message);
+        $connection = DatabaseConnectionWrapper::establishConnection(fn () => $this->getConnection());
+        if ($connection->hasError()) {
+            throw new SystemCheckException($connection->getErrorMessage());
         }
 
         if ($this->checkDatabaseStatus()) {

@@ -55,4 +55,9 @@ class DatabaseServerConnection
         }
         return self::$connection;
     }
+
+    public static function reset(): void
+    {
+        self::$connection = null;
+    }
 }

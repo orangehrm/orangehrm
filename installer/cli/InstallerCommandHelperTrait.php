@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\cli;
 
 use InvalidArgumentException;
 use OrangeHRM\Installer\Util\SystemCheck;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
@@ -29,15 +30,22 @@ trait InstallerCommandHelperTrait
 {
     /**
      * @param string $label
+     * @param callable|null $validator
      * @return string
      */
-    private function getRequiredField(string $label): string
+    private function getRequiredField(string $label, ?callable $validator = null): string
     {
         $question = new Question($label . ' ' . self::REQUIRED_TAG);
         $question->setNormalizer(static function ($value) {
             return $value !== null ? trim($value) : null;
         });
-        $question->setValidator([$this, 'requiredValidator']);
+        $question->setValidator(function ($answer) use ($validator) {
+            $answer = $this->requiredValidator($answer);
+            if ($validator === null) {
+                return $answer;
+            }
+            return $validator($answer);
+        });
         return $this->getIO()->askQuestion($question);
     }
 
@@ -45,12 +53,26 @@ trait InstallerCommandHelperTrait
      * @param string|null $answer
      * @return string|null
      */
-    public function requiredValidator(?string $answer): ?string
+    private function requiredValidator(?string $answer): ?string
     {
         if ($answer === null || strlen($answer) === 0) {
             throw new InvalidArgumentException(self::REQUIRED_WARNING);
         }
         return $answer;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param string $name
+     * @return bool
+     */
+    private function hasOption(InputInterface $input, string $name): bool
+    {
+        $value = $input->getOption($name);
+        if ($value == null) {
+            return false;
+        }
+        return strlen(trim($value)) > 0;
     }
 
     /**
@@ -117,5 +139,15 @@ trait InstallerCommandHelperTrait
     private function completeStep(ConsoleSectionOutput $section, string $step, string $suffix = ''): void
     {
         $section->overwrite("<fg=green>* $step ✓</>$suffix");
+    }
+
+    /**
+     * @param string $text
+     * @param int $length
+     * @return bool
+     */
+    private function validateStrLength(string $text, int $length): bool
+    {
+        return mb_strlen($text) <= $length;
     }
 }
