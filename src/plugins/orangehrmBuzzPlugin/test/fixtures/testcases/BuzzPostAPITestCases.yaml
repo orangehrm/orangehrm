@@ -523,3 +523,92 @@ Update:
       type: 'video'
       link: 'https://abcd.com/PLW9NCQftUhF'
     invalidOnly: [ "link" ]
+
+GetOne:
+  'Get One post by Id - ESS User':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      id: 1
+    data:
+      post:
+        id: 1
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]
+
+  'Get One post by Id - detailed model':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    query:
+      model: detailed
+    data:
+      id: 1
+      post:
+        id: 1
+      type: video
+      liked: false
+      text: this is post text 01
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+      stats:
+        numOfLikes: 1
+        numOfComments: 0
+        numOfShares: 0
+      createdDate: '2021-09-15'
+      createdTime: '16:51'
+      originalPost: null
+      permission:
+        canUpdate: true
+        canDelete: true
+      video:
+        link: '~~~'
+    meta: [ ]
+
+  'Get One post by Id - Invalid post Id':
+    userId: 2
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      id: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Get One post by Id - Admin User':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+    attributes:
+      id: 3
+    data:
+      post:
+        id: 3
+      employee:
+        empNumber: 3
+        lastName: 'Abraham'
+        firstName: 'Tyler'
+        middleName: ''
+        employeeId: null
+        terminationId: null
+    meta: [ ]

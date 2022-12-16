@@ -23,6 +23,7 @@ use OrangeHRM\Buzz\Api\Model\BuzzFeedPostModel;
 use OrangeHRM\Buzz\Api\Model\BuzzPostModel;
 use OrangeHRM\Buzz\Api\ValidationRules\BuzzVideoLinkValidationRule;
 use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
+use OrangeHRM\Buzz\Dto\BuzzFeedPost;
 use OrangeHRM\Buzz\Dto\BuzzVideoURL\BuzzEmbeddedURL;
 use OrangeHRM\Buzz\Exception\InvalidURLException;
 use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
@@ -386,10 +387,22 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws InvalidParamException
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $buzzPost = $this->getBuzzService()->getBuzzDao()->getBuzzPostById($id);
+        if (!$buzzPost instanceof BuzzPost) {
+            throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
+        }
+
+        $modelClass = $this->getModelClass();
+        if ($modelClass == BuzzFeedPostModel::class) {
+            $buzzPost = $this->getBuzzFeedPost($id);
+        }
+
+        return new EndpointResourceResult($modelClass, $buzzPost);
     }
 
     /**
@@ -397,7 +410,18 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MODEL,
+                    new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+                )
+            )
+        );
     }
 
     /**
@@ -550,12 +574,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
 
             $modelClass = $this->getModelClass();
             if ($modelClass == BuzzFeedPostModel::class) {
-                $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareByPostId($postId);
-                $buzzFeedFilterParams = new BuzzFeedFilterParams();
-                $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
-                $buzzFeedFilterParams->setShareId($buzzShare->getId());
-                $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
-                $buzzPost = $buzzFeedPosts[0];
+                $buzzPost = $this->getBuzzFeedPost($postId);
             }
 
             $this->commitTransaction();
@@ -633,5 +652,19 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             self::MODEL_DEFAULT_POST
         );
         return self::MODEL_MAP[$model];
+    }
+
+    /**
+     * @param int $postId
+     * @return BuzzFeedPost
+     */
+    private function getBuzzFeedPost(int $postId): BuzzFeedPost
+    {
+        $buzzShare = $this->getBuzzService()->getBuzzDao()->getBuzzShareByPostId($postId);
+        $buzzFeedFilterParams = new BuzzFeedFilterParams();
+        $buzzFeedFilterParams->setAuthUserEmpNumber($this->getAuthUser()->getEmpNumber());
+        $buzzFeedFilterParams->setShareId($buzzShare->getId());
+        $buzzFeedPosts = $this->getBuzzService()->getBuzzDao()->getBuzzFeedPosts($buzzFeedFilterParams);
+        return $buzzFeedPosts[0];
     }
 }
