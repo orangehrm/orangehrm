@@ -62,5 +62,8 @@ class BuzzLikeOnShareTest extends EntityTestCase
         $this->assertEquals(1, $buzzLikeOnShare->getShare()->getId());
         $this->assertEquals('2022-11-03', $buzzLikeOnShare->getLikedAtUtc()->format('Y-m-d'));
         $this->assertEquals('19:20:00', $buzzLikeOnShare->getLikedAtUtc()->format('H:i:s'));
+
+        $buzzLikeOnShare->setId(2);
+        $this->assertEquals(2, $buzzLikeOnShare->getId());
     }
 }
