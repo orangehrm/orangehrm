@@ -93,6 +93,16 @@
       </oxd-grid-item>
     </oxd-grid>
 
+    <br />
+    <oxd-form-row class="orangehrm-register-notice">
+      <oxd-icon class="orangehrm-register-notice-icon" name="info-circle" />
+      <oxd-text class="orangehrm-register-notice-text" tag="p">
+        Users who seek access to their data, or who seek to correct, amend, or
+        delete the given information should direct their requests to
+        data@orangehrm.com
+      </oxd-text>
+    </oxd-form-row>
+
     <oxd-form-actions class="orangehrm-installer-page-action">
       <required-text />
       <oxd-button
@@ -114,17 +124,21 @@
 <script>
 import {
   required,
-  shouldNotExceedCharLength,
-  shouldNotLessThanCharLength,
   validEmailFormat,
   validPhoneNumberFormat,
+  shouldNotExceedCharLength,
+  shouldNotLessThanCharLength,
 } from '@/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
 import {checkPassword} from '@/core/util/helper/password';
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@/core/util/helper/navigation';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 
 export default {
   name: 'AdminUserCreation',
+  components: {
+    'oxd-icon': Icon,
+  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -198,3 +212,18 @@ export default {
 </script>
 
 <style src="./installer-page.scss" lang="scss" scoped></style>
+<style lang="scss" scoped>
+.orangehrm-register-notice {
+  display: flex;
+  max-width: 50%;
+  color: $oxd-interface-gray-color;
+  &-icon {
+    color: inherit;
+    font-size: 16px;
+    margin-right: 0.5em;
+  }
+  &-text {
+    color: inherit;
+  }
+}
+</style>
