@@ -182,7 +182,7 @@ class DataRegistrationUtility
                 $organizationEmail,
                 $adminFirstName,
                 $adminLastName,
-                $_SERVER['HTTP_HOST'],
+                $_SERVER['HTTP_HOST'] ?? null,
                 $country,
                 Config::PRODUCT_VERSION,
                 $currentTimestamp
@@ -214,7 +214,7 @@ class DataRegistrationUtility
                 $organizationEmail,
                 $adminFirstName,
                 $adminLastName,
-                $_SERVER['HTTP_HOST'],
+                $_SERVER['HTTP_HOST'] ?? null,
                 $country,
                 Config::PRODUCT_VERSION,
                 $currentTimestamp

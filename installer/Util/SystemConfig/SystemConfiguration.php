@@ -199,7 +199,7 @@ class SystemConfiguration
      * @param string $email
      * @param string $adminFirstName
      * @param string $adminLastName
-     * @param string $host
+     * @param string|null $host
      * @param string $country
      * @param string $ohrmVersion
      * @param int $currentTimestamp
@@ -209,7 +209,7 @@ class SystemConfiguration
         string $email,
         string $adminFirstName,
         string $adminLastName,
-        string $host,
+        ?string $host,
         string $country,
         string $ohrmVersion,
         int $currentTimestamp
@@ -235,7 +235,7 @@ class SystemConfiguration
      * @param string $email
      * @param string $adminFirstName
      * @param string $adminLastName
-     * @param string $host
+     * @param string|null $host
      * @param string $country
      * @param string $ohrmVersion
      * @param int $currentTimestamp
@@ -245,7 +245,7 @@ class SystemConfiguration
         string $email,
         string $adminFirstName,
         string $adminLastName,
-        string $host,
+        ?string $host,
         string $country,
         string $ohrmVersion,
         int $currentTimestamp
