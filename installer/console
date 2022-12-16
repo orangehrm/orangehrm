@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-$pathToAutoload = realpath(__DIR__ . '/../../src/vendor/autoload.php');
+$pathToAutoload = realpath(__DIR__ . '/../src/vendor/autoload.php');
 
 $errorMessage = "
 Cannot find composer dependencies.
@@ -28,7 +28,7 @@ $ composer install -d src
 ";
 
 if (!$pathToAutoload) {
-    echo sprintf($errorMessage, realpath(__DIR__ . '/../../'));
+    echo sprintf($errorMessage, realpath(__DIR__ . '/../'));
     exit(1);
 }
 
@@ -36,9 +36,9 @@ use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Installer\cli\InstallOnExistingDatabaseCommand;
-use OrangeHRM\Installer\cli\InstallOnNewDatabaseCommand;
-use OrangeHRM\Installer\cli\UpgradeCommand;
+use OrangeHRM\Installer\Command\InstallOnExistingDatabaseCommand;
+use OrangeHRM\Installer\Command\InstallOnNewDatabaseCommand;
+use OrangeHRM\Installer\Command\UpgradeCommand;
 use OrangeHRM\Installer\Framework\HttpKernel;
 use OrangeHRM\Installer\Framework\MemorySessionStorage;
 

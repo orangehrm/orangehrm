@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\cli;
+namespace OrangeHRM\Installer\Command;
 
 use InvalidArgumentException;
 use OrangeHRM\Authentication\Dto\UserCredential;

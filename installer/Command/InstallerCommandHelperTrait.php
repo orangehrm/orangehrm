@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\cli;
+namespace OrangeHRM\Installer\Command;
 
 use OrangeHRM\Installer\Exception\InvalidArgumentException;
 use OrangeHRM\Installer\Util\SystemCheck;
