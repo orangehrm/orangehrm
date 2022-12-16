@@ -72,6 +72,10 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (!$input->isInteractive()) {
+            $this->getIO()->error('Not supported non interactive mode.');
+            return self::INVALID;
+        }
         $this->input = $input;
         $this->output = $output;
         try {

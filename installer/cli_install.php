@@ -30,6 +30,16 @@ use Symfony\Component\Yaml\Yaml;
 
 $pathToAutoload = realpath(__DIR__ . '/../src/vendor/autoload.php');
 
+$deprecatedNote = "
+This CLI installer is deprecated. Instead use following commands\n
+$ cd %s
+$ php installer/console install:on-new-database
+# OR
+$ php installer/console install:on-existing-database\n
+";
+
+echo(sprintf($deprecatedNote, realpath(__DIR__ . '/../')));
+
 $errorMessage = "
 Cannot find composer dependencies.
 Run below command and try again;\n
@@ -112,7 +122,7 @@ if ($dbType === AppSetupUtility::INSTALLATION_DB_TYPE_NEW) {
 }
 
 // Instance data
-StateContainer::getInstance()->storeInstanceData($organizationName, $countryCode, 'en_US', 'UTC');
+StateContainer::getInstance()->storeInstanceData($organizationName, $countryCode, null, null);
 
 // Admin user
 StateContainer::getInstance()->storeAdminUserData(

@@ -97,7 +97,7 @@ class UpgradeCommand extends InstallerCommand
                 $dbPort = $this->getIO()->ask(
                     'Database Host Port',
                     3306,
-                    fn(?string $value) => $this->databasePortValidator($value)
+                    fn (?string $value) => $this->databasePortValidator($value)
                 );
                 $input->setOption('dbPort', $dbPort);
             }
