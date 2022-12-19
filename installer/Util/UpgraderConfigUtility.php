@@ -57,15 +57,6 @@ class UpgraderConfigUtility
      */
     public function checkDatabaseConnection(): void
     {
-        $systemCheck = new SystemCheck();
-        if (!$systemCheck->checkPDOExtensionEnabled()) {
-            throw new SystemCheckException('Please Enable `PDO` Extension To Proceed');
-        }
-
-        if (!$systemCheck->checkPDOMySqlExtensionEnabled()) {
-            throw new SystemCheckException('Please Enable `pdo_mysql` Extension To Proceed');
-        }
-
         $connection = DatabaseConnectionWrapper::establishConnection(fn () => $this->getConnection());
         if ($connection->hasError()) {
             throw new SystemCheckException($connection->getErrorMessage());

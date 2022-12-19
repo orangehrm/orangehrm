@@ -21,9 +21,11 @@ namespace OrangeHRM\Installer\Util\Dto;
 
 use Doctrine\DBAL\Connection as DBALConnection;
 use InvalidArgumentException;
+use OrangeHRM\Installer\Exception\SystemCheckException;
 use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\Messages;
 use OrangeHRM\Installer\Util\StateContainer;
+use OrangeHRM\Installer\Util\SystemCheck;
 use Throwable;
 
 class DatabaseConnectionWrapper
@@ -57,6 +59,10 @@ class DatabaseConnectionWrapper
         $errorMessage = $this->e->getMessage();
         $errorCode = $this->e->getCode();
 
+        if ($this->e instanceof SystemCheckException) {
+            return $this->e->getMessage();
+        }
+
         if ($errorCode === self::ERROR_CODE_INVALID_HOST_PORT) {
             $dbInfo = StateContainer::getInstance()->getDbInfo();
             $dbHost = $dbInfo[StateContainer::DB_HOST];
@@ -86,6 +92,14 @@ class DatabaseConnectionWrapper
      */
     public static function establishConnection(callable $dbalConnectionGetter): self
     {
+        $systemCheck = new SystemCheck();
+        if (!$systemCheck->checkPDOExtensionEnabled()) {
+            return new self(null, SystemCheckException::notEnabledPDOExtension());
+        }
+        if (!$systemCheck->checkPDOMySqlExtensionEnabled()) {
+            return new self(null, SystemCheckException::notEnabledPDOMySQLDriver());
+        }
+
         try {
             $conn = $dbalConnectionGetter();
             if ($conn instanceof DBALConnection) {
