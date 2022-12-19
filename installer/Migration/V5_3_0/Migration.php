@@ -41,10 +41,12 @@ class Migration extends AbstractMigration
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
 
+        $this->updateLangStringVersion('5.2.0');
         $oldGroups = ['buzz', 'general', 'dashboard'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
+        $this->updateLangStringVersion($this->getVersion());
 
         $this->modifyBuzzTables();
         Logger::getLogger()->info('Server timezone: ' . (new DateTime())->getTimezone()->getName());
@@ -55,6 +57,35 @@ class Migration extends AbstractMigration
         $this->convertBuzzShareTableTimesToUTC();
         $this->changeBuzzTablesDateTimeColumnsAsNotNull();
         $this->createColumnToStoreBuzzOriginalVideoLink();
+
+        Logger::getLogger()->info('Deleting legacy Buzz config values');
+        $this->getConfigHelper()->deleteConfigValue('buzz_comment_text_lenth');
+        $this->getConfigHelper()->deleteConfigValue('buzz_cookie_valid_time');
+        $this->getConfigHelper()->deleteConfigValue('buzz_image_max_dimension');
+        $this->getConfigHelper()->deleteConfigValue('buzz_initial_comments');
+        $this->getConfigHelper()->deleteConfigValue('buzz_like_count');
+        $this->getConfigHelper()->deleteConfigValue('buzz_max_notification_period');
+        $this->getConfigHelper()->deleteConfigValue('buzz_most_like_posts');
+        $this->getConfigHelper()->deleteConfigValue('buzz_most_like_shares');
+        $this->getConfigHelper()->deleteConfigValue('buzz_post_text_lenth');
+        $this->getConfigHelper()->deleteConfigValue('buzz_post_text_lines');
+        $this->getConfigHelper()->deleteConfigValue('buzz_refresh_time');
+        $this->getConfigHelper()->deleteConfigValue('buzz_share_count');
+        $this->getConfigHelper()->deleteConfigValue('buzz_time_format');
+        $this->getConfigHelper()->deleteConfigValue('buzz_viewmore_comment');
+    }
+
+    /**
+     * @param string $version
+     */
+    private function updateLangStringVersion(string $version): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_i18n_lang_string', 'lang_string')
+            ->set('lang_string.version', ':version')
+            ->setParameter('version', $version);
+        $qb->andWhere($qb->expr()->isNull('lang_string.version'))
+            ->executeStatement();
     }
 
     private function createColumnToStoreBuzzOriginalVideoLink(): void
@@ -129,7 +160,7 @@ class Migration extends AbstractMigration
             'comment_text' => [
                 'Notnull' => false,
                 'Default' => null,
-                'Length'=> 16_777_215, // MEDIUMTEXT
+                'Length' => 16_777_215, // MEDIUMTEXT
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
             ],
             'comment_time' => [
@@ -225,7 +256,7 @@ class Migration extends AbstractMigration
             'text' => [
                 'Notnull' => false,
                 'Default' => null,
-                'Length'=> 16_777_215, // MEDIUMTEXT
+                'Length' => 16_777_215, // MEDIUMTEXT
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
             ],
             'post_time' => [
@@ -262,7 +293,7 @@ class Migration extends AbstractMigration
             'text' => [
                 'Notnull' => false,
                 'Default' => null,
-                'Length'=> 16_777_215, // MEDIUMTEXT
+                'Length' => 16_777_215, // MEDIUMTEXT
                 'CustomSchemaOptions' => ['collation' => 'utf8mb4_unicode_ci'],
             ],
             'share_time' => [
