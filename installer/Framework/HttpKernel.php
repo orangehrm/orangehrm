@@ -184,11 +184,11 @@ class HttpKernel extends BaseHttpKernel
      */
     protected function configureSession(Request $request): void
     {
-        $systemConfig = new SystemCheck();
+        $systemCheck = new SystemCheck();
         $savePath = Config::get(Config::SESSION_DIR);
-        if ($savePath != null && $systemConfig->checkWritePermission(Config::get(Config::SESSION_DIR))) {
+        if ($savePath != null && $systemCheck->checkWritePermission(Config::get(Config::SESSION_DIR))) {
             $savePath = Config::get(Config::SESSION_DIR);
-        } elseif ($systemConfig->checkWritePermission(sys_get_temp_dir())) {
+        } elseif ($systemCheck->checkWritePermission(sys_get_temp_dir())) {
             $savePath = sys_get_temp_dir();
         } else {
             throw new SessionStorageNotWritable('Session storage not writable.');

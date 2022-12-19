@@ -19,17 +19,14 @@
 
 namespace OrangeHRM\Installer\Exception;
 
-use Exception;
-
-class SystemCheckException extends Exception
+class InvalidArgumentException extends \InvalidArgumentException
 {
-    public static function notEnabledPDOExtension(): self
+    /**
+     * @param int $length
+     * @return self
+     */
+    public static function shouldNotExceedCharacters(int $length): self
     {
-        return new self('Please enable PHP `PDO` extension to proceed.');
-    }
-
-    public static function notEnabledPDOMySQLDriver(): self
-    {
-        return new self('Please enable PHP `pdo_mysql` extension to proceed.');
+        return new self("Should not exceed $length characters");
     }
 }

@@ -199,6 +199,8 @@ class StateContainer
         $this->getSession()->remove(self::ORANGEHRM_DB_PASSWORD);
         $this->getSession()->remove(self::ENABLE_DATA_ENCRYPTION);
         $this->getSession()->set(self::IS_SET_DB_INFO, false);
+        DatabaseServerConnection::reset();
+        Connection::reset();
     }
 
     /**

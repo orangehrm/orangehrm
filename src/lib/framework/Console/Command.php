@@ -52,7 +52,7 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
     /**
      * @inheritDoc
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         $this->setIO($input, $output);
         return parent::run($input, $output);

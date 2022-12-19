@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-use Doctrine\DBAL\Exception;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
@@ -76,13 +75,12 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
             StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_NEW);
 
             $connection = $appSetupUtility->connectToDatabaseServer();
-            if ($connection instanceof Exception) {
-                $message = $appSetupUtility->getNewDBConnectionErrorMessage($connection, $dbHost, $dbPort);
+            if ($connection->hasError()) {
                 $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
                 return [
                     'error' => [
                         'status' => $this->getResponse()->getStatusCode(),
-                        'message' => $message
+                        'message' => $connection->getErrorMessage(),
                     ]
                 ];
             } elseif ($appSetupUtility->isDatabaseExist($dbName)) {
@@ -122,18 +120,19 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
             $dbHost,
             $dbPort,
             new UserCredential($dbUser, $dbPassword),
-            $dbName
+            $dbName,
+            null,
+            $enableDataEncryption
         );
         StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING);
 
         $connection = $appSetupUtility->connectToDatabase();
-        if ($connection instanceof Exception) {
-            $message = $appSetupUtility->getExistingDBConnectionErrorMessage($connection, $dbHost, $dbPort);
+        if ($connection->hasError()) {
             $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
             return [
                 'error' => [
                     'status' => $this->getResponse()->getStatusCode(),
-                    'message' => $message
+                    'message' => $connection->getErrorMessage(),
                 ]
             ];
         } elseif (!$appSetupUtility->isExistingDatabaseEmpty()) {

@@ -276,6 +276,20 @@ class InstanceCreationHelper
         ['id' => 'es_CR', 'label' => 'Spanish (Costa Rica) - Español (Costa Rica)'],
     ];
 
+    public const TIME_ZONE_GROUPS = [
+        ['id' => DateTimeZone::AFRICA, 'label' => 'Africa'],
+        ['id' => DateTimeZone::AMERICA, 'label' => 'America'],
+        ['id' => DateTimeZone::ANTARCTICA, 'label' => 'Antarctica'],
+        ['id' => DateTimeZone::ARCTIC, 'label' => 'Arctic'],
+        ['id' => DateTimeZone::ASIA, 'label' => 'Asia'],
+        ['id' => DateTimeZone::ATLANTIC, 'label' => 'Atlantic'],
+        ['id' => DateTimeZone::AUSTRALIA, 'label' => 'Australia'],
+        ['id' => DateTimeZone::EUROPE, 'label' => 'Europe'],
+        ['id' => DateTimeZone::INDIAN, 'label' => 'Indian'],
+        ['id' => DateTimeZone::PACIFIC, 'label' => 'Pacific'],
+        ['id' => DateTimeZone::UTC, 'label' => 'UTC'],
+    ];
+
     /**
      * @return array
      */

@@ -21,15 +21,6 @@ namespace OrangeHRM\Installer\Exception;
 
 use Exception;
 
-class SystemCheckException extends Exception
+class InterruptProcessException extends Exception
 {
-    public static function notEnabledPDOExtension(): self
-    {
-        return new self('Please enable PHP `PDO` extension to proceed.');
-    }
-
-    public static function notEnabledPDOMySQLDriver(): self
-    {
-        return new self('Please enable PHP `pdo_mysql` extension to proceed.');
-    }
 }
