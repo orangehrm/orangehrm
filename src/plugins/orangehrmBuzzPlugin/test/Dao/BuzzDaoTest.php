@@ -27,7 +27,6 @@ use OrangeHRM\Buzz\Dto\BuzzPostShareSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\BuzzComment;
 use OrangeHRM\Entity\BuzzLink;
 use OrangeHRM\Entity\BuzzPhoto;
 use OrangeHRM\Entity\BuzzPost;
@@ -444,14 +443,5 @@ class BuzzDaoTest extends KernelTestCase
 
         $result = $dao->getBuzzCommentsCount($buzzCommentSearchFilterParams);
         $this->assertEquals(3, $result);
-    }
-
-    public function testAdjustLikeAndCommentCountsOnShares(): void
-    {
-        $dao = new BuzzDao();
-        $dao->adjustLikeAndCommentCountsOnShares();
-
-        $buzzComment = new BuzzComment();
-        $buzzComment->getNumOfLikes();
     }
 }

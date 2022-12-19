@@ -209,9 +209,6 @@ class BuzzCommentAPI extends Endpoint implements CrudEndpoint
         $count = $this->getBuzzService()->getBuzzDao()->getBuzzCommentsCount($filterParams);
 
         $modelClass = $this->getModelClass();
-        if ($modelClass == BuzzDetailedCommentModel::class) {
-            // $modelClass = BuzzDetailedCommentCollectionModel::class; // TODO::implement collection model
-        }
 
         return new EndpointCollectionResult(
             $modelClass,

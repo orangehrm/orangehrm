@@ -380,7 +380,6 @@ class BuzzDao extends BaseDao
             ->update()
             ->set('share.numOfLikes', "($likesCount)")
             ->set('share.numOfComments', "($commentsCount)")
-            //->set('share.numOfShares', "($sharesCount)") // TODO
             ->getQuery()
             ->execute();
     }
