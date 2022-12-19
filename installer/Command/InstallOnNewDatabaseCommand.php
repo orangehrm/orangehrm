@@ -76,6 +76,10 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
             $this->getIO()->error('Not supported non interactive mode.');
             return self::INVALID;
         }
+        if (Config::isInstalled()) {
+            $this->getIO()->error('This system already installed.');
+            return self::FAILURE;
+        }
         $this->input = $input;
         $this->output = $output;
         try {
@@ -130,7 +134,7 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
     {
         $this->getIO()->title('License Acceptance');
         $this->getIO()->block('Please review the licence terms before installing OrangeHRM Starter.');
-        $this->getIO()->block('You can find the license file ("LICENSE") at the root folder of the code.'); // TODO
+        $this->getIO()->block('You can find the license file ("LICENSE") at the root folder of the code.');
         if ($this->getIO()->confirm('I accept the terms in the Licence Agreement') !== true) {
             throw new InterruptProcessException();
         }

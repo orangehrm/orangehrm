@@ -79,6 +79,11 @@ class UpgradeCommand extends InstallerCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (Config::isInstalled()) {
+            $this->getIO()->error('This system already installed.');
+            return self::FAILURE;
+        }
+
         $this->getIO()->title('Database Information');
         $this->getIO()->block('Please provide the database information of the database you are going to upgrade.');
         $this->getIO()->caution(

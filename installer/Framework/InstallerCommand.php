@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Framework;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Console\Command;
 use OrangeHRM\Installer\Util\Logger;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,6 +34,10 @@ abstract class InstallerCommand extends Command
     public function run(InputInterface $input, OutputInterface $output): int
     {
         try {
+            $this->setIO($input, $output);
+            if (Config::isInstalled()) {
+                $this->getIO()->warning('This system already installed.');
+            }
             return parent::run($input, $output);
         } catch (Throwable $e) {
             Logger::getLogger()->error($e->getMessage());
