@@ -246,15 +246,16 @@ class SystemCheck
     {
         $supportedWebServers = $this->systemRequirements['webserver'];
         $currentWebServer = $this->getWebServerDetails();
-        foreach ($supportedWebServers as $supportedWebServer) {
-            if ($currentWebServer !== null && strpos($currentWebServer, $supportedWebServer) !== false) {
-                return [
-                    'message' => Messages::STATUS_OK . "(ver ${currentWebServer})",
-                    'status' => self::PASSED
-                ];
+        if ($currentWebServer !== null) {
+            foreach ($supportedWebServers as $supportedWebServer) {
+                if (strpos($currentWebServer, $supportedWebServer) !== false) {
+                    return [
+                        'message' => Messages::STATUS_OK . "(ver ${currentWebServer})",
+                        'status' => self::PASSED
+                    ];
+                }
             }
         }
-        $this->interruptContinue = true;
         return [
             'message' => 'FAILED',
             'status' => self::BLOCKER
