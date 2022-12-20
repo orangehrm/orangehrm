@@ -60,7 +60,6 @@ class InstallOnExistingDatabaseCommand extends InstallOnNewDatabaseCommand
             $enableDataEncryption
         );
         StateContainer::getInstance()->setDbType(AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING);
-        var_dump(StateContainer::getInstance()->getDbInfo());
 
         $connection = $this->getAppSetupUtility()->connectToDatabase();
         if ($connection->hasError()) {
