@@ -327,8 +327,18 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
     {
         $firstName = $this->getRequiredField('Employee First Name', fn ($value) => $this->validateStrLength($value, 30));
         $lastName = $this->getRequiredField('Employee Last Name', fn ($value) => $this->validateStrLength($value, 30));
-        $email = $this->getRequiredField('Email', fn ($value) => $this->validateStrLength($value, 50));
-        $contact = $this->getIO()->ask('Contact Number', null, fn ($value) => $this->validateStrLength($value, 25));
+
+        $email = $this->getRequiredField('Email', function ($value) {
+            $value = $this->validateStrLength($value, 50);
+            return $this->emailValidator($value, 'Expected format: admin@example.com');
+        });
+        $contact = $this->getIO()->ask('Contact Number', null, function ($value) {
+            if ($value === null) {
+                return null;
+            }
+            $value = $this->validateStrLength($value, 25);
+            return $this->phoneNumberValidator($value, 'Allows numbers and only + - / ( )');
+        });
         $username = $this->getRequiredField('Admin Username', fn ($value) => $this->validateStrLength($value, 40));
         $password = $this->getIO()->askHidden('Password <comment>(hidden)</comment>', function ($value) {
             $value = $this->requiredValidator($value);

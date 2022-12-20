@@ -88,6 +88,36 @@ trait InstallerCommandHelperTrait
     }
 
     /**
+     * @param string|null $value
+     * @param string $message
+     * @return string|null
+     */
+    private function emailValidator(?string $value, string $message): ?string
+    {
+        $match = preg_match(
+            "/^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/",
+            $value
+        );
+        if ($match === 1) {
+            return $value;
+        }
+        throw new InvalidArgumentException($message);
+    }
+
+    /**
+     * @param string|null $value
+     * @param string $message
+     * @return string|null
+     */
+    private function phoneNumberValidator(?string $value, string $message): ?string
+    {
+        if (preg_match('/^[0-9+\-\/() ]+$/', $value) === 1) {
+            return $value;
+        }
+        throw new InvalidArgumentException($message);
+    }
+
+    /**
      * @param InputInterface $input
      * @param string $name
      * @return bool
