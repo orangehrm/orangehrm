@@ -353,6 +353,8 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
             new UserCredential($username, $password),
             $contact
         );
+
+        $this->getIO()->note('Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to data@orangehrm.com');
     }
 
     protected function installation(): void
