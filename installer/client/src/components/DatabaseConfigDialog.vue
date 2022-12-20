@@ -13,9 +13,10 @@
         tag="p"
         class="orangehrm-database-config-dialog-content orangehrm-database-config--title"
       >
-        Following modules or add-ons are not supported by OrangeHRM Starter
-        version 5.2. You may continue to upgrade your system to version 5.2, but
-        please note that any data used in these modules will be inaccessible.
+        The following features and add-ons are not supported by OrangeHRM
+        Starter version 5.3. You may continue to upgrade your system to version
+        5.3, but please note that any data used in these features will be
+        inaccessible.
       </oxd-text>
       <oxd-classic-table
         :headers="headers"
@@ -24,7 +25,7 @@
       ></oxd-classic-table>
       <oxd-check-box
         v-model="checked"
-        option-label="I want to continue upgrading the OrangeHRM system to version 5.2 and I am aware that by doing so, any data gathered in incompatible modules/add-ons will be inaccessible."
+        option-label="I want to continue upgrading the OrangeHRM system to version 5.3 and I am aware that by doing so, any gathered data in incomplete features/add-ons will be inaccessible."
       ></oxd-check-box>
       <oxd-divider class="orangehrm-divider" />
       <oxd-form-actions class="orangehrm-database-config-dialog-action">
@@ -48,7 +49,7 @@
 
 <script>
 import DialogWithClose from '@ohrm/oxd/core/components/Dialog/Dialog.vue';
-import ClassicTableStory from '@ohrm/oxd/core/components/Table/ClassicTable.vue';
+import ClassicTable from '@ohrm/oxd/core/components/Table/ClassicTable.vue';
 import CheckBoxInput from '@ohrm/oxd/core/components/Input/CheckboxInput.vue';
 
 export default {
@@ -56,20 +57,20 @@ export default {
   components: {
     'oxd-dialog': DialogWithClose,
     'oxd-check-box': CheckBoxInput,
-    'oxd-classic-table': ClassicTableStory,
+    'oxd-classic-table': ClassicTable,
   },
   emits: ['closeModel'],
   data() {
     return {
       checked: false,
       headers: [
-        {title: 'Modules', name: 'module'},
+        {title: 'Features', name: 'feat'},
         {title: 'Add-ons', name: 'addon'},
         {title: 'Other', name: 'other'},
       ],
       items: [
         {
-          module: '- Buzz',
+          feat: '- Social Media Authentication',
           addon: '- Claim',
           other: '- Marketplace',
         },

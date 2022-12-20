@@ -80,6 +80,7 @@ export default {
           empNumber: props.employeeId,
           includeAllocated:
             props.eligibleOnly && props.includeAllocated ? true : undefined,
+          ...(props.eligibleOnly === false && {limit: 0}),
         })
         .then(({data}) => {
           options.value = data.data.map(item => {

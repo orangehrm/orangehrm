@@ -53,7 +53,7 @@ export default {
       'api/v2/recruitment/vacancies',
     );
     onBeforeMount(() => {
-      const params = {model: 'summary'};
+      const params = {model: 'summary', limit: 0};
       if (props.status !== null) {
         params.status = props.status;
       }

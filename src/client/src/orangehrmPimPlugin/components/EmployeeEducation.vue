@@ -104,7 +104,7 @@ export default {
       `api/v2/pim/employees/${props.employeeId}/educations`,
     );
 
-    const educationEndpoint = 'api/v2/admin/educations?limit=0';
+    const educationEndpoint = 'api/v2/admin/educations';
 
     const {
       showPaginator,

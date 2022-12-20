@@ -296,6 +296,7 @@ export default {
           .request({
             url: `/api/v2/admin/pay-grades/${newVal.id}/currencies`,
             method: 'GET',
+            params: {limit: 0},
           })
           .then(response => {
             const {data} = response.data;

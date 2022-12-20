@@ -106,7 +106,6 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/admin/pay-grades/${props.payGradeId}/currencies`,
     );
-    const currencyEndpoint = `api/v2/admin/pay-grades/${props.payGradeId}/currencies/allowed?limit=0`;
     const {
       showPaginator,
       currentPage,
@@ -129,7 +128,6 @@ export default {
       pageSize,
       execQuery,
       items: response,
-      currencyEndpoint,
     };
   },
 

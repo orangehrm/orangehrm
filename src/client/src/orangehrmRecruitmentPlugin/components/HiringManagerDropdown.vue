@@ -41,7 +41,7 @@ export default {
       '/api/v2/recruitment/hiring-managers',
     );
     onBeforeMount(() => {
-      http.getAll().then(({data}) => {
+      http.getAll({limit: 0}).then(({data}) => {
         options.value = data.data.map(hiringManager => {
           return {
             id: hiringManager.empNumber,

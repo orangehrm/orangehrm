@@ -98,7 +98,7 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
-    const licenceEndpoint = `api/v2/pim/employees/${props.employeeId}/licenses/allowed?limit=0`;
+    const licenceEndpoint = `api/v2/pim/employees/${props.employeeId}/licenses/allowed`;
 
     const licenseNormalizer = data => {
       return data.map(item => {

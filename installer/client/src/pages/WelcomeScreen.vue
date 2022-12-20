@@ -57,16 +57,6 @@
       </oxd-text>
     </oxd-form-row>
 
-    <Notice title="important">
-      <oxd-text tag="p" class="orangehrm-installer-page-content">
-        OrangeHRM Starter 5.2 does not support the Buzz module. If you are
-        already utilizing Buzz and are thinking about upgrading, we recommend
-        waiting for version 5.3. You can, however, continue with the update
-        while ignoring the unsupported modules and add-ons, but please note that
-        data will be inaccessible.
-      </oxd-text>
-    </Notice>
-    <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
       Click <b>Next</b> to continue
     </oxd-text>
@@ -82,14 +72,12 @@
 </template>
 
 <script>
-import Notice from '@/components/Notice.vue';
+import {navigate} from '@/core/util/helper/navigation.ts';
 import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
 import DatabaseConfigDialog from '@/components/DatabaseConfigDialog.vue';
-import {navigate} from '@/core/util/helper/navigation.ts';
 export default {
   name: 'WelcomeScreen',
   components: {
-    Notice,
     'oxd-radio-input': RadioInput,
     'database-config-dialog': DatabaseConfigDialog,
   },
