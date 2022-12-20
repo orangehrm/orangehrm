@@ -46,7 +46,8 @@ export default {
         'orangehrm-buzz-photos': true,
         '--two-thumbnails': this.media.length === 2,
         '--three-thumbnails': this.media.length === 3,
-        '--four-thumbnails': this.media.length >= 4,
+        '--four-thumbnails': this.media.length === 4,
+        '--five-thumbnails': this.media.length === 5,
       };
     },
     photos() {

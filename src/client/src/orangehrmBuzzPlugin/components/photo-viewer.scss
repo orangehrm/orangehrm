@@ -24,9 +24,10 @@
   justify-content: center;
   position: relative;
   &-photo {
-    height: 75vh;
+    top: 0;
+    height: 100vh;
     width: inherit;
-    margin-top: -60px;
+    position: absolute;
     object-fit: contain;
   }
   &-background {

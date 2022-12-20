@@ -24,12 +24,9 @@
     position: relative;
     & img {
       width: 100%;
-      height: 9rem;
+      height: 100%;
       object-fit: cover;
       border-radius: 0.75rem;
-      @include oxd-respond-to('md') {
-        height: 18rem;
-      }
     }
     &:first-of-type {
       grid-area: first-photo;
@@ -46,10 +43,25 @@
       'second-photo third-photo';
     grid-template-columns: 1fr 1fr;
   }
-  &.--four-thumbnails {
+  &.--four-thumbnails,
+  &.--five-thumbnails {
     grid-template-areas:
       'first-photo second-photo'
       'third-photo fourth-photo';
     grid-template-columns: 1fr 1fr;
+  }
+  &.--two-thumbnails,
+  &.--three-thumbnails,
+  &.--four-thumbnails {
+    grid-template-rows: repeat(2, minmax(auto, 9rem));
+    @include oxd-respond-to('md') {
+      grid-template-rows: repeat(2, minmax(auto, 18rem));
+    }
+  }
+  &.--five-thumbnails {
+    grid-template-rows: repeat(3, minmax(auto, 9rem));
+    @include oxd-respond-to('md') {
+      grid-template-rows: repeat(3, minmax(auto, 18rem));
+    }
   }
 }
