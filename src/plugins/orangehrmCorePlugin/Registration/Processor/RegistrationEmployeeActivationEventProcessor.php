@@ -56,7 +56,7 @@ class RegistrationEmployeeActivationEventProcessor extends AbstractRegistrationE
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT);
         $employeeCount = $this->getEmployeeService()->getEmployeeCount($employeeSearchFilterParams);
-        if ($employeeCount % RegistrationEventQueue::EMPLOYEE_COUNT_CHANGE_TRACKER_SIZE == 0) {
+        if ($employeeCount > 0 && $employeeCount % RegistrationEventQueue::EMPLOYEE_COUNT_CHANGE_TRACKER_SIZE == 0) {
             return true;
         }
         return false;
