@@ -42,7 +42,11 @@ class Migration extends AbstractMigration
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
 
         $this->updateLangStringVersion('5.2.0');
-        $oldGroups = ['buzz', 'general', 'dashboard'];
+        $this->getLangHelper()->deleteLangStringByUnitId(
+            'getting_started_with_orangehrm',
+            $this->getLangHelper()->getGroupIdByName('help')
+        );
+        $oldGroups = ['buzz', 'general', 'dashboard', 'help'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
