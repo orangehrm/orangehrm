@@ -21,11 +21,27 @@ namespace OrangeHRM\SystemCheck\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 
 class SystemCheckController extends AbstractVueController implements PublicControllerInterface
 {
+    use ConfigServiceTrait;
+
+    /***
+     * @inheritDoc
+     */
+    public function init(): void
+    {
+        if (!$this->getConfigService()->showSystemCheckScreen()) {
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
+            $this->setResponse($response);
+        }
+    }
+
     /***
      * @inheritDoc
      */

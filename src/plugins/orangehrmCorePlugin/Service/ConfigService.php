@@ -52,6 +52,7 @@ class ConfigService
     public const KEY_SENDMAIL_PATH = 'email_config.sendmail_path';
     public const KEY_LDAP_SETTINGS = 'ldap_settings';
     public const KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE = 'dashboard.employees_on_leave_today.show_only_accessible';
+    public const KEY_SHOW_SYSTEM_CHECK_SCREEN = 'core.show_system_check_screen';
 
     public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
     public const ALLOWED_FILE_TYPES = [
@@ -529,5 +530,21 @@ class ConfigService
     public function setDashboardEmployeesOnLeaveTodayShowOnlyAccessibleConfig(bool $value): void
     {
         $this->_setConfigValue(self::KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE, $value ? 1 : 0);
+    }
+
+    /**
+     * @return bool
+     */
+    public function showSystemCheckScreen(): bool
+    {
+        return $this->_getConfigValue(self::KEY_SHOW_SYSTEM_CHECK_SCREEN) == 1;
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setShowSystemCheckScreen(bool $value): void
+    {
+        $this->_setConfigValue(self::KEY_SHOW_SYSTEM_CHECK_SCREEN, (int)$value);
     }
 }

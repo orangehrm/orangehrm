@@ -28,12 +28,14 @@ use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Installer\Util\SystemCheck;
 use Throwable;
 
 class SystemCheckAPI extends Endpoint implements ResourceEndpoint
 {
     use EntityManagerTrait;
+    use ConfigServiceTrait;
 
     public const PARAMETER_IS_INTERRUPTED = 'isInterrupted';
 
@@ -42,6 +44,9 @@ class SystemCheckAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResult
     {
+        if (!$this->getConfigService()->showSystemCheckScreen()) {
+            throw $this->getForbiddenException();
+        }
         try {
             $systemCheck = new SystemCheck($this->getEntityManager()->getConnection());
             return new EndpointResourceResult(

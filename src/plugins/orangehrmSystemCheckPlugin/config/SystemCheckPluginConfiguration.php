@@ -21,6 +21,7 @@ use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\SystemCheck\Command\ToggleSystemCheckScreenCommand;
 
 class SystemCheckPluginConfiguration implements PluginConfigurationInterface, ConsoleConfigurationInterface
 {
@@ -36,5 +37,6 @@ class SystemCheckPluginConfiguration implements PluginConfigurationInterface, Co
      */
     public function registerCommands(Console $console): void
     {
+        $console->add(new ToggleSystemCheckScreenCommand());
     }
 }
