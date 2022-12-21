@@ -19,27 +19,22 @@
 
 namespace OrangeHRM\Core\Registration\Processor;
 
+use InvalidArgumentException;
 use OrangeHRM\Entity\RegistrationEventQueue;
 
 class RegistrationEventProcessorFactory
 {
     /**
      * @param string $eventType
-     * @return AbstractRegistrationEventProcessor|null
+     * @return AbstractRegistrationEventProcessor
      */
-    public function getRegistrationEventProcessor(string $eventType): ?AbstractRegistrationEventProcessor
+    public function getRegistrationEventProcessor(string $eventType): AbstractRegistrationEventProcessor
     {
-        if ($eventType == RegistrationEventQueue::INSTALLATION_START) {
-            return new RegistrationStartEventProcessor();
-        } elseif ($eventType == RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT) {
+        if ($eventType == RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT) {
             return new RegistrationEmployeeActivationEventProcessor();
         } elseif ($eventType == RegistrationEventQueue::INACTIVE_EMPLOYEE_COUNT) {
             return new RegistrationEmployeeTerminationEventProcessor();
-        } elseif ($eventType == RegistrationEventQueue::INSTALLATION_SUCCESS) {
-            return new RegistrationSuccessEventProcessor();
-        } elseif ($eventType == RegistrationEventQueue::UPGRADE_START) {
-            return null;
         }
-        return null;
+        throw new InvalidArgumentException("Invalid event type $eventType");
     }
 }

@@ -68,14 +68,6 @@ abstract class AbstractRegistrationEventProcessor
     }
 
     /**
-     * @return string
-     */
-    private function getInstanceIdentifier(): string
-    {
-        return $this->getConfigService()->getInstanceIdentifier();
-    }
-
-    /**
      * @param DateTime $eventTime
      */
     public function saveRegistrationEvent(DateTime $eventTime)
@@ -101,7 +93,7 @@ abstract class AbstractRegistrationEventProcessor
             $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry()
                 ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry()
                 : null;
-            $instanceIdentifier = $this->getInstanceIdentifier();
+            $instanceIdentifier = $this->getConfigService()->getInstanceIdentifier();
             $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
             $systemDetailsHelper = new SystemConfigurationHelper();
             $systemDetails = $systemDetailsHelper->getSystemDetailsAsJson();

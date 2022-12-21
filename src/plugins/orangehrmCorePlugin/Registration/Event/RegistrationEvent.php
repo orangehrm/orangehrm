@@ -32,9 +32,6 @@ class RegistrationEvent extends Event
 
     public const EMPLOYEE_ADD_EVENT_NAME = 'registration.employee_add';
     public const EMPLOYEE_TERMINATE_EVENT_NAME = 'registration.employee_terminate';
-    public const UPGRADE_EVENT_NAME = 'registration.upgrade';
-    public const INSTALL_START_EVENT_NAME = 'registration.installation_start';
-    public const INSTALL_SUCCESS_EVENT_NAME = 'registration.installation_success';
 
     /**
      * @var DateTime
