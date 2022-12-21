@@ -592,8 +592,8 @@ GetOne:
     attributes:
       id: 100
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
 
   'Get One post by Id - Admin User':
     userId: 1
