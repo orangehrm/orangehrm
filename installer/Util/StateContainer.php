@@ -57,7 +57,6 @@ class StateContainer
     public const ADMIN_CONTACT = 'contact';
 
     public const INSTANCE_IDENTIFIER = 'instanceIdentifier';
-    public const INSTANCE_IDENTIFIER_CHECKSUM = 'instanceIdentifierChecksum';
     public const IS_INITIAL_REG_DATA_SENT = 'isInitialRegDataSent';
     public const INITIAL_REGISTRATION_DATA_BODY = 'initialRegistrationDataBody';
     public const INSTALLER_STARTED_AT = 'installerStartedAt';
@@ -342,14 +341,9 @@ class StateContainer
 
     /**
      * @param string $instanceIdentifier
-     * @param string $instanceIdentifierChecksum
      */
-    public function storeInstanceIdentifierData(
-        string $instanceIdentifier,
-        string $instanceIdentifierChecksum
-    ): void {
+    public function storeInstanceIdentifierData(string $instanceIdentifier): void {
         $this->getSession()->set(self::INSTANCE_IDENTIFIER, $instanceIdentifier);
-        $this->getSession()->set(self::INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum);
     }
 
     /**
@@ -360,7 +354,6 @@ class StateContainer
         if ($this->getSession()->has(self::INSTANCE_IDENTIFIER)) {
             return [
                 self::INSTANCE_IDENTIFIER => $this->getSession()->get(self::INSTANCE_IDENTIFIER),
-                self::INSTANCE_IDENTIFIER_CHECKSUM => $this->getSession()->get(self::INSTANCE_IDENTIFIER_CHECKSUM)
             ];
         }
         return null;

@@ -44,11 +44,8 @@ class InstallerDataRegistrationAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
-        list(
-            $instanceIdentifier,
-            $instanceIdentifierChecksum
-            ) = $this->appSetupUtility->getInstanceUniqueIdentifyingData();
-        StateContainer::getInstance()->storeInstanceIdentifierData($instanceIdentifier, $instanceIdentifierChecksum);
+        list($instanceIdentifier) = $this->appSetupUtility->getInstanceUniqueIdentifyingData();
+        StateContainer::getInstance()->storeInstanceIdentifierData($instanceIdentifier);
 
         $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody(
             DataRegistrationUtility::REGISTRATION_TYPE_INSTALLER_STARTED,

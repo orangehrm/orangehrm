@@ -345,23 +345,12 @@ class AppSetupUtility
                 SystemConfiguration::INSTANCE_IDENTIFIER,
                 $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER]
             );
-            $this->getConfigHelper()->setConfigValue(
-                SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
-                $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER_CHECKSUM]
-            );
         } else {
-            list(
-                $instanceIdentifier,
-                $instanceIdentifierChecksum
-                ) = $this->getInstanceUniqueIdentifyingData();
+            list($instanceIdentifier) = $this->getInstanceUniqueIdentifyingData();
 
             $this->getConfigHelper()->setConfigValue(
                 SystemConfiguration::INSTANCE_IDENTIFIER,
                 $instanceIdentifier
-            );
-            $this->getConfigHelper()->setConfigValue(
-                SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
-                $instanceIdentifierChecksum
             );
         }
     }
@@ -375,12 +364,9 @@ class AppSetupUtility
 
         $instanceIdentifier = $this->getSystemConfiguration()
             ->createInstanceIdentifier(...$instanceIdentifierData);
-        $instanceIdentifierChecksum = $this->getSystemConfiguration()
-            ->createInstanceIdentifierChecksum(...$instanceIdentifierData);
 
         return [
             $instanceIdentifier,
-            $instanceIdentifierChecksum
         ];
     }
 

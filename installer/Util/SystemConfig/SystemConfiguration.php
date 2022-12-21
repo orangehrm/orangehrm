@@ -31,7 +31,6 @@ class SystemConfiguration
     public const DEFAULT_LANGUAGE = 'en_US';
 
     public const INSTANCE_IDENTIFIER = 'instance.identifier';
-    public const INSTANCE_IDENTIFIER_CHECKSUM = 'instance.identifier_checksum';
 
     private ?ConfigHelper $configHelper = null;
     private ?int $adminEmpNumber = null;
@@ -169,16 +168,6 @@ class SystemConfiguration
     }
 
     /**
-     * @return string|null
-     */
-    public function getInstanceIdentifierChecksum(): ?string
-    {
-        return $this->configHelper->getConfigValue(
-            self::INSTANCE_IDENTIFIER_CHECKSUM
-        );
-    }
-
-    /**
      * @return int|null
      */
     private function getAdminEmployeeNumber(): ?int
@@ -236,42 +225,6 @@ class SystemConfiguration
      * @param string $adminFirstName
      * @param string $adminLastName
      * @param string|null $host
-     * @param string $country
-     * @param string $ohrmVersion
-     * @param int $currentTimestamp
-     */
-    public function setInstanceIdentifierChecksum(
-        string $organizationName,
-        string $email,
-        string $adminFirstName,
-        string $adminLastName,
-        ?string $host,
-        string $country,
-        string $ohrmVersion,
-        int $currentTimestamp
-    ): void {
-        $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum(
-            $organizationName,
-            $email,
-            $adminFirstName,
-            $adminLastName,
-            $host,
-            $country,
-            $ohrmVersion,
-            $currentTimestamp
-        );
-        $this->configHelper->setConfigValue(
-            self::INSTANCE_IDENTIFIER_CHECKSUM,
-            $instanceIdentifierChecksum
-        );
-    }
-
-    /**
-     * @param string $organizationName
-     * @param string $email
-     * @param string $adminFirstName
-     * @param string $adminLastName
-     * @param string|null $host
      * @param string|null $country
      * @param string $ohrmVersion
      * @param int $currentTimestamp
@@ -300,43 +253,6 @@ class SystemConfiguration
             '_' . $ohrmVersion .
             '_' . $currentTimestamp
         );
-    }
-
-    /**
-     * @param string $organizationName
-     * @param string $email
-     * @param string $adminFirstName
-     * @param string $adminLastName
-     * @param string|null $host
-     * @param string|null $country
-     * @param string $ohrmVersion
-     * @return string
-     */
-    public function createInstanceIdentifierChecksum(
-        string $organizationName,
-        string $email,
-        string $adminFirstName,
-        string $adminLastName,
-        ?string $host,
-        ?string $country,
-        string $ohrmVersion,
-        int $currentTimestamp
-    ): string {
-        $host = !is_null($host) ? $host : '';
-        $country = !is_null($country) ? $country : '';
-
-        $parameters = [
-            'organizationName' => $organizationName,
-            'organizationEmail' => $email,
-            'adminFirstName' => $adminFirstName,
-            'adminLastName' => $adminLastName,
-            'host' => $host,
-            'country' => $country,
-            'ohrmVersion' => $ohrmVersion,
-            'currentTimestamp' => $currentTimestamp
-        ];
-
-        return base64_encode(serialize($parameters));
     }
 
     /**

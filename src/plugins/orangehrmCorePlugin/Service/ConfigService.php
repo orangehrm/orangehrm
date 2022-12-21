@@ -48,7 +48,6 @@ class ConfigService
     public const KEY_OPENID_PROVIDER_ADDED = 'openId.provider.added';
     public const KEY_OPEN_SOURCE_INTEGRATIONS = 'open_source_integrations';
     public const KEY_INSTANCE_IDENTIFIER = 'instance.identifier';
-    public const KEY_INSTANCE_IDENTIFIER_CHECKSUM = 'instance.identifier_checksum';
     public const KEY_SENDMAIL_PATH = 'email_config.sendmail_path';
     public const KEY_LDAP_SETTINGS = 'ldap_settings';
     public const KEY_DASHBOARD_EMPLOYEES_ON_LEAVE_TODAY_SHOW_ONLY_ACCESSIBLE = 'dashboard.employees_on_leave_today.show_only_accessible';
@@ -414,24 +413,6 @@ class ConfigService
     public function getInstanceIdentifier(): string
     {
         return $this->_getConfigValue(self::KEY_INSTANCE_IDENTIFIER);
-    }
-
-    /**
-     * Set the instance identifier checksum value
-     * @param string $value
-     */
-    public function setInstanceIdentifierChecksum(string $value): void
-    {
-        $this->_setConfigValue(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $value);
-    }
-
-    /**
-     * Get instance identifier checksum value
-     * @return string
-     */
-    public function getInstanceIdentifierChecksum(): string
-    {
-        return $this->_getConfigValue(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM);
     }
 
     /**
