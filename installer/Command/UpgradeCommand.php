@@ -218,7 +218,6 @@ class UpgradeCommand extends InstallerCommand
             );
             return self::FAILURE;
         }
-        $step1->overwrite(sprintf('<fg=green>%s</>', '* Checking database permissions ✓'));
         $this->completeStep($step1, self::STEP_1);
 
         $this->startStep($step2, self::STEP_2);

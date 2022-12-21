@@ -133,9 +133,9 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
     protected function licenseAcceptance(): void
     {
         $this->getIO()->title('License Acceptance');
-        $this->getIO()->block('Please review the licence terms before installing OrangeHRM Starter.');
+        $this->getIO()->block('Please review the license terms before installing OrangeHRM Starter.');
         $this->getIO()->block('You can find the license file ("LICENSE") at the root folder of the code.');
-        if ($this->getIO()->confirm('I accept the terms in the Licence Agreement') !== true) {
+        if ($this->getIO()->confirm('I accept the terms in the License Agreement') !== true) {
             throw new InterruptProcessException();
         }
     }
@@ -327,8 +327,18 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
     {
         $firstName = $this->getRequiredField('Employee First Name', fn ($value) => $this->validateStrLength($value, 30));
         $lastName = $this->getRequiredField('Employee Last Name', fn ($value) => $this->validateStrLength($value, 30));
-        $email = $this->getRequiredField('Email', fn ($value) => $this->validateStrLength($value, 50));
-        $contact = $this->getIO()->ask('Contact Number', null, fn ($value) => $this->validateStrLength($value, 25));
+
+        $email = $this->getRequiredField('Email', function ($value) {
+            $value = $this->validateStrLength($value, 50);
+            return $this->emailValidator($value, 'Expected format: admin@example.com');
+        });
+        $contact = $this->getIO()->ask('Contact Number', null, function ($value) {
+            if ($value === null) {
+                return null;
+            }
+            $value = $this->validateStrLength($value, 25);
+            return $this->phoneNumberValidator($value, 'Allows numbers and only + - / ( )');
+        });
         $username = $this->getRequiredField('Admin Username', fn ($value) => $this->validateStrLength($value, 40));
         $password = $this->getIO()->askHidden('Password <comment>(hidden)</comment>', function ($value) {
             $value = $this->requiredValidator($value);
@@ -353,6 +363,8 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
             new UserCredential($username, $password),
             $contact
         );
+
+        $this->getIO()->note('Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to data@orangehrm.com');
     }
 
     protected function installation(): void

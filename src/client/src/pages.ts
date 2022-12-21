@@ -32,6 +32,7 @@ import authenticationPages from '@/orangehrmAuthenticationPlugin';
 import languagePages from '@/orangehrmAdminPlugin';
 import dashboardPages from '@/orangehrmDashboardPlugin';
 import buzzPages from '@/orangehrmBuzzPlugin';
+import systemCheckPages from '@/orangehrmSystemCheckPlugin';
 
 export default {
   ...AdminPages,
@@ -50,4 +51,5 @@ export default {
   ...languagePages,
   ...dashboardPages,
   ...buzzPages,
+  ...systemCheckPages,
 };

@@ -28,7 +28,7 @@
     </oxd-text>
     <br />
     <oxd-text class="orangehrm-installer-page-content">
-      Please review the licence terms before installing OrangeHRM Starter.
+      Please review the license terms before installing OrangeHRM Starter.
     </oxd-text>
     <br />
 
@@ -48,7 +48,7 @@
       <oxd-input-field
         v-model="userConsent"
         type="checkbox"
-        option-label="I accept the terms in the Licence Agreement"
+        option-label="I accept the terms in the License Agreement"
       />
     </oxd-form-row>
 

@@ -1,0 +1,12 @@
+apiv2_core_system_check:
+  path: /api/v2/core/system-check
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericPublicRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\SystemCheck\PublicApi\SystemCheckAPI
+    id: 0
+
+core_system_check:
+  path: /core/system-check
+  controller: OrangeHRM\SystemCheck\Controller\SystemCheckController::handle
+  methods: [ GET ]
