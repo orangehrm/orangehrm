@@ -76,9 +76,11 @@
         <!-- 5.x related -->
         <exclude name="src/client/node_modules/**"/>
         <exclude name="src/client/.yarn/cache/**"/>
+        <exclude name="src/client/.yarn/install-state.gz"/>
 
         <exclude name="installer/client/node_modules/**"/>
         <exclude name="installer/client/.yarn/cache/**"/>
+        <exclude name="installer/client/.yarn/install-state.gz"/>
       </fileset>
     </copy>
 
