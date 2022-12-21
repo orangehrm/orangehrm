@@ -387,15 +387,12 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws InvalidParamException
      */
     public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $buzzPost = $this->getBuzzService()->getBuzzDao()->getBuzzPostById($id);
-        if (!$buzzPost instanceof BuzzPost) {
-            throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($buzzPost, BuzzPost::class);
 
         $modelClass = $this->getModelClass();
         if ($modelClass == BuzzFeedPostModel::class) {
