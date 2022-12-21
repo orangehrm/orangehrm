@@ -19,16 +19,21 @@
 
 namespace OrangeHRM\SystemCheck\Controller;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\CorporateBranding\Dto\ThemeVariables;
+use OrangeHRM\CorporateBranding\Traits\ThemeServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
 class SystemCheckController extends AbstractVueController implements PublicControllerInterface
 {
     use ConfigServiceTrait;
+    use ThemeServiceTrait;
 
     /***
      * @inheritDoc
@@ -50,5 +55,46 @@ class SystemCheckController extends AbstractVueController implements PublicContr
         $component = new Component('system-check');
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
+    }
+
+    /***
+     * @inheritDoc
+     */
+    public function render(Request $request): string
+    {
+        $this->getContext()->add(
+            [
+                VueControllerHelper::COMPONENT_NAME => $this->getComponent()->getName(),
+                VueControllerHelper::COMPONENT_PROPS => $this->getComponent()->getProps(),
+                VueControllerHelper::PUBLIC_PATH => $request->getBasePath(),
+                VueControllerHelper::BASE_URL => $request->getBaseUrl(),
+                VueControllerHelper::ASSETS_VERSION => Config::get(Config::VUE_BUILD_TIMESTAMP),
+                VueControllerHelper::COPYRIGHT_YEAR => date('Y'),
+                VueControllerHelper::PRODUCT_VERSION => Config::PRODUCT_VERSION,
+                VueControllerHelper::PRODUCT_NAME => Config::PRODUCT_NAME,
+                VueControllerHelper::THEME_VARIABLES => $this->getDefaultThemeVariables(),
+            ]
+        );
+        return $this->getTwig()->render(
+            $this->getTemplate(),
+            $this->getContext()->all(),
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function getDefaultThemeVariables(): array
+    {
+        return $this->getThemeService()->getDerivedCssVariables(
+            ThemeVariables::createFromArray([
+                'primaryColor' => '#FF7B1D',
+                'primaryFontColor' => '#FFFFFF',
+                'secondaryColor' => '#76BC21',
+                'secondaryFontColor' => '#FFFFFF',
+                'primaryGradientStartColor' => '#FF920B',
+                'primaryGradientEndColor' => '#F35C17'
+            ])
+        );
     }
 }

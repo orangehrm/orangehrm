@@ -134,7 +134,7 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
     {
         $this->getIO()->title('License Acceptance');
         $this->getIO()->block('Please review the license terms before installing OrangeHRM Starter.');
-        $this->getIO()->block('You can find the license file ("LICENSE") at the root folder of the code.'); // TODO
+        $this->getIO()->block('You can find the license file ("LICENSE") at the root folder of the code.');
         if ($this->getIO()->confirm('I accept the terms in the License Agreement') !== true) {
             throw new InterruptProcessException();
         }
