@@ -38,11 +38,16 @@ if (!$pathToAutoload) {
 }
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Command\CacheClearCommand;
+use OrangeHRM\Core\Command\GenerateDoctrineProxiesCommand;
 use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
 use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 set_time_limit(0);
 
@@ -56,6 +61,10 @@ new Framework($env, $debug); // initializing kernel
 
 $request = new Request();
 $pluginConfigs = Config::get('ohrm_plugin_configs');
+$input = new ArgvInput();
+$output = new ConsoleOutput();
+$io = new SymfonyStyle($input, $output);
+
 try {
     foreach (array_values($pluginConfigs) as $pluginConfig) {
         require_once $pluginConfig['filepath'];
@@ -67,7 +76,9 @@ try {
         }
     }
 } catch (Throwable $e) {
-    echo("\n" . $e->getMessage() . "\n\n");
+    $io->warning($e->getMessage());
 }
 
-$console->run();
+$console->add(new CacheClearCommand());
+$console->add(new GenerateDoctrineProxiesCommand());
+$console->run($input, $output);
