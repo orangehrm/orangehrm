@@ -408,9 +408,9 @@ class ConfigService
 
     /**
      * Get instance identifier value
-     * @return string
+     * @return string|null
      */
-    public function getInstanceIdentifier(): string
+    public function getInstanceIdentifier(): ?string
     {
         return $this->_getConfigValue(self::KEY_INSTANCE_IDENTIFIER);
     }

@@ -96,7 +96,7 @@
     <br />
     <oxd-form-row class="orangehrm-register-consent">
       <oxd-input-field
-        v-model="adminUser.registerConsent"
+        v-model="adminUser.registrationConsent"
         type="checkbox"
         option-label="Register your system with OrangeHRM. By registering, You will be eligible for free support via emails, receive security alerts and news letters from OrangeHRM."
       />
@@ -166,7 +166,7 @@ export default {
         username: null,
         password: '',
         confirmPassword: '',
-        registerConsent: true,
+        registrationConsent: true,
       },
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
@@ -207,6 +207,7 @@ export default {
           contact: this.adminUser.contact,
           username: this.adminUser.username,
           password: this.adminUser.password,
+          registrationConsent: this.adminUser.registrationConsent,
         })
         .then(() => {
           navigate('/installer/confirmation');

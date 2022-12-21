@@ -51,7 +51,7 @@ export default {
   props: {
     instanceIdentifier: {
       type: String,
-      default: '',
+      default: null,
     },
   },
   setup() {

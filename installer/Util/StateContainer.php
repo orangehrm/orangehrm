@@ -55,6 +55,7 @@ class StateContainer
     public const ADMIN_USERNAME = 'username';
     public const ADMIN_PASSWORD = 'password';
     public const ADMIN_CONTACT = 'contact';
+    public const ADMIN_REGISTRATION_CONSENT = 'registrationConsent';
 
     public const INSTANCE_IDENTIFIER = 'instanceIdentifier';
     public const IS_INITIAL_REG_DATA_SENT = 'isInitialRegDataSent';
@@ -340,9 +341,26 @@ class StateContainer
     }
 
     /**
+     * @param bool $agreed
+     */
+    public function storeRegConsent(bool $agreed): void
+    {
+        $this->getSession()->set(self::ADMIN_REGISTRATION_CONSENT, $agreed);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getRegConsent(): bool
+    {
+        return $this->getSession()->get(self::ADMIN_REGISTRATION_CONSENT, true);
+    }
+
+    /**
      * @param string $instanceIdentifier
      */
-    public function storeInstanceIdentifierData(string $instanceIdentifier): void {
+    public function storeInstanceIdentifierData(string $instanceIdentifier): void
+    {
         $this->getSession()->set(self::INSTANCE_IDENTIFIER, $instanceIdentifier);
     }
 

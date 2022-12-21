@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <div class="orangehrm-maintenance-note">
+  <div v-if="instanceIdentifier !== null" class="orangehrm-maintenance-note">
     <div class="orangehrm-maintenance-note-header">
       <oxd-text>{{ $t('general.note') }}</oxd-text>
     </div>
