@@ -14,6 +14,8 @@ UserRole:
 User:
   - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2022-09-15 16:51:16","modified_user_id": "1" }
   - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 3, "user_name": "Tyler","user_password": "Abraham","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 2, "user_name": "Ashley","user_password": "Ashley123","deleted": "0","status": "1","date_entered": "2022-09-15 16:47:14","created_by": "1" }
 
 BuzzPost:
   - { "id": 1, "employee_number": 1, "text": "this is post text 01", "post_time": "2021-09-15 16:51:16", "post_utc_time": "2021-09-15 16:51:16", "updated_at": "2021-09-15 16:51:16" }

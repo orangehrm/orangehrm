@@ -238,12 +238,18 @@ Create:
       message: 'Invalid Parameter'
 
 Update:
-  'Update Text Post In Buzz - ESS User':
-    userId: 2
+  'Update Text Post In Buzz - ESS User - Own Post':
+    userId: 3
     now:
       datetime: '2022-12-01 08:42:00'
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 3
     body:
@@ -253,20 +259,26 @@ Update:
       post:
         id: 3
       employee:
-        empNumber: 1
-        lastName: 'Abbey'
-        firstName: 'Kayla'
+        empNumber: 3
+        lastName: 'Abraham'
+        firstName: 'Tyler'
         middleName: ''
         employeeId: null
         terminationId: null
     meta: [ ]
 
   'Update Text Post In Buzz - ESS User - with photos':
-    userId: 2
+    userId: 3
     now:
       datetime: '2022-12-01 08:42:00'
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 3
     body:
@@ -284,20 +296,26 @@ Update:
       post:
         id: 3
       employee:
-        empNumber: 1
-        lastName: 'Abbey'
-        firstName: 'Kayla'
+        empNumber: 3
+        lastName: 'Abraham'
+        firstName: 'Tyler'
         middleName: ''
         employeeId: null
         terminationId: null
     meta: [ ]
 
   'Update Video Post In Buzz - ESS User':
-    userId: 1
+    userId: 2
     now:
       datetime: '2022-12-01 08:42:00'
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 1
     body:
@@ -308,20 +326,26 @@ Update:
       post:
         id: 1
       employee:
-        empNumber: 4
-        lastName: 'Abrahams'
-        firstName: 'Landon'
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
         middleName: ''
         employeeId: null
         terminationId: null
     meta: [ ]
 
   'Update Photo Post In Buzz - ESS User - New Photos':
-    userId: 1
+    userId: 2
     now:
       datetime: '2022-12-01 08:42:00'
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 4
     body:
@@ -345,20 +369,26 @@ Update:
       post:
         id: 4
       employee:
-        empNumber: 4
-        lastName: 'Abrahams'
-        firstName: 'Landon'
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
         middleName: ''
         employeeId: null
         terminationId: null
     meta: [ ]
 
   'Update Photo Post In Buzz - ESS User - With Text':
-    userId: 1
+    userId: 4
     now:
       datetime: '2022-12-01 08:42:00'
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 2
     body:
@@ -369,16 +399,16 @@ Update:
       post:
         id: 2
       employee:
-        empNumber: 4
-        lastName: 'Abrahams'
-        firstName: 'Landon'
-        middleName: ''
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'Aldis'
         employeeId: null
         terminationId: null
     meta: [ ]
 
   'Update Text Post In Buzz - Detailed Model':
-    userId: 2
+    userId: 3
     now:
       datetime: '2022-12-01 08:42:00'
     services:
@@ -418,8 +448,8 @@ Update:
       createdTime: '16:51'
       originalPost: null
       permission:
-        canUpdate: false
-        canDelete: false
+        canUpdate: true
+        canDelete: true
     meta: [ ]
 
   'Update Video Post In Buzz - Detailed Model':
@@ -471,9 +501,15 @@ Update:
     meta: [ ]
 
   'Update Photo Post In Buzz - Wrong Deleted ID':
-    userId: 1
+    userId: 4
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 2
     body:
@@ -485,9 +521,15 @@ Update:
       message: 'Invalid Parameter'
 
   'Update Photo Post In Buzz - Wrong Deleted ID With Correct Id':
-    userId: 1
+    userId: 4
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 2
     body:
@@ -499,9 +541,15 @@ Update:
       message: 'Invalid Parameter'
 
   'Update Photo Post To Video Post - Invalid Post Type':
-    userId: 1
+    userId: 2
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 4
     body:
@@ -513,9 +561,15 @@ Update:
       message: 'Invalid Parameter'
 
   'Update Video Post - Invalid Link':
-    userId: 1
+    userId: 2
     services:
       buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       id: 4
     body:
@@ -524,6 +578,26 @@ Update:
       link: 'https://abcd.com/PLW9NCQftUhF'
     invalidOnly: [ "link" ]
 
+  'Update Post In Buzz - Not Own Post':
+    userId: 1
+    services:
+      buzz.buzz_service: \OrangeHRM\Buzz\Service\BuzzService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 4
+    body:
+      text: 'this is video post text'
+      type: 'video'
+      link: 'https://youtu.be/9KMtWCry_PU?list=PLW9NCQftUhFjMUjjWooQmvLGdkOgXr_pY'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+      
 GetOne:
   'Get One post by Id - ESS User':
     userId: 2

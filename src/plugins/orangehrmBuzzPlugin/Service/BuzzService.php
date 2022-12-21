@@ -31,6 +31,7 @@ class BuzzService
     private BuzzLikeDao $buzzLikeDao;
     private array $buzzFeedPostPermissionCache = [];
     private array $buzzCommentPermissionCache = [];
+    private array $buzzPostPermissionCache = [];
 
     /**
      * @return BuzzDao
@@ -102,5 +103,19 @@ class BuzzService
                 ->getDataGroupPermissions('buzz_comment', [], [], $self);
         }
         return $this->buzzCommentPermissionCache[$self]->canDelete();
+    }
+
+    /**
+     * @param int $postOwnerEmpNumber
+     * @return bool
+     */
+    public function canUpdateBuzzPost(int $postOwnerEmpNumber): bool
+    {
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($postOwnerEmpNumber);
+        if (!isset($this->buzzPostPermissionCache[$self])) {
+            $this->buzzPostPermissionCache[$self] = $this->getUserRoleManager()
+                ->getDataGroupPermissions('buzz_post', [], [], $self);
+        }
+        return $this->buzzPostPermissionCache[$self]->canUpdate();
     }
 }

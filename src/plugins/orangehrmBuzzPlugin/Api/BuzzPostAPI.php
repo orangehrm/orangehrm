@@ -33,6 +33,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -512,6 +513,10 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
                 throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
             }
 
+            if (!$this->getBuzzService()->canUpdateBuzzPost($buzzPost->getEmployee()->getEmpNumber())) {
+                throw $this->getForbiddenException();
+            }
+
             $originalPostType = $this->getBuzzService()->getBuzzDao()->getBuzzPostTypeByPostId($postId);
 
             $postType = $this->getRequestParams()->getString(
@@ -575,7 +580,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
             }
 
             $this->commitTransaction();
-        } catch (InvalidParamException|BadRequestException $e) {
+        } catch (InvalidParamException|ForbiddenException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
