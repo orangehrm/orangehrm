@@ -21,7 +21,6 @@ namespace OrangeHRM\LDAP\Service;
 
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Core\Registration\Event\RegistrationEvent;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
@@ -42,6 +41,8 @@ use OrangeHRM\LDAP\Exception\LDAPSettingException;
 use OrangeHRM\LDAP\Exception\LDAPSyncException;
 use OrangeHRM\LDAP\Traits\LDAPLoggerTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Event\EmployeeEvents;
+use OrangeHRM\Pim\Event\EmployeeSavedEvent;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use Symfony\Component\Ldap\Adapter\CollectionInterface;
 use Symfony\Component\Ldap\Entry;
@@ -312,10 +313,7 @@ class LDAPSyncService
     {
         try {
             $this->saveEmployee($employee, $clonedEmployee);
-            $eventName = $employee->getEmployeeTerminationRecord() == null
-                ? RegistrationEvent::EMPLOYEE_ADD_EVENT_NAME
-                : RegistrationEvent::EMPLOYEE_TERMINATE_EVENT_NAME;
-            $this->getEventDispatcher()->dispatch(new RegistrationEvent(), $eventName);
+            $this->getEventDispatcher()->dispatch(new EmployeeSavedEvent($employee), EmployeeEvents::EMPLOYEE_SAVED);
             return $employee;
         } catch (LDAPSyncException $e) {
             $this->getLogger()->error($e->getMessage(), $ldapUser->getLogInfo());

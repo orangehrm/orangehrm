@@ -23,8 +23,10 @@ use OrangeHRM\Buzz\Traits\Service\BuzzServiceTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Maintenance\Event\MaintenanceEvent;
 use OrangeHRM\Maintenance\Event\PurgeEmployee;
+use OrangeHRM\Pim\Event\EmployeeDeletedEvent;
+use OrangeHRM\Pim\Event\EmployeeEvents;
 
-class BuzzEmployeePurgeSubscriber extends AbstractEventSubscriber
+class BuzzAdjustCommentLikeCountSubscriber extends AbstractEventSubscriber
 {
     use BuzzServiceTrait;
 
@@ -35,6 +37,7 @@ class BuzzEmployeePurgeSubscriber extends AbstractEventSubscriber
     {
         return [
             MaintenanceEvent::PURGE_EMPLOYEE_END => 'onEmployeePurgingEnd',
+            EmployeeEvents::EMPLOYEES_DELETED => 'onEmployeesDeleted',
         ];
     }
 
@@ -42,6 +45,15 @@ class BuzzEmployeePurgeSubscriber extends AbstractEventSubscriber
      * @param PurgeEmployee $purgeEmployee
      */
     public function onEmployeePurgingEnd(PurgeEmployee $purgeEmployee): void
+    {
+        $this->getBuzzService()->getBuzzDao()->adjustLikeAndCommentCountsOnShares();
+        $this->getBuzzService()->getBuzzDao()->adjustLikeCountOnComments();
+    }
+
+    /**
+     * @param EmployeeDeletedEvent $event
+     */
+    public function onEmployeesDeleted(EmployeeDeletedEvent $event): void
     {
         $this->getBuzzService()->getBuzzDao()->adjustLikeAndCommentCountsOnShares();
         $this->getBuzzService()->getBuzzDao()->adjustLikeCountOnComments();

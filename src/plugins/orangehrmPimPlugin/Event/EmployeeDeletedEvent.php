@@ -14,11 +14,30 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
 namespace OrangeHRM\Pim\Event;
 
-class EmployeeAddedEvent extends EmployeeSavedEvent
+use OrangeHRM\Framework\Event\Event;
+
+class EmployeeDeletedEvent extends Event
 {
+    private array $empNumbers;
+
+    /**
+     * @param array $empNumbers
+     */
+    public function __construct(array $empNumbers)
+    {
+        $this->empNumbers = $empNumbers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEmpNumbers(): array
+    {
+        return $this->empNumbers;
+    }
 }

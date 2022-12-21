@@ -29,6 +29,7 @@ use OrangeHRM\Core\Registration\Helper\SystemConfigurationHelper;
 use OrangeHRM\Core\Registration\Service\RegistrationAPIClientService;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\RegistrationEventQueue;
 use Throwable;
@@ -38,6 +39,7 @@ abstract class AbstractRegistrationEventProcessor
     use LoggerTrait;
     use ConfigServiceTrait;
     use UserServiceTrait;
+    use DateTimeHelperTrait;
 
     private RegistrationEventQueueDao $registrationEventQueueDao;
     private RegistrationAPIClientService $registrationAPIClientService;
@@ -67,13 +69,10 @@ abstract class AbstractRegistrationEventProcessor
         return $this->organizationService ??= new OrganizationService();
     }
 
-    /**
-     * @param DateTime $eventTime
-     */
-    public function saveRegistrationEvent(DateTime $eventTime)
+    public function saveRegistrationEvent(): void
     {
         if ($this->getEventToBeSavedOrNot()) {
-            $registrationEvent = $this->processRegistrationEventToSave($eventTime);
+            $registrationEvent = $this->processRegistrationEventToSave($this->getDateTimeHelper()->getNow());
             $this->getRegistrationEventQueueDao()->saveRegistrationEvent($registrationEvent);
         }
     }

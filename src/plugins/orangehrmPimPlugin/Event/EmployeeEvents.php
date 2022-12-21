@@ -24,11 +24,20 @@ class EmployeeEvents
     /**
      * @see \OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent
      */
-    public const JOINED_DATE_CHANGED = 'employee_join_date_changed';
+    public const JOINED_DATE_CHANGED = 'pim.employee_join_date_changed';
 
     /**
      * @see \OrangeHRM\Pim\Event\EmployeeAddedEvent
      */
-    public const EMPLOYEE_ADDED = 'employee_added';
-    public const EMPLOYEES_DELETED = 'employees_deleted';
+    public const EMPLOYEE_ADDED = 'pim.employee_added';
+
+    /**
+     * @see \OrangeHRM\Pim\Event\EmployeeSavedEvent
+     */
+    public const EMPLOYEE_SAVED = 'pim.employee_saved';
+
+    /**
+     * @see \OrangeHRM\Pim\Event\EmployeeDeletedEvent
+     */
+    public const EMPLOYEES_DELETED = 'pim.employees_deleted';
 }
