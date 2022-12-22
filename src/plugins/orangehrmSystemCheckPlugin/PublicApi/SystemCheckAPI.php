@@ -45,7 +45,7 @@ class SystemCheckAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         if (!$this->getConfigService()->showSystemCheckScreen()) {
-            throw $this->getForbiddenException();
+            throw $this->getRecordNotFoundException();
         }
         try {
             $systemCheck = new SystemCheck($this->getEntityManager()->getConnection());
