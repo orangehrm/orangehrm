@@ -31,7 +31,6 @@ class BuzzService
     private BuzzLikeDao $buzzLikeDao;
     private array $buzzFeedPostPermissionCache = [];
     private array $buzzCommentPermissionCache = [];
-    private array $buzzPostPermissionCache = [];
 
     /**
      * @return BuzzDao
