@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Leave\Controller\LeaveModuleController;
-use OrangeHRM\Leave\Controller\LeavePeriodUnnecessaryController;
+use OrangeHRM\Leave\Controller\LeavePeriodIndependentController;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -60,7 +60,7 @@ class LeavePeriodSubscriber extends AbstractEventSubscriber
                     return;
                 }
 
-                if ($event->getController()[0] instanceof LeavePeriodUnnecessaryController) {
+                if ($event->getController()[0] instanceof LeavePeriodIndependentController) {
                     return;
                 }
                 if ($this->getTextHelper()->strStartsWith(

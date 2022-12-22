@@ -25,7 +25,7 @@ use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
-class LeavePeriodController extends AbstractVueController implements LeavePeriodUnnecessaryController
+class LeavePeriodController extends AbstractVueController implements LeavePeriodIndependentController
 {
     use LeavePeriodServiceTrait;
 

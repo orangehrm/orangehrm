@@ -24,7 +24,7 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Time\Controller\TimeModuleController;
-use OrangeHRM\Time\Controller\TimesheetStartDateUnnecessaryController;
+use OrangeHRM\Time\Controller\TimesheetStartDateIndependentController;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -60,7 +60,7 @@ class TimesheetPeriodSubscriber extends AbstractEventSubscriber
                     return;
                 }
 
-                if ($event->getController()[0] instanceof TimesheetStartDateUnnecessaryController) {
+                if ($event->getController()[0] instanceof TimesheetStartDateIndependentController) {
                     return;
                 }
                 if ($this->getTextHelper()->strStartsWith(

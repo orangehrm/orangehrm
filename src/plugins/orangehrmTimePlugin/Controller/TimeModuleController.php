@@ -23,7 +23,7 @@ use Exception;
 use OrangeHRM\Core\Controller\AbstractModuleController;
 use OrangeHRM\Framework\Http\RedirectResponse;
 
-class TimeModuleController extends AbstractModuleController implements TimesheetStartDateUnnecessaryController
+class TimeModuleController extends AbstractModuleController implements TimesheetStartDateIndependentController
 {
     /**
      * @return RedirectResponse

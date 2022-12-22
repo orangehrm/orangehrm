@@ -17,11 +17,11 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Controller;
+namespace OrangeHRM\Time\Controller;
 
 /**
- * Marker interface to identify whether a controller required leave period to be defined
+ * Marker interface to identify whether a controller required timesheet start date to be defined
  */
-interface LeavePeriodUnnecessaryController
+interface TimesheetStartDateIndependentController
 {
 }

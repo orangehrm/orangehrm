@@ -23,7 +23,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class LeavePeriodNotDefinedController extends AbstractVueController implements LeavePeriodUnnecessaryController
+class LeavePeriodNotDefinedController extends AbstractVueController implements LeavePeriodIndependentController
 {
     /**
      * @inheritDoc

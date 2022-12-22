@@ -25,7 +25,7 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class TimesheetPeriodConfigController extends AbstractVueController implements TimesheetStartDateUnnecessaryController
+class TimesheetPeriodConfigController extends AbstractVueController implements TimesheetStartDateIndependentController
 {
     use ConfigServiceTrait;
 
