@@ -233,7 +233,6 @@ export default {
 
 .orangehrm-register-notice {
   display: flex;
-  max-width: 50%;
   color: $oxd-interface-gray-color;
   &-icon {
     color: inherit;
