@@ -513,7 +513,7 @@ class BuzzPostAPI extends Endpoint implements CrudEndpoint
                 throw $this->getInvalidParamException(CommonParams::PARAMETER_ID);
             }
 
-            if (!$this->getBuzzService()->canUpdateBuzzPost($buzzPost->getEmployee()->getEmpNumber())) {
+            if (!$this->getBuzzService()->canUpdateBuzzFeedPost($buzzPost->getEmployee()->getEmpNumber())) {
                 throw $this->getForbiddenException();
             }
 

@@ -104,18 +104,4 @@ class BuzzService
         }
         return $this->buzzCommentPermissionCache[$self]->canDelete();
     }
-
-    /**
-     * @param int $postOwnerEmpNumber
-     * @return bool
-     */
-    public function canUpdateBuzzPost(int $postOwnerEmpNumber): bool
-    {
-        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($postOwnerEmpNumber);
-        if (!isset($this->buzzPostPermissionCache[$self])) {
-            $this->buzzPostPermissionCache[$self] = $this->getUserRoleManager()
-                ->getDataGroupPermissions('buzz_post', [], [], $self);
-        }
-        return $this->buzzPostPermissionCache[$self]->canUpdate();
-    }
 }
