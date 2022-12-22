@@ -17,6 +17,7 @@
  */
 
 import LeavePeriod from './pages/configure/LeavePeriod.vue';
+import LeavePeriodNotDefined from './pages/configure/LeavePeriodNotDefined.vue';
 import LeaveApply from './pages/LeaveApply.vue';
 import LeaveAssign from './pages/LeaveAssign.vue';
 import LeaveType from './pages/leaveType/LeaveType.vue';
@@ -38,6 +39,7 @@ import MyLeaveEntitlementReport from './pages/reports/MyLeaveEntitlementReport.v
 
 export default {
   'leave-period': LeavePeriod,
+  'leave-period-not-defined-warning': LeavePeriodNotDefined,
   'leave-apply': LeaveApply,
   'leave-assign': LeaveAssign,
   'leave-type-edit': EditLeaveType,

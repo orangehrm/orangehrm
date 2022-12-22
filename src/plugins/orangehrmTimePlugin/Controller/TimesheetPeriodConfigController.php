@@ -22,14 +22,12 @@ namespace OrangeHRM\Time\Controller;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class TimesheetPeriodConfigController extends AbstractVueController
+class TimesheetPeriodConfigController extends AbstractVueController implements TimesheetStartDateUnnecessaryController
 {
     use ConfigServiceTrait;
-    use UserRoleManagerTrait;
 
     /**
      * @var HomePageService|null
@@ -41,10 +39,7 @@ class TimesheetPeriodConfigController extends AbstractVueController
      */
     public function getHomePageService(): HomePageService
     {
-        if (!$this->homePageService instanceof HomePageService) {
-            $this->homePageService = new HomePageService();
-        }
-        return $this->homePageService;
+        return $this->homePageService ??= new HomePageService();
     }
 
     /**
@@ -54,18 +49,12 @@ class TimesheetPeriodConfigController extends AbstractVueController
     {
         // to block defineTimesheetPeriod (URL)
         $status = $this->getConfigService()->isTimesheetPeriodDefined();
-        if (!$status) {
-            if ($this->getUserRoleManager()->getDataGroupPermissions('attendance_configuration')->canUpdate()) {
-                // config page of define start week
-                $component = new Component('time-sheet-period');
-            } else {
-                // normal user -> warning page
-                $component = new Component('time-sheet-period-not-defined');
-            }
-            $this->setComponent($component);
-        } else {
+        if ($status) {
             $defaultPath = $this->getHomePageService()->getTimeModuleDefaultPath();
             $this->setResponse($this->redirect($defaultPath));
+            return;
         }
+        $component = new Component('time-sheet-period');
+        $this->setComponent($component);
     }
 }

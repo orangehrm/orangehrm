@@ -205,6 +205,11 @@ time_module:
   controller: OrangeHRM\Time\Controller\TimeModuleController::handle
   methods: [ GET ]
 
+time_timesheet_start_date_not_defined:
+  path: /time/timesheetPeriodNotDefined
+  controller: OrangeHRM\Time\Controller\TimesheetStartDateNotDefined::handle
+  methods: [ GET ]
+
 view_time_sheet_config:
   path: /time/defineTimesheetPeriod
   controller: OrangeHRM\Time\Controller\TimesheetPeriodConfigController::handle

@@ -848,7 +848,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         $defaultPages = $this->getHomePageDao()->getModuleDefaultPagesInPriorityOrder($module, $userRoleIds);
 
         foreach ($defaultPages as $defaultPage) {
-            $enabled = true;
+            $isNotEnabled = true;
             $enableClass = $defaultPage->getEnableClass();
             $fallbackNamespace = 'OrangeHRM\\Core\\HomePage\\';
 
@@ -856,11 +856,11 @@ class BasicUserRoleManager extends AbstractUserRoleManager
                 $enableClass = $this->getClassHelper()->getClass($enableClass, $fallbackNamespace);
                 $enableClassInstance = new $enableClass();
                 if ($enableClassInstance instanceof HomePageEnablerInterface) {
-                    $enabled = $enableClassInstance->isEnabled($this->getUser());
+                    $isNotEnabled = !$enableClassInstance->isEnabled($this->getUser());
                 }
             }
 
-            if ($enabled) {
+            if ($isNotEnabled) {
                 $action = $defaultPage->getAction();
                 break;
             }
@@ -880,7 +880,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         $defaultPages = $this->getHomePageDao()->getHomePagesInPriorityOrder($userRoleIds);
 
         foreach ($defaultPages as $defaultPage) {
-            $enabled = true;
+            $isNotEnabled = true;
             $enableClass = $defaultPage->getEnableClass();
             $fallbackNamespace = 'OrangeHRM\\Core\\HomePage\\';
 
@@ -888,10 +888,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager
                 $enableClass = $this->getClassHelper()->getClass($enableClass, $fallbackNamespace);
                 $enableClassInstance = new $enableClass();
                 if ($enableClassInstance instanceof HomePageEnablerInterface) {
-                    $enabled = $enableClassInstance->isEnabled($this->getUser());
+                    $isNotEnabled = !$enableClassInstance->isEnabled($this->getUser());
                 }
             }
-            if ($enabled) {
+            if ($isNotEnabled) {
                 $action = $defaultPage->getAction();
                 break;
             }
