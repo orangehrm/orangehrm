@@ -209,6 +209,10 @@ class AppSetupUtility
         $this->insertAdminEmployee();
         $this->insertAdminUser();
         !StateContainer::getInstance()->getRegConsent() ?: $this->insertInstanceIdentifier();
+        $this->getConfigHelper()->setConfigValue(
+            'instance.reg_consent',
+            (int)StateContainer::getInstance()->getRegConsent()
+        );
     }
 
     protected function insertCsrfKey(): void
