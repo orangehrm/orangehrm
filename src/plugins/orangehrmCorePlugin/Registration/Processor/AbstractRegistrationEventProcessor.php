@@ -29,6 +29,7 @@ use OrangeHRM\Core\Registration\Helper\SystemConfigurationHelper;
 use OrangeHRM\Core\Registration\Service\RegistrationAPIClientService;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\RegistrationEventQueue;
 use Throwable;
@@ -38,6 +39,7 @@ abstract class AbstractRegistrationEventProcessor
     use LoggerTrait;
     use ConfigServiceTrait;
     use UserServiceTrait;
+    use DateTimeHelperTrait;
 
     private RegistrationEventQueueDao $registrationEventQueueDao;
     private RegistrationAPIClientService $registrationAPIClientService;
@@ -67,21 +69,10 @@ abstract class AbstractRegistrationEventProcessor
         return $this->organizationService ??= new OrganizationService();
     }
 
-    /**
-     * @return string
-     */
-    private function getInstanceIdentifier(): string
-    {
-        return $this->getConfigService()->getInstanceIdentifier();
-    }
-
-    /**
-     * @param DateTime $eventTime
-     */
-    public function saveRegistrationEvent(DateTime $eventTime)
+    public function saveRegistrationEvent(): void
     {
         if ($this->getEventToBeSavedOrNot()) {
-            $registrationEvent = $this->processRegistrationEventToSave($eventTime);
+            $registrationEvent = $this->processRegistrationEventToSave($this->getDateTimeHelper()->getNow());
             $this->getRegistrationEventQueueDao()->saveRegistrationEvent($registrationEvent);
         }
     }
@@ -101,7 +92,7 @@ abstract class AbstractRegistrationEventProcessor
             $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry()
                 ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry()
                 : null;
-            $instanceIdentifier = $this->getInstanceIdentifier();
+            $instanceIdentifier = $this->getConfigService()->getInstanceIdentifier();
             $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
             $systemDetailsHelper = new SystemConfigurationHelper();
             $systemDetails = $systemDetailsHelper->getSystemDetailsAsJson();

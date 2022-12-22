@@ -19,10 +19,11 @@
 
 namespace OrangeHRM\Core\Registration\Subscriber;
 
-use OrangeHRM\Core\Registration\Event\RegistrationEvent;
 use OrangeHRM\Core\Registration\Processor\RegistrationEventProcessorFactory;
 use OrangeHRM\Entity\RegistrationEventQueue;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
+use OrangeHRM\Pim\Event\EmployeeEvents;
+use OrangeHRM\Pim\Event\EmployeeSavedEvent;
 
 class RegistrationEventPersistSubscriber extends AbstractEventSubscriber
 {
@@ -32,77 +33,20 @@ class RegistrationEventPersistSubscriber extends AbstractEventSubscriber
     public static function getSubscribedEvents(): array
     {
         return [
-            RegistrationEvent::EMPLOYEE_ADD_EVENT_NAME => 'onEmployeeAddition',
-            RegistrationEvent::EMPLOYEE_TERMINATE_EVENT_NAME => 'onEmployeeTermination',
-            RegistrationEvent::INSTALL_START_EVENT_NAME => 'onInstallationStart',
-            RegistrationEvent::INSTALL_SUCCESS_EVENT_NAME => 'onInstallationSuccess',
-            RegistrationEvent::UPGRADE_EVENT_NAME => 'onUpgrade',
+            EmployeeEvents::EMPLOYEE_SAVED => 'onEmployeeSaved',
         ];
     }
 
-    /**
-     * @param RegistrationEvent $registrationEvent
-     */
-    public function onEmployeeAddition(RegistrationEvent $registrationEvent): void
+    public function onEmployeeSaved(EmployeeSavedEvent $event): void
     {
         $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
         $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
             RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT
         );
-        $registrationEventProcessor->saveRegistrationEvent($registrationEvent->getEventTime());
-    }
-
-    /**
-     * @param RegistrationEvent $registrationEvent
-     */
-    public function onEmployeeTermination(RegistrationEvent $registrationEvent): void
-    {
-        $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
+        $registrationEventProcessor->saveRegistrationEvent();
         $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
             RegistrationEventQueue::INACTIVE_EMPLOYEE_COUNT
         );
-        $registrationEventProcessor->saveRegistrationEvent($registrationEvent->getEventTime());
-    }
-
-    /**
-     * @param RegistrationEvent $registrationEvent
-     */
-    public function onInstallationStart(RegistrationEvent $registrationEvent): void
-    {
-        $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
-        $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
-            RegistrationEventQueue::INSTALLATION_START
-        );
-        $registrationEventProcessor->saveRegistrationEvent($registrationEvent->getEventTime());
-    }
-
-    /**
-     * @param RegistrationEvent $registrationEvent
-     */
-    public function onInstallationSuccess(RegistrationEvent $registrationEvent): void
-    {
-        $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
-
-        $installationStartRegistrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
-            RegistrationEventQueue::INSTALLATION_START
-        );
-        $installationStartRegistrationEventProcessor->saveRegistrationEvent($registrationEvent->getEventTime());
-
-        $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
-            RegistrationEventQueue::INSTALLATION_SUCCESS
-        );
-        $registrationEventProcessor->saveRegistrationEvent($registrationEvent->getEventTime());
-    }
-
-    /**
-     * @param RegistrationEvent $registrationEvent
-     */
-    public function onUpgrade(RegistrationEvent $registrationEvent): void
-    {
-        $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
-        $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
-            RegistrationEventQueue::UPGRADE_START
-        );
-        $registrationEventProcessor->saveRegistrationEvent($registrationEvent->getEventTime());
+        $registrationEventProcessor->saveRegistrationEvent();
     }
 }

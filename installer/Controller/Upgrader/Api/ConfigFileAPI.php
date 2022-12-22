@@ -62,7 +62,7 @@ class ConfigFileAPI extends AbstractInstallerRestController
         $appSetupUtility->writeConfFile();
 
         try {
-            $this->sendRegistrationData();
+            !StateContainer::getInstance()->getRegConsent() ?: $this->sendRegistrationData();
         } catch (Throwable $e) {
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());

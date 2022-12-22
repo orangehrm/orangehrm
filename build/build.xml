@@ -70,16 +70,17 @@
 
         <exclude name="src/plugins/orangehrmAuthenticationPlugin/lib/**"/>
         <exclude name="src/plugins/orangehrmCoreOAuthPlugin/lib/**"/>
-        <exclude name="src/plugins/orangehrmMarketPlacePlugin/**"/>
         <exclude name="src/plugins/orangehrmOpenidAuthenticationPlugin/**"/>
         <exclude name="src/plugins/orangehrmRESTPlugin/**"/>
 
         <!-- 5.x related -->
         <exclude name="src/client/node_modules/**"/>
         <exclude name="src/client/.yarn/cache/**"/>
+        <exclude name="src/client/.yarn/install-state.gz"/>
 
         <exclude name="installer/client/node_modules/**"/>
         <exclude name="installer/client/.yarn/cache/**"/>
+        <exclude name="installer/client/.yarn/install-state.gz"/>
       </fileset>
     </copy>
 

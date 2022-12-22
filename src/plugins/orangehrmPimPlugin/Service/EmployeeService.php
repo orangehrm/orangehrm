@@ -23,7 +23,6 @@ use DateTime;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\CoreServiceException;
-use OrangeHRM\Core\Registration\Event\RegistrationEvent;
 use OrangeHRM\Core\Service\IDGeneratorService;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
@@ -34,8 +33,10 @@ use OrangeHRM\Entity\User;
 use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Event\EmployeeAddedEvent;
+use OrangeHRM\Pim\Event\EmployeeDeletedEvent;
 use OrangeHRM\Pim\Event\EmployeeEvents;
 use OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent;
+use OrangeHRM\Pim\Event\EmployeeSavedEvent;
 use OrangeHRM\Pim\Service\Model\EmployeeModel;
 
 class EmployeeService
@@ -103,14 +104,6 @@ class EmployeeService
     }
 
     /**
-     * @param EmployeeEventService $employeeEventService
-     */
-    public function setEmployeeEventService(EmployeeEventService $employeeEventService): void
-    {
-        $this->employeeEventService = $employeeEventService;
-    }
-
-    /**
      * @return EmployeeTerminationService
      */
     public function getEmployeeTerminationService(): EmployeeTerminationService
@@ -158,9 +151,7 @@ class EmployeeService
     {
         $savedEmployee = $this->getEmployeeDao()->saveEmployee($employee);
 
-        // TODO:: Improve
-        $eventName = $employee->getEmployeeTerminationRecord() == null ? RegistrationEvent::EMPLOYEE_ADD_EVENT_NAME : RegistrationEvent::EMPLOYEE_TERMINATE_EVENT_NAME;
-        $this->getEventDispatcher()->dispatch(new RegistrationEvent(), $eventName);
+        $this->getEventDispatcher()->dispatch(new EmployeeSavedEvent($employee), EmployeeEvents::EMPLOYEE_SAVED);
         return $savedEmployee;
     }
 
@@ -285,7 +276,9 @@ class EmployeeService
      */
     public function deleteEmployees(array $empNumbers): int
     {
-        return $this->getEmployeeDao()->deleteEmployees($empNumbers);
+        $result = $this->getEmployeeDao()->deleteEmployees($empNumbers);
+        $this->getEventDispatcher()->dispatch(new EmployeeDeletedEvent($empNumbers), EmployeeEvents::EMPLOYEES_DELETED);
+        return $result;
     }
 
     /**

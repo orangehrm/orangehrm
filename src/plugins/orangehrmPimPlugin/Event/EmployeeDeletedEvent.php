@@ -14,41 +14,30 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Registration\Processor;
+namespace OrangeHRM\Pim\Event;
 
-use OrangeHRM\Entity\RegistrationEventQueue;
+use OrangeHRM\Framework\Event\Event;
 
-class RegistrationSuccessEventProcessor extends AbstractRegistrationEventProcessor
+class EmployeeDeletedEvent extends Event
 {
+    private array $empNumbers;
+
     /**
-     * @inheritDoc
+     * @param array $empNumbers
      */
-    public function getEventType(): int
+    public function __construct(array $empNumbers)
     {
-        return RegistrationEventQueue::INSTALLATION_SUCCESS;
+        $this->empNumbers = $empNumbers;
     }
 
     /**
-     * @inheritDoc
+     * @return array
      */
-    public function getEventData(): array
+    public function getEmpNumbers(): array
     {
-        return $this->getRegistrationEventGeneralData();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getEventToBeSavedOrNot(): bool
-    {
-        $installationSucceedEvent = $this->getRegistrationEventQueueDao()
-            ->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_SUCCESS);
-        if (!$installationSucceedEvent) {
-            return true;
-        }
-        return true;
+        return $this->empNumbers;
     }
 }

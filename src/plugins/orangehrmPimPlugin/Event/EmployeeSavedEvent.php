@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,29 +14,34 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-/**
- * This interface must be implemented by all OS Add-ons that are published
- * to the market place.
- * @author rimaz
- */
-interface AddonInstallationService {
+namespace OrangeHRM\Pim\Event;
+
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Event\Event;
+
+class EmployeeSavedEvent extends Event
+{
+    /**
+     * @var Employee
+     */
+    private Employee $employee;
 
     /**
-     * This method will run all necessary scripts and commands to install the
-     * add-on and return an array with the relevant status and message.
-     * @return array Array will consist of two keys : the status & message.
-     * @example array("status" => true, "message" => "Successfully Installed.");
+     * @param Employee $employee
      */
-    public function install();
+    public function __construct(Employee $employee)
+    {
+        $this->employee = $employee;
+    }
 
     /**
-     * This method will run all necessary scripts and commands to uninstall the
-     * add-on and return an array with the relevant status and message.
-     * @return array Array will consist of two keys : the status & message.
-     * @example array("status" => true, "message" => "Successfully Uninstalled.");
+     * @return Employee
      */
-    public function uninstall();
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
 }

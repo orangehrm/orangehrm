@@ -19,32 +19,6 @@
 
 namespace OrangeHRM\Pim\Event;
 
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\Framework\Event\Event;
-
-/**
- * @Event("OrangeHRM\Pim\Event\EmployeeAddedEvent")
- */
-class EmployeeAddedEvent extends Event
+class EmployeeAddedEvent extends EmployeeSavedEvent
 {
-    /**
-     * @var Employee
-     */
-    private Employee $employee;
-
-    /**
-     * @param Employee $employee
-     */
-    public function __construct(Employee $employee)
-    {
-        $this->employee = $employee;
-    }
-
-    /**
-     * @return Employee
-     */
-    public function getEmployee(): Employee
-    {
-        return $this->employee;
-    }
 }

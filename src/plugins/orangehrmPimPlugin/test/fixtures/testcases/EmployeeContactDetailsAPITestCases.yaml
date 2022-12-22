@@ -29,8 +29,6 @@ GetOne:
 Update:
   'with empty body':
     userId: 1
-    now:
-      datetime: "2022-10-04"
     services:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     attributes:
@@ -169,8 +167,6 @@ Update:
     userId: 2
     services:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    now:
-      datetime: "2022-10-04"
     attributes:
       empNumber: 4
     body:

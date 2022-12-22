@@ -208,7 +208,11 @@ class AppSetupUtility
         $this->setDefaultLanguage();
         $this->insertAdminEmployee();
         $this->insertAdminUser();
-        $this->insertInstanceIdentifierAndChecksum();
+        !StateContainer::getInstance()->getRegConsent() ?: $this->insertInstanceIdentifier();
+        $this->getConfigHelper()->setConfigValue(
+            'instance.reg_consent',
+            (int)StateContainer::getInstance()->getRegConsent()
+        );
     }
 
     protected function insertCsrfKey(): void
@@ -336,52 +340,32 @@ class AppSetupUtility
      * When installing via the CLI installer, it will create new
      * unique identifiers since no unique identifiers stored in the session.
      */
-    protected function insertInstanceIdentifierAndChecksum(): void
+    protected function insertInstanceIdentifier(): void
     {
         $instanceIdentifierData = StateContainer::getInstance()->getInstanceIdentifierData();
 
-        if (!is_null($instanceIdentifierData)) {
+        if (isset($instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER])) {
             $this->getConfigHelper()->setConfigValue(
                 SystemConfiguration::INSTANCE_IDENTIFIER,
                 $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER]
             );
-            $this->getConfigHelper()->setConfigValue(
-                SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
-                $instanceIdentifierData[StateContainer::INSTANCE_IDENTIFIER_CHECKSUM]
-            );
         } else {
-            list(
-                $instanceIdentifier,
-                $instanceIdentifierChecksum
-                ) = $this->getInstanceUniqueIdentifyingData();
-
+            $instanceIdentifier = $this->getInstanceIdentifier();
             $this->getConfigHelper()->setConfigValue(
                 SystemConfiguration::INSTANCE_IDENTIFIER,
                 $instanceIdentifier
-            );
-            $this->getConfigHelper()->setConfigValue(
-                SystemConfiguration::INSTANCE_IDENTIFIER_CHECKSUM,
-                $instanceIdentifierChecksum
             );
         }
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getInstanceUniqueIdentifyingData(): array
+    public function getInstanceIdentifier(): string
     {
         $instanceIdentifierData = $this->getInstanceIdentifierData();
-
-        $instanceIdentifier = $this->getSystemConfiguration()
+        return $this->getSystemConfiguration()
             ->createInstanceIdentifier(...$instanceIdentifierData);
-        $instanceIdentifierChecksum = $this->getSystemConfiguration()
-            ->createInstanceIdentifierChecksum(...$instanceIdentifierData);
-
-        return [
-            $instanceIdentifier,
-            $instanceIdentifierChecksum
-        ];
     }
 
     /**

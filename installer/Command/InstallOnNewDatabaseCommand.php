@@ -364,7 +364,15 @@ class InstallOnNewDatabaseCommand extends InstallerCommand
             $contact
         );
 
-        $this->getIO()->note('Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to data@orangehrm.com');
+        $regConsent = $this->getIO()->confirm(
+            'Register your system with OrangeHRM. By registering, You will be eligible for free support via emails, receive security alerts and news letters from OrangeHRM.',
+            true
+        );
+        StateContainer::getInstance()->storeRegConsent($regConsent);
+
+        $this->getIO()->note(
+            'Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to data@orangehrm.com'
+        );
     }
 
     protected function installation(): void

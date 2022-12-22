@@ -55,9 +55,9 @@ class StateContainer
     public const ADMIN_USERNAME = 'username';
     public const ADMIN_PASSWORD = 'password';
     public const ADMIN_CONTACT = 'contact';
+    public const ADMIN_REGISTRATION_CONSENT = 'registrationConsent';
 
     public const INSTANCE_IDENTIFIER = 'instanceIdentifier';
-    public const INSTANCE_IDENTIFIER_CHECKSUM = 'instanceIdentifierChecksum';
     public const IS_INITIAL_REG_DATA_SENT = 'isInitialRegDataSent';
     public const INITIAL_REGISTRATION_DATA_BODY = 'initialRegistrationDataBody';
     public const INSTALLER_STARTED_AT = 'installerStartedAt';
@@ -341,15 +341,27 @@ class StateContainer
     }
 
     /**
-     * @param string $instanceIdentifier
-     * @param string $instanceIdentifierChecksum
+     * @param bool $agreed
      */
-    public function storeInstanceIdentifierData(
-        string $instanceIdentifier,
-        string $instanceIdentifierChecksum
-    ): void {
+    public function storeRegConsent(bool $agreed): void
+    {
+        $this->getSession()->set(self::ADMIN_REGISTRATION_CONSENT, $agreed);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getRegConsent(): bool
+    {
+        return $this->getSession()->get(self::ADMIN_REGISTRATION_CONSENT, true);
+    }
+
+    /**
+     * @param string $instanceIdentifier
+     */
+    public function storeInstanceIdentifierData(string $instanceIdentifier): void
+    {
         $this->getSession()->set(self::INSTANCE_IDENTIFIER, $instanceIdentifier);
-        $this->getSession()->set(self::INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum);
     }
 
     /**
@@ -360,7 +372,6 @@ class StateContainer
         if ($this->getSession()->has(self::INSTANCE_IDENTIFIER)) {
             return [
                 self::INSTANCE_IDENTIFIER => $this->getSession()->get(self::INSTANCE_IDENTIFIER),
-                self::INSTANCE_IDENTIFIER_CHECKSUM => $this->getSession()->get(self::INSTANCE_IDENTIFIER_CHECKSUM)
             ];
         }
         return null;

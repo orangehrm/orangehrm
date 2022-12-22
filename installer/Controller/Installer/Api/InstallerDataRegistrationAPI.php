@@ -44,11 +44,15 @@ class InstallerDataRegistrationAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
-        list(
-            $instanceIdentifier,
-            $instanceIdentifierChecksum
-            ) = $this->appSetupUtility->getInstanceUniqueIdentifyingData();
-        StateContainer::getInstance()->storeInstanceIdentifierData($instanceIdentifier, $instanceIdentifierChecksum);
+        $response = $this->getResponse();
+        if (!StateContainer::getInstance()->getRegConsent()) {
+            return [
+                'status' => $response->getStatusCode(),
+                'message' => 'Ignored',
+            ];
+        }
+        $instanceIdentifier = $this->appSetupUtility->getInstanceIdentifier();
+        StateContainer::getInstance()->storeInstanceIdentifierData($instanceIdentifier);
 
         $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody(
             DataRegistrationUtility::REGISTRATION_TYPE_INSTALLER_STARTED,
@@ -57,8 +61,6 @@ class InstallerDataRegistrationAPI extends AbstractInstallerRestController
 
         $published = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
         StateContainer::getInstance()->storeInitialRegistrationData($initialRegistrationDataBody, $published);
-
-        $response = $this->getResponse();
         $message = $published ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
 
         return [

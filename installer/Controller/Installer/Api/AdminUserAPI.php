@@ -50,6 +50,7 @@ class AdminUserAPI extends AbstractInstallerRestController
         }
 
         $contact = $request->request->get('contact');
+        $registrationConsent = $request->request->getBoolean('registrationConsent', true);
 
         StateContainer::getInstance()->storeAdminUserData(
             $firstName,
@@ -58,12 +59,14 @@ class AdminUserAPI extends AbstractInstallerRestController
             new UserCredential($username, $password),
             $contact
         );
+        StateContainer::getInstance()->storeRegConsent($registrationConsent);
         return [
             'firstName' => $firstName,
             'lastName' => $lastName,
             'email' => $email,
             'username' => $username,
             'contact' => $contact,
+            'registrationConsent' => $registrationConsent,
         ];
     }
 
@@ -95,6 +98,7 @@ class AdminUserAPI extends AbstractInstallerRestController
                 'email' => $adminUserData[StateContainer::ADMIN_EMAIL],
                 'username' => $adminUserData[StateContainer::ADMIN_USERNAME],
                 'contact' => $adminUserData[StateContainer::ADMIN_CONTACT],
+                'registrationConsent' => StateContainer::getInstance()->getRegConsent(),
             ],
         ];
     }

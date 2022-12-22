@@ -65,14 +65,6 @@ class DataRegistrationUtility
             $country,
             $currentTimestamp
         );
-        $this->setInstanceIdentifierChecksum(
-            $adminFirstName,
-            $adminLastName,
-            $organizationName,
-            $adminEmail,
-            $country,
-            $currentTimestamp
-        );
         return [
             $organizationName,
             $country,
@@ -189,38 +181,6 @@ class DataRegistrationUtility
             );
         }
         return $this->systemConfiguration->getInstanceIdentifier();
-    }
-
-    /**
-     * @param string $adminFirstName
-     * @param string $adminLastName
-     * @param string $organizationName
-     * @param string $organizationEmail
-     * @param string $country
-     * @param int $currentTimestamp
-     * @return string
-     */
-    protected function setInstanceIdentifierChecksum(
-        string $adminFirstName,
-        string $adminLastName,
-        string $organizationName,
-        string $organizationEmail,
-        string $country,
-        int $currentTimestamp
-    ): string {
-        if (is_null($this->systemConfiguration->getInstanceIdentifierChecksum())) {
-            $this->systemConfiguration->setInstanceIdentifierChecksum(
-                $organizationName,
-                $organizationEmail,
-                $adminFirstName,
-                $adminLastName,
-                $_SERVER['HTTP_HOST'] ?? null,
-                $country,
-                Config::PRODUCT_VERSION,
-                $currentTimestamp
-            );
-        }
-        return $this->systemConfiguration->getInstanceIdentifierChecksum();
     }
 
     public function sendRegistrationDataOnSuccess(): void

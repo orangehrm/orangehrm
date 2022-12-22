@@ -20,9 +20,7 @@
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
-use OrangeHRM\Core\Command\CacheClearCommand;
 use OrangeHRM\Core\Command\EnableTestLanguagePackCommand;
-use OrangeHRM\Core\Command\GenerateDoctrineProxiesCommand;
 use OrangeHRM\Core\Command\RunScheduleCommand;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPersistSubscriber;
@@ -45,6 +43,7 @@ use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Console\Console;
 use OrangeHRM\Framework\Console\ConsoleConfigurationInterface;
@@ -61,6 +60,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
 {
     use ServiceContainerTrait;
     use EventDispatcherTrait;
+    use ConfigServiceTrait;
 
     /**
      * @inheritDoc
@@ -116,8 +116,10 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
         $this->getEventDispatcher()->addSubscriber(new RequestBodySubscriber());
         $this->getEventDispatcher()->addSubscriber(new MailerSubscriber());
         $this->getEventDispatcher()->addSubscriber(new ModuleNotAvailableSubscriber());
-        $this->getEventDispatcher()->addSubscriber(new RegistrationEventPersistSubscriber());
         $this->getEventDispatcher()->addSubscriber(new GlobalConfigSubscriber());
+        if ($this->getConfigService()->getInstanceIdentifier() !== null) {
+            $this->getEventDispatcher()->addSubscriber(new RegistrationEventPersistSubscriber());
+        }
     }
 
     /**
@@ -125,8 +127,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface, ConsoleCo
      */
     public function registerCommands(Console $console): void
     {
-        $console->add(new CacheClearCommand());
-        $console->add(new GenerateDoctrineProxiesCommand());
         $console->add(new RunScheduleCommand());
         if (Config::PRODUCT_MODE !== Config::MODE_PROD) {
             $console->add(new EnableTestLanguagePackCommand());

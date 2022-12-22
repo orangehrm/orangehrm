@@ -15,7 +15,6 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('devTools/load')
     ->exclude('lib')
     ->exclude('src/plugins/orangehrmHelpPlugin/test')
-    ->exclude('src/plugins/orangehrmMarketPlacePlugin')
     ->exclude('src/plugins/orangehrmOpenidAuthenticationPlugin')
     ->exclude('src/plugins/orangehrmRESTPlugin');
 

@@ -94,13 +94,20 @@
     </oxd-grid>
 
     <br />
-    <oxd-form-row class="orangehrm-register-notice">
-      <oxd-icon class="orangehrm-register-notice-icon" name="info-circle" />
-      <oxd-text class="orangehrm-register-notice-text" tag="p">
-        Users who seek access to their data, or who seek to correct, amend, or
-        delete the given information should direct their requests to
-        data@orangehrm.com
-      </oxd-text>
+    <oxd-form-row class="orangehrm-register-consent">
+      <oxd-input-field
+        v-model="adminUser.registrationConsent"
+        type="checkbox"
+        option-label="Register your system with OrangeHRM. By registering, You will be eligible for free support via emails, receive security alerts and news letters from OrangeHRM."
+      />
+      <div class="orangehrm-register-notice">
+        <oxd-icon class="orangehrm-register-notice-icon" name="info-circle" />
+        <oxd-text class="orangehrm-register-notice-text" tag="p">
+          Users who seek access to their data, or who seek to correct, amend, or
+          delete the given information should direct their requests to
+          data@orangehrm.com
+        </oxd-text>
+      </div>
     </oxd-form-row>
 
     <oxd-form-actions class="orangehrm-installer-page-action">
@@ -159,6 +166,7 @@ export default {
         username: null,
         password: '',
         confirmPassword: '',
+        registrationConsent: true,
       },
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
@@ -199,6 +207,7 @@ export default {
           contact: this.adminUser.contact,
           username: this.adminUser.username,
           password: this.adminUser.password,
+          registrationConsent: this.adminUser.registrationConsent,
         })
         .then(() => {
           navigate('/installer/confirmation');
@@ -213,9 +222,17 @@ export default {
 
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
+.orangehrm-register-consent {
+  max-width: 50%;
+  ::v-deep(.oxd-checkbox-wrapper) {
+    span {
+      flex-shrink: 0;
+    }
+  }
+}
+
 .orangehrm-register-notice {
   display: flex;
-  max-width: 50%;
   color: $oxd-interface-gray-color;
   &-icon {
     color: inherit;

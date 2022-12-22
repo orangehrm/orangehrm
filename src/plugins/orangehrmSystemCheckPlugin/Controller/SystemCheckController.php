@@ -42,7 +42,7 @@ class SystemCheckController extends AbstractVueController implements PublicContr
     {
         if (!$this->getConfigService()->showSystemCheckScreen()) {
             $response = $this->getResponse();
-            $response->setStatusCode(Response::HTTP_FORBIDDEN);
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $this->setResponse($response);
         }
     }
