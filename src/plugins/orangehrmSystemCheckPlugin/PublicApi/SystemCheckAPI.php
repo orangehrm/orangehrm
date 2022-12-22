@@ -27,6 +27,7 @@ use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Installer\Util\SystemCheck;
@@ -36,6 +37,7 @@ class SystemCheckAPI extends Endpoint implements ResourceEndpoint
 {
     use EntityManagerTrait;
     use ConfigServiceTrait;
+    use LoggerTrait;
 
     public const PARAMETER_IS_INTERRUPTED = 'isInterrupted';
 
@@ -55,13 +57,20 @@ class SystemCheckAPI extends Endpoint implements ResourceEndpoint
                 new ParameterBag([self::PARAMETER_IS_INTERRUPTED => $systemCheck->isInterruptContinue()])
             );
         } catch (Throwable $e) {
+            try {
+                $this->getLogger()->error($e->getMessage());
+                $this->getLogger()->error($e->getTraceAsString());
+            } finally {
+                return new EndpointResourceResult(
+                    ArrayModel::class,
+                    [],
+                    new ParameterBag([
+                        self::PARAMETER_IS_INTERRUPTED => true,
+                        'error' => ['message' => 'Unexpected Error Occurred'],
+                    ])
+                );
+            }
         }
-
-        return new EndpointResourceResult(
-            ArrayModel::class,
-            [],
-            new ParameterBag([self::PARAMETER_IS_INTERRUPTED => true])
-        );
     }
 
     /**

@@ -20,7 +20,6 @@
 namespace OrangeHRM\Installer\Util;
 
 use Doctrine\DBAL\Connection;
-use Exception;
 use OrangeHRM\Config\Config;
 use PDO;
 use Symfony\Component\Filesystem\Filesystem;
@@ -586,7 +585,7 @@ class SystemCheck
             $this->filesystem->dumpFile($path . DIRECTORY_SEPARATOR . '_temp.txt', $path);
             $this->filesystem->remove($path . DIRECTORY_SEPARATOR . '_temp.txt');
             return true;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());
             return false;

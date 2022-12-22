@@ -37,6 +37,14 @@
         necessary steps to fix them.
       </oxd-text>
       <br />
+      <oxd-text
+        v-if="error?.message"
+        class="orangehrm-system-check-content --error"
+      >
+        An unexpected error occurred. Please provide the file write permission
+        to <b>/src/log</b> directory and check the error log in
+        <b>/src/log/orangehrm.log</b> file for more details.
+      </oxd-text>
       <flex-table
         v-for="item in items"
         :key="item.category"
@@ -79,7 +87,13 @@ export default {
       items: [],
       isLoading: false,
       isInterrupted: false,
+      error: null,
     };
+  },
+  computed: {
+    errorMessage() {
+      return this.error?.message ?? null;
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -93,6 +107,7 @@ export default {
           const {data, meta} = response.data;
           this.items = data;
           this.isInterrupted = meta.isInterrupted;
+          this.error = meta.error;
         })
         .finally(() => {
           this.isLoading = false;
@@ -113,8 +128,8 @@ export default {
     color: $oxd-primary-one-color;
   }
   &-content {
-    &.--label {
-      margin-left: 1.5rem;
+    &.--error {
+      color: $oxd-feedback-danger-color;
     }
   }
   &-action {
