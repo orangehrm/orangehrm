@@ -72,4 +72,58 @@ class BuzzCommentAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('BuzzCommentAPITestCases.yaml', 'GetOne');
     }
+
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('BuzzCommentAPI.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzCommentAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('BuzzCommentAPITestCases.yaml', 'GetAll');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('BuzzCommentAPI.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzCommentAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
+    }
+
+    public function dataProviderForTestDelete(): array
+    {
+        return $this->getTestCases('BuzzCommentAPITestCases.yaml', 'Delete');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('BuzzCommentAPI.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzCommentAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('BuzzCommentAPITestCases.yaml', 'Update');
+    }
 }

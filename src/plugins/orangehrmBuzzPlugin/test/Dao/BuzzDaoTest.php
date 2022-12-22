@@ -21,6 +21,7 @@ namespace OrangeHRM\Tests\Buzz\Dao;
 
 use DateTime;
 use OrangeHRM\Buzz\Dao\BuzzDao;
+use OrangeHRM\Buzz\Dto\BuzzCommentSearchFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzFeedFilterParams;
 use OrangeHRM\Buzz\Dto\BuzzPostShareSearchFilterParams;
 use OrangeHRM\Config\Config;
@@ -407,5 +408,40 @@ class BuzzDaoTest extends KernelTestCase
         // Get shares of post id 2 (no reshares)
         $result = $dao->getBuzzPostSharesCount($buzzPostSharesSearchFilterParams);
         $this->assertEquals(0, $result);
+    }
+
+    public function testGetBuzzCommentById(): void
+    {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturn(new DateTime('2022-12-12 09:10:13'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
+
+        $dao = new BuzzDao();
+        $result = $dao->getBuzzCommentById(1, 2);
+        $this->assertEquals('Self Comment', $result->getText());
+        $this->assertEquals(2, $result->getNumOfLikes());
+    }
+
+    public function testGetBuzzComments(): void
+    {
+        $dao = new BuzzDao();
+        $buzzCommentSearchFilterParams = new BuzzCommentSearchFilterParams();
+        $buzzCommentSearchFilterParams->setShareId(2);
+
+        $result = $dao->getBuzzComments($buzzCommentSearchFilterParams);
+        $this->assertCount(2, $result);
+    }
+
+    public function testGetBuzzCommentsCount(): void
+    {
+        $dao = new BuzzDao();
+        $buzzCommentSearchFilterParams = new BuzzCommentSearchFilterParams();
+        $buzzCommentSearchFilterParams->setShareId(1);
+
+        $result = $dao->getBuzzCommentsCount($buzzCommentSearchFilterParams);
+        $this->assertEquals(3, $result);
     }
 }

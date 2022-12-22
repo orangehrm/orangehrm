@@ -68,5 +68,10 @@ class BuzzShareTest extends EntityTestCase
         $this->assertEquals('09:20:00', $share->getCreatedAtUtc()->format('H:i:s'));
         $this->assertEquals('2022-11-12', $share->getUpdatedAtUtc()->format('Y-m-d'));
         $this->assertEquals('13:20:00', $share->getUpdatedAtUtc()->format('H:i:s'));
+
+        $share->setId(2);
+        $share->setText('test text');
+        $this->assertEquals(2, $share->getId());
+        $this->assertEquals('test text', $share->getText());
     }
 }

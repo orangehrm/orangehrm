@@ -76,19 +76,7 @@ class BuzzPostAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForDelete();
     }
 
-    public function testGetOne(): void
-    {
-        $api = new BuzzPostAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getOne();
-    }
 
-    public function testGetValidationRuleForGetOne(): void
-    {
-        $api = new BuzzPostAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
-    }
 
     /**
      * @dataProvider dataProviderForTestUpdate
@@ -106,5 +94,23 @@ class BuzzPostAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestUpdate(): array
     {
         return $this->getTestCases('BuzzPostAPITestCases.yaml', 'Update');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('BuzzPostAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(BuzzPostAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetOne(): array
+    {
+        return $this->getTestCases('BuzzPostAPITestCases.yaml', 'GetOne');
     }
 }
