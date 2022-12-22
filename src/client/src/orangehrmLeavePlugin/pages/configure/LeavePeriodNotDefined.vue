@@ -18,9 +18,9 @@
 
 <template>
   <oxd-alert
-      :show="true"
-      type="warn"
-      :message="$t('leave.leave_period_not_defined')"
+    :show="true"
+    type="warn"
+    :message="$t('leave.leave_period_not_defined')"
   ></oxd-alert>
 </template>
 
