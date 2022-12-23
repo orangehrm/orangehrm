@@ -48,7 +48,8 @@
     font-size: 12px;
     text-align: justify;
     margin-bottom: 0.5rem;
-    word-break: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
   }
   &-picture {
     width: 100%;

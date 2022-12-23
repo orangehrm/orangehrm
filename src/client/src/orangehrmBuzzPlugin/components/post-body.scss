@@ -70,10 +70,17 @@
     margin-top: 0.5rem;
     @include truncate(6, 1.5, #fff);
   }
-}
-
-::v-deep(.orangehrm-buzz-photos-item) {
-  &:nth-of-type(5) {
-    display: none;
+  ::v-deep(.orangehrm-buzz-photos-item) {
+    &:nth-of-type(5) {
+      display: none;
+    }
+  }
+  ::v-deep(.orangehrm-buzz-photos) {
+    &.--five-thumbnails {
+      grid-template-rows: repeat(2, minmax(auto, 9rem));
+      @include oxd-respond-to('md') {
+        grid-template-rows: repeat(2, minmax(auto, 18rem));
+      }
+    }
   }
 }
