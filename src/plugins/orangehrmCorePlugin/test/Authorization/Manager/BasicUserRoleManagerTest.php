@@ -1859,6 +1859,6 @@ class TestEnableClass implements HomePageEnablerInterface
 {
     public function isEnabled(User $user): bool
     {
-        return false;
+        return true;
     }
 }

@@ -23,7 +23,7 @@ use Exception;
 use OrangeHRM\Core\Controller\AbstractModuleController;
 use OrangeHRM\Framework\Http\RedirectResponse;
 
-class LeaveModuleController extends AbstractModuleController
+class LeaveModuleController extends AbstractModuleController implements LeavePeriodIndependentController
 {
     /**
      * @return RedirectResponse

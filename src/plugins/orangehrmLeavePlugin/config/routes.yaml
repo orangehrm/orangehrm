@@ -215,6 +215,11 @@ leave_module:
   controller: OrangeHRM\Leave\Controller\LeaveModuleController::handle
   methods: [ GET ]
 
+leave_period_not_defined_warning:
+  path: leave/showLeavePeriodNotDefinedWarning
+  controller: OrangeHRM\Leave\Controller\LeavePeriodNotDefinedController::handle
+  methods: [ GET ]
+
 leave_define_leave_period:
   path: /leave/defineLeavePeriod
   controller: OrangeHRM\Leave\Controller\LeavePeriodController::handle

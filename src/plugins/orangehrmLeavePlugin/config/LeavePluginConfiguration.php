@@ -31,6 +31,7 @@ use OrangeHRM\Leave\Service\LeaveTypeService;
 use OrangeHRM\Leave\Service\WorkScheduleService;
 use OrangeHRM\Leave\Service\WorkWeekService;
 use OrangeHRM\Leave\Subscriber\LeaveEventSubscriber;
+use OrangeHRM\Leave\Subscriber\LeavePeriodSubscriber;
 
 class LeavePluginConfiguration implements PluginConfigurationInterface
 {
@@ -42,39 +43,16 @@ class LeavePluginConfiguration implements PluginConfigurationInterface
      */
     public function initialize(Request $request): void
     {
-        $this->getContainer()->register(
-            Services::LEAVE_CONFIG_SERVICE,
-            LeaveConfigurationService::class
-        );
-        $this->getContainer()->register(
-            Services::LEAVE_TYPE_SERVICE,
-            LeaveTypeService::class
-        );
-        $this->getContainer()->register(
-            Services::LEAVE_ENTITLEMENT_SERVICE,
-            LeaveEntitlementService::class
-        );
-        $this->getContainer()->register(
-            Services::LEAVE_PERIOD_SERVICE,
-            LeavePeriodService::class
-        );
-        $this->getContainer()->register(
-            Services::LEAVE_REQUEST_SERVICE,
-            LeaveRequestService::class
-        );
-        $this->getContainer()->register(
-            Services::WORK_SCHEDULE_SERVICE,
-            WorkScheduleService::class
-        );
-        $this->getContainer()->register(
-            Services::HOLIDAY_SERVICE,
-            HolidayService::class
-        );
-        $this->getContainer()->register(
-            Services::WORK_WEEK_SERVICE,
-            WorkWeekService::class
-        );
+        $this->getContainer()->register(Services::LEAVE_CONFIG_SERVICE, LeaveConfigurationService::class);
+        $this->getContainer()->register(Services::LEAVE_TYPE_SERVICE, LeaveTypeService::class);
+        $this->getContainer()->register(Services::LEAVE_ENTITLEMENT_SERVICE, LeaveEntitlementService::class);
+        $this->getContainer()->register(Services::LEAVE_PERIOD_SERVICE, LeavePeriodService::class);
+        $this->getContainer()->register(Services::LEAVE_REQUEST_SERVICE, LeaveRequestService::class);
+        $this->getContainer()->register(Services::WORK_SCHEDULE_SERVICE, WorkScheduleService::class);
+        $this->getContainer()->register(Services::HOLIDAY_SERVICE, HolidayService::class);
+        $this->getContainer()->register(Services::WORK_WEEK_SERVICE, WorkWeekService::class);
 
         $this->getEventDispatcher()->addSubscriber(new LeaveEventSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new LeavePeriodSubscriber());
     }
 }

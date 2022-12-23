@@ -14,25 +14,14 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Core\HomePage;
+namespace OrangeHRM\Leave\Controller;
 
-;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Entity\User;
-
-class TimesheetPeriodDefinedHomePageEnabler implements HomePageEnablerInterface
+/**
+ * Marker interface to identify whether a controller required leave period to be defined
+ */
+interface LeavePeriodIndependentController
 {
-    use ConfigServiceTrait;
-
-    /**
-     * @param User $user
-     * @return bool
-     */
-    public function isEnabled(User $user): bool
-    {
-        return $this->getConfigService()->isTimesheetPeriodDefined();
-    }
 }

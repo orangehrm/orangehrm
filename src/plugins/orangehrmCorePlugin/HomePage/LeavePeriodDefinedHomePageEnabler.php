@@ -27,14 +27,11 @@ class LeavePeriodDefinedHomePageEnabler implements HomePageEnablerInterface
     use LeaveConfigServiceTrait;
 
     /**
-     * Returns true if leave period is not defined.
-     * This class is used to direct the user to the define leave period page if leave period is not defined.
-     *
      * @param User $user
      * @return bool
      */
     public function isEnabled(User $user): bool
     {
-        return !$this->getLeaveConfigService()->isLeavePeriodDefined();
+        return $this->getLeaveConfigService()->isLeavePeriodDefined();
     }
 }

@@ -17,21 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Subscriber;
+namespace OrangeHRM\Leave\Subscriber;
 
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
-use OrangeHRM\Time\Controller\TimeModuleController;
-use OrangeHRM\Time\Controller\TimesheetStartDateIndependentController;
+use OrangeHRM\Leave\Controller\LeaveModuleController;
+use OrangeHRM\Leave\Controller\LeavePeriodIndependentController;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class TimesheetPeriodSubscriber extends AbstractEventSubscriber
+class LeavePeriodSubscriber extends AbstractEventSubscriber
 {
     use TextHelperTrait;
-    use ConfigServiceTrait;
+    use LeaveConfigServiceTrait;
 
     /**
      * @inheritDoc
@@ -51,30 +51,32 @@ class TimesheetPeriodSubscriber extends AbstractEventSubscriber
     public function onControllerEvent(ControllerEvent $event): void
     {
         if ($event->isMainRequest()) {
-            $isTimeControllerPath = $this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/time');
-            $isTimeApiPath = $this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/api/v2/time');
-            if ($isTimeControllerPath || $isTimeApiPath) {
-                $status = $this->getConfigService()->isTimesheetPeriodDefined();
+            $isControllerPath = $this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/leave');
+            $isApiPath = $this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/api/v2/leave');
+            if ($isControllerPath || $isApiPath) {
+                $status = $this->getLeaveConfigService()->isLeavePeriodDefined();
                 if ($status) {
-                    // If timesheet start date define, all good
+                    // If leave period define, all good
                     return;
                 }
 
-                if ($event->getController()[0] instanceof TimesheetStartDateIndependentController) {
+                if ($event->getController()[0] instanceof LeavePeriodIndependentController) {
                     return;
                 }
                 if ($this->getTextHelper()->strStartsWith(
                     $event->getRequest()->getPathInfo(),
-                    '/api/v2/time/time-sheet-period'
+                    '/api/v2/leave/leave-period'
                 )) {
-                    // Allow only this API when timesheet start date not defined
+                    // Allow only following APIs when leave period not defined
+                    // * /api/v2/leave/leave-period
+                    // * /api/v2/leave/leave-periods
                     return;
                 }
-                if ($isTimeApiPath) {
-                    throw new ForbiddenException('Timesheet start date not defined');
+                if ($isApiPath) {
+                    throw new ForbiddenException('Leave period not defined');
                 }
 
-                $event->setController([new TimeModuleController(), 'handle']);
+                $event->setController([new LeaveModuleController(), 'handle']);
             }
         }
     }

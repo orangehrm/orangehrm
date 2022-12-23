@@ -14,25 +14,23 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Core\HomePage;
+namespace OrangeHRM\Time\Controller;
 
-;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
-class TimesheetPeriodDefinedHomePageEnabler implements HomePageEnablerInterface
+class TimesheetStartDateNotDefined extends AbstractVueController implements TimesheetStartDateIndependentController
 {
-    use ConfigServiceTrait;
-
     /**
-     * @param User $user
-     * @return bool
+     * @inheritDoc
      */
-    public function isEnabled(User $user): bool
+    public function preRender(Request $request): void
     {
-        return $this->getConfigService()->isTimesheetPeriodDefined();
+        $component = new Component('time-sheet-period-not-defined');
+        $this->setComponent($component);
     }
 }
