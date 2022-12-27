@@ -46,6 +46,7 @@ class Migration extends AbstractMigration
             'getting_started_with_orangehrm',
             $this->getLangHelper()->getGroupIdByName('help')
         );
+        $this->getLangStringHelper()->deleteNonCustomizedLangStrings('buzz');
         $oldGroups = ['buzz', 'general', 'dashboard', 'help'];
         foreach ($oldGroups as $group) {
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
