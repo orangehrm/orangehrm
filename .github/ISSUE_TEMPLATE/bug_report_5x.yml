@@ -1,0 +1,107 @@
+name: Bug report (OrangeHRM 5.x)
+description: Create a report to help us improve
+labels: ["5x"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Before You Start...**
+
+        Please make sure to search for your issue - it may already reported and answered
+
+  - type: input
+    id: version
+    attributes:
+      label: OrangeHRM version
+      placeholder: e.g. 5.0, 5.1
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: OrangeHRM source
+      description: Release build from [Sourceforge](https://sourceforge.net/projects/orangehrm) or Git clone
+      placeholder: e.g. Sourceforge, Git clone, Dockerhub
+    validations:
+      required: true
+
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      description: Output of `uname -a` (UNIX), or version and 32 or 64-bit (Windows), or Docker
+    validations:
+      required: false
+
+  - type: input
+    id: php
+    attributes:
+      label: PHP version
+      description: Output of `php -v`
+      placeholder: e.g. 7.4, 8.0, 8.1, 8.2
+    validations:
+      required: false
+
+  - type: input
+    id: database
+    attributes:
+      label: Database and version
+      placeholder: e.g. MySQL 5.7, MariaDB 10.2
+    validations:
+      required: false
+
+  - type: input
+    id: web-server
+    attributes:
+      label: Web server
+      placeholder: e.g. Apache 2.4, Nginx 1.4
+    validations:
+      required: false
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: If applicable
+      placeholder: e.g. Chrome, Firefox, Edge, Safari
+    validations:
+      required: false
+
+  - type: textarea
+    id: describe-the-bug
+    attributes:
+      label: Describe the bug
+      description: Please describe what the bug is. If applicable, add screenshots to help explain your problem.
+    validations:
+      required: true
+
+  - type: textarea
+    id: to-reproduce
+    attributes:
+      label: To reproduce
+      description: Steps to reproduce the behavior.
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Please describe what you expected to happen.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Relevant log output
+      render: shell
+      description: |
+        Provide error logs depending on the issue. Make sure to remove sensitive data from log files.
+        If the issue related to installation:
+        - src/log/installer.log
+
+        If the issue related to any other:
+        - src/log/orangehrm.log
+    validations:
+      required: false
