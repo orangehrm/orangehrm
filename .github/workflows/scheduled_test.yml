@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 2 * * *'
+    - cron: "0 2 * * *"
 
 jobs:
   db_test:
@@ -14,7 +14,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        database: [ 'mysql:5.5', 'mysql:5.6', 'mysql:5.7', 'mysql:8.0', 'mariadb:5.5', 'mariadb:10.0', 'mariadb:10.1', 'mariadb:10.2', 'mariadb:10.3', 'mariadb:10.4', 'mariadb:10.5', 'mariadb:10.6', 'mariadb:10.7', 'mariadb:10.8', 'mariadb:10.9' ]
+        database:
+          - "mysql:5.5"
+          - "mysql:5.6"
+          - "mysql:5.7"
+          - "mysql:8.0"
+          - "mariadb:5.5"
+          - "mariadb:10.0"
+          - "mariadb:10.1"
+          - "mariadb:10.2"
+          - "mariadb:10.3"
+          - "mariadb:10.4"
+          - "mariadb:10.5"
+          - "mariadb:10.6"
+          - "mariadb:10.7"
+          - "mariadb:10.8"
+          - "mariadb:10.9"
+          - "mariadb:10.10"
 
     services:
       mysql:
@@ -96,11 +112,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ 'php7.4', 'php8.0', 'php8.1' ]
+        php: ["php7.4", "php8.0", "php8.1", "php8.2"]
 
     services:
       mysql:
-        image: 'mariadb:10.0'
+        image: "mariadb:10.0"
         env:
           MYSQL_ROOT_PASSWORD: root
         ports:
