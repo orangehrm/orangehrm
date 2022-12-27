@@ -21,8 +21,8 @@ namespace OrangeHRM\Installer\Util;
 
 use Doctrine\DBAL\Connection;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Framework\Filesystem\Filesystem;
 use PDO;
-use Symfony\Component\Filesystem\Filesystem;
 use Throwable;
 
 class SystemCheck
