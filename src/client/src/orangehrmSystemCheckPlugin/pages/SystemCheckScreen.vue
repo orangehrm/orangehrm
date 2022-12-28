@@ -90,11 +90,6 @@ export default {
       error: null,
     };
   },
-  computed: {
-    errorMessage() {
-      return this.error?.message ?? null;
-    },
-  },
   beforeMount() {
     this.fetchData();
   },
