@@ -1,7 +1,9 @@
 FROM php:8.1-apache-bullseye
 
-ENV OHRM_VERSION 5.2
-ENV OHRM_MD5 7c65683ee0025865c42e6049f47723c5
+ENV OHRM_VERSION 5.3
+ENV OHRM_MD5 82f2739e3f8ce4429b283863689ab5a1
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN set -ex; \
 	savedAptMark="$(apt-mark showmanual)"; \
