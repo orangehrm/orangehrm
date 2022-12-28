@@ -22,8 +22,6 @@
     @include oxd-respond-to('lg') {
       height: unset;
       overflow: auto;
-      max-height: 292px;
-      @include oxd-scrollbar();
     }
   }
   &-item {
@@ -104,5 +102,12 @@
   @include oxd-respond-to('lg') {
     top: 9rem;
     position: sticky;
+  }
+}
+
+.seemore {
+  @include oxd-respond-to('lg') {
+    max-height: 330px;
+    @include oxd-scrollbar();
   }
 }

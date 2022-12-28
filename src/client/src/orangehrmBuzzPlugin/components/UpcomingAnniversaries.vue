@@ -23,7 +23,10 @@
     <oxd-text type="card-title" class="orangehrm-buzz-anniversary-title">
       {{ $t('buzz.upcoming_anniversaries') }}
     </oxd-text>
-    <div class="orangehrm-buzz-anniversary-content">
+    <div
+      class="orangehrm-buzz-anniversary-content"
+      :class="{seemore: anniversariesCount > 5}"
+    >
       <div
         v-for="anniversary in anniversaries"
         :key="anniversary"
