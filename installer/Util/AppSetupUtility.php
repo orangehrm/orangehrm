@@ -27,11 +27,11 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\KeyHandlerException;
 use OrangeHRM\Core\Utility\KeyHandler;
 use OrangeHRM\Core\Utility\PasswordHash;
+use OrangeHRM\Framework\Filesystem\Filesystem;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\Dto\DatabaseConnectionWrapper;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
-use Symfony\Component\Filesystem\Filesystem;
 
 class AppSetupUtility
 {

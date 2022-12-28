@@ -20,11 +20,11 @@
 use Composer\Autoload\ClassLoader;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\CacheService;
+use OrangeHRM\Framework\Filesystem\Filesystem;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\FunctionalTesting\Service\DatabaseBackupService;
 use OrangeHRM\ORM\Doctrine;
-use Symfony\Component\Filesystem\Filesystem;
 
 require realpath(__DIR__ . '/../../../vendor/autoload.php');
 

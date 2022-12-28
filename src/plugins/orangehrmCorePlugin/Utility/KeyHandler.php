@@ -22,7 +22,7 @@ namespace OrangeHRM\Core\Utility;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\KeyHandlerException;
-use Symfony\Component\Filesystem\Filesystem;
+use OrangeHRM\Framework\Filesystem\Filesystem;
 
 class KeyHandler
 {
