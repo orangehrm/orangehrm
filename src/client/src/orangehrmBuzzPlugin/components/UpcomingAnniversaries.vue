@@ -25,7 +25,7 @@
     </oxd-text>
     <div
       class="orangehrm-buzz-anniversary-content"
-      :class="{seemore: anniversariesCount > 5}"
+      :class="{'--show-more': anniversariesCount > 5}"
     >
       <div
         v-for="anniversary in anniversaries"

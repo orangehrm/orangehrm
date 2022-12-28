@@ -23,6 +23,13 @@
       height: unset;
       overflow: auto;
     }
+
+    &.--show-more {
+      @include oxd-respond-to('lg') {
+        max-height: 22rem;
+        @include oxd-scrollbar();
+      }
+    }
   }
   &-item {
     display: flex;
@@ -102,12 +109,5 @@
   @include oxd-respond-to('lg') {
     top: 9rem;
     position: sticky;
-  }
-}
-
-.seemore {
-  @include oxd-respond-to('lg') {
-    max-height: 330px;
-    @include oxd-scrollbar();
   }
 }
