@@ -49,9 +49,10 @@ class Migration extends AbstractMigration
                 ['added_by'],
                 'ohrm_user',
                 ['id'],
-                'ohrm_user_id',
-                ['onDelete' => 'CASCADE', 'onUpdate' => 'RESTRICT']
+                'added_by',
+                ['onDelete' => 'CASCADE']
             );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_event', $foreignKeyConstraint);
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense_type'])) {
@@ -64,6 +65,13 @@ class Migration extends AbstractMigration
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
                 ->setPrimaryKey(['id'])
                 ->create();
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['added_by'],
+                'ohrm_user',
+                ['id'],
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense_type', $foreignKeyConstraint);
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_request'])) {
@@ -81,6 +89,29 @@ class Migration extends AbstractMigration
                 ->addColumn('submitted_date', Types::DATE_MUTABLE, ['Notnull' => false])
                 ->setPrimaryKey(['id'])
                 ->create();
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['added_by'],
+                'ohrm_user',
+                ['id'],
+                ['onDelete' => 'SET NULL']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['event_type_id'],
+                'ohrm_claim_event',
+                ['id'],
+                ['onDelete' => 'SET NULL']
+            );
+
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['emp_number'],
+                'hs_hr_employee',
+                ['emp_number'],
+                ['onDelete' => 'SET NULL']
+            );
+
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request', $foreignKeyConstraint);
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_expense'])) {
@@ -90,11 +121,25 @@ class Migration extends AbstractMigration
                 ->addColumn('date', Types::DATE_MUTABLE, ['Notnull' => false])
                 ->addColumn('amount', Types::DECIMAL, ['Notnull' => false])
                 ->addColumn('note', Types::TEXT, ['Notnull' => false])
-                ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('status', Types::STRING, ['Length' => 65, 'Notnull' => false])
+                ->addColumn('request_id', Types::INTEGER, ['Notnull' => false])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
                 ->setPrimaryKey(['id'])
                 ->create();
+
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense', $foreignKeyConstraint);
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['expense_type_id'],
+                'ohrm_expense_type',
+                ['id'],
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_expense', $foreignKeyConstraint);
         }
 
 
@@ -112,6 +157,21 @@ class Migration extends AbstractMigration
                 ->addColumn('attached_time', Types::DATE_MUTABLE, ['Notnull' => false])
                 ->setPrimaryKey(['request_id', 'eattach_id'])
                 ->create();
+
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['attached_by'],
+                'hs_hr_employee',
+                ['emp_number'],
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_attachment', $foreignKeyConstraint);
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_attachment', $foreignKeyConstraint);
         }
         if (!$this->getSchemaHelper()->tableExists(['ohrm_claim_request_action_log'])) {
             $this->getSchemaHelper()->createTable('ohrm_claim_request_action_log')
@@ -123,6 +183,21 @@ class Migration extends AbstractMigration
                 ->addColumn('date_time', Types::DATETIME_MUTABLE)
                 ->setPrimaryKey(['id'])
                 ->create();
+
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['performed_by_id'],
+                'ohrm_user',
+                ['id'],
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request_action_log', $foreignKeyConstraint);
+            $foreignKeyConstraint = new ForeignKeyConstraint(
+                ['claim_request_id'],
+                'ohrm_claim_request',
+                ['id'],
+                ['onDelete' => 'CASCADE']
+            );
+            $this->getSchemaHelper()->addForeignKey('ohrm_claim_request_action_log', $foreignKeyConstraint);
         }
     }
     /**
