@@ -27,6 +27,7 @@ use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Installer\Util\Logger;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\LangStringHelper;
 
 class Migration extends AbstractMigration
 {

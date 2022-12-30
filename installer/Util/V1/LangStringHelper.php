@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Migration\V5_3_0;
+namespace OrangeHRM\Installer\Util\V1;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -79,29 +79,6 @@ class LangStringHelper
     }
 
     /**
-     * @param string $groupName
-     * @return void
-     */
-    public function deleteNonCustomizedLangStrings(string $groupName): void
-    {
-        $groupId = $this->getLangHelper()->getGroupIdByName($groupName);
-        $langStringIds = $this->getLangStringIdsForGroup($groupId);
-        $qb = $this->createQueryBuilder()
-            ->delete('ohrm_i18n_translate')
-            ->where('ohrm_i18n_translate.customized != 1');
-        $qb->andWhere($qb->expr()->in('ohrm_i18n_translate.lang_string_id', ':langStringIds'))
-            ->setParameter('langStringIds', $langStringIds, Connection::PARAM_INT_ARRAY)
-            ->executeQuery();
-
-        $deleteStrings = $this->getNonCustomizedLangStringIds($groupId);
-        $qb = $this->createQueryBuilder()
-            ->delete('ohrm_i18n_lang_string');
-        $qb->andWhere($qb->expr()->in('ohrm_i18n_lang_string.id', ':deleteIds'))
-            ->setParameter('deleteIds', $deleteStrings, Connection::PARAM_INT_ARRAY)
-            ->executeQuery();
-    }
-
-    /**
      * @param int $groupId
      * @return array
      */
@@ -117,38 +94,7 @@ class LangStringHelper
     }
 
     /**
-     * @param int $groupId
-     * @return array
-     */
-    private function getNonCustomizedLangStringIds(int $groupId): array
-    {
-        $q = $this->createQueryBuilder()
-            ->select('translate.lang_string_id')
-            ->from('ohrm_i18n_lang_string', 'langString')
-            ->leftJoin('langString', 'ohrm_i18n_translate', 'translate', 'langString.id = translate.lang_string_id')
-            ->where('langString.group_id = :module')
-            ->andWhere('translate.customized = 1')
-            ->setParameter('module', $groupId);
-        $results = $q->executeQuery()->fetchAllAssociative();
-        $customStrings = array_column($results, 'lang_string_id');
-        if ($customStrings == null) {
-            return $this->getLangStringIdsForGroup($groupId);
-        }
-
-        $qb = $this->createQueryBuilder()
-            ->select('langString.id')
-            ->from('ohrm_i18n_lang_string', 'langString');
-        $qb->andWhere($qb->expr()->notIn('langString.id', ':customStrings'))
-            ->andWhere('langString.group_id = :module')
-            ->setParameter('customStrings', $customStrings, Connection::PARAM_INT_ARRAY)
-            ->setParameter('module', $groupId);
-        $results = $qb->executeQuery()->fetchAllAssociative();
-        return array_column($results, 'id');
-    }
-
-    /**
      * @param string $groupName
-     * @return void
      */
     public function insertOrUpdateLangStrings(string $groupName)
     {
@@ -190,28 +136,7 @@ class LangStringHelper
     }
 
     /**
-     * @param string $langStringValue
-     * @param int $groupId
-     * @return int|null
-     */
-    public function getLangStringIdByUnitIdAndGroup(string $langStringUnitId, int $groupId): ?int
-    {
-        $q = $this->createQueryBuilder()
-            ->select('langString.id')
-            ->from('ohrm_i18n_lang_string', 'langString')
-            ->where('langString.unit_id = :unitId')
-            ->andWhere('langString.group_id = :group')
-            ->setParameter('unitId', $langStringUnitId)
-            ->setParameter('group', $groupId);
-        if (false != $result = $q->executeQuery()->fetchOne()) {
-            return $result;
-        }
-        return null;
-    }
-
-    /**
      * @param LangString $langString
-     * @return void
      */
     private function saveLangString(LangString $langString): void
     {
@@ -235,7 +160,6 @@ class LangStringHelper
     /**
      * @param int $langStringId
      * @param LangString $langString
-     * @return void
      */
     private function updateLangString(int $langStringId, LangString $langString): void
     {

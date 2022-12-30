@@ -48,7 +48,6 @@ class TranslationHelper
 
     /**
      * @param string $language
-     * @return void
      */
     public function addTranslations(string $language): void
     {
@@ -65,7 +64,6 @@ class TranslationHelper
      * @param string $groupName
      * @param TransUnit $source
      * @param string $language
-     * @return void
      */
     private function saveTranslationRecord(string $groupName, TransUnit $source, string $language): void
     {
@@ -132,10 +130,10 @@ class TranslationHelper
     }
 
     /**
-     * @param array $langStringId
+     * @param int $langStringId
      * @param int $langId
+     *
      * @return string
-     * @throws Exception
      */
     private function getTranslationRecord(int $langStringId, int $langId): string
     {
