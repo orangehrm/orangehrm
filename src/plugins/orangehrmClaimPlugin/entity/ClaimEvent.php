@@ -17,42 +17,53 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="ohrm_claim_event")
+ * @ORM\Entity
+ */
 class ClaimEvent
 {
     /**
      * @var int
      * @ORM\Column(name="id",type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
 
     /**
-     * @var String
+     * @var string
      * @ORM\Column(name="name",type="text")
      */
-    private String $name;
+    private string $name;
+
     /**
-     * @var String
-     * @ORM\Column(name="description",type="string")
+     * @var string|null
+     * @ORM\Column(name="description",type="string",nullable=true)
      */
-    private String $description;
+    private ?string $description;
 
     /**
      * @var int
-     * @ORM\Column(name="added_by",type="integer")
+     * @ORM\Column(name="added_by",type="integer",nullable=true)
      */
-    private int $added_by;
+    private int $addedBy;
+
     /**
-     * @var String
-     * @ORM\Column(name="status",type="string")
+     * @var bool
+     * @ORM\Column(name="status",type="boolean")
      */
-    private String $status;
+    private bool $status;
+
     /**
-     * @var String
-     * @ORM\Column(name="is_deleted",type="smallint")
+     * @var bool
+     * @ORM\Column(name="is_deleted",type="boolean")
      */
-    private String $is_deleted;
+    private bool $isDeleted = false;
 
     /**
      * @return int
@@ -71,7 +82,7 @@ class ClaimEvent
     }
 
     /**
-     * @return String
+     * @return string
      */
     public function getName(): string
     {
@@ -79,7 +90,7 @@ class ClaimEvent
     }
 
     /**
-     * @param String $name
+     * @param string $name
      */
     public function setName(string $name): void
     {
@@ -87,68 +98,50 @@ class ClaimEvent
     }
 
     /**
-     * @return String
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param String $description
+     * @param string|null $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getAddedBy(): int
-    {
-        return $this->added_by;
-    }
-
-    /**
-     * @param int $added_by
-     */
-    public function setAddedBy(int $added_by): void
-    {
-        $this->added_by = $added_by;
-    }
-
-    /**
-     * @return String
-     */
-    public function getStatus(): string
+    public function getStatus(): bool
     {
         return $this->status;
     }
 
     /**
-     * @param String $status
+     * @param bool $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(bool $status): void
     {
         $this->status = $status;
     }
 
     /**
-     * @return String
+     * @return bool
      */
-    public function getIsDeleted(): string
+    public function isDeleted(): bool
     {
-        return $this->is_deleted;
+        return $this->isDeleted;
     }
 
     /**
-     * @param String $is_deleted
+     * @param bool $isDeleted
      */
-    public function setIsDeleted(string $is_deleted): void
+    public function setIsDeleted(bool $isDeleted): void
     {
-        $this->is_deleted = $is_deleted;
+        $this->isDeleted = $isDeleted;
     }
-
-
 }

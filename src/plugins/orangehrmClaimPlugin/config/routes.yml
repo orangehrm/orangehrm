@@ -1,0 +1,6 @@
+apiv2_claim_event:
+  path: api/v2/claim/event
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Claim\Api\ClaimEventAPI
