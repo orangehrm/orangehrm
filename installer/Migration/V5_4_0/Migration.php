@@ -38,10 +38,10 @@ class Migration extends AbstractMigration
 
             $this->getSchemaHelper()->createTable('ohrm_claim_event')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('name', Types::TEXT, ['Notnull' => false])
-                ->addColumn('description', Types::TEXT, ['Notnull' => false])
+                ->addColumn('name', Types::TEXT, ['Notnull' => true,'Length'=>100])
+                ->addColumn('description', Types::TEXT, ['Notnull' => false,'Length'=>1000])
                 ->addColumn('added_by', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('status', Types::STRING, ['Length' => 64, 'Notnull' => false])
+                ->addColumn('status', Types::BOOLEAN, ['Notnull' => false])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
                 ->setPrimaryKey(['id'])
                 ->create();

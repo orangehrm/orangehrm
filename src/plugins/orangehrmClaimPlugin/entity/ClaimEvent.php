@@ -37,13 +37,13 @@ class ClaimEvent
 
     /**
      * @var string
-     * @ORM\Column(name="name",type="text")
+     * @ORM\Column(name="name",type="text",nullable=false,length=100)
      */
     private string $name;
 
     /**
      * @var string|null
-     * @ORM\Column(name="description",type="string",nullable=true)
+     * @ORM\Column(name="description",type="string",nullable=true,length=1000)
      */
     private ?string $description;
 
