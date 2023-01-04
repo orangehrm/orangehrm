@@ -110,7 +110,7 @@ export default {
       }
     },
     onClickPurge(empNumber) {
-      this.$refs.purgeDialog.showDialog().then(confirmation => {
+      this.$refs.purgeDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.purgeEmployee(empNumber);
         }

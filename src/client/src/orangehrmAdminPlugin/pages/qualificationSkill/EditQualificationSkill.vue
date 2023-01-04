@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-input-field
             v-model="skill.name"
@@ -110,7 +110,7 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.qualificationSkillId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.skill.id = data.id;
         this.skill.name = data.name;
@@ -119,10 +119,10 @@ export default {
         // Fetch list data for unique test
         return this.http.getAll();
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name == v);
           if (index > -1) {
             const {id} = data[index];
             return id != this.category.id

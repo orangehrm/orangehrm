@@ -24,7 +24,7 @@
       {{ $t('pim.edit_emergency_contact') }}
     </oxd-text>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -127,7 +127,7 @@ export default {
         homePhone: [
           validPhoneNumberFormat,
           shouldNotExceedCharLength(30),
-          v => {
+          (v) => {
             return (
               v !== '' ||
               this.contact.mobilePhone !== '' ||
@@ -146,7 +146,7 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.data.id)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.contact = {...emergencyContactModel, ...data};
       })

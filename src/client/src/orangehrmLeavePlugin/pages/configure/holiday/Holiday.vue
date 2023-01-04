@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('leave.holidays')">
-      <oxd-form @submitValid="filterItems" @reset="filterItems">
+      <oxd-form @submit-valid="filterItems" @reset="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -141,8 +141,8 @@ export default {
 
     const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
-    const dataNormalizer = data => {
-      return data.map(item => {
+    const dataNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.id,
           name: item.name,
@@ -254,17 +254,17 @@ export default {
       navigate('/leave/saveHolidays/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

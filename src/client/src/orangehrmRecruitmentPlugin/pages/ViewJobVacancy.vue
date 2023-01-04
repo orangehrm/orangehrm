@@ -20,7 +20,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('general.vacancies')">
-      <oxd-form @submitValid="filterItems">
+      <oxd-form @submit-valid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -159,8 +159,8 @@ export default {
       };
     });
 
-    const userdataNormalizer = data => {
-      return data.map(item => {
+    const userdataNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.id,
           vacancy: item.name,
@@ -277,17 +277,17 @@ export default {
     },
 
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteData([item.id]);
         }
       });
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteData(ids);
         }

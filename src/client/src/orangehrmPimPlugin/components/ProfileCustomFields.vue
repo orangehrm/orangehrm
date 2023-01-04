@@ -26,7 +26,7 @@
         $t('pim.custom_fields')
       }}</oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item v-for="field in fields" :key="field.id">
@@ -56,14 +56,14 @@
 import {APIService} from '@/core/util/services/api.service';
 import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 
-const formatExtraData = data => {
+const formatExtraData = (data) => {
   return typeof data === 'string'
     ? data
         .split(',')
         .map((item, i) => {
           return {id: i, label: item};
         })
-        .filter(item => item.label.trim() != '')
+        .filter((item) => item.label.trim() != '')
     : [];
 };
 
@@ -106,15 +106,15 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data, meta} = response.data;
         this.customFieldsModel = {...data};
         if (meta.fields && meta.fields.length > 0) {
-          this.fields = meta.fields.map(field => {
+          this.fields = meta.fields.map((field) => {
             const extraData = formatExtraData(field.extraData);
             const model = `custom${field.id}`;
             if (field.fieldType == 1 && data[model]) {
-              const selected = extraData.find(i => i.label == data[model]);
+              const selected = extraData.find((i) => i.label == data[model]);
               this.customFieldsModel[model] = selected || null;
             }
             return {
@@ -141,7 +141,7 @@ export default {
           url: `api/v2/pim/employees/${this.employeeId}/custom-fields`,
           data: {...this.customFieldsModel},
           transformRequest: [
-            data => {
+            (data) => {
               for (const key in data) {
                 if (data[key]?.label) data[key] = data[key].label;
               }

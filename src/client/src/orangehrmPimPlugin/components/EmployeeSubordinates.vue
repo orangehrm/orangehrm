@@ -107,8 +107,8 @@ export default {
       `api/v2/pim/employees/${props.empNumber}/subordinates`,
     );
     const {$t} = usei18n();
-    const subordinateNormalizer = data => {
-      return data.map(item => {
+    const subordinateNormalizer = (data) => {
+      return data.map((item) => {
         return {
           name: `${item.subordinate?.firstName} ${item.subordinate?.lastName} ${
             item.subordinate.terminationId ? $t('general.past_employee') : ''
@@ -206,17 +206,17 @@ export default {
 
   methods: {
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].subordinateEmpNumber;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.subordinateEmpNumber]);
         }

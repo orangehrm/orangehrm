@@ -101,7 +101,7 @@ export default function useLeaveActions(
       method: 'PUT',
       url: 'api/v2/leave/employees/leave-requests/bulk',
       data: {
-        data: ids.map(id => {
+        data: ids.map((id) => {
           return {
             leaveRequestId: id,
             action: actionType,

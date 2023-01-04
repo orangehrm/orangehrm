@@ -25,7 +25,7 @@
           ref="resetForm"
           method="post"
           :action="submitUrl"
-          @submitValid="onSubmit"
+          @submit-valid="onSubmit"
         >
           <oxd-text tag="h6" class="orangehrm-forgot-password-title">
             {{ $t('auth.reset_password') }}

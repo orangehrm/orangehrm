@@ -69,7 +69,7 @@
             :placeholder="langstring.target"
             :model-value="langstring.target"
             :rules="rules.langString"
-            @update:modelValue="onUpdateTranslation($event, index)"
+            @update:model-value="onUpdateTranslation($event, index)"
           />
           <oxd-divider class="orangehrm-translation-grid-langstring-header" />
         </oxd-grid-item>

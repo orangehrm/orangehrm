@@ -24,7 +24,7 @@
       $t('general.add_language')
     }}</oxd-text>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -150,11 +150,11 @@ export default {
     },
     allowedFluencies() {
       const languageIndex = this.languages.findIndex(
-        item => item.id === this.language.languageId?.id,
+        (item) => item.id === this.language.languageId?.id,
       );
       if (languageIndex > -1) {
         const selectedLanguage = this.languages[languageIndex];
-        return this.fluencies.filter(item => {
+        return this.fluencies.filter((item) => {
           return selectedLanguage.allowedFluencyIds.includes(item.id);
         });
       }
@@ -170,10 +170,10 @@ export default {
         url: this.api,
         params: {limit: 0},
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         if (Array.isArray(data)) {
-          this.languages = data.map(item => {
+          this.languages = data.map((item) => {
             return {
               id: item.id,
               label: item.name,

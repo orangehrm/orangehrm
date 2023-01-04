@@ -111,7 +111,7 @@ export default {
       this.isLoading = true;
       this.http
         .getAll()
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.lastSyncStatus = data.syncStatus;
           this.lastSyncDate =
@@ -127,7 +127,7 @@ export default {
       this.isLoading = true;
       this.http
         .create()
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.lastSyncStatus = data.syncStatus;
           this.lastSyncDate =

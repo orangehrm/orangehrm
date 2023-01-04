@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     async loadCandidates(serachParam) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (serachParam.trim()) {
           this.http
             .getAll({
@@ -61,11 +61,12 @@ export default {
             })
             .then(({data}) => {
               resolve(
-                data.data.map(candidate => {
+                data.data.map((candidate) => {
                   return {
                     id: candidate.id,
-                    label: `${candidate.firstName} ${candidate.middleName ||
-                      ''} ${candidate.lastName}`,
+                    label: `${candidate.firstName} ${
+                      candidate.middleName || ''
+                    } ${candidate.lastName}`,
                     _candidate: candidate,
                   };
                 }),

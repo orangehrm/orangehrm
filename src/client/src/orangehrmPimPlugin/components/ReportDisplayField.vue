@@ -29,7 +29,7 @@
   <oxd-grid-item>
     <oxd-mutliselect-chips
       :selected="selectedFields"
-      @chipRemoved="onRemoveSelected"
+      @chip-removed="onRemoveSelected"
     ></oxd-mutliselect-chips>
   </oxd-grid-item>
 
@@ -39,7 +39,7 @@
     </oxd-text>
     <oxd-switch-input
       :model-value="includeHeader"
-      @update:modelValue="$emit('update:includeHeader', $event)"
+      @update:model-value="$emit('update:includeHeader', $event)"
     />
   </oxd-grid-item>
 </template>
@@ -74,11 +74,11 @@ export default {
   emits: ['delete', 'deleteChip', 'update:includeHeader'],
 
   setup(_, context) {
-    const onClickDelete = $event => {
+    const onClickDelete = ($event) => {
       context.emit('delete', $event);
     };
 
-    const onRemoveSelected = $event => {
+    const onRemoveSelected = ($event) => {
       context.emit('deleteChip', $event);
     };
 

@@ -33,7 +33,7 @@
           v-if="editable"
           :model-value="completedDate"
           :rules="rules.completedDate"
-          @update:modelValue="$emit('update:completedDate', $event)"
+          @update:model-value="$emit('update:completedDate', $event)"
         />
         <div v-else class="orangehrm-performance-review-read">
           <oxd-text>{{ formattedCompletedDate }}</oxd-text>
@@ -47,7 +47,7 @@
           v-if="editable"
           :model-value="finalRating"
           :rules="rules.finalRating"
-          @update:modelValue="$emit('update:finalRating', $event)"
+          @update:model-value="$emit('update:finalRating', $event)"
         />
         <div v-else class="orangehrm-performance-review-read">
           <oxd-text>{{ finalRating }}</oxd-text>
@@ -63,7 +63,7 @@
           type="textarea"
           :model-value="finalComment"
           :rules="rules.finalComment"
-          @update:modelValue="$emit('update:finalComment', $event)"
+          @update:model-value="$emit('update:finalComment', $event)"
         />
         <div v-else class="orangehrm-performance-review-read">
           <oxd-text>{{ finalComment }}</oxd-text>

@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -136,10 +136,10 @@ export default {
     this.isLoading = true;
     this.http
       .getAll({limit: 0})
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.clientId.push(v => {
-          const index = data.findIndex(item => item.clientId == v);
+        this.rules.clientId.push((v) => {
+          const index = data.findIndex((item) => item.clientId == v);
           return index === -1 || 'Already exists';
         });
       })

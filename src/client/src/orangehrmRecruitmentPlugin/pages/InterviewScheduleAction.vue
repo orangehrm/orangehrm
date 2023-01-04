@@ -24,7 +24,7 @@
       v-model:loading="isLoading"
       :candidate-id="candidateId"
       :title="$t('recruitment.schedule_interview')"
-      @submitValid="onSave"
+      @submit-valid="onSave"
     >
       <oxd-form-row>
         <oxd-grid :cols="3">
@@ -157,9 +157,9 @@ export default {
         interviewerName: [
           required,
           validSelection,
-          value => {
+          (value) => {
             return this.interviewers.filter(
-              interviewer => interviewer && interviewer.id === value?.id,
+              (interviewer) => interviewer && interviewer.id === value?.id,
             ).length < 2
               ? true
               : this.$t('general.already_exists');
@@ -184,7 +184,7 @@ export default {
         .create({
           ...this.interview,
           interviewerEmpNumbers: this.interviewers
-            .map(interviewer => interviewer?.id)
+            .map((interviewer) => interviewer?.id)
             .filter(Number),
         })
         .then(() => {

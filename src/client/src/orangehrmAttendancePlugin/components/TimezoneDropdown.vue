@@ -41,7 +41,7 @@ export default {
 
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
-        options.value = data.data.map(timezone => {
+        options.value = data.data.map((timezone) => {
           return {
             id: timezone.name,
             label: `(GMT${timezone.label}) ${timezone.name}`,

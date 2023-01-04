@@ -220,7 +220,7 @@ export default {
           .then(() => {
             this.onCancel();
           })
-          .catch(response => {
+          .catch((response) => {
             return this.$toast.warn({
               title: this.$t('general.warning'),
               message: response?.data.error.message,

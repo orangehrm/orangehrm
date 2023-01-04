@@ -30,7 +30,7 @@
       <oxd-table-filter
         :filter-title="$t('attendance.attendance_total_summary_report')"
       >
-        <oxd-form @submitValid="generateReport">
+        <oxd-form @submit-valid="generateReport">
           <oxd-form-row>
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>

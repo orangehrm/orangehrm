@@ -31,7 +31,7 @@
       :has-error="hasError"
       :model-value="modelValue"
       dropdown-position="left"
-      @update:modelValue="$emit('update:modelValue', $event)"
+      @update:model-value="$emit('update:modelValue', $event)"
     />
   </oxd-input-group>
 </template>

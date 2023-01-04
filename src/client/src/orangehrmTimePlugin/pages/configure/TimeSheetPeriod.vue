@@ -25,7 +25,7 @@
         {{ $t('time.timesheet_period_config') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -101,7 +101,7 @@ export default {
       .request({
         method: 'GET',
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.updateTimeSheetPeriodModel(parseInt(data.startDay));
       })
@@ -127,7 +127,7 @@ export default {
         });
     },
     updateTimeSheetPeriodModel(day) {
-      this.timeSheetPeriod.startDay = this.days.find(d => {
+      this.timeSheetPeriod.startDay = this.days.find((d) => {
         return d.id === day;
       });
     },

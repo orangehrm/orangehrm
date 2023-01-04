@@ -197,13 +197,13 @@ export default {
           limit: limit,
           offset: state.items.length === 0 ? 0 : limit,
         })
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
           state.total = meta?.total || 0;
           if (Array.isArray(data)) {
             state.items = [
               ...state.items,
-              ...data.map(item => {
+              ...data.map((item) => {
                 return {
                   ...item,
                   reviewerPictureSrc: `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${item.reviewer.empNumber}`,
@@ -262,7 +262,7 @@ export default {
         method: 'GET',
         url: `api/v2/performance/employees/trackers/${this.trackerId}`,
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.trackerName = data.trackerName;
         this.employeeName = `${data.employee.firstName} ${
@@ -294,7 +294,7 @@ export default {
       this.showEditTrackerModal = true;
     },
     onClickDelete(id) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([id]);
         }

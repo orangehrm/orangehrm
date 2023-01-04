@@ -22,14 +22,14 @@
  * @param query
  * @returns {string}
  */
-export const prepare = function(
+export const prepare = function (
   endpoint: string,
   params: {[key: string]: string | number} = {},
   query: {[key: string]: string | number | boolean | string[]} = {},
 ): string {
   let preparedEndpoint = endpoint;
   query = JSON.parse(JSON.stringify(query));
-  Object.keys(params).forEach(param => {
+  Object.keys(params).forEach((param) => {
     const paramPlaceholder = `{${param}}`;
     if (preparedEndpoint.includes(paramPlaceholder)) {
       let paramValue = params[param];
@@ -71,11 +71,11 @@ export const prepare = function(
  * @param query
  * @returns {string}
  */
-export const urlFor = function(
+export const urlFor = function (
   endpoint: string,
   params: {[key: string]: string | number} = {},
   query: {[key: string]: string | number | boolean | string[]} = {},
 ): string {
-  // @ts-expect-error
+  // @ts-expect-error: appGlobal is not in window object by default
   return window.appGlobal.baseUrl + prepare(endpoint, params, query);
 };

@@ -142,7 +142,7 @@ export default {
         type = 'video';
       }
 
-      new Promise(resolve => {
+      new Promise((resolve) => {
         if (props.data.originalPost) {
           resolve(updateSharedPost(props.data.id, state.post.text));
         } else {
@@ -151,16 +151,16 @@ export default {
               type: type,
               text: state.post.text,
               link: state.post.video,
-              photos: state.post.photos.filter(id => typeof id === 'object'),
-              deletedPhotos: (props.data.photoIds || []).filter(id => {
+              photos: state.post.photos.filter((id) => typeof id === 'object'),
+              deletedPhotos: (props.data.photoIds || []).filter((id) => {
                 return (
-                  state.post.photos.findIndex(photo => photo === id) === -1
+                  state.post.photos.findIndex((photo) => photo === id) === -1
                 );
               }),
             }),
           );
         }
-      }).then(response => {
+      }).then((response) => {
         updateSuccess();
         context.emit('close', response.data);
       });
@@ -169,7 +169,7 @@ export default {
     const rules = {
       url: [
         required,
-        promiseDebounce(async value => {
+        promiseDebounce(async (value) => {
           if (!value) return true;
           state.embedURL = null;
           const response = await http.request({
@@ -190,7 +190,7 @@ export default {
       ],
       text: [
         shouldNotExceedCharLength(65530),
-        value => {
+        (value) => {
           if (props.data.type === 'video' || state.post.photos.length > 0) {
             return true;
           }

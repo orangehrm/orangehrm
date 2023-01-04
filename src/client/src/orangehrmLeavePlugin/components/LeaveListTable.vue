@@ -23,8 +23,8 @@
     <slot
       :filters="filters"
       :rules="rules"
-      :filterItems="filterItems"
-      :onReset="onReset"
+      :filter-items="filterItems"
+      :on-reset="onReset"
     ></slot>
     <br />
     <div class="orangehrm-paper-container">
@@ -33,7 +33,7 @@
         :total="total"
         :loading="isLoading"
         :bulk-actions="leaveBulkActions"
-        @onActionClick="onLeaveActionBulk"
+        @on-action-click="onLeaveActionBulk"
       >
       </leave-list-table-header>
       <div class="orangehrm-container">
@@ -190,7 +190,7 @@ export default {
         includeEmployees: filters.value.includePastEmps
           ? 'currentAndPast'
           : 'onlyCurrent',
-        statuses: statuses.map(item => item.id),
+        statuses: statuses.map((item) => item.id),
         leaveTypeId: filters.value.leaveType?.id,
       };
     });
@@ -202,8 +202,8 @@ export default {
       }`,
     );
 
-    const leavelistNormalizer = data => {
-      return data.map(item => {
+    const leavelistNormalizer = (data) => {
+      return data.map((item) => {
         let leaveDatePeriod,
           leaveStatuses,
           leaveBalances = '';
@@ -235,7 +235,7 @@ export default {
         if (Array.isArray(item.leaveBreakdown)) {
           leaveStatuses = item.leaveBreakdown
             .map(
-              status =>
+              (status) =>
                 `${status.name} (${parseFloat(status.lengthDays).toFixed(2)})`,
             )
             .join(', ');
@@ -311,23 +311,23 @@ export default {
 
     const leaveBulkActions = computed(() => {
       if (checkedItems.value.length > 0 && response.value.data) {
-        const allActions = checkedItems.value.map(item => {
+        const allActions = checkedItems.value.map((item) => {
           return response.value.data[item].actions;
         });
         return {
           APPROVE: allActions.reduce(
             (approvable, actions) =>
-              approvable && actions.find(i => i.action === 'APPROVE'),
+              approvable && actions.find((i) => i.action === 'APPROVE'),
             true,
           ),
           REJECT: allActions.reduce(
             (rejectable, actions) =>
-              rejectable && actions.find(i => i.action === 'REJECT'),
+              rejectable && actions.find((i) => i.action === 'REJECT'),
             true,
           ),
           CANCEL: allActions.reduce(
             (cancelable, actions) =>
-              cancelable && actions.find(i => i.action === 'CANCEL'),
+              cancelable && actions.find((i) => i.action === 'CANCEL'),
             true,
           ),
         };
@@ -407,11 +407,11 @@ export default {
     if (this.filters.statuses.length === 0) {
       this.filters.statuses = this.myLeaveList
         ? this.leaveStatuses
-        : this.leaveStatuses.filter(status => status.id === 1);
+        : this.leaveStatuses.filter((status) => status.id === 1);
     }
     this.http
       .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
-      .then(response => {
+      .then((response) => {
         const {data, meta} = response.data;
         if (meta.leavePeriodDefined) {
           this.filters.fromDate =
@@ -439,7 +439,7 @@ export default {
         {label: this.$t('leave.view_pim_info'), context: 'pim_details'},
       ];
 
-      row.actions.map(item => {
+      row.actions.map((item) => {
         if (item.action === 'APPROVE') {
           approve.props.label = this.$t('general.approve');
           approve.props.onClick = () => this.onLeaveAction(row.id, 'APPROVE');
@@ -465,7 +465,7 @@ export default {
       });
 
       more.props.options = dropdownActions;
-      more.props.onClick = $event => this.onLeaveDropdownAction($event, row);
+      more.props.onClick = ($event) => this.onLeaveDropdownAction($event, row);
       cellConfig.more = more;
 
       return {
@@ -513,7 +513,7 @@ export default {
         action: actionType,
       };
 
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items.data[index].id;
       });
       const confirmation = await this.$refs.bulkActionModal.showDialog();
@@ -524,7 +524,7 @@ export default {
       }
 
       this.processLeaveRequestBulkAction(ids, actionType)
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           if (Array.isArray(data))
             this.$toast.success({

@@ -38,7 +38,7 @@ export default {
     const http = new APIService(window.appGlobal.baseUrl, props.api);
     onBeforeMount(() => {
       http.getAll({limit: 0}).then(({data}) => {
-        options.value = data.data.map(item => {
+        options.value = data.data.map((item) => {
           return {
             id: item.id,
             label: item.name,

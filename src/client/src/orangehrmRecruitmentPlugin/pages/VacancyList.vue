@@ -59,8 +59,8 @@ export default {
   },
   setup() {
     const defaultPic = `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`;
-    const vacancyDataNormalizer = data => {
-      return data.map(item => {
+    const vacancyDataNormalizer = (data) => {
+      return data.map((item) => {
         return {
           vacancyId: item.id,
           vacancyTitle: item.name,
@@ -72,17 +72,11 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/recruitment/public/vacancies',
     );
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      response,
-      isLoading,
-    } = usePaginate(http, {
-      normalizer: vacancyDataNormalizer,
-      pageSize: 8,
-    });
+    const {showPaginator, currentPage, total, pages, response, isLoading} =
+      usePaginate(http, {
+        normalizer: vacancyDataNormalizer,
+        pageSize: 8,
+      });
     return {
       defaultPic,
       showPaginator,

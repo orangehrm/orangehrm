@@ -26,7 +26,7 @@
       </oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
@@ -158,7 +158,7 @@ export default {
         customer: [required, validSelection],
         projectAdmin: [
           validSelection,
-          value => {
+          (value) => {
             return this.projectAdmins.filter(
               ({value: admin}) => admin && admin.id === value?.id,
             ).length < 2
@@ -205,7 +205,7 @@ export default {
             .map(({value}) => value && value.id)
             .filter(Number),
         })
-        .then(result => {
+        .then((result) => {
           this.projectId = result.data?.data.id;
           return this.$toast.saveSuccess();
         })
@@ -214,7 +214,7 @@ export default {
         });
     },
     validateProjectName(project) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (project) {
           this.http
             .request({
@@ -225,7 +225,7 @@ export default {
                 customerId: this.project.customer?.id,
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)

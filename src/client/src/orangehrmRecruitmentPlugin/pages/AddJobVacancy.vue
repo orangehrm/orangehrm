@@ -25,7 +25,7 @@
       </oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
@@ -179,7 +179,7 @@ export default {
         name: [required, shouldNotExceedCharLength(50)],
         hiringManager: [required, validSelection],
         numOfPositions: [
-          value => {
+          (value) => {
             if (value === null || value === '') return true;
             return typeof numericOnly(value) === 'string'
               ? numericOnly(value)
@@ -198,10 +198,10 @@ export default {
     this.isLoading = true;
     this.http
       .getAll({limit: 0})
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name == v);
           return index === -1 || this.$t('general.already_exists');
         });
       })
@@ -226,7 +226,7 @@ export default {
         status: this.vacancy.status,
         isPublished: this.vacancy.isPublished,
       };
-      this.http.create({...this.vacancy}).then(response => {
+      this.http.create({...this.vacancy}).then((response) => {
         const {data} = response.data;
         this.$toast.saveSuccess();
         navigate('/recruitment/addJobVacancy/{id}', {id: data.id});

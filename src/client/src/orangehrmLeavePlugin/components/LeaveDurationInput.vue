@@ -29,7 +29,7 @@
       :rules="rules.duration"
       :show-empty-selector="partial"
       :required="partial"
-      @update:modelValue="$emit('update:duration', $event)"
+      @update:model-value="$emit('update:duration', $event)"
     />
   </oxd-grid-item>
   <template v-if="duration && duration.id === 4">
@@ -38,8 +38,8 @@
       :from-time="fromTime"
       :to-time="toTime"
       :work-shift="workShift"
-      @update:fromTime="$emit('update:fromTime', $event)"
-      @update:toTime="$emit('update:toTime', $event)"
+      @update:from-time="$emit('update:fromTime', $event)"
+      @update:to-time="$emit('update:toTime', $event)"
     ></time-range>
     <oxd-grid-item>
       <oxd-input-group :label="$t('general.duration')">
@@ -113,7 +113,7 @@ export default {
             () => this.fromTime,
             this.$t('general.to_time_should_be_after_from_time'),
           ),
-          value => {
+          (value) => {
             if (value) {
               const workLength = diffInTime(
                 this.workShift.startTime,
@@ -151,7 +151,7 @@ export default {
         },
         {id: 4, label: this.$t('leave.specify_time'), key: 'specify_time'},
       ];
-      return this.partial ? durations.filter(i => i.id != 1) : durations;
+      return this.partial ? durations.filter((i) => i.id != 1) : durations;
     },
   },
 };

@@ -24,7 +24,7 @@
           ref="resetForm"
           method="post"
           :action="submitUrl"
-          @submitValid="onSubmit"
+          @submit-valid="onSubmit"
         >
           <oxd-text tag="h6">
             {{ $t('auth.reset_password') }}
@@ -121,7 +121,8 @@ export default {
         confirmPassword: [
           required,
           shouldNotExceedCharLength(64),
-          v => (!!v && v === this.user.newPassword) || 'Passwords do not match',
+          (v) =>
+            (!!v && v === this.user.newPassword) || 'Passwords do not match',
         ],
       },
     };

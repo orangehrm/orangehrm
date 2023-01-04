@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -149,7 +149,7 @@ export default {
         leavePeriod: [required],
         entitlement: [
           required,
-          v => {
+          (v) => {
             return (
               /^\d+(\.\d{1,2})?$/.test(v) ||
               this.$t('leave.should_be_a_number_with_2_decimal_places')
@@ -168,7 +168,7 @@ export default {
     this.http
       .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
       .then(({data}) => {
-        this.leavePeriods = data.data.map(item => {
+        this.leavePeriods = data.data.map((item) => {
           const startDate = formatDate(
             parseDate(item.startDate),
             this.jsDateFormat,
@@ -188,7 +188,7 @@ export default {
         });
         return this.http.get(this.entitlementId);
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.leaveEntitlement.employee = {
           id: data.employee.empNumber,
@@ -199,7 +199,7 @@ export default {
           id: data.leaveType.id,
           label: data.leaveType.name,
         };
-        this.leaveEntitlement.leavePeriod = this.leavePeriods.find(item => {
+        this.leaveEntitlement.leavePeriod = this.leavePeriods.find((item) => {
           return item.id === `${data.fromDate}_${data.toDate}`;
         });
         this.leaveEntitlement.entitlement = data.entitlement;
@@ -235,7 +235,7 @@ export default {
 
     validateEntitlement(value) {
       const entitlement = parseFloat(value);
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (!isNaN(entitlement)) {
           this.http
             .request({
@@ -245,7 +245,7 @@ export default {
                 entitlement,
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)

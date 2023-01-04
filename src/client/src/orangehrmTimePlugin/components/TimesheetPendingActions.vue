@@ -71,8 +71,8 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
-    const actionsNormalizer = data => {
-      return data.map(item => {
+    const actionsNormalizer = (data) => {
+      return data.map((item) => {
         const startDate = formatDate(parseDate(item.startDate), jsDateFormat, {
           locale,
         });

@@ -22,7 +22,7 @@
   <oxd-table-filter
     :filter-title="$t('attendance.employee_attendance_records')"
   >
-    <oxd-form @submitValid="onClickView">
+    <oxd-form @submit-valid="onClickView">
       <oxd-form-row>
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -174,8 +174,8 @@ export default {
       employee: [validSelection],
     };
 
-    const attendanceRecordNormalizer = data => {
-      return data.map(item => {
+    const attendanceRecordNormalizer = (data) => {
+      return data.map((item) => {
         const {punchIn, punchOut} = item;
         const punchInDate = formatDate(
           parseDate(punchIn?.userDate),
@@ -319,17 +319,17 @@ export default {
       };
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

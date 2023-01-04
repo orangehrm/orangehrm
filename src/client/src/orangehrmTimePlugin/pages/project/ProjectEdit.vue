@@ -26,7 +26,7 @@
       </oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
@@ -176,7 +176,7 @@ export default {
         customer: [required, validSelection],
         projectAdmin: [
           validSelection,
-          value => {
+          (value) => {
             return this.projectAdmins.filter(
               ({value: admin}) => admin && admin.id === value?.id,
             ).length < 2
@@ -192,7 +192,7 @@ export default {
     const {$tEmpName} = useEmployeeNameTranslate();
     this.http
       .get(this.projectId, {model: 'detailed'})
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.project.name = data.name;
         this.project.description = data.description;
@@ -204,7 +204,7 @@ export default {
           Array.isArray(data.projectAdmins) &&
           data.projectAdmins.length > 0
         ) {
-          this.projectAdmins = data.projectAdmins.map(projectAdmin => {
+          this.projectAdmins = data.projectAdmins.map((projectAdmin) => {
             return {
               value: {
                 id: projectAdmin.empNumber,
@@ -267,7 +267,7 @@ export default {
         });
     },
     validateProjectName(project) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (project) {
           this.http
             .request({
@@ -279,7 +279,7 @@ export default {
                 customerId: this.project.customer?.id,
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)

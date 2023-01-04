@@ -24,7 +24,7 @@
       {{ $t('general.edit') }} {{ type }}
     </oxd-text>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -136,7 +136,7 @@ export default {
             ? `${this.api}${this.data.supervisorEmpNumber}`
             : `${this.api}${this.data.subordinateEmpNumber}`,
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.reportTo.employee = {
           id:
@@ -153,7 +153,7 @@ export default {
               : data.subordinate.terminationId,
         };
         this.reportTo.reportingMethod = this.reportingMethods.find(
-          item => item.id === data.reportingMethod.id,
+          (item) => item.id === data.reportingMethod.id,
         );
       })
       .finally(() => {

@@ -35,7 +35,7 @@
           :rules="rules.password"
           autocomplete="off"
           required
-          @update:modelValue="$emit('update:password', $event)"
+          @update:model-value="$emit('update:password', $event)"
         />
         <oxd-text class="user-password-hint" tag="p">
           {{ $t('general.password_strength_message') }}
@@ -51,7 +51,7 @@
           :rules="rules.passwordConfirm"
           autocomplete="off"
           required
-          @update:modelValue="$emit('update:passwordConfirm', $event)"
+          @update:model-value="$emit('update:passwordConfirm', $event)"
         />
       </oxd-grid-item>
     </oxd-grid>
@@ -89,7 +89,7 @@ export default {
         passwordConfirm: [
           required,
           shouldNotExceedCharLength(64),
-          v =>
+          (v) =>
             (!!v && v === this.password) ||
             this.$t('general.passwords_do_not_match'),
         ],

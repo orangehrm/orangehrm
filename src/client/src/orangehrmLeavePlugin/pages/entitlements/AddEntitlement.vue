@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -220,7 +220,7 @@ export default {
         leavePeriod: [required],
         entitlement: [
           required,
-          v => {
+          (v) => {
             return (
               /^\d+(\.\d{1,2})?$/.test(v) ||
               this.$t('leave.should_be_a_number_with_2_decimal_places')
@@ -288,7 +288,7 @@ export default {
       }
       this.http
         .create(payload)
-        .then(response => {
+        .then((response) => {
           let toast = null;
           let params = null;
           const {data} = response.data;
@@ -308,13 +308,13 @@ export default {
             };
             toast = this.$toast.saveSuccess();
           }
-          return new Promise(resolve => {
+          return new Promise((resolve) => {
             toast.then(() => {
               resolve(params);
             });
           });
         })
-        .then(params => {
+        .then((params) => {
           if (params) {
             navigate('/leave/viewLeaveEntitlements', undefined, params);
           } else {
@@ -332,7 +332,7 @@ export default {
             subunitId: this.leaveEntitlement.subunit?.id,
           },
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.empMatchCount = parseInt(data.count);
         });

@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     showSuccessDialog() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         this.resolve = resolve;
         this.show = true;
       });

@@ -25,7 +25,7 @@
       :rules="rules.operator"
       :options="operators"
       :model-value="operator"
-      @update:modelValue="$emit('update:operator', $event)"
+      @update:model-value="$emit('update:operator', $event)"
     />
   </oxd-grid-item>
   <oxd-grid-item
@@ -38,7 +38,7 @@
       :model-value="valueX"
       :placeholder="userDateFormat"
       :display-format="jsDateFormat"
-      @update:modelValue="$emit('update:valueX', $event)"
+      @update:model-value="$emit('update:valueX', $event)"
     />
     <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
     <oxd-input-field
@@ -47,7 +47,7 @@
       :model-value="valueY"
       :placeholder="userDateFormat"
       :display-format="jsDateFormat"
-      @update:modelValue="$emit('update:valueY', $event)"
+      @update:model-value="$emit('update:valueY', $event)"
     />
   </oxd-grid-item>
   <oxd-grid-item v-else-if="operator">
@@ -57,7 +57,7 @@
       :model-value="valueX"
       :placeholder="userDateFormat"
       :display-format="jsDateFormat"
-      @update:modelValue="$emit('update:valueX', $event)"
+      @update:model-value="$emit('update:valueX', $event)"
     />
   </oxd-grid-item>
 </template>

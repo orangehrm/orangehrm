@@ -25,7 +25,7 @@
         $t('pim.contact_details')
       }}</oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-text class="orangehrm-sub-title" tag="h6">{{
           $t('admin.address')
         }}</oxd-text>
@@ -225,7 +225,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         this.updateModel(response);
       })
       .finally(() => {
@@ -244,7 +244,7 @@ export default {
             countryCode: this.contact.countryCode?.id,
           },
         })
-        .then(response => {
+        .then((response) => {
           this.updateModel(response);
           return this.$toast.updateSuccess();
         })
@@ -254,7 +254,7 @@ export default {
     },
 
     validateWorkEmail(contact) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (contact) {
           const sameAsOtherEmail =
             this.contact.workEmail === this.contact.otherEmail;
@@ -266,7 +266,7 @@ export default {
                 workEmail: this.contact.workEmail,
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               if (data.valid === true) {
                 return sameAsOtherEmail
@@ -286,7 +286,7 @@ export default {
     },
 
     validateOtherEmail(contact) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (contact) {
           const sameAsWorkEmail =
             this.contact.otherEmail === this.contact.workEmail;
@@ -298,7 +298,7 @@ export default {
                 otherEmail: this.contact.otherEmail,
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               if (data.valid === true) {
                 return sameAsWorkEmail
@@ -318,7 +318,7 @@ export default {
     },
 
     validateEmailDifferent(email) {
-      return v => {
+      return (v) => {
         const resolvedEmail = email();
         if (resolvedEmail === null || resolvedEmail === '') {
           return true;
@@ -334,7 +334,7 @@ export default {
       const {data} = response.data;
       this.contact = {...contactDetailsModel, ...data};
       this.contact.countryCode = this.countries.find(
-        item => item.id === data.countryCode,
+        (item) => item.id === data.countryCode,
       );
     },
   },

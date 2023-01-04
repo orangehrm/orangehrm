@@ -59,7 +59,7 @@ export default {
       }
       params.excludeInterviewers = props.excludeInterviewers;
       http.getAll(params).then(({data}) => {
-        options.value = data.data.map(item => {
+        options.value = data.data.map((item) => {
           return {
             id: item.id,
             label:

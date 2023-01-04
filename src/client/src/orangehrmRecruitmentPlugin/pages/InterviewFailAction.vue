@@ -24,7 +24,7 @@
       v-model:loading="isLoading"
       :candidate-id="candidateId"
       :title="$t('recruitment.mark_interview_failed')"
-      @submitValid="onSave"
+      @submit-valid="onSave"
     >
       <oxd-form-row>
         <oxd-grid :cols="3">

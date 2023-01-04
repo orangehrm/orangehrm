@@ -28,7 +28,7 @@
       :model-value="firstName"
       :rules="rules.firstName"
       :disabled="disabled"
-      @update:modelValue="$emit('update:firstName', $event)"
+      @update:model-value="$emit('update:firstName', $event)"
     />
     <oxd-input-field
       class="orangehrm-middlename"
@@ -37,7 +37,7 @@
       :rules="rules.middleName"
       :disabled="disabled"
       :placeholder="showMiddleNamePlaceholder ? $t('general.middle_name') : ''"
-      @update:modelValue="$emit('update:middleName', $event)"
+      @update:model-value="$emit('update:middleName', $event)"
     />
     <oxd-input-field
       class="orangehrm-lastname"
@@ -46,7 +46,7 @@
       :model-value="lastName"
       :rules="rules.lastName"
       :disabled="disabled"
-      @update:modelValue="$emit('update:lastName', $event)"
+      @update:model-value="$emit('update:lastName', $event)"
     />
   </oxd-input-group>
 </template>

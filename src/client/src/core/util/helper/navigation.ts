@@ -23,7 +23,7 @@ import {urlFor} from '@ohrm/core/util/helper/url';
  * @param params
  * @param query
  */
-export const navigate = function(
+export const navigate = function (
   path: string,
   params: {[key: string]: string | number} = {},
   query: {[key: string]: string | number | boolean | string[]} = {},
@@ -31,6 +31,6 @@ export const navigate = function(
   window.location.href = urlFor(path, params, query);
 };
 
-export const reloadPage = function(): void {
+export const reloadPage = function (): void {
   window.location.reload();
 };

@@ -22,7 +22,7 @@
     <oxd-table-filter
       :filter-title="$t('performance.manage_performance_reviews')"
     >
-      <oxd-form @submitValid="filterItems" @reset="resetDataTable">
+      <oxd-form @submit-valid="filterItems" @reset="resetDataTable">
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <employee-autocomplete
@@ -195,7 +195,7 @@ export default {
     const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
     const {$tEmpName} = useEmployeeNameTranslate();
-    const reviewListDateFormat = date =>
+    const reviewListDateFormat = (date) =>
       formatDate(parseDate(date), jsDateFormat, {locale});
 
     const statusOpts = [
@@ -205,8 +205,8 @@ export default {
       {id: 4, label: $t('performance.completed')},
     ];
 
-    const reviewListNormalizer = data => {
-      return data.map(item => {
+    const reviewListNormalizer = (data) => {
+      return data.map((item) => {
         const employee = item.employee;
         const reviewer = item.reviewer?.employee;
         return {
@@ -219,7 +219,7 @@ export default {
             reviewPeriodEnd: reviewListDateFormat(item.reviewPeriodEnd),
           },
           dueDate: reviewListDateFormat(item.dueDate),
-          status: statusOpts.find(el => el.id === item.overallStatus.statusId)
+          status: statusOpts.find((el) => el.id === item.overallStatus.statusId)
             .label,
           statusId: item.overallStatus.statusId,
         };
@@ -443,17 +443,17 @@ export default {
     },
     onClickDeleteSelected() {
       const ids = [];
-      this.checkedItems.forEach(index => {
+      this.checkedItems.forEach((index) => {
         ids.push(this.items?.data[index].id);
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

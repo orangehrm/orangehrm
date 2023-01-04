@@ -20,7 +20,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('performance.performance_trackers')">
-      <oxd-form @submitValid="filterItems">
+      <oxd-form @submit-valid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -134,8 +134,8 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {$tEmpName} = useEmployeeNameTranslate();
 
-    const trackerNormalizer = data => {
-      return data.map(row => {
+    const trackerNormalizer = (data) => {
+      return data.map((row) => {
         return {
           id: row.id,
           tracker: row.trackerName,
@@ -269,21 +269,23 @@ export default {
       navigate('/performance/addPerformanceTracker/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.response?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      const isSelectable = this.unselectableIds.findIndex(
+        (id) => id == item.id,
+      );
       if (isSelectable > -1) {
         return this.$toast.cannotDelete();
       }
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

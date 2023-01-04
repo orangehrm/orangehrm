@@ -36,7 +36,12 @@
         {{ $t('leave.no_leave_types_with_leave_balance') }}
       </oxd-text>
 
-      <oxd-form v-else ref="formRef" :loading="isLoading" @submitValid="onSave">
+      <oxd-form
+        v-else
+        ref="formRef"
+        :loading="isLoading"
+        @submit-valid="onSave"
+      >
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -279,14 +284,14 @@ export default {
   },
 
   watch: {
-    appliedLeaveDuration: function(duration) {
+    appliedLeaveDuration: function (duration) {
       if (duration === 1) {
         this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
       } else {
         this.leave.duration.type = null;
       }
     },
-    'leave.fromDate': function(fromDate) {
+    'leave.fromDate': function (fromDate) {
       if (!fromDate || this.leave.toDate) return;
       this.leave.toDate = fromDate;
     },
@@ -299,9 +304,9 @@ export default {
         method: 'GET',
         url: 'api/v2/leave/leave-types/eligible',
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.leaveTypes = data.map(item => {
+        this.leaveTypes = data.map((item) => {
           return {
             id: item.id,
             label: item.name,

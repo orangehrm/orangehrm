@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -193,28 +193,28 @@ export default {
       .request({
         method: 'GET',
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.workWeek.monday = this.dayTypes.find(
-          dayType => dayType.id === data.monday,
+          (dayType) => dayType.id === data.monday,
         );
         this.workWeek.tuesday = this.dayTypes.find(
-          dayType => dayType.id === data.tuesday,
+          (dayType) => dayType.id === data.tuesday,
         );
         this.workWeek.wednesday = this.dayTypes.find(
-          dayType => dayType.id === data.wednesday,
+          (dayType) => dayType.id === data.wednesday,
         );
         this.workWeek.thursday = this.dayTypes.find(
-          dayType => dayType.id === data.thursday,
+          (dayType) => dayType.id === data.thursday,
         );
         this.workWeek.friday = this.dayTypes.find(
-          dayType => dayType.id === data.friday,
+          (dayType) => dayType.id === data.friday,
         );
         this.workWeek.saturday = this.dayTypes.find(
-          dayType => dayType.id === data.saturday,
+          (dayType) => dayType.id === data.saturday,
         );
         this.workWeek.sunday = this.dayTypes.find(
-          dayType => dayType.id === data.sunday,
+          (dayType) => dayType.id === data.sunday,
         );
       })
       .finally(() => {
@@ -226,7 +226,7 @@ export default {
     onSave() {
       // check if workweek contains at least one working day
       const noWorkingDays = Object.values(this.workWeek).find(
-        dayType => dayType.id !== 8,
+        (dayType) => dayType.id !== 8,
       );
 
       if (noWorkingDays === undefined) {

@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('performance.employee_reviews')">
-      <oxd-form @submitValid="filterItems" @reset="filterItems">
+      <oxd-form @submit-valid="filterItems" @reset="filterItems">
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <employee-autocomplete
@@ -168,11 +168,11 @@ export default {
     const {jsDateFormat, userDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
-    const reviewListDateFormat = date =>
+    const reviewListDateFormat = (date) =>
       formatDate(parseDate(date), jsDateFormat, {locale});
 
-    const reviewListNormalizer = data => {
-      return data.map(item => {
+    const reviewListNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.id,
           employee: `${item.employee?.firstName} ${item.employee?.lastName} ${

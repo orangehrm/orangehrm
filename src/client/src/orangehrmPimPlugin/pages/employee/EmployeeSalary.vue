@@ -85,8 +85,8 @@ import SaveSalaryComponent from '@/orangehrmPimPlugin/components/SaveSalaryCompo
 import EditSalaryComponent from '@/orangehrmPimPlugin/components/EditSalaryComponent';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
-const salaryNormalizer = data => {
-  return data.map(item => {
+const salaryNormalizer = (data) => {
+  return data.map((item) => {
     return {
       id: item.id,
       name: item.salaryName,
@@ -233,17 +233,17 @@ export default {
 
   methods: {
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

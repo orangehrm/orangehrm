@@ -26,7 +26,7 @@
       }}</oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -177,12 +177,12 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.systemUserId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.user.id = data.id;
         this.user.username = data.userName;
         this.user.role = this.userRoles.find(
-          item => item.id === data.userRole.id,
+          (item) => item.id === data.userRole.id,
         );
         this.user.employee = {
           id: data.employee.empNumber,
@@ -223,7 +223,7 @@ export default {
         });
     },
     validateUserName(user) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (user) {
           this.http
             .request({
@@ -234,7 +234,7 @@ export default {
                 userId: this.systemUserId,
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)

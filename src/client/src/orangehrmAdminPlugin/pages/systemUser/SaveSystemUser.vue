@@ -26,7 +26,7 @@
       }}</oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -176,7 +176,7 @@ export default {
         });
     },
     validateUserName(user) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (user) {
           this.http
             .request({
@@ -186,7 +186,7 @@ export default {
                 userName: this.user.username.trim(),
               },
             })
-            .then(response => {
+            .then((response) => {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)

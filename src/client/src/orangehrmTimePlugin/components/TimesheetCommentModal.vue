@@ -29,7 +29,7 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="2" class="orangehrm-timesheet-grid">
           <oxd-text tag="p" class="orangehrm-timesheet-title">
@@ -149,7 +149,7 @@ export default {
           method: 'GET',
           url: `api/v2/time/timesheets/${this.timesheetId}/entries/${this.data.id}/comment`,
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.comment = data?.comment;
         })
@@ -172,7 +172,7 @@ export default {
             activityId: this.data.activity.id,
           },
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.$toast.saveSuccess();
           this.$emit('close', data);

@@ -24,7 +24,7 @@
       v-model:loading="isLoading"
       :candidate-id="candidateId"
       :title="$t('recruitment.offer_job')"
-      @submitValid="onSave"
+      @submit-valid="onSave"
     >
       <oxd-form-row>
         <oxd-grid :cols="3">

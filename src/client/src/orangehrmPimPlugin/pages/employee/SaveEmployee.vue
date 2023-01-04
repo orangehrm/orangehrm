@@ -26,7 +26,7 @@
       </oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <div class="orangehrm-employee-container">
           <div class="orangehrm-employee-image">
             <profile-image-input
@@ -226,7 +226,7 @@ export default {
         const file = this.employee.empPicture.base64;
         const type = this.employee.empPicture.type;
         const isPicture = this.allowedImageTypes.findIndex(
-          item => item === type,
+          (item) => item === type,
         );
         return isPicture > -1 ? `data:${type};base64,${file}` : defaultPic;
       } else {
@@ -239,11 +239,11 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.employeeId.push(v => {
+        this.rules.employeeId.push((v) => {
           const index = data.findIndex(
-            item =>
+            (item) =>
               item.employeeId?.trim() &&
               String(item.employeeId).toLowerCase() == String(v).toLowerCase(),
           );
@@ -255,11 +255,11 @@ export default {
         });
         return this.http.http.get('api/v2/admin/users');
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.username.push(v => {
+        this.rules.username.push((v) => {
           const index = data.findIndex(
-            item =>
+            (item) =>
               String(item.userName).toLowerCase() == String(v).toLowerCase(),
           );
           if (index > -1) {
@@ -284,7 +284,7 @@ export default {
         .create({
           ...this.employee,
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response;
           if (data?.data) {
             this.empNumber = data.data.empNumber;

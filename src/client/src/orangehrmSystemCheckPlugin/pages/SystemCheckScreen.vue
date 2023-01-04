@@ -98,7 +98,7 @@ export default {
       this.isLoading = true;
       this.http
         .getAll()
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
           this.items = data;
           this.isInterrupted = meta.isInterrupted;

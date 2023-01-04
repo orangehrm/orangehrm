@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -160,14 +160,14 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.holidayId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.holiday.id = data.id;
         this.holiday.name = data.name;
         this.holiday.date = data.date;
         this.holiday.recurring = data.recurring;
         if (data.length !== '' && data.length !== null) {
-          this.holiday.length = this.holidayLengthList.find(h => {
+          this.holiday.length = this.holidayLengthList.find((h) => {
             return h.id === data.length;
           });
         }
@@ -193,10 +193,10 @@ export default {
           limit: 0,
         });
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.date.push(v => {
-          const index = data.findIndex(item => item.date === v);
+        this.rules.date.push((v) => {
+          const index = data.findIndex((item) => item.date === v);
           if (index > -1) {
             const id = data[index].id;
             return id != this.holidayId

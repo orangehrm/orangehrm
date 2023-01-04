@@ -42,7 +42,7 @@ export default {
     );
     onBeforeMount(() => {
       http.getAll({limit: 0}).then(({data}) => {
-        options.value = data.data.map(hiringManager => {
+        options.value = data.data.map((hiringManager) => {
           return {
             id: hiringManager.empNumber,
             label: $tEmpName(hiringManager, {

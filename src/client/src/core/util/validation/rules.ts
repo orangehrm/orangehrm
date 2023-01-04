@@ -40,7 +40,7 @@ export type File = {
  * @param {string|number|Array} value
  * @returns {boolean|string}
  */
-export const required = function(
+export const required = function (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: string | number | Array<any>,
 ): boolean | string {
@@ -60,8 +60,8 @@ export const required = function(
 /**
  * @param {number} charLength
  */
-export const shouldNotExceedCharLength = function(charLength: number) {
-  return function(value: string): boolean | string {
+export const shouldNotExceedCharLength = function (charLength: number) {
+  return function (value: string): boolean | string {
     return (
       !value ||
       new String(value).length <= charLength ||
@@ -70,11 +70,11 @@ export const shouldNotExceedCharLength = function(charLength: number) {
   };
 };
 
-export const validDateFormat = function(
+export const validDateFormat = function (
   displayFormat = 'yyyy-mm-dd',
   dateFormat = 'yyyy-MM-dd',
 ) {
-  return function(value: string): boolean | string {
+  return function (value: string): boolean | string {
     if (!value) return true;
     const parsed = parseDate(value, dateFormat);
     return parsed
@@ -85,8 +85,8 @@ export const validDateFormat = function(
   };
 };
 
-export const shouldBeCurrentOrPreviousDate = function() {
-  return function(value: string): boolean | string {
+export const shouldBeCurrentOrPreviousDate = function () {
+  return function (value: string): boolean | string {
     if (!value) return true;
     const dateFormat = 'yyyy-MM-dd';
     const currentDate = formatDate(new Date(), dateFormat) || '';
@@ -97,7 +97,7 @@ export const shouldBeCurrentOrPreviousDate = function() {
   };
 };
 
-export const validTimeFormat = function(value: string): boolean | string {
+export const validTimeFormat = function (value: string): boolean | string {
   if (!value) return true;
   const parsed = parseDate(value, 'HH:mm');
   return parsed
@@ -105,8 +105,8 @@ export const validTimeFormat = function(value: string): boolean | string {
     : translate('general.should_be_a_valid_date_in_hh:mm_format');
 };
 
-export const max = function(maxValue: number) {
-  return function(value: string): boolean | string {
+export const max = function (maxValue: number) {
+  return function (value: string): boolean | string {
     return (
       Number.isNaN(parseFloat(value)) ||
       parseFloat(value) < maxValue ||
@@ -115,7 +115,7 @@ export const max = function(maxValue: number) {
   };
 };
 
-export const digitsOnly = function(value: string): boolean | string {
+export const digitsOnly = function (value: string): boolean | string {
   return (
     value == '' ||
     (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
@@ -123,7 +123,7 @@ export const digitsOnly = function(value: string): boolean | string {
   );
 };
 
-export const numericOnly = function(value: string): boolean | string {
+export const numericOnly = function (value: string): boolean | string {
   return (
     value == '' ||
     (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
@@ -131,7 +131,7 @@ export const numericOnly = function(value: string): boolean | string {
   );
 };
 
-export const digitsOnlyWithDecimalPoint = function(
+export const digitsOnlyWithDecimalPoint = function (
   value: string,
 ): boolean | string {
   return (
@@ -141,7 +141,7 @@ export const digitsOnlyWithDecimalPoint = function(
   );
 };
 
-export const digitsOnlyWithDecimalPointAndMinusSign = function(
+export const digitsOnlyWithDecimalPointAndMinusSign = function (
   value: string,
 ): boolean | string {
   return (
@@ -157,7 +157,7 @@ export const digitsOnlyWithDecimalPointAndMinusSign = function(
  * @param {string} date2
  * @param {string} dateFormat
  */
-export const beforeDate = function(
+export const beforeDate = function (
   date1: string,
   date2: string,
   dateFormat = 'yyyy-MM-dd',
@@ -175,7 +175,7 @@ export const beforeDate = function(
  * @param {string} date2
  * @param {string} dateFormat
  */
-export const afterDate = function(
+export const afterDate = function (
   date1: string,
   date2: string,
   dateFormat = 'yyyy-MM-dd',
@@ -193,7 +193,7 @@ export const afterDate = function(
  * @param {string} date2
  * @param {string} dateFormat
  */
-export const sameDate = function(
+export const sameDate = function (
   date1: string,
   date2: string,
   dateFormat = 'yyyy-MM-dd',
@@ -211,7 +211,7 @@ export const sameDate = function(
  * @param {object} options
  */
 export const endDateShouldBeAfterStartDate = (
-  startDate: string | Function,
+  startDate: string | (() => string),
   message?: string,
   options: {
     allowSameDate?: boolean;
@@ -249,7 +249,7 @@ export const endDateShouldBeAfterStartDate = (
  * @param {string} time2
  * @param {string} timeFormat
  */
-export const beforeTime = function(
+export const beforeTime = function (
   time1: string,
   time2: string,
   timeFormat = 'yyyy-MM-dd',
@@ -267,7 +267,7 @@ export const beforeTime = function(
  * @param {string} time2
  * @param {string} timeFormat
  */
-export const afterTime = function(
+export const afterTime = function (
   time1: string,
   time2: string,
   timeFormat = 'HH:mm',
@@ -285,7 +285,7 @@ export const afterTime = function(
  * @param {string} time2
  * @param {string} timeFormat
  */
-export const sameTime = function(
+export const sameTime = function (
   time1: string,
   time2: string,
   timeFormat = 'HH:mm',
@@ -303,7 +303,7 @@ export const sameTime = function(
  * @param {object} options
  */
 export const endTimeShouldBeAfterStartTime = (
-  startTime: string | Function,
+  startTime: string | (() => string),
   message?: string,
   options: {
     allowSameTime?: boolean;
@@ -338,8 +338,8 @@ export const endTimeShouldBeAfterStartTime = (
 /**
  * @param {number} size - File size in bytes
  */
-export const maxFileSize = function(size: number) {
-  return function(file: File): boolean | string {
+export const maxFileSize = function (size: number) {
+  return function (file: File): boolean | string {
     return (
       file === null ||
       (file.size && file.size <= size) ||
@@ -348,17 +348,17 @@ export const maxFileSize = function(size: number) {
   };
 };
 
-export const validFileTypes = function(fileTypes: string[]) {
-  return function(file: File): boolean | string {
+export const validFileTypes = function (fileTypes: string[]) {
+  return function (file: File): boolean | string {
     return (
       file === null ||
-      (file && fileTypes.findIndex(item => item === file.type) > -1) ||
+      (file && fileTypes.findIndex((item) => item === file.type) > -1) ||
       translate('general.file_type_not_allowed')
     );
   };
 };
 
-export const validEmailFormat = function(value: string): boolean | string {
+export const validEmailFormat = function (value: string): boolean | string {
   return (
     !value ||
     /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(
@@ -368,7 +368,7 @@ export const validEmailFormat = function(value: string): boolean | string {
   );
 };
 
-export const validPhoneNumberFormat = function(
+export const validPhoneNumberFormat = function (
   value: string,
 ): boolean | string {
   return (
@@ -384,7 +384,7 @@ export const validPhoneNumberFormat = function(
  * @param {object} options
  */
 export const startDateShouldBeBeforeEndDate = (
-  endDate: string | Function,
+  endDate: string | (() => string),
   message?: string,
   options: {
     allowSameDate?: boolean;
@@ -415,8 +415,8 @@ export const startDateShouldBeBeforeEndDate = (
   };
 };
 
-export const maxCurrency = function(maxValue: number) {
-  return function(value: string): boolean | string {
+export const maxCurrency = function (maxValue: number) {
+  return function (value: string): boolean | string {
     return (
       Number.isNaN(parseFloat(value)) ||
       parseFloat(value) < maxValue ||
@@ -433,7 +433,7 @@ export const maxCurrency = function(maxValue: number) {
  * @param {object} options
  */
 export const startTimeShouldBeBeforeEndTime = (
-  endTime: string | Function,
+  endTime: string | (() => string),
   message?: string,
   options: {
     allowSameTime?: boolean;
@@ -467,8 +467,8 @@ export const startTimeShouldBeBeforeEndTime = (
 /**
  * @param {number} charLength
  */
-export const shouldNotLessThanCharLength = function(charLength: number) {
-  return function(value: string): boolean | string {
+export const shouldNotLessThanCharLength = function (charLength: number) {
+  return function (value: string): boolean | string {
     return (
       !value ||
       String(value).length >= charLength ||
@@ -482,7 +482,7 @@ export const shouldNotLessThanCharLength = function(charLength: number) {
  * @param {string|undefined} message
  */
 export const maxValueShouldBeGreaterThanMinValue = (
-  minValue: string | Function,
+  minValue: string | (() => string),
   message?: string,
 ) => {
   return (value: string): boolean | string => {
@@ -505,7 +505,7 @@ export const maxValueShouldBeGreaterThanMinValue = (
  * @param {string|undefined} message
  */
 export const minValueShouldBeLowerThanMaxValue = (
-  maxValue: string | Function,
+  maxValue: string | (() => string),
   message?: string,
 ) => {
   return (value: string): boolean | string => {
@@ -554,7 +554,7 @@ export const numberShouldBeBetweenMinAndMaxValue = (
  * @param {string} value hex string
  * @returns {boolean|string}
  */
-export const validHexFormat = function(value: string): boolean | string {
+export const validHexFormat = function (value: string): boolean | string {
   if (!value) return true;
   return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i.test(value)
     ? true
@@ -567,12 +567,12 @@ export const validHexFormat = function(value: string): boolean | string {
  * @param {number} tolerance
  * @returns {Promise<boolean|string>}
  */
-export const imageShouldHaveDimensions = function(
+export const imageShouldHaveDimensions = function (
   aspectRatio: number,
   tolerance = 0.1,
 ) {
-  return function(file: File | null): Promise<boolean | string> {
-    return new Promise(resolve => {
+  return function (file: File | null): Promise<boolean | string> {
+    return new Promise((resolve) => {
       if (file === null || file.type === 'image/svg+xml') return resolve(true);
       const image = new Image();
       image.src = `data:${file.type};base64, ${file.base64}`;
@@ -587,12 +587,15 @@ export const imageShouldHaveDimensions = function(
   };
 };
 
-export const greaterThanOrEqual = function(minValue: number, message?: string) {
+export const greaterThanOrEqual = function (
+  minValue: number,
+  message?: string,
+) {
   const resolvedMessage =
     typeof message === 'string'
       ? message
       : translate('general.greater_than_or_equal_to_n', {minValue: minValue});
-  return function(value: string): boolean | string {
+  return function (value: string): boolean | string {
     if (value === null || value === '') return true;
     if (digitsOnlyWithDecimalPointAndMinusSign(value) !== true) {
       return resolvedMessage;
@@ -601,12 +604,12 @@ export const greaterThanOrEqual = function(minValue: number, message?: string) {
   };
 };
 
-export const lessThanOrEqual = function(maxValue: number, message?: string) {
+export const lessThanOrEqual = function (maxValue: number, message?: string) {
   const resolvedMessage =
     typeof message === 'string'
       ? message
       : translate('general.less_than_or_equal_to_n', {maxValue: maxValue});
-  return function(value: string): boolean | string {
+  return function (value: string): boolean | string {
     if (value === null || value === '') return true;
     if (digitsOnlyWithDecimalPointAndMinusSign(value) !== true) {
       return resolvedMessage;
@@ -615,7 +618,7 @@ export const lessThanOrEqual = function(maxValue: number, message?: string) {
   };
 };
 
-export const validLangString = function(value: string) {
+export const validLangString = function (value: string) {
   if (value === null || value === '') {
     return true;
   }
@@ -633,29 +636,31 @@ export const validLangString = function(value: string) {
  * @param {string|object|null} value
  * @returns {boolean|string}
  */
-export const validSelection = function(value: string | object | null) {
+export const validSelection = function (value: string | object | null) {
   return typeof value === 'string' ? translate('general.invalid') : true;
 };
 
-export const validHostnameFormat = function(value: string): boolean | string {
+export const validHostnameFormat = function (value: string): boolean | string {
   let fqdnRegex;
 
   // If string contains any letters, treat the string as a hostname. else ip address
   if (/\p{L}/u.test(value)) {
-    fqdnRegex = /^([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu;
+    fqdnRegex =
+      /^([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu;
   } else {
-    fqdnRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+    fqdnRegex =
+      /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
   }
 
   return !value || fqdnRegex.test(value) || translate('general.invalid');
 };
 
-export const validPortRange = function(
+export const validPortRange = function (
   charLength: number,
   rangeFrom: number,
   rangeTo: number,
 ) {
-  return function(value: string): boolean | string {
+  return function (value: string): boolean | string {
     return (
       !value ||
       (/^\d+$/.test(value) &&
@@ -676,7 +681,7 @@ export const validPortRange = function(
  * @param {string} value url string
  * @returns
  */
-export const validVideoURL = function(value: string): boolean | string {
+export const validVideoURL = function (value: string): boolean | string {
   return (
     !value ||
     /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:shorts\/|embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(\?\S*)?$/.test(

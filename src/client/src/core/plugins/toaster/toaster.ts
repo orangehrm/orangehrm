@@ -122,7 +122,7 @@ export default {
     // Toaster API
     const clear = (id: number | string): void => {
       if (typeof id === 'string') {
-        const _index = state.toasts.findIndex(item => item.id === id);
+        const _index = state.toasts.findIndex((item) => item.id === id);
         if (_index > -1) {
           clear(_index);
         }
@@ -132,7 +132,7 @@ export default {
     };
 
     const notify = (toast: Toast): Promise<string> => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const _id = nanoid(8);
         state.toasts.push({...toast, id: _id});
         if (!options.persist) {

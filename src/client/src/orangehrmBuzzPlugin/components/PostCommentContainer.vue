@@ -22,7 +22,7 @@
   <div class="orangehrm-buzz-comment">
     <div class="orangehrm-buzz-comment-add">
       <profile-image :employee="employee"></profile-image>
-      <oxd-form @submitValid="onSubmit">
+      <oxd-form @submit-valid="onSubmit">
         <oxd-input-field
           v-model="text"
           v-autofocus
@@ -104,7 +104,7 @@ export default {
 
     const loadComments = () => {
       fetchPostComments(props.postId, state.showAllComments ? 0 : 4, true).then(
-        response => {
+        (response) => {
           const {data, meta} = response.data;
           state.total = meta.total;
           state.comments = [...data];
@@ -132,8 +132,8 @@ export default {
       updateSuccess();
     };
 
-    const onDeleteComment = commentId => {
-      deleteDialog.value.showDialog().then(confirmation => {
+    const onDeleteComment = (commentId) => {
+      deleteDialog.value.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           deletePostComment(props.postId, commentId).then(() => {
             loadComments();

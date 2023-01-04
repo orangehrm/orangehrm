@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -120,7 +120,7 @@
         <oxd-form-row
           v-if="
             emailConfiguration.mailType !== 'sendmail' &&
-              emailConfiguration.smtpAuthType === 'login'
+            emailConfiguration.smtpAuthType === 'login'
           "
         >
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
@@ -293,7 +293,7 @@ export default {
         method: 'GET',
         url: 'api/v2/admin/email-configuration',
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.emailConfiguration.mailType = data.mailType;
         this.emailConfiguration.sentAs = data.sentAs;
@@ -341,7 +341,7 @@ export default {
             testEmailAddress: this.emailConfiguration.testEmailAddress,
           },
         })
-        .then(response => {
+        .then((response) => {
           const testEmailStatus = response.data.meta?.testEmailStatus;
           if (testEmailStatus === 1 && this.sendTestMailEditable) {
             this.$toast.success({
@@ -362,7 +362,8 @@ export default {
     },
     onReset() {
       this.emailConfiguration = {...this.initialEmailConfiguration};
-      this.useTLSSecureConnection = this.initialEmailConfiguration.useTLSSecureConnection;
+      this.useTLSSecureConnection =
+        this.initialEmailConfiguration.useTLSSecureConnection;
     },
   },
 };

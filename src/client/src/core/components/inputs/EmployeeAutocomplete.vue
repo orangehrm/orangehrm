@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     async loadEmployees(serachParam) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (serachParam.trim()) {
           this.http
             .getAll({
@@ -70,7 +70,7 @@ export default {
             })
             .then(({data}) => {
               resolve(
-                data.data.map(employee => {
+                data.data.map((employee) => {
                   return {
                     id: employee.empNumber,
                     label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,

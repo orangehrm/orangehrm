@@ -92,7 +92,7 @@ export default {
       return `${window.appGlobal.baseUrl}/buzz/photo/${photo}`;
     });
 
-    const onClickClose = $event => {
+    const onClickClose = ($event) => {
       if ($event.key && $event.key !== 'Escape') return;
       context.emit('close');
     };

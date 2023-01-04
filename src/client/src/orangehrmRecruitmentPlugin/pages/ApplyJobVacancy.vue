@@ -64,7 +64,7 @@
         enctype="multipart/form-data"
         :loading="isLoading"
         :action="submitUrl"
-        @submitValid="onSave"
+        @submit-valid="onSave"
       >
         <input name="_token" :value="token" type="hidden" />
         <input name="vacancyId" :value="vacancyId" type="hidden" />
@@ -131,9 +131,9 @@
                   v-model="applicant.keywords"
                   name="keywords"
                   :label="$t('recruitment.keywords')"
-                  :placeholder="
-                    `${$t('recruitment.enter_comma_seperated_words')}...`
-                  "
+                  :placeholder="`${$t(
+                    'recruitment.enter_comma_seperated_words',
+                  )}...`"
                   :rules="rules.keywords"
                 />
               </oxd-grid-item>
@@ -320,7 +320,7 @@ export default {
     },
   },
   beforeMount() {
-    this.http.get(this.vacancyId).then(response => {
+    this.http.get(this.vacancyId).then((response) => {
       const {data} = response.data;
       this.vacancyName = data?.name ?? '';
       this.vacancyDescription = data?.description;
@@ -339,7 +339,7 @@ export default {
       navigate('/recruitmentApply/jobs.html');
     },
     showDialogue() {
-      this.$refs.showDialogueModal.showSuccessDialog().then(confirmation => {
+      this.$refs.showDialogueModal.showSuccessDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           navigate('/recruitmentApply/jobs.html');
         }

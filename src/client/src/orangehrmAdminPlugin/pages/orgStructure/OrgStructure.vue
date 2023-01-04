@@ -162,7 +162,7 @@ export default {
   },
   methods: {
     onDelete(node) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.isLoading = true;
           this.http
@@ -205,7 +205,7 @@ export default {
         .getAll({
           mode: 'tree',
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.data = data[0];
         })

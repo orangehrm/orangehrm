@@ -25,7 +25,7 @@
       </oxd-text>
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
+      <oxd-form novalidate="true" :loading="isLoading" @submit-valid="onSave">
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
@@ -132,7 +132,7 @@
         {{ $t('general.add_attachment') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoadingAttachment" @submitValid="onSaveAttachment">
+      <oxd-form :loading="isLoadingAttachment" @submit-valid="onSaveAttachment">
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <file-upload-input
@@ -182,7 +182,7 @@
       <oxd-divider />
       <oxd-form
         :loading="isLoadingAttachment"
-        @submitValid="onUpdateAttachment"
+        @submit-valid="onUpdateAttachment"
       >
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -303,8 +303,8 @@ const VacancyAttachmentModel = {
 
 const basePath = `${window.location.protocol}//${window.location.host}${window.appGlobal.baseUrl}`;
 
-const attachmentNormalizer = data => {
-  return data.map(item => {
+const attachmentNormalizer = (data) => {
+  return data.map((item) => {
     return {
       id: item.id,
       vacancyId: item.vacancyId,
@@ -371,10 +371,10 @@ export default {
         hiringManager: [
           required,
           validSelection,
-          v => (v?.isPastEmployee ? this.$t('general.invalid') : true),
+          (v) => (v?.isPastEmployee ? this.$t('general.invalid') : true),
         ],
         numOfPositions: [
-          value => {
+          (value) => {
             if (value === null || value === '') return true;
             return typeof numericOnly(value) === 'string'
               ? numericOnly(value)
@@ -390,7 +390,7 @@ export default {
           validFileTypes(this.allowedFileTypes),
         ],
         updateAttachment: [
-          v => {
+          (v) => {
             if (this.vacancyAttachment.method == 'replaceCurrent') {
               return required(v);
             } else {
@@ -465,7 +465,7 @@ export default {
 
     this.http
       .get(this.vacancyId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.currentName = data.name;
         this.vacancy.name = data.name;
@@ -486,10 +486,10 @@ export default {
             };
         return this.http.getAll({limit: 0});
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => {
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => {
             return item.name == v && item.name != this.currentName;
           });
           return index === -1 || this.$t('general.already_exists');
@@ -501,7 +501,7 @@ export default {
             method: 'GET',
             url: `/api/v2/recruitment/vacancies/${this.vacancyId}/attachments`,
           })
-          .then(response => {
+          .then((response) => {
             const {data} = response.data;
             this.attachments = attachmentNormalizer(data);
           });
@@ -560,17 +560,17 @@ export default {
         });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteData([item.id]);
         }
       });
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.attachments[index]?.id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteData(ids);
         }
@@ -600,7 +600,7 @@ export default {
           method: 'GET',
           url: `/api/v2/recruitment/vacancies/${this.vacancyId}/attachments`,
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.attachments = attachmentNormalizer(data);
         });

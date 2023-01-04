@@ -26,7 +26,7 @@
       }}</oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -130,7 +130,7 @@
                 report.displayFieldSelected[fieldGroup.id].fields
               "
               @delete="removeDisplayFieldGroup(index)"
-              @deleteChip="removeDisplayField($event, index)"
+              @delete-chip="removeDisplayField($event, index)"
             >
             </report-display-field>
             <!-- end display group fields -->
@@ -249,10 +249,10 @@ export default {
     this.isLoading = true;
     this.http
       .getAll({limit: 0})
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name == v);
           return index === -1 || this.$t('general.already_exists');
         });
       })
@@ -278,7 +278,7 @@ export default {
       const payload = this.serializeBody(this.report);
       this.http
         .create(payload)
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           reportId = data.id;
           return this.$toast.saveSuccess();

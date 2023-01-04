@@ -32,7 +32,7 @@
       </div>
     </div>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row class="orangehrm-config-checkbox">
         <oxd-input-field
           v-model="showAccessibleEmployeesOnly"
@@ -89,7 +89,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.showAccessibleEmployeesOnly =
           data.showOnlyAccessibleEmployeesOnLeaveToday;
@@ -103,8 +103,8 @@ export default {
         .request({
           method: 'PUT',
           data: {
-            showOnlyAccessibleEmployeesOnLeaveToday: this
-              .showAccessibleEmployeesOnly,
+            showOnlyAccessibleEmployeesOnLeaveToday:
+              this.showAccessibleEmployeesOnly,
           },
         })
         .then(() => {

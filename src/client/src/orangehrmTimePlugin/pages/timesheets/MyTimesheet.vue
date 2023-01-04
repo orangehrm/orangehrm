@@ -146,8 +146,8 @@ export default {
   computed: {
     myTimesheetStatus() {
       return (
-        this.statuses.find(item => item.name === this.timesheetStatus)?.label ||
-        null
+        this.statuses.find((item) => item.name === this.timesheetStatus)
+          ?.label || null
       );
     },
   },

@@ -126,17 +126,17 @@ describe('core/util/validation/rules::required', () => {
   });
 
   test('required::object', () => {
-    // @ts-expect-error
+    // @ts-expect-error: forcing unsupported type for testing
     let result = required({test: 'Object'});
     expect(result).toBeTruthy();
 
-    // @ts-expect-error
+    // @ts-expect-error: forcing unsupported type for testing
     result = required(null);
     expect(result).toBe('Required');
   });
 
   test('required::unsupported type', () => {
-    // @ts-expect-error
+    // @ts-expect-error: forcing unsupported type for testing
     const result = required(true);
     expect(result).toBe('Required');
   });
@@ -750,7 +750,7 @@ describe('core/util/validation/rules::validHexFormat', () => {
 describe('core/util/validation/rules::imageShouldHaveDimensions', () => {
   // Mock Image class methods since jsdom is not supported
   const mockDomImage = (width: number, height: number) => {
-    Image.prototype.decode = function() {
+    Image.prototype.decode = function () {
       this.width = width;
       this.height = height;
       return Promise.resolve();

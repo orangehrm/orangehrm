@@ -110,7 +110,7 @@ export default {
         : this.$t('leave.overlapping_leave_request_found');
     },
     items() {
-      return this.data.map(item => {
+      return this.data.map((item) => {
         return {
           date: formatDate(parseDate(item.date), this.jsDateFormat, {
             locale: this.locale,

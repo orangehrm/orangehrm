@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-form :loading="isLoading" @submitValid="onSave">
+  <oxd-form :loading="isLoading" @submit-valid="onSave">
     <oxd-form-row>
       <oxd-grid :cols="4" class="orangehrm-full-width-grid">
         <template v-if="attendanceRecord.previousRecord">
@@ -236,7 +236,7 @@ export default {
           : null;
       })
 
-      .then(response => {
+      .then((response) => {
         if (response) {
           const {data} = response.data;
           this.attendanceRecord.previousRecord = data.punchIn;
@@ -285,7 +285,7 @@ export default {
       return new Promise((resolve, reject) => {
         this.http
           .request({method: 'GET', url: '/api/v2/attendance/current-datetime'})
-          .then(res => {
+          .then((res) => {
             const {utcDate, utcTime} = res.data.data;
             const currentDate = parseDate(
               `${utcDate} ${utcTime} +00:00`,
@@ -296,7 +296,7 @@ export default {
             this.attendanceRecord.time = formatDate(currentDate, 'HH:mm');
             resolve();
           })
-          .catch(error => reject(error));
+          .catch((error) => reject(error));
       });
     },
     validateDate() {
@@ -307,7 +307,7 @@ export default {
         return true;
       }
       const tzOffset = (new Date().getTimezoneOffset() / 60) * -1;
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         this.http
           .request({
             method: 'GET',
@@ -322,11 +322,11 @@ export default {
               empNumber: this.employeeId,
             },
             // Prevent triggering response interceptor on 400
-            validateStatus: status => {
+            validateStatus: (status) => {
               return (status >= 200 && status < 300) || status == 400;
             },
           })
-          .then(res => {
+          .then((res) => {
             const {data, error} = res.data;
             if (error) {
               return resolve(error.message);

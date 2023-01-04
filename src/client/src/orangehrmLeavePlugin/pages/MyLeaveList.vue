@@ -22,7 +22,7 @@
   <leave-list-table :leave-statuses="leaveStatuses" :my-leave-list="true">
     <template #default="{filters, filterItems, rules, onReset}">
       <oxd-table-filter :filter-title="$t('leave.my_leave_list')">
-        <oxd-form @submitValid="filterItems" @reset="onReset">
+        <oxd-form @submit-valid="filterItems" @reset="onReset">
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>

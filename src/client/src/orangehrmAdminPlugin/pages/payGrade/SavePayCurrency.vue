@@ -23,7 +23,7 @@
       {{ $t('admin.add_currency') }}
     </oxd-text>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -134,9 +134,9 @@ export default {
           limit: 0,
         },
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.currencies = data.map(item => {
+        this.currencies = data.map((item) => {
           return {
             id: item.id,
             label: item.id + ' - ' + item.name,

@@ -30,7 +30,7 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <oxd-form :loading="loading" @submitValid="onSubmit">
+    <oxd-form :loading="loading" @submit-valid="onSubmit">
       <div class="orangehrm-buzz-post-modal-header">
         <profile-image :employee="employee"></profile-image>
         <div class="orangehrm-buzz-post-modal-header-text">

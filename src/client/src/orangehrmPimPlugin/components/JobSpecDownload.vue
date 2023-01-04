@@ -81,7 +81,7 @@ export default {
         .request({
           method: 'GET',
           // Prevent triggering response interceptor on 404
-          validateStatus: status => {
+          validateStatus: (status) => {
             return (status >= 200 && status < 300) || status == 404;
           },
         })

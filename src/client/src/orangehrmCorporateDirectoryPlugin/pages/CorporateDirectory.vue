@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('general.directory')">
-      <oxd-form @submitValid="onSearch" @reset="onReset">
+      <oxd-form @submit-valid="onSearch" @reset="onReset">
         <oxd-form-row>
           <oxd-grid :cols="3">
             <oxd-grid-item>
@@ -125,7 +125,7 @@
             :employee-location="employees[currentIndex].employeeLocation"
             :employee-name="employees[currentIndex].employeeName"
             :employee-sub-unit="employees[currentIndex].employeeSubUnit"
-            @hideDetails="hideEmployeeDetails()"
+            @hide-details="hideEmployeeDetails()"
           ></summary-card-details>
         </oxd-grid-item>
       </div>
@@ -184,8 +184,8 @@ export default {
       employee: [validSelection],
     };
 
-    const employeeDataNormalizer = data => {
-      return data.map(item => {
+    const employeeDataNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.empNumber,
           employeeName:
@@ -228,7 +228,7 @@ export default {
           empNumber: state.filters.employeeNumber?.id,
           jobTitleId: state.filters.jobTitleId?.id,
         })
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
           state.total = meta?.total || 0;
           if (Array.isArray(data)) {

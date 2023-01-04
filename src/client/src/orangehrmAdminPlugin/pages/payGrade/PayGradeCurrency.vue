@@ -72,8 +72,8 @@ import SavePayCurrency from '@/orangehrmAdminPlugin/pages/payGrade/SavePayCurren
 import EditPayCurrency from '@/orangehrmAdminPlugin/pages/payGrade/EditPayCurrency.vue';
 import DeleteConfirmationDialog from '@/core/components/dialogs/DeleteConfirmationDialog';
 
-const PayGradeCurrencyNormalizer = data => {
-  return data.map(item => {
+const PayGradeCurrencyNormalizer = (data) => {
+  return data.map((item) => {
     return {
       id: item.currencyType.id,
       name: item.currencyType.name,
@@ -194,7 +194,7 @@ export default {
     },
     onClickDelete(item) {
       if (!this.selectable) return;
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }
@@ -202,10 +202,10 @@ export default {
     },
     onClickDeleteSelected() {
       if (!this.selectable) return;
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }

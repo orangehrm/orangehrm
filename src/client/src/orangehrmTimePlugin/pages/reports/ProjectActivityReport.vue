@@ -28,7 +28,7 @@
   >
     <template #default="{generateReport}">
       <oxd-table-filter :filter-title="$t('time.project_report')">
-        <oxd-form @submitValid="generateReport">
+        <oxd-form @submit-valid="generateReport">
           <oxd-form-row>
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>

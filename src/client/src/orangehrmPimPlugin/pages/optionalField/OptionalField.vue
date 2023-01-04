@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-text class="orangehrm-sub-title" tag="h6">
             {{ $t('pim.show_deprecated_fields') }}
@@ -122,7 +122,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.optionalField = {...data};
       })
@@ -139,7 +139,7 @@ export default {
           method: 'PUT',
           data: {...this.optionalField},
         })
-        .then(response => {
+        .then((response) => {
           const {data} = response.data;
           this.optionalField = {...data};
           this.$toast.saveSuccess();

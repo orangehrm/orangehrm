@@ -25,7 +25,7 @@
         {{ $t('admin.add_work_shift') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -169,10 +169,10 @@ export default {
     this.workShift.endTime = this.workShiftConfig.endTime;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name == v);
           return index === -1 || this.$t('general.already_exists');
         });
       })
@@ -188,7 +188,7 @@ export default {
         hoursPerDay: this.selectedTimeDuration,
         startTime: this.workShift.startTime,
         endTime: this.workShift.endTime,
-        empNumbers: this.workShift.empNumbers.map(employee => employee.id),
+        empNumbers: this.workShift.empNumbers.map((employee) => employee.id),
       };
       this.http
         .create(payload)

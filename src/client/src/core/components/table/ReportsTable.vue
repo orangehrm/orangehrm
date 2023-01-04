@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <slot :generateReport="generateReport"></slot>
+    <slot :generate-report="generateReport"></slot>
     <div v-if="headers.length !== 0" class="orangehrm-paper-container">
       <oxd-report-table
         :items="items"
@@ -124,7 +124,7 @@ export default {
       const _items = Array.isArray(response.value.data)
         ? response.value.data
         : [];
-      return _items.map(item => {
+      return _items.map((item) => {
         let _rows = 0;
         for (const key in item) {
           const value = item[key];
@@ -135,10 +135,10 @@ export default {
       });
     });
 
-    const setupTableHeaders = header => {
+    const setupTableHeaders = (header) => {
       delete header['size'];
       const {type, ...rest} = header.cellProperties ?? {};
-      const cellProperties = function({prop, model}) {
+      const cellProperties = function ({prop, model}) {
         const url = model?._url ? model?._url[prop] : undefined;
         return {
           ...rest,
@@ -163,11 +163,11 @@ export default {
             reportId: serializedFilters.value?.reportId,
           },
         })
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
-          headers.value = data.headers.map(header => {
+          headers.value = data.headers.map((header) => {
             if (header?.children && Array.isArray(header.children)) {
-              header.children = header.children.map(child =>
+              header.children = header.children.map((child) =>
                 setupTableHeaders(child),
               );
               return header;

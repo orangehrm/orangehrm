@@ -22,7 +22,7 @@
   <leave-entitlement-table>
     <template #default="{filters, filterItems}">
       <oxd-table-filter :filter-title="$t('leave.my_leave_entitlements')">
-        <oxd-form @submitValid="filterItems">
+        <oxd-form @submit-valid="filterItems">
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>

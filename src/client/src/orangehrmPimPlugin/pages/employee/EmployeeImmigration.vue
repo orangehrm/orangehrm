@@ -107,8 +107,8 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
-    const immigrationNormalizer = data => {
-      return data.map(item => {
+    const immigrationNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.id,
           type: item.type == 1 ? 'Passport' : 'VISA',
@@ -214,17 +214,17 @@ export default {
 
   methods: {
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }

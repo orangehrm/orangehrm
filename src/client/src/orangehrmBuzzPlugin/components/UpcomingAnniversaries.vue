@@ -149,9 +149,9 @@ export default {
       this.isLoading = true;
       this.http
         .getAll({limit: this.anniversariesLimit})
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
-          this.anniversaries = data.map(item => {
+          this.anniversaries = data.map((item) => {
             const {employee, jobTitle, joinedDate} = item;
             return {
               empNumber: employee.empNumber,

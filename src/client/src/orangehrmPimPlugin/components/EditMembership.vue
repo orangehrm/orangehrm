@@ -24,7 +24,7 @@
       {{ $t('general.edit_membership') }}
     </oxd-text>
     <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
+    <oxd-form :loading="isLoading" @submit-valid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -173,20 +173,20 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.data.id)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.membership.subscriptionFee = data.subscriptionFee;
         this.membership.subscriptionCommenceDate =
           data.subscriptionCommenceDate;
         this.membership.subscriptionRenewalDate = data.subscriptionRenewalDate;
         this.membership.membership = this.memberships.find(
-          item => item.id === data.membership.id,
+          (item) => item.id === data.membership.id,
         );
         this.membership.subscriptionPaidBy = this.paidBy.find(
-          item => item.id === data.subscriptionPaidBy,
+          (item) => item.id === data.subscriptionPaidBy,
         );
         this.membership.currencyType = this.currencies.find(
-          item => item.id === data.currencyType?.id,
+          (item) => item.id === data.currencyType?.id,
         );
       })
       .finally(() => {

@@ -146,11 +146,11 @@ export default {
           limit: EMPLOYEE_LIMIT,
           offset: state.offset,
         })
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
           state.total = meta?.total || 0;
           if (Array.isArray(data)) {
-            const _data = data.map(user => {
+            const _data = data.map((user) => {
               const {employee} = user;
               return {
                 employee,

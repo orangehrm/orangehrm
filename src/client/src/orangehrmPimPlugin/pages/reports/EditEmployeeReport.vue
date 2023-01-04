@@ -26,7 +26,7 @@
       }}</oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -129,7 +129,7 @@
                 report.displayFieldSelected[fieldGroup.id].fields
               "
               @delete="removeDisplayFieldGroup(index)"
-              @deleteChip="removeDisplayField($event, index)"
+              @delete-chip="removeDisplayField($event, index)"
             >
             </report-display-field>
             <!-- end display group fields -->
@@ -252,11 +252,11 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.reportId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.report.name = data.name;
         this.report.includeEmployees = this.includeOpts.find(
-          opt => opt.key === data.include,
+          (opt) => opt.key === data.include,
         );
         const operators = [
           {id: 'eq', label: 'Equal'},
@@ -266,21 +266,21 @@ export default {
         ];
         for (const key in data.fieldGroup) {
           const fieldGroup = this.displayFields.find(
-            group => group.field_group_id == key,
+            (group) => group.field_group_id == key,
           );
           this.report.fieldGroupSelected.push(
-            this.displayFieldGroups.find(group => group.id == key),
+            this.displayFieldGroups.find((group) => group.id == key),
           );
           this.report.displayFieldSelected[key] = {
-            fields: data.fieldGroup[key].fields.map(id =>
-              fieldGroup.fields.find(field => field.id === id),
+            fields: data.fieldGroup[key].fields.map((id) =>
+              fieldGroup.fields.find((field) => field.id === id),
             ),
             includeHeader: data.fieldGroup[key].includeHeader,
           };
         }
         for (const key in data.criteria) {
           const criterion = this.selectionCriteria.find(
-            criterion => criterion.id == key,
+            (criterion) => criterion.id == key,
           );
           this.report.criteriaSelected.push(criterion);
           this.report.criteriaFieldValues[key] = {
@@ -289,16 +289,18 @@ export default {
               data.criteria[key].y === 'undefined'
                 ? null
                 : data.criteria[key].y,
-            operator: operators.find(o => o.id === data.criteria[key].operator),
+            operator: operators.find(
+              (o) => o.id === data.criteria[key].operator,
+            ),
           };
         }
         // Fetch list data for unique test
         return this.http.getAll({limit: 0});
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+        this.rules.name.push((v) => {
+          const index = data.findIndex((item) => item.name == v);
           if (index > -1) {
             const {id} = data[index];
             return id != this.reportId

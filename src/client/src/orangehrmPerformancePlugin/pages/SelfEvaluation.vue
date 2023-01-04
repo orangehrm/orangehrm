@@ -253,7 +253,7 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.getAllKpis(this.reviewId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.kpis = [...data];
         this.rules = this.generateRules(data);
@@ -261,7 +261,7 @@ export default {
         this.supervisorReview = this.generateModel(data);
         return this.getEmployeeReview(this.reviewId);
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         const {meta} = response.data;
         this.employee = this.generateReviewerData(meta.reviewer);
@@ -275,7 +275,7 @@ export default {
         );
         return this.getSupervisorReview(this.reviewId);
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         const {meta} = response.data;
         this.supervisor = this.generateReviewerData(meta.reviewer);
@@ -289,7 +289,7 @@ export default {
         );
         return this.status === 4 ? this.getFinalReview(this.reviewId) : {};
       })
-      .then(response => {
+      .then((response) => {
         if (Object.keys(response).length !== 0) {
           const {data} = response.data;
           this.finalRating = data.finalRating;
@@ -308,7 +308,7 @@ export default {
         .then(async () => {
           if (this.invalid === true) return;
           if (complete) {
-            this.$refs.confirmDialog.showDialog().then(confirmation => {
+            this.$refs.confirmDialog.showDialog().then((confirmation) => {
               if (confirmation === 'ok') {
                 this.submitReview(true);
               }

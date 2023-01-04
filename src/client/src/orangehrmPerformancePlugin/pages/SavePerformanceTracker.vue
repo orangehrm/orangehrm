@@ -25,7 +25,7 @@
         {{ $t('performance.add_performance_tracker') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -113,11 +113,11 @@ export default {
         employee: [
           required,
           validSelection,
-          value => {
+          (value) => {
             if (value === null) {
               return true;
             }
-            const valid = this.tracker.reviewers.findIndex(reviewer => {
+            const valid = this.tracker.reviewers.findIndex((reviewer) => {
               return reviewer.id === value.id;
             });
             if (valid == -1) {
@@ -143,7 +143,7 @@ export default {
           trackerName: this.tracker.name.trim(),
           empNumber: this.tracker.employee.id,
           reviewerEmpNumbers: this.tracker.reviewers.map(
-            employee => employee.id,
+            (employee) => employee.id,
           ),
         })
         .then(() => {

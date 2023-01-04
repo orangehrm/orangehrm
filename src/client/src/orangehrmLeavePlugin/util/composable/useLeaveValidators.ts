@@ -223,7 +223,7 @@ export default function useLeaveValidators(http: APIService) {
           url: 'api/v2/leave/overlap-leaves',
           params: serializeParams(leaveData),
         })
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
 
           if (Array.isArray(data) && data.length > 0) {
@@ -240,7 +240,7 @@ export default function useLeaveValidators(http: APIService) {
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -254,7 +254,7 @@ export default function useLeaveValidators(http: APIService) {
           url: `api/v2/leave/leave-balance/leave-type/${leaveData.type?.id}`,
           params: serializeParams(leaveData),
         })
-        .then(response => {
+        .then((response) => {
           let balance = 0;
           let breakdown = null;
           let metaData = null;
@@ -280,7 +280,7 @@ export default function useLeaveValidators(http: APIService) {
           }
           resolve({balance, breakdown, metaData});
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });

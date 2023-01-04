@@ -495,7 +495,7 @@ export default {
         port: [required, validPortRange(5, 0, 65535)],
         bindUserDN: [required, shouldNotExceedCharLength(255)],
         bindUserPassword: [
-          v => this.configuration.hasBindUserPassword || required(v),
+          (v) => this.configuration.hasBindUserPassword || required(v),
           shouldNotExceedCharLength(255),
         ],
         baseDistinguishedName: [required, shouldNotExceedCharLength(255)],
@@ -512,14 +512,14 @@ export default {
         middleNameAttribute: [shouldNotExceedCharLength(100)],
         userStatusAttribute: [shouldNotExceedCharLength(100)],
         workEmailAttribute: [
-          v =>
+          (v) =>
             this.configuration.employeeSelectorMapping === 'workEmail'
               ? required(v)
               : true,
           shouldNotExceedCharLength(100),
         ],
         employeeIdAttribute: [
-          v =>
+          (v) =>
             this.configuration.employeeSelectorMapping === 'employeeId'
               ? required(v)
               : true,
@@ -550,7 +550,7 @@ export default {
     this.isLoading = true;
     this.http
       .getAll()
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         const {userLookupSettings} = data;
         const userLookupSetting = userLookupSettings[0];
@@ -558,11 +558,11 @@ export default {
         this.configuration.hostname = data.hostname;
         this.configuration.port = data.port;
         this.configuration.encryption = this.encryptionOptions.find(
-          option => option.id === data.encryption,
+          (option) => option.id === data.encryption,
         );
         this.configuration.ldapImplementation =
           this.ldapImplementationOptions.find(
-            option => option.id === data.ldapImplementation,
+            (option) => option.id === data.ldapImplementation,
           ) || this.ldapImplementationOptions[0];
 
         this.configuration.bindAnonymously = data.bindAnonymously;
@@ -589,7 +589,7 @@ export default {
         }
         this.configuration.searchScope =
           this.searchScopeOptions.find(
-            option => option.id === userLookupSetting?.searchScope,
+            (option) => option.id === userLookupSetting?.searchScope,
           ) || this.searchScopeOptions[0];
 
         this.configuration.dataMapping = data.dataMapping;
@@ -615,7 +615,7 @@ export default {
             url: 'api/v2/admin/ldap-test-connection',
             data,
           })
-          .then(response => {
+          .then((response) => {
             const {data} = response.data;
             this.testModalState = data;
           })
@@ -628,9 +628,10 @@ export default {
         employeeSelectorMapping = [
           {
             field: this.configuration.employeeSelectorMapping,
-            attributeName: this.configuration.dataMapping[
-              this.configuration.employeeSelectorMapping
-            ],
+            attributeName:
+              this.configuration.dataMapping[
+                this.configuration.employeeSelectorMapping
+              ],
           },
         ];
       }
@@ -655,8 +656,8 @@ export default {
           },
         ],
         dataMapping: this.configuration.dataMapping,
-        mergeLDAPUsersWithExistingSystemUsers: this.configuration
-          .mergeLDAPUsersWithExistingSystemUsers,
+        mergeLDAPUsersWithExistingSystemUsers:
+          this.configuration.mergeLDAPUsersWithExistingSystemUsers,
         syncInterval: parseInt(this.configuration.syncInterval),
       };
     },

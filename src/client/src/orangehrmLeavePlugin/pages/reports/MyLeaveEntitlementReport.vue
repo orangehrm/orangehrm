@@ -30,7 +30,7 @@
       <oxd-table-filter
         :filter-title="$t('leave.my_leave_entitlement_and_usage_report')"
       >
-        <oxd-form @submitValid="generateReport">
+        <oxd-form @submit-valid="generateReport">
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>

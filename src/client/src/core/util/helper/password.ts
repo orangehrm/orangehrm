@@ -24,7 +24,7 @@ export function getPassLevel(password: string): number[] {
   const level2 = new RegExp(/[A-Z]/);
   const level3 = new RegExp(/[0-9]/);
   const level4 = new RegExp(/[@#\\/\-!$%^&*()_+|~=`{}[\]:";'<>?,.]/);
-  return [level1, level2, level3, level4].map(level => {
+  return [level1, level2, level3, level4].map((level) => {
     return level.test(password) ? 1 : 0;
   });
 }

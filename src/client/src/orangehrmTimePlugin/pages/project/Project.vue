@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('general.projects')">
-      <oxd-form @submitValid="filterItems" @reset="filterItems">
+      <oxd-form @submit-valid="filterItems" @reset="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -147,9 +147,11 @@ export default {
     const {$t} = usei18n();
     const {$tEmpName} = useEmployeeNameTranslate();
 
-    const projectNormalizer = data => {
-      return data.map(item => {
-        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+    const projectNormalizer = (data) => {
+      return data.map((item) => {
+        const selectable = props.unselectableIds.findIndex(
+          (id) => id == item.id,
+        );
         return {
           id: item.id,
           project: item.name,
@@ -157,7 +159,7 @@ export default {
             ? item.customer?.name + $t('general.deleted')
             : item.customer?.name,
           projectAdmins: item.projectAdmins
-            ?.map(projectAdmin => $tEmpName(projectAdmin))
+            ?.map((projectAdmin) => $tEmpName(projectAdmin))
             .join(', '),
           isSelectable: selectable === -1,
         };
@@ -285,7 +287,9 @@ export default {
       navigate('/time/saveProject/{id}', {id: item.id});
     },
     onClickDelete(item) {
-      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      const isSelectable = this.unselectableIds.findIndex(
+        (id) => id == item.id,
+      );
       if (isSelectable > -1) {
         return this.$toast.error({
           title: this.$t('general.error'),
@@ -294,17 +298,17 @@ export default {
           ),
         });
       }
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteData([item.id]);
         }
       });
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
+      const ids = this.checkedItems.map((index) => {
         return this.items?.data[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
+      this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
           this.deleteData(ids);
         }

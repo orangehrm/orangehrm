@@ -92,8 +92,8 @@ export default {
     const {jsDateFormat} = useDateFormat();
     const {locale} = useLocale();
 
-    const trackerNormalizer = data => {
-      return data.map(item => {
+    const trackerNormalizer = (data) => {
+      return data.map((item) => {
         return {
           id: item.id,
           jobTitle: item.jobTitle.name,

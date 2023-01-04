@@ -81,7 +81,7 @@
       </div>
       <br />
 
-      <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -176,7 +176,7 @@ export default {
         .create({
           ...this.attachment,
         })
-        .then(response => {
+        .then((response) => {
           const {meta} = response.data;
           this.importModalState = meta;
         })

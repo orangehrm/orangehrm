@@ -210,9 +210,9 @@ export default {
           currentDate: formatDate(currentDate, 'yyyy-MM-dd'),
           currentTime: formatDate(new Date(), 'HH:mm'),
         })
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
-          this.dataset = data.map(item => ({
+          this.dataset = data.map((item) => ({
             value: item.totalTime.hours + item.totalTime.minutes / 60,
             label: this.$t(
               `general.${new String(item.workDay.day).toLowerCase()}`,

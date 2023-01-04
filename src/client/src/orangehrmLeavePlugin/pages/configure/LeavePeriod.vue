@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -153,7 +153,7 @@ export default {
     },
     dates() {
       return (this.monthDates[this.leavePeriod.startMonth?.id] ?? []).map(
-        day => {
+        (day) => {
           return {
             id: day,
             label: String(day).padStart(2, '0'),
@@ -178,7 +178,7 @@ export default {
   },
 
   watch: {
-    'leavePeriod.startMonth': function() {
+    'leavePeriod.startMonth': function () {
       this.leavePeriod.startDay = this.dates.length > 0 ? this.dates[0] : null;
     },
   },
@@ -189,7 +189,7 @@ export default {
       .request({
         method: 'GET',
       })
-      .then(response => {
+      .then((response) => {
         const {data, meta} = response.data;
         this.updateLeavePeriodModel(data);
         this.defineLeavePeriod(meta);
@@ -211,7 +211,7 @@ export default {
             startDay: this.leavePeriod.startDay?.id,
           },
         })
-        .then(response => {
+        .then((response) => {
           const {data, meta} = response.data;
           this.updateLeavePeriodModel(data);
           this.defineLeavePeriod(meta);
@@ -238,11 +238,11 @@ export default {
     },
 
     updateLeavePeriodModel(data) {
-      leavePeriodModel.startMonth = this.months.find(m => {
+      leavePeriodModel.startMonth = this.months.find((m) => {
         return m.id === data.startMonth;
       });
       this.$nextTick(() => {
-        leavePeriodModel.startDay = this.dates.find(d => {
+        leavePeriodModel.startDay = this.dates.find((d) => {
           return d.id === data.startDay;
         });
       });

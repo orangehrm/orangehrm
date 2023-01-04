@@ -138,9 +138,9 @@ export default {
   computed: {
     items() {
       if (this.data.length > 0) {
-        const leavePeriods = this.data.map(item => item.period);
+        const leavePeriods = this.data.map((item) => item.period);
         return leavePeriods.flatMap((period, index) => {
-          return this.data[index].leaves.map(leave => {
+          return this.data[index].leaves.map((leave) => {
             const startDate = formatDate(
               parseDate(period.startDate),
               this.jsDateFormat,

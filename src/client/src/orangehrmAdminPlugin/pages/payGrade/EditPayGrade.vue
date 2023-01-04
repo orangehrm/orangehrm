@@ -27,7 +27,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submit-valid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -107,17 +107,18 @@ export default {
     this.isLoading = true;
     this.http
       .get(this.payGradeId)
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
         this.grade.id = data.id;
         this.grade.name = data.name;
         return this.http.getAll();
       })
-      .then(response => {
+      .then((response) => {
         const {data} = response.data;
-        this.rules.name.push(v => {
+        this.rules.name.push((v) => {
           const index = data.findIndex(
-            item => String(item.name).toLowerCase() == String(v).toLowerCase(),
+            (item) =>
+              String(item.name).toLowerCase() == String(v).toLowerCase(),
           );
           if (index > -1) {
             const {id} = data[index];
